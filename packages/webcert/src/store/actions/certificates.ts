@@ -1,4 +1,4 @@
-import { Certificate, CertificateDataElement, CertificateStatus, ValidationError } from '../domain/certificate'
+import { Certificate, CertificateDataElement, CertificateStatus, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 
 export const CERTIFICATE = '[CERTIFICATE]'

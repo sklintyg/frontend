@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { TextareaAutosize, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { CertificateDataElement, CertificateTextValue } from '../../store/domain/certificate'
+import { CertificateDataElement, CertificateTextValue } from '@frontend/common'
 import { getShowValidationErrors } from '../../store/selectors/certificate'
 import { updateCertificateDataElement } from '../../store/actions/certificates'
 

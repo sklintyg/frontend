@@ -38,7 +38,7 @@ import {
   CertificateDataValueType,
   CertificateStatus,
   CertificateTextValue,
-} from '../domain/certificate'
+} from '@frontend/common'
 
 /**
  * Load a certificate

@@ -1,25 +1,25 @@
-import React from 'react';
+import React from 'react'
 
-import { Story } from '@storybook/react';
-import AppHeader, { AppHeaderProps } from './AppHeader';
+import { Story } from '@storybook/react'
+import AppHeader, { AppHeaderProps } from './AppHeader'
 
 export default {
   title: 'Components/AppHeader',
   component: AppHeader,
-};
+}
 
-const Template: Story<AppHeaderProps> = (args: AppHeaderProps) => <AppHeader title={args.title} />;
+const Template: Story<AppHeaderProps> = (args: AppHeaderProps) => <AppHeader title={args.title} />
 
-export const Webcert = Template.bind({});
+export const Webcert = Template.bind({})
 Webcert.args = {
   title: 'Webcert',
-};
+}
 
-Webcert.storyName = 'Webcert app header';
+Webcert.storyName = 'Webcert app header'
 
-export const Rehabstod = Template.bind({});
+export const Rehabstod = Template.bind({})
 Rehabstod.args = {
   title: 'Rehabstöd',
-};
+}
 
-Rehabstod.storyName = 'Rehabstöd app header';
+Rehabstod.storyName = 'Rehabstöd app header'

@@ -2,7 +2,7 @@ import * as actions from '../api'
 import { Middleware, MiddlewareAPI, Dispatch } from 'redux'
 import demoDraft from '../certificate/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
 import demoDraft2 from '../certificate/bed26d3e-7112-4f08-98bf-01be40e26c90.json'
-import { Certificate, CertificateBooleanValue, CertificateTextValue, ValidationError } from '../domain/certificate'
+import { Certificate, CertificateBooleanValue, CertificateTextValue, ValidationError } from '@frontend/common'
 
 const api: Middleware = ({ getState, dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action) => {
   if (action.type !== actions.apiCallBegan.type) return next(action)

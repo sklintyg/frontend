@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Radio, FormControlLabel, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAppDispatch } from '../../store/store'
-import { CertificateBooleanValue, CertificateDataElement } from '../../store/domain/certificate'
+import { CertificateBooleanValue, CertificateDataElement } from '@frontend/common'
 import { updateCertificateDataElement } from '../../store/actions/certificates'
 import { getShowValidationErrors } from '../../store/selectors/certificate'
 

@@ -1,11 +1,6 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  CertificateBooleanValue,
-  CertificateDataElement,
-  CertificateDataValueType,
-  CertificateTextValue,
-} from '../../store/domain/certificate'
+import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
 import grey from '@material-ui/core/colors/grey'
 
 const useStyles = makeStyles((theme) => ({

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 export interface AppHeaderProps {
-  title: string;
+  title: string
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({ title }) => {
@@ -9,7 +9,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title }) => {
     <div>
       <h1>{title}</h1>
     </div>
-  );
-};
+  )
+}
 
-export default AppHeader;
+export default AppHeader

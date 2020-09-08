@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Certificate } from '../domain/certificate'
+import { Certificate } from '@frontend/common'
 import {
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,

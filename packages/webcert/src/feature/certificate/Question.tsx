@@ -6,7 +6,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper } from
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import UvText from './UvText'
-import { CertificateDataConfig, CertificateDataElement } from '../../store/domain/certificate'
+import { CertificateDataConfig, CertificateDataElement } from '@frontend/common'
 import { getQuestion } from '../../store/selectors/certificate'
 import grey from '@material-ui/core/colors/grey'
 

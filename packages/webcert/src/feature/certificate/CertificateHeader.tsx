@@ -9,7 +9,7 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import CheckIcon from '@material-ui/icons/Check'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
-import { CertificateStatus } from '../../store/domain/certificate'
+import { CertificateStatus } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -6,6 +6,7 @@ export interface Certificate {
 export enum CertificateStatus {
   UNSIGNED = 'UNSIGNED',
   SIGNED = 'SIGNED',
+  INVALIDATED = 'INVALIDATED',
 }
 
 export interface CertificateMetadata {
@@ -43,6 +44,7 @@ export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
   TEXT = 'TEXT',
 }
+
 export interface CertificateDataValue {
   type: CertificateDataValueType
 }

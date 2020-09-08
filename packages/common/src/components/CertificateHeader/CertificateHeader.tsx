@@ -1,17 +1,18 @@
-import React from 'react';
-import { Certificate, isSigned } from '../..';
+import React from 'react'
+import { CertificateStatus, isSigned } from '../..'
 
 export interface CertificateHeaderProps {
-  certificate: Certificate;
+  id: string
+  status: CertificateStatus
 }
 
-const CertificateHeader: React.FC<CertificateHeaderProps> = ({ certificate }) => {
+const CertificateHeader: React.FC<CertificateHeaderProps> = ({ id, status }) => {
   return (
     <div>
-      <h1>{certificate.id}</h1>
-      <h5>{isSigned(certificate.status) && 'Signerad!'}</h5>
+      <h1>{id}</h1>
+      <h5>{isSigned(status) && 'Signerad!'}</h5>
     </div>
-  );
-};
+  )
+}
 
-export default CertificateHeader;
+export default CertificateHeader
