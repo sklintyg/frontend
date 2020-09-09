@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@frontend/common": "^0.1.0"
+    "@frontend/common": "^0.1.0",
+    "@types/react-test-renderer": "^16.9.3"
   },
   "scripts": {
     "start": "react-app-rewired start",

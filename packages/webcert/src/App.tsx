@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import CertificatePage from './page/CertificatePage'
-import { Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { themeCreator } from './components/styles/theme'
 import { Switch as MuiSwitch } from '@material-ui/core'
@@ -20,9 +20,11 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Switch>
-        <Route path="/certificate/:id" render={() => <CertificatePage themeToggler={themeToggler}></CertificatePage>}></Route>
-      </Switch>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/certificate/:id" render={() => <CertificatePage themeToggler={themeToggler}></CertificatePage>}></Route>
+        </Switch>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }

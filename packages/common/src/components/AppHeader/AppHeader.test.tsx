@@ -1,9 +1,8 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import AppHeader from './AppHeader'
 
-test('render a label', (): void => {
-  const wrapper = shallow(<AppHeader title="Webcert" />)
-
-  expect(wrapper).toContain('Webcert')
+it('render a label', (): void => {
+  const { getByText } = render(<AppHeader title="Webcert" />)
+  getByText(/Webcert/i)
 })

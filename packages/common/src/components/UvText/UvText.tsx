@@ -45,6 +45,7 @@ const UvText: React.FC<Props> = ({ question }) => {
       }
       break
     default:
+      displayText = 'Okänd datatyp'
       break
   }
 
