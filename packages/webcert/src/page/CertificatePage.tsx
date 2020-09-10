@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader'
 import { getCertificate } from '../store/actions/certificates'
-import { Container, Grid, Box, Paper, Link, Typography } from '@material-ui/core'
+import { Container, Grid, Box, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel'
 import { AppHeader } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
+import { AppHeaderAbout } from '@frontend/common/src'
 
 type Props = {
   themeToggler: JSX.Element
@@ -26,13 +27,7 @@ const CertificatePage: React.FC<Props> = (props: Props) => {
     }
   }, [dispatch, id])
 
-  const aboutItem = (
-    <Typography>
-      <Link href={'#'} color={'inherit'}>
-        Om Webcert
-      </Link>
-    </Typography>
-  )
+  const aboutItem = <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>
 
   return (
     <Paper>
