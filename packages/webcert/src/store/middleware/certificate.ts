@@ -1,6 +1,11 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
+  AUTO_SAVE_CERTIFICATE,
+  AUTO_SAVE_ERROR,
+  AUTO_SAVE_STARTED,
+  AUTO_SAVE_SUCCESS,
+  autoSaveCertificate,
   FETCH_CERTIFICATE_ERROR,
   FETCH_CERTIFICATE_SUCCESS,
   GET_CERTIFICATE,
@@ -77,7 +82,9 @@ const handleFetchCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
 
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
-  dispatch(validateCertificate(action.payload))
+  if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
+    dispatch(validateCertificate(action.payload))
+  }
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
@@ -126,7 +133,7 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
 }
 
 const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction,
+  action: AnyAction
 ) => {
   next(action)
 
@@ -134,9 +141,33 @@ const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, ge
     return
   }
 
+  const certificate = getState().ui.uiCertificate.certificate
+
   dispatch(setCertificateDataElement(action.payload))
   dispatch(validateCertificateInFrontEnd(action.payload))
-  dispatch(validateCertificate(getState().ui.uiCertificate.certificate))
+  dispatch(validateCertificate(certificate))
+  dispatch(autoSaveCertificate(certificate))
+}
+
+const handleAutoSave: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+  next(action)
+
+  if (action.type !== AUTO_SAVE_CERTIFICATE) {
+    return
+  }
+
+  const certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.certificateId,
+      method: 'post',
+      data: certificate,
+      onStart: AUTO_SAVE_STARTED,
+      onSuccess: AUTO_SAVE_SUCCESS,
+      onError: AUTO_SAVE_ERROR,
+    })
+  )
 }
 
 /**
@@ -257,4 +288,5 @@ export const certificateMiddleware = [
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
   handleValidateCertificateSuccess,
+  handleAutoSave,
 ]

@@ -1,18 +1,13 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
-import {
-  Certificate,
-  CertificateBooleanValue,
-  CertificateStatus,
-  CertificateTextValue,
-  ValidationError,
-} from '@frontend/common'
+import { Certificate, CertificateBooleanValue, CertificateStatus, CertificateTextValue, ValidationError } from '@frontend/common'
 import bodyParser from 'body-parser'
+import _ from 'lodash'
 
 const app: Application = express()
 
 const repository = {
-  [bootstrapCertificate.metadata.certificateId]: bootstrapCertificate,
+  [bootstrapCertificate.metadata.certificateId]: _.cloneDeep(bootstrapCertificate),
 }
 
 app.use(function(req, res, next) {
@@ -24,15 +19,29 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
-  if (repository[req.params.id] !== undefined) {
-    res.json(bootstrapCertificate)
+  if (repository[req.params.id]) {
+    res.json(repository[req.params.id])
+  } else if (req.params.id) {
+    const certificateClone = _.cloneDeep(bootstrapCertificate)
+    certificateClone.metadata.certificateId = req.params.id
+    repository[req.params.id] = certificateClone
+    res.json(certificateClone)
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
+app.post('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
+  if (repository[req.params.id]) {
+    repository[req.params.id] = req.body
+    res.json(repository[req.params.id])
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
 })
 
 app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFunction) => {
-  if (repository[req.params.id] !== undefined) {
+  if (repository[req.params.id]) {
     repository[req.params.id].metadata.status = CertificateStatus.SIGNED
 
     for (const questionId in repository[req.params.id].data) {
@@ -42,7 +51,7 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
       repository[req.params.id].data[questionId].readOnly = true
     }
 
-    res.json(bootstrapCertificate)
+    res.json(repository[req.params.id])
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }

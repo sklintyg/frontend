@@ -19,6 +19,12 @@ Run the app in the development mode. React will hot-reload changes made in the a
 
 - Start webcert in development: `yarn workspace @frontend/webcert start`
 
+Run the mockserver (will be used until integrated with Webcert appserver). It currently supports retrieving, validating, saving and signing.
+
+- Start mockserver in development: `yarn workspace @frontend/mockserver dev`
+
+To open a certificate use `http://localhost:<port>/certificate/<intygsid>` ex: `http://localhost:3000/certificate/bed26d3e-7112-4f08-98bf-01be40e26c80`. The mockserver will automatically create a certificate with passed id.
+
 ## Running storybook
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common. 
@@ -37,7 +43,7 @@ See [Jest CLI Options](https://jestjs.io/docs/en/cli) for more info what you can
 
 ## Writing tests
 
-Below are recommended type of tests for a component and examples. We are looking into [jest-axe](https://www.npmjs.com/package/jest-axe) for accessibility testing.
+Below are recommended type of tests for a component. We are looking into [jest-axe](https://www.npmjs.com/package/jest-axe) for accessibility testing.
 
 Smoke test that checks if the component can be rendered without crashing. Ex:
 

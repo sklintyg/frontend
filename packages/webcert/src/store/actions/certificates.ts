@@ -25,6 +25,12 @@ export const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validation success`
 export const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validation error`
 export const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 
+export const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save`
+export const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save started`
+export const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save completed`
+export const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save success`
+export const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save error`
+
 export const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
 export const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
 
@@ -78,3 +84,5 @@ export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VAL
 export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
 
 export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
+
+export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)
