@@ -54,7 +54,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate',
+      url: '/api/certificate/' + action.payload,
       method: 'get',
       data: {
         id: action.payload,
@@ -103,7 +103,7 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate',
+      url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
       method: 'post',
       data: { id: certificate.metadata.certificateId },
       onSuccess: SIGN_CERTIFICATE_SUCCESS,
@@ -126,7 +126,7 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
 }
 
 const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
+  action: AnyAction,
 ) => {
   next(action)
 
@@ -153,7 +153,7 @@ const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewar
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/validate',
+      url: '/api/certificate/' + action.payload.metadata.certificateId + '/validate',
       method: 'post',
       data: action.payload,
       onSuccess: VALIDATE_CERTIFICATE_SUCCESS,

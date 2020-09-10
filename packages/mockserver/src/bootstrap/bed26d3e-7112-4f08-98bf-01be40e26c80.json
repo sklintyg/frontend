@@ -8,13 +8,13 @@
   "data": {
     "funktionsnedsattning": {
       "id": "funktionsnedsattning",
-      "parent": null,
+      "parent": "",
       "index": 0,
       "visible": true,
       "readOnly": false,
       "config": {
         "text": "Funktionsnedsättning",
-        "description": null,
+        "description": "",
         "component": "category"
       }
     },
