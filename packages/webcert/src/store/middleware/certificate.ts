@@ -1,6 +1,11 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
+  AUTO_SAVE_CERTIFICATE,
+  AUTO_SAVE_ERROR,
+  AUTO_SAVE_STARTED,
+  AUTO_SAVE_SUCCESS,
+  autoSaveCertificate,
   FETCH_CERTIFICATE_ERROR,
   FETCH_CERTIFICATE_SUCCESS,
   GET_CERTIFICATE,
@@ -54,7 +59,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate',
+      url: '/api/certificate/' + action.payload,
       method: 'get',
       data: {
         id: action.payload,
@@ -77,7 +82,9 @@ const handleFetchCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
 
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
-  dispatch(validateCertificate(action.payload))
+  if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
+    dispatch(validateCertificate(action.payload))
+  }
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
@@ -103,7 +110,7 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate',
+      url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
       method: 'post',
       data: { id: certificate.metadata.certificateId },
       onSuccess: SIGN_CERTIFICATE_SUCCESS,
@@ -134,9 +141,33 @@ const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, ge
     return
   }
 
+  const certificate = getState().ui.uiCertificate.certificate
+
   dispatch(setCertificateDataElement(action.payload))
   dispatch(validateCertificateInFrontEnd(action.payload))
-  dispatch(validateCertificate(getState().ui.uiCertificate.certificate))
+  dispatch(validateCertificate(certificate))
+  dispatch(autoSaveCertificate(certificate))
+}
+
+const handleAutoSave: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+  next(action)
+
+  if (action.type !== AUTO_SAVE_CERTIFICATE) {
+    return
+  }
+
+  const certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.certificateId,
+      method: 'post',
+      data: certificate,
+      onStart: AUTO_SAVE_STARTED,
+      onSuccess: AUTO_SAVE_SUCCESS,
+      onError: AUTO_SAVE_ERROR,
+    })
+  )
 }
 
 /**
@@ -153,7 +184,7 @@ const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewar
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/validate',
+      url: '/api/certificate/' + action.payload.metadata.certificateId + '/validate',
       method: 'post',
       data: action.payload,
       onSuccess: VALIDATE_CERTIFICATE_SUCCESS,
@@ -257,4 +288,5 @@ export const certificateMiddleware = [
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
   handleValidateCertificateSuccess,
+  handleAutoSave,
 ]

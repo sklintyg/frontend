@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@frontend/common": "^0.1.0",
-    "@types/react-test-renderer": "^16.9.3"
+    "@types/react-test-renderer": "^16.9.3",
+    "axios": "^0.20.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
