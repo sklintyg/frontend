@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
-import { ApplicationHeader } from '../components/header/ApplicationHeader'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader'
 import { getCertificate } from '../store/actions/certificates'
-import { Container, Grid, Box, Paper, Switch, createMuiTheme } from '@material-ui/core'
+import { Container, Grid, Box, Paper, Link, Typography } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel'
+import { AppHeader } from '@frontend/common'
+import WebcertTitle from '../components/header/WebcertTitle'
+import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 
 type Props = {
   themeToggler: JSX.Element
@@ -24,10 +26,18 @@ const CertificatePage: React.FC<Props> = (props: Props) => {
     }
   }, [dispatch, id])
 
+  const aboutItem = (
+    <Typography>
+      <Link href={'#'} color={'inherit'}>
+        Om Webcert
+      </Link>
+    </Typography>
+  )
+
   return (
     <Paper>
       <Box display="flex" flexDirection="column" height="100vh">
-        <ApplicationHeader themeToggler={props.themeToggler} />
+        <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={aboutItem} />
         <CertificateHeader />
         <Container style={{ height: `calc(100vh - 191px` }}>
           <Grid container style={{ height: '100%' }}>

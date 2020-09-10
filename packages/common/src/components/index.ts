@@ -1,2 +1,5 @@
 export { default as AppHeader } from './AppHeader/AppHeader'
 export { default as CertificateHeader } from './CertificateHeader/CertificateHeader'
+export { default as AppHeaderUser } from './AppHeader/AppHeaderUser'
+export { default as AppHeaderItem } from './AppHeader/AppHeaderItem'
+export { default as AppHeaderUserUnit } from './AppHeader/AppHeaderUserUnit'
