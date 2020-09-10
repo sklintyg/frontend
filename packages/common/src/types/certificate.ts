@@ -43,6 +43,7 @@ export interface CertificateDataConfig {
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
   TEXT = 'TEXT',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface CertificateDataValue {

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Verify snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <label
+    className="makeStyles-uvtext-2"
+  >
+    Text
+  </label>
+</div>
+`;
