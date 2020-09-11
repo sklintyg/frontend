@@ -25,11 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {
+interface UeTextAreaProps {
   question: CertificateDataElement
 }
 
-const UeTextArea: React.FC<Props> = ({ question }) => {
+const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
   const textValue = getTextValue(question)
   const isShowValidationError = useSelector(getShowValidationErrors)
   const [text, setText] = useState(textValue != null ? textValue.text : '')

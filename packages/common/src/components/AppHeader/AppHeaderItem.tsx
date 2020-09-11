@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@material-ui/core'
-import PersonIcon from '@material-ui/icons/Person'
+import { Box } from '@material-ui/core'
 
 export interface AppHeaderItemProps {
   children: React.ReactNode

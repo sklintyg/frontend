@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-type Props = {}
 export const CertificateHeader: React.FC = (props) => {
   const certificateMetadata = useSelector(getCertificateMetaData)
   const isValidForSigning = useSelector(getIsValidForSigning)

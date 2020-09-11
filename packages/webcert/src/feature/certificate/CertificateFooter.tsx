@@ -27,8 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {}
-
 export const CertificateFooter: React.FC = (props) => {
   const certificateMetadata = useSelector(getCertificateMetaData)
   const isValidating = useSelector(getIsValidating)

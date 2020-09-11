@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {
+interface UeRadioProps {
   question: CertificateDataElement
 }
 
-const UeRadio: React.FC<Props> = ({ question }) => {
+const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
   const booleanValue = getBooleanValue(question)
   const isShowValidationError = useSelector(getShowValidationErrors)
   const dispatch = useAppDispatch()

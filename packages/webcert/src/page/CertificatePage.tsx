@@ -11,11 +11,11 @@ import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import { AppHeaderAbout } from '@frontend/common/src'
 
-type Props = {
+interface CertificatePageProps {
   themeToggler: JSX.Element
 }
 
-const CertificatePage: React.FC<Props> = (props: Props) => {
+const CertificatePage: React.FC<CertificatePageProps> = (props) => {
   const { id } = useParams()
   const dispatch = useDispatch()
 
@@ -27,12 +27,17 @@ const CertificatePage: React.FC<Props> = (props: Props) => {
     }
   }, [dispatch, id])
 
-  const aboutItem = <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>
+  const secondaryItems = (
+    <>
+      <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>
+      {props.themeToggler}
+    </>
+  )
 
   return (
     <Paper>
       <Box display="flex" flexDirection="column" height="100vh">
-        <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={aboutItem} />
+        <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
         <CertificateHeader />
         <Container style={{ height: `calc(100vh - 191px` }}>
           <Grid container style={{ height: '100%' }}>

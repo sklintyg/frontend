@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
 
-type Props = {
+interface ApplicationLayoutProps {
   header: React.ReactNode
   menu: React.ReactNode
   banner: React.ReactNode
@@ -18,7 +18,7 @@ type Props = {
  * @param footer
  * @constructor
  */
-const ApplicationLayout: React.FC<Props> = ({ header, menu, banner, body, footer }) => {
+const ApplicationLayout: React.FC<ApplicationLayoutProps> = ({ header, menu, banner, body, footer }) => {
   return (
     <>
       {header}

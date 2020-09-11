@@ -12,9 +12,9 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-type CertificateSidePanelProp = {}
+interface CertificateSidePanelProps {}
 
-const CertificateSidePanel: React.FC<CertificateSidePanelProp> = (props) => {
+const CertificateSidePanel: React.FC<CertificateSidePanelProps> = (props) => {
   const showSpinner = useSelector(getIsShowSpinner)
   const styles = useStyles()
 

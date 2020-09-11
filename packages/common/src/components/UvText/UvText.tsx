@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {
+interface UvTextProps {
   question: CertificateDataElement
 }
 
-const UvText: React.FC<Props> = ({ question }) => {
+const UvText: React.FC<UvTextProps> = ({ question }) => {
   const styles = useStyles()
 
   let displayText = 'Ej angivet'

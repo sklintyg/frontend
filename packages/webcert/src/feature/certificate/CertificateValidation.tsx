@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-type Props = {}
+interface CertificateValidationProps {}
 
-const CertificateValidation: React.FC = (props) => {
+const CertificateValidation: React.FC<CertificateValidationProps> = (props) => {
   return null
 }
 

@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {
+interface CategoryProps {
   id: string
 }
 
-const Category: React.FC<Props> = ({ id }) => {
+const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id))
 
   const styles = useStyles()

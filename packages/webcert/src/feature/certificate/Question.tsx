@@ -35,16 +35,16 @@ const useStyles = makeStyles((theme) => ({
   },
   mandatoryIcon: {
     marginLeft: '-16px',
-    marginRight: '2px',
+    position: 'absolute',
     marginTop: '2px',
     color: '#da4453',
+    fontSize: '1.5rem',
   },
   arrowup: {
     width: '0',
     height: '0',
     content: ' ',
     left: '35px',
-    // position: 'absolute',
     marginLeft: '35px',
     borderWidth: '10px',
     borderHeight: '10px',
@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type Props = {
+interface QuestionProps {
   id: string
 }
 
-const Question: React.FC<Props> = ({ id }) => {
+const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
 
   const styles = useStyles()
@@ -86,11 +86,7 @@ const Question: React.FC<Props> = ({ id }) => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            {!readOnly && mandatory && (
-              <Typography className={styles.mandatoryIcon} variant="h5">
-                *
-              </Typography>
-            )}{' '}
+            {!readOnly && mandatory && <Typography className={styles.mandatoryIcon}>*</Typography>}{' '}
             <Typography variant="subtitle1">{question.config.text}</Typography>
           </AccordionSummary>
           <div className={styles.arrowup}></div>

@@ -16,13 +16,16 @@ const useStyles = makeStyles((theme) => ({
   itemsWrapper: {
     display: 'flex',
     width: '100%',
+    alignItems: 'center',
   },
   primaryItems: {
     display: 'flex',
+    alignItems: 'center',
   },
   secondaryItems: {
     display: 'flex',
     marginLeft: 'auto',
+    alignItems: 'center',
   },
 }))
 

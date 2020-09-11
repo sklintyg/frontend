@@ -16,9 +16,7 @@ const RootBox = styled(Box)({
   height: '100%',
 })
 
-type Props = {}
-
-const Certificate: React.FC<Props> = () => {
+const Certificate: React.FC = () => {
   const certificateStructure = useSelector(getCertificateDataElements)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
