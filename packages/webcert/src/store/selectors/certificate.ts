@@ -16,6 +16,16 @@ export const getCertificate = (state: RootState): Certificate => state.ui.uiCert
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
 
+export const getQuestionHasValidationError = (id: string) => (state: RootState) => {
+  if (!state.ui.uiCertificate.showValidationErrors) {
+    return false
+  }
+
+  const question = state.ui.uiCertificate.certificate!.data[id]
+
+  return question.validationErrors.length > 0 && question.visible
+}
+
 export const getCertificateMetaData = (state: RootState) => {
   const { certificate } = state.ui.uiCertificate
   if (!certificate) {

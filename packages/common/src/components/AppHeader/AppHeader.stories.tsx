@@ -3,7 +3,6 @@ import { Story } from '@storybook/react'
 import AppHeader, { AppHeaderProps } from './AppHeader'
 import AppHeaderTitle from './AppHeaderTitle'
 import webcertImg from '../../../../webcert/src/components/header/webcert_logo.png'
-import minaIntygImg from './logo-minaintyg-white-retina.png'
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
 import WebcertHeaderUser from '@frontend/webcert/src/components/header/WebcertHeaderUser'
@@ -43,10 +42,3 @@ WebcertWithUserAndAbout.args = {
 }
 
 WebcertWithUserAndAbout.storyName = 'Webcert app header with user and about'
-
-export const MinaIntyg = Template.bind({})
-MinaIntyg.args = {
-  title: <AppHeaderTitle imgSrc={minaIntygImg} />,
-}
-
-MinaIntyg.storyName = 'Minaintyg app header'

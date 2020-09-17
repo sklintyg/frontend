@@ -1,25 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Collapse } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { getQuestion } from '../../store/selectors/certificate'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '24px 28px 4px',
-    marginTop: '15px',
+    padding: `${theme.spacing(1.5)}px ${theme.spacing(4)}px`,
+    marginTop: `${theme.spacing(2)}px`,
     borderBottom: '2px solid #d7d7dd',
-    borderTopRightRadius: '8px',
-    borderTopLeftRadius: '8px',
-  },
-  accordion: {
-    boxShadow: 'none',
-    marginTop: '10px',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   heading: {
-    fontWeight: 'bold',
-    fontSize: '18px',
+    fontWeight: theme.typography.fontWeightMedium,
   },
 }))
 
@@ -29,20 +24,22 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id))
+  const classes = useStyles()
+  const [mounted, setMounted] = useState(category.visible)
 
-  const styles = useStyles()
-
-  console.log('category', id)
+  useEffect(() => {
+    setMounted(category.visible)
+  }, [category.visible])
 
   if (!category || (!category.visible && !category.readOnly)) return null
 
   return (
-    <Paper>
-      <div className={styles.root}>
+    <Collapse in={mounted} timeout={750} className={`categoryWrapper`}>
+      <Paper className={`${classes.root}`}>
         {category.config.description && (
-          <Accordion className={styles.accordion}>
+          <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography className={styles.heading} variant="h3">
+              <Typography className={classes.heading} variant="h6">
                 {category.config.text}
               </Typography>
             </AccordionSummary>
@@ -52,12 +49,12 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           </Accordion>
         )}
         {!category.config.description && (
-          <Typography className={styles.heading} variant="h3">
+          <Typography className={classes.heading} variant="h6">
             {category.config.text}
           </Typography>
         )}
-      </div>
-    </Paper>
+      </Paper>
+    </Collapse>
   )
 }
 

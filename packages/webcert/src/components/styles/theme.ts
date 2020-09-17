@@ -10,6 +10,9 @@ export const themeCreator = (darkMode: boolean) => {
       secondary: {
         main: '#292f4f',
       },
+      warning: {
+        main: '#da4453',
+      },
     },
     breakpoints: {
       values: {

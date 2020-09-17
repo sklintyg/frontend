@@ -2,23 +2,19 @@ import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
 import grey from '@material-ui/core/colors/grey'
+import { Typography } from '@material-ui/core'
+import { TextArea } from '../index'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: '#fff',
-    paddingLeft: '28px',
-    paddingBottom: '15px',
-    // marginBottom: "15px",
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
-  },
-  uvtext: {
+    whiteSpace: 'pre-wrap',
     background: grey[300],
-    padding: '8px 14px',
     display: 'inline-block',
     borderRadius: '4px',
-    marginTop: '5px',
-    marginBottom: '5px',
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+  },
+  uvText: {
+    fontSize: theme.typography.subtitle2.fontSize,
   },
 }))
 
@@ -27,7 +23,7 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
-  const styles = useStyles()
+  const classes = useStyles()
 
   let displayText = 'Ej angivet'
 
@@ -50,8 +46,8 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   }
 
   return (
-    <div className={styles.root}>
-      <label className={styles.uvtext}>{displayText}</label>
+    <div className={classes.root}>
+      <Typography className={classes.uvText}>{displayText}</Typography>
     </div>
   )
 }

@@ -2,23 +2,21 @@ import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
-import { TextareaAutosize, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { CertificateDataElement, CertificateTextValue } from '@frontend/common'
-import { getShowValidationErrors } from '../../store/selectors/certificate'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/selectors/certificate'
 import { updateCertificateDataElement } from '../../store/actions/certificates'
+import { QuestionValidationTexts, TextArea } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: '28px',
-    paddingBottom: '15px',
-    marginBottom: '15px',
     borderBottomRightRadius: '8px',
     borderBottomLeftRadius: '8px',
+    paddingTop: theme.spacing(1.5),
   },
   textarea: {
     width: '-webkit-fill-available',
-    marginRight: '20px',
+    maxWidth: '600px',
   },
   heading: {
     fontWeight: 'bold',
@@ -31,41 +29,38 @@ interface UeTextAreaProps {
 
 const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
   const textValue = getTextValue(question)
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
+  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
-  const styles = useStyles()
+  const classes = useStyles()
 
   const dispatchEditDraft = useRef(
     _.debounce((value: string) => {
       const updatedValue = getUpdatedValue(question, value)
-      console.log('updatedValue', updatedValue)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
   ).current
 
   if (!textValue) {
-    return <div className={styles.root}>Value not supported!</div>
+    return <div className={classes.root}>Value not supported!</div>
   }
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setText(event.currentTarget.value)
-
     dispatchEditDraft(event.currentTarget.value)
   }
 
   return (
-    <div className={styles.root}>
-      <TextareaAutosize className={styles.textarea} rows={4} name={question.config.prop} value={text} onChange={(e) => handleChange(e)} />
-      {isShowValidationError &&
-        question.validationErrors &&
-        question.validationErrors.length > 0 &&
-        question.validationErrors.map((validationError) => (
-          <Typography variant="body1" color="error">
-            {validationError.text}
-          </Typography>
-        ))}
+    <div className={classes.root}>
+      <TextArea
+        rowsMin={4}
+        hasValidationError={shouldDisplayValidationError}
+        additionalStyles={classes.textarea}
+        onChange={handleChange}
+        name={question.config.prop}
+        value={text}></TextArea>
+      <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
     </div>
   )
 }

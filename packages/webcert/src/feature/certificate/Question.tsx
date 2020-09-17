@@ -2,45 +2,38 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from './UeRadio'
 import UeTextArea from './UeTextArea'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Collapse } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { UvText, CertificateDataConfig, CertificateDataElement } from '@frontend/common'
 import { getQuestion } from '../../store/selectors/certificate'
 import grey from '@material-ui/core/colors/grey'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '0px 28px',
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
   },
   accordion: {
     boxShadow: 'none',
-    padding: '0px 0px',
-    marginTop: '0px',
+    padding: '0',
+    marginTop: '0',
   },
   accordionSummary: {
-    padding: '0px 0px',
-    margin: '0px 0px',
+    padding: '0',
+    margin: '0',
   },
   accordionDetails: {
     background: grey[300],
-    marginBottom: '1rem',
-  },
-  heading: {
-    fontWeight: 'bold',
-  },
-  details: {
-    padding: '15px 15px 0',
-    color: 'black',
+    padding: `${theme.spacing(2)}px ${theme.spacing(2)}px`,
   },
   mandatoryIcon: {
-    marginLeft: '-16px',
+    marginLeft: `-${theme.spacing(2)}px`,
     position: 'absolute',
-    marginTop: '2px',
     color: '#da4453',
     fontSize: '1.5rem',
   },
-  arrowup: {
+  arrowUp: {
     width: '0',
     height: '0',
     content: ' ',
@@ -51,7 +44,13 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: '10px solid transparent',
     borderRight: '10px solid transparent',
     borderBottom: '10px solid',
-    borderBottomColor: '#e9eaed',
+    borderBottomColor: grey[300],
+  },
+  heading: {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  accordionContent: {
+    margin: 0,
   },
 }))
 
@@ -61,42 +60,52 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
+  const [mounted, setMounted] = useState(question.visible)
 
-  const styles = useStyles()
+  const classes = useStyles()
 
-  console.log('question', id)
+  useEffect(() => {
+    setMounted(question.visible)
+  }, [question.visible])
 
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <React.Fragment>
-      <Paper>
-        <div className={styles.root}>{getQuestionComponent(question.config, question.mandatory, question.readOnly)}</div>
+    <Collapse className={`questionWrapper`} in={mounted} timeout={750} exit={true}>
+      <Paper square className={`${classes.root}`}>
+        {getQuestionComponent(question.config, question.mandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question)}
       </Paper>
-    </React.Fragment>
+    </Collapse>
   )
 
   function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean) {
     if (!readOnly && config.description) {
       return (
-        <Accordion className={styles.accordion}>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
-            className={styles.accordionSummary}
+            classes={{ content: classes.accordionContent }}
+            className={classes.accordionSummary}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            {!readOnly && mandatory && <Typography className={styles.mandatoryIcon}>*</Typography>}{' '}
-            <Typography variant="subtitle1">{question.config.text}</Typography>
+            {!readOnly && mandatory && <span className={classes.mandatoryIcon}>*</span>}
+            <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+              {question.config.text}
+            </Typography>
           </AccordionSummary>
-          <div className={styles.arrowup}></div>
-          <AccordionDetails className={styles.accordionDetails}>
-            <Typography className={styles.details}>{question.config.description}</Typography>
+          <div className={classes.arrowUp}></div>
+          <AccordionDetails className={classes.accordionDetails}>
+            <Typography>{question.config.description}</Typography>
           </AccordionDetails>
         </Accordion>
       )
     }
-    return <Typography variant="subtitle1">{question.config.text}</Typography>
+    return (
+      <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+        {question.config.text}
+      </Typography>
+    )
   }
 
   function getUnifiedEditComponent(question: CertificateDataElement) {

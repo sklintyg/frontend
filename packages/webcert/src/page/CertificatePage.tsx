@@ -19,13 +19,11 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
   const { id } = useParams()
   const dispatch = useDispatch()
 
-  console.log('CertificatePage', id)
-
   useEffect(() => {
     if (id) {
       dispatch(getCertificate(id))
     }
-  }, [dispatch, id])
+  }, [id])
 
   const secondaryItems = (
     <>

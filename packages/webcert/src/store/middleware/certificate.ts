@@ -141,10 +141,9 @@ const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, ge
     return
   }
 
-  const certificate = getState().ui.uiCertificate.certificate
-
   dispatch(setCertificateDataElement(action.payload))
   dispatch(validateCertificateInFrontEnd(action.payload))
+  const certificate = getState().ui.uiCertificate.certificate
   dispatch(validateCertificate(certificate))
   dispatch(autoSaveCertificate(certificate))
 }
