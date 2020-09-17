@@ -1,53 +1,75 @@
 import { Certificate, CertificateDataElement, CertificateStatus, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 
-export const CERTIFICATE = '[CERTIFICATE]'
-export const GET_CERTIFICATE = `${CERTIFICATE} Get`
-export const FETCH_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fetch success`
-export const FETCH_CERTIFICATE_ERROR = `${CERTIFICATE} Fetch error`
+const CERTIFICATE = '[CERTIFICATE]'
 
-export const SIGN_CERTIFICATE = `${CERTIFICATE} Sign`
-export const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign success`
-export const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign error`
+const GET_CERTIFICATE = `${CERTIFICATE} Get certificate`
+const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
+const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
+const GET_CERTIFICATE_ERROR = `${CERTIFICATE} Get certificate error`
+const GET_CERTIFICATE_COMPLETED = `${CERTIFICATE} Get certificate completed`
 
-export const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
-export const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
+const SIGN_CERTIFICATE = `${CERTIFICATE} Sign certificate`
+const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
+const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
+const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
+const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
 
-export const UPDATE_CERTIFICATE = `${CERTIFICATE} Update`
-export const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update data element`
-export const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set data element`
+const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
+const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
 
-export const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate`
-export const VALIDATE_CERTIFICATE_IN_FRONTEND = `${CERTIFICATE} Validate in frontend`
-export const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validation started`
-export const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validation completed`
-export const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validation success`
-export const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validation error`
-export const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
+const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
+const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
+const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 
-export const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save`
-export const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save started`
-export const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save completed`
-export const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save success`
-export const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save error`
+const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate certificate`
+const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validate certificate started`
+const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validate certificate completed`
+const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validate certificate success`
+const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validate certificate error`
 
-export const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
-export const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
+const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 
-export const SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Show mandatory on data element`
-export const HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Hide mandatory on data element`
+const VALIDATE_CERTIFICATE_IN_FRONTEND = `${CERTIFICATE} Validate in frontend`
+const VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED = `${CERTIFICATE} Validate in frontend completed`
 
-export const SHOW_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Show spinner`
-export const HIDE_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Hide spinner`
+const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save`
+const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save started`
+const AUTO_SAVE_COMPLETED = `${CERTIFICATE} Auto save completed`
+const AUTO_SAVE_SUCCESS = `${CERTIFICATE} Auto save success`
+const AUTO_SAVE_ERROR = `${CERTIFICATE} Auto save error`
 
-export const SHOW_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Show validation errors`
-export const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation errors`
+const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
+const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
+
+const SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Show mandatory on data element`
+const HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Hide mandatory on data element`
+
+const SHOW_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Show spinner`
+const HIDE_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Hide spinner`
+
+const SHOW_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Show validation errors`
+const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation errors`
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
+export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
+
+export const getCertificateSuccess = createAction<any>(GET_CERTIFICATE_SUCCESS)
+
+export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
+
+export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
+
 export const signCertificate = createAction(SIGN_CERTIFICATE)
 
-export const updateCertificateOld = createAction<Certificate>(UPDATE_CERTIFICATE)
+export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
+
+export const signCertificateSuccess = createAction<any>(SIGN_CERTIFICATE_SUCCESS)
+
+export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
+
+export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
 
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
 
@@ -69,20 +91,34 @@ export const setCertificateDataElement = createAction<CertificateDataElement>(SE
 
 export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
 
+export const validateCertificateStarted = createAction(VALIDATE_CERTIFICATE_STARTED)
+
+export const validateCertificateSuccess = createAction<ValidationError[]>(VALIDATE_CERTIFICATE_SUCCESS)
+
+export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
+
+export const validateCertificateCompleted = createAction(VALIDATE_CERTIFICATE_COMPLETED)
+
 export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
+
+export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
+
+export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)
+
+export const autoSaveCertificateStarted = createAction(AUTO_SAVE_STARTED)
+
+export const autoSaveCertificateCompleted = createAction<Certificate>(AUTO_SAVE_COMPLETED)
+
+export const autoSaveCertificateSuccess = createAction<Certificate>(AUTO_SAVE_SUCCESS)
+
+export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
 
 export const showSpinner = createAction<string>(SHOW_CERTIFICATE_LOADING_SPINNER)
 
 export const hideSpinner = createAction(HIDE_CERTIFICATE_LOADING_SPINNER)
-
-export const validateCertificateStarted = createAction(VALIDATE_CERTIFICATE_STARTED)
-
-export const validateCertificateCompleted = createAction(VALIDATE_CERTIFICATE_COMPLETED)
 
 export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VALIDATION_ERRORS)
 
 export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
 
 export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
-
-export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICATE)

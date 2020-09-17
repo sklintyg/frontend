@@ -1,15 +1,21 @@
 import * as actions from '../api'
 import { Middleware, MiddlewareAPI, Dispatch } from 'redux'
 import axios from 'axios'
+import { apiCallBegan } from '../api'
+import { AnyAction } from '@reduxjs/toolkit'
 
-const api: Middleware = ({ getState, dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action) => {
-  if (action.type !== actions.apiCallBegan.type) return next(action)
+const api: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
+  if (!apiCallBegan.match(action)) {
+    return next(action)
+  }
 
   const { url, method, data, onStart, onSuccess, onError } = action.payload
 
-  if (onStart) dispatch({ type: onStart })
-
   next(action)
+
+  if (onStart) {
+    dispatch(onStart())
+  }
 
   try {
     const response = await axios.request({
@@ -19,15 +25,17 @@ const api: Middleware = ({ getState, dispatch }: MiddlewareAPI) => (next: Dispat
       data,
     })
 
-    // General
     dispatch(actions.apiCallSuccess(response.data))
-    // Specific
-    if (onSuccess) dispatch({ type: onSuccess, payload: response.data })
+
+    if (onSuccess) {
+      dispatch(onSuccess(response.data))
+    }
   } catch (error) {
-    // General
     dispatch(actions.apiCallFailed(error.message))
-    // Specific
-    if (onError) dispatch({ type: onError, payload: error.message })
+
+    if (onError) {
+      dispatch(onError())
+    }
   }
 }
 

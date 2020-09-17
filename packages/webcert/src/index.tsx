@@ -7,12 +7,12 @@ import { Provider } from 'react-redux'
 import store from './store/store'
 
 ReactDOM.render(
-  // Comment out strict mode temporarily so we don't get double rendering.
-  // <React.StrictMode>
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  // </React.StrictMode>,
+  // Note: Comment out strict mode if you want to remove double rendering in dev-mode.
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 )
 

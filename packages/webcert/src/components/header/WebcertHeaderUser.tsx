@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeaderUser, mockGetUserSelector, mockUser } from '@frontend/common'
+import { AppHeaderUser, mockGetUserSelector } from '@frontend/common'
 import { AppHeaderUserUnit } from '@frontend/common/src'
 
 const WebcertHeaderUser: React.FC = (props) => {
