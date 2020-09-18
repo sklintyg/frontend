@@ -11,11 +11,11 @@ const api: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => asy
 
   const { url, method, data, onStart, onSuccess, onError } = action.payload
 
-  next(action)
-
   if (onStart) {
     dispatch(onStart())
   }
+
+  next(action)
 
   try {
     const response = await axios.request({

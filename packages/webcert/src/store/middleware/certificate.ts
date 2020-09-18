@@ -77,8 +77,8 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
   }
 
   dispatch(updateCertificate(action.payload))
-  dispatch(hideSpinner())
   dispatch(getCertificateCompleted())
+  dispatch(hideSpinner())
   if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
@@ -129,7 +129,7 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(hideSpinner())
 }
 
-const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
@@ -290,7 +290,7 @@ export const certificateMiddleware = [
   handleGetCertificateSuccess,
   handleSignCertificate,
   handleSignCertificateSuccess,
-  handleCertificateDataElementUpdate,
+  handleUpdateCertificateDataElement,
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
   handleValidateCertificateSuccess,
