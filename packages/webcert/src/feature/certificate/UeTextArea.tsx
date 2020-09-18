@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   textarea: {
     width: '-webkit-fill-available',
-    maxWidth: '600px',
   },
   heading: {
     fontWeight: 'bold',

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   accordionSummary: {
     padding: '0',
-    margin: '0',
+    minHeight: 0,
   },
   accordionDetails: {
     background: grey[300],
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightMedium,
   },
   accordionContent: {
+    margin: 0,
+  },
+  expandMoreIcon: {
+    padding: `0`,
     margin: 0,
   },
 }))
@@ -84,7 +88,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       return (
         <Accordion className={classes.accordion}>
           <AccordionSummary
-            classes={{ content: classes.accordionContent }}
+            classes={{ content: classes.accordionContent, expandIcon: classes.expandMoreIcon }}
             className={classes.accordionSummary}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
