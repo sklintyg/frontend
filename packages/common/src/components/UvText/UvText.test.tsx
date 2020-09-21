@@ -11,40 +11,42 @@ import {
   CertificateTextValue,
 } from '@frontend/common'
 
-it('renders without crashing', () => {
-  const question = createQuestionWithTextValue()
-  const div = document.createElement('div')
-  ReactDOM.render(<UvText question={question} />, div)
-})
+describe('UvText', () => {
+  it('renders without crashing', () => {
+    const question = createQuestionWithTextValue()
+    const div = document.createElement('div')
+    ReactDOM.render(<UvText question={question} />, div)
+  })
 
-it('displaying text value', () => {
-  const question = createQuestionWithTextValue()
-  const { getByText } = render(<UvText question={question} />)
-  getByText(/Text/i)
-})
+  it('displaying text value', () => {
+    const question = createQuestionWithTextValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/Text/i)
+  })
 
-it('displaying boolean value', () => {
-  const question = createQuestionWithBooleanValue()
-  const { getByText } = render(<UvText question={question} />)
-  getByText(/Boolean value = true/i)
-})
+  it('displaying boolean value', () => {
+    const question = createQuestionWithBooleanValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/Boolean value = true/i)
+  })
 
-it('displaying empty value', () => {
-  const question = createQuestion({ type: CertificateDataValueType.TEXT } as CertificateDataValue)
-  const { getByText } = render(<UvText question={question} />)
-  getByText(/Ej angivet/i)
-})
+  it('displaying empty value', () => {
+    const question = createQuestion({ type: CertificateDataValueType.TEXT } as CertificateDataValue)
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/Ej angivet/i)
+  })
 
-it('displaying unknown value type', () => {
-  const question = createQuestion({ type: CertificateDataValueType.UNKNOWN } as CertificateDataValue)
-  const { getByText } = render(<UvText question={question} />)
-  getByText(/Okänd datatyp/i)
-})
+  it('displaying unknown value type', () => {
+    const question = createQuestion({ type: CertificateDataValueType.UNKNOWN } as CertificateDataValue)
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/Okänd datatyp/i)
+  })
 
-it('Verify snapshot', () => {
-  const question = createQuestionWithTextValue()
-  const tree = renderer.create(<UvText question={question} />).toJSON()
-  expect(tree).toMatchSnapshot()
+  it('Verify snapshot', () => {
+    const question = createQuestionWithTextValue()
+    const tree = renderer.create(<UvText question={question} />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
