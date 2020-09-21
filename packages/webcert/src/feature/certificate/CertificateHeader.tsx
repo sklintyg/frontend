@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Container, createStyles, Paper, Theme, Typography } from '@material-ui/core'
-import { getCertificateMetaData, getIsShowSpinner, getIsValidating, getIsValidForSigning } from '../../store/selectors/certificate'
+import {
+  getCertificateMetaData,
+  getIsShowSpinner,
+  getIsValidating,
+  getIsValidForSigning,
+} from '../../store/certificate/certificateSelectors'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import PrintIcon from '@material-ui/icons/Print'
 import DeleteIcon from '@material-ui/icons/Delete'

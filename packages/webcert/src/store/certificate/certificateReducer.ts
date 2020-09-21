@@ -16,7 +16,7 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-} from '../actions/certificates'
+} from './certificateActions'
 
 interface CertificateState {
   certificate?: Certificate

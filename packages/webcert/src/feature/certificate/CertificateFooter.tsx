@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { CertificateStatus } from '@frontend/common'
-import { getCertificateMetaData, getIsValidating } from '../../store/selectors/certificate'
-import { signCertificate } from '../../store/actions/certificates'
+import { getCertificateMetaData, getIsValidating } from '../../store/certificate/certificateSelectors'
+import { signCertificate } from '../../store/certificate/certificateActions'
 import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getCertificateDataElements, getIsShowSpinner, getSpinnerText } from '../../store/selectors/certificate'
+import { getCertificateDataElements, getIsShowSpinner, getSpinnerText } from '../../store/certificate/certificateSelectors'
 import { Backdrop, Box, CircularProgress } from '@material-ui/core'
 import Category from './Category'
 import Question from './Question'

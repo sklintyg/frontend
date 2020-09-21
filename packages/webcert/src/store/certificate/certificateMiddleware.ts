@@ -35,8 +35,8 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
-} from '../actions/certificates'
-import { apiCallBegan } from '../api'
+} from './certificateActions'
+import { apiCallBegan } from '../api/apiActions'
 import {
   Certificate,
   CertificateBooleanValue,

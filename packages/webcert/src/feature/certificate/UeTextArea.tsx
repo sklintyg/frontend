@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { makeStyles } from '@material-ui/core/styles'
 import { CertificateDataElement, CertificateTextValue } from '@frontend/common'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/selectors/certificate'
-import { updateCertificateDataElement } from '../../store/actions/certificates'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
+import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
 import { QuestionValidationTexts, TextArea } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
