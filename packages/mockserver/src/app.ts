@@ -19,6 +19,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
   if (repository[req.params.id]) {
     res.json(repository[req.params.id])
   } else if (req.params.id) {
@@ -32,6 +33,7 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
 })
 
 app.post('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}`)
   if (repository[req.params.id]) {
     repository[req.params.id] = req.body
     res.json(repository[req.params.id])
@@ -41,6 +43,7 @@ app.post('/api/certificate/:id', (req: Request, res: Response, next: NextFunctio
 })
 
 app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/sign`)
   if (repository[req.params.id]) {
     repository[req.params.id].metadata.status = CertificateStatus.SIGNED
 
@@ -58,6 +61,7 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
 })
 
 app.post('/api/certificate/:id/validate', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/validate`)
   const validationErrors = validate(req.body as Certificate)
   res.json(validationErrors)
 })

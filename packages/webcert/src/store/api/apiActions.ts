@@ -1,14 +1,14 @@
 import { createAction } from '@reduxjs/toolkit'
 
-export interface IApiCall {
+export interface ApiCall {
   url: string
-  method: string
+  method: 'GET' | 'POST' | 'DELETE' | 'PATCH'
   data: any
-  onStart?: string
-  onSuccess?: string
-  onError?: string
+  onStart?: Function
+  onSuccess?: Function
+  onError?: Function
 }
 
-export const apiCallBegan = createAction<IApiCall>('[API] Call began')
+export const apiCallBegan = createAction<ApiCall>('[API] Call began')
 export const apiCallSuccess = createAction<any>('[API] Call success')
 export const apiCallFailed = createAction<string>('[API] Call failed')

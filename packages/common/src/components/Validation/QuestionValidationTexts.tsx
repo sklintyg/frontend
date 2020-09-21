@@ -2,7 +2,7 @@ import React from 'react'
 import { CertificateDataElement, ValidationError } from '../..'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import { getShowValidationErrors } from '@frontend/webcert/src/store/selectors/certificate'
+import { getShowValidationErrors } from '@frontend/webcert/src/store/certificate/certificateSelectors'
 import useTheme from '@material-ui/core/styles/useTheme'
 
 export interface QuestionValidationTextsProps {

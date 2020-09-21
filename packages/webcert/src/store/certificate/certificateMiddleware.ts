@@ -1,14 +1,16 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
-  AUTO_SAVE_CERTIFICATE,
-  AUTO_SAVE_ERROR,
-  AUTO_SAVE_STARTED,
-  AUTO_SAVE_SUCCESS,
   autoSaveCertificate,
-  FETCH_CERTIFICATE_ERROR,
-  FETCH_CERTIFICATE_SUCCESS,
-  GET_CERTIFICATE,
+  autoSaveCertificateCompleted,
+  autoSaveCertificateError,
+  autoSaveCertificateStarted,
+  autoSaveCertificateSuccess,
+  getCertificate,
+  getCertificateCompleted,
+  getCertificateError,
+  getCertificateStarted,
+  getCertificateSuccess,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -18,24 +20,23 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  SIGN_CERTIFICATE,
-  SIGN_CERTIFICATE_ERROR,
-  SIGN_CERTIFICATE_SUCCESS,
-  UPDATE_CERTIFICATE_DATA_ELEMENT,
+  signCertificate,
+  signCertificateError,
+  signCertificateSuccess,
   updateCertificate,
   updateCertificateAsReadOnly,
+  updateCertificateDataElement,
   updateCertificateStatus,
   updateValidationErrors,
-  VALIDATE_CERTIFICATE,
-  VALIDATE_CERTIFICATE_ERROR,
-  VALIDATE_CERTIFICATE_IN_FRONTEND,
-  VALIDATE_CERTIFICATE_SUCCESS,
   validateCertificate,
   validateCertificateCompleted,
+  validateCertificateError,
   validateCertificateInFrontEnd,
+  validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
-} from '../actions/certificates'
-import { apiCallBegan } from '../api'
+  validateCertificateSuccess,
+} from './certificateActions'
+import { apiCallBegan } from '../api/apiActions'
 import {
   Certificate,
   CertificateBooleanValue,
@@ -45,13 +46,10 @@ import {
   CertificateTextValue,
 } from '@frontend/common'
 
-/**
- * Load a certificate
- */
-const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== GET_CERTIFICATE) {
+  if (!getCertificate.match(action)) {
     return
   }
 
@@ -60,37 +58,36 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + action.payload,
-      method: 'get',
+      method: 'GET',
       data: {
         id: action.payload,
       },
-      onSuccess: FETCH_CERTIFICATE_SUCCESS,
-      onError: FETCH_CERTIFICATE_ERROR,
+      onStart: getCertificateStarted,
+      onSuccess: getCertificateSuccess,
+      onError: getCertificateError,
     })
   )
 }
 
-/**
- * Process a loaded certificate
- */
-const handleFetchCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== FETCH_CERTIFICATE_SUCCESS) {
+  if (!getCertificateSuccess.match(action)) {
     return
   }
 
   dispatch(updateCertificate(action.payload))
+  dispatch(getCertificateCompleted())
   dispatch(hideSpinner())
   if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
 }
 
-const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== SIGN_CERTIFICATE) {
+  if (!signCertificate.match(action)) {
     return
   }
 
@@ -111,18 +108,18 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
-      method: 'post',
+      method: 'POST',
       data: { id: certificate.metadata.certificateId },
-      onSuccess: SIGN_CERTIFICATE_SUCCESS,
-      onError: SIGN_CERTIFICATE_ERROR,
+      onSuccess: signCertificateSuccess,
+      onError: signCertificateError,
     })
   )
 }
 
-const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== SIGN_CERTIFICATE_SUCCESS) {
+  if (!signCertificateSuccess.match(action)) {
     return
   }
 
@@ -132,12 +129,12 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(hideSpinner())
 }
 
-const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
-) => {
+): void => {
   next(action)
 
-  if (action.type !== UPDATE_CERTIFICATE_DATA_ELEMENT) {
+  if (!updateCertificateDataElement.match(action)) {
     return
   }
 
@@ -148,10 +145,10 @@ const handleCertificateDataElementUpdate: Middleware<Dispatch> = ({ dispatch, ge
   dispatch(autoSaveCertificate(certificate))
 }
 
-const handleAutoSave: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== AUTO_SAVE_CERTIFICATE) {
+  if (!autoSaveCertificate.match(action)) {
     return
   }
 
@@ -160,54 +157,48 @@ const handleAutoSave: Middleware<Dispatch> = ({ dispatch, getState }: Middleware
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.certificateId,
-      method: 'post',
+      method: 'POST',
       data: certificate,
-      onStart: AUTO_SAVE_STARTED,
-      onSuccess: AUTO_SAVE_SUCCESS,
-      onError: AUTO_SAVE_ERROR,
+      onStart: autoSaveCertificateStarted,
+      onSuccess: autoSaveCertificateSuccess,
+      onError: autoSaveCertificateError,
     })
   )
 }
 
-/**
- * Backend validation of a certificate
- */
-const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction) => {
+const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== VALIDATE_CERTIFICATE) {
+  if (!autoSaveCertificateSuccess.match(action)) {
     return
   }
 
-  dispatch(validateCertificateStarted())
+  dispatch(autoSaveCertificateCompleted(action.payload))
+}
+
+const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!validateCertificate.match(action)) {
+    return
+  }
 
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + action.payload.metadata.certificateId + '/validate',
-      method: 'post',
+      method: 'POST',
       data: action.payload,
-      onSuccess: VALIDATE_CERTIFICATE_SUCCESS,
-      onError: VALIDATE_CERTIFICATE_ERROR,
+      onStart: validateCertificateStarted,
+      onSuccess: validateCertificateSuccess,
+      onError: validateCertificateError,
     })
   )
 }
 
-const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-) => {
+const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (action.type !== VALIDATE_CERTIFICATE_IN_FRONTEND) {
-    return
-  }
-
-  validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
-}
-
-const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction) => {
-  next(action)
-
-  if (action.type !== VALIDATE_CERTIFICATE_SUCCESS) {
+  if (!validateCertificateSuccess.match(action)) {
     return
   }
 
@@ -215,15 +206,31 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(validateCertificateCompleted())
 }
 
-function validate(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement) {
-  if (!certificate) return
+const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!validateCertificateInFrontEnd.match(action)) {
+    return
+  }
+
+  validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
+
+  dispatch(validateCertificateInFrontEndCompleted())
+}
+
+function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
+  if (!certificate) {
+    return
+  }
 
   validateHideExpressions(certificate, dispatch, update)
 
   validateMandatory(certificate, dispatch, update)
 }
 
-function validateHideExpressions(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement) {
+function validateHideExpressions(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
   const dataProp = certificate.data[update.id].config.prop
   for (const questionId in certificate.data) {
     const question = certificate.data[questionId]
@@ -252,7 +259,7 @@ function validateHideExpressions(certificate: Certificate, dispatch: Dispatch<An
   }
 }
 
-function validateMandatory(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement) {
+function validateMandatory(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement): void {
   const question = certificate.data[update.id]
   if (question.validation && question.validation.required) {
     switch (update.value.type) {
@@ -280,12 +287,13 @@ function validateMandatory(certificate: Certificate, dispatch: Dispatch<AnyActio
 
 export const certificateMiddleware = [
   handleGetCertificate,
-  handleFetchCertificateSuccess,
+  handleGetCertificateSuccess,
   handleSignCertificate,
   handleSignCertificateSuccess,
-  handleCertificateDataElementUpdate,
+  handleUpdateCertificateDataElement,
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
   handleValidateCertificateSuccess,
-  handleAutoSave,
+  handleAutoSaveCertificate,
+  handleAutoSaveCertificateSuccess,
 ]

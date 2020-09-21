@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAppDispatch } from '../../store/store'
 import { CertificateBooleanValue, CertificateDataElement } from '@frontend/common'
-import { updateCertificateDataElement } from '../../store/actions/certificates'
-import { getQuestionHasValidationError } from '../../store/selectors/certificate'
+import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
+import { getQuestionHasValidationError } from '../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({

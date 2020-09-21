@@ -16,7 +16,7 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-} from '../actions/certificates'
+} from './certificateActions'
 
 interface CertificateState {
   certificate?: Certificate
@@ -84,6 +84,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
           continue
         }
 
+        // TODO: Only update validationErrors for questions that have changed.
         question.validationErrors = []
         for (const validationError of action.payload) {
           if (validationError.id === questionId) {

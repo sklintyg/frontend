@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paper, Tabs, Tab, Box, Typography, Link } from '@material-ui/core'
-import { getIsShowSpinner } from '../../store/selectors/certificate'
+import { getIsShowSpinner } from '../../store/certificate/certificateSelectors'
 import { useSelector } from 'react-redux'
 import SchoolIcon from '@material-ui/icons/School'
 import { makeStyles } from '@material-ui/core/styles'

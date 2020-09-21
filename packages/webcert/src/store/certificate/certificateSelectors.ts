@@ -1,6 +1,6 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateData } from '@frontend/common'
+import { Certificate } from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
