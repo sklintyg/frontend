@@ -12,6 +12,8 @@ export const themeCreator = (darkMode: boolean) => {
       },
       warning: {
         main: '#da4453',
+        light: '#f8bfc5',
+        dark: '#9a303b'
       },
     },
     breakpoints: {

@@ -1,6 +1,6 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate } from '@frontend/common'
+import { Certificate, CertificateDataElement } from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -23,7 +23,7 @@ export const getQuestionHasValidationError = (id: string) => (state: RootState) 
 
   const question = state.ui.uiCertificate.certificate!.data[id]
 
-  return question.validationErrors.length > 0 && question.visible
+  return question.validationErrors.length > 0
 }
 
 export const getCertificateMetaData = (state: RootState) => {
@@ -59,3 +59,29 @@ export const getCertificateDataElements = createSelector<RootState, Certificate,
   certificateStructure.sort((a, b) => a.index - b.index)
   return certificateStructure
 })
+
+export const getAllValidationErrors = () => (state: RootState) => {
+  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
+    return []
+  }
+
+  const certificateData = state.ui.uiCertificate.certificate.data;
+  let result: CertificateDataElement[] = [];
+
+  for(const questionId in certificateData){
+    if(certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0){
+      // This check makes sure that the category gets selected instead of a question
+      // Questions can have questions as parents, but we want to target the categories
+      if(certificateData[certificateData[questionId].validation.requiredProp]){
+        result = result.concat(certificateData[certificateData[questionId].validation.requiredProp])
+      }
+      else{
+        result = result.concat(certificateData[certificateData[questionId].parent])
+      }
+    }
+  }
+  
+  result.sort((a, b) => a.index - b.index)
+  
+  return result
+}
