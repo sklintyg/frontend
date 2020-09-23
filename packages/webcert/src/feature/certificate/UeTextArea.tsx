@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { makeStyles } from '@material-ui/core/styles'
-import { CertificateDataElement, CertificateTextValue } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
 import { QuestionValidationTexts, TextArea } from '@frontend/common/src'
@@ -22,6 +22,7 @@ interface UeTextAreaProps {
 }
 
 const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
@@ -54,13 +55,15 @@ const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
         onChange={handleChange}
         name={question.config.prop}
         value={text}></TextArea>
-      <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+       {isShowValidationError &&
+        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+      }
     </div>
   )
 }
 
 function getTextValue(question: CertificateDataElement): CertificateTextValue | null {
-  if (question.value.type !== 'TEXT') {
+  if (question.value.type !== CertificateDataValueType.TEXT) {
     return null
   }
   return question.value as CertificateTextValue
@@ -73,5 +76,4 @@ function getUpdatedValue(question: CertificateDataElement, text: string): Certif
   return updatedQuestion
 }
 
-// {isShowValidationError && question.validationError.length > 0 && question.validationError.map(validationError => <Typography variant="body1" color="error">{validationError.text}</Typography>)}
 export default UeTextArea

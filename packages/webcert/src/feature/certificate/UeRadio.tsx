@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
 import { useAppDispatch } from '../../store/store'
-import { CertificateBooleanValue, CertificateDataElement } from '@frontend/common'
+import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType } from '@frontend/common'
 import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
-import { getQuestionHasValidationError } from '../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common/src'
 
 interface UeRadioProps {
@@ -12,11 +11,10 @@ interface UeRadioProps {
 }
 
 const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
   const booleanValue = getBooleanValue(question)
   const dispatch = useAppDispatch()
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
-
-  const classes = useStyles()
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const updatedValue = getUpdatedValue(question, event.currentTarget.value === 'true')
@@ -43,13 +41,13 @@ const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
         value={false}
         checked={booleanValue.selected !== null && !booleanValue.selected}
         onChange={handleChange}></RadioButton>
-      <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </>
   )
 }
 
 function getBooleanValue(question: CertificateDataElement): CertificateBooleanValue | null {
-  if (question.value.type !== 'BOOLEAN') {
+  if (question.value.type !== CertificateDataValueType.BOOLEAN) {
     return null
   }
   return question.value as CertificateBooleanValue

@@ -1,8 +1,6 @@
 import React from 'react'
-import { CertificateDataElement, ValidationError } from '../..'
+import { ValidationError } from '../..'
 import { Typography } from '@material-ui/core'
-import { useSelector } from 'react-redux'
-import { getShowValidationErrors } from '@frontend/webcert/src/store/certificate/certificateSelectors'
 import useTheme from '@material-ui/core/styles/useTheme'
 
 export interface QuestionValidationTextsProps {
@@ -10,12 +8,11 @@ export interface QuestionValidationTextsProps {
 }
 
 const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ validationErrors }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const theme = useTheme()
 
   return (
     <>
-      {isShowValidationError &&
+      {
         validationErrors &&
         validationErrors.length > 0 &&
         validationErrors.map((validationError, index) => (
