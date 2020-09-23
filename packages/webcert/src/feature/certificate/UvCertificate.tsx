@@ -1,22 +1,50 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getCertificateDataElements, getIsShowSpinner, getSpinnerText } from '../../store/certificate/certificateSelectors'
-import { Backdrop, Box, CircularProgress } from '@material-ui/core'
 import Category from './Category'
 import Question from './Question'
-import CertificateValidation from './CertificateValidation'
 import { CertificateFooter } from './CertificateFooter'
+import CertificateValidation from './CertificateValidation'
+import {
+  getCertificateDataElements,
+  getIsCertificateSigned,
+  getIsShowSpinner,
+  getSpinnerText,
+} from '../../store/certificate/certificateSelectors'
+import { Box, CircularProgress, Backdrop } from '@material-ui/core'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import grey from '@material-ui/core/colors/grey'
+import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
+import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
 
-export interface UvCertificateProps {}
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: `0px ${theme.spacing(2)}px 0px`,
+    backgroundColor: grey[300],
+    overflowY: 'auto',
+    height: '100%',
+    '& .questionWrapper + .questionWrapper .questionTitle': {
+      fontSize: theme.typography.subtitle2.fontSize,
+      fontWeight: theme.typography.subtitle2.fontWeight,
+    },
+    '& .questionWrapper + .questionWrapper .MuiPaper-root': {
+      paddingTop: 0,
+    },
+    '& .contentPaperWrapper': {
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4),
+    },
+    '& .categoryWrapper + .questionWrapper .MuiPaper-root': {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+  },
+}))
 
-// Not currently used, might be used to create a separate component for viewing certificates
-// (So that there's 1 for editing and 1 for viewing)
-const UvCertificate: React.FC<UvCertificateProps> = (props) => {
+const Certificate: React.FC = () => {
   const certificateStructure = useSelector(getCertificateDataElements)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
-
-  console.log('certificate')
+  const classes = useStyles()
 
   if (showSpinner)
     return (
@@ -29,7 +57,7 @@ const UvCertificate: React.FC<UvCertificateProps> = (props) => {
     )
 
   return (
-    <Box>
+    <Box id="questions-container" className={classes.root}>
       {certificateStructure &&
         certificateStructure.map((data) => {
           if (data.component === 'category') {
@@ -38,10 +66,11 @@ const UvCertificate: React.FC<UvCertificateProps> = (props) => {
             return <Question key={data.id} id={data.id} />
           }
         })}
-      <CertificateValidation />
+
+      <UvCareUnitAddress></UvCareUnitAddress>
       <CertificateFooter />
     </Box>
   )
 }
 
-export default UvCertificate
+export default Certificate
