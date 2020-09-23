@@ -1,4 +1,4 @@
-import { Certificate, CertificateDataElement, CertificateStatus, ValidationError } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -21,6 +21,7 @@ const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validate certificate comp
 const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validate certificate success`
 const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validate certificate error`
 const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
+const UPDATE_CERTIFICATE_UNIT = `${CERTIFICATE} Update certificate unit`
 
 const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save certificate`
 const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save certificate started`
@@ -37,6 +38,7 @@ const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data 
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
+const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
@@ -121,3 +123,7 @@ export const updateValidationErrors = createAction<ValidationError[]>(UPDATE_VAL
 export const showValidationErrors = createAction(SHOW_CERTIFICATE_VALIDATION_ERRORS)
 
 export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERRORS)
+
+export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
+
+export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)

@@ -1,6 +1,6 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateDataElement } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -15,6 +15,22 @@ export const getShowValidationErrors = (state: RootState) => state.ui.uiCertific
 export const getCertificate = (state: RootState): Certificate => state.ui.uiCertificate.certificate!
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
+
+export const getIsCertificateSigned = () => (state: RootState): boolean => {
+  if(!state.ui.uiCertificate.certificate){
+    return false
+  }
+
+  return state.ui.uiCertificate.certificate.metadata.status === CertificateStatus.SIGNED
+}
+
+export const getUnit = () => (state: RootState) => {
+  if(!state.ui.uiCertificate.certificate){
+    return
+  }
+
+  return state.ui.uiCertificate.certificate.metadata.unit
+}
 
 export const getQuestionHasValidationError = (id: string) => (state: RootState) => {
   if (!state.ui.uiCertificate.showValidationErrors) {

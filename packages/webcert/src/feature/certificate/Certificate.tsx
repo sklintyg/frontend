@@ -4,10 +4,17 @@ import Category from './Category'
 import Question from './Question'
 import { CertificateFooter } from './CertificateFooter'
 import CertificateValidation from './CertificateValidation'
-import { getCertificateDataElements, getIsShowSpinner, getSpinnerText } from '../../store/certificate/certificateSelectors'
+import {
+  getCertificateDataElements,
+  getIsCertificateSigned,
+  getIsShowSpinner,
+  getSpinnerText,
+} from '../../store/certificate/certificateSelectors'
 import { Box, CircularProgress, Backdrop } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import grey from '@material-ui/core/colors/grey'
+import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
+import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +44,7 @@ const Certificate: React.FC = () => {
   const certificateStructure = useSelector(getCertificateDataElements)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
+  const certificateSigned = useSelector(getIsCertificateSigned())
   const classes = useStyles()
 
   if (showSpinner)
@@ -50,7 +58,7 @@ const Certificate: React.FC = () => {
     )
 
   return (
-    <Box className={classes.root}>
+    <Box id="questions-container" className={classes.root}>
       {certificateStructure &&
         certificateStructure.map((data) => {
           if (data.component === 'category') {
@@ -59,6 +67,8 @@ const Certificate: React.FC = () => {
             return <Question key={data.id} id={data.id} />
           }
         })}
+
+      {certificateSigned ? <UvCareUnitAddress></UvCareUnitAddress> : <UeCareUnitAddress></UeCareUnitAddress>}
       <CertificateValidation />
       <CertificateFooter />
     </Box>
