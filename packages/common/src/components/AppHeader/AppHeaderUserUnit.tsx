@@ -21,9 +21,9 @@ const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
           <ApartmentIcon />
         </Box>
         <Typography variant={'body1'} style={{ fontWeight: 'bold', marginRight: '5px' }}>
-          {user.unit.unit}
+          test
         </Typography>
-        <Typography variant={'body1'}>- {user.unit.center}</Typography>
+        <Typography variant={'body1'}>- test</Typography>
       </Box>
     </AppHeaderItem>
   )
