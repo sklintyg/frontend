@@ -4,6 +4,9 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Colla
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { getQuestion } from '../../store/certificate/certificateSelectors'
+import CategoryHeader from './CategoryHeader'
+import { grey } from '@material-ui/core/colors'
+import CategoryTitle from './CategoryTitle'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,26 +39,20 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
   if (!category || (!category.visible && !category.readOnly)) return null
 
   return (
-    <Collapse in={mounted} timeout={750} className={`categoryWrapper`}>
-      <Paper className={`${classes.root}`}>
+    <Collapse in={mounted} timeout={500} className={`categoryWrapper`}>
+      <CategoryHeader>
         {category.config.description && (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography className={classes.heading} variant="h6">
-                {category.config.text}
-              </Typography>
+              <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>{category.config.description}</Typography>
             </AccordionDetails>
           </Accordion>
         )}
-        {!category.config.description && (
-          <Typography className={classes.heading} variant="h6">
-            {category.config.text}
-          </Typography>
-        )}
-      </Paper>
+        {!category.config.description && <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>}
+      </CategoryHeader>
     </Collapse>
   )
 }

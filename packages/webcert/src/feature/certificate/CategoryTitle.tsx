@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
@@ -9,14 +9,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface Props {
-  id?: string
+  titleId?: string
+  additionalStyles?: string
 }
 
 const CategoryTitle: React.FC<Props> = (props) => {
   const classes = useStyles()
 
   return (
-    <Typography id={props.id} className={classes.heading} variant="h4">
+    <Typography id={props.titleId} className={`${classes.heading} ${props.additionalStyles}`} variant="h4">
       {props.children}
     </Typography>
   )
