@@ -7,15 +7,6 @@ import { updateCertificateDataElement } from '../../store/certificate/certificat
 import { getQuestionHasValidationError } from '../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common/src'
 
-const useStyles = makeStyles((theme) => ({
-  heading: {
-    fontWeight: 'bold',
-  },
-  validationError: {
-    border: '1px solid #da4453',
-  },
-}))
-
 interface UeRadioProps {
   question: CertificateDataElement
 }

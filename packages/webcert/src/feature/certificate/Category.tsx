@@ -7,14 +7,16 @@ import { getQuestion } from '../../store/certificate/certificateSelectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: `${theme.spacing(1.5)}px ${theme.spacing(4)}px`,
+    paddingTop: `${theme.spacing(2)}px`,
+    paddingBottom: `${theme.spacing(2)}px`,
     marginTop: `${theme.spacing(2)}px`,
-    borderBottom: '2px solid #d7d7dd',
+    borderBottom: `2px solid ${grey[300]}`,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
   },
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
+    fontSize: theme.typography.h6.fontSize,
   },
 }))
 

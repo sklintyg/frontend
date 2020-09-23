@@ -10,15 +10,10 @@ import { QuestionValidationTexts, TextArea } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
     paddingTop: theme.spacing(1.5),
   },
   textarea: {
     width: '-webkit-fill-available',
-  },
-  heading: {
-    fontWeight: 'bold',
   },
 }))
 

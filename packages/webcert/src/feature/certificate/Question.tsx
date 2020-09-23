@@ -11,9 +11,6 @@ import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
-  },
   accordion: {
     boxShadow: 'none',
     padding: '0',
@@ -55,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   expandMoreIcon: {
     padding: `0`,
     margin: 0,
+    marginLeft: theme.spacing(2),
   },
 }))
 

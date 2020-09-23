@@ -6,6 +6,7 @@ export const themeCreator = (darkMode: boolean) => {
       type: darkMode ? 'dark' : 'light',
       primary: {
         main: '#3d4260',
+        light: '#4b566f',
       },
       secondary: {
         main: '#292f4f',

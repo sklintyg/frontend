@@ -22,6 +22,14 @@ const useStyles = makeStyles((theme) => ({
     '& .questionWrapper + .questionWrapper .MuiPaper-root': {
       paddingTop: 0,
     },
+    '& .contentPaperWrapper': {
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4),
+    },
+    '& .categoryWrapper + .questionWrapper .MuiPaper-root': {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
   },
 }))
 
