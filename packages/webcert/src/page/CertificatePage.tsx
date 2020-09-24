@@ -33,7 +33,7 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
   )
 
   return (
-    <Box height='100vh'>
+    <Box height="100vh">
       <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
       <CertificateHeader />
       <Container style={{ height: `calc(100vh - 180px` }}>
@@ -41,7 +41,7 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
           <Grid item sm={8} style={{ overflowY: 'auto', height: '100%' }}>
             <Certificate />
           </Grid>
-          <Grid container item sm={4} style={{ height: '100%' }}>
+          <Grid item sm={4} style={{ height: '100%' }}>
             <CertificateSidePanel />
           </Grid>
         </Grid>

@@ -26,7 +26,7 @@ const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const classes = useStyles()
 
@@ -50,14 +50,12 @@ const UeTextArea: React.FC<UeTextAreaProps> = ({ question }) => {
     <div className={classes.root}>
       <TextArea
         rowsMin={4}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={questionHasValidationError}
         additionalStyles={classes.textarea}
         onChange={handleChange}
         name={question.config.prop}
         value={text}></TextArea>
-       {isShowValidationError &&
-        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
-      }
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
 }

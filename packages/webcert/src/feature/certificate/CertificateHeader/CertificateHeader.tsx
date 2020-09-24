@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(0.5),
       alignItems: 'flex-end',
       '& button + button': {
-        marginLeft: theme.spacing(1)
-      }
+        marginLeft: theme.spacing(1),
+      },
     },
     statusLeftSide: {
       display: 'flex',
@@ -113,13 +113,13 @@ export const CertificateHeader: React.FC = (props) => {
               </Box>
             ) : (
               <Box>
-                <Button variant='contained' color='primary' startIcon={<PrintIcon />}>
+                <Button variant="contained" color="primary" startIcon={<PrintIcon />}>
                   Skriv ut
                 </Button>
-                <Button variant='contained' color='primary' startIcon={<SyncAltIcon />}>
+                <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>
                   Ersätt
                 </Button>
-                <Button variant='contained' startIcon={<DeleteIcon />}>
+                <Button variant="contained" startIcon={<DeleteIcon />}>
                   Makulera
                 </Button>
               </Box>

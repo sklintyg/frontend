@@ -42,7 +42,7 @@ const CertificateValidation: React.FC<CertificateValidationProps> = (props) => {
   const validationErrors = useSelector(getAllValidationErrors())
   const classes = useStyles()
 
-  if(!validationErrors || !isShowValidationError) return null
+  if(!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 
 
   const validationMessages = validationErrors.map((validation, i) => {

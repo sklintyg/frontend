@@ -3,17 +3,14 @@ import { useSelector } from 'react-redux'
 import Category from './Category'
 import Question from './Question'
 import { CertificateFooter } from './CertificateFooter'
-import CertificateValidation from './CertificateValidation'
 import {
   getCertificateDataElements,
-  getIsCertificateSigned,
   getIsShowSpinner,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
-import { Box, CircularProgress, Backdrop } from '@material-ui/core'
+import { Box, CircularProgress, Backdrop, Typography } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import grey from '@material-ui/core/colors/grey'
-import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
 import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,13 +48,13 @@ const Certificate: React.FC = () => {
       <Backdrop open={showSpinner}>
         <Box display="flex" flexDirection="column" alignItems="center">
           <CircularProgress />
-          <h1>{spinnerText}</h1>
+          <Typography variant='h1'>{spinnerText}</Typography>
         </Box>
       </Backdrop>
     )
 
   return (
-    <Box id="questions-container" className={classes.root}>
+    <Box id='questions-container' className={classes.root}>
       {certificateStructure &&
         certificateStructure.map((data) => {
           if (data.component === 'category') {
