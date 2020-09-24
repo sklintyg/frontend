@@ -6,6 +6,7 @@ import {
   hideSpinner,
   hideValidationErrors,
   setCertificateDataElement,
+  setCertificateUnitData,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -62,6 +63,13 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload.id] = action.payload
+    })
+    .addCase(setCertificateUnitData, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.metadata.unit = action.payload
     })
     .addCase(showSpinner, (state, action) => {
       state.spinner = true

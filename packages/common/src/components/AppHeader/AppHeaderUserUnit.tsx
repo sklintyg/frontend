@@ -5,12 +5,12 @@ import { User } from '../../types/user'
 import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-export interface AppHeaderUserUnitProps {
+interface AppHeaderUserUnitProps {
   getUserSelector: () => User
 }
 
 const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
-  let user: User | null = null
+  let user: User
 
   user = useSelector(props.getUserSelector)
 
@@ -21,9 +21,9 @@ const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
           <ApartmentIcon />
         </Box>
         <Typography variant={'body1'} style={{ fontWeight: 'bold', marginRight: '5px' }}>
-          {user.unit.unit}
+          test
         </Typography>
-        <Typography variant={'body1'}>- {user.unit.center}</Typography>
+        <Typography variant={'body1'}>- test</Typography>
       </Box>
     </AppHeaderItem>
   )

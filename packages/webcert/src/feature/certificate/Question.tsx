@@ -9,11 +9,10 @@ import { UvText, CertificateDataConfig, CertificateDataElement } from '@frontend
 import { getQuestion } from '../../store/certificate/certificateSelectors'
 import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
+import QuestionWrapper from './QuestionWrapper'
+import ArrowUp from './utils/ArrowUp'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
-  },
   accordion: {
     boxShadow: 'none',
     padding: '0',
@@ -55,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   expandMoreIcon: {
     padding: `0`,
     margin: 0,
+    marginLeft: theme.spacing(2),
   },
 }))
 
@@ -65,7 +65,6 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const [mounted, setMounted] = useState(question.visible)
-
   const classes = useStyles()
 
   useEffect(() => {
@@ -75,11 +74,11 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <Collapse className={`questionWrapper`} in={mounted} timeout={750} exit={true}>
-      <Paper square className={`${classes.root}`}>
+    <Collapse className={`questionWrapper`} in={mounted} timeout={500} exit={true}>
+      <QuestionWrapper>
         {getQuestionComponent(question.config, question.mandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question)}
-      </Paper>
+      </QuestionWrapper>
     </Collapse>
   )
 
@@ -98,7 +97,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
               {question.config.text}
             </Typography>
           </AccordionSummary>
-          <div className={classes.arrowUp}></div>
+          <ArrowUp></ArrowUp>
           <AccordionDetails className={classes.accordionDetails}>
             <Typography>{question.config.description}</Typography>
           </AccordionDetails>

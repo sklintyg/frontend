@@ -4,17 +4,22 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Colla
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { getQuestion } from '../../store/certificate/certificateSelectors'
+import CategoryHeader from './CategoryHeader'
+import { grey } from '@material-ui/core/colors'
+import CategoryTitle from './CategoryTitle'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: `${theme.spacing(1.5)}px ${theme.spacing(4)}px`,
+    paddingTop: `${theme.spacing(2)}px`,
+    paddingBottom: `${theme.spacing(2)}px`,
     marginTop: `${theme.spacing(2)}px`,
-    borderBottom: '2px solid #d7d7dd',
+    borderBottom: `2px solid ${grey[300]}`,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
   },
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
+    fontSize: theme.typography.h6.fontSize,
   },
 }))
 
@@ -34,26 +39,20 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
   if (!category || (!category.visible && !category.readOnly)) return null
 
   return (
-    <Collapse in={mounted} timeout={750} className={`categoryWrapper`}>
-      <Paper className={`${classes.root}`}>
+    <Collapse in={mounted} timeout={500} className={`categoryWrapper`}>
+      <CategoryHeader>
         {category.config.description && (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography className={classes.heading} variant="h6">
-                {category.config.text}
-              </Typography>
+              <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>{category.config.description}</Typography>
             </AccordionDetails>
           </Accordion>
         )}
-        {!category.config.description && (
-          <Typography className={classes.heading} variant="h6">
-            {category.config.text}
-          </Typography>
-        )}
-      </Paper>
+        {!category.config.description && <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>}
+      </CategoryHeader>
     </Collapse>
   )
 }

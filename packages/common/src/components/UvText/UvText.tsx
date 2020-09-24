@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-wrap',
     background: grey[300],
     display: 'inline-block',
-    borderRadius: '4px',
+    borderRadius: theme.shape.borderRadius,
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
   },
   uvText: {

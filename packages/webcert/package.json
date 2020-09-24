@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@frontend/common": "^0.1.0",
+    "@types/react-scroll": "^1.8.0",
     "@types/react-test-renderer": "^16.9.3",
-    "axios": "^0.20.0"
+    "axios": "^0.20.0",
+    "react-scroll": "^1.8.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

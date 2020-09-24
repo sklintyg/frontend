@@ -6,12 +6,15 @@ export const themeCreator = (darkMode: boolean) => {
       type: darkMode ? 'dark' : 'light',
       primary: {
         main: '#3d4260',
+        light: '#4b566f',
       },
       secondary: {
         main: '#292f4f',
       },
       warning: {
         main: '#da4453',
+        light: '#f8bfc5',
+        dark: '#9a303b',
       },
     },
     breakpoints: {

@@ -16,6 +16,7 @@ import {
   hideSpinner,
   hideValidationErrors,
   setCertificateDataElement,
+  setCertificateUnitData,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -27,6 +28,7 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateDataElement,
   updateCertificateStatus,
+  updateCertificateUnit,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -140,6 +142,21 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, ge
 
   dispatch(setCertificateDataElement(action.payload))
   dispatch(validateCertificateInFrontEnd(action.payload))
+  const certificate = getState().ui.uiCertificate.certificate
+  dispatch(validateCertificate(certificate))
+  dispatch(autoSaveCertificate(certificate))
+}
+
+const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!updateCertificateUnit.match(action)) {
+    return
+  }
+
+  dispatch(setCertificateUnitData(action.payload))
   const certificate = getState().ui.uiCertificate.certificate
   dispatch(validateCertificate(certificate))
   dispatch(autoSaveCertificate(certificate))
@@ -296,4 +313,5 @@ export const certificateMiddleware = [
   handleValidateCertificateSuccess,
   handleAutoSaveCertificate,
   handleAutoSaveCertificateSuccess,
+  handleUpdateCertificateUnit,
 ]

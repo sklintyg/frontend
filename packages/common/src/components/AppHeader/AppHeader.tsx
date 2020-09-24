@@ -2,7 +2,7 @@ import React from 'react'
 import { AppBar, Box, Container, Link, Toolbar, Typography } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
-export interface AppHeaderProps {
+interface AppHeaderProps {
   title: React.ReactNode
   primaryItems?: React.ReactNode
   secondaryItems?: React.ReactNode
@@ -10,9 +10,8 @@ export interface AppHeaderProps {
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    background: '#3d4260',
+    background: theme.palette.primary.main,
   },
-  title: {},
   itemsWrapper: {
     display: 'flex',
     width: '100%',
@@ -36,7 +35,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
     <AppBar className={classes.appBar} position={'static'}>
       <Container>
         <Toolbar disableGutters={true}>
-          <Box className={classes.title}>{props.title}</Box>
+          <Box>{props.title}</Box>
           <Box className={classes.itemsWrapper}>
             <Box className={classes.primaryItems}>{props.primaryItems}</Box>
             <Box className={classes.secondaryItems}>{props.secondaryItems}</Box>

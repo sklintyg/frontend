@@ -3,7 +3,7 @@ import { TextareaAutosize } from '@material-ui/core'
 import useTheme from '@material-ui/core/styles/useTheme'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
-export interface TextAreaProps {
+interface TextAreaProps {
   hasValidationError?: boolean
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   name: string
