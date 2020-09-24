@@ -1,30 +1,26 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Container, createStyles, Paper, Theme, Typography } from '@material-ui/core'
+import { Box, Container, createStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
 import {
   getCertificateMetaData,
   getIsShowSpinner,
   getIsValidating,
   getIsValidForSigning,
-} from '../../store/certificate/certificateSelectors'
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
+} from '../../../store/certificate/certificateSelectors'
 import PrintIcon from '@material-ui/icons/Print'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SyncAltIcon from '@material-ui/icons/SyncAlt'
-import CheckIcon from '@material-ui/icons/Check'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import CertificateHeaderStatus from './CertificateHeaderStatus'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       boxShadow: '0 2px 4px 0 rgba(0,0,0,.12)',
       borderBottom: '1px solid #d7d7dd',
-    },
-    margin: {
-      marginLeft: theme.spacing(1),
     },
     statusWrapper: {
       marginTop: theme.spacing(1.25),
@@ -34,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     certificateName: {
       fontWeight: theme.typography.fontWeightLight,
-      marginTop: '10px',
+      marginTop: theme.spacing(1.25),
       fontSize: theme.typography.h5.fontSize,
     },
     patientTitle: {
@@ -45,6 +41,16 @@ const useStyles = makeStyles((theme: Theme) =>
     buttonWrapper: {
       marginBottom: theme.spacing(0.5),
       alignItems: 'flex-end',
+      '& button + button': {
+        marginLeft: theme.spacing(1)
+      }
+    },
+    statusLeftSide: {
+      display: 'flex',
+      flexGrow: 1,
+      '& .headerStatusWrapper + .headerStatusWrapper': {
+        marginLeft: theme.spacing(2),
+      },
     },
   })
 )
@@ -54,6 +60,7 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
+  const theme = useTheme()
 
   const classes = useStyles()
 
@@ -65,36 +72,21 @@ export const CertificateHeader: React.FC = (props) => {
     <Paper square className={classes.root}>
       <Container>
         <Box className={classes.statusWrapper}>
-          {isValidForSigning ? (
-            <Box clone color="green">
-              <CheckIcon fontSize="small" />
-            </Box>
-          ) : (
-            <ErrorOutlineIcon color="error" fontSize="small" />
-          )}
-          <Box marginLeft="5px" marginRight="30px" flexGrow={isValidating ? 1 : 0}>
-            <Typography variant="body2">
+          <Box className={classes.statusLeftSide}>
+            <CertificateHeaderStatus icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>
               {certificateMetadata.status === CertificateStatus.UNSIGNED
                 ? isValidForSigning
                   ? 'Klar att signera'
                   : 'Obligatoriska uppgifter saknas'
                 : 'Intyget är skickat till Arbetsförmedlingen'}
-            </Typography>
+            </CertificateHeaderStatus>
+
+            {!isValidating && (
+              <CertificateHeaderStatus icon={isValidating ? undefined : 'CheckIcon'}>
+                {certificateMetadata.status === CertificateStatus.UNSIGNED ? 'Utkastet är sparat' : 'Intyget är tillgängligt för patienten'}
+              </CertificateHeaderStatus>
+            )}
           </Box>
-          {!isValidating && (
-            <>
-              <Box clone color="green">
-                <CheckIcon fontSize="small" />
-              </Box>
-              <Box flexGrow="1">
-                <Typography variant="body2">
-                  {certificateMetadata.status === CertificateStatus.UNSIGNED
-                    ? 'Utkastet är sparat'
-                    : 'Intyget är tillgängligt för patienten'}
-                </Typography>
-              </Box>
-            </>
-          )}
           {certificateMetadata.status === CertificateStatus.UNSIGNED && (
             <Typography variant="body2">Utkastet skapades 2020-08-25 14:37</Typography>
           )}
@@ -115,19 +107,19 @@ export const CertificateHeader: React.FC = (props) => {
                 <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
                   Skriv ut
                 </Button>
-                <Button className={classes.margin} variant={'contained'} startIcon={<DeleteIcon />}>
+                <Button variant={'contained'} startIcon={<DeleteIcon />}>
                   Radera
                 </Button>
               </Box>
             ) : (
               <Box>
-                <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
+                <Button variant='contained' color='primary' startIcon={<PrintIcon />}>
                   Skriv ut
                 </Button>
-                <Button variant={'contained'} color={'primary'} className={classes.margin} startIcon={<SyncAltIcon />}>
+                <Button variant='contained' color='primary' startIcon={<SyncAltIcon />}>
                   Ersätt
                 </Button>
-                <Button variant={'contained'} className={classes.margin} startIcon={<DeleteIcon />}>
+                <Button variant='contained' startIcon={<DeleteIcon />}>
                   Makulera
                 </Button>
               </Box>
