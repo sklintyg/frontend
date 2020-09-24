@@ -65,7 +65,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.certificate.data[action.payload.id] = action.payload
     })
     .addCase(setCertificateUnitData, (state, action) => {
-      if(!state.certificate){
+      if (!state.certificate) {
         return
       }
 

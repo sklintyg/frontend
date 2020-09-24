@@ -78,19 +78,19 @@ export interface ValidationError {
 
 export interface Unit {
   [postalAddress: string]: {
-    value: string,
+    value: string
     displayText: string
   }
   zipCode: {
-    value: string,
+    value: string
     displayText: string
   }
   city: {
-    value: string,
+    value: string
     displayText: string
   }
   phoneNumber: {
-    value: string,
+    value: string
     displayText: string
   }
 }

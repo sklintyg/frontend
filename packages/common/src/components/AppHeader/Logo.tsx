@@ -5,7 +5,7 @@ const useStyles = makeStyles({
   logo: {
     maxWidth: 121,
     margin: 20,
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
   title: {
     backgroundColor: '#292f4f',

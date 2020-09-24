@@ -152,14 +152,12 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState 
 ): void => {
   next(action)
 
-  if(!updateCertificateUnit.match(action)){
+  if (!updateCertificateUnit.match(action)) {
     return
   }
 
   dispatch(setCertificateUnitData(action.payload))
-  // dispatch(validateCertificateInFrontEnd(action.payload))
   const certificate = getState().ui.uiCertificate.certificate
-  console.log("cert", certificate)
   dispatch(validateCertificate(certificate))
   dispatch(autoSaveCertificate(certificate))
 }
@@ -315,5 +313,5 @@ export const certificateMiddleware = [
   handleValidateCertificateSuccess,
   handleAutoSaveCertificate,
   handleAutoSaveCertificateSuccess,
-  handleUpdateCertificateUnit
+  handleUpdateCertificateUnit,
 ]

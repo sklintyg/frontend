@@ -12,8 +12,7 @@ const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ valid
 
   return (
     <>
-      {
-        validationErrors &&
+      {validationErrors &&
         validationErrors.length > 0 &&
         validationErrors.map((validationError, index) => (
           <Typography key={index} variant="body1" style={{ color: theme.palette.warning.main }}>

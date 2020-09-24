@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.success.dark,
   },
   text: {
-    marginLeft: theme.spacing(0.25)
-  }
+    marginLeft: theme.spacing(0.25),
+  },
 }))
 
 interface Props {
@@ -39,7 +39,9 @@ const CertificateHeaderStatus: React.FC<Props> = ({ icon, children }) => {
     <>
       <Box className={`${classes.root} headerStatusWrapper`}>
         {icon && getIcon(icon)}
-        <Typography className={classes.text} variant="body2">{children}</Typography>
+        <Typography className={classes.text} variant="body2">
+          {children}
+        </Typography>
       </Box>
     </>
   )

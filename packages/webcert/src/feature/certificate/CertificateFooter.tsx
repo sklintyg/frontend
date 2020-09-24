@@ -6,7 +6,7 @@ import { CertificateStatus } from '@frontend/common'
 import { getCertificateMetaData, getIsValidating } from '../../store/certificate/certificateSelectors'
 import { signCertificate } from '../../store/certificate/certificateActions'
 import Typography from '@material-ui/core/Typography'
-import BorderColorIcon from '@material-ui/icons/BorderColor';
+import BorderColorIcon from '@material-ui/icons/BorderColor'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +40,7 @@ export const CertificateFooter: React.FC = (props) => {
       {certificateMetadata.status === CertificateStatus.UNSIGNED && (
         <Button
           className={classes.signButton}
-          startIcon={<BorderColorIcon/>}
+          startIcon={<BorderColorIcon />}
           disabled={isValidating}
           variant="contained"
           onClick={() => {

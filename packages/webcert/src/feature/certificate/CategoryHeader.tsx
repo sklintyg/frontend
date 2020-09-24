@@ -20,11 +20,7 @@ interface Props {
 const CategoryHeader: React.FC<Props> = (props) => {
   const classes = useStyles()
 
-  return (
-    <Paper className={`${classes.root} contentPaperWrapper ${props.additionalStyles}`}>
-      {props.children}
-    </Paper>
-  )
+  return <Paper className={`${classes.root} contentPaperWrapper ${props.additionalStyles}`}>{props.children}</Paper>
 }
 
 export default CategoryHeader

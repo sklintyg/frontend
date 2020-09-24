@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface Props {
-    additionalStyles?: string
+  additionalStyles?: string
 }
 
 const QuestionWrapper: React.FC<Props> = (props) => {

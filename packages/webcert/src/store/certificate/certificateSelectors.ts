@@ -17,7 +17,7 @@ export const getCertificate = (state: RootState): Certificate => state.ui.uiCert
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
 
 export const getIsCertificateSigned = () => (state: RootState): boolean => {
-  if(!state.ui.uiCertificate.certificate){
+  if (!state.ui.uiCertificate.certificate) {
     return false
   }
 
@@ -25,7 +25,7 @@ export const getIsCertificateSigned = () => (state: RootState): boolean => {
 }
 
 export const getUnit = () => (state: RootState) => {
-  if(!state.ui.uiCertificate.certificate){
+  if (!state.ui.uiCertificate.certificate) {
     return
   }
 
@@ -81,23 +81,22 @@ export const getAllValidationErrors = () => (state: RootState) => {
     return []
   }
 
-  const certificateData = state.ui.uiCertificate.certificate.data;
-  let result: CertificateDataElement[] = [];
+  const certificateData = state.ui.uiCertificate.certificate.data
+  let result: CertificateDataElement[] = []
 
-  for(const questionId in certificateData){
-    if(certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0){
+  for (const questionId in certificateData) {
+    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
       // This check makes sure that the category gets selected instead of a question
       // Questions can have questions as parents, but we want to target the categories
-      if(certificateData[certificateData[questionId].validation.requiredProp]){
+      if (certificateData[certificateData[questionId].validation.requiredProp]) {
         result = result.concat(certificateData[certificateData[questionId].validation.requiredProp])
-      }
-      else{
+      } else {
         result = result.concat(certificateData[certificateData[questionId].parent])
       }
     }
   }
-  
+
   result.sort((a, b) => a.index - b.index)
-  
+
   return result
 }
