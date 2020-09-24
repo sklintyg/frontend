@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react'
 import { FormControlLabel, Radio } from '@material-ui/core'
 import useTheme from '@material-ui/core/styles/useTheme'
 
-export interface RadioButtonProps {
+interface RadioButtonProps {
   label: string
   name: string
   value: boolean

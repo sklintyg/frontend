@@ -5,12 +5,12 @@ import { User } from '../../types/user'
 import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-export interface AppHeaderUserProps {
+interface AppHeaderUserProps {
   getUserSelector: () => User
 }
 
 const AppHeaderUser: React.FC<AppHeaderUserProps> = (props) => {
-  let user: User | null = null
+  let user: User
 
   user = useSelector(props.getUserSelector)
 

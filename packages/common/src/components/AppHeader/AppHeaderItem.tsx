@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@material-ui/core'
 
-export interface AppHeaderItemProps {
+interface AppHeaderItemProps {
   children: React.ReactNode
 }
 

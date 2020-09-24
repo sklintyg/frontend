@@ -3,7 +3,7 @@ import { ValidationError } from '../..'
 import { Typography } from '@material-ui/core'
 import useTheme from '@material-ui/core/styles/useTheme'
 
-export interface QuestionValidationTextsProps {
+interface QuestionValidationTextsProps {
   validationErrors: ValidationError[]
 }
 

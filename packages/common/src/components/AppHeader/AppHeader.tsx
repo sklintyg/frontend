@@ -2,7 +2,7 @@ import React from 'react'
 import { AppBar, Box, Container, Link, Toolbar, Typography } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
-export interface AppHeaderProps {
+interface AppHeaderProps {
   title: React.ReactNode
   primaryItems?: React.ReactNode
   secondaryItems?: React.ReactNode
