@@ -25,8 +25,13 @@ export const getIsCertificateSigned = () => (state: RootState): boolean => {
 }
 
 export const getUnit = () => (state: RootState) => {
-  if (!state.ui.uiCertificate.certificate) {
-    return
+  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.unit) {
+    return {
+      address: '',
+      zipCode: '',
+      city: '',
+      phoneNumber: '',
+    }
   }
 
   return state.ui.uiCertificate.certificate.metadata.unit

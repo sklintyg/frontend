@@ -77,20 +77,8 @@ export interface ValidationError {
 }
 
 export interface Unit {
-  [postalAddress: string]: {
-    value: string
-    displayText: string
-  }
-  zipCode: {
-    value: string
-    displayText: string
-  }
-  city: {
-    value: string
-    displayText: string
-  }
-  phoneNumber: {
-    value: string
-    displayText: string
-  }
+  address: string
+  zipCode: string
+  city: string
+  phoneNumber: string
 }

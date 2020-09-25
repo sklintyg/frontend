@@ -27,82 +27,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-interface address {
-  key: string
-  title: string
-  value: string
-}
-
 const UeCareUnitAddress: React.FC = () => {
   const classes: any = useStyles()
   const dispatch = useDispatch()
   const unit = useSelector(getUnit())
-  const [careUnitInfo, setCareUnitInfo] = useState<address[]>([])
-
-  useEffect(() => {
-    let addressData: address[] = []
-
-    // TODO: Get info FROM HSA catalog and perhaps have default value in unit so it's not hard-coded
-    if (unit) {
-      for (const prop in unit) {
-        addressData = [
-          ...addressData,
-          {
-            key: prop,
-            // TODO: Set default values as displaytext
-            // title: unit[x].displayText,
-            title: prop,
-            value: unit[prop].value,
-          },
-        ]
-      }
-    } else {
-      addressData = [
-        ...addressData,
-        {
-          key: 'postalAddress',
-          title: 'Postadress',
-          value: '',
-        },
-        {
-          key: 'zipCode',
-          title: 'Postnummer',
-          value: '',
-        },
-        {
-          key: 'city',
-          title: 'Postort',
-          value: '',
-        },
-        {
-          key: 'phoneNumber',
-          title: 'Telefonnummer',
-          value: '',
-        },
-      ]
-    }
-
-    setCareUnitInfo(addressData)
-  }, [])
+  const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
 
   const dispatchEditDraft = useRef(
-    _.debounce((state: address[]) => {
-      const unit = getUpdatedUnit(state)
-      dispatch(updateCertificateUnit(unit))
+    _.debounce((state: Unit) => {
+      dispatch(updateCertificateUnit(state))
     }, 1000)
   ).current
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const updatedState = careUnitInfo.map((item) => {
-      if (item.key === event.target.id) {
-        item = { ...item, value: event.target.value }
-      }
+    const { name, value } = event.target
+    const updatedUnit = { ...careUnitInfo, [name]: value } as Unit
 
-      return item
-    })
-
-    setCareUnitInfo(updatedState)
-    dispatchEditDraft(updatedState)
+    setCareUnitInfo(updatedUnit)
+    dispatchEditDraft(updatedUnit)
   }
 
   return (
@@ -112,39 +54,85 @@ const UeCareUnitAddress: React.FC = () => {
       </CategoryHeader>
       <QuestionWrapper additionalStyles={classes.questionWrapper}>
         <Grid container>
-          {careUnitInfo.map((field, i) => (
-            <Grid key={i} container alignItems="center">
-              <Grid item sm={3}>
-                <Typography>
-                  <label htmlFor={field.key}>{field.title}</label>
-                </Typography>
-              </Grid>
-              <Grid item sm={9}>
-                <TextField
-                  className={classes[field.key]}
-                  onChange={handleChange}
-                  fullWidth
-                  size="small"
-                  id={field.key}
-                  value={field.value}
-                  variant="outlined"
-                />
-              </Grid>
+          <Grid container alignItems="center">
+            <Grid item sm={3}>
+              <Typography>
+                <label htmlFor={'address'}>Postadress</label>
+              </Typography>
             </Grid>
-          ))}
+            <Grid item sm={9}>
+              <TextField
+                onChange={handleChange}
+                fullWidth
+                size="small"
+                name={'address'}
+                id={'address'}
+                value={careUnitInfo.address}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+          <Grid container alignItems="center">
+            <Grid item sm={3}>
+              <Typography>
+                <label htmlFor={'zipCode'}>Postnummer</label>
+              </Typography>
+            </Grid>
+            <Grid item sm={9}>
+              <TextField
+                className={classes.zipCode}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+                name={'zipCode'}
+                id={'zipCode'}
+                value={careUnitInfo.zipCode}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+          <Grid container alignItems="center">
+            <Grid item sm={3}>
+              <Typography>
+                <label htmlFor={'city'}>Postort</label>
+              </Typography>
+            </Grid>
+            <Grid item sm={9}>
+              <TextField
+                className={classes.city}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+                name={'city'}
+                id={'city'}
+                value={careUnitInfo.city}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+          <Grid container alignItems="center">
+            <Grid item sm={3}>
+              <Typography>
+                <label htmlFor={'phoneNumber'}>Telefonnummer</label>
+              </Typography>
+            </Grid>
+            <Grid item sm={9}>
+              <TextField
+                className={classes.phoneNumber}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+                name={'phoneNumber'}
+                id={'phoneNumber'}
+                value={careUnitInfo.phoneNumber}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </QuestionWrapper>
     </>
   )
-}
-
-function getUpdatedUnit(state: address[]): Unit {
-  return state.reduce((obj, item) => {
-    return {
-      ...obj,
-      [item.key]: { ...obj[item.key], value: item.value },
-    } as Unit
-  }, {} as Unit)
 }
 
 export default UeCareUnitAddress

@@ -38,16 +38,6 @@ const UvCareUnitAddress: React.FC = (props) => {
   const unit = useSelector(getUnit())
   const doctor = useSelector(mockGetUserSelector)
 
-  const unitData = () => {
-    let unitData: string[] = []
-
-    for (const prop in unit) {
-      unitData = unitData.concat(unit[prop].value)
-    }
-
-    return unitData.map((curr, i) => <Typography key={i}>{curr}</Typography>)
-  }
-
   return (
     <>
       <CategoryHeader additionalStyles={classes.header}>
@@ -62,7 +52,10 @@ const UvCareUnitAddress: React.FC = (props) => {
           Namn och kontaktuppgifter till vårdenheten
         </Typography>
         <Typography>{doctor.name}</Typography>
-        {unitData()}
+        <Typography>{unit.address}</Typography>
+        <Typography>{unit.zipCode}</Typography>
+        <Typography>{unit.city}</Typography>
+        <Typography>{unit.phoneNumber}</Typography>
       </QuestionWrapper>
     </>
   )
