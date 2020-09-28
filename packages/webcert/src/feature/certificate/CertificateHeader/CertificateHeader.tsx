@@ -74,7 +74,7 @@ export const CertificateHeader: React.FC = (props) => {
         <Box className={classes.statusWrapper}>
           <Box className={classes.statusLeftSide}>
             <CertificateHeaderStatus icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>
-              {certificateMetadata.status === CertificateStatus.UNSIGNED
+              {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
                 ? isValidForSigning
                   ? 'Klar att signera'
                   : 'Obligatoriska uppgifter saknas'
@@ -83,11 +83,13 @@ export const CertificateHeader: React.FC = (props) => {
 
             {!isValidating && (
               <CertificateHeaderStatus icon={isValidating ? undefined : 'CheckIcon'}>
-                {certificateMetadata.status === CertificateStatus.UNSIGNED ? 'Utkastet är sparat' : 'Intyget är tillgängligt för patienten'}
+                {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
+                  ? 'Utkastet är sparat'
+                  : 'Intyget är tillgängligt för patienten'}
               </CertificateHeaderStatus>
             )}
           </Box>
-          {certificateMetadata.status === CertificateStatus.UNSIGNED && (
+          {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
             <Typography variant="body2">Utkastet skapades 2020-08-25 14:37</Typography>
           )}
         </Box>
@@ -102,7 +104,7 @@ export const CertificateHeader: React.FC = (props) => {
             </Typography>
           </Box>
           <Box display="flex" className={classes.buttonWrapper}>
-            {certificateMetadata.status === CertificateStatus.UNSIGNED ? (
+            {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED ? (
               <Box>
                 <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
                   Skriv ut

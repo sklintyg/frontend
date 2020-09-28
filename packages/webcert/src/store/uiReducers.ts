@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
-import certificate from './certificate/certificateReducer'
+import certificateReducer from './certificate/certificateReducer'
+import userReducer from './user/userReducer'
 
 export default combineReducers({
-  uiCertificate: certificate,
+  uiCertificate: certificateReducer,
+  uiUser: userReducer,
 })

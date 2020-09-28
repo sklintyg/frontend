@@ -18,10 +18,11 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
 
   try {
     const response = await axios.request({
-      baseURL: 'http://localhost:5000',
+      baseURL: 'http://localhost:3000',
       url,
       method,
       data,
+      withCredentials: true,
     })
 
     dispatch(apiCallSuccess(response.data))

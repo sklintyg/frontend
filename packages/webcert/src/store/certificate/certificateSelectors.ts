@@ -21,16 +21,19 @@ export const getIsCertificateSigned = () => (state: RootState): boolean => {
     return false
   }
 
-  return state.ui.uiCertificate.certificate.metadata.status === CertificateStatus.SIGNED
+  return state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.SIGNED
 }
 
 export const getUnit = () => (state: RootState) => {
   if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.unit) {
     return {
+      unitId: '',
+      unitName: '',
       address: '',
       zipCode: '',
       city: '',
       phoneNumber: '',
+      email: '',
     }
   }
 
