@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Certificate } from '@frontend/common'
 import {
+  autoSaveCertificateSuccess,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -18,6 +19,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
+import { CertificateBooleanValue, CertificateDataValueType, CertificateTextValue } from '@frontend/common/src'
 
 interface CertificateState {
   certificate?: Certificate
@@ -40,13 +42,33 @@ const certificateReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
+      for (const questionId in state.certificate.data) {
+        const question = state.certificate.data[questionId]
+        if (question.config.component === 'category') {
+          continue
+        }
+
+        switch (question.value.type) {
+          case CertificateDataValueType.TEXT:
+            const textValue = question.value as CertificateTextValue
+            if (textValue.text == undefined) {
+              textValue['text'] = ''
+            }
+            break
+          case CertificateDataValueType.BOOLEAN:
+            const booleanValue = question.value as CertificateBooleanValue
+            if (booleanValue.selected == undefined) {
+              booleanValue['selected'] = null
+            }
+        }
+      }
     })
     .addCase(updateCertificateStatus, (state, action) => {
       if (!state.certificate) {
         return
       }
 
-      state.certificate.metadata.status = action.payload
+      state.certificate.metadata.certificateStatus = action.payload
     })
     .addCase(updateCertificateAsReadOnly, (state) => {
       if (!state.certificate) {
@@ -70,6 +92,13 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.metadata.unit = action.payload
+    })
+    .addCase(autoSaveCertificateSuccess, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.metadata.version = action.payload
     })
     .addCase(showSpinner, (state, action) => {
       state.spinner = true

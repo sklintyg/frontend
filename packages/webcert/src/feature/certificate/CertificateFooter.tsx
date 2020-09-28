@@ -37,7 +37,7 @@ export const CertificateFooter: React.FC = (props) => {
 
   return (
     <div className={classes.root}>
-      {certificateMetadata.status === CertificateStatus.UNSIGNED && (
+      {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
         <Button
           className={classes.signButton}
           startIcon={<BorderColorIcon />}

@@ -13,8 +13,11 @@ export interface CertificateMetadata {
   certificateCode: string
   certificateId: string
   certificateName: string
-  status: CertificateStatus
+  certificateStatus: CertificateStatus
   unit: Unit
+  patient: Patient
+  issuedBy: Staff
+  version: number
 }
 
 export interface CertificateData {
@@ -52,7 +55,7 @@ export interface CertificateDataValue {
 }
 
 export interface CertificateBooleanValue extends CertificateDataValue {
-  selected: boolean
+  selected: boolean | null
   selectedText: string
   unselectedText: string
 }
@@ -77,8 +80,28 @@ export interface ValidationError {
 }
 
 export interface Unit {
+  unitId: string
+  unitName: string
   address: string
   zipCode: string
   city: string
   phoneNumber: string
+  email: string
+}
+
+export interface Patient {
+  personId: string
+  firstName: string
+  lastName: string
+  fullName: string
+  coordinationNumber: boolean
+  testIndicated: boolean
+  protectedPerson: boolean
+  deceased: boolean
+}
+
+export interface Staff {
+  personId: string
+  fullName: string
+  prescriptionCode: string
 }
