@@ -10,11 +10,12 @@ import {
   getIsShowSpinner,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
-import { Box, CircularProgress, Backdrop } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import grey from '@material-ui/core/colors/grey'
 import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
 import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
+import { Backdrop } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,31 +48,23 @@ const Certificate: React.FC = () => {
   const certificateSigned = useSelector(getIsCertificateSigned())
   const classes = useStyles()
 
-  if (showSpinner)
-    return (
-      <Backdrop open={showSpinner}>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <CircularProgress />
-          <h1>{spinnerText}</h1>
-        </Box>
-      </Backdrop>
-    )
-
   return (
-    <Box id="questions-container" className={classes.root}>
-      {certificateStructure &&
-        certificateStructure.map((data) => {
-          if (data.component === 'category') {
-            return <Category key={data.id} id={data.id} />
-          } else {
-            return <Question key={data.id} id={data.id} />
-          }
-        })}
+    <Backdrop open={showSpinner} spinnerText={spinnerText}>
+      <Box id="questions-container" className={classes.root}>
+        {certificateStructure &&
+          certificateStructure.map((data) => {
+            if (data.component === 'category') {
+              return <Category key={data.id} id={data.id} />
+            } else {
+              return <Question key={data.id} id={data.id} />
+            }
+          })}
 
-      {certificateSigned ? <UvCareUnitAddress></UvCareUnitAddress> : <UeCareUnitAddress></UeCareUnitAddress>}
-      <CertificateValidation />
-      <CertificateFooter />
-    </Box>
+        {certificateSigned ? <UvCareUnitAddress></UvCareUnitAddress> : <UeCareUnitAddress></UeCareUnitAddress>}
+        <CertificateValidation />
+        <CertificateFooter />
+      </Box>
+    </Backdrop>
   )
 }
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from './UeRadio'
 import UeTextArea from './UeTextArea'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Collapse } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { UvText, CertificateDataConfig, CertificateDataElement } from '@frontend/common'
@@ -11,6 +11,7 @@ import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
 import QuestionWrapper from './QuestionWrapper'
 import ArrowUp from './utils/ArrowUp'
+import { Expandable } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -32,19 +33,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#da4453',
     fontSize: '1.5rem',
   },
-  arrowUp: {
-    width: '0',
-    height: '0',
-    content: ' ',
-    left: '35px',
-    marginLeft: '35px',
-    borderWidth: '10px',
-    borderHeight: '10px',
-    borderLeft: '10px solid transparent',
-    borderRight: '10px solid transparent',
-    borderBottom: '10px solid',
-    borderBottomColor: grey[300],
-  },
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
   },
@@ -64,22 +52,15 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
-  const [mounted, setMounted] = useState(question.visible)
   const classes = useStyles()
 
-  useEffect(() => {
-    setMounted(question.visible)
-  }, [question.visible])
-
-  if (!question || (!question.visible && !question.readOnly)) return null
-
   return (
-    <Collapse className={`questionWrapper`} in={mounted} timeout={500} exit={true}>
+    <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
         {getQuestionComponent(question.config, question.mandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question)}
       </QuestionWrapper>
-    </Collapse>
+    </Expandable>
   )
 
   function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean) {

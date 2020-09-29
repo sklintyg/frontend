@@ -8,3 +8,5 @@ export { default as QuestionValidationTexts } from './Validation/QuestionValidat
 export { default as TextArea } from './Inputs/TextArea'
 export { default as RadioButton } from './Inputs/RadioButton'
 export { default as Logo } from './AppHeader/Logo'
+export { default as Backdrop } from './utils/Backdrop'
+export { default as Expandable } from './utils/Expandable'
