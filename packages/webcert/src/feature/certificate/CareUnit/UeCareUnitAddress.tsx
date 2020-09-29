@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Typography, Paper, TextField, Grid } from '@material-ui/core'
+import React, { useRef, useState } from 'react'
+import { Typography, TextField, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CategoryHeader from '../CategoryHeader'
 import { Unit } from '@frontend/common'
