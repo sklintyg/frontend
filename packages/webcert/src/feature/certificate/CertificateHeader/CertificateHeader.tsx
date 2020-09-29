@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Container, createStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
+import { Box, Container, createStyles, Link, Paper, Theme, Typography, useTheme } from '@material-ui/core'
 import {
   getCertificateMetaData,
   getIsShowSpinner,
@@ -13,6 +13,7 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
+import { ButtonWithConfirmModal } from '@frontend/common/src'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
@@ -113,14 +114,17 @@ export const CertificateHeader: React.FC = (props) => {
                 <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
                   Skriv ut
                 </Button>
-                <Button
-                  variant={'contained'}
+                <ButtonWithConfirmModal
+                  buttonText="Radera"
+                  buttonVariant="contained"
                   startIcon={<DeleteIcon />}
-                  onClick={() => {
+                  modalTitle="Radera utkast"
+                  onConfirm={() => {
                     dispatch(deleteCertificate(certificateMetadata.certificateId))
-                  }}>
-                  Radera
-                </Button>
+                  }}
+                  modalContent={<Typography>När du raderar utkastet tas det bort från webcert</Typography>}
+                  confirmButtonText="Radera"
+                  declineButtonText="Avbryt"></ButtonWithConfirmModal>
               </Box>
             ) : (
               <Box>
