@@ -7,6 +7,7 @@ import {
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
   deleteCertificate,
+  deleteCertificateCompleted,
   deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
@@ -30,6 +31,7 @@ import {
   signCertificateError,
   signCertificateSuccess,
   updateCertificate,
+  updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
   updateCertificateDataElement,
   updateCertificateStatus,
@@ -125,11 +127,13 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!getCertificateSuccess.match(action)) {
+  if (!deleteCertificateSuccess.match(action)) {
     return
   }
 
+  dispatch(updateCertificateAsDeleted())
   dispatch(hideSpinner())
+  dispatch(deleteCertificateCompleted)
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
