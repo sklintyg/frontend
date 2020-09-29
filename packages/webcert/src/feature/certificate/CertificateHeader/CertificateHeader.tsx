@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Container, createStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
 import {
   getCertificateMetaData,
@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
+import { deleteCertificate } from '../../../store/certificate/certificateActions'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,7 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
   const theme = useTheme()
+  const dispatch = useDispatch()
 
   const classes = useStyles()
 
@@ -109,7 +111,12 @@ export const CertificateHeader: React.FC = (props) => {
                 <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
                   Skriv ut
                 </Button>
-                <Button variant={'contained'} startIcon={<DeleteIcon />}>
+                <Button
+                  variant={'contained'}
+                  startIcon={<DeleteIcon />}
+                  onClick={() => {
+                    dispatch(deleteCertificate(certificateMetadata.certificateId))
+                  }}>
                   Radera
                 </Button>
               </Box>

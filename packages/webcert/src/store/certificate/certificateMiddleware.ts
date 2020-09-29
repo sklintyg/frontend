@@ -6,6 +6,10 @@ import {
   autoSaveCertificateError,
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
+  deleteCertificate,
+  deleteCertificateError,
+  deleteCertificateStarted,
+  deleteCertificateSuccess,
   getCertificate,
   getCertificateCompleted,
   getCertificateError,
@@ -74,9 +78,6 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Midd
     apiCallBegan({
       url: '/api/certificate/' + action.payload,
       method: 'GET',
-      data: {
-        id: action.payload,
-      },
       onStart: getCertificateStarted,
       onSuccess: getCertificateSuccess,
       onError: getCertificateError,
@@ -97,6 +98,38 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
   if (action.payload.metadata.certificateStatus === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
+}
+
+const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!deleteCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Laddar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: `/api/certificate/${action.payload}/${certificate.metadata.version}`,
+      method: 'DELETE',
+      onStart: deleteCertificateStarted,
+      onSuccess: deleteCertificateSuccess,
+      onError: deleteCertificateError,
+    })
+  )
+}
+
+const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -327,4 +360,6 @@ export const certificateMiddleware = [
   handleAutoSaveCertificate,
   handleAutoSaveCertificateSuccess,
   handleUpdateCertificateUnit,
+  handleDeleteCertificate,
+  handleDeleteCertificateSuccess,
 ]

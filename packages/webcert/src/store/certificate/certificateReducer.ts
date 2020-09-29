@@ -13,6 +13,7 @@ import {
   showSpinner,
   showValidationErrors,
   updateCertificate,
+  updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
   updateCertificateStatus,
   updateValidationErrors,
@@ -28,6 +29,7 @@ interface CertificateState {
   validationInProgress: boolean
   showValidationErrors: boolean
   isValidForSigning: boolean
+  isDeleted: boolean
 }
 
 const initialState: CertificateState = {
@@ -36,6 +38,7 @@ const initialState: CertificateState = {
   validationInProgress: false,
   showValidationErrors: false,
   isValidForSigning: false,
+  isDeleted: false,
 }
 
 const certificateReducer = createReducer(initialState, (builder) =>
@@ -164,6 +167,10 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload].mandatory = false
+    })
+    .addCase(updateCertificateAsDeleted, (state) => {
+      state.certificate = undefined
+      state.isDeleted = true
     })
 )
 
