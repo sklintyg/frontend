@@ -16,7 +16,7 @@ import { CertificateStatus } from '@frontend/common'
 import { ButtonWithConfirmModal } from '@frontend/common/src'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { deleteCertificate } from '../../../store/certificate/certificateActions'
+import { deleteCertificate, printCertificate } from '../../../store/certificate/certificateActions'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -111,7 +111,11 @@ export const CertificateHeader: React.FC = (props) => {
           <Box display="flex" className={classes.buttonWrapper}>
             {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED ? (
               <Box>
-                <Button variant={'contained'} color={'primary'} startIcon={<PrintIcon />}>
+                <Button
+                  variant={'contained'}
+                  color={'primary'}
+                  startIcon={<PrintIcon />}
+                  onClick={() => dispatch(printCertificate(certificateMetadata))}>
                   Skriv ut
                 </Button>
                 <ButtonWithConfirmModal
@@ -128,7 +132,11 @@ export const CertificateHeader: React.FC = (props) => {
               </Box>
             ) : (
               <Box>
-                <Button variant="contained" color="primary" startIcon={<PrintIcon />}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<PrintIcon />}
+                  onClick={() => dispatch(printCertificate(certificateMetadata))}>
                   Skriv ut
                 </Button>
                 <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>

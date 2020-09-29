@@ -1,8 +1,10 @@
 {
   "metadata": {
-    "certificateCode": "af00213",
     "certificateId": "bed26d3e-7112-4f08-98bf-01be40e26c80",
+    "certificateType": "af00213",
+    "certificateTypeVersion": "1.0",
     "certificateName": "Arbetsförmedlingens medicinska utlåtande",
+    "certificateDescription": "Detta är beskrivningen...",
     "certificateStatus": "UNSIGNED",
     "unit": {
       "unitId": "TSTNMT2321000156-1077",

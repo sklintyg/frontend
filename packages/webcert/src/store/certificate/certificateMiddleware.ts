@@ -20,6 +20,7 @@ import {
   hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
+  printCertificate,
   setCertificateDataElement,
   setCertificateUnitData,
   showCertificateDataElement,
@@ -273,6 +274,17 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(validateCertificateCompleted())
 }
 
+const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!printCertificate.match(action)) {
+    return
+  }
+
+  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.certificateType}/${action.payload.certificateId}/pdf`
+  window.open(printUrl, '_self')
+}
+
 const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
@@ -366,4 +378,5 @@ export const certificateMiddleware = [
   handleUpdateCertificateUnit,
   handleDeleteCertificate,
   handleDeleteCertificateSuccess,
+  handlePrintCertificate,
 ]
