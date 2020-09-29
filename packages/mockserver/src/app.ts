@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express'
 import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
 import { Certificate, CertificateBooleanValue, CertificateStatus, CertificateTextValue, ValidationError } from '@frontend/common'
 import bodyParser from 'body-parser'
+import * as fs from 'fs'
 import _ from 'lodash'
 
 const app: Application = express()
@@ -27,6 +28,20 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
     certificateClone.metadata.certificateId = req.params.id
     repository[req.params.id] = certificateClone
     res.json(certificateClone)
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
+app.get('/moduleapi/intyg/:type/:id/pdf', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /moduleapi/intyg/${req.params.type}/${req.params.id}/pdf`)
+  if (repository[req.params.id]) {
+    const file = fs.createReadStream('./src/bootstrap/af_medicinskt_utlatande_20_09_29_1411.pdf')
+    const stat = fs.statSync('./src/bootstrap/af_medicinskt_utlatande_20_09_29_1411.pdf')
+    res.setHeader('Content-Length', stat.size)
+    res.setHeader('Content-Type', 'application/pdf')
+    res.setHeader('Content-Disposition', 'attachment; filename=af_medicinskt_utlatande_20_09_29_1411.pdf')
+    file.pipe(res)
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
