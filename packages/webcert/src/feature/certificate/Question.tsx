@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from './UeRadio'
 import UeTextArea from './UeTextArea'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Paper, Collapse } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { UvText, CertificateDataConfig, CertificateDataElement } from '@frontend/common'
@@ -32,19 +32,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     color: '#da4453',
     fontSize: '1.5rem',
-  },
-  arrowUp: {
-    width: '0',
-    height: '0',
-    content: ' ',
-    left: '35px',
-    marginLeft: '35px',
-    borderWidth: '10px',
-    borderHeight: '10px',
-    borderLeft: '10px solid transparent',
-    borderRight: '10px solid transparent',
-    borderBottom: '10px solid',
-    borderBottomColor: grey[300],
   },
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
