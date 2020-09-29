@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Container, createStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
+import { Box, Container, createStyles, Link, Paper, Theme, Typography, useTheme } from '@material-ui/core'
 import {
   getCertificateMetaData,
   getIsShowSpinner,
@@ -13,6 +13,7 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
+import { ButtonWithConfirmModal } from '@frontend/common/src'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
 import { deleteCertificate, printCertificate } from '../../../store/certificate/certificateActions'
@@ -61,7 +62,6 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
-  const theme = useTheme()
   const dispatch = useDispatch()
 
   const classes = useStyles()
@@ -92,7 +92,10 @@ export const CertificateHeader: React.FC = (props) => {
             )}
           </Box>
           {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
-            <Typography variant="body2">Utkastet skapades 2020-08-25 14:37</Typography>
+            //TODO: add certificate history link below with modal containing the history
+            <Typography variant="body2">
+              <Link href="#">Visa historik</Link>
+            </Typography>
           )}
         </Box>
         <Divider />
@@ -102,7 +105,7 @@ export const CertificateHeader: React.FC = (props) => {
               {certificateMetadata.certificateName}
             </Typography>
             <Typography variant="h3" className={classes.patientTitle}>
-              Tolvan Tolvansson - 19121212-1212
+              {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
             </Typography>
           </Box>
           <Box display="flex" className={classes.buttonWrapper}>
@@ -115,12 +118,17 @@ export const CertificateHeader: React.FC = (props) => {
                   onClick={() => dispatch(printCertificate(certificateMetadata))}>
                   Skriv ut
                 </Button>
-                <Button
-                  variant={'contained'}
+                <ButtonWithConfirmModal
+                  buttonText="Radera"
+                  buttonVariant="contained"
                   startIcon={<DeleteIcon />}
-                  onClick={() => dispatch(deleteCertificate(certificateMetadata.certificateId))}>
-                  Radera
-                </Button>
+                  modalTitle="Radera utkast"
+                  onConfirm={() => {
+                    dispatch(deleteCertificate(certificateMetadata.certificateId))
+                  }}
+                  modalContent={<Typography>När du raderar utkastet tas det bort från webcert</Typography>}
+                  confirmButtonText="Radera"
+                  declineButtonText="Avbryt"></ButtonWithConfirmModal>
               </Box>
             ) : (
               <Box>
