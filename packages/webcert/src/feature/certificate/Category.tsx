@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.h6.fontSize,
   },
 }))
+import { Expandable } from '@frontend/common/src'
 
 interface CategoryProps {
   id: string
@@ -29,17 +30,9 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id))
-  const classes = useStyles()
-  const [mounted, setMounted] = useState(category.visible)
-
-  useEffect(() => {
-    setMounted(category.visible)
-  }, [category.visible])
-
-  if (!category || (!category.visible && !category.readOnly)) return null
 
   return (
-    <Collapse in={mounted} timeout={500} className={`categoryWrapper`}>
+    <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
         {category.config.description && (
           <Accordion>
@@ -53,7 +46,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
         )}
         {!category.config.description && <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>}
       </CategoryHeader>
-    </Collapse>
+    </Expandable>
   )
 }
 

@@ -11,6 +11,7 @@ import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
 import QuestionWrapper from './QuestionWrapper'
 import ArrowUp from './utils/ArrowUp'
+import { Expandable } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -64,22 +65,15 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
-  const [mounted, setMounted] = useState(question.visible)
   const classes = useStyles()
 
-  useEffect(() => {
-    setMounted(question.visible)
-  }, [question.visible])
-
-  if (!question || (!question.visible && !question.readOnly)) return null
-
   return (
-    <Collapse className={`questionWrapper`} in={mounted} timeout={500} exit={true}>
+    <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
         {getQuestionComponent(question.config, question.mandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question)}
       </QuestionWrapper>
-    </Collapse>
+    </Expandable>
   )
 
   function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean) {
