@@ -3,7 +3,32 @@
     "certificateCode": "af00213",
     "certificateId": "bed26d3e-7112-4f08-98bf-01be40e26c80",
     "certificateName": "Arbetsförmedlingens medicinska utlåtande",
-    "status": "UNSIGNED"
+    "certificateStatus": "UNSIGNED",
+    "unit": {
+      "unitId": "TSTNMT2321000156-1077",
+      "unitName": "NMT vg3 ve1",
+      "address": "NMT gata 3",
+      "zipCode": "12345",
+      "city": "Testhult",
+      "phoneNumber": "0101112131416",
+      "email": "enhet3@webcert.invalid.se"
+    },
+    "patient": {
+      "personId": "191212121212",
+      "firstName": "Tolvan",
+      "lastName": "Tolvansson",
+      "fullName": "Tolvan Tolvansson",
+      "coordinationNumber": false,
+      "testIndicated": false,
+      "protectedPerson": false,
+      "deceased": false
+    },
+    "issuedBy": {
+      "personId": "TS",
+      "fullName": "Arnold Johansson",
+      "prescriptionCode": "0000000"
+    },
+    "version": 0
   },
   "data": {
     "funktionsnedsattning": {

@@ -32,26 +32,35 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
   }
 })
 
-app.post('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
+app.put('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}`)
   if (repository[req.params.id]) {
     repository[req.params.id] = req.body
-    res.json(repository[req.params.id])
+    repository[req.params.id].metadata.version += 1
+    res.json(repository[req.params.id].metadata.version)
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
 })
 
+app.post('/fake', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /fake`)
+  res.status(200).send()
+})
+
 app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/sign`)
   if (repository[req.params.id]) {
-    repository[req.params.id].metadata.status = CertificateStatus.SIGNED
+    repository[req.params.id].metadata.certificateStatus = CertificateStatus.SIGNED
 
     for (const questionId in repository[req.params.id].data) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       // TODO: Fix the test data so the Certificate type can be used correctly.
       repository[req.params.id].data[questionId].readOnly = true
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      repository[req.params.id].data[questionId].visible = true
     }
 
     res.json(repository[req.params.id])
@@ -66,7 +75,7 @@ app.post('/api/certificate/:id/validate', (req: Request, res: Response, next: Ne
   res.json(validationErrors)
 })
 
-app.listen(5000, () => console.log('Server running'))
+app.listen(9088, () => console.log('Server running'))
 
 function validate(certificate: Certificate): ValidationError[] {
   const validationError: ValidationError[] = []

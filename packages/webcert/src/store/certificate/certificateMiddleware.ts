@@ -22,6 +22,7 @@ import {
   showSpinner,
   showValidationErrors,
   signCertificate,
+  signCertificateCompleted,
   signCertificateError,
   signCertificateSuccess,
   updateCertificate,
@@ -47,8 +48,9 @@ import {
   CertificateStatus,
   CertificateTextValue,
 } from '@frontend/common'
+import { loginUser } from '../user/userActions'
 
-const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getCertificate.match(action)) {
@@ -56,6 +58,17 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (
   }
 
   dispatch(showSpinner('Laddar...'))
+
+  // TODO: Replace this hack with implementation to handle user session.
+  if (!getState().ui.uiUser.userLoggedIn) {
+    dispatch(
+      loginUser(function() {
+        const certificateId = action.payload
+        return getCertificate(certificateId)
+      })
+    )
+    return
+  }
 
   dispatch(
     apiCallBegan({
@@ -81,7 +94,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
   dispatch(updateCertificate(action.payload))
   dispatch(getCertificateCompleted())
   dispatch(hideSpinner())
-  if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
+  if (action.payload.metadata.certificateStatus === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
 }
@@ -111,7 +124,7 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
       method: 'POST',
-      data: { id: certificate.metadata.certificateId },
+      data: certificate,
       onSuccess: signCertificateSuccess,
       onError: signCertificateError,
     })
@@ -126,9 +139,9 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   }
 
   dispatch(hideValidationErrors())
-  dispatch(updateCertificateStatus(CertificateStatus.SIGNED))
-  dispatch(updateCertificateAsReadOnly())
+  dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
+  dispatch(signCertificateCompleted())
 }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
@@ -170,11 +183,11 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
   }
 
   const certificate = getState().ui.uiCertificate.certificate
-
+  console.log(certificate)
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.certificateId,
-      method: 'POST',
+      method: 'PUT',
       data: certificate,
       onStart: autoSaveCertificateStarted,
       onSuccess: autoSaveCertificateSuccess,
@@ -190,7 +203,7 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
     return
   }
 
-  dispatch(autoSaveCertificateCompleted(action.payload))
+  dispatch(autoSaveCertificateCompleted())
 }
 
 const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

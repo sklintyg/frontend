@@ -3,6 +3,7 @@ import reducer from './reducers'
 import { useDispatch } from 'react-redux'
 import apiMiddleware from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
+import { userMiddleware } from './user/userMiddleware'
 
 const store = configureStore({
   reducer,
@@ -10,7 +11,8 @@ const store = configureStore({
     getDefaultMiddleware().prepend(
       // correctly typed middlewares can just be used
       apiMiddleware,
-      ...certificateMiddleware
+      ...certificateMiddleware,
+      ...userMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<

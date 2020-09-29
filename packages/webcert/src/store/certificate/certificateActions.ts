@@ -86,9 +86,9 @@ export const autoSaveCertificate = createAction<Certificate>(AUTO_SAVE_CERTIFICA
 
 export const autoSaveCertificateStarted = createAction(AUTO_SAVE_STARTED)
 
-export const autoSaveCertificateCompleted = createAction<Certificate>(AUTO_SAVE_COMPLETED)
+export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
 
-export const autoSaveCertificateSuccess = createAction<Certificate>(AUTO_SAVE_SUCCESS)
+export const autoSaveCertificateSuccess = createAction<number>(AUTO_SAVE_SUCCESS)
 
 export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
 
