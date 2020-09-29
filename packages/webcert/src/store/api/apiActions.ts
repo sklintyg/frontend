@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit'
 export interface ApiCall {
   url: string
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
-  data: any
+  data?: any
   onStart?: Function
   onSuccess?: Function
   onError?: Function

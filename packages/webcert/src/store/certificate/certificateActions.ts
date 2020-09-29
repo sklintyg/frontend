@@ -9,6 +9,12 @@ const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
 const GET_CERTIFICATE_ERROR = `${CERTIFICATE} Get certificate error`
 const GET_CERTIFICATE_COMPLETED = `${CERTIFICATE} Get certificate completed`
 
+const DELETE_CERTIFICATE = `${CERTIFICATE} Delete certificate`
+const DELETE_CERTIFICATE_STARTED = `${CERTIFICATE} Delete certificate started`
+const DELETE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Delete certificate success`
+const DELETE_CERTIFICATE_ERROR = `${CERTIFICATE} Delete certificate error`
+const DELETE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Delete certificate completed`
+
 const SIGN_CERTIFICATE = `${CERTIFICATE} Sign certificate`
 const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
@@ -33,6 +39,7 @@ const VALIDATE_CERTIFICATE_IN_FRONTEND = `${CERTIFICATE} Validate in frontend`
 const VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED = `${CERTIFICATE} Validate in frontend completed`
 
 const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
+const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
@@ -61,6 +68,16 @@ export const getCertificateSuccess = createAction<Certificate>(GET_CERTIFICATE_S
 export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
+
+export const deleteCertificate = createAction<string>(DELETE_CERTIFICATE)
+
+export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
+
+export const deleteCertificateSuccess = createAction(DELETE_CERTIFICATE_SUCCESS)
+
+export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
+
+export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLETED)
 
 export const signCertificate = createAction(SIGN_CERTIFICATE)
 
@@ -97,6 +114,8 @@ export const validateCertificateInFrontEnd = createAction<CertificateDataElement
 export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
 
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
+
+export const updateCertificateAsDeleted = createAction(UPDATE_CERTIFICATE_AS_DELETED)
 
 export const updateCertificateAsReadOnly = createAction(UPDATE_CERTIFICATE_AS_READONLY)
 

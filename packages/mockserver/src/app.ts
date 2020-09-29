@@ -32,8 +32,18 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
   }
 })
 
+app.delete('/api/certificate/:id/:version', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} DELETE /api/certificate/${req.params.id}/${req.params.version}`)
+  if (repository[req.params.id]) {
+    delete repository[req.params.id]
+    res.status(200).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
 app.put('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
-  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}`)
+  console.log(`###################################### ${new Date()} PUT /api/certificate/${req.params.id}`)
   if (repository[req.params.id]) {
     repository[req.params.id] = req.body
     repository[req.params.id].metadata.version += 1
