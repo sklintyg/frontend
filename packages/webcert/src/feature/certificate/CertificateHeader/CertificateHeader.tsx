@@ -61,7 +61,6 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
-  const theme = useTheme()
   const dispatch = useDispatch()
 
   const classes = useStyles()
@@ -92,7 +91,10 @@ export const CertificateHeader: React.FC = (props) => {
             )}
           </Box>
           {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
-            <Typography variant="body2">Utkastet skapades 2020-08-25 14:37</Typography>
+            //TODO: add certificate history link below with modal containing the history
+            <Typography variant="body2">
+              <Link href="#">Visa historik</Link>
+            </Typography>
           )}
         </Box>
         <Divider />
@@ -102,7 +104,7 @@ export const CertificateHeader: React.FC = (props) => {
               {certificateMetadata.certificateName}
             </Typography>
             <Typography variant="h3" className={classes.patientTitle}>
-              Tolvan Tolvansson - 19121212-1212
+              {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
             </Typography>
           </Box>
           <Box display="flex" className={classes.buttonWrapper}>
