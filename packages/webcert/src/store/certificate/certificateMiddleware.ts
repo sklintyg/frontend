@@ -133,7 +133,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
 
   dispatch(updateCertificateAsDeleted())
   dispatch(hideSpinner())
-  dispatch(deleteCertificateCompleted)
+  dispatch(deleteCertificateCompleted())
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
