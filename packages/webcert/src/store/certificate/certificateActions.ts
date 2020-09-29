@@ -1,5 +1,6 @@
 import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
+import { CertificateMetadata } from '@frontend/common/src'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -58,6 +59,8 @@ const HIDE_CERTIFICATE_LOADING_SPINNER = `${CERTIFICATE} Hide spinner`
 
 const SHOW_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Show validation errors`
 const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation errors`
+
+const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
@@ -146,3 +149,5 @@ export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERR
 export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
+
+export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)

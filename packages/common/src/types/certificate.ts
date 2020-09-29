@@ -10,10 +10,13 @@ export enum CertificateStatus {
 }
 
 export interface CertificateMetadata {
-  certificateCode: string
   certificateId: string
   certificateName: string
+  certificateDescription: string
+  certificateType: string
+  certificateTypeVersion: string
   certificateStatus: CertificateStatus
+  testCertificate: boolean
   unit: Unit
   patient: Patient
   issuedBy: Staff
