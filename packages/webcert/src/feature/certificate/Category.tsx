@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { getQuestion } from '../../store/certificate/certificateSelectors'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
-import { Expandable } from '@frontend/common/src'
+import { Expandable } from '@frontend/common'
 
 interface CategoryProps {
   id: string

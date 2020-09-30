@@ -20,7 +20,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { CertificateBooleanValue, CertificateDataValueType, CertificateTextValue } from '@frontend/common/src'
+import { CertificateBooleanValue, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate

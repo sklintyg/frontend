@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { clearRedirect, loginUserSuccess, updateRedirect, updateUser } from './userActions'
-import { User } from '@frontend/common/src'
+import { User } from '@frontend/common'
 
 interface UserState {
   userLoggedIn: boolean

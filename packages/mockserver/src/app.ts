@@ -94,6 +94,16 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
   }
 })
 
+app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/revoke`)
+  if (repository[req.params.id]) {
+    repository[req.params.id].metadata.certificateStatus = CertificateStatus.INVALIDATED
+    res.status(200).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
 app.post('/api/certificate/:id/validate', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/validate`)
   const validationErrors = validate(req.body as Certificate)

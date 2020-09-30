@@ -13,10 +13,10 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
-import { ButtonWithConfirmModal } from '@frontend/common/src'
+import { ButtonWithConfirmModal } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { deleteCertificate, printCertificate } from '../../../store/certificate/certificateActions'
+import { deleteCertificate, printCertificate, revokeCertificate } from '../../../store/certificate/certificateActions'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -131,21 +131,26 @@ export const CertificateHeader: React.FC = (props) => {
                   declineButtonText="Avbryt"></ButtonWithConfirmModal>
               </Box>
             ) : (
-              <Box>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<PrintIcon />}
-                  onClick={() => dispatch(printCertificate(certificateMetadata))}>
-                  Skriv ut
-                </Button>
-                <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>
-                  Ersätt
-                </Button>
-                <Button variant="contained" startIcon={<DeleteIcon />}>
-                  Makulera
-                </Button>
-              </Box>
+              certificateMetadata.certificateStatus === CertificateStatus.SIGNED && (
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<PrintIcon />}
+                    onClick={() => dispatch(printCertificate(certificateMetadata))}>
+                    Skriv ut
+                  </Button>
+                  <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>
+                    Ersätt
+                  </Button>
+                  <Button
+                    variant="contained"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => dispatch(revokeCertificate({ reason: 'ANNAT_ALLVARLIGT_FEL', message: 'Annat allvarligt fel test' }))}>
+                    Makulera
+                  </Button>
+                </Box>
+              )
             )}
           </Box>
         </Box>
