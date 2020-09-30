@@ -21,7 +21,10 @@ export const getIsCertificateSigned = () => (state: RootState): boolean => {
     return false
   }
 
-  return state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.SIGNED
+  return (
+    state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.SIGNED ||
+    state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.INVALIDATED
+  )
 }
 
 export const getUnit = () => (state: RootState) => {

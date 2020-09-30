@@ -15,7 +15,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import grey from '@material-ui/core/colors/grey'
 import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
 import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
-import { Backdrop } from '@frontend/common/src'
+import { Backdrop } from '@frontend/common'
 
 const useStyles = makeStyles((theme) => ({
   root: {

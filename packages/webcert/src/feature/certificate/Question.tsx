@@ -11,7 +11,7 @@ import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
 import QuestionWrapper from './QuestionWrapper'
 import ArrowUp from './utils/ArrowUp'
-import { Expandable } from '@frontend/common/src'
+import { Expandable } from '@frontend/common'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {

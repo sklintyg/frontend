@@ -1,5 +1,5 @@
 import { AnyAction, createAction } from '@reduxjs/toolkit'
-import { User } from '@frontend/common/src'
+import { User } from '@frontend/common'
 
 export const loginUser = createAction<() => AnyAction>('[User] Login user')
 export const loginUserStarted = createAction('[User] Login user started')

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
-import { QuestionValidationTexts, TextArea } from '@frontend/common/src'
+import { QuestionValidationTexts, TextArea } from '@frontend/common'
 
 const useStyles = makeStyles((theme) => ({
   root: {

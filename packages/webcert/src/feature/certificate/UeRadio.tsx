@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../store/store'
 import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType } from '@frontend/common'
 import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
-import { QuestionValidationTexts, RadioButton } from '@frontend/common/src'
+import { QuestionValidationTexts, RadioButton } from '@frontend/common'
 
 interface UeRadioProps {
   question: CertificateDataElement

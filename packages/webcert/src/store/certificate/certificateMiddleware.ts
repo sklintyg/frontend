@@ -21,6 +21,10 @@ import {
   hideSpinner,
   hideValidationErrors,
   printCertificate,
+  revokeCertificate,
+  revokeCertificateCompleted,
+  revokeCertificateError,
+  revokeCertificateSuccess,
   setCertificateDataElement,
   setCertificateUnitData,
   showCertificateDataElement,
@@ -180,6 +184,40 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
   dispatch(signCertificateCompleted())
+}
+
+const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!revokeCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Makulerar...'))
+
+  const certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.certificateId + '/revoke',
+      method: 'POST',
+      data: action.payload,
+      onSuccess: revokeCertificateSuccess,
+      onError: revokeCertificateError,
+    })
+  )
+}
+
+const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!revokeCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateCertificateStatus(CertificateStatus.INVALIDATED))
+  dispatch(hideSpinner())
+  dispatch(revokeCertificateCompleted())
 }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
@@ -379,4 +417,6 @@ export const certificateMiddleware = [
   handleDeleteCertificate,
   handleDeleteCertificateSuccess,
   handlePrintCertificate,
+  handleRevokeCertificate,
+  handleRevokeCertificateSuccess,
 ]

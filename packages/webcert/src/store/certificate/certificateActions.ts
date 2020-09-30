@@ -1,6 +1,6 @@
 import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
-import { CertificateMetadata } from '@frontend/common/src'
+import { CertificateMetadata } from '@frontend/common'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -22,11 +22,18 @@ const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
 const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
 
+const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
+const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
+const REVOKE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Revoke certificate success`
+const REVOKE_CERTIFICATE_ERROR = `${CERTIFICATE} Revoke certificate error`
+const REVOKE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Revoke certificate completed`
+
 const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate certificate`
 const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validate certificate started`
 const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validate certificate completed`
 const VALIDATE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Validate certificate success`
 const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validate certificate error`
+
 const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
 const UPDATE_CERTIFICATE_UNIT = `${CERTIFICATE} Update certificate unit`
 
@@ -91,6 +98,21 @@ export const signCertificateSuccess = createAction<Certificate>(SIGN_CERTIFICATE
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
 export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
+
+export interface RevokeCertificateReason {
+  reason: string
+  message: string
+}
+
+export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CERTIFICATE)
+
+export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
+
+export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFICATE_SUCCESS)
+
+export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
+
+export const revokeCertificateCompleted = createAction(REVOKE_CERTIFICATE_COMPLETED)
 
 export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
 

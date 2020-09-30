@@ -9,7 +9,7 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel'
 import { AppHeader } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
-import { AppHeaderAbout } from '@frontend/common/src'
+import { AppHeaderAbout } from '@frontend/common'
 
 interface CertificatePageProps {
   themeToggler: JSX.Element
