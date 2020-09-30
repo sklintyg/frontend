@@ -40,7 +40,7 @@ interface Props {
   confirmButtonText: string
   confirmButtonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
   confirmButtonDisabled?: boolean
-  declineButtonText: string
+  declineButtonText?: string
   modalContent: React.ReactNode
 }
 
@@ -97,7 +97,7 @@ const ButtonWithConfirmModal = (props: Props) => {
             {props.confirmButtonText}
           </Button>
           <Button onClick={handleClose} variant="contained" color="default">
-            {props.declineButtonText}
+            {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
           </Button>
         </DialogActions>
       </Dialog>

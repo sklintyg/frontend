@@ -4,9 +4,9 @@ import useTheme from '@material-ui/core/styles/useTheme'
 
 interface RadioButtonProps {
   label: string
-  name: string
-  value: boolean
-  checked: boolean
+  name?: string
+  value?: boolean | string
+  checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   hasValidationError?: boolean
   additionalStyles?: string
