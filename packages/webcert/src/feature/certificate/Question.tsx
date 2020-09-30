@@ -54,6 +54,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const classes = useStyles()
 
+  // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
+  if (!question || (!question.visible && !question.readOnly)) return null
+
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
