@@ -7,16 +7,14 @@ import {
   getIsValidating,
   getIsValidForSigning,
 } from '../../../store/certificate/certificateSelectors'
-import PrintIcon from '@material-ui/icons/Print'
-import DeleteIcon from '@material-ui/icons/Delete'
-import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
 import { CertificateStatus } from '@frontend/common'
-import { ButtonWithConfirmModal } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { deleteCertificate, printCertificate, revokeCertificate } from '../../../store/certificate/certificateActions'
+import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
+import DeleteCertificateButton from '../Buttons/DeleteCertificateButton'
+import PrintCertificateButton from '../Buttons/PrintCertificateButton'
+import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -111,44 +109,15 @@ export const CertificateHeader: React.FC = (props) => {
           <Box display="flex" className={classes.buttonWrapper}>
             {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED ? (
               <Box>
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  startIcon={<PrintIcon />}
-                  onClick={() => dispatch(printCertificate(certificateMetadata))}>
-                  Skriv ut
-                </Button>
-                <ButtonWithConfirmModal
-                  buttonText="Radera"
-                  buttonVariant="contained"
-                  startIcon={<DeleteIcon />}
-                  modalTitle="Radera utkast"
-                  onConfirm={() => {
-                    dispatch(deleteCertificate(certificateMetadata.certificateId))
-                  }}
-                  modalContent={<Typography>När du raderar utkastet tas det bort från webcert</Typography>}
-                  confirmButtonText="Radera"
-                  declineButtonText="Avbryt"></ButtonWithConfirmModal>
+                <PrintCertificateButton />
+                <DeleteCertificateButton />
               </Box>
             ) : (
               certificateMetadata.certificateStatus === CertificateStatus.SIGNED && (
                 <Box>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<PrintIcon />}
-                    onClick={() => dispatch(printCertificate(certificateMetadata))}>
-                    Skriv ut
-                  </Button>
-                  <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>
-                    Ersätt
-                  </Button>
-                  <Button
-                    variant="contained"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => dispatch(revokeCertificate({ reason: 'ANNAT_ALLVARLIGT_FEL', message: 'Annat allvarligt fel test' }))}>
-                    Makulera
-                  </Button>
+                  <PrintCertificateButton />
+                  <ReplaceCertificateButton />
+                  <RevokeCertificateButton />
                 </Box>
               )
             )}
