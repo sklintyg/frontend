@@ -6,6 +6,7 @@
     "certificateName": "Arbetsförmedlingens medicinska utlåtande",
     "certificateDescription": "Detta är beskrivningen...",
     "certificateStatus": "UNSIGNED",
+    "testCertificate": false,
     "unit": {
       "unitId": "TSTNMT2321000156-1077",
       "unitName": "NMT vg3 ve1",
@@ -45,8 +46,8 @@
         "component": "category"
       }
     },
-    "1": {
-      "id": "1",
+    "1.1": {
+      "id": "1.1",
       "parent": "funktionsnedsattning",
       "index": 1,
       "visible": true,
@@ -60,20 +61,18 @@
       },
       "value": {
         "type": "BOOLEAN",
-        "harFunktionsnedsattning": "EMPTY",
         "selected": null,
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
       "validation": {
-        "required": true,
-        "requiredProp": "harFunktionsnedsattning"
+        "required": true
       },
       "validationError": []
     },
-    "1.1": {
-      "id": "1.1",
-      "parent": "1",
+    "1.2": {
+      "id": "1.2",
+      "parent": "1.1",
       "index": 2,
       "visible": false,
       "readOnly": false,
@@ -112,8 +111,8 @@
         "hideExpression": "!harFunktionsnedsattning"
       }
     },
-    "2": {
-      "id": "2",
+    "2.1": {
+      "id": "2.1",
       "parent": "aktivitetsbegransning",
       "index": 4,
       "visible": false,
@@ -139,9 +138,9 @@
       },
       "validationError": []
     },
-    "2.1": {
-      "id": "2.1",
-      "parent": "2",
+    "2.2": {
+      "id": "2.2",
+      "parent": "2.1",
       "index": 5,
       "visible": false,
       "readOnly": false,
@@ -180,8 +179,8 @@
         "hideExpression": null
       }
     },
-    "3": {
-      "id": "3",
+    "3.1": {
+      "id": "3.1",
       "parent": "utredningBehandling",
       "index": 7,
       "visible": true,
@@ -195,20 +194,17 @@
       },
       "value": {
         "type": "BOOLEAN",
-        "harUtredningBehandling": "EMPTY",
-        "selected": null,
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
       "validation": {
-        "required": true,
-        "requiredProp": "harUtredningBehandling"
+        "required": true
       },
       "validationError": []
     },
-    "3.1": {
-      "id": "3.1",
-      "parent": "3",
+    "3.2": {
+      "id": "3.2",
+      "parent": "3.1",
       "index": 8,
       "visible": false,
       "readOnly": false,
@@ -221,13 +217,10 @@
       },
       "value": {
         "type": "TEXT",
-        "utredningBehandling": null,
-        "text": "",
         "limit": 50
       },
       "validation": {
         "required": true,
-        "requiredProp": "utredningBehandling",
         "hideExpression": "!harUtredningBehandling"
       },
       "validationError": []
@@ -247,8 +240,8 @@
         "hideExpression": null
       }
     },
-    "4": {
-      "id": "4",
+    "4.1": {
+      "id": "4.1",
       "parent": "arbetetsPaverkan",
       "index": 10,
       "visible": true,
@@ -273,9 +266,9 @@
       },
       "validationError": []
     },
-    "4.1": {
-      "id": "4.1",
-      "parent": "4",
+    "4.2": {
+      "id": "4.2",
+      "parent": "4.1",
       "index": 11,
       "visible": false,
       "readOnly": false,
@@ -315,8 +308,8 @@
         "hideExpression": null
       }
     },
-    "5": {
-      "id": "5",
+    "5.1": {
+      "id": "5.1",
       "parent": "ovrigt",
       "index": 13,
       "visible": true,

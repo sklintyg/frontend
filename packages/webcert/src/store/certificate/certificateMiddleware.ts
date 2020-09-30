@@ -1,4 +1,5 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { Redirect } from 'react-router-dom'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
   autoSaveCertificate,
@@ -21,9 +22,15 @@ import {
   hideSpinner,
   hideValidationErrors,
   printCertificate,
+  replaceCertificate,
+  replaceCertificateCompleted,
+  replaceCertificateError,
+  replaceCertificateStarted,
+  replaceCertificateSuccess,
   revokeCertificate,
   revokeCertificateCompleted,
   revokeCertificateError,
+  revokeCertificateStarted,
   revokeCertificateSuccess,
   setCertificateDataElement,
   setCertificateUnitData,
@@ -202,6 +209,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       url: '/api/certificate/' + certificate.metadata.certificateId + '/revoke',
       method: 'POST',
       data: action.payload,
+      onStart: revokeCertificateStarted,
       onSuccess: revokeCertificateSuccess,
       onError: revokeCertificateError,
     })
@@ -218,6 +226,48 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Midd
   dispatch(updateCertificateStatus(CertificateStatus.INVALIDATED))
   dispatch(hideSpinner())
   dispatch(revokeCertificateCompleted())
+}
+
+const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!replaceCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Ersätter...'))
+
+  const replaceCertificateSuccessWithHistory = (certificateId: string) => {
+    return replaceCertificateSuccess({ certificateId, history: action.payload })
+  }
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.certificateId + '/replace',
+      method: 'POST',
+      data: {
+        certificateType: certificate.metadata.certificateType,
+        patientId: certificate.metadata.patient.personId,
+      },
+      onStart: replaceCertificateStarted,
+      onSuccess: replaceCertificateSuccessWithHistory,
+      onError: replaceCertificateError,
+    })
+  )
+}
+
+const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!replaceCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  dispatch(replaceCertificateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
@@ -419,4 +469,6 @@ export const certificateMiddleware = [
   handlePrintCertificate,
   handleRevokeCertificate,
   handleRevokeCertificateSuccess,
+  handleReplaceCertificate,
+  handleReplaceCertificateSuccess,
 ]
