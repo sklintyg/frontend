@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   infoText: {
     marginLeft: theme.spacing(1),
+    fontSize: theme.typography.subtitle2.fontSize,
   },
 }))
 
