@@ -13,18 +13,18 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   infoWrapper: {
-    background: theme.palette.warning.light,
+    background: theme.palette.error.light,
     borderRadius: theme.shape.borderRadius,
     display: 'flex',
     padding: theme.spacing(1),
     alignItems: 'center',
-    color: theme.palette.warning.dark,
+    color: theme.palette.error.dark,
   },
   infoText: {
     marginLeft: theme.spacing(1),
   },
   link: {
-    color: theme.palette.warning.main,
+    color: theme.palette.error.main,
     fontSize: theme.typography.body1.fontSize,
     textDecoration: 'underline',
     cursor: 'pointer',

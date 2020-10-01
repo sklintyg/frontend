@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonProps> = (props) => {
       control={
         <Radio
           className={additionalStyles}
-          style={{ color: `${hasValidationError ? `${theme.palette.warning.main}` : ''}` }}
+          style={{ color: `${hasValidationError ? `${theme.palette.error.main}` : ''}` }}
           color="default"
           name={name}
           value={value}
