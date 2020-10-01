@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     minHeight: '134px',
+    '& > * + *': {
+      marginTop: theme.spacing(2)
+    }
   },
   titleWrapper: {
     display: 'flex',
@@ -41,10 +44,9 @@ interface Props {
   confirmButtonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
   confirmButtonDisabled?: boolean
   declineButtonText?: string
-  modalContent: React.ReactNode
 }
 
-const ButtonWithConfirmModal = (props: Props) => {
+const ButtonWithConfirmModal: React.FC<Props> = (props) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
@@ -86,7 +88,7 @@ const ButtonWithConfirmModal = (props: Props) => {
         </div>
         <Divider></Divider>
         <DialogContent id="alert-dialog-description" className={classes.content}>
-          {props.modalContent}
+          {props.children}
         </DialogContent>
         <DialogActions className={classes.buttonWrapper}>
           <Button

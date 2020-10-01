@@ -28,8 +28,9 @@ const RevokeCertificateButton = () => {
       startIcon={<DeleteIcon />}
       modalTitle="Makulera intyg"
       onConfirm={handleDispatch}
-      modalContent={<RevokeCertificateModalContent onChange={handleRevokeForm} />}
-      confirmButtonText="Makulera"></ButtonWithConfirmModal>
+      confirmButtonText="Makulera">
+      <RevokeCertificateModalContent onChange={handleRevokeForm} />
+    </ButtonWithConfirmModal>
   )
 }
 

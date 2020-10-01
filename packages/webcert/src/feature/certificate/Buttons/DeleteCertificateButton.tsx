@@ -21,9 +21,10 @@ const DeleteCertificateButton = () => {
       onConfirm={() => {
         dispatch(deleteCertificate(certificateMetadata.certificateId))
       }}
-      modalContent={<Typography>När du raderar utkastet tas det bort från webcert</Typography>}
       confirmButtonText="Radera"
-      declineButtonText="Avbryt"></ButtonWithConfirmModal>
+      declineButtonText="Avbryt">
+      <Typography>När du raderar utkastet tas det bort från webcert</Typography>
+    </ButtonWithConfirmModal>
   )
 }
 
