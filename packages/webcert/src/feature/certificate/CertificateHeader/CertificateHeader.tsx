@@ -16,7 +16,9 @@ import { CertificateStatus } from '@frontend/common'
 import { ButtonWithConfirmModal } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { deleteCertificate, printCertificate, revokeCertificate } from '../../../store/certificate/certificateActions'
+import { deleteCertificate, printCertificate, replaceCertificate, revokeCertificate } from '../../../store/certificate/certificateActions'
+import { useHistory } from 'react-router-dom'
+import { History, LocationState } from 'history'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,6 +65,7 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const classes = useStyles()
 
@@ -140,7 +143,11 @@ export const CertificateHeader: React.FC = (props) => {
                     onClick={() => dispatch(printCertificate(certificateMetadata))}>
                     Skriv ut
                   </Button>
-                  <Button variant="contained" color="primary" startIcon={<SyncAltIcon />}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SyncAltIcon />}
+                    onClick={() => dispatch(replaceCertificate(history))}>
                     Ersätt
                   </Button>
                   <Button
