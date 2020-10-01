@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { getAllValidationErrors, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
 import WarningIcon from '@material-ui/icons/Warning'
 import { Link } from 'react-scroll'
+import { InfoBox } from '@frontend/common'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,10 +58,7 @@ const CertificateValidation: React.FC<CertificateValidationProps> = (props) => {
 
   return (
     <Paper className={`${classes.root} contentPaperWrapper`}>
-      <div className={classes.infoWrapper}>
-        <WarningIcon></WarningIcon>
-        <Typography className={classes.infoText}>Utkastet saknar uppgifter i följande avsnitt:</Typography>
-      </div>
+      <InfoBox type="danger">Utkastet saknar uppgifter i följande avsnitt:</InfoBox>
       <div className={classes.linksWrapper}>{validationMessages}</div>
     </Paper>
   )
