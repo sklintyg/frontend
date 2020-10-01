@@ -20,18 +20,6 @@ const useStyles = makeStyles((theme) => ({
   infoText: {
     marginLeft: theme.spacing(1),
   },
-  link: {
-    color: theme.palette.warning.main,
-    fontSize: theme.typography.body1.fontSize,
-    textDecoration: 'underline',
-    cursor: 'pointer',
-    '& :first-letter': {
-      textTransform: 'capitalize',
-    },
-  },
-  linksWrapper: {
-    marginTop: theme.spacing(1),
-  },
 }))
 
 interface Props {
