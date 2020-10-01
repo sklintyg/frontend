@@ -1,5 +1,6 @@
-import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
+import { History, LocationState } from 'history'
+import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
 import { CertificateMetadata } from '@frontend/common'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -27,6 +28,12 @@ const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
 const REVOKE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Revoke certificate success`
 const REVOKE_CERTIFICATE_ERROR = `${CERTIFICATE} Revoke certificate error`
 const REVOKE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Revoke certificate completed`
+
+const REPLACE_CERTIFICATE = `${CERTIFICATE} Replace certificate`
+const REPLACE_CERTIFICATE_STARTED = `${CERTIFICATE} Replace certificate started`
+const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
+const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
+const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
 
 const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate certificate`
 const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validate certificate started`
@@ -113,6 +120,21 @@ export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFI
 export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 
 export const revokeCertificateCompleted = createAction(REVOKE_CERTIFICATE_COMPLETED)
+
+export const replaceCertificate = createAction<History<LocationState>>(REPLACE_CERTIFICATE)
+
+export const replaceCertificateStarted = createAction(REPLACE_CERTIFICATE_STARTED)
+
+export interface ReplaceCertificateSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>(REPLACE_CERTIFICATE_SUCCESS)
+
+export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
+
+export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
 
 export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
 
