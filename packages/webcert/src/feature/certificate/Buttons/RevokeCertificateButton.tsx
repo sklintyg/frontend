@@ -8,9 +8,13 @@ import { useDispatch } from 'react-redux'
 const RevokeCertificateButton = () => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
 
   const handleRevokeForm = (obj: RevokeCertificateReason) => {
     setDispatchObject(obj)
+    const disabledConfirmButton = handleDisabled(obj)
+
+    setConfirmButtonDisabled(disabledConfirmButton)
   }
 
   const handleDispatch = () => {
@@ -19,11 +23,19 @@ const RevokeCertificateButton = () => {
     }
   }
 
-  const disabled = dispatchObject === null || dispatchObject.message.length < 1
+  const handleDisabled = (dispatchObject: RevokeCertificateReason): boolean => {
+    if (dispatchObject.message.length > 0 && dispatchObject.reason === 'ANNAT_ALLVARLIGT_FEL') {
+      return false
+    } else if (dispatchObject.reason === 'FEL_PATIENT') {
+      return false
+    }
+
+    return true
+  }
 
   return (
     <ButtonWithConfirmModal
-      confirmButtonDisabled={disabled}
+      confirmButtonDisabled={confirmButtonDisabled}
       buttonText="Makulera"
       startIcon={<DeleteIcon />}
       modalTitle="Makulera intyg"
