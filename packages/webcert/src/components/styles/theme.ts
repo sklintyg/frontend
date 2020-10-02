@@ -11,10 +11,15 @@ export const themeCreator = (darkMode: boolean) => {
       secondary: {
         main: '#292f4f',
       },
-      warning: {
+      error: {
         main: '#da4453',
         light: '#f8bfc5',
         dark: '#9a303b',
+      },
+      warning: {
+        main: '#ff9800',
+        light: '#ffebba',
+        dark: '#765a20',
       },
       info: {
         dark: '#003c75',

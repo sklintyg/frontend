@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   danger: {
-    background: theme.palette.warning.light,
-    color: theme.palette.warning.dark,
+    background: theme.palette.error.light,
+    color: theme.palette.error.dark,
   },
   info: {
     background: theme.palette.info.light,
