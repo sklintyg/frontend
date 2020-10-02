@@ -16,6 +16,8 @@ export const getCertificate = (state: RootState): Certificate => state.ui.uiCert
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
 
+export const getCertificateIsDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
+
 export const getIsCertificateSigned = () => (state: RootState): boolean => {
   if (!state.ui.uiCertificate.certificate) {
     return false
