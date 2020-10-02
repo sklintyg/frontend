@@ -5,7 +5,7 @@ import UeTextArea from './UeTextArea'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
-import { UvText, CertificateDataConfig, CertificateDataElement } from '@frontend/common'
+import { UvText, CertificateDataConfig, CertificateDataElement, MandatoryIcon } from '@frontend/common'
 import { getQuestion } from '../../store/certificate/certificateSelectors'
 import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
@@ -26,12 +26,6 @@ const useStyles = makeStyles((theme) => ({
   accordionDetails: {
     background: grey[300],
     padding: `${theme.spacing(2)}px ${theme.spacing(2)}px`,
-  },
-  mandatoryIcon: {
-    marginLeft: `-${theme.spacing(2)}px`,
-    position: 'absolute',
-    color: '#da4453',
-    fontSize: '1.5rem',
   },
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
@@ -76,7 +70,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            {!readOnly && mandatory && <span className={classes.mandatoryIcon}>*</span>}
+            <MandatoryIcon display={!readOnly && mandatory}></MandatoryIcon>
             <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
               {question.config.text}
             </Typography>

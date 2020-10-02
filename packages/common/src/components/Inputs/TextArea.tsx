@@ -34,7 +34,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   return (
     <TextareaAutosize
       disabled={disabled}
-      style={{ border: `${hasValidationError ? `1px solid ${theme.palette.warning.main}` : ''}` }}
+      style={{ border: `${hasValidationError ? `1px solid ${theme.palette.error.main}` : ''}` }}
       className={`${additionalStyles} ${classes.root}`}
       rowsMin={rowsMin ? rowsMin : 1}
       name={name}
