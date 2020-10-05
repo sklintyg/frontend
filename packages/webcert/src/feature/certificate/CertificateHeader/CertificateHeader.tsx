@@ -73,7 +73,10 @@ export const CertificateHeader: React.FC = (props) => {
       <Container>
         <Box className={classes.statusWrapper}>
           <Box className={classes.statusLeftSide}>
-            <CertificateHeaderStatus icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>
+            <CertificateHeaderStatus
+              icon={
+                isValidForSigning || certificateMetadata.certificateStatus === CertificateStatus.SIGNED ? 'CheckIcon' : 'ErrorOutlineIcon'
+              }>
               {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
                 ? isValidForSigning
                   ? 'Klar att signera'
