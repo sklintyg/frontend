@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.subtitle2.fontSize,
     fontWeight: theme.typography.fontWeightBold,
   },
+  mandatoryIcon: {
+    top: '-4px',
+  },
 }))
 
 interface Props {
@@ -78,8 +81,10 @@ export const RevokeCertificateModalContent = (props: Props) => {
           name="ANNAT_ALLVARLIGT_FEL"></RadioButton>
         {textArea.display && textArea.name === 'ANNAT_ALLVARLIGT_FEL' && (
           <div className={classes.textAreaWrapper}>
-            <MandatoryIcon display={textArea.value.length < 1} />
-            <Typography className={classes.subtitle}>Ange orsaken till felet.</Typography>
+            <Typography className={classes.subtitle}>
+              <MandatoryIcon additionalStyles={classes.mandatoryIcon} display={textArea.value.length < 1} />
+              Ange orsaken till felet.
+            </Typography>
             <TextArea
               rowsMin={4}
               additionalStyles={classes.textArea}

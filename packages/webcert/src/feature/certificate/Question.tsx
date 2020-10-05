@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     marginLeft: theme.spacing(2),
   },
+  mandatoryIcon: {
+    top: '3px',
+  },
 }))
 
 interface QuestionProps {
@@ -70,7 +73,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            <MandatoryIcon display={!readOnly && mandatory}></MandatoryIcon>
+            <MandatoryIcon display={!readOnly && mandatory} additionalStyles={classes.mandatoryIcon}></MandatoryIcon>
             <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
               {question.config.text}
             </Typography>
