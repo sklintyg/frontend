@@ -12,13 +12,7 @@ interface Props {
 const AppHeaderUser: React.FC<Props> = ({ getUserSelector }) => {
   const user = useSelector(getUserSelector)
 
-  if (!user) {
-    return (
-      <AppHeaderItem>
-        <CircularProgress />
-      </AppHeaderItem>
-    )
-  }
+  if (!user) return null
 
   return (
     <AppHeaderItem>
