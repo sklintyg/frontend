@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     marginLeft: -theme.spacing(2),
   },
+  wrapper: {
+    position: 'relative',
+  },
 }))
 
 interface Props {
@@ -20,7 +23,11 @@ const MandatoryIcon: React.FC<Props> = ({ additionalStyles, display }) => {
 
   const classes = useStyles()
 
-  return <span className={`${classes.mandatoryIcon} ${additionalStyles && additionalStyles}`}>*</span>
+  return (
+    <div className={classes.wrapper}>
+      <span className={`${classes.mandatoryIcon} ${additionalStyles && additionalStyles}`}>*</span>
+    </div>
+  )
 }
 
 export default MandatoryIcon

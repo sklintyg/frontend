@@ -16,11 +16,11 @@ import { Expandable } from '@frontend/common'
 const useStyles = makeStyles((theme) => ({
   accordion: {
     boxShadow: 'none',
-    padding: '0',
-    marginTop: '0',
+    padding: 0,
+    marginTop: 0,
   },
   accordionSummary: {
-    padding: '0',
+    padding: 0,
     minHeight: 0,
   },
   accordionDetails: {
@@ -34,9 +34,12 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   expandMoreIcon: {
-    padding: `0`,
+    padding: 0,
     margin: 0,
     marginLeft: theme.spacing(2),
+  },
+  mandatoryIcon: {
+    top: '3px',
   },
 }))
 
@@ -70,7 +73,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            <MandatoryIcon display={!readOnly && mandatory}></MandatoryIcon>
+            <MandatoryIcon display={!readOnly && mandatory} additionalStyles={classes.mandatoryIcon}></MandatoryIcon>
             <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
               {question.config.text}
             </Typography>
