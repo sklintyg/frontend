@@ -8,10 +8,10 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
     return next(action)
   }
 
-  const { url, method, data, onStart, onSuccess, onError } = action.payload
+  const { url, method, data, onStart, onSuccess, onError, onArgs } = action.payload
 
   if (onStart) {
-    dispatch(onStart())
+    dispatch({ type: onStart, payload: { ...onArgs } })
   }
 
   next(action)
@@ -28,13 +28,13 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
     dispatch(apiCallSuccess(response.data))
 
     if (onSuccess) {
-      dispatch(onSuccess(response.data))
+      dispatch({ type: onSuccess, payload: { ...response.data, ...onArgs } })
     }
   } catch (error) {
     dispatch(apiCallFailed(error.message))
 
     if (onError) {
-      dispatch(onError())
+      dispatch({ type: onError, payload: { ...error.message, ...onArgs } })
     }
   }
 }

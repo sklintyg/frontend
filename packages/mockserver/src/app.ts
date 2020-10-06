@@ -62,7 +62,7 @@ app.put('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
   if (repository[req.params.id]) {
     repository[req.params.id] = req.body
     repository[req.params.id].metadata.version += 1
-    res.json(repository[req.params.id].metadata.version)
+    res.json({ version: repository[req.params.id].metadata.version })
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -122,7 +122,7 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
     }
 
     repository[certificateClone.metadata.certificateId] = certificateClone
-    res.json(certificateClone.metadata.certificateId)
+    res.json({ certificateId: certificateClone.metadata.certificateId }).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -131,7 +131,7 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
 app.post('/api/certificate/:id/validate', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/validate`)
   const validationErrors = validate(req.body as Certificate)
-  res.json(validationErrors)
+  res.json({ validationErrors }).send()
 })
 
 app.listen(9088, () => console.log('Server running'))

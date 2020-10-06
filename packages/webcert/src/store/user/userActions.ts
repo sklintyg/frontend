@@ -1,7 +1,8 @@
-import { AnyAction, createAction } from '@reduxjs/toolkit'
+import { createAction } from '@reduxjs/toolkit'
 import { User } from '@frontend/common'
+import { RedirectAction } from './userReducer'
 
-export const loginUser = createAction<() => AnyAction>('[User] Login user')
+export const loginUser = createAction<RedirectAction>('[User] Login user')
 export const loginUserStarted = createAction('[User] Login user started')
 export const loginUserSuccess = createAction('[User] Login user success')
 export const loginUserError = createAction('[User] Login user error')
@@ -15,5 +16,5 @@ export const getUserCompleted = createAction('[User] Get user completed')
 
 export const updateUser = createAction<User>('[User] Update user')
 
-export const updateRedirect = createAction<() => AnyAction>('[User] Update redirect')
+export const updateRedirect = createAction<RedirectAction>('[User] Update redirect')
 export const clearRedirect = createAction('[User] Clear redirect')

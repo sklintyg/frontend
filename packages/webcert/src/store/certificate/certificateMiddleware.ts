@@ -1,5 +1,4 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { Redirect } from 'react-router-dom'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
   autoSaveCertificate,
@@ -48,6 +47,7 @@ import {
   updateCertificateDataElement,
   updateCertificateStatus,
   updateCertificateUnit,
+  updateCertificateVersion,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -79,12 +79,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Midd
 
   // TODO: Replace this hack with implementation to handle user session.
   if (!getState().ui.uiUser.userLoggedIn) {
-    dispatch(
-      loginUser(function() {
-        const certificateId = action.payload
-        return getCertificate(certificateId)
-      })
-    )
+    dispatch(loginUser({ type: getCertificate.type, payload: action.payload }))
     return
   }
 
@@ -92,9 +87,9 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Midd
     apiCallBegan({
       url: '/api/certificate/' + action.payload,
       method: 'GET',
-      onStart: getCertificateStarted,
-      onSuccess: getCertificateSuccess,
-      onError: getCertificateError,
+      onStart: getCertificateStarted.type,
+      onSuccess: getCertificateSuccess.type,
+      onError: getCertificateError.type,
     })
   )
 }
@@ -129,9 +124,9 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
     apiCallBegan({
       url: `/api/certificate/${action.payload}/${certificate.metadata.version}`,
       method: 'DELETE',
-      onStart: deleteCertificateStarted,
-      onSuccess: deleteCertificateSuccess,
-      onError: deleteCertificateError,
+      onStart: deleteCertificateStarted.type,
+      onSuccess: deleteCertificateSuccess.type,
+      onError: deleteCertificateError.type,
     })
   )
 }
@@ -174,8 +169,8 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
       method: 'POST',
       data: certificate,
-      onSuccess: signCertificateSuccess,
-      onError: signCertificateError,
+      onSuccess: signCertificateSuccess.type,
+      onError: signCertificateError.type,
     })
   )
 }
@@ -209,9 +204,9 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       url: '/api/certificate/' + certificate.metadata.certificateId + '/revoke',
       method: 'POST',
       data: action.payload,
-      onStart: revokeCertificateStarted,
-      onSuccess: revokeCertificateSuccess,
-      onError: revokeCertificateError,
+      onStart: revokeCertificateStarted.type,
+      onSuccess: revokeCertificateSuccess.type,
+      onError: revokeCertificateError.type,
     })
   )
 }
@@ -237,10 +232,6 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
 
   dispatch(showSpinner('Ersätter...'))
 
-  const replaceCertificateSuccessWithHistory = (certificateId: string) => {
-    return replaceCertificateSuccess({ certificateId, history: action.payload })
-  }
-
   const certificate: Certificate = getState().ui.uiCertificate.certificate
 
   dispatch(
@@ -251,9 +242,10 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
         certificateType: certificate.metadata.certificateType,
         patientId: certificate.metadata.patient.personId,
       },
-      onStart: replaceCertificateStarted,
-      onSuccess: replaceCertificateSuccessWithHistory,
-      onError: replaceCertificateError,
+      onStart: replaceCertificateStarted.type,
+      onSuccess: replaceCertificateSuccess.type,
+      onError: replaceCertificateError.type,
+      onArgs: { history: action.payload },
     })
   )
 }
@@ -309,15 +301,15 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
   }
 
   const certificate = getState().ui.uiCertificate.certificate
-  console.log(certificate)
+
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.certificateId,
       method: 'PUT',
       data: certificate,
-      onStart: autoSaveCertificateStarted,
-      onSuccess: autoSaveCertificateSuccess,
-      onError: autoSaveCertificateError,
+      onStart: autoSaveCertificateStarted.type,
+      onSuccess: autoSaveCertificateSuccess.type,
+      onError: autoSaveCertificateError.type,
     })
   )
 }
@@ -328,6 +320,8 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   if (!autoSaveCertificateSuccess.match(action)) {
     return
   }
+
+  dispatch(updateCertificateVersion(action.payload.version))
 
   dispatch(autoSaveCertificateCompleted())
 }
@@ -344,9 +338,9 @@ const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewar
       url: '/api/certificate/' + action.payload.metadata.certificateId + '/validate',
       method: 'POST',
       data: action.payload,
-      onStart: validateCertificateStarted,
-      onSuccess: validateCertificateSuccess,
-      onError: validateCertificateError,
+      onStart: validateCertificateStarted.type,
+      onSuccess: validateCertificateSuccess.type,
+      onError: validateCertificateError.type,
     })
   )
 }
@@ -358,7 +352,7 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
     return
   }
 
-  dispatch(updateValidationErrors(action.payload))
+  dispatch(updateValidationErrors(action.payload.validationErrors))
   dispatch(validateCertificateCompleted())
 }
 

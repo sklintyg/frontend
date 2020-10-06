@@ -4,9 +4,10 @@ export interface ApiCall {
   url: string
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   data?: any
-  onStart?: Function
-  onSuccess?: Function
-  onError?: Function
+  onStart?: string
+  onSuccess?: string
+  onError?: string
+  onArgs?: any
 }
 
 export const apiCallBegan = createAction<ApiCall>('[API] Call began')

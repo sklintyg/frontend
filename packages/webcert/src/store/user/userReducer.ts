@@ -2,9 +2,14 @@ import { createReducer } from '@reduxjs/toolkit'
 import { clearRedirect, loginUserSuccess, updateRedirect, updateUser } from './userActions'
 import { User } from '@frontend/common'
 
+export interface RedirectAction {
+  type: string
+  payload?: any
+}
+
 interface UserState {
   userLoggedIn: boolean
-  redirect: null | Function
+  redirect: null | RedirectAction
   user: null | User
 }
 
