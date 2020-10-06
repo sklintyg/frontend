@@ -2,18 +2,13 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import PersonIcon from '@material-ui/icons/Person'
 import { User } from '../../types/user'
-import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-interface AppHeaderUserProps {
-  getUserSelector: () => User
+interface Props {
+  user: User
 }
 
-const AppHeaderUser: React.FC<AppHeaderUserProps> = (props) => {
-  let user: User
-
-  user = useSelector(props.getUserSelector)
-
+const AppHeaderUser: React.FC<Props> = ({ user }) => {
   return (
     <AppHeaderItem>
       <Box display="flex" flexDirection="row" alignItems="center">

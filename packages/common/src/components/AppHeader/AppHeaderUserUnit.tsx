@@ -2,18 +2,13 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import ApartmentIcon from '@material-ui/icons/Apartment'
 import { User } from '../../types/user'
-import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-interface AppHeaderUserUnitProps {
-  getUserSelector: () => User
+interface Props {
+  user: User
 }
 
-const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
-  let user: User
-
-  user = useSelector(props.getUserSelector)
-
+const AppHeaderUserUnit: React.FC<Props> = ({ user }) => {
   return (
     <AppHeaderItem>
       <Box marginLeft={5} display="flex" flexDirection="row" alignItems="center" flexGrow={1}>
@@ -21,9 +16,9 @@ const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
           <ApartmentIcon />
         </Box>
         <Typography variant={'body1'} style={{ fontWeight: 'bold', marginRight: '5px' }}>
-          test
+          {user.loggedInCareProvider}
         </Typography>
-        <Typography variant={'body1'}>- test</Typography>
+        <Typography variant={'body1'}>- {user.loggedInUnit}</Typography>
       </Box>
     </AppHeaderItem>
   )
