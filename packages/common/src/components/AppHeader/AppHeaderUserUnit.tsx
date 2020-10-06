@@ -1,19 +1,14 @@
 import React from 'react'
-import { Box, CircularProgress, Typography } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import ApartmentIcon from '@material-ui/icons/Apartment'
 import { User } from '../../types/user'
-import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
 interface Props {
-  getUserSelector: (state: any) => User | null
+  user: User
 }
 
-const AppHeaderUserUnit: React.FC<Props> = ({ getUserSelector }) => {
-  const user = useSelector(getUserSelector)
-
-  if (!user) return null
-
+const AppHeaderUserUnit: React.FC<Props> = ({ user }) => {
   return (
     <AppHeaderItem>
       <Box marginLeft={5} display="flex" flexDirection="row" alignItems="center" flexGrow={1}>
