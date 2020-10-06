@@ -1,18 +1,24 @@
 import React from 'react'
-import { Box, Typography } from '@material-ui/core'
+import { Box, CircularProgress, Typography } from '@material-ui/core'
 import ApartmentIcon from '@material-ui/icons/Apartment'
 import { User } from '../../types/user'
 import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-interface AppHeaderUserUnitProps {
-  getUserSelector: () => User
+interface Props {
+  getUserSelector: (state: any) => User | null
 }
 
-const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
-  let user: User
+const AppHeaderUserUnit: React.FC<Props> = ({ getUserSelector }) => {
+  const user = useSelector(getUserSelector)
 
-  user = useSelector(props.getUserSelector)
+  if (!user) {
+    return (
+      <AppHeaderItem>
+        <CircularProgress />
+      </AppHeaderItem>
+    )
+  }
 
   return (
     <AppHeaderItem>
@@ -21,9 +27,9 @@ const AppHeaderUserUnit: React.FC<AppHeaderUserUnitProps> = (props) => {
           <ApartmentIcon />
         </Box>
         <Typography variant={'body1'} style={{ fontWeight: 'bold', marginRight: '5px' }}>
-          test
+          {user.loggedInCareProvider}
         </Typography>
-        <Typography variant={'body1'}>- test</Typography>
+        <Typography variant={'body1'}>- {user.loggedInUnit}</Typography>
       </Box>
     </AppHeaderItem>
   )

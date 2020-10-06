@@ -1,18 +1,24 @@
 import React from 'react'
-import { Box, Typography } from '@material-ui/core'
+import { Box, CircularProgress, Typography } from '@material-ui/core'
 import PersonIcon from '@material-ui/icons/Person'
 import { User } from '../../types/user'
 import { useSelector } from 'react-redux'
 import { AppHeaderItem } from '../index'
 
-interface AppHeaderUserProps {
-  getUserSelector: () => User
+interface Props {
+  getUserSelector: (state: any) => User | null
 }
 
-const AppHeaderUser: React.FC<AppHeaderUserProps> = (props) => {
-  let user: User
+const AppHeaderUser: React.FC<Props> = ({ getUserSelector }) => {
+  const user = useSelector(getUserSelector)
 
-  user = useSelector(props.getUserSelector)
+  if (!user) {
+    return (
+      <AppHeaderItem>
+        <CircularProgress />
+      </AppHeaderItem>
+    )
+  }
 
   return (
     <AppHeaderItem>

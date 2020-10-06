@@ -1,12 +1,13 @@
 import React from 'react'
-import { AppHeaderUser, mockGetUserSelector } from '@frontend/common'
+import { AppHeaderUser } from '@frontend/common'
 import { AppHeaderUserUnit } from '@frontend/common'
+import { getUser } from '../../store/user/userSelectors'
 
-const WebcertHeaderUser: React.FC = (props) => {
+const WebcertHeaderUser: React.FC = () => {
   return (
     <>
-      <AppHeaderUser getUserSelector={mockGetUserSelector} />
-      <AppHeaderUserUnit getUserSelector={mockGetUserSelector}></AppHeaderUserUnit>
+      <AppHeaderUser getUserSelector={getUser} />
+      <AppHeaderUserUnit getUserSelector={getUser}></AppHeaderUserUnit>
     </>
   )
 }
