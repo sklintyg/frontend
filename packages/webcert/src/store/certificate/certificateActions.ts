@@ -58,6 +58,7 @@ const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as dele
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
+const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
@@ -140,7 +141,11 @@ export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICAT
 
 export const validateCertificateStarted = createAction(VALIDATE_CERTIFICATE_STARTED)
 
-export const validateCertificateSuccess = createAction<ValidationError[]>(VALIDATE_CERTIFICATE_SUCCESS)
+interface ValidateCertificateSuccess {
+  validationErrors: ValidationError[]
+}
+
+export const validateCertificateSuccess = createAction<ValidateCertificateSuccess>(VALIDATE_CERTIFICATE_SUCCESS)
 
 export const validateCertificateError = createAction<string>(VALIDATE_CERTIFICATE_ERROR)
 
@@ -152,7 +157,10 @@ export const autoSaveCertificateStarted = createAction(AUTO_SAVE_STARTED)
 
 export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
 
-export const autoSaveCertificateSuccess = createAction<number>(AUTO_SAVE_SUCCESS)
+interface AutoSaveCertificateSuccess {
+  version: number
+}
+export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
 export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
 
@@ -169,6 +177,8 @@ export const updateCertificateAsReadOnly = createAction(UPDATE_CERTIFICATE_AS_RE
 export const updateCertificateStatus = createAction<CertificateStatus>(UPDATE_CERTIFICATE_STATUS)
 
 export const updateCertificateDataElement = createAction<CertificateDataElement>(UPDATE_CERTIFICATE_DATA_ELEMENT)
+
+export const updateCertificateVersion = createAction<number>(UPDATE_CERTIFICATE_VERSION)
 
 export const showCertificateDataElement = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT)
 

@@ -40,9 +40,9 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
       url: '/fake',
       method: 'POST',
       data: data,
-      onStart: loginUserStarted,
-      onSuccess: loginUserSuccess,
-      onError: loginUserSuccess,
+      onStart: loginUserStarted.type,
+      onSuccess: loginUserSuccess.type,
+      onError: loginUserSuccess.type,
     })
   )
 }
@@ -59,7 +59,7 @@ const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Mi
 
   const redirect = getState().ui.uiUser.redirect
   if (redirect) {
-    dispatch(redirect())
+    dispatch(redirect)
     dispatch(clearRedirect())
   }
 }
@@ -72,7 +72,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (ne
   }
 
   // TODO: Fetch user from backend.
-  dispatch(updateUser({ name: 'Arnold Johansson', title: 'Läkare' }))
+  dispatch(updateUser({ name: 'Arnold Johansson', title: 'Läkare', loggedInUnit: 'NMT vg3 ve1', loggedInCareProvider: 'NMT vg3' }))
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

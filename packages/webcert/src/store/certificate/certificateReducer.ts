@@ -16,6 +16,7 @@ import {
   updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
   updateCertificateStatus,
+  updateCertificateVersion,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
@@ -96,7 +97,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
 
       state.certificate.metadata.unit = action.payload
     })
-    .addCase(autoSaveCertificateSuccess, (state, action) => {
+    .addCase(updateCertificateVersion, (state, action) => {
       if (!state.certificate) {
         return
       }
