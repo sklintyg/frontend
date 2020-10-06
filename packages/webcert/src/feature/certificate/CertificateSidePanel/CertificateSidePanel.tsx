@@ -4,7 +4,6 @@ import { getIsShowSpinner } from '../../../store/certificate/certificateSelector
 import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import CertificateAbout from './CertificateAbout'
-import SidePanelFooter from './SidePanelFooter'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +36,6 @@ const CertificateSidePanel: React.FC = () => {
           <Tab className={classes.tab} label="Om intyget" />
         </Tabs>
         <CertificateAbout />
-        <SidePanelFooter />
       </Paper>
     </>
   )

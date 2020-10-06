@@ -2,6 +2,7 @@ import { makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import CertificateAboutFooter from './CertificateAboutFooter'
 
 const useStyles = makeStyles((theme) => ({
   contentWrapper: {
@@ -41,19 +42,22 @@ const CertificateAbout = () => {
     • erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.`
 
   return (
-    <div className={`${classes.contentWrapper} ${classes.border}`}>
-      <Typography className={classes.certificateType}>
-        {certMetaData && (
-          <>
-            {certMetaData.certificateName}
-            <span className={classes.certificateVersion}>
-              {certMetaData.certificateType} {certMetaData.certificateTypeVersion}
-            </span>
-          </>
-        )}
-      </Typography>
-      <Typography className={classes.contentText}>{string}</Typography>
-    </div>
+    <>
+      <div className={`${classes.contentWrapper} ${classes.border}`}>
+        <Typography className={classes.certificateType}>
+          {certMetaData && (
+            <>
+              {certMetaData.certificateName}
+              <span className={classes.certificateVersion}>
+                {certMetaData.certificateType} {certMetaData.certificateTypeVersion}
+              </span>
+            </>
+          )}
+        </Typography>
+        <Typography className={classes.contentText}>{string}</Typography>
+      </div>
+      <CertificateAboutFooter />
+    </>
   )
 }
 
