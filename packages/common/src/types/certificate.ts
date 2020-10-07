@@ -17,6 +17,7 @@ export interface CertificateMetadata {
   certificateTypeVersion: string
   certificateStatus: CertificateStatus
   testCertificate: boolean
+  relations: CertificateRelations
   unit: Unit
   patient: Patient
   issuedBy: Staff
@@ -107,4 +108,20 @@ export interface Staff {
   personId: string
   fullName: string
   prescriptionCode: string
+}
+
+export interface CertificateRelations {
+  parent: CertificateRelation | null
+  children: CertificateRelation[]
+}
+
+export interface CertificateRelation {
+  certificateId: string
+  created: string
+  status: CertificateStatus
+  type: CertificateRelationType
+}
+
+export enum CertificateRelationType {
+  REPLACE = 'REPLACE',
 }
