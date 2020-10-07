@@ -114,7 +114,7 @@ app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: Next
       parentCertificate.metadata.relations.children[0].status = certificate.metadata.certificateStatus
     }
 
-    if (certificate.metadata.relations.children.length > 0) {
+    if (certificate.metadata.relations.children && certificate.metadata.relations.children.length > 0) {
       const childCertificate = repository[certificate.metadata.relations.children[0].certificateId]
       if (childCertificate.metadata.relations.parent) {
         childCertificate.metadata.relations.parent.status = certificate.metadata.certificateStatus
