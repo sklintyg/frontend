@@ -1,9 +1,10 @@
-import express, { Application, Request, Response, NextFunction } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
 import { Certificate, CertificateBooleanValue, CertificateStatus, CertificateTextValue, ValidationError } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
+import { CertificateRelation, CertificateRelationType } from '@frontend/common/src'
 
 const app: Application = express()
 
@@ -50,7 +51,14 @@ app.get('/moduleapi/intyg/:type/:id/pdf', (req: Request, res: Response, next: Ne
 app.delete('/api/certificate/:id/:version', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} DELETE /api/certificate/${req.params.id}/${req.params.version}`)
   if (repository[req.params.id]) {
+    const certificate = repository[req.params.id]
     delete repository[req.params.id]
+
+    if (certificate.metadata.relations.parent) {
+      const parentCertificate = repository[certificate.metadata.relations.parent.certificateId]
+      parentCertificate.metadata.relations.children = []
+    }
+
     res.status(200).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
@@ -76,14 +84,20 @@ app.post('/fake', (req: Request, res: Response, next: NextFunction) => {
 app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/sign`)
   if (repository[req.params.id]) {
-    repository[req.params.id].metadata.certificateStatus = CertificateStatus.SIGNED
+    const certificate = repository[req.params.id]
+    certificate.metadata.certificateStatus = CertificateStatus.SIGNED
 
-    for (const questionId in repository[req.params.id].data) {
-      repository[req.params.id].data[questionId].readOnly = true
-      repository[req.params.id].data[questionId].visible = true
+    for (const questionId in certificate.data) {
+      certificate.data[questionId].readOnly = true
+      certificate.data[questionId].visible = true
     }
 
-    res.json(repository[req.params.id])
+    if (certificate.metadata.relations.parent) {
+      const parentCertificate = repository[certificate.metadata.relations.parent.certificateId]
+      parentCertificate.metadata.relations.children[0].status = certificate.metadata.certificateStatus
+    }
+
+    res.json(certificate)
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -92,7 +106,21 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
 app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/revoke`)
   if (repository[req.params.id]) {
-    repository[req.params.id].metadata.certificateStatus = CertificateStatus.INVALIDATED
+    const certificate = repository[req.params.id]
+    certificate.metadata.certificateStatus = CertificateStatus.INVALIDATED
+
+    if (certificate.metadata.relations.parent) {
+      const parentCertificate = repository[certificate.metadata.relations.parent.certificateId]
+      parentCertificate.metadata.relations.children[0].status = certificate.metadata.certificateStatus
+    }
+
+    if (certificate.metadata.relations.children.length > 0) {
+      const childCertificate = repository[certificate.metadata.relations.children[0].certificateId]
+      if (childCertificate.metadata.relations.parent) {
+        childCertificate.metadata.relations.parent.status = certificate.metadata.certificateStatus
+      }
+    }
+
     res.status(200).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
@@ -102,7 +130,9 @@ app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: Next
 app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/replace`)
   if (repository[req.params.id]) {
-    const certificateClone = _.cloneDeep(repository[req.params.id])
+    const originalCertificate = repository[req.params.id]
+
+    const certificateClone = _.cloneDeep(originalCertificate)
     certificateClone.metadata.certificateId = uuidv4()
     certificateClone.metadata.certificateStatus = CertificateStatus.UNSIGNED
 
@@ -119,6 +149,34 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
 
     for (const questionId in certificateClone.data) {
       certificateClone.data[questionId].readOnly = false
+    }
+
+    const childRelation: CertificateRelation = {
+      certificateId: certificateClone.metadata.certificateId,
+      type: CertificateRelationType.REPLACE,
+      status: certificateClone.metadata.certificateStatus,
+      created: new Date().toLocaleString(),
+    }
+
+    if (originalCertificate.metadata.relations) {
+      originalCertificate.metadata.relations = {
+        parent: null,
+        children: [],
+      }
+    }
+
+    originalCertificate.metadata.relations.children.push(childRelation)
+
+    const parentRelation: CertificateRelation = {
+      certificateId: originalCertificate.metadata.certificateId,
+      type: CertificateRelationType.REPLACE,
+      status: originalCertificate.metadata.certificateStatus,
+      created: new Date().toLocaleString(),
+    }
+
+    certificateClone.metadata.relations = {
+      parent: parentRelation,
+      children: [],
     }
 
     repository[certificateClone.metadata.certificateId] = certificateClone

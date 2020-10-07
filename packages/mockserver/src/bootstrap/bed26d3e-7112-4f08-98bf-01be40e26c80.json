@@ -7,6 +7,7 @@
     "certificateDescription": "Detta är beskrivningen...",
     "certificateStatus": "UNSIGNED",
     "testCertificate": false,
+    "relations": {},
     "unit": {
       "unitId": "TSTNMT2321000156-1077",
       "unitName": "NMT vg3 ve1",
