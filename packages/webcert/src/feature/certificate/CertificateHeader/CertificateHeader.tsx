@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Container, createStyles, Link, Paper, Theme, Typography, useTheme } from '@material-ui/core'
+import { Box, Container, createStyles, Link, Paper, Theme, Typography } from '@material-ui/core'
 import {
   getCertificateMetaData,
   getIsShowSpinner,
@@ -10,11 +10,15 @@ import {
 import Divider from '@material-ui/core/Divider'
 import { CertificateStatus } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import CertificateHeaderStatus from './CertificateHeaderStatus'
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import DeleteCertificateButton from '../Buttons/DeleteCertificateButton'
 import PrintCertificateButton from '../Buttons/PrintCertificateButton'
 import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
+import AvailableForPatientStatus from './Status/AvailableForPatientStatus'
+import RevokedCertificateStatus from './Status/RevokedCertificateStatus'
+import DraftSavedStatus from './Status/DraftSavedStatus'
+import SignableStatus from './Status/SignableStatus'
+import CertificateSentStatus from './Status/CertificateSentStatus'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +64,6 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
-  const dispatch = useDispatch()
 
   const classes = useStyles()
 
@@ -73,31 +76,16 @@ export const CertificateHeader: React.FC = (props) => {
       <Container>
         <Box className={classes.statusWrapper}>
           <Box className={classes.statusLeftSide}>
-            <CertificateHeaderStatus
-              icon={
-                isValidForSigning || certificateMetadata.certificateStatus === CertificateStatus.SIGNED ? 'CheckIcon' : 'ErrorOutlineIcon'
-              }>
-              {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
-                ? isValidForSigning
-                  ? 'Klar att signera'
-                  : 'Obligatoriska uppgifter saknas'
-                : 'Intyget är skickat till Arbetsförmedlingen'}
-            </CertificateHeaderStatus>
-
-            {!isValidating && (
-              <CertificateHeaderStatus icon={isValidating ? undefined : 'CheckIcon'}>
-                {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
-                  ? 'Utkastet är sparat'
-                  : 'Intyget är tillgängligt för patienten'}
-              </CertificateHeaderStatus>
-            )}
+            <RevokedCertificateStatus certificateMetadata={certificateMetadata} />
+            <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} />
+            <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
+            <CertificateSentStatus certificateMetadata={certificateMetadata} />
+            <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
           </Box>
-          {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
-            //TODO: add certificate history link below with modal containing the history
-            <Typography variant="body2">
-              <Link href="#">Visa historik</Link>
-            </Typography>
-          )}
+          {/* //TODO: add certificate history link below with modal containing the history */}
+          <Typography variant="body2">
+            <Link href="#">Visa historik</Link>
+          </Typography>
         </Box>
         <Divider />
         <Box display="flex">

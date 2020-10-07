@@ -1,4 +1,3 @@
-import { CertificateStatus } from '@frontend/common'
 import { Box, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import CheckIcon from '@material-ui/icons/Check'
@@ -14,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     marginLeft: theme.spacing(0.25),
+    color: theme.palette.info.dark,
+    fontSize: theme.typography.subtitle2.fontSize,
   },
 }))
 
@@ -39,9 +40,7 @@ const CertificateHeaderStatus: React.FC<Props> = ({ icon, children }) => {
     <>
       <Box className={`${classes.root} headerStatusWrapper`}>
         {icon && getIcon(icon)}
-        <Typography className={classes.text} variant="body2">
-          {children}
-        </Typography>
+        <Typography className={classes.text}>{children}</Typography>
       </Box>
     </>
   )
