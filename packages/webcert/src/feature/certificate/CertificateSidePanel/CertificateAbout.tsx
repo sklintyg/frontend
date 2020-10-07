@@ -32,15 +32,6 @@ const CertificateAbout = () => {
   const certMetaData = useSelector(getCertificateMetaData)
   const classes = useStyles()
 
-  // TODO: This string should be fetched from some source
-  const string = `Arbetsförmedlingen behöver ett medicinskt utlåtande för en arbetssökande som har ett behov av fördjupat stöd.
-
-    Vi behöver ett utlåtande för att kunna:
-  
-    • utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga
-    • bedöma om vi behöver göra anpassningar i program eller insatser
-    • erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.`
-
   return (
     <>
       <div className={`${classes.contentWrapper} ${classes.border}`}>
@@ -54,7 +45,7 @@ const CertificateAbout = () => {
             </>
           )}
         </Typography>
-        <Typography className={classes.contentText}>{string}</Typography>
+        <Typography className={classes.contentText}>{certMetaData && certMetaData.certificateDescription}</Typography>
       </div>
       <CertificateAboutFooter />
     </>
