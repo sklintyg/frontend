@@ -1,14 +1,14 @@
 import { Typography, Link } from '@material-ui/core'
 import React from 'react'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { CertificateMetadata, CertificateStatus, TextWithInfoModal } from '@frontend/common'
+import { CertificateMetadata, TextWithInfoModal, isRevoked } from '@frontend/common'
 
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const RevokedCertificateStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!(certificateMetadata.certificateStatus == CertificateStatus.INVALIDATED)) return null
+const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
+  if (!isRevoked(certificateMetadata)) return null
 
   return (
     <CertificateHeaderStatus icon={'ErrorOutlineIcon'}>
@@ -24,4 +24,4 @@ const RevokedCertificateStatus: React.FC<Props> = ({ certificateMetadata }) => {
   )
 }
 
-export default RevokedCertificateStatus
+export default RevokedStatus

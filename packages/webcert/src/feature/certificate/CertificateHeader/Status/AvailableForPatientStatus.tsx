@@ -1,14 +1,14 @@
 import { Typography, Link } from '@material-ui/core'
 import React from 'react'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
-import { CertificateMetadata, CertificateStatus, TextWithInfoModal } from '@frontend/common'
+import { CertificateMetadata, isSigned, TextWithInfoModal } from '@frontend/common'
 
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
 const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!(certificateMetadata.certificateStatus === CertificateStatus.SIGNED)) return null
+  if (!isSigned(certificateMetadata)) return null
 
   return (
     <CertificateHeaderStatus icon={'CheckIcon'}>

@@ -1,4 +1,4 @@
-import { CertificateMetadata, CertificateStatus } from '@frontend/common'
+import { CertificateMetadata, isUnsigned } from '@frontend/common'
 import React from 'react'
 import CertificateHeaderStatus from './CertificateHeaderStatus'
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SignableStatus: React.FC<Props> = ({ isValidForSigning, certificateMetadata }) => {
-  if (!(certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED)) return null
+  if (!isUnsigned(certificateMetadata)) return null
 
   return (
     <CertificateHeaderStatus icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>

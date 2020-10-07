@@ -15,10 +15,11 @@ import DeleteCertificateButton from '../Buttons/DeleteCertificateButton'
 import PrintCertificateButton from '../Buttons/PrintCertificateButton'
 import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
 import AvailableForPatientStatus from './Status/AvailableForPatientStatus'
-import RevokedCertificateStatus from './Status/RevokedCertificateStatus'
+import RevokedStatus from './Status/RevokedStatus'
 import DraftSavedStatus from './Status/DraftSavedStatus'
 import SignableStatus from './Status/SignableStatus'
-import CertificateSentStatus from './Status/CertificateSentStatus'
+import SentStatus from './Status/SentStatus'
+import ReplacedStatus from './Status/ReplacedStatus'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,10 +77,11 @@ export const CertificateHeader: React.FC = (props) => {
       <Container>
         <Box className={classes.statusWrapper}>
           <Box className={classes.statusLeftSide}>
-            <RevokedCertificateStatus certificateMetadata={certificateMetadata} />
+            <RevokedStatus certificateMetadata={certificateMetadata} />
             <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
-            <CertificateSentStatus certificateMetadata={certificateMetadata} />
+            <SentStatus certificateMetadata={certificateMetadata} />
+            <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
           </Box>
           {/* //TODO: add certificate history link below with modal containing the history */}

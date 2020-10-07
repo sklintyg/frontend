@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     marginLeft: theme.spacing(0.25),
     color: theme.palette.info.dark,
-    fontSize: theme.typography.subtitle2.fontSize,
+    fontSize: '12px',
   },
 }))
 
