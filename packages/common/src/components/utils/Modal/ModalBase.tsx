@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   open: boolean
-  handleClose: (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void
+  handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   modalTitle: string
   modalButtons: React.ReactNode
   content: React.ReactNode
