@@ -4,7 +4,7 @@
     "certificateType": "af00213",
     "certificateTypeVersion": "1.0",
     "certificateName": "Arbetsförmedlingens medicinska utlåtande",
-    "certificateDescription": "Detta är beskrivningen...",
+    "certificateDescription": "Arbetsförmedlingen behöver ett medicinskt utlåtande för en arbetssökande som har ett behov av fördjupat stöd.\n\nVi behöver ett utlåtande för att kunna:\n\n• utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga\n• bedöma om vi behöver göra anpassningar i program eller insatser\n• erbjuda lämpliga utredande, vägledande, rehabiliterande eller arbetsförberedande insatser.",
     "certificateStatus": "UNSIGNED",
     "testCertificate": false,
     "relations": {},
