@@ -16,9 +16,10 @@ interface Props {
   text: string
   modalTitle: string
   additionalStyles?: string
+  additionalContentStyles?: string
 }
 
-const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles, children }) => {
+const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles, additionalContentStyles, children }) => {
   const [open, setOpen] = React.useState(false)
   const classes = useStyles()
 
@@ -40,6 +41,7 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
         handleClose={handleClose}
         modalTitle={modalTitle}
         content={children}
+        additionalContentStyles={additionalContentStyles}
         modalButtons={
           <Button onClick={handleClose} variant="contained" color="default">
             Stäng

@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     minHeight: '134px',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
   },
   titleWrapper: {
     display: 'flex',
@@ -39,9 +36,10 @@ interface Props {
   modalTitle: string
   modalButtons: React.ReactNode
   content: React.ReactNode
+  additionalContentStyles?: string
 }
 
-const ModalBase: React.FC<Props> = ({ open, handleClose, modalTitle, children, modalButtons, content }) => {
+const ModalBase: React.FC<Props> = ({ open, handleClose, modalTitle, modalButtons, content, additionalContentStyles }) => {
   const classes = useStyles()
 
   return (
@@ -60,7 +58,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, modalTitle, children, m
         </IconButton>
       </div>
       <Divider></Divider>
-      <DialogContent id="alert-dialog-description" className={classes.content}>
+      <DialogContent id="alert-dialog-description" className={`${classes.content} ${additionalContentStyles}`}>
         {content}
       </DialogContent>
       <DialogActions className={classes.buttonWrapper}>{modalButtons}</DialogActions>
