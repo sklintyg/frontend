@@ -123,3 +123,5 @@ export const getAllValidationErrors = () => (state: RootState) => {
 
   return result
 }
+
+export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents

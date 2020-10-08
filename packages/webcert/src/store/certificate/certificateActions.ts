@@ -1,7 +1,14 @@
 import { createAction } from '@reduxjs/toolkit'
 import { History, LocationState } from 'history'
-import { Certificate, CertificateDataElement, CertificateStatus, Unit, ValidationError } from '@frontend/common'
-import { CertificateMetadata } from '@frontend/common'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateStatus,
+  Unit,
+  ValidationError,
+  CertificateMetadata,
+  CertificateEvent,
+} from '@frontend/common'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -10,6 +17,12 @@ const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
 const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
 const GET_CERTIFICATE_ERROR = `${CERTIFICATE} Get certificate error`
 const GET_CERTIFICATE_COMPLETED = `${CERTIFICATE} Get certificate completed`
+
+const GET_CERTIFICATE_EVENTS = `${CERTIFICATE} Get certificate events`
+const GET_CERTIFICATE_EVENTS_STARTED = `${CERTIFICATE} Get certificate events started`
+const GET_CERTIFICATE_EVENTS_SUCCESS = `${CERTIFICATE} Get certificate events success`
+const GET_CERTIFICATE_EVENTS_ERROR = `${CERTIFICATE} Get certificate events error`
+const GET_CERTIFICATE_EVENTS_COMPLETED = `${CERTIFICATE} Get certificate events completed`
 
 const DELETE_CERTIFICATE = `${CERTIFICATE} Delete certificate`
 const DELETE_CERTIFICATE_STARTED = `${CERTIFICATE} Delete certificate started`
@@ -56,6 +69,7 @@ const VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED = `${CERTIFICATE} Validate in f
 const UPDATE_CERTIFICATE_AS_READONLY = `${CERTIFICATE} Update certificate as readonly`
 const UPDATE_CERTIFICATE_AS_DELETED = `${CERTIFICATE} Update certificate as deleted`
 const UPDATE_CERTIFICATE = `${CERTIFICATE} Update certificate`
+const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
@@ -87,6 +101,20 @@ export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 
+export const getCertificateEvents = createAction<string>(GET_CERTIFICATE_EVENTS)
+
+export const getCertificateEventsStarted = createAction(GET_CERTIFICATE_EVENTS_STARTED)
+
+export interface GetCertificateEventsSuccess {
+  certificateEvents: CertificateEvent[]
+}
+
+export const getCertificateEventsSuccess = createAction<GetCertificateEventsSuccess>(GET_CERTIFICATE_EVENTS_SUCCESS)
+
+export const getCertificateEventsError = createAction<string>(GET_CERTIFICATE_EVENTS_ERROR)
+
+export const getCertificateEventsCompleted = createAction(GET_CERTIFICATE_EVENTS_COMPLETED)
+
 export const deleteCertificate = createAction<string>(DELETE_CERTIFICATE)
 
 export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
@@ -116,7 +144,7 @@ export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CE
 
 export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
 
-export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFICATE_SUCCESS)
+export const revokeCertificateSuccess = createAction(REVOKE_CERTIFICATE_SUCCESS)
 
 export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 
@@ -169,6 +197,8 @@ export const validateCertificateInFrontEnd = createAction<CertificateDataElement
 export const validateCertificateInFrontEndCompleted = createAction(VALIDATE_CERTIFICATE_IN_FRONTEND_COMPLETED)
 
 export const updateCertificate = createAction<Certificate>(UPDATE_CERTIFICATE)
+
+export const updateCertificateEvents = createAction<CertificateEvent[]>(UPDATE_CERTIFICATE_EVENTS)
 
 export const updateCertificateAsDeleted = createAction(UPDATE_CERTIFICATE_AS_DELETED)
 
