@@ -97,14 +97,24 @@ export const getAllValidationErrors = () => (state: RootState) => {
   const certificateData = state.ui.uiCertificate.certificate.data
   let result: CertificateDataElement[] = []
 
+  //Perhaps this could be simplified
   for (const questionId in certificateData) {
     if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
-      // This check makes sure that the category gets selected instead of a question
-      // Questions can have questions as parents, but we want to target the categories
-      if (certificateData[certificateData[questionId].validation.requiredProp]) {
-        result = result.concat(certificateData[certificateData[questionId].validation.requiredProp])
-      } else {
+      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.component === 'category') {
         result = result.concat(certificateData[certificateData[questionId].parent])
+      } else {
+        let parent = certificateData[questionId].parent
+        while (true) {
+          if (certificateData[parent].config.component === 'category') {
+            result = result.concat(certificateData[parent])
+            break
+          } else if (!certificateData[parent].parent) {
+            // if parents parent is not a category and it's null, break to avoid endless loop
+            break
+          } else {
+            parent = certificateData[parent].parent
+          }
+        }
       }
     }
   }
