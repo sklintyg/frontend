@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   zipCode: {
-    maxWidth: '5em',
+    maxWidth: '6em',
   },
   city: {
     maxWidth: '20em',

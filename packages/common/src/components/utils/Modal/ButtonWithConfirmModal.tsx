@@ -3,33 +3,10 @@ import React from 'react'
 import ModalBase from './ModalBase'
 
 const useStyles = makeStyles((theme) => ({
-  buttonWrapper: {
-    justifyContent: 'flex-start',
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-  },
-  dialog: {
-    width: '600px',
-    maxWidth: 'none',
-    marginTop: '30px',
-  },
-  container: {
-    alignItems: 'start',
-  },
   content: {
-    minHeight: '134px',
     '& > * + *': {
       marginTop: theme.spacing(2),
     },
-  },
-  titleWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
-  },
-  closeButton: {
-    padding: 0,
   },
 }))
 
@@ -73,6 +50,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         {props.buttonText}
       </Button>
       <ModalBase
+        additionalContentStyles={classes.content}
         open={open}
         handleClose={handleClose}
         modalTitle={props.modalTitle}
