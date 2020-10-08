@@ -15,6 +15,7 @@ import {
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
+  updateCertificateEvents,
   updateCertificateStatus,
   updateCertificateVersion,
   updateValidationErrors,
@@ -22,9 +23,11 @@ import {
   validateCertificateStarted,
 } from './certificateActions'
 import { CertificateBooleanValue, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
+import { CertificateEvent } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
+  certificateEvents: CertificateEvent[]
   spinner: boolean
   spinnerText: string
   validationInProgress: boolean
@@ -34,6 +37,7 @@ interface CertificateState {
 }
 
 const initialState: CertificateState = {
+  certificateEvents: [],
   spinner: false,
   spinnerText: '',
   validationInProgress: false,
@@ -46,6 +50,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
+      state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
         if (question.config.component === 'category') {
@@ -66,6 +71,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
             }
         }
       }
+    })
+    .addCase(updateCertificateEvents, (state, action) => {
+      state.certificateEvents.push(...action.payload)
     })
     .addCase(updateCertificateStatus, (state, action) => {
       if (!state.certificate) {
