@@ -1,6 +1,6 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, makeStyles } from '@material-ui/core'
+import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
 import React from 'react'
-import CloseIcon from '@material-ui/icons/Close'
+import ModalBase from './ModalBase'
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     minHeight: '134px',
     '& > * + *': {
-      marginTop: theme.spacing(2)
-    }
+      marginTop: theme.spacing(2),
+    },
   },
   titleWrapper: {
     display: 'flex',
@@ -72,37 +72,25 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         startIcon={props.startIcon ? props.startIcon : null}>
         {props.buttonText}
       </Button>
-      <Dialog
+      <ModalBase
         open={open}
-        onClose={handleClose}
-        classes={{ paperWidthSm: classes.dialog, scrollPaper: classes.container }}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <div className={classes.titleWrapper}>
-          <DialogTitle style={{ padding: 0 }} id="alert-dialog-title">
-            {props.modalTitle}
-          </DialogTitle>
-          <IconButton classes={{ root: classes.closeButton }} aria-label="close" onClick={handleClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </div>
-        <Divider></Divider>
-        <DialogContent id="alert-dialog-description" className={classes.content}>
-          {props.children}
-        </DialogContent>
-        <DialogActions className={classes.buttonWrapper}>
-          <Button
-            disabled={props.confirmButtonDisabled}
-            variant="contained"
-            color={props.confirmButtonColor ? props.confirmButtonColor : 'primary'}
-            onClick={handleConfirm}>
-            {props.confirmButtonText}
-          </Button>
-          <Button onClick={handleClose} variant="contained" color="default">
-            {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleClose={handleClose}
+        modalTitle={props.modalTitle}
+        content={props.children}
+        modalButtons={
+          <>
+            <Button
+              disabled={props.confirmButtonDisabled}
+              variant="contained"
+              color={props.confirmButtonColor ? props.confirmButtonColor : 'primary'}
+              onClick={handleConfirm}>
+              {props.confirmButtonText}
+            </Button>
+            <Button onClick={handleClose} variant="contained" color="default">
+              {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
+            </Button>
+          </>
+        }></ModalBase>
     </>
   )
 }

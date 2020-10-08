@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightBold,
   },
   mandatoryIcon: {
-    top: '-4px',
+    top: '-6px',
   },
 }))
 

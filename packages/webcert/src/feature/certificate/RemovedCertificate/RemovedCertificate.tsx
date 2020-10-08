@@ -1,5 +1,5 @@
 import React from 'react'
-import { trashImg } from '@frontend/common'
+import trashImg from '../../../images/trash.svg'
 import { makeStyles, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({

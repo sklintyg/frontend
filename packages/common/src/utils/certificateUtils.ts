@@ -1,5 +1,23 @@
-import { CertificateStatus } from '..'
+import { CertificateMetadata, CertificateStatus } from '..'
 
-export const isSigned = (status: CertificateStatus): boolean => {
-  return status !== CertificateStatus.UNSIGNED
+export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.SIGNED
+
+export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
+
+export const isReplaced = (certificateMetadata: CertificateMetadata) => {
+  const {
+    relations: { children },
+  } = certificateMetadata
+
+  if (children && children.length > 0) {
+    return true
+  }
+
+  return false
 }
+
+export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean) =>
+  certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && !isValidating
+
+export const isRevoked = (certificateMetadata: CertificateMetadata) =>
+  certificateMetadata.certificateStatus == CertificateStatus.INVALIDATED

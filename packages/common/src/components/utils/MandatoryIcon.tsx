@@ -24,9 +24,9 @@ const MandatoryIcon: React.FC<Props> = ({ additionalStyles, display }) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.wrapper}>
+    <span className={classes.wrapper}>
       <span className={`${classes.mandatoryIcon} ${additionalStyles && additionalStyles}`}>*</span>
-    </div>
+    </span>
   )
 }
 

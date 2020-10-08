@@ -3,7 +3,7 @@ import CertificatePage from './page/CertificatePage'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { themeCreator } from './components/styles/theme'
-import { Switch as MuiSwitch } from '@material-ui/core'
+import { CssBaseline, Switch as MuiSwitch } from '@material-ui/core'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 
@@ -19,13 +19,15 @@ function App() {
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/certificate/:id" render={() => <CertificatePage themeToggler={themeToggler}></CertificatePage>}></Route>
-        </Switch>
-      </BrowserRouter>
-    </ThemeProvider>
+    <CssBaseline>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/certificate/:id" render={() => <CertificatePage themeToggler={themeToggler}></CertificatePage>}></Route>
+          </Switch>
+        </BrowserRouter>
+      </ThemeProvider>
+    </CssBaseline>
   )
 }
 
