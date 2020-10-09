@@ -128,10 +128,10 @@ export enum CertificateRelationType {
 
 export interface CertificateEvent {
   certificateId: string
-  userId: string
   type: CertificateEventType
   timestamp: string
   relatedCertificateId: string | null
+  relatedCertificateStatus: CertificateStatus | null
 }
 
 export enum CertificateEventType {
@@ -150,6 +150,7 @@ export enum CertificateEventType {
   REQUEST_FOR_COMPLEMENT = 'REQUEST_FOR_COMPLEMENT',
   REVOKED = 'REVOKED',
   REPLACED = 'REPLACED',
+  REPLACES = 'REPLACES',
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
   CREATED_FROM = 'CREATED_FROM',
