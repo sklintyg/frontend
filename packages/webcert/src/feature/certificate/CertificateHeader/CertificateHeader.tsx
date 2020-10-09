@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Container, Paper } from '@material-ui/core'
 import {
+  getCertificateEvents,
   getCertificateMetaData,
   getIsShowSpinner,
   getIsValidating,
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CertificateHeader: React.FC = (props) => {
   const certificateMetadata = useSelector(getCertificateMetaData)
+  const historyEntries = useSelector(getCertificateEvents)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
@@ -74,14 +76,7 @@ export const CertificateHeader: React.FC = (props) => {
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
           </Box>
-          {/* //TODO: These history entries need to come from metadata */}
-          <ShowHistory
-            historyEntries={[
-              '2020-10-07 11:56 Intyget är tillgängligt för patienten',
-              '2020-10-07 11:56 Intyget är signerat',
-              '2020-10-07 10:25 Intyget är skapat',
-            ]}
-          />
+          <ShowHistory historyEntries={historyEntries} />
         </Box>
         <Divider />
         <Box display="flex">
