@@ -5,8 +5,7 @@ import CloseIcon from '@material-ui/icons/Close'
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
     justifyContent: 'flex-start',
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
+    padding: theme.spacing(3),
   },
   dialog: {
     width: '600px',
@@ -17,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'start',
   },
   content: {
+    paddingTop: theme.spacing(3),
     minHeight: '134px',
     '& p': {
       fontSize: theme.typography.body2.fontSize,
