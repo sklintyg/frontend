@@ -1,4 +1,4 @@
-import { CertificateMetadata, CertificateStatus } from '..'
+import { CertificateEvent, CertificateMetadata, CertificateStatus, CertificateEventType } from '..'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.SIGNED
 
@@ -21,3 +21,7 @@ export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidat
 
 export const isRevoked = (certificateMetadata: CertificateMetadata) =>
   certificateMetadata.certificateStatus == CertificateStatus.INVALIDATED
+
+export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]) => {
+  return historyEntries.some((entry) => entry.relatedCertificateStatus === CertificateStatus.INVALIDATED)
+}

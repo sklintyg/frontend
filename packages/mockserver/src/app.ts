@@ -130,7 +130,8 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
 
     certificateEventRepository[certificate.metadata.certificateId].push(
       createEvent(certificate.metadata.certificateId, CertificateEventType.SIGNED, null, null),
-      createEvent(certificate.metadata.certificateId, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null)
+      createEvent(certificate.metadata.certificateId, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null),
+      createEvent(certificate.metadata.certificateId, CertificateEventType.SENT, null, null)
     )
 
     res.json(certificate)
