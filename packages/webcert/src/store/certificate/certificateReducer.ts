@@ -50,6 +50,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
+      state.isDeleted = false
       state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
