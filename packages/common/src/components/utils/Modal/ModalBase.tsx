@@ -18,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     minHeight: '134px',
+    '& p': {
+      fontSize: theme.typography.body2.fontSize,
+    },
+    '& a': {
+      textDecoration: 'underline',
+    },
   },
   titleWrapper: {
     display: 'flex',
