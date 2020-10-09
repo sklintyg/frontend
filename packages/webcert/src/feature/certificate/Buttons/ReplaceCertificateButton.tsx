@@ -2,19 +2,28 @@ import React from 'react'
 import SyncAltIcon from '@material-ui/icons/SyncAlt'
 import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal } from '@frontend/common'
-import { InfoBox, isReplaced } from '@frontend/common'
+import { InfoBox, isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
 import { Typography } from '@material-ui/core'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
 const ReplaceCertificateButton = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
+  const historyEntries = useSelector(getCertificateEvents)
   if (!certificateMetadata) return null
 
-  const isCertReplaced = isReplaced(certificateMetadata)
+  let isCertReplaced = isReplaced(certificateMetadata)
+
+  if (isCertReplaced) {
+    const replacingIsRevoked = isReplacingCertificateRevoked(historyEntries)
+
+    if (replacingIsRevoked) {
+      isCertReplaced = false
+    }
+  }
 
   const handleConfirm = () => {
     if (isCertReplaced) {
