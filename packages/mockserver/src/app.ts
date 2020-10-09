@@ -15,7 +15,7 @@ const certificateRepository = {
 
 const certificateEventRepository = {
   [bootstrapCertificate.metadata.certificateId]: Array.of(
-    createEvent(bootstrapCertificate.metadata.certificateId, CertificateEventType.CREATED, null)
+    createEvent(bootstrapCertificate.metadata.certificateId, CertificateEventType.CREATED, null, null)
   ),
 }
 
@@ -36,7 +36,7 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
     certificateClone.metadata.certificateId = req.params.id
     certificateRepository[req.params.id] = certificateClone
 
-    const certificateEvent = createEvent(certificateClone.metadata.certificateId, CertificateEventType.CREATED, null)
+    const certificateEvent = createEvent(certificateClone.metadata.certificateId, CertificateEventType.CREATED, null, null)
 
     certificateEventRepository[req.params.id] = Array.of(certificateEvent)
 
@@ -67,12 +67,18 @@ app.delete('/api/certificate/:id/:version', (req: Request, res: Response, next: 
     delete certificateRepository[req.params.id]
 
     if (certificate.metadata.relations.parent) {
-      const parentCertificate = certificateRepository[certificate.metadata.relations.parent.certificateId]
+      const parentCertificateId = certificate.metadata.relations.parent.certificateId
+
+      const parentCertificate = certificateRepository[parentCertificateId]
       parentCertificate.metadata.relations.children = []
+
+      const parentCertificateEvents = certificateEventRepository[parentCertificateId]
+      const index = parentCertificateEvents.findIndex((event) => event.type === CertificateEventType.REPLACED)
+      parentCertificateEvents.splice(index, 1)
     }
 
     certificateEventRepository[certificate.metadata.certificateId].push(
-      createEvent(certificate.metadata.certificateId, CertificateEventType.DELETED, null)
+      createEvent(certificate.metadata.certificateId, CertificateEventType.DELETED, null, null)
     )
 
     res.status(200).send()
@@ -109,13 +115,22 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
     }
 
     if (certificate.metadata.relations.parent) {
-      const parentCertificate = certificateRepository[certificate.metadata.relations.parent.certificateId]
+      const parentCertificateId = certificate.metadata.relations.parent.certificateId
+
+      const parentCertificate = certificateRepository[parentCertificateId]
       parentCertificate.metadata.relations.children[0].status = certificate.metadata.certificateStatus
+
+      const parentCertificateEvents = certificateEventRepository[parentCertificateId]
+      parentCertificateEvents.forEach((event) => {
+        if (event.type === CertificateEventType.REPLACED) {
+          event.relatedCertificateStatus = certificate.metadata.certificateStatus
+        }
+      })
     }
 
     certificateEventRepository[certificate.metadata.certificateId].push(
-      createEvent(certificate.metadata.certificateId, CertificateEventType.SIGNED, null),
-      createEvent(certificate.metadata.certificateId, CertificateEventType.AVAILABLE_FOR_PATIENT, null)
+      createEvent(certificate.metadata.certificateId, CertificateEventType.SIGNED, null, null),
+      createEvent(certificate.metadata.certificateId, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null)
     )
 
     res.json(certificate)
@@ -131,19 +146,37 @@ app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: Next
     certificate.metadata.certificateStatus = CertificateStatus.INVALIDATED
 
     if (certificate.metadata.relations.parent) {
-      const parentCertificate = certificateRepository[certificate.metadata.relations.parent.certificateId]
+      const parentCertificateId = certificate.metadata.relations.parent.certificateId
+
+      const parentCertificate = certificateRepository[parentCertificateId]
       parentCertificate.metadata.relations.children[0].status = certificate.metadata.certificateStatus
+
+      const parentCertificateEvents = certificateEventRepository[parentCertificateId]
+      parentCertificateEvents.forEach((event) => {
+        if (event.type === CertificateEventType.REPLACED) {
+          event.relatedCertificateStatus = certificate.metadata.certificateStatus
+        }
+      })
     }
 
     if (certificate.metadata.relations.children && certificate.metadata.relations.children.length > 0) {
-      const childCertificate = certificateRepository[certificate.metadata.relations.children[0].certificateId]
+      const childCertificateId = certificate.metadata.relations.children[0].certificateId
+
+      const childCertificate = certificateRepository[childCertificateId]
       if (childCertificate.metadata.relations.parent) {
         childCertificate.metadata.relations.parent.status = certificate.metadata.certificateStatus
       }
+
+      const childCertificateEvents = certificateEventRepository[childCertificateId]
+      childCertificateEvents.forEach((event) => {
+        if (event.type === CertificateEventType.REPLACES) {
+          event.relatedCertificateStatus = certificate.metadata.certificateStatus
+        }
+      })
     }
 
     certificateEventRepository[certificate.metadata.certificateId].push(
-      createEvent(certificate.metadata.certificateId, CertificateEventType.REVOKED, null)
+      createEvent(certificate.metadata.certificateId, CertificateEventType.REVOKED, null, null)
     )
 
     res.status(200).send()
@@ -206,14 +239,20 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
 
     const certificateEvent = createEvent(
       certificateClone.metadata.certificateId,
-      CertificateEventType.COPIED_FROM,
-      originalCertificate.metadata.certificateId
+      CertificateEventType.REPLACES,
+      originalCertificate.metadata.certificateId,
+      originalCertificate.metadata.certificateStatus
     )
 
     certificateEventRepository[certificateClone.metadata.certificateId] = Array.of(certificateEvent)
 
     certificateEventRepository[originalCertificate.metadata.certificateId].push(
-      createEvent(originalCertificate.metadata.certificateId, CertificateEventType.REPLACED, certificateClone.metadata.certificateId)
+      createEvent(
+        originalCertificate.metadata.certificateId,
+        CertificateEventType.REPLACED,
+        certificateClone.metadata.certificateId,
+        certificateClone.metadata.certificateStatus
+      )
     )
 
     certificateRepository[certificateClone.metadata.certificateId] = certificateClone
