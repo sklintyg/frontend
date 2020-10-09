@@ -74,6 +74,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
     })
     .addCase(updateCertificateEvents, (state, action) => {
+      state.certificateEvents.splice(0, state.certificateEvents.length)
       state.certificateEvents.push(...action.payload)
     })
     .addCase(updateCertificateStatus, (state, action) => {
