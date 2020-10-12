@@ -23,6 +23,7 @@ import SentStatus from './Status/SentStatus'
 import ReplacedStatus from './Status/ReplacedStatus'
 import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
+import RevokeParentStatus from './Status/RevokeParentStatus'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,13 +71,14 @@ export const CertificateHeader: React.FC = (props) => {
         <Box className={classes.statusWrapper}>
           <Box className={classes.statusLeftSide}>
             <RevokedStatus certificateMetadata={certificateMetadata} />
-            <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
+            <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} />
             <SentStatus certificateMetadata={certificateMetadata} />
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
+            <RevokeParentStatus certificateMetadata={certificateMetadata} />
           </Box>
-          <ShowHistory historyEntries={historyEntries} />
+          <ShowHistory historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
         </Box>
         <Divider />
         <Box display="flex">

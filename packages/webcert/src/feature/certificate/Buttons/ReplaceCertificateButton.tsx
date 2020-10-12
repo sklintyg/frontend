@@ -5,7 +5,7 @@ import { ButtonWithConfirmModal } from '@frontend/common'
 import { InfoBox, isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { Typography } from '@material-ui/core'
+import { Typography, useTheme } from '@material-ui/core'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
 const ReplaceCertificateButton = () => {
@@ -13,6 +13,11 @@ const ReplaceCertificateButton = () => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
   const historyEntries = useSelector(getCertificateEvents)
+  const {
+    palette: {
+      primary: { light },
+    },
+  } = useTheme()
   if (!certificateMetadata) return null
 
   let isCertReplaced = isReplaced(certificateMetadata)
@@ -35,6 +40,8 @@ const ReplaceCertificateButton = () => {
 
   return (
     <ButtonWithConfirmModal
+      additionalButtonStyles={{ backgroundColor: light, color: '#fff' }}
+      additionalConfirmButtonStyles={{ backgroundColor: light, color: '#fff' }}
       buttonText="Ersätt"
       startIcon={<SyncAltIcon />}
       modalTitle="Ersätt intyg"

@@ -43,7 +43,7 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
         content={children}
         additionalContentStyles={additionalContentStyles}
         modalButtons={
-          <Button onClick={handleClose} variant="contained" color="default">
+          <Button onClick={handleClose} variant="outlined" color="default">
             Stäng
           </Button>
         }></ModalBase>

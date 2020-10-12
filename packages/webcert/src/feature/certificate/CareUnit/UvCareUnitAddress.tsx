@@ -6,7 +6,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange'
 import QuestionWrapper from '../QuestionWrapper'
 import { useSelector } from 'react-redux'
 import { getUnit } from '../../../store/certificate/certificateSelectors'
-import { mockGetUserSelector, Unit } from '@frontend/common'
+import { mockGetUserSelector } from '@frontend/common'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     color: '#fff',
-    backgroundColor: theme.palette.primary.light,
-    borderBottom: `2px solid ${theme.palette.primary.main}`,
+    //TODO: Add this backgroundcolor to theme, should it be in secondary?
+    backgroundColor: '#4b566f',
+    borderBottom: `2px solid ${theme.palette.primary.dark}`,
   },
   dateWrapper: {
     display: 'flex',
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
   contentWrapper: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: '#4b566f',
     color: '#fff',
   },
   infoTitle: {
