@@ -442,16 +442,20 @@ function validateHideExpressions(certificate: Certificate, dispatch: Dispatch, u
           const booleanValue = (update.value as CertificateBooleanValue).selected
           if (booleanValue && !question.visible) {
             dispatch(showCertificateDataElement(questionId))
+            validateChildHideExpression(certificate, dispatch, question, true)
           } else if (!booleanValue && question.visible) {
             dispatch(hideCertificateDataElement(questionId))
+            validateChildHideExpression(certificate, dispatch, question, false)
           }
           break
         case CertificateDataValueType.TEXT:
           const textValue = (update.value as CertificateTextValue).text
           if (textValue != null && textValue.length > 0) {
             dispatch(showCertificateDataElement(questionId))
+            validateChildHideExpression(certificate, dispatch, question, true)
           } else if (question.visible) {
             dispatch(hideCertificateDataElement(questionId))
+            validateChildHideExpression(certificate, dispatch, question, false)
           }
           break
         default:
@@ -459,6 +463,20 @@ function validateHideExpressions(certificate: Certificate, dispatch: Dispatch, u
       }
     }
   }
+}
+
+function validateChildHideExpression(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement, visible: boolean): void {
+  if (!visible) {
+    for (const questionId in certificate.data) {
+      const question = certificate.data[questionId]
+      if (question.parent === update.id) {
+        dispatch(hideCertificateDataElement(questionId))
+        validateChildHideExpression(certificate, dispatch, question, false)
+      }
+    }
+  }
+
+  validateHideExpressions(certificate, dispatch, update)
 }
 
 function validateMandatory(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement): void {
