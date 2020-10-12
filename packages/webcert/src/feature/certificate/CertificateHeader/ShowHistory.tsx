@@ -25,60 +25,62 @@ const ShowHistory: React.FC<Props> = ({ historyEntries }) => {
     if (month.length < 2) month = '0' + month
     if (day.length < 2) day = '0' + day
 
-    return `${[year, month, day].join('-')} ${d.getHours()}:${`0${d.getMinutes()}`.slice(-2)}`
+    return `${[year, month, day].join('-')} ${`0${d.getHours()}`.slice(-2)}:${`0${d.getMinutes()}`.slice(-2)}`
   }
 
-  const getHistoryText = (event: CertificateEvent, i: number) => {
-    const date = formatDate(event.timestamp)
-
+  const getHistoryText = (event: CertificateEvent) => {
     switch (event.type) {
       case CertificateEventType.CREATED:
-        return <Typography key={i}>{date} Utkastet är skapat</Typography>
+        return 'Utkastet är skapat'
       case CertificateEventType.SIGNED:
-        return <Typography key={i}>{date} Intyget är signerat</Typography>
+        return 'Intyget är signerat'
       case CertificateEventType.AVAILABLE_FOR_PATIENT:
-        return <Typography key={i}>{date} Intyget är tillgängligt för patienten</Typography>
+        return 'Intyget är tillgängligt för patienten'
       case CertificateEventType.REPLACED:
         switch (event.relatedCertificateStatus) {
           case CertificateStatus.UNSIGNED:
             return (
-              <Typography key={i}>
-                {date} Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
+              <>
+                Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
                 <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
-              </Typography>
+              </>
             )
           case CertificateStatus.SIGNED:
             return (
-              <Typography key={i}>
-                {date} Intyget har ersatts av <Link href={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
-              </Typography>
+              <>
+                Intyget har ersatts av <Link href={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
+              </>
             )
           case CertificateStatus.INVALIDATED:
             return (
-              <Typography key={i}>
-                {date} Intyget ersattes av ett intyg som nu är makulerat.{' '}
+              <>
+                Intyget ersattes av ett intyg som nu är makulerat.{' '}
                 <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
-              </Typography>
+              </>
             )
         }
       case CertificateEventType.REPLACES:
         return (
-          <Typography key={i}>
-            {date} Utkastet skapades för att ersätta ett tidigare intyg.{' '}
+          <>
+            Utkastet skapades för att ersätta ett tidigare intyg.{' '}
             <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
-          </Typography>
+          </>
         )
       case CertificateEventType.SENT:
-        return <Typography key={i}>{date} Intyget är skickat till Arbetsförmedlingen</Typography>
+        return 'Intyget är skickat till Arbetsförmedlingen'
       case CertificateEventType.REVOKED:
-        return <Typography key={i}>{date} Intyget är makulerat</Typography>
+        return 'Intyget är makulerat'
     }
   }
 
   return (
     <Typography className={classes.root}>
       <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
-        {[...historyEntries].reverse().map((entry, i) => getHistoryText(entry, i))}
+        {[...historyEntries].reverse().map((entry, i) => (
+          <Typography key={i}>
+            {formatDate(entry.timestamp)} {getHistoryText(entry)}
+          </Typography>
+        ))}
       </TextWithInfoModal>
     </Typography>
   )
