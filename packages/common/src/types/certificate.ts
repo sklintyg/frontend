@@ -16,6 +16,7 @@ export interface CertificateMetadata {
   certificateType: string
   certificateTypeVersion: string
   certificateStatus: CertificateStatus
+  created: string
   testCertificate: boolean
   relations: CertificateRelations
   unit: Unit
