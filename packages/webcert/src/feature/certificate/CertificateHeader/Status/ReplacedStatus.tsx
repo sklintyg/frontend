@@ -1,4 +1,4 @@
-import { CertificateMetadata, isReplaced } from '@frontend/common'
+import { CertificateMetadata, isReplaced, getReplacedCertificateStatus, CertificateStatus } from '@frontend/common'
 import { Link, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
@@ -26,14 +26,41 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
-  return (
-    <CertificateHeaderStatus icon={'ErrorOutlineIcon'}>
-      Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
-      <Link className={classes.link} onClick={handleClick}>
-        Öppna utkastet
-      </Link>
-    </CertificateHeaderStatus>
-  )
+  const getText = () => {
+    const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
+
+    switch (replacedCertificateStatus) {
+      case CertificateStatus.SIGNED:
+        return (
+          <>
+            Intyget har ersatts av{' '}
+            <Link className={classes.link} onClick={handleClick}>
+              detta intyg
+            </Link>
+          </>
+        )
+      case CertificateStatus.UNSIGNED:
+        return (
+          <>
+            Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
+            <Link className={classes.link} onClick={handleClick}>
+              Öppna utkastet
+            </Link>
+          </>
+        )
+      case CertificateStatus.INVALIDATED:
+        return (
+          <>
+            Intyget ersattes av ett intyg som nu är makulerat.{' '}
+            <Link className={classes.link} onClick={handleClick}>
+              Öppna intyget
+            </Link>
+          </>
+        )
+    }
+  }
+
+  return <CertificateHeaderStatus icon={'ErrorOutlineIcon'}>{getText()}</CertificateHeaderStatus>
 }
 
 export default ReplacedStatus
