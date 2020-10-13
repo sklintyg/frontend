@@ -1,5 +1,13 @@
 import React from 'react'
-import { TextWithInfoModal, CertificateEvent, CertificateEventType, CertificateStatus } from '@frontend/common'
+import {
+  TextWithInfoModal,
+  CertificateEvent,
+  CertificateEventType,
+  CertificateStatus,
+  CertificateMetadata,
+  isHasParent,
+  isParentRevoked,
+} from '@frontend/common'
 import { Link, makeStyles, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -11,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   historyEntries: CertificateEvent[]
+  certificateMetadata: CertificateMetadata
 }
 
-const ShowHistory: React.FC<Props> = ({ historyEntries }) => {
+const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
   const classes = useStyles()
 
   function formatDate(date: string) {
@@ -69,7 +78,21 @@ const ShowHistory: React.FC<Props> = ({ historyEntries }) => {
       case CertificateEventType.SENT:
         return 'Intyget är skickat till Arbetsförmedlingen'
       case CertificateEventType.REVOKED:
-        return 'Intyget är makulerat'
+        const hasParent = isHasParent(certificateMetadata)
+        const parentRevoked = isParentRevoked(certificateMetadata)
+
+        if (hasParent && !parentRevoked) {
+          return (
+            <>
+              Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
+              <Link style={{ textDecoration: 'underline' }} href={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>
+                Öppna intyget
+              </Link>
+            </>
+          )
+        } else {
+          return 'Intyget är makulerat'
+        }
     }
   }
 

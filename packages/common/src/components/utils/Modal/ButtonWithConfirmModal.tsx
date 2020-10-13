@@ -19,8 +19,10 @@ interface Props {
   onConfirm: () => any
   confirmButtonText: string
   confirmButtonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
+  additionalConfirmButtonStyles?: React.CSSProperties
   confirmButtonDisabled?: boolean
   declineButtonText?: string
+  additionalButtonStyles?: React.CSSProperties | undefined
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
@@ -43,6 +45,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
   return (
     <>
       <Button
+        style={{ ...props.additionalButtonStyles }}
         color={props.buttonColor ? props.buttonColor : 'default'}
         variant={props.buttonVariant ? props.buttonVariant : 'contained'}
         onClick={handleClickOpen}
@@ -58,13 +61,15 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         modalButtons={
           <>
             <Button
+              style={{ ...props.additionalConfirmButtonStyles }}
+              disableElevation
               disabled={props.confirmButtonDisabled}
               variant="contained"
-              color={props.confirmButtonColor ? props.confirmButtonColor : 'primary'}
+              color={props.confirmButtonColor ? props.confirmButtonColor : 'default'}
               onClick={handleConfirm}>
               {props.confirmButtonText}
             </Button>
-            <Button onClick={handleClose} variant="contained" color="default">
+            <Button onClick={handleClose} variant="outlined" color="default">
               {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
             </Button>
           </>

@@ -29,3 +29,11 @@ export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]
 export const getReplacedCertificateStatus = (certificateMetadata: CertificateMetadata) => {
   return certificateMetadata.relations.children[0].status
 }
+
+export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
+  return certificateMetadata.relations.parent?.status === CertificateStatus.INVALIDATED
+}
+
+export const isHasParent = (certificateMetadata: CertificateMetadata) => {
+  return certificateMetadata.relations.parent !== null
+}

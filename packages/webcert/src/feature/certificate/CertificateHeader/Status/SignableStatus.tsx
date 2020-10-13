@@ -12,7 +12,7 @@ const SignableStatus: React.FC<Props> = ({ isValidForSigning, certificateMetadat
 
   return (
     <CertificateHeaderStatus icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>
-      {isValidForSigning ? 'Klar att signera' : 'Obligatoriska uppgifter saknas'}
+      {isValidForSigning ? 'Klart att signera' : 'Obligatoriska uppgifter saknas'}
     </CertificateHeaderStatus>
   )
 }
