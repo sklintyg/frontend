@@ -49,7 +49,7 @@ const ReplaceCertificateButton = () => {
       confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Ersätt'}>
       <>
         <InfoBox type="info">
-          Om intyget innehåller ett allvarligt fel, till exemepel om det är utfärdat på fel patient, bör du istället makulera intyget.
+          Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.
         </InfoBox>
         <Typography>
           Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När

@@ -35,5 +35,5 @@ export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
 }
 
 export const isHasParent = (certificateMetadata: CertificateMetadata) => {
-  return certificateMetadata.relations.parent !== null
+  return !!certificateMetadata.relations.parent
 }

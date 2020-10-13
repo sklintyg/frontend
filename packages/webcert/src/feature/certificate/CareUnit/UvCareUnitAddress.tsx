@@ -5,8 +5,7 @@ import CategoryTitle from '../CategoryTitle'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import QuestionWrapper from '../QuestionWrapper'
 import { useSelector } from 'react-redux'
-import { getUnit } from '../../../store/certificate/certificateSelectors'
-import { mockGetUserSelector } from '@frontend/common'
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -36,8 +35,21 @@ const useStyles = makeStyles((theme) => ({
 
 const UvCareUnitAddress: React.FC = (props) => {
   const classes = useStyles()
-  const unit = useSelector(getUnit())
-  const doctor = useSelector(mockGetUserSelector)
+  const metadata = useSelector(getCertificateMetaData)
+
+  if (!metadata) return null
+
+  function formatDate(date: string) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear()
+
+    if (month.length < 2) month = '0' + month
+    if (day.length < 2) day = '0' + day
+
+    return `${[year, month, day].join('-')}`
+  }
 
   return (
     <>
@@ -45,18 +57,18 @@ const UvCareUnitAddress: React.FC = (props) => {
         <CategoryTitle>Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
         <div className={classes.dateWrapper}>
           <DateRangeIcon></DateRangeIcon>
-          <Typography className={classes.date}>2020-09-23</Typography>
+          <Typography className={classes.date}>{formatDate(metadata.created)}</Typography>
         </div>
       </CategoryHeader>
       <QuestionWrapper additionalStyles={`${classes.contentWrapper}`}>
         <Typography variant="h6" className={classes.infoTitle}>
           Namn och kontaktuppgifter till vårdenheten
         </Typography>
-        <Typography>{doctor.name}</Typography>
-        <Typography>{unit.address}</Typography>
-        <Typography>{unit.zipCode}</Typography>
-        <Typography>{unit.city}</Typography>
-        <Typography>{unit.phoneNumber}</Typography>
+        <Typography>{metadata.issuedBy.fullName}</Typography>
+        <Typography>{metadata.unit.address}</Typography>
+        <Typography>{metadata.unit.zipCode}</Typography>
+        <Typography>{metadata.unit.city}</Typography>
+        <Typography>{metadata.unit.phoneNumber}</Typography>
       </QuestionWrapper>
     </>
   )
