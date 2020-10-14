@@ -5,6 +5,7 @@ import {
   clearRedirect,
   getUser,
   getUserCompleted,
+  getUserError,
   getUserStarted,
   getUserSuccess,
   loginUser,
@@ -78,7 +79,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (ne
       method: 'GET',
       onStart: getUserStarted.type,
       onSuccess: getUserSuccess.type,
-      onError: getUserSuccess.type,
+      onError: getUserError.type,
     })
   )
 }
