@@ -18,7 +18,7 @@ const AppHeaderUser: React.FC<Props> = ({ user }) => {
         <Typography variant={'body1'} style={{ fontWeight: 'bold', marginRight: '5px' }}>
           {user.name}
         </Typography>
-        <Typography variant={'body1'}>- {user.title}</Typography>
+        <Typography variant={'body1'}>- {user.role}</Typography>
       </Box>
     </AppHeaderItem>
   )
