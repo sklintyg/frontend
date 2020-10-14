@@ -4,6 +4,8 @@ import { apiCallBegan } from '../api/apiActions'
 import {
   clearRedirect,
   getUser,
+  getUserCompleted,
+  getUserStarted,
   getUserSuccess,
   loginUser,
   loginUserError,
@@ -22,7 +24,7 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
 
   const data =
     'userJsonDisplay= {\n' +
-    ' "hsaId": "TSTNMT2321000156-1079",\n' +
+    ' "hsaId": "TSTNMT2321000156-10CD",\n' +
     ' "forNamn": "Arnold",\n' +
     ' "efterNamn": "Johansson",\n' +
     ' "enhetId": "TSTNMT2321000156-1077",\n' +
@@ -54,8 +56,7 @@ const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     return
   }
 
-  // TODO: Get logged in user
-  dispatch(getUser('TSTNMT2321000156-1079'))
+  dispatch(getUser())
 
   const redirect = getState().ui.uiUser.redirect
   if (redirect) {
@@ -71,8 +72,15 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (ne
     return
   }
 
-  // TODO: Fetch user from backend.
-  dispatch(updateUser({ name: 'Arnold Johansson', title: 'Läkare', loggedInUnit: 'NMT vg3 ve1', loggedInCareProvider: 'NMT vg3' }))
+  dispatch(
+    apiCallBegan({
+      url: '/api/user',
+      method: 'GET',
+      onStart: getUserStarted.type,
+      onSuccess: getUserSuccess.type,
+      onError: getUserSuccess.type,
+    })
+  )
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -81,6 +89,9 @@ const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   if (!getUserSuccess.match(action)) {
     return
   }
+
+  dispatch(updateUser(action.payload))
+  dispatch(getUserCompleted())
 }
 
 export const userMiddleware = [handleLoginUser, handleLoginUserSuccess, handleGetUser, handleGetUserSuccess]

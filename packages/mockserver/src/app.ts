@@ -1,10 +1,21 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
-import { Certificate, CertificateBooleanValue, CertificateStatus, CertificateTextValue, ValidationError } from '@frontend/common'
+import bootstrapUsers from './bootstrap/users.json'
+import {
+  Certificate,
+  CertificateBooleanValue,
+  CertificateStatus,
+  CertificateTextValue,
+  ValidationError,
+  CertificateEventType,
+  CertificateRelation,
+  CertificateRelationType,
+  FakeLogin,
+  User,
+} from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
-import { CertificateEventType, CertificateRelation, CertificateRelationType } from '@frontend/common/src'
 import { createEvent } from './util'
 
 const app: Application = express()
@@ -19,6 +30,8 @@ const certificateEventRepository = {
   ),
 }
 
+let loggedInUser: FakeLogin | null = null
+
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
@@ -26,6 +39,7 @@ app.use(function(req, res, next) {
 })
 
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: false }))
 
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
@@ -99,7 +113,8 @@ app.put('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
 })
 
 app.post('/fake', (req: Request, res: Response, next: NextFunction) => {
-  console.log(`###################################### ${new Date()} POST /fake`)
+  console.log(`###################################### ${new Date()} POST /fake user: ${req.body.userJsonDisplay}`)
+  loggedInUser = JSON.parse(req.body.userJsonDisplay)
   res.status(200).send()
 })
 
@@ -278,6 +293,20 @@ app.get('/api/certificate/:id/events', (req: Request, res: Response, next: NextF
     res.json(response).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
+app.get('/api/user', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /api/user`)
+  if (loggedInUser) {
+    const userData: User | undefined = bootstrapUsers.find((user) => user.hsaId === loggedInUser!.hsaId)
+    if (userData) {
+      res.json(userData).send()
+    } else {
+      res.status(404).send(`User with ${loggedInUser.hsaId} doesn't exist`)
+    }
+  } else {
+    res.status(404).send(`No user is logged in`)
   }
 })
 
