@@ -24,7 +24,7 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
 
   const data =
     'userJsonDisplay= {\n' +
-    ' "hsaId": "TSTNMT2321000156-10CD",\n' +
+    ' "hsaId": "TSTNMT2321000156-1079",\n' +
     ' "forNamn": "Arnold",\n' +
     ' "efterNamn": "Johansson",\n' +
     ' "enhetId": "TSTNMT2321000156-1077",\n' +
