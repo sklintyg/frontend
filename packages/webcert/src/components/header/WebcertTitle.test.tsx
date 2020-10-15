@@ -4,5 +4,5 @@ import WebcertTitle from './WebcertTitle'
 
 it('displays image', (): void => {
   render(<WebcertTitle />)
-  screen.getByRole('img')
+  expect(screen.getByRole('img')).toBeInTheDocument()
 })

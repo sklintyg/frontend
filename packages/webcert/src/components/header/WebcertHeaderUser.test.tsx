@@ -7,7 +7,6 @@ import { User } from '@frontend/common'
 it('displays users name and role', (): void => {
   const spy = jest.spyOn(redux, 'useSelector')
 
-  // @ts-expect-error: We don't need to fill the whole object with data
   const mockUser: User = {
     name: 'Test Testsson',
     role: 'Läkare',
@@ -15,6 +14,6 @@ it('displays users name and role', (): void => {
   spy.mockReturnValue(mockUser)
 
   render(<WebcertHeaderUser />)
-  screen.getByText(/Test Testsson/i)
-  screen.getByText(/Läkare/i)
+  expect(screen.getByText(/Test Testsson/i)).toBeInTheDocument()
+  expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
 })
