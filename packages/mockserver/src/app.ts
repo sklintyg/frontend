@@ -17,6 +17,7 @@ import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
+import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
 
 const app: Application = express()
 
@@ -44,7 +45,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
   if (certificateRepository[req.params.id]) {
-    res.json(certificateRepository[req.params.id])
+    res.json(createResponse(certificateRepository[req.params.id]))
   } else if (req.params.id) {
     const certificateClone = (_.cloneDeep(bootstrapCertificate) as unknown) as Certificate
     certificateClone.metadata.certificateId = req.params.id
@@ -54,7 +55,7 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
 
     certificateEventRepository[req.params.id] = Array.of(certificateEvent)
 
-    res.json(certificateClone)
+    res.json(createResponse(certificateClone))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -149,7 +150,7 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
       createEvent(certificate.metadata.certificateId, CertificateEventType.SENT, null, null)
     )
 
-    res.json(certificate)
+    res.json(createResponse(certificate))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -195,7 +196,7 @@ app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: Next
       createEvent(certificate.metadata.certificateId, CertificateEventType.REVOKED, null, null)
     )
 
-    res.status(200).send()
+    res.json(createResponse(certificate)).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
@@ -311,6 +312,79 @@ app.get('/api/user', (req: Request, res: Response, next: NextFunction) => {
 })
 
 app.listen(9088, () => console.log('Server running'))
+
+function createResponse(certificate: Certificate): Certificate {
+  const certificateClone = _.cloneDeep(certificate)
+
+  certificateClone.links = []
+
+  console.log(loggedInUser)
+
+  const userData: User | undefined = bootstrapUsers.find((user) => user.hsaId === loggedInUser!.hsaId)
+
+  switch (certificateClone.metadata.certificateStatus) {
+    case CertificateStatus.UNSIGNED:
+      certificateClone.links.push({
+        type: ResourceLinkType.EDIT_CERTIFICATE,
+        name: 'Ändra',
+        description: 'Ändrar intygsutkastet',
+        enabled: true,
+      })
+      certificateClone.links.push({
+        type: ResourceLinkType.PRINT_CERTIFICATE,
+        name: 'Skriv ut',
+        description: 'Laddar ned intygsutkastet för utskrift.',
+        enabled: true,
+      })
+      certificateClone.links.push({
+        type: ResourceLinkType.REMOVE_CERTIFICATE,
+        name: 'Radera',
+        description: 'Raderar intygsutkastet.',
+        enabled: true,
+      })
+      if (userData!.role === 'Läkare') {
+        certificateClone.links.push({
+          type: ResourceLinkType.SIGN_CERTIFICATE,
+          name: 'Signera',
+          description: 'Signerar intygsutkastet',
+          enabled: true,
+        })
+      }
+      certificateClone.links.push({
+        type: ResourceLinkType.SEND_CERTIFICATE,
+        name: 'Skicka',
+        description: 'Skickar intyget',
+        enabled: true,
+      })
+      break
+    case CertificateStatus.SIGNED:
+      certificateClone.links.push({
+        type: ResourceLinkType.PRINT_CERTIFICATE,
+        name: 'Skriv ut',
+        description: 'Laddar ned intyget för utskrift.',
+        enabled: true,
+      })
+      if (userData!.role === 'Läkare') {
+        certificateClone.links.push({
+          type: ResourceLinkType.REVOKE_CERTIFICATE,
+          name: 'Makulera',
+          description: 'Makulerar intyget.',
+          enabled: true,
+        })
+        certificateClone.links.push({
+          type: ResourceLinkType.REPLACE_CERTIFICATE,
+          name: 'Ersätt',
+          description: 'Ersätter intyget',
+          enabled: true,
+        })
+      }
+      break
+    case CertificateStatus.INVALIDATED:
+    default:
+  }
+
+  return certificateClone
+}
 
 function validate(certificate: Certificate): ValidationError[] {
   const validationError: ValidationError[] = []

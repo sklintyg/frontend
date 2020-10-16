@@ -1,6 +1,9 @@
+import { ResourceLink } from './resourceLink'
+
 export interface Certificate {
   metadata: CertificateMetadata
   data: CertificateData
+  links: ResourceLink[]
 }
 
 export enum CertificateStatus {
@@ -20,6 +23,7 @@ export interface CertificateMetadata {
   testCertificate: boolean
   relations: CertificateRelations
   unit: Unit
+  careProvider: Unit
   patient: Patient
   issuedBy: Staff
   version: number
