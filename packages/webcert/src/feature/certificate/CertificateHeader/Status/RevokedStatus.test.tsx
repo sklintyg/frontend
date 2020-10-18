@@ -10,6 +10,7 @@ it('displays that the certificate is revoked', async () => {
 
   isRevokedSpy.mockReturnValue(true)
 
+  // @ts-expect-error we don't need to send all props
   render(<RevokedStatus />)
   expect(screen.getByText(/intyget är makulerat/i)).toBeInTheDocument()
   userEvent.click(screen.getByText(/intyget är makulerat/i))
@@ -28,6 +29,7 @@ it('doesnt render anything', async () => {
 
   isRevokedSpy.mockReturnValue(false)
 
+  // @ts-expect-error we don't need to send all props
   render(<RevokedStatus />)
   expect(screen.queryByText(/utkastet är sparat/i)).not.toBeInTheDocument()
 })

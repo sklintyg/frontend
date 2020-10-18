@@ -8,7 +8,7 @@ it('displays that the draft is saved', () => {
   const isDraftSavedSpy = jest.spyOn(utils, 'isDraftSaved')
 
   isDraftSavedSpy.mockReturnValue(true)
-
+  // @ts-expect-error we don't need to send all props
   render(<DraftSavedStatus />)
   expect(screen.getByText(/utkastet är sparat/i)).toBeInTheDocument()
 })
@@ -18,6 +18,7 @@ it('doesnt render anything', async () => {
 
   isDraftSavedSpy.mockReturnValue(false)
 
+  // @ts-expect-error we don't need to send all props
   render(<DraftSavedStatus />)
   expect(screen.queryByText(/utkastet är sparat/i)).not.toBeInTheDocument()
 })

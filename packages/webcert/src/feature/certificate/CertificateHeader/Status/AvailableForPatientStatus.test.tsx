@@ -10,12 +10,17 @@ it('displays that the certificate is available for the patient', async () => {
 
   spy.mockReturnValue(true)
 
+  // @ts-expect-error we don't need to send all props
   render(<AvailableForPatientStatus />)
 
   expect(screen.getByText(/intyget är tillgängligt för patienten/i)).toBeInTheDocument()
   userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
 
-  expect(screen.getByRole('heading', { name: /intyget är tillgängligt för patienten/i })).toBeInTheDocument()
+  expect(
+    screen.getByRole('heading', {
+      name: /intyget är tillgängligt för patienten/i,
+    })
+  ).toBeInTheDocument()
   expect(screen.getByText(/intyget är tillgängligt för patienten i mina intyg, som nås via/i)).toBeInTheDocument()
 
   userEvent.click(screen.getByRole('button', { name: /stäng/i }))
@@ -28,6 +33,7 @@ it('doesnt render anything', async () => {
 
   spy.mockReturnValue(false)
 
+  // @ts-expect-error we don't need to send all props
   render(<AvailableForPatientStatus />)
 
   expect(screen.queryByText(/intyget är tillgängligt för patienten/i)).not.toBeInTheDocument()

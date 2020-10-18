@@ -25,6 +25,7 @@ it('displays history entries', async () => {
     },
   ]
 
+  // @ts-expect-error: We don't need to send all props
   render(<ShowHistory historyEntries={mockHistoryEntries} />)
 
   expect(screen.getByText('Visa alla händelser')).toBeInTheDocument()

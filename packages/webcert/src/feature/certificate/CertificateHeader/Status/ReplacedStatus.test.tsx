@@ -12,6 +12,7 @@ it('displays that the certificate is replaced by a signed certificate', () => {
   isReplacedSpy.mockReturnValue(true)
   getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.SIGNED)
 
+  // @ts-expect-error we don't need to send all props
   render(<ReplacedStatus />)
   expect(screen.getByText(/Intyget har ersatts av/i)).toBeInTheDocument()
 })
@@ -23,6 +24,7 @@ it('displays that the certificate is replaced by an unsigned certificate', async
   isReplacedSpy.mockReturnValue(true)
   getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.UNSIGNED)
 
+  // @ts-expect-error we don't need to send all props
   render(<ReplacedStatus />)
   expect(screen.getByText(/Det finns redan ett påbörjat utkast som ska ersätta detta intyg/i)).toBeInTheDocument()
 })
@@ -34,6 +36,7 @@ it('displays that the certificate is replaced by a revoked certificate', async (
   isReplacedSpy.mockReturnValue(true)
   getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.INVALIDATED)
 
+  // @ts-expect-error we don't need to send all props
   render(<ReplacedStatus />)
   expect(screen.getByText(/Intyget ersattes av ett intyg som nu är makulerat./i)).toBeInTheDocument()
 })
@@ -45,6 +48,7 @@ it('doesnt render anything', async () => {
   isReplacedSpy.mockReturnValue(false)
   getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.SIGNED)
 
+  // @ts-expect-error we don't need to send all props
   render(<ReplacedStatus />)
   expect(screen.queryByText(/Intyget har ersatts av/i)).not.toBeInTheDocument()
 })
