@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import UeTextArea from './UeTextArea'
 import { CertificateDataValueType, CertificateDataElement } from '@frontend/common'
 
-it('displays that the certificate is revoked', async () => {
+it('renders a textarea which has correct value after typing in it', async () => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 
