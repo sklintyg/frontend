@@ -18,6 +18,10 @@
       "phoneNumber": "0101112131416",
       "email": "enhet3@webcert.invalid.se"
     },
+    "careProvider": {
+      "unitId": "TSTNMT2321000156-102Q",
+      "unitName": "NMT vg3"
+    },
     "patient": {
       "personId": "191212121212",
       "firstName": "Tolvan",
