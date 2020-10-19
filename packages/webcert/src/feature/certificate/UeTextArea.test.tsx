@@ -1,7 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitForDomChange } from '@testing-library/react'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
+import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
 import UeTextArea from './UeTextArea'
@@ -13,11 +12,12 @@ it('displays that the certificate is revoked', async () => {
 
   const mockQuestion: CertificateDataElement = {
     value: { type: CertificateDataValueType.TEXT },
+    // @ts-expect-error
     config: { prop: '' },
   }
 
   useSelectorSpy.mockReturnValue({})
-  useDispatchSpy.mockReturnValue({})
+  useDispatchSpy.mockReturnValue(jest.fn())
 
   render(<UeTextArea question={mockQuestion} />)
 
