@@ -6,7 +6,7 @@ import UeCareUnitAddress from './UeCareUnitAddress'
 it('displays all input fields with labels', (): void => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue({})
+  useDispatchSpy.mockReturnValue(jest.fn())
   useSelectorSpy.mockReturnValue({})
 
   render(<UeCareUnitAddress />)
