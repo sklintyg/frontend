@@ -342,6 +342,12 @@ function createResponse(certificate: Certificate): Certificate {
         description: 'Raderar intygsutkastet.',
         enabled: true,
       })
+      certificateClone.links.push({
+        type: ResourceLinkType.FORWARD_CERTIFICATE,
+        name: 'Vidarebefodra utkast',
+        description: 'Skapar ett e-postmeddelande i din e-postklient med en direktlänk till utkastet.',
+        enabled: true,
+      })
       if (userData!.role === 'Läkare') {
         certificateClone.links.push({
           type: ResourceLinkType.SIGN_CERTIFICATE,
