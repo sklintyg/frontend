@@ -257,11 +257,10 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getSta
     return
   }
 
-  dispatch(updateCertificateStatus(CertificateStatus.INVALIDATED))
+  dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
   dispatch(revokeCertificateCompleted())
-  const certificate: Certificate = getState().ui.uiCertificate.certificate
-  dispatch(getCertificateEvents(certificate.metadata.certificateId))
+  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
 }
 
 const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

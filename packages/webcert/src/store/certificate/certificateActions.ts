@@ -144,7 +144,7 @@ export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CE
 
 export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
 
-export const revokeCertificateSuccess = createAction(REVOKE_CERTIFICATE_SUCCESS)
+export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFICATE_SUCCESS)
 
 export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 
