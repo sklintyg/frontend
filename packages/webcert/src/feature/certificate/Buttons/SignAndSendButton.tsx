@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme) => ({
     borderColor: '#4c7b67',
     color: '#fff',
   },
-  tooltip: {
-    backgroundColor: theme.palette.primary.main,
-  },
 }))
 
 interface Props {

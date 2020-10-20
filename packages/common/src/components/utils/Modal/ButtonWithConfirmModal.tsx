@@ -9,16 +9,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-  tooltip: {
-    backgroundColor: theme.palette.primary.main,
-    padding: theme.spacing(1.5),
-    fontSize: theme.typography.pxToRem(12),
-    borderRadius: 0,
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  tooltipArrow: {
-    color: theme.palette.primary.main,
-  },
 }))
 
 interface Props {
@@ -57,17 +47,17 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
 
   return (
     <>
-    <ButtonTooltip description={props.description}>
-      <Button
-        disabled={props.disabled}
-        style={{ ...props.additionalButtonStyles }}
-        color={props.buttonColor ? props.buttonColor : 'default'}
-        variant={props.buttonVariant ? props.buttonVariant : 'contained'}
-        onClick={handleClickOpen}
-        startIcon={props.startIcon ? props.startIcon : null}>
-        {props.name}
-      </Button>
-    </ButtonTooltip>
+      <ButtonTooltip description={props.description}>
+        <Button
+          disabled={props.disabled}
+          style={{ ...props.additionalButtonStyles }}
+          color={props.buttonColor ? props.buttonColor : 'default'}
+          variant={props.buttonVariant ? props.buttonVariant : 'contained'}
+          onClick={handleClickOpen}
+          startIcon={props.startIcon ? props.startIcon : null}>
+          {props.name}
+        </Button>
+      </ButtonTooltip>
       <ModalBase
         additionalContentStyles={classes.content}
         open={open}
