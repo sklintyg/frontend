@@ -8,7 +8,13 @@ import { replaceCertificate } from '../../../store/certificate/certificateAction
 import { Typography, useTheme } from '@material-ui/core'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
-const ReplaceCertificateButton = () => {
+interface Props {
+  name: string
+  description: string
+  enabled: boolean
+}
+
+const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
@@ -18,6 +24,7 @@ const ReplaceCertificateButton = () => {
       primary: { light },
     },
   } = useTheme()
+
   if (!certificateMetadata) return null
 
   let isCertReplaced = isReplaced(certificateMetadata)
@@ -42,7 +49,9 @@ const ReplaceCertificateButton = () => {
     <ButtonWithConfirmModal
       additionalButtonStyles={{ backgroundColor: light, color: '#fff' }}
       additionalConfirmButtonStyles={{ backgroundColor: light, color: '#fff' }}
-      buttonText="Ersätt"
+      name={name}
+      description={description}
+      disabled={!enabled}
       startIcon={<SyncAltIcon />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm()}

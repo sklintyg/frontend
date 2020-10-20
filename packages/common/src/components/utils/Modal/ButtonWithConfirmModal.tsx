@@ -1,5 +1,6 @@
+import { ButtonTooltip } from '@frontend/common'
 import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import ModalBase from './ModalBase'
 
 const useStyles = makeStyles((theme) => ({
@@ -8,10 +9,21 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.primary.main,
+    padding: theme.spacing(1.5),
+    fontSize: theme.typography.pxToRem(12),
+    borderRadius: 0,
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  tooltipArrow: {
+    color: theme.palette.primary.main,
+  },
 }))
 
 interface Props {
-  buttonText: string
+  disabled: boolean
+  name: string
   buttonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
   buttonVariant?: 'text' | 'outlined' | 'contained' | undefined
   startIcon?: React.ReactNode
@@ -23,6 +35,7 @@ interface Props {
   confirmButtonDisabled?: boolean
   declineButtonText?: string
   additionalButtonStyles?: React.CSSProperties | undefined
+  description: string
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
@@ -44,14 +57,17 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
 
   return (
     <>
+    <ButtonTooltip description={props.description}>
       <Button
+        disabled={props.disabled}
         style={{ ...props.additionalButtonStyles }}
         color={props.buttonColor ? props.buttonColor : 'default'}
         variant={props.buttonVariant ? props.buttonVariant : 'contained'}
         onClick={handleClickOpen}
         startIcon={props.startIcon ? props.startIcon : null}>
-        {props.buttonText}
+        {props.name}
       </Button>
+    </ButtonTooltip>
       <ModalBase
         additionalContentStyles={classes.content}
         open={open}

@@ -5,7 +5,13 @@ import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useDispatch } from 'react-redux'
 
-const RevokeCertificateButton = () => {
+interface Props {
+  name: string
+  description: string
+  enabled: boolean
+}
+
+const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
@@ -36,7 +42,9 @@ const RevokeCertificateButton = () => {
   return (
     <ButtonWithConfirmModal
       confirmButtonDisabled={confirmButtonDisabled}
-      buttonText="Makulera"
+      name={name}
+      disabled={!enabled}
+      description={description}
       startIcon={<DeleteIcon />}
       modalTitle="Makulera intyg"
       onConfirm={handleDispatch}

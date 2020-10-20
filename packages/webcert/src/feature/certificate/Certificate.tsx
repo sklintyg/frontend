@@ -60,7 +60,7 @@ const Certificate: React.FC = () => {
             }
           })}
 
-        {certificateSigned ? <UvCareUnitAddress></UvCareUnitAddress> : <UeCareUnitAddress></UeCareUnitAddress>}
+        {certificateSigned ? <UvCareUnitAddress /> : <UeCareUnitAddress />}
         <CertificateValidation />
         <CertificateFooter />
       </Box>
