@@ -40,12 +40,7 @@ export const isHasParent = (certificateMetadata: CertificateMetadata) => {
   return !!certificateMetadata.relations.parent
 }
 
-export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: ResourceLinkType) => {
-  if (actual === wanted) return true
+export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: ResourceLinkType) => actual === wanted
 
-  return false
-}
-
-export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink => {
-  return resourceLinks.find((link) => link.type === wanted)!
-}
+export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink =>
+  resourceLinks.find((link) => link.type === wanted)!
