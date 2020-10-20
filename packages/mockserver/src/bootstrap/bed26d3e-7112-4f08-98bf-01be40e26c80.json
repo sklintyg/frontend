@@ -8,6 +8,7 @@
     "certificateStatus": "UNSIGNED",
     "created": "2020-10-12T15:31:37.632",
     "testCertificate": false,
+    "forwarded": false,
     "relations": {},
     "unit": {
       "unitId": "TSTNMT2321000156-1077",

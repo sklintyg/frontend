@@ -30,6 +30,12 @@ const DELETE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Delete certificate success`
 const DELETE_CERTIFICATE_ERROR = `${CERTIFICATE} Delete certificate error`
 const DELETE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Delete certificate completed`
 
+const FORWARD_CERTIFICATE = `${CERTIFICATE} Forward certificate`
+const FORWARD_CERTIFICATE_STARTED = `${CERTIFICATE} Forward certificate started`
+const FORWARD_CERTIFICATE_SUCCESS = `${CERTIFICATE} Forward certificate success`
+const FORWARD_CERTIFICATE_ERROR = `${CERTIFICATE} Forward certificate error`
+const FORWARD_CERTIFICATE_COMPLETED = `${CERTIFICATE} Forward certificate completed`
+
 const SIGN_CERTIFICATE = `${CERTIFICATE} Sign certificate`
 const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
@@ -124,6 +130,16 @@ export const deleteCertificateSuccess = createAction(DELETE_CERTIFICATE_SUCCESS)
 export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
 
 export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLETED)
+
+export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
+
+export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
+
+export const forwardCertificateSuccess = createAction<Certificate>(FORWARD_CERTIFICATE_SUCCESS)
+
+export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
+
+export const forwardCertificateCompleted = createAction(FORWARD_CERTIFICATE_COMPLETED)
 
 export const signCertificate = createAction(SIGN_CERTIFICATE)
 
