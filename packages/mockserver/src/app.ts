@@ -102,6 +102,19 @@ app.delete('/api/certificate/:id/:version', (req: Request, res: Response, next: 
   }
 })
 
+app.post('/api/certificate/:id/:version/forward', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/${req.params.version}/forward`)
+  if (certificateRepository[req.params.id]) {
+    const certificate = certificateRepository[req.params.id]
+
+    certificate.metadata.forwarded = req.body.forward
+
+    res.json(createResponse(certificate)).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
 app.put('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} PUT /api/certificate/${req.params.id}`)
   if (certificateRepository[req.params.id]) {
