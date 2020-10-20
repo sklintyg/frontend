@@ -11,6 +11,11 @@ import {
   deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
+  forwardCertificate,
+  forwardCertificateCompleted,
+  forwardCertificateError,
+  forwardCertificateStarted,
+  forwardCertificateSuccess,
   getCertificate,
   getCertificateCompleted,
   getCertificateError,
@@ -152,7 +157,7 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
     return
   }
 
-  dispatch(showSpinner('Laddar...'))
+  dispatch(showSpinner('Raderar...'))
 
   const certificate: Certificate = getState().ui.uiCertificate.certificate
 
@@ -177,6 +182,44 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
   dispatch(updateCertificateAsDeleted())
   dispatch(hideSpinner())
   dispatch(deleteCertificateCompleted())
+}
+
+const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!forwardCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Vidarebefodrar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: `/api/certificate/${certificate.metadata.certificateId}/${certificate.metadata.version}/forward`,
+      method: 'POST',
+      data: {
+        forward: action.payload,
+      },
+      onStart: forwardCertificateStarted.type,
+      onSuccess: forwardCertificateSuccess.type,
+      onError: forwardCertificateError.type,
+    })
+  )
+}
+
+const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!forwardCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateCertificate(action.payload))
+  dispatch(hideSpinner())
+  dispatch(forwardCertificateCompleted())
+  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -525,4 +568,6 @@ export const certificateMiddleware = [
   handleRevokeCertificateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
+  handleForwardCertificate,
+  handleForwardCertificateSuccess,
 ]

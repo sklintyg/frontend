@@ -21,6 +21,7 @@ export interface CertificateMetadata {
   certificateStatus: CertificateStatus
   created: string
   testCertificate: boolean
+  forwarded: boolean
   relations: CertificateRelations
   unit: Unit
   careProvider: Unit
