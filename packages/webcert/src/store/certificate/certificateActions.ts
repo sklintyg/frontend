@@ -54,6 +54,12 @@ const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
 const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
 const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
 
+const COPY_CERTIFICATE = `${CERTIFICATE} Copy certificate`
+const COPY_CERTIFICATE_STARTED = `${CERTIFICATE} Copy certificate started`
+const COPY_CERTIFICATE_SUCCESS = `${CERTIFICATE} Copy certificate success`
+const COPY_CERTIFICATE_ERROR = `${CERTIFICATE} Copy certificate error`
+const COPY_CERTIFICATE_COMPLETED = `${CERTIFICATE} Copy certificate completed`
+
 const VALIDATE_CERTIFICATE = `${CERTIFICATE} Validate certificate`
 const VALIDATE_CERTIFICATE_STARTED = `${CERTIFICATE} Validate certificate started`
 const VALIDATE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Validate certificate completed`
@@ -180,6 +186,21 @@ export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>
 export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
+
+export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
+
+export const copyCertificateStarted = createAction(COPY_CERTIFICATE_STARTED)
+
+export interface CopyCertificateSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const copyCertificateSuccess = createAction<CopyCertificateSuccess>(COPY_CERTIFICATE_SUCCESS)
+
+export const copyCertificateError = createAction<string>(COPY_CERTIFICATE_ERROR)
+
+export const copyCertificateCompleted = createAction(COPY_CERTIFICATE_COMPLETED)
 
 export const validateCertificate = createAction<Certificate>(VALIDATE_CERTIFICATE)
 

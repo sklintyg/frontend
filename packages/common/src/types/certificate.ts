@@ -8,8 +8,10 @@ export interface Certificate {
 
 export enum CertificateStatus {
   UNSIGNED = 'UNSIGNED',
+  LOCKED = 'LOCKED',
   SIGNED = 'SIGNED',
-  INVALIDATED = 'INVALIDATED',
+  REVOKED = 'REVOKED',
+  LOCKED_REVOKED = 'LOCKED_REVOKED',
 }
 
 export interface CertificateMetadata {
@@ -130,6 +132,7 @@ export interface CertificateRelation {
 
 export enum CertificateRelationType {
   REPLACE = 'REPLACE',
+  COPIED = 'COPIED',
 }
 
 export interface CertificateEvent {
@@ -160,6 +163,7 @@ export enum CertificateEventType {
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
   CREATED_FROM = 'CREATED_FROM',
+  COPIED_BY = 'COPIED_BY',
   COPIED_FROM = 'COPIED_FROM',
   RELATED_CERTIFICATE_REVOKED = 'RELATED_CERTIFICATE_REVOKED',
 }
