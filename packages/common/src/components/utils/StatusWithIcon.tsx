@@ -20,9 +20,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   icon?: 'CheckIcon' | 'ErrorOutlineIcon'
+  additionalWrapperStyles?: string
+  additionalTextStyles?: string
 }
 
-const CertificateHeaderStatus: React.FC<Props> = ({ icon, children }) => {
+const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalTextStyles, additionalWrapperStyles }) => {
   const classes = useStyles()
 
   const getIcon = (icon: Props['icon']) => {
@@ -38,12 +40,12 @@ const CertificateHeaderStatus: React.FC<Props> = ({ icon, children }) => {
 
   return (
     <>
-      <Box className={`${classes.root} headerStatusWrapper`}>
+      <Box className={`${classes.root} status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <Typography className={classes.text}>{children}</Typography>
+        <Typography className={`${classes.text} ${additionalTextStyles}`}>{children}</Typography>
       </Box>
     </>
   )
 }
 
-export default CertificateHeaderStatus
+export default StatusWithIcon

@@ -1,4 +1,4 @@
-import { ButtonTooltip, ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonWithConfirmModal } from '@frontend/common'
 import { Typography } from '@material-ui/core'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   statusLeftSide: {
     display: 'flex',
     flexGrow: 1,
-    '& .headerStatusWrapper + .headerStatusWrapper': {
+    '& .status + .status': {
       marginLeft: theme.spacing(2),
     },
   },

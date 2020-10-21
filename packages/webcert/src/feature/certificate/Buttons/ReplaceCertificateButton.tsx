@@ -5,8 +5,15 @@ import { ButtonWithConfirmModal } from '@frontend/common'
 import { InfoBox, isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { Typography, useTheme } from '@material-ui/core'
+import { makeStyles, Typography, useTheme } from '@material-ui/core'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    backgroundColor: theme.palette.primary.light,
+    color: '#fff',
+  },
+}))
 
 interface Props {
   name: string
@@ -15,6 +22,7 @@ interface Props {
 }
 
 const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+  const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
@@ -47,8 +55,8 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
 
   return (
     <ButtonWithConfirmModal
-      additionalButtonStyles={{ backgroundColor: light, color: '#fff' }}
-      additionalConfirmButtonStyles={{ backgroundColor: light, color: '#fff' }}
+      additionalButtonStyles={classes.button}
+      additionalConfirmButtonStyles={classes.button}
       name={name}
       description={description}
       disabled={!enabled}
