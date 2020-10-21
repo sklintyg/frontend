@@ -173,7 +173,9 @@ app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: Next
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/revoke`)
   if (certificateRepository[req.params.id]) {
     const certificate = certificateRepository[req.params.id]
-    certificate.metadata.certificateStatus = CertificateStatus.INVALIDATED
+
+    certificate.metadata.certificateStatus =
+      certificate.metadata.certificateStatus === CertificateStatus.LOCKED ? CertificateStatus.LOCKED_REVOKED : CertificateStatus.REVOKED
 
     if (certificate.metadata.relations.parent) {
       const parentCertificateId = certificate.metadata.relations.parent.certificateId
@@ -220,24 +222,7 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = _.cloneDeep(originalCertificate)
-    certificateClone.metadata.certificateId = uuidv4()
-    certificateClone.metadata.certificateStatus = CertificateStatus.UNSIGNED
-
-    const harFunktionsnedsattning = certificateClone.data['1.1'].value as CertificateBooleanValue
-    certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-    certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-    certificateClone.data['2.1'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-    const harAktivitetsbegransning = certificateClone.data['2.1'].value as CertificateBooleanValue
-    certificateClone.data['2.2'].visible = harAktivitetsbegransning.selected ? harAktivitetsbegransning.selected : false
-    const harUtredningBehandling = certificateClone.data['3.1'].value as CertificateBooleanValue
-    certificateClone.data['3.2'].visible = harUtredningBehandling.selected ? harUtredningBehandling.selected : false
-    const harArbetspaverkan = certificateClone.data['4.1'].value as CertificateBooleanValue
-    certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
-
-    for (const questionId in certificateClone.data) {
-      certificateClone.data[questionId].readOnly = false
-    }
+    const certificateClone = createCopy(originalCertificate)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.certificateId,
@@ -292,10 +277,80 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
   }
 })
 
+app.post('/api/certificate/:id/copy', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/copy`)
+  if (certificateRepository[req.params.id]) {
+    const originalCertificate = certificateRepository[req.params.id]
+
+    const certificateClone = createCopy(originalCertificate)
+
+    const childRelation: CertificateRelation = {
+      certificateId: certificateClone.metadata.certificateId,
+      type: CertificateRelationType.COPIED,
+      status: certificateClone.metadata.certificateStatus,
+      created: new Date().toLocaleString(),
+    }
+
+    if (originalCertificate.metadata.relations) {
+      originalCertificate.metadata.relations = {
+        parent: null,
+        children: [],
+      }
+    }
+
+    originalCertificate.metadata.relations.children.push(childRelation)
+
+    const parentRelation: CertificateRelation = {
+      certificateId: originalCertificate.metadata.certificateId,
+      type: CertificateRelationType.COPIED,
+      status: originalCertificate.metadata.certificateStatus,
+      created: new Date().toLocaleString(),
+    }
+
+    certificateClone.metadata.relations = {
+      parent: parentRelation,
+      children: [],
+    }
+
+    const certificateEvent = createEvent(
+      certificateClone.metadata.certificateId,
+      CertificateEventType.COPIED_FROM,
+      originalCertificate.metadata.certificateId,
+      originalCertificate.metadata.certificateStatus
+    )
+
+    certificateEventRepository[certificateClone.metadata.certificateId] = Array.of(certificateEvent)
+
+    certificateEventRepository[originalCertificate.metadata.certificateId].push(
+      createEvent(
+        originalCertificate.metadata.certificateId,
+        CertificateEventType.COPIED_BY,
+        certificateClone.metadata.certificateId,
+        certificateClone.metadata.certificateStatus
+      )
+    )
+
+    certificateRepository[certificateClone.metadata.certificateId] = certificateClone
+    res.json({ certificateId: certificateClone.metadata.certificateId }).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
 app.post('/api/certificate/:id/validate', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/validate`)
   const validationErrors = validate(req.body as Certificate)
   res.json({ validationErrors }).send()
+})
+
+app.post('/api/certificate/:id/lock', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/lock`)
+  if (certificateRepository[req.params.id]) {
+    certificateRepository[req.params.id].metadata.certificateStatus = CertificateStatus.LOCKED
+    res.status(200).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
 })
 
 app.get('/api/certificate/:id/events', (req: Request, res: Response, next: NextFunction) => {
@@ -398,8 +453,54 @@ function createResponse(certificate: Certificate): Certificate {
         })
       }
       break
-    case CertificateStatus.INVALIDATED:
+    case CertificateStatus.LOCKED:
+      certificateClone.links.push({
+        type: ResourceLinkType.PRINT_CERTIFICATE,
+        name: 'Skriv ut',
+        description: 'Laddar ned intygsutkastet för utskrift.',
+        enabled: true,
+      })
+      certificateClone.links.push({
+        type: ResourceLinkType.COPY_CERTIFICATE,
+        name: 'Kopierar',
+        description: 'Skapar en redigerbar kopia av utkastet på den enheten du är inloggad på.',
+        enabled: true,
+      })
+      if (userData!.role === 'Läkare') {
+        certificateClone.links.push({
+          type: ResourceLinkType.REVOKE_CERTIFICATE,
+          name: 'Makulera',
+          description: 'Öppnar ett fönster där du kan välja att makulera det låsta utkastet.',
+          enabled: true,
+        })
+      }
+      break
+    case CertificateStatus.REVOKED:
+    case CertificateStatus.LOCKED_REVOKED:
     default:
+  }
+
+  return certificateClone
+}
+
+function createCopy(sourceCertificate: Certificate): Certificate {
+  const certificateClone = _.cloneDeep(sourceCertificate)
+  certificateClone.metadata.certificateId = uuidv4()
+  certificateClone.metadata.certificateStatus = CertificateStatus.UNSIGNED
+
+  const harFunktionsnedsattning = certificateClone.data['1.1'].value as CertificateBooleanValue
+  certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+  certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+  certificateClone.data['2.1'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+  const harAktivitetsbegransning = certificateClone.data['2.1'].value as CertificateBooleanValue
+  certificateClone.data['2.2'].visible = harAktivitetsbegransning.selected ? harAktivitetsbegransning.selected : false
+  const harUtredningBehandling = certificateClone.data['3.1'].value as CertificateBooleanValue
+  certificateClone.data['3.2'].visible = harUtredningBehandling.selected ? harUtredningBehandling.selected : false
+  const harArbetspaverkan = certificateClone.data['4.1'].value as CertificateBooleanValue
+  certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
+
+  for (const questionId in certificateClone.data) {
+    certificateClone.data[questionId].readOnly = false
   }
 
   return certificateClone

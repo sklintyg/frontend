@@ -34,7 +34,7 @@ it('displays that the certificate is replaced by a revoked certificate', async (
   const getReplacedCertificateStatusSpy = jest.spyOn(utils, 'getReplacedCertificateStatus')
 
   isReplacedSpy.mockReturnValue(true)
-  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.INVALIDATED)
+  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.REVOKED)
 
   // @ts-expect-error we don't need to send all props
   render(<ReplacedStatus />)
