@@ -1,4 +1,4 @@
-import { makeStyles, Paper, Typography } from '@material-ui/core'
+import { makeStyles, Paper } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import React from 'react'
 

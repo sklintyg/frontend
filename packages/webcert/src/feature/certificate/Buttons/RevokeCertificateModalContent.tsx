@@ -27,18 +27,18 @@ interface Props {
   onChange: (obj: RevokeCertificateReason) => any
 }
 
-export const RevokeCertificateModalContent = (props: Props) => {
+export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => {
   const classes = useStyles()
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.name })
-    props.onChange({ reason: event.target.value, message: textArea.value })
+    onChange({ reason: event.target.value, message: textArea.value })
   }
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea({ ...textArea, value: event.target.value })
-    props.onChange({ reason: textArea.name, message: event.target.value })
+    onChange({ reason: textArea.name, message: event.target.value })
   }
 
   return (

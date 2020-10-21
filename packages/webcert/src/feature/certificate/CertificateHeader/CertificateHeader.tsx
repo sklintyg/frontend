@@ -3,18 +3,14 @@ import { useSelector } from 'react-redux'
 import { Box, Container, Paper } from '@material-ui/core'
 import {
   getCertificateEvents,
+  getResourceLinks,
   getCertificateMetaData,
   getIsShowSpinner,
   getIsValidating,
   getIsValidForSigning,
 } from '../../../store/certificate/certificateSelectors'
 import Divider from '@material-ui/core/Divider'
-import { CertificateStatus } from '@frontend/common'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
-import DeleteCertificateButton from '../Buttons/DeleteCertificateButton'
-import PrintCertificateButton from '../Buttons/PrintCertificateButton'
-import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
 import AvailableForPatientStatus from './Status/AvailableForPatientStatus'
 import RevokedStatus from './Status/RevokedStatus'
 import DraftSavedStatus from './Status/DraftSavedStatus'
@@ -24,6 +20,7 @@ import ReplacedStatus from './Status/ReplacedStatus'
 import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
 import RevokeParentStatus from './Status/RevokeParentStatus'
+import HeaderButtons from './HeaderButtons'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,10 +55,11 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
+  const resourceLinks = useSelector(getResourceLinks)
 
   const classes = useStyles()
 
-  if (!certificateMetadata || isShowSpinner) {
+  if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
   }
 
@@ -83,22 +81,7 @@ export const CertificateHeader: React.FC = (props) => {
         <Divider />
         <Box display="flex">
           <CertificateInfo certificateMetadata={certificateMetadata} />
-          <Box display="flex" className={classes.buttonWrapper}>
-            {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED ? (
-              <Box>
-                <PrintCertificateButton />
-                <DeleteCertificateButton />
-              </Box>
-            ) : (
-              certificateMetadata.certificateStatus === CertificateStatus.SIGNED && (
-                <Box>
-                  <PrintCertificateButton />
-                  <ReplaceCertificateButton />
-                  <RevokeCertificateButton />
-                </Box>
-              )
-            )}
-          </Box>
+          <HeaderButtons resourceLinks={resourceLinks} />
         </Box>
       </Container>
     </Paper>

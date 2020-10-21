@@ -1,12 +1,10 @@
 import * as React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { CertificateStatus } from '@frontend/common'
-import { getCertificateMetaData, getIsValidating } from '../../store/certificate/certificateSelectors'
-import { signCertificate } from '../../store/certificate/certificateActions'
+import { getResourceLink, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
+import { getCertificateMetaData, getResourceLinks } from '../../store/certificate/certificateSelectors'
 import Typography from '@material-ui/core/Typography'
-import BorderColorIcon from '@material-ui/icons/BorderColor'
+import SignAndSendButton from './Buttons/SignAndSendButton'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,30 +23,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const CertificateFooter: React.FC = (props) => {
+export const CertificateFooter: React.FC = () => {
   const certificateMetadata = useSelector(getCertificateMetaData)
-  const isValidating = useSelector(getIsValidating)
-
-  const dispatch = useDispatch()
-
+  const resourceLinks = useSelector(getResourceLinks)
   const classes = useStyles()
 
-  if (!certificateMetadata) return null
+  if (!certificateMetadata || !resourceLinks) return null
+
+  //TODO: we're overwiting this until we've added more data from the backend. Otherwise the button says "Signera" only.
+  // Currently we got two links, "sign" and "send", and we're only checking for sign here.
+  // This works currently because AF00213 only supports a combination of sign and send.
 
   return (
     <div className={classes.root}>
-      {certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && (
-        <Button
-          className={classes.signButton}
-          startIcon={<BorderColorIcon />}
-          disabled={isValidating}
-          variant="contained"
-          onClick={() => {
-            dispatch(signCertificate())
-          }}>
-          Signera och skicka
-        </Button>
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE)) && (
+        <SignAndSendButton {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE), name: 'Signera och skicka' }} />
       )}
+
       <Typography className={classes.idText}>Intygs-ID: {certificateMetadata.certificateId}</Typography>
     </div>
   )

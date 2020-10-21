@@ -1,4 +1,4 @@
-import { ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonTooltip, ButtonWithConfirmModal } from '@frontend/common'
 import { Typography } from '@material-ui/core'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
@@ -6,7 +6,13 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
-const DeleteCertificateButton = () => {
+interface Props {
+  name: string
+  description: string
+  enabled: boolean
+}
+
+const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
 
@@ -14,7 +20,9 @@ const DeleteCertificateButton = () => {
 
   return (
     <ButtonWithConfirmModal
-      buttonText="Radera"
+      disabled={!enabled}
+      description={description}
+      name={name}
       buttonVariant="contained"
       startIcon={<DeleteIcon />}
       modalTitle="Radera utkast"
@@ -28,4 +36,4 @@ const DeleteCertificateButton = () => {
   )
 }
 
-export default DeleteCertificateButton
+export default RemoveCertificateButton
