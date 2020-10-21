@@ -60,7 +60,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
                 Intyget har ersatts av <Link href={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
               </>
             )
-          case CertificateStatus.INVALIDATED:
+          case CertificateStatus.REVOKED:
             return (
               <>
                 Intyget ersattes av ett intyg som nu är makulerat.{' '}

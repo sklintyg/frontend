@@ -6,6 +6,11 @@ import {
   autoSaveCertificateError,
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
+  copyCertificate,
+  copyCertificateCompleted,
+  copyCertificateError,
+  copyCertificateStarted,
+  copyCertificateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateError,
@@ -346,6 +351,45 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
+const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!copyCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Kopierar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.certificateId + '/copy',
+      method: 'POST',
+      data: {
+        certificateType: certificate.metadata.certificateType,
+        patientId: certificate.metadata.patient.personId,
+      },
+      onStart: copyCertificateStarted.type,
+      onSuccess: copyCertificateSuccess.type,
+      onError: copyCertificateError.type,
+      onArgs: { history: action.payload },
+    })
+  )
+}
+
+const handleCopyCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!copyCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  dispatch(copyCertificateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
@@ -571,4 +615,6 @@ export const certificateMiddleware = [
   handleReplaceCertificateSuccess,
   handleForwardCertificate,
   handleForwardCertificateSuccess,
+  handleCopyCertificate,
+  handleCopyCertificateSuccess,
 ]

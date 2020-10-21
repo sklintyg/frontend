@@ -22,10 +22,11 @@ export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidat
   certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && !isValidating
 
 export const isRevoked = (certificateMetadata: CertificateMetadata) =>
-  certificateMetadata.certificateStatus == CertificateStatus.INVALIDATED
+  certificateMetadata.certificateStatus === CertificateStatus.REVOKED ||
+  certificateMetadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
 
 export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]) => {
-  return historyEntries.some((entry) => entry.relatedCertificateStatus === CertificateStatus.INVALIDATED)
+  return historyEntries.some((entry) => entry.relatedCertificateStatus === CertificateStatus.REVOKED)
 }
 
 export const getReplacedCertificateStatus = (certificateMetadata: CertificateMetadata) => {
@@ -33,7 +34,10 @@ export const getReplacedCertificateStatus = (certificateMetadata: CertificateMet
 }
 
 export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
-  return certificateMetadata.relations.parent?.status === CertificateStatus.INVALIDATED
+  return (
+    certificateMetadata.relations.parent?.status === CertificateStatus.REVOKED ||
+    certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED_REVOKED
+  )
 }
 
 export const isHasParent = (certificateMetadata: CertificateMetadata) => {

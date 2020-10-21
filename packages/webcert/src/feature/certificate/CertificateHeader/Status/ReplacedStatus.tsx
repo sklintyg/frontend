@@ -47,7 +47,7 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
             </Link>
           </>
         )
-      case CertificateStatus.INVALIDATED:
+      case CertificateStatus.REVOKED:
         return (
           <>
             Intyget ersattes av ett intyg som nu är makulerat.{' '}
