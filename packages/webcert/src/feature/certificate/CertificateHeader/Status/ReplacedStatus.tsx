@@ -1,8 +1,7 @@
-import { CertificateMetadata, isReplaced, getReplacedCertificateStatus, CertificateStatus } from '@frontend/common'
+import { CertificateMetadata, isReplaced, getReplacedCertificateStatus, CertificateStatus, StatusWithIcon } from '@frontend/common'
 import { Link, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import CertificateHeaderStatus from './CertificateHeaderStatus'
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -60,7 +59,7 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     }
   }
 
-  return <CertificateHeaderStatus icon={'ErrorOutlineIcon'}>{getText()}</CertificateHeaderStatus>
+  return <StatusWithIcon icon={'ErrorOutlineIcon'}>{getText()}</StatusWithIcon>
 }
 
 export default ReplacedStatus

@@ -5,11 +5,12 @@ import BorderColorIcon from '@material-ui/icons/BorderColor'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { ButtonTooltip } from '@frontend/common'
+import colors from '../../../components/styles/colors'
 
 const useStyles = makeStyles((theme) => ({
   signButton: {
-    backgroundColor: '#4c7b67',
-    borderColor: '#4c7b67',
+    backgroundColor: colors.IA_COLOR_17,
+    borderColor: colors.IA_COLOR_17,
     color: '#fff',
   },
 }))

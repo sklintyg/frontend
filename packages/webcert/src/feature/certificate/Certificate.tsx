@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Category from './Category'
 import Question from './Question'
-import { CertificateFooter } from './CertificateFooter'
+import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import {
   getCertificateDataElements,

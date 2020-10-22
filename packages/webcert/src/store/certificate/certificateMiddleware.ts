@@ -224,6 +224,7 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
   dispatch(forwardCertificateCompleted())
+  dispatch(validateCertificate(action.payload))
   dispatch(getCertificateEvents(action.payload.metadata.certificateId))
 }
 

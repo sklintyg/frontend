@@ -46,11 +46,17 @@ export const getUnit = () => (state: RootState) => {
 }
 
 export const getQuestionHasValidationError = (id: string) => (state: RootState) => {
-  if (!state.ui.uiCertificate.showValidationErrors) {
+  const {
+    ui: {
+      uiCertificate: { showValidationErrors, certificate },
+    },
+  } = state
+
+  if (!showValidationErrors || !certificate || !certificate.data[id].validationErrors) {
     return false
   }
 
-  const question = state.ui.uiCertificate.certificate!.data[id]
+  const question = certificate.data[id]
 
   return question.validationErrors.length > 0
 }
