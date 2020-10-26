@@ -1,18 +1,27 @@
 import React from 'react'
 import { AppHeaderItem } from '../index'
-import { Typography } from '@material-ui/core'
+import { makeStyles, Typography } from '@material-ui/core'
 import Link from '@material-ui/core/Link'
 
-interface AppHeaderAboutProps {
+const useStyles = makeStyles((theme) => ({
+  link: {
+    textDecoration: 'underline',
+    fontSize: theme.typography.pxToRem(14),
+  },
+}))
+
+interface Props {
   text: string
   link: string
 }
 
-const AppHeaderAbout: React.FC<AppHeaderAboutProps> = (props) => {
+const AppHeaderLink: React.FC<Props> = (props) => {
+  const classes = useStyles()
+
   return (
     <AppHeaderItem>
       <Typography>
-        <Link color={'inherit'} href={props.link}>
+        <Link className={classes.link} color={'inherit'} href={props.link}>
           {props.text}
         </Link>
       </Typography>
@@ -20,4 +29,4 @@ const AppHeaderAbout: React.FC<AppHeaderAboutProps> = (props) => {
   )
 }
 
-export default AppHeaderAbout
+export default AppHeaderLink

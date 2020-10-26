@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
-import { Container, Grid, Paper } from '@material-ui/core'
+import { Container, Grid, Link, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { AppHeader } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
-import { AppHeaderAbout } from '@frontend/common'
+import { AppHeaderLink } from '@frontend/common'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificateIsDeleted } from '../store/certificate/certificateSelectors'
 
@@ -34,8 +34,9 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
 
   const secondaryItems = (
     <>
-      <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>
-      {props.themeToggler}
+      <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
+      {/* {props.themeToggler} */}
+      <AppHeaderLink text={'Logga ut'} link={'/welcome'}></AppHeaderLink>
     </>
   )
 

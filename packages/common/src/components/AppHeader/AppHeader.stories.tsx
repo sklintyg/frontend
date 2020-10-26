@@ -6,7 +6,7 @@ import webcertImg from '../../../../webcert/src/components/header/webcert_logo.p
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
 import WebcertHeaderUser from '@frontend/webcert/src/components/header/WebcertHeaderUser'
-import AppHeaderAbout from './AppHeaderAbout'
+import AppHeaderLink from './AppHeaderAbout'
 
 export default {
   title: 'Components/AppHeader',
@@ -38,7 +38,7 @@ export const WebcertWithUserAndAbout = Template.bind({})
 WebcertWithUserAndAbout.args = {
   title: <AppHeaderTitle imgSrc={webcertImg} />,
   primaryItems: <WebcertHeaderUser></WebcertHeaderUser>,
-  secondaryItems: <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>,
+  secondaryItems: <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
 }
 
 WebcertWithUserAndAbout.storyName = 'Webcert app header with user and about'
