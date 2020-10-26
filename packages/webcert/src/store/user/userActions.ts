@@ -1,10 +1,10 @@
 import { createAction } from '@reduxjs/toolkit'
 import { User } from '@frontend/common'
-import { RedirectAction } from './userReducer'
+import { LoginUserQuery, RedirectAction, LoginUserSuccess } from './userReducer'
 
-export const loginUser = createAction<RedirectAction>('[User] Login user')
+export const loginUser = createAction<LoginUserQuery>('[User] Login user')
 export const loginUserStarted = createAction('[User] Login user started')
-export const loginUserSuccess = createAction('[User] Login user success')
+export const loginUserSuccess = createAction<LoginUserSuccess>('[User] Login user success')
 export const loginUserError = createAction('[User] Login user error')
 export const loginUserCompleted = createAction('[User] Login user completed')
 

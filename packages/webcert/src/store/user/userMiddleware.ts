@@ -36,16 +36,21 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
     ' "authenticationMethod": "FAKE"\n' +
     '}'
 
-  dispatch(updateRedirect(action.payload))
+  if (action.payload.redirectAction) {
+    dispatch(updateRedirect(action.payload.redirectAction))
+  }
+
+  action.payload.user = action.payload.user ?? data
 
   dispatch(
     apiCallBegan({
       url: '/fake',
       method: 'POST',
-      data: data,
+      data: action.payload.user,
       onStart: loginUserStarted.type,
       onSuccess: loginUserSuccess.type,
       onError: loginUserSuccess.type,
+      onArgs: { history: action.payload.loginUserSuccess?.history, certificateId: action.payload.loginUserSuccess?.certificateId },
     })
   )
 }
@@ -58,6 +63,10 @@ const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Mi
   }
 
   dispatch(getUser())
+
+  if (action.payload.history) {
+    action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  }
 
   const redirect = getState().ui.uiUser.redirect
   if (redirect) {

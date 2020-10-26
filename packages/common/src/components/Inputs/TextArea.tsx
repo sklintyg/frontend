@@ -6,7 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 interface TextAreaProps {
   hasValidationError?: boolean
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-  name: string
+  name?: string
   value: string
   additionalStyles?: string
   disabled?: boolean
@@ -37,7 +37,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
       style={{ border: `${hasValidationError ? `1px solid ${theme.palette.error.main}` : ''}` }}
       className={`${additionalStyles} ${classes.root}`}
       rowsMin={rowsMin ? rowsMin : 1}
-      name={name}
+      name={name ?? ''}
       value={value}
       onChange={(e) => handleOnChange(e)}
     />

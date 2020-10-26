@@ -6,6 +6,7 @@ import { themeCreator } from './components/styles/theme'
 import { CssBaseline, Switch as MuiSwitch } from '@material-ui/core'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
+import Welcome from './page/Welcome'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -24,6 +25,7 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route path="/certificate/:id" render={() => <CertificatePage themeToggler={themeToggler}></CertificatePage>}></Route>
+            <Route path="/welcome" render={() => <Welcome />}></Route>
           </Switch>
         </BrowserRouter>
       </ThemeProvider>

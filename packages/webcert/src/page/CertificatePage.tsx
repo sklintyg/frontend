@@ -17,8 +17,12 @@ interface CertificatePageProps {
   themeToggler: JSX.Element
 }
 
+interface Params {
+  id: string
+}
+
 const CertificatePage: React.FC<CertificatePageProps> = (props) => {
-  const { id } = useParams()
+  const { id } = useParams<Params>()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getCertificateIsDeleted())
 

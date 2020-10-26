@@ -1,10 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { clearRedirect, loginUserSuccess, updateRedirect, updateUser } from './userActions'
+import { History, LocationState } from 'history'
 import { User } from '@frontend/common'
+
+export interface LoginUserSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
 
 export interface RedirectAction {
   type: string
   payload?: any
+}
+
+export interface LoginUserQuery {
+  redirectAction?: RedirectAction
+  user?: string
+  // history?: any
+  loginUserSuccess?: LoginUserSuccess
 }
 
 interface UserState {
