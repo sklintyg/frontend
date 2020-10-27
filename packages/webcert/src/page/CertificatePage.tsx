@@ -6,10 +6,9 @@ import { CertificateHeader } from '../feature/certificate/CertificateHeader/Cert
 import { getCertificate } from '../store/certificate/certificateActions'
 import { Container, Grid, Link, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader } from '@frontend/common'
+import { AppHeader, AppHeaderLink } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
-import { AppHeaderLink } from '@frontend/common'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getCertificateIsDeleted } from '../store/certificate/certificateSelectors'
 
@@ -32,13 +31,7 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
     }
   }, [id])
 
-  const secondaryItems = (
-    <>
-      <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
-      {/* {props.themeToggler} */}
-      <AppHeaderLink text={'Logga ut'} link={'/welcome'}></AppHeaderLink>
-    </>
-  )
+  const secondaryItems = <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
 
   return (
     <Paper style={{ height: '100vh' }} square elevation={0}>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Story } from '@storybook/react'
-import AppHeader, { AppHeaderProps } from './AppHeader'
+import AppHeader, { AppHeaderProps } from './AppHeaderLink'
 import AppHeaderTitle from './AppHeaderTitle'
 import webcertImg from '../../../../webcert/src/components/header/webcert_logo.png'
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
 import WebcertHeaderUser from '@frontend/webcert/src/components/header/WebcertHeaderUser'
-import AppHeaderLink from './AppHeaderAbout'
+import AppHeaderLink from './AppHeaderLink'
 
 export default {
   title: 'Components/AppHeader',
