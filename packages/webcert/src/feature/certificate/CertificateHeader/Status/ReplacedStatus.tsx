@@ -1,4 +1,11 @@
-import { CertificateMetadata, isReplaced, getReplacedCertificateStatus, CertificateStatus, StatusWithIcon } from '@frontend/common'
+import {
+  CertificateMetadata,
+  isReplaced,
+  getReplacedCertificateStatus,
+  CertificateStatus,
+  StatusWithIcon,
+  isLocked,
+} from '@frontend/common'
 import { Link, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
@@ -25,6 +32,8 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
+  const locked = isLocked(certificateMetadata)
+
   const getText = () => {
     const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
 
@@ -32,7 +41,7 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateStatus.SIGNED:
         return (
           <>
-            Intyget har ersatts av{' '}
+            {locked ? 'Utkastet' : 'Intyget'} har ersatts av{' '}
             <Link className={classes.link} onClick={handleClick}>
               detta intyg
             </Link>
@@ -41,7 +50,7 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateStatus.UNSIGNED:
         return (
           <>
-            Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
+            Det finns redan ett påbörjat utkast som ska ersätta detta {locked ? 'utkast' : 'intyg'}.{' '}
             <Link className={classes.link} onClick={handleClick}>
               Öppna utkastet
             </Link>
@@ -50,9 +59,18 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateStatus.REVOKED:
         return (
           <>
-            Intyget ersattes av ett intyg som nu är makulerat.{' '}
+            {locked ? 'Utkastet' : 'Intyget'} ersattes av ett intyg som nu är makulerat.{' '}
             <Link className={classes.link} onClick={handleClick}>
               Öppna intyget
+            </Link>
+          </>
+        )
+      case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
+        return (
+          <>
+            Utkastet ersattes av ett utkast som nu är låst.{' '}
+            <Link className={classes.link} onClick={handleClick}>
+              Öppna utkastet
             </Link>
           </>
         )

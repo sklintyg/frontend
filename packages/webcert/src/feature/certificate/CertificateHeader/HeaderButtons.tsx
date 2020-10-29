@@ -5,6 +5,7 @@ import RemoveCertificateButton from '../Buttons/RemoveCertificateButton'
 import PrintCertificateButton from '../Buttons/PrintCertificateButton'
 import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
+import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
@@ -25,6 +26,9 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks }) => {
 
   return (
     <Box display="flex" className={classes.buttonWrapper}>
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE)) && (
+        <CopyCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE)} />
+      )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.PRINT_CERTIFICATE)) && (
         <PrintCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.PRINT_CERTIFICATE)} />
       )}

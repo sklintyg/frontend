@@ -1,16 +1,17 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store/store'
+import { useAppDispatch } from '../../../store/store'
 import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType } from '@frontend/common'
-import { updateCertificateDataElement } from '../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common'
 
-interface UeRadioProps {
+interface Props {
   question: CertificateDataElement
+  disabled: boolean
 }
 
-const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
+const UeRadio: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const booleanValue = getBooleanValue(question)
   const dispatch = useAppDispatch()
@@ -28,6 +29,7 @@ const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
   return (
     <>
       <RadioButton
+        disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         label={booleanValue.selectedText}
         name={question.config.prop + 'true'}
@@ -35,6 +37,7 @@ const UeRadio: React.FC<UeRadioProps> = ({ question }) => {
         checked={booleanValue.selected !== null && booleanValue.selected}
         onChange={handleChange}></RadioButton>
       <RadioButton
+        disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         label={booleanValue.unselectedText}
         name={question.config.prop + 'false'}

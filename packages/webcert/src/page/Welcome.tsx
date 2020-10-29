@@ -10,34 +10,33 @@ interface JsonUser extends User {
   authenticationMethod: string
 }
 
-const mockData: User[] = [
+const mockData = [
   {
     hsaId: 'TSTNMT2321000156-1079',
-    name: 'Arnold Johansson',
-    role: 'Läkare',
-    loggedInUnit: 'NMT vg3 ve1',
-    loggedInCareProvider: 'NMT vg3',
+    forNamn: 'Arnold',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-1077',
+    legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
     hsaId: 'TSTNMT2321000156-10CD',
-    name: 'Annika Larsson',
-    role: 'Vårdadministratör',
-    loggedInUnit: 'NMT vg3 ve1',
-    loggedInCareProvider: 'NMT vg3',
+    forNamn: 'Annika',
+    efterNamn: 'Larsson',
+    enhetId: 'TSTNMT2321000156-1077',
   },
   {
     hsaId: 'IFV1239877878-104B',
-    name: 'Åsa Andersson',
-    role: 'Läkare',
-    loggedInUnit: 'WebCert-Enhet2-Mottagning1',
-    loggedInCareProvider: 'WebCert-Vårdgivare2',
+    forNamn: 'Åsa',
+    efterNamn: 'Andersson',
+    enhetId: 'IFV1239877878-1046',
+    legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
     hsaId: 'IFV1239877878-104K',
-    name: 'Lars Andersson',
-    role: 'Läkare',
-    loggedInUnit: 'WebCert-Enhet2-Mottagning2',
-    loggedInCareProvider: 'WebCert-Vårdgivare2',
+    forNamn: 'Lars',
+    efterNamn: 'Andersson',
+    enhetId: 'IFV1239877878-1045',
+    legitimeradeYrkesgrupper: ['Läkare'],
   },
 ]
 
@@ -45,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
   userInfoWrapper: {
     flexGrow: 1,
     padding: theme.spacing(2),
+    '& > *:not(:first-child)': {
+      marginTop: theme.spacing(1),
+    },
+  },
+  form: {
     '& > *:not(:first-child)': {
       marginTop: theme.spacing(1),
     },
@@ -79,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Welcome = () => {
   const [selectedUser, setSelectedUser] = useState(mockData[0])
-  const [jsonUser, setJsonUser] = useState<JsonUser>({ ...mockData[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
+  const [jsonUser, setJsonUser] = useState({ ...mockData[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
   const [certificateId, setCertificateId] = useState('')
   const [generateRandomId, setGenerateRandomId] = useState(false)
   const classes = useStyles()
@@ -90,10 +94,12 @@ const Welcome = () => {
     const selectedUser = mockData.find((user) => user.hsaId === event.target.value)!
 
     setSelectedUser(selectedUser)
-    setJsonUser({ ...jsonUser, ...selectedUser })
+
+    setJsonUser({ ...selectedUser, origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
   }
 
-  const handleLogin = () => {
+  const handleLogin = (e: any) => {
+    e.preventDefault()
     const test = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
     const id = generateRandomId ? uuidv4() : certificateId
     dispatch(loginUser({ user: test, loginUserSuccess: { certificateId: id, history: history } }))
@@ -121,30 +127,32 @@ const Welcome = () => {
             <select className={classes.select} value={selectedUser.hsaId} onChange={handleChangeMultiple} size={mockData.length}>
               {mockData.map((user) => (
                 <option key={user.hsaId} value={user.hsaId}>
-                  {user.name} ({user.role})
+                  {user.forNamn} {user.efterNamn} ({user.legitimeradeYrkesgrupper?.[0] ?? 'Vårdadmin'})
                 </option>
               ))}
             </select>
-            <FormControlLabel
-              control={<Checkbox onChange={handleCheckbox} value={generateRandomId} checked={generateRandomId} />}
-              label="Generate random certificate id?"
-            />
-            <TextField
-              disabled={generateRandomId}
-              value={certificateId}
-              onChange={(e) => setCertificateId(e.target.value)}
-              size="small"
-              fullWidth
-              label="certificate id"
-              variant="outlined"
-            />
-            <Button
-              disabled={!generateRandomId && certificateId.length < 1}
-              className={classes.loginButton}
-              variant="contained"
-              onClick={handleLogin}>
-              Logga in
-            </Button>
+            <form className={classes.form} onSubmit={handleLogin}>
+              <FormControlLabel
+                control={<Checkbox onChange={handleCheckbox} value={generateRandomId} checked={generateRandomId} />}
+                label="Generera id?"
+              />
+              <TextField
+                disabled={generateRandomId}
+                value={certificateId}
+                onChange={(e) => setCertificateId(e.target.value)}
+                size="small"
+                fullWidth
+                label="intygsid"
+                variant="outlined"
+              />
+              <Button
+                disabled={!generateRandomId && certificateId.length < 1}
+                className={classes.loginButton}
+                variant="contained"
+                onClick={handleLogin}>
+                Logga in
+              </Button>
+            </form>
           </Grid>
           <Grid item xs={4} className={classes.userInfoWrapper}>
             <Typography variant="h6">Inloggningsprofil</Typography>

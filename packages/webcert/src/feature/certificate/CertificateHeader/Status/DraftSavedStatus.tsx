@@ -4,10 +4,11 @@ import React from 'react'
 interface Props {
   certificateMetadata: CertificateMetadata
   isValidating: boolean
+  isEditable: boolean
 }
 
-const DraftSavedStatus: React.FC<Props> = ({ certificateMetadata, isValidating }) => {
-  if (!isDraftSaved(certificateMetadata, isValidating)) return null
+const DraftSavedStatus: React.FC<Props> = ({ certificateMetadata, isValidating, isEditable }) => {
+  if (!isDraftSaved(certificateMetadata, isValidating) || !isEditable) return null
 
   return <StatusWithIcon icon={'CheckIcon'}>Utkastet är sparat</StatusWithIcon>
 }

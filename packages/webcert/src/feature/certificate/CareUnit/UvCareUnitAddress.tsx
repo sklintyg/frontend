@@ -1,11 +1,11 @@
 import { makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import CategoryHeader from '../CategoryHeader'
-import CategoryTitle from '../CategoryTitle'
 import DateRangeIcon from '@material-ui/icons/DateRange'
-import QuestionWrapper from '../QuestionWrapper'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import CategoryHeader from '../Category/CategoryHeader'
+import CategoryTitle from '../Category/CategoryTitle'
+import QuestionWrapper from '../Question/QuestionWrapper'
 
 const useStyles = makeStyles((theme) => ({
   header: {

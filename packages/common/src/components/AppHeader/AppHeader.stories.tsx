@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react'
-import AppHeader, { AppHeaderProps } from './AppHeaderLink'
+import AppHeader, { AppHeaderProps } from './AppHeader'
 import AppHeaderTitle from './AppHeaderTitle'
 import webcertImg from '../../../../webcert/src/components/header/webcert_logo.png'
 import { Provider } from 'react-redux'

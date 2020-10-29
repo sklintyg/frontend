@@ -27,6 +27,7 @@ interface Props {
   additionalButtonStyles?: string
   description: string
   onClick?: () => void
+  onClose?: () => void
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
@@ -36,13 +37,13 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
   const handleClickOpen = () => {
     setOpen(true)
 
-    if(props.onClick){
-      props.onClick()
-    }
+    props.onClick?.()
   }
 
   const handleClose = () => {
     setOpen(false)
+
+    props.onClose?.()
   }
 
   const handleConfirm = () => {

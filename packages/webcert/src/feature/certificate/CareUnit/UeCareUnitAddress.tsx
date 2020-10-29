@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { Typography, TextField, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import CategoryHeader from '../CategoryHeader'
 import { Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUnit } from '../../../store/certificate/certificateSelectors'
-import CategoryTitle from '../CategoryTitle'
-import QuestionWrapper from '../QuestionWrapper'
+import { getIsEditable, getIsLocked, getUnit } from '../../../store/certificate/certificateSelectors'
+import CategoryHeader from '../Category/CategoryHeader'
+import CategoryTitle from '../Category/CategoryTitle'
+import QuestionWrapper from '../Question/QuestionWrapper'
 
 const useStyles = makeStyles((theme) => ({
   questionWrapper: {
@@ -28,9 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const UeCareUnitAddress: React.FC = () => {
-  const classes: any = useStyles()
+  const classes = useStyles()
   const dispatch = useDispatch()
   const unit = useSelector(getUnit())
+  const disabled = useSelector(getIsLocked)
+  const editable = useSelector(getIsEditable)
   const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
 
   const dispatchEditDraft = useRef(
@@ -62,6 +64,7 @@ const UeCareUnitAddress: React.FC = () => {
             </Grid>
             <Grid item sm={9}>
               <TextField
+                disabled={disabled || !editable}
                 onChange={handleChange}
                 fullWidth
                 size="small"
@@ -80,6 +83,7 @@ const UeCareUnitAddress: React.FC = () => {
             </Grid>
             <Grid item sm={9}>
               <TextField
+                disabled={disabled || !editable}
                 className={classes.zipCode}
                 onChange={handleChange}
                 fullWidth
@@ -99,6 +103,7 @@ const UeCareUnitAddress: React.FC = () => {
             </Grid>
             <Grid item sm={9}>
               <TextField
+                disabled={disabled || !editable}
                 className={classes.city}
                 onChange={handleChange}
                 fullWidth
@@ -118,6 +123,7 @@ const UeCareUnitAddress: React.FC = () => {
             </Grid>
             <Grid item sm={9}>
               <TextField
+                disabled={disabled || !editable}
                 className={classes.phoneNumber}
                 onChange={handleChange}
                 fullWidth

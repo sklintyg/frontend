@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import AppHeader from './AppHeaderLink'
+import AppHeader from './AppHeader'
 
 it('render a label', (): void => {
   const { getByText } = render(<AppHeader title="Webcert" />)

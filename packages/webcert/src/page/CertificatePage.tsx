@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
-import { Container, Grid, Link, Paper } from '@material-ui/core'
+import { Container, Grid, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { AppHeader, AppHeaderLink } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import { getCertificateIsDeleted } from '../store/certificate/certificateSelectors'
+import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 
-interface CertificatePageProps {
+interface Props {
   themeToggler: JSX.Element
 }
 
@@ -20,10 +20,10 @@ interface Params {
   id: string
 }
 
-const CertificatePage: React.FC<CertificatePageProps> = (props) => {
+const CertificatePage: React.FC<Props> = (props) => {
   const { id } = useParams<Params>()
   const dispatch = useDispatch()
-  const certificateIsDeleted = useSelector(getCertificateIsDeleted())
+  const certificateIsDeleted = useSelector(getIsCertificateDeleted())
 
   useEffect(() => {
     if (id) {
@@ -31,7 +31,12 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
     }
   }, [id])
 
-  const secondaryItems = <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
+  const secondaryItems = (
+    <>
+      <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
+      {props.themeToggler}
+    </>
+  )
 
   return (
     <Paper style={{ height: '100vh' }} square elevation={0}>
