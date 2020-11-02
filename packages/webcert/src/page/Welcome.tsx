@@ -43,7 +43,8 @@ const mockData = [
 const useStyles = makeStyles((theme) => ({
   userInfoWrapper: {
     flexGrow: 1,
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
     '& > *:not(:first-child)': {
       marginTop: theme.spacing(1),
     },
@@ -55,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
   userListWrapper: {
     flexGrow: 1,
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     '& > *:not(:first-child)': {
       marginTop: theme.spacing(1),
     },
@@ -79,6 +81,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     color: '#fff',
   },
+  mainTitle: {
+    fontSize: theme.typography.h4.fontSize,
+    marginTop: theme.spacing(4),
+  },
 }))
 
 const Welcome = () => {
@@ -98,11 +104,11 @@ const Welcome = () => {
     setJsonUser({ ...selectedUser, origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
   }
 
-  const handleLogin = (e: any) => {
-    e.preventDefault()
-    const test = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault()
+    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
     const id = generateRandomId ? uuidv4() : certificateId
-    dispatch(loginUser({ user: test, loginUserSuccess: { certificateId: id, history: history } }))
+    dispatch(loginUser({ user: jsonString, loginUserSuccess: { certificateId: id, history: history } }))
   }
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -122,6 +128,11 @@ const Welcome = () => {
     <Paper square elevation={0}>
       <Container>
         <Grid container>
+          <Grid item xs={12}>
+            <Typography className={classes.mainTitle} variant="h1">
+              Testinloggningar Webcert
+            </Typography>
+          </Grid>
           <Grid item xs={8} className={classes.userListWrapper}>
             <Typography variant="h6">Användare</Typography>
             <select className={classes.select} value={selectedUser.hsaId} onChange={handleChangeMultiple} size={mockData.length}>
@@ -131,7 +142,7 @@ const Welcome = () => {
                 </option>
               ))}
             </select>
-            <form className={classes.form} onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className={classes.form}>
               <FormControlLabel
                 control={<Checkbox onChange={handleCheckbox} value={generateRandomId} checked={generateRandomId} />}
                 label="Generera id?"
@@ -149,7 +160,8 @@ const Welcome = () => {
                 disabled={!generateRandomId && certificateId.length < 1}
                 className={classes.loginButton}
                 variant="contained"
-                onClick={handleLogin}>
+                type="submit"
+                onSubmit={handleLogin}>
                 Logga in
               </Button>
             </form>
