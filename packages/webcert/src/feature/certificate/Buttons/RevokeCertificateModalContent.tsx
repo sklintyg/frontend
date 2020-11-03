@@ -1,7 +1,9 @@
 import { RadioButton, TextArea, MandatoryIcon, InfoBox } from '@frontend/common'
 import { Typography, Link, makeStyles, RadioGroup } from '@material-ui/core'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
+import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 
 const useStyles = makeStyles((theme) => ({
   textArea: {
@@ -30,6 +32,7 @@ interface Props {
 export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => {
   const classes = useStyles()
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
+  const locked = useSelector(getIsLocked)
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.name })
@@ -41,26 +44,38 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
     onChange({ reason: textArea.name, message: event.target.value })
   }
 
+  const infoBoxText = locked
+    ? 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i utkastet, bör du istället kopiera utkastet och skapa ett nytt intyg'
+    : 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg.'
+
+  const infoText = locked ? (
+    'Ett låst utkast kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om det är skapat för fel patient.'
+  ) : (
+    <>
+      Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
+      intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
+      intyg på{' '}
+      <Link underline="always" color="primary" href="www.minaintyg.se">
+        minaintyg.se
+      </Link>
+    </>
+  )
+
+  const revokeReasonText = locked ? 'Ange varför du makulerar det låsta utkastet:' : 'Ange varför du makulerar intyget'
+
+  const textLabel = locked ? 'Utkastet har skapats på fel patient' : 'Intyget har utfärdats på fel patient'
+
   return (
     <>
-      <InfoBox type="info">
-        Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta
-        intyget med ett nytt intyg.
-      </InfoBox>
-      <Typography>
-        Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
-        intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
-        intyg på{' '}
-        <Link underline="always" color="primary" href="www.minaintyg.se">
-          minaintyg.se
-        </Link>
-      </Typography>
-      <Typography className={classes.subTitle}>Ange varför du makulerar intyget</Typography>
+      <InfoBox type="info">{infoBoxText}</InfoBox>
+      <Typography>{infoText}</Typography>
+      <Typography className={classes.subTitle}>{revokeReasonText}</Typography>
       <RadioGroup aria-label="invoke reason" name="invokereason" value={textArea.name} onChange={handleRadioButtonChange}>
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
         <RadioButton
           onChange={handleRadioButtonChange}
-          label="Intyget har utfärdats på fel patient"
+          label={textLabel}
+          //TODO: kolla om fel patient ska togglas om den är locked.
           value="FEL_PATIENT"
           name="FEL_PATIENT"></RadioButton>
         {textArea.display && textArea.name === 'FEL_PATIENT' && (

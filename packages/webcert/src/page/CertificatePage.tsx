@@ -6,21 +6,24 @@ import { CertificateHeader } from '../feature/certificate/CertificateHeader/Cert
 import { getCertificate } from '../store/certificate/certificateActions'
 import { Container, Grid, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader } from '@frontend/common'
+import { AppHeader, AppHeaderLink } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
-import { AppHeaderAbout } from '@frontend/common'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import { getCertificateIsDeleted } from '../store/certificate/certificateSelectors'
+import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 
-interface CertificatePageProps {
+interface Props {
   themeToggler: JSX.Element
 }
 
-const CertificatePage: React.FC<CertificatePageProps> = (props) => {
-  const { id } = useParams()
+interface Params {
+  id: string
+}
+
+const CertificatePage: React.FC<Props> = (props) => {
+  const { id } = useParams<Params>()
   const dispatch = useDispatch()
-  const certificateIsDeleted = useSelector(getCertificateIsDeleted())
+  const certificateIsDeleted = useSelector(getIsCertificateDeleted())
 
   useEffect(() => {
     if (id) {
@@ -30,7 +33,7 @@ const CertificatePage: React.FC<CertificatePageProps> = (props) => {
 
   const secondaryItems = (
     <>
-      <AppHeaderAbout text={'Om Webcert'} link={'#'}></AppHeaderAbout>
+      <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
       {props.themeToggler}
     </>
   )

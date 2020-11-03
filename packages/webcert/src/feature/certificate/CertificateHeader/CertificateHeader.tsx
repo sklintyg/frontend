@@ -8,6 +8,7 @@ import {
   getIsShowSpinner,
   getIsValidating,
   getIsValidForSigning,
+  getIsLocked,
 } from '../../../store/certificate/certificateSelectors'
 import Divider from '@material-ui/core/Divider'
 import makeStyles from '@material-ui/core/styles/makeStyles'
@@ -21,6 +22,7 @@ import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
 import RevokeParentStatus from './Status/RevokeParentStatus'
 import HeaderButtons from './HeaderButtons'
+import LockedStatus from './Status/LockedStatus'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +58,7 @@ export const CertificateHeader: React.FC = (props) => {
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks)
+  const isLocked = useSelector(getIsLocked)
 
   const classes = useStyles()
 
@@ -70,11 +73,12 @@ export const CertificateHeader: React.FC = (props) => {
           <Box className={classes.statusLeftSide}>
             <RevokedStatus certificateMetadata={certificateMetadata} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
-            <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} />
+            <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
             <SentStatus certificateMetadata={certificateMetadata} />
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
             <RevokeParentStatus certificateMetadata={certificateMetadata} />
+            <LockedStatus certificateMetadata={certificateMetadata} />
           </Box>
           <ShowHistory historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
         </Box>

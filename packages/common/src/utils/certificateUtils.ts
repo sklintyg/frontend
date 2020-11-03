@@ -18,6 +18,9 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   return false
 }
 
+export const isLocked = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.LOCKED ||
+certificateMetadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
+
 export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean) =>
   certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && !isValidating
 
@@ -32,6 +35,8 @@ export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]
 export const getReplacedCertificateStatus = (certificateMetadata: CertificateMetadata) => {
   return certificateMetadata.relations.children[0].status
 }
+
+export const getReplacedType = (certificateMetadata: CertificateMetadata) => certificateMetadata.relations.children[0].type
 
 export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
   return (
@@ -48,3 +53,14 @@ export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: Resource
 
 export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink =>
   resourceLinks.find((link) => link.type === wanted)!
+
+export const isDisabled = (certificateMetadata: CertificateMetadata) => {
+  return certificateMetadata.certificateStatus === CertificateStatus.LOCKED
+}
+
+export const isParentLocked = (certificateMetadata: CertificateMetadata) => {
+  return (
+    certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED ||
+    certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED_REVOKED
+  )
+}

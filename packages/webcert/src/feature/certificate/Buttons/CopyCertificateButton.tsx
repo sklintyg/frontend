@@ -1,10 +1,10 @@
 import React from 'react'
-import SyncAltIcon from '@material-ui/icons/SyncAlt'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
 import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal } from '@frontend/common'
 import { InfoBox, isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceCertificate } from '../../../store/certificate/certificateActions'
+import { copyCertificate } from '../../../store/certificate/certificateActions'
 import { makeStyles, Typography, useTheme } from '@material-ui/core'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
@@ -21,7 +21,7 @@ interface Props {
   enabled: boolean
 }
 
-const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
     if (isCertReplaced) {
       return () => history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
     } else {
-      return () => dispatch(replaceCertificate(history))
+      return () => dispatch(copyCertificate(history))
     }
   }
 
@@ -55,22 +55,18 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<SyncAltIcon />}
-      modalTitle="Ersätt intyg"
+      startIcon={<FileCopyIcon />}
+      modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
-      confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Ersätt'}>
+      confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Kopiera'}>
       <>
-        <InfoBox type="info">
-          Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.
-        </InfoBox>
         <Typography>
-          Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När
-          ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan
-          du signerar intyget.
+          Genom att koiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
+          redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.
         </Typography>
       </>
     </ButtonWithConfirmModal>
   )
 }
 
-export default ReplaceCertificateButton
+export default CopyCertificateButton

@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import UeRadio from './UeRadio'
-import UeTextArea from './UeTextArea'
+import UeRadio from '../Inputs/UeRadio'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
 import { UvText, CertificateDataConfig, CertificateDataElement, MandatoryIcon } from '@frontend/common'
-import { getQuestion } from '../../store/certificate/certificateSelectors'
+import { getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
 import QuestionWrapper from './QuestionWrapper'
-import ArrowUp from './utils/ArrowUp'
+import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
+import UeTextArea from '../Inputs/UeTextArea'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -47,6 +47,7 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const classes = useStyles()
+  const disabled = useSelector(getIsLocked)
 
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
@@ -54,13 +55,21 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
-        {getQuestionComponent(question.config, question.mandatory, question.readOnly)}
-        {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question)}
+        {getQuestionComponent(question.config, question.mandatory, question.readOnly, disabled)}
+        {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
       </QuestionWrapper>
     </Expandable>
   )
 
-  function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean) {
+  function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean, disabled: boolean) {
+    if (disabled) {
+      return (
+        <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+          {question.config.text}
+        </Typography>
+      )
+    }
+
     if (!readOnly && config.description) {
       return (
         <Accordion className={classes.accordion}>
@@ -70,7 +79,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header">
-            <MandatoryIcon display={!readOnly && mandatory}></MandatoryIcon>
+            <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
             <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
               {question.config.text}
             </Typography>
@@ -89,9 +98,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     )
   }
 
-  function getUnifiedEditComponent(question: CertificateDataElement) {
-    if (question.config.component === 'ue-radio') return <UeRadio key={question.id} question={question} />
-    if (question.config.component === 'ue-textarea') return <UeTextArea key={question.id} question={question} />
+  function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
+    if (question.config.component === 'ue-radio') return <UeRadio disabled={disabled} key={question.id} question={question} />
+    if (question.config.component === 'ue-textarea') return <UeTextArea disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.component}</div>
   }
 

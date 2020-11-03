@@ -347,6 +347,7 @@ app.post('/api/certificate/:id/lock', (req: Request, res: Response, next: NextFu
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/lock`)
   if (certificateRepository[req.params.id]) {
     certificateRepository[req.params.id].metadata.certificateStatus = CertificateStatus.LOCKED
+    certificateEventRepository[req.params.id].push(createEvent(req.params.id, CertificateEventType.LOCKED, null, null))
     res.status(200).send()
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
@@ -412,7 +413,7 @@ function createResponse(certificate: Certificate): Certificate {
       })
       certificateClone.links.push({
         type: ResourceLinkType.FORWARD_CERTIFICATE,
-        name: 'Vidarebefodra utkast',
+        name: 'Vidarebefordra utkast',
         description: 'Skapar ett e-postmeddelande i din e-postklient med en direktlänk till utkastet.',
         enabled: true,
       })
@@ -462,7 +463,7 @@ function createResponse(certificate: Certificate): Certificate {
       })
       certificateClone.links.push({
         type: ResourceLinkType.COPY_CERTIFICATE,
-        name: 'Kopierar',
+        name: 'Kopiera',
         description: 'Skapar en redigerbar kopia av utkastet på den enheten du är inloggad på.',
         enabled: true,
       })

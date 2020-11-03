@@ -1,12 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Category from './Category'
-import Question from './Question'
+import Category from './Category/Category'
+import Question from './Question/Question'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import {
   getCertificateDataElements,
-  getIsCertificateSigned,
+  getIsUnsigned,
+  getIsEditable,
+  getIsLocked,
   getIsShowSpinner,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
@@ -16,6 +18,7 @@ import grey from '@material-ui/core/colors/grey'
 import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
 import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
 import { Backdrop } from '@frontend/common'
+import CareUnit from './CareUnit/CareUnit'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +48,7 @@ const Certificate: React.FC = () => {
   const certificateStructure = useSelector(getCertificateDataElements)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
-  const certificateSigned = useSelector(getIsCertificateSigned())
+
   const classes = useStyles()
 
   return (
@@ -59,8 +62,7 @@ const Certificate: React.FC = () => {
               return <Question key={data.id} id={data.id} />
             }
           })}
-
-        {certificateSigned ? <UvCareUnitAddress /> : <UeCareUnitAddress />}
+        <CareUnit />
         <CertificateValidation />
         <CertificateFooter />
       </Box>

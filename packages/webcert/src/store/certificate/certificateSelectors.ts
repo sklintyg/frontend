@@ -1,6 +1,6 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus, ResourceLinkType } from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -16,21 +16,16 @@ export const getCertificate = (state: RootState): Certificate => state.ui.uiCert
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
 
-export const getCertificateIsDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
+export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
 
-export const getIsCertificateSigned = () => (state: RootState): boolean => {
-  if (!state.ui.uiCertificate.certificate) {
-    return false
-  }
+export const getIsUnsigned = () => (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.UNSIGNED
 
-  return (
-    state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.SIGNED ||
-    state.ui.uiCertificate.certificate.metadata.certificateStatus === CertificateStatus.REVOKED
-  )
-}
+export const getIsSigned = () => (state: RootState) =>
+  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.SIGNED
 
 export const getUnit = () => (state: RootState) => {
-  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.unit) {
+  if (!state.ui.uiCertificate.certificate?.metadata.unit) {
     return {
       unitId: '',
       unitName: '',
@@ -132,4 +127,11 @@ export const getAllValidationErrors = () => (state: RootState) => {
 
 export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents
 
-export const getResourceLinks = (state: RootState) => (state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.links : null)
+export const getResourceLinks = (state: RootState) => state.ui.uiCertificate.certificate?.links
+
+export const getIsLocked = (state: RootState) =>
+  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.LOCKED ||
+  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
+
+export const getIsEditable = (state: RootState) =>
+  state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)

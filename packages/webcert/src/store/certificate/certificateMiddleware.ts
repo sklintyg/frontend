@@ -95,7 +95,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Midd
 
   // TODO: Replace this hack with implementation to handle user session.
   if (!getState().ui.uiUser.userLoggedIn) {
-    dispatch(loginUser({ type: getCertificate.type, payload: action.payload }))
+    dispatch(loginUser({ redirectAction: { type: getCertificate.type, payload: action.payload } }))
     return
   }
 

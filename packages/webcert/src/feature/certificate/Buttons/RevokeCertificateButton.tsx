@@ -41,6 +41,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
 
   return (
     <ButtonWithConfirmModal
+      onClose={() => setConfirmButtonDisabled(true)}
       confirmButtonDisabled={confirmButtonDisabled}
       name={name}
       disabled={!enabled}
