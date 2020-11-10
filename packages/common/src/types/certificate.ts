@@ -68,9 +68,19 @@ export interface CertificateDataValue {
 
 export interface CertificateBooleanValue extends CertificateDataValue {
   selected: boolean | null
+  // This should be in config instead, it's for presentation purposes
+  metadata: RadioButtonMetadata | CheckBoxMetadata
+}
+
+export interface RadioButtonMetadata extends CertificateBooleanValue {
   selectedText?: string
   unselectedText?: string
+}
+
+export interface CheckBoxMetadata extends CertificateBooleanValue {
   text?: string
+  disableAll?: boolean
+  disabled?: boolean
 }
 
 export interface CertificateTextValue extends CertificateDataValue {

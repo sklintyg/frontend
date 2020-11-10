@@ -78,66 +78,57 @@
       },
       "validationError": []
     },
-    "1.2": {
-      "id": "1.2",
-      "parent": "1.1",
-      "index": 2,
-      "visible": false,
-      "readOnly": false,
-      "mandatory": true,
-      "config": {
-        "text": "Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.",
-        "description": "Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.",
-        "component": "ue-textarea",
-        "prop": "funktionsnedsattning"
-      },
-      "value": {
-        "type": "TEXT",
-        "funktionsnedsattning": null,
-        "text": "",
-        "limit": 50
-      },
-      "validation": {
-        "required": true,
-        "requiredProp": "funktionsnedsattning",
-        "hideExpression": "!harFunktionsnedsattning"
-      },
-      "validationError": []
-    },
-    "aktivitetsbegransning": {
-      "id": "aktivitetsbegransning",
+    "sysselsattning": {
+      "id": "sysselsattning",
       "parent": null,
-      "index": 3,
-      "visible": false,
+      "index": 4,
+      "visible": true,
       "readOnly": false,
       "config": {
-        "text": "Aktivitetsbegränsning",
+        "text": "Sysselsättning",
         "description": null,
         "component": "category"
       },
       "validation": {
-        "hideExpression": "!harFunktionsnedsattning"
+        "hideExpression": "avstangningSmittskydd"
       }
     },
-    "2.1": {
-      "id": "2.1",
-      "parent": "aktivitetsbegransning",
-      "index": 4,
-      "visible": false,
+    "28": {
+      "id": "28",
+      "parent": "sysselsattning",
+      "index": 5,
+      "visible": true,
       "readOnly": false,
       "mandatory": true,
       "config": {
-        "text": "Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?",
-        "description": "Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.",
-        "component": "ue-radio",
+        "text": "I relation till vilken sysselsättning bedömer du arbetsförmågan?",
+        "description": "Om du kryssar i flera val är det viktigt att du tydliggör under \"Övriga upplysningar\" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.",
+        "component": "ue-checkbox-group",
         "prop": "harAktivitetsbegransning"
       },
       "value": {
-        "type": "BOOLEAN",
-        "harAktivitetsbegransning": "EMPTY",
-        "selected": null,
-        "selectedText": "Ja",
-        "unselectedText": "Nej"
+        "type": "BOOLEAN-ARRAY",
+        // This should be in config instead, it's for presentation purposes
+        "booleanArray": [{
+          "selected": null,
+          "text": "Nuvarande arbete",
+          "disabled": false
+        },
+        {
+          "selected": null,
+          "text": "Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden",
+          "disabled": false
+        },
+        {
+          "selected": null,
+          "text": "Föräldraledighet för vård av barn",
+          "disabled": false
+        },
+        {
+          "selected": null,
+          "text": "Studier",
+          "disabled": false
+        }]
       },
       "validation": {
         "required": true,
