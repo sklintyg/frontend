@@ -1,0 +1,343 @@
+{
+  "metadata": {
+    "id": "<fk7804>",
+    "type": "lisjp",
+    "typeVersion": "1.1",
+    "name": "Läkarintyget för sjukpenning",
+    "description": "Om du inte känner patienten ska hen styrka sin identitet genom legitimation med foto (HSLF-FS 2018:54).\n\n        Vad är sjukpenning?\n        Sjukpenning är en ersättning för personer som har en nedsatt arbetsförmåga på grund av sjukdom. Beroende på hur mycket arbetsförmågan är nedsatt kan man få en fjärdedels, halv, tre fjärdedels eller hel sjukpenning.\n\n        Förutsättningar för att få sjukpenning\n        Arbetsförmågan bedöms i förhållande till personens sysselsättning som kan vara nuvarande arbete eller föräldraledighet för vård av barn. För personer som är arbetslösa bedöms arbetsförmågan i förhållandet till att utföra sådant arbete som är normalt förekommande på arbetsmarknaden.\n\n        För att få sjukpenning ska man, förutom att ha nedsatt arbetsförmåga, tillhöra svensk socialförsäkring och ha inkomst från arbete. Försäkringskassan beslutar om och hur mycket sjukpenning personen kan få.\n\n        Från den åttonde dagen i en sjukperiod måste det finnas ett läkarintyg. Läkarintyget ska tydligt beskriva hur patientens sjukdom påverkar patientens förmåga att utföra sin sysselsättning.\n\n        Studerande\n        En person kan få behålla sitt studiemedel om förmågan att studera är helt eller halvt nedsatt på grund av sjukdom. Försäkringskassan bedömer om förmågan är nedsatt och om studieperioden ska godkännas till CSN.\n\n        Den som ansöker om att få behålla sitt studiemedel ska från och med den femtonde dagen i sjukperioden styrka sin nedsatta studieförmåga med ett läkarintyg.\n\n        Smittbärarpenning\n        En person kan få ersättning om hen måste avstå från sin sysselsättning på grund av läkarens beslut om avstängning enligt smittskyddslagen eller läkarundersökning alternativt hälsokontroll som syftar till att klarlägga sjukdom, smitta, sår eller annan skada som gör att hen inte får hantera livsmedel.\n\n        Den som ansöker om smittbärarpenning ska skicka med ett läkarintyg.\n\n        Mer om hur Försäkringskassan bedömer arbetsförmågan\n        Försäkringskassan bedömer arbetsförmågan enligt rehabiliteringskedjan, som innebär följande:\n        - Under de första 90 dagarna som personen är sjukskriven kan Försäkringskassan betala sjukpenning om personen inte kan utföra sitt vanliga arbete eller ett annat tillfälligt arbete hos sin arbetsgivare.\n        - Efter 90 dagar kan Försäkringskassan betala sjukpenning om personen inte kan utföra något arbete alls hos sin arbetsgivare.\n        - Efter 180 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som är normalt förekommande på arbetsmarknaden. Men detta gäller inte om Försäkringskassan bedömer att personen med stor sannolikhet kommer att kunna gå tillbaka till ett arbete hos sin arbetsgivare innan dag 366. I dessa fall bedöms arbetsförmågan i förhållande till ett arbete hos arbetsgivaren även efter dag 180. Regeln gäller inte heller om det kan anses oskäligt att bedöma personens arbetsförmåga i förhållande till arbete som är normalt förekommande på arbetsmarknaden.\n        - Efter 365 dagar kan Försäkringskassan betala ut sjukpenning om personen inte kan utföra sådant arbete som är normalt förekommande på arbetsmarknaden. Undantag från detta kan göras om det kan anses oskäligt att bedöma personens arbetsförmåga i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n\n        Rehabiliteringskedjan gäller fullt ut bara för den som har en anställning.\n\n        Egna företagares arbetsförmåga bedöms i förhållande till de vanliga arbetsuppgifterna fram till och med dag 180. Sedan bedöms arbetsförmågan i förhållande till sådant arbete som normalt förekommer på arbetsmarknaden.\n\n        För arbetslösa bedöms arbetsförmågan i förhållande till arbeten som normalt förekommer på arbetsmarknaden redan från första dagen i sjukperioden.",
+    "status": "UNSIGNED",
+    "created": "2020-10-12T15:31:37.632",
+    "testCertificate": false,
+    "forwarded": false,
+    "relations": {},
+    "unit": {
+      "hsaId": "TSTNMT2321000156-1077",
+      "name": "NMT vg3 ve1",
+      "address": "NMT gata 3",
+      "zipCode": "12345",
+      "city": "Testhult",
+      "phoneNumber": "0101112131416",
+      "email": "enhet3@webcert.invalid.se"
+    },
+    "careProvider": {
+      "hsaId": "TSTNMT2321000156-102Q",
+      "name": "NMT vg3"
+    },
+    "patient": {
+      "personId": {
+        "id": "191212121212",
+        "type": "PERSONNUMMER"
+      },
+      "firstName": "Tolvan",
+      "lastName": "Tolvansson",
+      "fullName": "Tolvan Tolvansson",
+      "testIndicated": false,
+      "protectedPerson": false,
+      "deceased": false
+    },
+    "issuedBy": {
+      "hsaId": "TSTNMT2321000156-1079",
+      "fullName": "Arnold Johansson",
+      "prescriptionCode": "0000000"
+    },
+    "version": 0
+  },
+  "data": {
+    "smittbararpenning": {
+      "id": "smittbararpenning",
+      "parent": "",
+      "index": 0,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Smittbärarpenning",
+        "description": "Fylls i om hon eller han måste avstå från sitt arbete på grund av:\n        - Intygsskrivande läkares beslut enligt smittskyddslagen\n        - Läkarundersökning eller hälsokontroll som syftar till att klarlägga om hon eller han är smittad av en allmänfarlig sjukdom eller om personen har en sjukdom, en smitta, ett sår eller annan skada som gör att hon eller han inte får hantera livsmedel.",
+        "component": "category"
+      }
+    },
+    "27": {
+      "id": "27",
+      "parent": "smittbararpenning",
+      "index": 1,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "",
+        "description": "",
+        "component": "ue-checkbox",
+        "prop": "avstangningSmittskydd"
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "selected": null,
+        "text": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)"
+      },
+      "validation": {
+        "required": true
+      },
+      "validationError": []
+    },
+    "1.2": {
+      "id": "1.2",
+      "parent": "1.1",
+      "index": 2,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.",
+        "description": "Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.",
+        "component": "ue-textarea",
+        "prop": "funktionsnedsattning"
+      },
+      "value": {
+        "type": "TEXT",
+        "funktionsnedsattning": null,
+        "text": "",
+        "limit": 50
+      },
+      "validation": {
+        "required": true,
+        "requiredProp": "funktionsnedsattning",
+        "hideExpression": "!harFunktionsnedsattning"
+      },
+      "validationError": []
+    },
+    "aktivitetsbegransning": {
+      "id": "aktivitetsbegransning",
+      "parent": null,
+      "index": 3,
+      "visible": false,
+      "readOnly": false,
+      "config": {
+        "text": "Aktivitetsbegränsning",
+        "description": null,
+        "component": "category"
+      },
+      "validation": {
+        "hideExpression": "!harFunktionsnedsattning"
+      }
+    },
+    "2.1": {
+      "id": "2.1",
+      "parent": "aktivitetsbegransning",
+      "index": 4,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?",
+        "description": "Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.",
+        "component": "ue-radio",
+        "prop": "harAktivitetsbegransning"
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "harAktivitetsbegransning": "EMPTY",
+        "selected": null,
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
+      },
+      "validation": {
+        "required": true,
+        "requiredProp": "harAktivitetsbegransning",
+        "hideExpression": "!harFunktionsnedsattning"
+      },
+      "validationError": []
+    },
+    "2.2": {
+      "id": "2.2",
+      "parent": "2.1",
+      "index": 5,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.",
+        "description": "Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera. Till exempel:\n\natt ta till sig en instruktion\natt ta reda på och förstå muntlig eller skriftlig information\natt kunna fokusera\natt kunna bära eller lyfta\natt kunna hantera statiskt arbete",
+        "component": "ue-textarea",
+        "prop": "aktivitetsbegransning"
+      },
+      "value": {
+        "type": "TEXT",
+        "aktivitetsbegransning": null,
+        "text": "",
+        "limit": 50
+      },
+      "validation": {
+        "required": true,
+        "requiredProp": "aktivitetsbegransning",
+        "hideExpression": "!harAktivitetsbegransning"
+      },
+      "validationError": []
+    },
+    "utredningBehandling": {
+      "id": "utredningBehandling",
+      "parent": null,
+      "index": 6,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Utredning och behandling",
+        "description": null,
+        "component": "category"
+      },
+      "validation": {
+        "hideExpression": null
+      }
+    },
+    "3.1": {
+      "id": "3.1",
+      "parent": "utredningBehandling",
+      "index": 7,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Finns pågående eller planerade utredningar/behandlingar som påverkar den planering som Arbetsförmedlingen har beskrivit i förfrågan?",
+        "description": "Till exempel remiss för bedömning eller åtgärd inom annan vårdenhet eller aktiviteter inom egna verksamheten.",
+        "component": "ue-radio",
+        "prop": "harUtredningBehandling"
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
+      },
+      "validation": {
+        "required": true
+      },
+      "validationError": []
+    },
+    "3.2": {
+      "id": "3.2",
+      "parent": "3.1",
+      "index": 8,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Hur påverkar utredningarna/behandlingarna planeringen? När planeras utredningarna/behandlingarna att vara avslutade?\n",
+        "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.\n\nAnge förväntat resultat för de utredningar eller behandlingar som ska genomföras i vården och när personen kan genomföra/delta i Arbetsförmedlingens planerade aktiviteter.",
+        "component": "ue-textarea",
+        "prop": "utredningBehandling"
+      },
+      "value": {
+        "type": "TEXT",
+        "limit": 50
+      },
+      "validation": {
+        "required": true,
+        "hideExpression": "!harUtredningBehandling"
+      },
+      "validationError": []
+    },
+    "arbetetsPaverkan": {
+      "id": "arbetetsPaverkan",
+      "parent": null,
+      "index": 9,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Arbetets påverkan på sjukdom/skada",
+        "description": null,
+        "component": "category"
+      },
+      "validation": {
+        "hideExpression": null
+      }
+    },
+    "4.1": {
+      "id": "4.1",
+      "parent": "arbetetsPaverkan",
+      "index": 10,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Kan sjukdomen/skadan förvärras av vissa arbetsuppgifter/arbetsmoment?",
+        "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.",
+        "component": "ue-radio",
+        "prop": "harArbetetsPaverkan"
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "harArbetetsPaverkan": "EMPTY",
+        "selected": null,
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
+      },
+      "validation": {
+        "required": true,
+        "requiredProp": "harArbetetsPaverkan"
+      },
+      "validationError": []
+    },
+    "4.2": {
+      "id": "4.2",
+      "parent": "4.1",
+      "index": 11,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Vilken typ av arbetsuppgifter/arbetsmoment?",
+        "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.\n\nTill exempel:\n\narmarbete ovan axelhöjd\narbete på höga höjder\nskärmarbete vid dator under längre tid\nstatiskt arbete\n",
+        "component": "ue-textarea",
+        "prop": "arbetetsPaverkan"
+      },
+      "value": {
+        "type": "TEXT",
+        "arbetetsPaverkan": null,
+        "text": "",
+        "limit": 50
+      },
+      "validation": {
+        "required": true,
+        "requiredProp": "arbetetsPaverkan",
+        "hideExpression": "!harArbetetsPaverkan"
+      },
+      "validationError": []
+    },
+    "ovrigt": {
+      "id": "ovrigt",
+      "parent": null,
+      "index": 12,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "Övrigt",
+        "description": null,
+        "component": "category"
+      },
+      "validation": {
+        "hideExpression": null
+      }
+    },
+    "5.1": {
+      "id": "5.1",
+      "parent": "ovrigt",
+      "index": 13,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Övrigt som Arbetsförmedlingen bör känna till?",
+        "description": "Som t ex risker för försämring vid andra aktiviteter än de som Arbetsförmedlingen har beskrivit i förfrågan.",
+        "component": "ue-textarea",
+        "prop": "ovrigt"
+      },
+      "value": {
+        "type": "TEXT",
+        "ovrigt": null,
+        "text": "",
+        "limit": 50
+      },
+      "validation": {
+        "required": false
+      },
+      "validationError": []
+    }
+  }
+}

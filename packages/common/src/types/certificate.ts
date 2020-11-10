@@ -68,8 +68,9 @@ export interface CertificateDataValue {
 
 export interface CertificateBooleanValue extends CertificateDataValue {
   selected: boolean | null
-  selectedText: string
-  unselectedText: string
+  selectedText?: string
+  unselectedText?: string
+  text?: string
 }
 
 export interface CertificateTextValue extends CertificateDataValue {
