@@ -3,6 +3,7 @@ import { Button, Checkbox, Container, FormControlLabel, Grid, makeStyles, Paper,
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import DatePickerCustom from '../feature/certificate/Inputs/DatePickerCustom'
 import { loginUser } from '../store/user/userActions'
 
 interface JsonUser extends User {
@@ -128,6 +129,9 @@ const Welcome = () => {
     <Paper square elevation={0}>
       <Container>
         <Grid container>
+          <Grid item xs={12}>
+            <DatePickerCustom></DatePickerCustom>
+          </Grid>
           <Grid item xs={12}>
             <Typography className={classes.mainTitle} variant="h1">
               Testinloggningar Webcert

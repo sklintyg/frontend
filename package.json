@@ -2,8 +2,12 @@
   "name": "frontend",
   "private": true,
   "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/babel-loader"]
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/babel-loader"
+    ]
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -14,8 +18,6 @@
   "devDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@types/react-redux": "^7.1.9",
-    "react-addons-test-utils": "^15.6.2",
-    "redux-devtools": "^3.5.0",
     "enzyme-to-json": "^3.4.3",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
@@ -43,13 +45,16 @@
     "@types/lodash": "^4.14.157",
     "@types/node": "^12.12.47",
     "@types/react": "^16.9.41",
+    "@types/react-datepicker": "^3.1.1",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/testing-library__jest-dom": "^5.9.4",
     "customize-cra": "^0.8.0",
+    "date-fns": "^2.16.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "react": "^16.13.1",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
