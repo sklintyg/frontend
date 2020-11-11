@@ -49,11 +49,28 @@ export interface CertificateDataElement {
   validationErrors: ValidationError[]
 }
 
+export enum ConfigTypes {
+  UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_TEXTAREA = 'UE_TEXTAREA',
+  CATEGORY = 'CATEGORY',
+}
+
 export interface CertificateDataConfig {
   text: string
   description: string
-  component: string
-  prop: string
+  type: ConfigTypes
+}
+
+export interface Category extends CertificateDataConfig {}
+
+export interface UeTextArea extends CertificateDataConfig {
+  id: string
+}
+
+export interface UeRadioBoolean extends CertificateDataConfig {
+  id: string
+  selectedText: string
+  unSelectedText: string
 }
 
 export enum CertificateDataValueType {
@@ -67,14 +84,8 @@ export interface CertificateDataValue {
 }
 
 export interface CertificateBooleanValue extends CertificateDataValue {
+  id: string
   selected: boolean | null
-  // This should be in config instead, it's for presentation purposes
-  metadata: RadioButtonMetadata | CheckBoxMetadata
-}
-
-export interface RadioButtonMetadata extends CertificateBooleanValue {
-  selectedText?: string
-  unselectedText?: string
 }
 
 export interface CheckBoxMetadata extends CertificateBooleanValue {
