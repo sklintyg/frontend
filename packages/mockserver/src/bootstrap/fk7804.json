@@ -52,7 +52,7 @@
       "config": {
         "text": "Smittbärarpenning",
         "description": "Fylls i om hon eller han måste avstå från sitt arbete på grund av:\n        - Intygsskrivande läkares beslut enligt smittskyddslagen\n        - Läkarundersökning eller hälsokontroll som syftar till att klarlägga om hon eller han är smittad av en allmänfarlig sjukdom eller om personen har en sjukdom, en smitta, ett sår eller annan skada som gör att hon eller han inte får hantera livsmedel.",
-        "component": "category"
+        "type": "CATEGORY"
       }
     },
     "27": {
@@ -65,17 +65,16 @@
       "config": {
         "text": "",
         "description": "",
-        "component": "ue-checkbox",
-        "prop": "avstangningSmittskydd"
+        "type": "UE_CHECKBOX_BOOLEAN",
+        "id": "avstangningSmittskydd",
+        "label": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)"
       },
       "value": {
         "type": "BOOLEAN",
-        "selected": null,
-        "text": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)"
+        "id": "avstangningSmittskydd",
+        "selected": null
       },
-      "validation": {
-        "required": true
-      },
+      "validation": [],
       "validationError": []
     },
     "sysselsattning": {
@@ -87,11 +86,14 @@
       "config": {
         "text": "Sysselsättning",
         "description": null,
-        "component": "category"
+        "type": "CATEGORY"
       },
-      "validation": {
-        "hideExpression": "avstangningSmittskydd"
-      }
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }]
     },
     "28": {
       "id": "28",
@@ -103,38 +105,63 @@
       "config": {
         "text": "I relation till vilken sysselsättning bedömer du arbetsförmågan?",
         "description": "Om du kryssar i flera val är det viktigt att du tydliggör under \"Övriga upplysningar\" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.",
-        "component": "ue-checkbox-group",
-        "prop": "harAktivitetsbegransning"
+        "type": "UE_CHECKBOX_MULTIPLE_CODES",
+        "list":[
+          {
+            "id": "NUVARANDE_ARBETE",
+            "label": "Nuvarande arbete",
+          },
+          {
+            "id": "ARBETSSOKANDE",
+            "label": "Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden"
+          },
+          {
+            "id": "FORALDRALEDIG",
+            "label": "Föräldraledighet för vård av barn"
+          },
+          {
+            "id": "STUDIER",
+            "label": "Studier"
+          }
+        ]
       },
       "value": {
-        "type": "BOOLEAN-ARRAY",
-        // This should be in config instead, it's for presentation purposes
-        "booleanArray": [{
-          "selected": null,
-          "text": "Nuvarande arbete",
-          "disabled": false
-        },
-        {
-          "selected": null,
-          "text": "Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden",
-          "disabled": false
-        },
-        {
-          "selected": null,
-          "text": "Föräldraledighet för vård av barn",
-          "disabled": false
-        },
-        {
-          "selected": null,
-          "text": "Studier",
-          "disabled": false
-        }]
+        "type": "CODE_LIST",
+        "list": []
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "harAktivitetsbegransning",
-        "hideExpression": "!harFunktionsnedsattning"
+      "validation": [{
+        "type": "MANDATORY_VALIDATION",
+        "expression": "$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER"
+      }],
+      "validationError": []
+    },
+    "29": {
+      "id": "29",
+      "parent": "sysselsattning",
+      "index": 6,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Ange yrke och arbetsuppgifter",
+        "description": "",
+        "type": "UE_TEXTAREA",
+        "id": "nuvarandeArbete"
       },
+      "value": {
+        "type": "TEXT",
+        "id": "nuvarandeArbete",
+        "text": ""
+      },
+      "validation": [{
+        "type": "MANDATORY_VALIDATION",
+        "expression": "$nuvarandeArbete"
+      },
+      {
+        "type": "SHOW_VALIDATION",
+        "questionId": "28",
+        "expression": "$NUVARANDE_ARBETE"
+      }],
       "validationError": []
     },
     "2.2": {

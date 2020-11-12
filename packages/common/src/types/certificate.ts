@@ -49,8 +49,11 @@ export interface CertificateDataElement {
   validationErrors: ValidationError[]
 }
 
+// Configs
 export enum ConfigTypes {
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
+  UE_CHECKBOX_MULTIPLE_CODES = 'UE_CHECKBOX_MULTIPLE_CODES',
   UE_TEXTAREA = 'UE_TEXTAREA',
   CATEGORY = 'CATEGORY',
 }
@@ -73,30 +76,95 @@ export interface UeRadioBoolean extends CertificateDataConfig {
   unSelectedText: string
 }
 
+export interface UeCheckboxBoolean extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface UeCheckboxMultipleCodes extends CertificateDataConfig {
+  list: UeCheckboxBoolean[]
+}
+
+// Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
+  CODE = 'CODE',
+  CODE_LIST = 'CODE_LIST',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
 }
 
-export interface CertificateDataValue {
+export interface Value {
   type: CertificateDataValueType
 }
 
-export interface CertificateBooleanValue extends CertificateDataValue {
+export interface ValueBoolean extends Value {
   id: string
   selected: boolean | null
 }
+
+export interface ValueCode extends Value {
+  id: string
+  code: string
+}
+
+export interface ValueCodeList extends Value {
+  list: ValueCode[]
+}
+
+export interface ValueText extends Value {
+  id: string
+  text: string
+}
+
+// Validation
+
+export enum CertificateDataValidationType {
+  TEXT_VALIDATION = 'TEXT_VALIDATION',
+  SHOW_VALIDATION = 'SHOW_VALIDATION',
+  HIDE_VALIDATION = 'HIDE_VALIDATION',
+  DISABLE_VALIDATION = 'DISABLE_VALIDATION',
+  MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+}
+
+export interface CertificateDataValidation {
+  type: CertificateDataValidationType
+}
+
+export interface TextValidation extends CertificateDataValidation {
+  id: string
+  limit: number
+  // expression: string // '$6.1 > 5000' // Kan allt beskrivas med expression?
+}
+
+export interface ShowValidation extends CertificateDataValidation {
+  questionId: string
+  // id: string
+  expression: string // '1.1 === true' // '($27.2 || $27.3 || $27.4) && !$27.1' // Undersök möjligheten att beskriva det här i ett expression objekt
+}
+
+export interface HideValidation extends CertificateDataValidation {
+  questionId: string
+  expression: string
+}
+
+export interface DisableValidation extends CertificateDataValidation {
+  id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
+  questionId: string // '7.1'
+  expression: string // '7.1.1 === KV_FKMU_0004.EJ_AKTUELLT'
+}
+
+export interface MandatoryValidation extends CertificateDataValidation {
+  questionId: string
+  expression: string
+}
+
+// --------------------------------------------
 
 export interface CheckBoxMetadata extends CertificateBooleanValue {
   text?: string
   disableAll?: boolean
   disabled?: boolean
-}
-
-export interface CertificateTextValue extends CertificateDataValue {
-  text: string
-  limit: number
 }
 
 export interface CertificateDataValidation {
