@@ -3,7 +3,7 @@ import { Button, Checkbox, Container, FormControlLabel, Grid, makeStyles, Paper,
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import DatePickerCustom from '../feature/certificate/Inputs/DatePickerCustom'
+import DatePickerCustom from '../feature/certificate/Inputs/DateRangePicker'
 import { loginUser } from '../store/user/userActions'
 
 interface JsonUser extends User {
