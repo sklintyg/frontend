@@ -1,8 +1,9 @@
 import { makeStyles, TextField, Button } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { ClassAttributes, useState } from 'react'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import ReactDatePicker from 'react-datepicker'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -39,9 +40,10 @@ interface Props {
   handleChangeRaw?: (event: React.FocusEvent<HTMLInputElement>) => void
   setDate: (date: Date) => void
   selectedDate: Date | null
+  inputRef?: ((instance: DatePicker | null) => void) | null | undefined
 }
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate }) => {
+const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const classes = useStyles()
@@ -73,6 +75,7 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedD
 
   return (
     <DatePicker
+      ref={inputRef}
       onChange={() => {}}
       dateFormat="yyyy-MM-dd"
       customInput={<Input />}

@@ -1,7 +1,8 @@
 import { Button, makeStyles, TextField } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import DatePickerCustom from './DatePickerCustom'
-import { format } from 'date-fns'
+import { parse } from 'date-fns'
+import ReactDatePicker from 'react-datepicker'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -49,6 +50,8 @@ const DateRangePicker = () => {
   const [fromDate, setFromDate] = useState<Date | null>(null)
   const [toDate, setToDate] = useState<Date | null>(null)
   const classes = useStyles()
+  const fromDateRef = useRef<ReactDatePicker | null>(null)
+  const toDateRef = useRef(null)
 
   // const renderInput = (props: TextFieldProps): any => (
   //   <TextField type="text" onClick={props.onClick} value={props.value} onChange={props.onChange} />
@@ -68,8 +71,8 @@ const DateRangePicker = () => {
   // }
 
   function _parseDayCodes(input: string) {
-    if (input) {
-      let result = dayCodeReg.exec(input)
+    if (input && typeof input === 'string') {
+      var result = dayCodeReg.exec(input)
       if (result && result.length > 0) {
         return parseInt(result[1], 10)
       }
@@ -77,42 +80,75 @@ const DateRangePicker = () => {
       if (result && result.length > 0) {
         return parseInt(result[1], 10) * 7
       }
-      // var months = _parseMonthCode(input)
-      // if (months) {
-      //   return months * 31
-      // }
+      var months = _parseMonthCode(input)
+      if (months) {
+        return months * 31
+      }
     }
     return null
   }
 
-  const parseDayCodes = (input: string) => {
-    // if(!input) return null
-
-    if (dayCodeReg.test(input)) {
-      return
+  function _parseMonthCode(input: string) {
+    if (input && typeof input === 'string') {
+      var result = monthCodeReg.exec(input)
+      if (result && result.length > 0) {
+        return parseInt(result[1], 10)
+      }
     }
+    return null
   }
 
   const handleFromTextInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    console.log(event.type)
+    console.log('handleFromTextInputChange')
+
     console.log(event.target.value)
-    if (_dateRegDashesOptional.test(event.target.value)) {
-      console.log('datum korrekt, sätter datumet till selectedDate. event.target.value:', event.target.value)
-      //TODO: 20201011 funkar inte, behövs dashes '-'. Fix
-      const crash = Date.parse(event.target.value)
-      console.log(crash)
+    if (event.target.value === '') {
+      //TODO: Fixa så fokus inte släpps om man nullar datumet i statet
+
+      setFromDate(null)
+      return
+    }
+
+    const date = getValidDate(value)
+
+    if (date) {
+      console.log('setting from date', date)
+      setFromDate(date)
     }
   }
 
   const handleToTextInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (_dateRegDashesOptional.test(event.target.value)) {
-      console.log('datum korrekt, sätter datumet till selectedDate. event.target.value:', event.target.value)
-      setToDate(new Date(event.target.value))
+    const { value } = event.target
+
+    if (_dateReg.test(value) || _dateRegDashesOptional.test(value)) {
+      const date = getValidDate(value)
+
+      if (date) {
+        console.log('setting to date', date)
+        setToDate(date)
+      }
+    }
+  }
+
+  const getValidDate = (dateString: string) => {
+    if (_dateReg.test(dateString)) {
+      const formattedString = dateString.replace(/-/g, '')
+      return parse(formattedString, 'yyyyMMdd', new Date())
+    } else if (_dateRegDashesOptional.test(dateString)) {
+      return parse(dateString, 'yyyyMMdd', new Date())
     }
   }
 
   return (
     <div className={classes.wrapper}>
-      <DatePickerCustom selectedDate={fromDate} setDate={(date) => setFromDate(date)} handleChangeRaw={handleFromTextInputChange} />
+      <DatePickerCustom
+        inputRef={fromDateRef}
+        selectedDate={fromDate}
+        setDate={(date) => setFromDate(date)}
+        handleChangeRaw={handleFromTextInputChange}
+      />
       <DatePickerCustom selectedDate={toDate} setDate={(date) => setToDate(date)} handleChangeRaw={handleToTextInputChange} />
     </div>
   )
