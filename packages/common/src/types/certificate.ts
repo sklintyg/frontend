@@ -55,10 +55,12 @@ export enum ConfigTypes {
   UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
   UE_CHECKBOX_MULTIPLE_CODES = 'UE_CHECKBOX_MULTIPLE_CODES',
   UE_TEXTAREA = 'UE_TEXTAREA',
+  UE_DIAGNOSES = 'UE_DIAGNOSES',
   CATEGORY = 'CATEGORY',
 }
 
 export interface CertificateDataConfig {
+  header?: string
   text: string
   description: string
   type: ConfigTypes
@@ -85,11 +87,17 @@ export interface UeCheckboxMultipleCodes extends CertificateDataConfig {
   list: UeCheckboxBoolean[]
 }
 
+export interface UeDiagnoses extends CertificateDataConfig {
+  terminology: string[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
   CODE = 'CODE',
   CODE_LIST = 'CODE_LIST',
+  DIAGNOSIS = 'DIAGNOSIS',
+  DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
 }
@@ -106,6 +114,17 @@ export interface ValueBoolean extends Value {
 export interface ValueCode extends Value {
   id: string
   code: string
+}
+
+export interface ValueDiagnosis extends Value {
+  id: string
+  terminology: string
+  code: string
+  description: string
+}
+
+export interface ValueDiagnosisList extends Value {
+  list: ValueDiagnosis[]
 }
 
 export interface ValueCodeList extends Value {

@@ -109,7 +109,7 @@
         "list":[
           {
             "id": "NUVARANDE_ARBETE",
-            "label": "Nuvarande arbete",
+            "label": "Nuvarande arbete"
           },
           {
             "id": "ARBETSSOKANDE",
@@ -164,56 +164,89 @@
       }],
       "validationError": []
     },
-    "2.2": {
-      "id": "2.2",
-      "parent": "2.1",
-      "index": 5,
-      "visible": false,
-      "readOnly": false,
-      "mandatory": true,
-      "config": {
-        "text": "Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.",
-        "description": "Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera. Till exempel:\n\natt ta till sig en instruktion\natt ta reda på och förstå muntlig eller skriftlig information\natt kunna fokusera\natt kunna bära eller lyfta\natt kunna hantera statiskt arbete",
-        "component": "ue-textarea",
-        "prop": "aktivitetsbegransning"
-      },
-      "value": {
-        "type": "TEXT",
-        "aktivitetsbegransning": null,
-        "text": "",
-        "limit": 50
-      },
-      "validation": {
-        "required": true,
-        "requiredProp": "aktivitetsbegransning",
-        "hideExpression": "!harAktivitetsbegransning"
-      },
-      "validationError": []
-    },
-    "utredningBehandling": {
-      "id": "utredningBehandling",
+    "diagnos": {
+      "id": "diagnos",
       "parent": null,
-      "index": 6,
-      "visible": true,
-      "readOnly": false,
-      "config": {
-        "text": "Utredning och behandling",
-        "description": null,
-        "component": "category"
-      },
-      "validation": {
-        "hideExpression": null
-      }
-    },
-    "3.1": {
-      "id": "3.1",
-      "parent": "utredningBehandling",
       "index": 7,
       "visible": true,
       "readOnly": false,
+      "config": {
+        "text": "Diagnos",
+        "description": null,
+        "type": "CATEGORY"
+      },
+      "validation": []
+    },
+    "6": {
+      "id": "6",
+      "parent": "diagnos",
+      "index": 8,
+      "visible": true,
+      "readOnly": false,
       "mandatory": true,
       "config": {
-        "text": "Finns pågående eller planerade utredningar/behandlingar som påverkar den planering som Arbetsförmedlingen har beskrivit i förfrågan?",
+        "text": "Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga",
+        "description": "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".",
+        "type": "UE_DIAGNOSES",
+        "terminology": ["ICD-10-SE", "KSH97-P (Primärvård)"],
+        "list": [
+          {
+            "id": "1"
+          },
+          {
+            "id": "2"
+          },
+          {
+            "id": "3"
+          }
+        ]
+      },
+      "value": {
+        "type": "DIAGNOSIS_LIST",
+        "list": [
+          {
+            "type": "DIAGNOSIS",
+            "id": "1",
+            "terminology": "ICD-10-SE",
+            "code": "A01",
+            "description": "Tyfoidfeber och paratyfoidfeber"
+          }
+        ]
+      },
+      "validation": [{
+        "type": "MANDATORY_VALIDATION",
+        "expression": "$1"
+      }],
+      "validationError": []
+    },
+    "funktionsnedsattning": {
+      "id": "funktionsnedsattning",
+      "parent": null,
+      "index": 9,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Sjukdomens konsekvenser",
+        "description": null,
+        "type": "CATEGORY"
+      },
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ]
+    },
+    "35": {
+      "id": "35",
+      "parent": "funktionsnedsattning",
+      "index": 10,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Funktionsnedsättning",
         "description": "Till exempel remiss för bedömning eller åtgärd inom annan vårdenhet eller aktiviteter inom egna verksamheten.",
         "component": "ue-radio",
         "prop": "harUtredningBehandling"
