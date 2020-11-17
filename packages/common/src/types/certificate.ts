@@ -54,6 +54,7 @@ export enum ConfigTypes {
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
   UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
   UE_CHECKBOX_MULTIPLE_CODES = 'UE_CHECKBOX_MULTIPLE_CODES',
+  UE_CHECKBOX_MULTIPLE_CODES_DATE = 'UE_CHECKBOX_MULTIPLE_CODES_DATE',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   CATEGORY = 'CATEGORY',
@@ -168,9 +169,9 @@ export interface HideValidation extends CertificateDataValidation {
 }
 
 export interface DisableValidation extends CertificateDataValidation {
-  id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
   questionId: string // '7.1'
   expression: string // '7.1.1 === KV_FKMU_0004.EJ_AKTUELLT'
+  id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
 export interface MandatoryValidation extends CertificateDataValidation {
