@@ -4,6 +4,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker from 'react-datepicker'
+import colors from '../../../components/styles/colors'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: colors.IA_COLOR_05,
       color: theme.palette.background.paper,
     },
   },
@@ -41,9 +42,10 @@ interface Props {
   setDate: (date: Date) => void
   selectedDate: Date | null
   inputRef?: ((instance: DatePicker | null) => void) | null | undefined
+  wrapperClass?: string
 }
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef }) => {
+const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef, wrapperClass }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const classes = useStyles()
@@ -74,29 +76,33 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedD
   )
 
   return (
-    <DatePicker
-      ref={inputRef}
-      onChange={() => {}}
-      dateFormat="yyyy-MM-dd"
-      customInput={<Input />}
-      onChangeRaw={(e) => handleChangeRaw && handleChangeRaw(e)}
-      onClickOutside={() => setOpen(false)}
-      open={open}
-      selected={selectedDate}
-      onSelect={(date: any, event: any) => {
-        setDate(date)
-      }}
-      showWeekNumbers
-    />
+    <div className={wrapperClass}>
+      <DatePicker
+        shouldCloseOnSelect={true}
+        ref={inputRef}
+        onChange={() => {}}
+        dateFormat="yyyy-MM-dd"
+        customInput={<Input />}
+        onChangeRaw={(e) => handleChangeRaw && handleChangeRaw(e)}
+        onClickOutside={() => setOpen(false)}
+        open={open}
+        selected={selectedDate}
+        onSelect={(date: any, event: any) => {
+          setOpen(false)
+          setDate(date)
+        }}
+        showWeekNumbers
+      />
+    </div>
   )
 }
 
-const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
-const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-const _format = 'YYYY-MM-DD'
+// const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
+// const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
+// const _format = 'YYYY-MM-DD'
 
-const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
-const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
-const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
+// const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
+// const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
+// const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
 
 export default DatePickerCustom
