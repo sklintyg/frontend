@@ -51,17 +51,20 @@ export interface CertificateDataElement {
 
 // Configs
 export enum ConfigTypes {
-  UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
-  UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
-  UE_CHECKBOX_MULTIPLE_CODES = 'UE_CHECKBOX_MULTIPLE_CODES',
-  UE_CHECKBOX_MULTIPLE_CODES_DATE = 'UE_CHECKBOX_MULTIPLE_CODES_DATE',
-  UE_TEXTAREA = 'UE_TEXTAREA',
-  UE_DIAGNOSES = 'UE_DIAGNOSES',
   CATEGORY = 'CATEGORY',
+  UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
+  UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
+  UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
+  UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
+  UE_DIAGNOSES = 'UE_DIAGNOSES',
+  UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
+  UE_TEXTAREA = 'UE_TEXTAREA',
 }
 
 export interface CertificateDataConfig {
   header?: string
+  icon?: string
   text: string
   description: string
   type: ConfigTypes
@@ -88,6 +91,24 @@ export interface UeCheckboxMultipleCodes extends CertificateDataConfig {
   list: UeCheckboxBoolean[]
 }
 
+export interface UeCheckboxDate extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface UeCheckboxDateRange extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface UeCheckboxMultipleDate extends CertificateDataConfig {
+  list: UeCheckboxDate[]
+}
+
+export interface UeSickLeavePeriod extends CertificateDataConfig {
+  list: UeCheckboxDateRange[]
+}
+
 export interface UeDiagnoses extends CertificateDataConfig {
   terminology: string[]
 }
@@ -97,6 +118,10 @@ export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
   CODE = 'CODE',
   CODE_LIST = 'CODE_LIST',
+  DATE = 'DATE',
+  DATE_LIST = 'DATE_LIST',
+  DATE_RANGE = 'DATE_RANGE',
+  DATE_RANGE_LIST = 'DATE_RANGE_LIST',
   DIAGNOSIS = 'DIAGNOSIS',
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
   TEXT = 'TEXT',
@@ -115,6 +140,25 @@ export interface ValueBoolean extends Value {
 export interface ValueCode extends Value {
   id: string
   code: string
+}
+
+export interface ValueDate extends Value {
+  id: string
+  date: string
+}
+
+export interface ValueDateList extends Value {
+  list: ValueDate
+}
+
+export interface ValueDateRange extends Value {
+  id: string
+  from: string
+  to: string
+}
+
+export interface ValueDateRangeList extends Value {
+  list: ValueDateRange
 }
 
 export interface ValueDiagnosis extends Value {
@@ -145,6 +189,8 @@ export enum CertificateDataValidationType {
   HIDE_VALIDATION = 'HIDE_VALIDATION',
   DISABLE_VALIDATION = 'DISABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+  MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
+  DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
 }
 
 export interface CertificateDataValidation {
@@ -177,6 +223,12 @@ export interface DisableValidation extends CertificateDataValidation {
 export interface MandatoryValidation extends CertificateDataValidation {
   questionId: string
   expression: string
+}
+
+// How to handle date ranges i.e. min & max
+export interface MaxDateValidation extends CertificateDataValidation {
+  id: string
+  numberOfDays: number
 }
 
 // --------------------------------------------

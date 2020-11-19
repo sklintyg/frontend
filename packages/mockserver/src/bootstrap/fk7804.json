@@ -106,40 +106,126 @@
       "config": {
         "text": "Intyget är baserat på",
         "description": "Enligt Socialstyrelsens föreskrifter (HSLF-FS 2018:54) om att utfärda intyg i hälso- och\n        sjukvården ska ett läkarintyg innehålla uppgifter om vad som ligger till grund för din bedömning vid utfärdandet\n        av intyget. Ett intyg ska som huvudregel utfärdas efter en undersökning av patienten. Intyget ska innehålla\n        uppgift om kontaktsätt vid undersökningen. Om kontaktsättet är videosamtal anger du detta under fältet Övriga\n        upplysningar.",
-        "type": "UE_CHECKBOX_MULTIPLE_CODES_DATE",
-        "list":[
+        "type": "UE_CHECKBOX_MULTIPLE_DATE",
+        "list": [
           {
-            "id": "NUVARANDE_ARBETE",
-            "label": "Nuvarande arbete"
+            "id": "undersokningAvPatienten",
+            "label": "min undersökning av patienten"
           },
           {
-            "id": "ARBETSSOKANDE",
-            "label": "Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden"
+            "id": "telefonkontaktMedPatienten",
+            "label": "min telefonkontakt med patienten"
           },
           {
-            "id": "FORALDRALEDIG",
-            "label": "Föräldraledighet för vård av barn"
+            "id": "journaluppgifter",
+            "label": "journaluppgifter från den"
           },
           {
-            "id": "STUDIER",
-            "label": "Studier"
+            "id": "annatGrundForMU",
+            "label": "annat"
           }
         ]
       },
       "value": {
-        "type": "CODE_LIST",
+        "type": "DATE_LIST",
         "list": []
       },
-      "validation": [{
-        "type": "MANDATORY_VALIDATION",
-        "expression": "$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER"
-      }],
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU"
+        },
+        {
+          "type": "MAX_DATE_VALIDATION",
+          "id": "undersokningAvPatienten",
+          "numberOfDays": 0
+        },
+        {
+          "type": "MAX_DATE_VALIDATION",
+          "id": "telefonkontaktMedPatienten",
+          "numberOfDays": 0
+        },
+        {
+          "type": "MAX_DATE_VALIDATION",
+          "id": "journaluppgifter",
+          "numberOfDays": 0
+        },
+        {
+          "type": "MAX_DATE_VALIDATION",
+          "id": "annatGrundForMU",
+          "numberOfDays": 0
+        }
+      ],
+      "validationError": []
+    },
+    "1.1": {
+      "id": "1.1",
+      "parent": "1",
+      "index": 4,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Ange vad annat är",
+        "description": null,
+        "type": "UE_TEXTAREA",
+        "id": "annatGrundForMUBeskrivning"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "annatGrundForMUBeskrivning",
+        "text": ""
+      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$annatGrundForMUBeskrivning"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1",
+          "expression": "$annatGrundForMU"
+        }
+      ],
+      "validationError": []
+    },
+    "1.2": {
+      "id": "1.2",
+      "parent": "1",
+      "index": 5,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "icon": "lightbulb_outline",
+        "text": "Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten",
+        "description": "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\nInformationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.",
+        "type": "UE_TEXTAREA",
+        "id": "motiveringTillInteBaseratPaUndersokning"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "motiveringTillInteBaseratPaUndersokning",
+        "text": ""
+      },
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1",
+          "expression": "!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)"
+        },
+        {
+          "type": "TEXT_VALIDATION",
+          "id": "motiveringTillInteBaseratPaUndersokning",
+          "limit": 150
+        }
+      ],
       "validationError": []
     },
     "sysselsattning": {
       "id": "sysselsattning",
       "parent": null,
-      "index": 4,
+      "index": 6,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -158,15 +244,15 @@
     "28": {
       "id": "28",
       "parent": "sysselsattning",
-      "index": 5,
+      "index": 7,
       "visible": true,
       "readOnly": false,
       "mandatory": true,
       "config": {
         "text": "I relation till vilken sysselsättning bedömer du arbetsförmågan?",
         "description": "Om du kryssar i flera val är det viktigt att du tydliggör under \"Övriga upplysningar\" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.",
-        "type": "UE_CHECKBOX_MULTIPLE_CODES",
-        "list":[
+        "type": "UE_CHECKBOX_MULTIPLE_CODE",
+        "list": [
           {
             "id": "NUVARANDE_ARBETE",
             "label": "Nuvarande arbete"
@@ -189,16 +275,18 @@
         "type": "CODE_LIST",
         "list": []
       },
-      "validation": [{
-        "type": "MANDATORY_VALIDATION",
-        "expression": "$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER"
-      }],
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER"
+        }
+      ],
       "validationError": []
     },
     "29": {
       "id": "29",
       "parent": "sysselsattning",
-      "index": 6,
+      "index": 8,
       "visible": false,
       "readOnly": false,
       "mandatory": true,
@@ -213,21 +301,23 @@
         "id": "nuvarandeArbete",
         "text": ""
       },
-      "validation": [{
-        "type": "MANDATORY_VALIDATION",
-        "expression": "$nuvarandeArbete"
-      },
-      {
-        "type": "SHOW_VALIDATION",
-        "questionId": "28",
-        "expression": "$NUVARANDE_ARBETE"
-      }],
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$nuvarandeArbete"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "28",
+          "expression": "$NUVARANDE_ARBETE"
+        }
+      ],
       "validationError": []
     },
     "diagnos": {
       "id": "diagnos",
       "parent": null,
-      "index": 7,
+      "index": 9,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -240,7 +330,7 @@
     "6": {
       "id": "6",
       "parent": "diagnos",
-      "index": 8,
+      "index": 10,
       "visible": true,
       "readOnly": false,
       "mandatory": true,
@@ -248,7 +338,10 @@
         "text": "Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga",
         "description": "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".",
         "type": "UE_DIAGNOSES",
-        "terminology": ["ICD-10-SE", "KSH97-P (Primärvård)"],
+        "terminology": [
+          "ICD-10-SE",
+          "KSH97-P (Primärvård)"
+        ],
         "list": [
           {
             "id": "1"
@@ -273,16 +366,18 @@
           }
         ]
       },
-      "validation": [{
-        "type": "MANDATORY_VALIDATION",
-        "expression": "$1"
-      }],
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$1"
+        }
+      ],
       "validationError": []
     },
     "funktionsnedsattning": {
       "id": "funktionsnedsattning",
       "parent": null,
-      "index": 9,
+      "index": 11,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -301,7 +396,7 @@
     "35": {
       "id": "35",
       "parent": "funktionsnedsattning",
-      "index": 10,
+      "index": 12,
       "visible": true,
       "readOnly": false,
       "mandatory": true,
@@ -328,7 +423,7 @@
     "17": {
       "id": "17",
       "parent": "funktionsnedsattning",
-      "index": 11,
+      "index": 13,
       "visible": true,
       "readOnly": false,
       "mandatory": true,
@@ -355,7 +450,7 @@
     "medicinskaBehandlingar": {
       "id": "medicinskaBehandlingar",
       "parent": null,
-      "index": 12,
+      "index": 14,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -374,7 +469,7 @@
     "19": {
       "id": "19",
       "parent": "medicinskaBehandlingar",
-      "index": 13,
+      "index": 15,
       "visible": true,
       "readOnly": false,
       "mandatory": false,
@@ -396,7 +491,7 @@
     "20": {
       "id": "20",
       "parent": "medicinskaBehandlingar",
-      "index": 14,
+      "index": 16,
       "visible": true,
       "readOnly": false,
       "mandatory": false,
@@ -415,10 +510,65 @@
       "validation": [],
       "validationError": []
     },
+    "bedomning": {
+      "id": "bedomning",
+      "parent": null,
+      "index": 17,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Bedömning",
+        "description": null,
+        "type": "CATEGORY"
+      },
+      "validation": []
+    },
+    "32": {
+      "id": "32",
+      "parent": "bedomning",
+      "index": 18,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Min bedömning av patientens nedsättning av arbetsförmågan",
+        "description": "Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.",
+        "type": "UE_SICK_LEAVE_PERIOD",
+        "list": [
+          {
+            "id": "EN_FJARDEDEL",
+            "label": "25 procent"
+          },
+          {
+            "id": "HALFTEN",
+            "label": "50 procent"
+          },
+          {
+            "id": "TRE_FJARDEDEL",
+            "label": "75 procent"
+          },
+          {
+            "id": "HELT_NEDSATT",
+            "label": "100 procent"
+          }
+        ]
+      },
+      "value": {
+        "type": "DATE_RANGE_LIST",
+        "list": []
+      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT"
+        }
+      ],
+      "validationError": []
+    },
     "atgarder": {
       "id": "atgarder",
       "parent": null,
-      "index": 15,
+      "index": 17,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -444,8 +594,8 @@
       "config": {
         "text": "Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete",
         "description": null,
-        "type": "UE_CHECKBOX_MULTIPLE_CODES",
-        "list":[
+        "type": "UE_CHECKBOX_MULTIPLE_CODE",
+        "list": [
           {
             "id": "EJ_AKTUELLT",
             "label": "Inte aktuellt"
@@ -505,13 +655,26 @@
           "type": "DISABLE_VALIDATION",
           "questionId": "40",
           "expression": "$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER",
-          "id": [ "EJ_AKTUELLT" ]
+          "id": [
+            "EJ_AKTUELLT"
+          ]
         },
         {
           "type": "DISABLE_VALIDATION",
           "questionId": "40",
           "expression": "$EJ_AKTUELLT",
-          "id": [ "ARBETSTRANING", "ARBETSANPASSNING", "SOKA_NYTT_ARBETE", "BESOK_ARBETSPLATS", "ERGONOMISK", "HJALPMEDEL", "KONFLIKTHANTERING", "KONTAKT_FHV", "OMFORDELNING", "OVRIGA_ATGARDER" ]
+          "id": [
+            "ARBETSTRANING",
+            "ARBETSANPASSNING",
+            "SOKA_NYTT_ARBETE",
+            "BESOK_ARBETSPLATS",
+            "ERGONOMISK",
+            "HJALPMEDEL",
+            "KONFLIKTHANTERING",
+            "KONTAKT_FHV",
+            "OMFORDELNING",
+            "OVRIGA_ATGARDER"
+          ]
         }
       ],
       "validationError": []
@@ -534,11 +697,13 @@
         "id": "arbetslivsinriktadeAtgarderBeskrivning",
         "text": null
       },
-      "validation": [{
+      "validation": [
+        {
           "type": "SHOW_VALIDATION",
           "questionId": "40",
           "expression": "$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER"
-        }],
+        }
+      ],
       "validationError": []
     },
     "arbetetsPaverkan": {
