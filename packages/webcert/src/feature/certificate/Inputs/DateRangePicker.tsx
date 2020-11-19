@@ -5,7 +5,6 @@ import { parse, addDays, differenceInCalendarDays } from 'date-fns'
 import ReactDatePicker from 'react-datepicker'
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined'
 import colors from '../../../components/styles/colors'
-import { green } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   daysRangeWrapper: {
     display: 'flex',
-    alignContent: 'center',
+    alignItems: 'center',
     marginTop: theme.spacing(2),
     color: colors.IA_COLOR_05,
   },
