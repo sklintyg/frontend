@@ -195,7 +195,7 @@
       "index": 5,
       "visible": false,
       "readOnly": false,
-      "mandatory": true,
+      "mandatory": false,
       "config": {
         "icon": "lightbulb_outline",
         "text": "Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten",
@@ -563,6 +563,82 @@
           "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT"
         }
       ],
+      "validationError": []
+    },
+    "32.1": {
+      "id": "32.1",
+      "parent": "bedomning",
+      "index": 19,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "icon": "lightbulb_outline",
+        "text": "Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.",
+        "description": "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\\n' +\n            '\\n' +\n            'Informationen du anger nedan, kommer att överföras till fältet \"{0}\" vid signering.",
+        "type": "UE_TEXTAREA",
+        "id": "motiveringTillTidigtStartdatumForSjukskrivning"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "motiveringTillTidigtStartdatumForSjukskrivning",
+        "text": ""
+      },
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "32",
+          "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT"
+        },
+        {
+          "type": "TEXT_VALIDATION",
+          "id": "motiveringTillTidigtStartdatumForSjukskrivning",
+          "limit": 150
+        }
+      ],
+      "validationError": []
+    },
+    "37": {
+      "id": "37",
+      "parent": "bedomning",
+      "index": 20,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att",
+        "description": "- Om sjukdomen inte följer förväntat förlopp ska det framgå på vilket sätt.\n        - Om det inträffar komplikationer som gör att det tar längre tid att återfå arbetsförmåga ska du beskriva komplikationerna eller sjukdomstillstånden och skriva en förklaring till varför dessa fördröjer tillfrisknandet.\n        - Om sjukskrivningstidens längd påverkas av flera sjukdomar som orsakar en längre period med aktivitetsbegränsning än varje sjukdom för sig, samsjuklighet, ska du beskriva och förklara detta.",
+        "type": "UE_TEXTAREA",
+        "id": "forsakringsmedicinsktBeslutsstod"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "forsakringsmedicinsktBeslutsstod",
+        "text": ""
+      },
+      "validation": [],
+      "validationError": []
+    },
+    //TODO: Kolla igenom Fråga 33, vi avslutade lite mitt i
+    "33": {
+      "id": "33",
+      "parent": "bedomning",
+      "index": 21,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "Finns det medicinska skäl att förlägga arbetstiden på något annat sätt än att minska arbetstiden lika mycket varje dag?",
+        "description": "Frågorna besvaras endast vid partiellt nedsatt arbetsförmåga.",
+        "type": "UE_RADIO_BOOLEAN",
+        "id": "arbetstidsforlaggning"
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
+      },
+      "validation": [],
       "validationError": []
     },
     "atgarder": {
