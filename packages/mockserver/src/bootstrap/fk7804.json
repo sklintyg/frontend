@@ -659,6 +659,93 @@
       ],
       "validationError": []
     },
+    "33.2": {
+      "id": "33.2",
+      "parent": "bedomning",
+      "index": 22,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Beskriv medicinska skäl till annan förläggning av arbetstiden",
+        "description": null,
+        "type": "UE_TEXTAREA",
+        "id": "arbetstidsforlaggningMotivering"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "arbetstidsforlaggningMotivering",
+        "text": null
+      },
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "33",
+          "expression": "$arbetstidsforlaggning"
+        },
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ],
+      "validationError": []
+    },
+    "34": {
+      "id": "34",
+      "parent": "bedomning",
+      "index": 23,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "",
+        "description": "",
+        "type": "UE_CHECKBOX_BOOLEAN",
+        "id": "arbetsresor",
+        "label": "Resor till och från arbetet med annat färdmedel än normalt kan göra det möjligt för patienten att återgå till arbetet under sjukskrivningsperioden."
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "id": "arbetsresor",
+        "selected": null
+      },
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ],
+      "validationError": []
+    },
+    //TODO: Hur ska vi hantera dropdown? En lista med radiobuttons som kan ha en dropdown eller ska vi ha en lista med olika typer, en typ som är en vanlig radiobutton och en radiobutton med dropdown
+    "39": {
+      "id": "39",
+      "parent": "bedomning",
+      "index": 24,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": "Prognos för arbetsförmåga utifrån aktuellt undersökningstillfälle",
+        "description": "En viktig information för att underlätta planeringen.",
+        "type": "?",
+        "id": "prognos"
+      },
+      "value": {
+        "type": "?",
+        "id": "prognos"
+      },
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ],
+      "validationError": []
+    },
     "atgarder": {
       "id": "atgarder",
       "parent": null,
@@ -800,110 +887,112 @@
       ],
       "validationError": []
     },
-    "arbetetsPaverkan": {
-      "id": "arbetetsPaverkan",
-      "parent": null,
-      "index": 9,
-      "visible": true,
-      "readOnly": false,
-      "config": {
-        "text": "Arbetets påverkan på sjukdom/skada",
-        "description": null,
-        "component": "category"
-      },
-      "validation": {
-        "hideExpression": null
-      }
-    },
-    "4.1": {
-      "id": "4.1",
-      "parent": "arbetetsPaverkan",
-      "index": 10,
-      "visible": true,
-      "readOnly": false,
-      "mandatory": true,
-      "config": {
-        "text": "Kan sjukdomen/skadan förvärras av vissa arbetsuppgifter/arbetsmoment?",
-        "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.",
-        "component": "ue-radio",
-        "prop": "harArbetetsPaverkan"
-      },
-      "value": {
-        "type": "BOOLEAN",
-        "harArbetetsPaverkan": "EMPTY",
-        "selected": null,
-        "selectedText": "Ja",
-        "unselectedText": "Nej"
-      },
-      "validation": {
-        "required": true,
-        "requiredProp": "harArbetetsPaverkan"
-      },
-      "validationError": []
-    },
-    "4.2": {
-      "id": "4.2",
-      "parent": "4.1",
-      "index": 11,
-      "visible": false,
-      "readOnly": false,
-      "mandatory": true,
-      "config": {
-        "text": "Vilken typ av arbetsuppgifter/arbetsmoment?",
-        "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.\n\nTill exempel:\n\narmarbete ovan axelhöjd\narbete på höga höjder\nskärmarbete vid dator under längre tid\nstatiskt arbete\n",
-        "component": "ue-textarea",
-        "prop": "arbetetsPaverkan"
-      },
-      "value": {
-        "type": "TEXT",
-        "arbetetsPaverkan": null,
-        "text": "",
-        "limit": 50
-      },
-      "validation": {
-        "required": true,
-        "requiredProp": "arbetetsPaverkan",
-        "hideExpression": "!harArbetetsPaverkan"
-      },
-      "validationError": []
-    },
     "ovrigt": {
       "id": "ovrigt",
       "parent": null,
-      "index": 12,
+      "index": 17,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Övriga upplysningar",
+        "description": null,
+        "type": "CATEGORY"
+      },
+      "validation": []
+    },
+    "40": {
+      "id": "25",
+      "parent": "ovrigt",
+      "index": 16,
       "visible": true,
       "readOnly": false,
       "mandatory": false,
       "config": {
-        "text": "Övrigt",
+        "text": null,
         "description": null,
-        "component": "category"
-      },
-      "validation": {
-        "hideExpression": null
-      }
-    },
-    "5.1": {
-      "id": "5.1",
-      "parent": "ovrigt",
-      "index": 13,
-      "visible": true,
-      "readOnly": false,
-      "config": {
-        "text": "Övrigt som Arbetsförmedlingen bör känna till?",
-        "description": "Som t ex risker för försämring vid andra aktiviteter än de som Arbetsförmedlingen har beskrivit i förfrågan.",
-        "component": "ue-textarea",
-        "prop": "ovrigt"
+        "type": "UE_TEXTAREA",
+        "id": "ovrigtText" //TODO: Denna hade också id "ovrigt" i gamla koden
       },
       "value": {
         "type": "TEXT",
-        "ovrigt": null,
-        "text": "",
-        "limit": 50
+        "id": "ovrigtText",
+        "text": null
       },
-      "validation": {
-        "required": false
+      "validation": [
+        {
+          "type": "TEXT_VALIDATION",
+          "id": "ovrigtText",
+          "limit": 3296 //TODO: Denna varierar beroende på om det är en komplettering eller inte
+        }
+      ],
+      "validationError": []
+    },
+    "kontakt": {
+      "id": "kontakt",
+      "parent": null,
+      "index": 17,
+      "visible": true,
+      "readOnly": false,
+      "config": {
+        "text": "Kontakt",
+        "description": null,
+        "type": "CATEGORY"
       },
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ]
+    },
+    "26": {
+      "id": "26",
+      "parent": "kontakt",
+      "index": 16,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "Kontakt med Försäkringskassan",
+        "description": "Försäkringskassans handläggare tar kontakt med dig när underlaget har kommit in och handläggningen kan påbörjas.",
+        "type": "UE_CHECKBOX_BOOLEAN",
+        "id": "kontaktMedFk",
+        "label": "Jag önskar att Försäkringskassan kontaktar mig."
+      },
+      "value": {
+        "type": "BOOLEAN",
+        "id": "kontaktMedFk",
+        "selected": null
+      },
+      "validation": [],
+      "validationError": []
+    },
+    "26.2": {
+      "id": "26.2",
+      "parent": "kontakt",
+      "index": 16,
+      "visible": false,
+      "readOnly": false,
+      "mandatory": false,
+      "config": {
+        "text": "Ange gärna varför du vill ha kontakt.",
+        "description": null,
+        "type": "UE_TEXTAREA",
+        "id": "anledningTillKontakt"
+      },
+      "value": {
+        "type": "TEXT",
+        "id": "anledningTillKontakt",
+        "text": null
+      },
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "26",
+          "expression": "$kontaktMedFk"
+        }
+      ],
       "validationError": []
     }
   }
