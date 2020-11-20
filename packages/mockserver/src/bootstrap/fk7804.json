@@ -588,7 +588,7 @@
         {
           "type": "SHOW_VALIDATION",
           "questionId": "32",
-          "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT"
+          "expression": "($EN_FJARDEDEL.from < -7) || ($HALFTEN.from < -7) || ($TRE_FJARDEDEL.from < -7) || ($HELT_NEDSATT.from < -7)"
         },
         {
           "type": "TEXT_VALIDATION",
@@ -616,10 +616,15 @@
         "id": "forsakringsmedicinsktBeslutsstod",
         "text": ""
       },
-      "validation": [],
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ],
       "validationError": []
     },
-    //TODO: Kolla igenom Fråga 33, vi avslutade lite mitt i
     "33": {
       "id": "33",
       "parent": "bedomning",
@@ -631,14 +636,27 @@
         "text": "Finns det medicinska skäl att förlägga arbetstiden på något annat sätt än att minska arbetstiden lika mycket varje dag?",
         "description": "Frågorna besvaras endast vid partiellt nedsatt arbetsförmåga.",
         "type": "UE_RADIO_BOOLEAN",
-        "id": "arbetstidsforlaggning"
-      },
-      "value": {
-        "type": "BOOLEAN",
+        "id": "arbetstidsforlaggning",
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
-      "validation": [],
+      "value": {
+        "type": "BOOLEAN",
+        "id": "arbetstidsforlaggning",
+        "selected": null
+      },
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "32",
+          "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL"
+        },
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        }
+      ],
       "validationError": []
     },
     "atgarder": {
