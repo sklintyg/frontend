@@ -719,7 +719,6 @@
       ],
       "validationError": []
     },
-    //TODO: Hur ska vi hantera dropdown? En lista med radiobuttons som kan ha en dropdown eller ska vi ha en lista med olika typer, en typ som är en vanlig radiobutton och en radiobutton med dropdown
     "39": {
       "id": "39",
       "parent": "bedomning",
@@ -730,18 +729,101 @@
       "config": {
         "text": "Prognos för arbetsförmåga utifrån aktuellt undersökningstillfälle",
         "description": "En viktig information för att underlätta planeringen.",
-        "type": "?",
-        "id": "prognos"
+        "type": "UE_RADIO_MULTIPLE_CODE",
+        "list": [
+          {
+            "id": "STOR_SANNOLIKHET",
+            "label": "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning."
+          },
+          {
+            "id": "ATER_X_ANTAL_DGR",
+            "label": "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning inom"
+          },
+          {
+            "id": "SANNOLIKT_INTE",
+            "label": "Patienten kommer med stor sannolikhet inte att kunna återgå helt i nuvarande sysselsättning inom 12 månader."
+          },
+          {
+            "id": "PROGNOS_OKLAR",
+            "label": "Återgång i nuvarande sysselsättning är oklar."
+          }
+        ]
       },
       "value": {
-        "type": "?",
-        "id": "prognos"
+        "type": "CODE",
+        "id": "ATER_X_ANTAL_DGR",
+        "code": "ATER_X_ANTAL_DGR"
       },
       "validation": [
         {
           "type": "HIDE_VALIDATION",
           "questionId": "27",
           "expression": "$avstangningSmittskydd"
+        },
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$STOR_SANNOLIKHET || $ATER_X_ANTAL_DGR || $SANNOLIKT_INTE || $PROGNOS_OKLAR"
+        }
+      ],
+      "validationError": []
+    },
+    "39.1": {
+      "id": "39.1",
+      "parent": "bedomning",
+      "index": 25,
+      "visible": true,
+      "readOnly": false,
+      "mandatory": true,
+      "config": {
+        "text": null,
+        "description": null,
+        "type": "UE_DROPDOWN",
+        "list": [
+          {
+            "id": "VALJ_TIDSPERIOD",
+            "label": "Välj tidsperiod"
+          },
+          {
+            "id": "TRETTIO_DGR",
+            "label": "1 månad."
+          },
+          {
+            "id": "SEXTIO_DGR",
+            "label": "2 månader."
+          },
+          {
+            "id": "NITTIO_DGR",
+            "label": "3 månader."
+          },
+          {
+            "id": "HUNDRAATTIO_DAGAR",
+            "label": "6 månader."
+          },
+          {
+            "id": "TREHUNDRASEXTIOFEM_DAGAR",
+            "label": "12 månader."
+          }
+        ]
+      },
+      "value": {
+        "type": "CODE",
+        "id": "SEXTIO_DGR",
+        "code": "SEXTIO_DGR"
+      },
+      "validation": [
+        {
+          "type": "HIDE_VALIDATION",
+          "questionId": "27",
+          "expression": "$avstangningSmittskydd"
+        },
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$TRETTIO_DGR || $SEXTIO_DGR || $NITTIO_DGR || $HUNDRAATTIO_DAGAR || $TREHUNDRASEXTIOFEM_DAGAR"
+        },
+        {
+          "type": "ENABLE_VALIDATION",
+          "questionId": "39",
+          "expression": "$ATER_X_ANTAL_DGR"
         }
       ],
       "validationError": []
@@ -900,7 +982,7 @@
       },
       "validation": []
     },
-    "40": {
+    "25": {
       "id": "25",
       "parent": "ovrigt",
       "index": 16,
@@ -911,18 +993,18 @@
         "text": null,
         "description": null,
         "type": "UE_TEXTAREA",
-        "id": "ovrigtText" //TODO: Denna hade också id "ovrigt" i gamla koden
+        "id": "ovrigt"
       },
       "value": {
         "type": "TEXT",
-        "id": "ovrigtText",
+        "id": "ovrigt",
         "text": null
       },
       "validation": [
         {
           "type": "TEXT_VALIDATION",
-          "id": "ovrigtText",
-          "limit": 3296 //TODO: Denna varierar beroende på om det är en komplettering eller inte
+          "id": "ovrigt",
+          "limit": 3296
         }
       ],
       "validationError": []

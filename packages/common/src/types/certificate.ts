@@ -57,7 +57,9 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
+  UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
 }
@@ -91,6 +93,16 @@ export interface UeCheckboxMultipleCodes extends CertificateDataConfig {
   list: UeCheckboxBoolean[]
 }
 
+export interface UeRadioBoolean extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface UeRadioMultipleCodes extends CertificateDataConfig {
+  id: string
+  list: UeRadioBoolean[]
+}
+
 export interface UeCheckboxDate extends CertificateDataConfig {
   id: string
   label: string
@@ -111,6 +123,15 @@ export interface UeSickLeavePeriod extends CertificateDataConfig {
 
 export interface UeDiagnoses extends CertificateDataConfig {
   terminology: string[]
+}
+
+export interface UeDropdownItem extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface UeDropdown extends CertificateDataConfig {
+  list: UeDropdownItem[]
 }
 
 // Values
@@ -188,6 +209,7 @@ export enum CertificateDataValidationType {
   SHOW_VALIDATION = 'SHOW_VALIDATION',
   HIDE_VALIDATION = 'HIDE_VALIDATION',
   DISABLE_VALIDATION = 'DISABLE_VALIDATION',
+  ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
@@ -220,8 +242,12 @@ export interface DisableValidation extends CertificateDataValidation {
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
-export interface MandatoryValidation extends CertificateDataValidation {
+export interface EnableValidation extends CertificateDataValidation {
   questionId: string
+  expression: string
+}
+
+export interface MandatoryValidation extends CertificateDataValidation {
   expression: string
 }
 
