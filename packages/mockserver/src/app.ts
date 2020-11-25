@@ -3,9 +3,9 @@ import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c
 import bootstrapUsers from './bootstrap/users.json'
 import {
   Certificate,
-  CertificateBooleanValue,
+  ValueBoolean,
   CertificateStatus,
-  CertificateTextValue,
+  ValueText,
   ValidationError,
   CertificateEventType,
   CertificateRelation,
@@ -489,15 +489,15 @@ function createCopy(sourceCertificate: Certificate): Certificate {
   certificateClone.metadata.certificateId = uuidv4()
   certificateClone.metadata.certificateStatus = CertificateStatus.UNSIGNED
 
-  const harFunktionsnedsattning = certificateClone.data['1.1'].value as CertificateBooleanValue
+  const harFunktionsnedsattning = certificateClone.data['1.1'].value as ValueBoolean
   certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
   certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
   certificateClone.data['2.1'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-  const harAktivitetsbegransning = certificateClone.data['2.1'].value as CertificateBooleanValue
+  const harAktivitetsbegransning = certificateClone.data['2.1'].value as ValueBoolean
   certificateClone.data['2.2'].visible = harAktivitetsbegransning.selected ? harAktivitetsbegransning.selected : false
-  const harUtredningBehandling = certificateClone.data['3.1'].value as CertificateBooleanValue
+  const harUtredningBehandling = certificateClone.data['3.1'].value as ValueBoolean
   certificateClone.data['3.2'].visible = harUtredningBehandling.selected ? harUtredningBehandling.selected : false
-  const harArbetspaverkan = certificateClone.data['4.1'].value as CertificateBooleanValue
+  const harArbetspaverkan = certificateClone.data['4.1'].value as ValueBoolean
   certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
 
   for (const questionId in certificateClone.data) {
@@ -511,15 +511,17 @@ function validate(certificate: Certificate): ValidationError[] {
   const validationError: ValidationError[] = []
   let category = ''
   for (const questionId in certificate.data) {
-    const dataProp = certificate.data[questionId].config.prop
+    // TODO: Fix this, doing a temporary fix right now to
+    const dataProp = '1'
+    // const dataProp = certificate.data[questionId].config.prop
     const question = certificate.data[questionId]
 
-    category = question.config.component === 'category' ? questionId : category
+    category = question.config.type === 'CATEGORY' ? questionId : category
 
     if (question.visible && question.validation && question.validation.required) {
       switch (question.value.type) {
         case 'BOOLEAN':
-          const booleanValue: CertificateBooleanValue = question.value as CertificateBooleanValue
+          const booleanValue: ValueBoolean = question.value as ValueBoolean
           if (booleanValue.selected === undefined || booleanValue.selected === null) {
             validationError.push({
               id: questionId,
@@ -531,7 +533,7 @@ function validate(certificate: Certificate): ValidationError[] {
           }
           break
         case 'TEXT':
-          const textValue: CertificateTextValue = question.value as CertificateTextValue
+          const textValue: ValueText = question.value as ValueText
           if (!textValue.text) {
             validationError.push({
               id: questionId,

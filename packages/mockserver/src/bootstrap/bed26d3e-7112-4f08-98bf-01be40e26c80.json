@@ -49,8 +49,8 @@
       "readOnly": false,
       "config": {
         "text": "Funktionsnedsättning",
-        "description": "",
-        "component": "category"
+        "description": null,
+        "type": "CATEGORY"
       }
     },
     "1.1": {
@@ -63,18 +63,22 @@
       "config": {
         "text": "Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?",
         "description": "Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.",
-        "component": "ue-radio",
-        "prop": "harFunktionsnedsattning"
-      },
-      "value": {
-        "type": "BOOLEAN",
-        "selected": null,
+        "type": "UE_RADIO_BOOLEAN",
+        "id": "harFunktionsnedsattning",
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
-      "validation": {
-        "required": true
+      "value": {
+        "type": "BOOLEAN",
+        "id": "harFunktionsnedsattning",
+        "selected": null
       },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$harFunktionsnedsattning"
+        }
+      ],
       "validationError": []
     },
     "1.2": {
@@ -87,20 +91,25 @@
       "config": {
         "text": "Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.",
         "description": "Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.",
-        "component": "ue-textarea",
-        "prop": "funktionsnedsattning"
+        "type": "UE_TEXTAREA",
+        "id": "funktionsnedsattning"
       },
       "value": {
         "type": "TEXT",
-        "funktionsnedsattning": null,
-        "text": "",
-        "limit": 50
+        "id": "funktionsnedsattning",
+        "text": null
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "funktionsnedsattning",
-        "hideExpression": "!harFunktionsnedsattning"
-      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$funktionsnedsattning"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1.1",
+          "expression": "$harFunktionsnedsattning"
+        }
+      ],
       "validationError": []
     },
     "aktivitetsbegransning": {
@@ -112,11 +121,15 @@
       "config": {
         "text": "Aktivitetsbegränsning",
         "description": null,
-        "component": "category"
+        "type": "CATEGORY"
       },
-      "validation": {
-        "hideExpression": "!harFunktionsnedsattning"
-      }
+      "validation": [
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1.1",
+          "expression": "$harFunktionsnedsattning"
+        }
+      ] 
     },
     "2.1": {
       "id": "2.1",
@@ -128,21 +141,22 @@
       "config": {
         "text": "Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?",
         "description": "Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.",
-        "component": "ue-radio",
-        "prop": "harAktivitetsbegransning"
-      },
-      "value": {
-        "type": "BOOLEAN",
-        "harAktivitetsbegransning": "EMPTY",
-        "selected": null,
+        "type": "UE_RADIO_BOOLEAN",
+        "id": "harAktivitetsbegransning",
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "harAktivitetsbegransning",
-        "hideExpression": "!harFunktionsnedsattning"
+      "value": {
+        "type": "BOOLEAN",
+        "id": "harAktivitetsbegransning",
+        "selected": null
       },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$harAktivitetsbegransning"
+        }
+      ],
       "validationError": []
     },
     "2.2": {
@@ -155,20 +169,25 @@
       "config": {
         "text": "Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.",
         "description": "Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera. Till exempel:\n\natt ta till sig en instruktion\natt ta reda på och förstå muntlig eller skriftlig information\natt kunna fokusera\natt kunna bära eller lyfta\natt kunna hantera statiskt arbete",
-        "component": "ue-textarea",
-        "prop": "aktivitetsbegransning"
+        "type": "UE_TEXTAREA",
+        "id": "aktivitetsbegransning"
       },
-      "value": {
+     "value": {
         "type": "TEXT",
-        "aktivitetsbegransning": null,
-        "text": "",
-        "limit": 50
+        "id": "aktivitetsbegransning",
+        "text": null
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "aktivitetsbegransning",
-        "hideExpression": "!harAktivitetsbegransning"
-      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$aktivitetsbegransning"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "2.1",
+          "expression": "$harAktivitetsbegransning"
+        }
+      ],
       "validationError": []
     },
     "utredningBehandling": {
@@ -180,11 +199,9 @@
       "config": {
         "text": "Utredning och behandling",
         "description": null,
-        "component": "category"
+        "type": "CATEGORY"
       },
-      "validation": {
-        "hideExpression": null
-      }
+      "validation": []
     },
     "3.1": {
       "id": "3.1",
@@ -196,17 +213,22 @@
       "config": {
         "text": "Finns pågående eller planerade utredningar/behandlingar som påverkar den planering som Arbetsförmedlingen har beskrivit i förfrågan?",
         "description": "Till exempel remiss för bedömning eller åtgärd inom annan vårdenhet eller aktiviteter inom egna verksamheten.",
-        "component": "ue-radio",
-        "prop": "harUtredningBehandling"
-      },
-      "value": {
-        "type": "BOOLEAN",
+        "type": "UE_RADIO_BOOLEAN",
+        "id": "harUtredningBehandling",
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
-      "validation": {
-        "required": true
+      "value": {
+        "type": "BOOLEAN",
+        "id": "harUtredningBehandling",
+        "selected": null
       },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$harUtredningBehandling"
+        }
+      ],
       "validationError": []
     },
     "3.2": {
@@ -219,17 +241,25 @@
       "config": {
         "text": "Hur påverkar utredningarna/behandlingarna planeringen? När planeras utredningarna/behandlingarna att vara avslutade?\n",
         "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.\n\nAnge förväntat resultat för de utredningar eller behandlingar som ska genomföras i vården och när personen kan genomföra/delta i Arbetsförmedlingens planerade aktiviteter.",
-        "component": "ue-textarea",
-        "prop": "utredningBehandling"
+        "type": "UE_TEXTAREA",
+        "id": "utredningBehandling"
       },
       "value": {
         "type": "TEXT",
-        "limit": 50
+        "id": "utredningBehandling",
+        "text": null
       },
-      "validation": {
-        "required": true,
-        "hideExpression": "!harUtredningBehandling"
-      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$utredningBehandling"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "3.1",
+          "expression": "$harUtredningBehandling"
+        }
+      ],
       "validationError": []
     },
     "arbetetsPaverkan": {
@@ -241,11 +271,9 @@
       "config": {
         "text": "Arbetets påverkan på sjukdom/skada",
         "description": null,
-        "component": "category"
+        "type": "CATEGORY"
       },
-      "validation": {
-        "hideExpression": null
-      }
+      "validation": []
     },
     "4.1": {
       "id": "4.1",
@@ -257,20 +285,22 @@
       "config": {
         "text": "Kan sjukdomen/skadan förvärras av vissa arbetsuppgifter/arbetsmoment?",
         "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.",
-        "component": "ue-radio",
-        "prop": "harArbetetsPaverkan"
-      },
-      "value": {
-        "type": "BOOLEAN",
-        "harArbetetsPaverkan": "EMPTY",
-        "selected": null,
+        "type": "UE_RADIO_BOOLEAN",
+        "id": "harArbetetsPaverkan",
         "selectedText": "Ja",
         "unselectedText": "Nej"
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "harArbetetsPaverkan"
+      "value": {
+        "type": "BOOLEAN",
+        "id": "harArbetetsPaverkan",
+        "selected": null
       },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$harArbetetsPaverkan"
+        }
+      ],
       "validationError": []
     },
     "4.2": {
@@ -283,20 +313,25 @@
       "config": {
         "text": "Vilken typ av arbetsuppgifter/arbetsmoment?",
         "description": "Utgå från den beskrivning Arbetsförmedlingen har gjort av personen och Arbetsförmedlingens planerade aktiviteter.\n\nTill exempel:\n\narmarbete ovan axelhöjd\narbete på höga höjder\nskärmarbete vid dator under längre tid\nstatiskt arbete\n",
-        "component": "ue-textarea",
-        "prop": "arbetetsPaverkan"
+        "type": "UE_TEXTAREA",
+        "id": "arbetetsPaverkan"
       },
       "value": {
         "type": "TEXT",
-        "arbetetsPaverkan": null,
-        "text": "",
-        "limit": 50
+        "id": "arbetetsPaverkan",
+        "text": null
       },
-      "validation": {
-        "required": true,
-        "requiredProp": "arbetetsPaverkan",
-        "hideExpression": "!harArbetetsPaverkan"
-      },
+      "validation": [
+        {
+          "type": "MANDATORY_VALIDATION",
+          "expression": "$arbetetsPaverkan"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "4.1",
+          "expression": "$harArbetetsPaverkan"
+        }
+      ],
       "validationError": []
     },
     "ovrigt": {
@@ -309,11 +344,9 @@
       "config": {
         "text": "Övrigt",
         "description": null,
-        "component": "category"
+        "type": "CATEGORY"
       },
-      "validation": {
-        "hideExpression": null
-      }
+      "validation": []
     },
     "5.1": {
       "id": "5.1",
@@ -324,18 +357,15 @@
       "config": {
         "text": "Övrigt som Arbetsförmedlingen bör känna till?",
         "description": "Som t ex risker för försämring vid andra aktiviteter än de som Arbetsförmedlingen har beskrivit i förfrågan.",
-        "component": "ue-textarea",
-        "prop": "ovrigt"
+        "type": "UE_TEXTAREA",
+        "id": "ovrigt"
       },
       "value": {
         "type": "TEXT",
-        "ovrigt": null,
-        "text": "",
-        "limit": 50
+        "id": "ovrigt",
+        "text": null
       },
-      "validation": {
-        "required": false
-      },
+      "validation": [],
       "validationError": []
     }
   }

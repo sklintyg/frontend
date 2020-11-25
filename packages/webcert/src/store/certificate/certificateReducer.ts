@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Certificate } from '@frontend/common'
+import { Certificate, ConfigTypes } from '@frontend/common'
 import {
   autoSaveCertificateSuccess,
   hideCertificateDataElement,
@@ -22,7 +22,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { CertificateBooleanValue, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
+import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
 import { CertificateEvent } from '@frontend/common'
 
 interface CertificateState {
@@ -54,19 +54,19 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
-        if (question.config.component === 'category') {
+        if (question.config.type === ConfigTypes.CATEGORY) {
           continue
         }
 
         switch (question.value.type) {
           case CertificateDataValueType.TEXT:
-            const textValue = question.value as CertificateTextValue
+            const textValue = question.value as ValueText
             if (textValue.text == undefined) {
               textValue['text'] = ''
             }
             break
           case CertificateDataValueType.BOOLEAN:
-            const booleanValue = question.value as CertificateBooleanValue
+            const booleanValue = question.value as ValueBoolean
             if (booleanValue.selected == undefined) {
               booleanValue['selected'] = null
             }
@@ -131,7 +131,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(updateValidationErrors, (state, action) => {
       for (const questionId in state.certificate!.data) {
         const question = state.certificate!.data[questionId]
-        if (question.config.component === 'category') {
+        if (question.config.type === ConfigTypes.CATEGORY) {
           continue
         }
 

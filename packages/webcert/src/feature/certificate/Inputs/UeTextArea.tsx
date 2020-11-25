@@ -3,10 +3,11 @@ import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { makeStyles } from '@material-ui/core/styles'
-import { CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
 import { QuestionValidationTexts, TextArea } from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { ConfigUeTextArea } from './../../../../../common/src/types/certificate'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,7 @@ interface Props {
 const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
+  const questionConfig = question.config as ConfigUeTextArea
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -55,24 +57,24 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
         hasValidationError={questionHasValidationError}
         additionalStyles={classes.textarea}
         onChange={handleChange}
-        name={question.config.prop}
+        name={questionConfig.id}
         value={text}></TextArea>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
 }
 
-function getTextValue(question: CertificateDataElement): CertificateTextValue | null {
+function getTextValue(question: CertificateDataElement): ValueText | null {
   if (question.value.type !== CertificateDataValueType.TEXT) {
     return null
   }
-  return question.value as CertificateTextValue
+  return question.value as ValueText
 }
 
 function getUpdatedValue(question: CertificateDataElement, text: string): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
   updatedQuestion.value = { ...updatedQuestion.value }
-  ;(updatedQuestion.value as CertificateTextValue).text = text
+  ;(updatedQuestion.value as ValueText).text = text
   return updatedQuestion
 }
 
