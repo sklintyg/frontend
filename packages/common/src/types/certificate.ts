@@ -44,7 +44,7 @@ export interface CertificateDataElement {
   readOnly: boolean
   mandatory: boolean
   config: CertificateDataConfig
-  value: CertificateDataValue
+  value: Value
   validation: CertificateDataValidation
   validationErrors: ValidationError[]
 }
@@ -72,66 +72,66 @@ export interface CertificateDataConfig {
   type: ConfigTypes
 }
 
-export interface Category extends CertificateDataConfig {}
+export interface ConfigCategory extends CertificateDataConfig {}
 
-export interface UeTextArea extends CertificateDataConfig {
+export interface ConfigUeTextArea extends CertificateDataConfig {
   id: string
 }
 
-export interface UeRadioBoolean extends CertificateDataConfig {
+export interface ConfigUeRadioBoolean extends CertificateDataConfig {
   id: string
   selectedText: string
-  unSelectedText: string
+  unselectedText: string
 }
 
-export interface UeCheckboxBoolean extends CertificateDataConfig {
+export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   id: string
   label: string
 }
 
-export interface UeCheckboxMultipleCodes extends CertificateDataConfig {
-  list: UeCheckboxBoolean[]
+export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
+  list: ConfigUeCheckboxBoolean[]
 }
 
-export interface UeRadioBoolean extends CertificateDataConfig {
+export interface ConfigUeRadioBoolean extends CertificateDataConfig {
   id: string
   label: string
 }
 
-export interface UeRadioMultipleCodes extends CertificateDataConfig {
+export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
-  list: UeRadioBoolean[]
+  list: ConfigUeRadioBoolean[]
 }
 
-export interface UeCheckboxDate extends CertificateDataConfig {
-  id: string
-  label: string
-}
-
-export interface UeCheckboxDateRange extends CertificateDataConfig {
+export interface ConfigUeCheckboxDate extends CertificateDataConfig {
   id: string
   label: string
 }
 
-export interface UeCheckboxMultipleDate extends CertificateDataConfig {
-  list: UeCheckboxDate[]
+export interface ConfigUeCheckboxDateRange extends CertificateDataConfig {
+  id: string
+  label: string
 }
 
-export interface UeSickLeavePeriod extends CertificateDataConfig {
-  list: UeCheckboxDateRange[]
+export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
+  list: ConfigUeCheckboxDate[]
 }
 
-export interface UeDiagnoses extends CertificateDataConfig {
+export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
+  list: ConfigUeCheckboxDateRange[]
+}
+
+export interface ConfigUeDiagnoses extends CertificateDataConfig {
   terminology: string[]
 }
 
-export interface UeDropdownItem extends CertificateDataConfig {
+export interface ConfigUeDropdownItem extends CertificateDataConfig {
   id: string
   label: string
 }
 
-export interface UeDropdown extends CertificateDataConfig {
-  list: UeDropdownItem[]
+export interface ConfigUeDropdown extends CertificateDataConfig {
+  list: ConfigUeDropdownItem[]
 }
 
 // Values
@@ -258,12 +258,12 @@ export interface MaxDateValidation extends CertificateDataValidation {
 }
 
 // --------------------------------------------
-
-export interface CheckBoxMetadata extends CertificateBooleanValue {
-  text?: string
-  disableAll?: boolean
-  disabled?: boolean
-}
+// TODO: Fix this type below
+// export interface CheckBoxMetadata extends CertificateBooleanValue {
+//   text?: string
+//   disableAll?: boolean
+//   disabled?: boolean
+// }
 
 export interface CertificateDataValidation {
   required: boolean

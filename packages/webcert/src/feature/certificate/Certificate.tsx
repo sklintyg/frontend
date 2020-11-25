@@ -17,7 +17,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import grey from '@material-ui/core/colors/grey'
 import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
 import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
-import { Backdrop } from '@frontend/common'
+import { Backdrop, ConfigTypes } from '@frontend/common'
 import CareUnit from './CareUnit/CareUnit'
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const Certificate: React.FC = () => {
       <Box id="questions-container" className={classes.root}>
         {certificateStructure &&
           certificateStructure.map((data) => {
-            if (data.component === 'category') {
+            if (data.component === ConfigTypes.CATEGORY) {
               return <Category key={data.id} id={data.id} />
             } else {
               return <Question key={data.id} id={data.id} />

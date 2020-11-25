@@ -1,6 +1,6 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateDataElement, CertificateStatus, ResourceLinkType } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus, ConfigTypes, ResourceLinkType } from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -81,7 +81,7 @@ export const getCertificateDataElements = createSelector<RootState, Certificate,
   for (const questionId in certificate.data) {
     certificateStructure.push({
       id: certificate.data[questionId].id,
-      component: certificate.data[questionId].config.component,
+      component: certificate.data[questionId].config.type,
       index: certificate.data[questionId].index,
     })
   }
@@ -101,12 +101,12 @@ export const getAllValidationErrors = () => (state: RootState) => {
   //Perhaps this could be simplified
   for (const questionId in certificateData) {
     if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
-      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.component === 'category') {
+      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
         result = result.concat(certificateData[certificateData[questionId].parent])
       } else {
         let parent = certificateData[questionId].parent
         while (true) {
-          if (certificateData[parent].config.component === 'category') {
+          if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
             result = result.concat(certificateData[parent])
             break
           } else if (!certificateData[parent].parent) {
