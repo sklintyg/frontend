@@ -44,8 +44,8 @@ export interface CertificateDataElement {
   readOnly: boolean
   mandatory: boolean
   config: CertificateDataConfig
-  value: Value
-  validation: CertificateDataValidation
+  value: Value | null
+  validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
 }
 
@@ -70,6 +70,7 @@ export interface CertificateDataConfig {
   text: string
   description: string
   type: ConfigTypes
+  [propName: string]: unknown
 }
 
 export interface ConfigCategory extends CertificateDataConfig {}
@@ -151,6 +152,7 @@ export enum CertificateDataValueType {
 
 export interface Value {
   type: CertificateDataValueType
+  [propName: string]: unknown
 }
 
 export interface ValueBoolean extends Value {
@@ -199,7 +201,7 @@ export interface ValueCodeList extends Value {
 
 export interface ValueText extends Value {
   id: string
-  text: string
+  text: string | null
 }
 
 // Validation
@@ -217,6 +219,9 @@ export enum CertificateDataValidationType {
 
 export interface CertificateDataValidation {
   type: CertificateDataValidationType
+  questionId: string
+  expression: string
+  [propName: string]: unknown
 }
 
 export interface TextValidation extends CertificateDataValidation {
@@ -225,31 +230,17 @@ export interface TextValidation extends CertificateDataValidation {
   // expression: string // '$6.1 > 5000' // Kan allt beskrivas med expression?
 }
 
-export interface ShowValidation extends CertificateDataValidation {
-  questionId: string
-  // id: string
-  expression: string // '1.1 === true' // '($27.2 || $27.3 || $27.4) && !$27.1' // Undersök möjligheten att beskriva det här i ett expression objekt
-}
+export interface ShowValidation extends CertificateDataValidation {}
 
-export interface HideValidation extends CertificateDataValidation {
-  questionId: string
-  expression: string
-}
+export interface HideValidation extends CertificateDataValidation {}
 
 export interface DisableValidation extends CertificateDataValidation {
-  questionId: string // '7.1'
-  expression: string // '7.1.1 === KV_FKMU_0004.EJ_AKTUELLT'
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
-export interface EnableValidation extends CertificateDataValidation {
-  questionId: string
-  expression: string
-}
+export interface EnableValidation extends CertificateDataValidation {}
 
-export interface MandatoryValidation extends CertificateDataValidation {
-  expression: string
-}
+export interface MandatoryValidation extends CertificateDataValidation {}
 
 // How to handle date ranges i.e. min & max
 export interface MaxDateValidation extends CertificateDataValidation {
@@ -258,19 +249,6 @@ export interface MaxDateValidation extends CertificateDataValidation {
 }
 
 // --------------------------------------------
-// TODO: Fix this type below
-// export interface CheckBoxMetadata extends CertificateBooleanValue {
-//   text?: string
-//   disableAll?: boolean
-//   disabled?: boolean
-// }
-
-export interface CertificateDataValidation {
-  required: boolean
-  requiredProp: string
-  hideExpression: string
-}
-
 export interface ValidationError {
   id: string
   category: string

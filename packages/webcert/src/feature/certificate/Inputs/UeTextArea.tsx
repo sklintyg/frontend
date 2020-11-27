@@ -58,14 +58,14 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
         additionalStyles={classes.textarea}
         onChange={handleChange}
         name={questionConfig.id}
-        value={text}></TextArea>
+        value={text === null ? '' : text}></TextArea>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
 }
 
 function getTextValue(question: CertificateDataElement): ValueText | null {
-  if (question.value.type !== CertificateDataValueType.TEXT) {
+  if (question.value!.type !== CertificateDataValueType.TEXT) {
     return null
   }
   return question.value as ValueText
@@ -73,7 +73,7 @@ function getTextValue(question: CertificateDataElement): ValueText | null {
 
 function getUpdatedValue(question: CertificateDataElement, text: string): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
-  updatedQuestion.value = { ...updatedQuestion.value }
+  updatedQuestion.value = { ...updatedQuestion.value! }
   ;(updatedQuestion.value as ValueText).text = text
   return updatedQuestion
 }
