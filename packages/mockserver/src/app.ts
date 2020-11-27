@@ -518,36 +518,36 @@ function validate(certificate: Certificate): ValidationError[] {
 
     category = question.config.type === 'CATEGORY' ? questionId : category
 
-    if (question.visible && question.validation && question.validation.required) {
-      switch (question.value.type) {
-        case 'BOOLEAN':
-          const booleanValue: ValueBoolean = question.value as ValueBoolean
-          if (booleanValue.selected === undefined || booleanValue.selected === null) {
-            validationError.push({
-              id: questionId,
-              category: getCategory(certificate, question.parent),
-              field: dataProp,
-              type: 'EMPTY',
-              text: 'Välj ett alternativ.',
-            })
-          }
-          break
-        case 'TEXT':
-          const textValue: ValueText = question.value as ValueText
-          if (!textValue.text) {
-            validationError.push({
-              id: questionId,
-              category: getCategory(certificate, question.parent),
-              field: dataProp,
-              type: 'EMPTY',
-              text: 'Ange ett svar.',
-            })
-          }
-          break
-        default:
-          break
-      }
-    }
+    //   if (question.visible && question.validation && question.validation.required) {
+    //     switch (question.value.type) {
+    //       case 'BOOLEAN':
+    //         const booleanValue: ValueBoolean = question.value as ValueBoolean
+    //         if (booleanValue.selected === undefined || booleanValue.selected === null) {
+    //           validationError.push({
+    //             id: questionId,
+    //             category: getCategory(certificate, question.parent),
+    //             field: dataProp,
+    //             type: 'EMPTY',
+    //             text: 'Välj ett alternativ.',
+    //           })
+    //         }
+    //         break
+    //       case 'TEXT':
+    //         const textValue: ValueText = question.value as ValueText
+    //         if (!textValue.text) {
+    //           validationError.push({
+    //             id: questionId,
+    //             category: getCategory(certificate, question.parent),
+    //             field: dataProp,
+    //             type: 'EMPTY',
+    //             text: 'Ange ett svar.',
+    //           })
+    //         }
+    //         break
+    //       default:
+    //         break
+    //     }
+    //   }
   }
   return validationError
 }

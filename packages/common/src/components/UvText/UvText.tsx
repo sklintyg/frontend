@@ -27,7 +27,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   const questionConfig = question.config as ConfigUeRadioBoolean
   let displayText = 'Ej angivet'
 
-  switch (question.value.type) {
+  switch (question.value!.type) {
     case CertificateDataValueType.BOOLEAN:
       const booleanValue = question.value as ValueBoolean
       if (booleanValue.selected !== null && question.visible) {

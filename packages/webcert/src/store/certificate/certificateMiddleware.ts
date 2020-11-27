@@ -58,10 +58,8 @@ import {
   signCertificateSuccess,
   updateCertificate,
   updateCertificateAsDeleted,
-  updateCertificateAsReadOnly,
   updateCertificateDataElement,
   updateCertificateEvents,
-  updateCertificateStatus,
   updateCertificateUnit,
   updateCertificateVersion,
   updateValidationErrors,
@@ -74,8 +72,10 @@ import {
   validateCertificateSuccess,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
-import { Certificate, ValueBoolean, CertificateDataElement, CertificateDataValueType, CertificateStatus, ValueText } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
 import { loginUser } from '../user/userActions'
+import { validateExpressions, ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { CertificateDataValidationType } from '@frontend/common/src'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -507,84 +507,26 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
     return
   }
 
-  // validateHideExpressions(certificate, dispatch, update)
-
-  // validateMandatory(certificate, dispatch, update)
-}
-
-function validateHideExpressions(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
-  //TODO: This is temporary fix to compile code
-  const dataProp = '1'
-  // const dataProp = certificate.data[update.id].config.prop
-  for (const questionId in certificate.data) {
-    const question = certificate.data[questionId]
-    if (question.validation && question.validation.hideExpression && question.validation.hideExpression.includes(dataProp)) {
-      switch (update.value.type) {
-        case CertificateDataValueType.BOOLEAN:
-          const booleanValue = (update.value as ValueBoolean).selected
-          if (booleanValue && !question.visible) {
-            dispatch(showCertificateDataElement(questionId))
-            validateChildHideExpression(certificate, dispatch, question, true)
-          } else if (!booleanValue && question.visible) {
-            dispatch(hideCertificateDataElement(questionId))
-            validateChildHideExpression(certificate, dispatch, question, false)
-          }
-          break
-        case CertificateDataValueType.TEXT:
-          const textValue = (update.value as ValueText).text
-          if (textValue != null && textValue.length > 0) {
-            dispatch(showCertificateDataElement(questionId))
-            validateChildHideExpression(certificate, dispatch, question, true)
-          } else if (question.visible) {
-            dispatch(hideCertificateDataElement(questionId))
-            validateChildHideExpression(certificate, dispatch, question, false)
-          }
-          break
-        default:
-          break
-      }
-    }
-  }
-}
-
-function validateChildHideExpression(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement, visible: boolean): void {
-  if (!visible) {
-    for (const questionId in certificate.data) {
-      const question = certificate.data[questionId]
-      if (question.parent === update.id) {
-        dispatch(hideCertificateDataElement(questionId))
-        validateChildHideExpression(certificate, dispatch, question, false)
-      }
-    }
-  }
-
-  validateHideExpressions(certificate, dispatch, update)
-}
-
-function validateMandatory(certificate: Certificate, dispatch: Dispatch<AnyAction>, update: CertificateDataElement): void {
-  const question = certificate.data[update.id]
-  if (question.validation && question.validation.required) {
-    switch (update.value.type) {
-      case 'BOOLEAN':
-        const booleanValue = (update.value as ValueBoolean).selected
-        if (booleanValue === null) {
-          dispatch(showCertificateDataElementMandatory(question.id))
-        } else if (question.mandatory) {
-          dispatch(hideCertificateDataElementMandatory(question.id))
+  const validationResults = validateExpressions(certificate, update)
+  validationResults.forEach((result) => {
+    switch (result.type) {
+      case CertificateDataValidationType.MANDATORY_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElementMandatory(result.id))
+        } else {
+          dispatch(showCertificateDataElementMandatory(result.id))
         }
         break
-      case 'TEXT':
-        const textValue = (update.value as ValueText).text
-        if (textValue === null || textValue.length === 0) {
-          dispatch(hideCertificateDataElementMandatory(question.id))
-        } else if (question.mandatory) {
-          dispatch(hideCertificateDataElementMandatory(question.id))
+
+      case CertificateDataValidationType.SHOW_VALIDATION:
+        if (result.result) {
+          dispatch(showCertificateDataElement(result.id))
+        } else {
+          dispatch(hideCertificateDataElement(result.id))
         }
         break
-      default:
-        break
     }
-  }
+  })
 }
 
 export const certificateMiddleware = [

@@ -76,6 +76,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "1.1",
           "expression": "$harFunktionsnedsattning"
         }
       ],
@@ -102,6 +103,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "1.2",
           "expression": "$funktionsnedsattning"
         },
         {
@@ -154,7 +156,13 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "2.1",
           "expression": "$harAktivitetsbegransning"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1.1",
+          "expression": "$harFunktionsnedsattning"
         }
       ],
       "validationError": []
@@ -180,12 +188,18 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "2.2",
           "expression": "$aktivitetsbegransning"
         },
         {
           "type": "SHOW_VALIDATION",
           "questionId": "2.1",
           "expression": "$harAktivitetsbegransning"
+        },
+        {
+          "type": "SHOW_VALIDATION",
+          "questionId": "1.1",
+          "expression": "$harFunktionsnedsattning"
         }
       ],
       "validationError": []
@@ -226,6 +240,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "3.1",
           "expression": "$harUtredningBehandling"
         }
       ],
@@ -252,6 +267,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "3.2",
           "expression": "$utredningBehandling"
         },
         {
@@ -298,6 +314,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "4.1",
           "expression": "$harArbetetsPaverkan"
         }
       ],
@@ -324,6 +341,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "4.2",
           "expression": "$arbetetsPaverkan"
         },
         {
