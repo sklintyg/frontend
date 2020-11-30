@@ -65,7 +65,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
 }
 
 function getTextValue(question: CertificateDataElement): ValueText | null {
-  if (question.value!.type !== CertificateDataValueType.TEXT) {
+  if (question.value?.type !== CertificateDataValueType.TEXT) {
     return null
   }
   return question.value as ValueText
@@ -73,7 +73,7 @@ function getTextValue(question: CertificateDataElement): ValueText | null {
 
 function getUpdatedValue(question: CertificateDataElement, text: string): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
-  updatedQuestion.value = { ...updatedQuestion.value! }
+  updatedQuestion.value = { ...(updatedQuestion.value as ValueText) }
   ;(updatedQuestion.value as ValueText).text = text
   return updatedQuestion
 }
