@@ -51,7 +51,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
 }
 
 function getBooleanValue(question: CertificateDataElement): ValueBoolean | null {
-  if (question.value.type !== CertificateDataValueType.BOOLEAN) {
+  if (question.value?.type !== CertificateDataValueType.BOOLEAN) {
     return null
   }
   return question.value as ValueBoolean
@@ -59,7 +59,7 @@ function getBooleanValue(question: CertificateDataElement): ValueBoolean | null 
 
 function getUpdatedValue(question: CertificateDataElement, selected: boolean): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
-  updatedQuestion.value = { ...updatedQuestion.value }
+  updatedQuestion.value = { ...(updatedQuestion.value as ValueBoolean) }
   ;(updatedQuestion.value as ValueBoolean).selected = selected
   return updatedQuestion
 }
