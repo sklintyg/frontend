@@ -380,6 +380,161 @@ app.get('/api/user', (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
+app.get('/api/fmb/:code', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /api/fmb/${req.params.code}`)
+  if (req.params.code === 'F500') {
+    res
+      .json({
+        icd10Code: 'F500',
+        icd10Description: 'Anorexia nervosa',
+        diagnosTitle: 'Anorexia nervosa',
+        relatedDiagnoses: 'F500, F501',
+        referenceDescription: 'Information om Anorexia nervosa hos Socialstyrelsen',
+        referenceLink: 'https://roi.socialstyrelsen.se/fmb/anorexia-nervosa/549',
+        forms: [
+          {
+            name: 'DIAGNOS',
+            content: [
+              {
+                heading: 'GENERELL_INFO',
+                text:
+                  '<p>Det finns en spännvidd för hur en given sjukdom påverkar olika individers arbetsförmåga och förmåga att utföra olika aktiviteter. Därför måste bedömningen av arbetsförmågan ske individuellt utifrån individens unika förutsättningar och sysselsättning.</p>\n<p>Vid anorexia nervosa saknas inte sällan sjukdomsinsikt. Patienten kan uttrycka önskemål om fortsatt arbete, trots betydande medicinska risker. Samsjuklighet med depression, ångest, tvångstankar, missbruk, personlighetsstörningar och neuropsykiatriska tillstånd är stor. Sjukskrivning i före-byggande syfte kan behövas när patienten genomgår medicinsk behandling som kräver daglig närvaro t.ex. dagvårdsbehandling.\nBarn med anorexia nervosa som inte kan gå i skolan kan periodvis behöva stöd av att en vuxen finns hemma.</p>\n',
+              },
+              {
+                heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                text:
+                  '<p>Anorexia nervosa (med varianter) är viljestyrd viktnedgång som vidmakthålls av en upplevelse av att vara för tjock (även vid utpräglad undervikt) och en rädsla för att gå upp i vikt. Tillståndet debuterar oftast i tonåren och är vanligast hos flickor och unga kvinnor (cirka tio procent är pojkar eller unga män). Ofta undviker patienten all form av fett. I sällsynta fall förekommer total matvägran. Intensiv motion, dagliga kräkningar och laxermedelsmissbruk är vanliga.\nAnorexia nervosa innebär betydande medicinska risker vid allvarlig svält framför allt i kombination med frekventa kräkningar. Allvarliga tillstånd på-verkar kroppens alla organ, särskilt hjärtat och cirkulationen, och kan vara livshotande. Överdödligheten är sex till nio gånger högre jämfört med nor-malbefolkningen i samma åldersgrupp. Tillståndet kan också övergå till andra former av ätstörningar.\nTidig upptäckt och snabbt insatt behandling är den viktigaste åtgärden för god prognos. Behandlingen är en kombination av nutritionsbehandling och psykopedagogiska eller psykoterapeutiska insatser. Behandlingen fokuserar på att patienten snabbt ska komma ur sin ätstörning, så att patienten inte blir långvarigt sjuk eller går ner mer i vikt. Medicinska kontroller av det kroppsliga hälsotillståndet är centralt eftersom patienten snabbt kan försämras. Samsjuklighet ska behandlas samtidigt med ätstörningen och kan kräva farmakologisk behandling.Anorexia nervosa kan vara långdraget och pågå med olika intensitet under fem till femton år. Hos vissa unga patienter som kommer till snabb behandling kan dock tillfrisknandet gå betydligt fortare, ett halvt till ett år. För de flesta patienter skiftar svårighetsgraden och symtomen under årens lopp.</p>\n',
+              },
+            ],
+          },
+          {
+            name: 'AKTIVITETSBEGRANSNING',
+            content: [
+              {
+                heading: 'AKTIVITETSBEGRANSNING',
+                text:
+                  'Patienten har ofta en önskan att ha en högre aktivitetsgrad än vad läkaren tycker. Tillståndet påverkar förmågan att ta hand om sig själv och den sociala interaktionen med andra människor.',
+              },
+            ],
+          },
+          {
+            name: 'INFORMATIONOMREHABILITERING',
+            content: [
+              {
+                heading: 'INFORMATIONOMREHABILITERING',
+                text:
+                  '<p>Det är bra om arbetsuppgifterna kan anpassas till fysiskt lättare arbete och med möjlighet att upprätthålla regelbundna matrutiner (frukost, lunch och middag).</p>\n',
+              },
+            ],
+          },
+          {
+            name: 'FUNKTIONSNEDSATTNING',
+            content: [
+              {
+                heading: 'FUNKTIONSNEDSATTNING',
+                text:
+                  'Anorexia nervosa kan ge betydande kroppsliga funktionsnedsättningar, exempelvis problem med smärtor, ledbesvär, andfåddhet, trötthet och psykiska funktionsnedsättningar, exempelvis koncentrationssvårigheter, ångest, upptagenhet av mat (ej fokus på något annat).',
+              },
+            ],
+          },
+          {
+            name: 'ARBETSFORMAGA',
+            content: [
+              {
+                heading: 'BESLUTSUNDERLAG_TEXTUELLT',
+                list: [
+                  'Vid lindrig anorexia nervosa bör sjukskrivning undvikas.',
+                  'Vid medelsvår anorexia nervosa kan hel sjukskrivning, alternativt partiell sjukskrivning, upp till 6 månader behövas.',
+                  'Vid svår anorexia nervosa kan hel sjukskrivning, alternativt partiell sjukskrivning, upp till 12 månader behövas.',
+                  'Vid långvarig utpräglad undervikt och samsjuklighet kan arbetsförmågan bli permanent nedsatt',
+                ],
+              },
+            ],
+          },
+        ],
+      })
+      .status(200)
+      .send()
+  } else if (req.params.code === 'J20') {
+    res
+      .json({
+        icd10Code: 'J20',
+        icd10Description: 'Akut bronkit',
+        diagnosTitle: 'Akut bronkit',
+        relatedDiagnoses: 'J20',
+        referenceDescription: 'Information om Akut bronkit hos Socialstyrelsen',
+        referenceLink: 'https://roi.socialstyrelsen.se/fmb/akut-bronkit/1',
+        forms: [
+          {
+            name: 'DIAGNOS',
+            content: [
+              {
+                heading: 'GENERELL_INFO',
+                text:
+                  '<p>Det finns en spännvidd för hur en given sjukdom påverkar olika individers arbetsförmåga och förmåga att utföra olika aktiviteter. Därför måste bedömningen av arbetsförmågan ske individuellt utifrån individens unika förutsättningar och sysselsättning.</p>\n<p>Akut bronkit nedsätter normalt inte arbetsförmågan. Om patienten har långvarig svår hosta kan det påverka allmäntillståndet genom att patienten blir trött. Sjukskrivning enbart i undantagsfall vid tydligt nedsatt allmäntillstånd i upp till 2 veckor. Röstkrävande yrken kan behöva längre sjukskrivning.</p>\n<p>Hos patienter med samtidig annan luftvägs- eller lungsjukdom som exempelvis astma eller kol kan symtomen vid akut bronkit bli mer uttalade och funktionsnedsättningen bli mer långdragen. Bakteriell sekundärinfektion kan påverka allmäntillståndet.</p>\n<p>Överväg miljöfaktorer som orsak till återkommande eller ihållande besvär om fördjupad utredning har fallit ut negativt. Uppmärksamma malignitetsrisken framför allt hos rökare och uppmana till rökstopp.</p>\n',
+              },
+              {
+                heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                text:
+                  '<p>Akut bronkit orsakas vanligen av luftvägsinflammation och epitelskada (skador på hud och slemhinnor i kroppen) efter vanlig virusförkylning. Akut bronkit kan ge hosta under flera månader och är ofta tecken på inflammation i bronkerna. Symtom är akut påkommande torr eller slemmig hosta. Tillståndet är vanligtvis kortvarigt och varar några dagar till några veckor. Ibland får patienten hosta under flera månader vilket är ett uttryck för en sekundärinfektion. Återkommande akuta bronkiter hos rökare bör medföra rökstopp. Bihåleinflammationer efter viroser kan ligga bakom återkommande akuta bronkiter. Långvarig bronkit kan bero på twar eller infektion med mykoplasma pneumoni.</p>\n<p>Utred långvariga besvär med lungröntgen och eventuell röntgen av bi-hålorna. Förtydliga anamnesen samt utför spirometri eller PEF-mätningar. Överväg specialistremiss för eventuell bronkoskopi.</p>\n',
+              },
+            ],
+          },
+          {
+            name: 'AKTIVITETSBEGRANSNING',
+            content: [
+              {
+                heading: 'AKTIVITETSBEGRANSNING',
+                text:
+                  'Vid Akut bronkit är förmågan till fysisk aktivitet nedsatt under en kortare tid. Det kan innebära svårigheter att gå och att röra sig omkring på olika sätt (exempelvis att krypa, klättra, springa eller hoppa). Tillståndet kan medföra svårigheter att genomföra daglig rutin och hushållsarbete.',
+              },
+            ],
+          },
+          {
+            name: 'INFORMATIONOMREHABILITERING',
+            content: [
+              {
+                heading: 'INFORMATIONOMREHABILITERING',
+                text:
+                  '<p>Fysisk aktivitet/information att ge till patienten?\nFysisk aktivitet i sig förvärrar inte sjukdomen. Lagom anpassad fysisk aktivitet bör rekommenderas.\n(tydligare rek)\nArbetsrelaterade åtgärder\nDet kan vara aktuellt med t.ex. ergonomiska förbättringsåtgärder, anpassade arbetsuppgifter eller omplacering. Diskutera åtgärder vid sjuskrivning mer än tre månader alt. vid fysiskt krävande arbete. Om det inte går att anpassa arbetsuppgifterna bör byte av arbete övervägas tidigt av patienten. Mycket tungt arbete bör undvikas.\nEtt lagom rörligt arbete med möjlighet att ofta ändra arbetsställning är idealt.\nSamverkan med andra\nFöretagshälsovården och/eller arbetsgivaren och Försäkringskassan bör kopplas in tidigt.</p>\n',
+              },
+            ],
+          },
+          {
+            name: 'FUNKTIONSNEDSATTNING',
+            content: [
+              {
+                heading: 'FUNKTIONSNEDSATTNING',
+                text:
+                  'Akut bronkit kan medföra feber, trötthet och nedsatt\nfysisk uthållighet.\nTillståndet påverkar\nandningsfunktionerna och patienten kan\nfå problem att andas och att hosta upp slem. Problemen\nmed andningen\nkan även medföra\npåverkan på hjärt-kärlfunktioner och patienten kan uppleva\nen känsla av tryck över bröstet, att\nhjärtat slår oregelbundet\neller känslan av\natt hålla på att kvävas.',
+              },
+            ],
+          },
+          {
+            name: 'ARBETSFORMAGA',
+            content: [
+              {
+                heading: 'BESLUTSUNDERLAG_TEXTUELLT',
+                list: [
+                  'Vid medelsvår akut bronkit rekommenderas ingen sjukskrivningstid.',
+                  'Vid svår akut bronkit med kvarstående hosta rekommenderas sjukskrivning på heltid upp till 2 veckor.',
+                  'Vid akut bronkit med samsjuklighet kroniskt obstruktiv lungsjukdom (KOL) eller astma kan det finnas behov av längre sjukskrivning.',
+                  'Vid akut bronkit där arbetsbelastningen innefattar röstkrävande yrke rekommenderas sjukskrivning på heltid. Kan ge ett behov av längre sjukskrivning',
+                ],
+              },
+            ],
+          },
+        ],
+      })
+      .status(200)
+      .send()
+  }
+})
+
+app.put('/api/anvandare/preferences', (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).send()
+})
+
 app.listen(9088, () => console.log('Server running'))
 
 function createResponse(certificate: Certificate): Certificate {

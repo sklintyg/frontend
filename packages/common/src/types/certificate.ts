@@ -30,6 +30,7 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
+  fmbInfo: CertificateFMBInfo
 }
 
 export interface CertificateData {
@@ -287,6 +288,34 @@ export interface Staff {
 export interface CertificateRelations {
   parent: CertificateRelation | null
   children: CertificateRelation[]
+}
+
+export interface CertificateFMBInfo {
+  //TODO: Should resource links to used to active FMB panel instead?
+  // If activation is moved make sure the type CertificateFMBInfo is used correct since fmbInfo in metadata is no longer mandatory.
+  panelActive: boolean
+  codes: CertificateFMBInfoCode[]
+}
+
+export interface CertificateFMBInfoCode {
+  icd10Code: string
+  icd10Description: string
+  diagnosTitle: string
+  relatedDiagnoses: string
+  referenceDescription: string
+  referenceLink: string
+  forms: CertificateFMBInfoCodeForm[]
+}
+
+export interface CertificateFMBInfoCodeForm {
+  name: string
+  content: CertificateFMBInfoCodeFormContent[]
+}
+
+export interface CertificateFMBInfoCodeFormContent {
+  heading: string
+  text?: string
+  list?: string[]
 }
 
 export interface CertificateRelation {

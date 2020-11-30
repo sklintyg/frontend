@@ -38,7 +38,10 @@
       "fullName": "Arnold Johansson",
       "prescriptionCode": "0000000"
     },
-    "version": 0
+    "version": 0,
+    "fmbInfo": {
+      "panelActive": false
+    }
   },
   "data": {
     "funktionsnedsattning": {

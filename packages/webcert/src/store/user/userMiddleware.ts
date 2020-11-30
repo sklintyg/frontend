@@ -12,8 +12,13 @@ import {
   loginUserError,
   loginUserStarted,
   loginUserSuccess,
+  setUserPreference,
+  setUserPreferenceError,
+  setUserPreferenceStarted,
+  setUserPreferenceSuccess,
   updateRedirect,
   updateUser,
+  updateUserPreference,
 } from './userActions'
 
 const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -104,4 +109,54 @@ const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   dispatch(getUserCompleted())
 }
 
-export const userMiddleware = [handleLoginUser, handleLoginUserSuccess, handleGetUser, handleGetUserSuccess]
+const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!setUserPreference.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/anvandare/preferences',
+      method: 'PUT',
+      data: {
+        key: action.payload.key,
+        value: action.payload.value,
+      },
+      onStart: setUserPreferenceStarted.type,
+      onSuccess: setUserPreferenceSuccess.type,
+      onError: setUserPreferenceError.type,
+      onArgs: {
+        key: action.payload.key,
+        value: action.payload.value,
+      },
+    })
+  )
+}
+
+const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!setUserPreferenceSuccess.match(action)) {
+    return
+  }
+
+  dispatch(
+    updateUserPreference({
+      key: action.payload.key,
+      value: action.payload.value,
+    })
+  )
+}
+
+export const userMiddleware = [
+  handleLoginUser,
+  handleLoginUserSuccess,
+  handleGetUser,
+  handleGetUserSuccess,
+  handleSetUserPreference,
+  handleSetUserPreferenceSuccess,
+]

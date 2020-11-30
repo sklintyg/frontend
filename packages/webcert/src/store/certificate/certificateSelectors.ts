@@ -135,3 +135,7 @@ export const getIsLocked = (state: RootState) =>
 
 export const getIsEditable = (state: RootState) =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
+
+export const getFMBInfo = (state: RootState) => state.ui.uiCertificate.certificate?.metadata.fmbInfo
+
+export const getFMBInfoPanelActive = (state: RootState) => state.ui.uiCertificate.certificate?.metadata.fmbInfo.panelActive

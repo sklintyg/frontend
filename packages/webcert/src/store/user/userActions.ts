@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { User } from '@frontend/common'
 import { LoginUserQuery, RedirectAction, LoginUserSuccess } from './userReducer'
+import { KeyValuePair } from '@frontend/common/src'
 
 export const loginUser = createAction<LoginUserQuery>('[User] Login user')
 export const loginUserStarted = createAction('[User] Login user started')
@@ -18,3 +19,10 @@ export const updateUser = createAction<User>('[User] Update user')
 
 export const updateRedirect = createAction<RedirectAction>('[User] Update redirect')
 export const clearRedirect = createAction('[User] Clear redirect')
+
+export const setUserPreference = createAction<KeyValuePair>('[User] Set user preference')
+export const setUserPreferenceStarted = createAction('[User] Set user preference started')
+export const setUserPreferenceSuccess = createAction<KeyValuePair>('[User] Set user preference success')
+export const setUserPreferenceError = createAction<string>('[User] Set user preference error')
+
+export const updateUserPreference = createAction<KeyValuePair>('[User] Update user preference')
