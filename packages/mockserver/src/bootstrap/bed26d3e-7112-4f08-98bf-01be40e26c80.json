@@ -39,9 +39,7 @@
       "prescriptionCode": "0000000"
     },
     "version": 0,
-    "fmbInfo": {
-      "panelActive": false
-    }
+    "fmbPanelActive": false
   },
   "data": {
     "funktionsnedsattning": {

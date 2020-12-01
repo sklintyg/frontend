@@ -1,6 +1,6 @@
 import { Link, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { ButtonTooltip, CertificateFMBInfoCode, CertificateFMBInfoCodeForm, CertificateFMBInfoCodeFormContent } from '@frontend/common'
+import { ButtonTooltip, FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContent } from '@frontend/common'
 import ExpandableText from '@frontend/common/src/components/utils/ExpandableText'
 import LaunchIcon from '@material-ui/icons/Launch'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
@@ -49,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface Props {
-  codes: CertificateFMBInfoCode[]
+  diagnosisCodes: FMBDiagnosisCodeInfo[]
   selectedDiagnosisIndex: number
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex }) => {
+const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagnosisIndex }) => {
   const classes = useStyles()
   const maxTextLength = 297
 
@@ -63,14 +63,15 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
         <div className={classes.contentWrapper}>
           <Typography className={`${classes.subHeader} ${classes.alignCenter}`}>
             Vägledning för sjukskrivning
-            <ButtonTooltip description={'Vägledning för sjukskrivning vid ' + codes[selectedDiagnosisIndex].icd10Description + '.'}>
+            <ButtonTooltip
+              description={'Vägledning för sjukskrivning vid ' + diagnosisCodes[selectedDiagnosisIndex].icd10Description + '.'}>
               <InfoOutlinedIcon className={classes.iconMargin} />
             </ButtonTooltip>
           </Typography>
           <ul>
-            {codes[selectedDiagnosisIndex].forms
-              .filter((form: CertificateFMBInfoCodeForm) => form.name === 'ARBETSFORMAGA')
-              .map((form: CertificateFMBInfoCodeForm) =>
+            {diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'ARBETSFORMAGA')
+              .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content[0].list?.map((item: string, index: number) => (
                   <li key={index} className={classes.contentText}>
                     {item}
@@ -80,7 +81,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
           </ul>
         </div>
         <Typography className={`${classes.contentWrapper} ${classes.header} ${classes.solidBackground}`}>
-          {codes[selectedDiagnosisIndex].icd10Description}
+          {diagnosisCodes[selectedDiagnosisIndex].icd10Description}
         </Typography>
         <div className={classes.contentWrapper}>
           <Typography className={`${classes.subHeader} ${classes.alignCenter}`}>
@@ -89,22 +90,22 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
               <InfoOutlinedIcon className={classes.iconMargin} />
             </ButtonTooltip>
           </Typography>
-          <div>{codes[selectedDiagnosisIndex].relatedDiagnoses}</div>
+          <div>{diagnosisCodes[selectedDiagnosisIndex].relatedDiagnoses}</div>
         </div>
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Funktionsnedsättning</Typography>
-          {codes[selectedDiagnosisIndex].forms
-            .filter((form: CertificateFMBInfoCodeForm) => form.name === 'FUNKTIONSNEDSATTNING')
-            .map((form: CertificateFMBInfoCodeForm) => (
+          {diagnosisCodes[selectedDiagnosisIndex].forms
+            .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'FUNKTIONSNEDSATTNING')
+            .map((form: FMBDiagnosisCodeInfoForm) => (
               <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
             ))}
         </div>
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Aktivitetsbegränsning</Typography>
           <div>
-            {codes[selectedDiagnosisIndex].forms
-              .filter((form: CertificateFMBInfoCodeForm) => form.name === 'AKTIVITETSBEGRANSNING')
-              .map((form: CertificateFMBInfoCodeForm) => (
+            {diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'AKTIVITETSBEGRANSNING')
+              .map((form: FMBDiagnosisCodeInfoForm) => (
                 <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
               ))}
           </div>
@@ -112,9 +113,9 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Information om rehabilitering</Typography>
           <div>
-            {codes[selectedDiagnosisIndex].forms
-              .filter((form: CertificateFMBInfoCodeForm) => form.name === 'INFORMATIONOMREHABILITERING')
-              .map((form: CertificateFMBInfoCodeForm) => (
+            {diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'INFORMATIONOMREHABILITERING')
+              .map((form: FMBDiagnosisCodeInfoForm) => (
                 <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
               ))}
           </div>
@@ -122,12 +123,12 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Försäkringsmedicinsk information</Typography>
           <div>
-            {codes[selectedDiagnosisIndex].forms
-              .filter((form: CertificateFMBInfoCodeForm) => form.name === 'DIAGNOS')
-              .map((form: CertificateFMBInfoCodeForm) =>
+            {diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'DIAGNOS')
+              .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content
-                  .filter((content: CertificateFMBInfoCodeFormContent) => content.heading === 'GENERELL_INFO')
-                  .map((content: CertificateFMBInfoCodeFormContent) => (
+                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'GENERELL_INFO')
+                  .map((content: FMBDiagnosisCodeInfoFormContent) => (
                     <ExpandableText key={content.heading} text={content.text} maxLength={maxTextLength} />
                   ))
               )}
@@ -136,12 +137,12 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Symtom, prognos, behandling</Typography>
           <div>
-            {codes[selectedDiagnosisIndex].forms
-              .filter((form: CertificateFMBInfoCodeForm) => form.name === 'DIAGNOS')
-              .map((form: CertificateFMBInfoCodeForm) =>
+            {diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'DIAGNOS')
+              .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content
-                  .filter((content: CertificateFMBInfoCodeFormContent) => content.heading === 'SYMPTOM_PROGNOS_BEHANDLING')
-                  .map((content: CertificateFMBInfoCodeFormContent) => (
+                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'SYMPTOM_PROGNOS_BEHANDLING')
+                  .map((content: FMBDiagnosisCodeInfoFormContent) => (
                     <ExpandableText key={content.heading} text={content.text} maxLength={maxTextLength} />
                   ))
               )}
@@ -150,8 +151,8 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ codes, selectedDiagnosisIndex 
         <div className={`${classes.contentWrapper} ${classes.solidBackground}`}>
           <Typography className={classes.header}>Mer information</Typography>
           <div>
-            <Link className={classes.link} target="_blank" href={codes[selectedDiagnosisIndex].referenceLink}>
-              <Typography className={classes.link}>{codes[selectedDiagnosisIndex].referenceDescription}</Typography>
+            <Link className={classes.link} target="_blank" href={diagnosisCodes[selectedDiagnosisIndex].referenceLink}>
+              <Typography className={classes.link}>{diagnosisCodes[selectedDiagnosisIndex].referenceDescription}</Typography>
               <LaunchIcon className={classes.icon} />
             </Link>
           </div>

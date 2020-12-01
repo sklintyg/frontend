@@ -4,8 +4,8 @@ import FMBPanelFooter from './FMBPanelFooter'
 import PanelHeader from './PanelHeader'
 import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { useSelector } from 'react-redux'
-import { getFMBInfo } from '../../../store/certificate/certificateSelectors'
-import { CertificateFMBInfoCode } from '@frontend/common'
+import { getFMBDiagnosisCodes } from '../../../store/fmb/fmbSelectors'
+import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 import colors from '../../../components/styles/colors'
 
@@ -45,7 +45,7 @@ interface Props {
 
 const FMBPanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePanel }) => {
   const classes = useStyles()
-  const fmbInfo = useSelector(getFMBInfo)
+  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes)
   const [selectedDiagnosisIndex, setSelectedDiagnosisIndex] = useState(0)
 
   const onDiagnosisSelect = (event: ChangeEvent<HTMLInputElement>, value: string) => {
@@ -57,7 +57,7 @@ const FMBPanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePan
       {selectedTabIndex === tabIndex && (
         <div className={classes.root}>
           <PanelHeader description="Diagnosspecifik information" minimizeSidePanel={minimizeSidePanel} />
-          {!fmbInfo?.codes ? (
+          {fmbDiagnosisCodes.length == 0 ? (
             <div className={classes.emptyWrapper}>
               <img alt="" src={noDiagnosisIcon} />
               <div>Ange minst en diagnos för att få FMB-stöd.</div>
@@ -66,17 +66,17 @@ const FMBPanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePan
             <>
               <div className={classes.diagnosisSelectionWrapper}>
                 <RadioGroup value={selectedDiagnosisIndex} onChange={onDiagnosisSelect}>
-                  {fmbInfo.codes.map((diagnosis: CertificateFMBInfoCode, index: number) => (
+                  {fmbDiagnosisCodes.map((diagnosisCode: FMBDiagnosisCodeInfo, index: number) => (
                     <FormControlLabel
-                      key={diagnosis.icd10Code}
+                      key={diagnosisCode.icd10Code}
                       value={index}
                       control={<Radio className={classes.radio} />}
-                      label={<Typography className={classes.link}>{diagnosis.icd10Description}</Typography>}
+                      label={<Typography className={classes.link}>{diagnosisCode.icd10Description}</Typography>}
                     />
                   ))}
                 </RadioGroup>
               </div>
-              <FMBPanelDiagnosisInfo codes={fmbInfo.codes} selectedDiagnosisIndex={selectedDiagnosisIndex} />
+              <FMBPanelDiagnosisInfo diagnosisCodes={fmbDiagnosisCodes} selectedDiagnosisIndex={selectedDiagnosisIndex} />
             </>
           )}
           <FMBPanelFooter />

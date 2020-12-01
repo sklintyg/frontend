@@ -18,7 +18,6 @@ import {
   updateCertificateEvents,
   updateCertificateStatus,
   updateCertificateVersion,
-  updateFMBCodeInfo,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
@@ -183,17 +182,6 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
       state.isDeleted = true
-    })
-    .addCase(updateFMBCodeInfo, (state, action) => {
-      if (!state.certificate) {
-        return
-      }
-
-      if (!state.certificate.metadata.fmbInfo.codes) {
-        state.certificate.metadata.fmbInfo.codes = []
-      }
-
-      state.certificate.metadata.fmbInfo.codes.push(action.payload)
     })
 )
 

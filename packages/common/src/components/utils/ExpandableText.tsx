@@ -27,6 +27,8 @@ interface Props {
   maxLength: number
 }
 
+//TODO: Expand state is kept when switching between diagnoses
+
 const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
   const classes = useStyles()
   const [expand, setExpand] = useState(false)

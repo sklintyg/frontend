@@ -8,7 +8,6 @@ import {
   ValidationError,
   CertificateMetadata,
   CertificateEvent,
-  CertificateFMBInfoCode,
 } from '@frontend/common'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -24,11 +23,6 @@ const GET_CERTIFICATE_EVENTS_STARTED = `${CERTIFICATE} Get certificate events st
 const GET_CERTIFICATE_EVENTS_SUCCESS = `${CERTIFICATE} Get certificate events success`
 const GET_CERTIFICATE_EVENTS_ERROR = `${CERTIFICATE} Get certificate events error`
 const GET_CERTIFICATE_EVENTS_COMPLETED = `${CERTIFICATE} Get certificate events completed`
-
-const GET_FMB_CODE_INFO = `${CERTIFICATE} Get FMB code info`
-const GET_FMB_CODE_INFO_STARTED = `${CERTIFICATE} Get FMB code info started`
-const GET_FMB_CODE_INFO_SUCCESS = `${CERTIFICATE} Get FMB code info success`
-const GET_FMB_CODE_INFO_ERROR = `${CERTIFICATE} Get FMB code info error`
 
 const DELETE_CERTIFICATE = `${CERTIFICATE} Delete certificate`
 const DELETE_CERTIFICATE_STARTED = `${CERTIFICATE} Delete certificate started`
@@ -91,7 +85,6 @@ const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
-const UPDATE_FMB_CODE_INFO = `${CERTIFICATE} Update FMB code info`
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
@@ -279,13 +272,3 @@ export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
 
 export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
-
-export const getFMBCodeInfo = createAction<string>(GET_FMB_CODE_INFO)
-
-export const getFMBCodeInfoStarted = createAction(GET_FMB_CODE_INFO_STARTED)
-
-export const getFMBCodeInfoSuccess = createAction<CertificateFMBInfoCode>(GET_FMB_CODE_INFO_SUCCESS)
-
-export const getFMBCodeInfoError = createAction<string>(GET_FMB_CODE_INFO_ERROR)
-
-export const updateFMBCodeInfo = createAction<CertificateFMBInfoCode>(UPDATE_FMB_CODE_INFO)

@@ -31,10 +31,6 @@ import {
   getCertificateEventsSuccess,
   getCertificateStarted,
   getCertificateSuccess,
-  getFMBCodeInfo,
-  getFMBCodeInfoStarted,
-  getFMBCodeInfoSuccess,
-  getFMBCodeInfoError,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -74,7 +70,6 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
-  updateFMBCodeInfo,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -507,34 +502,6 @@ const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, g
   dispatch(validateCertificateInFrontEndCompleted())
 }
 
-const handleGetFMBCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getFMBCodeInfo.match(action)) {
-    return
-  }
-
-  dispatch(
-    apiCallBegan({
-      url: '/api/fmb/' + action.payload,
-      method: 'GET',
-      onStart: getFMBCodeInfoStarted.type,
-      onSuccess: getFMBCodeInfoSuccess.type,
-      onError: getFMBCodeInfoError.type,
-    })
-  )
-}
-
-const handleGetFMBCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getFMBCodeInfoSuccess.match(action)) {
-    return
-  }
-
-  dispatch(updateFMBCodeInfo(action.payload))
-}
-
 function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
   if (!certificate) {
     return
@@ -587,6 +554,4 @@ export const certificateMiddleware = [
   handleForwardCertificateSuccess,
   handleCopyCertificate,
   handleCopyCertificateSuccess,
-  handleGetFMBCodeInfo,
-  handleGetFMBCodeInfoSuccess,
 ]
