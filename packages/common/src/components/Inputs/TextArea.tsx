@@ -32,11 +32,11 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }
 
   return (
-    <TextareaAutosize
+    <textarea
       disabled={disabled}
       style={{ border: `${hasValidationError ? `1px solid ${theme.palette.error.main}` : ''}` }}
-      className={`${additionalStyles} ${classes.root}`}
-      rowsMin={rowsMin ? rowsMin : 1}
+      className={`${additionalStyles} ${classes.root} ic-textarea iu-no-resize`}
+      rows={rowsMin ? rowsMin : 1}
       name={name ?? ''}
       value={value}
       onChange={(e) => handleOnChange(e)}
