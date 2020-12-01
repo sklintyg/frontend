@@ -1,4 +1,4 @@
-import { Box, CircularProgress, makeStyles, Typography } from '@material-ui/core'
+import { Box, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,11 @@ const Backdrop: React.FC<Props> = ({ open, spinnerText, children }) => {
   return (
     <div className={classes.backdrop}>
       <Box className={classes.content}>
-        <CircularProgress />
+        <div className="ic-spinner">
+          <div className="ic-spinner__bounce1"></div>
+          <div className="ic-spinner__bounce2"></div>
+          <div className="ic-spinner__bounce3"></div>
+        </div>
         <Typography className={classes.title}>{spinnerText}</Typography>
       </Box>
     </div>
