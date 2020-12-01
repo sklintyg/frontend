@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  grid: {
+    alignItems: 'center',
+  },
   zipCode: {
     maxWidth: '6em',
   },
@@ -55,87 +58,64 @@ const UeCareUnitAddress: React.FC = () => {
         <CategoryTitle>Vårdenhetens adress</CategoryTitle>
       </CategoryHeader>
       <QuestionWrapper additionalStyles={classes.questionWrapper}>
-        <Grid container>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'address'}>Postadress</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'address'}
-                id={'address'}
-                value={careUnitInfo.address}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'zipCode'}>Postnummer</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.zipCode}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'zipCode'}
-                id={'zipCode'}
-                value={careUnitInfo.zipCode}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'city'}>Postort</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.city}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'city'}
-                id={'city'}
-                value={careUnitInfo.city}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'phoneNumber'}>Telefonnummer</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.phoneNumber}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'phoneNumber'}
-                id={'phoneNumber'}
-                value={careUnitInfo.phoneNumber}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
+        <div className={`iu-grid-cols iu-grid-cols-12 ${classes.grid}`}>
+          <div className="iu-grid-span-3">
+            <label htmlFor={'address'}>Postadress</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <input
+              className="ic-textfield"
+              type="text"
+              disabled={disabled || !editable}
+              onChange={handleChange}
+              name={'address'}
+              id={'address'}
+              value={careUnitInfo.address}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'zipCode'}>Postnummer</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <input
+              disabled={disabled || !editable}
+              className={`${classes.zipCode} ic-textfield`}
+              onChange={handleChange}
+              name={'zipCode'}
+              id={'zipCode'}
+              value={careUnitInfo.zipCode}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'city'}>Postort</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <input
+              disabled={disabled || !editable}
+              className={`${classes.city} ic-textfield`}
+              onChange={handleChange}
+              name={'city'}
+              id={'city'}
+              value={careUnitInfo.city}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'phoneNumber'}>Telefonnummer</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <input
+              disabled={disabled || !editable}
+              className={`${classes.phoneNumber} ic-textfield`}
+              onChange={handleChange}
+              name={'phoneNumber'}
+              id={'phoneNumber'}
+              value={careUnitInfo.phoneNumber}
+            />
+          </div>
+        </div>
       </QuestionWrapper>
     </>
   )

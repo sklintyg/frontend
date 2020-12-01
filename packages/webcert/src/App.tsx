@@ -7,6 +7,7 @@ import { CssBaseline, Switch as MuiSwitch } from '@material-ui/core'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import Welcome from './page/Welcome'
+import 'inera-core-css/src/themes/inera-master.scss'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)

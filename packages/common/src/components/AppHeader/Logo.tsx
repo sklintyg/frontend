@@ -9,6 +9,7 @@ const useStyles = makeStyles({
   },
   title: {
     backgroundColor: '#292f4f',
+    display: 'flex',
   },
 })
 

@@ -17,7 +17,7 @@ const CategoryTitle: React.FC<Props> = (props) => {
   const classes = useStyles()
 
   return (
-    <Typography id={props.titleId} className={`${classes.heading} ${props.additionalStyles}`} variant="h4">
+    <Typography id={props.titleId} className={`${classes.heading} ${props.additionalStyles}`} variant="h3">
       {props.children}
     </Typography>
   )

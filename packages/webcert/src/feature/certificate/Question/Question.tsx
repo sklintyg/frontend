@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { UvText, CertificateDataConfig, CertificateDataElement, MandatoryIcon, ConfigTypes } from '@frontend/common'
 import { getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import grey from '@material-ui/core/colors/grey'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QuestionWrapper from './QuestionWrapper'
 import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
@@ -49,9 +49,21 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const classes = useStyles()
   const disabled = useSelector(getIsLocked)
-
+  const expandableRef = useRef<null | HTMLDivElement>(null)
+  const expandBtn = useRef<null | HTMLButtonElement>(null)
+  const [expanded, setExpanded] = useState(false)
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
+
+  const toggleExpanded = () => {
+    const btn = expandBtn.current
+    const item = expandableRef.current
+
+    if (!btn || !item) return
+
+    btn.setAttribute('aria-expanded', item.classList.contains('ic-expandable--expanded') ? 'false' : 'true')
+    item.classList.toggle('ic-expandable--expanded')
+  }
 
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
@@ -73,23 +85,38 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
     if (!readOnly && config.description) {
       return (
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            classes={{ content: classes.accordionContent, expandIcon: classes.expandMoreIcon }}
-            className={classes.accordionSummary}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header">
-            <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
-            <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+        <div className="ic-expandable" ref={expandableRef}>
+          <h4 className="iu-fs-400">
+            <button
+              onClick={toggleExpanded}
+              ref={expandBtn}
+              className="ic-expandable-button ic-inner ic-expandable-button--chevron"
+              aria-controls="content-1"
+              aria-expanded="false"
+              type="button">
               {question.config.text}
-            </Typography>
-          </AccordionSummary>
-          <ArrowUp></ArrowUp>
-          <AccordionDetails className={classes.accordionDetails}>
-            <Typography>{question.config.description}</Typography>
-          </AccordionDetails>
-        </Accordion>
+              <span className="ic-expandable-button__icon">
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  className="iu-svg-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="15"
+                  viewBox="0 0 22 15">
+                  <path
+                    fill="currentColor"
+                    d="M8.325 10.647L.585 3.259c-.78-.746-.78-1.954 0-2.7.782-.745 2.048-.745 2.83 0l9.153 8.738c.781.745.781 1.954 0 2.7l-9.154 8.737c-.78.746-2.047.746-2.828 0-.781-.745-.781-1.954 0-2.7l7.74-7.387z"
+                    transform="translate(-1290 -179) translate(410 141) rotate(90 432 470)"
+                  />
+                </svg>
+              </span>
+            </button>
+          </h4>
+          <div id="content-1" className="ic-expandable__content ic-expandable-target">
+            <div className="iu-bg-grey-300 iu-p-200 iu-mt-300">{question.config.description}</div>
+          </div>
+        </div>
       )
     }
     return (
