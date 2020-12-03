@@ -28,25 +28,29 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <>
+    <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal">
       <RadioButton
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         label={questionConfig.selectedText}
-        name={questionConfig.id + 'true'}
-        value={true}
+        id={questionConfig.id + 'true'}
+        name={questionConfig.id + 'radio'}
+        value={'true'}
         checked={booleanValue.selected !== null && booleanValue.selected}
-        onChange={handleChange}></RadioButton>
+        onChange={handleChange}
+      />
       <RadioButton
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         label={questionConfig.unselectedText}
-        name={questionConfig.id + 'false'}
-        value={false}
+        id={questionConfig.id + 'false'}
+        name={questionConfig.id + 'radio'}
+        value={'false'}
         checked={booleanValue.selected !== null && !booleanValue.selected}
-        onChange={handleChange}></RadioButton>
+        onChange={handleChange}
+      />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-    </>
+    </div>
   )
 }
 
