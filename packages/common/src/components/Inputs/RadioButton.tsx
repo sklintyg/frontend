@@ -4,7 +4,7 @@ import useTheme from '@material-ui/core/styles/useTheme'
 
 interface Props {
   label: string
-  id: string
+  id?: string
   name?: string
   value?: string | number | readonly string[] | undefined
   checked?: boolean

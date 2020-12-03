@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     height: '100%',
     '& .questionWrapper + .questionWrapper .questionTitle': {
-      fontSize: theme.typography.subtitle2.fontSize,
+      fontSize: '14px !important',
       fontWeight: theme.typography.subtitle2.fontWeight,
     },
     '& .questionWrapper + .questionWrapper .MuiPaper-root': {

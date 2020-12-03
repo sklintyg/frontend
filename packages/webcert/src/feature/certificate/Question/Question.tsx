@@ -86,7 +86,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (!readOnly && config.description) {
       return (
         <div className="ic-expandable" ref={expandableRef}>
-          <h4 className="iu-fs-400">
+          <h4 className={`iu-fs-300 iu-fw-body iu-color-black questionTitle ${classes.heading}`}>
             <button
               onClick={toggleExpanded}
               ref={expandBtn}
