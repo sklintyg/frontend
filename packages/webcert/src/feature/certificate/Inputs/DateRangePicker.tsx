@@ -1,10 +1,11 @@
 import { Button, Checkbox, FormControlLabel, makeStyles, TextField, Typography } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import DatePickerCustom from './DatePickerCustom'
-import { parse, addDays, differenceInCalendarDays } from 'date-fns'
+import { parse, addDays, differenceInCalendarDays, format, isEqual } from 'date-fns'
 import ReactDatePicker from 'react-datepicker'
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined'
 import colors from '../../../components/styles/colors'
+import { setTextRange } from 'typescript'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -77,14 +78,15 @@ const DateRangePicker = () => {
   const [dateChecked, setChecked] = useState(false)
   const [fromDate, setFromDate] = useState<Date | null>(null)
   const [toDate, setToDate] = useState<Date | null>(null)
+  const [toDateInput, setToDateInput] = useState('')
   const [daysBetweenDates, setDaysBetweenDates] = useState<number | null>(null)
   const classes = useStyles()
   const fromDateRef = useRef<ReactDatePicker | null>(null)
-  const toDateRef = useRef(null)
+  const toDateRef = useRef<HTMLDivElement | null>(null)
 
   function _parseDayCodes(input: string) {
     if (input && typeof input === 'string') {
-      var result = dayCodeReg.exec(input)
+      let result = dayCodeReg.exec(input)
       if (result && result.length > 0) {
         return parseInt(result[1], 10)
       }
@@ -92,7 +94,7 @@ const DateRangePicker = () => {
       if (result && result.length > 0) {
         return parseInt(result[1], 10) * 7
       }
-      var months = _parseMonthCode(input)
+      const months = _parseMonthCode(input)
       if (months) {
         return months * 31
       }
@@ -102,7 +104,7 @@ const DateRangePicker = () => {
 
   function _parseMonthCode(input: string) {
     if (input && typeof input === 'string') {
-      var result = monthCodeReg.exec(input)
+      const result = monthCodeReg.exec(input)
       if (result && result.length > 0) {
         return parseInt(result[1], 10)
       }
@@ -141,16 +143,29 @@ const DateRangePicker = () => {
 
   const handleToTextInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target
+    setToDateInput(value)
+
+    console.log('value', value)
+    console.log(toDateRef.current)
 
     //TODO: Om man skriver tex 1v och sen 1v igen så står 1v kvar. något med att det är samma datum?
     const inputMatchesRegex = regexArray.some((reg) => reg.test(value))
 
     if (inputMatchesRegex && fromDate) {
       const numberOfDaysToAdd = _parseDayCodes(value)
+
       if (numberOfDaysToAdd) {
         //Befintliga webcert drar bort en dag i beräkningen
         const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
+        console.log('jämfördatum', newDate == toDate)
+        console.log('nya', newDate)
+        console.log('gamla', toDate)
+        // console.log('setting new date', newDate, toDate)
+        if (toDate && isEqual(newDate, toDate)) {
+          // setToDateInput(format(newDate, 'yyyy-MM-dd'))
+        }
         setToDate(newDate)
+        // setToDateInput(format(newDate, 'yyyy-MM-dd'))
         calculcateDifferenceInCalendarDays(fromDate, newDate)
       }
     } else if (_dateReg.test(value) || _dateRegDashesOptional.test(value)) {
@@ -161,18 +176,22 @@ const DateRangePicker = () => {
         setToDate(date)
       }
     }
+    // setToDateInput(value)
   }
 
-  const calculcateDifferenceInCalendarDays = (endDate: Date, startDate: Date) => {
-    console.log('startdate2', startDate)
-    console.log('fromdate', endDate)
-    const days = differenceInCalendarDays(startDate, endDate)
-    console.log(days)
+  const updateDaysBetween = (startDate: Date, endDate: Date) => {
+    const days = calculcateDifferenceInCalendarDays(startDate, endDate)
 
     if (days > 0) {
       //Befintliga webcert lägger till 1 dag
       setDaysBetweenDates(days + 1)
     }
+  }
+
+  const calculcateDifferenceInCalendarDays = (startDate: Date, endDate: Date) => {
+    console.log('startdate2', startDate)
+    console.log('fromdate', endDate)
+    return differenceInCalendarDays(startDate, endDate)
   }
 
   const getValidDate = (dateString: string) => {
@@ -220,7 +239,14 @@ const DateRangePicker = () => {
         </div>
         <div className={classes.datesWrapper}>
           <Typography>t.o.m</Typography>
-          <DatePickerCustom selectedDate={toDate} setDate={(date) => setToDate(date)} handleChangeRaw={handleToTextInputChange} />
+          <DatePickerCustom
+            key={'xellerid'}
+            inputValue={toDateInput}
+            inputRef={toDateRef}
+            selectedDate={toDate}
+            setDate={(date) => setToDate(date)}
+            handleChangeRaw={handleToTextInputChange}
+          />
         </div>
       </div>
       {daysBetweenDates && (

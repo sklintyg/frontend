@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker from 'react-datepicker'
 import colors from '../../../components/styles/colors'
+import { format } from 'date-fns'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -41,29 +42,53 @@ interface Props {
   handleChangeRaw?: (event: React.FocusEvent<HTMLInputElement>) => void
   setDate: (date: Date) => void
   selectedDate: Date | null
-  inputRef?: ((instance: DatePicker | null) => void) | null | undefined
+  inputRef?: any
   wrapperClass?: string
+  inputValue?: Date | null | string
 }
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef, wrapperClass }) => {
+const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef, wrapperClass, inputValue }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const classes = useStyles()
 
+  let inputString: string
+
+  if (inputValue && inputValue instanceof Date) {
+    inputString = format(inputValue, 'yyyy-MM-dd')
+  } else {
+    inputString = inputValue as string
+  }
+
+  // {
+  //   /* <TextField
+  //     key="test"
+  //     ref={inputRef}
+  //     InputProps={{
+  //       classes: {
+  //         root: classes.inputRoot,
+  //       },
+  //       className: classes.input,
+  //     }}
+  //     variant="outlined"
+  //     onChange={onChange}
+  //     placeholder="åååå-mm-dd"
+  //     value={value}
+  //     id={id}
+  //     onClick={onClick}
+  //   /> */
+  // }
+
   const Input = ({ onChange, value, id, onClick }: any) => (
     <>
-      <TextField
-        InputProps={{
-          classes: {
-            root: classes.inputRoot,
-          },
-          className: classes.input,
-        }}
-        variant="outlined"
-        onChange={onChange}
+      <input
+        type="text"
+        ref={inputRef}
+        onChange={handleChangeRaw}
         placeholder="åååå-mm-dd"
-        value={value}
+        value={inputValue ? inputString : value}
         id={id}
+        key="hejsan"
         onClick={onClick}
       />
       <Button
@@ -79,10 +104,25 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedD
     <div className={wrapperClass}>
       <DatePicker
         shouldCloseOnSelect={true}
-        ref={inputRef}
         onChange={() => {}}
         dateFormat="yyyy-MM-dd"
-        customInput={<Input />}
+        customInput={
+          <>
+            <input
+              type="text"
+              ref={inputRef}
+              onChange={handleChangeRaw}
+              placeholder="åååå-mm-dd"
+              value={inputValue ? inputString : selectedDate?.toString()}
+            />
+            <Button
+              classes={{ root: classes.buttonRoot, startIcon: classes.startIcon }}
+              onClick={() => setOpen(true)}
+              variant="contained"
+              color="secondary"
+              startIcon={<DateRangeIcon />}></Button>
+          </>
+        }
         onChangeRaw={(e) => handleChangeRaw && handleChangeRaw(e)}
         onClickOutside={() => setOpen(false)}
         open={open}
