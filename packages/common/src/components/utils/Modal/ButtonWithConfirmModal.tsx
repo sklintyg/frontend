@@ -2,6 +2,7 @@ import { ButtonTooltip } from '@frontend/common'
 import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
 import React, { ReactNode } from 'react'
 import ModalBase from './ModalBase'
+import CustomButton from '@frontend/webcert/src/feature/certificate/Buttons/CustomButton'
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -25,6 +26,7 @@ interface Props {
   confirmButtonDisabled?: boolean
   declineButtonText?: string
   additionalButtonStyles?: string
+  buttonStyle?: 'primary' | 'secondary' | 'success'
   description: string
   onClick?: () => void
   onClose?: () => void
@@ -53,17 +55,17 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ButtonTooltip description={props.description}>
-        <Button
-          disabled={props.disabled}
-          className={props.additionalButtonStyles}
-          color={props.buttonColor ? props.buttonColor : 'default'}
-          variant={props.buttonVariant ? props.buttonVariant : 'contained'}
-          onClick={handleClickOpen}
-          startIcon={props.startIcon ? props.startIcon : null}>
-          {props.name}
-        </Button>
-      </ButtonTooltip>
+      <CustomButton
+        tooltip={props.description}
+        style={props.buttonStyle ? props.buttonStyle : 'primary'}
+        disabled={props.disabled}
+        className={props.additionalButtonStyles}
+        color={props.buttonColor ? props.buttonColor : 'default'}
+        variant={props.buttonVariant ? props.buttonVariant : 'contained'}
+        onClick={handleClickOpen}
+        startIcon={props.startIcon ? props.startIcon : null}
+        text={props.name}
+      />
       <ModalBase
         additionalContentStyles={classes.content}
         open={open}
@@ -72,18 +74,20 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         content={props.children}
         modalButtons={
           <>
-            <Button
+            <CustomButton
+              style="success"
               className={props.additionalConfirmButtonStyles}
-              disableElevation
+              //disableElevation
               disabled={props.confirmButtonDisabled}
               variant="contained"
               color={props.confirmButtonColor ? props.confirmButtonColor : 'default'}
-              onClick={handleConfirm}>
-              {props.confirmButtonText}
-            </Button>
-            <Button onClick={handleClose} variant="outlined" color="default">
-              {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
-            </Button>
+              onClick={handleConfirm}
+              text={props.confirmButtonText}></CustomButton>
+            <CustomButton
+              onClick={handleClose}
+              variant="outlined"
+              style="default"
+              text={props.declineButtonText ? props.declineButtonText : 'Avbryt'}></CustomButton>
           </>
         }></ModalBase>
     </>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { ButtonTooltip } from '@frontend/common'
 import colors from '../../../components/styles/colors'
+import CustomButton from './CustomButton'
 
 const useStyles = makeStyles((theme) => ({
   signButton: {
@@ -27,18 +28,16 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
   const isValidating = useSelector(getIsValidating)
 
   return (
-    <ButtonTooltip description={description}>
-      <Button
-        className={classes.signButton}
-        startIcon={<BorderColorIcon />}
-        disabled={isValidating || !enabled}
-        variant="contained"
-        onClick={() => {
-          dispatch(signCertificate())
-        }}>
-        {name}
-      </Button>
-    </ButtonTooltip>
+    <CustomButton
+      style="success"
+      text={name}
+      className={classes.signButton}
+      startIcon={<BorderColorIcon />}
+      disabled={isValidating || !enabled}
+      variant="contained"
+      onClick={() => {
+        dispatch(signCertificate())
+      }}></CustomButton>
   )
 }
 

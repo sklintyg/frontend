@@ -5,6 +5,7 @@ import { printCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import PrintIcon from '@material-ui/icons/Print'
 import { ButtonTooltip } from '@frontend/common'
+import CustomButton from './CustomButton'
 
 interface Props {
   name: string
@@ -24,16 +25,15 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled })
   if (!certificateMetadata) return null
 
   return (
-    <ButtonTooltip description={description}>
-      <Button
-        disabled={!enabled}
-        variant={'contained'}
-        style={{ backgroundColor: light, color: 'white' }}
-        startIcon={<PrintIcon />}
-        onClick={() => dispatch(printCertificate(certificateMetadata))}>
-        {name}
-      </Button>
-    </ButtonTooltip>
+    <CustomButton
+      tooltip={description}
+      disabled={!enabled}
+      variant={'contained'}
+      style="primary"
+      text={name}
+      startIcon={<PrintIcon />}
+      onClick={() => dispatch(printCertificate(certificateMetadata))}
+    />
   )
 }
 

@@ -2,3 +2,7 @@
 .ic-global-alert__inner {
   max-width: 1440px !important;
 }
+
+.ic-page-header__inner {
+  max-width: 1440px !important;
+}

@@ -20,6 +20,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }
 
   return (
     <ButtonWithConfirmModal
+      buttonStyle="secondary"
       disabled={!enabled}
       description={description}
       name={name}
