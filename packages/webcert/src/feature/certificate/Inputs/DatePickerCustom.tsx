@@ -44,7 +44,7 @@ interface Props {
   selectedDate: Date | null
   inputRef?: any
   wrapperClass?: string
-  inputValue?: Date | null | string
+  inputValue?: string | null
 }
 
 const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef, wrapperClass, inputValue }) => {
@@ -54,7 +54,7 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedD
 
   let inputString: string
 
-  if (inputValue && inputValue instanceof Date) {
+  if (inputValue) {
     inputString = format(inputValue, 'yyyy-MM-dd')
   } else {
     inputString = inputValue as string
