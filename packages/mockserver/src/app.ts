@@ -613,6 +613,12 @@ function createResponse(certificate: Certificate): Certificate {
         description: 'Skickar intyget',
         enabled: true,
       })
+      certificateClone.links.push({
+        type: ResourceLinkType.FMB,
+        name: 'FMB',
+        description: 'Läs FMB - ett stöd för ifyllnad och bedömning.',
+        enabled: true,
+      })
       break
     case CertificateStatus.SIGNED:
       certificateClone.links.push({

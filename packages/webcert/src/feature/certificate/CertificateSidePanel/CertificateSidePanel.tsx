@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Paper, Tabs, Tab, Box, Typography } from '@material-ui/core'
-import { getIsShowSpinner, getFMBInfoPanelActive } from '../../../store/certificate/certificateSelectors'
+import { getIsShowSpinner, getFMBInfoPanelActive, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import AboutCertificatePanel from './AboutCertificatePanel'
@@ -12,6 +12,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import { getUserPreference } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import colors from '../../../components/styles/colors'
+import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,12 +64,13 @@ const CertificateSidePanel: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
-  const fmbInfoPanelActive = useSelector(getFMBInfoPanelActive)
   const SIDEBAR_MINIMIZED = 'wc.sidebarMinimized'
   const minimized = useSelector(getUserPreference(SIDEBAR_MINIMIZED))
   const fmbTabIndex = 0
-  const aboutCertificateTabIndex = fmbInfoPanelActive ? 1 : 0
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
+  const resourceLinks = useSelector(getResourceLinks)
+  const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
+  const aboutCertificateTabIndex = fmbInfoPanelActive ? 1 : 0
 
   if (showSpinner) return null
 

@@ -127,7 +127,7 @@ export const getAllValidationErrors = () => (state: RootState) => {
 
 export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents
 
-export const getResourceLinks = (state: RootState) => state.ui.uiCertificate.certificate?.links
+export const getResourceLinks = (state: RootState) => state.ui.uiCertificate.certificate?.links ?? []
 
 export const getIsLocked = (state: RootState) =>
   state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.LOCKED ||
