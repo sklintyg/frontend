@@ -114,7 +114,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
             </button>
           </h4>
           <div id="content-1" className="ic-expandable__content ic-expandable-target">
-            <div className="iu-bg-grey-300 iu-p-200 iu-mt-300">{question.config.description}</div>
+            <div className="iu-bg-grey-300 iu-p-200 iu-mt-300 iu-mb-300">{question.config.description}</div>
           </div>
         </div>
       )

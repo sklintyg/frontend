@@ -27,7 +27,7 @@ const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
       <Typography variant={'h2'} className={classes.certificateName}>
         {certificateMetadata.certificateName}
       </Typography>
-      <Typography variant="h3" className={classes.patientTitle}>
+      <Typography variant="h3" className={`${classes.patientTitle} iu-color-sky-dark`}>
         {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
       </Typography>
     </Box>
