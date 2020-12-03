@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Paper, Tabs, Tab, Box, Typography } from '@material-ui/core'
-import { getIsShowSpinner, getFMBInfoPanelActive, getResourceLinks } from '../../../store/certificate/certificateSelectors'
+import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import AboutCertificatePanel from './AboutCertificatePanel'
@@ -110,10 +110,10 @@ const CertificateSidePanel: React.FC = () => {
               <Tab
                 className={selectedTabIndex === fmbTabIndex ? classes.activeTab : ''}
                 label={
-                  <ButtonTooltip description="Läs FMB - ett stöd för ifyllnad och bedömning.">
+                  <ButtonTooltip description={fmbInfoPanelActive.description}>
                     <Typography className={classes.linkText}>
                       <EmojiObjectsOutlinedIcon className={classes.icon} />
-                      FMB
+                      {fmbInfoPanelActive.name}
                     </Typography>
                   </ButtonTooltip>
                 }

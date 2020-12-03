@@ -30,8 +30,6 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
-  //TODO: Should resource links to used to active FMB panel instead?
-  fmbPanelActive: boolean
 }
 
 export interface CertificateData {

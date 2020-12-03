@@ -1,5 +1,5 @@
 import { Link, makeStyles } from '@material-ui/core'
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +27,13 @@ interface Props {
   maxLength: number
 }
 
-//TODO: Expand state is kept when switching between diagnoses
-
 const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
   const classes = useStyles()
   const [expand, setExpand] = useState(false)
+
+  useEffect(() => {
+    setExpand(false);
+  }, [text]);
 
   const onReadLessOrMore = (event: MouseEvent) => {
     setExpand(!expand)
