@@ -2,6 +2,8 @@ import { makeStyles, Paper, Typography, Link } from '@material-ui/core'
 import React from 'react'
 import SchoolIcon from '@material-ui/icons/School'
 import colors from '../../../components/styles/colors'
+import DynamicLink from '@frontend/common/src/components/utils/DynamicLink'
+import LaunchIcon from '@material-ui/icons/Launch'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,23 +11,16 @@ const useStyles = makeStyles((theme) => ({
     position: 'sticky',
     bottom: '0',
     padding: theme.spacing(2.5),
-  },
-  border: {
-    border: `1px solid ${colors.IA_COLOR_08}`,
-  },
-  contentText: {
-    whiteSpace: 'pre-line',
-    marginTop: theme.spacing(1),
-    fontSize: theme.typography.body2.fontSize,
-  },
-  textWrapper: {
     display: 'flex',
     alignItems: 'center',
+    border: `1px solid ${colors.IA_COLOR_08}`,
   },
-  link: {
-    fontSize: theme.typography.pxToRem(14),
-    color: 'inherit',
-    textDecoration: 'underline',
+  schoolIcon: {
+    marginRight: theme.spacing(0.5),
+  },
+  launchIcon: {
+    fontSize: 'small',
+    marginLeft: theme.spacing(0.5),
   },
 }))
 
@@ -33,13 +28,10 @@ const AboutCertificatePanelFooter = () => {
   const classes = useStyles()
 
   return (
-    <Paper square className={`${classes.root} ${classes.border}`}>
-      <Link className={classes.link} target="_blank" href={'https://www.inera.se/intygsskolan/webcert'}>
-        <div className={classes.textWrapper}>
-          <SchoolIcon style={{ marginRight: '5px' }} />
-          <Typography className={classes.link}>Hitta svar på dina frågor i Ineras intygsskola</Typography>
-        </div>
-      </Link>
+    <Paper square className={classes.root}>
+      <SchoolIcon className={classes.schoolIcon} />
+      <DynamicLink linkKey={'ineraIntygsskola'} />
+      <LaunchIcon className={classes.launchIcon} />
     </Paper>
   )
 }

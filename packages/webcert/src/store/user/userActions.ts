@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { User } from '@frontend/common'
 import { LoginUserQuery, RedirectAction, LoginUserSuccess } from './userReducer'
-import { KeyValuePair } from '@frontend/common/src'
+import { KeyValuePair } from '@frontend/common'
 
 export const loginUser = createAction<LoginUserQuery>('[User] Login user')
 export const loginUserStarted = createAction('[User] Login user started')

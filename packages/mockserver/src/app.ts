@@ -535,6 +535,33 @@ app.put('/api/anvandare/preferences', (req: Request, res: Response, next: NextFu
   res.status(200).send()
 })
 
+app.get('/config/links', (req: Request, res: Response, next: NextFunction) => {
+  res
+    .json({
+      fmbSoc: {
+        key: 'fmbSoc',
+        url: 'https://roi.socialstyrelsen.se/fmb',
+        text: 'Läs mer om FMB hos Socialstyrelsen',
+        target: '_blank',
+        tooltip: 'Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos',
+      },
+      transportstyrelsen: {
+        key: 'transportstyrelsen',
+        url: 'https://www.transportstyrelsen.se',
+        text: 'www.transportstyrelsen.se',
+        target: '_blank',
+      },
+      ineraIntygsskola: {
+        key: 'ineraIntygsskola',
+        url: 'https://www.inera.se/intygsskolan/webcert',
+        text: 'Hitta svar på dina frågor i Ineras intygsskola',
+        target: '_blank',
+      },
+    })
+    .status(200)
+    .send()
+})
+
 app.listen(9088, () => console.log('Server running'))
 
 function createResponse(certificate: Certificate): Certificate {

@@ -1,9 +1,9 @@
-import { makeStyles, Paper, Typography, Link, Tooltip } from '@material-ui/core'
+import { makeStyles, Paper } from '@material-ui/core'
 import React from 'react'
 import LaunchIcon from '@material-ui/icons/Launch'
 import sosLogo from './socialstyrelsen.png'
-import { ButtonTooltip } from '@frontend/common'
 import colors from '../../../components/styles/colors'
+import DynamicLink from '@frontend/common/src/components/utils/DynamicLink'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,18 +25,11 @@ const useStyles = makeStyles((theme) => ({
     width: '40px',
     height: '26px',
   },
-  link: {
-    fontSize: theme.typography.pxToRem(14),
-    color: 'inherit',
-    textDecoration: 'underline',
-  },
   icon: {
     fontSize: 'small',
     marginLeft: theme.spacing(0.5),
   },
 }))
-
-//TODO: Get link information from webcert.links.json
 
 const FMBPanelFooter: React.FC = () => {
   const classes = useStyles()
@@ -44,11 +37,7 @@ const FMBPanelFooter: React.FC = () => {
   return (
     <Paper square className={classes.root}>
       <div className={classes.textWrapper}>
-        <Link className={classes.link} target="_blank" href={'https://roi.socialstyrelsen.se/fmb'}>
-          <ButtonTooltip description="Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos">
-            <Typography className={classes.link}>Läs mer om FMB hos Socialstyrelsen</Typography>
-          </ButtonTooltip>
-        </Link>
+        <DynamicLink linkKey={'fmbSoc'} />
         <LaunchIcon className={classes.icon} />
         <div className={classes.logoWrapper}>
           <img alt="" src={sosLogo} />
