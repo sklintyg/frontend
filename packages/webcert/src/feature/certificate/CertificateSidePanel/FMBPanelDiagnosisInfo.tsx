@@ -55,7 +55,7 @@ interface Props {
 
 const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagnosisIndex }) => {
   const classes = useStyles()
-  const maxTextLength = 297
+  const maxTextLength = 300
 
   return (
     <>
@@ -97,7 +97,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           {diagnosisCodes[selectedDiagnosisIndex].forms
             .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'FUNKTIONSNEDSATTNING')
             .map((form: FMBDiagnosisCodeInfoForm) => (
-              <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
+              <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
             ))}
         </div>
         <div className={classes.contentWrapper}>
@@ -106,7 +106,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
             {diagnosisCodes[selectedDiagnosisIndex].forms
               .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'AKTIVITETSBEGRANSNING')
               .map((form: FMBDiagnosisCodeInfoForm) => (
-                <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
+                <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
               ))}
           </div>
         </div>
@@ -116,7 +116,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
             {diagnosisCodes[selectedDiagnosisIndex].forms
               .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'INFORMATIONOMREHABILITERING')
               .map((form: FMBDiagnosisCodeInfoForm) => (
-                <ExpandableText key={form.name} text={form.content[0].text} maxLength={maxTextLength} />
+                <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
               ))}
           </div>
         </div>
@@ -129,7 +129,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
                 form.content
                   .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'GENERELL_INFO')
                   .map((content: FMBDiagnosisCodeInfoFormContent) => (
-                    <ExpandableText key={content.heading} text={content.text} maxLength={maxTextLength} />
+                    <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
                   ))
               )}
           </div>
@@ -143,7 +143,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
                 form.content
                   .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'SYMPTOM_PROGNOS_BEHANDLING')
                   .map((content: FMBDiagnosisCodeInfoFormContent) => (
-                    <ExpandableText key={content.heading} text={content.text} maxLength={maxTextLength} />
+                    <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
                   ))
               )}
           </div>

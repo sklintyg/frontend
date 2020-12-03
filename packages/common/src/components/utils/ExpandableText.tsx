@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit',
     textDecoration: 'underline',
     alignItems: 'bottom',
+    cursor: 'pointer',
   },
   textWrapper: {
     '& p + p': {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface Props {
-  text?: string
+  text: string
   maxLength: number
 }
 
@@ -39,11 +40,15 @@ const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
     setExpand(!expand)
   }
 
+  const trimToLastCompleteWord = (text: string, maxLength: number) => {
+    return text.substr(0, text.lastIndexOf(' ', maxLength));
+  }
+
   return (
     <>
       {!expand && text && text.length > maxLength ? (
         <div>
-          <div className={classes.textWrapper} dangerouslySetInnerHTML={{ __html: text.substring(0, maxLength) }} />
+          <div className={classes.textWrapper} dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
           <Link className={classes.link} onClick={onReadLessOrMore}>
             Läs mer
             <ExpandMore />
@@ -51,7 +56,7 @@ const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
         </div>
       ) : (
         <div>
-          <div className={classes.textWrapper} dangerouslySetInnerHTML={{ __html: text ?? '' }} />
+          <div className={classes.textWrapper} dangerouslySetInnerHTML={{ __html: text }} />
           {text && text.length > maxLength && (
             <Link className={classes.link} onClick={onReadLessOrMore}>
               Läs mindre
