@@ -6,12 +6,13 @@ import {
   getFMBDiagnosisCodeInfoError,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
+  removeFMBDiagnosisCodeInfo,
   updateFMBDiagnosisCodeInfo,
 } from '../fmb/fmbActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
 
-const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
@@ -20,18 +21,33 @@ const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: Middl
     return
   }
 
-  dispatch(
-    apiCallBegan({
-      url: '/api/fmb/' + action.payload.diagnosisCode,
-      method: 'GET',
-      onStart: getFMBDiagnosisCodeInfoStarted.type,
-      onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
-      onError: getFMBDiagnosisCodeInfoError.type,
-      onArgs: {
-        index: action.payload.index,
-      },
+  const diagnosisCodes: FMBDiagnosisCodeInfo[] = getState().ui.uiFMB.fmbDiagnosisCodes
+  diagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
+    let found = false;
+    action.payload.forEach((diagnosisCode: string) => {
+      if (diagnosisCodeInfo.icd10Code === diagnosisCode) {
+        found = true;
+      }
     })
-  )
+    if (!found) {
+      dispatch(removeFMBDiagnosisCodeInfo(diagnosisCodeInfo.icd10Code))
+    }
+  })
+
+  action.payload.forEach((diagnosisCode: string, index: number) => {
+    dispatch(
+      apiCallBegan({
+        url: '/api/fmb/' + diagnosisCode,
+        method: 'GET',
+        onStart: getFMBDiagnosisCodeInfoStarted.type,
+        onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
+        onError: getFMBDiagnosisCodeInfoError.type,
+        onArgs: {
+          index: index,
+        },
+      })
+    )
+  })
 }
 
 const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
@@ -54,7 +70,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
 
     if (action.payload.value && action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
       const valueDiagnosisList = action.payload.value as ValueDiagnosisList
-      valueDiagnosisList.list.forEach((valueDiagnosis, index) => dispatch(getFMBDiagnosisCodeInfo({diagnosisCode: valueDiagnosis.code, index})))
+      dispatch(getFMBDiagnosisCodeInfo(valueDiagnosisList.list.map(valueDiagnosis => valueDiagnosis.code)))
     }
   }
 }
