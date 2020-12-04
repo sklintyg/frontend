@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { removeFMBDiagnosisCodeInfo, updateFMBDiagnosisCodeInfo } from '../fmb/fmbActions'
+import { updateFMBDiagnosisCodeInfo, updateFMBDiagnosisCodeInfoList } from '../fmb/fmbActions'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 
 interface FMBState {
@@ -14,12 +14,6 @@ const fmbReducer = createReducer(initialState, (builder) =>
   builder
   .addCase(updateFMBDiagnosisCodeInfo, (state, action) => {
 
-    state.fmbDiagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo, index: number) => {
-      if (diagnosisCodeInfo.icd10Code === action.payload.icd10Code) {
-        state.fmbDiagnosisCodes.splice(index, 1)
-      }
-    })
-
     if (action.payload.index >= state.fmbDiagnosisCodes.length) {
       state.fmbDiagnosisCodes.push(action.payload)
     } else {
@@ -27,13 +21,9 @@ const fmbReducer = createReducer(initialState, (builder) =>
     }
 
   })
-  .addCase(removeFMBDiagnosisCodeInfo, (state, action) => {
+  .addCase(updateFMBDiagnosisCodeInfoList, (state, action) => {
 
-    state.fmbDiagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo, index: number) => {
-      if (diagnosisCodeInfo.icd10Code === action.payload) {
-        state.fmbDiagnosisCodes.splice(index, 1)
-      }
-    })
+    state.fmbDiagnosisCodes = action.payload
 
   })
 )

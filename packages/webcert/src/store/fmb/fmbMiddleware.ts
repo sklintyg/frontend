@@ -6,8 +6,8 @@ import {
   getFMBDiagnosisCodeInfoError,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
-  removeFMBDiagnosisCodeInfo,
   updateFMBDiagnosisCodeInfo,
+  updateFMBDiagnosisCodeInfoList,
 } from '../fmb/fmbActions'
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
@@ -21,29 +21,36 @@ const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getStat
     return
   }
 
+  let diagnosisCodesWithoutDuplicates = Array.from(new Set<string>(action.payload));
+  let existingDiagnosisCodes: FMBDiagnosisCodeInfo[] = []
+  let nonExistingDiagnosisCodes: {diagnosisCode: string, index: number}[] = []
   const diagnosisCodes: FMBDiagnosisCodeInfo[] = getState().ui.uiFMB.fmbDiagnosisCodes
-  diagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
-    let found = false;
-    action.payload.forEach((diagnosisCode: string) => {
-      if (diagnosisCodeInfo.icd10Code === diagnosisCode) {
-        found = true;
+
+  diagnosisCodesWithoutDuplicates.forEach((diagnosisCode: string, index: number) => {
+    let found: boolean = false
+    diagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
+      if (diagnosisCode === diagnosisCodeInfo.icd10Code) {
+        found = true
+        existingDiagnosisCodes.push(diagnosisCodeInfo)
       }
     })
     if (!found) {
-      dispatch(removeFMBDiagnosisCodeInfo(diagnosisCodeInfo.icd10Code))
-    }
+        nonExistingDiagnosisCodes.push({diagnosisCode, index})
+    } 
   })
 
-  action.payload.forEach((diagnosisCode: string, index: number) => {
+  dispatch(updateFMBDiagnosisCodeInfoList(existingDiagnosisCodes))
+
+  nonExistingDiagnosisCodes.forEach((diagnosis: {diagnosisCode: string, index: number}) => {
     dispatch(
       apiCallBegan({
-        url: '/api/fmb/' + diagnosisCode,
+        url: '/api/fmb/' + diagnosis.diagnosisCode,
         method: 'GET',
         onStart: getFMBDiagnosisCodeInfoStarted.type,
         onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
         onError: getFMBDiagnosisCodeInfoError.type,
         onArgs: {
-          index: index,
+          index: diagnosis.index,
         },
       })
     )
