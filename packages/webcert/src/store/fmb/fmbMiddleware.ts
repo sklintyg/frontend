@@ -11,7 +11,7 @@ import {
 import { updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
 
-const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
@@ -22,11 +22,14 @@ const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getStat
 
   dispatch(
     apiCallBegan({
-      url: '/api/fmb/' + action.payload,
+      url: '/api/fmb/' + action.payload.diagnosisCode,
       method: 'GET',
       onStart: getFMBDiagnosisCodeInfoStarted.type,
       onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
       onError: getFMBDiagnosisCodeInfoError.type,
+      onArgs: {
+        index: action.payload.index,
+      },
     })
   )
 }
@@ -51,7 +54,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
 
     if (action.payload.value && action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
       const valueDiagnosisList = action.payload.value as ValueDiagnosisList
-      valueDiagnosisList.list.forEach((valueDiagnosis) => dispatch(getFMBDiagnosisCodeInfo(valueDiagnosis.code)))
+      valueDiagnosisList.list.forEach((valueDiagnosis, index) => dispatch(getFMBDiagnosisCodeInfo({diagnosisCode: valueDiagnosis.code, index})))
     }
   }
 }

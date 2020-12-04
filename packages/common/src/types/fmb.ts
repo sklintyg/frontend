@@ -6,6 +6,7 @@ export interface FMBDiagnosisCodeInfo {
   referenceDescription: string
   referenceLink: string
   forms: FMBDiagnosisCodeInfoForm[]
+  index: number
 }
 
 export interface FMBDiagnosisCodeInfoForm {
