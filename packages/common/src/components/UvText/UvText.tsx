@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType, CertificateTextValue } from '@frontend/common'
+import { ValueBoolean, CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
 import grey from '@material-ui/core/colors/grey'
 import { Typography } from '@material-ui/core'
+import { ConfigUeRadioBoolean } from '../../types/certificate'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,18 +24,18 @@ interface UvTextProps {
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
   const classes = useStyles()
-
+  const questionConfig = question.config as ConfigUeRadioBoolean
   let displayText = 'Ej angivet'
 
-  switch (question.value.type) {
+  switch (question.value!.type) {
     case CertificateDataValueType.BOOLEAN:
-      const booleanValue = question.value as CertificateBooleanValue
+      const booleanValue = question.value as ValueBoolean
       if (booleanValue.selected !== null && question.visible) {
-        displayText = booleanValue.selected ? booleanValue.selectedText : booleanValue.unselectedText
+        displayText = booleanValue.selected ? questionConfig.selectedText : questionConfig.unselectedText
       }
       break
     case CertificateDataValueType.TEXT:
-      const textValue = question.value as CertificateTextValue
+      const textValue = question.value as ValueText
       if (textValue.text != null && textValue.text.length > 0) {
         displayText = textValue.text
       }

@@ -4,7 +4,7 @@ import UeRadio from '../Inputs/UeRadio'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles'
-import { UvText, CertificateDataConfig, CertificateDataElement, MandatoryIcon } from '@frontend/common'
+import { UvText, CertificateDataConfig, CertificateDataElement, MandatoryIcon, ConfigTypes } from '@frontend/common'
 import { getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import grey from '@material-ui/core/colors/grey'
 import { useEffect, useState } from 'react'
@@ -12,6 +12,7 @@ import QuestionWrapper from './QuestionWrapper'
 import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
 import UeTextArea from '../Inputs/UeTextArea'
+import { ConfigUeRadioBoolean, ConfigUeTextArea } from './../../../../../common/src/types/certificate'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -99,9 +100,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   }
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
-    if (question.config.component === 'ue-radio') return <UeRadio disabled={disabled} key={question.id} question={question} />
-    if (question.config.component === 'ue-textarea') return <UeTextArea disabled={disabled} key={question.id} question={question} />
-    return <div>Cannot find a component for: {question.config.component}</div>
+    if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
+    return <div>Cannot find a component for: {question.config.type}</div>
   }
 
   function getUnifiedViewComponent(question: CertificateDataElement) {

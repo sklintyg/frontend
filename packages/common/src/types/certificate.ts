@@ -44,45 +44,211 @@ export interface CertificateDataElement {
   readOnly: boolean
   mandatory: boolean
   config: CertificateDataConfig
-  value: CertificateDataValue
-  validation: CertificateDataValidation
+  value: Value | null
+  validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
 }
 
+// Configs
+export enum ConfigTypes {
+  CATEGORY = 'CATEGORY',
+  UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
+  UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
+  UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
+  UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
+  UE_DIAGNOSES = 'UE_DIAGNOSES',
+  UE_DROPDOWN = 'UE_DROPDOWN',
+  UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
+  UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
+  UE_TEXTAREA = 'UE_TEXTAREA',
+}
+
 export interface CertificateDataConfig {
+  header?: string
+  icon?: string
   text: string
   description: string
-  component: string
-  prop: string
+  type: ConfigTypes
+  [propName: string]: unknown
 }
 
-export enum CertificateDataValueType {
-  BOOLEAN = 'BOOLEAN',
-  TEXT = 'TEXT',
-  UNKNOWN = 'UNKNOWN',
+export interface ConfigCategory extends CertificateDataConfig {}
+
+export interface ConfigUeTextArea extends CertificateDataConfig {
+  id: string
 }
 
-export interface CertificateDataValue {
-  type: CertificateDataValueType
-}
-
-export interface CertificateBooleanValue extends CertificateDataValue {
-  selected: boolean | null
+export interface ConfigUeRadioBoolean extends CertificateDataConfig {
+  id: string
   selectedText: string
   unselectedText: string
 }
 
-export interface CertificateTextValue extends CertificateDataValue {
-  text: string
-  limit: number
+export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
+  list: ConfigUeCheckboxBoolean[]
+}
+
+export interface ConfigUeRadioBoolean extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
+  id: string
+  list: ConfigUeRadioBoolean[]
+}
+
+export interface ConfigUeCheckboxDate extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigUeCheckboxDateRange extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
+  list: ConfigUeCheckboxDate[]
+}
+
+export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
+  list: ConfigUeCheckboxDateRange[]
+}
+
+export interface ConfigUeDiagnoses extends CertificateDataConfig {
+  terminology: string[]
+}
+
+export interface ConfigUeDropdownItem extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigUeDropdown extends CertificateDataConfig {
+  list: ConfigUeDropdownItem[]
+}
+
+// Values
+export enum CertificateDataValueType {
+  BOOLEAN = 'BOOLEAN',
+  CODE = 'CODE',
+  CODE_LIST = 'CODE_LIST',
+  DATE = 'DATE',
+  DATE_LIST = 'DATE_LIST',
+  DATE_RANGE = 'DATE_RANGE',
+  DATE_RANGE_LIST = 'DATE_RANGE_LIST',
+  DIAGNOSIS = 'DIAGNOSIS',
+  DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
+  TEXT = 'TEXT',
+  UNKNOWN = 'UNKNOWN',
+}
+
+export interface Value {
+  type: CertificateDataValueType
+  [propName: string]: unknown
+}
+
+export interface ValueBoolean extends Value {
+  id: string
+  selected: boolean | null
+}
+
+export interface ValueCode extends Value {
+  id: string
+  code: string
+}
+
+export interface ValueDate extends Value {
+  id: string
+  date: string
+}
+
+export interface ValueDateList extends Value {
+  list: ValueDate
+}
+
+export interface ValueDateRange extends Value {
+  id: string
+  from: string
+  to: string
+}
+
+export interface ValueDateRangeList extends Value {
+  list: ValueDateRange
+}
+
+export interface ValueDiagnosis extends Value {
+  id: string
+  terminology: string
+  code: string
+  description: string
+}
+
+export interface ValueDiagnosisList extends Value {
+  list: ValueDiagnosis[]
+}
+
+export interface ValueCodeList extends Value {
+  list: ValueCode[]
+}
+
+export interface ValueText extends Value {
+  id: string
+  text: string | null
+}
+
+// Validation
+
+export enum CertificateDataValidationType {
+  TEXT_VALIDATION = 'TEXT_VALIDATION',
+  SHOW_VALIDATION = 'SHOW_VALIDATION',
+  HIDE_VALIDATION = 'HIDE_VALIDATION',
+  DISABLE_VALIDATION = 'DISABLE_VALIDATION',
+  ENABLE_VALIDATION = 'ENABLE_VALIDATION',
+  MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+  MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
+  DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
 }
 
 export interface CertificateDataValidation {
-  required: boolean
-  requiredProp: string
-  hideExpression: string
+  type: CertificateDataValidationType
+  questionId: string
+  expression: string
+  [propName: string]: unknown
 }
 
+export interface TextValidation extends CertificateDataValidation {
+  id: string
+  limit: number
+  // expression: string // '$6.1 > 5000' // Kan allt beskrivas med expression?
+}
+
+export interface ShowValidation extends CertificateDataValidation {}
+
+export interface HideValidation extends CertificateDataValidation {}
+
+export interface DisableValidation extends CertificateDataValidation {
+  id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
+}
+
+export interface EnableValidation extends CertificateDataValidation {}
+
+export interface MandatoryValidation extends CertificateDataValidation {}
+
+// How to handle date ranges i.e. min & max
+export interface MaxDateValidation extends CertificateDataValidation {
+  id: string
+  numberOfDays: number
+}
+
+// --------------------------------------------
 export interface ValidationError {
   id: string
   category: string

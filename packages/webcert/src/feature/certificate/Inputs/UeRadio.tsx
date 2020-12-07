@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../store/store'
-import { CertificateBooleanValue, CertificateDataElement, CertificateDataValueType } from '@frontend/common'
+import { ValueBoolean, CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean } from '@frontend/common'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common'
@@ -14,6 +14,7 @@ interface Props {
 const UeRadio: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const booleanValue = getBooleanValue(question)
+  const questionConfig = question.config as ConfigUeRadioBoolean
   const dispatch = useAppDispatch()
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
@@ -31,16 +32,16 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
       <RadioButton
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
-        label={booleanValue.selectedText}
-        name={question.config.prop + 'true'}
+        label={questionConfig.selectedText}
+        name={questionConfig.id + 'true'}
         value={true}
         checked={booleanValue.selected !== null && booleanValue.selected}
         onChange={handleChange}></RadioButton>
       <RadioButton
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
-        label={booleanValue.unselectedText}
-        name={question.config.prop + 'false'}
+        label={questionConfig.unselectedText}
+        name={questionConfig.id + 'false'}
         value={false}
         checked={booleanValue.selected !== null && !booleanValue.selected}
         onChange={handleChange}></RadioButton>
@@ -49,17 +50,17 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-function getBooleanValue(question: CertificateDataElement): CertificateBooleanValue | null {
-  if (question.value.type !== CertificateDataValueType.BOOLEAN) {
+function getBooleanValue(question: CertificateDataElement): ValueBoolean | null {
+  if (question.value?.type !== CertificateDataValueType.BOOLEAN) {
     return null
   }
-  return question.value as CertificateBooleanValue
+  return question.value as ValueBoolean
 }
 
 function getUpdatedValue(question: CertificateDataElement, selected: boolean): CertificateDataElement {
   const updatedQuestion: CertificateDataElement = { ...question }
-  updatedQuestion.value = { ...updatedQuestion.value }
-  ;(updatedQuestion.value as CertificateBooleanValue).selected = selected
+  updatedQuestion.value = { ...(updatedQuestion.value as ValueBoolean) }
+  ;(updatedQuestion.value as ValueBoolean).selected = selected
   return updatedQuestion
 }
 
