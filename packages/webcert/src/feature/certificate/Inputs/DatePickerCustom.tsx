@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker from 'react-datepicker'
 import colors from '../../../components/styles/colors'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 
 const useStyles = makeStyles((theme) => ({
   buttonRoot: {
@@ -39,25 +39,44 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface Props {
-  handleChangeRaw?: (event: React.FocusEvent<HTMLInputElement>) => void
   setDate: (date: Date) => void
-  selectedDate: Date | null
+  selectedDate?: Date
   inputRef?: any
   wrapperClass?: string
-  inputValue?: string | null
+  inputString: string | null
+  handleTextInput: (event: any) => void
 }
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedDate, inputRef, wrapperClass, inputValue }) => {
+const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
+const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
+const _format = 'yyyy-MM-dd'
+
+const DatePickerCustom: React.FC<Props> = ({ setDate, selectedDate, inputRef, wrapperClass, inputString, handleTextInput }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const classes = useStyles()
 
-  let inputString: string
+  // const validateDate = (dateString: string) => {
+  //   return getValidDate
+  // }
 
-  if (inputValue) {
-    inputString = format(inputValue, 'yyyy-MM-dd')
+  let date: Date
+
+  const getValidDate = (dateString: string) => {
+    if (_dateReg.test(dateString)) {
+      const formattedString = dateString.replace(/-/g, '')
+      return parse(formattedString, 'yyyyMMdd', new Date())
+    } else if (_dateRegDashesOptional.test(dateString)) {
+      return parse(dateString, 'yyyyMMdd', new Date())
+    }
+
+    return new Date()
+  }
+
+  if (inputString) {
+    date = getValidDate(inputString)
   } else {
-    inputString = inputValue as string
+    date = new Date()
   }
 
   // {
@@ -79,54 +98,53 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, handleChangeRaw, selectedD
   //   /> */
   // }
 
-  const Input = ({ onChange, value, id, onClick }: any) => (
-    <>
-      <input
-        type="text"
-        ref={inputRef}
-        onChange={handleChangeRaw}
-        placeholder="åååå-mm-dd"
-        value={inputValue ? inputString : value}
-        id={id}
-        key="hejsan"
-        onClick={onClick}
-      />
-      <Button
-        classes={{ root: classes.buttonRoot, startIcon: classes.startIcon }}
-        onClick={() => setOpen(true)}
-        variant="contained"
-        color="secondary"
-        startIcon={<DateRangeIcon />}></Button>
-    </>
-  )
+  // const Input = ({ onChange, value, id, onClick }: any) => (
+  //   <>
+  //     <input
+  //       type="text"
+  //       ref={inputRef}
+  //       onChange={handleChangeRaw}
+  //       placeholder="åååå-mm-dd"
+  //       value={inputString ? inputString : value}
+  //       id={id}
+  //       key="hejsan"
+  //       onClick={onClick}
+  //     />
+  //     <Button
+  //       classes={{ root: classes.buttonRoot, startIcon: classes.startIcon }}
+  //       onClick={() => setOpen(true)}
+  //       variant="contained"
+  //       color="secondary"
+  //       startIcon={<DateRangeIcon />}></Button>
+  //   </>
+  // )
 
   return (
     <div className={wrapperClass}>
+      <input
+        maxLength={10}
+        type="text"
+        ref={inputRef}
+        onChange={handleTextInput}
+        placeholder="åååå-mm-dd"
+        value={inputString ? inputString : ''}
+      />
       <DatePicker
         shouldCloseOnSelect={true}
         onChange={() => {}}
-        dateFormat="yyyy-MM-dd"
+        dateFormat={_format}
         customInput={
-          <>
-            <input
-              type="text"
-              ref={inputRef}
-              onChange={handleChangeRaw}
-              placeholder="åååå-mm-dd"
-              value={inputValue ? inputString : selectedDate?.toString()}
-            />
-            <Button
-              classes={{ root: classes.buttonRoot, startIcon: classes.startIcon }}
-              onClick={() => setOpen(true)}
-              variant="contained"
-              color="secondary"
-              startIcon={<DateRangeIcon />}></Button>
-          </>
+          <Button
+            classes={{ root: classes.buttonRoot, startIcon: classes.startIcon }}
+            onClick={() => setOpen(true)}
+            variant="contained"
+            color="secondary"
+            onClickCapture={() => setOpen(true)}
+            startIcon={<DateRangeIcon />}></Button>
         }
-        onChangeRaw={(e) => handleChangeRaw && handleChangeRaw(e)}
         onClickOutside={() => setOpen(false)}
         open={open}
-        selected={selectedDate}
+        selected={date}
         onSelect={(date: any, event: any) => {
           setOpen(false)
           setDate(date)

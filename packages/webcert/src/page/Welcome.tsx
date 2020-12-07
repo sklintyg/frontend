@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import DatePickerCustom from '../feature/certificate/Inputs/DateRangePicker'
 import Assessment from '../feature/certificate/Question/Assessment'
 import { loginUser } from '../store/user/userActions'
+import { MultipleDateRanges } from './../feature/certificate/Inputs/MultipleDateRanges'
 
 interface JsonUser extends User {
   origin: string
@@ -134,7 +135,7 @@ const Welcome = () => {
             <Assessment></Assessment>
           </Grid>
           <Grid item xs={12}>
-            <DatePickerCustom></DatePickerCustom>
+            <MultipleDateRanges />
           </Grid>
           <Grid item xs={12}>
             <Typography className={classes.mainTitle} variant="h1">

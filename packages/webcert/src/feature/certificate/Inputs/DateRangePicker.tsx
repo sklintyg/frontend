@@ -1,7 +1,7 @@
 import { Button, Checkbox, FormControlLabel, makeStyles, TextField, Typography } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import DatePickerCustom from './DatePickerCustom'
-import { parse, addDays, differenceInCalendarDays, format, isEqual } from 'date-fns'
+import { parse, addDays, differenceInCalendarDays, format, isEqual, isValid } from 'date-fns'
 import ReactDatePicker from 'react-datepicker'
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined'
 import colors from '../../../components/styles/colors'
@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
     },
   },
-
   checkboxRoot: {
     marginRight: 0,
   },
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-const _format = 'YYYY-MM-DD'
+const _format = 'yyyy-MM-dd'
 
 const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
 const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
@@ -74,13 +73,16 @@ const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
-const DateRangePicker = () => {
-  const [dateChecked, setChecked] = useState(false)
-  const [fromDate, setFromDate] = useState<Date | null>(null)
-  const [toDate, setToDate] = useState<Date | null>(null)
-  const [toDateInput, setToDateInput] = useState('')
-  const [daysBetweenDates, setDaysBetweenDates] = useState<number | null>(null)
+interface Props {
+  label: string
+}
+
+const DateRangePicker: React.FC<Props> = ({ label }) => {
   const classes = useStyles()
+  const [dateChecked, setChecked] = useState(false)
+  const [fromDateString, setFromDateString] = useState<string | null>(null)
+  const [toDateString, setToDateString] = useState<string | null>(null)
+  const [daysBetweenDates, setDaysBetweenDates] = useState<number | null>(null)
   const fromDateRef = useRef<ReactDatePicker | null>(null)
   const toDateRef = useRef<HTMLDivElement | null>(null)
 
@@ -112,8 +114,9 @@ const DateRangePicker = () => {
     return null
   }
 
-  const handleFromTextInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleFromTextInputChange = (event: any) => {
     const { value } = event.target
+    setFromDateString(value ?? null)
     //TODO: Denna verkar triggas när man väljer i menyn också. Nedan check borde lösa detta
     if (!value) {
       return
@@ -122,31 +125,45 @@ const DateRangePicker = () => {
     console.log('handleFromTextInputChange')
 
     console.log(event.target.value)
-    if (event.target.value === '') {
-      //TODO: Fixa så fokus inte släpps om man nullar datumet i statet
+    // if (event.target.value === '') {
+    //   //TODO: Fixa så fokus inte släpps om man nullar datumet i statet
 
-      setFromDate(null)
-      return
-    }
+    //   setFromDate(null)
+    //   return
+    // }
 
     const date = getValidDate(value)
 
-    if (date) {
+    if (isValid(date)) {
       console.log('setting from date', date)
-      setFromDate(date)
+      const dateString = format(date!, _format)
+      setFromDateString(dateString)
 
-      if (toDate) {
-        calculcateDifferenceInCalendarDays(date, toDate)
+      if (toDateString) {
+        // calculcateDifferenceInCalendarDays(date, toDate)
       }
     }
   }
 
+  const handleDatePickerSelectFrom = (date: Date) => {
+    setFromDateString(format(date, _format))
+  }
+
+  const handleDatePickerSelectTo = (date: Date) => {
+    setToDateString(format(date, _format))
+  }
+
   const handleToTextInputChange = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setToDateInput(value)
+    setToDateString(value)
 
     console.log('value', value)
-    console.log(toDateRef.current)
+
+    if (!value || !fromDateString || !getValidDate(fromDateString)) {
+      return
+    }
+
+    const fromDate = getValidDate(fromDateString)!
 
     //TODO: Om man skriver tex 1v och sen 1v igen så står 1v kvar. något med att det är samma datum?
     const inputMatchesRegex = regexArray.some((reg) => reg.test(value))
@@ -157,26 +174,17 @@ const DateRangePicker = () => {
       if (numberOfDaysToAdd) {
         //Befintliga webcert drar bort en dag i beräkningen
         const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        console.log('jämfördatum', newDate == toDate)
-        console.log('nya', newDate)
-        console.log('gamla', toDate)
-        // console.log('setting new date', newDate, toDate)
-        if (toDate && isEqual(newDate, toDate)) {
-          // setToDateInput(format(newDate, 'yyyy-MM-dd'))
-        }
-        setToDate(newDate)
-        // setToDateInput(format(newDate, 'yyyy-MM-dd'))
-        calculcateDifferenceInCalendarDays(fromDate, newDate)
+        setToDateString(format(newDate, _format))
+        updateDaysBetween(fromDate, newDate)
       }
     } else if (_dateReg.test(value) || _dateRegDashesOptional.test(value)) {
-      const date = getValidDate(value)
+      const newDate = getValidDate(value)
 
-      if (date) {
-        console.log('setting to date', date)
-        setToDate(date)
+      if (newDate) {
+        setToDateString(format(newDate, _format))
+        updateDaysBetween(fromDate, newDate)
       }
     }
-    // setToDateInput(value)
   }
 
   const updateDaysBetween = (startDate: Date, endDate: Date) => {
@@ -189,8 +197,6 @@ const DateRangePicker = () => {
   }
 
   const calculcateDifferenceInCalendarDays = (startDate: Date, endDate: Date) => {
-    console.log('startdate2', startDate)
-    console.log('fromdate', endDate)
     return differenceInCalendarDays(startDate, endDate)
   }
 
@@ -205,7 +211,7 @@ const DateRangePicker = () => {
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     if (checked) {
-      setFromDate(new Date())
+      setFromDateString(format(new Date(), _format))
     } else {
       reset()
     }
@@ -214,8 +220,8 @@ const DateRangePicker = () => {
   }
 
   const reset = () => {
-    setFromDate(null)
-    setToDate(null)
+    setFromDateString(null)
+    setToDateString(null)
     setDaysBetweenDates(null)
   }
 
@@ -225,27 +231,21 @@ const DateRangePicker = () => {
         <div>
           <FormControlLabel
             control={<Checkbox classes={{ checked: classes.checked }} checked={dateChecked} onChange={handleCheckboxClick} />}
-            label="25%"
+            label={label}
           />
         </div>
         <div className={classes.datesWrapper}>
           <Typography>Fr.o.m</Typography>
-          <DatePickerCustom
-            // inputRef={fromDateRef}
-            selectedDate={fromDate}
-            setDate={(date) => setFromDate(date)}
-            handleChangeRaw={handleFromTextInputChange}
-          />
+          <DatePickerCustom inputString={fromDateString} setDate={handleDatePickerSelectFrom} handleTextInput={handleFromTextInputChange} />
         </div>
         <div className={classes.datesWrapper}>
           <Typography>t.o.m</Typography>
           <DatePickerCustom
-            key={'xellerid'}
-            inputValue={toDateInput}
+            inputString={toDateString}
+            setDate={handleDatePickerSelectTo}
             inputRef={toDateRef}
-            selectedDate={toDate}
-            setDate={(date) => setToDate(date)}
-            handleChangeRaw={handleToTextInputChange}
+            selectedDate={new Date()}
+            handleTextInput={handleToTextInputChange}
           />
         </div>
       </div>
