@@ -2,8 +2,8 @@ import { makeStyles, Paper, Typography, Link } from '@material-ui/core'
 import React from 'react'
 import SchoolIcon from '@material-ui/icons/School'
 import colors from '../../../components/styles/colors'
-import DynamicLink from '@frontend/common/src/components/utils/DynamicLink'
 import LaunchIcon from '@material-ui/icons/Launch'
+import WCDynamicLink from '../../../components/utils/WCDynamicLink'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ const AboutCertificatePanelFooter = () => {
   return (
     <Paper square className={classes.root}>
       <SchoolIcon className={classes.schoolIcon} />
-      <DynamicLink linkKey={'ineraIntygsskola'} />
+      <WCDynamicLink linkKey={'ineraIntygsskola'} />
       <LaunchIcon className={classes.launchIcon} />
     </Paper>
   )

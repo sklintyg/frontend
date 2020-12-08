@@ -1,6 +1,18 @@
 import { Link, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { ButtonTooltip, FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContent } from '@frontend/common'
+import {
+  ButtonTooltip,
+  FMB_ACTIVITY_LIMITATION,
+  FMB_WORK_CAPACITY,
+  FMB_DIAGNOSIS,
+  FMB_DISABILITY,
+  FMB_GENERAL_INFO,
+  FMB_REHABILITATION_INFORMATION,
+  FMB_SYMPTOM_PROGNOSIS_TREATMENT,
+  FMBDiagnosisCodeInfo,
+  FMBDiagnosisCodeInfoForm,
+  FMBDiagnosisCodeInfoFormContent,
+} from '@frontend/common'
 import ExpandableText from '@frontend/common/src/components/utils/ExpandableText'
 import LaunchIcon from '@material-ui/icons/Launch'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
@@ -70,7 +82,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           </Typography>
           <ul>
             {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'ARBETSFORMAGA')
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_WORK_CAPACITY)
               .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content[0].list?.map((item: string, index: number) => (
                   <li key={index} className={classes.contentText}>
@@ -95,7 +107,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
         <div className={classes.contentWrapper}>
           <Typography className={classes.subHeader}>Funktionsnedsättning</Typography>
           {diagnosisCodes[selectedDiagnosisIndex].forms
-            .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'FUNKTIONSNEDSATTNING')
+            .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DISABILITY)
             .map((form: FMBDiagnosisCodeInfoForm) => (
               <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
             ))}
@@ -104,7 +116,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           <Typography className={classes.subHeader}>Aktivitetsbegränsning</Typography>
           <div>
             {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'AKTIVITETSBEGRANSNING')
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_ACTIVITY_LIMITATION)
               .map((form: FMBDiagnosisCodeInfoForm) => (
                 <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
               ))}
@@ -114,7 +126,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           <Typography className={classes.subHeader}>Information om rehabilitering</Typography>
           <div>
             {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'INFORMATIONOMREHABILITERING')
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_REHABILITATION_INFORMATION)
               .map((form: FMBDiagnosisCodeInfoForm) => (
                 <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
               ))}
@@ -124,10 +136,10 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           <Typography className={classes.subHeader}>Försäkringsmedicinsk information</Typography>
           <div>
             {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'DIAGNOS')
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
               .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content
-                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'GENERELL_INFO')
+                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_GENERAL_INFO)
                   .map((content: FMBDiagnosisCodeInfoFormContent) => (
                     <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
                   ))
@@ -138,10 +150,10 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           <Typography className={classes.subHeader}>Symtom, prognos, behandling</Typography>
           <div>
             {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === 'DIAGNOS')
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
               .map((form: FMBDiagnosisCodeInfoForm) =>
                 form.content
-                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === 'SYMPTOM_PROGNOS_BEHANDLING')
+                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_SYMPTOM_PROGNOSIS_TREATMENT)
                   .map((content: FMBDiagnosisCodeInfoFormContent) => (
                     <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
                   ))

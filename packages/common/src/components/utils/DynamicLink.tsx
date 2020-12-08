@@ -1,9 +1,7 @@
 import { Link, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { ButtonTooltip } from '@frontend/common'
-import { useSelector } from 'react-redux'
-import { getDynamicLink } from '@frontend/webcert/src/store/utils/utilsSelectors'
-import colors from '@frontend/webcert/src/components/styles/colors'
+import { DynamicLinkData } from '../../types/utils'
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -14,17 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
   missingLink: {
     fontSize: theme.typography.pxToRem(14),
-    color: colors.IA_COLOR_16,
   },
 }))
 
 interface Props {
-  linkKey: string
+  link: DynamicLinkData
 }
 
-const DynamicLink: React.FC<Props> = ({ linkKey }) => {
+const DynamicLink: React.FC<Props> = ({ link }) => {
   const classes = useStyles()
-  const link = useSelector(getDynamicLink(linkKey))
 
   return (
     <>
@@ -39,7 +35,7 @@ const DynamicLink: React.FC<Props> = ({ linkKey }) => {
           )}
         </Link>
       ) : (
-        <Typography className={classes.missingLink}>{'WARNING: could not resolve dynamic link: ' + linkKey}</Typography>
+        <Typography className={classes.missingLink}>{'WARNING: could not resolve dynamic link'}</Typography>
       )}
     </>
   )

@@ -3,7 +3,7 @@ import React from 'react'
 import LaunchIcon from '@material-ui/icons/Launch'
 import sosLogo from './socialstyrelsen.png'
 import colors from '../../../components/styles/colors'
-import DynamicLink from '@frontend/common/src/components/utils/DynamicLink'
+import WCDynamicLink from '../../../components/utils/WCDynamicLink'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +37,7 @@ const FMBPanelFooter: React.FC = () => {
   return (
     <Paper square className={classes.root}>
       <div className={classes.textWrapper}>
-        <DynamicLink linkKey={'fmbSoc'} />
+        <WCDynamicLink linkKey={'fmbSoc'} />
         <LaunchIcon className={classes.icon} />
         <div className={classes.logoWrapper}>
           <img alt="" src={sosLogo} />

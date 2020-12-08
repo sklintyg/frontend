@@ -8,9 +8,17 @@ import {
   getFMBDiagnosisCodeInfoSuccess,
   updateFMBDiagnosisCodeInfo,
   updateFMBDiagnosisCodeInfoList,
+  updateFMBPanelActive,
 } from '../fmb/fmbActions'
-import { updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import {
+  CertificateDataValueType,
+  FMBDiagnosisCodeInfo,
+  getResourceLink,
+  ResourceLinkType,
+  Value,
+  ValueDiagnosisList,
+} from '@frontend/common'
 
 const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
@@ -21,13 +29,13 @@ const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getStat
     return
   }
 
-  let diagnosisCodesWithoutDuplicates = Array.from(new Set<string>(action.payload));
-  let existingDiagnosisCodes: FMBDiagnosisCodeInfo[] = []
-  let nonExistingDiagnosisCodes: {diagnosisCode: string, index: number}[] = []
+  const diagnosisCodesWithoutDuplicates = Array.from(new Set<string>(action.payload))
+  const existingDiagnosisCodes: FMBDiagnosisCodeInfo[] = []
+  const nonExistingDiagnosisCodes: { diagnosisCode: string; index: number }[] = []
   const diagnosisCodes: FMBDiagnosisCodeInfo[] = getState().ui.uiFMB.fmbDiagnosisCodes
 
   diagnosisCodesWithoutDuplicates.forEach((diagnosisCode: string, index: number) => {
-    let found: boolean = false
+    let found = false
     diagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
       if (diagnosisCode === diagnosisCodeInfo.icd10Code) {
         found = true
@@ -35,13 +43,13 @@ const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getStat
       }
     })
     if (!found) {
-        nonExistingDiagnosisCodes.push({diagnosisCode, index})
-    } 
+      nonExistingDiagnosisCodes.push({ diagnosisCode, index })
+    }
   })
 
   dispatch(updateFMBDiagnosisCodeInfoList(existingDiagnosisCodes))
 
-  nonExistingDiagnosisCodes.forEach((diagnosis: {diagnosisCode: string, index: number}) => {
+  nonExistingDiagnosisCodes.forEach((diagnosis: { diagnosisCode: string; index: number }) => {
     dispatch(
       apiCallBegan({
         url: '/api/fmb/' + diagnosis.diagnosisCode,
@@ -67,7 +75,27 @@ const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
-const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => {
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!updateCertificate.match(action)) {
+    return
+  }
+
+  const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)
+  dispatch(updateFMBPanelActive(fmbPanelActive !== undefined))
+
+  if (!fmbPanelActive) {
+    return
+  }
+
+  for (const questionId in action.payload.data) {
+    const question = action.payload.data[questionId]
+    getFMBDiagnosisCodes(question.value, dispatch)
+  }
+}
+
+const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
   return (action: AnyAction): void => {
     next(action)
 
@@ -75,11 +103,24 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
       return
     }
 
-    if (action.payload.value && action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-      const valueDiagnosisList = action.payload.value as ValueDiagnosisList
-      dispatch(getFMBDiagnosisCodeInfo(valueDiagnosisList.list.map(valueDiagnosis => valueDiagnosis.code)))
+    if (!getState().ui.uiFMB.fmbPanelActive) {
+      return
     }
+
+    getFMBDiagnosisCodes(action.payload.value, dispatch)
   }
 }
 
-export const fmbMiddleware = [handleGetFMBDiagnosisCodeInfo, handleGetFMBDiagnosisCodeInfoSuccess, handleUpdateCertificateDataElement]
+function getFMBDiagnosisCodes(value: Value | null, dispatch: Dispatch): void {
+  if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+    const valueDiagnosisList = value as ValueDiagnosisList
+    dispatch(getFMBDiagnosisCodeInfo(valueDiagnosisList.list.map((valueDiagnosis) => valueDiagnosis.code)))
+  }
+}
+
+export const fmbMiddleware = [
+  handleGetFMBDiagnosisCodeInfo,
+  handleGetFMBDiagnosisCodeInfoSuccess,
+  handleUpdateCertificate,
+  handleUpdateCertificateDataElement,
+]

@@ -12,7 +12,7 @@ export interface User {
   preferences: { [key: string]: string } | null
 }
 
-export interface KeyValuePair {
+export interface UserProperty {
   key: string
   value: string
 }

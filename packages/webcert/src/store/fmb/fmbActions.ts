@@ -13,3 +13,4 @@ export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>('[F
 
 export const updateFMBDiagnosisCodeInfoList = createAction<FMBDiagnosisCodeInfo[]>('[FMB] Update diagnosis code info list')
 
+export const updateFMBPanelActive = createAction<boolean>('[FMB] Update panel active')
