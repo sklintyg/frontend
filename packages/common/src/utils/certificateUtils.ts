@@ -2,9 +2,9 @@ import { ResourceLink } from './../types/resourceLink'
 import { CertificateEvent, CertificateMetadata, CertificateStatus, CertificateEventType } from '..'
 import { ResourceLinkType } from '../types/resourceLink'
 
-export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.SIGNED
+export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.SIGNED
 
-export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED
+export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
 
 export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   const {
@@ -18,15 +18,14 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   return false
 }
 
-export const isLocked = (certificateMetadata: CertificateMetadata) => certificateMetadata.certificateStatus === CertificateStatus.LOCKED ||
-certificateMetadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
+export const isLocked = (certificateMetadata: CertificateMetadata) =>
+  certificateMetadata.status === CertificateStatus.LOCKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
 export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean) =>
-  certificateMetadata.certificateStatus === CertificateStatus.UNSIGNED && !isValidating
+  certificateMetadata.status === CertificateStatus.UNSIGNED && !isValidating
 
 export const isRevoked = (certificateMetadata: CertificateMetadata) =>
-  certificateMetadata.certificateStatus === CertificateStatus.REVOKED ||
-  certificateMetadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
+  certificateMetadata.status === CertificateStatus.REVOKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
 export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]) => {
   return historyEntries.some((entry) => entry.relatedCertificateStatus === CertificateStatus.REVOKED)
@@ -55,7 +54,7 @@ export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceL
   resourceLinks.find((link) => link.type === wanted)!
 
 export const isDisabled = (certificateMetadata: CertificateMetadata) => {
-  return certificateMetadata.certificateStatus === CertificateStatus.LOCKED
+  return certificateMetadata.status === CertificateStatus.LOCKED
 }
 
 export const isParentLocked = (certificateMetadata: CertificateMetadata) => {
