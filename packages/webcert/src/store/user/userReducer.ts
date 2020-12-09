@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { clearRedirect, loginUserSuccess, updateRedirect, updateUser } from './userActions'
+import { clearRedirect, loginUserSuccess, updateRedirect, updateUser, updateUserPreference } from './userActions'
 import { History, LocationState } from 'history'
 import { User } from '@frontend/common'
 
@@ -45,6 +45,17 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateUser, (state, action) => {
       state.user = action.payload
+    })
+    .addCase(updateUserPreference, (state, action) => {
+      if (!state.user) {
+        return
+      }
+
+      if (!state.user.preferences) {
+        state.user.preferences = {}
+      }
+
+      state.user.preferences[action.payload.key] = action.payload.value
     })
 )
 
