@@ -19,10 +19,9 @@ export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCert
 export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
 
 export const getIsUnsigned = () => (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.UNSIGNED
+  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.UNSIGNED
 
-export const getIsSigned = () => (state: RootState) =>
-  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.SIGNED
+export const getIsSigned = () => (state: RootState) => state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.SIGNED
 
 export const getUnit = () => (state: RootState) => {
   if (!state.ui.uiCertificate.certificate?.metadata.unit) {
@@ -130,8 +129,8 @@ export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate
 export const getResourceLinks = (state: RootState) => state.ui.uiCertificate.certificate?.links ?? []
 
 export const getIsLocked = (state: RootState) =>
-  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.LOCKED ||
-  state.ui.uiCertificate.certificate?.metadata.certificateStatus === CertificateStatus.LOCKED_REVOKED
+  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||
+  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED_REVOKED
 
 export const getIsEditable = (state: RootState) =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)

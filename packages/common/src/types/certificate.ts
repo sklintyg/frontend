@@ -15,12 +15,12 @@ export enum CertificateStatus {
 }
 
 export interface CertificateMetadata {
-  certificateId: string
-  certificateName: string
-  certificateDescription: string
-  certificateType: string
-  certificateTypeVersion: string
-  certificateStatus: CertificateStatus
+  id: string
+  name: string
+  description: string
+  type: string
+  typeVersion: string
+  status: CertificateStatus
   created: string
   testCertificate: boolean
   forwarded: boolean

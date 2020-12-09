@@ -50,14 +50,14 @@ const AboutCertificatePanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, mi
             <Typography className={classes.certificateType}>
               {certMetaData && (
                 <>
-                  {certMetaData.certificateName}
+                  {certMetaData.name}
                   <span className={classes.certificateVersion}>
-                    {certMetaData.certificateType} {certMetaData.certificateTypeVersion}
+                    {certMetaData.type} {certMetaData.typeVersion}
                   </span>
                 </>
               )}
             </Typography>
-            <Typography className={classes.contentText}>{certMetaData && certMetaData.certificateDescription}</Typography>
+            <Typography className={classes.contentText}>{certMetaData && certMetaData.description}</Typography>
           </div>
           <AboutCertificatePanelFooter />
         </>
