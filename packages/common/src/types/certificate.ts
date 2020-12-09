@@ -15,7 +15,7 @@ export enum CertificateStatus {
 }
 
 export interface CertificateMetadata {
-  certificateId: string
+  id: string
   certificateName: string
   certificateDescription: string
   certificateType: string
@@ -181,7 +181,7 @@ export interface ValueDateRange extends Value {
 }
 
 export interface ValueDateRangeList extends Value {
-  list: ValueDateRange
+  list: ValueDateRange[]
 }
 
 export interface ValueDiagnosis extends Value {
@@ -268,7 +268,7 @@ export interface Unit {
 }
 
 export interface Patient {
-  personId: string
+  personId: PersonId
   firstName: string
   lastName: string
   fullName: string
@@ -276,6 +276,11 @@ export interface Patient {
   testIndicated: boolean
   protectedPerson: boolean
   deceased: boolean
+}
+
+export interface PersonId {
+  type: string
+  id: string
 }
 
 export interface Staff {

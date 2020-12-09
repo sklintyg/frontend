@@ -41,17 +41,16 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   setDate: (date: Date) => void
   selectedDate?: Date
-  inputRef?: any
   wrapperClass?: string
   inputString: string | null
-  handleTextInput: (event: any) => void
+  handleTextInput: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 const _format = 'yyyy-MM-dd'
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, selectedDate, inputRef, wrapperClass, inputString, handleTextInput }) => {
+const DatePickerCustom: React.FC<Props> = ({ setDate, selectedDate, wrapperClass, inputString, handleTextInput }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const classes = useStyles()
@@ -121,14 +120,7 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, selectedDate, inputRef, wr
 
   return (
     <div className={wrapperClass}>
-      <input
-        maxLength={10}
-        type="text"
-        ref={inputRef}
-        onChange={handleTextInput}
-        placeholder="åååå-mm-dd"
-        value={inputString ? inputString : ''}
-      />
+      <input maxLength={10} type="text" onChange={handleTextInput} placeholder="åååå-mm-dd" value={inputString ? inputString : ''} />
       <DatePicker
         shouldCloseOnSelect={true}
         onChange={() => {}}

@@ -22,13 +22,15 @@ interface Props {
 const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
   const classes = useStyles()
 
+  console.log(certificateMetadata.patient.personId)
+
   return (
     <Box flexGrow="1">
       <Typography variant={'h2'} className={classes.certificateName}>
         {certificateMetadata.certificateName}
       </Typography>
       <Typography variant="h3" className={classes.patientTitle}>
-        {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
+        {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId.id}
       </Typography>
     </Box>
   )

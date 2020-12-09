@@ -116,7 +116,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
   if (action.payload.metadata.certificateStatus === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
-  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
+  dispatch(getCertificateEvents(action.payload.metadata.id))
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -195,7 +195,7 @@ const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
 
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${certificate.metadata.certificateId}/${certificate.metadata.version}/forward`,
+      url: `/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}/forward`,
       method: 'POST',
       data: {
         forward: action.payload,
@@ -218,7 +218,7 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
   dispatch(hideSpinner())
   dispatch(forwardCertificateCompleted())
   dispatch(validateCertificate(action.payload))
-  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
+  dispatch(getCertificateEvents(action.payload.metadata.id))
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -244,7 +244,7 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId + '/sign',
+      url: '/api/certificate/' + certificate.metadata.id + '/sign',
       method: 'POST',
       data: certificate,
       onSuccess: signCertificateSuccess.type,
@@ -264,7 +264,7 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
   dispatch(signCertificateCompleted())
-  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
+  dispatch(getCertificateEvents(action.payload.metadata.id))
 }
 
 const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -280,7 +280,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId + '/revoke',
+      url: '/api/certificate/' + certificate.metadata.id + '/revoke',
       method: 'POST',
       data: action.payload,
       onStart: revokeCertificateStarted.type,
@@ -302,7 +302,7 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getSta
   dispatch(updateCertificate(action.payload))
   dispatch(hideSpinner())
   dispatch(revokeCertificateCompleted())
-  dispatch(getCertificateEvents(action.payload.metadata.certificateId))
+  dispatch(getCertificateEvents(action.payload.metadata.id))
 }
 
 const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -318,7 +318,7 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId + '/replace',
+      url: '/api/certificate/' + certificate.metadata.id + '/replace',
       method: 'POST',
       data: {
         certificateType: certificate.metadata.certificateType,
@@ -357,7 +357,7 @@ const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId + '/copy',
+      url: '/api/certificate/' + certificate.metadata.id + '/copy',
       method: 'POST',
       data: {
         certificateType: certificate.metadata.certificateType,
@@ -425,7 +425,7 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId,
+      url: '/api/certificate/' + certificate.metadata.id,
       method: 'PUT',
       data: certificate,
       onStart: autoSaveCertificateStarted.type,
@@ -456,7 +456,7 @@ const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewar
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + action.payload.metadata.certificateId + '/validate',
+      url: '/api/certificate/' + action.payload.metadata.id + '/validate',
       method: 'POST',
       data: action.payload,
       onStart: validateCertificateStarted.type,
@@ -484,7 +484,7 @@ const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     return
   }
 
-  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.certificateType}/${action.payload.certificateId}/pdf`
+  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.certificateType}/${action.payload.id}/pdf`
   window.open(printUrl, '_self')
 }
 
