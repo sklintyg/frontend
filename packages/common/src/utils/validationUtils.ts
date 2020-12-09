@@ -1,3 +1,4 @@
+import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
   Certificate,
@@ -10,6 +11,8 @@ import {
   ValueBoolean,
   ValueCodeList,
   ValueText,
+  ValueDateRangeList,
+  getValidDate,
 } from '..'
 
 export const parseExpression = (
@@ -17,6 +20,8 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
+  if (!expression) return false
+
   const adjustedExpression = expression.replace(/\|\|/g, 'or')
 
   function convertToValue(id: string, type: CertificateDataValidationType): number {
@@ -41,6 +46,18 @@ export const parseExpression = (
         const valueCodeList = element.value as ValueCodeList
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
+
+      case CertificateDataValueType.DATE_RANGE_LIST:
+        const dateRangeList = (element.value as ValueDateRangeList).list
+        const dateRange = dateRangeList.find((dateR) => dateR.id === adjustedId)
+
+        if (!dateRange || dateRange?.from === null || dateRange?.to === null) {
+          return 0
+        } else {
+          const fromDate = getValidDate(dateRange.from)
+          const toDate = getValidDate(dateRange.to)
+          return isValid(fromDate) && isValid(toDate) ? 1 : 0
+        }
 
       default:
         return 0
