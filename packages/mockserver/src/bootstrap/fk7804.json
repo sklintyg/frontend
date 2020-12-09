@@ -133,6 +133,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "1",
           "expression": "$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU"
         },
         {
@@ -179,6 +180,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "1.1",
           "expression": "$annatGrundForMUBeskrivning"
         },
         {
@@ -278,6 +280,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "28",
           "expression": "$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER"
         }
       ],
@@ -304,6 +307,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "29",
           "expression": "$nuvarandeArbete"
         },
         {
@@ -369,6 +373,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "6",
           "expression": "$1"
         }
       ],
@@ -415,6 +420,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "35",
           "expression": "$funktionsnedsattning"
         }
       ],
@@ -442,6 +448,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "17",
           "expression": "$aktivitetsbegransning"
         }
       ],
@@ -560,6 +567,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "32",
           "expression": "$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT"
         }
       ],
@@ -762,6 +770,7 @@
         },
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "39",
           "expression": "$STOR_SANNOLIKHET || $ATER_X_ANTAL_DGR || $SANNOLIKT_INTE || $PROGNOS_OKLAR"
         }
       ],
@@ -818,6 +827,7 @@
         },
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "39.1",
           "expression": "$TRETTIO_DGR || $SEXTIO_DGR || $NITTIO_DGR || $HUNDRAATTIO_DAGAR || $TREHUNDRASEXTIOFEM_DAGAR"
         },
         {
@@ -831,7 +841,7 @@
     "atgarder": {
       "id": "atgarder",
       "parent": null,
-      "index": 17,
+      "index": 26,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -850,7 +860,7 @@
     "40": {
       "id": "40",
       "parent": "atgarder",
-      "index": 16,
+      "index": 27,
       "visible": true,
       "readOnly": false,
       "mandatory": true,
@@ -912,6 +922,7 @@
       "validation": [
         {
           "type": "MANDATORY_VALIDATION",
+          "questionId": "40",
           "expression": "$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER"
         },
         {
@@ -945,7 +956,7 @@
     "44": {
       "id": "44",
       "parent": "atgarder",
-      "index": 17,
+      "index": 28,
       "visible": false,
       "readOnly": false,
       "mandatory": false,
@@ -972,7 +983,7 @@
     "ovrigt": {
       "id": "ovrigt",
       "parent": null,
-      "index": 17,
+      "index": 29,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -985,7 +996,7 @@
     "25": {
       "id": "25",
       "parent": "ovrigt",
-      "index": 16,
+      "index": 30,
       "visible": true,
       "readOnly": false,
       "mandatory": false,
@@ -1012,7 +1023,7 @@
     "kontakt": {
       "id": "kontakt",
       "parent": null,
-      "index": 17,
+      "index": 31,
       "visible": true,
       "readOnly": false,
       "config": {
@@ -1031,7 +1042,7 @@
     "26": {
       "id": "26",
       "parent": "kontakt",
-      "index": 16,
+      "index": 32,
       "visible": true,
       "readOnly": false,
       "mandatory": false,
@@ -1053,7 +1064,7 @@
     "26.2": {
       "id": "26.2",
       "parent": "kontakt",
-      "index": 16,
+      "index": 33,
       "visible": false,
       "readOnly": false,
       "mandatory": false,

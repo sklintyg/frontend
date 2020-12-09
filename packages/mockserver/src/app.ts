@@ -1,5 +1,5 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
-import bootstrapCertificate from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
+import bootstrapCertificate from './bootstrap/fk7804.json'
 import bootstrapUsers from './bootstrap/users.json'
 import {
   Certificate,
