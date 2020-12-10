@@ -46,7 +46,7 @@ const CertificatePage: React.FC<Props> = (props) => {
       ) : (
         <>
           <CertificateHeader />
-          <div style={{ height: `calc(100vh - 180px` }} className={`ic-container`}>
+          <div style={{ height: `calc(100vh - 230px` }} className={`ic-container`}>
             <div style={{ height: '100%' }} className="iu-grid-cols iu-grid-cols-12">
               <div style={{ overflowY: 'auto', height: '100%' }} className="iu-grid-span-8">
                 <Certificate />

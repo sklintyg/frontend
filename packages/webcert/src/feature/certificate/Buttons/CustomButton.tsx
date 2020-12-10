@@ -83,7 +83,7 @@ const CustomButton: React.FC<Props> = (props) => {
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''}>
       <button className={'ic-button ic-button--rounded ' + addedClass} type="button" disabled={props.disabled} onClick={props.onClick}>
-        <span className="iu-mr-200" style={{ display: 'inline-block' }}>
+        <span className="iu-mr-200" style={{ display: 'flex' }}>
           {props.startIcon}
         </span>{' '}
         {props.text}{' '}

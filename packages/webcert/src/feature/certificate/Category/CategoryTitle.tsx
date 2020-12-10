@@ -4,7 +4,6 @@ import React from 'react'
 const useStyles = makeStyles((theme) => ({
   heading: {
     fontWeight: theme.typography.fontWeightMedium,
-    fontSize: theme.typography.h6.fontSize,
   },
 }))
 
@@ -17,9 +16,9 @@ const CategoryTitle: React.FC<Props> = (props) => {
   const classes = useStyles()
 
   return (
-    <Typography id={props.titleId} className={`${classes.heading} ${props.additionalStyles}`} variant="h3">
+    <h3 id={props.titleId} className={`${classes.heading} ${props.additionalStyles} iu-fs-400 iu-color-black`}>
       {props.children}
-    </Typography>
+    </h3>
   )
 }
 
