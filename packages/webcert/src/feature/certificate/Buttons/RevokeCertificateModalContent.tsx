@@ -73,6 +73,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
       <RadioGroup aria-label="invoke reason" name="invokereason" value={textArea.name} onChange={handleRadioButtonChange}>
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
         <RadioButton
+          id="radio_wrong_patient"
           onChange={handleRadioButtonChange}
           label={textLabel}
           //TODO: kolla om fel patient ska togglas om den är locked.
@@ -90,6 +91,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
           </div>
         )}
         <RadioButton
+          id="radio_other_mistake"
           onChange={handleRadioButtonChange}
           label="Annat allvarligt fel"
           value="ANNAT_ALLVARLIGT_FEL"
