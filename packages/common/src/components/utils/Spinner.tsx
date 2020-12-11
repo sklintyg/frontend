@@ -12,7 +12,7 @@ const Spinner: React.FC<Props> = ({ text }) => {
         <div className="ic-spinner__bounce2"></div>
         <div className="ic-spinner__bounce3"></div>
       </div>
-      <p>{text}</p>
+      <p className="iu-fs-500 iu-pt-300">{text}</p>
     </div>
   )
 }
