@@ -37,9 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-interface CertificateValidationProps {}
-
-const CertificateValidation: React.FC<CertificateValidationProps> = (props) => {
+const CertificateValidation = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getAllValidationErrors())
   const classes = useStyles()
@@ -58,7 +56,7 @@ const CertificateValidation: React.FC<CertificateValidationProps> = (props) => {
 
   return (
     <Paper className={`${classes.root} contentPaperWrapper`}>
-      <InfoBox type="danger">Utkastet saknar uppgifter i följande avsnitt:</InfoBox>
+      <InfoBox type="error">Utkastet saknar uppgifter i följande avsnitt:</InfoBox>
       <div className={classes.linksWrapper}>{validationMessages}</div>
     </Paper>
   )

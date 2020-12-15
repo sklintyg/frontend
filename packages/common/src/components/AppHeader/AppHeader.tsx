@@ -1,6 +1,4 @@
 import React from 'react'
-import { AppBar, Box, Container, Link, Toolbar, Typography } from '@material-ui/core'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 
 interface Props {
   title: React.ReactNode
@@ -8,28 +6,7 @@ interface Props {
   secondaryItems?: React.ReactNode
 }
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    background: theme.palette.primary.main,
-  },
-  itemsWrapper: {
-    display: 'flex',
-    width: '100%',
-    alignItems: 'center',
-  },
-  primaryItems: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  secondaryItems: {
-    display: 'flex',
-    marginLeft: 'auto',
-    alignItems: 'center',
-  },
-}))
-
 const AppHeader: React.FC<Props> = (props) => {
-  const classes = useStyles()
 
   return (
     <header className="ic-page-header">

@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { printCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import PrintIcon from '@material-ui/icons/Print'
-import { ButtonTooltip } from '@frontend/common'
-import CustomButton from './CustomButton'
+import { ButtonTooltip, CustomButton } from '@frontend/common'
 
 interface Props {
   name: string

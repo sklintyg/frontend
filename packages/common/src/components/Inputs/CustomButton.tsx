@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonTooltip } from '@frontend/common/src'
 
 interface Props {
-  style: 'primary' | 'secondary' | 'success' | 'default'
+  style?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
@@ -14,7 +14,7 @@ interface Props {
   squared?: boolean
 }
 
-const CustomButton: React.FC<Props> = (props) => {
+export const CustomButton: React.FC<Props> = (props) => {
   let addedClass
   if (!props.squared) {
     addedClass = 'ic-button--rounded '

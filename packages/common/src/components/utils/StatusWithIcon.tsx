@@ -1,23 +1,13 @@
-import { Box, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import CheckIcon from '@material-ui/icons/Check'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
+import styled from 'styled-components'
+import colors from './../../styles/colors'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  checkIcon: {
-    color: theme.palette.success.dark,
-  },
-  text: {
-    marginLeft: theme.spacing(0.25),
-    color: theme.palette.info.dark,
-    fontSize: '12px',
-  },
-}))
-
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
 interface Props {
   icon?: 'CheckIcon' | 'ErrorOutlineIcon'
   additionalWrapperStyles?: string
@@ -25,12 +15,10 @@ interface Props {
 }
 
 const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalTextStyles, additionalWrapperStyles }) => {
-  const classes = useStyles()
-
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
-        return <CheckIcon className={classes.checkIcon} fontSize="small" />
+        return <CheckIcon className={`iu-color-success`} fontSize="small" />
       case 'ErrorOutlineIcon':
         return <ErrorOutlineIcon color="error" fontSize="small" />
       case undefined:
@@ -40,10 +28,10 @@ const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalTextStyles,
 
   return (
     <>
-      <Box className={`${classes.root} status ${additionalWrapperStyles}`}>
+      <Wrapper className={`status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <Typography className={`${classes.text} ${additionalTextStyles}`}>{children}</Typography>
-      </Box>
+        <p className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark`}>{children}</p>
+      </Wrapper>
     </>
   )
 }

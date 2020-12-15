@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import { CertificateHeader } from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
-import { Container, Grid, Paper } from '@material-ui/core'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { AppHeader, AppHeaderLink } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
@@ -12,15 +11,11 @@ import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 
-interface Props {
-  themeToggler: JSX.Element
-}
-
 interface Params {
   id: string
 }
 
-const CertificatePage: React.FC<Props> = (props) => {
+const CertificatePage = () => {
   const { id } = useParams<Params>()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
@@ -34,12 +29,12 @@ const CertificatePage: React.FC<Props> = (props) => {
   const secondaryItems = (
     <>
       <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>
-      {props.themeToggler}
     </>
   )
 
+  // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
-    <Paper style={{ height: '100vh' }} square elevation={0}>
+    <section style={{ height: '100vh' }}>
       <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
       {certificateIsDeleted ? (
         <RemovedCertificate />
@@ -58,7 +53,7 @@ const CertificatePage: React.FC<Props> = (props) => {
           </div>
         </>
       )}
-    </Paper>
+    </section>
   )
 }
 

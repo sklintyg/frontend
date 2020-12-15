@@ -1,5 +1,6 @@
 import { makeStyles, Paper } from '@material-ui/core'
 import React from 'react'
+import styled from 'styled-components'
 
 const useStyles = makeStyles((theme) => ({
   questionWrapper: {
@@ -10,6 +11,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const Wrapper = styled.section`
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+`
+
 interface Props {
   additionalStyles?: string
 }
@@ -17,7 +25,7 @@ interface Props {
 const QuestionWrapper: React.FC<Props> = (props) => {
   const classes = useStyles()
 
-  return <Paper className={`${classes.questionWrapper} contentPaperWrapper ${props.additionalStyles}`}>{props.children}</Paper>
+  return <Wrapper className={`contentPaperWrapper box-shadow iu-bg-white`}>{props.children}</Wrapper>
 }
 
 export default QuestionWrapper

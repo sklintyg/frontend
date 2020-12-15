@@ -1,16 +1,6 @@
-import { ButtonTooltip } from '@frontend/common'
-import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
+import { ButtonTooltip, CustomButton } from '@frontend/common'
 import React, { ReactNode } from 'react'
 import ModalBase from './ModalBase'
-import CustomButton from '@frontend/webcert/src/feature/certificate/Buttons/CustomButton'
-
-const useStyles = makeStyles((theme) => ({
-  content: {
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}))
 
 interface Props {
   disabled: boolean
@@ -33,7 +23,6 @@ interface Props {
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
-  const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -67,7 +56,6 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         text={props.name}
       />
       <ModalBase
-        additionalContentStyles={classes.content}
         open={open}
         handleClose={handleClose}
         modalTitle={props.modalTitle}

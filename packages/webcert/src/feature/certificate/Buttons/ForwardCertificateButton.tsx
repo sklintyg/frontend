@@ -1,22 +1,9 @@
-import { ButtonTooltip, ButtonWithConfirmModal } from '@frontend/common'
-import { Button, makeStyles, Typography } from '@material-ui/core'
+import { ButtonTooltip, ButtonWithConfirmModal, CustomButton } from '@frontend/common'
 import React from 'react'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch, useSelector } from 'react-redux'
 import ReplyIcon from '@material-ui/icons/Reply'
-import colors from '../../../components/styles/colors'
-import { getCertificateMetaData, getUnit } from '../../../store/certificate/certificateSelectors'
-
-const useStyles = makeStyles((theme) => ({
-  button: {
-    backgroundColor: colors.IA_COLOR_17,
-    borderColor: colors.IA_COLOR_17,
-    color: '#fff',
-  },
-  icon: {
-    transform: 'scaleX(-1)',
-  },
-}))
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
 interface Props {
   name: string
@@ -27,7 +14,6 @@ interface Props {
 const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const dispatch = useDispatch()
   const metadata = useSelector(getCertificateMetaData)
-  const classes = useStyles()
 
   if (!metadata) return null
 
@@ -39,32 +25,30 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
   if (metadata.forwarded) {
     return (
       <ButtonTooltip description={description}>
-        <Button
+        <CustomButton
           disabled={!enabled}
           variant={'contained'}
-          className={classes.button}
-          startIcon={<ReplyIcon className={classes.icon} />}
+          startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />}
           onClick={handleEmailSend}>
           {name}
-        </Button>
+        </CustomButton>
       </ButtonTooltip>
     )
   }
 
   return (
     <ButtonWithConfirmModal
-      additionalButtonStyles={classes.button}
       disabled={!enabled}
       description={description}
       name={name}
       buttonVariant="contained"
-      startIcon={<ReplyIcon className={classes.icon} />}
+      startIcon={<ReplyIcon />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate(true))}
       onClick={handleEmailSend}
       confirmButtonText="Ja"
       declineButtonText="Nej">
-      <Typography>Vill du markera utkastet som vidarebefordrat?</Typography>
+      <p>Vill du markera utkastet som vidarebefordrat?</p>
     </ButtonWithConfirmModal>
   )
 }

@@ -1,26 +1,21 @@
-import { makeStyles, Paper } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
 import React from 'react'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingTop: `${theme.spacing(2)}px`,
-    paddingBottom: `${theme.spacing(2)}px`,
-    marginTop: `${theme.spacing(2)}px`,
-    borderBottom: `2px solid ${grey[300]}`,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-}))
+const Wrapper = styled.div`
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: 16px;
+  border-bottom: 2px solid #e0e0e0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+`
 
 interface Props {
   additionalStyles?: string
 }
 
-const CategoryHeader: React.FC<Props> = (props) => {
-  const classes = useStyles()
-
-  return <Paper className={`${classes.root} contentPaperWrapper ${props.additionalStyles}`}>{props.children}</Paper>
+const CategoryHeader: React.FC<Props> = ({ additionalStyles, children }) => {
+  return <Wrapper className={`contentPaperWrapper iu-bg-white iu-radius-sm box-shadow ${additionalStyles}`}>{children}</Wrapper>
 }
 
 export default CategoryHeader

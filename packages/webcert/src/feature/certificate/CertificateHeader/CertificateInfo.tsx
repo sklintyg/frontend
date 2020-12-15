@@ -1,36 +1,22 @@
 import { CertificateMetadata } from '@frontend/common'
-import { makeStyles, Theme, Box, Typography } from '@material-ui/core'
 import React from 'react'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme: Theme) => ({
-  certificateName: {
-    fontWeight: theme.typography.fontWeightLight,
-    marginTop: theme.spacing(1.25),
-    fontSize: theme.typography.h5.fontSize,
-  },
-  patientTitle: {
-    fontSize: theme.typography.h6.fontSize,
-    fontWeight: theme.typography.fontWeightBold,
-    margin: `0 0 ${theme.spacing(1)}px`,
-  },
-}))
-
+const Wrapper = styled.section`
+  flex-grow: 1;
+`
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
 const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
-  const classes = useStyles()
-
   return (
-    <Box flexGrow="1">
-      <Typography variant={'h2'} className={classes.certificateName}>
-        {certificateMetadata.certificateName}
-      </Typography>
-      <Typography variant="h3" className={`${classes.patientTitle} iu-color-sky-dark`}>
+    <Wrapper>
+      <h2 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.certificateName}</h2>
+      <h3 className={`iu-mb-200 iu-fs-400 iu-color-sky-dark`}>
         {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
-      </Typography>
-    </Box>
+      </h3>
+    </Wrapper>
   )
 }
 

@@ -4,9 +4,8 @@ import { signCertificate } from '../../../store/certificate/certificateActions'
 import BorderColorIcon from '@material-ui/icons/BorderColor'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
-import { ButtonTooltip } from '@frontend/common'
+import { ButtonTooltip, CustomButton } from '@frontend/common'
 import colors from '../../../components/styles/colors'
-import CustomButton from './CustomButton'
 
 const useStyles = makeStyles((theme) => ({
   signButton: {

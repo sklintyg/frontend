@@ -1,49 +1,40 @@
 import React from 'react'
-import WarningIcon from '@material-ui/icons/Warning'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import { makeStyles, Typography } from '@material-ui/core'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1),
-    display: 'flex',
-  },
-  danger: {
-    background: theme.palette.error.light,
-    color: theme.palette.error.dark,
-  },
-  info: {
-    background: theme.palette.info.light,
-    color: theme.palette.info.dark,
-  },
-  infoText: {
-    marginLeft: theme.spacing(1),
-    fontSize: theme.typography.subtitle2.fontSize,
-  },
-}))
 
 interface Props {
-  type: 'info' | 'danger'
+  type: 'info' | 'error' | 'success'
   additionalStyles?: string
 }
 
 const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
-  const classes = useStyles()
-
-  const getIcon = () => {
+  const getIconClass = () => {
     switch (type) {
       case 'info':
-        return <InfoOutlinedIcon />
-      case 'danger':
-        return <WarningIcon />
+        return 'ic-info-icon'
+      case 'error':
+        return 'ic-error-icon'
+      case 'success':
+        return 'ic-success-icon'
+    }
+  }
+
+  const getWrapperClass = () => {
+    switch (type) {
+      case 'info':
+        return 'ic-alert--info'
+      case 'error':
+        return 'ic-alert--error'
+      case 'success':
+        return 'ic-alert--success'
     }
   }
 
   return (
-    <div className={`${classes.root} ${classes[type]} ${additionalStyles && additionalStyles}`}>
-      {getIcon()}
-      <Typography className={classes.infoText}>{children}</Typography>
+    <div className={`ic-alert ic-alert--status ${getWrapperClass()}`}>
+      <i className={`ic-alert__icon ${getIconClass()}`}></i>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse euismod diam nec ligula tincidunt tincidunt. Praesent eu
+        posuere elit.{' '}
+      </p>
     </div>
   )
 }

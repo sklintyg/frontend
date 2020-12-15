@@ -2,21 +2,11 @@ import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
-import { makeStyles } from '@material-ui/core/styles'
 import { CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
 import { QuestionValidationTexts, TextArea } from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { ConfigUeTextArea } from './../../../../../common/src/types/certificate'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingTop: theme.spacing(1.5),
-  },
-  textarea: {
-    width: '-webkit-fill-available',
-  },
-}))
 
 interface Props {
   question: CertificateDataElement
@@ -31,8 +21,6 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
 
-  const classes = useStyles()
-
   const dispatchEditDraft = useRef(
     _.debounce((value: string) => {
       const updatedValue = getUpdatedValue(question, value)
@@ -41,7 +29,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   ).current
 
   if (!textValue) {
-    return <div className={classes.root}>Value not supported!</div>
+    return <div className={`iu-pt-200`}>Value not supported!</div>
   }
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
@@ -50,12 +38,11 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={`iu-pt-200`}>
       <TextArea
         disabled={disabled}
         rowsMin={4}
         hasValidationError={questionHasValidationError}
-        additionalStyles={classes.textarea}
         onChange={handleChange}
         name={questionConfig.id}
         value={text === null ? '' : text}></TextArea>
