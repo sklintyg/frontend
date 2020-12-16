@@ -6,7 +6,7 @@ interface Props {
   additionalStyles?: string
 }
 
-const Accordion = ({ title, description, additionalStyles }) => {
+const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
   const expandBtn = useRef<null | HTMLButtonElement>(null)
 
