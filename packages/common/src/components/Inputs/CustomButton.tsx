@@ -11,12 +11,12 @@ interface Props {
   startIcon?: React.ReactNode
   text?: string
   tooltip?: string
-  squared?: boolean
+  rounded?: boolean
 }
 
 export const CustomButton: React.FC<Props> = (props) => {
-  let addedClass
-  if (!props.squared) {
+  let addedClass = ''
+  if (props.rounded) {
     addedClass = 'ic-button--rounded '
   }
   switch (props.style) {
@@ -27,14 +27,17 @@ export const CustomButton: React.FC<Props> = (props) => {
       addedClass += 'ic-button--primary'
       break
     case 'secondary':
+      addedClass += 'ic-button--secondary'
+      break
     case 'default':
     default:
-      addedClass += 'ic-button--secondary'
+      addedClass += 'ic-button--default iu-bg-white iu-border-black iu-color-black'
+      break
   }
 
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''}>
-      <button className={'ic-button ' + addedClass} type="button" disabled={props.disabled} onClick={props.onClick}>
+      <button className={'ic-button iu-radius-md ' + addedClass} type="button" disabled={props.disabled} onClick={props.onClick}>
         <span className="iu-mr-200" style={{ display: 'flex' }}>
           {props.startIcon}
         </span>{' '}
