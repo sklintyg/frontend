@@ -33,7 +33,6 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
       className={classes.signButton}
       startIcon={<BorderColorIcon />}
       disabled={isValidating || !enabled}
-      variant="contained"
       onClick={() => {
         dispatch(signCertificate())
       }}></CustomButton>

@@ -24,7 +24,6 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }
       disabled={!enabled}
       description={description}
       name={name}
-      buttonVariant="contained"
       startIcon={<DeleteIcon />}
       modalTitle="Radera utkast"
       onConfirm={() => {

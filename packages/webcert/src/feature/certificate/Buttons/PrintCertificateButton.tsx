@@ -27,7 +27,6 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled })
     <CustomButton
       tooltip={description}
       disabled={!enabled}
-      variant={'contained'}
       style="primary"
       text={name}
       startIcon={<PrintIcon />}

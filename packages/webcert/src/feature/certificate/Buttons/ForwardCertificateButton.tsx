@@ -25,11 +25,7 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
   if (metadata.forwarded) {
     return (
       <ButtonTooltip description={description}>
-        <CustomButton
-          disabled={!enabled}
-          variant={'contained'}
-          startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />}
-          onClick={handleEmailSend}>
+        <CustomButton disabled={!enabled} startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />} onClick={handleEmailSend}>
           {name}
         </CustomButton>
       </ButtonTooltip>
@@ -41,7 +37,6 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
       disabled={!enabled}
       description={description}
       name={name}
-      buttonVariant="contained"
       startIcon={<ReplyIcon />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate(true))}

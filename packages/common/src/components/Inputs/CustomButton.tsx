@@ -6,7 +6,6 @@ interface Props {
   disabled?: boolean
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
-  variant?: 'text' | 'outlined' | 'contained' | undefined
   onClick?: () => void
   startIcon?: React.ReactNode
   text?: string
