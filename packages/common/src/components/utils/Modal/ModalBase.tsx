@@ -1,74 +1,36 @@
 import React from 'react'
-import { makeStyles, Dialog, DialogTitle, IconButton, Divider, DialogActions, DialogContent } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close'
-
-const useStyles = makeStyles((theme) => ({
-  buttonWrapper: {
-    justifyContent: 'flex-start',
-    padding: theme.spacing(3),
-  },
-  dialog: {
-    width: '600px',
-    maxWidth: 'none',
-    marginTop: '30px',
-  },
-  container: {
-    alignItems: 'start',
-  },
-  content: {
-    paddingTop: theme.spacing(3),
-    minHeight: '134px',
-    '& p': {
-      fontSize: theme.typography.body2.fontSize,
-    },
-    '& a': {
-      textDecoration: 'underline',
-    },
-  },
-  titleWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
-  },
-  closeButton: {
-    padding: 0,
-  },
-}))
 
 interface Props {
   open: boolean
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-  modalTitle: string
-  modalButtons: React.ReactNode
+  title: string
+  buttons: React.ReactNode
   content: React.ReactNode
-  additionalContentStyles?: string
 }
 
-const ModalBase: React.FC<Props> = ({ open, handleClose, modalTitle, modalButtons, content, additionalContentStyles }) => {
-  const classes = useStyles()
-
+const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content }) => {
+  if (!open) {
+    return null
+  }
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      classes={{ paperWidthSm: classes.dialog, scrollPaper: classes.container }}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description">
-      <div className={classes.titleWrapper}>
-        <DialogTitle style={{ padding: 0 }} id="alert-dialog-title">
-          {modalTitle}
-        </DialogTitle>
-        <IconButton classes={{ root: classes.closeButton }} aria-label="close" onClick={handleClose}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
+    <div className="ic-backdrop">
+      <div role="dialog" className="ic-modal" aria-labelledby="demo-modal-content">
+        <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
+          <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M12 10.733l5.07-5.07c.35-.35.917-.35 1.267 0 .35.35.35.917 0 1.267L13.267 12l5.07 5.07c.35.35.35.917 0 1.267-.35.35-.917.35-1.267 0L12 13.267l-5.07 5.07c-.35.35-.917.35-1.267 0-.35-.35-.35-.917 0-1.267l5.07-5.07-5.07-5.07c-.35-.35-.35-.917 0-1.267.35-.35.917-.35 1.267 0l5.07 5.07z"
+              transform="translate(-994 -650) translate(410 637) translate(584 13)"
+            />
+          </svg>
+        </button>
+        <div className="ic-modal__head" id="demo-modal-content">
+          <h3>{title}</h3>
+        </div>
+        <div className="ic-modal__body ic-text">{content}</div>
+        <div className="ic-button-group">{buttons}</div>
       </div>
-      <Divider></Divider>
-      <DialogContent id="alert-dialog-description" className={`${classes.content} ${additionalContentStyles}`}>
-        {content}
-      </DialogContent>
-      <DialogActions className={classes.buttonWrapper}>{modalButtons}</DialogActions>
-    </Dialog>
+    </div>
   )
 }
 

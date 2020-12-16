@@ -1,16 +1,5 @@
-import { Button, Link, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { ModalBase } from '../..'
-
-const useStyles = makeStyles((theme) => ({
-  link: {
-    textDecoration: 'underline',
-    color: 'inherit',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-}))
+import { CustomButton, ModalBase } from '../..'
 
 interface Props {
   text: string
@@ -21,7 +10,6 @@ interface Props {
 
 const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles, additionalContentStyles, children }) => {
   const [open, setOpen] = React.useState(false)
-  const classes = useStyles()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -33,20 +21,16 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
 
   return (
     <>
-      <Link className={`${classes.link} ${additionalStyles && additionalStyles}`} onClick={handleClickOpen}>
+      <a className={`ic-link ${additionalStyles && additionalStyles}`} onClick={handleClickOpen}>
         {text}
-      </Link>
+      </a>
       <ModalBase
         open={open}
         handleClose={handleClose}
-        modalTitle={modalTitle}
+        title={modalTitle}
         content={children}
-        additionalContentStyles={additionalContentStyles}
-        modalButtons={
-          <Button onClick={handleClose} variant="outlined" color="default">
-            Stäng
-          </Button>
-        }></ModalBase>
+        buttons={<CustomButton onClick={handleClose} style="default" text="Stäng" />}
+      />
     </>
   )
 }
