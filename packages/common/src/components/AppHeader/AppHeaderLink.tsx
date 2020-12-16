@@ -4,17 +4,18 @@ import { AppHeaderItem } from '../index'
 interface Props {
   text: string
   link: string
+  withoutDivider?: boolean
 }
 
 const AppHeaderLink: React.FC<Props> = (props) => {
+  let addedClass
+  if (!props.withoutDivider) {
+    addedClass = 'iu-link-divider-right'
+  }
   return (
-    <AppHeaderItem>
-      <p>
-        <a color={'inherit'} href={props.link}>
-          {props.text}
-        </a>
-      </p>
-    </AppHeaderItem>
+    <a href={props.link} className={`${addedClass} 'iu-color-main'`}>
+      {props.text}
+    </a>
   )
 }
 
