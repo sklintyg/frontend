@@ -22,8 +22,7 @@ const RadioButton: React.FC<Props> = (props) => {
         type="radio"
         id={id}
         name={name}
-        style={{ color: `${hasValidationError ? `iu-border-error` : ''}` }}
-        className={'ic-forms__radio ' + additionalStyles}
+        className={`${additionalStyles} ic-forms__radio ${hasValidationError ? 'ic-forms__radio-error' : ''}`}
         value={value}
         onChange={(e) => onChange(e)}
         checked={checked}
