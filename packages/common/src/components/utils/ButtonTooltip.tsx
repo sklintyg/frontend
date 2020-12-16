@@ -45,10 +45,16 @@ interface Props {
 }
 
 const ButtonTooltip: React.FC<Props> = ({ children, description }) => {
+  const getDescription = () => {
+    if (description && description !== '') {
+      return <span className="tooltiptext">{description}</span>
+    }
+  }
+
   return (
     <Tooltip>
       {children}
-      <span className="tooltiptext">{description}</span>
+      {getDescription()}
     </Tooltip>
   )
 }
