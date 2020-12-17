@@ -1,29 +1,19 @@
 import * as React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import { ValueBoolean, CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
-import grey from '@material-ui/core/colors/grey'
-import { Typography } from '@material-ui/core'
 import { ConfigUeRadioBoolean } from '../../types/certificate'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    whiteSpace: 'pre-wrap',
-    background: grey[300],
-    display: 'inline-block',
-    borderRadius: theme.shape.borderRadius,
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-  },
-  uvText: {
-    fontSize: theme.typography.subtitle2.fontSize,
-  },
-}))
+const Root = styled.div`
+  white-space: pre-wrap;
+  display: inline-block;
+  padding: 8px 14px;
+`
 
 interface UvTextProps {
   question: CertificateDataElement
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
-  const classes = useStyles()
   const questionConfig = question.config as ConfigUeRadioBoolean
   let displayText = 'Ej angivet'
 
@@ -46,9 +36,9 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   }
 
   return (
-    <div className={classes.root}>
-      <Typography className={classes.uvText}>{displayText}</Typography>
-    </div>
+    <Root className={'iu-bg-grey-300 iu-radius-sm'}>
+      <p className={'iu-fs-200'}>{displayText}</p>
+    </Root>
   )
 }
 

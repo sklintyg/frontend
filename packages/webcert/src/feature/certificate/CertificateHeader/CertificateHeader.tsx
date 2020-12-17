@@ -57,7 +57,7 @@ const CertificateHeader = () => {
 
   return (
     <Wrapper>
-      <div className="ic-container">
+      <div className="ic-container iu-pt-200 iu-pb-200">
         <StatusWrapper>
           <StatusLeftSide>
             <RevokedStatus certificateMetadata={certificateMetadata} />

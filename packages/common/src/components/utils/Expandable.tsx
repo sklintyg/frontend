@@ -102,9 +102,7 @@ const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles })
 
   return (
     // <div ref={ref} className={`${classes.default} ${isExpanded ? classes.open : ''} ${isExpanded ? classes.static : classes.absolute}`}>
-    <div ref={ref} className={`expandable`}>
-      {children}
-    </div>
+    <div ref={ref}>{children}</div>
     // </div>
   )
 }

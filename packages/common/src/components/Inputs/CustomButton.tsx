@@ -37,10 +37,7 @@ export const CustomButton: React.FC<Props> = (props) => {
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''}>
       <button className={'ic-button iu-radius-md ' + addedClass} type="button" disabled={props.disabled} onClick={props.onClick}>
-        <span className="iu-mr-200" style={{ display: 'flex' }}>
-          {props.startIcon}
-        </span>{' '}
-        {props.text}{' '}
+        <span className="iu-mr-200 iu-flex">{props.startIcon}</span> {props.text}{' '}
       </button>
     </ButtonTooltip>
   )

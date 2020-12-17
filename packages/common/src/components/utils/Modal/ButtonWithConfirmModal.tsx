@@ -5,7 +5,6 @@ import ModalBase from './ModalBase'
 interface Props {
   disabled: boolean
   name: string
-  buttonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
   startIcon?: React.ReactNode
   modalTitle: string
   onConfirm: () => any
@@ -49,7 +48,6 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         style={props.buttonStyle ? props.buttonStyle : 'primary'}
         disabled={props.disabled}
         className={props.additionalButtonStyles}
-        color={props.buttonColor ? props.buttonColor : 'default'}
         onClick={handleClickOpen}
         startIcon={props.startIcon ? props.startIcon : null}
         text={props.name}
@@ -62,11 +60,9 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         buttons={
           <>
             <CustomButton
-              style={props.buttonStyle ? props.buttonStyle : 'secondary'}
+              style={props.buttonStyle ? props.buttonStyle : 'primary'}
               className={props.additionalConfirmButtonStyles}
-              //disableElevation
               disabled={props.confirmButtonDisabled}
-              color={props.confirmButtonColor ? props.confirmButtonColor : 'default'}
               onClick={handleConfirm}
               text={props.confirmButtonText}
             />

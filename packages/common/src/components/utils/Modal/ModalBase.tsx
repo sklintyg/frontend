@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   open: boolean
-  handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  handleClose: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
   title: string
   buttons: React.ReactNode
   content: React.ReactNode
@@ -13,7 +13,8 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
     return null
   }
   return (
-    <div className="ic-backdrop">
+    <>
+      <div className="ic-backdrop" onClick={handleClose}></div>
       <div role="dialog" className="ic-modal" aria-labelledby="demo-modal-content">
         <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
           <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -30,7 +31,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
         <div className="ic-modal__body ic-text">{content}</div>
         <div className="ic-button-group">{buttons}</div>
       </div>
-    </div>
+    </>
   )
 }
 
