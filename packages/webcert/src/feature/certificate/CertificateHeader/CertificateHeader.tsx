@@ -20,37 +20,10 @@ import CertificateInfo from './CertificateInfo'
 import RevokeParentStatus from './Status/RevokeParentStatus'
 import HeaderButtons from './HeaderButtons'
 import LockedStatus from './Status/LockedStatus'
-import styled from 'styled-components'
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     boxShadow: '0 2px 4px 0 rgba(0,0,0,.12)',
-//     borderBottom: '1px solid #d7d7dd',
-//   },
-//   statusWrapper: {
-//     marginTop: theme.spacing(1.25),
-//     marginBottom: theme.spacing(0.75),
-//     display: 'flex',
-//     alignItems: 'center',
-//   },
-//   buttonWrapper: {
-//     marginBottom: theme.spacing(0.5),
-//     alignItems: 'flex-end',
-//     '& button + button': {
-//       marginLeft: theme.spacing(1),
-//     },
-//   },
-//   statusLeftSide: {
-//     display: 'flex',
-//     flexGrow: 1,
-//     '& .status + .status': {
-//       marginLeft: theme.spacing(2),
-//     },
-//   },
-// }))
-
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid #d7d7dd;
 `
@@ -69,7 +42,7 @@ const StatusLeftSide = styled.div`
   }
 `
 
-export const CertificateHeader: React.FC = (props) => {
+const CertificateHeader = () => {
   const certificateMetadata = useSelector(getCertificateMetaData)
   const historyEntries = useSelector(getCertificateEvents)
   const isValidForSigning = useSelector(getIsValidForSigning)
@@ -107,3 +80,5 @@ export const CertificateHeader: React.FC = (props) => {
     </Wrapper>
   )
 }
+
+export default CertificateHeader
