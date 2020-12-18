@@ -4,27 +4,31 @@
     "name": "Arnold Johansson",
     "role": "Läkare",
     "loggedInUnit": "NMT vg3 ve1",
-    "loggedInCareProvider": "NMT vg3"
+    "loggedInCareProvider": "NMT vg3",
+    "preferences": null
   },
   {
     "hsaId": "TSTNMT2321000156-10CD",
     "name": "Annika Larsson",
     "role": "Vårdadministratör",
     "loggedInUnit": "NMT vg3 ve1",
-    "loggedInCareProvider": "NMT vg3"
+    "loggedInCareProvider": "NMT vg3",
+    "preferences": null
   },
   {
     "hsaId": "IFV1239877878-104B",
     "name": "Åsa Andersson",
     "role": "Läkare",
     "loggedInUnit": "WebCert-Enhet2-Mottagning1",
-    "loggedInCareProvider": "WebCert-Vårdgivare2"
+    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "preferences": null
   },
   {
     "hsaId": "IFV1239877878-104K",
     "name": "Lars Andersson",
     "role": "Läkare",
     "loggedInUnit": "WebCert-Enhet2-Mottagning2",
-    "loggedInCareProvider": "WebCert-Vårdgivare2"
+    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "preferences": null
   }
 ]

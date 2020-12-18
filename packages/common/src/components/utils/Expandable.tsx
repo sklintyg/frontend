@@ -102,7 +102,7 @@ const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles })
   //   return children
   // }
 
-  return children
+  return <>{children}</>
 }
 
 export default Expandable

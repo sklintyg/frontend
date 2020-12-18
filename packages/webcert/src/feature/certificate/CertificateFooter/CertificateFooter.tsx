@@ -57,7 +57,7 @@ export const CertificateFooter: React.FC = () => {
       )}
       <RightWrapper>
         {canForward && !isValidForSigning && <ShowValidationErrorsSwitch />}
-        <p className={'iu-fs-200'}>Intygs-ID: {certificateMetadata.certificateId}</p>
+        <p className={'iu-fs-200'}>Intygs-ID: {certificateMetadata.id}</p>
       </RightWrapper>
     </Wrapper>
   )

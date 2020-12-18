@@ -5,7 +5,7 @@ import CertificateInfo from './CertificateInfo'
 
 it('displays certificate name, patients name and date of birth', () => {
   const mockData: CertificateMetadata = {
-    certificateName: 'Test cert name',
+    name: 'Test cert name',
     patient: { fullName: 'Tolvan', personId: '123' },
   }
 

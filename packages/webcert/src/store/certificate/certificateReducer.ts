@@ -82,7 +82,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         return
       }
 
-      state.certificate.metadata.certificateStatus = action.payload
+      state.certificate.metadata.status = action.payload
     })
     .addCase(updateCertificateAsReadOnly, (state) => {
       if (!state.certificate) {

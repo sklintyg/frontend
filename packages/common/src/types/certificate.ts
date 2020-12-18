@@ -15,12 +15,12 @@ export enum CertificateStatus {
 }
 
 export interface CertificateMetadata {
-  certificateId: string
-  certificateName: string
-  certificateDescription: string
-  certificateType: string
-  certificateTypeVersion: string
-  certificateStatus: CertificateStatus
+  id: string
+  name: string
+  description: string
+  type: string
+  typeVersion: string
+  status: CertificateStatus
   created: string
   testCertificate: boolean
   forwarded: boolean
@@ -268,7 +268,7 @@ export interface Unit {
 }
 
 export interface Patient {
-  personId: string
+  personId: PersonId
   firstName: string
   lastName: string
   fullName: string
@@ -276,6 +276,11 @@ export interface Patient {
   testIndicated: boolean
   protectedPerson: boolean
   deceased: boolean
+}
+
+export interface PersonId {
+  type: string
+  id: string
 }
 
 export interface Staff {
