@@ -1,5 +1,4 @@
 import { ButtonWithConfirmModal } from '@frontend/common'
-import { Typography } from '@material-ui/core'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -31,7 +30,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }
       }}
       confirmButtonText="Radera"
       declineButtonText="Avbryt">
-      <Typography>När du raderar utkastet tas det bort från webcert</Typography>
+      <p>När du raderar utkastet tas det bort från webcert</p>
     </ButtonWithConfirmModal>
   )
 }

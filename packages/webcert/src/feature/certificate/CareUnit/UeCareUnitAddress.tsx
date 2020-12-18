@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { Typography, TextField, Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
@@ -9,29 +7,42 @@ import { getIsEditable, getIsLocked, getUnit } from '../../../store/certificate/
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import styled from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  questionWrapper: {
-    '& .MuiGrid-container + .MuiGrid-container': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  grid: {
-    alignItems: 'center',
-  },
-  zipCode: {
-    maxWidth: '6em',
-  },
-  city: {
-    maxWidth: '20em',
-  },
-  phoneNumber: {
-    maxWidth: '15em',
-  },
-}))
+const Wrapper = styled.div`
+  align-items: center;
+`
+
+const AddressInput = styled.input.attrs((props) => ({
+  type: 'text',
+  maxLength: 209,
+}))``
+
+const ZipCodeInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 6,
+  maxLength: 6,
+}))`
+  max-width: 6em;
+`
+
+const CityInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 30,
+  maxLength: 30,
+}))`
+  max-width: 20em;
+`
+
+const PhoneNumberInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 20,
+  maxLength: 20,
+}))`
+  max-width: 15em;
+`
 
 const UeCareUnitAddress: React.FC = () => {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const unit = useSelector(getUnit())
   const disabled = useSelector(getIsLocked)
@@ -57,13 +68,13 @@ const UeCareUnitAddress: React.FC = () => {
       <CategoryHeader>
         <CategoryTitle>Vårdenhetens adress</CategoryTitle>
       </CategoryHeader>
-      <QuestionWrapper additionalStyles={classes.questionWrapper}>
-        <div className={`iu-grid-cols iu-grid-cols-12 ${classes.grid}`}>
+      <QuestionWrapper>
+        <Wrapper className={`iu-grid-cols iu-grid-cols-12`}>
           <div className="iu-grid-span-3">
             <label htmlFor={'address'}>Postadress</label>
           </div>
           <div className="iu-grid-span-9">
-            <input
+            <AddressInput
               className="ic-textfield"
               type="text"
               disabled={disabled || !editable}
@@ -78,9 +89,9 @@ const UeCareUnitAddress: React.FC = () => {
             <label htmlFor={'zipCode'}>Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
-            <input
+            <ZipCodeInput
               disabled={disabled || !editable}
-              className={`${classes.zipCode} ic-textfield`}
+              className={`ic-textfield`}
               onChange={handleChange}
               name={'zipCode'}
               id={'zipCode'}
@@ -92,9 +103,9 @@ const UeCareUnitAddress: React.FC = () => {
             <label htmlFor={'city'}>Postort</label>
           </div>
           <div className="iu-grid-span-9">
-            <input
+            <CityInput
               disabled={disabled || !editable}
-              className={`${classes.city} ic-textfield`}
+              className={`ic-textfield`}
               onChange={handleChange}
               name={'city'}
               id={'city'}
@@ -106,16 +117,16 @@ const UeCareUnitAddress: React.FC = () => {
             <label htmlFor={'phoneNumber'}>Telefonnummer</label>
           </div>
           <div className="iu-grid-span-9">
-            <input
+            <PhoneNumberInput
               disabled={disabled || !editable}
-              className={`${classes.phoneNumber} ic-textfield`}
+              className={`ic-textfield`}
               onChange={handleChange}
               name={'phoneNumber'}
               id={'phoneNumber'}
               value={careUnitInfo.phoneNumber}
             />
           </div>
-        </div>
+        </Wrapper>
       </QuestionWrapper>
     </>
   )

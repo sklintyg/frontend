@@ -20,7 +20,7 @@ import CertificateInfo from './CertificateInfo'
 import RevokeParentStatus from './Status/RevokeParentStatus'
 import HeaderButtons from './HeaderButtons'
 import LockedStatus from './Status/LockedStatus'
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 
 const Wrapper = styled.div`

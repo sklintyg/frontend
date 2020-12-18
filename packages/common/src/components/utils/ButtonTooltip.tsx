@@ -52,7 +52,7 @@ const ButtonTooltip: React.FC<Props> = ({ children, description }) => {
   }
 
   return (
-    <Tooltip>
+    <Tooltip className="button-tooltip">
       {children}
       {getDescription()}
     </Tooltip>

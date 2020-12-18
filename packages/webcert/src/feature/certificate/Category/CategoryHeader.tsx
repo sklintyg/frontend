@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 const Wrapper = styled.div`
   padding-top: 16px;
@@ -11,11 +11,15 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  additionalStyles?: string
+  additionalStyles?: FlattenSimpleInterpolation
 }
 
 const CategoryHeader: React.FC<Props> = ({ additionalStyles, children }) => {
-  return <Wrapper className={`contentPaperWrapper iu-bg-white iu-radius-sm box-shadow ${additionalStyles}`}>{children}</Wrapper>
+  return (
+    <Wrapper css={additionalStyles} className={`contentPaperWrapper iu-bg-white iu-radius-sm box-shadow`}>
+      {children}
+    </Wrapper>
+  )
 }
 
 export default CategoryHeader

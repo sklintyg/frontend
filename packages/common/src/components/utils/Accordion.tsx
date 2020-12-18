@@ -1,5 +1,19 @@
 import React, { useRef } from 'react'
+import styled from 'styled-components'
 
+const ArrowUp = styled.div`
+  width: 0;
+  height: 0;
+  content: '';
+  left: 35px;
+  margin-left: 35px;
+  border-width: 10px;
+  border-height: 10px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid;
+  border-bottom-color: #e0e0e0;
+`
 interface Props {
   title: string
   description: string
@@ -50,7 +64,8 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) =>
         </button>
       </h4>
       <div id="content-1" className="ic-expandable__content ic-expandable-target">
-        <p className="iu-bg-grey-300 iu-p-300 iu-mt-300 iu-mb-300 iu-fs-200">{description}</p>
+        <ArrowUp aria-hidden="true" />
+        <p className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200">{description}</p>
       </div>
     </div>
   )

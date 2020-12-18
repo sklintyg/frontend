@@ -1,5 +1,6 @@
 import React from 'react'
 import AppHeaderAvatarBox from './AppHeaderAvatarBox'
+import { Link } from 'react-router-dom'
 
 interface Props {
   title: React.ReactNode
@@ -16,9 +17,9 @@ const AppHeader: React.FC<Props> = (props) => {
     <header className="ic-page-header">
       <div className="ic-page-header__inner">
         <div className="ic-page-header__item ic-page-header__logo-container">
-          <a className="ic-page-header__logo-link" href="#/">
+          <Link className="ic-page-header__logo-link" to="#/">
             <span className="ic-page-header__logo-link-text"> [1177/Inera] </span>
-          </a>
+          </Link>
         </div>
         <AppHeaderAvatarBox userItems={props.primaryItems} links={props.secondaryItems} />
       </div>

@@ -1,9 +1,20 @@
 import React from 'react'
+import styled from 'styled-components/macro'
 
 interface Props {
   type: 'info' | 'error' | 'success'
   additionalStyles?: string
 }
+
+const StyledWrapper = styled.div`
+  padding: 4px 8px;
+  flex-wrap: nowrap;
+
+  p {
+    font-size: 14px;
+    margin-left: 8px;
+  }
+`
 
 const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
   const getIconClass = () => {
@@ -29,13 +40,10 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
   }
 
   return (
-    <div className={`ic-alert ic-alert--status ${getWrapperClass()}`}>
+    <StyledWrapper className={`ic-alert ic-alert--status ${getWrapperClass()}`}>
       <i className={`ic-alert__icon ${getIconClass()}`}></i>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse euismod diam nec ligula tincidunt tincidunt. Praesent eu
-        posuere elit.{' '}
-      </p>
-    </div>
+      <p>{children}</p>
+    </StyledWrapper>
   )
 }
 

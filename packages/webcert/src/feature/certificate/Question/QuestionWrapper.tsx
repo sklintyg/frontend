@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 const Wrapper = styled.section`
   padding-top: 16px;
@@ -8,11 +8,15 @@ const Wrapper = styled.section`
   border-top-right-radius: 0;
 `
 interface Props {
-  additionalStyles?: string
+  additionalStyles?: FlattenSimpleInterpolation
 }
 
-const QuestionWrapper: React.FC<Props> = (props) => {
-  return <Wrapper className={`contentPaperWrapper box-shadow iu-bg-white`}>{props.children}</Wrapper>
+const QuestionWrapper: React.FC<Props> = ({ additionalStyles, children }) => {
+  return (
+    <Wrapper css={additionalStyles} className={`contentPaperWrapper questionWrapper box-shadow iu-bg-white`}>
+      {children}
+    </Wrapper>
+  )
 }
 
 export default QuestionWrapper

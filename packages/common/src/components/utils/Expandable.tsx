@@ -9,6 +9,8 @@ const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles })
   const [isStatic, setIsStatic] = useState(false)
   const ref = useRef(null)
 
+  if (!isExpanded) return null
+
   // Lista ut ett coolt sätt att sätta position absolute efter att transition är klar, när isExpanded går från true till false
 
   // useEffect(() => {
@@ -100,11 +102,7 @@ const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles })
   //   return children
   // }
 
-  return (
-    // <div ref={ref} className={`${classes.default} ${isExpanded ? classes.open : ''} ${isExpanded ? classes.static : classes.absolute}`}>
-    <div ref={ref}>{children}</div>
-    // </div>
-  )
+  return children
 }
 
 export default Expandable

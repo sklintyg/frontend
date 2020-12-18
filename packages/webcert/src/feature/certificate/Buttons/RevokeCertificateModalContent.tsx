@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
+import { useEffect } from 'react'
 
 const mandatoryIconAdditonalStyles = css`
-  top: -6px;
+  top: -4px;
 `
 
 interface Props {
-  onChange: (obj: RevokeCertificateReason) => any
+  onChange: (obj: RevokeCertificateReason) => void
 }
 
 export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => {
@@ -18,8 +19,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
   const locked = useSelector(getIsLocked)
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('radio button on change')
     setTextArea({ ...textArea, display: true, name: event.target.id })
-    onChange({ reason: event.target.value, message: textArea.value })
+    onChange({ reason: event.target.name, message: textArea.value })
   }
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -37,7 +39,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
     <>
       Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
       intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
-      intyg på <a href="www.minaintyg.se">minaintyg.se</a>
+      intyg på <a href={'https://www.minaintyg.se'}>minaintyg.se</a>
     </>
   )
 
@@ -50,11 +52,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
       <InfoBox type="info">{infoBoxText}</InfoBox>
       <p>{infoText}</p>
       <p className="iu-fw-bold iu-fs-200">{revokeReasonText}</p>
-      <div
-        role="radiogroup"
-        aria-label="Radiogrupp ge anledning för makulering"
-        onChange={handleRadioButtonChange}
-        className="ic-radio-group-vertical">
+      <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
         <RadioButton
           id="FEL_PATIENT"

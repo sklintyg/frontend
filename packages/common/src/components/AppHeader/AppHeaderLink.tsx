@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppHeaderItem } from '../index'
+import { Link } from 'react-router-dom'
 
 interface Props {
   text: string
@@ -13,9 +14,9 @@ const AppHeaderLink: React.FC<Props> = (props) => {
     addedClass = 'iu-link-divider-right'
   }
   return (
-    <a href={props.link} className={`${addedClass} 'iu-color-main'`}>
+    <Link to={props.link} className={`${addedClass} 'iu-color-main'`}>
       {props.text}
-    </a>
+    </Link>
   )
 }
 

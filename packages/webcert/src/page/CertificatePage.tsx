@@ -28,7 +28,7 @@ const CertificatePage = () => {
 
   const secondaryItems = [
     <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
-    <AppHeaderLink text={'Logga ut'} link={'#'} withoutDivider={true}></AppHeaderLink>,
+    <AppHeaderLink text={'Logga ut'} link={'/welcome'} withoutDivider={true}></AppHeaderLink>,
   ]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.

@@ -28,13 +28,18 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
   function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean, disabled: boolean) {
     if (disabled) {
-      return <p className={`questionTitle`}>{question.config.text}</p>
+      return <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
     }
 
     if (!readOnly && config.description) {
-      return <Accordion title={question.config.text} description={question.config.description} additionalStyles="questionTitle"></Accordion>
+      return (
+        <Accordion
+          title={question.config.text}
+          description={question.config.description}
+          additionalStyles="questionTitle iu-fw-heading iu-fs-300"></Accordion>
+      )
     }
-    return <p className={`questionTitle`}>{question.config.text}</p>
+    return <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
   }
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {

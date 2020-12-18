@@ -12,10 +12,10 @@ interface Props {
 const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
   return (
     <Wrapper>
-      <h2 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.certificateName}</h2>
-      <h3 className={`iu-mb-200 iu-fs-400 iu-color-sky-dark`}>
+      <h1 className="iu-fw-body iu-fs-600 iu-mt-200">{certificateMetadata.certificateName}</h1>
+      <h2 className={`iu-mb-200 iu-fs-400 iu-color-sky-dark`}>
         {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId}
-      </h3>
+      </h2>
     </Wrapper>
   )
 }

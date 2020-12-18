@@ -1,4 +1,3 @@
-import { makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import { useSelector } from 'react-redux'
@@ -6,41 +5,37 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import { css } from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    color: '#fff',
-    //TODO: Add this backgroundcolor to theme, should it be in secondary?
-    backgroundColor: '#4b566f',
-    borderBottom: `2px solid ${theme.palette.primary.dark}`,
-  },
-  dateWrapper: {
-    display: 'flex',
-  },
-  date: {
-    marginLeft: theme.spacing(1),
-  },
-  contentWrapper: {
-    backgroundColor: '#4b566f',
-    color: '#fff',
-  },
-  infoTitle: {
-    fontSize: theme.typography.fontSize * 1.2,
-    marginBottom: theme.spacing(1),
-  },
-}))
+const additionalHeaderStyles = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white !important;
+  background-color: rgb(1, 165, 163);
+  border-bottom: 1px solid rgb(0, 112, 110);
+
+  h3 {
+    color: white;
+  }
+`
+
+const additionalContentStyles = css`
+  background-color: rgb(1, 165, 163);
+  color: white;
+
+  p + p {
+    margin-top: 0;
+  }
+`
 
 const UvCareUnitAddress: React.FC = (props) => {
-  const classes = useStyles()
   const metadata = useSelector(getCertificateMetaData)
 
   if (!metadata) return null
 
   function formatDate(date: string) {
-    var d = new Date(date),
+    let d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear()
@@ -53,22 +48,20 @@ const UvCareUnitAddress: React.FC = (props) => {
 
   return (
     <>
-      <CategoryHeader additionalStyles={classes.header}>
+      <CategoryHeader additionalStyles={additionalHeaderStyles}>
         <CategoryTitle>Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
-        <div className={classes.dateWrapper}>
+        <div className={'iu-flex'}>
           <DateRangeIcon></DateRangeIcon>
-          <Typography className={classes.date}>{formatDate(metadata.created)}</Typography>
+          <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
         </div>
       </CategoryHeader>
-      <QuestionWrapper additionalStyles={`${classes.contentWrapper}`}>
-        <Typography variant="h6" className={classes.infoTitle}>
-          Namn och kontaktuppgifter till vårdenheten
-        </Typography>
-        <Typography>{metadata.issuedBy.fullName}</Typography>
-        <Typography>{metadata.unit.address}</Typography>
-        <Typography>{metadata.unit.zipCode}</Typography>
-        <Typography>{metadata.unit.city}</Typography>
-        <Typography>{metadata.unit.phoneNumber}</Typography>
+      <QuestionWrapper additionalStyles={additionalContentStyles}>
+        <h4 className="iu-mb-200 iu-color-white iu-fs-300">Namn och kontaktuppgifter till vårdenheten</h4>
+        <p>{metadata.issuedBy.fullName}</p>
+        <p>{metadata.unit.address}</p>
+        <p>{metadata.unit.zipCode}</p>
+        <p>{metadata.unit.city}</p>
+        <p>{metadata.unit.phoneNumber}</p>
       </QuestionWrapper>
     </>
   )

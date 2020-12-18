@@ -1,4 +1,11 @@
 import React from 'react'
+import styled from 'styled-components/macro'
+
+const ModalContentWrapper = styled.div`
+  p + p {
+    margin-top: 0.25em !important;
+  }
+`
 
 interface Props {
   open: boolean
@@ -28,7 +35,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
         <div className="ic-modal__head" id="demo-modal-content">
           <h3>{title}</h3>
         </div>
-        <div className="ic-modal__body ic-text">{content}</div>
+        <ModalContentWrapper className="ic-modal__body ic-text iu-fs-200">{content}</ModalContentWrapper>
         <div className="ic-button-group">{buttons}</div>
       </div>
     </>

@@ -7,10 +7,12 @@ interface Props {
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
   onClick?: () => void
+  onSubmit?: (event: React.FormEvent) => void
   startIcon?: React.ReactNode
   text?: string
   tooltip?: string
   rounded?: boolean
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export const CustomButton: React.FC<Props> = (props) => {
@@ -36,8 +38,14 @@ export const CustomButton: React.FC<Props> = (props) => {
 
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''}>
-      <button className={'ic-button iu-radius-md ' + addedClass} type="button" disabled={props.disabled} onClick={props.onClick}>
-        <span className="iu-mr-200 iu-flex">{props.startIcon}</span> {props.text}{' '}
+      <button
+        type={props.type ?? 'button'}
+        onSubmit={props.onSubmit}
+        className={'ic-button iu-radius-md ' + addedClass}
+        disabled={props.disabled}
+        onClick={props.onClick}>
+        <span className="iu-mr-200 iu-flex">{props.startIcon}</span>
+        {props.children} {props.text}{' '}
       </button>
     </ButtonTooltip>
   )
