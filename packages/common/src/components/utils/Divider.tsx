@@ -9,7 +9,7 @@ const Hr = styled.hr`
   background-color: rgba(0, 0, 0, 0.12);
 `
 
-const Divider = () => {
+export const Divider = () => {
   return <Hr />
 }
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Paper, Tabs, Tab, Box, Typography } from '@material-ui/core'
+// import { Paper, Tabs, Tab, Box, Typography } from '@material-ui/core'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from './FMBPanel'
-import { ButtonTooltip } from '@frontend/common'
+import { ButtonTooltip, Tabs } from '@frontend/common'
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined'
 import DescriptionIcon from '@material-ui/icons/Description'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -13,6 +13,8 @@ import { getUserPreference } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import colors from '../../../components/styles/colors'
 import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
+import { css } from 'styled-components'
+import styled from 'styled-components/macro'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +62,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const StyledEmojiObjectsOutlinedIcon = styled(EmojiObjectsOutlinedIcon)`
+  vertical-align: middle;
+  margin-right: 4px;
+`
+
+const Root = styled.div`
+  overflow-y: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const MinimizedRoot = styled.div`
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+`
+
+const MinimizedMenu = styled.div`
+  margin-left: auto;
+  padding: 16px;
+`
+
+const pointerCursor = css`
+  cursor: pointer;
+`
+
 const CertificateSidePanel: React.FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -89,32 +118,80 @@ const CertificateSidePanel: React.FC = () => {
 
   const MinimizeSidePanel = () => {
     return (
-      <Box className={classes.pointerCursor} onClick={() => handleMinimizeSidePanelClick()}>
+      <div css={pointerCursor} onClick={() => handleMinimizeSidePanelClick()}>
         <ButtonTooltip description="Döljer högerfältet">
           <ChevronRightIcon />
         </ButtonTooltip>
-      </Box>
+      </div>
     )
+  }
+
+  const getTabsArray = () => {
+    const array = []
+
+    if (fmbInfoPanelActive) {
+      array.push(
+        <ButtonTooltip description={fmbInfoPanelActive.description}>
+          <p>
+            <StyledEmojiObjectsOutlinedIcon />
+            {fmbInfoPanelActive.name}
+          </p>
+        </ButtonTooltip>
+      )
+    }
+
+    array.push(
+      <ButtonTooltip description="Läs om intyget.">
+        <p>Om intyget</p>
+      </ButtonTooltip>
+    )
+
+    return array
+  }
+
+  const getTabsContentArray = () => {
+    const array = []
+
+    if (fmbInfoPanelActive) {
+      array.push(<FMBPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
+    }
+
+    array.push(
+      <AboutCertificatePanel
+        tabIndex={aboutCertificateTabIndex}
+        selectedTabIndex={selectedTabIndex}
+        minimizeSidePanel={<MinimizeSidePanel />}
+      />
+    )
+
+    return array
   }
 
   return (
     <>
       {minimized !== 'true' ? (
-        <Paper className={classes.root} square elevation={0}>
+        <Root>
           <Tabs
+            tabs={[
+              <ButtonTooltip description="Läs om intyget.">
+                <p>Om intyget</p>
+              </ButtonTooltip>,
+            ]}
+            tabsContent={getTabsContentArray()}></Tabs>
+          {/* <Tabs
             className={`${classes.border} ${classes.tabs}`}
             TabIndicatorProps={{ style: { height: '0px' } }}
             value={selectedTabIndex}
             onChange={handleTabChange}>
             {fmbInfoPanelActive && (
               <Tab
-                className={selectedTabIndex === fmbTabIndex ? classes.activeTab : ''}
+                className={selectedTabIndex === fmbTabIndex ? 'iu-bg-grey-300' : ''}
                 label={
                   <ButtonTooltip description={fmbInfoPanelActive.description}>
-                    <Typography className={classes.linkText}>
-                      <EmojiObjectsOutlinedIcon className={classes.icon} />
+                    <p>
+                      <StyledEmojiObjectsOutlinedIcon />
                       {fmbInfoPanelActive.name}
-                    </Typography>
+                    </p>
                   </ButtonTooltip>
                 }
               />
@@ -123,7 +200,7 @@ const CertificateSidePanel: React.FC = () => {
               className={selectedTabIndex === aboutCertificateTabIndex ? classes.activeTab : ''}
               label={
                 <ButtonTooltip description="Läs om intyget.">
-                  <Typography className={classes.linkText}>Om intyget</Typography>
+                  <p>Om intyget</p>
                 </ButtonTooltip>
               }
             />
@@ -135,31 +212,33 @@ const CertificateSidePanel: React.FC = () => {
             tabIndex={aboutCertificateTabIndex}
             selectedTabIndex={selectedTabIndex}
             minimizeSidePanel={<MinimizeSidePanel />}
-          />
-        </Paper>
+          /> */}
+        </Root>
       ) : (
-        <Paper className={classes.minimizedRoot} square elevation={0}>
-          <Box className={classes.minimizedMenu}>
+        <MinimizedRoot>
+          <MinimizedMenu className="iu-bg-grey-400">
             {fmbInfoPanelActive && (
               <ButtonTooltip description="Öppnar fliken med det försäkringsmedicinska beslutsstödet.">
-                <Box
-                  className={`${classes.minimizedMenuItem} ${classes.pointerCursor}`}
+                <div
+                  css={pointerCursor}
+                  className="iu-pt-400 iu-flex iu-flex-center"
                   onClick={() => handleRestoreSidePanelClick(fmbTabIndex)}>
                   <EmojiObjectsOutlinedIcon />
-                  <Typography className={classes.linkText}>FMB</Typography>
-                </Box>
+                  <p>FMB</p>
+                </div>
               </ButtonTooltip>
             )}
             <ButtonTooltip description="Öppnar fliken med information om intyget.">
-              <Box
-                className={`${classes.minimizedMenuItem} ${classes.pointerCursor}`}
+              <div
+                css={pointerCursor}
+                className="iu-pt-400 iu-flex iu-flex-center"
                 onClick={() => handleRestoreSidePanelClick(aboutCertificateTabIndex)}>
                 <DescriptionIcon />
-                <Typography className={classes.linkText}>Om intyget</Typography>
-              </Box>
+                <p>Om intyget</p>
+              </div>
             </ButtonTooltip>
-          </Box>
-        </Paper>
+          </MinimizedMenu>
+        </MinimizedRoot>
       )}
     </>
   )

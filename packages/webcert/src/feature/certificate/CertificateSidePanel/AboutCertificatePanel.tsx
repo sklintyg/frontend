@@ -1,35 +1,28 @@
-import { makeStyles, Typography } from '@material-ui/core'
 import React, { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
-import colors from '../../../components/styles/colors'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  contentWrapper: {
-    padding: theme.spacing(2),
-    height: '100%',
-    overflowY: 'auto',
-  },
-  contentText: {
-    whiteSpace: 'pre-line',
-    marginTop: theme.spacing(1),
-    fontSize: theme.typography.body2.fontSize,
-  },
-  border: {
-    border: `1px solid ${colors.IA_COLOR_08}`,
-  },
-  certificateType: {
-    fontWeight: theme.typography.fontWeightMedium,
-  },
-  certificateVersion: {
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.subtitle2.fontSize,
-    marginLeft: theme.spacing(1),
-    textTransform: 'uppercase',
-  },
-}))
+const ContentWrapper = styled.div`
+  padding: 16px;
+  height: 100%;
+  overflow-y: auto;
+`
+
+const Description = styled.p`
+  white-space: pre-line;
+  margin-top: 8px;
+  font-size: 14px;
+`
+
+const CertificateVersion = styled.span`
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 8px;
+  text-transform: uppercase;
+`
 
 interface Props {
   selectedTabIndex: number
@@ -39,26 +32,25 @@ interface Props {
 
 const AboutCertificatePanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePanel }) => {
   const certMetaData = useSelector(getCertificateMetaData)
-  const classes = useStyles()
 
   return (
     <>
       {selectedTabIndex === tabIndex && (
         <>
           <PanelHeader description="Om intyget" minimizeSidePanel={minimizeSidePanel} />
-          <div className={`${classes.contentWrapper} ${classes.border}`}>
-            <Typography className={classes.certificateType}>
+          <ContentWrapper className={`iu-border-grey-300`}>
+            <p className="iu-fw-heading">
               {certMetaData && (
                 <>
                   {certMetaData.name}
-                  <span className={classes.certificateVersion}>
+                  <CertificateVersion>
                     {certMetaData.type} {certMetaData.typeVersion}
-                  </span>
+                  </CertificateVersion>
                 </>
               )}
-            </Typography>
-            <Typography className={classes.contentText}>{certMetaData && certMetaData.description}</Typography>
-          </div>
+            </p>
+            <Description>{certMetaData?.description}</Description>
+          </ContentWrapper>
           <AboutCertificatePanelFooter />
         </>
       )}

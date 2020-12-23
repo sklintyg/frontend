@@ -6,6 +6,7 @@ const Tooltip = styled.div`
   display: inline-block;
 
   .tooltiptext {
+    position: absolute;
     visibility: hidden;
     width: 120px;
     bottom: 100%;
@@ -17,8 +18,7 @@ const Tooltip = styled.div`
     padding: 5px 0;
     border-radius: 6px;
     margin-bottom: 7px;
-    position: absolute;
-    z-index: 1;
+    z-index: 1000;
     opacity: 0;
     transition: opacity 0.35s;
   }
@@ -53,8 +53,8 @@ const ButtonTooltip: React.FC<Props> = ({ children, description }) => {
 
   return (
     <Tooltip className="button-tooltip">
-      {children}
       {getDescription()}
+      {children}
     </Tooltip>
   )
 }

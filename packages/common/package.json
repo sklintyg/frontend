@@ -10,13 +10,13 @@
     "@types/react-dom": "16.9.2",
     "customize-cra": "^0.8.0",
     "enzyme": "^3.10.0",
+    "filtrex": "^2.1.0",
+    "jest": "^26.4.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
-    "typescript": "^3",
-    "jest": "^26.4.2",
     "ts-jest": "^26.3.0",
-    "filtrex": "^2.1.0"
+    "typescript": "^3"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
@@ -31,5 +31,8 @@
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "babel-plugin-styled-components": "^1.12.0"
   }
 }

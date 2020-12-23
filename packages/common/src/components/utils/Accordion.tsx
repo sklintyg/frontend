@@ -36,7 +36,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) =>
 
   return (
     <div className="ic-expandable" ref={expandableRef}>
-      <h4 className={`iu-fs-300 iu-fw-body iu-color-black ${additionalStyles}`}>
+      <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>
         <button
           onClick={toggleExpanded}
           ref={expandBtn}
@@ -65,7 +65,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) =>
       </h4>
       <div id="content-1" className="ic-expandable__content ic-expandable-target">
         <ArrowUp aria-hidden="true" />
-        <p className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200">{description}</p>
+        <p className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200 iu-color-text">{description}</p>
       </div>
     </div>
   )

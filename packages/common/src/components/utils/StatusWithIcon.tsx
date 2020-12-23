@@ -2,7 +2,6 @@ import React from 'react'
 import CheckIcon from '@material-ui/icons/Check'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import styled from 'styled-components'
-import colors from './../../styles/colors'
 
 const Wrapper = styled.div`
   display: flex;

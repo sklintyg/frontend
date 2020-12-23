@@ -5,7 +5,7 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader, AppHeaderLink } from '@frontend/common'
+import { AppHeader, AppHeaderLink, Tabs } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
@@ -40,12 +40,12 @@ const CertificatePage = () => {
       ) : (
         <>
           <CertificateHeader />
-          <div style={{ height: `calc(100vh - 230px` }} className={`ic-container`}>
-            <div style={{ height: '100%' }} className="iu-grid-cols iu-grid-cols-12">
+          <div style={{ height: `calc(100vh - 210px` }} className={`ic-container`}>
+            <div style={{ height: '100%' }} className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
               <div style={{ overflowY: 'auto', height: '100%' }} className="iu-grid-span-8">
                 <Certificate />
               </div>
-              <div style={{ height: '100%' }} className="iu-grid-span-4">
+              <div style={{ overflowY: 'auto', height: '100%' }} className="iu-grid-span-4">
                 <CertificateSidePanel />
               </div>
             </div>
