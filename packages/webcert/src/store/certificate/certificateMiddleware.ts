@@ -425,7 +425,7 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId,
+      url: '/api/certificate/' + certificate.metadata.id,
       method: 'PUT',
       data: certificate,
       onStart: autoSaveCertificateStarted.type,
