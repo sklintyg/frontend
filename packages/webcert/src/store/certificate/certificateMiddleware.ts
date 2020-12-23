@@ -70,6 +70,7 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  setDisabledCertificateDataChild,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -524,6 +525,10 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         } else {
           dispatch(hideCertificateDataElement(result.id))
         }
+        break
+
+      case CertificateDataValidationType.DISABLE_VALIDATION:
+        dispatch(setDisabledCertificateDataChild(result))
         break
     }
   })

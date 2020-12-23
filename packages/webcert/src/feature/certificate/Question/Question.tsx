@@ -13,6 +13,7 @@ import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
 import UeTextArea from '../Inputs/UeTextArea'
 import { ConfigUeRadioBoolean, ConfigUeTextArea } from './../../../../../common/src/types/certificate'
+import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -102,6 +103,8 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE)
+      return <UeCheckboxGroup question={question} disabled={disabled} key={question.id} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 

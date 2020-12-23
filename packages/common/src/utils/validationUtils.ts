@@ -60,6 +60,7 @@ export interface ValidationResult {
   type: CertificateDataValidationType
   id: string
   result: boolean
+  affectedIds?: string[]
 }
 
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
@@ -78,6 +79,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
         const validationResult = {
           type: validation.type,
           id,
+          affectedIds: validation.id,
           result: parseExpression(validation.expression, data[validation.questionId], validation.type),
         }
 
