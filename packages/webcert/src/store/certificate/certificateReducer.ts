@@ -2,6 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { Certificate, ConfigTypes } from '@frontend/common'
 import {
   autoSaveCertificateSuccess,
+  enableCertificateDataElement,
+  disableCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -178,6 +180,20 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload].mandatory = false
+    })
+    .addCase(enableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = false
+    })
+    .addCase(disableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = true
     })
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
