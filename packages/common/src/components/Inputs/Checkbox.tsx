@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 
 interface Props {
-  label: string
+  label?: string
   name?: string
   id: string
   value?: string

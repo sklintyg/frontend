@@ -1,13 +1,15 @@
-import React, { ChangeEvent, useRef } from 'react'
+import React from 'react'
 import { Checkbox } from '@frontend/common'
-import { CertificateDataElement, ValueCode, ValueCodeList } from '@frontend/common/src'
+import { CertificateDataElement, ConfigTypes, QuestionValidationTexts, ValueBoolean, ValueCode, ValueCodeList } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
+import { useSelector } from 'react-redux'
+import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 interface Props {
-  label: string
+  label?: string
   name?: string
-  id: string
+  id?: string
   checked?: boolean
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
@@ -19,27 +21,52 @@ const UeCheckbox: React.FC<Props> = (props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
   const values = (question.value as ValueCodeList).list
+  const isShowValidationError = useSelector(getShowValidationErrors)
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const updatedValue = getUpdatedValue(question, event.currentTarget.checked, id)
+    let updatedValue = question
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
+      updatedValue = getUpdatedCodeListValue(question, event.currentTarget.checked, id || question.id)
+    } else if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN) {
+      updatedValue = getUpdatedBooleanValue(question, event.currentTarget.checked)
+    }
     dispatch(updateCertificateDataElement(updatedValue))
   }
 
+  const getChecked = (): boolean => {
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
+      return values.some((x) => x.code === id)
+    } else if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN && question.value) {
+      return question.value.selected === true
+    }
+    return false
+  }
+
   return (
-    <Checkbox
-      id={id}
-      label={label}
-      value={id}
-      checked={checked || values.some((x) => x.code === id)}
-      vertical={true}
-      disabled={disabled}
-      onChange={handleChange}
-      hasValidationError={hasValidationError}
-    />
+    <div>
+      <Checkbox
+        id={id || question.id}
+        label={label ? label : question.config.label + ''}
+        value={id}
+        checked={checked ? checked : getChecked()}
+        vertical={true}
+        disabled={disabled}
+        onChange={handleChange}
+        hasValidationError={hasValidationError}
+      />
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+    </div>
   )
 }
 
-const getUpdatedValue = (question: CertificateDataElement, checked: boolean, id: string) => {
+const getUpdatedBooleanValue = (question: CertificateDataElement, checked: boolean) => {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  updatedQuestion.value = { ...(updatedQuestion.value as ValueBoolean) }
+  updatedQuestion.value.selected = checked
+  return updatedQuestion
+}
+
+const getUpdatedCodeListValue = (question: CertificateDataElement, checked: boolean, id: string) => {
   const updatedQuestion: CertificateDataElement = { ...question }
 
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueCodeList) }

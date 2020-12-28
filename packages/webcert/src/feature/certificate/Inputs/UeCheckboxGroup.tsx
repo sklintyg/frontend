@@ -42,13 +42,4 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-//const isDisabled = (id: string) => {}
-
-function getCodeList(question: CertificateDataElement): ValueCodeList | null {
-  if (question.value?.type !== CertificateDataValueType.CODE_LIST) {
-    return null
-  }
-  return question.value as ValueCodeList
-}
-
 export default UeCheckboxGroup
