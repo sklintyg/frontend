@@ -26,6 +26,7 @@ import {
 } from './certificateActions'
 import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
 import { CertificateEvent } from '@frontend/common'
+import { ValueCode } from '@frontend/common/src'
 
 interface CertificateState {
   certificate?: Certificate
@@ -194,6 +195,8 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload].disabled = true
+      ;(state.certificate.data[action.payload].value as ValueCode).id = ''
+      ;(state.certificate.data[action.payload].value as ValueCode).code = ''
     })
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
