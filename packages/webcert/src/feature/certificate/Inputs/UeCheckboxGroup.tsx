@@ -24,7 +24,6 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
         id={checkbox.id}
         key={index}
         label={checkbox.label}
-        //TODO : MOVE VALUE
         disabled={disabled || checkbox.disabled}
         hasValidationError={shouldDisplayValidationError}
         question={question}
