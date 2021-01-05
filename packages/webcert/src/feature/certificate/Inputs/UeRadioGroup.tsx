@@ -1,8 +1,7 @@
 import React from 'react'
-import { CertificateDataElement, QuestionValidationTexts } from '@frontend/common'
+import { CertificateDataElement, QuestionValidationTexts, ConfigUeRadioMultipleCodes, RadioButton, ValueCode } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { ConfigTypes, ConfigUeRadioMultipleCodes, RadioButton, ValueCode, ValueCodeList } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 
@@ -18,8 +17,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    let updatedValue = question
-    updatedValue = getUpdatedValue(question, event.currentTarget.value)
+    const updatedValue = getUpdatedValue(question, event.currentTarget.value)
     dispatch(updateCertificateDataElement(updatedValue))
   }
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Dropdown } from '@frontend/common'
-import { CertificateDataElement, ConfigUeDropdown, QuestionValidationTexts, ValueCode } from '@frontend/common/src'
+import { Dropdown, CertificateDataElement, ConfigUeDropdown, QuestionValidationTexts, ValueCode } from '@frontend/common'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'

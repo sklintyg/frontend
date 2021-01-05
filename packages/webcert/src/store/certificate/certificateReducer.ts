@@ -25,8 +25,7 @@ import {
   validateCertificateStarted,
 } from './certificateActions'
 import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
-import { CertificateEvent } from '@frontend/common'
-import { ValueCode } from '@frontend/common/src'
+import { CertificateEvent, ValueCode } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
