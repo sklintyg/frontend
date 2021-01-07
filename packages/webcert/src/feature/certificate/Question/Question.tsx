@@ -13,6 +13,8 @@ import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
 import UeTextArea from '../Inputs/UeTextArea'
 import { ConfigUeRadioBoolean, ConfigUeTextArea } from './../../../../../common/src/types/certificate'
+import UeDropdown from '../Inputs/UeDropdown'
+import UeRadioGroup from '../Inputs/UeRadioGroup'
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
@@ -48,7 +50,7 @@ interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const classes = useStyles()
-  const disabled = useSelector(getIsLocked)
+  const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
 
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
@@ -102,6 +104,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
+      return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 

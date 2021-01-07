@@ -103,6 +103,9 @@ const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation error
 
 const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
 
+const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
+const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -254,6 +257,10 @@ export const hideCertificateDataElement = createAction<string>(HIDE_CERTIFICATE_
 export const showCertificateDataElementMandatory = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 
 export const hideCertificateDataElementMandatory = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY)
+
+export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
+
+export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
 
 export const setCertificateDataElement = createAction<CertificateDataElement>(SET_CERTIFICATE_DATA_ELEMENT)
 

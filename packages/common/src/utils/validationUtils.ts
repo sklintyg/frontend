@@ -8,6 +8,7 @@ import {
   MandatoryValidation,
   ShowValidation,
   ValueBoolean,
+  ValueCode,
   ValueCodeList,
   ValueText,
 } from '..'
@@ -41,6 +42,10 @@ export const parseExpression = (
         const valueCodeList = element.value as ValueCodeList
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
+
+      case CertificateDataValueType.CODE:
+        const valueCode = element.value as ValueCode
+        return valueCode.id === adjustedId ? 1 : 0
 
       default:
         return 0
