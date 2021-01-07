@@ -7,6 +7,7 @@ import {
   ConfigTypes,
   ValueBoolean,
   ValueCodeList,
+  ValueCode,
   ValueText,
 } from '..'
 import { parseExpression, validateExpressions } from './validationUtils'
@@ -439,6 +440,74 @@ describe('Validate multiple show rules', () => {
     expect(categoryResult === undefined ? undefined : categoryResult.result).toBe(true)
     expect(booleanResult === undefined ? undefined : booleanResult.result).toBe(true)
     expect(textResult === undefined ? undefined : textResult.result).toBe(true)
+  })
+})
+
+describe('Validate enable rule for code values', () => {
+  const codeElement: CertificateDataElement = {
+    id: '39.1',
+    parent: 'bedomning',
+    index: 25,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    disabled: true,
+    config: {
+      text: '',
+      description: '',
+      type: ConfigTypes.UE_DROPDOWN,
+      list: [
+        {
+          id: 'VALJ_TIDSPERIOD',
+          label: 'Välj tidsperiod',
+        },
+        {
+          id: 'TRETTIO_DGR',
+          label: '1 månad.',
+        },
+        {
+          id: 'SEXTIO_DGR',
+          label: '2 månader.',
+        },
+        {
+          id: 'NITTIO_DGR',
+          label: '3 månader.',
+        },
+        {
+          id: 'HUNDRAATTIO_DAGAR',
+          label: '6 månader.',
+        },
+        {
+          id: 'TREHUNDRASEXTIOFEM_DAGAR',
+          label: '12 månader.',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.CODE,
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.ENABLE_VALIDATION,
+        questionId: '39',
+        expression: '$ATER_X_ANTAL_DGR',
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as false when code is not set', () => {
+    const value = codeElement.value as ValueCode
+    value.code = ''
+    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when code is set', () => {
+    const value = codeElement.value as ValueCode
+    value.id = 'ATER_X_ANTAL_DGR'
+    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
+    expect(result).toBe(true)
   })
 })
 

@@ -2,6 +2,8 @@ import { createReducer } from '@reduxjs/toolkit'
 import { Certificate, ConfigTypes } from '@frontend/common'
 import {
   autoSaveCertificateSuccess,
+  enableCertificateDataElement,
+  disableCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -23,9 +25,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
-import { CertificateEvent } from '@frontend/common'
-import { CertificateDataElement, ConfigUeCheckboxMultipleCodes, ValueCodeList } from '@frontend/common/src'
+import { ValueBoolean, CertificateDataValueType, ValueText, CertificateEvent, CertificateDataElement, ConfigUeCheckboxMultipleCodes, ValueCodeList, ValueCode } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
@@ -180,6 +180,22 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload].mandatory = false
+    })
+    .addCase(enableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = false
+    })
+    .addCase(disableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = true
+      ;(state.certificate.data[action.payload].value as ValueCode).id = ''
+      ;(state.certificate.data[action.payload].value as ValueCode).code = ''
     })
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
