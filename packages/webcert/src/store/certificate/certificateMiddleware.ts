@@ -16,6 +16,8 @@ import {
   deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
+  disableCertificateDataElement,
+  enableCertificateDataElement,
   forwardCertificate,
   forwardCertificateCompleted,
   forwardCertificateError,
@@ -530,6 +532,13 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
       case CertificateDataValidationType.DISABLE_VALIDATION:
         dispatch(setDisabledCertificateDataChild(result))
         break
+
+      case CertificateDataValidationType.ENABLE_VALIDATION:
+        if (result.result) {
+          dispatch(enableCertificateDataElement(result.id))
+        } else {
+          dispatch(disableCertificateDataElement(result.id))
+        }
     }
   })
 }
