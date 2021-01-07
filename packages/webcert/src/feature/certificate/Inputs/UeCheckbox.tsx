@@ -1,6 +1,13 @@
 import React from 'react'
-import { Checkbox } from '@frontend/common'
-import { CertificateDataElement, ConfigTypes, QuestionValidationTexts, ValueBoolean, ValueCode, ValueCodeList } from '@frontend/common/src'
+import {
+  Checkbox,
+  CertificateDataElement,
+  ConfigTypes,
+  QuestionValidationTexts,
+  ValueBoolean,
+  ValueCode,
+  ValueCodeList,
+} from '@frontend/common'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
