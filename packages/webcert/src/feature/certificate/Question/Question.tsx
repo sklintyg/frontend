@@ -97,9 +97,12 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       )
     }
     return (
-      <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
-        {question.config.text}
-      </Typography>
+      <>
+        <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
+        <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+          {question.config.text}
+        </Typography>
+      </>
     )
   }
 
