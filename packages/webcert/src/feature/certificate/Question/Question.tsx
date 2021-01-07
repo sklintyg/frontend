@@ -49,11 +49,12 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
+  const parent = useSelector(getQuestion(question.parent))
   const classes = useStyles()
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
 
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
-  if (!question || (!question.visible && !question.readOnly)) return null
+  if (!question || ((!question.visible || !parent.visible) && !question.readOnly)) return null
 
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>

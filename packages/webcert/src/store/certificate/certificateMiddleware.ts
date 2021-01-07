@@ -520,6 +520,14 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         }
         break
 
+      case CertificateDataValidationType.HIDE_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElement(result.id))
+        } else {
+          dispatch(showCertificateDataElement(result.id))
+        }
+        break
+
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result.result) {
           dispatch(showCertificateDataElement(result.id))
