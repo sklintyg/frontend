@@ -1,6 +1,7 @@
 import { compileExpression, Options } from 'filtrex'
 import {
   Certificate,
+  CertificateData,
   CertificateDataElement,
   CertificateDataValidation,
   CertificateDataValidationType,
@@ -10,6 +11,7 @@ import {
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDateList,
   ValueText,
 } from '..'
 
@@ -18,7 +20,7 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
-  const adjustedExpression = expression.replace(/\|\|/g, 'or')
+  const adjustedExpression = getExpression(expression)
 
   function convertToValue(id: string, type: CertificateDataValidationType): number {
     const adjustedId = id.replace(/\$/g, '')
@@ -42,6 +44,11 @@ export const parseExpression = (
         const valueCodeList = element.value as ValueCodeList
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
+
+      case CertificateDataValueType.DATE_LIST:
+        const valueDateList = element.value as ValueDateList
+        const date = valueDateList.list.find((date) => date.id === adjustedId)
+        return date ? 1 : 0
 
       case CertificateDataValueType.CODE:
         const valueCode = element.value as ValueCode
@@ -67,6 +74,21 @@ export interface ValidationResult {
   result: boolean
 }
 
+const getResult = (validation: CertificateDataValidation, data: CertificateData) => {
+  if (validation.expression === undefined || validation.expression === null) {
+    return true // TODO: Create validationType specific logic here
+  } else {
+    return parseExpression(validation.expression, data[validation.questionId], validation.type)
+  }
+}
+
+const getExpression = (expression: string): string => {
+  expression = expression.replace(/\|\|/g, 'or')
+  expression = expression.replace(/&&/g, 'and')
+  expression = expression.replace(/!/g, 'not ')
+  return expression
+}
+
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
   const validationResults: ValidationResult[] = []
   const data = certificate.data
@@ -83,7 +105,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
         const validationResult = {
           type: validation.type,
           id,
-          result: parseExpression(validation.expression, data[validation.questionId], validation.type),
+          result: getResult(validation, data),
         }
 
         newValidationResults.push(validationResult)
