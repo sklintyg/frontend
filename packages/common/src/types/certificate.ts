@@ -172,7 +172,7 @@ export interface ValueDate extends Value {
 }
 
 export interface ValueDateList extends Value {
-  list: ValueDate
+  list: ValueDate[]
 }
 
 export interface ValueDateRange extends Value {
