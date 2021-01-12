@@ -13,8 +13,8 @@ import {
   FMBDiagnosisCodeInfoFormContent,
   ExpandableText,
 } from '@frontend/common'
-import LaunchIcon from '@material-ui/icons/Launch'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import styled, { css } from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 
@@ -49,7 +49,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
             Vägledning för sjukskrivning
             <ButtonTooltip
               description={'Vägledning för sjukskrivning vid ' + diagnosisCodes[selectedDiagnosisIndex].icd10Description + '.'}>
-              <InfoOutlinedIcon className="iu-ml-200 iu-mb-200" />
+              {/* <InfoOutlinedIcon className="iu-ml-200 iu-mb-200" /> */}
             </ButtonTooltip>
           </SubHeader>
           <ul>
@@ -69,7 +69,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
           <p css={alignCenter} className={`iu-fw-heading iu-fs-200`}>
             Relaterade diagnoskoder (ICD-10-SE)
             <ButtonTooltip description="Informationen nedan gäller för angivna diagnoskoder, men kan även vara relevant för fler diagnoskoder.">
-              <InfoOutlinedIcon className="iu-ml-200 iu-mb-200" />
+              <FontAwesomeIcon icon={faInfoCircle} className="iu-ml-200 iu-mb-200" />
             </ButtonTooltip>
           </p>
           <div>{diagnosisCodes[selectedDiagnosisIndex].relatedDiagnoses}</div>
@@ -137,7 +137,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
               <p css={alignCenter} className="iu-fs-200">
                 {diagnosisCodes[selectedDiagnosisIndex].referenceDescription}
               </p>
-              <LaunchIcon className="iu-ml-200 iu-fs-100" />
+              <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-ml-200 iu-fs-100" />
             </Link>
           </div>
         </div>

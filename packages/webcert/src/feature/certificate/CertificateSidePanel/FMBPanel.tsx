@@ -30,7 +30,7 @@ interface Props {
   minimizeSidePanel: ReactNode
 }
 
-const FMBPanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePanel }) => {
+const FMBPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes)
   const [selectedDiagnosisIndex, setSelectedDiagnosisIndex] = useState(0)
 
@@ -40,40 +40,38 @@ const FMBPanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePan
 
   return (
     <>
-      {selectedTabIndex === tabIndex && (
-        <Root className="iu-border-grey-300">
-          <PanelHeader description="Diagnosspecifik information" minimizeSidePanel={minimizeSidePanel} />
-          {fmbDiagnosisCodes.length === 0 ? (
-            <EmptyWrapper>
-              <img alt="" src={noDiagnosisIcon} />
-              <div>Ange minst en diagnos för att få FMB-stöd.</div>
-            </EmptyWrapper>
-          ) : (
-            <>
-              <div className="iu-border-grey-300 iu-p-500">
-                <div role="group" aria-label="Diagnosis selection" className="ic-checkbox-group-horizontal">
-                  {fmbDiagnosisCodes.map((diagnosisCode: FMBDiagnosisCodeInfo, index: number) => (
-                    <>
-                      <input
-                        key={diagnosisCode.icd10Code}
-                        className="ic-forms__checkbox"
-                        type="checkbox"
-                        id={diagnosisCode.icd10Code}
-                        name={diagnosisCode.icd10Code}
-                        value={index}
-                        onChange={onDiagnosisSelect}
-                      />
-                      <label htmlFor={diagnosisCode.icd10Code}>Checkbox 1</label>
-                    </>
-                  ))}
-                </div>
+      <Root className="iu-border-grey-300">
+        <PanelHeader description="Diagnosspecifik information" minimizeSidePanel={minimizeSidePanel} />
+        {fmbDiagnosisCodes.length === 0 ? (
+          <EmptyWrapper>
+            <img alt="" src={noDiagnosisIcon} />
+            <div>Ange minst en diagnos för att få FMB-stöd.</div>
+          </EmptyWrapper>
+        ) : (
+          <>
+            <div className="iu-border-grey-300 iu-p-500">
+              <div role="group" aria-label="Diagnosis selection" className="ic-checkbox-group-horizontal">
+                {fmbDiagnosisCodes.map((diagnosisCode: FMBDiagnosisCodeInfo, index: number) => (
+                  <>
+                    <input
+                      key={diagnosisCode.icd10Code}
+                      className="ic-forms__checkbox"
+                      type="checkbox"
+                      id={diagnosisCode.icd10Code}
+                      name={diagnosisCode.icd10Code}
+                      value={index}
+                      onChange={onDiagnosisSelect}
+                    />
+                    <label htmlFor={diagnosisCode.icd10Code}>Checkbox 1</label>
+                  </>
+                ))}
               </div>
-              <FMBPanelDiagnosisInfo diagnosisCodes={fmbDiagnosisCodes} selectedDiagnosisIndex={selectedDiagnosisIndex} />
-            </>
-          )}
-          <FMBPanelFooter />
-        </Root>
-      )}
+            </div>
+            <FMBPanelDiagnosisInfo diagnosisCodes={fmbDiagnosisCodes} selectedDiagnosisIndex={selectedDiagnosisIndex} />
+          </>
+        )}
+        <FMBPanelFooter />
+      </Root>
     </>
   )
 }

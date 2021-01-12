@@ -2,8 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { printCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import PrintIcon from '@material-ui/icons/Print'
 import { CustomButton } from '@frontend/common'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   name: string
@@ -23,7 +24,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled })
       disabled={!enabled}
       style="primary"
       text={name}
-      startIcon={<PrintIcon />}
+      startIcon={<FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>}
       onClick={() => dispatch(printCertificate(certificateMetadata))}
     />
   )

@@ -1,5 +1,6 @@
 import React from 'react'
-import SyncAltIcon from '@material-ui/icons/SyncAlt'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
 import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal } from '@frontend/common'
 import { InfoBox, isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
@@ -44,7 +45,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<SyncAltIcon />}
+      startIcon={<FontAwesomeIcon icon={faExchangeAlt} />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm()}
       confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Ersätt'}>

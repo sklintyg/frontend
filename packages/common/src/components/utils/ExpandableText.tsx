@@ -1,5 +1,6 @@
 import React, { MouseEvent, useEffect, useState } from 'react'
-import { ExpandLess, ExpandMore } from '@material-ui/icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -48,7 +49,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
           <TextWrapper dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
           <StyledLink to="#" onClick={onReadLessOrMore}>
             Läs mer
-            <ExpandMore />
+            <FontAwesomeIcon icon={faAngleDown} />
           </StyledLink>
         </div>
       ) : (
@@ -57,7 +58,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
           {text && text.length > maxLength && (
             <StyledLink to="#" onClick={onReadLessOrMore}>
               Läs mindre
-              <ExpandLess />
+              <FontAwesomeIcon icon={faAngleDown} rotation={180} />
             </StyledLink>
           )}
         </div>

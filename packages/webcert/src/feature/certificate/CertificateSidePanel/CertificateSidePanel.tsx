@@ -1,71 +1,21 @@
 import React, { useState } from 'react'
-// import { Paper, Tabs, Tab, Box, Typography } from '@material-ui/core'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { useDispatch, useSelector } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from './FMBPanel'
 import { ButtonTooltip, Tabs } from '@frontend/common'
-import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined'
-import DescriptionIcon from '@material-ui/icons/Description'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLightbulb, faFileAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { getUserPreference } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
-import colors from '../../../components/styles/colors'
 import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 import { css } from 'styled-components'
 import styled from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    overflowY: 'hidden',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  border: {
-    border: `1px solid colors.IA_COLOR_08`,
-  },
-  tabs: {
-    borderBottom: 0,
-  },
-  activeTab: {
-    backgroundColor: colors.IA_COLOR_08,
-  },
-  icon: {
-    verticalAlign: 'middle',
-    marginRight: theme.spacing(0.5),
-  },
-  minimizedRoot: {
-    overflowY: 'auto',
-    height: '100%',
-    display: 'flex',
-  },
-  minimizedMenu: {
-    marginLeft: 'auto',
-    backgroundColor: colors.IA_COLOR_08,
-    padding: theme.spacing(2),
-  },
-  minimizedMenuItem: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  linkText: {
-    fontSize: theme.typography.subtitle2.fontSize,
-    fontWeight: theme.typography.subtitle2.fontWeight,
-  },
-  pointerCursor: {
-    cursor: 'pointer',
-  },
-}))
-
-const StyledEmojiObjectsOutlinedIcon = styled(EmojiObjectsOutlinedIcon)`
-  vertical-align: middle;
-  margin-right: 4px;
-`
+// const StyledEmojiObjectsOutlinedIcon = styled(EmojiObjectsOutlinedIcon)`
+//   vertical-align: middle;
+//   margin-right: 4px;
+// `
 
 const Root = styled.div`
   overflow-y: hidden;
@@ -90,7 +40,6 @@ const pointerCursor = css`
 `
 
 const CertificateSidePanel: React.FC = () => {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
   const SIDEBAR_MINIMIZED = 'wc.sidebarMinimized'
@@ -103,7 +52,8 @@ const CertificateSidePanel: React.FC = () => {
 
   if (showSpinner) return null
 
-  const handleTabChange = (event: React.ChangeEvent<{}>, value: number): void => {
+  const handleTabChange = (value: number): void => {
+    console.log(value)
     setSelectedTabIndex(value)
   }
 
@@ -117,11 +67,12 @@ const CertificateSidePanel: React.FC = () => {
   }
 
   const MinimizeSidePanel = () => {
+    //TODO: Add button tooltip to chevronrighticon when , i removed it because of a css bug with the current tooltip
     return (
       <div css={pointerCursor} onClick={() => handleMinimizeSidePanelClick()}>
-        <ButtonTooltip description="Döljer högerfältet">
-          <ChevronRightIcon />
-        </ButtonTooltip>
+        {/* <ButtonTooltip description="Döljer högerfältet"> */}
+        <FontAwesomeIcon icon={faChevronRight} />
+        {/* </ButtonTooltip> */}
       </div>
     )
   }
@@ -133,7 +84,7 @@ const CertificateSidePanel: React.FC = () => {
       array.push(
         <ButtonTooltip description={fmbInfoPanelActive.description}>
           <p>
-            <StyledEmojiObjectsOutlinedIcon />
+            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
             {fmbInfoPanelActive.name}
           </p>
         </ButtonTooltip>
@@ -172,47 +123,10 @@ const CertificateSidePanel: React.FC = () => {
       {minimized !== 'true' ? (
         <Root>
           <Tabs
-            tabs={[
-              <ButtonTooltip description="Läs om intyget.">
-                <p>Om intyget</p>
-              </ButtonTooltip>,
-            ]}
-            tabsContent={getTabsContentArray()}></Tabs>
-          {/* <Tabs
-            className={`${classes.border} ${classes.tabs}`}
-            TabIndicatorProps={{ style: { height: '0px' } }}
-            value={selectedTabIndex}
-            onChange={handleTabChange}>
-            {fmbInfoPanelActive && (
-              <Tab
-                className={selectedTabIndex === fmbTabIndex ? 'iu-bg-grey-300' : ''}
-                label={
-                  <ButtonTooltip description={fmbInfoPanelActive.description}>
-                    <p>
-                      <StyledEmojiObjectsOutlinedIcon />
-                      {fmbInfoPanelActive.name}
-                    </p>
-                  </ButtonTooltip>
-                }
-              />
-            )}
-            <Tab
-              className={selectedTabIndex === aboutCertificateTabIndex ? classes.activeTab : ''}
-              label={
-                <ButtonTooltip description="Läs om intyget.">
-                  <p>Om intyget</p>
-                </ButtonTooltip>
-              }
-            />
-          </Tabs>
-          {fmbInfoPanelActive && (
-            <FMBPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />
-          )}
-          <AboutCertificatePanel
-            tabIndex={aboutCertificateTabIndex}
             selectedTabIndex={selectedTabIndex}
-            minimizeSidePanel={<MinimizeSidePanel />}
-          /> */}
+            setSelectedTabIndex={handleTabChange}
+            tabs={getTabsArray()}
+            tabsContent={getTabsContentArray()}></Tabs>
         </Root>
       ) : (
         <MinimizedRoot>
@@ -223,7 +137,8 @@ const CertificateSidePanel: React.FC = () => {
                   css={pointerCursor}
                   className="iu-pt-400 iu-flex iu-flex-center"
                   onClick={() => handleRestoreSidePanelClick(fmbTabIndex)}>
-                  <EmojiObjectsOutlinedIcon />
+                  <FontAwesomeIcon icon={faLightbulb} />
+
                   <p>FMB</p>
                 </div>
               </ButtonTooltip>
@@ -233,7 +148,7 @@ const CertificateSidePanel: React.FC = () => {
                 css={pointerCursor}
                 className="iu-pt-400 iu-flex iu-flex-center"
                 onClick={() => handleRestoreSidePanelClick(aboutCertificateTabIndex)}>
-                <DescriptionIcon />
+                <FontAwesomeIcon icon={faFileAlt} />
                 <p>Om intyget</p>
               </div>
             </ButtonTooltip>

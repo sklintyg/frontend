@@ -1,11 +1,26 @@
 import React, { useEffect, useRef } from 'react'
+import styled from 'styled-components'
+
+const Root = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const Section = styled.section`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
 
 interface Props {
   tabs: React.ReactNode[]
   tabsContent: React.ReactNode[]
+  setSelectedTabIndex: (index: number) => void
+  selectedTabIndex: number
 }
 
-export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
+export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex }) => {
   const tabbed = useRef<HTMLDivElement | null>(null)
   const tablist = useRef<HTMLUListElement | null>(null)
   const tabRefs = useRef<HTMLAnchorElement[]>([])
@@ -18,7 +33,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
     // Add semantics are remove user focusability for each tab
     Array.prototype.forEach.call(tabRefs.current, (tab: HTMLAnchorElement, i) => {
       tab.setAttribute('role', 'tab')
-      tab.setAttribute('id', 'tab' + (i + 1))
+      tab.setAttribute('id', 'tab' + i)
       tab.setAttribute('tabindex', '-1')
       ;(tab.parentNode as HTMLAnchorElement).setAttribute('role', 'presentation')
 
@@ -53,11 +68,9 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
 
     // Add tab panel semantics and hide them all
     Array.prototype.forEach.call(panels.current, (panel, i) => {
-      console.log('lägger till saker på panels')
       panel.setAttribute('role', 'tabpanel')
       panel.setAttribute('tabindex', '-1')
       const id = panel.getAttribute('id')
-      console.log('tabRefs.current', tabRefs.current)
       panel.setAttribute('aria-labelledby', tabRefs.current[i].id)
       panel.hidden = true
     })
@@ -66,6 +79,8 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
     tabRefs.current[0].removeAttribute('tabindex')
     tabRefs.current[0].setAttribute('aria-selected', 'true')
     panels.current[0].hidden = false
+
+    setTab(selectedTabIndex)
   }, [])
 
   // The tab switching function
@@ -85,22 +100,61 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
     panels.current[index].hidden = false
   }
 
-  console.log('tabs', tabs)
+  const setTab = (index: number) => {
+    // if (!tablist.current) return
+    clearFocus()
+    console.log('index', index)
+    console.log('tablist.current', tablist.current)
+    const tab = tablist?.current?.querySelector(`#tab${index}`)
+
+    console.log(`tab${index}`)
+    // tab.focus()
+    // Make the active tab focusable by the user (Tab key)
+    tab?.removeAttribute('tabindex')
+    // Set the selected state
+    tab?.setAttribute('aria-selected', 'true')
+    // Get the indices of the new and old tabs to find the correct
+    // tab panels to show and hide
+    console.log('panels.current', panels.current)
+    panels.current[index].hidden = false
+  }
+
+  const clearFocus = () => {
+    // panels.current.forEach((panel) => {
+    //   panel.hidden = true
+    //   panel.removeAttribute('aria-selected')
+    //   panel.setAttribute('tabindex', '-1')
+    // })
+
+    for (let i = 0; i < panels.current.length; i++) {
+      if (i === selectedTabIndex) {
+        continue
+      }
+      const tab = tablist.current?.querySelector(`#tab${i}`)
+      panels.current[i].hidden = true
+      tab?.removeAttribute('aria-selected')
+      tab?.setAttribute('tabindex', '-1')
+      console.log('panels.current[i]', panels.current[i])
+    }
+  }
 
   return (
-    <div ref={tabbed} className="ic-tabbed tabbed">
+    <Root ref={tabbed} className="ic-tabbed tabbed">
       <ul ref={tablist} className="ic-tabbed__tabs iu-hide-sm">
-        {/* {tabs.map((tab, i) => {
-          console.log(i, tab)
+        {tabs.map((tab, i) => {
           return (
             <li>
-              <a ref={(el: HTMLAnchorElement) => (tabRefs.current[i] = el)} className="ic-tabbed__tab" href="#section1">
+              <a
+                onClick={() => setSelectedTabIndex(i)}
+                ref={(el: HTMLAnchorElement) => (tabRefs.current[i] = el)}
+                className="ic-tabbed__tab"
+                href={i.toString()}>
                 {tab}
               </a>
             </li>
           )
-        })} */}
-        <li>
+        })}
+        {/* <li>
           <a ref={(el: HTMLAnchorElement) => (tabRefs.current[0] = el)} className="ic-tabbed__tab" href="#section1">
             Section 1
           </a>
@@ -119,10 +173,18 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
           <a ref={(el: HTMLAnchorElement) => (tabRefs.current[3] = el)} className="ic-tabbed__tab" href="#section4">
             Section 4
           </a>
-        </li>
+        </li> */}
       </ul>
 
-      <section ref={(el: HTMLDivElement) => (panels.current[0] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section1">
+      {tabsContent.map((tabContent, i) => {
+        return (
+          <Section ref={(el: HTMLDivElement) => (panels.current[i] = el)} className="ic-tabbed__section ic-text" id={i.toString()}>
+            {tabContent}
+          </Section>
+        )
+      })}
+
+      {/* <section ref={(el: HTMLDivElement) => (panels.current[0] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section1">
         <h2>Section 1</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam euismod, tortor nec pharetra ultricies, ante erat imperdiet velit,
@@ -158,8 +220,8 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent }) => {
           magna bibendum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam euismod, tortor nec pharetra ultricies, ante
           erat imperdiet velit, nec laoreet enim lacus a velit.{' '}
         </p>
-      </section>
-    </div>
+      </section> */}
+    </Root>
   )
 }
 

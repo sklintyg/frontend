@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 const StatusWrapper = styled.div`
   display: flex;
   align-items: center;
+  padding: 4px 0;
 `
 
 const StatusLeftSide = styled.div`

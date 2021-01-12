@@ -1,7 +1,7 @@
 import React from 'react'
-import CheckIcon from '@material-ui/icons/Check'
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,13 +13,13 @@ interface Props {
   additionalTextStyles?: string
 }
 
-const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalTextStyles, additionalWrapperStyles }) => {
+const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyles }) => {
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
-        return <CheckIcon className={`iu-color-success`} fontSize="small" />
+        return <FontAwesomeIcon icon={faCheck} className={`iu-color-success`} size="sm" />
       case 'ErrorOutlineIcon':
-        return <ErrorOutlineIcon color="error" fontSize="small" />
+        return <FontAwesomeIcon icon={faExclamationCircle} color="error" size="sm" />
       case undefined:
         return null
     }

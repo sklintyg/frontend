@@ -8,6 +8,7 @@ interface Props {
 }
 
 const DraftSavedStatus: React.FC<Props> = ({ certificateMetadata, isValidating, isEditable }) => {
+  console.log(isDraftSaved(certificateMetadata, isValidating) || !isEditable)
   if (!isDraftSaved(certificateMetadata, isValidating) || !isEditable) return null
 
   return <StatusWithIcon icon={'CheckIcon'}>Utkastet är sparat</StatusWithIcon>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { signCertificate } from '../../../store/certificate/certificateActions'
-import BorderColorIcon from '@material-ui/icons/BorderColor'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { CustomButton } from '@frontend/common'
@@ -19,7 +20,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
     <CustomButton
       style="success"
       text={name}
-      startIcon={<BorderColorIcon />}
+      startIcon={<FontAwesomeIcon icon={faFileSignature} />}
       disabled={isValidating || !enabled}
       onClick={() => {
         dispatch(signCertificate())

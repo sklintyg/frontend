@@ -1,7 +1,8 @@
 import { ButtonWithConfirmModal } from '@frontend/common'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
-import DeleteIcon from '@material-ui/icons/Delete'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
@@ -23,7 +24,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<DeleteIcon />}
+      startIcon={<FontAwesomeIcon icon={faTrash} />}
       modalTitle="Radera utkast"
       onConfirm={() => {
         dispatch(deleteCertificate(certificateMetadata.id))

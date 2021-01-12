@@ -9,6 +9,7 @@ const ContentWrapper = styled.div`
   padding: 16px;
   height: 100%;
   overflow-y: auto;
+  margin-top: 0;
 `
 
 const Description = styled.p`
@@ -30,30 +31,26 @@ interface Props {
   minimizeSidePanel: ReactNode
 }
 
-const AboutCertificatePanel: React.FC<Props> = ({ tabIndex, selectedTabIndex, minimizeSidePanel }) => {
+const AboutCertificatePanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const certMetaData = useSelector(getCertificateMetaData)
 
   return (
     <>
-      {selectedTabIndex === tabIndex && (
-        <>
-          <PanelHeader description="Om intyget" minimizeSidePanel={minimizeSidePanel} />
-          <ContentWrapper className={`iu-border-grey-300`}>
-            <p className="iu-fw-heading">
-              {certMetaData && (
-                <>
-                  {certMetaData.name}
-                  <CertificateVersion>
-                    {certMetaData.type} {certMetaData.typeVersion}
-                  </CertificateVersion>
-                </>
-              )}
-            </p>
-            <Description>{certMetaData?.description}</Description>
-          </ContentWrapper>
-          <AboutCertificatePanelFooter />
-        </>
-      )}
+      <PanelHeader description="Om intyget" minimizeSidePanel={minimizeSidePanel} />
+      <ContentWrapper className={`iu-border-grey-300`}>
+        <p className="iu-fw-heading">
+          {certMetaData && (
+            <>
+              {certMetaData.name}
+              <CertificateVersion>
+                {certMetaData.type} {certMetaData.typeVersion}
+              </CertificateVersion>
+            </>
+          )}
+        </p>
+        <Description>{certMetaData?.description}</Description>
+      </ContentWrapper>
+      <AboutCertificatePanelFooter />
     </>
   )
 }

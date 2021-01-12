@@ -1,5 +1,6 @@
 import React from 'react'
-import DateRangeIcon from '@material-ui/icons/DateRange'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
@@ -12,7 +13,7 @@ const additionalHeaderStyles = css`
   justify-content: space-between;
   align-items: center;
   color: white !important;
-  background-color: rgb(1, 165, 163);
+  background-color: rgb(1, 165, 163) !important;
   border-bottom: 1px solid rgb(0, 112, 110);
 
   h3 {
@@ -21,7 +22,7 @@ const additionalHeaderStyles = css`
 `
 
 const additionalContentStyles = css`
-  background-color: rgb(1, 165, 163);
+  background-color: rgb(1, 165, 163) !important;
   color: white;
 
   p + p {
@@ -49,9 +50,9 @@ const UvCareUnitAddress: React.FC = (props) => {
   return (
     <>
       <CategoryHeader additionalStyles={additionalHeaderStyles}>
-        <CategoryTitle>Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
-        <div className={'iu-flex'}>
-          <DateRangeIcon></DateRangeIcon>
+        <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
+        <div className={'iu-flex iu-flex-center'}>
+          <FontAwesomeIcon icon={faCalendarWeek} />
           <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
         </div>
       </CategoryHeader>

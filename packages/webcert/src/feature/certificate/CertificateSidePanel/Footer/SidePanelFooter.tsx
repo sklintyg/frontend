@@ -5,6 +5,7 @@ const Root = styled.div`
   padding: 12px 20px;
   position: sticky;
   bottom: 0;
+  margin-top: 50px;
 `
 
 const TextWrapper = styled.div`

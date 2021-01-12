@@ -2,7 +2,8 @@ import { ButtonTooltip, ButtonWithConfirmModal, CustomButton } from '@frontend/c
 import React from 'react'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch, useSelector } from 'react-redux'
-import ReplyIcon from '@material-ui/icons/Reply'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faReply } from '@fortawesome/free-solid-svg-icons'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 
 interface Props {
@@ -21,11 +22,11 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
     const href = `mailto:?subject=Du%20har%20blivit%20tilldelad%20ett%20ej%20signerat%20utkast%20i%20Webcert%20p%C3%A5%20enhet%20${metadata.unit.unitName}%20f%C3%B6r%20v%C3%A5rdgivare%20${metadata.careProvider.unitName}&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20g%C3%A5%20till%20utkastet%3A%20http%3A%2F%2Flocalhost%3A3000%2Fcertificate%2F${metadata.id}%0D%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du%20klickar%20p%C3%A5%20l%C3%A4nken.%20`
     window.location.href = href
   }
-
+  //startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />}
   if (metadata.forwarded) {
     return (
       <ButtonTooltip description={description}>
-        <CustomButton disabled={!enabled} startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />} onClick={handleEmailSend}>
+        <CustomButton disabled={!enabled} onClick={handleEmailSend}>
           {name}
         </CustomButton>
       </ButtonTooltip>
@@ -37,7 +38,7 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<ReplyIcon />}
+      startIcon={<FontAwesomeIcon icon={faReply} />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate(true))}
       onClick={handleEmailSend}
