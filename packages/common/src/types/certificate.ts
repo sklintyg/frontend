@@ -89,6 +89,7 @@ export interface ConfigUeRadioBoolean extends CertificateDataConfig {
 export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   id: string
   label: string
+  disabled?: boolean
 }
 
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {

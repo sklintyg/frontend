@@ -9,6 +9,7 @@ import {
   CertificateMetadata,
   CertificateEvent,
 } from '@frontend/common'
+import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -103,6 +104,7 @@ const HIDE_CERTIFICATE_VALIDATION_ERRORS = `${CERTIFICATE} Hide validation error
 
 const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
 
+const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate child element to disabled or not`
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
@@ -258,8 +260,8 @@ export const showCertificateDataElementMandatory = createAction<string>(SHOW_CER
 
 export const hideCertificateDataElementMandatory = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 
+export const setDisabledCertificateDataChild = createAction<ValidationResult>(SET_DISABLED_CERTIFICATE_DATA_CHILD)
 export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
-
 export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
 
 export const setCertificateDataElement = createAction<CertificateDataElement>(SET_CERTIFICATE_DATA_ELEMENT)
