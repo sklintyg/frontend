@@ -13,6 +13,8 @@ import ArrowUp from '../utils/ArrowUp'
 import { Expandable } from '@frontend/common'
 import UeTextArea from '../Inputs/UeTextArea'
 import { ConfigUeRadioBoolean, ConfigUeTextArea } from './../../../../../common/src/types/certificate'
+import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
+import UeCheckbox from '../Inputs/UeCheckbox'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 
@@ -96,15 +98,22 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       )
     }
     return (
-      <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
-        {question.config.text}
-      </Typography>
+      <>
+        <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
+        <Typography className={`questionTitle ${classes.heading}`} variant="subtitle1">
+          {question.config.text}
+        </Typography>
+      </>
     )
   }
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN)
+      return <UeCheckbox disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE)
+      return <UeCheckboxGroup question={question} disabled={disabled} key={question.id} />
     if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />

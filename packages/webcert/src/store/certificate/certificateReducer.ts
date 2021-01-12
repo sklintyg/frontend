@@ -10,6 +10,7 @@ import {
   hideValidationErrors,
   setCertificateDataElement,
   setCertificateUnitData,
+  setDisabledCertificateDataChild,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -24,8 +25,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
-import { CertificateEvent, ValueCode } from '@frontend/common'
+import { ValueBoolean, CertificateDataValueType, ValueText, CertificateEvent, CertificateDataElement, ConfigUeCheckboxMultipleCodes, ValueCodeList, ValueCode } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
@@ -200,6 +200,29 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
       state.isDeleted = true
+    })
+    .addCase(setDisabledCertificateDataChild, (state, action) => {
+      if (!state.certificate || !action.payload.affectedIds) {
+        return
+      }
+
+      const question = state.certificate.data[action.payload.id] as CertificateDataElement
+      const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item, i) => {
+        const isAffected = action.payload.affectedIds!.some((id: string) => item.id === id)
+        if (isAffected) {
+          item.disabled = action.payload.result
+          if (item.disabled) {
+            const index = (state.certificate!.data[action.payload.id].value as ValueCodeList).list.findIndex(
+              (value) => item.id === value.id
+            )
+            if (index != -1) {
+              ;(state.certificate!.data[action.payload.id].value as ValueCodeList).list.splice(index, 1)
+            }
+          }
+        }
+        return item
+      })
+      state.certificate.data[action.payload.id].config.list = updatedList
     })
 )
 

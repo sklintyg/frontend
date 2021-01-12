@@ -72,6 +72,7 @@ export interface ValidationResult {
   type: CertificateDataValidationType
   id: string
   result: boolean
+  affectedIds?: string[]
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData) => {
@@ -105,16 +106,18 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
         const validationResult = {
           type: validation.type,
           id,
+          affectedIds: validation.id,
           result: getResult(validation, data),
         }
-
         newValidationResults.push(validationResult)
       })
 
       validationResults.push(
         ...newValidationResults.reduce((currentValidationResults: ValidationResult[], validationResult: ValidationResult) => {
           const sameRuleTypeFound = currentValidationResults.find(
-            (currentValidationResult) => currentValidationResult.type === validationResult.type
+            (currentValidationResult) =>
+              currentValidationResult.type === validationResult.type &&
+              (validationResult.affectedIds === undefined || currentValidationResult.affectedIds === validationResult.affectedIds)
           )
 
           if (sameRuleTypeFound) {

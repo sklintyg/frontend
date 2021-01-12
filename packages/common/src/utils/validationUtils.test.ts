@@ -6,6 +6,7 @@ import {
   CertificateStatus,
   ConfigTypes,
   ValueBoolean,
+  ValueCodeList,
   ValueCode,
   ValueText,
 } from '..'
@@ -506,6 +507,131 @@ describe('Validate enable rule for code values', () => {
     const value = codeElement.value as ValueCode
     value.id = 'ATER_X_ANTAL_DGR'
     const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate disable rule for code list', () => {
+  const codeListElement: CertificateDataElement = {
+    id: '40',
+    parent: 'atgarder',
+    index: 27,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    config: {
+      text: 'Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete',
+      description: '',
+      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      list: [
+        {
+          id: 'EJ_AKTUELLT',
+          label: 'Inte aktuellt',
+        },
+        {
+          id: 'ARBETSTRANING',
+          label: 'Arbetsträning',
+        },
+        {
+          id: 'ARBETSANPASSNING',
+          label: 'Arbetsanpassning',
+        },
+        {
+          id: 'SOKA_NYTT_ARBETE',
+          label: 'Söka nytt arbete',
+        },
+        {
+          id: 'BESOK_ARBETSPLATS',
+          label: 'Besök på arbetsplatsen',
+        },
+        {
+          id: 'ERGONOMISK',
+          label: 'Ergonomisk bedömning',
+        },
+        {
+          id: 'HJALPMEDEL',
+          label: 'Hjälpmedel',
+        },
+        {
+          id: 'KONFLIKTHANTERING',
+          label: 'Konflikthantering',
+        },
+        {
+          id: 'KONTAKT_FHV',
+          label: 'Kontakt med företagshälsovård',
+        },
+        {
+          id: 'OMFORDELNING',
+          label: 'Omfördelning av arbetsuppgifter',
+        },
+        {
+          id: 'OVRIGA_ATGARDER',
+          label: 'Övrigt',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.CODE_LIST,
+      list: [],
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '40',
+        expression:
+          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression:
+          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+        id: ['EJ_AKTUELLT'],
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression: '$EJ_AKTUELLT',
+        id: [
+          'ARBETSTRANING',
+          'ARBETSANPASSNING',
+          'SOKA_NYTT_ARBETE',
+          'BESOK_ARBETSPLATS',
+          'ERGONOMISK',
+          'HJALPMEDEL',
+          'KONFLIKTHANTERING',
+          'KONTAKT_FHV',
+          'OMFORDELNING',
+          'OVRIGA_ATGARDER',
+        ],
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as true when code is in list', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as false when code is not in list', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list = []
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true if several codes are chosen', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
+    const result = parseExpression(
+      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      codeListElement,
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(true)
   })
 })
