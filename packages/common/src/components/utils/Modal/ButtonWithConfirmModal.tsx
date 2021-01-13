@@ -1,6 +1,6 @@
 import { ButtonTooltip } from '@frontend/common'
 import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import ModalBase from './ModalBase'
 
 const useStyles = makeStyles((theme) => ({
