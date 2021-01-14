@@ -337,7 +337,7 @@ describe('Validate multiple show rules', () => {
         email: 'enhet3@webcert.invalid.se',
       },
       patient: {
-        personId: '191212121212',
+        personId: { id: '191212121212', type: '' },
         firstName: 'Tolvan',
         lastName: 'Tolvansson',
         fullName: 'Tolvan Tolvansson',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import styled from 'styled-components'
+import type {} from "styled-components/cssprop"
 
 const Icon = styled.span`
   font-size: 1.5rem;
@@ -21,9 +22,9 @@ const MandatoryIcon: React.FC<Props> = ({ additionalStyles, display }) => {
   if (!display) return null
 
   return (
-    <Wrapper css={additionalStyles}>
+    <div style={{position: 'relative'}} css={additionalStyles}>
       <Icon className="iu-color-error">*</Icon>
-    </Wrapper>
+    </div>
   )
 }
 

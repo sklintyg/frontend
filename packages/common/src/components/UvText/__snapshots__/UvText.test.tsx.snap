@@ -2,10 +2,10 @@
 
 exports[`UvText Verify snapshot 1`] = `
 <div
-  className="makeStyles-root-1"
+  className="sc-iqHYGH hiTQec iu-bg-grey-300 iu-radius-sm"
 >
   <p
-    className="MuiTypography-root makeStyles-uvText-2 MuiTypography-body1"
+    className="iu-fs-200"
   >
     Text
   </p>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { CustomButton, ModalBase } from '../..'
-import { Link } from 'react-router-dom'
 
 interface Props {
   text: string
@@ -22,9 +21,9 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
 
   return (
     <>
-      <Link to="#" className={`ic-link ${additionalStyles && additionalStyles}`} onClick={handleClickOpen}>
+      <a href="#" className={`ic-link ${additionalStyles && additionalStyles}`} onClick={handleClickOpen}>
         {text}
-      </Link>
+      </a>
       <ModalBase
         open={open}
         handleClose={handleClose}

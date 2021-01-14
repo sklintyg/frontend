@@ -108,7 +108,6 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     const tab = tablist?.current?.querySelector(`#tab${index}`)
 
     console.log(`tab${index}`)
-    // tab.focus()
     // Make the active tab focusable by the user (Tab key)
     tab?.removeAttribute('tabindex')
     // Set the selected state
@@ -120,12 +119,6 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
   }
 
   const clearFocus = () => {
-    // panels.current.forEach((panel) => {
-    //   panel.hidden = true
-    //   panel.removeAttribute('aria-selected')
-    //   panel.setAttribute('tabindex', '-1')
-    // })
-
     for (let i = 0; i < panels.current.length; i++) {
       if (i === selectedTabIndex) {
         continue

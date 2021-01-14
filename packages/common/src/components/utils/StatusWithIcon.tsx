@@ -29,7 +29,7 @@ const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyl
     <>
       <Wrapper className={`status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <p className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark`}>{children}</p>
+        <div className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark`}>{children}</div>
       </Wrapper>
     </>
   )

@@ -65,6 +65,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
               </>
             )
         }
+        break
       case CertificateEventType.REPLACES:
         return (
           <>
@@ -127,11 +128,12 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
               </>
             )
         }
+        break
     }
   }
 
   return (
-    <p className="iu-fs-100 iu-color-text">
+    <div className="iu-fs-100 iu-color-text">
       <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
         {[...historyEntries].reverse().map((entry, i) => (
           <p key={i}>
@@ -139,7 +141,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           </p>
         ))}
       </TextWithInfoModal>
-    </p>
+    </div>
   )
 }
 
