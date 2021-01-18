@@ -758,9 +758,7 @@
         ]
       },
       "value": {
-        "type": "CODE",
-        "id": "ATER_X_ANTAL_DGR",
-        "code": "ATER_X_ANTAL_DGR"
+        "type": "CODE"
       },
       "validation": [
         {
@@ -783,6 +781,7 @@
       "visible": true,
       "readOnly": false,
       "mandatory": true,
+      "disabled": true,
       "config": {
         "text": null,
         "description": null,
@@ -815,9 +814,7 @@
         ]
       },
       "value": {
-        "type": "CODE",
-        "id": "SEXTIO_DGR",
-        "code": "SEXTIO_DGR"
+        "type": "CODE"
       },
       "validation": [
         {
