@@ -10,6 +10,24 @@ import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
+import styled from 'styled-components/macro'
+
+const Root = styled.div`
+  height: 100vh;
+`
+
+const Overflow = styled.div`
+  height: 100%;
+  overflow-y: auto;
+`
+
+const Wrapper = styled.div`
+  height: calc(100vh - 220px);
+`
+
+const Columns = styled.div`
+  height: 100%;
+`
 
 interface Params {
   id: string
@@ -24,7 +42,7 @@ const CertificatePage = () => {
     if (id) {
       dispatch(getCertificate(id))
     }
-  }, [id])
+  }, [dispatch, id])
 
   const secondaryItems = [
     <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
@@ -33,26 +51,26 @@ const CertificatePage = () => {
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
-    <section style={{ height: '100vh' }}>
+    <Root>
       <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
       {certificateIsDeleted ? (
         <RemovedCertificate />
       ) : (
         <>
           <CertificateHeader />
-          <div style={{ height: `calc(100vh - 210px` }} className={`ic-container`}>
-            <div style={{ height: '100%' }} className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
-              <div style={{ overflowY: 'auto', height: '100%' }} className="iu-grid-span-8">
+          <Wrapper className={`ic-container`}>
+            <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
+              <Overflow className="iu-grid-span-8">
                 <Certificate />
-              </div>
-              <div style={{ overflowY: 'auto', height: '100%' }} className="iu-grid-span-4">
+              </Overflow>
+              <Overflow className="iu-grid-span-4">
                 <CertificateSidePanel />
-              </div>
-            </div>
-          </div>
+              </Overflow>
+            </Columns>
+          </Wrapper>
         </>
       )}
-    </section>
+    </Root>
   )
 }
 

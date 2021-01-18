@@ -103,18 +103,14 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
   const setTab = (index: number) => {
     // if (!tablist.current) return
     clearFocus()
-    console.log('index', index)
-    console.log('tablist.current', tablist.current)
     const tab = tablist?.current?.querySelector(`#tab${index}`)
 
-    console.log(`tab${index}`)
     // Make the active tab focusable by the user (Tab key)
     tab?.removeAttribute('tabindex')
     // Set the selected state
     tab?.setAttribute('aria-selected', 'true')
     // Get the indices of the new and old tabs to find the correct
     // tab panels to show and hide
-    console.log('panels.current', panels.current)
     panels.current[index].hidden = false
   }
 
@@ -127,7 +123,6 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
       panels.current[i].hidden = true
       tab?.removeAttribute('aria-selected')
       tab?.setAttribute('tabindex', '-1')
-      console.log('panels.current[i]', panels.current[i])
     }
   }
 
@@ -136,7 +131,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
       <ul ref={tablist} className="ic-tabbed__tabs iu-hide-sm">
         {tabs.map((tab, i) => {
           return (
-            <li>
+            <li key={i}>
               <a
                 onClick={() => setSelectedTabIndex(i)}
                 ref={(el: HTMLAnchorElement) => (tabRefs.current[i] = el)}
@@ -147,73 +142,15 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
             </li>
           )
         })}
-        {/* <li>
-          <a ref={(el: HTMLAnchorElement) => (tabRefs.current[0] = el)} className="ic-tabbed__tab" href="#section1">
-            Section 1
-          </a>
-        </li>
-        <li>
-          <a ref={(el: HTMLAnchorElement) => (tabRefs.current[1] = el)} className="ic-tabbed__tab" href="#section2">
-            Section 2
-          </a>
-        </li>
-        <li>
-          <a ref={(el: HTMLAnchorElement) => (tabRefs.current[2] = el)} className="ic-tabbed__tab" href="#section3">
-            Section 3
-          </a>
-        </li>
-        <li>
-          <a ref={(el: HTMLAnchorElement) => (tabRefs.current[3] = el)} className="ic-tabbed__tab" href="#section4">
-            Section 4
-          </a>
-        </li> */}
       </ul>
 
       {tabsContent.map((tabContent, i) => {
         return (
-          <Section ref={(el: HTMLDivElement) => (panels.current[i] = el)} className="ic-tabbed__section ic-text" id={i.toString()}>
+          <Section key={i} ref={(el: HTMLDivElement) => (panels.current[i] = el)} className="ic-tabbed__section ic-text" id={i.toString()}>
             {tabContent}
           </Section>
         )
       })}
-
-      {/* <section ref={(el: HTMLDivElement) => (panels.current[0] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section1">
-        <h2>Section 1</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam euismod, tortor nec pharetra ultricies, ante erat imperdiet velit,
-          nec laoreet enim lacus a velit. enim in interdum condimentum, nisl diam iaculis lorem, vel volutpat mi leo sit amet lectus.
-          Praesent non odio bibendum magna bibendum accumsan.
-        </p>
-      </section>
-
-      <section ref={(el: HTMLDivElement) => (panels.current[1] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section2">
-        <h2>Section 2</h2>
-        <p>
-          Nullam at diam nec arcu suscipit auctor non a erat. Sed et magna semper, eleifend magna non, facilisis nisl. Proin et est et lorem
-          dictum finibus ut nec turpis. Aenean nisi tortor, euismod a mauris a, mattis scelerisque tortor. Sed dolor risus, varius a nibh
-          id, condimentum lacinia est. In lacinia cursus odio a aliquam. Curabitur tortor magna, laoreet ut rhoncus at, sodales consequat
-          tellus.
-        </p>
-      </section>
-
-      <section ref={(el: HTMLDivElement) => (panels.current[2] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section3">
-        <h2>Section 3</h2>
-        <p>
-          Phasellus ac tristique orci. Nulla maximus <a href="">justo nec dignissim consequat</a>. Sed vehicula diam sit amet mi efficitur
-          vehicula in in nisl. Aliquam erat volutpat. Suspendisse lorem turpis, accumsan consequat consectetur gravida,{' '}
-          <a href="javascript:void(0)">pellentesque ac ante</a>. Aliquam in commodo ligula, sit amet mollis neque. Vestibulum at facilisis
-          massa.
-        </p>
-      </section>
-
-      <section ref={(el: HTMLDivElement) => (panels.current[3] = el)} className="ic-tabbed__section ic-text iu-py-900" id="section4">
-        <h2>Section 4</h2>
-        <p>
-          Nam luctus, enim in interdum condimentum, nisl diam iaculis lorem, vel volutpat mi leo sit amet lectus. Praesent non odio bibendum
-          magna bibendum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam euismod, tortor nec pharetra ultricies, ante
-          erat imperdiet velit, nec laoreet enim lacus a velit.{' '}
-        </p>
-      </section> */}
     </Root>
   )
 }

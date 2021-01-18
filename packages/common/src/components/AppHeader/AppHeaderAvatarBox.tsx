@@ -33,8 +33,8 @@ const AppHeaderAvatarBox: React.FC<Props> = (props) => {
         </svg>
       </div>
       <div className="iu-lh-narrow">
-        <p className=" ic-avatar-box__name">{props.userItems}</p>
-        <p className="iu-hide-md iu-hide-sm iu-display-flex">{props.links}</p>
+        <div className=" ic-avatar-box__name">{props.userItems}</div>
+        <div className="iu-hide-md iu-hide-sm iu-display-flex">{props.links}</div>
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ interface Props {
 
 const AppHeader: React.FC<Props> = (props) => {
   const getSecondary = () => {
-    return props.secondaryItems?.map((item, index) => <li>{item}</li>)
+    return props.secondaryItems?.map((item, index) => <li key={index}>{item}</li>)
   }
 
   return (

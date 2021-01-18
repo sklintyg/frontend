@@ -12,11 +12,6 @@ import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 import { css } from 'styled-components'
 import styled from 'styled-components/macro'
 
-// const StyledEmojiObjectsOutlinedIcon = styled(EmojiObjectsOutlinedIcon)`
-//   vertical-align: middle;
-//   margin-right: 4px;
-// `
-
 const Root = styled.div`
   overflow-y: hidden;
   height: 100%;
@@ -53,7 +48,6 @@ const CertificateSidePanel: React.FC = () => {
   if (showSpinner) return null
 
   const handleTabChange = (value: number): void => {
-    console.log(value)
     setSelectedTabIndex(value)
   }
 
