@@ -1,6 +1,13 @@
-.ic-forms__radio, .ic-forms__checkbox {
+
+/*This is a temporary fix to position inputs correctly in certificate*/
+.ic-forms__radio,
+.ic-forms__checkbox {
   position: unset;
   display: none;
+}
+
+.ic-forms__select {
+  max-width: 30ch;
 }
 
 .ic-container,
