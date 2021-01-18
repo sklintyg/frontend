@@ -2,7 +2,8 @@ import { ButtonWithConfirmModal } from '@frontend/common'
 import React, { useState } from 'react'
 import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
-import DeleteIcon from '@material-ui/icons/Delete'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 
 interface Props {
@@ -43,10 +44,11 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
     <ButtonWithConfirmModal
       onClose={() => setConfirmButtonDisabled(true)}
       confirmButtonDisabled={confirmButtonDisabled}
+      buttonStyle="secondary"
       name={name}
       disabled={!enabled}
       description={description}
-      startIcon={<DeleteIcon />}
+      startIcon={<FontAwesomeIcon icon={faTrash} />}
       modalTitle="Makulera intyg"
       onConfirm={handleDispatch}
       confirmButtonText="Makulera">

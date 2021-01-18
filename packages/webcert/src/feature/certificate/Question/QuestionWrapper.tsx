@@ -1,23 +1,22 @@
-import { makeStyles, Paper } from '@material-ui/core'
 import React from 'react'
+import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  questionWrapper: {
-    paddingTop: `${theme.spacing(2)}px`,
-    paddingBottom: `${theme.spacing(2)}px`,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-}))
-
+const Wrapper = styled.section`
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+`
 interface Props {
-  additionalStyles?: string
+  additionalStyles?: FlattenSimpleInterpolation
 }
 
-const QuestionWrapper: React.FC<Props> = (props) => {
-  const classes = useStyles()
-
-  return <Paper className={`${classes.questionWrapper} contentPaperWrapper ${props.additionalStyles}`}>{props.children}</Paper>
+const QuestionWrapper: React.FC<Props> = ({ additionalStyles, children }) => {
+  return (
+    <Wrapper css={additionalStyles} className={`contentPaperWrapper questionWrapper box-shadow iu-bg-white`}>
+      {children}
+    </Wrapper>
+  )
 }
 
 export default QuestionWrapper

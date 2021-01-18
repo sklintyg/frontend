@@ -1,31 +1,22 @@
 import React from 'react'
 import { AppHeaderItem } from '../index'
-import { makeStyles, Typography } from '@material-ui/core'
-import Link from '@material-ui/core/Link'
-
-const useStyles = makeStyles((theme) => ({
-  link: {
-    textDecoration: 'underline',
-    fontSize: theme.typography.pxToRem(14),
-  },
-}))
+import { Link } from 'react-router-dom'
 
 interface Props {
   text: string
   link: string
+  withoutDivider?: boolean
 }
 
 const AppHeaderLink: React.FC<Props> = (props) => {
-  const classes = useStyles()
-
+  let addedClass
+  if (!props.withoutDivider) {
+    addedClass = 'iu-link-divider-right'
+  }
   return (
-    <AppHeaderItem>
-      <Typography>
-        <Link className={classes.link} color={'inherit'} href={props.link}>
-          {props.text}
-        </Link>
-      </Typography>
-    </AppHeaderItem>
+    <Link to={props.link} className={`${addedClass} 'iu-color-main'`}>
+      {props.text}
+    </Link>
   )
 }
 

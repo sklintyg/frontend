@@ -1,49 +1,25 @@
-import { makeStyles, Paper } from '@material-ui/core'
 import React from 'react'
-import LaunchIcon from '@material-ui/icons/Launch'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import sosLogo from './socialstyrelsen.png'
-import colors from '../../../components/styles/colors'
 import WCDynamicLink from '../../../components/utils/WCDynamicLink'
+import SidePanelFooter from './Footer/SidePanelFooter'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    color: colors.IA_COLOR_00,
-    backgroundColor: colors.IA_COLOR_02,
-    position: 'sticky',
-    bottom: '0',
-    paddingLeft: theme.spacing(2.5),
-    paddingRight: theme.spacing(2.5),
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(1.5),
-  },
-  textWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  logoWrapper: {
-    marginLeft: 'auto',
-    width: '40px',
-    height: '26px',
-  },
-  icon: {
-    fontSize: 'small',
-    marginLeft: theme.spacing(0.5),
-  },
-}))
+const LogoWrapper = styled.div`
+  margin-left: auto;
+  width: 40px;
+`
 
 const FMBPanelFooter: React.FC = () => {
-  const classes = useStyles()
-
   return (
-    <Paper square className={classes.root}>
-      <div className={classes.textWrapper}>
-        <WCDynamicLink linkKey={'fmbSoc'} />
-        <LaunchIcon className={classes.icon} />
-        <div className={classes.logoWrapper}>
-          <img alt="" src={sosLogo} />
-        </div>
-      </div>
-    </Paper>
+    <SidePanelFooter backgroundColor="iu-bg-sky-dark" textColor="iu-color-white">
+      <WCDynamicLink linkKey={'fmbSoc'} />
+      <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-ml-200 iu-fs-100" />
+      <LogoWrapper>
+        <img alt="" src={sosLogo} />
+      </LogoWrapper>
+    </SidePanelFooter>
   )
 }
 

@@ -1,20 +1,13 @@
-import { makeStyles, Typography } from '@material-ui/core'
 import React, { ReactNode } from 'react'
-import colors from '../../../components/styles/colors'
+import styled from 'styled-components'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    backgroundColor: colors.IA_COLOR_08,
-    position: 'sticky',
-    bottom: '0',
-    padding: theme.spacing(2.5),
-  },
-  text: {
-    fontWeight: theme.typography.fontWeightMedium,
-  },
-}))
+const Root = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0;
+  padding: 20px;
+`
 
 interface Props {
   description: string
@@ -22,13 +15,11 @@ interface Props {
 }
 
 const PanelHeader: React.FC<Props> = ({ description, minimizeSidePanel }) => {
-  const classes = useStyles()
-
   return (
-    <div className={classes.root}>
-      <Typography className={classes.text}>{description}</Typography>
+    <Root className="iu-bg-grey-300">
+      <p className="iu-fw-heading">{description}</p>
       {minimizeSidePanel}
-    </div>
+    </Root>
   )
 }
 
