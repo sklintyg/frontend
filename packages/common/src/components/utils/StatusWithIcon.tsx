@@ -17,9 +17,9 @@ const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyl
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
-        return <FontAwesomeIcon icon={faCheck} className={`iu-color-success`} size="sm" />
+        return <FontAwesomeIcon icon={faCheck} className={`iu-color-success`} size="1x" />
       case 'ErrorOutlineIcon':
-        return <FontAwesomeIcon icon={faExclamationCircle} color="error" size="sm" />
+        return <FontAwesomeIcon icon={faExclamationCircle} color="error" size="1x" />
       case undefined:
         return null
     }

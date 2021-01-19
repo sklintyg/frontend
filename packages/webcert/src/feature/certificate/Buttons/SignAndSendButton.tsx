@@ -20,7 +20,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
     <CustomButton
       style="success"
       text={name}
-      startIcon={<FontAwesomeIcon icon={faFileSignature} />}
+      startIcon={<FontAwesomeIcon size="lg" icon={faFileSignature} />}
       disabled={isValidating || !enabled}
       onClick={() => {
         dispatch(signCertificate())

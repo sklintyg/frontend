@@ -45,7 +45,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon icon={faExchangeAlt} />}
+      startIcon={<FontAwesomeIcon size="lg" icon={faExchangeAlt} />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm()}
       confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Ersätt'}>

@@ -38,7 +38,7 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<FontAwesomeIcon icon={faReply} />}
+      startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate(true))}
       onClick={handleEmailSend}
