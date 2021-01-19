@@ -6,6 +6,7 @@ import {
   CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
+  DateValidation,
   MandatoryValidation,
   ShowValidation,
   ValueBoolean,
@@ -75,9 +76,11 @@ export interface ValidationResult {
   affectedIds?: string[]
 }
 
-const getResult = (validation: CertificateDataValidation, data: CertificateData) => {
+const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string) => {
   if (validation.expression === undefined || validation.expression === null) {
-    return true // TODO: Create validationType specific logic here
+    if (CertificateDataValidationType.MAX_DATE_VALIDATION) {
+      return validateMaxDate(id, validation as DateValidation, data)
+    }
   } else {
     return parseExpression(validation.expression, data[validation.questionId], validation.type)
   }
@@ -88,6 +91,21 @@ const getExpression = (expression: string): string => {
   expression = expression.replace(/&&/g, 'and')
   expression = expression.replace(/!/g, 'not ')
   return expression
+}
+
+const validateMaxDate = (id: string, validation: DateValidation, data: CertificateData) => {
+  const value = data[id].value as ValueDateList
+  if (value.list === undefined || value.list === null) {
+    return 1
+  }
+  const index = value.list.findIndex((item) => item.id === validation.id)
+  if (index !== -1) {
+    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? 0 : 1
+  } else return 1
+}
+
+const differenceInDays = (a: Date, b: Date) => {
+  return Math.floor((a.getTime() - b.getTime()) / (1000 * 60 * 60 * 24))
 }
 
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
@@ -107,7 +125,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           type: validation.type,
           id,
           affectedIds: validation.id as string[],
-          result: getResult(validation, data),
+          result: getResult(validation, data, id),
         }
         newValidationResults.push(validationResult)
       })
