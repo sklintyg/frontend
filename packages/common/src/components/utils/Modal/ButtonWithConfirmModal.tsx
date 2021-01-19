@@ -1,21 +1,10 @@
-import { ButtonTooltip } from '@frontend/common'
-import { Button, DialogActions, DialogContent, makeStyles } from '@material-ui/core'
 import React, { ReactNode } from 'react'
+import { ButtonTooltip, CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
-
-const useStyles = makeStyles((theme) => ({
-  content: {
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}))
 
 interface Props {
   disabled: boolean
   name: string
-  buttonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
-  buttonVariant?: 'text' | 'outlined' | 'contained' | undefined
   startIcon?: React.ReactNode
   modalTitle: string
   onConfirm: () => any
@@ -25,13 +14,14 @@ interface Props {
   confirmButtonDisabled?: boolean
   declineButtonText?: string
   additionalButtonStyles?: string
+  buttonStyle?: 'primary' | 'secondary' | 'success'
+  confirmButtonStyle?: 'primary' | 'secondary' | 'success'
   description: string
   onClick?: () => void
   onClose?: () => void
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
-  const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -53,39 +43,33 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ButtonTooltip description={props.description}>
-        <Button
-          disabled={props.disabled}
-          className={props.additionalButtonStyles}
-          color={props.buttonColor ? props.buttonColor : 'default'}
-          variant={props.buttonVariant ? props.buttonVariant : 'contained'}
-          onClick={handleClickOpen}
-          startIcon={props.startIcon ? props.startIcon : null}>
-          {props.name}
-        </Button>
-      </ButtonTooltip>
+      <CustomButton
+        tooltip={props.description}
+        style={props.buttonStyle ? props.buttonStyle : 'primary'}
+        disabled={props.disabled}
+        className={props.additionalButtonStyles}
+        onClick={handleClickOpen}
+        startIcon={props.startIcon ? props.startIcon : null}
+        text={props.name}
+      />
       <ModalBase
-        additionalContentStyles={classes.content}
         open={open}
         handleClose={handleClose}
-        modalTitle={props.modalTitle}
+        title={props.modalTitle}
         content={props.children}
-        modalButtons={
+        buttons={
           <>
-            <Button
+            <CustomButton
+              style={props.buttonStyle ? props.buttonStyle : 'primary'}
               className={props.additionalConfirmButtonStyles}
-              disableElevation
               disabled={props.confirmButtonDisabled}
-              variant="contained"
-              color={props.confirmButtonColor ? props.confirmButtonColor : 'default'}
-              onClick={handleConfirm}>
-              {props.confirmButtonText}
-            </Button>
-            <Button onClick={handleClose} variant="outlined" color="default">
-              {props.declineButtonText ? props.declineButtonText : 'Avbryt'}
-            </Button>
+              onClick={handleConfirm}
+              text={props.confirmButtonText}
+            />
+            <CustomButton onClick={handleClose} style="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
           </>
-        }></ModalBase>
+        }
+      />
     </>
   )
 }

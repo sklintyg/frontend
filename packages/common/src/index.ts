@@ -1,3 +1,5 @@
+import * as types from 'styled-components/cssprop'
+
 export * from './components'
 export * from './types/certificate'
 export * from './utils/certificateUtils'

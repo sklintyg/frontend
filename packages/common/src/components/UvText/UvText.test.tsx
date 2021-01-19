@@ -4,25 +4,26 @@ import renderer from 'react-test-renderer'
 import { render } from '@testing-library/react'
 import UvText from './UvText'
 import {
-  CertificateDataConfig,
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigUeRadioBoolean,
-  Value,
   ValueBoolean,
+  CertificateDataElement,
+  CertificateDataConfig,
+  Value,
+  CertificateDataValueType,
   ValueText,
+  ConfigTypes,
+  ConfigUeRadioBoolean,
+  ConfigUeTextArea,
 } from '@frontend/common'
-import { ConfigTypes, ConfigUeTextArea } from '../../types/certificate'
 
 describe('UvText', () => {
   it('renders without crashing', () => {
-    const question = createQuestionWithTextValue('Text')
+    const question = createQuestionWithTextValue()
     const div = document.createElement('div')
     ReactDOM.render(<UvText question={question} />, div)
   })
 
   it('displaying text value', () => {
-    const question = createQuestionWithTextValue('Text')
+    const question = createQuestionWithTextValue()
     const { getByText } = render(<UvText question={question} />)
     getByText(/Text/i)
   })
@@ -34,77 +35,65 @@ describe('UvText', () => {
   })
 
   it('displaying empty value', () => {
-    const question = createQuestionWithTextValue(null)
+    const question = createQuestionWithTextValue()
+    ;(question.value as ValueText).text = null
+    // const question = createQuestion({ type: CertificateDataValueType.TEXT } as Value)
     const { getByText } = render(<UvText question={question} />)
     getByText(/Ej angivet/i)
   })
 
   it('displaying unknown value type', () => {
-    const question = createQuestionWithUnknownValue()
+    const question = createQuestionWithTextValue()
+    ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
     const { getByText } = render(<UvText question={question} />)
     getByText(/Okänd datatyp/i)
   })
 
   it('Verify snapshot', () => {
-    const question = createQuestionWithTextValue('Text')
+    const question = createQuestionWithTextValue()
     const tree = renderer.create(<UvText question={question} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
-export function createQuestionWithTextValue(text: string | null): CertificateDataElement {
-  const config: ConfigUeTextArea = {
-    type: ConfigTypes.UE_TEXTAREA,
-    description: 'Description',
-    id: 'id',
+export function createQuestionWithTextValue(): CertificateDataElement {
+  const value: ValueText = {
+    type: CertificateDataValueType.TEXT,
     text: 'Text',
+    limit: 50,
+    id: '',
+  }
+  const config: ConfigUeTextArea = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_TEXTAREA,
   }
 
-  const value: ValueText = {
-    id: 'id',
-    type: CertificateDataValueType.TEXT,
-    text: text,
-    limit: 50,
-  }
-  return createQuestion(config, value)
+  return createQuestion(value, config)
 }
 
 export function createQuestionWithBooleanValue(): CertificateDataElement {
-  const config: ConfigUeRadioBoolean = {
-    label: 'label',
-    selectedText: 'Boolean value = true',
-    unselectedText: 'Boolean value = false',
-    type: ConfigTypes.UE_RADIO_BOOLEAN,
-    description: 'Description',
-    id: 'id',
-    text: 'Text',
-  }
-
   const value: ValueBoolean = {
-    id: 'id',
     type: CertificateDataValueType.BOOLEAN,
     selected: true,
+    id: '',
   }
-  return createQuestion(config, value)
+  const config: ConfigUeRadioBoolean = {
+    id: '',
+    selectedText: 'Boolean value = true',
+    unselectedText: 'Boolean value = false',
+    description: '',
+    label: '',
+    text: '',
+    type: ConfigTypes.UE_RADIO_BOOLEAN,
+  }
+
+  return createQuestion(value, config)
 }
 
-export function createQuestionWithUnknownValue(): CertificateDataElement {
-  const config: ConfigUeTextArea = {
-    type: ConfigTypes.UE_TEXTAREA,
-    description: 'Description',
-    id: 'id',
-    text: 'Text',
-  }
-
-  const value: Value = {
-    type: CertificateDataValueType.UNKNOWN,
-  }
-
-  return createQuestion(config, value)
-}
-
-export function createQuestion(config: CertificateDataConfig, value: Value): CertificateDataElement {
+export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

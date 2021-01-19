@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   TextWithInfoModal,
   CertificateEvent,
@@ -8,14 +9,6 @@ import {
   isHasParent,
   isParentRevoked,
 } from '@frontend/common'
-import { Link, makeStyles, Typography } from '@material-ui/core'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    fontSize: '12px',
-    color: theme.palette.info.dark,
-  },
-}))
 
 interface Props {
   historyEntries: CertificateEvent[]
@@ -23,10 +16,8 @@ interface Props {
 }
 
 const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
-  const classes = useStyles()
-
   function formatDate(date: string) {
-    var d = new Date(date),
+    let d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear()
@@ -51,35 +42,35 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
               </>
             )
           case CertificateStatus.SIGNED:
             return (
               <>
-                Intyget har ersatts av <Link href={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
+                Intyget har ersatts av <Link to={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
               </>
             )
           case CertificateStatus.REVOKED:
             return (
               <>
                 Intyget ersattes av ett intyg som nu är makulerat.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
               </>
             )
           case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
             return (
               <>
-                Intyget ersattes av ett utkast som nu är låst.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                Intyget ersattes av ett utkast som nu är låst. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
               </>
             )
         }
+        break
       case CertificateEventType.REPLACES:
         return (
           <>
             Utkastet skapades för att ersätta ett tidigare intyg.{' '}
-            <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
           </>
         )
       case CertificateEventType.SENT:
@@ -92,9 +83,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           return (
             <>
               Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-              <Link style={{ textDecoration: 'underline' }} href={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>
-                Öppna intyget
-              </Link>
+              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
             </>
           )
         } else {
@@ -106,7 +95,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         return (
           <>
             Utkastet kopierades ifrån ett tidigare låst utkast.{' '}
-            <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
           </>
         )
       case CertificateEventType.COPIED_BY:
@@ -115,43 +104,44 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Det finns redan ett påbörjat utkast som ska ersätta detta låsta utkast.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
               </>
             )
           case CertificateStatus.SIGNED:
             return (
               <>
-                Utkastet har ersatts av <Link href={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
+                Utkastet har ersatts av <Link to={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
               </>
             )
           case CertificateStatus.REVOKED:
             return (
               <>
                 Utkastet ersattes av ett intyg som nu är makulerat.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
               </>
             )
           case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
             return (
               <>
                 Utkastet ersattes av ett utkast som nu är låst.{' '}
-                <Link href={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
               </>
             )
         }
+        break
     }
   }
 
   return (
-    <Typography className={classes.root}>
+    <div className="iu-fs-100 iu-color-text">
       <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
         {[...historyEntries].reverse().map((entry, i) => (
-          <Typography key={i}>
+          <p key={i}>
             {formatDate(entry.timestamp)} {getHistoryText(entry)}
-          </Typography>
+          </p>
         ))}
       </TextWithInfoModal>
-    </Typography>
+    </div>
   )
 }
 

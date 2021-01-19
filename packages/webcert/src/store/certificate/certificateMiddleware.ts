@@ -16,6 +16,8 @@ import {
   deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
+  disableCertificateDataElement,
+  enableCertificateDataElement,
   forwardCertificate,
   forwardCertificateCompleted,
   forwardCertificateError,
@@ -70,6 +72,7 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  setDisabledCertificateDataChild,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -425,7 +428,7 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.certificateId,
+      url: '/api/certificate/' + certificate.metadata.id,
       method: 'PUT',
       data: certificate,
       onStart: autoSaveCertificateStarted.type,
@@ -518,6 +521,14 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         }
         break
 
+      case CertificateDataValidationType.HIDE_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElement(result.id))
+        } else {
+          dispatch(showCertificateDataElement(result.id))
+        }
+        break
+
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result.result) {
           dispatch(showCertificateDataElement(result.id))
@@ -525,6 +536,17 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(hideCertificateDataElement(result.id))
         }
         break
+
+      case CertificateDataValidationType.DISABLE_VALIDATION:
+        dispatch(setDisabledCertificateDataChild(result))
+        break
+
+      case CertificateDataValidationType.ENABLE_VALIDATION:
+        if (result.result) {
+          dispatch(enableCertificateDataElement(result.id))
+        } else {
+          dispatch(disableCertificateDataElement(result.id))
+        }
     }
   })
 }

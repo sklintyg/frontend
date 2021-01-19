@@ -38,7 +38,6 @@ it('displays history entries', async () => {
   expect(screen.getByRole('button', { name: /stäng/i })).toBeInTheDocument()
 
   userEvent.click(screen.getByRole('button', { name: /stäng/i }))
-  await waitForDomChange()
 
   expect(screen.queryByText(/2020-10-14 14:56 utkastet är skapat/i)).not.toBeInTheDocument()
 })

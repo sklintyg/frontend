@@ -1,25 +1,15 @@
-import { makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-
-const useStyles = makeStyles((theme) => ({
-  heading: {
-    fontWeight: theme.typography.fontWeightMedium,
-    fontSize: theme.typography.h6.fontSize,
-  },
-}))
 
 interface Props {
   titleId?: string
-  additionalStyles?: string
+  textColor?: 'iu-color-black' | 'iu-color-white'
 }
 
-const CategoryTitle: React.FC<Props> = (props) => {
-  const classes = useStyles()
-
+const CategoryTitle: React.FC<Props> = ({ titleId, textColor, children }) => {
   return (
-    <Typography id={props.titleId} className={`${classes.heading} ${props.additionalStyles}`} variant="h4">
-      {props.children}
-    </Typography>
+    <h3 id={titleId} className={`iu-fs-400 ${textColor ? textColor : 'iu-color-black'} iu-fw-heading`}>
+      {children}
+    </h3>
   )
 }
 

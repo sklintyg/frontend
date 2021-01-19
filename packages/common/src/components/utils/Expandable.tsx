@@ -1,40 +1,4 @@
-import { makeStyles, Paper } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
-
-const useStyles = makeStyles((theme) => ({
-  // default: {
-  //   '-webkit-transform': 'scaleY(0)',
-  //   transform: 'scaleY(0)',
-  //   transition: 'transform 250ms ease-in-out, opacity 250ms ease-in-out',
-  //   willChange: 'transform, opacity',
-  //   opacity: 0,
-  //   transformOrigin: 'top',
-  // },
-  // open: {
-  //   '-webkit-transform': 'none',
-  //   transform: 'scaleY(1)',
-  //   opacity: 1,
-  //   position: 'static',
-  // },
-  // absolute: {
-  //   position: 'absolute',
-  // },
-  // static: {
-  //   position: 'static',
-  // },
-  default: {
-    maxHeight: 0,
-    opacity: 0,
-    display: 'none',
-    willChange: 'max-height, opacity',
-    transition: 'max-height 250ms ease-in-out, opacity 250ms ease-in-out',
-  },
-  open: {
-    maxHeight: 'initial',
-    opacity: 1,
-    display: 'block',
-  },
-}))
 
 interface Props {
   isExpanded: boolean
@@ -42,9 +6,10 @@ interface Props {
 }
 
 const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles }) => {
-  const classes = useStyles()
   const [isStatic, setIsStatic] = useState(false)
   const ref = useRef(null)
+
+  if (!isExpanded) return null
 
   // Lista ut ett coolt sätt att sätta position absolute efter att transition är klar, när isExpanded går från true till false
 
@@ -137,13 +102,7 @@ const Expandable: React.FC<Props> = ({ isExpanded, children, additionalStyles })
   //   return children
   // }
 
-  return (
-    // <div ref={ref} className={`${classes.default} ${isExpanded ? classes.open : ''} ${isExpanded ? classes.static : classes.absolute}`}>
-    <div ref={ref} className={`expandable ${classes.default} ${isExpanded ? classes.open : ''} ${additionalStyles}`}>
-      {children}
-    </div>
-    // </div>
-  )
+  return <>{children}</>
 }
 
 export default Expandable

@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { Typography, TextField, Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
@@ -9,26 +7,42 @@ import { getIsEditable, getIsLocked, getUnit } from '../../../store/certificate/
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import styled from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  questionWrapper: {
-    '& .MuiGrid-container + .MuiGrid-container': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  zipCode: {
-    maxWidth: '6em',
-  },
-  city: {
-    maxWidth: '20em',
-  },
-  phoneNumber: {
-    maxWidth: '15em',
-  },
-}))
+const Wrapper = styled.div`
+  align-items: center;
+`
+
+const AddressInput = styled.input.attrs((props) => ({
+  type: 'text',
+  maxLength: 209,
+}))``
+
+const ZipCodeInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 6,
+  maxLength: 6,
+}))`
+  max-width: 6em;
+`
+
+const CityInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 30,
+  maxLength: 30,
+}))`
+  max-width: 20em;
+`
+
+const PhoneNumberInput = styled.input.attrs((props) => ({
+  type: 'text',
+  size: 20,
+  maxLength: 20,
+}))`
+  max-width: 15em;
+`
 
 const UeCareUnitAddress: React.FC = () => {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const unit = useSelector(getUnit())
   const disabled = useSelector(getIsLocked)
@@ -54,88 +68,65 @@ const UeCareUnitAddress: React.FC = () => {
       <CategoryHeader>
         <CategoryTitle>Vårdenhetens adress</CategoryTitle>
       </CategoryHeader>
-      <QuestionWrapper additionalStyles={classes.questionWrapper}>
-        <Grid container>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'address'}>Postadress</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'address'}
-                id={'address'}
-                value={careUnitInfo.address}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'zipCode'}>Postnummer</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.zipCode}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'zipCode'}
-                id={'zipCode'}
-                value={careUnitInfo.zipCode}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'city'}>Postort</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.city}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'city'}
-                id={'city'}
-                value={careUnitInfo.city}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center">
-            <Grid item sm={3}>
-              <Typography>
-                <label htmlFor={'phoneNumber'}>Telefonnummer</label>
-              </Typography>
-            </Grid>
-            <Grid item sm={9}>
-              <TextField
-                disabled={disabled || !editable}
-                className={classes.phoneNumber}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-                name={'phoneNumber'}
-                id={'phoneNumber'}
-                value={careUnitInfo.phoneNumber}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
+      <QuestionWrapper>
+        <Wrapper className={`iu-grid-cols iu-grid-cols-12`}>
+          <div className="iu-grid-span-3">
+            <label htmlFor={'address'}>Postadress</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <AddressInput
+              className="ic-textfield"
+              type="text"
+              disabled={disabled || !editable}
+              onChange={handleChange}
+              name={'address'}
+              id={'address'}
+              value={careUnitInfo.address}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'zipCode'}>Postnummer</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <ZipCodeInput
+              disabled={disabled || !editable}
+              className={`ic-textfield`}
+              onChange={handleChange}
+              name={'zipCode'}
+              id={'zipCode'}
+              value={careUnitInfo.zipCode}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'city'}>Postort</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <CityInput
+              disabled={disabled || !editable}
+              className={`ic-textfield`}
+              onChange={handleChange}
+              name={'city'}
+              id={'city'}
+              value={careUnitInfo.city}
+            />
+          </div>
+
+          <div className="iu-grid-span-3">
+            <label htmlFor={'phoneNumber'}>Telefonnummer</label>
+          </div>
+          <div className="iu-grid-span-9">
+            <PhoneNumberInput
+              disabled={disabled || !editable}
+              className={`ic-textfield`}
+              onChange={handleChange}
+              name={'phoneNumber'}
+              id={'phoneNumber'}
+              value={careUnitInfo.phoneNumber}
+            />
+          </div>
+        </Wrapper>
       </QuestionWrapper>
     </>
   )

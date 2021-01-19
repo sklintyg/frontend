@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import * as utils from '@frontend/common/src/utils/certificateUtils'
 import RevokeParentStatus from './RevokeParentStatus'
 import { CertificateMetadata } from '@frontend/common'
+import { BrowserRouter } from 'react-router-dom'
 
 const isRevokedSpy = jest.spyOn(utils, 'isRevoked')
 const isHasParentSpy = jest.spyOn(utils, 'isHasParent')
@@ -19,7 +20,11 @@ it('displays that the certificate has a parent that might need to be revoked', (
     relations: { parent: { certificateId: '1' } },
   }
 
-  render(<RevokeParentStatus certificateMetadata={mockCert} />)
+  render(
+    <BrowserRouter>
+      <RevokeParentStatus certificateMetadata={mockCert} />
+    </BrowserRouter>
+  )
   expect(screen.getByText(/intyget ersatte ett tidigare intyg som också kan behöva makuleras./i)).toBeInTheDocument()
   expect(screen.getByRole('link', { name: /öppna intyget/i })).toBeInTheDocument()
 })
@@ -29,6 +34,10 @@ it('doesnt render anything', () => {
   isHasParentSpy.mockReturnValue(false)
   isParentRevoked.mockReturnValue(true)
 
-  render(<RevokeParentStatus />)
+  render(
+    <BrowserRouter>
+      <RevokeParentStatus />
+    </BrowserRouter>
+  )
   expect(screen.queryByText(/Intyget har ersatts av/i)).not.toBeInTheDocument()
 })

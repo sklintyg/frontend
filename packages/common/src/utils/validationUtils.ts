@@ -8,6 +8,7 @@ import {
   MandatoryValidation,
   ShowValidation,
   ValueBoolean,
+  ValueCode,
   ValueCodeList,
   ValueText,
 } from '..'
@@ -42,6 +43,10 @@ export const parseExpression = (
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
 
+      case CertificateDataValueType.CODE:
+        const valueCode = element.value as ValueCode
+        return valueCode.id === adjustedId ? 1 : 0
+
       default:
         return 0
     }
@@ -60,6 +65,7 @@ export interface ValidationResult {
   type: CertificateDataValidationType
   id: string
   result: boolean
+  affectedIds?: string[]
 }
 
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
@@ -75,19 +81,21 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       const newValidationResults: ValidationResult[] = []
 
       validations.forEach((validation) => {
-        const validationResult = {
+        const validationResult: ValidationResult = {
           type: validation.type,
           id,
+          affectedIds: validation.id as string[],
           result: parseExpression(validation.expression, data[validation.questionId], validation.type),
         }
-
         newValidationResults.push(validationResult)
       })
 
       validationResults.push(
         ...newValidationResults.reduce((currentValidationResults: ValidationResult[], validationResult: ValidationResult) => {
           const sameRuleTypeFound = currentValidationResults.find(
-            (currentValidationResult) => currentValidationResult.type === validationResult.type
+            (currentValidationResult) =>
+              currentValidationResult.type === validationResult.type &&
+              (validationResult.affectedIds === undefined || currentValidationResult.affectedIds === validationResult.affectedIds)
           )
 
           if (sameRuleTypeFound) {

@@ -1,4 +1,3 @@
-import { Typography, Link } from '@material-ui/core'
 import React from 'react'
 import { CertificateMetadata, isSigned, TextWithInfoModal, StatusWithIcon } from '@frontend/common'
 
@@ -12,12 +11,9 @@ const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => 
   return (
     <StatusWithIcon icon={'CheckIcon'}>
       <TextWithInfoModal text="Intyget är tillgängligt för patienten" modalTitle="Intyget är tillgängligt för patienten">
-        <Typography>
-          Intyget är tillgängligt för patienten i Mina intyg, som nås via{' '}
-          <Link style={{ textDecoration: 'underline' }} href="https://minaintyg.se/">
-            minaintyg.se
-          </Link>
-        </Typography>
+        <p>
+          Intyget är tillgängligt för patienten i Mina intyg, som nås via <a href="https://minaintyg.se/">minaintyg.se</a>
+        </p>
       </TextWithInfoModal>
     </StatusWithIcon>
   )

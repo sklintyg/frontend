@@ -38,7 +38,10 @@ export const WebcertWithUserAndAbout = Template.bind({})
 WebcertWithUserAndAbout.args = {
   title: <AppHeaderTitle imgSrc={webcertImg} />,
   primaryItems: <WebcertHeaderUser></WebcertHeaderUser>,
-  secondaryItems: <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
+  secondaryItems: [
+    <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
+    <AppHeaderLink text={'Logga ut'} link={'#'} withoutDivider={true}></AppHeaderLink>,
+  ],
 }
 
 WebcertWithUserAndAbout.storyName = 'Webcert app header with user and about'
