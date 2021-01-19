@@ -2,12 +2,15 @@ import { createReducer } from '@reduxjs/toolkit'
 import { Certificate, ConfigTypes } from '@frontend/common'
 import {
   autoSaveCertificateSuccess,
+  enableCertificateDataElement,
+  disableCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
   setCertificateDataElement,
   setCertificateUnitData,
+  setDisabledCertificateDataChild,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -22,8 +25,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { ValueBoolean, CertificateDataValueType, ValueText } from '@frontend/common'
-import { CertificateEvent } from '@frontend/common'
+import { ValueBoolean, CertificateDataValueType, ValueText, CertificateEvent, CertificateDataElement, ConfigUeCheckboxMultipleCodes, ValueCodeList, ValueCode } from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
@@ -82,7 +84,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         return
       }
 
-      state.certificate.metadata.certificateStatus = action.payload
+      state.certificate.metadata.status = action.payload
     })
     .addCase(updateCertificateAsReadOnly, (state) => {
       if (!state.certificate) {
@@ -179,9 +181,48 @@ const certificateReducer = createReducer(initialState, (builder) =>
 
       state.certificate.data[action.payload].mandatory = false
     })
+    .addCase(enableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = false
+    })
+    .addCase(disableCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].disabled = true
+      ;(state.certificate.data[action.payload].value as ValueCode).id = ''
+      ;(state.certificate.data[action.payload].value as ValueCode).code = ''
+    })
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
       state.isDeleted = true
+    })
+    .addCase(setDisabledCertificateDataChild, (state, action) => {
+      if (!state.certificate || !action.payload.affectedIds) {
+        return
+      }
+
+      const question = state.certificate.data[action.payload.id] as CertificateDataElement
+      const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item, i) => {
+        const isAffected = action.payload.affectedIds!.some((id: string) => item.id === id)
+        if (isAffected) {
+          item.disabled = action.payload.result
+          if (item.disabled) {
+            const index = (state.certificate!.data[action.payload.id].value as ValueCodeList).list.findIndex(
+              (value) => item.id === value.id
+            )
+            if (index != -1) {
+              ;(state.certificate!.data[action.payload.id].value as ValueCodeList).list.splice(index, 1)
+            }
+          }
+        }
+        return item
+      })
+      state.certificate.data[action.payload.id].config.list = updatedList
     })
 )
 

@@ -24,7 +24,6 @@ it('displays that the certificate is available for the patient', async () => {
   expect(screen.getByText(/intyget är tillgängligt för patienten i mina intyg, som nås via/i)).toBeInTheDocument()
 
   userEvent.click(screen.getByRole('button', { name: /stäng/i }))
-  await waitForDomChange()
   expect(screen.queryByText(/intyget är tillgängligt för patienten i mina intyg, som nås via/i)).not.toBeInTheDocument()
 })
 

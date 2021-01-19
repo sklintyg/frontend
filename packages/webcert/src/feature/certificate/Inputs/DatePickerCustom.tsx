@@ -1,42 +1,47 @@
-import { makeStyles, TextField, Button } from '@material-ui/core'
+// import { makeStyles, TextField, Button } from '@material-ui/core'
 import React, { ClassAttributes, useState } from 'react'
-import DateRangeIcon from '@material-ui/icons/DateRange'
+// import DateRangeIcon from '@material-ui/icons/DateRange'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactDatePicker from 'react-datepicker'
 import colors from '../../../components/styles/colors'
 import { format, parse } from 'date-fns'
+import styled from "styled-components/macro";
 
-const useStyles = makeStyles((theme) => ({
-  buttonRoot: {
-    color: theme.palette.text.primary,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1),
-    minWidth: 0,
-    boxShadow: 'none',
-    border: '1px solid rgba(0, 0, 0, 0.23)',
-    borderLeft: 0,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    '&:hover': {
-      backgroundColor: colors.IA_COLOR_05,
-      color: theme.palette.background.paper,
-    },
-  },
-  startIcon: {
-    margin: 0,
-  },
-  input: {
-    boxSizing: 'border-box',
-    height: theme.typography.pxToRem(38),
-    maxWidth: theme.typography.pxToRem(130),
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  inputRoot: {
-    borderRight: 0,
-  },
-}))
+// const useStyles = makeStyles((theme) => ({
+//   buttonRoot: {
+//     color: theme.palette.text.primary,
+//     backgroundColor: theme.palette.background.paper,
+//     padding: theme.spacing(1),
+//     minWidth: 0,
+//     boxShadow: 'none',
+//     border: '1px solid rgba(0, 0, 0, 0.23)',
+//     borderLeft: 0,
+//     borderTopLeftRadius: 0,
+//     borderBottomLeftRadius: 0,
+//     '&:hover': {
+//       backgroundColor: colors.IA_COLOR_05,
+//       color: theme.palette.background.paper,
+//     },
+//   },
+//   startIcon: {
+//     margin: 0,
+//   },
+//   input: {
+//     boxSizing: 'border-box',
+//     height: theme.typography.pxToRem(38),
+//     maxWidth: theme.typography.pxToRem(130),
+//     borderTopRightRadius: 0,
+//     borderBottomRightRadius: 0,
+//   },
+//   inputRoot: {
+//     borderRight: 0,
+//   },
+// }))
+
+const StyledButton = styled.button`
+  
+`
 
 interface Props {
   setDate: (date: Date) => void
@@ -53,7 +58,7 @@ const _format = 'yyyy-MM-dd'
 const DatePickerCustom: React.FC<Props> = ({ setDate, selectedDate, wrapperClass, inputString, handleTextInput }) => {
   const [open, setOpen] = useState(false)
   //   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const classes = useStyles()
+  // const classes = useStyles()
 
   // const validateDate = (dateString: string) => {
   //   return getValidDate

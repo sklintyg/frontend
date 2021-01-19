@@ -16,6 +16,8 @@ import {
   deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
+  disableCertificateDataElement,
+  enableCertificateDataElement,
   forwardCertificate,
   forwardCertificateCompleted,
   forwardCertificateError,
@@ -70,6 +72,7 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  setDisabledCertificateDataChild,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -113,7 +116,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
   dispatch(updateCertificate(action.payload))
   dispatch(getCertificateCompleted())
   dispatch(hideSpinner())
-  if (action.payload.metadata.certificateStatus === CertificateStatus.UNSIGNED) {
+  if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
     dispatch(validateCertificate(action.payload))
   }
   dispatch(getCertificateEvents(action.payload.metadata.id))
@@ -321,7 +324,7 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
       url: '/api/certificate/' + certificate.metadata.id + '/replace',
       method: 'POST',
       data: {
-        certificateType: certificate.metadata.certificateType,
+        certificateType: certificate.metadata.type,
         patientId: certificate.metadata.patient.personId,
       },
       onStart: replaceCertificateStarted.type,
@@ -360,7 +363,7 @@ const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       url: '/api/certificate/' + certificate.metadata.id + '/copy',
       method: 'POST',
       data: {
-        certificateType: certificate.metadata.certificateType,
+        certificateType: certificate.metadata.type,
         patientId: certificate.metadata.patient.personId,
       },
       onStart: copyCertificateStarted.type,
@@ -484,7 +487,7 @@ const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     return
   }
 
-  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.certificateType}/${action.payload.id}/pdf`
+  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
   window.open(printUrl, '_self')
 }
 
@@ -518,6 +521,14 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         }
         break
 
+      case CertificateDataValidationType.HIDE_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElement(result.id))
+        } else {
+          dispatch(showCertificateDataElement(result.id))
+        }
+        break
+
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result.result) {
           dispatch(showCertificateDataElement(result.id))
@@ -525,6 +536,17 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(hideCertificateDataElement(result.id))
         }
         break
+
+      case CertificateDataValidationType.DISABLE_VALIDATION:
+        dispatch(setDisabledCertificateDataChild(result))
+        break
+
+      case CertificateDataValidationType.ENABLE_VALIDATION:
+        if (result.result) {
+          dispatch(enableCertificateDataElement(result.id))
+        } else {
+          dispatch(disableCertificateDataElement(result.id))
+        }
     }
   })
 }

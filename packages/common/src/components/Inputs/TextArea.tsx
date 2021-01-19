@@ -1,7 +1,4 @@
 import React from 'react'
-import { TextareaAutosize } from '@material-ui/core'
-import useTheme from '@material-ui/core/styles/useTheme'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 
 interface TextAreaProps {
   hasValidationError?: boolean
@@ -13,16 +10,7 @@ interface TextAreaProps {
   rowsMin?: number
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    fontFamily: theme.typography.fontFamily,
-    fontSize: 'inherit',
-  },
-}))
-
 const TextArea: React.FC<TextAreaProps> = (props) => {
-  const theme = useTheme()
-  const classes = useStyles()
   const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value } = props
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,11 +20,10 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }
 
   return (
-    <TextareaAutosize
+    <textarea
       disabled={disabled}
-      style={{ border: `${hasValidationError ? `1px solid ${theme.palette.error.main}` : ''}` }}
-      className={`${additionalStyles} ${classes.root}`}
-      rowsMin={rowsMin ? rowsMin : 1}
+      className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'iu-border-error' : ''}`}
+      rows={rowsMin ? rowsMin : 1}
       name={name ?? ''}
       value={value}
       onChange={(e) => handleOnChange(e)}

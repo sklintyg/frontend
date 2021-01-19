@@ -4,56 +4,45 @@ import Category from './Category/Category'
 import Question from './Question/Question'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
-import {
-  getCertificateDataElements,
-  getIsUnsigned,
-  getIsEditable,
-  getIsLocked,
-  getIsShowSpinner,
-  getSpinnerText,
-} from '../../store/certificate/certificateSelectors'
-import { Box } from '@material-ui/core'
-import makeStyles from '@material-ui/core/styles/makeStyles'
-import grey from '@material-ui/core/colors/grey'
-import UeCareUnitAddress from './CareUnit/UeCareUnitAddress'
-import UvCareUnitAddress from './CareUnit/UvCareUnitAddress'
+import { getCertificateDataElements, getIsShowSpinner, getSpinnerText } from '../../store/certificate/certificateSelectors'
 import { Backdrop, ConfigTypes } from '@frontend/common'
 import CareUnit from './CareUnit/CareUnit'
+import styled from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: `0px ${theme.spacing(2)}px 0px`,
-    backgroundColor: grey[300],
-    overflowY: 'auto',
-    height: '100%',
-    '& .questionWrapper + .questionWrapper .questionTitle': {
-      fontSize: theme.typography.subtitle2.fontSize,
-      fontWeight: theme.typography.subtitle2.fontWeight,
-    },
-    '& .questionWrapper + .questionWrapper .MuiPaper-root': {
-      paddingTop: 0,
-    },
-    '& .contentPaperWrapper': {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4),
-    },
-    '& .categoryWrapper + .questionWrapper .MuiPaper-root': {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  },
-}))
+const Wrapper = styled.div`
+  overflow-y: auto;
+  height: 100%;
+  padding-right: 16px;
+  padding-left: 16px;
+
+  .questionWrapper + .questionWrapper .questionTitle {
+    font-size: 14px !important;
+    fontweight: bold;
+  }
+
+  .questionWrapper + .questionWrapper .MuiPaper-root {
+    paddingtop: 0;
+  }
+
+  .contentPaperWrapper {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .categoryWrapper + .questionWrapper .MuiPaper-root {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+`
 
 const Certificate: React.FC = () => {
   const certificateStructure = useSelector(getCertificateDataElements)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
 
-  const classes = useStyles()
-
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
-      <Box id="questions-container" className={classes.root}>
+      <Wrapper id="questions-container" className={`iu-bg-grey-300`}>
         {certificateStructure &&
           certificateStructure.map((data) => {
             if (data.component === ConfigTypes.CATEGORY) {
@@ -65,7 +54,7 @@ const Certificate: React.FC = () => {
         <CareUnit />
         <CertificateValidation />
         <CertificateFooter />
-      </Box>
+      </Wrapper>
     </Backdrop>
   )
 }

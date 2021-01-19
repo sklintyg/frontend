@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Container, Paper } from '@material-ui/core'
 import {
   getCertificateEvents,
   getResourceLinks,
@@ -10,8 +9,6 @@ import {
   getIsValidForSigning,
   getIsLocked,
 } from '../../../store/certificate/certificateSelectors'
-import Divider from '@material-ui/core/Divider'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 import AvailableForPatientStatus from './Status/AvailableForPatientStatus'
 import RevokedStatus from './Status/RevokedStatus'
 import DraftSavedStatus from './Status/DraftSavedStatus'
@@ -23,35 +20,30 @@ import CertificateInfo from './CertificateInfo'
 import RevokeParentStatus from './Status/RevokeParentStatus'
 import HeaderButtons from './HeaderButtons'
 import LockedStatus from './Status/LockedStatus'
+import styled from 'styled-components/macro'
+import { Divider } from '@frontend/common'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    boxShadow: '0 2px 4px 0 rgba(0,0,0,.12)',
-    borderBottom: '1px solid #d7d7dd',
-  },
-  statusWrapper: {
-    marginTop: theme.spacing(1.25),
-    marginBottom: theme.spacing(0.75),
-    display: 'flex',
-    alignItems: 'center',
-  },
-  buttonWrapper: {
-    marginBottom: theme.spacing(0.5),
-    alignItems: 'flex-end',
-    '& button + button': {
-      marginLeft: theme.spacing(1),
-    },
-  },
-  statusLeftSide: {
-    display: 'flex',
-    flexGrow: 1,
-    '& .status + .status': {
-      marginLeft: theme.spacing(2),
-    },
-  },
-}))
+const Wrapper = styled.div`
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid #d7d7dd;
+`
 
-export const CertificateHeader: React.FC = (props) => {
+const StatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+`
+
+const StatusLeftSide = styled.div`
+  display: flex;
+  flex-grow: 1;
+
+  .status + .status {
+    margin-left: 16px;
+  }
+`
+
+const CertificateHeader = () => {
   const certificateMetadata = useSelector(getCertificateMetaData)
   const historyEntries = useSelector(getCertificateEvents)
   const isValidForSigning = useSelector(getIsValidForSigning)
@@ -60,17 +52,15 @@ export const CertificateHeader: React.FC = (props) => {
   const resourceLinks = useSelector(getResourceLinks)
   const isLocked = useSelector(getIsLocked)
 
-  const classes = useStyles()
-
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
   }
 
   return (
-    <Paper square className={classes.root}>
-      <Container>
-        <Box className={classes.statusWrapper}>
-          <Box className={classes.statusLeftSide}>
+    <Wrapper>
+      <div className="ic-container iu-pt-200">
+        <StatusWrapper>
+          <StatusLeftSide>
             <RevokedStatus certificateMetadata={certificateMetadata} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
             <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
@@ -79,15 +69,17 @@ export const CertificateHeader: React.FC = (props) => {
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
             <RevokeParentStatus certificateMetadata={certificateMetadata} />
             <LockedStatus certificateMetadata={certificateMetadata} />
-          </Box>
+          </StatusLeftSide>
           <ShowHistory historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
-        </Box>
+        </StatusWrapper>
         <Divider />
-        <Box display="flex">
+        <div className="iu-flex">
           <CertificateInfo certificateMetadata={certificateMetadata} />
           <HeaderButtons resourceLinks={resourceLinks} />
-        </Box>
-      </Container>
-    </Paper>
+        </div>
+      </div>
+    </Wrapper>
   )
 }
+
+export default CertificateHeader

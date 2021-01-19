@@ -29,5 +29,7 @@ const colors = {
   IA_COLOR_99: '#3C3C3C',
   IA_COLOR_98: '#99E5D2',
   IA_COLOR_97: '#355547',
+
+  WC_COLOR_31: '#00A9A7',
 }
 export default colors

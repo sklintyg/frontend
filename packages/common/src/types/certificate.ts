@@ -16,11 +16,11 @@ export enum CertificateStatus {
 
 export interface CertificateMetadata {
   id: string
-  certificateName: string
-  certificateDescription: string
-  certificateType: string
-  certificateTypeVersion: string
-  certificateStatus: CertificateStatus
+  name: string
+  description: string
+  type: string
+  typeVersion: string
+  status: CertificateStatus
   created: string
   testCertificate: boolean
   forwarded: boolean
@@ -41,6 +41,7 @@ export interface CertificateDataElement {
   parent: string
   index: number
   visible: boolean
+  disabled?: boolean
   readOnly: boolean
   mandatory: boolean
   config: CertificateDataConfig
@@ -88,6 +89,7 @@ export interface ConfigUeRadioBoolean extends CertificateDataConfig {
 export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   id: string
   label: string
+  disabled?: boolean
 }
 
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
@@ -181,7 +183,7 @@ export interface ValueDateRange extends Value {
 }
 
 export interface ValueDateRangeList extends Value {
-  list: ValueDateRange[]
+  list: ValueDateRange
 }
 
 export interface ValueDiagnosis extends Value {
