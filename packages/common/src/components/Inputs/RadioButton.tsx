@@ -1,11 +1,10 @@
 import React, { ChangeEvent } from 'react'
-import { FormControlLabel, Radio } from '@material-ui/core'
-import useTheme from '@material-ui/core/styles/useTheme'
 
 interface Props {
   label: string
+  id?: string
   name?: string
-  value?: boolean | string
+  value?: string | number | readonly string[] | undefined
   checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   hasValidationError?: boolean
@@ -14,25 +13,22 @@ interface Props {
 }
 
 const RadioButton: React.FC<Props> = (props) => {
-  const theme = useTheme()
-  const { label, name, onChange, value, checked, additionalStyles, hasValidationError } = props
+  const { label, name, id, onChange, value, checked, additionalStyles, hasValidationError } = props
 
   return (
-    <FormControlLabel
-      disabled={props.disabled}
-      label={label}
-      control={
-        <Radio
-          className={additionalStyles}
-          style={{ color: `${hasValidationError ? `${theme.palette.error.main}` : ''}` }}
-          color="default"
-          name={name}
-          value={value}
-          onChange={(e) => onChange(e)}
-          checked={checked}
-        />
-      }
-    />
+    <div>
+      <input
+        disabled={props.disabled}
+        type="radio"
+        id={id}
+        name={name}
+        className={`${additionalStyles} ic-forms__radio ${hasValidationError ? 'ic-forms__radio-error' : ''}`}
+        value={value}
+        onChange={(e) => onChange(e)}
+        checked={checked}
+      />
+      <label htmlFor={id}>{label}</label>
+    </div>
   )
 }
 

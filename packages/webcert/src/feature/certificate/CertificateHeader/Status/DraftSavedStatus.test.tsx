@@ -9,7 +9,7 @@ it('displays that the draft is saved', () => {
 
   isDraftSavedSpy.mockReturnValue(true)
   // @ts-expect-error we don't need to send all props
-  render(<DraftSavedStatus />)
+  render(<DraftSavedStatus isEditable={true} />)
   expect(screen.getByText(/utkastet är sparat/i)).toBeInTheDocument()
 })
 

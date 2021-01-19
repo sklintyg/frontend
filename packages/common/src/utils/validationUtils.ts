@@ -103,10 +103,10 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       const newValidationResults: ValidationResult[] = []
 
       validations.forEach((validation) => {
-        const validationResult = {
+        const validationResult: ValidationResult = {
           type: validation.type,
           id,
-          affectedIds: validation.id,
+          affectedIds: validation.id as string[],
           result: getResult(validation, data),
         }
         newValidationResults.push(validationResult)

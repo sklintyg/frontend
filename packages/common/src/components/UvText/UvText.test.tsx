@@ -4,11 +4,15 @@ import renderer from 'react-test-renderer'
 import { render } from '@testing-library/react'
 import UvText from './UvText'
 import {
-  CertificateBooleanValue,
+  ValueBoolean,
   CertificateDataElement,
-  CertificateDataValue,
+  CertificateDataConfig,
+  Value,
   CertificateDataValueType,
-  CertificateTextValue,
+  ValueText,
+  ConfigTypes,
+  ConfigUeRadioBoolean,
+  ConfigUeTextArea,
 } from '@frontend/common'
 
 describe('UvText', () => {
@@ -31,13 +35,16 @@ describe('UvText', () => {
   })
 
   it('displaying empty value', () => {
-    const question = createQuestion({ type: CertificateDataValueType.TEXT } as CertificateDataValue)
+    const question = createQuestionWithTextValue()
+    ;(question.value as ValueText).text = null
+    // const question = createQuestion({ type: CertificateDataValueType.TEXT } as Value)
     const { getByText } = render(<UvText question={question} />)
     getByText(/Ej angivet/i)
   })
 
   it('displaying unknown value type', () => {
-    const question = createQuestion({ type: CertificateDataValueType.UNKNOWN } as CertificateDataValue)
+    const question = createQuestionWithTextValue()
+    ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
     const { getByText } = render(<UvText question={question} />)
     getByText(/Okänd datatyp/i)
   })
@@ -51,25 +58,42 @@ describe('UvText', () => {
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
 export function createQuestionWithTextValue(): CertificateDataElement {
-  const value: CertificateTextValue = {
+  const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
     limit: 50,
+    id: '',
   }
-  return createQuestion(value)
+  const config: ConfigUeTextArea = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_TEXTAREA,
+  }
+
+  return createQuestion(value, config)
 }
 
 export function createQuestionWithBooleanValue(): CertificateDataElement {
-  const value: CertificateBooleanValue = {
+  const value: ValueBoolean = {
     type: CertificateDataValueType.BOOLEAN,
     selected: true,
+    id: '',
+  }
+  const config: ConfigUeRadioBoolean = {
+    id: '',
     selectedText: 'Boolean value = true',
     unselectedText: 'Boolean value = false',
+    description: '',
+    label: '',
+    text: '',
+    type: ConfigTypes.UE_RADIO_BOOLEAN,
   }
-  return createQuestion(value)
+
+  return createQuestion(value, config)
 }
 
-export function createQuestion(value: CertificateDataValue): CertificateDataElement {
+export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,
@@ -78,17 +102,8 @@ export function createQuestion(value: CertificateDataValue): CertificateDataElem
     visible: true,
     parent: 'parent',
     validationErrors: [],
-    validation: {
-      hideExpression: 'null',
-      required: false,
-      requiredProp: 'null',
-    },
-    config: {
-      text: 'Text',
-      description: 'Description',
-      component: 'null',
-      prop: 'null',
-    },
+    validation: [],
+    config,
     value,
   }
 }

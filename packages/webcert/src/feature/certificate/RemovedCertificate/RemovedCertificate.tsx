@@ -1,30 +1,26 @@
 import React from 'react'
 import trashImg from '../../../images/trash.svg'
-import { makeStyles, Typography } from '@material-ui/core'
+import styled from 'styled-components/macro'
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    fontWeight: theme.typography.fontWeightMedium,
-  },
-  img: {
-    maxWidth: '130px',
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(1),
-  },
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}))
+const Image = styled.img`
+  max-width: 130px;
+  padding-top: 24px;
+  padding-bottom: 8px;
+`
+
+const Figure = styled.figure`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 const RemovedCertificate = () => {
-  const classes = useStyles()
-
   return (
-    <div className={classes.root}>
-      <img className={classes.img} src={trashImg}></img>
-      <Typography className={classes.title}>Utkastet är borttaget</Typography>
+    <div className={'iu-flex iu-flex-center'}>
+      <Figure>
+        <Image src={trashImg}></Image>
+        <figcaption>Utkastet är borttaget</figcaption>
+      </Figure>
     </div>
   )
 }

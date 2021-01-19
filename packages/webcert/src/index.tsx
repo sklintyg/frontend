@@ -5,6 +5,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import store from './store/store'
+import * as types from 'styled-components/cssprop'
 
 ReactDOM.render(
   // Note: Comment out strict mode if you want to remove double rendering in dev-mode.
