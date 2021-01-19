@@ -48,7 +48,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
       name={name}
       disabled={!enabled}
       description={description}
-      startIcon={<FontAwesomeIcon icon={faTrash} />}
+      startIcon={<FontAwesomeIcon size="lg" icon={faTrash} />}
       modalTitle="Makulera intyg"
       onConfirm={handleDispatch}
       confirmButtonText="Makulera">

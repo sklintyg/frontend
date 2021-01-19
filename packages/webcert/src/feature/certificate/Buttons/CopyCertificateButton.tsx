@@ -45,7 +45,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled }) 
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon icon={faCopy}></FontAwesomeIcon>}
+      startIcon={<FontAwesomeIcon icon={faCopy} size="lg"></FontAwesomeIcon>}
       modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
       confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Kopiera'}>
