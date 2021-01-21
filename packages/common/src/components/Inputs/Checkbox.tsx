@@ -1,9 +1,10 @@
 import React, { ChangeEvent } from 'react'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface Props {
   label?: string
   name?: string
-  id: string
+  id?: string
   value?: string
   checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
@@ -11,13 +12,26 @@ interface Props {
   checkboxAdditionalStyles?: string
   vertical?: boolean
   disabled?: boolean
+  wrapperStyles?: FlattenSimpleInterpolation
 }
 
 const Checkbox: React.FC<Props> = (props) => {
-  const { label, id, name, onChange, value, checked, checkboxAdditionalStyles, vertical, hasValidationError, disabled } = props
+  const {
+    label,
+    id,
+    name,
+    onChange,
+    value,
+    checked,
+    checkboxAdditionalStyles,
+    vertical,
+    hasValidationError,
+    disabled,
+    wrapperStyles,
+  } = props
 
   return (
-    <div>
+    <div css={wrapperStyles}>
       <input
         type="checkbox"
         id={id}

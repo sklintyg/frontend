@@ -9,6 +9,7 @@ import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
+import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 
 interface QuestionProps {
   id: string
@@ -41,13 +42,13 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
         <Accordion
           title={question.config.text}
           description={question.config.description}
-          additionalStyles="questionTitle iu-fw-heading iu-fs-300"></Accordion>
+          additionalStyles="questionTitle iu-fw-heading iu-fs-300  iu-mb-300"></Accordion>
       )
     }
     return (
       <>
         <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
-        <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
+        <p className={`questionTitle iu-fw-heading iu-fs-300 iu-mb-300`}>{question.config.text}</p>
       </>
     )
   }
@@ -62,6 +63,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD) return <UeSickLeavePeriod question={question} key={question.id} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 
