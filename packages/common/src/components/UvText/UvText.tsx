@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ValueBoolean, CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
-import { ConfigUeRadioBoolean } from '../../types/certificate'
+import { ValueBoolean, ValueCodeList, ValueCode, CertificateDataElement, ValueText } from '@frontend/common'
+import { CertificateDataConfig, CertificateDataValueType } from '../../types/certificate'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -14,20 +14,41 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
-  const questionConfig = question.config as ConfigUeRadioBoolean
   let displayText = 'Ej angivet'
+
+  const getCodeListText = (id: string, config: CertificateDataConfig) => {
+    const item = (config.list as ValueCode[]).find((item) => item.id === id)
+    return '<li>' + item?.label + '</li>'
+  }
 
   switch (question.value!.type) {
     case CertificateDataValueType.BOOLEAN:
+      const booleanConfig = question.config
       const booleanValue = question.value as ValueBoolean
       if (booleanValue.selected !== null && question.visible) {
-        displayText = booleanValue.selected ? questionConfig.selectedText : questionConfig.unselectedText
+        displayText = booleanValue.selected ? (booleanConfig.selectedText as string) : (booleanConfig.unselectedText as string)
       }
       break
     case CertificateDataValueType.TEXT:
       const textValue = question.value as ValueText
       if (textValue.text != null && textValue.text.length > 0) {
         displayText = textValue.text
+      }
+      break
+    case CertificateDataValueType.CODE_LIST:
+      const codeListValue = question.value as ValueCodeList
+      const codeListConfig = question.config
+      if (codeListValue.list.length > 0 && question.visible) {
+        displayText = ''
+        const texts = (codeListValue.list as ValueCode[]).map((value) => getCodeListText(value.id, codeListConfig))
+        texts.map((t) => (displayText += t))
+      }
+      break
+    case CertificateDataValueType.CODE:
+      const codeValue = question.value as ValueCode
+      const codeConfig = question.config
+      if (codeValue.id !== undefined && question.visible) {
+        displayText = (codeConfig.list as ValueCode[]).find((item) => item.id === codeValue.id)?.label as string
       }
       break
     default:
@@ -37,7 +58,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
   return (
     <Root className={'iu-bg-grey-300 iu-radius-sm'}>
-      <p className={'iu-fs-200'}>{displayText}</p>
+      <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
     </Root>
   )
 }
