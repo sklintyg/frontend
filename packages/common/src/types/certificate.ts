@@ -70,8 +70,8 @@ export enum ConfigTypes {
 export interface CertificateDataConfig {
   header?: string
   icon?: string
-  text?: string
-  description?: string
+  text: string
+  description: string
   type: ConfigTypes
   [propName: string]: unknown
 }
