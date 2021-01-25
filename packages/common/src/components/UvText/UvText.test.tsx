@@ -123,11 +123,15 @@ export function createQuestionWithCodeValue(): CertificateDataElement {
     type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
     list: [
       {
+        text: '',
+        description: '',
         type: ConfigTypes.UE_RADIO_CODE,
         id: 'THIS_CODE',
         label: 'This code',
       },
       {
+        text: '',
+        description: '',
         type: ConfigTypes.UE_RADIO_CODE,
         id: 'NOT_THIS_CODE',
         label: 'Not this code',
@@ -161,16 +165,22 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     list: [
       {
+        text: '',
+        description: '',
         type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_1',
         label: 'Code 1',
       },
       {
+        text: '',
+        description: '',
         type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_2',
         label: 'Code 2',
       },
       {
+        text: '',
+        description: '',
         type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_3',
         label: 'Code 3',
