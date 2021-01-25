@@ -67,7 +67,9 @@
         "description": "",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "avstangningSmittskydd",
-        "label": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)"
+        "label": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)",
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
       },
       "value": {
         "type": "BOOLEAN",
@@ -711,6 +713,8 @@
         "description": "",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "arbetsresor",
+        "selectedText": "Ja",
+        "unSelectedText": "Nej",
         "label": "Resor till och från arbetet med annat färdmedel än normalt kan göra det möjligt för patienten att återgå till arbetet under sjukskrivningsperioden."
       },
       "value": {
@@ -1048,6 +1052,8 @@
         "description": "Försäkringskassans handläggare tar kontakt med dig när underlaget har kommit in och handläggningen kan påbörjas.",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "kontaktMedFk",
+        "selectedText": "Ja",
+        "unselectedText": "Nej",
         "label": "Jag önskar att Försäkringskassan kontaktar mig."
       },
       "value": {
