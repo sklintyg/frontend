@@ -18,6 +18,7 @@ import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
 import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
+import { ResourceLinkSend } from '@frontend/common/src'
 
 const app: Application = express()
 
@@ -601,12 +602,6 @@ function createResponse(certificate: Certificate): Certificate {
           enabled: true,
         })
       }
-      certificateClone.links.push({
-        type: ResourceLinkType.SEND_CERTIFICATE,
-        name: 'Skicka',
-        description: 'Skickar intyget',
-        enabled: true,
-      })
       if (certificate.metadata.type === 'lisjp') {
         certificateClone.links.push({
           type: ResourceLinkType.FMB,
@@ -617,6 +612,16 @@ function createResponse(certificate: Certificate): Certificate {
       }
       break
     case CertificateStatus.SIGNED:
+      certificateClone.links.push({
+        type: ResourceLinkType.SEND_CERTIFICATE,
+        name: 'Skicka',
+        description: `Öppnar ett fönster där du kan välja att skicka intyget till Försäkringskassan`,
+        modalBody:
+          '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>' +
+          '<p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.</p>',
+        receiver: 'Försäkringskassan',
+        enabled: true,
+      } as ResourceLinkSend)
       certificateClone.links.push({
         type: ResourceLinkType.PRINT_CERTIFICATE,
         name: 'Skriv ut',
