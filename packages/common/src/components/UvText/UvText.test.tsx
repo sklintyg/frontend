@@ -154,7 +154,7 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
       {
         type: CertificateDataValueType.CODE,
         id: 'CODE_2',
-        code: 'CODE_1',
+        code: 'CODE_2',
       },
     ],
   }
