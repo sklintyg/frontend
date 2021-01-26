@@ -5,15 +5,16 @@ import PrintCertificateButton from '../Buttons/PrintCertificateButton'
 import ReplaceCertificateButton from '../Buttons/ReplaceCertificateButton'
 import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
-// import SendCertificateButton from '../Buttons/SendCertificateButton'
+import SendCertificateButton from '../Buttons/SendCertificateButton'
 import styled from 'styled-components'
+import { ResourceLinkSend } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
   display: flex;
   align-items: flex-end;
 
-  > .button-tooltip + .button-tooltip {
+  > .button-tooltip {
     margin-left: 8px;
   }
 `
@@ -25,9 +26,9 @@ interface Props {
 const HeaderButtons: React.FC<Props> = ({ resourceLinks }) => {
   return (
     <Wrapper>
-      {/* {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SEND_CERTIFICATE)) && (
-        <SendCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.SEND_CERTIFICATE)} />
-      )} */}
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SEND_CERTIFICATE)) && (
+        <SendCertificateButton {...(getResourceLink(resourceLinks, ResourceLinkType.SEND_CERTIFICATE) as ResourceLinkSend)} />
+      )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE)) && (
         <CopyCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE)} />
       )}
