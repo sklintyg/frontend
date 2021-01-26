@@ -13,6 +13,10 @@ import {
   ConfigTypes,
   ConfigUeRadioBoolean,
   ConfigUeTextArea,
+  ConfigUeCheckboxMultipleCodes,
+  ConfigUeRadioMultipleCodes,
+  ValueCode,
+  ValueCodeList,
 } from '@frontend/common'
 
 describe('UvText', () => {
@@ -47,6 +51,19 @@ describe('UvText', () => {
     ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
     const { getByText } = render(<UvText question={question} />)
     getByText(/Okänd datatyp/i)
+  })
+
+  it('displays code value', () => {
+    const question = createQuestionWithCodeValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/This code/i)
+  })
+
+  it('displays several code values', () => {
+    const question = createQuestionWithMultipleCodeValues()
+    const { getByText } = render(<UvText question={question} />)
+    expect(getByText('Code 1')).toBeInTheDocument()
+    expect(getByText('Code 2')).toBeInTheDocument()
   })
 
   it('Verify snapshot', () => {
@@ -90,6 +107,86 @@ export function createQuestionWithBooleanValue(): CertificateDataElement {
     type: ConfigTypes.UE_RADIO_BOOLEAN,
   }
 
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithCodeValue(): CertificateDataElement {
+  const value: ValueCode = {
+    type: CertificateDataValueType.CODE,
+    id: 'THIS_CODE',
+    code: 'CODE',
+  }
+  const config: ConfigUeRadioMultipleCodes = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_RADIO_CODE,
+        id: 'THIS_CODE',
+        label: 'This code',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_RADIO_CODE,
+        id: 'NOT_THIS_CODE',
+        label: 'Not this code',
+      },
+    ],
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
+  const value: ValueCodeList = {
+    type: CertificateDataValueType.CODE_LIST,
+    list: [
+      {
+        type: CertificateDataValueType.CODE,
+        id: 'CODE_1',
+        code: 'CODE_1',
+      },
+      {
+        type: CertificateDataValueType.CODE,
+        id: 'CODE_2',
+        code: 'CODE_2',
+      },
+    ],
+  }
+  const config: ConfigUeCheckboxMultipleCodes = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_1',
+        label: 'Code 1',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_2',
+        label: 'Code 2',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_3',
+        label: 'Code 3',
+      },
+    ],
+  }
   return createQuestion(value, config)
 }
 
