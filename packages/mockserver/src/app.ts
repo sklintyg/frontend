@@ -19,8 +19,6 @@ import _ from 'lodash'
 import { createEvent } from './util'
 import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
 import { CertificateDataValidationType, CertificateDataValueType, ResourceLinkSend, ValueCode } from '@frontend/common/src'
-import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { ResourceLinkSend } from '@frontend/common/src'
 
 const app: Application = express()
 
