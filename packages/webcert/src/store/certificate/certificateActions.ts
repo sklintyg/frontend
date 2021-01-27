@@ -37,6 +37,8 @@ const FORWARD_CERTIFICATE_SUCCESS = `${CERTIFICATE} Forward certificate success`
 const FORWARD_CERTIFICATE_ERROR = `${CERTIFICATE} Forward certificate error`
 const FORWARD_CERTIFICATE_COMPLETED = `${CERTIFICATE} Forward certificate completed`
 
+const SEND_CERTIFICATE = `${CERTIFICATE} Send certificate`
+
 const SIGN_CERTIFICATE = `${CERTIFICATE} Sign certificate`
 const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
@@ -151,6 +153,8 @@ export const forwardCertificateSuccess = createAction<Certificate>(FORWARD_CERTI
 export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
 
 export const forwardCertificateCompleted = createAction(FORWARD_CERTIFICATE_COMPLETED)
+
+export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
 
 export const signCertificate = createAction(SIGN_CERTIFICATE)
 

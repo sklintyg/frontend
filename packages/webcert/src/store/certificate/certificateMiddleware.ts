@@ -73,6 +73,7 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
   setDisabledCertificateDataChild,
+  sendCertificate,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -222,6 +223,25 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
   dispatch(forwardCertificateCompleted())
   dispatch(validateCertificate(action.payload))
   dispatch(getCertificateEvents(action.payload.metadata.id))
+}
+
+const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendCertificate.match(action)) {
+    return
+  }
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/' + certificate.metadata.type + '/send',
+      method: 'POST',
+      data: certificate,
+      //onSuccess: sendCertificateSuccess.type,
+      //onError: sendCertificateError.type,
+    })
+  )
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -576,4 +596,5 @@ export const certificateMiddleware = [
   handleForwardCertificateSuccess,
   handleCopyCertificate,
   handleCopyCertificateSuccess,
+  handleSendCertificate,
 ]

@@ -22,7 +22,7 @@ export const CustomButton: React.FC<Props> = (props) => {
   }
   switch (props.style) {
     case 'success':
-      addedClass += 'ic-btn--success iu-bg-success'
+      addedClass += 'ic-button--primary iu-bg-grass-base iu-border-grass-base'
       break
     case 'primary':
       addedClass += 'ic-button--primary'
@@ -44,7 +44,7 @@ export const CustomButton: React.FC<Props> = (props) => {
         className={'ic-button iu-radius-md ' + addedClass}
         disabled={props.disabled}
         onClick={props.onClick}>
-        <span className="iu-mr-200 iu-flex">{props.startIcon}</span>
+        {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
       </button>
     </ButtonTooltip>
