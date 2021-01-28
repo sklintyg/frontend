@@ -48,7 +48,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       <>
         <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
         <p className={`questionTitle iu-fw-heading iu-fs-300`}>
-          {question.config.text ? question.config.text : (question.config.label as string)}
+          {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
         </p>
       </>
     )
