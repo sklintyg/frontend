@@ -703,12 +703,7 @@ function validate(certificate: Certificate): ValidationError[] {
     const dataProp = certificate.data[questionId].config.propName
     const question = certificate.data[questionId]
     category = question.config.type === 'CATEGORY' ? questionId : category
-
-    if (
-      question.visible &&
-      question.validation &&
-      question.validation.some((v) => v.type === CertificateDataValidationType.MANDATORY_VALIDATION)
-    ) {
+    if (question.visible && !question.disabled && question.mandatory) {
       switch (question.value?.type) {
         case CertificateDataValueType.BOOLEAN:
           const booleanValue: ValueBoolean = question.value as ValueBoolean
