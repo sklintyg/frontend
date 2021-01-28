@@ -16,8 +16,8 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
-  const parent = useSelector(getQuestion(question.parent))
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
+  const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
 
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || ((!question.visible || !parent.visible) && !question.readOnly)) return null
@@ -25,13 +25,13 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
-        {getQuestionComponent(question.config, question.mandatory, question.readOnly, disabled)}
+        {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
       </QuestionWrapper>
     </Expandable>
   )
 
-  function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean, disabled: boolean) {
+  function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
     if (disabled) {
       return <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
     }
@@ -41,12 +41,13 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
         <Accordion
           title={question.config.text}
           description={question.config.description}
+          displayMandatory={displayMandatory}
           additionalStyles="questionTitle iu-fw-heading iu-fs-300"></Accordion>
       )
     }
     return (
       <>
-        <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
+        <MandatoryIcon display={displayMandatory}></MandatoryIcon>
         <p className={`questionTitle iu-fw-heading iu-fs-300`}>
           {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
         </p>

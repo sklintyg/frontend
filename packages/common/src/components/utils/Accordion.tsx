@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
+import { MandatoryIcon } from '@frontend/common'
 
 const ArrowUp = styled.div`
   width: 0;
@@ -18,9 +19,10 @@ interface Props {
   title: string
   description: string
   additionalStyles?: string
+  displayMandatory: boolean
 }
 
-const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) => {
+const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
   const expandBtn = useRef<null | HTMLButtonElement>(null)
 
@@ -37,6 +39,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles }) =>
   return (
     <div className="ic-expandable" ref={expandableRef}>
       <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>
+        <MandatoryIcon display={displayMandatory}></MandatoryIcon>
         <button
           onClick={toggleExpanded}
           ref={expandBtn}
