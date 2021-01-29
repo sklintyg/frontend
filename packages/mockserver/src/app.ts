@@ -12,13 +12,15 @@ import {
   CertificateRelationType,
   FakeLogin,
   User,
+  CertificateDataValueType,
+  ResourceLinkSend,
+  ValueCode,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
 import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
-import { CertificateDataValidationType, CertificateDataValueType, ResourceLinkSend, ValueCode } from '@frontend/common/src'
 
 const app: Application = express()
 
