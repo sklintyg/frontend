@@ -745,7 +745,7 @@ function validate(certificate: Certificate): ValidationError[] {
           break
         case CertificateDataValueType.CODE_LIST:
           const codeListValue = question.value as ValueCode
-          if (!(codeListValue.list as ValueCode[]).some((v) => v.id !== null && v.id !== undefined)) {
+          if ((codeListValue.list as ValueCode[]).length === 0) {
             validationError.push({
               id: questionId,
               category: getCategory(certificate, question.parent),
