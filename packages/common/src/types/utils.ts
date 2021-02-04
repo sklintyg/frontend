@@ -5,3 +5,14 @@ export interface DynamicLinkData {
   target: string
   tooltip: string
 }
+
+export interface Diagnosis {
+  kod: string
+  beskrivning: string
+}
+
+export interface DiagnosisTypeahead {
+  resultat: string
+  diagnoser: Diagnosis[]
+  moreResults: boolean
+}

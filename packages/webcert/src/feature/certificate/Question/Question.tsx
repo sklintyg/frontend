@@ -9,6 +9,7 @@ import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
+import UeDiagnoses from '../Inputs/UeDiagnoses'
 
 interface QuestionProps {
   id: string
@@ -64,6 +65,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 
