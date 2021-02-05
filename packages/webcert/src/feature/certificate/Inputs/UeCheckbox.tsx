@@ -29,6 +29,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const values = (question.value as ValueCodeList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
+  const isSingleCheckbox = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     let updatedValue = question
@@ -61,7 +62,9 @@ const UeCheckbox: React.FC<Props> = (props) => {
         onChange={handleChange}
         hasValidationError={hasValidationError}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      {isShowValidationError && isSingleCheckbox && (
+        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+      )}
     </div>
   )
 }
