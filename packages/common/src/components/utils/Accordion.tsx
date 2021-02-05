@@ -19,7 +19,7 @@ interface Props {
   title: string
   description: string
   additionalStyles?: string
-  displayMandatory: boolean
+  displayMandatory?: boolean
 }
 
 const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory }) => {
@@ -39,7 +39,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
   return (
     <div className="ic-expandable" ref={expandableRef}>
       <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>
-        <MandatoryIcon display={displayMandatory}></MandatoryIcon>
+        <MandatoryIcon display={displayMandatory as boolean}></MandatoryIcon>
         <button
           onClick={toggleExpanded}
           ref={expandBtn}

@@ -15,6 +15,7 @@ import {
   CertificateDataValueType,
   ResourceLinkSend,
   ValueCode,
+  ResourceLinkType,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
