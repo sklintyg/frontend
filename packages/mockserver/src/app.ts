@@ -14,6 +14,7 @@ import {
   User,
   CertificateDataValueType,
   ResourceLinkSend,
+  ResourceLinkChooseReceivers,
   ValueCode,
   ResourceLinkType,
 } from '@frontend/common'
@@ -614,6 +615,13 @@ function createResponse(certificate: Certificate): Certificate {
       }
       break
     case CertificateStatus.SIGNED:
+      certificateClone.links.push({
+        type: ResourceLinkType.CHOOSE_RECEIVERS,
+        receivers: ['Försäkringskassan', 'Försäkringsbolaget'],
+        name: 'Välj intygsmottagare',
+        description: `Öppnar ett fönster där du kan välja vilka intygsmottagare intyget får skickas till.`,
+        enabled: true,
+      } as ResourceLinkChooseReceivers)
       certificateClone.links.push({
         type: ResourceLinkType.SEND_CERTIFICATE,
         name: 'Skicka',
