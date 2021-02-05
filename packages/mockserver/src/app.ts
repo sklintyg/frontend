@@ -21,7 +21,6 @@ import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
-import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
 
 const app: Application = express()
 
