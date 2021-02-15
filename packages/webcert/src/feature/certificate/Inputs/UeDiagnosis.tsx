@@ -40,24 +40,29 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 2
 
-  const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCode(event.currentTarget.value)
-    if (event.currentTarget.value !== undefined && event.currentTarget.value.length > MIN_CODE_LENGTH) {
+  const updateTypeaheadResult = (searched: string) => {
+    if (searched !== undefined && searched.length > MIN_CODE_LENGTH) {
       dispatch(
         getDiagnosisTypeahead({
           codeSystem: selectedCodeSystem,
-          codeFragment: event.currentTarget.value.toUpperCase(),
+          codeFragment: searched,
           maxNumberOfResults: MAX_NUMBER_OF_TYPEAHEAD_RESULTS,
         })
       )
     }
+  }
+
+  const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCode(event.currentTarget.value)
     setOpenCode(true)
+    updateTypeaheadResult(event.currentTarget.value.toUpperCase())
     saveDiagnosis()
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescription(event.currentTarget.value)
     setOpenDescription(true)
+    updateTypeaheadResult(event.currentTarget.value)
     saveDiagnosis()
   }
 
@@ -83,13 +88,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       return []
     }
     return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {
-      return diagnosis.kod + ' - ' + diagnosis.beskrivning
+      return diagnosis.kod + ' | ' + diagnosis.beskrivning
     })
   }
 
   const onDiagnosisSelected = (value: string) => {
-    const newCode = value.split('-')[0]
-    const newDesc = value.split('-')[1]
+    const newCode = value.split('|')[0]
+    const newDesc = value.split('|')[1].substring(1)
     setCode(newCode)
     setDescription(newDesc)
     setOpenCode(false)
@@ -138,6 +143,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         value={description}
         onChange={handleDescriptionChange}
         open={openDescription}
+        highlight={true}
       />
     </Wrapper>
   )
