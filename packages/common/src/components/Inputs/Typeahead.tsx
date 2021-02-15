@@ -15,6 +15,7 @@ interface Props {
   suggestions: string[]
   onSuggestionSelected: (value: string) => void
   open: boolean
+  highlight?: boolean
 }
 
 const Typeahead: React.FC<Props> = (props) => {
@@ -29,39 +30,22 @@ const Typeahead: React.FC<Props> = (props) => {
     suggestions,
     onSuggestionSelected,
     open,
+    highlight,
   } = props
 
-  const TypeaheadWrapper = styled.div`
-    ${additionalStyles}
-  
-    width: 100%;
-
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      outline: none;
-      max-height: 135px;
-    }
-
-    ul::before {
-      content: '';
-    }
-
-    ul {
+  const SuggestionsList = styled.ul`
       list-style-type: none;
       text-align: left;
       margin: 0;
       padding: 0;
       border-top: 1px solid gray;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
-    }
-
-    li {
+  `
+  const SuggestionsListItem  = styled.li`
       padding: 10px 5px;
       cursor: pointer;
-    }
 
-    li:hover {
+    :hover {
       background: lightgray;
       text-decoration: underline;
     }
@@ -72,24 +56,27 @@ const Typeahead: React.FC<Props> = (props) => {
       return null
     }
     return (
-      <ul>
+      <SuggestionsList>
         {suggestions.map((item) => (
-          <li key={item} onClick={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item)}}>
-          </li>
+          <SuggestionsListItem key={item} onClick={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item)}}>
+          </SuggestionsListItem>
         ))}
-      </ul>
+      </SuggestionsList>
     )
   }
 
   const getItemText = (item: string) => {
-    const index = item.indexOf(item)
-    if(index !== -1) {
-      return `${item.substr(0, index)}<span class="iu-fw-bold">${item.substr(index, value?.length)}</span>${item.substr(index + value?.length, item.length)}`
+    if(value !== undefined) {
+      const searchedDescription = value?.indexOf('|') !== -1 ? value.split('|')[1] : value
+      const index = item.toLowerCase().indexOf(searchedDescription.toLowerCase())
+      if (index !== -1 && highlight) {
+        return `${item.substr(0, index)} <span class="iu-fw-bold">${item.substr(index, searchedDescription?.length)}</span>${item.substr(index + searchedDescription?.length, item.length)}`
+      } else return item
     } else return item
   }
 
   return (
-    <TypeaheadWrapper>
+    <div className="iu-fullwidth" css={additionalStyles}>
       <TextInput
         placeholder={placeholder}
         disabled={disabled}
@@ -99,7 +86,7 @@ const Typeahead: React.FC<Props> = (props) => {
         key={id + '-input'}
       />
       {open ? renderSuggestions() : ''}
-    </TypeaheadWrapper>
+    </div>
   )
 }
 
