@@ -31,8 +31,8 @@ const codeAdditionalStyles = css`
 const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question }) => {
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item.id === id)
-  const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : undefined)
-  const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : undefined)
+  const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
+  const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
@@ -56,23 +56,19 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCode(event.currentTarget.value)
     setOpenCode(true)
     updateTypeaheadResult(event.currentTarget.value.toUpperCase())
-    saveDiagnosis()
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescription(event.currentTarget.value)
     setOpenDescription(true)
     updateTypeaheadResult(event.currentTarget.value)
-    saveDiagnosis()
+    saveDiagnosis(code, description)
   }
 
   function enteredCodeExists(): boolean {
     if (typeaheadResult !== undefined && typeaheadResult !== null && typeaheadResult.resultat === 'OK') {
-      for (const index in typeaheadResult.diagnoser) {
-        if (typeaheadResult.diagnoser[index].kod.toLowerCase() === code) {
-          return true
-        }
-      }
+      const index = typeaheadResult.diagnoser.findIndex((d) => d.kod === code?.toUpperCase())
+      return index !== -1
     }
     return false
   }
@@ -93,9 +89,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const onDiagnosisSelected = (value: string) => {
-    const newCode = value.split('|')[0]
+    const newCode = value.split('|')[0].trim()
     const newDesc = value.split('|')[1].substring(1)
-    setCode(newCode)
+    setCode(newCode.toUpperCase())
     setDescription(newDesc)
     setOpenCode(false)
     setOpenDescription(false)
@@ -103,14 +99,14 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   // TODO: Does description&code need to have a value?
-  const saveDiagnosis = () => {
+  const saveDiagnosis = (code: string, description: string) => {
     if (enteredCodeExists()) {
       const diagnosisValue: ValueDiagnosis = {
         type: CertificateDataValueType.DIAGNOSIS,
         id: id,
         terminology: selectedCodeSystem,
-        code: code as string,
-        description: description as string,
+        code: code,
+        description: description,
       }
       const updatedValue = getUpdatedValue(question, diagnosisValue)
       dispatch(updateCertificateDataElement(updatedValue))
@@ -156,6 +152,8 @@ function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: Value
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
   if (updatedValueIndex === -1) {
     updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
+  } else {
+    updatedValueList[updatedValueIndex] = valueDiagnosis
   }
   updatedQuestionValue.list = updatedValueList
   updatedQuestion.value = updatedQuestionValue
