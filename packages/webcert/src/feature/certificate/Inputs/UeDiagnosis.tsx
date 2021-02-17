@@ -5,7 +5,7 @@ import { css } from 'styled-components'
 import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common/src'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
-import { getDiagnosisTypeahead } from '../../../store/utils/utilsActions'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
 import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
@@ -49,6 +49,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
           maxNumberOfResults: MAX_NUMBER_OF_TYPEAHEAD_RESULTS,
         })
       )
+    } else if (typeaheadResult !== null) {
+      dispatch(resetDiagnosisTypeahead())
     }
   }
 

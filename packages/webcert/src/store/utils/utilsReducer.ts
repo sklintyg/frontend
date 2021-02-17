@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateDiagnosisTypeahead, updateDynamicLinks } from './utilsActions'
+import { updateDiagnosisTypeahead, updateDynamicLinks, resetDiagnosisTypeahead } from './utilsActions'
 import { DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
 export interface DynamicLinkMap {
@@ -23,6 +23,9 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateDiagnosisTypeahead, (state, action) => {
       state.diagnosisTypeahead = action.payload
+    })
+    .addCase(resetDiagnosisTypeahead, (state, action) => {
+      state.diagnosisTypeahead = null
     })
 )
 

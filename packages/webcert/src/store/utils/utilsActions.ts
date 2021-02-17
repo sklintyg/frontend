@@ -19,5 +19,6 @@ export const getDiagnosisTypeahead = createAction<GetDiagnosisTypeahead>('[Utils
 export const getDiagnosisTypeaheadStarted = createAction('[Utils] Get diagnosis typeahead started')
 export const getDiagnosisTypeaheadSuccess = createAction<DiagnosisTypeahead>('[Utils] Get diagnosis typeahead success')
 export const getDiagnosisTypeaheadError = createAction<string>('[Utils] Get diagnosis typeahead error')
+export const resetDiagnosisTypeahead = createAction('[Utils] Resets diagnosis typeahead')
 
 export const updateDiagnosisTypeahead = createAction<DiagnosisTypeahead>('[Utils] Update diagnosis typeahead')
