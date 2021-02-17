@@ -67,10 +67,11 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setDescription(event.currentTarget.value)
+    const newDescription = event.currentTarget.value
+    setDescription(newDescription)
     setOpenDescription(true)
-    updateTypeaheadResult(event.currentTarget.value, false)
-    saveDiagnosis(code, description)
+    updateTypeaheadResult(newDescription, false)
+    saveDiagnosis(code, newDescription, true)
   }
 
   function enteredCodeExists(): boolean {
@@ -96,12 +97,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCode(newCode.toUpperCase())
     setDescription(newDesc)
     handleClose()
-    saveDiagnosis(newCode, newDesc)
+    saveDiagnosis(newCode, newDesc, false)
   }
 
   // TODO: Does description&code need to have a value?
-  const saveDiagnosis = (code: string, description: string) => {
-    if (enteredCodeExists()) {
+  const saveDiagnosis = (code: string, description: string, isDescriptionChange: boolean) => {
+    if (enteredCodeExists() || isDescriptionChange) {
       const diagnosisValue: ValueDiagnosis = {
         type: CertificateDataValueType.DIAGNOSIS,
         id: id,
