@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useEffect, useRef } from 'react'
 import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
@@ -63,7 +63,7 @@ const Typeahead: React.FC<Props> = (props) => {
     return (
       <SuggestionsList>
         {suggestions.map((item) => (
-          <SuggestionsListItem key={item} onClick={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item, value, highlighted ? highlighted : false)}}>
+          <SuggestionsListItem key={item} onMouseDown={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item, value, highlighted ? highlighted : false)}}>
           </SuggestionsListItem>
         ))}
       </SuggestionsList>
@@ -71,7 +71,7 @@ const Typeahead: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className="iu-fullwidth" css={additionalStyles}>
+    <div className="iu-fullwidth" css={additionalStyles} onBlur={handleClose}>
       <TextInput
         placeholder={placeholder}
         disabled={disabled}
