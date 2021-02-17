@@ -15,8 +15,28 @@ interface Props {
   suggestions: string[]
   onSuggestionSelected: (value: string) => void
   open: boolean
-  highlight?: boolean
+  handleClose: () => void
+  getItemText: (item: string, value: string | undefined, highlighted: boolean) => string
+  highlighted?: boolean
 }
+
+const SuggestionsList = styled.ul`
+      list-style-type: none;
+      text-align: left;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid gray;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
+  `
+const SuggestionsListItem  = styled.li`
+      padding: 10px 5px;
+      cursor: pointer;
+
+    :hover {
+      background: lightgray;
+      text-decoration: underline;
+    }
+  `
 
 const Typeahead: React.FC<Props> = (props) => {
   const {
@@ -30,26 +50,11 @@ const Typeahead: React.FC<Props> = (props) => {
     suggestions,
     onSuggestionSelected,
     open,
-    highlight,
+    highlighted,
+    getItemText,
+    handleClose,
   } = props
 
-  const SuggestionsList = styled.ul`
-      list-style-type: none;
-      text-align: left;
-      margin: 0;
-      padding: 0;
-      border-top: 1px solid gray;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
-  `
-  const SuggestionsListItem  = styled.li`
-      padding: 10px 5px;
-      cursor: pointer;
-
-    :hover {
-      background: lightgray;
-      text-decoration: underline;
-    }
-  `
 
   const renderSuggestions = () => {
     if (suggestions.length === 0) {
@@ -58,21 +63,11 @@ const Typeahead: React.FC<Props> = (props) => {
     return (
       <SuggestionsList>
         {suggestions.map((item) => (
-          <SuggestionsListItem key={item} onClick={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item)}}>
+          <SuggestionsListItem key={item} onClick={(e) => onSuggestionSelected(item)} dangerouslySetInnerHTML={{ __html: getItemText(item, value, highlighted ? highlighted : false)}}>
           </SuggestionsListItem>
         ))}
       </SuggestionsList>
     )
-  }
-
-  const getItemText = (item: string) => {
-    if(value !== undefined) {
-      const searchedDescription = value?.indexOf('|') !== -1 ? value.split('|')[1] : value
-      const index = item.toLowerCase().indexOf(searchedDescription.toLowerCase())
-      if (index !== -1 && highlight) {
-        return `${item.substr(0, index)} <span class="iu-fw-bold">${item.substr(index, searchedDescription?.length)}</span>${item.substr(index + searchedDescription?.length, item.length)}`
-      } else return item
-    } else return item
   }
 
   return (

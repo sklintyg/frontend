@@ -40,7 +40,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 2
 
-  const updateTypeaheadResult = (searched: string) => {
+  const handleClose = () => {
+    setOpenCode(false)
+    setOpenDescription(false)
+  }
+
+  const updateTypeaheadResult = (searched: string, isCode: boolean) => {
     if (searched !== undefined && searched.length > MIN_CODE_LENGTH) {
       dispatch(
         getDiagnosisTypeahead({
@@ -90,9 +95,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     const newDesc = value.split('|')[1].substring(1)
     setCode(newCode.toUpperCase())
     setDescription(newDesc)
-    setOpenCode(false)
-    setOpenDescription(false)
-    saveDiagnosis()
+    handleClose()
+    saveDiagnosis(newCode, newDesc)
   }
 
   // TODO: Does description&code need to have a value?
@@ -110,6 +114,19 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }
   }
 
+  const getItemText = (item: string, value: string | undefined, highlighted: boolean) => {
+    if (value !== undefined) {
+      const searchedDescription = value?.indexOf('|') !== -1 ? value.split('|')[1] : value
+      const index = item.toLowerCase().indexOf(searchedDescription.toLowerCase())
+      if (index !== -1 && highlighted) {
+        return `${item.substr(0, index)} <span class="iu-fw-bold">${item.substr(index, searchedDescription?.length)}</span>${item.substr(
+          index + searchedDescription?.length,
+          item.length
+        )}`
+      } else return item
+    } else return item
+  }
+
   return (
     <Wrapper key={id + '-wrapper'}>
       <Typeahead
@@ -124,6 +141,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         value={code}
         open={openCode}
         onChange={handleCodeChange}
+        handleClose={handleClose}
+        getItemText={getItemText}
       />
       <Typeahead
         suggestions={getSuggestions()}
@@ -136,7 +155,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         value={description}
         onChange={handleDescriptionChange}
         open={openDescription}
-        highlight={true}
+        highlighted={true}
+        handleClose={handleClose}
+        getItemText={getItemText}
       />
     </Wrapper>
   )
