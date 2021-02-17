@@ -51,13 +51,20 @@ const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: Middlew
     return
   }
 
+  let url = ''
+  if (action.payload.code) {
+    url = '/moduleapi/diagnos/kod/sok'
+  } else {
+    url = '/moduleapi/diagnos/beskrivning/sok'
+  }
+
   dispatch(
     apiCallBegan({
-      url: '/moduleapi/diagnos/kod/sok',
+      url: url,
       method: 'POST',
       data: {
         codeSystem: action.payload.codeSystem,
-        codeFragment: action.payload.codeFragment,
+        fragment: action.payload.fragment,
         nbrOfResults: action.payload.maxNumberOfResults,
       },
       onStart: getDiagnosisTypeaheadStarted.type,

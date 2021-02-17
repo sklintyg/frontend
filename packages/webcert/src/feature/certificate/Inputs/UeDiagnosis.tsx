@@ -45,7 +45,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       dispatch(
         getDiagnosisTypeahead({
           codeSystem: selectedCodeSystem,
-          codeFragment: searched,
+          fragment: searched,
+          code: isCode,
           maxNumberOfResults: MAX_NUMBER_OF_TYPEAHEAD_RESULTS,
         })
       )
@@ -57,13 +58,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCode(event.currentTarget.value)
     setOpenCode(true)
-    updateTypeaheadResult(event.currentTarget.value.toUpperCase())
+    updateTypeaheadResult(event.currentTarget.value.toUpperCase(), true)
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescription(event.currentTarget.value)
     setOpenDescription(true)
-    updateTypeaheadResult(event.currentTarget.value)
+    updateTypeaheadResult(event.currentTarget.value, false)
     saveDiagnosis(code, description)
   }
 
@@ -76,13 +77,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const getSuggestions = () => {
-    if (
-      typeaheadResult === undefined ||
-      typeaheadResult === null ||
-      typeaheadResult.resultat !== 'OK' ||
-      !code ||
-      code.length <= MIN_CODE_LENGTH
-    ) {
+    if (typeaheadResult === undefined || typeaheadResult === null || typeaheadResult.resultat !== 'OK') {
       return []
     }
     return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {

@@ -4,7 +4,8 @@ import { DiagnosisTypeahead } from '@frontend/common'
 
 export interface GetDiagnosisTypeahead {
   codeSystem: string
-  codeFragment: string
+  fragment: string
+  code: boolean
   maxNumberOfResults: number
 }
 
