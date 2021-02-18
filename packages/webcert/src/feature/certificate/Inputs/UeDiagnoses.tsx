@@ -27,8 +27,10 @@ interface Props {
 
 const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeDiagnoses
-  const [selectedCodeSystem, setSelectedCodeSystem] = useState(questionConfig.terminology[0].id)
-  const [currentCodeValue, setCurrentCodeValue] = useState('')
+  const questionValue = question.value as ValueDiagnosisList
+  const [selectedCodeSystem, setSelectedCodeSystem] = useState(
+    questionValue.list.length > 0 ? questionValue.list[0].terminology : questionConfig.terminology[0].id
+  )
   const isShowValidationError = useSelector(getShowValidationErrors)
   const dispatch = useAppDispatch()
 
