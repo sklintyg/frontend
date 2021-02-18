@@ -1,5 +1,5 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { css } from 'styled-components'
 import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common/src'
@@ -40,6 +40,11 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const dispatch = useAppDispatch()
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 2
+
+  useEffect(() => {
+    setCode('')
+    setDescription('')
+  }, [selectedCodeSystem])
 
   const onClose = () => {
     handleClose(false)

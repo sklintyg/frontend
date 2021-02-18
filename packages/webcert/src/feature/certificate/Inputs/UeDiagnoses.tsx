@@ -30,7 +30,6 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(questionConfig.terminology[0].id)
   const [currentCodeValue, setCurrentCodeValue] = useState('')
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const diagnosisTypeaheadResult = useSelector(getDiagnosisTypeaheadResult())
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -70,7 +69,16 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    resetDiagnosisList()
     setSelectedCodeSystem(event.currentTarget.name)
+  }
+
+  const resetDiagnosisList = () => {
+    const updatedQuestion: CertificateDataElement = { ...question }
+    const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
+    updatedQuestionValue.list = []
+    updatedQuestion.value = updatedQuestionValue
+    dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
   //TODO: F50 får tydligen inte väljas enligt nuvarande diagnos-komponent
