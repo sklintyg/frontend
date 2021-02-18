@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef } from 'react'
+import React, { ChangeEvent } from 'react'
 import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
@@ -15,7 +15,7 @@ interface Props {
   suggestions: string[]
   onSuggestionSelected: (value: string) => void
   open: boolean
-  handleClose: () => void
+  onClose: () => void
   getItemText: (item: string, value: string | undefined, highlighted: boolean) => string
   highlighted?: boolean
 }
@@ -52,7 +52,7 @@ const Typeahead: React.FC<Props> = (props) => {
     open,
     highlighted,
     getItemText,
-    handleClose,
+    onClose,
   } = props
 
 
@@ -71,7 +71,7 @@ const Typeahead: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className="iu-fullwidth" css={additionalStyles} onBlur={handleClose}>
+    <div className="iu-fullwidth" css={additionalStyles} onBlur={onClose}>
       <TextInput
         placeholder={placeholder}
         disabled={disabled}

@@ -35,14 +35,22 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
+  const [codeChanged, setCodeChanged] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
   const dispatch = useAppDispatch()
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 2
 
-  const handleClose = () => {
+  const onClose = () => {
+    handleClose(false)
+  }
+
+  const handleClose = (diagnosisSelected: boolean) => {
     setOpenCode(false)
     setOpenDescription(false)
+    if ((!enteredCodeExists() || !diagnosisSelected) && codeChanged) {
+      setCode('')
+    }
   }
 
   const updateTypeaheadResult = (searched: string, isCode: boolean) => {
@@ -63,6 +71,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCode(event.currentTarget.value)
     setOpenCode(true)
+    setCodeChanged(true)
     updateTypeaheadResult(event.currentTarget.value.toUpperCase(), true)
   }
 
@@ -70,6 +79,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     const newDescription = event.currentTarget.value
     setDescription(newDescription)
     setOpenDescription(true)
+    setCodeChanged(false)
     updateTypeaheadResult(newDescription, false)
     saveDiagnosis(code, newDescription, true)
   }
@@ -96,7 +106,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     const newDesc = value.split('|')[1].substring(1)
     setCode(newCode.toUpperCase())
     setDescription(newDesc)
-    handleClose()
+    setCodeChanged(false)
+    handleClose(true)
     saveDiagnosis(newCode, newDesc, false)
   }
 
@@ -142,7 +153,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         value={code}
         open={openCode}
         onChange={handleCodeChange}
-        handleClose={handleClose}
+        onClose={onClose}
         getItemText={getItemText}
       />
       <Typeahead
@@ -157,7 +168,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onChange={handleDescriptionChange}
         open={openDescription}
         highlighted={true}
-        handleClose={handleClose}
+        onClose={onClose}
         getItemText={getItemText}
       />
     </Wrapper>
