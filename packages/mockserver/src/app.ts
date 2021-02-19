@@ -12,13 +12,15 @@ import {
   CertificateRelationType,
   FakeLogin,
   User,
+  CertificateDataValueType,
+  ResourceLinkSend,
+  ValueCode,
+  ResourceLinkType,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
-import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
-import { ResourceLinkSend } from '@frontend/common/src'
 
 const app: Application = express()
 
@@ -737,43 +739,63 @@ function validate(certificate: Certificate): ValidationError[] {
   const validationError: ValidationError[] = []
   let category = ''
   for (const questionId in certificate.data) {
-    // TODO: Fix this, doing a temporary fix right now to
-    const dataProp = '1'
-    // const dataProp = certificate.data[questionId].config.prop
+    const dataProp = certificate.data[questionId].config.propName
     const question = certificate.data[questionId]
-
     category = question.config.type === 'CATEGORY' ? questionId : category
-
-    //   if (question.visible && question.validation && question.validation.required) {
-    //     switch (question.value.type) {
-    //       case 'BOOLEAN':
-    //         const booleanValue: ValueBoolean = question.value as ValueBoolean
-    //         if (booleanValue.selected === undefined || booleanValue.selected === null) {
-    //           validationError.push({
-    //             id: questionId,
-    //             category: getCategory(certificate, question.parent),
-    //             field: dataProp,
-    //             type: 'EMPTY',
-    //             text: 'Välj ett alternativ.',
-    //           })
-    //         }
-    //         break
-    //       case 'TEXT':
-    //         const textValue: ValueText = question.value as ValueText
-    //         if (!textValue.text) {
-    //           validationError.push({
-    //             id: questionId,
-    //             category: getCategory(certificate, question.parent),
-    //             field: dataProp,
-    //             type: 'EMPTY',
-    //             text: 'Ange ett svar.',
-    //           })
-    //         }
-    //         break
-    //       default:
-    //         break
-    //     }
-    //   }
+    if (question.visible && !question.disabled && question.mandatory) {
+      switch (question.value?.type) {
+        case CertificateDataValueType.BOOLEAN:
+          const booleanValue: ValueBoolean = question.value as ValueBoolean
+          if (booleanValue.selected === undefined || booleanValue.selected === null) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj ett alternativ.',
+            })
+          }
+          break
+        case CertificateDataValueType.TEXT:
+          const textValue: ValueText = question.value as ValueText
+          if (!textValue.text) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Ange ett svar.',
+            })
+          }
+          break
+        case CertificateDataValueType.CODE:
+          const codeValue = question.value as ValueCode
+          if (codeValue.id === undefined || codeValue.id === null) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj ett alternativ.',
+            })
+          }
+          break
+        case CertificateDataValueType.CODE_LIST:
+          const codeListValue = question.value as ValueCode
+          if ((codeListValue.list as ValueCode[]).length === 0) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj minst ett alternativ.',
+            })
+          }
+          break
+        default:
+          break
+      }
+    }
   }
   return validationError
 }
