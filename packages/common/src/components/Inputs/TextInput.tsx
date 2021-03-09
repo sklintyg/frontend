@@ -19,7 +19,7 @@ const TextInput: React.FC<Props> = (props) => {
       <input
         type="text"
         disabled={disabled}
-        className={`ic-textfield ${additionalStyles} ${hasValidationError ? 'iu-color-error iu-border-error' : ''}`}
+        className={`${additionalStyles ? additionalStyles : ''} ${hasValidationError ? 'iu-color-error iu-border-error' : ''} ic-textfield`}
         name={name ?? ''}
         placeholder={placeholder}
         value={value}
