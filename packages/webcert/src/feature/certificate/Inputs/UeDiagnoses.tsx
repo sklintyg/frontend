@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../../store/store'
-import { CertificateDataElement, CertificateDataValueType, ConfigUeDiagnoses, ValueDiagnosisList, ValueDiagnosis } from '@frontend/common'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { CertificateDataElement, ConfigUeDiagnoses } from '@frontend/common'
+import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { QuestionValidationTexts, RadioButton } from '@frontend/common'
-import { useEffect, useState } from 'react'
-import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
+import { useState } from 'react'
 import styled from 'styled-components'
 import UeDiagnosis from './UeDiagnosis'
+import { ValueDiagnosisList } from '@frontend/common/src'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../store/store'
 
 const RadioWrapper = styled.div`
   display: flex;
@@ -33,42 +33,6 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   )
   const isShowValidationError = useSelector(getShowValidationErrors)
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (enteredCodeExists()) {
-      const diagnosisValue: ValueDiagnosis = {
-        type: CertificateDataValueType.DIAGNOSIS,
-        id: '1',
-        terminology: selectedCodeSystem,
-        code: currentCodeValue,
-        description: 'Description',
-      }
-      const updatedValue = getUpdatedValue(question, diagnosisValue)
-      dispatch(updateCertificateDataElement(updatedValue))
-    }
-    // else {
-    //   const diagnosisValue: ValueDiagnosis = {
-    //     type: CertificateDataValueType.DIAGNOSIS,
-    //     id: '1',
-    //     terminology: selectedCodeSystem,
-    //     code: currentCodeValue,
-    //     description: 'Description',
-    //   }
-    //   const updatedValue = getUpdatedValue(question, diagnosisValue)
-    //   dispatch(updateCertificateDataElement(updatedValue))
-    // }
-  }, [diagnosisTypeaheadResult])
-
-  function enteredCodeExists(): boolean {
-    if (diagnosisTypeaheadResult !== null && diagnosisTypeaheadResult.resultat === 'OK') {
-      for (const index in diagnosisTypeaheadResult.diagnoser) {
-        if (diagnosisTypeaheadResult.diagnoser[index].kod.toLowerCase() === currentCodeValue) {
-          return true
-        }
-      }
-    }
-    return false
-  }
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     resetDiagnosisList()
@@ -120,19 +84,6 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </>
   )
-}
-
-function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement {
-  const updatedQuestion: CertificateDataElement = { ...question }
-  const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
-  const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
-  if (updatedValueIndex === -1) {
-    updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
-  }
-  updatedQuestionValue.list = updatedValueList
-  updatedQuestion.value = updatedQuestionValue
-  return updatedQuestion
 }
 
 export default UeDiagnoses
