@@ -38,8 +38,11 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [codeChanged, setCodeChanged] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
   const dispatch = useAppDispatch()
+
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
-  const MIN_CODE_LENGTH = 2
+  const MIN_CODE_LENGTH = 3
+  const MIN_DESCRIPTION_LENGTH = 1
+  const DIAGNOSIS_DIVIDER = '|'
 
   const isMounted = useRef(false)
 
@@ -59,13 +62,16 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleClose = (diagnosisSelected: boolean) => {
     setOpenCode(false)
     setOpenDescription(false)
-    if ((!enteredCodeExists() || !diagnosisSelected) && codeChanged) {
+    if ((!enteredCodeExists() || codeChanged) && !diagnosisSelected) {
       setCode('')
     }
   }
 
   const updateTypeaheadResult = (searched: string, isCode: boolean) => {
-    if (searched !== undefined && searched.length > MIN_CODE_LENGTH) {
+    if (
+      searched !== undefined &&
+      ((isCode && searched.length >= MIN_CODE_LENGTH) || (!isCode && searched.length >= MIN_DESCRIPTION_LENGTH))
+    ) {
       dispatch(
         getDiagnosisTypeahead({
           codeSystem: selectedCodeSystem,
@@ -80,10 +86,14 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCode(event.currentTarget.value)
+    const newCode = event.currentTarget.value
+    setCode(newCode)
     setOpenCode(true)
     setCodeChanged(true)
-    updateTypeaheadResult(event.currentTarget.value.toUpperCase(), true)
+    if (newCode === undefined || newCode === '') {
+      updateSavedDiagnosis(newCode, description, false)
+    }
+    updateTypeaheadResult(newCode.toUpperCase(), true)
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -92,7 +102,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setOpenDescription(true)
     setCodeChanged(false)
     updateTypeaheadResult(newDescription, false)
-    saveDiagnosis(code, newDescription, true)
+    updateSavedDiagnosis(code, newDescription, true)
   }
 
   function enteredCodeExists(): boolean {
@@ -108,23 +118,30 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       return []
     }
     return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {
-      return diagnosis.kod + ' | ' + diagnosis.beskrivning
+      return diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning
     })
   }
 
+  const getCodeFromString = (diagnosis: string) => {
+    return diagnosis.indexOf(DIAGNOSIS_DIVIDER) !== -1 ? diagnosis.split(DIAGNOSIS_DIVIDER)[0].trim() : diagnosis
+  }
+
+  const getDescriptionFromString = (diagnosis: string) => {
+    return diagnosis.indexOf(DIAGNOSIS_DIVIDER) !== -1 ? diagnosis.split(DIAGNOSIS_DIVIDER)[1].substring(1) : diagnosis
+  }
+
   const onDiagnosisSelected = (value: string) => {
-    const newCode = value.split('|')[0].trim()
-    const newDesc = value.split('|')[1].substring(1)
+    const newCode = getCodeFromString(value)
+    const newDesc = getDescriptionFromString(value)
     setCode(newCode.toUpperCase())
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    saveDiagnosis(newCode, newDesc, false)
+    updateSavedDiagnosis(newCode, newDesc, false)
   }
 
-  // TODO: Does description&code need to have a value?
-  const saveDiagnosis = (code: string, description: string, isDescriptionChange: boolean) => {
-    if (enteredCodeExists() || isDescriptionChange) {
+  const updateSavedDiagnosis = (code: string, description: string, isDescriptionChange: boolean) => {
+    if (enteredCodeExists() || isDescriptionChange || code === undefined || code === '') {
       const diagnosisValue: ValueDiagnosis = {
         type: CertificateDataValueType.DIAGNOSIS,
         id: id,
@@ -137,16 +154,11 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }
   }
 
-  const getItemText = (item: string, value: string | undefined, highlighted: boolean) => {
-    if (value !== undefined) {
-      const searchedDescription = value?.indexOf('|') !== -1 ? value.split('|')[1] : value
-      const index = item.toLowerCase().indexOf(searchedDescription.toLowerCase())
-      if (index !== -1 && highlighted) {
-        return `${item.substr(0, index)} <span class="iu-fw-bold">${item.substr(index, searchedDescription?.length)}</span>${item.substr(
-          index + searchedDescription?.length,
-          item.length
-        )}`
-      } else return item
+  const getItemText = (item: string, searched: string | undefined) => {
+    if (searched !== undefined) {
+      const itemDescription = getDescriptionFromString(item)
+      const regex = new RegExp(`(${searched})`, 'ig')
+      return itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')
     } else return item
   }
 
@@ -156,8 +168,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         suggestions={getSuggestions()}
         additionalStyles={codeAdditionalStyles}
         placeholder="Kod"
-        key={id + '-code'}
-        id={id}
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         onSuggestionSelected={onDiagnosisSelected}
@@ -165,36 +175,45 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         open={openCode}
         onChange={handleCodeChange}
         onClose={onClose}
-        getItemText={getItemText}
+        moreResults={typeaheadResult?.moreResults}
       />
       <Typeahead
         suggestions={getSuggestions()}
-        key={id + '-description'}
         placeholder="Diagnos"
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
         onSuggestionSelected={onDiagnosisSelected}
-        id={id}
         value={description}
         onChange={handleDescriptionChange}
         open={openDescription}
         highlighted={true}
         onClose={onClose}
         getItemText={getItemText}
+        moreResults={typeaheadResult?.moreResults}
       />
     </Wrapper>
   )
 }
 
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement {
+  const diagnosisIsEmpty =
+    (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
+    (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
+
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
   let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
   if (updatedValueIndex === -1) {
-    updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
+    if (!diagnosisIsEmpty) {
+      updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
+    }
   } else {
-    updatedValueList[updatedValueIndex] = valueDiagnosis
+    if (!diagnosisIsEmpty) {
+      updatedValueList[updatedValueIndex] = valueDiagnosis
+    } else {
+      updatedValueList.splice(updatedValueIndex, 1)
+    }
   }
   updatedQuestionValue.list = updatedValueList
   updatedQuestion.value = updatedQuestionValue
