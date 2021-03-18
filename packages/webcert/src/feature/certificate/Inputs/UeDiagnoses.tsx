@@ -1,12 +1,10 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { CertificateDataElement, ConfigUeDiagnoses } from '@frontend/common'
+import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { QuestionValidationTexts, RadioButton } from '@frontend/common'
 import { useState } from 'react'
 import styled from 'styled-components'
 import UeDiagnosis from './UeDiagnosis'
-import { ValueDiagnosisList } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 
