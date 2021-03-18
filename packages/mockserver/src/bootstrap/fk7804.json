@@ -346,8 +346,14 @@
         "description": "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".",
         "type": "UE_DIAGNOSES",
         "terminology": [
-          "ICD-10-SE",
-          "KSH97-P (Primärvård)"
+          {
+            "id": "ICD_10_SE",
+            "label": "ICD-10-SE"
+          },
+          {
+            "id": "KSH_97_P",
+            "label": "KSH97-P (Primärvård)"
+          }
         ],
         "list": [
           {
@@ -363,15 +369,7 @@
       },
       "value": {
         "type": "DIAGNOSIS_LIST",
-        "list": [
-          {
-            "type": "DIAGNOSIS",
-            "id": "1",
-            "terminology": "ICD-10-SE",
-            "code": "A01",
-            "description": "Tyfoidfeber och paratyfoidfeber"
-          }
-        ]
+        "list": []
       },
       "validation": [
         {

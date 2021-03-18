@@ -35,6 +35,18 @@ const certificateEventRepository = {
 
 let loggedInUser: FakeLogin | null = null
 
+const diagnoses = [
+  { kod: 'F50', beskrivning: 'Ätstörningar' },
+  { kod: 'F500', beskrivning: 'Anorexia nervosa' },
+  { kod: 'F501', beskrivning: 'Atypisk anorexia nervosa' },
+  { kod: 'F502', beskrivning: 'Bulimia nervosa' },
+  { kod: 'F503', beskrivning: 'Atypisk bulimia nervosa' },
+  { kod: 'F504', beskrivning: 'Överdrivet ätande sammanhängande med andra psykiska störningar' },
+  { kod: 'F505', beskrivning: 'Kräkningar sammanhängande med andra psykiska störningar' },
+  { kod: 'F508', beskrivning: 'Andra specificerade ätstörningar' },
+  { kod: 'F509', beskrivning: 'Ätstörning, ospecificerad' },
+]
+
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
@@ -534,6 +546,7 @@ app.put('/api/anvandare/preferences', (req: Request, res: Response, next: NextFu
 })
 
 app.get('/config/links', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /config/links'`)
   res
     .json({
       fmbSoc: {
@@ -555,6 +568,30 @@ app.get('/config/links', (req: Request, res: Response, next: NextFunction) => {
         text: 'Hitta svar på dina frågor i Ineras intygsskola',
         target: '_blank',
       },
+    })
+    .status(200)
+    .send()
+})
+
+app.post('/moduleapi/diagnos/kod/sok', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /moduleapi/diagnos/kod/sok`)
+  res
+    .json({
+      resultat: 'OK',
+      diagnoser: diagnoses.filter((d) => d.kod.includes(req.body.fragment)),
+      moreResults: false,
+    })
+    .status(200)
+    .send()
+})
+
+app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /moduleapi/diagnos/beskrivning/sok`)
+  res
+    .json({
+      resultat: 'OK',
+      diagnoser: diagnoses.filter((d) => d.beskrivning.toLowerCase().includes(req.body.fragment.toLowerCase())),
+      moreResults: false,
     })
     .status(200)
     .send()

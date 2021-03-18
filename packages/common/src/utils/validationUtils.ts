@@ -2,14 +2,12 @@ import { compileExpression, Options } from 'filtrex'
 import {
   Certificate,
   CertificateDataElement,
-  CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
-  MandatoryValidation,
-  ShowValidation,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDiagnosisList,
   ValueText,
 } from '..'
 
@@ -47,6 +45,12 @@ export const parseExpression = (
         const valueCode = element.value as ValueCode
         return valueCode.id === adjustedId ? 1 : 0
 
+      case CertificateDataValueType.DIAGNOSIS_LIST:
+        const valueDiagnosisList = element.value as ValueDiagnosisList
+        const diagnosis = valueDiagnosisList.list.find(
+          (d) => d.id === adjustedId && d.code !== undefined && d.code.length > 0 && d.description !== undefined && d.description.length > 0
+        )
+        return diagnosis ? 1 : 0
       default:
         return 0
     }

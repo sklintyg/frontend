@@ -139,8 +139,18 @@ export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
   list: ConfigUeCheckboxDateRange[]
 }
 
+export interface ConfigUeDiagnosisTerminology {
+  id: string
+  label: string
+}
+
+export interface ConfigUeDiagnosisId {
+  id: string
+}
+
 export interface ConfigUeDiagnoses extends CertificateDataConfig {
-  terminology: string[]
+  terminology: ConfigUeDiagnosisTerminology[]
+  list: ConfigUeDiagnosisId[]
 }
 
 export interface ConfigUeDropdownItem extends CertificateDataConfig {
