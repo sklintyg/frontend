@@ -7,7 +7,6 @@ import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@
 import * as redux from 'react-redux'
 
 const CODE_SYSTEM = 'ICD_10'
-const NBR_OF_LIST_ITEMS = 2
 const DIAGNOSES = [
   { kod: 'F50', beskrivning: 'Ätstörningar' },
   { kod: 'F501', beskrivning: 'Anorexia' },
@@ -104,7 +103,7 @@ describe('Diagnosis component', () => {
     userEvent.type(input[1], 'nervosa')
     checkListVisibility(true)
     const items = screen.getAllByRole('listitem')
-    expect(items).toHaveLength(NBR_OF_LIST_ITEMS)
+    expect(items).toHaveLength(DIAGNOSES.length)
     userEvent.click(items[0])
     checkListVisibility(false)
     expect(input[0]).toHaveValue(DIAGNOSES[0].kod)
