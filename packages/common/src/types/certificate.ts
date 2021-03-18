@@ -30,6 +30,12 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
+  approvedReceivers?: CertificateReceiver[]
+}
+
+export interface CertificateReceiver {
+  name: string
+  approved: boolean
 }
 
 export interface CertificateData {

@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Certificate, ConfigTypes } from '@frontend/common'
 import {
+  addCertificateApprovedReceiver,
   autoSaveCertificateSuccess,
   enableCertificateDataElement,
   disableCertificateDataElement,
@@ -33,6 +34,7 @@ import {
   CertificateEvent,
   CertificateDataElement,
   ConfigUeCheckboxMultipleCodes,
+  CertificateReceiver,
   ValueCodeList,
   ValueCode,
 } from '@frontend/common'
@@ -125,6 +127,17 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.metadata.version = action.payload
+    })
+    .addCase(addCertificateApprovedReceiver, (state, action) => {
+      if (!state.certificate || !state.certificate.metadata || !state.certificate.metadata.approvedReceivers) {
+        return
+      }
+      const receiver = state.certificate.metadata.approvedReceivers.find((r: CertificateReceiver) => r.name === action.payload.name)
+      if (receiver !== undefined) {
+        receiver.approved = action.payload.approved
+      } else {
+        state.certificate.metadata.approvedReceivers.push(action.payload)
+      }
     })
     .addCase(showSpinner, (state, action) => {
       state.spinner = true
@@ -236,7 +249,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
             const index = (state.certificate!.data[action.payload.id].value as ValueCodeList).list.findIndex(
               (value) => item.id === value.id
             )
-            if (index != -1) {
+            if (index !== -1) {
               ;(state.certificate!.data[action.payload.id].value as ValueCodeList).list.splice(index, 1)
             }
           }

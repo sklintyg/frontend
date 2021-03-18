@@ -10,6 +10,7 @@ import {
   CertificateEvent,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { CertificateReceiver } from '@frontend/common/src'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -109,6 +110,8 @@ const PRINT_CERTIFICATE = `${CERTIFICATE} Print certificate`
 const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate child element to disabled or not`
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
+
+const ADD_CERTIFICATE_APPROVED_RECEIVER = `${CERTIFICATE} Adds if a receiver is approved or not`
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
@@ -285,3 +288,5 @@ export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
 
 export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
+
+export const addCertificateApprovedReceiver = createAction<CertificateReceiver>(ADD_CERTIFICATE_APPROVED_RECEIVER)
