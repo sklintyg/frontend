@@ -183,7 +183,7 @@ export interface ValueDateRange extends Value {
 }
 
 export interface ValueDateRangeList extends Value {
-  list: ValueDateRange
+  list: ValueDateRange[]
 }
 
 export interface ValueDiagnosis extends Value {
