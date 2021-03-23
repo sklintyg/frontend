@@ -21,7 +21,9 @@ const Checkbox: React.FC<Props> = (props) => {
       <input
         type="checkbox"
         id={id}
-        className={`${checkboxAdditionalStyles} ic-forms__checkbox ${hasValidationError ? 'iu-color-error' : ''}`}
+        className={`ic-forms__checkbox ${checkboxAdditionalStyles ? checkboxAdditionalStyles : ''} ${
+          hasValidationError ? 'iu-color-error' : ''
+        }`}
         style={{ color: `${hasValidationError ? `` : ''}` }}
         name={name}
         value={value}

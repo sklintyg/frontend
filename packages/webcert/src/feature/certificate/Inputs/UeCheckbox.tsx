@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Checkbox,
   CertificateDataElement,
@@ -32,6 +32,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
   const isSingleCheckbox = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setIsChecked(event.currentTarget.checked)
     let updatedValue = question
     if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
       updatedValue = getUpdatedCodeListValue(question, event.currentTarget.checked, id || question.id)
@@ -50,13 +51,15 @@ const UeCheckbox: React.FC<Props> = (props) => {
     return false
   }
 
+  const [isChecked, setIsChecked] = useState(checked ? checked : getChecked())
+
   return (
     <div>
       <Checkbox
         id={id || question.id}
-        label={label ? label : question.config.label + ''}
+        label={label ? label : (question.config.label as string)}
         value={id}
-        checked={checked ? checked : getChecked()}
+        checked={isChecked}
         vertical={true}
         disabled={disabled}
         onChange={handleChange}
