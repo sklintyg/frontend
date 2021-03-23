@@ -13,12 +13,16 @@ import {
   CertificateRelationType,
   FakeLogin,
   User,
+  CertificateDataValueType,
+  ResourceLinkSend,
+  ResourceLinkChooseReceivers,
+  ValueCode,
+  ResourceLinkType,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
-import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
 
 const app: Application = express()
 
@@ -31,6 +35,18 @@ const certificateEventRepository = {
 }
 
 let loggedInUser: FakeLogin | null = null
+
+const diagnoses = [
+  { kod: 'F50', beskrivning: 'Ätstörningar' },
+  { kod: 'F500', beskrivning: 'Anorexia nervosa' },
+  { kod: 'F501', beskrivning: 'Atypisk anorexia nervosa' },
+  { kod: 'F502', beskrivning: 'Bulimia nervosa' },
+  { kod: 'F503', beskrivning: 'Atypisk bulimia nervosa' },
+  { kod: 'F504', beskrivning: 'Överdrivet ätande sammanhängande med andra psykiska störningar' },
+  { kod: 'F505', beskrivning: 'Kräkningar sammanhängande med andra psykiska störningar' },
+  { kod: 'F508', beskrivning: 'Andra specificerade ätstörningar' },
+  { kod: 'F509', beskrivning: 'Ätstörning, ospecificerad' },
+]
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -531,6 +547,7 @@ app.put('/api/anvandare/preferences', (req: Request, res: Response, next: NextFu
 })
 
 app.get('/config/links', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /config/links'`)
   res
     .json({
       fmbSoc: {
@@ -552,6 +569,30 @@ app.get('/config/links', (req: Request, res: Response, next: NextFunction) => {
         text: 'Hitta svar på dina frågor i Ineras intygsskola',
         target: '_blank',
       },
+    })
+    .status(200)
+    .send()
+})
+
+app.post('/moduleapi/diagnos/kod/sok', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /moduleapi/diagnos/kod/sok`)
+  res
+    .json({
+      resultat: 'OK',
+      diagnoser: diagnoses.filter((d) => d.kod.includes(req.body.fragment)),
+      moreResults: false,
+    })
+    .status(200)
+    .send()
+})
+
+app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /moduleapi/diagnos/beskrivning/sok`)
+  res
+    .json({
+      resultat: 'OK',
+      diagnoser: diagnoses.filter((d) => d.beskrivning.toLowerCase().includes(req.body.fragment.toLowerCase())),
+      moreResults: false,
     })
     .status(200)
     .send()
@@ -602,12 +643,6 @@ function createResponse(certificate: Certificate): Certificate {
           enabled: true,
         })
       }
-      certificateClone.links.push({
-        type: ResourceLinkType.SEND_CERTIFICATE,
-        name: 'Skicka',
-        description: 'Skickar intyget',
-        enabled: true,
-      })
       if (certificate.metadata.type === 'lisjp') {
         certificateClone.links.push({
           type: ResourceLinkType.FMB,
@@ -618,6 +653,23 @@ function createResponse(certificate: Certificate): Certificate {
       }
       break
     case CertificateStatus.SIGNED:
+      certificateClone.links.push({
+        type: ResourceLinkType.CHOOSE_RECEIVERS,
+        receivers: ['Försäkringskassan', 'Försäkringsbolaget'],
+        name: 'Välj intygsmottagare',
+        description: `Öppnar ett fönster där du kan välja vilka intygsmottagare intyget får skickas till.`,
+        enabled: true,
+      } as ResourceLinkChooseReceivers)
+      certificateClone.links.push({
+        type: ResourceLinkType.SEND_CERTIFICATE,
+        name: 'Skicka',
+        description: `Öppnar ett fönster där du kan välja att skicka intyget till Försäkringskassan`,
+        modalBody:
+          '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>' +
+          '<p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.</p>',
+        receiver: 'Försäkringskassan',
+        enabled: true,
+      } as ResourceLinkSend)
       certificateClone.links.push({
         type: ResourceLinkType.PRINT_CERTIFICATE,
         name: 'Skriv ut',
@@ -696,43 +748,63 @@ function validate(certificate: Certificate): ValidationError[] {
   const validationError: ValidationError[] = []
   let category = ''
   for (const questionId in certificate.data) {
-    // TODO: Fix this, doing a temporary fix right now to
-    const dataProp = '1'
-    // const dataProp = certificate.data[questionId].config.prop
+    const dataProp = certificate.data[questionId].config.propName
     const question = certificate.data[questionId]
-
     category = question.config.type === 'CATEGORY' ? questionId : category
-
-    //   if (question.visible && question.validation && question.validation.required) {
-    //     switch (question.value.type) {
-    //       case 'BOOLEAN':
-    //         const booleanValue: ValueBoolean = question.value as ValueBoolean
-    //         if (booleanValue.selected === undefined || booleanValue.selected === null) {
-    //           validationError.push({
-    //             id: questionId,
-    //             category: getCategory(certificate, question.parent),
-    //             field: dataProp,
-    //             type: 'EMPTY',
-    //             text: 'Välj ett alternativ.',
-    //           })
-    //         }
-    //         break
-    //       case 'TEXT':
-    //         const textValue: ValueText = question.value as ValueText
-    //         if (!textValue.text) {
-    //           validationError.push({
-    //             id: questionId,
-    //             category: getCategory(certificate, question.parent),
-    //             field: dataProp,
-    //             type: 'EMPTY',
-    //             text: 'Ange ett svar.',
-    //           })
-    //         }
-    //         break
-    //       default:
-    //         break
-    //     }
-    //   }
+    if (question.visible && !question.disabled && question.mandatory) {
+      switch (question.value?.type) {
+        case CertificateDataValueType.BOOLEAN:
+          const booleanValue: ValueBoolean = question.value as ValueBoolean
+          if (booleanValue.selected === undefined || booleanValue.selected === null) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj ett alternativ.',
+            })
+          }
+          break
+        case CertificateDataValueType.TEXT:
+          const textValue: ValueText = question.value as ValueText
+          if (!textValue.text) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Ange ett svar.',
+            })
+          }
+          break
+        case CertificateDataValueType.CODE:
+          const codeValue = question.value as ValueCode
+          if (codeValue.id === undefined || codeValue.id === null) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj ett alternativ.',
+            })
+          }
+          break
+        case CertificateDataValueType.CODE_LIST:
+          const codeListValue = question.value as ValueCode
+          if ((codeListValue.list as ValueCode[]).length === 0) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj minst ett alternativ.',
+            })
+          }
+          break
+        default:
+          break
+      }
+    }
   }
   return validationError
 }

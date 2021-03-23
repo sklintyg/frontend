@@ -10,6 +10,7 @@
     "testCertificate": false,
     "forwarded": false,
     "relations": {},
+    "approvedReceivers": [],
     "unit": {
       "hsaId": "TSTNMT2321000156-1077",
       "name": "NMT vg3 ve1",
@@ -67,7 +68,9 @@
         "description": "",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "avstangningSmittskydd",
-        "label": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)"
+        "label": "Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna \"Diagnos\" och \"Nedsättning av arbetsförmåga\".)",
+        "selectedText": "Ja",
+        "unselectedText": "Nej"
       },
       "value": {
         "type": "BOOLEAN",
@@ -343,8 +346,14 @@
         "description": "Ange vilken eller vilka sjukdomar som orsakar nedsatt arbetsförmåga. Den sjukdom som påverkar arbetsförmågan mest anges först. Diagnoskoden anges alltid med så många positioner som möjligt.\n        Om patienten har fler än tre sjukdomar som påverkar arbetsförmågan anges dessa under \"övriga upplysningar\".",
         "type": "UE_DIAGNOSES",
         "terminology": [
-          "ICD-10-SE",
-          "KSH97-P (Primärvård)"
+          {
+            "id": "ICD_10_SE",
+            "label": "ICD-10-SE"
+          },
+          {
+            "id": "KSH_97_P",
+            "label": "KSH97-P (Primärvård)"
+          }
         ],
         "list": [
           {
@@ -360,15 +369,7 @@
       },
       "value": {
         "type": "DIAGNOSIS_LIST",
-        "list": [
-          {
-            "type": "DIAGNOSIS",
-            "id": "1",
-            "terminology": "ICD-10-SE",
-            "code": "A01",
-            "description": "Tyfoidfeber och paratyfoidfeber"
-          }
-        ]
+        "list": []
       },
       "validation": [
         {
@@ -712,6 +713,8 @@
         "description": "",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "arbetsresor",
+        "selectedText": "Ja",
+        "unSelectedText": "Nej",
         "label": "Resor till och från arbetet med annat färdmedel än normalt kan göra det möjligt för patienten att återgå till arbetet under sjukskrivningsperioden."
       },
       "value": {
@@ -1049,6 +1052,8 @@
         "description": "Försäkringskassans handläggare tar kontakt med dig när underlaget har kommit in och handläggningen kan påbörjas.",
         "type": "UE_CHECKBOX_BOOLEAN",
         "id": "kontaktMedFk",
+        "selectedText": "Ja",
+        "unselectedText": "Nej",
         "label": "Jag önskar att Försäkringskassan kontaktar mig."
       },
       "value": {

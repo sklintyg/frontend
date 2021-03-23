@@ -5,6 +5,15 @@ export interface ResourceLink {
   enabled: boolean
 }
 
+export interface ResourceLinkSend extends ResourceLink {
+  modalBody: string
+  receiver: string
+}
+
+export interface ResourceLinkChooseReceivers extends ResourceLink {
+  receivers: string[]
+}
+
 export enum ResourceLinkType {
   EDIT_CERTIFICATE = 'EDIT_CERTIFICATE',
   REMOVE_CERTIFICATE = 'REMOVE_CERTIFICATE',
@@ -15,5 +24,6 @@ export enum ResourceLinkType {
   REPLACE_CERTIFICATE = 'REPLACE_CERTIFICATE',
   PRINT_CERTIFICATE = 'PRINT_CERTIFICATE',
   COPY_CERTIFICATE = 'COPY_CERTIFICATE',
+  CHOOSE_RECEIVERS = 'CHOOSE_RECEIVERS',
   FMB = 'FMB',
 }
