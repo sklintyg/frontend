@@ -1,3 +1,4 @@
+import type {} from 'styled-components/cssprop'
 import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/fk7804.json'
 import bootstrapUsers from './bootstrap/users.json'

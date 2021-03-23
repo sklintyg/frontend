@@ -9,6 +9,8 @@ import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
+import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
+import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeDiagnoses from '../Inputs/UeDiagnoses'
 
 interface QuestionProps {
@@ -43,13 +45,13 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
           title={question.config.text}
           description={question.config.description}
           displayMandatory={displayMandatory}
-          additionalStyles="questionTitle iu-fw-heading iu-fs-300"></Accordion>
+          additionalStyles="questionTitle iu-fw-heading iu-fs-300  iu-mb-300"></Accordion>
       )
     }
     return (
       <>
         <MandatoryIcon display={displayMandatory}></MandatoryIcon>
-        <p className={`questionTitle iu-fw-heading iu-fs-300`}>
+        <p className={`questionTitle iu-fw-heading iu-fs-300 iu-mb-300`}>
           {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
         </p>
       </>
@@ -66,6 +68,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE)
+      return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD) return <UeSickLeavePeriod question={question} key={question.id} />
     if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }

@@ -601,7 +601,8 @@
         },
         {
           "type": "TEXT_VALIDATION",
-          "id": "motiveringTillTidigtStartdatumForSjukskrivning",
+          "questionId": "32.1",
+          "expression": "$motiveringTillTidigtStartdatumForSjukskrivning < 150",
           "limit": 150
         }
       ],

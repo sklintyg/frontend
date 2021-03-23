@@ -8,6 +8,7 @@ import {
   ValueBoolean,
   ValueCodeList,
   ValueCode,
+  ValueDateList,
   ValueText,
 } from '..'
 import { parseExpression, validateExpressions } from './validationUtils'
@@ -171,6 +172,200 @@ describe('Validate show rule for boolean values', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
     const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate mandatory rule for date list', () => {
+  const dateListElement: CertificateDataElement = {
+    id: '1',
+    parent: 'grundformu',
+    index: 3,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    config: {
+      text: 'Intyget är baserat på',
+      description:
+        'Enligt Socialstyrelsens föreskrifter (HSLF-FS 2018:54) om att utfärda intyg i hälso- och\n        sjukvården ska ett läkarintyg innehålla uppgifter om vad som ligger till grund för din bedömning vid utfärdandet\n        av intyget. Ett intyg ska som huvudregel utfärdas efter en undersökning av patienten. Intyget ska innehålla\n        uppgift om kontaktsätt vid undersökningen. Om kontaktsättet är videosamtal anger du detta under fältet Övriga\n        upplysningar.',
+      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
+      list: [
+        {
+          id: 'undersokningAvPatienten',
+          label: 'min undersökning av patienten',
+        },
+        {
+          id: 'telefonkontaktMedPatienten',
+          label: 'min telefonkontakt med patienten',
+        },
+        {
+          id: 'journaluppgifter',
+          label: 'journaluppgifter från den',
+        },
+        {
+          id: 'annatGrundForMU',
+          label: 'annat',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.DATE_LIST,
+      list: [],
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '1',
+        expression: '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as false when list is empty', () => {
+    const value = dateListElement.value as ValueDateList
+    const result = parseExpression(
+      '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
+      dateListElement,
+      CertificateDataValidationType.MANDATORY_VALIDATION
+    )
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when date is set', () => {
+    const value = dateListElement.value as ValueCode
+    value.id = 'undersokningAvPatienten'
+    value.date = '2021-01-01'
+    const result = parseExpression(
+      '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
+      dateListElement,
+      CertificateDataValidationType.ENABLE_VALIDATION
+    )
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate disable rule for code list', () => {
+  const codeListElement: CertificateDataElement = {
+    id: '40',
+    parent: 'atgarder',
+    index: 27,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    config: {
+      text: 'Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete',
+      description: '',
+      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      list: [
+        {
+          id: 'EJ_AKTUELLT',
+          label: 'Inte aktuellt',
+        },
+        {
+          id: 'ARBETSTRANING',
+          label: 'Arbetsträning',
+        },
+        {
+          id: 'ARBETSANPASSNING',
+          label: 'Arbetsanpassning',
+        },
+        {
+          id: 'SOKA_NYTT_ARBETE',
+          label: 'Söka nytt arbete',
+        },
+        {
+          id: 'BESOK_ARBETSPLATS',
+          label: 'Besök på arbetsplatsen',
+        },
+        {
+          id: 'ERGONOMISK',
+          label: 'Ergonomisk bedömning',
+        },
+        {
+          id: 'HJALPMEDEL',
+          label: 'Hjälpmedel',
+        },
+        {
+          id: 'KONFLIKTHANTERING',
+          label: 'Konflikthantering',
+        },
+        {
+          id: 'KONTAKT_FHV',
+          label: 'Kontakt med företagshälsovård',
+        },
+        {
+          id: 'OMFORDELNING',
+          label: 'Omfördelning av arbetsuppgifter',
+        },
+        {
+          id: 'OVRIGA_ATGARDER',
+          label: 'Övrigt',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.CODE_LIST,
+      list: [],
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '40',
+        expression:
+          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression:
+          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+        id: ['EJ_AKTUELLT'],
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression: '$EJ_AKTUELLT',
+        id: [
+          'ARBETSTRANING',
+          'ARBETSANPASSNING',
+          'SOKA_NYTT_ARBETE',
+          'BESOK_ARBETSPLATS',
+          'ERGONOMISK',
+          'HJALPMEDEL',
+          'KONFLIKTHANTERING',
+          'KONTAKT_FHV',
+          'OMFORDELNING',
+          'OVRIGA_ATGARDER',
+        ],
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as true when code is in list', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as false when code is not in list', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list = []
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true if several codes are chosen', () => {
+    const value = codeListElement.value as ValueCodeList
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
+    value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
+    const result = parseExpression(
+      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      codeListElement,
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(true)
   })
 })
