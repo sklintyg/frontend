@@ -72,4 +72,17 @@ describe('Checkbox group component', () => {
       expect(c).toBeChecked()
     })
   })
+
+  it('allows user to check and uncheck checkboxes by clicking on label', () => {
+    renderDefaultComponent()
+    const checkboxes = screen.queryAllByRole('checkbox')
+    expect(checkboxes).toHaveLength(CHECKBOXES.length)
+    checkboxes.forEach((c: any, index: number) => {
+      const label = screen.queryByText(CHECKBOXES[index].label)
+      expect(c).not.toBeChecked()
+      expect(label).not.toBeNull()
+      userEvent.click(label)
+      expect(c).toBeChecked()
+    })
+  })
 })

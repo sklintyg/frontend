@@ -66,7 +66,20 @@ describe('Radio group component', () => {
     expect(radioButtons[2]).not.toBeChecked()
   })
 
-  it('disables radio buttons when value is set', () => {
+  it('allows user to check and uncheck radiobuttons by clicking on label', () => {
+    renderDefaultComponent()
+    const radioButtons = screen.queryAllByRole('radio')
+    expect(radioButtons).toHaveLength(CODES.length)
+    radioButtons.forEach((r: any, index: number) => {
+      const label = screen.queryByText(CODES[index].label)
+      expect(r).not.toBeChecked()
+      expect(label).not.toBeNull()
+      userEvent.click(label)
+      expect(r).toBeChecked()
+    })
+  })
+
+  it('disables radio buttons when disabled is set', () => {
     render(
       <>
         <UeRadioGroup question={question} disabled={true} />

@@ -6,6 +6,8 @@ import UeCheckbox from '../UeCheckbox'
 import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import * as redux from 'react-redux'
 
+const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
+const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'
 const questionBoolean: CertificateDataElement = {
   id: 'checkbox',
   mandatory: true,
@@ -18,6 +20,7 @@ const questionBoolean: CertificateDataElement = {
   value: { type: CertificateDataValueType.BOOLEAN },
   config: {
     text: '',
+    label: CHECKBOX_LABEL_BOOLEAN,
     description: '',
     type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
   },
@@ -35,6 +38,7 @@ const questionCode: CertificateDataElement = {
   value: { type: CertificateDataValueType.CODE },
   config: {
     text: '',
+    label: CHECKBOX_LABEL_CODE,
     description: '',
     type: ConfigTypes.UE_CHECKBOX_CODE,
   },
@@ -60,15 +64,22 @@ const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 useDispatchSpy.mockReturnValue(jest.fn())
 useSelectorSpy.mockReturnValue(jest.fn())
 
-const testClickOnCheckbox = () => {
-  const checkbox = screen.getByRole('checkbox')
+const testClickOnCheckbox = (label?: string) => {
+  let clickable
+  if (label) {
+    clickable = screen.queryByText(label)
+  } else {
+    clickable = screen.queryByRole('checkbox')
+  }
+  const checkbox = screen.queryByRole('checkbox')
+  expect(checkbox).not.toBeNull()
   expect(checkbox).not.toBeDisabled()
   expect(checkbox).not.toBeChecked()
-  userEvent.click(checkbox)
+  userEvent.click(clickable)
   expect(checkbox).toBeChecked()
-  userEvent.click(checkbox)
+  userEvent.click(clickable)
   expect(checkbox).not.toBeChecked()
-  userEvent.click(checkbox)
+  userEvent.click(clickable)
   expect(checkbox).toBeChecked()
 }
 
@@ -78,14 +89,31 @@ describe('Checkbox component', () => {
     renderCodeComponent()
   })
 
-  it('allows user to check and uncheck boolean checkbox', () => {
+  it('sets the label given in question object', () => {
+    renderBooleanComponent()
+    renderCodeComponent()
+    expect(screen.queryByText(CHECKBOX_LABEL_BOOLEAN)).not.toBeNull()
+    expect(screen.queryByText(CHECKBOX_LABEL_CODE)).not.toBeNull()
+  })
+
+  it('allows user to check and uncheck by clicking on boolean checkbox', () => {
     renderBooleanComponent()
     testClickOnCheckbox()
   })
 
-  it('allows user to check and uncheck code checkbox', () => {
+  it('allows user to check and uncheck by clicking boolean checkbox label', () => {
+    renderBooleanComponent()
+    testClickOnCheckbox(CHECKBOX_LABEL_BOOLEAN)
+  })
+
+  it('allows user to check and uncheck by clicking on code checkbox', () => {
     renderCodeComponent()
     testClickOnCheckbox()
+  })
+
+  it('allows user to check and uncheck by clicking on code label', () => {
+    renderCodeComponent()
+    testClickOnCheckbox(CHECKBOX_LABEL_CODE)
   })
 
   it('gets disabled when value is given', () => {

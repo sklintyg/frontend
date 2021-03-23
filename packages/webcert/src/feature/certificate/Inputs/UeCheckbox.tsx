@@ -57,7 +57,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
     <div>
       <Checkbox
         id={id || question.id}
-        label={label ? label : question.config.label + ''}
+        label={label ? label : (question.config.label as string)}
         value={id}
         checked={isChecked}
         vertical={true}
