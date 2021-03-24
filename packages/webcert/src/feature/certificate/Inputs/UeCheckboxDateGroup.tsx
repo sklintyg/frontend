@@ -20,7 +20,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   const getDate = (id: string) => {
     const index = values.findIndex((date: ValueDate) => date.id === id)
     if (index !== -1) {
-      return new Date(values[index].date)
+      return values[index].date
     } else {
       return null
     }

@@ -25,7 +25,7 @@ interface Props {
   checkboxAdditionalStyles?: string
   disabled?: boolean
   question: CertificateDataElement
-  date: Date | null
+  date: string | null
 }
 
 const UeCheckboxDate: React.FC<Props> = (props) => {
@@ -33,10 +33,12 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const { label, id, question, hasValidationError, disabled, date } = props
   const dispatch = useAppDispatch()
   const values = (question.value as ValueDateList).list
+  const [checked, setChecked] = React.useState(values.some((e: ValueDate) => e.id === id))
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const [dateString, setDateString] = React.useState(date ? format(date, _format) : null)
+  const [dateString, setDateString] = React.useState(date ? date : null)
 
   const handleChange = (checked: boolean, date: string) => {
+    setChecked(checked && date !== '' && date !== null)
     setDateString(checked ? date : null)
     const updatedValue = getUpdatedDateListValue(question, checked, id, date)
     dispatch(updateCertificateDataElement(updatedValue))
@@ -44,10 +46,6 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
 
   const handleCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     handleChange(event.target.checked, format(new Date(), _format))
-  }
-
-  const getChecked = (): boolean => {
-    return values.some((e: ValueDate) => e.id === id)
   }
 
   const handleDateChange = (date: Date) => {
@@ -63,7 +61,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
       <Checkbox
         id={'checkbox_' + id}
         label={label}
-        checked={getChecked()}
+        checked={checked}
         vertical={true}
         disabled={disabled}
         onChange={handleCheckboxChange}
@@ -83,9 +81,6 @@ const getUpdatedDateListValue = (question: CertificateDataElement, checked: bool
 
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === id)
   if (updatedValueIndex === -1 && checked) {
-    if (date === undefined) {
-      //newDate = new Date()
-    }
     updatedValueList = [...updatedValueList, { id: id, date: date } as ValueDate]
   } else {
     if (!checked) {
