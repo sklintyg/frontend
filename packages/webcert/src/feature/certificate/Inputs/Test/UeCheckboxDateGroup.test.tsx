@@ -95,6 +95,7 @@ describe('CheckboxDateGroup component', () => {
     renderComponent()
     const checkboxes = screen.queryAllByRole('checkbox')
     const inputs = screen.queryAllByRole('textbox')
+    const buttons = screen.queryAllByRole('button')
     expect(checkboxes).toHaveLength(DATE_CHECKBOXES.length)
     expect(inputs).toHaveLength(DATE_CHECKBOXES.length)
     checkboxes.forEach((c: any, index: number) => {
@@ -103,6 +104,25 @@ describe('CheckboxDateGroup component', () => {
       expect(inputs[index]).not.toBeDisabled()
       expect(c).not.toBeChecked()
       expect(inputs[index]).toHaveValue('')
+      expect(buttons[index]).not.toBeDisabled()
+    })
+  })
+
+  it('disables checkbox and date input when disabled is set', () => {
+    render(
+      <>
+        <UeCheckboxDateGroup question={question} disabled={true} />
+      </>
+    )
+    const checkboxes = screen.getAllByRole('checkbox')
+    const inputs = screen.getAllByRole('textbox')
+    const buttons = screen.getAllByRole('button')
+    checkboxes.forEach((c: HTMLInputElement, index: number) => {
+      expect(c).toBeDisabled()
+      expect(c).not.toBeChecked()
+      expect(inputs[index]).toBeDisabled()
+      expect(inputs[index]).toHaveValue('')
+      expect(buttons[index]).toBeDisabled()
     })
   })
 
@@ -141,5 +161,19 @@ describe('CheckboxDateGroup component', () => {
     expect(checkboxes[secondIndex]).toBeChecked()
     expect(inputs[index]).toHaveValue(inputString)
     expect(inputs[secondIndex]).toHaveValue(inputDate)
+  })
+
+  it('checks checkbox and sets value if user picks date', () => {
+    renderComponent()
+    const buttons = screen.getAllByRole('button')
+    const checkboxes = screen.getAllByRole('checkbox')
+    const inputs = screen.getAllByRole('textbox')
+    userEvent.click(buttons[0])
+    expect(checkboxes[0]).not.toBeChecked()
+    expect(inputs[0]).toHaveValue('')
+    const date = screen.queryByText('13')
+    userEvent.click(date)
+    expect(checkboxes[0]).toBeChecked()
+    expect(inputs[0].value.includes('13')).toBeTruthy()
   })
 })
