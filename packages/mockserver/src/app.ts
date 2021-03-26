@@ -18,6 +18,8 @@ import {
   ResourceLinkChooseReceivers,
   ValueCode,
   ResourceLinkType,
+  ValueDiagnosis,
+  ValueDiagnosisList,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
@@ -798,6 +800,18 @@ function validate(certificate: Certificate): ValidationError[] {
               field: dataProp as string,
               type: 'EMPTY',
               text: 'Välj minst ett alternativ.',
+            })
+          }
+          break
+        case CertificateDataValueType.DIAGNOSIS_LIST:
+          const diagnosisListValue = question.value as ValueDiagnosisList
+          if ((diagnosisListValue.list as ValueDiagnosis[]).length === 0) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj minst en diagnos.',
             })
           }
           break
