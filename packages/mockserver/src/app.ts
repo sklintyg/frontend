@@ -20,6 +20,7 @@ import {
   ResourceLinkType,
   ValueDiagnosis,
   ValueDiagnosisList,
+  CertificateDataValidationType,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
@@ -62,6 +63,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
   if (certificateRepository[req.params.id]) {
+    setValidation(certificateRepository[req.params.id])
     res.json(createResponse(certificateRepository[req.params.id]))
   } else if (req.params.id) {
     const certificateClone = (_.cloneDeep(bootstrapCertificate) as unknown) as Certificate
@@ -71,12 +73,34 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
     const certificateEvent = createEvent(certificateClone.metadata.id, CertificateEventType.CREATED, null, null)
 
     certificateEventRepository[req.params.id] = Array.of(certificateEvent)
-
+    setValidation(certificateRepository[req.params.id])
     res.json(createResponse(certificateClone))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
 })
+
+const setValidation = (certificate: Certificate) => {
+  const validationTypes = [CertificateDataValidationType.HIDE_VALIDATION]
+  for(const id in certificate.data) {
+    if(certificate.data[id].validation && certificate.data[id].validation.some((v) => validationTypes.some((type) => type === v.type))) {
+      setValidationForChildren(id, validationTypes, certificate)
+    }
+  }
+}
+
+const setValidationForChildren = (parent: string, validationTypes: string[], certificate: Certificate) => {
+  for(const id in certificate.data) {
+    if(certificate.data[id].parent === parent) {
+      certificate.data[parent].validation.forEach((v) => {
+        if(validationTypes.some((type) => type === v.type)) {
+          certificate.data[id].validation.push(v)
+          setValidationForChildren(id, validationTypes, certificate)
+        }
+      })
+    }
+  }
+}
 
 app.get('/moduleapi/intyg/:type/:id/pdf', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /moduleapi/intyg/${req.params.type}/${req.params.id}/pdf`)

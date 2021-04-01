@@ -95,6 +95,7 @@ const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
+const UNHIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unhide data element`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Show mandatory on data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Hide mandatory on data element`
@@ -262,6 +263,8 @@ export const updateCertificateVersion = createAction<number>(UPDATE_CERTIFICATE_
 export const showCertificateDataElement = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT)
 
 export const hideCertificateDataElement = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT)
+
+export const unhideCertificateDataElement = createAction<string>(UNHIDE_CERTIFICATE_DATA_ELEMENT)
 
 export const showCertificateDataElementMandatory = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 

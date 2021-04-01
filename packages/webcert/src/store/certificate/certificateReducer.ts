@@ -5,6 +5,7 @@ import {
   autoSaveCertificateSuccess,
   enableCertificateDataElement,
   disableCertificateDataElement,
+  unhideCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -180,25 +181,22 @@ const certificateReducer = createReducer(initialState, (builder) =>
       if (!state.certificate) {
         return
       }
-      state.certificate.data[action.payload].visible = true
-      for (const id in state.certificate!.data) {
-        if (
-          state.certificate.data[id].parent === action.payload &&
-          !state.certificate.data[id].validation.some((v) => v.type === CertificateDataValidationType.SHOW_VALIDATION)
-        ) {
-          state.certificate.data[id].visible = true
-        }
-      }
+
+      state.certificate!.data[action.payload].visible = true
     })
     .addCase(hideCertificateDataElement, (state, action) => {
       if (!state.certificate) {
         return
       }
-      state.certificate.data[action.payload].visible = false
-      for (const id in state.certificate!.data) {
-        if (state.certificate.data[id].parent === action.payload) {
-          state.certificate.data[id].visible = false
-        }
+
+      state.certificate!.data[action.payload].visible = false
+    })
+    .addCase(unhideCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+      if (!state.certificate!.data[action.payload].validation.some((v) => v.type === CertificateDataValidationType.SHOW_VALIDATION)) {
+        state.certificate!.data[action.payload].visible = true
       }
     })
     .addCase(showCertificateDataElementMandatory, (state, action) => {
