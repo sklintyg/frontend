@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  frontend:
+    image: webcert-frontend:latest
+    container_name: webcert-frontend
+    ports:
+      - "80:80"
+
+  backend:
+    image: mockserver:latest
+    container_name: webcert-backend
+    ports:
+      - "9088:9088"
