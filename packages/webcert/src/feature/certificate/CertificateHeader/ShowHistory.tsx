@@ -73,6 +73,13 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
           </>
         )
+      case CertificateEventType.RENEWS:
+        return (
+          <>
+            Utkastet är skapat för att förnya ett tidigare intyg.{' '}
+            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+          </>
+        )
       case CertificateEventType.SENT:
         return 'Intyget är skickat till Arbetsförmedlingen'
       case CertificateEventType.REVOKED:
