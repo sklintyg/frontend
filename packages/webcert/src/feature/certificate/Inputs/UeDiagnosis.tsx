@@ -1,7 +1,6 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
-import styled from 'styled-components'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
@@ -18,14 +17,36 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
   padding-top: 10px;
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: 150px repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    'code diagnosis diagnosis diagnosis'
+    'ulc ul ul ul';
 `
 
 const codeAdditionalStyles = css`
-  max-width: 150px !important;
-  padding-right: 10px;
+  max-width: 150px;
+  grid-area: code;
+`
+
+const descriptionAdditionalStyles = css`
+  grid-area: diagnosis;
+`
+
+const codeListStyles = css`
+  position: relative;
+  grid-column-end: ul;
+  grid-column-start: ulc;
+`
+
+const descriptionListStyles = css`
+  position: relative;
+  grid-column-end: ul;
+  grid-column-start: ul;
 `
 
 const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question }) => {
@@ -91,7 +112,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setOpenCode(true)
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
-      updateSavedDiagnosis(newCode, description, false)
+      setDescription('')
+      updateSavedDiagnosis('', '', false)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true)
   }
@@ -166,7 +188,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     <Wrapper key={id + '-wrapper'}>
       <Typeahead
         suggestions={getSuggestions()}
-        additionalStyles={codeAdditionalStyles}
+        inputStyles={codeAdditionalStyles}
+        listStyles={codeListStyles}
         placeholder="Kod"
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
@@ -181,6 +204,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         suggestions={getSuggestions()}
         placeholder="Diagnos"
         disabled={disabled}
+        inputStyles={descriptionAdditionalStyles}
+        listStyles={descriptionListStyles}
         hasValidationError={shouldDisplayValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}

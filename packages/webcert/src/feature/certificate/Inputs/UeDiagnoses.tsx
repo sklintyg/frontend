@@ -18,6 +18,12 @@ const RadioWrapper = styled.div`
   }
 `
 
+const DiagnosesWrapper = styled.div`
+  > * {
+    padding-bottom: 5px;
+  }
+`
+
 interface Props {
   question: CertificateDataElement
   disabled: boolean
@@ -69,16 +75,18 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
         })}
       </RadioWrapper>
       <div className="iu-pt-300">Diagnoskod enligt ICD-10 SE</div>
-      {questionConfig.list.map((diagnosis) => {
-        return (
-          <UeDiagnosis
-            key={diagnosis.id + '-diagnosis'}
-            question={question}
-            disabled={disabled}
-            id={diagnosis.id}
-            selectedCodeSystem={selectedCodeSystem}></UeDiagnosis>
-        )
-      })}
+      <DiagnosesWrapper>
+        {questionConfig.list.map((diagnosis) => {
+          return (
+            <UeDiagnosis
+              key={diagnosis.id + '-diagnosis'}
+              question={question}
+              disabled={disabled}
+              id={diagnosis.id}
+              selectedCodeSystem={selectedCodeSystem}></UeDiagnosis>
+          )
+        })}
+      </DiagnosesWrapper>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </>
   )
