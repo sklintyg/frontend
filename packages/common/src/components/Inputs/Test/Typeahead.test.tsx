@@ -53,7 +53,7 @@ describe('Typeahead component', () => {
 
   it('renders suggestions when open is true', () => {
     renderWithSuggestions(true, false)
-    const listItems = screen.queryAllByRole('listitem')
+    const listItems = screen.queryAllByRole('option')
     expect(listItems).toHaveLength(suggestions.length)
     suggestions.forEach((s) => expect(screen.queryByText(s)).not.toBeNull())
   })
@@ -71,7 +71,9 @@ describe('Typeahead component', () => {
 
   it('shows information suggestion if there are more results', () => {
     renderWithSuggestions(true, true)
-    const listItems = screen.queryAllByRole('listitem')
-    expect(listItems).toHaveLength(suggestions.length + 1)
+    const listItems = screen.queryAllByRole('option')
+    const moreItem = screen.queryAllByRole('listitem')
+    expect(listItems).toHaveLength(suggestions.length)
+    expect(moreItem).toHaveLength(1)
   })
 })

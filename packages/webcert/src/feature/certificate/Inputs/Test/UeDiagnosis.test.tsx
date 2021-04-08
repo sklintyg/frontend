@@ -43,7 +43,7 @@ const renderDefaultComponent = () => {
 
 const checkListVisibility = (visible: boolean) => {
   const list = screen.queryAllByRole('list')
-  const listItem = screen.queryAllByRole('listitem')
+  const listItem = screen.queryAllByRole('option')
   if (visible) {
     expect(list).not.toBeNull()
     expect(list).toHaveLength(1)
@@ -102,7 +102,7 @@ describe('Diagnosis component', () => {
     checkListVisibility(false)
     userEvent.type(input[1], 'nervosa')
     checkListVisibility(true)
-    const items = screen.getAllByRole('listitem')
+    const items = screen.getAllByRole('option')
     expect(items).toHaveLength(DIAGNOSES.length)
     userEvent.click(items[0])
     checkListVisibility(false)
@@ -137,7 +137,7 @@ describe('Diagnosis component', () => {
     await userEvent.type(codeInput, exampleCode)
     checkListVisibility(true)
     expect(codeInput).toHaveValue(exampleCode)
-    await userEvent.click(screen.queryAllByRole('listitem')[0])
+    await userEvent.click(screen.queryAllByRole('option')[0])
     checkListVisibility(false)
     expect(codeInput).toHaveValue(DIAGNOSES[0].kod)
   })
