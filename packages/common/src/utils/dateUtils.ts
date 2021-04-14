@@ -1,4 +1,4 @@
-import { parse } from 'date-fns'
+import { parse, format } from 'date-fns'
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -16,4 +16,36 @@ export const getValidDate = (dateString: string) => {
   } else if (_dateRegDashesOptional.test(dateString)) {
     return parse(dateString, _parseformat, new Date())
   }
+}
+
+export const formatDateToString = (date: Date) => {
+  return format(date, _format)
+}
+
+export const parseDayCodes = (input: string) => {
+  if (input && typeof input === 'string') {
+    let result = dayCodeReg.exec(input)
+    if (result && result.length > 0) {
+      return parseInt(result[1], 10)
+    }
+    result = weekCodeReg.exec(input)
+    if (result && result.length > 0) {
+      return parseInt(result[1], 10) * 7
+    }
+    const months = parseMonthCode(input)
+    if (months) {
+      return months * 31
+    }
+  }
+  return null
+}
+
+export const parseMonthCode = (input: string) => {
+  if (input && typeof input === 'string') {
+    const result = monthCodeReg.exec(input)
+    if (result && result.length > 0) {
+      return parseInt(result[1], 10)
+    }
+  }
+  return null
 }
