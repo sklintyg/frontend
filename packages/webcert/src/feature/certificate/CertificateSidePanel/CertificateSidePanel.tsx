@@ -131,7 +131,7 @@ const CertificateSidePanel: React.FC = () => {
                   css={pointerCursor}
                   className="iu-pt-400 iu-flex iu-flex-center"
                   onClick={() => handleRestoreSidePanelClick(fmbTabIndex)}>
-                  <FontAwesomeIcon icon={faLightbulb} size={"lg"}/>
+                  <FontAwesomeIcon icon={faLightbulb} size={'lg'} />
 
                   <p>FMB</p>
                 </div>
