@@ -116,7 +116,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
-      updateSavedDiagnosis('', '', false)
+      updateSavedDiagnosis('', '')
+    } else {
+      updateSavedDiagnosis('', description)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true)
   }
@@ -128,9 +130,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      updateSavedDiagnosis('', newDescription, true)
+      updateSavedDiagnosis('', newDescription)
     } else {
-      updateSavedDiagnosis(code, newDescription, true)
+      updateSavedDiagnosis(code, newDescription)
     }
     updateTypeaheadResult(newDescription, false)
   }
@@ -167,18 +169,16 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     updateSavedDiagnosis(newCode, newDesc, false)
   }
 
-  const updateSavedDiagnosis = (code: string, description: string, isDescriptionChange: boolean) => {
-    if (isDescriptionChange || code === undefined || code === '') {
-      const diagnosisValue: ValueDiagnosis = {
-        type: CertificateDataValueType.DIAGNOSIS,
-        id: id,
-        terminology: selectedCodeSystem,
-        code: code,
-        description: description,
-      }
-      const updatedValue = getUpdatedValue(question, diagnosisValue)
-      dispatch(updateCertificateDataElement(updatedValue))
+  const updateSavedDiagnosis = (code: string, description: string) => {
+    const diagnosisValue: ValueDiagnosis = {
+      type: CertificateDataValueType.DIAGNOSIS,
+      id: id,
+      terminology: selectedCodeSystem,
+      code: code,
+      description: description,
     }
+    const updatedValue = getUpdatedValue(question, diagnosisValue)
+    dispatch(updateCertificateDataElement(updatedValue))
   }
 
   const getItemText = (item: string, searched: string | undefined) => {
