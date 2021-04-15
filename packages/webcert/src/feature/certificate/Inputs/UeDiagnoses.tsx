@@ -51,8 +51,6 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
     dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
-  //TODO: F50 får tydligen inte väljas enligt nuvarande diagnos-komponent
-  //TODO: Texterna ovanför radioknapparna och inputarna
   //TODO: Validering under varje input
 
   return (

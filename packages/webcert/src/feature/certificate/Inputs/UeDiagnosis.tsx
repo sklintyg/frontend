@@ -59,6 +59,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [codeChanged, setCodeChanged] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
   const dispatch = useAppDispatch()
+  const codeInput = React.createRef<HTMLInputElement>()
+  const diagnosisInput = React.createRef<HTMLInputElement>()
 
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 3
@@ -81,9 +83,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const handleClose = (diagnosisSelected: boolean) => {
+    const isCodeInputFocused = document.activeElement === codeInput.current
     setOpenCode(false)
     setOpenDescription(false)
-    if ((!enteredCodeExists() || codeChanged) && !diagnosisSelected) {
+    if (codeChanged && !diagnosisSelected && !isCodeInputFocused) {
       setCode('')
     }
   }
@@ -123,16 +126,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDescription)
     setOpenDescription(true)
     setCodeChanged(false)
-    updateTypeaheadResult(newDescription, false)
-    updateSavedDiagnosis(code, newDescription, true)
-  }
-
-  function enteredCodeExists(): boolean {
-    if (typeaheadResult !== undefined && typeaheadResult !== null && typeaheadResult.resultat === 'OK') {
-      const index = typeaheadResult.diagnoser.findIndex((d) => d.kod === code?.toUpperCase())
-      return index !== -1
+    if (newDescription === '') {
+      setCode('')
+      updateSavedDiagnosis('', newDescription, true)
+    } else {
+      updateSavedDiagnosis(code, newDescription, true)
     }
-    return false
+    updateTypeaheadResult(newDescription, false)
   }
 
   const getSuggestions = () => {
@@ -140,7 +140,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       return []
     }
     return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {
-      return diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning
+      const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
+      return {
+        label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
+        disabled: isDisabled,
+        title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
+      }
     })
   }
 
@@ -163,7 +168,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const updateSavedDiagnosis = (code: string, description: string, isDescriptionChange: boolean) => {
-    if (enteredCodeExists() || isDescriptionChange || code === undefined || code === '') {
+    if (isDescriptionChange || code === undefined || code === '') {
       const diagnosisValue: ValueDiagnosis = {
         type: CertificateDataValueType.DIAGNOSIS,
         id: id,
@@ -179,14 +184,21 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const getItemText = (item: string, searched: string | undefined) => {
     if (searched !== undefined) {
       const itemDescription = getDescriptionFromString(item)
+      const itemCode = getCodeFromString(item)
       const regex = new RegExp(`(${searched})`, 'ig')
-      return itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')
+      return itemCode + ' ' + DIAGNOSIS_DIVIDER + ' ' + itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')
     } else return item
+  }
+
+  const isShortPsychologicalDiagnosis = (code: string) => {
+    const isPsychologicalDiagnosis = code.substr(0, 3) === 'Z73' || code.substr(0, 1) === 'F'
+    return code.length < 4 && isPsychologicalDiagnosis
   }
 
   return (
     <Wrapper key={id + '-wrapper'}>
       <Typeahead
+        ref={codeInput}
         suggestions={getSuggestions()}
         inputStyles={codeAdditionalStyles}
         listStyles={codeListStyles}
@@ -201,6 +213,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         moreResults={typeaheadResult?.moreResults}
       />
       <Typeahead
+        ref={diagnosisInput}
         suggestions={getSuggestions()}
         placeholder="Diagnos"
         disabled={disabled}
