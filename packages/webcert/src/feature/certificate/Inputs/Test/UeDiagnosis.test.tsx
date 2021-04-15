@@ -9,7 +9,14 @@ import * as redux from 'react-redux'
 const CODE_SYSTEM = 'ICD_10'
 const DIAGNOSES = [
   { kod: 'F50', beskrivning: 'Ätstörningar' },
-  { kod: 'F501', beskrivning: 'Anorexia' },
+  { kod: 'F500', beskrivning: 'Anorexia nervosa' },
+  { kod: 'F501', beskrivning: 'Atypisk anorexia nervosa' },
+  { kod: 'F502', beskrivning: 'Bulimia nervosa' },
+  { kod: 'F503', beskrivning: 'Atypisk bulimia nervosa' },
+  { kod: 'F504', beskrivning: 'Överdrivet ätande sammanhängande med andra psykiska störningar' },
+  { kod: 'F505', beskrivning: 'Kräkningar sammanhängande med andra psykiska störningar' },
+  { kod: 'F508', beskrivning: 'Andra specificerade ätstörningar' },
+  { kod: 'F509', beskrivning: 'Ätstörning, ospecificerad' },
 ]
 
 const testInput1 = 'ä'
@@ -42,26 +49,23 @@ const renderDefaultComponent = () => {
 }
 
 const checkListVisibility = (visible: boolean) => {
-  const list = screen.queryAllByRole('list')
-  const listItem = screen.queryAllByRole('option')
+  const listItems = screen.queryAllByRole('option')
   if (visible) {
-    expect(list).not.toBeNull()
-    expect(list).toHaveLength(1)
-    expect(listItem).not.toBeNull()
-    expect(listItem.length > 0).toBeTruthy()
+    expect(listItems).toHaveLength(DIAGNOSES.length)
   } else {
-    expect(list).toHaveLength(0)
-    expect(listItem).toHaveLength(0)
+    expect(listItems).toHaveLength(0)
   }
 }
 
-const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-useSelectorSpy.mockReturnValue({
-  diagnoser: DIAGNOSES,
-  resultat: 'OK',
+beforeEach(() => {
+  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useSelectorSpy.mockReturnValue({
+    diagnoser: DIAGNOSES,
+    resultat: 'OK',
+  })
+  useDispatchSpy.mockReturnValue(jest.fn())
 })
-useDispatchSpy.mockReturnValue(jest.fn())
 
 describe('Diagnosis component', () => {
   it('renders without crashing', () => {
@@ -104,10 +108,24 @@ describe('Diagnosis component', () => {
     checkListVisibility(true)
     const items = screen.getAllByRole('option')
     expect(items).toHaveLength(DIAGNOSES.length)
+    userEvent.click(items[3])
+    checkListVisibility(false)
+    expect(input[0]).toHaveValue(DIAGNOSES[3].kod)
+    expect(input[1]).toHaveValue(DIAGNOSES[3].beskrivning)
+  })
+
+  it('does not allow user to choose short psychological diagnosis', () => {
+    renderDefaultComponent()
+    const input = screen.getAllByRole('textbox')
+    checkListVisibility(false)
+    userEvent.type(input[1], 'a')
+    checkListVisibility(true)
+    const items = screen.getAllByRole('option')
+    expect(items).toHaveLength(DIAGNOSES.length)
     userEvent.click(items[0])
     checkListVisibility(false)
-    expect(input[0]).toHaveValue(DIAGNOSES[0].kod)
-    expect(input[1]).toHaveValue(DIAGNOSES[0].beskrivning)
+    expect(input[0]).toHaveValue('')
+    expect(input[1]).toHaveValue('a')
   })
 
   it('closes list when component does not have focus', async () => {
@@ -137,8 +155,19 @@ describe('Diagnosis component', () => {
     await userEvent.type(codeInput, exampleCode)
     checkListVisibility(true)
     expect(codeInput).toHaveValue(exampleCode)
-    await userEvent.click(screen.queryAllByRole('option')[0])
+    await userEvent.click(screen.queryAllByRole('option')[4])
     checkListVisibility(false)
-    expect(codeInput).toHaveValue(DIAGNOSES[0].kod)
+    expect(codeInput).toHaveValue(DIAGNOSES[4].kod)
+  })
+
+  it('does not reset code if escape key is pressed', async () => {
+    renderDefaultComponent()
+    const input = screen.getAllByRole('textbox')
+    await userEvent.click(input[0])
+    await userEvent.keyboard(testInput1)
+    checkListVisibility(true)
+    await userEvent.keyboard('{escape}')
+    expect(input[0]).toHaveValue(testInput1)
+    checkListVisibility(false)
   })
 })

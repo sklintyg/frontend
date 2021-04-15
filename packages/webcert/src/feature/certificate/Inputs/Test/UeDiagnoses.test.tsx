@@ -51,7 +51,7 @@ const checkVisibilityOfList = () => {
   expect(listItems).toHaveLength(DIAGNOSES.length)
 }
 
-const checkThatInputsAreEmpty = (indexToSkip: number, input: []) => {
+const checkThatInputsAreEmpty = (indexToSkip: number, input: HTMLElement[]) => {
   input.forEach((i: any) => {
     if (i > indexToSkip) {
       expect(i).toHaveValue('')
@@ -59,17 +59,17 @@ const checkThatInputsAreEmpty = (indexToSkip: number, input: []) => {
   })
 }
 
-describe('Diagnoses component', () => {
-  beforeAll(() => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useSelectorSpy.mockReturnValue({
-      diagnoser: DIAGNOSES,
-      resultat: 'OK',
-    })
-    useDispatchSpy.mockReturnValue(jest.fn())
+beforeEach(() => {
+  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useSelectorSpy.mockReturnValue({
+    diagnoser: DIAGNOSES,
+    resultat: 'OK',
   })
+  useDispatchSpy.mockReturnValue(jest.fn())
+})
 
+describe('Diagnoses component', () => {
   it('renders without crashing', () => {
     renderDefaultComponent()
   })
