@@ -12,7 +12,7 @@ interface Props {
   additionalStyles?: FlattenSimpleInterpolation
   disabled?: boolean
   placeholder?: string
-  suggestions: string[]
+  suggestions: Suggestion[]
   onSuggestionSelected: (value: string) => void
   open: boolean
   onClose: () => void
@@ -22,12 +22,18 @@ interface Props {
   moreResults?: boolean
 }
 
+export interface Suggestion {
+  label: string
+  disabled: boolean
+  title: string | null
+}
+
 const SuggestionsList = styled.ul`
   list-style-type: none;
   text-align: left;
   position: absolute;
   margin: 0;
-  padding: 0;
+  padding: 5px 0;
   border-top: 1px solid gray;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
   left: 0;
@@ -38,9 +44,13 @@ const SuggestionsList = styled.ul`
   overflow-y: auto;
   flex: 1;
   grid-area: ul;
+
+  .disabled {
+    cursor: not-allowed !important;
+  }
 `
 const SuggestionsListItem = styled.li`
-  padding: 10px 5px;
+  padding: 3px 20px;
   cursor: pointer;
 
   &:hover {
@@ -50,8 +60,8 @@ const SuggestionsListItem = styled.li`
 `
 
 const MoreResultsListItem = styled.li`
-  padding: 10px 5px;
-  cursor: pointer;
+  padding: 7px 3px;
+  cursor: auto;
 `
 
 const useKeyPress = (targetKey: string) => {
@@ -84,7 +94,7 @@ const useKeyPress = (targetKey: string) => {
   return keyPressed
 }
 
-const Typeahead: React.FC<Props> = (props) => {
+const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
     disabled,
     onChange,
@@ -105,36 +115,39 @@ const Typeahead: React.FC<Props> = (props) => {
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
   const enterPress = useKeyPress('Enter')
-  const [cursor, setCursor] = useState(suggestions.length === 1 ? 0 : -1)
+  const escPress = useKeyPress('Escape')
+  const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
   const [hovered, setHovered] = useState<number | null>(null)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
-  const listItemsRef = useRef([])
 
   useEffect(() => {
-    listItemsRef.current = listItemsRef.current.slice(0, suggestions.length)
+    setCursor(suggestions.length > 0 && open ? 0 : -1)
   }, [suggestions])
 
   useEffect(() => {
-    if (suggestions.length && downPress && open) {
+    if (suggestions.length > 0 && downPress && open) {
       setCursor((prevState) => (prevState < suggestions.length - 1 ? prevState + 1 : 0))
     }
   }, [downPress])
   useEffect(() => {
-    if (suggestions.length && upPress && open) {
+    if (suggestions.length > 0 && upPress && open) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : suggestions.length - 1))
     }
   }, [upPress])
   useEffect(() => {
-    if (suggestions.length >= cursor && cursor >= 0 && open) {
-      onSuggestionSelected(suggestions[cursor])
+    if (enterPress && suggestions.length >= cursor && cursor >= 0 && open) {
+      onClick(suggestions[cursor])
     }
   }, [enterPress])
-
   useEffect(() => {
-    if (cursor >= 0 && suggestions[cursor].length > 0) {
+    if (escPress && open) {
+      handleClose()
+    }
+  }, [escPress])
+  useEffect(() => {
+    if (cursor >= 0 && suggestions[cursor].label.length > 0 && cursor !== hovered) {
       const element = typeaheadList.current
       if (element !== null && element !== undefined) {
-        console.log(element.children[cursor].children[0])
         scroller.scrollTo('typeahead-item-' + cursor, {
           duration: 0,
           delay: 0,
@@ -146,9 +159,32 @@ const Typeahead: React.FC<Props> = (props) => {
     }
   }, [cursor])
 
+  const updateHovered = (i: number) => {
+    setHovered(i)
+    setCursor(i)
+  }
+
   const handleClose = () => {
     setCursor(-1)
     onClose()
+  }
+
+  const getItemClassName = (item: Suggestion, index: number) => {
+    const isCursor = index === cursor
+    const isHoverDifferentFromCursor = cursor >= 0 && hovered === index && hovered !== cursor
+    if (item.disabled) {
+      return 'iu-color-muted iu-bg-white disabled'
+    } else if (isHoverDifferentFromCursor) {
+      return 'iu-bg-secondary-light iu-color-black'
+    } else if (isCursor) {
+      return 'iu-bg-main iu-color-white'
+    }
+  }
+
+  const onClick = (suggestion: Suggestion) => {
+    if (!suggestion.disabled) {
+      onSuggestionSelected(suggestion.label)
+    }
   }
 
   const renderSuggestions = () => {
@@ -164,15 +200,18 @@ const Typeahead: React.FC<Props> = (props) => {
         )}
         {suggestions.map((item, i) => (
           <SuggestionsListItem
-            key={item}
+            id={'typeahead-list-option-' + i}
+            key={item.label}
             role="option"
-            className={`${i === cursor ? 'iu-bg-main iu-color-white' : ''} ${
-              cursor >= 0 && hovered === i && hovered !== cursor ? 'iu-bg-secondary-light iu-color-black' : ''
-            }`}
-            onMouseDown={(e) => onSuggestionSelected(item)}
-            onMouseEnter={() => setHovered(i)}
+            title={item.title}
+            className={getItemClassName(item, i)}
+            onMouseDown={(e) => onClick(item)}
+            onMouseEnter={() => updateHovered(i)}
             onMouseLeave={() => setHovered(null)}>
-            <Element name={'typeahead-item-' + i} dangerouslySetInnerHTML={{ __html: getItemText ? getItemText(item, value) : item }} />
+            <Element
+              name={'typeahead-item-' + i}
+              dangerouslySetInnerHTML={{ __html: getItemText ? getItemText(item.label, value) : item.label }}
+            />
           </SuggestionsListItem>
         ))}
       </SuggestionsList>
@@ -182,6 +221,7 @@ const Typeahead: React.FC<Props> = (props) => {
   return (
     <>
       <TextInput
+        ref={ref}
         expanded={open}
         additionalStyles={inputStyles}
         placeholder={placeholder}
@@ -190,10 +230,11 @@ const Typeahead: React.FC<Props> = (props) => {
         onChange={onChange}
         value={value}
         onBlur={handleClose}
+        activeDescendant={cursor >= 0 && open ? 'typeahead-list-option-' + cursor : undefined}
       />
       <div css={listStyles}>{open ? renderSuggestions() : ''}</div>
     </>
   )
-}
+})
 
 export default Typeahead
