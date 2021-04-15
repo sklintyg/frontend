@@ -79,6 +79,7 @@ import {
   renewCertificateError,
   renewCertificateCompleted,
   renewCertificate,
+  unhideCertificateDataElement,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -589,7 +590,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         if (result.result) {
           dispatch(hideCertificateDataElement(result.id))
         } else {
-          dispatch(showCertificateDataElement(result.id))
+          dispatch(unhideCertificateDataElement(result.id))
         }
         break
 

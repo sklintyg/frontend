@@ -28,6 +28,7 @@ const TextInput = styled.input`
 `
 
 interface Props {
+  disabled?: boolean
   setDate: (date: Date) => void
   inputString: string | null
   handleTextInput: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -37,7 +38,7 @@ const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 const _format = 'yyyy-MM-dd'
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, inputString, handleTextInput }) => {
+const DatePickerCustom: React.FC<Props> = ({ disabled, setDate, inputString, handleTextInput }) => {
   const [open, setOpen] = useState(false)
 
   let date: Date
@@ -62,6 +63,7 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, inputString, handleTextInp
   return (
     <Wrapper>
       <TextInput
+        disabled={disabled}
         type="text"
         maxLength={10}
         className="ic-textfield"
@@ -70,6 +72,7 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, inputString, handleTextInp
         value={inputString ? inputString : ''}
       />
       <DatePicker
+        disabled={disabled}
         shouldCloseOnSelect={true}
         onChange={() => {}}
         dateFormat={_format}
