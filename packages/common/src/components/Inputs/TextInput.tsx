@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from 'react'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { css } from 'styled-components'
 
 interface Props {
   expanded?: boolean
@@ -13,14 +12,28 @@ interface Props {
   disabled?: boolean
   placeholder?: string
   additionalStyles?: FlattenSimpleInterpolation
+  activeDescendant?: string
 }
 
-const TextInput: React.FC<Props> = (props) => {
-  const { expanded, label, disabled, name, onChange, value, additionalStyles, hasValidationError, placeholder, onBlur } = props
+const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const {
+    expanded,
+    label,
+    disabled,
+    name,
+    onChange,
+    value,
+    additionalStyles,
+    hasValidationError,
+    placeholder,
+    onBlur,
+    activeDescendant,
+  } = props
   return (
     <>
       {label ? <p>{label}</p> : ''}
       <input
+        ref={ref}
         aria-expanded={expanded}
         css={additionalStyles}
         type="text"
@@ -31,9 +44,10 @@ const TextInput: React.FC<Props> = (props) => {
         value={value}
         onBlur={onBlur}
         onChange={(e) => onChange(e)}
+        aria-activedescendant={activeDescendant}
       />
     </>
   )
-}
+})
 
 export default TextInput
