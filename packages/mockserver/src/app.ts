@@ -1,26 +1,28 @@
-import type {} from 'styled-components/cssprop'
 import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/fk7804.json'
 import bootstrapUsers from './bootstrap/users.json'
 import {
   Certificate,
-  ValueBoolean,
-  CertificateStatus,
-  ValueText,
-  ValidationError,
+  CertificateDataValueType,
   CertificateEventType,
   CertificateRelation,
   CertificateRelationType,
+  CertificateStatus,
   FakeLogin,
-  User,
-  CertificateDataValueType,
-  ResourceLinkSend,
   ResourceLinkChooseReceivers,
-  ValueCode,
+  ResourceLinkSend,
   ResourceLinkType,
+  User,
+  ValidationError,
+  ValueBoolean,
+  ValueCode,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ValueText,
   CertificateDataValidationType,
+  ValueCodeList,
+  ValueDateList,
+  ValueDateRangeList,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
@@ -82,18 +84,18 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
 
 const setValidation = (certificate: Certificate) => {
   const validationTypes = [CertificateDataValidationType.HIDE_VALIDATION]
-  for(const id in certificate.data) {
-    if(certificate.data[id].validation && certificate.data[id].validation.some((v) => validationTypes.some((type) => type === v.type))) {
+  for (const id in certificate.data) {
+    if (certificate.data[id].validation && certificate.data[id].validation.some((v) => validationTypes.some((type) => type === v.type))) {
       setValidationForChildren(id, validationTypes, certificate)
     }
   }
 }
 
 const setValidationForChildren = (parent: string, validationTypes: string[], certificate: Certificate) => {
-  for(const id in certificate.data) {
-    if(certificate.data[id].parent === parent) {
+  for (const id in certificate.data) {
+    if (certificate.data[id].parent === parent) {
       certificate.data[parent].validation.forEach((v) => {
-        if(validationTypes.some((type) => type === v.type)) {
+        if (validationTypes.some((type) => type === v.type)) {
           certificate.data[id].validation.push(v)
           setValidationForChildren(id, validationTypes, certificate)
         }
@@ -820,7 +822,39 @@ function createCopy(sourceCertificate: Certificate): Certificate {
   certificateClone.metadata.id = uuidv4()
   certificateClone.metadata.status = CertificateStatus.UNSIGNED
 
-  if(sourceCertificate.metadata.type !== 'lisjp') {
+  if (sourceCertificate.metadata.type === 'lisjp') {
+    const hasContactWithFK = certificateClone.data['26'].value as ValueBoolean
+    certificateClone.data['26.2'].visible = hasContactWithFK.selected ? hasContactWithFK.selected : false
+    const hasAtgarder = certificateClone.data['40'].value as ValueCodeList
+    certificateClone.data['44'].visible = hasAtgarder.list.length > 0
+    certificateClone.data['32.1'].visible = (certificateClone.data['32'].value as ValueDateRangeList).list.some(
+      (date) => (new Date().getTime() - new Date(date.from).getTime()) / (1000 * 60 * 60 * 24) < -7
+    )
+    certificateClone.data['33'].visible = !(certificateClone.data['32'].value as ValueDateRangeList).list.some(
+      (date) => date.id === 'HELT_NEDSATT'
+    )
+    const hasBedomning = certificateClone.data['33'].value as ValueBoolean
+    certificateClone.data['33.2'].visible = hasBedomning.selected === true && certificateClone.data['33'].visible
+    certificateClone.data['29'].visible = (certificateClone.data['28'].value as ValueCodeList).list.some(
+      (date) => date.id === 'NUVARANDE_ARBETE'
+    )
+    certificateClone.data['1.2'].visible = (certificateClone.data['1'].value as ValueDateList).list.some(
+      (date) => date.id === 'annatGrundForMU'
+    )
+    certificateClone.data['1.1'].visible =
+      !(certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'undersokningAvPatienten') &&
+      (certificateClone.data['1'].value as ValueDateList).list.length > 0
+
+    const hasSmittbararpenning = certificateClone.data['27'].value as ValueBoolean
+    for (const questionId in certificateClone.data) {
+      if (
+        certificateClone.data[questionId].validation &&
+        certificateClone.data[questionId].validation.some((v) => v.type === CertificateDataValidationType.HIDE_VALIDATION)
+      ) {
+        certificateClone.data[questionId].visible = hasSmittbararpenning.selected ? !hasSmittbararpenning.selected : true
+      }
+    }
+  } else {
     const harFunktionsnedsattning = certificateClone.data['1.1'].value as ValueBoolean
     certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
     certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
@@ -832,8 +866,8 @@ function createCopy(sourceCertificate: Certificate): Certificate {
     const harArbetspaverkan = certificateClone.data['4.1'].value as ValueBoolean
     certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
   }
+
   for (const questionId in certificateClone.data) {
-    console.log(certificateClone.data[questionId])
     certificateClone.data[questionId].readOnly = false
   }
 
