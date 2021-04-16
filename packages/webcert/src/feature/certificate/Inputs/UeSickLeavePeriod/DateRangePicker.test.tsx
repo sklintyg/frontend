@@ -8,12 +8,10 @@ import {
   CertificateDataValueType,
   ConfigTypes,
   getValidDate,
-  parseDayCodes,
-  formatDateToString,
 } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
 import * as redux from 'react-redux'
-import { differenceInCalendarDays, addMonths, addWeeks, isEqual } from 'date-fns'
+import { differenceInCalendarDays, isEqual } from 'date-fns'
 
 const LABEL = '25 procent'
 const QUESTION_ID = 'Test'
@@ -93,7 +91,7 @@ describe('Date range picker', () => {
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1d')
+    userEvent.type(toDateTextInput, '1d{enter}')
     let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(getValidDate(toDateString)).toBeTruthy()
@@ -103,16 +101,16 @@ describe('Date range picker', () => {
     let differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
 
     expect(differenceInDays).toBe(0)
-    expect(isEqual(fromDate, toDate)).toBeTruthy()
+    expect(isEqual(fromDate!, toDate!)).toBeTruthy()
 
     userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'd1')
+    userEvent.type(toDateTextInput, 'd1{enter}')
     toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
     toDate = getValidDate(toDateString)
     differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
 
     expect(differenceInDays).toBe(0)
-    expect(isEqual(fromDate, toDate)).toBeTruthy()
+    expect(isEqual(fromDate!, toDate!)).toBeTruthy()
   })
 
   it('Calculates 1 week ahead with 1v/v1', () => {
@@ -123,7 +121,7 @@ describe('Date range picker', () => {
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1v')
+    userEvent.type(toDateTextInput, '1v{enter}')
     let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(getValidDate(toDateString)).toBeTruthy()
@@ -135,7 +133,7 @@ describe('Date range picker', () => {
     expect(differenceInDays).toBe(6)
 
     userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'v1')
+    userEvent.type(toDateTextInput, 'v1{enter}')
     toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
     toDate = getValidDate(toDateString)
     differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
@@ -151,7 +149,7 @@ describe('Date range picker', () => {
     const fromDateString = (screen.getByLabelText('Fr.o.m') as HTMLInputElement).value
 
     const toDateTextInput = screen.getByLabelText('t.o.m')
-    userEvent.type(toDateTextInput, '1m')
+    userEvent.type(toDateTextInput, '1m{enter}')
     let toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
 
     expect(toDateString).toBeTruthy()
@@ -163,7 +161,7 @@ describe('Date range picker', () => {
     expect(differenceInDays).toBe(30)
 
     userEvent.clear(toDateTextInput)
-    userEvent.type(toDateTextInput, 'm1')
+    userEvent.type(toDateTextInput, 'm1{enter}')
     toDateString = (screen.getByLabelText('t.o.m') as HTMLInputElement).value
     toDate = getValidDate(toDateString)
     differenceInDays = differenceInCalendarDays(toDate!, fromDate!)

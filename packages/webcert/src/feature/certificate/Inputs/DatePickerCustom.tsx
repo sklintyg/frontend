@@ -20,6 +20,10 @@ const StyledButton = styled.button`
   border-bottom-left-radius: 0;
 `
 
+// interface textInputProps {
+//   dataTestId?: string
+// }
+
 const TextInput = styled.input`
   padding: 0 0.5rem !important;
   border-top-right-radius: 0;
@@ -30,15 +34,30 @@ const TextInput = styled.input`
 interface Props {
   setDate: (date: Date) => void
   inputString: string | null
-  handleTextInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+  textInputOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  textInputOnBlur?: React.FocusEventHandler<HTMLInputElement>
+  TextInputOnKeyDown?: (event: React.KeyboardEvent) => void
   id?: string
+  textInputName?: string
+  textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
+  textInputDataTestId?: string
 }
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 const _format = 'yyyy-MM-dd'
 
-const DatePickerCustom: React.FC<Props> = ({ setDate, inputString, handleTextInput, id }) => {
+const DatePickerCustom: React.FC<Props> = ({
+  setDate,
+  inputString,
+  textInputOnChange,
+  id,
+  textInputOnBlur,
+  textInputRef,
+  TextInputOnKeyDown,
+  textInputName,
+  textInputDataTestId,
+}) => {
   const [open, setOpen] = useState(false)
 
   let date: Date
@@ -64,12 +83,17 @@ const DatePickerCustom: React.FC<Props> = ({ setDate, inputString, handleTextInp
     <Wrapper>
       <TextInput
         id={id}
+        name={textInputName}
         type="text"
         maxLength={10}
         className="ic-textfield"
-        onChange={handleTextInput}
+        onChange={textInputOnChange}
+        onBlur={textInputOnBlur}
+        onKeyDown={TextInputOnKeyDown}
         placeholder="åååå-mm-dd"
         value={inputString ? inputString : ''}
+        ref={textInputRef}
+        data-testid={textInputDataTestId}
       />
       <DatePicker
         shouldCloseOnSelect={true}

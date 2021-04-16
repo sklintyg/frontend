@@ -73,7 +73,7 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
   const [dateChecked, setDateChecked] = useState((fromDate !== null && fromDate !== '') || (toDate !== null && toDate !== ''))
   const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
   const [toDateString, setToDateString] = useState<string | null>(toDate)
-  // const [daysBetweenDates, setDaysBetweenDates] = useState<number | null>(null)
+  const tomTextInputRef = useRef<null | HTMLInputElement>(null)
 
   function usePrevious(value: any) {
     const ref = React.useRef(value)
@@ -164,17 +164,30 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
   const handleToTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     setToDateString(value)
+  }
 
-    if (!value || !fromDateString || !getValidDate(fromDateString)) {
+  const handleToTextInputOnBlur = () => {
+    formatToInputTextField()
+  }
+
+  const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key.toLowerCase() === 'enter') {
+      formatToInputTextField()
+      tomTextInputRef.current?.blur()
+    }
+  }
+
+  const formatToInputTextField = () => {
+    if (!toDateString || !fromDateString || !getValidDate(fromDateString)) {
       return
     }
 
     const fromDate = getValidDate(fromDateString)!
 
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(value))
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateString))
 
     if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(value)
+      const numberOfDaysToAdd = parseDayCodes(toDateString)
 
       if (numberOfDaysToAdd) {
         //Befintliga webcert drar bort en dag i beräkningen
@@ -182,8 +195,8 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
         setToDateString(formatDateToString(newDate))
         // dispatchUpdate(fromDateString, formatDateToString(newDate), questionId)
       }
-    } else if (_dateReg.test(value) || _dateRegDashesOptional.test(value)) {
-      const newDate = getValidDate(value)
+    } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
+      const newDate = getValidDate(toDateString)
 
       if (newDate) {
         setToDateString(formatDateToString(newDate))
@@ -194,7 +207,7 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      console.log(question)
+      tomTextInputRef.current?.focus()
       const indexOfCurrentQuestion = (question.config.list as ConfigUeCheckboxDateRange[]).findIndex(
         (cfg) => cfg.id.toLowerCase() === questionId.toLowerCase()
       )
@@ -235,7 +248,6 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
       } else {
         setFromDateString(formatDateToString(new Date()))
       }
-      console.log('indexOfCurrentQuestion', indexOfCurrentQuestion)
     } else {
       reset()
     }
@@ -251,7 +263,7 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
     <>
       <DateRangeWrapper>
         <Checkbox
-          id={questionId}
+          id={`${questionId}-checkbox`}
           hasValidationError={false}
           disabled={false}
           value={'test'}
@@ -264,18 +276,24 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
           <label htmlFor={`from${questionId}`}>Fr.o.m</label>
           <DatePickerCustom
             id={`from${questionId}`}
+            textInputName={`from${questionId}`}
             inputString={fromDateString}
             setDate={handleDatePickerSelectFrom}
-            handleTextInput={handleFromTextInputChange}
+            textInputOnChange={handleFromTextInputChange}
+            textInputDataTestId={`from${questionId}`}
           />
         </DatesWrapper>
         <DatesWrapper>
           <label htmlFor={`tom${questionId}`}>t.o.m</label>
           <DatePickerCustom
             id={`tom${questionId}`}
+            textInputName={`tom${questionId}`}
+            textInputRef={tomTextInputRef}
             inputString={toDateString}
             setDate={handleDatePickerSelectTo}
-            handleTextInput={handleToTextInputChange}
+            textInputOnChange={handleToTextInputChange}
+            textInputOnBlur={handleToTextInputOnBlur}
+            TextInputOnKeyDown={handleToTextInputOnKeyDown}
           />
         </DatesWrapper>
       </DateRangeWrapper>
