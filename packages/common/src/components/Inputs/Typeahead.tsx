@@ -117,13 +117,17 @@ const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
   const enterPress = useKeyPress('Enter')
   const escPress = useKeyPress('Escape')
   const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
-  const [hovered, setHovered] = useState<number | null>(null)
+  const [hovered, setHovered] = useState<number>(-1)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
   }, [suggestions])
-
+  useEffect(() => {
+    if (hovered >= 0) {
+      setCursor(hovered)
+    }
+  }, [hovered])
   useEffect(() => {
     if (suggestions.length > 0 && downPress && open) {
       setCursor((prevState) => (prevState < suggestions.length - 1 ? prevState + 1 : 0))
@@ -207,7 +211,7 @@ const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
             className={getItemClassName(item, i)}
             onMouseDown={(e) => onClick(item)}
             onMouseEnter={() => updateHovered(i)}
-            onMouseLeave={() => setHovered(null)}>
+            onMouseLeave={() => setHovered(-1)}>
             <Element
               name={'typeahead-item-' + i}
               dangerouslySetInnerHTML={{ __html: getItemText ? getItemText(item.label, value) : item.label }}

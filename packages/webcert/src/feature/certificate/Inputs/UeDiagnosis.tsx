@@ -166,7 +166,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    updateSavedDiagnosis(newCode, newDesc, false)
+    updateSavedDiagnosis(newCode, newDesc)
   }
 
   const updateSavedDiagnosis = (code: string, description: string) => {
