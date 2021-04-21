@@ -261,7 +261,7 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = createCopy(originalCertificate)
+    const certificateClone = createCopy(originalCertificate, false)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.id,
@@ -321,7 +321,7 @@ app.post('/api/certificate/:id/renew', (req: Request, res: Response, next: NextF
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = createCopy(originalCertificate)
+    const certificateClone = createCopy(originalCertificate, true)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.id,
@@ -353,21 +353,12 @@ app.post('/api/certificate/:id/renew', (req: Request, res: Response, next: NextF
 
     const certificateEvent = createEvent(
       certificateClone.metadata.id,
-      CertificateEventType.RENEWS,
+      CertificateEventType.RENEWAL_OF,
       originalCertificate.metadata.id,
       originalCertificate.metadata.status
     )
 
     certificateEventRepository[certificateClone.metadata.id] = Array.of(certificateEvent)
-
-    /**certificateEventRepository[originalCertificate.metadata.id].push(
-      createEvent(
-        originalCertificate.metadata.id,
-        CertificateEventType.RENEWED,
-        certificateClone.metadata.id,
-        certificateClone.metadata.status
-      )
-    )**/
 
     certificateRepository[certificateClone.metadata.id] = certificateClone
     res.json({ certificateId: certificateClone.metadata.id }).send()
@@ -381,7 +372,7 @@ app.post('/api/certificate/:id/copy', (req: Request, res: Response, next: NextFu
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = createCopy(originalCertificate)
+    const certificateClone = createCopy(originalCertificate, false)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.id,
@@ -782,6 +773,17 @@ function createResponse(certificate: Certificate): Certificate {
             type: ResourceLinkType.RENEW_CERTIFICATE,
             name: 'Förnya',
             description: 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
+            body:
+              'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget.<br><br>' +
+              'Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
+              'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+              '<ul>' +
+              '<li>Sjukskrivningsperiod och grad.</li>' +
+              '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
+              '<li>Referenser som intyget baseras på.</li>' +
+              '</ul>' +
+              '<br>Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
+              'Det nya utkastet skapas på den enhet du är inloggad på.',
             enabled: true,
           })
         }
@@ -817,43 +819,62 @@ function createResponse(certificate: Certificate): Certificate {
   return certificateClone
 }
 
-function createCopy(sourceCertificate: Certificate): Certificate {
+function isParentVisible(certificate: Certificate, id: string) {
+  if (certificate.data[id].parent) {
+    return certificate.data[certificate.data[id].parent].visible
+  } else return true
+}
+
+function createCopy(sourceCertificate: Certificate, isRenewal: boolean): Certificate {
   const certificateClone = _.cloneDeep(sourceCertificate)
   certificateClone.metadata.id = uuidv4()
   certificateClone.metadata.status = CertificateStatus.UNSIGNED
 
   if (sourceCertificate.metadata.type === 'lisjp') {
-    const hasContactWithFK = certificateClone.data['26'].value as ValueBoolean
-    certificateClone.data['26.2'].visible = hasContactWithFK.selected ? hasContactWithFK.selected : false
-    const hasAtgarder = certificateClone.data['40'].value as ValueCodeList
-    certificateClone.data['44'].visible = hasAtgarder.list.length > 0
-    certificateClone.data['32.1'].visible = (certificateClone.data['32'].value as ValueDateRangeList).list.some(
-      (date) => (new Date().getTime() - new Date(date.from).getTime()) / (1000 * 60 * 60 * 24) < -7
-    )
-    certificateClone.data['33'].visible = !(certificateClone.data['32'].value as ValueDateRangeList).list.some(
-      (date) => date.id === 'HELT_NEDSATT'
-    )
-    const hasBedomning = certificateClone.data['33'].value as ValueBoolean
-    certificateClone.data['33.2'].visible = hasBedomning.selected === true && certificateClone.data['33'].visible
-    certificateClone.data['29'].visible = (certificateClone.data['28'].value as ValueCodeList).list.some(
-      (date) => date.id === 'NUVARANDE_ARBETE'
-    )
-    certificateClone.data['1.2'].visible = (certificateClone.data['1'].value as ValueDateList).list.some(
-      (date) => date.id === 'annatGrundForMU'
-    )
-    certificateClone.data['1.1'].visible =
-      !(certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'undersokningAvPatienten') &&
-      (certificateClone.data['1'].value as ValueDateList).list.length > 0
-
     const hasSmittbararpenning = certificateClone.data['27'].value as ValueBoolean
     for (const questionId in certificateClone.data) {
       if (
         certificateClone.data[questionId].validation &&
         certificateClone.data[questionId].validation.some((v) => v.type === CertificateDataValidationType.HIDE_VALIDATION)
       ) {
-        certificateClone.data[questionId].visible = hasSmittbararpenning.selected ? !hasSmittbararpenning.selected : true
+        certificateClone.data[questionId].visible = !hasSmittbararpenning.selected
       }
     }
+
+    if (isRenewal) {
+      ;(certificateClone.data['26'].value as ValueBoolean).selected = null
+      ;(certificateClone.data['26.2'].value as ValueBoolean).selected = null
+      certificateClone.data['26.2'].visible = false
+      ;(certificateClone.data['32'].value as ValueDateRangeList).list = []
+      ;(certificateClone.data['32.1'].value as ValueText).text = ''
+      ;(certificateClone.data['32.2'].value as ValueBoolean).selected = null
+    }
+
+    const hasContactWithFK = certificateClone.data['26'].value as ValueBoolean
+    certificateClone.data['26.2'].visible =
+      hasContactWithFK.selected && isParentVisible(certificateClone, '26.2') ? hasContactWithFK.selected : false
+    const hasAtgarder = certificateClone.data['40'].value as ValueCodeList
+    certificateClone.data['44'].visible = hasAtgarder.list.length > 0 && isParentVisible(certificateClone, '44')
+    certificateClone.data['32.1'].visible =
+      (certificateClone.data['32'].value as ValueDateRangeList).list.some(
+        (date) => (new Date().getTime() - new Date(date.from).getTime()) / (1000 * 60 * 60 * 24) < -7
+      ) && isParentVisible(certificateClone, '32')
+    certificateClone.data['33'].visible =
+      !(certificateClone.data['32'].value as ValueDateRangeList).list.some((date) => date.id === 'HELT_NEDSATT') &&
+      (certificateClone.data['32'].value as ValueDateRangeList).list.length > 0
+    isParentVisible(certificateClone, '33')
+    const hasBedomning = certificateClone.data['33'].value as ValueBoolean
+    certificateClone.data['33.2'].visible = hasBedomning.selected === true && isParentVisible(certificateClone, '33.2')
+    certificateClone.data['29'].visible =
+      (certificateClone.data['28'].value as ValueCodeList).list.some((date) => date.id === 'NUVARANDE_ARBETE') &&
+      isParentVisible(certificateClone, '29')
+    certificateClone.data['1.2'].visible =
+      (certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'annatGrundForMU') &&
+      isParentVisible(certificateClone, '1.2')
+    certificateClone.data['1.1'].visible =
+      !(certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'undersokningAvPatienten') &&
+      (certificateClone.data['1'].value as ValueDateList).list.length > 0 &&
+      isParentVisible(certificateClone, '1.1')
   } else {
     const harFunktionsnedsattning = certificateClone.data['1.1'].value as ValueBoolean
     certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
