@@ -22,7 +22,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
   const certificateMetadata = useSelector(getCertificateMetaData)
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser)
-  const showModal = !user?.preferences?.dontShowFornyaDialog
+  const showModal = user?.preferences?.dontShowFornyaDialog !== 'true'
 
   if (!certificateMetadata) return null
 
@@ -45,7 +45,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
     if (showModal) {
       return (
         <ButtonWithConfirmModal
-          disabled={false}
+          disabled={!enabled}
           onConfirm={handleConfirm}
           modalTitle={'Förnya intyg'}
           confirmButtonText={'Förnya'}
