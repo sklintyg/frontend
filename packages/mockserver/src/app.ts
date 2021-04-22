@@ -825,29 +825,53 @@ function isParentVisible(certificate: Certificate, id: string) {
   } else return true
 }
 
+function handleSmittbararpenning(certificateClone: Certificate) {
+  const hasSmittbararpenning = certificateClone.data['27'].value as ValueBoolean
+  for (const questionId in certificateClone.data) {
+    if (
+      certificateClone.data[questionId].validation &&
+      certificateClone.data[questionId].validation.some((v) => v.type === CertificateDataValidationType.HIDE_VALIDATION)
+    ) {
+      certificateClone.data[questionId].visible = !hasSmittbararpenning.selected
+      if (hasSmittbararpenning.selected) {
+        switch (certificateClone.data[questionId].value?.type) {
+          case CertificateDataValueType.BOOLEAN:
+            ;(certificateClone.data[questionId].value as ValueBoolean).selected = null
+            break
+          case CertificateDataValueType.TEXT:
+            ;(certificateClone.data[questionId].value as ValueText).text = ''
+            break
+          case CertificateDataValueType.CODE:
+            ;(certificateClone.data[questionId].value as ValueCode).code = ''
+            ;(certificateClone.data[questionId].value as ValueCode).id = ''
+            break
+          case CertificateDataValueType.CODE_LIST:
+            ;(certificateClone.data[questionId].value as ValueCodeList).list = []
+            break
+        }
+      }
+    }
+  }
+}
+
 function createCopy(sourceCertificate: Certificate, isRenewal: boolean): Certificate {
   const certificateClone = _.cloneDeep(sourceCertificate)
   certificateClone.metadata.id = uuidv4()
   certificateClone.metadata.status = CertificateStatus.UNSIGNED
 
   if (sourceCertificate.metadata.type === 'lisjp') {
-    const hasSmittbararpenning = certificateClone.data['27'].value as ValueBoolean
-    for (const questionId in certificateClone.data) {
-      if (
-        certificateClone.data[questionId].validation &&
-        certificateClone.data[questionId].validation.some((v) => v.type === CertificateDataValidationType.HIDE_VALIDATION)
-      ) {
-        certificateClone.data[questionId].visible = !hasSmittbararpenning.selected
-      }
-    }
-
+    handleSmittbararpenning(certificateClone)
     if (isRenewal) {
+      ;(certificateClone.data['1'].value as ValueDateList).list = []
+      ;(certificateClone.data['1.1'].value as ValueText).text = ''
+      ;(certificateClone.data['1.2'].value as ValueText).text = ''
       ;(certificateClone.data['26'].value as ValueBoolean).selected = null
       ;(certificateClone.data['26.2'].value as ValueBoolean).selected = null
       certificateClone.data['26.2'].visible = false
       ;(certificateClone.data['32'].value as ValueDateRangeList).list = []
       ;(certificateClone.data['32.1'].value as ValueText).text = ''
-      ;(certificateClone.data['32.2'].value as ValueBoolean).selected = null
+      ;(certificateClone.data['33'].value as ValueBoolean).selected = null
+      ;(certificateClone.data['33.2'].value as ValueText).text = ''
     }
 
     const hasContactWithFK = certificateClone.data['26'].value as ValueBoolean
@@ -861,7 +885,8 @@ function createCopy(sourceCertificate: Certificate, isRenewal: boolean): Certifi
       ) && isParentVisible(certificateClone, '32')
     certificateClone.data['33'].visible =
       !(certificateClone.data['32'].value as ValueDateRangeList).list.some((date) => date.id === 'HELT_NEDSATT') &&
-      (certificateClone.data['32'].value as ValueDateRangeList).list.length > 0
+      (certificateClone.data['32'].value as ValueDateRangeList).list.length > 0 &&
+      !(certificateClone.data['27'].value as ValueBoolean).selected
     isParentVisible(certificateClone, '33')
     const hasBedomning = certificateClone.data['33'].value as ValueBoolean
     certificateClone.data['33.2'].visible = hasBedomning.selected === true && isParentVisible(certificateClone, '33.2')
