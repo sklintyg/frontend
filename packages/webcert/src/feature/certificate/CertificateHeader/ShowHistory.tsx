@@ -83,7 +83,11 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           )
         }
       case CertificateEventType.SENT:
-        return 'Intyget är skickat till Arbetsförmedlingen'
+        if (certificateMetadata.type === 'lisjp') {
+          return 'Intyget är skickat till Försäkringskassan'
+        } else {
+          return 'Intyget är skickat till Arbetsförmedlingen'
+        }
       case CertificateEventType.REVOKED:
         const hasParent = isHasParent(certificateMetadata)
         const parentRevoked = isParentRevoked(certificateMetadata)
