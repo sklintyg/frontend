@@ -74,6 +74,11 @@ import {
   validateCertificateSuccess,
   setDisabledCertificateDataChild,
   sendCertificate,
+  renewCertificateStarted,
+  renewCertificateSuccess,
+  renewCertificateError,
+  renewCertificateCompleted,
+  renewCertificate,
   unhideCertificateDataElement,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
@@ -368,6 +373,45 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
+const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!renewCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Förnyar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/renew',
+      method: 'POST',
+      data: {
+        certificateType: certificate.metadata.type,
+        patientId: certificate.metadata.patient.personId,
+      },
+      onStart: renewCertificateStarted.type,
+      onSuccess: renewCertificateSuccess.type,
+      onError: renewCertificateError.type,
+      onArgs: { history: action.payload },
+    })
+  )
+}
+
+const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!renewCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  dispatch(renewCertificateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
@@ -591,6 +635,8 @@ export const certificateMiddleware = [
   handlePrintCertificate,
   handleRevokeCertificate,
   handleRevokeCertificateSuccess,
+  handleRenewCertificate,
+  handleRenewCertificateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
   handleForwardCertificate,

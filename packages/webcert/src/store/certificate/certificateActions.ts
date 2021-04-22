@@ -58,6 +58,12 @@ const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
 const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
 const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
 
+const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
+const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
+const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
+const RENEW_CERTIFICATE_ERROR = `${CERTIFICATE} Renew certificate error`
+const RENEW_CERTIFICATE_COMPLETED = `${CERTIFICATE} Renew certificate completed`
+
 const COPY_CERTIFICATE = `${CERTIFICATE} Copy certificate`
 const COPY_CERTIFICATE_STARTED = `${CERTIFICATE} Copy certificate started`
 const COPY_CERTIFICATE_SUCCESS = `${CERTIFICATE} Copy certificate success`
@@ -199,6 +205,21 @@ export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>
 export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
+
+export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
+
+export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
+
+export interface RenewCertificateSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const renewCertificateSuccess = createAction<RenewCertificateSuccess>(RENEW_CERTIFICATE_SUCCESS)
+
+export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
+
+export const renewCertificateCompleted = createAction(RENEW_CERTIFICATE_COMPLETED)
 
 export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
 

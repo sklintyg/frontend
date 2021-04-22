@@ -2,6 +2,7 @@ export interface ResourceLink {
   type: ResourceLinkType
   name: string
   description: string
+  body?: string
   enabled: boolean
 }
 
@@ -25,5 +26,6 @@ export enum ResourceLinkType {
   PRINT_CERTIFICATE = 'PRINT_CERTIFICATE',
   COPY_CERTIFICATE = 'COPY_CERTIFICATE',
   CHOOSE_RECEIVERS = 'CHOOSE_RECEIVERS',
+  RENEW_CERTIFICATE = 'RENEW_CERTIFICATE',
   FMB = 'FMB',
 }
