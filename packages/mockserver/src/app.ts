@@ -28,6 +28,7 @@ import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
+import { ValueDate } from '@frontend/common/src'
 
 const app: Application = express()
 
@@ -986,6 +987,18 @@ function validate(certificate: Certificate): ValidationError[] {
               field: dataProp as string,
               type: 'EMPTY',
               text: 'Välj minst en diagnos.',
+            })
+          }
+          break
+        case CertificateDataValueType.DATE_LIST:
+          const dateListValue = question.value as ValueDateList
+          if ((dateListValue.list as ValueDate[]).length === 0) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj minst ett alternativ.',
             })
           }
           break

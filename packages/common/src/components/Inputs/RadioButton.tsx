@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+import styled from 'styled-components/macro'
 
 interface Props {
   label: string
@@ -15,6 +16,12 @@ interface Props {
 const RadioButton: React.FC<Props> = (props) => {
   const { label, name, id, onChange, value, checked, additionalStyles, hasValidationError } = props
 
+  const Label = styled.label`
+    &:before {
+      border: ${hasValidationError ? '1px solid #c12143 !important' : ''};
+    }
+  `
+
   return (
     <div>
       <input
@@ -27,7 +34,7 @@ const RadioButton: React.FC<Props> = (props) => {
         onChange={(e) => onChange(e)}
         checked={checked}
       />
-      <label htmlFor={id}>{label}</label>
+      <Label htmlFor={id}>{label}</Label>
     </div>
   )
 }

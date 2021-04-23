@@ -3,19 +3,19 @@ import { Dropdown, CertificateDataElement, ConfigUeDropdown, QuestionValidationT
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
-import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 interface Props {
-  hasValidationError?: boolean
   disabled?: boolean
   question: CertificateDataElement
 }
 
 const UeDropdown: React.FC<Props> = (props) => {
-  const { question, hasValidationError, disabled } = props
+  const { question, disabled } = props
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown
   const isShowValidationError = useSelector(getShowValidationErrors)
+  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const updatedValue = getUpdatedValue(question, event.currentTarget.value)
