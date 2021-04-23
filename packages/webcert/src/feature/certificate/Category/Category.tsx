@@ -15,7 +15,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
   return (
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
-        {category.config.description && <Accordion title={category.config.text} description={category.config.text}></Accordion>}
+        {category.config.description && <Accordion title={category.config.text} description={category.config.description}></Accordion>}
         {!category.config.description && <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>}
       </CategoryHeader>
     </Expandable>
