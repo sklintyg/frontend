@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import UvText from './UvText'
 import {
   ValueBoolean,
@@ -18,6 +18,7 @@ import {
   ValueCode,
   ValueCodeList,
 } from '@frontend/common'
+import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
 
 describe('UvText', () => {
   it('renders without crashing', () => {
@@ -64,6 +65,14 @@ describe('UvText', () => {
     const { getByText } = render(<UvText question={question} />)
     expect(getByText('Code 1')).toBeInTheDocument()
     expect(getByText('Code 2')).toBeInTheDocument()
+  })
+
+  it('displays several date values', () => {
+    const question = createQuestionWithMultipleDates()
+    const { getByText } = render(<UvText question={question} />)
+    expect(getByText('Datum 1')).toBeInTheDocument()
+    expect(getByText('Datum 2')).toBeInTheDocument()
+    expect(screen.queryByText('Datum 3')).toBeNull()
   })
 
   it('Verify snapshot', () => {
@@ -184,6 +193,54 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
         type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_3',
         label: 'Code 3',
+      },
+    ],
+  }
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithMultipleDates(): CertificateDataElement {
+  const value: ValueDateList = {
+    type: CertificateDataValueType.DATE_LIST,
+    list: [
+      {
+        type: CertificateDataValueType.DATE,
+        id: 'DATE_1',
+        date: '2020-02-02',
+      },
+      {
+        type: CertificateDataValueType.DATE,
+        id: 'DATE_2',
+        date: '2021-05-05',
+      },
+    ],
+  }
+  const config: ConfigUeCheckboxMultipleDate = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_1',
+        label: 'Datum 1',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_2',
+        label: 'Datum 2',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_3',
+        label: 'Datum 3',
       },
     ],
   }
