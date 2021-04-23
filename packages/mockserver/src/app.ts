@@ -200,14 +200,27 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
 
     certificateEventRepository[certificate.metadata.id].push(
       createEvent(certificate.metadata.id, CertificateEventType.SIGNED, null, null),
-      createEvent(certificate.metadata.id, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null),
-      createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null)
+      createEvent(certificate.metadata.id, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null)
     )
+
+    if (certificate.metadata.type === 'af00213') {
+      certificateEventRepository[certificate.metadata.id].push(createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null))
+    }
 
     res.json(createResponse(certificate))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
+})
+
+app.post('/api/certificate/:id/:type/send', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/${req.params.type}/send`)
+  const certificate = certificateRepository[req.params.id]
+  certificateEventRepository[certificate.metadata.id].push(createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null))
+  res
+    .json({ id: req.params.id })
+    .status(200)
+    .send()
 })
 
 app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: NextFunction) => {

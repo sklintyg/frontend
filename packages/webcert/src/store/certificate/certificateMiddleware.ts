@@ -80,6 +80,8 @@ import {
   renewCertificateCompleted,
   renewCertificate,
   unhideCertificateDataElement,
+  sendCertificateSuccess,
+  sendCertificateError,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
@@ -244,10 +246,20 @@ const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       url: '/api/certificate/' + certificate.metadata.id + '/' + certificate.metadata.type + '/send',
       method: 'POST',
       data: certificate,
-      //onSuccess: sendCertificateSuccess.type,
-      //onError: sendCertificateError.type,
+      onSuccess: sendCertificateSuccess.type,
+      onError: sendCertificateError.type,
     })
   )
+}
+
+const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(getCertificateEvents(action.payload.id))
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -644,4 +656,5 @@ export const certificateMiddleware = [
   handleCopyCertificate,
   handleCopyCertificateSuccess,
   handleSendCertificate,
+  handleSendCertificateSuccess,
 ]
