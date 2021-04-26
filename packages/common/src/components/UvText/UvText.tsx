@@ -22,8 +22,6 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
-  let displayText = 'Ej angivet'
-
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as ValueCode[]).find((item) => item.id === id)
     return '<li>' + item?.label + '</li>'
@@ -53,17 +51,21 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   }
 
   const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {
-    return value.list.map((element, index) => (
-      <>
-        <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{config.list.find((c) => c.id === element.id)?.label}</p>
-        <Root className={'iu-bg-secondary-light iu-radius-sm'}>
-          <div className={'iu-fs-200'}>{element.date}</div>
-        </Root>
-      </>
-    ))
+    return config.list.map((element, index) => {
+      const foundValue = value.list.find((v) => v.id === element.id)
+      return (
+        <>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
+          <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+            <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
+          </Root>
+        </>
+      )
+    })
   }
 
   const getUVText = () => {
+    let displayText = 'Ej angivet'
     if (question.value !== undefined && question.value !== null) {
       switch (question.value.type) {
         case CertificateDataValueType.BOOLEAN:
@@ -113,7 +115,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         case CertificateDataValueType.DATE_LIST:
           const dateListValue = question.value as ValueDateList
           const dateListConfig = question.config as ConfigUeCheckboxMultipleDate
-          if (dateListValue.list.length > 0 && question.visible) {
+          if (question.visible) {
             return getDateListDisplayValue(dateListValue, dateListConfig)
           }
           break
@@ -121,7 +123,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           displayText = 'Okänd datatyp'
           break
       }
-      if (displayText.length > 0) {
+      if (displayText && displayText.length > 0) {
         return (
           <Root className={'iu-bg-secondary-light iu-radius-sm'}>
             <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
