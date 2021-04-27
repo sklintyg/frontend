@@ -4,7 +4,7 @@ import { parse, addDays, differenceInCalendarDays, isEqual, isValid } from 'date
 import ReactDatePicker from 'react-datepicker'
 import colors from '../../../../components/styles/colors'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 import { CertificateDataElement, ConfigUeCheckboxDateRange, ValueDateRange, ValueDateRangeList } from '@frontend/common'
 import _ from 'lodash'
 import styled, { css } from 'styled-components/macro'
@@ -62,15 +62,17 @@ const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
 interface Props {
   label: string
-  questionId: string
-  question: CertificateDataElement
+  periodId: string
   fromDate: string | null
   toDate: string | null
+  updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
+  getPeriodStartingDateString: (periodId: string) => string
+  resetPeriod: (periodId: string) => void
 }
 
-const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDate, toDate }) => {
-  const dispatch = useDispatch()
-  const [dateChecked, setDateChecked] = useState((fromDate !== null && fromDate !== '') || (toDate !== null && toDate !== ''))
+const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDateString, resetPeriod }) => {
+  // const dispatch = useDispatch()
+  const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
   const [toDateString, setToDateString] = useState<string | null>(toDate)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
@@ -88,12 +90,13 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
   const previousFromDateString = usePrevious(fromDateString)
   const previousToDateString = usePrevious(toDateString)
 
-  const dispatchEditDraft = useRef(
-    _.debounce((fromDate: string | null, toDate: string | null, questionId: string) => {
-      const updatedQuestion = getUpdatedValue(fromDate, toDate, questionId)
-      dispatch(updateCertificateDataElement(updatedQuestion))
-    }, 1000)
-  ).current
+  // const sendUpdatedValue = useRef(
+  //   _.debounce((fromDate: string | null, toDate: string | null) => {
+  //     updateValue(periodId, fromDate, toDate)
+  //     // const updatedQuestion = getUpdatedValue(fromDate, toDate, questionId)
+  //     // dispatch(updateCertificateDataElement(updatedQuestion))
+  //   }, 250)
+  // ).current
 
   useEffect(() => {
     const updateCheckbox = () => {
@@ -106,35 +109,37 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
 
     if (previousFromDateString !== fromDateString || previousToDateString !== toDateString) {
       updateCheckbox()
-      dispatchEditDraft(fromDateString, toDateString, questionId)
+      updateValue(periodId, fromDateString, toDateString)
+      // sendUpdatedValue(fromDateString, toDateString)
+      // dispatchEditDraft(fromDateString, toDateString, questionId)
     }
-  }, [dispatchEditDraft, fromDateString, previousFromDateString, previousToDateString, questionId, toDateString])
+  }, [toDateString, fromDateString, previousFromDateString, previousToDateString])
 
-  if (!question) return null
+  // if (!question) return null
 
-  const getUpdatedValue = (fromDate: string | null, toDate: string | null, questionId: string) => {
-    const updatedQuestion: CertificateDataElement = { ...question }
+  // const getUpdatedValue = (fromDate: string | null, toDate: string | null, questionId: string) => {
+  //   const updatedQuestion: CertificateDataElement = { ...question }
 
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateRangeList) }
-    let updatedValueList = [...updatedQuestionValue.list]
+  //   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateRangeList) }
+  //   let updatedValueList = [...updatedQuestionValue.list]
 
-    const updatedValueIndex = updatedValueList.findIndex((val) => val.id === questionId)
+  //   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === questionId)
 
-    if (updatedValueIndex === -1) {
-      updatedValueList = [...updatedValueList, { from: fromDate, to: toDate, id: questionId } as ValueDateRange]
-    } else {
-      updatedValueList = updatedValueList.map((val) => {
-        if (val.id === questionId) {
-          return { ...val, from: fromDate, to: toDate, id: questionId } as ValueDateRange
-        }
-        return val
-      })
-    }
-    updatedQuestionValue.list = updatedValueList
-    updatedQuestion.value = updatedQuestionValue
+  //   if (updatedValueIndex === -1) {
+  //     updatedValueList = [...updatedValueList, { from: fromDate, to: toDate, id: questionId } as ValueDateRange]
+  //   } else {
+  //     updatedValueList = updatedValueList.map((val) => {
+  //       if (val.id === questionId) {
+  //         return { ...val, from: fromDate, to: toDate, id: questionId } as ValueDateRange
+  //       }
+  //       return val
+  //     })
+  //   }
+  //   updatedQuestionValue.list = updatedValueList
+  //   updatedQuestion.value = updatedQuestionValue
 
-    return updatedQuestion
-  }
+  //   return updatedQuestion
+  // }
 
   const handleFromTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -205,49 +210,21 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
     }
   }
 
+  // const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.checked) {
+  //     tomTextInputRef.current?.focus()
+  //     const fromDate = getPeriodStartingDateString(periodId)
+  //     setFromDateString(fromDate)
+  //   } else {
+  //     resetPeriod(periodId)
+  //   }
+  // }
+
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       tomTextInputRef.current?.focus()
-      const indexOfCurrentQuestion = (question.config.list as ConfigUeCheckboxDateRange[]).findIndex(
-        (cfg) => cfg.id.toLowerCase() === questionId.toLowerCase()
-      )
-      if (indexOfCurrentQuestion > 0) {
-        let maxDate: Date | undefined
-
-        for (let i = 0; i < indexOfCurrentQuestion; i++) {
-          const currPeriodId = (question.config.list as ConfigUeCheckboxDateRange[])[i].id
-          const currPeriodValue = (question.value as ValueDateRangeList).list.find(
-            (val) => val.id.toLowerCase() === currPeriodId.toLowerCase()
-          )
-
-          // const toDateString = (question.value as ValueDateRangeList).list[i]?.to
-          // console.log('i, (question.value as ValueDateRangeList).list[i]?.to', i, (question.value as ValueDateRangeList).list[i]?.to)
-          if (currPeriodValue?.to) {
-            maxDate = getValidDate(currPeriodValue.to)
-          }
-        }
-
-        if (maxDate) {
-          //Adding 1 day to put the next period one day after prior period
-          maxDate = addDays(maxDate, 1)
-          setFromDateString(formatDateToString(maxDate))
-        } else {
-          setFromDateString(formatDateToString(new Date()))
-        }
-
-        // const priorValueIndex = indexOfCurrentQuestion - 1
-        // const priorEndDateString = (question.value as ValueDateRangeList).list[priorValueIndex]?.to
-
-        // if (!!priorEndDateString) {
-        //   let fromDate = getValidDate(priorEndDateString)
-        //   if (fromDate) {
-        //     fromDate = addDays(fromDate, 1)
-        //     setFromDateString(formatDateToString(fromDate))
-        //   }
-        // }
-      } else {
-        setFromDateString(formatDateToString(new Date()))
-      }
+      const fromDate = getPeriodStartingDateString(periodId)
+      setFromDateString(fromDate)
     } else {
       reset()
     }
@@ -263,7 +240,7 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
     <>
       <DateRangeWrapper>
         <Checkbox
-          id={`${questionId}-checkbox`}
+          id={`${periodId}-checkbox`}
           hasValidationError={false}
           disabled={false}
           value={'test'}
@@ -273,27 +250,28 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
           label={label}
         />
         <DatesWrapper id="fromWrapper">
-          <label htmlFor={`from${questionId}`}>Fr.o.m</label>
+          <label htmlFor={`from${periodId}`}>Fr.o.m</label>
           <DatePickerCustom
-            id={`from${questionId}`}
-            textInputName={`from${questionId}`}
+            id={`from${periodId}`}
+            textInputName={`from${periodId}`}
             inputString={fromDateString}
             setDate={handleDatePickerSelectFrom}
             textInputOnChange={handleFromTextInputChange}
-            textInputDataTestId={`from${questionId}`}
+            textInputDataTestId={`from${periodId}`}
           />
         </DatesWrapper>
         <DatesWrapper>
-          <label htmlFor={`tom${questionId}`}>t.o.m</label>
+          <label htmlFor={`tom${periodId}`}>t.o.m</label>
           <DatePickerCustom
-            id={`tom${questionId}`}
-            textInputName={`tom${questionId}`}
+            id={`tom${periodId}`}
+            textInputName={`tom${periodId}`}
             textInputRef={tomTextInputRef}
             inputString={toDateString}
             setDate={handleDatePickerSelectTo}
             textInputOnChange={handleToTextInputChange}
             textInputOnBlur={handleToTextInputOnBlur}
-            TextInputOnKeyDown={handleToTextInputOnKeyDown}
+            textInputOnKeyDown={handleToTextInputOnKeyDown}
+            textInputDataTestId={`tom${periodId}`}
           />
         </DatesWrapper>
       </DateRangeWrapper>
