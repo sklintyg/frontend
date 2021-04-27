@@ -35,6 +35,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const values = (question.value as ValueDateList).list
   const [checked, setChecked] = React.useState(values.some((e: ValueDate) => e.id === id))
   const isShowValidationError = useSelector(getShowValidationErrors)
+  const isSingleCheckboxDate = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
   const [dateString, setDateString] = React.useState(date ? date : null)
 
   const handleChange = (checked: boolean, date: string) => {
@@ -72,7 +73,9 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         setDate={handleDateChange}
         inputString={dateString}
         disabled={disabled}></DatePickerCustom>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      {isShowValidationError && isSingleCheckboxDate && (
+        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+      )}
     </Wrapper>
   )
 }
