@@ -7,6 +7,7 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
+  formatDateToString,
   getValidDate,
 } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
@@ -61,7 +62,16 @@ const question: CertificateDataElement = {
 }
 
 const renderDefaultComponent = (fromDate = null, toDate = null) => {
-  render(<DateRangePicker question={question} label={LABEL} fromDate={fromDate} toDate={toDate} questionId={QUESTION_ID} />)
+  render(
+    <DateRangePicker
+      updateValue={() => {}}
+      getPeriodStartingDate={() => formatDateToString(new Date())}
+      label={LABEL}
+      fromDate={fromDate}
+      toDate={toDate}
+      periodId={QUESTION_ID}
+    />
+  )
 }
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')

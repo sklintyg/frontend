@@ -36,7 +36,7 @@ interface Props {
   inputString: string | null
   textInputOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   textInputOnBlur?: React.FocusEventHandler<HTMLInputElement>
-  TextInputOnKeyDown?: (event: React.KeyboardEvent) => void
+  textInputOnKeyDown?: (event: React.KeyboardEvent) => void
   id?: string
   textInputName?: string
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
@@ -54,7 +54,7 @@ const DatePickerCustom: React.FC<Props> = ({
   id,
   textInputOnBlur,
   textInputRef,
-  TextInputOnKeyDown,
+  textInputOnKeyDown,
   textInputName,
   textInputDataTestId,
 }) => {
@@ -89,7 +89,7 @@ const DatePickerCustom: React.FC<Props> = ({
         className="ic-textfield"
         onChange={textInputOnChange}
         onBlur={textInputOnBlur}
-        onKeyDown={TextInputOnKeyDown}
+        onKeyDown={textInputOnKeyDown}
         placeholder="åååå-mm-dd"
         value={inputString ? inputString : ''}
         ref={textInputRef}

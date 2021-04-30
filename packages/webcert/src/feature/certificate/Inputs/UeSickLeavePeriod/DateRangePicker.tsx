@@ -66,11 +66,10 @@ interface Props {
   fromDate: string | null
   toDate: string | null
   updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
-  getPeriodStartingDateString: (periodId: string) => string
-  resetPeriod: (periodId: string) => void
+  getPeriodStartingDate: (periodId: string) => string
 }
 
-const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDateString, resetPeriod }) => {
+const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDate }) => {
   // const dispatch = useDispatch()
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
@@ -213,7 +212,7 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   // const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   if (event.target.checked) {
   //     tomTextInputRef.current?.focus()
-  //     const fromDate = getPeriodStartingDateString(periodId)
+  //     const fromDate = getPeriodStartingDate(periodId)
   //     setFromDateString(fromDate)
   //   } else {
   //     resetPeriod(periodId)
@@ -223,7 +222,7 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       tomTextInputRef.current?.focus()
-      const fromDate = getPeriodStartingDateString(periodId)
+      const fromDate = getPeriodStartingDate(periodId)
       setFromDateString(fromDate)
     } else {
       reset()

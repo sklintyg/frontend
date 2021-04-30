@@ -11,7 +11,7 @@ import {
 } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
 import * as redux from 'react-redux'
-import { differenceInCalendarDays, isEqual } from 'date-fns'
+import { differenceInCalendarDays, isEqual, addDays } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const LABEL = '25 procent'
@@ -93,9 +93,9 @@ describe('x', () => {
     renderDefaultComponent()
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
-    await waitFor(() => {
-      expect((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value).toBeTruthy()
-    })
+    // await waitFor(() => {
+    expect((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value).toBeTruthy()
+    // })
 
     screen.getByLabelText(HALFTEN_LABEL).click()
     screen.getByLabelText(TRE_FJARDEDEL_LABEL).click()
@@ -109,5 +109,24 @@ describe('x', () => {
     expect(isEqual(expectedDate!, halfDate!)).toBeTruthy()
     expect(isEqual(expectedDate!, threeFourthsDate!)).toBeTruthy()
     expect(isEqual(expectedDate!, fullTimeDate!)).toBeTruthy()
+  })
+
+  it('Gets a correct starting date with one prior date period', async () => {
+    renderDefaultComponent()
+    // Enter first period, click second period checkbox and make sure its one day ahead
+
+    screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
+    expect((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value).toBeTruthy()
+
+    userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
+    screen.getByLabelText(HALFTEN_LABEL).click()
+    // expect((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value).toBeTruthy()
+
+    const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${EN_FJARDEDEL_ID}`) as HTMLInputElement).value)
+    console.log('endOfPriorPeriodDate', endOfPriorPeriodDate)
+    const actualDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
+    const expectedDate = addDays(endOfPriorPeriodDate!, 1)
+
+    expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
   })
 })
