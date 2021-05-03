@@ -126,7 +126,11 @@ export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
 
-export const getCertificateSuccess = createAction<Certificate>(GET_CERTIFICATE_SUCCESS)
+export interface GetCertificateSuccess {
+  certificate: Certificate
+}
+
+export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
 export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
 
@@ -160,7 +164,11 @@ export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
 
 export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
 
-export const forwardCertificateSuccess = createAction<Certificate>(FORWARD_CERTIFICATE_SUCCESS)
+export interface ForwardCertificateSuccess {
+  certificate: Certificate
+}
+
+export const forwardCertificateSuccess = createAction<ForwardCertificateSuccess>(FORWARD_CERTIFICATE_SUCCESS)
 
 export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
 
@@ -178,7 +186,11 @@ export const signCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export const signCertificateSuccess = createAction<Certificate>(SIGN_CERTIFICATE_SUCCESS)
+export interface SignCertificateSuccess {
+  certificate: Certificate
+}
+
+export const signCertificateSuccess = createAction<SignCertificateSuccess>(SIGN_CERTIFICATE_SUCCESS)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -193,7 +205,11 @@ export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CE
 
 export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
 
-export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFICATE_SUCCESS)
+export interface RevokeCertificateSuccess {
+  certificate: Certificate
+}
+
+export const revokeCertificateSuccess = createAction<RevokeCertificateSuccess>(REVOKE_CERTIFICATE_SUCCESS)
 
 export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 

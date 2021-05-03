@@ -69,6 +69,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
+        question.visible = question.visible === undefined ? true : question.visible
         if (question.config.type === ConfigTypes.CATEGORY) {
           continue
         }
