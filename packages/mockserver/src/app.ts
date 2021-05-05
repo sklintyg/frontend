@@ -691,9 +691,9 @@ app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, nex
     .send()
 })
 
-app.listen(9088, () => console.log('Server running'))
+app.listen(8020, () => console.log('Server running'))
 
-function createResponse(certificate: Certificate): Certificate {
+function createResponse(certificate: Certificate): { certificate: Certificate } {
   const certificateClone = _.cloneDeep(certificate)
 
   certificateClone.links = []
@@ -830,7 +830,7 @@ function createResponse(certificate: Certificate): Certificate {
     default:
   }
 
-  return certificateClone
+  return { certificate: certificateClone }
 }
 
 function isParentVisible(certificate: Certificate, id: string) {
