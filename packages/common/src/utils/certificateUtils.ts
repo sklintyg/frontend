@@ -1,5 +1,5 @@
 import { ResourceLink } from './../types/resourceLink'
-import { CertificateEvent, CertificateMetadata, CertificateStatus, Certificate } from '..'
+import { CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Certificate } from '..'
 import { ResourceLinkType } from '../types/resourceLink'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.SIGNED
@@ -12,7 +12,7 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   } = certificateMetadata
 
   if (children && children.length > 0) {
-    return true
+    return children.some((relation) => relation.type === CertificateRelationType.REPLACE)
   }
 
   return false
