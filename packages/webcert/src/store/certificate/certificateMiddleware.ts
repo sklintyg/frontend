@@ -87,7 +87,8 @@ import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave } from '@frontend/common'
 import { loginUser } from '../user/userActions'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataValidationType } from '@frontend/common/src'
+import { CertificateDataValidationType, getResourceLink, ResourceLinkType } from '@frontend/common'
+import { updateFMBPanelActive } from '../fmb/fmbActions'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -130,6 +131,9 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
     dispatch(validateCertificate(action.payload.certificate))
   }
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+
+  const fmbPanelActive = getResourceLink(action.payload.certificate.links, ResourceLinkType.FMB)
+  dispatch(updateFMBPanelActive(fmbPanelActive !== undefined))
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

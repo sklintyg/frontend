@@ -8,6 +8,7 @@ import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/u
 import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
+import { getFMBDiagnosisCodeInfo } from '../../../store/fmb/fmbActions'
 
 interface Props {
   question: CertificateDataElement
@@ -74,6 +75,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       setCode('')
       setDescription('')
     } else {
+      const value = question.value as ValueDiagnosisList
+      if (value.list.length > 0) {
+        loadFMB(value.list)
+      }
       isMounted.current = true
     }
   }, [selectedCodeSystem])
@@ -89,6 +94,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     if (codeChanged && !diagnosisSelected && !isCodeInputFocused) {
       setCode('')
     }
+    dispatch(resetDiagnosisTypeahead())
   }
 
   const updateTypeaheadResult = (searched: string, isCode: boolean) => {
@@ -159,6 +165,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return diagnosis.indexOf(DIAGNOSIS_DIVIDER) !== -1 ? diagnosis.split(DIAGNOSIS_DIVIDER)[1].substring(1) : diagnosis
   }
 
+  const loadFMB = (list: ValueDiagnosis[]) => {
+    if (list.length > 0) {
+      dispatch(getFMBDiagnosisCodeInfo(list.map((d) => d.code)))
+    }
+  }
+
   const onDiagnosisSelected = (value: string) => {
     const newCode = getCodeFromString(value)
     const newDesc = getDescriptionFromString(value)
@@ -166,7 +178,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    updateSavedDiagnosis(newCode, newDesc)
+    const updatedQuestion = updateSavedDiagnosis(newCode, newDesc)
+    const diagnosisList = updatedQuestion ? (updatedQuestion.value as ValueDiagnosisList).list : []
+    loadFMB(diagnosisList)
   }
 
   const updateSavedDiagnosis = (code: string, description: string) => {
@@ -178,7 +192,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       description: description,
     }
     const updatedValue = getUpdatedValue(question, diagnosisValue)
-    dispatch(updateCertificateDataElement(updatedValue))
+    if (updatedValue !== null) {
+      dispatch(updateCertificateDataElement(updatedValue))
+    }
+    return updatedValue
   }
 
   const getItemText = (item: string, searched: string | undefined) => {
@@ -233,14 +250,26 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   )
 }
 
-function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement {
+function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
+  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+
   const diagnosisIsEmpty =
     (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
     (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
 
-  const updatedQuestion: CertificateDataElement = { ...question }
-  const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  if (updatedValueList.length === 0 && diagnosisIsEmpty) return null
+
+  if (
+    (diagnosisIsEmpty && !updatedValueList.some((v) => v.id === valueDiagnosis.id)) ||
+    updatedValueList.some(
+      (v) => valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
+    )
+  ) {
+    return null
+  }
+
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
   if (updatedValueIndex === -1) {
     if (!diagnosisIsEmpty) {
@@ -253,6 +282,7 @@ function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: Value
       updatedValueList.splice(updatedValueIndex, 1)
     }
   }
+
   updatedQuestionValue.list = updatedValueList
   updatedQuestion.value = updatedQuestionValue
   return updatedQuestion

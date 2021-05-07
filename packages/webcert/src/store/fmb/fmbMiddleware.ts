@@ -8,24 +8,15 @@ import {
   getFMBDiagnosisCodeInfoSuccess,
   updateFMBDiagnosisCodeInfo,
   updateFMBDiagnosisCodeInfoList,
-  updateFMBPanelActive,
 } from '../fmb/fmbActions'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import {
-  CertificateDataValueType,
-  FMBDiagnosisCodeInfo,
-  getResourceLink,
-  ResourceLinkType,
-  Value,
-  ValueDiagnosisList,
-} from '@frontend/common'
+import { FMBDiagnosisCodeInfo } from '@frontend/common'
 
 const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
 
-  if (!getFMBDiagnosisCodeInfo.match(action)) {
+  if (!getState().ui.uiFMB.fmbPanelActive || !getFMBDiagnosisCodeInfo.match(action)) {
     return
   }
 
@@ -75,52 +66,4 @@ const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!updateCertificate.match(action)) {
-    return
-  }
-
-  const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)
-  dispatch(updateFMBPanelActive(fmbPanelActive !== undefined))
-
-  if (!fmbPanelActive) {
-    return
-  }
-
-  for (const questionId in action.payload.data) {
-    const question = action.payload.data[questionId]
-    getFMBDiagnosisCodes(question.value, dispatch)
-  }
-}
-
-const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
-  return (action: AnyAction): void => {
-    next(action)
-
-    if (!updateCertificateDataElement.match(action)) {
-      return
-    }
-
-    if (!getState().ui.uiFMB.fmbPanelActive) {
-      return
-    }
-
-    getFMBDiagnosisCodes(action.payload.value, dispatch)
-  }
-}
-
-function getFMBDiagnosisCodes(value: Value | null, dispatch: Dispatch): void {
-  if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    const valueDiagnosisList = value as ValueDiagnosisList
-    dispatch(getFMBDiagnosisCodeInfo(valueDiagnosisList.list.map((valueDiagnosis) => valueDiagnosis.code)))
-  }
-}
-
-export const fmbMiddleware = [
-  handleGetFMBDiagnosisCodeInfo,
-  handleGetFMBDiagnosisCodeInfoSuccess,
-  handleUpdateCertificate,
-  handleUpdateCertificateDataElement,
-]
+export const fmbMiddleware = [handleGetFMBDiagnosisCodeInfo, handleGetFMBDiagnosisCodeInfoSuccess]
