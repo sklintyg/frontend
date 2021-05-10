@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   CertificateDataElement,
@@ -60,6 +60,8 @@ const question: CertificateDataElement = {
   ],
   validationError: [],
 }
+
+const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
 const renderDefaultComponent = (fromDate = null, toDate = null) => {
   render(
@@ -177,5 +179,20 @@ describe('Date range picker', () => {
     differenceInDays = differenceInCalendarDays(toDate!, fromDate!)
 
     expect(differenceInDays).toBe(30)
+  })
+
+  it('shows invalid text validation error message', async () => {
+    renderDefaultComponent()
+
+    userEvent.type(screen.getByLabelText('Fr.o.m'), 'x{enter}')
+    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+    userEvent.clear(screen.getByLabelText('Fr.o.m'))
+    await waitForElementToBeRemoved(() => screen.queryByText(INVALID_DATE_MESSAGE))
+
+    userEvent.type(screen.getByLabelText('t.o.m'), 'x{enter}')
+    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+    userEvent.clear(screen.getByLabelText('t.o.m'))
+    // waitForElementToBeRemoved(screen.queryByText(INVALID_DATE_MESSAGE))
+    await waitForElementToBeRemoved(() => screen.queryByText(INVALID_DATE_MESSAGE))
   })
 })

@@ -51,8 +51,6 @@ const checkBoxStyles = css`
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-const _format = 'yyyy-MM-dd'
-const _parseformat = 'yyyyMMdd'
 
 const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
 const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
@@ -70,12 +68,12 @@ interface Props {
 }
 
 const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDate }) => {
-  // const dispatch = useDispatch()
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
   const [toDateString, setToDateString] = useState<string | null>(toDate)
+  const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
-
+  const [displayValidationError, setDisplayValidationError] = useState(false)
   function usePrevious(value: any) {
     const ref = React.useRef(value)
 
@@ -89,14 +87,6 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const previousFromDateString = usePrevious(fromDateString)
   const previousToDateString = usePrevious(toDateString)
 
-  // const sendUpdatedValue = useRef(
-  //   _.debounce((fromDate: string | null, toDate: string | null) => {
-  //     updateValue(periodId, fromDate, toDate)
-  //     // const updatedQuestion = getUpdatedValue(fromDate, toDate, questionId)
-  //     // dispatch(updateCertificateDataElement(updatedQuestion))
-  //   }, 250)
-  // ).current
-
   useEffect(() => {
     const updateCheckbox = () => {
       if (fromDateString || toDateString) {
@@ -109,36 +99,8 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
     if (previousFromDateString !== fromDateString || previousToDateString !== toDateString) {
       updateCheckbox()
       updateValue(periodId, fromDateString, toDateString)
-      // sendUpdatedValue(fromDateString, toDateString)
-      // dispatchEditDraft(fromDateString, toDateString, questionId)
     }
   }, [toDateString, fromDateString, previousFromDateString, previousToDateString])
-
-  // if (!question) return null
-
-  // const getUpdatedValue = (fromDate: string | null, toDate: string | null, questionId: string) => {
-  //   const updatedQuestion: CertificateDataElement = { ...question }
-
-  //   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateRangeList) }
-  //   let updatedValueList = [...updatedQuestionValue.list]
-
-  //   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === questionId)
-
-  //   if (updatedValueIndex === -1) {
-  //     updatedValueList = [...updatedValueList, { from: fromDate, to: toDate, id: questionId } as ValueDateRange]
-  //   } else {
-  //     updatedValueList = updatedValueList.map((val) => {
-  //       if (val.id === questionId) {
-  //         return { ...val, from: fromDate, to: toDate, id: questionId } as ValueDateRange
-  //       }
-  //       return val
-  //     })
-  //   }
-  //   updatedQuestionValue.list = updatedValueList
-  //   updatedQuestion.value = updatedQuestionValue
-
-  //   return updatedQuestion
-  // }
 
   const handleFromTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -158,7 +120,6 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
 
   const handleDatePickerSelectFrom = (date: Date) => {
     setFromDateString(formatDateToString(date))
-    // dispatchUpdate(fromDateString, formatDateToString(date), questionId)
   }
 
   const handleDatePickerSelectTo = (date: Date) => {
@@ -170,15 +131,72 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
     setToDateString(value)
   }
 
+  const handleFromTextInputOnBlur = () => {
+    const parsedToDate = getParsedToDateString(fromDateString, toDateString)
+    toggleShowValidationError(fromDateString, parsedToDate ?? toDateString)
+  }
+
   const handleToTextInputOnBlur = () => {
     formatToInputTextField()
+    const parsedToDate = getParsedToDateString(fromDateString, toDateString)
+    toggleShowValidationError(fromDateString, parsedToDate ?? toDateString)
+  }
+
+  const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key.toLowerCase() === 'enter') {
+      // toggleShowValidationError(fromDateString, toDateString)
+
+      fromTextInputRef.current?.blur()
+    }
   }
 
   const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === 'enter') {
-      formatToInputTextField()
+      // formatToInputTextField()
+      // toggleShowValidationError(fromDateString, toDateString)
+      // toggleShowValidationToDate(fromDateString!, toDateString!)
+
       tomTextInputRef.current?.blur()
     }
+  }
+
+  const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
+    // if(toDate){
+    //   parsedToDate = parseDayCodes(toDate)
+    // }
+
+    if (fromDate && fromDate.length > 0 && !isValid(getValidDate(fromDate!))) {
+      setDisplayValidationError(true)
+    } else if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
+      setDisplayValidationError(true)
+    } else {
+      setDisplayValidationError(false)
+    }
+  }
+
+  const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
+    if (!toDateString || !fromDateString || !getValidDate(fromDateString)) {
+      return
+    }
+    const fromDate = getValidDate(fromDateString)!
+
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateString))
+
+    if (inputMatchesRegex && fromDate) {
+      const numberOfDaysToAdd = parseDayCodes(toDateString)
+
+      if (numberOfDaysToAdd) {
+        //Befintliga webcert drar bort en dag i beräkningen
+        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
+        return formatDateToString(newDate)
+      }
+    } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
+      const newDate = getValidDate(toDateString)
+
+      if (newDate) {
+        return formatDateToString(newDate)
+      }
+    } else return null
   }
 
   const formatToInputTextField = () => {
@@ -197,27 +215,15 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
         //Befintliga webcert drar bort en dag i beräkningen
         const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
         setToDateString(formatDateToString(newDate))
-        // dispatchUpdate(fromDateString, formatDateToString(newDate), questionId)
       }
     } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
       const newDate = getValidDate(toDateString)
 
       if (newDate) {
         setToDateString(formatDateToString(newDate))
-        // dispatchUpdate(fromDateString, formatDateToString(newDate), questionId)
       }
     }
   }
-
-  // const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.checked) {
-  //     tomTextInputRef.current?.focus()
-  //     const fromDate = getPeriodStartingDate(periodId)
-  //     setFromDateString(fromDate)
-  //   } else {
-  //     resetPeriod(periodId)
-  //   }
-  // }
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -232,7 +238,13 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const reset = () => {
     setFromDateString(null)
     setToDateString(null)
-    // setDaysBetweenDates(null)
+    setDisplayValidationError(false)
+  }
+
+  const getIsDisplayValidationError = (dateString: string | null) => {
+    if (dateString && dateString.length > 0 && !getValidDate(dateString!)) return true
+
+    return false
   }
 
   return (
@@ -252,11 +264,15 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
           <label htmlFor={`from${periodId}`}>Fr.o.m</label>
           <DatePickerCustom
             id={`from${periodId}`}
+            textInputRef={fromTextInputRef}
+            textInputOnBlur={handleFromTextInputOnBlur}
+            textInputOnKeyDown={handleFromTextInputOnKeyDown}
             textInputName={`from${periodId}`}
             inputString={fromDateString}
             setDate={handleDatePickerSelectFrom}
             textInputOnChange={handleFromTextInputChange}
             textInputDataTestId={`from${periodId}`}
+            displayValidationError={displayValidationError && getIsDisplayValidationError(fromDateString)}
           />
         </DatesWrapper>
         <DatesWrapper>
@@ -271,21 +287,13 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
             textInputOnBlur={handleToTextInputOnBlur}
             textInputOnKeyDown={handleToTextInputOnKeyDown}
             textInputDataTestId={`tom${periodId}`}
+            displayValidationError={displayValidationError && getIsDisplayValidationError(toDateString)}
           />
         </DatesWrapper>
       </DateRangeWrapper>
-      {/* {daysBetweenDates && (
-        <DaysRangeWrapper>
-          <FontAwesomeIcon icon={faLightbulb} />
-          <p>Intyget motsvarar en period på {daysBetweenDates} dagar.</p>
-        </DaysRangeWrapper>
-      )} */}
+      {displayValidationError && <p>Ange datum i formatet åååå-mm-dd.</p>}
     </>
   )
 }
 
 export default DateRangePicker
-
-const parseDate = (dateString: string) => {
-  return parse(dateString, _parseformat, new Date())
-}

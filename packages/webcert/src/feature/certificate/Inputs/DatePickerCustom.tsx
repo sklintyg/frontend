@@ -5,30 +5,33 @@ import { format, parse } from 'date-fns'
 import styled from 'styled-components/macro'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
+import { displayPartsToString } from 'typescript'
 
 const Wrapper = styled.div`
   display: flex;
 `
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<inputProps>`
   padding: 8px !important;
   min-width: 0;
   box-shadow: none;
-  border: 1px solid rgba(0; 0; 0; 0.23);
-  border-left: 0;
+  border: ${(props) => (props.displayValidationError ? '1px solid #c12143 !important' : '1px solid rgba(0; 0; 0; 0.23)')};
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border-left: 0 !important;
 `
 
-// interface textInputProps {
-//   dataTestId?: string
-// }
+interface inputProps {
+  displayValidationError: boolean | undefined
+}
 
-const TextInput = styled.input`
+const TextInput = styled.input<inputProps>`
   padding: 0 0.5rem !important;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   max-width: 13ch;
+  border: ${(props) => (props.displayValidationError ? '1px solid #c12143 !important' : '')};
+  border-right: 0 !important;
 `
 
 interface Props {
@@ -41,6 +44,7 @@ interface Props {
   textInputName?: string
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
+  displayValidationError?: boolean
 }
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -57,6 +61,7 @@ const DatePickerCustom: React.FC<Props> = ({
   textInputOnKeyDown,
   textInputName,
   textInputDataTestId,
+  displayValidationError,
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -94,6 +99,7 @@ const DatePickerCustom: React.FC<Props> = ({
         value={inputString ? inputString : ''}
         ref={textInputRef}
         data-testid={textInputDataTestId}
+        displayValidationError={displayValidationError}
       />
       <DatePicker
         shouldCloseOnSelect={true}
@@ -102,7 +108,11 @@ const DatePickerCustom: React.FC<Props> = ({
         }}
         dateFormat={_format}
         customInput={
-          <StyledButton onClick={() => setOpen(true)} className="ic-button" onClickCapture={() => setOpen(true)}>
+          <StyledButton
+            displayValidationError={displayValidationError}
+            onClick={() => setOpen(true)}
+            className="ic-button"
+            onClickCapture={() => setOpen(true)}>
             <FontAwesomeIcon icon={faCalendarWeek} size="lg" />
           </StyledButton>
         }

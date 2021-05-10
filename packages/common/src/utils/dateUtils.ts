@@ -1,4 +1,6 @@
+import { ValueDateRange, ValueDateRangeList } from './../types/certificate'
 import { parse, format } from 'date-fns'
+import { ConfigUeCheckboxDateRange } from '..'
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -48,4 +50,23 @@ export const parseMonthCode = (input: string) => {
     }
   }
   return null
+}
+
+export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], valueList: ValueDateRange[], periodId: string) => {
+  const indexOfCurrentQuestion = configList.findIndex((cfg) => cfg.id.toLowerCase() === periodId.toLowerCase())
+
+  if (indexOfCurrentQuestion == 0) return null
+
+  let maxDate: Date | undefined
+
+  for (let i = 0; i < indexOfCurrentQuestion; i++) {
+    const currPeriodId = configList[i].id
+    const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId.toLowerCase())
+
+    if (currPeriodValue?.to) {
+      maxDate = getValidDate(currPeriodValue.to)
+    }
+  }
+
+  return maxDate
 }

@@ -93,9 +93,7 @@ describe('x', () => {
     renderDefaultComponent()
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
-    // await waitFor(() => {
     expect((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value).toBeTruthy()
-    // })
 
     screen.getByLabelText(HALFTEN_LABEL).click()
     screen.getByLabelText(TRE_FJARDEDEL_LABEL).click()
@@ -120,10 +118,8 @@ describe('x', () => {
 
     userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
-    // expect((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value).toBeTruthy()
 
     const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${EN_FJARDEDEL_ID}`) as HTMLInputElement).value)
-    console.log('endOfPriorPeriodDate', endOfPriorPeriodDate)
     const actualDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
     const expectedDate = addDays(endOfPriorPeriodDate!, 1)
 
