@@ -5,7 +5,13 @@ import ReactDatePicker from 'react-datepicker'
 import colors from '../../../../components/styles/colors'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 // import { useSelector, useDispatch } from 'react-redux'
-import { CertificateDataElement, ConfigUeCheckboxDateRange, ValueDateRange, ValueDateRangeList } from '@frontend/common'
+import {
+  CertificateDataElement,
+  ConfigUeCheckboxDateRange,
+  QuestionValidationTexts,
+  ValueDateRange,
+  ValueDateRangeList,
+} from '@frontend/common'
 import _ from 'lodash'
 import styled, { css } from 'styled-components/macro'
 import { Checkbox, getValidDate, formatDateToString, parseDayCodes } from '@frontend/common'
@@ -144,27 +150,17 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
 
   const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === 'enter') {
-      // toggleShowValidationError(fromDateString, toDateString)
-
       fromTextInputRef.current?.blur()
     }
   }
 
   const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === 'enter') {
-      // formatToInputTextField()
-      // toggleShowValidationError(fromDateString, toDateString)
-      // toggleShowValidationToDate(fromDateString!, toDateString!)
-
       tomTextInputRef.current?.blur()
     }
   }
 
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
-    // if(toDate){
-    //   parsedToDate = parseDayCodes(toDate)
-    // }
-
     if (fromDate && fromDate.length > 0 && !isValid(getValidDate(fromDate!))) {
       setDisplayValidationError(true)
     } else if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
@@ -291,7 +287,12 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
           />
         </DatesWrapper>
       </DateRangeWrapper>
-      {displayValidationError && <p>Ange datum i formatet åååå-mm-dd.</p>}
+      {displayValidationError && (
+        <QuestionValidationTexts
+          validationErrors={[
+            { text: 'Ange datum i formatet åååå-mm-dd.', id: periodId, category: '', field: '', type: '' },
+          ]}></QuestionValidationTexts>
+      )}
     </>
   )
 }
