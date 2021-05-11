@@ -184,15 +184,19 @@ describe('Date range picker', () => {
   it('shows invalid text validation error message', async () => {
     renderDefaultComponent()
 
-    userEvent.type(screen.getByLabelText('Fr.o.m'), 'x{enter}')
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    userEvent.clear(screen.getByLabelText('Fr.o.m'))
-    await waitForElementToBeRemoved(() => screen.queryByText(INVALID_DATE_MESSAGE))
+    const fromInput = screen.getByLabelText('Fr.o.m')
+    const tomInput = screen.getByLabelText('t.o.m')
 
-    userEvent.type(screen.getByLabelText('t.o.m'), 'x{enter}')
+    userEvent.type(fromInput, 'x{enter}')
     expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    userEvent.clear(screen.getByLabelText('t.o.m'))
-    // waitForElementToBeRemoved(screen.queryByText(INVALID_DATE_MESSAGE))
-    await waitForElementToBeRemoved(() => screen.queryByText(INVALID_DATE_MESSAGE))
+    userEvent.clear(fromInput)
+    fromInput.blur()
+    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+
+    userEvent.type(tomInput, 'x{enter}')
+    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+    userEvent.clear(tomInput)
+    tomInput.blur()
+    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
 })

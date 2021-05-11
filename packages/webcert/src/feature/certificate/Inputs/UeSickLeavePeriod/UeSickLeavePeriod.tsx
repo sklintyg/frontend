@@ -41,7 +41,7 @@ interface Props {
 }
 
 export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
-  // const [hours, setHours] = useState<number | null>(null)
+  const [hours, setHours] = useState<number | null>(null)
   // const [configList, setConfigList] = useState((question.config as ConfigUeSickLeavePeriod).list)
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
@@ -103,14 +103,14 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
 
   return (
     <div>
-      {/* <div>
+      <div>
         <DaysRangeWrapper>
           <FontAwesomeIcon icon={faLightbulb} className="iu-color-main" size="lg" />
           <p>Patienten arbetar i snitt</p>
-          <TextInput className="ic-textfield" type="text" value={hours?.toString()} maxLength={2} onChange={onTextInputChange} />
+          <TextInput className="ic-textfield" type="text" value={hours?.toString()} maxLength={2} />
           <p>timmar/vecka</p>
         </DaysRangeWrapper>
-      </div> */}
+      </div>
       <div>
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (

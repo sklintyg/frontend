@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import DatePickerCustom from '../DatePickerCustom'
-import { parse, addDays, differenceInCalendarDays, isEqual, isValid } from 'date-fns'
+import { parse, addDays, differenceInCalendarDays, isEqual, isValid, isBefore } from 'date-fns'
 import ReactDatePicker from 'react-datepicker'
 import colors from '../../../../components/styles/colors'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -9,10 +9,11 @@ import {
   CertificateDataElement,
   ConfigUeCheckboxDateRange,
   QuestionValidationTexts,
+  ValidationError,
   ValueDateRange,
   ValueDateRangeList,
 } from '@frontend/common'
-import _ from 'lodash'
+import _, { update } from 'lodash'
 import styled, { css } from 'styled-components/macro'
 import { Checkbox, getValidDate, formatDateToString, parseDayCodes } from '@frontend/common'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
@@ -64,6 +65,9 @@ const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
+const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
+const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
+
 interface Props {
   label: string
   periodId: string
@@ -73,13 +77,30 @@ interface Props {
   getPeriodStartingDate: (periodId: string) => string
 }
 
+interface Validation {
+  from: {
+    invalidFormat: boolean
+  }
+  to: {
+    invalidFormat: boolean
+  }
+  invalidDatePeriod: boolean
+  validationErrors: ValidationError[]
+}
+
 const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDate }) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
   const [toDateString, setToDateString] = useState<string | null>(toDate)
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
-  const [displayValidationError, setDisplayValidationError] = useState(false)
+  const [validations, setValidation] = useState<Validation>({
+    from: { invalidFormat: false },
+    to: { invalidFormat: false },
+    invalidDatePeriod: false,
+    validationErrors: [],
+  })
+
   function usePrevious(value: any) {
     const ref = React.useRef(value)
 
@@ -108,6 +129,12 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
     }
   }, [toDateString, fromDateString, previousFromDateString, previousToDateString])
 
+  useEffect(() => {
+    toggleShowValidationError(fromDate, toDate)
+  }, [])
+
+  // useEffect(() => {}, [validations.from.invalidFormat, validations.to.invalidFormat, validations.invalidDatePeriod])
+
   const handleFromTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     setFromDateString(value ?? null)
@@ -125,11 +152,17 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   }
 
   const handleDatePickerSelectFrom = (date: Date) => {
-    setFromDateString(formatDateToString(date))
+    const fromDateString = formatDateToString(date)
+    setFromDateString(fromDateString)
+    toggleShowValidationError(fromDateString, toDateString)
+    tomTextInputRef.current?.focus()
   }
 
   const handleDatePickerSelectTo = (date: Date) => {
-    setToDateString(formatDateToString(date))
+    const toDateString = formatDateToString(date)
+    setToDateString(toDateString)
+
+    toggleShowValidationError(fromDateString, toDateString)
   }
 
   const handleToTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,8 +171,7 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   }
 
   const handleFromTextInputOnBlur = () => {
-    const parsedToDate = getParsedToDateString(fromDateString, toDateString)
-    toggleShowValidationError(fromDateString, parsedToDate ?? toDateString)
+    toggleShowValidationError(fromDateString, toDateString)
   }
 
   const handleToTextInputOnBlur = () => {
@@ -151,6 +183,7 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === 'enter') {
       fromTextInputRef.current?.blur()
+      tomTextInputRef.current?.focus()
     }
   }
 
@@ -161,13 +194,57 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   }
 
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
+    const updatedValidationErrors = { ...validations }
+
     if (fromDate && fromDate.length > 0 && !isValid(getValidDate(fromDate!))) {
-      setDisplayValidationError(true)
-    } else if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
-      setDisplayValidationError(true)
+      updatedValidationErrors.from.invalidFormat = true
     } else {
-      setDisplayValidationError(false)
+      updatedValidationErrors.from.invalidFormat = false
     }
+
+    if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
+      updatedValidationErrors.to.invalidFormat = true
+    } else {
+      updatedValidationErrors.to.invalidFormat = false
+    }
+
+    if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
+      updatedValidationErrors.invalidDatePeriod = true
+    } else {
+      updatedValidationErrors.invalidDatePeriod = false
+    }
+
+    setValidation(updatedValidationErrors)
+    updateValidationMessages(updatedValidationErrors)
+  }
+
+  const updateValidationMessages = (validations: Validation) => {
+    let updatedValidationErrorList: ValidationError[] = []
+
+    if (!validations.from.invalidFormat && !validations.to.invalidFormat && !validations.invalidDatePeriod) {
+      resetValidation()
+      return
+    }
+
+    if (validations.from.invalidFormat || validations.to.invalidFormat) {
+      // if (!updatedValidationErrorList.some((val) => val.text === INVALID_DATE_FORMAT_ERROR)) {
+      updatedValidationErrorList = [
+        ...updatedValidationErrorList,
+        { category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' },
+      ]
+      // }
+    }
+
+    if (validations.invalidDatePeriod) {
+      // if (!updatedValidationErrorList.some((val) => val.text === INVALID_DATE_PERIOD_ERROR)) {
+      updatedValidationErrorList = [
+        ...updatedValidationErrorList,
+        { category: '', field: '', id: '', text: INVALID_DATE_PERIOD_ERROR, type: '' },
+      ]
+      // }
+    }
+
+    setValidation({ ...validations, validationErrors: updatedValidationErrorList })
   }
 
   const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
@@ -234,13 +311,11 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const reset = () => {
     setFromDateString(null)
     setToDateString(null)
-    setDisplayValidationError(false)
+    resetValidation()
   }
 
-  const getIsDisplayValidationError = (dateString: string | null) => {
-    if (dateString && dateString.length > 0 && !getValidDate(dateString!)) return true
-
-    return false
+  const resetValidation = () => {
+    setValidation({ from: { invalidFormat: false }, to: { invalidFormat: false }, invalidDatePeriod: false, validationErrors: [] })
   }
 
   return (
@@ -268,7 +343,7 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
             setDate={handleDatePickerSelectFrom}
             textInputOnChange={handleFromTextInputChange}
             textInputDataTestId={`from${periodId}`}
-            displayValidationError={displayValidationError && getIsDisplayValidationError(fromDateString)}
+            displayValidationError={validations.invalidDatePeriod || validations.from.invalidFormat}
           />
         </DatesWrapper>
         <DatesWrapper>
@@ -283,16 +358,11 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
             textInputOnBlur={handleToTextInputOnBlur}
             textInputOnKeyDown={handleToTextInputOnKeyDown}
             textInputDataTestId={`tom${periodId}`}
-            displayValidationError={displayValidationError && getIsDisplayValidationError(toDateString)}
+            displayValidationError={validations.invalidDatePeriod || validations.to.invalidFormat}
           />
         </DatesWrapper>
       </DateRangeWrapper>
-      {displayValidationError && (
-        <QuestionValidationTexts
-          validationErrors={[
-            { text: 'Ange datum i formatet åååå-mm-dd.', id: periodId, category: '', field: '', type: '' },
-          ]}></QuestionValidationTexts>
-      )}
+      {<QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
     </>
   )
 }
