@@ -7,17 +7,16 @@ import {
   CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
-  DateValidation,
-  MandatoryValidation,
-  ShowValidation,
+  CertificateStatus,
+  getValidDate,
+  MaxDateValidation,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRangeList,
   ValueDiagnosisList,
   ValueText,
-  ValueDateRangeList,
-  getValidDate,
 } from '..'
 
 export const parseExpression = (
@@ -38,7 +37,7 @@ export const parseExpression = (
       case CertificateDataValueType.BOOLEAN:
         const valueBoolean = element.value as ValueBoolean
         return type === CertificateDataValidationType.MANDATORY_VALIDATION
-          ? valueBoolean.selected !== null
+          ? valueBoolean.selected !== null && valueBoolean.selected !== undefined
             ? 1
             : 0
           : valueBoolean.selected
@@ -98,11 +97,12 @@ export interface ValidationResult {
   affectedIds?: string[]
 }
 
-const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string) => {
+const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string): boolean => {
   if (validation.expression === undefined || validation.expression === null) {
     if (CertificateDataValidationType.MAX_DATE_VALIDATION) {
-      return validateMaxDate(id, validation as DateValidation, data)
+      return validateMaxDate(id, validation as MaxDateValidation, data)
     }
+    return false
   } else {
     return parseExpression(validation.expression, data[validation.questionId], validation.type)
   }
@@ -115,15 +115,15 @@ const getExpression = (expression: string): string => {
   return expression
 }
 
-const validateMaxDate = (id: string, validation: DateValidation, data: CertificateData) => {
+const validateMaxDate = (id: string, validation: MaxDateValidation, data: CertificateData): boolean => {
   const value = data[id].value as ValueDateList
   if (value.list === undefined || value.list === null) {
-    return 1
+    return true
   }
   const index = value.list.findIndex((item) => item.id === validation.id)
   if (index !== -1) {
-    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? 0 : 1
-  } else return 1
+    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? false : true
+  } else return true
 }
 
 const differenceInDays = (a: Date, b: Date) => {
@@ -173,4 +173,36 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
   }
 
   return validationResults
+}
+
+export const decorateCertificateWithInitialValues = (certificate: Certificate): void => {
+  const data = certificate.data
+
+  for (const id in data) {
+    if (certificate.metadata.status !== CertificateStatus.UNSIGNED) {
+      data[id].readOnly = true
+      data[id].visible = true
+    } else {
+      validate(data, id)
+    }
+  }
+}
+
+function validate(data: CertificateData, id: string) {
+  const validations = data[id].validation || []
+
+  validations.forEach((validation) => {
+    const validationResult: ValidationResult = {
+      type: validation.type,
+      id,
+      affectedIds: validation.id as string[],
+      result: getResult(validation, data, id),
+    }
+
+    if (validationResult.type == CertificateDataValidationType.MANDATORY_VALIDATION) {
+      data[id].mandatory = !validationResult.result
+    } else if (validationResult.type == CertificateDataValidationType.SHOW_VALIDATION) {
+      data[id].visible = validationResult.result
+    }
+  })
 }

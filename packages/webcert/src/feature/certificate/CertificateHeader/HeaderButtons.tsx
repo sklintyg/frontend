@@ -9,6 +9,7 @@ import SendCertificateButton from '../Buttons/SendCertificateButton'
 import styled from 'styled-components'
 import { ResourceLinkChooseReceivers, ResourceLinkSend } from '@frontend/common'
 import ChooseReceiverButton from '../Buttons/ChooseReceiverButton'
+import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
@@ -35,6 +36,9 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks }) => {
       )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.PRINT_CERTIFICATE)) && (
         <PrintCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.PRINT_CERTIFICATE)} />
+      )}
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.RENEW_CERTIFICATE)) && (
+        <RenewCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.RENEW_CERTIFICATE)} />
       )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REPLACE_CERTIFICATE)) && (
         <ReplaceCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.REPLACE_CERTIFICATE)} />

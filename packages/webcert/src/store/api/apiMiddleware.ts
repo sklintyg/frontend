@@ -18,7 +18,7 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
 
   try {
     const response = await axios.request({
-      baseURL: 'http://localhost',
+      baseURL: 'https://wc2.localtest.me/',
       url,
       method,
       data,

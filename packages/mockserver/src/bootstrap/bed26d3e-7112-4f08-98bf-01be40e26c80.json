@@ -131,7 +131,7 @@
           "questionId": "1.1",
           "expression": "$harFunktionsnedsattning"
         }
-      ] 
+      ]
     },
     "2.1": {
       "id": "2.1",
@@ -180,7 +180,7 @@
         "type": "UE_TEXTAREA",
         "id": "aktivitetsbegransning"
       },
-     "value": {
+      "value": {
         "type": "TEXT",
         "id": "aktivitetsbegransning",
         "text": null

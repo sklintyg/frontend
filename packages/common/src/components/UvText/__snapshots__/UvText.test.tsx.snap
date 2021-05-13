@@ -2,7 +2,7 @@
 
 exports[`UvText Verify snapshot 1`] = `
 <div
-  className="sc-bdfBwQ coVxVu iu-bg-grey-300 iu-radius-sm"
+  className="sc-bdfBwQ coVxVu iu-bg-secondary-light iu-radius-sm"
 >
   <div
     className="iu-fs-200"

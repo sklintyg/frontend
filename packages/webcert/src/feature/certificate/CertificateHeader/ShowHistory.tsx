@@ -73,8 +73,21 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
           </>
         )
+      case CertificateEventType.RENEWAL_OF:
+        if (certificateMetadata.status === 'UNSIGNED') {
+          return (
+            <>
+              Utkastet är skapat för att förnya ett tidigare intyg.{' '}
+              <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        }
       case CertificateEventType.SENT:
-        return 'Intyget är skickat till Arbetsförmedlingen'
+        if (certificateMetadata.type === 'lisjp') {
+          return 'Intyget är skickat till Försäkringskassan'
+        } else {
+          return 'Intyget är skickat till Arbetsförmedlingen'
+        }
       case CertificateEventType.REVOKED:
         const hasParent = isHasParent(certificateMetadata)
         const parentRevoked = isParentRevoked(certificateMetadata)

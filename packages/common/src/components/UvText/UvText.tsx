@@ -3,7 +3,9 @@ import { ValueBoolean, ValueCodeList, ValueCode, CertificateDataElement, ValueTe
 import {
   CertificateDataConfig,
   CertificateDataValueType,
+  ConfigUeCheckboxMultipleDate,
   ConfigUeDiagnoses,
+  ValueDateList,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '../../types/certificate'
@@ -20,9 +22,6 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
-  let defaultStyling = true
-  let displayText = 'Ej angivet'
-
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as ValueCode[]).find((item) => item.id === id)
     return '<li>' + item?.label + '</li>'
@@ -51,56 +50,90 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     }
   }
 
-  if (question.value !== undefined && question.value !== null) {
-    switch (question.value.type) {
-      case CertificateDataValueType.BOOLEAN:
-        const booleanConfig = question.config
-        const booleanValue = question.value as ValueBoolean
-        if (booleanValue.selected !== null && question.visible) {
-          displayText = booleanValue.selected ? (booleanConfig.selectedText as string) : (booleanConfig.unselectedText as string)
-        }
-        break
-      case CertificateDataValueType.TEXT:
-        const textValue = question.value as ValueText
-        if (textValue.text != null && textValue.text.length > 0) {
-          displayText = textValue.text
-        }
-        break
-      case CertificateDataValueType.CODE_LIST:
-        const codeListValue = question.value as ValueCodeList
-        const codeListConfig = question.config
-        if (codeListValue.list.length > 0 && question.visible) {
-          displayText = ''
-          const texts = (codeListValue.list as ValueCode[]).map((value) => getCodeListText(value.id, codeListConfig))
-          texts.map((t) => (displayText += t))
-        }
-        break
-      case CertificateDataValueType.DIAGNOSIS_LIST:
-        const diagnosisListValue = question.value as ValueDiagnosisList
-        const diagnosisListConfig = question.config as ConfigUeDiagnoses
-        if (diagnosisListValue.list.length > 0 && question.visible) {
-          displayText = getDiagnosisListText(diagnosisListValue, diagnosisListConfig)
-        }
-        defaultStyling = false
-        break
-      case CertificateDataValueType.CODE:
-        const codeValue = question.value as ValueCode
-        const codeConfig = question.config
-        if (codeValue.id !== undefined && question.visible) {
-          displayText = (codeConfig.list as ValueCode[]).find((item) => item.id === codeValue.id)?.label as string
-        }
-        break
-      default:
-        displayText = 'Okänd datatyp'
-        break
+  const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {
+    return config.list.map((element, index) => {
+      const foundValue = value.list.find((v) => v.id === element.id)
+      return (
+        <>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
+          <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+            <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
+          </Root>
+        </>
+      )
+    })
+  }
+
+  const getUVText = () => {
+    let displayText = 'Ej angivet'
+    if (question.value !== undefined && question.value !== null) {
+      switch (question.value.type) {
+        case CertificateDataValueType.BOOLEAN:
+          const booleanConfig = question.config
+          const booleanValue = question.value as ValueBoolean
+          if (booleanValue.selected !== null && question.visible) {
+            displayText = booleanValue.selected ? (booleanConfig.selectedText as string) : (booleanConfig.unselectedText as string)
+          }
+          break
+        case CertificateDataValueType.TEXT:
+          const textValue = question.value as ValueText
+          if (textValue.text != null && textValue.text.length > 0) {
+            displayText = textValue.text
+          }
+          break
+        case CertificateDataValueType.CODE_LIST:
+          const codeListValue = question.value as ValueCodeList
+          const codeListConfig = question.config
+          if (codeListValue.list.length > 0 && question.visible) {
+            return (
+              <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+                {(codeListValue.list as ValueCode[]).map((value) => (
+                  <div dangerouslySetInnerHTML={{ __html: getCodeListText(value.id, codeListConfig) }}></div>
+                ))}
+              </Root>
+            )
+          }
+          break
+        case CertificateDataValueType.DIAGNOSIS_LIST:
+          const diagnosisListValue = question.value as ValueDiagnosisList
+          const diagnosisListConfig = question.config as ConfigUeDiagnoses
+          if (diagnosisListValue.list.length > 0 && question.visible) {
+            return (
+              <Root className={'iu-p-none'}>
+                <div dangerouslySetInnerHTML={{ __html: getDiagnosisListText(diagnosisListValue, diagnosisListConfig) }}></div>
+              </Root>
+            )
+          }
+          break
+        case CertificateDataValueType.CODE:
+          const codeValue = question.value as ValueCode
+          const codeConfig = question.config
+          if (codeValue.id !== undefined && question.visible) {
+            displayText = (codeConfig.list as ValueCode[]).find((item) => item.id === codeValue.id)?.label as string
+          }
+          break
+        case CertificateDataValueType.DATE_LIST:
+          const dateListValue = question.value as ValueDateList
+          const dateListConfig = question.config as ConfigUeCheckboxMultipleDate
+          if (question.visible) {
+            return getDateListDisplayValue(dateListValue, dateListConfig)
+          }
+          break
+        default:
+          displayText = 'Okänd datatyp'
+          break
+      }
+      if (displayText && displayText.length > 0) {
+        return (
+          <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+            <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
+          </Root>
+        )
+      }
     }
   }
 
-  return (
-    <Root className={`${defaultStyling ? 'iu-bg-secondary-light iu-radius-sm' : 'iu-p-none'}`}>
-      <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
-    </Root>
-  )
+  return <>{getUVText()}</>
 }
 
 export default UvText

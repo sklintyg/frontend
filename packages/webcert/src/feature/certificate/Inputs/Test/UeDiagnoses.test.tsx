@@ -45,13 +45,13 @@ const renderDefaultComponent = () => {
 }
 
 const checkVisibilityOfList = () => {
-  const listItems = screen.queryAllByRole('listitem')
+  const listItems = screen.queryAllByRole('option')
   const lists = screen.queryAllByRole('list')
   expect(lists).toHaveLength(1)
   expect(listItems).toHaveLength(DIAGNOSES.length)
 }
 
-const checkThatInputsAreEmpty = (indexToSkip: number, input: []) => {
+const checkThatInputsAreEmpty = (indexToSkip: number, input: HTMLElement[]) => {
   input.forEach((i: any) => {
     if (i > indexToSkip) {
       expect(i).toHaveValue('')
@@ -59,17 +59,17 @@ const checkThatInputsAreEmpty = (indexToSkip: number, input: []) => {
   })
 }
 
-describe('Diagnoses component', () => {
-  beforeAll(() => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useSelectorSpy.mockReturnValue({
-      diagnoser: DIAGNOSES,
-      resultat: 'OK',
-    })
-    useDispatchSpy.mockReturnValue(jest.fn())
+beforeEach(() => {
+  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useSelectorSpy.mockReturnValue({
+    diagnoser: DIAGNOSES,
+    resultat: 'OK',
   })
+  useDispatchSpy.mockReturnValue(jest.fn())
+})
 
+describe('Diagnoses component', () => {
   it('renders without crashing', () => {
     renderDefaultComponent()
   })
@@ -96,7 +96,7 @@ describe('Diagnoses component', () => {
     const input = screen.queryAllByRole('textbox')
     userEvent.click(input[1])
     userEvent.type(input[1], CODE_INPUT)
-    userEvent.click(screen.queryAllByRole('listitem')[0])
+    userEvent.click(screen.queryAllByRole('option')[0])
     expect(input[0]).toHaveValue(DIAGNOSES[0].kod)
     expect(input[1]).toHaveValue(DIAGNOSES[0].beskrivning)
     expect(radioButtons[0]).toBeChecked()
@@ -116,14 +116,14 @@ describe('Diagnoses component', () => {
     expect(input[0]).toHaveValue(CODE_INPUT)
     checkVisibilityOfList()
     checkThatInputsAreEmpty(0, input)
-    userEvent.click(screen.queryAllByRole('listitem')[1])
+    userEvent.click(screen.queryAllByRole('option')[1])
     expect(input[0]).toHaveValue(DIAGNOSES[1].kod)
     expect(input[1]).toHaveValue(DIAGNOSES[1].beskrivning)
     checkThatInputsAreEmpty(1, input)
     userEvent.click(input[5])
     userEvent.type(input[5], CODE_INPUT)
     checkVisibilityOfList()
-    userEvent.click(screen.queryAllByRole('listitem')[0])
+    userEvent.click(screen.queryAllByRole('option')[0])
     expect(input[4]).toHaveValue(DIAGNOSES[0].kod)
     expect(input[5]).toHaveValue(DIAGNOSES[0].beskrivning)
     expect(input[2]).toHaveValue('')
