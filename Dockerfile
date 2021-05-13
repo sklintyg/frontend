@@ -35,6 +35,15 @@ RUN yarn build
 # Make nginx image
 FROM nginx:1.18.0
 
-COPY --from=build-stage /app/packages/webcert/build/ /usr/share/nginx/html
+# Set working directory to nginx asset directory
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assets
+RUN rm -rf ./*
+
+COPY --from=build-stage /app/packages/webcert/build/ .
 
 COPY --from=build-stage /app/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Containers run nginx with global directives and daemon off
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

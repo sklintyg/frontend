@@ -3,13 +3,7 @@ version: "3.8"
 services:
 
   frontend:
-    image: webcert-frontend:latest
+    image: webcert/frontend:1.0
     container_name: webcert-frontend
     ports:
-      - "80:80"
-
-  backend:
-    image: mockserver:latest
-    container_name: webcert-backend
-    ports:
-      - "9088:9088"
+      - "3000:80"
