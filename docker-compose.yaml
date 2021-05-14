@@ -3,7 +3,11 @@ version: "3.8"
 services:
 
   frontend:
-    image: webcert/frontend:1.0
+    build:
+      dockerfile: Dockerfile.webcert
+    image: webcert/frontend:latest
+    pull_policy: always
+    restart: always
     container_name: webcert-frontend
     ports:
       - "3000:80"

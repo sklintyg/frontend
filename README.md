@@ -25,6 +25,29 @@ Run the mockserver (will be used until integrated with Webcert appserver). It cu
 
 To open a certificate use `http://localhost:<port>/certificate/<intygsid>` ex: `http://localhost:3000/certificate/bed26d3e-7112-4f08-98bf-01be40e26c80`. The mockserver will automatically create a certificate with passed id.
 
+## Running Webcert locally on Docker
+
+Pre-requisites: Setup the development environment (Follow instructions in 'develop' on https://github.com/sklintyg/devops)
+
+1. Start the development environment (Follow instructions in 'develop' on https://github.com/sklintyg/devops)
+    * docker-compose up -d (start as daemon)
+    * docker-compose up (will lock console and use it to print container logs)
+2. Start Webcert
+    * gradlew appRun
+3. Start Webcert-frontend
+    * docker-compose up -d (start as daemon)
+    * docker-compose up (will lock console and use it to print container logs)
+
+When doing step #3, docker will automatically build an image if it doesn't exist. If you already have an image and want to build a new one follow these steps:
+
+1. Take down the Webcert-frontend
+    * docker-compose down
+2. Rebuild Webcert-frontend
+    * docker-compose build
+3. Start Webcert-frontend
+    * docker-compose up -d (start as daemon)
+    * docker-compose up (will lock console and use it to print container logs)
+
 ## Running storybook
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common. 
