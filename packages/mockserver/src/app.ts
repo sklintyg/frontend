@@ -60,8 +60,8 @@ app.use(function(req, res, next) {
   next()
 })
 
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
