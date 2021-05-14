@@ -27,7 +27,7 @@ RUN yarn install
 # Copy the source
 COPY . .
 
-# Change to mockserver
+# Change to webcert
 WORKDIR /app/packages/webcert
 
 RUN yarn build
