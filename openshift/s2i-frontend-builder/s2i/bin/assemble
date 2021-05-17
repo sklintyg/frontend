@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd /tmp/src;
+yarn install;
+cd packages/webcert;
+yarn build;
+mv build/* /tmp/artifacts/build
+mv nginx/* /tmp/artifacts/nginx
