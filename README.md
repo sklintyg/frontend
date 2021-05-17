@@ -50,6 +50,18 @@ When doing step #3, docker will automatically build an image if it doesn't exist
     * docker-compose up (will lock console and use it to print container logs)
 4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.localtest.me/welcome
 
+## Deploy Webcert on OpenShift (devtest)
+
+This is a temporary way to deploy Webcert on OpenShift, until the deployment pipeline is ready.
+
+Pre-requisites: Need to have "make" installed. For Windows you can use the following instructions: https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows
+
+1. Open your terminal of choice and log in to OpenShift.
+2. Run `make`
+3. Done! 
+
+A Deployment has been created in tintyg for devtest. It will automatically deploy on image-changes. When running the make command, a new runtime image with Webcert-frontend will built and automatically deployed. 
+
 ## Running storybook
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common. 
