@@ -34,7 +34,7 @@ Pre-requisites: Setup the development environment (Follow instructions in 'devel
     * docker-compose up (will lock console and use it to print container logs)
 2. Start Webcert
     * gradlew appRun
-3. Start Webcert-frontend
+3. Start Webcert-frontend (This time using docker-compose.yaml in the frontend repo)
     * docker-compose up -d (start as daemon)
     * docker-compose up (will lock console and use it to print container logs)
 4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.localtest.me/welcome
