@@ -18,6 +18,9 @@ parameters:
   - name: BUILD_VERSION
     required: true
     value: "latest"
+  - name: E_UID
+    value: "1000310000"
+    required: true
   - name: BUILDER_IMAGE
     required: true
     value: "s2i-frontend-builder:latest"
