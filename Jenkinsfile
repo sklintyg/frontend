@@ -31,7 +31,7 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 script {
-                    git url: "https://github.com/sklintyg/frontend.git", branch: "master"
+                    git url: "https://github.com/sklintyg/frontend.git", branch: "feature/INTYGFV-13885"
                 }
             }
         }
