@@ -105,13 +105,13 @@ objects:
           RUN sed -i.bak 's/^user/#user/' /etc/nginx/nginx.conf
 
           EXPOSE 8080
-      images:
-          - from:
-              kind: ImageStreamTag
-              name: ${IS_APP_NAME}-${ARTIFACT_IMAGE_SUFFIX}:${BUILD_VERSION}
-            paths:
-              - sourcePath: /tmp/artifacts/.
-                destinationDir: "."
+        images:
+            - from:
+                kind: ImageStreamTag
+                name: ${IS_APP_NAME}-${ARTIFACT_IMAGE_SUFFIX}:${BUILD_VERSION}
+              paths:
+                - sourcePath: /tmp/artifacts/.
+                  destinationDir: "."
       strategy:
         dockerStrategy:
           from:
