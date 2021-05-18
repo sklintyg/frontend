@@ -18,23 +18,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import _ from 'lodash'
 import { isValid } from 'date-fns'
 import addDays from 'date-fns/addDays'
-
-const DaysRangeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 16px 0;
-
-  > * + * {
-    margin-left: 0.5rem;
-  }
-`
-
-const TextInput = styled.input`
-  max-width: 35px;
-  padding: 4px 4px;
-  height: 35px;
-  text-align: center;
-`
+import { DaysRangeWrapper, TextInput } from './Styles'
 
 interface Props {
   question: CertificateDataElement

@@ -18,43 +18,7 @@ import styled, { css } from 'styled-components/macro'
 import { Checkbox, getValidDate, formatDateToString, parseDayCodes } from '@frontend/common'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const DaysRangeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 16px;
-`
-
-const DatesWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  p {
-    margin-right: 8px;
-  }
-
-  label {
-    margin-right: 0.625em;
-  }
-`
-const DateRangeWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  & + & {
-    margin-top: 20px;
-  }
-
-  & #fromWrapper {
-    margin-right: 40px;
-  }
-`
-
-const checkBoxStyles = css`
-  margin-right: 40px;
-  min-width: 120px;
-`
+import { checkBoxStyles, DateRangeWrapper, DatesWrapper } from './Styles'
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
