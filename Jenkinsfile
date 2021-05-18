@@ -19,6 +19,10 @@ def eshell(cmd) {
     }
 }
 
+def log(msg) {
+    echo "${new Date().format('yyyy-MM-dd HH:mm:ss.SSS')} : ${msg}"
+}
+
 pipeline {
     agent any
 
@@ -102,7 +106,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             log "Build runtime image webcert-frontend"
-                            def build = openshift.selector("bc", "webcert-frontend-latest").startBuild()
+                            def build = openshift.selector("bc", "webcert-frontend").startBuild()
                             sleep(time: 1, unit: 'SECONDS')
                             log "${build.name()} started"
                             timeout(45) {

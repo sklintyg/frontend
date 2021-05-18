@@ -1,8 +1,15 @@
 #!/bin/bash
 
+echo "cd /tmp/src";
 cd /tmp/src;
+echo "yarn install";
 yarn install;
+echo "cd packages/webcert";
 cd packages/webcert;
+echo "yarn build";
 yarn build;
-mv build/* /tmp/artifacts/build
-mv nginx/* /tmp/artifacts/nginx
+echo "mv build/* /tmp/artifacts/build";
+mv build/* /tmp/artifacts/build;
+echo "mv nginx/* /tmp/artifacts/nginx";
+mv nginx/* /tmp/artifacts/nginx;
+echo "DONE!";
