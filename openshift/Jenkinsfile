@@ -1,7 +1,7 @@
 #!groovy
 
 def artifactFolder = "target"
-def applicationZip = "${artifactFolder}/${appReleaseName}-${BUILD_NUMBER}.tar.gz"
+def applicationZip = "${artifactFolder}/webcert-frontend-latest.tar.gz"
 
 // run shell command, return status code
 def shell(cmd) {
@@ -25,10 +25,6 @@ def log(msg) {
 
 pipeline {
     agent any
-
-    environment {
-
-    }
 
     stages {
 
