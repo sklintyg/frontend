@@ -117,7 +117,7 @@ const getExpression = (expression: string): string => {
 
 const validateMaxDate = (id: string, validation: MaxDateValidation, data: CertificateData): boolean => {
   const value = data[id].value as ValueDateList
-  if (value.list === undefined || value.list === null) {
+  if (value === null || value.list === undefined || value.list === null) {
     return true
   }
   const index = value.list.findIndex((item) => item.id === validation.id)

@@ -170,6 +170,7 @@ const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
 
   const handleClose = () => {
     setCursor(-1)
+    setHovered(-1)
     onClose()
   }
 
