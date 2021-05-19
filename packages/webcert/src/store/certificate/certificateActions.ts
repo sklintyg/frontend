@@ -39,6 +39,8 @@ const FORWARD_CERTIFICATE_ERROR = `${CERTIFICATE} Forward certificate error`
 const FORWARD_CERTIFICATE_COMPLETED = `${CERTIFICATE} Forward certificate completed`
 
 const SEND_CERTIFICATE = `${CERTIFICATE} Send certificate`
+const SEND_CERTIFICATE_SUCCESS = `${CERTIFICATE} Send certificate success`
+const SEND_CERTIFICATE_ERROR = `${CERTIFICATE} Send certificate error`
 
 const SIGN_CERTIFICATE = `${CERTIFICATE} Sign certificate`
 const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
@@ -57,6 +59,12 @@ const REPLACE_CERTIFICATE_STARTED = `${CERTIFICATE} Replace certificate started`
 const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
 const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
 const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
+
+const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
+const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
+const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
+const RENEW_CERTIFICATE_ERROR = `${CERTIFICATE} Renew certificate error`
+const RENEW_CERTIFICATE_COMPLETED = `${CERTIFICATE} Renew certificate completed`
 
 const COPY_CERTIFICATE = `${CERTIFICATE} Copy certificate`
 const COPY_CERTIFICATE_STARTED = `${CERTIFICATE} Copy certificate started`
@@ -95,6 +103,7 @@ const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
+const UNHIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unhide data element`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Show mandatory on data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY = `${CERTIFICATE} Hide mandatory on data element`
@@ -117,7 +126,11 @@ export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
 
-export const getCertificateSuccess = createAction<Certificate>(GET_CERTIFICATE_SUCCESS)
+export interface GetCertificateSuccess {
+  certificate: Certificate
+}
+
+export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
 export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
 
@@ -151,19 +164,33 @@ export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
 
 export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
 
-export const forwardCertificateSuccess = createAction<Certificate>(FORWARD_CERTIFICATE_SUCCESS)
+export interface ForwardCertificateSuccess {
+  certificate: Certificate
+}
+
+export const forwardCertificateSuccess = createAction<ForwardCertificateSuccess>(FORWARD_CERTIFICATE_SUCCESS)
 
 export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
 
 export const forwardCertificateCompleted = createAction(FORWARD_CERTIFICATE_COMPLETED)
 
 export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
+export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_CERTIFICATE_SUCCESS)
+export const sendCertificateError = createAction<string>(SEND_CERTIFICATE_ERROR)
+
+export interface SendCertificateSuccess {
+  id: string
+}
 
 export const signCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export const signCertificateSuccess = createAction<Certificate>(SIGN_CERTIFICATE_SUCCESS)
+export interface SignCertificateSuccess {
+  certificate: Certificate
+}
+
+export const signCertificateSuccess = createAction<SignCertificateSuccess>(SIGN_CERTIFICATE_SUCCESS)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -178,7 +205,11 @@ export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CE
 
 export const revokeCertificateStarted = createAction(REVOKE_CERTIFICATE_STARTED)
 
-export const revokeCertificateSuccess = createAction<Certificate>(REVOKE_CERTIFICATE_SUCCESS)
+export interface RevokeCertificateSuccess {
+  certificate: Certificate
+}
+
+export const revokeCertificateSuccess = createAction<RevokeCertificateSuccess>(REVOKE_CERTIFICATE_SUCCESS)
 
 export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ERROR)
 
@@ -198,6 +229,21 @@ export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>
 export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
+
+export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
+
+export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
+
+export interface RenewCertificateSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const renewCertificateSuccess = createAction<RenewCertificateSuccess>(RENEW_CERTIFICATE_SUCCESS)
+
+export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
+
+export const renewCertificateCompleted = createAction(RENEW_CERTIFICATE_COMPLETED)
 
 export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
 
@@ -262,6 +308,8 @@ export const updateCertificateVersion = createAction<number>(UPDATE_CERTIFICATE_
 export const showCertificateDataElement = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT)
 
 export const hideCertificateDataElement = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT)
+
+export const unhideCertificateDataElement = createAction<string>(UNHIDE_CERTIFICATE_DATA_ELEMENT)
 
 export const showCertificateDataElementMandatory = createAction<string>(SHOW_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 

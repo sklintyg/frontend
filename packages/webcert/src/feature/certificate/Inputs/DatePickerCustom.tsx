@@ -5,7 +5,6 @@ import { format, parse } from 'date-fns'
 import styled from 'styled-components/macro'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
-import { displayPartsToString } from 'typescript'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +34,7 @@ const TextInput = styled.input<inputProps>`
 `
 
 interface Props {
+  disabled?: boolean
   setDate: (date: Date) => void
   inputString: string | null
   textInputOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -62,6 +62,7 @@ const DatePickerCustom: React.FC<Props> = ({
   textInputName,
   textInputDataTestId,
   displayValidationError,
+  disabled
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -87,6 +88,7 @@ const DatePickerCustom: React.FC<Props> = ({
   return (
     <Wrapper>
       <TextInput
+        disabled={disabled}
         id={id}
         name={textInputName}
         type="text"
@@ -102,6 +104,7 @@ const DatePickerCustom: React.FC<Props> = ({
         displayValidationError={displayValidationError}
       />
       <DatePicker
+        disabled={disabled}
         shouldCloseOnSelect={true}
         onChange={() => {
           /*Empty*/

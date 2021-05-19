@@ -41,7 +41,7 @@ export const CertificateFooter: React.FC = () => {
     <Wrapper>
       {canSign && (
         <div className={'iu-flex'}>
-          <SignAndSendButton {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE), name: 'Signera och skicka' }} />
+          <SignAndSendButton {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }} />
         </div>
       )}
 

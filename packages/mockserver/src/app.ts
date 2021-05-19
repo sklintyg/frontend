@@ -1,30 +1,34 @@
-import type {} from 'styled-components/cssprop'
 import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/fk7804.json'
 import bootstrapUsers from './bootstrap/users.json'
 import {
   Certificate,
-  ValueBoolean,
-  CertificateStatus,
-  ValueText,
-  ValidationError,
+  CertificateDataValueType,
   CertificateEventType,
   CertificateRelation,
   CertificateRelationType,
+  CertificateStatus,
   FakeLogin,
-  User,
-  CertificateDataValueType,
-  ResourceLinkSend,
   ResourceLinkChooseReceivers,
-  ValueCode,
+  ResourceLinkSend,
   ResourceLinkType,
+  User,
+  ValidationError,
+  ValueBoolean,
+  ValueCode,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ValueText,
+  CertificateDataValidationType,
+  ValueCodeList,
+  ValueDateList,
+  ValueDateRangeList,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
 import _ from 'lodash'
 import { createEvent } from './util'
+import { ValueDate } from '@frontend/common/src'
 
 const app: Application = express()
 
@@ -56,12 +60,13 @@ app.use(function(req, res, next) {
   next()
 })
 
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 
 app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /api/certificate/${req.params.id}`)
   if (certificateRepository[req.params.id]) {
+    setValidation(certificateRepository[req.params.id])
     res.json(createResponse(certificateRepository[req.params.id]))
   } else if (req.params.id) {
     const certificateClone = (_.cloneDeep(bootstrapCertificate) as unknown) as Certificate
@@ -71,12 +76,34 @@ app.get('/api/certificate/:id', (req: Request, res: Response, next: NextFunction
     const certificateEvent = createEvent(certificateClone.metadata.id, CertificateEventType.CREATED, null, null)
 
     certificateEventRepository[req.params.id] = Array.of(certificateEvent)
-
+    setValidation(certificateRepository[req.params.id])
     res.json(createResponse(certificateClone))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
 })
+
+const setValidation = (certificate: Certificate) => {
+  const validationTypes = [CertificateDataValidationType.HIDE_VALIDATION]
+  for (const id in certificate.data) {
+    if (certificate.data[id].validation && certificate.data[id].validation.some((v) => validationTypes.some((type) => type === v.type))) {
+      setValidationForChildren(id, validationTypes, certificate)
+    }
+  }
+}
+
+const setValidationForChildren = (parent: string, validationTypes: string[], certificate: Certificate) => {
+  for (const id in certificate.data) {
+    if (certificate.data[id].parent === parent) {
+      certificate.data[parent].validation.forEach((v) => {
+        if (validationTypes.some((type) => type === v.type)) {
+          certificate.data[id].validation.push(v)
+          setValidationForChildren(id, validationTypes, certificate)
+        }
+      })
+    }
+  }
+}
 
 app.get('/moduleapi/intyg/:type/:id/pdf', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} GET /moduleapi/intyg/${req.params.type}/${req.params.id}/pdf`)
@@ -174,14 +201,27 @@ app.post('/api/certificate/:id/sign', (req: Request, res: Response, next: NextFu
 
     certificateEventRepository[certificate.metadata.id].push(
       createEvent(certificate.metadata.id, CertificateEventType.SIGNED, null, null),
-      createEvent(certificate.metadata.id, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null),
-      createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null)
+      createEvent(certificate.metadata.id, CertificateEventType.AVAILABLE_FOR_PATIENT, null, null)
     )
+
+    if (certificate.metadata.type === 'af00213') {
+      certificateEventRepository[certificate.metadata.id].push(createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null))
+    }
 
     res.json(createResponse(certificate))
   } else {
     res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
   }
+})
+
+app.post('/api/certificate/:id/:type/send', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/${req.params.type}/send`)
+  const certificate = certificateRepository[req.params.id]
+  certificateEventRepository[certificate.metadata.id].push(createEvent(certificate.metadata.id, CertificateEventType.SENT, null, null))
+  res
+    .json({ id: req.params.id })
+    .status(200)
+    .send()
 })
 
 app.post('/api/certificate/:id/revoke', (req: Request, res: Response, next: NextFunction) => {
@@ -235,7 +275,7 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = createCopy(originalCertificate)
+    const certificateClone = createCopy(originalCertificate, false)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.id,
@@ -290,12 +330,63 @@ app.post('/api/certificate/:id/replace', (req: Request, res: Response, next: Nex
   }
 })
 
+app.post('/api/certificate/:id/renew', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/renew`)
+  if (certificateRepository[req.params.id]) {
+    const originalCertificate = certificateRepository[req.params.id]
+
+    const certificateClone = createCopy(originalCertificate, true)
+
+    const childRelation: CertificateRelation = {
+      certificateId: certificateClone.metadata.id,
+      type: CertificateRelationType.RENEW,
+      status: certificateClone.metadata.status,
+      created: new Date().toLocaleString(),
+    }
+
+    if (originalCertificate.metadata.relations) {
+      originalCertificate.metadata.relations = {
+        parent: null,
+        children: [],
+      }
+    }
+
+    originalCertificate.metadata.relations.children.push(childRelation)
+
+    const parentRelation: CertificateRelation = {
+      certificateId: originalCertificate.metadata.id,
+      type: CertificateRelationType.RENEW,
+      status: originalCertificate.metadata.status,
+      created: new Date().toLocaleString(),
+    }
+
+    certificateClone.metadata.relations = {
+      parent: parentRelation,
+      children: [],
+    }
+
+    const certificateEvent = createEvent(
+      certificateClone.metadata.id,
+      CertificateEventType.RENEWAL_OF,
+      originalCertificate.metadata.id,
+      originalCertificate.metadata.status
+    )
+
+    certificateEventRepository[certificateClone.metadata.id] = Array.of(certificateEvent)
+
+    certificateRepository[certificateClone.metadata.id] = certificateClone
+    res.json({ certificateId: certificateClone.metadata.id }).send()
+  } else {
+    res.status(404).send(`Certificate with ${req.params.id} doesn't exist`)
+  }
+})
+
 app.post('/api/certificate/:id/copy', (req: Request, res: Response, next: NextFunction) => {
   console.log(`###################################### ${new Date()} POST /api/certificate/${req.params.id}/copy`)
   if (certificateRepository[req.params.id]) {
     const originalCertificate = certificateRepository[req.params.id]
 
-    const certificateClone = createCopy(originalCertificate)
+    const certificateClone = createCopy(originalCertificate, false)
 
     const childRelation: CertificateRelation = {
       certificateId: certificateClone.metadata.id,
@@ -600,9 +691,9 @@ app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, nex
     .send()
 })
 
-app.listen(9088, () => console.log('Server running'))
+app.listen(8020, () => console.log('Server running'))
 
-function createResponse(certificate: Certificate): Certificate {
+function createResponse(certificate: Certificate): { certificate: Certificate } {
   const certificateClone = _.cloneDeep(certificate)
 
   certificateClone.links = []
@@ -691,6 +782,25 @@ function createResponse(certificate: Certificate): Certificate {
           description: 'Ersätter intyget',
           enabled: true,
         })
+        if (certificate.metadata.type === 'lisjp') {
+          certificateClone.links.push({
+            type: ResourceLinkType.RENEW_CERTIFICATE,
+            name: 'Förnya',
+            description: 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
+            body:
+              'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget.<br><br>' +
+              'Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
+              'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+              '<ul>' +
+              '<li>Sjukskrivningsperiod och grad.</li>' +
+              '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
+              '<li>Referenser som intyget baseras på.</li>' +
+              '</ul>' +
+              '<br>Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
+              'Det nya utkastet skapas på den enhet du är inloggad på.',
+            enabled: true,
+          })
+        }
       }
       break
     case CertificateStatus.LOCKED:
@@ -720,24 +830,102 @@ function createResponse(certificate: Certificate): Certificate {
     default:
   }
 
-  return certificateClone
+  return { certificate: certificateClone }
 }
 
-function createCopy(sourceCertificate: Certificate): Certificate {
+function isParentVisible(certificate: Certificate, id: string) {
+  if (certificate.data[id].parent) {
+    return certificate.data[certificate.data[id].parent].visible
+  } else return true
+}
+
+function handleSmittbararpenning(certificateClone: Certificate) {
+  const hasSmittbararpenning = certificateClone.data['27'].value as ValueBoolean
+  for (const questionId in certificateClone.data) {
+    if (
+      certificateClone.data[questionId].validation &&
+      certificateClone.data[questionId].validation.some((v) => v.type === CertificateDataValidationType.HIDE_VALIDATION)
+    ) {
+      certificateClone.data[questionId].visible = !hasSmittbararpenning.selected
+      if (hasSmittbararpenning.selected) {
+        switch (certificateClone.data[questionId].value?.type) {
+          case CertificateDataValueType.BOOLEAN:
+            ;(certificateClone.data[questionId].value as ValueBoolean).selected = null
+            break
+          case CertificateDataValueType.TEXT:
+            ;(certificateClone.data[questionId].value as ValueText).text = ''
+            break
+          case CertificateDataValueType.CODE:
+            ;(certificateClone.data[questionId].value as ValueCode).code = ''
+            ;(certificateClone.data[questionId].value as ValueCode).id = ''
+            break
+          case CertificateDataValueType.CODE_LIST:
+            ;(certificateClone.data[questionId].value as ValueCodeList).list = []
+            break
+        }
+      }
+    }
+  }
+}
+
+function createCopy(sourceCertificate: Certificate, isRenewal: boolean): Certificate {
   const certificateClone = _.cloneDeep(sourceCertificate)
   certificateClone.metadata.id = uuidv4()
   certificateClone.metadata.status = CertificateStatus.UNSIGNED
 
-  const harFunktionsnedsattning = certificateClone.data['1.1'].value as ValueBoolean
-  certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-  certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-  certificateClone.data['2.1'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
-  const harAktivitetsbegransning = certificateClone.data['2.1'].value as ValueBoolean
-  certificateClone.data['2.2'].visible = harAktivitetsbegransning.selected ? harAktivitetsbegransning.selected : false
-  const harUtredningBehandling = certificateClone.data['3.1'].value as ValueBoolean
-  certificateClone.data['3.2'].visible = harUtredningBehandling.selected ? harUtredningBehandling.selected : false
-  const harArbetspaverkan = certificateClone.data['4.1'].value as ValueBoolean
-  certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
+  if (sourceCertificate.metadata.type === 'lisjp') {
+    handleSmittbararpenning(certificateClone)
+    if (isRenewal) {
+      ;(certificateClone.data['1'].value as ValueDateList).list = []
+      ;(certificateClone.data['1.1'].value as ValueText).text = ''
+      ;(certificateClone.data['1.2'].value as ValueText).text = ''
+      ;(certificateClone.data['26'].value as ValueBoolean).selected = null
+      ;(certificateClone.data['26.2'].value as ValueBoolean).selected = null
+      certificateClone.data['26.2'].visible = false
+      ;(certificateClone.data['32'].value as ValueDateRangeList).list = []
+      ;(certificateClone.data['32.1'].value as ValueText).text = ''
+      ;(certificateClone.data['33'].value as ValueBoolean).selected = null
+      ;(certificateClone.data['33.2'].value as ValueText).text = ''
+    }
+
+    const hasContactWithFK = certificateClone.data['26'].value as ValueBoolean
+    certificateClone.data['26.2'].visible =
+      hasContactWithFK.selected && isParentVisible(certificateClone, '26.2') ? hasContactWithFK.selected : false
+    const hasAtgarder = certificateClone.data['40'].value as ValueCodeList
+    certificateClone.data['44'].visible = hasAtgarder.list.length > 0 && isParentVisible(certificateClone, '44')
+    certificateClone.data['32.1'].visible =
+      (certificateClone.data['32'].value as ValueDateRangeList).list.some(
+        (date) => (new Date().getTime() - new Date(date.from).getTime()) / (1000 * 60 * 60 * 24) < -7
+      ) && isParentVisible(certificateClone, '32')
+    certificateClone.data['33'].visible =
+      !(certificateClone.data['32'].value as ValueDateRangeList).list.some((date) => date.id === 'HELT_NEDSATT') &&
+      (certificateClone.data['32'].value as ValueDateRangeList).list.length > 0 &&
+      !(certificateClone.data['27'].value as ValueBoolean).selected
+    isParentVisible(certificateClone, '33')
+    const hasBedomning = certificateClone.data['33'].value as ValueBoolean
+    certificateClone.data['33.2'].visible = hasBedomning.selected === true && isParentVisible(certificateClone, '33.2')
+    certificateClone.data['29'].visible =
+      (certificateClone.data['28'].value as ValueCodeList).list.some((date) => date.id === 'NUVARANDE_ARBETE') &&
+      isParentVisible(certificateClone, '29')
+    certificateClone.data['1.2'].visible =
+      (certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'annatGrundForMU') &&
+      isParentVisible(certificateClone, '1.2')
+    certificateClone.data['1.1'].visible =
+      !(certificateClone.data['1'].value as ValueDateList).list.some((date) => date.id === 'undersokningAvPatienten') &&
+      (certificateClone.data['1'].value as ValueDateList).list.length > 0 &&
+      isParentVisible(certificateClone, '1.1')
+  } else {
+    const harFunktionsnedsattning = certificateClone.data['1.1'].value as ValueBoolean
+    certificateClone.data['1.2'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+    certificateClone.data['aktivitetsbegransning'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+    certificateClone.data['2.1'].visible = harFunktionsnedsattning.selected ? harFunktionsnedsattning.selected : false
+    const harAktivitetsbegransning = certificateClone.data['2.1'].value as ValueBoolean
+    certificateClone.data['2.2'].visible = harAktivitetsbegransning.selected ? harAktivitetsbegransning.selected : false
+    const harUtredningBehandling = certificateClone.data['3.1'].value as ValueBoolean
+    certificateClone.data['3.2'].visible = harUtredningBehandling.selected ? harUtredningBehandling.selected : false
+    const harArbetspaverkan = certificateClone.data['4.1'].value as ValueBoolean
+    certificateClone.data['4.2'].visible = harArbetspaverkan.selected ? harArbetspaverkan.selected : false
+  }
 
   for (const questionId in certificateClone.data) {
     certificateClone.data[questionId].readOnly = false
@@ -812,6 +1000,18 @@ function validate(certificate: Certificate): ValidationError[] {
               field: dataProp as string,
               type: 'EMPTY',
               text: 'Välj minst en diagnos.',
+            })
+          }
+          break
+        case CertificateDataValueType.DATE_LIST:
+          const dateListValue = question.value as ValueDateList
+          if ((dateListValue.list as ValueDate[]).length === 0) {
+            validationError.push({
+              id: questionId,
+              category: getCategory(certificate, question.parent),
+              field: dataProp as string,
+              type: 'EMPTY',
+              text: 'Välj minst ett alternativ.',
             })
           }
           break

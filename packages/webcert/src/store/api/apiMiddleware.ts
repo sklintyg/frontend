@@ -18,7 +18,6 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
 
   try {
     const response = await axios.request({
-      baseURL: 'http://localhost:3000',
       url,
       method,
       data,

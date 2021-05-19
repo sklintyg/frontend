@@ -10,7 +10,6 @@
     "axios": "^0.20.0",
     "react-scroll": "^1.8.1"
   },
-  "proxy": "http://localhost:9088",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

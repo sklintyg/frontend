@@ -14,7 +14,7 @@ const TextWrapper = styled.div`
 `
 
 interface Props {
-  backgroundColor: 'iu-bg-grey-300' | 'iu-bg-sky-dark' | 'iu-bg-white'
+  backgroundColor: 'iu-bg-grey-300' | 'iu-bg-main' | 'iu-bg-white'
   textColor: 'iu-color-text' | 'iu-color-white' | 'iu-color-main'
 }
 

@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface Props {
   label?: string
@@ -30,24 +30,27 @@ const Checkbox: React.FC<Props> = (props) => {
     wrapperStyles,
   } = props
 
+  const Label = styled.label`
+    &:before {
+      border: ${hasValidationError ? '1px solid #c12143 !important' : ''};
+    }
+  `
+
   return (
     <div css={wrapperStyles}>
       <input
         type="checkbox"
         id={id}
-        className={`ic-forms__checkbox ${checkboxAdditionalStyles ? checkboxAdditionalStyles : ''} ${
-          hasValidationError ? 'iu-color-error' : ''
-        }`}
-        style={{ color: `${hasValidationError ? `` : ''}` }}
+        className={`ic-forms__checkbox ${checkboxAdditionalStyles ? checkboxAdditionalStyles : ''}`}
         name={name}
         value={value}
         onChange={onChange}
         checked={checked}
         disabled={disabled}
       />
-      <label htmlFor={id} style={{ display: `${vertical} ? block : 'unset'` }}>
+      <Label htmlFor={id} style={{ display: `${vertical} ? block : 'unset'` }}>
         {label}
-      </label>
+      </Label>
     </div>
   )
 }
