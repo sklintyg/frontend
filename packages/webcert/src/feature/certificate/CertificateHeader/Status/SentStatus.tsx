@@ -1,6 +1,5 @@
 import React from 'react'
-import { CertificateMetadata, isReplaced, isSigned, StatusWithIcon } from '@frontend/common'
-import { CertificateEvent, CertificateEventType } from '@frontend/common/src'
+import { CertificateMetadata, isReplaced, isSigned, StatusWithIcon, CertificateEvent, isSent } from '@frontend/common'
 
 interface Props {
   certificateMetadata: CertificateMetadata
@@ -8,8 +7,7 @@ interface Props {
 }
 
 const SentStatus: React.FC<Props> = ({ certificateMetadata, certificateEvents }) => {
-  const isSent = certificateEvents.some((e) => e.type === CertificateEventType.SENT)
-  if (!isSigned(certificateMetadata) || isReplaced(certificateMetadata) || !isSent) return null
+  if (!isSigned(certificateMetadata) || isReplaced(certificateMetadata) || !isSent(certificateEvents)) return null
 
   //TODO: Replace this with recipient from backend
   return (
