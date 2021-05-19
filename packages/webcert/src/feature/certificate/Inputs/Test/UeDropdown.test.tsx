@@ -84,6 +84,7 @@ describe('Dropdown component', () => {
     userEvent.selectOptions(dropdown, OPTIONS[1].id)
     expect(dropdown).toHaveValue(OPTIONS[1].id)
     expect(options[1].selected).toBeTruthy()
+    expect(options[0].selected).toBeFalsy()
   })
 
   it('gets disabled correctly', () => {
