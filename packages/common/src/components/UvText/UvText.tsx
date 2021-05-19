@@ -123,13 +123,13 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           displayText = 'Okänd datatyp'
           break
       }
-      if (displayText && displayText.length > 0) {
-        return (
-          <Root className={'iu-bg-secondary-light iu-radius-sm'}>
-            <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
-          </Root>
-        )
-      }
+    }
+    if (displayText && displayText.length > 0) {
+      return (
+        <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+          <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}></div>
+        </Root>
+      )
     }
   }
 

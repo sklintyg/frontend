@@ -5,9 +5,12 @@ import * as utils from '@frontend/common/src/utils/certificateUtils'
 import ReplacedStatus from './ReplacedStatus'
 import { CertificateMetadata, CertificateStatus } from '@frontend/common'
 import { BrowserRouter } from 'react-router-dom'
+import { CertificateRelationType } from '@frontend/common/src'
 
 const mockMetadata: CertificateMetadata = {
-  relations: { children: [{ certificateId: 'test' }] },
+  relations: {
+    children: [{ certificateId: 'test', created: '2000-01-01', status: CertificateStatus.SIGNED, type: CertificateRelationType.REPLACE }],
+  },
 }
 
 it('displays that the certificate is replaced by a signed certificate', () => {
