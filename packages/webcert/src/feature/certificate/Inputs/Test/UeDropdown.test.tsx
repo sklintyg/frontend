@@ -53,8 +53,9 @@ describe('Dropdown component', () => {
     renderComponent()
   })
 
-  it('renders all options', () => {
+  it('renders label and all options', () => {
     renderComponent()
+    expect(screen.queryByText(LABEL)).toBeInTheDocument()
     const dropdown = screen.getByRole('combobox')
     expect(dropdown).not.toBeDisabled()
     expect(dropdown).toBeInTheDocument()
