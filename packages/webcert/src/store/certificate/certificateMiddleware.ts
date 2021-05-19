@@ -568,7 +568,7 @@ const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     return
   }
 
-  const printUrl = `https://wc2.localtest.me/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
+  const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
   window.open(printUrl, '_self')
 }
 

@@ -60,6 +60,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "filtrex": "^2.1.0",
+    "http-proxy-middleware": "1.3.1",
     "inera-core-css": "git+https://bitbucket.org/ineraservices/inera-core-css.git#master",
     "jest-styled-components": "^7.0.3",
     "node-sass": "4",

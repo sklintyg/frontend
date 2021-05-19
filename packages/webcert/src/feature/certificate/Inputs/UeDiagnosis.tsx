@@ -89,6 +89,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     if (codeChanged && !diagnosisSelected && !isCodeInputFocused) {
       setCode('')
     }
+    dispatch(resetDiagnosisTypeahead())
   }
 
   const updateTypeaheadResult = (searched: string, isCode: boolean) => {
@@ -178,7 +179,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       description: description,
     }
     const updatedValue = getUpdatedValue(question, diagnosisValue)
-    dispatch(updateCertificateDataElement(updatedValue))
+    if (updatedValue !== null) {
+      dispatch(updateCertificateDataElement(updatedValue))
+    }
   }
 
   const getItemText = (item: string, searched: string | undefined) => {
@@ -233,14 +236,26 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   )
 }
 
-function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement {
+function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
+  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+
   const diagnosisIsEmpty =
     (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
     (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
 
-  const updatedQuestion: CertificateDataElement = { ...question }
-  const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  if (updatedValueList.length === 0 && diagnosisIsEmpty) return null
+
+  if (
+    (diagnosisIsEmpty && !updatedValueList.some((v) => v.id === valueDiagnosis.id)) ||
+    updatedValueList.some(
+      (v) => valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
+    )
+  ) {
+    return null
+  }
+
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
   if (updatedValueIndex === -1) {
     if (!diagnosisIsEmpty) {
@@ -253,6 +268,7 @@ function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: Value
       updatedValueList.splice(updatedValueIndex, 1)
     }
   }
+
   updatedQuestionValue.list = updatedValueList
   updatedQuestion.value = updatedQuestionValue
   return updatedQuestion
