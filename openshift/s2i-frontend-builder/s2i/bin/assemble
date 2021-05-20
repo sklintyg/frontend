@@ -12,6 +12,9 @@ cd packages/webcert;
 # Run the tests
 CI=true yarn test:ci;
 
+# Copy reports
+cp junit.xml /mnt/reports/webcert-frontend/latest
+
 # Make a production build (should use CI=true here and fail the build if there are lint-issues)
 #CI=true yarn build;
 yarn build;
@@ -21,3 +24,4 @@ mv build/* /tmp/artifacts/build;
 
 # Copy the nginx configuration
 mv nginx/* /tmp/artifacts/nginx;
+

@@ -83,6 +83,9 @@ pipeline {
                                     log "Build status: ${status}"
                                     return !["Running", "Pending", "New"].contains(status)
                                 }
+
+                                junit checksName: 'Jest Tests', testResults: '/var/lib/jenkins/reports/webcert-frontend/latest/junit.xml'
+
                                 log "Logs for artifact build"
                                 build.logs()
                                 if (status != "Complete") {
