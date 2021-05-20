@@ -72,10 +72,32 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
+                            // Setup callback webhook
+                            def hook = registerWebhook()
+
+                            openshift.withProject() {
+                                def models = openshift.process("-f", "openshift/buildtemplate-frontend.yaml",
+                                        "-p", "IS_APP_NAME=webcert-frontend",
+                                        "-p", "APP_NAME=webcert-frontend",
+                                        "-p", "STAGE=test",
+                                        "-p", "BUILD_VERSION=latest",
+                                        "-p", "ARTIFACT_IMAGE_SUFFIX=artifact",
+                                        "-p", "TEST_REPORT_CALLBACK_URL='${hook.getURL()}'")
+                                openshift.apply(models)
+                            }
+
                             log "Build artifact image webcert-frontend-artifact"
                             def build = openshift.selector("bc", "webcert-frontend-artifact").startBuild("--from-archive=${applicationZip}")
                             sleep(time: 1, unit: 'SECONDS')
                             log "${build.name()} started"
+
+                            timeout(30) {
+                                log "Waiting (max 30 min) for POST to ${hook.getURL()}"
+                                def data = waitForWebhook(hook)
+
+                                junit checksName: 'Jest Tests', testResults: data
+                            }
+
                             timeout(30) {
                                 def status = ""
                                 build.untilEach(1) {
@@ -83,8 +105,6 @@ pipeline {
                                     log "Build status: ${status}"
                                     return !["Running", "Pending", "New"].contains(status)
                                 }
-
-                                junit checksName: 'Jest Tests', testResults: '/var/lib/jenkins/reports/webcert-frontend/latest/junit.xml'
 
                                 log "Logs for artifact build"
                                 build.logs()

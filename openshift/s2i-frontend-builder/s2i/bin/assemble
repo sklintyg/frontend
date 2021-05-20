@@ -13,7 +13,8 @@ cd packages/webcert;
 CI=true yarn test:ci;
 
 # Copy reports
-cp junit.xml /mnt/reports/webcert-frontend/latest
+echo $TEST_REPORT_CALLBACK_URL
+curl -X POST -k -d @junit.xml $TEST_REPORT_CALLBACK_URL
 
 # Make a production build (should use CI=true here and fail the build if there are lint-issues)
 #CI=true yarn build;

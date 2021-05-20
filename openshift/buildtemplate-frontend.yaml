@@ -24,8 +24,8 @@ parameters:
   - name: BUILDER_IMAGE
     required: true
     value: "s2i-frontend-builder:latest"
-  - name: REPORT_DIR
-    value: /mnt/reports/webcert-frontend/latest
+  - name: TEST_REPORT_CALLBACK_URL
+    required: true
 objects:
   - apiVersion: v1
     kind: BuildConfig
@@ -64,8 +64,8 @@ objects:
               value: ${BUILD_VERSION}
             - name: BUILDER_IMAGE
               value: ${BUILDER_IMAGE}
-            - name: REPORT_DIR
-              value: ${REPORT_DIR}
+            - name: TEST_REPORT_CALLBACK_URL
+              value: ${TEST_REPORT_CALLBACK_URL}
           from:
             kind: "ImageStreamTag"
             name: ${BUILDER_IMAGE}
