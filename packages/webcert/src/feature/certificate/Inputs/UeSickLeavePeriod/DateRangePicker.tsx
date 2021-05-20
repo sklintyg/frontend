@@ -1,54 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import DatePickerCustom from '../DatePickerCustom'
-import { parse, addDays, differenceInCalendarDays, format, isEqual, isValid } from 'date-fns'
-import ReactDatePicker from 'react-datepicker'
-import colors from '../../../../components/styles/colors'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useSelector, useDispatch } from 'react-redux'
-import { CertificateDataElement, ValueDateRange, ValueDateRangeList } from '@frontend/common'
+import { addDays, isValid, isBefore } from 'date-fns'
+import { QuestionValidationTexts, ValidationError } from '@frontend/common'
 import _ from 'lodash'
-import styled, { css } from 'styled-components/macro'
-import { Checkbox } from '@frontend/common'
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const DaysRangeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 16px;
-`
-
-const DatesWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  p {
-    margin-right: 8px;
-  }
-`
-const DateRangeWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  & + & {
-    margin-top: 20px;
-  }
-
-  & #fromWrapper {
-    margin-right: 40px;
-  }
-`
-
-const checkBoxStyles = css`
-  margin-right: 40px;
-  min-width: 120px;
-`
+import { Checkbox, getValidDate, formatDateToString, parseDayCodes } from '@frontend/common'
+import { checkBoxStyles, DateRangeWrapper, DatesWrapper } from './Styles'
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-const _format = 'yyyy-MM-dd'
-const _parseformat = 'yyyyMMdd'
 
 const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
 const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
@@ -56,20 +15,44 @@ const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
+const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
+const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
+
 interface Props {
   label: string
-  questionId: string
-  question: CertificateDataElement
+  periodId: string
   fromDate: string | null
   toDate: string | null
+  updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
+  getPeriodStartingDate: (periodId: string) => string
+  getHasOverlap: (date: string | null, periodId: string) => boolean
 }
 
-const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDate, toDate }) => {
-  const dispatch = useDispatch()
-  const [dateChecked, setDateChecked] = useState((fromDate !== null && fromDate !== '') || (toDate !== null && toDate !== ''))
-  const [fromDateString, setFromDateString] = useState<string | null>(fromDate)
-  const [toDateString, setToDateString] = useState<string | null>(toDate)
-  // const [daysBetweenDates, setDaysBetweenDates] = useState<number | null>(null)
+interface DateRangeValidation {
+  from: {
+    invalidFormat: boolean
+    overlap: boolean
+  }
+  to: {
+    invalidFormat: boolean
+    overlap: boolean
+  }
+  invalidDatePeriod: boolean
+  validationErrors: ValidationError[]
+}
+
+const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDate, getHasOverlap }) => {
+  const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
+  const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
+  const [toDateInput, setToDateInput] = useState<string | null>(toDate)
+  const fromTextInputRef = useRef<null | HTMLInputElement>(null)
+  const tomTextInputRef = useRef<null | HTMLInputElement>(null)
+  const [validations, setValidation] = useState<DateRangeValidation>({
+    from: { invalidFormat: false, overlap: false },
+    to: { invalidFormat: false, overlap: false },
+    invalidDatePeriod: false,
+    validationErrors: [],
+  })
 
   function usePrevious(value: any) {
     const ref = React.useRef(value)
@@ -81,88 +64,31 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
     return ref.current
   }
 
-  const previousFromDateString = usePrevious(fromDateString)
-  const previousToDateString = usePrevious(toDateString)
-
-  const dispatchEditDraft = useRef(
-    _.debounce((fromDate: string | null, toDate: string | null, questionId: string) => {
-      const updatedQuestion = getUpdatedValue(fromDate, toDate, questionId)
-      dispatch(updateCertificateDataElement(updatedQuestion))
-    }, 1000)
-  ).current
+  const previousFromDateString = usePrevious(fromDateInput)
+  const previousToDateString = usePrevious(toDateInput)
 
   useEffect(() => {
     const updateCheckbox = () => {
-      if (fromDateString || toDateString) {
+      if (fromDateInput || toDateInput) {
         setDateChecked(true)
       } else {
         setDateChecked(false)
       }
     }
 
-    if (previousFromDateString !== fromDateString || previousToDateString !== toDateString) {
+    if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
       updateCheckbox()
-      dispatchEditDraft(fromDateString, toDateString, questionId)
+      updateValue(periodId, fromDateInput, toDateInput)
     }
-  }, [dispatchEditDraft, fromDateString, previousFromDateString, previousToDateString, questionId, toDateString])
+  }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString])
 
-  if (!question) return null
-
-  const getUpdatedValue = (fromDate: string | null, toDate: string | null, questionId: string) => {
-    const updatedQuestion: CertificateDataElement = { ...question }
-
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateRangeList) }
-    let updatedValueList = [...updatedQuestionValue.list]
-
-    const updatedValueIndex = updatedValueList.findIndex((val) => val.id === questionId)
-
-    if (updatedValueIndex === -1) {
-      updatedValueList = [...updatedValueList, { from: fromDate, to: toDate, id: questionId } as ValueDateRange]
-    } else {
-      updatedValueList = updatedValueList.map((val) => {
-        if (val.id === questionId) {
-          return { ...val, from: fromDate, to: toDate, id: questionId } as ValueDateRange
-        }
-        return val
-      })
-    }
-    updatedQuestionValue.list = updatedValueList
-    updatedQuestion.value = updatedQuestionValue
-
-    return updatedQuestion
-  }
-
-  function parseDayCodes(input: string) {
-    if (input && typeof input === 'string') {
-      let result = dayCodeReg.exec(input)
-      if (result && result.length > 0) {
-        return parseInt(result[1], 10)
-      }
-      result = weekCodeReg.exec(input)
-      if (result && result.length > 0) {
-        return parseInt(result[1], 10) * 7
-      }
-      const months = parseMonthCode(input)
-      if (months) {
-        return months * 31
-      }
-    }
-    return null
-  }
-
-  function parseMonthCode(input: string) {
-    if (input && typeof input === 'string') {
-      const result = monthCodeReg.exec(input)
-      if (result && result.length > 0) {
-        return parseInt(result[1], 10)
-      }
-    }
-    return null
-  }
+  useEffect(() => {
+    toggleShowValidationError(fromDate, toDate)
+  }, [])
 
   const handleFromTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setFromDateString(value ?? null)
+    setFromDateInput(value ?? null)
 
     if (!value) {
       return
@@ -171,100 +97,186 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
     const updatedFromDate = getValidDate(value)
 
     if (isValid(updatedFromDate)) {
-      const dateString = format(updatedFromDate!, _format)
-      setFromDateString(dateString)
-
-      if (toDateString) {
-        calculcateDifferenceInCalendarDays(updatedFromDate!, parseDate(toDateString))
-      }
+      const dateString = formatDateToString(updatedFromDate!)
+      setFromDateInput(dateString)
     }
   }
 
   const handleDatePickerSelectFrom = (date: Date) => {
-    setFromDateString(format(date, _format))
-    // dispatchUpdate(fromDateString, format(date, _format), questionId)
+    const fromDateString = formatDateToString(date)
+    setFromDateInput(fromDateString)
+    toggleShowValidationError(fromDateString, toDateInput)
+    tomTextInputRef.current?.focus()
   }
 
   const handleDatePickerSelectTo = (date: Date) => {
-    setToDateString(format(date, _format))
+    const toDateString = formatDateToString(date)
+    setToDateInput(toDateString)
+
+    toggleShowValidationError(fromDateInput, toDateString)
   }
 
   const handleToTextInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setToDateString(value)
+    setToDateInput(value)
+  }
 
-    console.log('value', value)
+  const handleFromTextInputOnBlur = () => {
+    toggleShowValidationError(fromDateInput, toDateInput)
+  }
 
-    if (!value || !fromDateString || !getValidDate(fromDateString)) {
+  const handleToTextInputOnBlur = () => {
+    formatToInputTextField()
+    const parsedToDate = getParsedToDateString(fromDateInput, toDateInput)
+    toggleShowValidationError(fromDateInput, parsedToDate ?? toDateInput)
+  }
+
+  const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key.toLowerCase() === 'enter') {
+      fromTextInputRef.current?.blur()
+      tomTextInputRef.current?.focus()
+    }
+  }
+
+  const handleToTextInputOnKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key.toLowerCase() === 'enter') {
+      tomTextInputRef.current?.blur()
+    }
+  }
+
+  const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
+    const updatedValidationErrors = { ...validations }
+
+    if (fromDate && fromDate.length > 0 && !isValid(getValidDate(fromDate!))) {
+      updatedValidationErrors.from.invalidFormat = true
+    } else {
+      updatedValidationErrors.from.invalidFormat = false
+    }
+
+    if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
+      updatedValidationErrors.to.invalidFormat = true
+    } else {
+      updatedValidationErrors.to.invalidFormat = false
+    }
+
+    if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
+      updatedValidationErrors.invalidDatePeriod = true
+    } else {
+      updatedValidationErrors.invalidDatePeriod = false
+    }
+
+    const fromDateOverlap = getHasOverlap(fromDate!, periodId)
+
+    setValidation(updatedValidationErrors)
+    updateValidationMessages(updatedValidationErrors)
+  }
+
+  const updateValidationMessages = (validations: DateRangeValidation) => {
+    let updatedValidationErrorList: ValidationError[] = []
+
+    if (!validations.from.invalidFormat && !validations.to.invalidFormat && !validations.invalidDatePeriod) {
+      resetValidation()
       return
     }
 
+    if (validations.from.invalidFormat || validations.to.invalidFormat) {
+      updatedValidationErrorList = [
+        ...updatedValidationErrorList,
+        { category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' },
+      ]
+    }
+
+    if (validations.invalidDatePeriod) {
+      updatedValidationErrorList = [
+        ...updatedValidationErrorList,
+        { category: '', field: '', id: '', text: INVALID_DATE_PERIOD_ERROR, type: '' },
+      ]
+    }
+
+    setValidation({ ...validations, validationErrors: updatedValidationErrorList })
+  }
+
+  const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
+    if (!toDateString || !fromDateString || !getValidDate(fromDateString)) {
+      return
+    }
     const fromDate = getValidDate(fromDateString)!
 
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(value))
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateString))
 
     if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(value)
+      const numberOfDaysToAdd = parseDayCodes(toDateString)
 
       if (numberOfDaysToAdd) {
         //Befintliga webcert drar bort en dag i beräkningen
         const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        setToDateString(format(newDate, _format))
-        // updateDaysBetween(newDate, fromDate)
-        // dispatchUpdate(fromDateString, format(newDate, _format), questionId)
+        return formatDateToString(newDate)
       }
-    } else if (_dateReg.test(value) || _dateRegDashesOptional.test(value)) {
-      const newDate = getValidDate(value)
+    } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
+      const newDate = getValidDate(toDateString)
 
       if (newDate) {
-        setToDateString(format(newDate, _format))
-        // updateDaysBetween(fromDate, newDate)
-        // dispatchUpdate(fromDateString, format(newDate, _format), questionId)
+        return formatDateToString(newDate)
       }
+    } else return null
+  }
+
+  const formatToInputTextField = () => {
+    if (!toDateInput || !fromDateInput || !getValidDate(fromDateInput)) {
+      return
     }
-  }
 
-  // const updateDaysBetween = (startDate: Date, endDate: Date) => {
-  //   const days = calculcateDifferenceInCalendarDays(startDate, endDate)
+    const fromDate = getValidDate(fromDateInput)!
 
-  //   if (days > 0) {
-  //     //Befintliga webcert lägger till 1 dag
-  //     setDaysBetweenDates(days + 1)
-  //   }
-  // }
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateInput))
 
-  const calculcateDifferenceInCalendarDays = (startDate: Date, endDate: Date) => {
-    return differenceInCalendarDays(startDate, endDate)
-  }
+    if (inputMatchesRegex && fromDate) {
+      const numberOfDaysToAdd = parseDayCodes(toDateInput)
 
-  const getValidDate = (dateString: string) => {
-    if (_dateReg.test(dateString)) {
-      const formattedString = dateString.replace(/-/g, '')
-      return parse(formattedString, _parseformat, new Date())
-    } else if (_dateRegDashesOptional.test(dateString)) {
-      return parse(dateString, _parseformat, new Date())
+      if (numberOfDaysToAdd) {
+        //Befintliga webcert drar bort en dag i beräkningen
+        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
+        setToDateInput(formatDateToString(newDate))
+      }
+    } else if (_dateReg.test(toDateInput) || _dateRegDashesOptional.test(toDateInput)) {
+      const newDate = getValidDate(toDateInput)
+
+      if (newDate) {
+        setToDateInput(formatDateToString(newDate))
+      }
     }
   }
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setFromDateString(format(new Date(), _format))
+      tomTextInputRef.current?.focus()
+      const fromDate = getPeriodStartingDate(periodId)
+      setFromDateInput(fromDate)
     } else {
       reset()
     }
   }
 
   const reset = () => {
-    setFromDateString(null)
-    setToDateString(null)
-    // setDaysBetweenDates(null)
+    setFromDateInput(null)
+    setToDateInput(null)
+    resetValidation()
+  }
+
+  const resetValidation = () => {
+    setValidation({
+      from: { invalidFormat: false, overlap: false },
+      to: { invalidFormat: false, overlap: false },
+      invalidDatePeriod: false,
+      validationErrors: [],
+    })
   }
 
   return (
     <>
       <DateRangeWrapper>
         <Checkbox
-          id={questionId}
+          id={`${periodId}-checkbox`}
           hasValidationError={false}
           disabled={false}
           value={'test'}
@@ -274,26 +286,39 @@ const DateRangePicker: React.FC<Props> = ({ label, question, questionId, fromDat
           label={label}
         />
         <DatesWrapper id="fromWrapper">
-          <p>Fr.o.m</p>
-          <DatePickerCustom inputString={fromDateString} setDate={handleDatePickerSelectFrom} handleTextInput={handleFromTextInputChange} />
+          <label htmlFor={`from${periodId}`}>Fr.o.m</label>
+          <DatePickerCustom
+            id={`from${periodId}`}
+            textInputRef={fromTextInputRef}
+            textInputOnBlur={handleFromTextInputOnBlur}
+            textInputOnKeyDown={handleFromTextInputOnKeyDown}
+            textInputName={`from${periodId}`}
+            inputString={fromDateInput}
+            setDate={handleDatePickerSelectFrom}
+            textInputOnChange={handleFromTextInputChange}
+            textInputDataTestId={`from${periodId}`}
+            displayValidationError={validations.invalidDatePeriod || validations.from.invalidFormat}
+          />
         </DatesWrapper>
         <DatesWrapper>
-          <p>t.o.m</p>
-          <DatePickerCustom inputString={toDateString} setDate={handleDatePickerSelectTo} handleTextInput={handleToTextInputChange} />
+          <label htmlFor={`tom${periodId}`}>t.o.m</label>
+          <DatePickerCustom
+            id={`tom${periodId}`}
+            textInputName={`tom${periodId}`}
+            textInputRef={tomTextInputRef}
+            inputString={toDateInput}
+            setDate={handleDatePickerSelectTo}
+            textInputOnChange={handleToTextInputChange}
+            textInputOnBlur={handleToTextInputOnBlur}
+            textInputOnKeyDown={handleToTextInputOnKeyDown}
+            textInputDataTestId={`tom${periodId}`}
+            displayValidationError={validations.invalidDatePeriod || validations.to.invalidFormat}
+          />
         </DatesWrapper>
       </DateRangeWrapper>
-      {/* {daysBetweenDates && (
-        <DaysRangeWrapper>
-          <FontAwesomeIcon icon={faLightbulb} />
-          <p>Intyget motsvarar en period på {daysBetweenDates} dagar.</p>
-        </DaysRangeWrapper>
-      )} */}
+      {<QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
     </>
   )
 }
 
 export default DateRangePicker
-
-const parseDate = (dateString: string) => {
-  return parse(dateString, _parseformat, new Date())
-}
