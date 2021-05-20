@@ -1,15 +1,23 @@
 #!/bin/bash
 
-echo "cd /tmp/src";
+# Move to workdir
 cd /tmp/src;
-echo "yarn install";
+
+# Install dependencies
 yarn install;
-echo "cd packages/webcert";
+
+# Move to the app we are building
 cd packages/webcert;
-echo "yarn build";
+
+# Run the tests
+CI=true yarn test:ci;
+
+# Make a production build (should use CI=true here and fail the build if there are lint-issues)
+#CI=true yarn build;
 yarn build;
-echo "mv build/* /tmp/artifacts/build";
+
+# Copy the resulting artifacts
 mv build/* /tmp/artifacts/build;
-echo "mv nginx/* /tmp/artifacts/nginx";
+
+# Copy the nginx configuration
 mv nginx/* /tmp/artifacts/nginx;
-echo "DONE!";
