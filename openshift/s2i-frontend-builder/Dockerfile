@@ -1,7 +1,7 @@
 FROM node:12-alpine3.12
 
 # Install required tools
-RUN apk add --no-cache git python2 make g++ bash
+RUN apk add --no-cache git python2 make g++ bash curl
 
 # Set required labels
 LABEL io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
