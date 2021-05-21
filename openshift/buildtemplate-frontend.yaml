@@ -24,6 +24,8 @@ parameters:
   - name: BUILDER_IMAGE
     required: true
     value: "s2i-frontend-builder:latest"
+  - name: LINT_REPORT_CALLBACK_URL
+    required: true
   - name: TEST_REPORT_CALLBACK_URL
     required: true
 objects:
@@ -64,6 +66,8 @@ objects:
               value: ${BUILD_VERSION}
             - name: BUILDER_IMAGE
               value: ${BUILDER_IMAGE}
+            - name: LINT_REPORT_CALLBACK_URL
+              value: ${LINT_REPORT_CALLBACK_URL}
             - name: TEST_REPORT_CALLBACK_URL
               value: ${TEST_REPORT_CALLBACK_URL}
           from:

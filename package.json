@@ -12,7 +12,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start --stream",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx -f checkstyle > lint-result.xml",
     "test": "jest",
     "merge-reports": "jrm combined.xml \"results/*.xml\""
   },

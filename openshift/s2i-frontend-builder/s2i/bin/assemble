@@ -7,7 +7,11 @@ cd /tmp/src;
 yarn install;
 
 # lint-check
+yarn lint
 
+# Copy reports
+echo $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d @lint-result.xml $LINT_REPORT_CALLBACK_URL
 
 # Run common tests
 CI=true yarn workspace @frontend/common test:ci;
@@ -36,4 +40,3 @@ mv build/* /tmp/artifacts/build;
 
 # Copy the nginx configuration
 mv nginx/* /tmp/artifacts/nginx;
-

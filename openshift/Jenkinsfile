@@ -49,23 +49,23 @@ pipeline {
             }
         }
 
-        stage('Setup Image Builds') {
-            steps {
-                script {
-                    openshift.withCluster() {
-                        openshift.withProject() {
-                            def models = openshift.process("-f", "openshift/buildtemplate-frontend.yaml",
-                                    "-p", "IS_APP_NAME=webcert-frontend",
-                                    "-p", "APP_NAME=webcert-frontend",
-                                    "-p", "STAGE=test",
-                                    "-p", "BUILD_VERSION=latest",
-                                    "-p", "ARTIFACT_IMAGE_SUFFIX=artifact")
-                            openshift.apply(models)
-                        }
-                    }
-                }
-            }
-        }
+//        stage('Setup Image Builds') {
+//            steps {
+//                script {
+//                    openshift.withCluster() {
+//                        openshift.withProject() {
+//                            def models = openshift.process("-f", "openshift/buildtemplate-frontend.yaml",
+//                                    "-p", "IS_APP_NAME=webcert-frontend",
+//                                    "-p", "APP_NAME=webcert-frontend",
+//                                    "-p", "STAGE=test",
+//                                    "-p", "BUILD_VERSION=latest",
+//                                    "-p", "ARTIFACT_IMAGE_SUFFIX=artifact")
+//                            openshift.apply(models)
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         stage('Create Artifact Image') {
             steps {
@@ -73,7 +73,8 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             // Setup callback webhook
-                            def hook = registerWebhook()
+                            def testReportHook = registerWebhook()
+                            def lintReportHook = registerWebhook()
 
                             openshift.withProject() {
                                 def models = openshift.process("-f", "openshift/buildtemplate-frontend.yaml",
@@ -82,7 +83,8 @@ pipeline {
                                         "-p", "STAGE=test",
                                         "-p", "BUILD_VERSION=latest",
                                         "-p", "ARTIFACT_IMAGE_SUFFIX=artifact",
-                                        "-p", "TEST_REPORT_CALLBACK_URL='${hook.getURL()}'")
+                                        "-p", "LINT_REPORT_CALLBACK_URL='${lintReportHook.getURL()}'",
+                                        "-p", "TEST_REPORT_CALLBACK_URL='${testReportHook.getURL()}'")
                                 openshift.apply(models)
                             }
 
@@ -91,11 +93,18 @@ pipeline {
                             sleep(time: 1, unit: 'SECONDS')
                             log "${build.name()} started"
 
-                            timeout(30) {
-                                log "Waiting (max 30 min) for POST to ${hook.getURL()}"
-                                def data = waitForWebhook(hook)
+                            timeout(10) {
+                                log "Waiting (max 30 min) for POST to ${lintReportHook.getURL()}"
+                                def lintReport = waitForWebhook(lintReportHook)
 
-                                junit checksName: 'Jest Tests', testResults: data
+                                junit checksName: 'Jest Tests', testResults: lintReport
+                            }
+
+                            timeout(10) {
+                                log "Waiting (max 30 min) for POST to ${testReportHook.getURL()}"
+                                def testReport = waitForWebhook(testReportHook)
+
+                                junit checksName: 'Unit tests', testResults: testReport
                             }
 
                             timeout(30) {
