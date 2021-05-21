@@ -6,15 +6,26 @@ cd /tmp/src;
 # Install dependencies
 yarn install;
 
-# Move to the app we are building
-cd packages/webcert;
+# lint-check
 
-# Run the tests
-CI=true yarn test:ci;
+
+# Run common tests
+CI=true yarn workspace @frontend/common test:ci;
+
+# Run webcert tests
+CI=true yarn workspace @frontend/webcert test:ci;
+
+# Copy test reports
+mkdir results
+mv packages/common/junit.xml results/
+mv packages/webcert/junit.xml results/
+
+# Merge test results
+yarn merge-reports
 
 # Copy reports
 echo $TEST_REPORT_CALLBACK_URL
-curl -X POST -k -d @junit.xml $TEST_REPORT_CALLBACK_URL
+curl -X POST -k -d @combined.xml $TEST_REPORT_CALLBACK_URL
 
 # Make a production build (should use CI=true here and fail the build if there are lint-issues)
 #CI=true yarn build;
