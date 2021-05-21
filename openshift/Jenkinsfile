@@ -97,14 +97,20 @@ pipeline {
                                 log "Waiting (max 30 min) for POST to ${lintReportHook.getURL()}"
                                 def lintReport = waitForWebhook(lintReportHook)
 
-                                junit checksName: 'Jest Tests', testResults: lintReport
+                                def lintReportPath = 'combined.xml'
+                                writeFile file: lintReportPath, text: lintReport
+
+                                recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'combined.xml')
                             }
 
                             timeout(10) {
                                 log "Waiting (max 30 min) for POST to ${testReportHook.getURL()}"
                                 def testReport = waitForWebhook(testReportHook)
 
-                                junit checksName: 'Unit tests', testResults: testReport
+                                def testReportPath = 'junit.xml'
+                                writeFile file: testReportPath, text: testReport
+
+                                junit checksName: 'Unit tests', testResults: testReportPath
                             }
 
                             timeout(30) {
