@@ -10,35 +10,60 @@ const Wrapper = styled.div`
   display: flex;
 `
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<inputProps>`
   padding: 8px !important;
   min-width: 0;
   box-shadow: none;
-  border: 1px solid rgba(0; 0; 0; 0.23);
-  border-left: 0;
+  border: ${(props) => (props.displayValidationError ? '1px solid #c12143 !important' : '1px solid rgba(0; 0; 0; 0.23)')};
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border-left: 0 !important;
 `
 
-const TextInput = styled.input`
+interface inputProps {
+  displayValidationError: boolean | undefined
+}
+
+const TextInput = styled.input<inputProps>`
   padding: 0 0.5rem !important;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   max-width: 13ch;
+  border: ${(props) => (props.displayValidationError ? '1px solid #c12143 !important' : '')};
+  border-right: 0 !important;
 `
 
 interface Props {
   disabled?: boolean
   setDate: (date: Date) => void
   inputString: string | null
-  handleTextInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+  textInputOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  textInputOnBlur?: React.FocusEventHandler<HTMLInputElement>
+  textInputOnKeyDown?: (event: React.KeyboardEvent) => void
+  id?: string
+  textInputName?: string
+  textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
+  textInputDataTestId?: string
+  displayValidationError?: boolean
 }
 
 const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 const _format = 'yyyy-MM-dd'
 
-const DatePickerCustom: React.FC<Props> = ({ disabled, setDate, inputString, handleTextInput }) => {
+const DatePickerCustom: React.FC<Props> = ({
+  setDate,
+  inputString,
+  textInputOnChange,
+  id,
+  textInputOnBlur,
+  textInputRef,
+  textInputOnKeyDown,
+  textInputName,
+  textInputDataTestId,
+  displayValidationError,
+  disabled
+}) => {
   const [open, setOpen] = useState(false)
 
   let date: Date
@@ -64,20 +89,33 @@ const DatePickerCustom: React.FC<Props> = ({ disabled, setDate, inputString, han
     <Wrapper>
       <TextInput
         disabled={disabled}
+        id={id}
+        name={textInputName}
         type="text"
         maxLength={10}
         className="ic-textfield"
-        onChange={handleTextInput}
+        onChange={textInputOnChange}
+        onBlur={textInputOnBlur}
+        onKeyDown={textInputOnKeyDown}
         placeholder="åååå-mm-dd"
         value={inputString ? inputString : ''}
+        ref={textInputRef}
+        data-testid={textInputDataTestId}
+        displayValidationError={displayValidationError}
       />
       <DatePicker
         disabled={disabled}
         shouldCloseOnSelect={true}
-        onChange={() => {}}
+        onChange={() => {
+          /*Empty*/
+        }}
         dateFormat={_format}
         customInput={
-          <StyledButton onClick={() => setOpen(true)} className="ic-button" onClickCapture={() => setOpen(true)}>
+          <StyledButton
+            displayValidationError={displayValidationError}
+            onClick={() => setOpen(true)}
+            className="ic-button"
+            onClickCapture={() => setOpen(true)}>
             <FontAwesomeIcon icon={faCalendarWeek} size="lg" />
           </StyledButton>
         }

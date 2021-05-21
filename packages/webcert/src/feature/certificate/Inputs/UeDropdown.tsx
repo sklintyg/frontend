@@ -16,9 +16,11 @@ const UeDropdown: React.FC<Props> = (props) => {
   const config = question.config as ConfigUeDropdown
   const isShowValidationError = useSelector(getShowValidationErrors)
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const [selected, setSelected] = React.useState((question.value as ValueCode).code)
 
   const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const updatedValue = getUpdatedValue(question, event.currentTarget.value)
+    setSelected(event.currentTarget.value)
     dispatch(updateCertificateDataElement(updatedValue))
   }
 
@@ -41,7 +43,7 @@ const UeDropdown: React.FC<Props> = (props) => {
         ))}
         disabled={disabled}
         onChange={handleChange}
-        value={(question.value as ValueCode).code}
+        value={selected}
         hasValidationError={hasValidationError}
       />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
