@@ -41,7 +41,8 @@ curl -X POST -k -d @combined.xml $TEST_REPORT_CALLBACK_URL
 
 # Make a production build
 echo "############### Production Build ###############"
-CI=true yarn workspace @frontend/webcert build
+#CI=true yarn workspace @frontend/webcert build
+yarn workspace @frontend/webcert build
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
