@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Move to workdir
-cd /tmp/src;
+cd /tmp/src
 
 # Install dependencies
 echo "############### Installing workspace ###############"
-yarn install;
+yarn install
 
 # lint-check
 echo "############### Linting ###############"
@@ -18,11 +18,11 @@ curl -X POST -k -d @lint-result.xml $LINT_REPORT_CALLBACK_URL
 
 # Run common tests
 echo "############### Testing Common ###############"
-CI=true yarn workspace @frontend/common test:ci;
+CI=true yarn workspace @frontend/common test:ci
 
 # Run webcert tests
 echo "############### Testing Webcert ###############"
-CI=true yarn workspace @frontend/webcert test:ci;
+CI=true yarn workspace @frontend/webcert test:ci
 
 # Copy test reports
 echo "############### Moving Testing Reports ###############"
@@ -39,15 +39,14 @@ echo "############### Posting Testing Reports ###############"
 echo $TEST_REPORT_CALLBACK_URL
 curl -X POST -k -d @combined.xml $TEST_REPORT_CALLBACK_URL
 
-# Make a production build (should use CI=true here and fail the build if there are lint-issues)
-#CI=true yarn build;
+# Make a production build
 echo "############### Production Build ###############"
-yarn workspace @frontend/webcert build;
+CI=true yarn workspace @frontend/webcert build
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
-mv packages/webcert/build/* /tmp/artifacts/build;
+mv packages/webcert/build/* /tmp/artifacts/build
 
 # Copy the nginx configuration
 echo "############### Moving Nginx Configuration ###############"
-mv packages/webcert/nginx/* /tmp/artifacts/nginx;
+mv packages/webcert/nginx/* /tmp/artifacts/nginx
