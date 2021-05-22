@@ -94,17 +94,17 @@ pipeline {
                             log "${build.name()} started"
 
                             timeout(10) {
-                                log "Waiting (max 30 min) for POST to ${lintReportHook.getURL()}"
+                                log "Waiting (max 10 min) for POST of lint-report to ${lintReportHook.getURL()}"
                                 def lintReport = waitForWebhook(lintReportHook)
 
-                                def lintReportPath = 'combined.xml'
+                                def lintReportPath = 'lint-result.xml'
                                 writeFile file: lintReportPath, text: lintReport
 
-                                recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'combined.xml')
+                                recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'lint-result.xml')
                             }
 
                             timeout(10) {
-                                log "Waiting (max 30 min) for POST to ${testReportHook.getURL()}"
+                                log "Waiting (max 10 min) for POST of test-report to ${testReportHook.getURL()}"
                                 def testReport = waitForWebhook(testReportHook)
 
                                 def testReportPath = 'junit.xml'
