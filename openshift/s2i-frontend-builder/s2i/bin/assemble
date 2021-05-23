@@ -29,6 +29,7 @@ echo "############### Moving Testing Reports ###############"
 mkdir results
 mv packages/common/junit.xml results/junit-common.xml
 mv packages/webcert/junit.xml results/junit-webcert.xml
+mv packages/webcert/coverage/cobertura-coverage.xml .
 
 # Merge test results
 echo "############### Mergings Testing Reports ###############"
@@ -36,8 +37,9 @@ yarn merge-reports
 
 # Copy reports
 echo "############### Posting Testing Reports ###############"
-echo $TEST_REPORT_CALLBACK_URL
-curl -X POST -k -d @combined.xml $TEST_REPORT_CALLBACK_URL
+echo $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d @combined.xml $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d @cobertura-coverage.xml $LINT_REPORT_CALLBACK_URL
 
 # Make a production build
 echo "############### Production Build ###############"

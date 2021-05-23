@@ -98,19 +98,29 @@ pipeline {
                                 def lintReport = waitForWebhook(lintReportHook)
 
                                 def lintReportPath = 'lint-result.xml'
-                                writeFile file: lintReportPath, text: lintReport
+                                writeFile file: lintReportPath, text: lintReport.replaceAll("/tmp/src", ".")
 
                                 recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'lint-result.xml')
                             }
 
                             timeout(10) {
-                                log "Waiting (max 10 min) for POST of test-report to ${testReportHook.getURL()}"
-                                def testReport = waitForWebhook(testReportHook)
+                                log "Waiting (max 10 min) for POST of test-report to ${lintReportHook.getURL()}"
+                                def testReport = waitForWebhook(lintReportHook)
 
                                 def testReportPath = 'junit.xml'
                                 writeFile file: testReportPath, text: testReport
 
                                 junit checksName: 'Unit tests', testResults: testReportPath
+                            }
+
+                            timeout(10) {
+                                log "Waiting (max 10 min) for POST of coverage-report to ${lintReportHook.getURL()}"
+                                def coverageReport = waitForWebhook(lintReportHook)
+
+                                def coverageReportPath = 'cobertura-coverage.xml'
+                                writeFile file: coverageReportPath, text: coverageReport
+
+                                cobertura coberturaReportFile: coverageReportPath
                             }
 
                             timeout(30) {
@@ -177,6 +187,11 @@ pipeline {
                 log "Pipeline Failed :("
                 util.notifyFailed()
             }
+        }
+
+        cleanup {
+            log "Clean up in post work space"
+            cleanWs()
         }
     }
 }
