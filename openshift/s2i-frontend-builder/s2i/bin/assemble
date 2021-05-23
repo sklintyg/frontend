@@ -6,6 +6,9 @@ cd /tmp/src
 # Install dependencies
 echo "############### Installing workspace ###############"
 yarn install
+INIT_RESULT=$?
+echo $INIT_RESULT
+curl -X POST -k -d $INIT_RESULT $LINT_REPORT_CALLBACK_URL
 
 # lint-check
 echo "############### Linting ###############"
@@ -45,6 +48,9 @@ curl -X POST -k -d @cobertura-coverage.xml $LINT_REPORT_CALLBACK_URL
 echo "############### Production Build ###############"
 #CI=true yarn workspace @frontend/webcert build
 yarn workspace @frontend/webcert build
+BUILD_RESULT=$?
+echo $BUILD_RESULT
+curl -X POST -k -d $BUILD_RESULT $LINT_REPORT_CALLBACK_URL
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
@@ -53,3 +59,10 @@ mv packages/webcert/build/* /tmp/artifacts/build
 # Copy the nginx configuration
 echo "############### Moving Nginx Configuration ###############"
 mv packages/webcert/nginx/* /tmp/artifacts/nginx
+
+if [ $BUILD_RESULT -ne 0 ]; then
+    echo "Failed to build, exit code: $BUILD_RESULT"
+    exit $BUILD_RESULT
+fi
+
+echo "Build complete"
