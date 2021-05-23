@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo $PIPELINE_CALLBACK_URL
+
 # Move to workdir
 cd /tmp/src
 
@@ -8,7 +10,7 @@ echo "############### Installing workspace ###############"
 yarn install
 INIT_RESULT=$?
 echo $INIT_RESULT
-curl -X POST -k -d $INIT_RESULT $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d $INIT_RESULT $PIPELINE_CALLBACK_URL
 
 # lint-check
 echo "############### Linting ###############"
@@ -16,8 +18,7 @@ yarn lint
 
 # Copy reports
 echo "############### Posting Linting report ###############"
-echo $LINT_REPORT_CALLBACK_URL
-curl -X POST -k -d @lint-result.xml $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d @lint-result.xml $PIPELINE_CALLBACK_URL
 
 # Run common tests
 echo "############### Testing Common ###############"
@@ -40,9 +41,8 @@ yarn merge-reports
 
 # Copy reports
 echo "############### Posting Testing Reports ###############"
-echo $LINT_REPORT_CALLBACK_URL
-curl -X POST -k -d @combined.xml $LINT_REPORT_CALLBACK_URL
-curl -X POST -k -d @cobertura-coverage.xml $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d @combined.xml $PIPELINE_CALLBACK_URL
+curl -X POST -k -d @cobertura-coverage.xml $PIPELINE_CALLBACK_URL
 
 # Make a production build
 echo "############### Production Build ###############"
@@ -50,7 +50,7 @@ echo "############### Production Build ###############"
 yarn workspace @frontend/webcert build
 BUILD_RESULT=$?
 echo $BUILD_RESULT
-curl -X POST -k -d $BUILD_RESULT $LINT_REPORT_CALLBACK_URL
+curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
