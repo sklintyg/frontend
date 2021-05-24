@@ -1,0 +1,68 @@
+#!/bin/bash
+
+echo $PIPELINE_CALLBACK_URL
+
+# Move to workdir
+cd /tmp/src
+
+# Install dependencies
+echo "############### Installing workspace ###############"
+yarn install
+INIT_RESULT=$?
+echo $INIT_RESULT
+curl -X POST -k -d $INIT_RESULT $PIPELINE_CALLBACK_URL
+
+# lint-check
+echo "############### Linting ###############"
+yarn lint
+
+# Copy reports
+echo "############### Posting Linting report ###############"
+curl -X POST -k -d @lint-result.xml $PIPELINE_CALLBACK_URL
+
+# Run common tests
+echo "############### Testing Common ###############"
+CI=true yarn workspace @frontend/common test:ci
+
+# Run webcert tests
+echo "############### Testing Webcert ###############"
+CI=true yarn workspace @frontend/webcert test:ci
+
+# Copy test reports
+echo "############### Moving Testing Reports ###############"
+mkdir results
+mv packages/common/junit.xml results/junit-common.xml
+mv packages/webcert/junit.xml results/junit-webcert.xml
+mv packages/webcert/coverage/cobertura-coverage.xml .
+
+# Merge test results
+echo "############### Mergings Testing Reports ###############"
+yarn merge-reports
+
+# Copy reports
+echo "############### Posting Testing Reports ###############"
+curl -X POST -k -d @combined.xml $PIPELINE_CALLBACK_URL
+curl -X POST -k -d @cobertura-coverage.xml $PIPELINE_CALLBACK_URL
+
+# Make a production build
+echo "############### Production Build ###############"
+#CI=true yarn workspace @frontend/webcert build
+yarn workspace @frontend/webcert build
+BUILD_RESULT=$?
+echo $BUILD_RESULT
+curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
+
+# Copy the resulting artifacts
+echo "############### Moving Build Artifacts ###############"
+mv packages/webcert/build/* /tmp/artifacts/build
+
+# Copy the nginx configuration
+echo "############### Moving Nginx Configuration ###############"
+mv packages/webcert/nginx/* /tmp/artifacts/nginx
+
+if [ $BUILD_RESULT -ne 0 ]; then
+    echo "Failed to build, exit code: $BUILD_RESULT"
+    exit $BUILD_RESULT
+fi
+
+echo "Build complete"

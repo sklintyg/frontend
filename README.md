@@ -62,6 +62,16 @@ Pre-requisites: Need to have "make" installed. For Windows you can use the follo
 
 A Deployment has been created in tintyg for devtest. It will automatically deploy on image-changes. When running the make command, a new runtime image with Webcert-frontend will built and automatically deployed. 
 
+## Source-to-image
+
+More information can be found here: https://github.com/openshift/source-to-image
+
+To build it locally: `docker build -t s2i-frontend-builder:latest .`
+To build it on openshift: `make`
+
+To use it locally: `s2i build . s2i-frontend-builder:latest webcert-frontend:latest --loglevel 3` (you can skip the --loglevel or even change it to '5' for more loginfo)
+To use it on openshift: Run the pipeline
+
 ## Running storybook
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common. 

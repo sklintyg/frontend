@@ -68,7 +68,11 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         onChange={handleCheckboxChange}
         hasValidationError={hasValidationError}
       />
-      <DatePickerCustom disabled={disabled} handleTextInput={handleTextChange} setDate={handleDateChange} inputString={dateString}></DatePickerCustom>
+      <DatePickerCustom
+        disabled={disabled}
+        handleTextInput={handleTextChange}
+        setDate={handleDateChange}
+        inputString={dateString}></DatePickerCustom>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </Wrapper>
   )

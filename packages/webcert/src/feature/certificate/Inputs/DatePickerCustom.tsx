@@ -62,7 +62,7 @@ const DatePickerCustom: React.FC<Props> = ({
   textInputName,
   textInputDataTestId,
   displayValidationError,
-  disabled
+  disabled,
 }) => {
   const [open, setOpen] = useState(false)
 

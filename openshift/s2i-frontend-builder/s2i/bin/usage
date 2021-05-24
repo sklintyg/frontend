@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "# This is an openshift S2I builder is used for creating Intygstjänster frontend images"
