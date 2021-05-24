@@ -64,6 +64,8 @@ A Deployment has been created in tintyg for devtest. It will automatically deplo
 
 ## Source-to-image
 
+More information can be found here: https://github.com/openshift/source-to-image
+
 To build it locally: `docker build -t s2i-frontend-builder:latest .`
 To build it on openshift: `make`
 
