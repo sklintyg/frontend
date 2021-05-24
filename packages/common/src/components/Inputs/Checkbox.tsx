@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 interface Props {
   label?: string
@@ -14,6 +14,16 @@ interface Props {
   disabled?: boolean
   wrapperStyles?: FlattenSimpleInterpolation
 }
+
+interface LabelProps {
+  hasValidationError: boolean | undefined
+}
+
+const Label = styled.label<LabelProps>`
+  &:before {
+    border: ${(props) => (props.hasValidationError ? '1px solid #c12143 !important' : '')};
+  }
+`
 
 const Checkbox: React.FC<Props> = (props) => {
   const {
@@ -30,12 +40,6 @@ const Checkbox: React.FC<Props> = (props) => {
     wrapperStyles,
   } = props
 
-  const Label = styled.label`
-    &:before {
-      border: ${hasValidationError ? '1px solid #c12143 !important' : ''};
-    }
-  `
-
   return (
     <div css={wrapperStyles}>
       <input
@@ -48,7 +52,7 @@ const Checkbox: React.FC<Props> = (props) => {
         checked={checked}
         disabled={disabled}
       />
-      <Label htmlFor={id} style={{ display: `${vertical} ? block : 'unset'` }}>
+      <Label hasValidationError={hasValidationError} htmlFor={id} style={{ display: `${vertical} ? block : 'unset'` }}>
         {label}
       </Label>
     </div>

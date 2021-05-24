@@ -70,7 +70,7 @@ const defaultQuestion: CertificateDataElement = {
       expression: `$${EN_FJARDEDEL_ID} || $${HALFTEN_ID} || $${TRE_FJARDEDEL_ID} || $${HELT_NEDSATT_ID}`,
     },
   ],
-  validationError: [],
+  validationErrors: [],
 }
 
 const renderDefaultComponent = (question?: CertificateDataElement) => {

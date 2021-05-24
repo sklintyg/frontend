@@ -59,10 +59,12 @@ const renderCodeComponent = () => {
   )
 }
 
-const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-useDispatchSpy.mockReturnValue(jest.fn())
-useSelectorSpy.mockReturnValue(jest.fn())
+beforeEach(() => {
+  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(jest.fn())
+  useSelectorSpy.mockReturnValue(jest.fn())
+})
 
 const testClickOnCheckbox = (label?: string) => {
   let clickable

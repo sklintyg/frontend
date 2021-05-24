@@ -16,11 +16,8 @@ import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import _ from 'lodash'
-import { isValid, isWithinInterval } from 'date-fns'
-import addDays from 'date-fns/addDays'
+import { isValid, isWithinInterval, isSameDay, isBefore, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
-import isBefore from 'date-fns/esm/fp/isBefore/index.js'
-import { isSameDay } from 'date-fns/esm'
 
 interface Props {
   question: CertificateDataElement

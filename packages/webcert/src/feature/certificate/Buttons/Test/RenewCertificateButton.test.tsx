@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
 import { User } from '@frontend/common/src'
+import { CertificateMetadata } from '../../../../../../common/src/types/certificate'
 
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'
@@ -19,11 +20,16 @@ const user: User = {
   preferences: PREFERENCES,
 }
 
+//@ts-expect-error creating object so component renders
+const certificateMetadata: CertificateMetadata = {}
+
 const renderDefaultComponent = (enabled: boolean) => {
-  render(<RenewCertificateButton name={NAME} description={DESCRIPTION} body={BODY} enabled={enabled} />)
+  render(
+    <RenewCertificateButton certificateMetadata={certificateMetadata} name={NAME} description={DESCRIPTION} body={BODY} enabled={enabled} />
+  )
 }
 
-beforeAll(() => {
+beforeEach(() => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
   useSelectorSpy.mockReturnValue(user)
@@ -53,7 +59,7 @@ describe('Renew certificate button', () => {
 
   it('renders modal when button is clicked', () => {
     renderDefaultComponent(true)
-    const button = screen.queryByRole('button')
+    const button = screen.queryByRole('button') as HTMLButtonElement
     expect(button).not.toBeDisabled()
     expect(screen.queryByText(BODY)).toBeNull()
     expect(screen.queryByRole('dialog')).toBeNull()
@@ -64,10 +70,10 @@ describe('Renew certificate button', () => {
 
   it('allows user to interact with modal', () => {
     renderDefaultComponent(true)
-    const button = screen.queryByRole('button')
+    const button = screen.queryByRole('button') as HTMLButtonElement
     userEvent.click(button)
     expect(screen.queryByRole('dialog')).not.toBeNull()
-    const checkbox = screen.queryByRole('checkbox')
+    const checkbox = screen.queryByRole('checkbox') as HTMLInputElement
     expect(checkbox).not.toBeNull()
     expect(checkbox).not.toBeChecked()
     userEvent.click(checkbox)
@@ -84,9 +90,9 @@ describe('Renew certificate button', () => {
   })
 
   it('does not show dialog if preference to hide renewal dialog is set', () => {
-    user.preferences.dontShowFornyaDialog = 'true'
+    user.preferences!.dontShowFornyaDialog = 'true'
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button'))
+    userEvent.click(screen.queryByRole('button')!)
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 })

@@ -38,10 +38,12 @@ const renderDefaultComponent = () => {
   )
 }
 
-const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-useDispatchSpy.mockReturnValue(jest.fn())
-useSelectorSpy.mockReturnValue(jest.fn())
+beforeEach(() => {
+  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(jest.fn())
+  useSelectorSpy.mockReturnValue(jest.fn())
+})
 
 describe('Radio group component', () => {
   it('renders without crashing', () => {
@@ -50,7 +52,7 @@ describe('Radio group component', () => {
 
   it('allows user to switch radio button', () => {
     renderDefaultComponent()
-    const radioButtons = screen.queryAllByRole('radio')
+    const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).not.toBeChecked())
     userEvent.click(radioButtons[0])
     expect(radioButtons[0]).toBeChecked()
@@ -71,7 +73,7 @@ describe('Radio group component', () => {
     const radioButtons = screen.queryAllByRole('radio')
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((r: any, index: number) => {
-      const label = screen.queryByText(CODES[index].label)
+      const label = screen.getByText(CODES[index].label)
       expect(r).not.toBeChecked()
       expect(label).not.toBeNull()
       userEvent.click(label)
@@ -85,7 +87,7 @@ describe('Radio group component', () => {
         <UeRadioGroup question={question} disabled={true} />
       </>
     )
-    const radioButtons = screen.queryAllByRole('radio')
+    const radioButtons = screen.queryAllByRole('radio') as HTMLInputElement[]
     expect(radioButtons).toHaveLength(CODES.length)
     radioButtons.forEach((radio: HTMLInputElement) => expect(radio).toBeDisabled())
   })

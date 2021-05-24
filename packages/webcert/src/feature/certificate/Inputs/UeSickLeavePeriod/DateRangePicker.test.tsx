@@ -58,7 +58,7 @@ const question: CertificateDataElement = {
       expression: '$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT',
     },
   ],
-  validationError: [],
+  validationErrors: [],
 }
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
@@ -66,6 +66,7 @@ const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const renderDefaultComponent = (fromDate = null, toDate = null) => {
   render(
     <DateRangePicker
+      getHasOverlap={() => false}
       updateValue={() => {}}
       getPeriodStartingDate={() => formatDateToString(new Date())}
       label={LABEL}
@@ -75,11 +76,6 @@ const renderDefaultComponent = (fromDate = null, toDate = null) => {
     />
   )
 }
-
-const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-useDispatchSpy.mockReturnValue(jest.fn())
-useSelectorSpy.mockReturnValue(jest.fn())
 
 describe('Date range picker', () => {
   it('renders without crashing', () => {
