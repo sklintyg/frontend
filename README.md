@@ -72,6 +72,28 @@ To build it on openshift: `make`
 To use it locally: `s2i build . s2i-frontend-builder:latest webcert-frontend:latest --loglevel 3` (you can skip the --loglevel or even change it to '5' for more loginfo)
 To use it on openshift: Run the pipeline
 
+## OpenShift Build Pipeline
+
+Webcert-frontend is built using a OpenShift build pipeline. The OpenShift-template for creating the pipeline can be found in `openshift/pipelinetemplate-build-frontend.yaml`.
+
+The pipeline is partially prepared for building other frontend applications within the frontend-repo. 
+
+**Parameters:**
+
+| Parameter | Required | Description |
+| --------- | -------- | ----------- |
+| APP_NAME                | Yes         | The Web App name, ex: `webcert-frontend` |
+| RELEASE_VERSION         | Yes         | The name of this release, ex: `2021-2` |
+| STAGE                   |             | The stage label, default is `test` |        
+| ARTIFACT\_IMAGE\_SUFFIX |             | The suffix of the artifact ImageStream, default is `artifact` |
+| GIT_URL                 | Yes         | URL to git repository, ex: `https://github.com/sklintyg/frontend.git` | 
+| GIT_CI_BRANCH           | Yes         | Branch in git repository, ex: `master` | 
+
+To create a frontend-pipeline using the template, you make sure to first login to OpenShift and then run the following command. 
+```
+`oc process -f pipelinetemplate-build-frontend.yaml -p APP_NAME=webcert-frontend -p RELEASE_VERSION=2021-2 -p GIT_URL=https://github.com/sklintyg/frontend.git -p GIT_CI_BRANCH=master | oc apply  -f -`
+```
+
 ## Running storybook
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common. 
