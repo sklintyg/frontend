@@ -1,8 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UvText Verify snapshot 1`] = `
+.c0 {
+  white-space: pre-wrap;
+  display: inline-block;
+  padding: 8px 14px;
+}
+
 <div
-  className="sc-bdfBwQ coVxVu iu-bg-secondary-light iu-radius-sm"
+  className="c0 iu-bg-secondary-light iu-radius-sm"
 >
   <div
     className="iu-fs-200"

@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled from 'styled-components'
 
 interface Props {
   label?: string

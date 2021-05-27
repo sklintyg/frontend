@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
+import 'jest-styled-components'
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import UvText from './UvText'
 import {
@@ -72,7 +74,8 @@ describe('UvText', () => {
     const { getByText } = render(<UvText question={question} />)
     expect(getByText('Datum 1')).toBeInTheDocument()
     expect(getByText('Datum 2')).toBeInTheDocument()
-    expect(screen.queryByText('Datum 3')).toBeNull()
+    expect(getByText('Datum 3')).toBeInTheDocument()
+    expect(getByText('Ej angivet')).toBeInTheDocument()
   })
 
   it('Verify snapshot', () => {

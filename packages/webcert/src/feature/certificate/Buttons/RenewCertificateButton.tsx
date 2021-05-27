@@ -17,15 +17,16 @@ interface Props {
   certificateMetadata?: CertificateMetadata
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: certMetadata }) => {
+const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const certificateMetadata = certMetadata ?? useSelector(getCertificateMetaData)
+  const fetchedMetaData = useSelector(getCertificateMetaData)
+  const certificateMetaData = fetchedMetaData ?? propMetaData
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser)
   const showModal = user?.preferences?.dontShowFornyaDialog !== 'true'
 
-  if (!certificateMetadata) return null
+  if (!certificateMetaData) return null
 
   const handleConfirm = () => {
     if (checked) {

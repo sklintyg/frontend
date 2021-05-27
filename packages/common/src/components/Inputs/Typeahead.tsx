@@ -94,7 +94,7 @@ const useKeyPress = (targetKey: string) => {
   return keyPressed
 }
 
-const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
     disabled,
     onChange,
@@ -208,7 +208,7 @@ const Typeahead: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
             id={'typeahead-list-option-' + i}
             key={item.label}
             role="option"
-            title={item.title}
+            title={item.title ?? 'unknown-title'}
             className={getItemClassName(item, i)}
             onMouseDown={(e) => onClick(item)}
             onMouseEnter={() => updateHovered(i)}
