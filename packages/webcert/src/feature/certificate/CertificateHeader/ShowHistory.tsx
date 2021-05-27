@@ -82,6 +82,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             </>
           )
         }
+        break
       case CertificateEventType.SENT:
         if (certificateMetadata.type === 'lisjp') {
           return 'Intyget är skickat till Försäkringskassan'
