@@ -672,7 +672,7 @@ app.post('/moduleapi/diagnos/kod/sok', (req: Request, res: Response, next: NextF
   res
     .json({
       resultat: 'OK',
-      diagnoser: diagnoses.filter((d) => d.kod.includes(req.body.fragment)),
+      diagnoser: diagnoses.filter((d) => d.kod.includes(req.body.codeFragment)),
       moreResults: false,
     })
     .status(200)
@@ -684,7 +684,7 @@ app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, nex
   res
     .json({
       resultat: 'OK',
-      diagnoser: diagnoses.filter((d) => d.beskrivning.toLowerCase().includes(req.body.fragment.toLowerCase())),
+      diagnoser: diagnoses.filter((d) => d.beskrivning.toLowerCase().includes(req.body.descriptionSearchString.toLowerCase())),
       moreResults: false,
     })
     .status(200)
