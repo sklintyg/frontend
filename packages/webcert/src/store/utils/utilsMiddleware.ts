@@ -51,11 +51,14 @@ const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: Middlew
     return
   }
 
-  let url = ''
+  let url: string
+  let queryProperty: string
   if (action.payload.code) {
     url = '/moduleapi/diagnos/kod/sok'
+    queryProperty = 'codeFragment'
   } else {
     url = '/moduleapi/diagnos/beskrivning/sok'
+    queryProperty = 'descriptionSearchString'
   }
 
   dispatch(
@@ -64,7 +67,7 @@ const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: Middlew
       method: 'POST',
       data: {
         codeSystem: action.payload.codeSystem,
-        fragment: action.payload.fragment,
+        [queryProperty]: action.payload.fragment,
         nbrOfResults: action.payload.maxNumberOfResults,
       },
       onStart: getDiagnosisTypeaheadStarted.type,
