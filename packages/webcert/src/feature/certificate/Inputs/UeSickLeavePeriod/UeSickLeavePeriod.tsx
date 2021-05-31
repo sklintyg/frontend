@@ -9,8 +9,8 @@ import {
   parseDayCodes,
   ValueDateRange,
 } from '@frontend/common'
-import { ConfigUeCheckboxDateRange } from '../../../../../../common/src/types/certificate'
-import { ValueDateRangeList } from '../../../../../../common/src/types/certificate'
+import { CertificateDataValueType, ConfigUeCheckboxDateRange } from '@frontend/common'
+import { ValueDateRangeList } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
@@ -47,11 +47,14 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
     const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueId)
 
     if (updatedValueIndex === -1) {
-      updatedValueList = [...updatedValueList, { from: fromDate, to: toDate, id: valueId } as ValueDateRange]
+      updatedValueList = [
+        ...updatedValueList,
+        { from: fromDate, to: toDate, id: valueId, type: CertificateDataValueType.DATE_RANGE } as ValueDateRange,
+      ]
     } else {
       updatedValueList = updatedValueList.map((val) => {
         if (val.id === valueId) {
-          return { ...val, from: fromDate, to: toDate, id: valueId } as ValueDateRange
+          return { ...val, from: fromDate, to: toDate, id: valueId, type: CertificateDataValueType.DATE_RANGE } as ValueDateRange
         }
         return val
       })

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import {
-  Checkbox,
   CertificateDataElement,
+  CertificateDataValueType,
+  Checkbox,
   ConfigTypes,
   QuestionValidationTexts,
   ValueBoolean,
@@ -93,7 +94,7 @@ const getUpdatedCodeListValue = (question: CertificateDataElement, checked: bool
 
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === id)
   if (updatedValueIndex === -1 && checked) {
-    updatedValueList = [...updatedValueList, { code: id, id: id } as ValueCode]
+    updatedValueList = [...updatedValueList, { code: id, id: id, type: CertificateDataValueType.CODE } as ValueCode]
   } else {
     if (!checked) {
       updatedValueList.splice(updatedValueIndex, 1)

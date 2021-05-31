@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox } from '@frontend/common'
+import { CertificateDataValueType, Checkbox } from '@frontend/common'
 import { CertificateDataElement, ConfigTypes, QuestionValidationTexts, ValueDate, ValueDateList } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import DatePickerCustom from './DatePickerCustom'
 import { format } from 'date-fns'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ const getUpdatedDateListValue = (question: CertificateDataElement, checked: bool
 
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === id)
   if (updatedValueIndex === -1 && checked) {
-    updatedValueList = [...updatedValueList, { id: id, date: date } as ValueDate]
+    updatedValueList = [...updatedValueList, { id: id, date: date, type: CertificateDataValueType.DATE } as ValueDate]
   } else {
     if (!checked) {
       updatedValueList.splice(updatedValueIndex, 1)
