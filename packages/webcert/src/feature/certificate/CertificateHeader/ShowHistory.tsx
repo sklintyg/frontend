@@ -17,10 +17,10 @@ interface Props {
 
 const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
   function formatDate(date: string) {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+    const d = new Date(date)
+    let month = '' + (d.getMonth() + 1)
+    let day = '' + d.getDate()
+    const year = d.getFullYear()
 
     if (month.length < 2) month = '0' + month
     if (day.length < 2) day = '0' + day
@@ -73,8 +73,22 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
           </>
         )
+      case CertificateEventType.RENEWAL_OF:
+        if (certificateMetadata.status === 'UNSIGNED') {
+          return (
+            <>
+              Utkastet är skapat för att förnya ett tidigare intyg.{' '}
+              <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        }
+        break
       case CertificateEventType.SENT:
-        return 'Intyget är skickat till Arbetsförmedlingen'
+        if (certificateMetadata.type === 'lisjp') {
+          return 'Intyget är skickat till Försäkringskassan'
+        } else {
+          return 'Intyget är skickat till Arbetsförmedlingen'
+        }
       case CertificateEventType.REVOKED:
         const hasParent = isHasParent(certificateMetadata)
         const parentRevoked = isParentRevoked(certificateMetadata)

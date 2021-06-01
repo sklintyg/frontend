@@ -1,9 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Certificate, ConfigTypes } from '@frontend/common'
 import {
+  addCertificateApprovedReceiver,
   autoSaveCertificateSuccess,
   enableCertificateDataElement,
   disableCertificateDataElement,
+  unhideCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -25,7 +27,18 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { ValueBoolean, CertificateDataValueType, ValueText, CertificateEvent, CertificateDataElement, ConfigUeCheckboxMultipleCodes, ValueCodeList, ValueCode } from '@frontend/common'
+import {
+  ValueBoolean,
+  CertificateDataValueType,
+  CertificateDataValidationType,
+  ValueText,
+  CertificateEvent,
+  CertificateDataElement,
+  ConfigUeCheckboxMultipleCodes,
+  CertificateReceiver,
+  ValueCodeList,
+  ValueCode,
+} from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
@@ -56,22 +69,25 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.certificateEvents.splice(0, state.certificateEvents.length)
       for (const questionId in state.certificate.data) {
         const question = state.certificate.data[questionId]
+        question.visible = question.visible === undefined ? true : question.visible
         if (question.config.type === ConfigTypes.CATEGORY) {
           continue
         }
 
-        switch (question.value!.type) {
-          case CertificateDataValueType.TEXT:
-            const textValue = question.value as ValueText
-            if (textValue.text === undefined) {
-              textValue['text'] = ''
-            }
-            break
-          case CertificateDataValueType.BOOLEAN:
-            const booleanValue = question.value as ValueBoolean
-            if (booleanValue.selected === undefined) {
-              booleanValue['selected'] = null
-            }
+        if (question.value) {
+          switch (question.value!.type) {
+            case CertificateDataValueType.TEXT:
+              const textValue = question.value as ValueText
+              if (textValue.text === undefined) {
+                textValue['text'] = ''
+              }
+              break
+            case CertificateDataValueType.BOOLEAN:
+              const booleanValue = question.value as ValueBoolean
+              if (booleanValue.selected === undefined) {
+                booleanValue['selected'] = null
+              }
+          }
         }
       }
     })
@@ -116,6 +132,17 @@ const certificateReducer = createReducer(initialState, (builder) =>
 
       state.certificate.metadata.version = action.payload
     })
+    .addCase(addCertificateApprovedReceiver, (state, action) => {
+      if (!state.certificate || !state.certificate.metadata || !state.certificate.metadata.approvedReceivers) {
+        return
+      }
+      const receiver = state.certificate.metadata.approvedReceivers.find((r: CertificateReceiver) => r.name === action.payload.name)
+      if (receiver !== undefined) {
+        receiver.approved = action.payload.approved
+      } else {
+        state.certificate.metadata.approvedReceivers.push(action.payload)
+      }
+    })
     .addCase(showSpinner, (state, action) => {
       state.spinner = true
       state.spinnerText = action.payload
@@ -158,14 +185,22 @@ const certificateReducer = createReducer(initialState, (builder) =>
         return
       }
 
-      state.certificate.data[action.payload].visible = true
+      state.certificate!.data[action.payload].visible = true
     })
     .addCase(hideCertificateDataElement, (state, action) => {
       if (!state.certificate) {
         return
       }
 
-      state.certificate.data[action.payload].visible = false
+      state.certificate!.data[action.payload].visible = false
+    })
+    .addCase(unhideCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+      if (!state.certificate!.data[action.payload].validation.some((v) => v.type === CertificateDataValidationType.SHOW_VALIDATION)) {
+        state.certificate!.data[action.payload].visible = true
+      }
     })
     .addCase(showCertificateDataElementMandatory, (state, action) => {
       if (!state.certificate) {
@@ -215,7 +250,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
             const index = (state.certificate!.data[action.payload.id].value as ValueCodeList).list.findIndex(
               (value) => item.id === value.id
             )
-            if (index != -1) {
+            if (index !== -1) {
               ;(state.certificate!.data[action.payload.id].value as ValueCodeList).list.splice(index, 1)
             }
           }

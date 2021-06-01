@@ -9,6 +9,9 @@ import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
+import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
+import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
+import UeDiagnoses from '../Inputs/UeDiagnoses'
 
 interface QuestionProps {
   id: string
@@ -16,22 +19,22 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
-  const parent = useSelector(getQuestion(question.parent))
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
+  const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
 
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
-  if (!question || ((!question.visible || !parent.visible) && !question.readOnly)) return null
+  if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
     <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
       <QuestionWrapper>
-        {getQuestionComponent(question.config, question.mandatory, question.readOnly, disabled)}
+        {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
         {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
       </QuestionWrapper>
     </Expandable>
   )
 
-  function getQuestionComponent(config: CertificateDataConfig, mandatory: boolean, readOnly: boolean, disabled: boolean) {
+  function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
     if (disabled) {
       return <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
     }
@@ -41,13 +44,16 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
         <Accordion
           title={question.config.text}
           description={question.config.description}
-          additionalStyles="questionTitle iu-fw-heading iu-fs-300"></Accordion>
+          displayMandatory={displayMandatory}
+          additionalStyles="questionTitle iu-fw-heading iu-fs-300  iu-mb-300"></Accordion>
       )
     }
     return (
       <>
-        <MandatoryIcon display={!readOnly && mandatory && !disabled}></MandatoryIcon>
-        <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
+        <MandatoryIcon display={displayMandatory}></MandatoryIcon>
+        <p className={`questionTitle iu-fw-heading iu-fs-300 iu-mb-300`}>
+          {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
+        </p>
       </>
     )
   }
@@ -62,6 +68,10 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE)
+      return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD) return <UeSickLeavePeriod question={question} key={question.id} />
+    if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 

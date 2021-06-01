@@ -19,6 +19,7 @@ interface Props {
   description: string
   onClick?: () => void
   onClose?: () => void
+  hideDeclineButton?: boolean
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {

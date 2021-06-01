@@ -1,15 +1,21 @@
+import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
   Certificate,
+  CertificateData,
   CertificateDataElement,
   CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
-  MandatoryValidation,
-  ShowValidation,
+  CertificateStatus,
+  getValidDate,
+  MaxDateValidation,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDateList,
+  ValueDateRangeList,
+  ValueDiagnosisList,
   ValueText,
 } from '..'
 
@@ -18,7 +24,7 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
-  const adjustedExpression = expression.replace(/\|\|/g, 'or')
+  const adjustedExpression = getExpression(expression)
 
   function convertToValue(id: string, type: CertificateDataValidationType): number {
     const adjustedId = id.replace(/\$/g, '')
@@ -31,7 +37,7 @@ export const parseExpression = (
       case CertificateDataValueType.BOOLEAN:
         const valueBoolean = element.value as ValueBoolean
         return type === CertificateDataValidationType.MANDATORY_VALIDATION
-          ? valueBoolean.selected !== null
+          ? valueBoolean.selected !== null && valueBoolean.selected !== undefined
             ? 1
             : 0
           : valueBoolean.selected
@@ -43,10 +49,33 @@ export const parseExpression = (
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
 
+      case CertificateDataValueType.DATE_RANGE_LIST:
+        const dateRangeList = (element.value as ValueDateRangeList).list
+        const dateRange = dateRangeList.find((dateR) => dateR.id === adjustedId)
+
+        if (!dateRange || dateRange?.from === null || dateRange?.to === null) {
+          return 0
+        } else {
+          const fromDate = getValidDate(dateRange.from)
+          const toDate = getValidDate(dateRange.to)
+          return isValid(fromDate) && isValid(toDate) ? 1 : 0
+        }
+
+      case CertificateDataValueType.DATE_LIST:
+        const valueDateList = element.value as ValueDateList
+        const date = valueDateList.list.find((date) => date.id === adjustedId)
+        return date ? 1 : 0
+
       case CertificateDataValueType.CODE:
         const valueCode = element.value as ValueCode
         return valueCode.id === adjustedId ? 1 : 0
 
+      case CertificateDataValueType.DIAGNOSIS_LIST:
+        const valueDiagnosisList = element.value as ValueDiagnosisList
+        const diagnosis = valueDiagnosisList.list.find(
+          (d) => d.id === adjustedId && d.code !== undefined && d.code.length > 0 && d.description !== undefined && d.description.length > 0
+        )
+        return diagnosis ? 1 : 0
       default:
         return 0
     }
@@ -68,6 +97,39 @@ export interface ValidationResult {
   affectedIds?: string[]
 }
 
+const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string): boolean => {
+  if (validation.expression === undefined || validation.expression === null) {
+    if (CertificateDataValidationType.MAX_DATE_VALIDATION) {
+      return validateMaxDate(id, validation as MaxDateValidation, data)
+    }
+    return false
+  } else {
+    return parseExpression(validation.expression, data[validation.questionId], validation.type)
+  }
+}
+
+const getExpression = (expression: string): string => {
+  expression = expression.replace(/\|\|/g, 'or')
+  expression = expression.replace(/&&/g, 'and')
+  expression = expression.replace(/!/g, 'not ')
+  return expression
+}
+
+const validateMaxDate = (id: string, validation: MaxDateValidation, data: CertificateData): boolean => {
+  const value = data[id].value as ValueDateList
+  if (value === null || value.list === undefined || value.list === null) {
+    return true
+  }
+  const index = value.list.findIndex((item) => item.id === validation.id)
+  if (index !== -1) {
+    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? false : true
+  } else return true
+}
+
+const differenceInDays = (a: Date, b: Date) => {
+  return Math.floor((a.getTime() - b.getTime()) / (1000 * 60 * 60 * 24))
+}
+
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
   const validationResults: ValidationResult[] = []
   const data = certificate.data
@@ -85,7 +147,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           type: validation.type,
           id,
           affectedIds: validation.id as string[],
-          result: parseExpression(validation.expression, data[validation.questionId], validation.type),
+          result: getResult(validation, data, id),
         }
         newValidationResults.push(validationResult)
       })
@@ -111,4 +173,36 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
   }
 
   return validationResults
+}
+
+export const decorateCertificateWithInitialValues = (certificate: Certificate): void => {
+  const data = certificate.data
+
+  for (const id in data) {
+    if (certificate.metadata.status !== CertificateStatus.UNSIGNED) {
+      data[id].readOnly = true
+      data[id].visible = true
+    } else {
+      validate(data, id)
+    }
+  }
+}
+
+function validate(data: CertificateData, id: string) {
+  const validations = data[id].validation || []
+
+  validations.forEach((validation) => {
+    const validationResult: ValidationResult = {
+      type: validation.type,
+      id,
+      affectedIds: validation.id as string[],
+      result: getResult(validation, data, id),
+    }
+
+    if (validationResult.type == CertificateDataValidationType.MANDATORY_VALIDATION) {
+      data[id].mandatory = !validationResult.result
+    } else if (validationResult.type == CertificateDataValidationType.SHOW_VALIDATION) {
+      data[id].visible = validationResult.result
+    }
+  })
 }

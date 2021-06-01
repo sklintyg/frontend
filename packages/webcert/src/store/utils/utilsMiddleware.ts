@@ -6,6 +6,11 @@ import {
   getAllDynamicLinksError,
   getAllDynamicLinksStarted,
   getAllDynamicLinksSuccess,
+  getDiagnosisTypeahead,
+  getDiagnosisTypeaheadError,
+  getDiagnosisTypeaheadStarted,
+  getDiagnosisTypeaheadSuccess,
+  updateDiagnosisTypeahead,
   updateDynamicLinks,
 } from './utilsActions'
 
@@ -39,4 +44,54 @@ const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch, getSt
   dispatch(updateDynamicLinks(action.payload))
 }
 
-export const utilsMiddleware = [handleGetAllDynamicLinks, handleGetAllDynamicLinksSuccess]
+const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getDiagnosisTypeahead.match(action)) {
+    return
+  }
+
+  let url: string
+  let queryProperty: string
+  if (action.payload.code) {
+    url = '/moduleapi/diagnos/kod/sok'
+    queryProperty = 'codeFragment'
+  } else {
+    url = '/moduleapi/diagnos/beskrivning/sok'
+    queryProperty = 'descriptionSearchString'
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: url,
+      method: 'POST',
+      data: {
+        codeSystem: action.payload.codeSystem,
+        [queryProperty]: action.payload.fragment,
+        nbrOfResults: action.payload.maxNumberOfResults,
+      },
+      onStart: getDiagnosisTypeaheadStarted.type,
+      onSuccess: getDiagnosisTypeaheadSuccess.type,
+      onError: getDiagnosisTypeaheadError.type,
+    })
+  )
+}
+
+const handleGetDiagnosisTypeaheadSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!getDiagnosisTypeaheadSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateDiagnosisTypeahead(action.payload))
+}
+
+export const utilsMiddleware = [
+  handleGetAllDynamicLinks,
+  handleGetAllDynamicLinksSuccess,
+  handleGetDiagnosisTypeahead,
+  handleGetDiagnosisTypeaheadSuccess,
+]

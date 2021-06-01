@@ -13,7 +13,7 @@ const LogoWrapper = styled.div`
 
 const FMBPanelFooter: React.FC = () => {
   return (
-    <SidePanelFooter backgroundColor="iu-bg-sky-dark" textColor="iu-color-white">
+    <SidePanelFooter backgroundColor="iu-bg-main" textColor="iu-color-white">
       <WCDynamicLink linkKey={'fmbSoc'} />
       <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-ml-200 iu-fs-100" />
       <LogoWrapper>

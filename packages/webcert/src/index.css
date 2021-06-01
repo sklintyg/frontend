@@ -1,9 +1,29 @@
 
 /*This is a temporary fix to position inputs correctly in certificate*/
+.ic-forms__checkbox + label, .ic-forms__radio + label {
+  align-items: unset !important;
+}
+
+.ic-forms__checkbox + label:before, .ic-forms__radio + label:before {
+   top: 3px !important;
+}
+
 .ic-forms__radio,
 .ic-forms__checkbox {
   position: unset;
   display: none;
+}
+
+.iu-no-padding {
+  padding: 0 !important;
+}
+
+.ic-button--primary {
+  border: 1px solid var(--color-main) !important;
+}
+
+.ic-button--disabled {
+  border: 1px solid #a1958a !important;
 }
 
 .ic-forms__select {

@@ -24,7 +24,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled })
       disabled={!enabled}
       style="primary"
       text={name}
-      startIcon={<FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>}
+      startIcon={<FontAwesomeIcon icon={faPrint} size="lg"></FontAwesomeIcon>}
       onClick={() => dispatch(printCertificate(certificateMetadata))}
     />
   )

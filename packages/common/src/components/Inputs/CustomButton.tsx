@@ -20,20 +20,24 @@ export const CustomButton: React.FC<Props> = (props) => {
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
   }
-  switch (props.style) {
-    case 'success':
-      addedClass += 'ic-btn--success iu-bg-success'
-      break
-    case 'primary':
-      addedClass += 'ic-button--primary'
-      break
-    case 'secondary':
-      addedClass += 'ic-button--secondary'
-      break
-    case 'default':
-    default:
-      addedClass += 'ic-button--default iu-bg-white iu-border-black iu-color-black'
-      break
+  if (props.disabled) {
+    addedClass += 'ic-button--disabled'
+  } else {
+    switch (props.style) {
+      case 'success':
+        addedClass += 'ic-button--primary iu-bg-grass-base iu-border-grass-base'
+        break
+      case 'primary':
+        addedClass += 'ic-button--primary'
+        break
+      case 'secondary':
+        addedClass += 'ic-button--secondary'
+        break
+      case 'default':
+      default:
+        addedClass += 'ic-button--default iu-bg-white iu-border-black iu-color-black'
+        break
+    }
   }
 
   return (
@@ -44,7 +48,7 @@ export const CustomButton: React.FC<Props> = (props) => {
         className={'ic-button iu-radius-md ' + addedClass}
         disabled={props.disabled}
         onClick={props.onClick}>
-        <span className="iu-mr-200 iu-flex">{props.startIcon}</span>
+        {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
       </button>
     </ButtonTooltip>

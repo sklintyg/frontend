@@ -1,13 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UvText Verify snapshot 1`] = `
+.c0 {
+  white-space: pre-wrap;
+  display: inline-block;
+  padding: 8px 14px;
+}
+
 <div
-  className="sc-iqHYGH hiTQec iu-bg-grey-300 iu-radius-sm"
+  className="c0 iu-bg-secondary-light iu-radius-sm"
 >
-  <p
+  <div
     className="iu-fs-200"
-  >
-    Text
-  </p>
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Text",
+      }
+    }
+  />
 </div>
 `;

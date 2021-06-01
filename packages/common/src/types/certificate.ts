@@ -30,6 +30,12 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
+  approvedReceivers?: CertificateReceiver[]
+}
+
+export interface CertificateReceiver {
+  name: string
+  approved: boolean
 }
 
 export interface CertificateData {
@@ -54,12 +60,15 @@ export interface CertificateDataElement {
 export enum ConfigTypes {
   CATEGORY = 'CATEGORY',
   UE_CHECKBOX_BOOLEAN = 'UE_CHECKBOX_BOOLEAN',
+  UE_CHECKBOX_CODE = 'UE_CHECKBOX_CODE',
+  UE_CHECKBOX_DATE = 'UE_CHECKBOX_DATE',
   UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
+  UE_RADIO_CODE = 'UE_RADIO_CODE',
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
@@ -89,21 +98,28 @@ export interface ConfigUeRadioBoolean extends CertificateDataConfig {
 export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   id: string
   label: string
+  selectedText: string
+  unselectedText: string
+}
+
+export interface ConfigUeCheckboxCode extends CertificateDataConfig {
+  id: string
+  label: string
   disabled?: boolean
 }
 
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
-  list: ConfigUeCheckboxBoolean[]
+  list: ConfigUeCheckboxCode[]
 }
 
-export interface ConfigUeRadioBoolean extends CertificateDataConfig {
+export interface ConfigUeRadioCode extends CertificateDataConfig {
   id: string
   label: string
 }
 
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
-  list: ConfigUeRadioBoolean[]
+  list: ConfigUeRadioCode[]
 }
 
 export interface ConfigUeCheckboxDate extends CertificateDataConfig {
@@ -124,8 +140,18 @@ export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
   list: ConfigUeCheckboxDateRange[]
 }
 
+export interface ConfigUeDiagnosisTerminology {
+  id: string
+  label: string
+}
+
+export interface ConfigUeDiagnosisId {
+  id: string
+}
+
 export interface ConfigUeDiagnoses extends CertificateDataConfig {
-  terminology: string[]
+  terminology: ConfigUeDiagnosisTerminology[]
+  list: ConfigUeDiagnosisId[]
 }
 
 export interface ConfigUeDropdownItem extends CertificateDataConfig {
@@ -173,7 +199,7 @@ export interface ValueDate extends Value {
 }
 
 export interface ValueDateList extends Value {
-  list: ValueDate
+  list: ValueDate[]
 }
 
 export interface ValueDateRange extends Value {
@@ -183,7 +209,7 @@ export interface ValueDateRange extends Value {
 }
 
 export interface ValueDateRangeList extends Value {
-  list: ValueDateRange
+  list: ValueDateRange[]
 }
 
 export interface ValueDiagnosis extends Value {
@@ -306,6 +332,7 @@ export interface CertificateRelation {
 export enum CertificateRelationType {
   REPLACE = 'REPLACE',
   COPIED = 'COPIED',
+  RENEW = 'RENEW',
 }
 
 export interface CertificateEvent {
@@ -333,6 +360,7 @@ export enum CertificateEventType {
   REVOKED = 'REVOKED',
   REPLACED = 'REPLACED',
   REPLACES = 'REPLACES',
+  RENEWAL_OF = 'RENEWAL_OF',
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
   CREATED_FROM = 'CREATED_FROM',

@@ -73,11 +73,20 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
   setDisabledCertificateDataChild,
+  sendCertificate,
+  renewCertificateStarted,
+  renewCertificateSuccess,
+  renewCertificateError,
+  renewCertificateCompleted,
+  renewCertificate,
+  unhideCertificateDataElement,
+  sendCertificateSuccess,
+  sendCertificateError,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
-import { Certificate, CertificateDataElement, CertificateStatus } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave } from '@frontend/common'
 import { loginUser } from '../user/userActions'
-import { validateExpressions, ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -113,13 +122,14 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (nex
     return
   }
 
-  dispatch(updateCertificate(action.payload))
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
   dispatch(getCertificateCompleted())
   dispatch(hideSpinner())
-  if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
-    dispatch(validateCertificate(action.payload))
+  if (action.payload.certificate.metadata.status === CertificateStatus.UNSIGNED) {
+    dispatch(validateCertificate(action.payload.certificate))
   }
-  dispatch(getCertificateEvents(action.payload.metadata.id))
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -217,11 +227,41 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
     return
   }
 
-  dispatch(updateCertificate(action.payload))
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
   dispatch(forwardCertificateCompleted())
-  dispatch(validateCertificate(action.payload))
-  dispatch(getCertificateEvents(action.payload.metadata.id))
+  dispatch(validateCertificate(action.payload.certificate))
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendCertificate.match(action)) {
+    return
+  }
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/' + certificate.metadata.type + '/send',
+      method: 'POST',
+      data: certificate,
+      onSuccess: sendCertificateSuccess.type,
+      onError: sendCertificateError.type,
+    })
+  )
+}
+
+const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(getCertificateEvents(action.payload.id))
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -264,10 +304,11 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   }
 
   dispatch(hideValidationErrors())
-  dispatch(updateCertificate(action.payload))
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
   dispatch(signCertificateCompleted())
-  dispatch(getCertificateEvents(action.payload.metadata.id))
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
 const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -302,10 +343,11 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getSta
     return
   }
 
-  dispatch(updateCertificate(action.payload))
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
   dispatch(revokeCertificateCompleted())
-  dispatch(getCertificateEvents(action.payload.metadata.id))
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
 const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -344,6 +386,45 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
 
   dispatch(hideSpinner())
   dispatch(replaceCertificateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
+const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!renewCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Förnyar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/renew',
+      method: 'POST',
+      data: {
+        certificateType: certificate.metadata.type,
+        patientId: certificate.metadata.patient.personId,
+      },
+      onStart: renewCertificateStarted.type,
+      onSuccess: renewCertificateSuccess.type,
+      onError: renewCertificateError.type,
+      onArgs: { history: action.payload },
+    })
+  )
+}
+
+const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!renewCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  dispatch(renewCertificateCompleted())
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
@@ -430,7 +511,7 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id,
       method: 'PUT',
-      data: certificate,
+      data: getCertificateToSave(certificate),
       onStart: autoSaveCertificateStarted.type,
       onSuccess: autoSaveCertificateSuccess.type,
       onError: autoSaveCertificateError.type,
@@ -487,7 +568,7 @@ const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     return
   }
 
-  const printUrl = `http://localhost:9088/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
+  const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
   window.open(printUrl, '_self')
 }
 
@@ -525,7 +606,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         if (result.result) {
           dispatch(hideCertificateDataElement(result.id))
         } else {
-          dispatch(showCertificateDataElement(result.id))
+          dispatch(unhideCertificateDataElement(result.id))
         }
         break
 
@@ -570,10 +651,14 @@ export const certificateMiddleware = [
   handlePrintCertificate,
   handleRevokeCertificate,
   handleRevokeCertificateSuccess,
+  handleRenewCertificate,
+  handleRenewCertificateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
   handleForwardCertificate,
   handleForwardCertificateSuccess,
   handleCopyCertificate,
   handleCopyCertificateSuccess,
+  handleSendCertificate,
+  handleSendCertificateSuccess,
 ]

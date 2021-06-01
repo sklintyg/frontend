@@ -24,7 +24,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<FontAwesomeIcon icon={faTrash} />}
+      startIcon={<FontAwesomeIcon icon={faTrash} size={'lg'} />}
       modalTitle="Radera utkast"
       onConfirm={() => {
         dispatch(deleteCertificate(certificateMetadata.id))

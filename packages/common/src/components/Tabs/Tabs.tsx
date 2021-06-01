@@ -13,6 +13,10 @@ const Section = styled.section`
   flex-direction: column;
 `
 
+const Ul = styled.ul`
+  border-bottom: 0 !important;
+`
+
 interface Props {
   tabs: React.ReactNode[]
   tabsContent: React.ReactNode[]
@@ -128,7 +132,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
 
   return (
     <Root ref={tabbed} className="ic-tabbed tabbed">
-      <ul ref={tablist} className="ic-tabbed__tabs iu-hide-sm">
+      <Ul ref={tablist} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-no-padding">
         {tabs.map((tab, i) => {
           return (
             <li key={i}>
@@ -142,7 +146,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
             </li>
           )
         })}
-      </ul>
+      </Ul>
 
       {tabsContent.map((tabContent, i) => {
         return (

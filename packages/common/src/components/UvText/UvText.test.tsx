@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
-import { render } from '@testing-library/react'
+import 'jest-styled-components'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
 import UvText from './UvText'
 import {
   ValueBoolean,
@@ -13,7 +15,12 @@ import {
   ConfigTypes,
   ConfigUeRadioBoolean,
   ConfigUeTextArea,
+  ConfigUeCheckboxMultipleCodes,
+  ConfigUeRadioMultipleCodes,
+  ValueCode,
+  ValueCodeList,
 } from '@frontend/common'
+import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
 
 describe('UvText', () => {
   it('renders without crashing', () => {
@@ -47,6 +54,28 @@ describe('UvText', () => {
     ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
     const { getByText } = render(<UvText question={question} />)
     getByText(/Okänd datatyp/i)
+  })
+
+  it('displays code value', () => {
+    const question = createQuestionWithCodeValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/This code/i)
+  })
+
+  it('displays several code values', () => {
+    const question = createQuestionWithMultipleCodeValues()
+    const { getByText } = render(<UvText question={question} />)
+    expect(getByText('Code 1')).toBeInTheDocument()
+    expect(getByText('Code 2')).toBeInTheDocument()
+  })
+
+  it('displays several date values', () => {
+    const question = createQuestionWithMultipleDates()
+    const { getByText } = render(<UvText question={question} />)
+    expect(getByText('Datum 1')).toBeInTheDocument()
+    expect(getByText('Datum 2')).toBeInTheDocument()
+    expect(getByText('Datum 3')).toBeInTheDocument()
+    expect(getByText('Ej angivet')).toBeInTheDocument()
   })
 
   it('Verify snapshot', () => {
@@ -90,6 +119,134 @@ export function createQuestionWithBooleanValue(): CertificateDataElement {
     type: ConfigTypes.UE_RADIO_BOOLEAN,
   }
 
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithCodeValue(): CertificateDataElement {
+  const value: ValueCode = {
+    type: CertificateDataValueType.CODE,
+    id: 'THIS_CODE',
+    code: 'CODE',
+  }
+  const config: ConfigUeRadioMultipleCodes = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_RADIO_CODE,
+        id: 'THIS_CODE',
+        label: 'This code',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_RADIO_CODE,
+        id: 'NOT_THIS_CODE',
+        label: 'Not this code',
+      },
+    ],
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
+  const value: ValueCodeList = {
+    type: CertificateDataValueType.CODE_LIST,
+    list: [
+      {
+        type: CertificateDataValueType.CODE,
+        id: 'CODE_1',
+        code: 'CODE_1',
+      },
+      {
+        type: CertificateDataValueType.CODE,
+        id: 'CODE_2',
+        code: 'CODE_2',
+      },
+    ],
+  }
+  const config: ConfigUeCheckboxMultipleCodes = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_1',
+        label: 'Code 1',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_2',
+        label: 'Code 2',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_CODE,
+        id: 'CODE_3',
+        label: 'Code 3',
+      },
+    ],
+  }
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithMultipleDates(): CertificateDataElement {
+  const value: ValueDateList = {
+    type: CertificateDataValueType.DATE_LIST,
+    list: [
+      {
+        type: CertificateDataValueType.DATE,
+        id: 'DATE_1',
+        date: '2020-02-02',
+      },
+      {
+        type: CertificateDataValueType.DATE,
+        id: 'DATE_2',
+        date: '2021-05-05',
+      },
+    ],
+  }
+  const config: ConfigUeCheckboxMultipleDate = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_1',
+        label: 'Datum 1',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_2',
+        label: 'Datum 2',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_DATE,
+        id: 'DATE_3',
+        label: 'Datum 3',
+      },
+    ],
+  }
   return createQuestion(value, config)
 }
 

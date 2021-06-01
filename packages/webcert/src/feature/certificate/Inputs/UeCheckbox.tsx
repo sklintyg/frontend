@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-  Checkbox,
   CertificateDataElement,
+  CertificateDataValueType,
+  Checkbox,
   ConfigTypes,
   QuestionValidationTexts,
   ValueBoolean,
@@ -12,6 +13,7 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { css } from 'styled-components'
 
 interface Props {
   label?: string
@@ -24,13 +26,19 @@ interface Props {
   question: CertificateDataElement
 }
 
+const wrapperStyles = css`
+  padding-top: 14px;
+`
+
 const UeCheckbox: React.FC<Props> = (props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
   const values = (question.value as ValueCodeList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
+  const isSingleCheckbox = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setIsChecked(event.currentTarget.checked)
     let updatedValue = question
     if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
       updatedValue = getUpdatedCodeListValue(question, event.currentTarget.checked, id || question.id)
@@ -49,19 +57,24 @@ const UeCheckbox: React.FC<Props> = (props) => {
     return false
   }
 
+  const [isChecked, setIsChecked] = useState(checked ? checked : getChecked())
+
   return (
     <div>
       <Checkbox
         id={id || question.id}
-        label={label ? label : question.config.label + ''}
+        label={label ? label : (question.config.label as string)}
         value={id}
-        checked={checked ? checked : getChecked()}
+        checked={isChecked}
         vertical={true}
         disabled={disabled}
         onChange={handleChange}
         hasValidationError={hasValidationError}
+        wrapperStyles={!isSingleCheckbox ? wrapperStyles : undefined}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      {isShowValidationError && isSingleCheckbox && (
+        <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+      )}
     </div>
   )
 }
@@ -81,7 +94,7 @@ const getUpdatedCodeListValue = (question: CertificateDataElement, checked: bool
 
   const updatedValueIndex = updatedValueList.findIndex((val) => val.id === id)
   if (updatedValueIndex === -1 && checked) {
-    updatedValueList = [...updatedValueList, { code: id, id: id } as ValueCode]
+    updatedValueList = [...updatedValueList, { code: id, id: id, type: CertificateDataValueType.CODE } as ValueCode]
   } else {
     if (!checked) {
       updatedValueList.splice(updatedValueIndex, 1)
