@@ -23,6 +23,14 @@ interface Props {
   displayMandatory?: boolean
 }
 
+const Text = styled.p`
+  ul {
+    list-style: unset;
+    padding-left: 40px;
+    margin-bottom: 10px;
+  }
+`
+
 const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory, header }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
   const expandBtn = useRef<null | HTMLButtonElement>(null)
@@ -37,14 +45,6 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
     btn.setAttribute('aria-expanded', item.classList.contains('ic-expandable--expanded') ? 'false' : 'true')
     item.classList.toggle('ic-expandable--expanded')
   }
-
-  const Text = styled.p`
-    ul {
-      list-style: unset;
-      padding-left: 40px;
-      margin-bottom: 10px;
-    }
-  `
 
   const getHeader = () => {
     if (!hasHeader) {
