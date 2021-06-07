@@ -48,17 +48,9 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
 
   const getHeader = () => {
     if (!hasHeader) {
-      return (
-        <>
-          <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{getContents()}</h4>
-        </>
-      )
+      return <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{getContents()}</h4>
     } else {
-      return (
-        <>
-          <h5 className={`iu-fs-200 iu-color-black ${additionalStyles}`}>{getContents()}</h5>
-        </>
-      )
+      return <h5 className={`iu-fs-200 iu-color-black ${additionalStyles}`}>{getContents()}</h5>
     }
   }
 
