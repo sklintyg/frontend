@@ -17,14 +17,16 @@ const ArrowUp = styled.div`
 `
 interface Props {
   title: string
+  header?: string
   description: string
   additionalStyles?: string
   displayMandatory?: boolean
 }
 
-const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory }) => {
+const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory, header }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
   const expandBtn = useRef<null | HTMLButtonElement>(null)
+  const hasHeader = header !== null && header !== '' && header !== undefined
 
   const toggleExpanded = () => {
     const btn = expandBtn.current
@@ -36,9 +38,33 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
     item.classList.toggle('ic-expandable--expanded')
   }
 
-  return (
-    <div className="ic-expandable" ref={expandableRef}>
-      <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>
+  const Text = styled.p`
+    ul {
+      list-style: unset;
+      padding-left: 40px;
+      margin-bottom: 10px;
+    }
+  `
+
+  const getHeader = () => {
+    if (!hasHeader) {
+      return (
+        <>
+          <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{getContents()}</h4>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <h5 className={`iu-fs-200 iu-color-black ${additionalStyles}`}>{getContents()}</h5>
+        </>
+      )
+    }
+  }
+
+  const getContents = () => {
+    return (
+      <>
         <MandatoryIcon display={displayMandatory as boolean}></MandatoryIcon>
         <button
           onClick={toggleExpanded}
@@ -65,12 +91,23 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
             </svg>
           </span>
         </button>
-      </h4>
-      <div id="content-1" className="ic-expandable__content ic-expandable-target">
-        <ArrowUp aria-hidden="true" />
-        <p className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200 iu-color-text">{description}</p>
+      </>
+    )
+  }
+
+  return (
+    <>
+      {hasHeader && <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{header}</h4>}
+      <div className="ic-expandable" ref={expandableRef}>
+        {getHeader()}
+        <div id="content-1" className="ic-expandable__content ic-expandable-target">
+          <ArrowUp aria-hidden="true" />
+          <Text
+            className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200 iu-color-text"
+            dangerouslySetInnerHTML={{ __html: description }}></Text>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

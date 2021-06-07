@@ -22,6 +22,25 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
 
+  const getHeading = () => {
+    if (question.config.header) {
+      return (
+        <>
+          <h4 className={`iu-fw-heading iu-fs-300 iu-mb-300`}>{question.config.header}</h4>
+          <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>
+            {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
+          </h5>
+        </>
+      )
+    } else {
+      return (
+        <h4 className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+          {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
+        </h4>
+      )
+    }
+  }
+
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
 
@@ -36,24 +55,23 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
   function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
     if (disabled) {
-      return <p className={`questionTitle iu-fw-heading iu-fs-300`}>{question.config.text}</p>
+      return <p className={`iu-fw-heading iu-fs-300`}>{question.config.text}</p>
     }
 
     if (!readOnly && config.description) {
       return (
         <Accordion
+          header={question.config.header}
           title={question.config.text}
           description={question.config.description}
           displayMandatory={displayMandatory}
-          additionalStyles="questionTitle iu-fw-heading iu-fs-300  iu-mb-300"></Accordion>
+          additionalStyles="iu-fw-heading iu-mb-300"></Accordion>
       )
     }
     return (
       <>
         <MandatoryIcon display={displayMandatory}></MandatoryIcon>
-        <p className={`questionTitle iu-fw-heading iu-fs-300 iu-mb-300`}>
-          {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
-        </p>
+        {getHeading()}
       </>
     )
   }
