@@ -60,7 +60,7 @@ describe('Verify history events', () => {
   })
 
   describe('Renewal event', () => {
-    it('display event', async () => {
+    it('Display event', async () => {
       const renewHistoryEntry: CertificateEvent[] = [
         {
           certificateId: 'certificateId',
