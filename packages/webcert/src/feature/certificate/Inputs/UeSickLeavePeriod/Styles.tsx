@@ -13,16 +13,20 @@ export const DatesWrapper = styled.div`
   }
 `
 export const DateRangeWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
   align-items: center;
 
-  & + & {
-    margin-top: 20px;
-  }
+  // & + & {
+  //   margin-top: 20px;
+  // }
 
-  & #fromWrapper {
-    margin-right: 40px;
+  // & #fromWrapper {
+  //   margin-right: 40px;
+  // }
+
+  & .date-picker + .date-picker {
+    grid-column: 1 span 3;
   }
 `
 

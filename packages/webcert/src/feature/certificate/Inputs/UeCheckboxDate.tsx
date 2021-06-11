@@ -11,11 +11,16 @@ import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
 
   > * {
-    margin: 10px;
     flex: 1;
   }
+`
+
+const ValidationWrapper = styled.div`
+  flex: 0 !important;
+  flex-basis: 100% !important;
 `
 
 interface Props {
@@ -49,12 +54,12 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     handleChange(event.target.checked, format(new Date(), _format))
   }
 
-  const handleDateChange = (date: Date) => {
-    handleChange(true, format(date, _format))
+  const handleDateChange = (date: string) => {
+    handleChange(true, date)
   }
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(true, event.currentTarget.value)
+  const handleTextChange = (value: string) => {
+    handleChange(true, value)
   }
 
   return (
@@ -73,7 +78,11 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         textInputOnChange={handleTextChange}
         setDate={handleDateChange}
         inputString={dateString}></DatePickerCustom>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      {isShowValidationError && (
+        <ValidationWrapper>
+          <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+        </ValidationWrapper>
+      )}
     </Wrapper>
   )
 }
