@@ -404,10 +404,6 @@ const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/renew',
       method: 'POST',
-      data: {
-        certificateType: certificate.metadata.type,
-        patientId: certificate.metadata.patient.personId,
-      },
       onStart: renewCertificateStarted.type,
       onSuccess: renewCertificateSuccess.type,
       onError: renewCertificateError.type,

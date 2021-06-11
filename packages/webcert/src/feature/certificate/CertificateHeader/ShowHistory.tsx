@@ -73,6 +73,13 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
           </>
         )
+      case CertificateEventType.EXTENDED:
+        return (
+          <>
+            Utkastet skapades för att förnya ett tidigare intyg.{' '}
+            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+          </>
+        )
       case CertificateEventType.RENEWAL_OF:
         if (certificateMetadata.status === 'UNSIGNED') {
           return (
