@@ -1,15 +1,15 @@
 import { ValueDateRange, ValueDateRangeList } from './../types/certificate'
-import { parse, format } from 'date-fns'
+import { parse, format, isAfter, isSameDay, areIntervalsOverlapping } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
 
-const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
-const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-const _format = 'yyyy-MM-dd'
-const _parseformat = 'yyyyMMdd'
+export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
+export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
+export const _format = 'yyyy-MM-dd'
+export const _parseformat = 'yyyyMMdd'
 
-const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
-const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
-const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
+export const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
+export const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
+export const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
 
 export const getValidDate = (dateString: string) => {
   if (_dateReg.test(dateString)) {
@@ -52,21 +52,63 @@ export const parseMonthCode = (input: string) => {
   return null
 }
 
-export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], valueList: ValueDateRange[], periodId: string) => {
-  const indexOfCurrentQuestion = configList.findIndex((cfg) => cfg.id.toLowerCase() === periodId.toLowerCase())
-
-  if (indexOfCurrentQuestion == 0) return null
-
+export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], valueList: ValueDateRange[]) => {
   let maxDate: Date | undefined
 
-  for (let i = 0; i < indexOfCurrentQuestion; i++) {
+  for (let i = 0; i < configList.length; i++) {
     const currPeriodId = configList[i].id
     const currPeriodValue = valueList.find((val) => val.id.toLowerCase() === currPeriodId.toLowerCase())
 
-    if (currPeriodValue?.to) {
-      maxDate = getValidDate(currPeriodValue.to)
+    if (currPeriodValue?.to && getValidDate(currPeriodValue.to)) {
+      const currentDate = getValidDate(currPeriodValue.to)
+
+      if (!maxDate) {
+        maxDate = currentDate
+        continue
+      }
+
+      if (isAfter(currentDate!, maxDate)) {
+        maxDate = currentDate
+      }
     }
   }
 
   return maxDate
+}
+
+export const getPeriodHasOverlap = (valueList: ValueDateRange[], currentPeriodId: string): boolean => {
+  const currentPeriod = valueList.find((val) => val.id === currentPeriodId)
+  if (!currentPeriod || !currentPeriod.from || !currentPeriod.to) return false
+
+  const { from, to } = currentPeriod
+  const currentFromDate = getValidDate(from)
+  const currentToDate = getValidDate(to)
+
+  if (!currentFromDate || !currentToDate) return false
+
+  let overlapFound = false
+
+  valueList.forEach((period) => {
+    if (period.id === currentPeriodId) return
+
+    const fromDate = getValidDate(period.from)
+    const toDate = getValidDate(period.to)
+
+    if (!fromDate || !toDate) return
+
+    if (isSameDay(fromDate, currentFromDate) || isSameDay(toDate, currentToDate)) {
+      overlapFound = true
+    } else if (
+      getIsIntervalsCorrect(fromDate, toDate, currentFromDate, currentToDate) &&
+      areIntervalsOverlapping({ start: fromDate, end: toDate }, { start: currentFromDate, end: currentToDate }, { inclusive: true })
+    ) {
+      overlapFound = true
+    }
+  })
+
+  return overlapFound
+}
+
+const getIsIntervalsCorrect = (leftStartTime: Date, leftEndTime: Date, rightStartTime: Date, rightEndTime: Date) => {
+  return leftStartTime <= leftEndTime && rightStartTime <= rightEndTime
 }

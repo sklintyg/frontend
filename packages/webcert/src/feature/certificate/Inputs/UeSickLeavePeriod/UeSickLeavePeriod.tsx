@@ -5,19 +5,22 @@ import {
   ConfigUeSickLeavePeriod,
   formatDateToString,
   getLatestPeriodEndDate,
-  getValidDate,
-  parseDayCodes,
   ValueDateRange,
+  getPeriodHasOverlap,
+  ValueDateRangeList,
+  ConfigUeCheckboxDateRange,
+  QuestionValidationTexts,
+  ValidationError,
+  CertificateDataValueType,
 } from '@frontend/common'
-import { CertificateDataValueType, ConfigUeCheckboxDateRange } from '@frontend/common'
-import { ValueDateRangeList } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import _ from 'lodash'
-import { isValid, isWithinInterval, isSameDay, isBefore, addDays } from 'date-fns'
+import { isValid, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 interface Props {
   question: CertificateDataElement
@@ -27,6 +30,18 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
   const [hours, setHours] = useState<number | null>(null)
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+
+  const overlapErrors: ValidationError[] = [
+    {
+      category: question.parent,
+      id: question.id,
+      text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+      type: '',
+      field: '',
+    },
+  ]
 
   const dispatchEditDraft = useRef(
     _.debounce((valueList: ValueDateRange[]) => {
@@ -73,8 +88,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
     return updatedQuestion
   }
 
-  const handleGetPeriodStartingDate = (periodId: string) => {
-    const nextPeriodStart = getLatestPeriodEndDate((question.config as ConfigUeSickLeavePeriod).list, valueList, periodId)
+  const handleGetPeriodStartingDate = () => {
+    const nextPeriodStart = getLatestPeriodEndDate((question.config as ConfigUeSickLeavePeriod).list, valueList)
 
     if (isValid(nextPeriodStart)) {
       return formatDateToString(addDays(nextPeriodStart!, 1))
@@ -83,84 +98,12 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
     return formatDateToString(new Date())
   }
 
-  function _hasOverlap(date: string | null, periodId: string) {
-    // const period = valueList.find((val) => val.id === periodId)
-
-    if (!date) return false
-    const parsedDate = getValidDate(date)
-    if (!parsedDate) return false
-
-    for (let i = 0; i < valueList.length; i++) {
-      if (valueList[i].id == periodId) break
-
-      const comparedDateStart = getValidDate(valueList[i].from)
-      const comparedDateEnd = getValidDate(valueList[i].to)
-
-      if (!comparedDateStart || !comparedDateEnd) break
-
-      if (_dateRangeOverlaps(parsedDate, comparedDateStart, comparedDateEnd)) {
-        return true
-      }
-      // if (
-      //   _dateRangeOverlaps(getValidDate(fromDate)!, getValidDate(toDate)!, getValidDate(valueList[i].from)!, getValidDate(valueList[i].to)!)
-      // ) {
-      //   return true
-      // }
-    }
-    return false
-
-    // var i, j;
-    // for (i = 0; i < periods.length; i++) {
-    //     for (j = i + 1; j < periods.length; j++) {
-    //         if (_dateRangeOverlaps(getValidDate(periods[i].from)!, getValidDate(periods[i].to)!, getValidDate(periods[j].from)!, getValidDate(periods[j].to)!)) {
-    //             return true;
-    //         }
-    //     }
-    // }
+  const hasAnyOverlap = () => {
+    return valueList.some((val) => getPeriodHasOverlap(valueList, val.id))
   }
 
-  function _dateRangeOverlaps(date: Date, comparedDateStart: Date, comparedDateEnd: Date) {
-    // if (_isBeforeOrEqual(date, comparedDateStart) && _isBeforeOrEqual(date, comparedDateEnd)) {
-    //   // b starts in a
-    //   return true
-    // }
-    // if (_isBeforeOrEqual(aStart, bEnd) && _isBeforeOrEqual(bEnd, aEnd)) {
-    //   // b ends in a
-    //   return true
-    // }
-    // if (isBefore(bStart, aStart) && isBefore(aEnd, bEnd)) {
-    //   // a in b
-    //   return true
-    // }
-    if (
-      isWithinInterval(date, { start: comparedDateStart, end: comparedDateEnd }) ||
-      isSameDay(date, comparedDateStart) ||
-      isSameDay(date, comparedDateEnd)
-    ) {
-      return true
-    }
-
-    return false
-  }
-
-  // function _dateRangeOverlaps(aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) {
-  //   if (_isBeforeOrEqual(aStart, bStart) && _isBeforeOrEqual(bStart, aEnd)) {
-  //     // b starts in a
-  //     return true
-  //   }
-  //   if (_isBeforeOrEqual(aStart, bEnd) && _isBeforeOrEqual(bEnd, aEnd)) {
-  //     // b ends in a
-  //     return true
-  //   }
-  //   if (isBefore(bStart, aStart) && isBefore(aEnd, bEnd)) {
-  //     // a in b
-  //     return true
-  //   }
-  //   return false
-  // }
-
-  function _isBeforeOrEqual(moment1: Date, moment2: Date) {
-    return isBefore(moment1, moment2) || isSameDay(moment1, moment2)
+  const handleGetPeriodHaveOverlap = (periodId: string) => {
+    return getPeriodHasOverlap(valueList, periodId)
   }
 
   if (!question) return null
@@ -179,7 +122,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker
-              getHasOverlap={_hasOverlap}
+              hasValidationError={shouldDisplayValidationError}
+              hasOverlap={handleGetPeriodHaveOverlap(period.id)}
               getPeriodStartingDate={handleGetPeriodStartingDate}
               updateValue={handleUpdatedValue}
               key={period.id}
@@ -190,6 +134,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
             />
           )
         })}
+        {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
       </div>
     </div>
   )

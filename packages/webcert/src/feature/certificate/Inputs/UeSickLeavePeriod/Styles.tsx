@@ -13,17 +13,10 @@ export const DatesWrapper = styled.div`
   }
 `
 export const DateRangeWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  & + & {
-    margin-top: 20px;
-  }
-
-  & #fromWrapper {
-    margin-right: 40px;
-  }
+  display: grid;
+  grid-template-columns: 150px repeat(2, 1fr);
+  align-items: baseline;
+  gap: 3rem;
 `
 
 export const checkBoxStyles = css`

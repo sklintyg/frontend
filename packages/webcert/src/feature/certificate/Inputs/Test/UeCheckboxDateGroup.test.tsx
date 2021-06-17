@@ -142,6 +142,8 @@ describe('CheckboxDateGroup component', () => {
     renderComponent()
     const inputString = 'Hello!'
     const inputDate = '20200202'
+    const expected = '2020-02-02'
+
     const index = 2
     const secondIndex = 0
     const checkboxes = screen.queryAllByRole('checkbox') as HTMLInputElement[]
@@ -162,7 +164,7 @@ describe('CheckboxDateGroup component', () => {
     expect(checkboxes[index]).toBeChecked()
     expect(checkboxes[secondIndex]).toBeChecked()
     expect(inputs[index]).toHaveValue(inputString)
-    expect(inputs[secondIndex]).toHaveValue(inputDate)
+    expect(inputs[secondIndex]).toHaveValue(expected)
   })
 
   // Test below fails because of a css property (pointer-events: none;). We need to find a workaround asap.

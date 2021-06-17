@@ -15,13 +15,6 @@ const ArrowUp = styled.div`
   border-bottom: 10px solid;
   border-bottom-color: #e0e0e0;
 `
-interface Props {
-  title: string
-  header?: string
-  description: string
-  additionalStyles?: string
-  displayMandatory?: boolean
-}
 
 const Text = styled.p`
   white-space: pre-line;
@@ -32,6 +25,18 @@ const Text = styled.p`
     margin-bottom: 10px;
   }
 `
+
+const StyledButton = styled.button`
+  font-size: inherit;
+`
+
+interface Props {
+  title: string
+  header?: string
+  description: string
+  additionalStyles?: string
+  displayMandatory?: boolean
+}
 
 const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory, header }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
@@ -50,9 +55,9 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
 
   const getHeader = () => {
     if (!hasHeader) {
-      return <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{getContents()}</h4>
+      return <h4 className={`iu-fs-300 ${additionalStyles}`}>{getContents()}</h4>
     } else {
-      return <h5 className={`iu-fs-200 iu-color-black ${additionalStyles}`}>{getContents()}</h5>
+      return <h5 className={`iu-fs-200 ${additionalStyles}`}>{getContents()}</h5>
     }
   }
 
@@ -60,7 +65,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
     return (
       <>
         <MandatoryIcon display={displayMandatory as boolean}></MandatoryIcon>
-        <button
+        <StyledButton
           onClick={toggleExpanded}
           ref={expandBtn}
           className="ic-expandable-button ic-inner ic-expandable-button--chevron"
@@ -84,14 +89,14 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
               />
             </svg>
           </span>
-        </button>
+        </StyledButton>
       </>
     )
   }
 
   return (
     <>
-      {hasHeader && <h4 className={`iu-fs-300 iu-color-black ${additionalStyles}`}>{header}</h4>}
+      {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
       <div className="ic-expandable" ref={expandableRef}>
         {getHeader()}
         <div id="content-1" className="ic-expandable__content ic-expandable-target">
