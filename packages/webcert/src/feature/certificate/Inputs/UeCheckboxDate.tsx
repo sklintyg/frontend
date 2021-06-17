@@ -5,7 +5,7 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import DatePickerCustom from './DatePickerCustom'
+import DatePickerCustom from './DatePickerCustom/DatePickerCustom'
 import { format } from 'date-fns'
 import styled from 'styled-components/macro'
 

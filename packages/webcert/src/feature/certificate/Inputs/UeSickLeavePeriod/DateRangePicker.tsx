@@ -1,21 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
-import DatePickerCustom from '../DatePickerCustom'
-import { addDays, isValid, isBefore } from 'date-fns'
+import DatePickerCustom from '../DatePickerCustom/DatePickerCustom'
+import { addDays, isBefore } from 'date-fns'
 import { QuestionValidationTexts, ValidationError } from '@frontend/common'
 import _ from 'lodash'
-import { Checkbox, getValidDate, formatDateToString, parseDayCodes } from '@frontend/common'
-import { checkBoxStyles, DateRangeWrapper, DatesWrapper } from './Styles'
-
-const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
-const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
-
-const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
-const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
-const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
+import {
+  Checkbox,
+  getValidDate,
+  formatDateToString,
+  parseDayCodes,
+  _dateReg,
+  _dateRegDashesOptional,
+  dayCodeReg,
+  weekCodeReg,
+  monthCodeReg,
+} from '@frontend/common'
+import { DateRangeWrapper, DatesWrapper } from './Styles'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
-const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 
 interface Props {
@@ -26,6 +28,7 @@ interface Props {
   updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
   getPeriodStartingDate: () => string
   hasOverlap: boolean
+  hasValidationError: boolean
 }
 
 interface DateRangeValidation {
@@ -33,7 +36,16 @@ interface DateRangeValidation {
   validationErrors: ValidationError[]
 }
 
-const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, updateValue, getPeriodStartingDate, hasOverlap }) => {
+const DateRangePicker: React.FC<Props> = ({
+  label,
+  periodId,
+  fromDate,
+  toDate,
+  updateValue,
+  getPeriodStartingDate,
+  hasOverlap,
+  hasValidationError,
+}) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
   const [toDateInput, setToDateInput] = useState<string | null>(toDate)
@@ -121,18 +133,6 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
     const updatedValidationErrors = { ...validations }
 
-    // if (fromDate && fromDate.length > 0 && !isValid(getValidDate(fromDate!))) {
-    //   updatedValidationErrors.from.invalidFormat = true
-    // } else {
-    //   updatedValidationErrors.from.invalidFormat = false
-    // }
-
-    // if (toDate && toDate.length > 0 && !isValid(getValidDate(toDate!))) {
-    //   updatedValidationErrors.to.invalidFormat = true
-    // } else {
-    //   updatedValidationErrors.to.invalidFormat = false
-    // }
-
     if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
       updatedValidationErrors.invalidDatePeriod = true
     } else {
@@ -145,18 +145,6 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
 
   const updateValidationMessages = (validations: DateRangeValidation) => {
     let updatedValidationErrorList: ValidationError[] = []
-
-    // if (!validations.from.invalidFormat && !validations.to.invalidFormat && !validations.invalidDatePeriod) {
-    //   resetValidation()
-    //   return
-    // }
-
-    // if (validations.from.invalidFormat || validations.to.invalidFormat) {
-    //   updatedValidationErrorList = [
-    //     ...updatedValidationErrorList,
-    //     { category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' },
-    //   ]
-    // }
 
     if (validations.invalidDatePeriod) {
       updatedValidationErrorList = [
@@ -243,15 +231,15 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
   }
 
   const getShouldDisplayValidationErrorOutline = () => {
-    return validations.invalidDatePeriod || hasOverlap
+    return validations.invalidDatePeriod || hasOverlap || hasValidationError
   }
 
   return (
     <>
-      <DateRangeWrapper>
+      <DateRangeWrapper className="iu-mb-300">
         <Checkbox
           id={`${periodId}-checkbox`}
-          hasValidationError={false}
+          hasValidationError={hasValidationError}
           disabled={false}
           value={'test'}
           // wrapperStyles={checkBoxStyles}
@@ -259,36 +247,36 @@ const DateRangePicker: React.FC<Props> = ({ label, periodId, fromDate, toDate, u
           onChange={handleCheckboxClick}
           label={label}
         />
-        {/* <DatesWrapper id="fromWrapper"> */}
-        <DatePickerCustom
-          label={'Fr.o.m'}
-          id={`from${periodId}`}
-          textInputRef={fromTextInputRef}
-          textInputOnBlur={handleFromTextInputOnBlur}
-          textInputOnKeyDown={handleFromTextInputOnKeyDown}
-          textInputName={`from${periodId}`}
-          inputString={fromDateInput}
-          setDate={handleDatePickerSelectFrom}
-          textInputOnChange={handleFromTextInputChange}
-          textInputDataTestId={`from${periodId}`}
-          displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
-        />
-        {/* </DatesWrapper> */}
-        {/* <DatesWrapper> */}
-        <DatePickerCustom
-          label={'t.o.m'}
-          id={`tom${periodId}`}
-          textInputName={`tom${periodId}`}
-          textInputRef={tomTextInputRef}
-          inputString={toDateInput}
-          setDate={handleDatePickerSelectTo}
-          textInputOnChange={handleToTextInputChange}
-          textInputOnBlur={handleToTextInputOnBlur}
-          textInputOnKeyDown={handleToTextInputOnKeyDown}
-          textInputDataTestId={`tom${periodId}`}
-          displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
-        />
-        {/* </DatesWrapper> */}
+        <DatesWrapper id="fromWrapper">
+          <DatePickerCustom
+            label={'Fr.o.m'}
+            id={`from${periodId}`}
+            textInputRef={fromTextInputRef}
+            textInputOnBlur={handleFromTextInputOnBlur}
+            textInputOnKeyDown={handleFromTextInputOnKeyDown}
+            textInputName={`from${periodId}`}
+            inputString={fromDateInput}
+            setDate={handleDatePickerSelectFrom}
+            textInputOnChange={handleFromTextInputChange}
+            textInputDataTestId={`from${periodId}`}
+            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+          />
+        </DatesWrapper>
+        <DatesWrapper>
+          <DatePickerCustom
+            label={'t.o.m'}
+            id={`tom${periodId}`}
+            textInputName={`tom${periodId}`}
+            textInputRef={tomTextInputRef}
+            inputString={toDateInput}
+            setDate={handleDatePickerSelectTo}
+            textInputOnChange={handleToTextInputChange}
+            textInputOnBlur={handleToTextInputOnBlur}
+            textInputOnKeyDown={handleToTextInputOnKeyDown}
+            textInputDataTestId={`tom${periodId}`}
+            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+          />
+        </DatesWrapper>
       </DateRangeWrapper>
       {<QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
     </>

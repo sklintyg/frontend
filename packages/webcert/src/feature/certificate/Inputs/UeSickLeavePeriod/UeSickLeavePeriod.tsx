@@ -15,11 +15,12 @@ import {
 } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { isValid, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 interface Props {
   question: CertificateDataElement
@@ -29,6 +30,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
   const [hours, setHours] = useState<number | null>(null)
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const overlapErrors: ValidationError[] = [
     {
@@ -119,6 +122,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker
+              hasValidationError={shouldDisplayValidationError}
               hasOverlap={handleGetPeriodHaveOverlap(period.id)}
               getPeriodStartingDate={handleGetPeriodStartingDate}
               updateValue={handleUpdatedValue}
@@ -131,6 +135,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
           )
         })}
         {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
       </div>
     </div>
   )
