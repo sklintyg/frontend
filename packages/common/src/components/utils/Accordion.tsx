@@ -17,6 +17,8 @@ const ArrowUp = styled.div`
 `
 
 const Text = styled.p`
+  white-space: pre-line;
+
   ul {
     list-style: unset;
     padding-left: 40px;

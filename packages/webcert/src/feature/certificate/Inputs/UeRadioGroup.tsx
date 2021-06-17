@@ -12,7 +12,7 @@ interface Props {
 
 const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodes).list
-  const [code, setCode] = useState(question.value?.id)
+  const [code, setCode] = useState(question.value?.code)
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const dispatch = useAppDispatch()
@@ -28,7 +28,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
 
     const updatedQuestionValue = { ...(updatedQuestion.value as ValueCode) }
     updatedQuestionValue.id = selected
-    updatedQuestionValue.value = selected
+    updatedQuestionValue.code = selected
     updatedQuestion.value = updatedQuestionValue
 
     return updatedQuestion
