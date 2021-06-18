@@ -1,6 +1,6 @@
 import { isEqual } from 'date-fns'
 import { ConfigUeCheckboxDateRange, ValueDateRange } from './../../../../../../common/src/types/certificate'
-import { getValidDate, getLatestPeriodEndDate, ValueDateRangeList, CertificateDataValueType } from '@frontend/common'
+import { getValidDate, getLatestPeriodEndDate, ValueDateRangeList, CertificateDataValueType, getPeriodHasOverlap } from '@frontend/common'
 
 const QUESTION_ID = 'Test'
 
@@ -56,7 +56,7 @@ describe('Date utils tests', () => {
   it('gets correct period end date with one prior period', () => {
     const toDate = '2021-04-20'
     const valueList: ValueDateRange[] = [{ id: EN_FJARDEDEL_ID, from: '2021-04-20', to: toDate, type: CertificateDataValueType.DATE_RANGE }]
-    const date = getLatestPeriodEndDate(configList, valueList, HELT_NEDSATT_ID)
+    const date = getLatestPeriodEndDate(configList, valueList)
     const expectedDate = getValidDate(toDate)
 
     expect(date).toBeTruthy()
@@ -79,10 +79,49 @@ describe('Date utils tests', () => {
 
     const valueList: ValueDateRange[] = [firstPeriod, secondPeriod]
 
-    const date = getLatestPeriodEndDate(configList, valueList, HELT_NEDSATT_ID)
+    const date = getLatestPeriodEndDate(configList, valueList)
     const expectedDate = getValidDate(secondPeriod.to)
 
     expect(date).toBeTruthy()
     expect(isEqual(date!, expectedDate!)).toBeTruthy()
   })
+})
+
+it('returns true if dates are between other period', () => {
+  const sutId = 'sutId'
+  const valueList: ValueDateRange[] = [
+    { id: sutId, from: '2021-06-05', to: '2021-06-06', type: CertificateDataValueType.DATE_RANGE },
+    { id: '2', from: '2021-06-01', to: '2021-06-11', type: CertificateDataValueType.DATE_RANGE },
+  ]
+
+  const expected = true
+  const actual = getPeriodHasOverlap(valueList, sutId)
+
+  expect(actual).toBe(expected)
+})
+
+it('returns true if dates are same as other period', () => {
+  const sutId = 'sutId'
+  const valueList: ValueDateRange[] = [
+    { id: sutId, from: '2021-06-01', to: '2021-06-10', type: CertificateDataValueType.DATE_RANGE },
+    { id: '2', from: '2021-06-01', to: '2021-06-10', type: CertificateDataValueType.DATE_RANGE },
+  ]
+
+  const expected = true
+  const actual = getPeriodHasOverlap(valueList, sutId)
+
+  expect(actual).toBe(expected)
+})
+
+it('returns false if dates are not overlapping', () => {
+  const sutId = 'sutId'
+  const valueList: ValueDateRange[] = [
+    { id: sutId, from: '2021-06-01', to: '2021-06-10', type: CertificateDataValueType.DATE_RANGE },
+    { id: '2', from: '2021-06-11', to: '2021-06-15', type: CertificateDataValueType.DATE_RANGE },
+  ]
+
+  const expected = false
+  const actual = getPeriodHasOverlap(valueList, sutId)
+
+  expect(actual).toBe(expected)
 })

@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitFor } from '@testing-library/react'
+import { getByText, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   CertificateDataElement,
@@ -8,6 +8,7 @@ import {
   CertificateDataValueType,
   ConfigTypes,
   getValidDate,
+  ValueDateRangeList,
 } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
 import * as redux from 'react-redux'
@@ -114,8 +115,6 @@ describe('x', () => {
     // Enter first period, click second period checkbox and make sure its one day ahead
 
     screen.getByLabelText(EN_FJARDEDEL_LABEL).click()
-    expect((screen.getByTestId(`from${EN_FJARDEDEL_ID}`) as HTMLInputElement).value).toBeTruthy()
-
     userEvent.type(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`), '1v{enter}')
     screen.getByLabelText(HALFTEN_LABEL).click()
 
@@ -124,5 +123,58 @@ describe('x', () => {
     const expectedDate = addDays(endOfPriorPeriodDate!, 1)
 
     expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
+  })
+
+  it('Gets a correct starting date with one later date period', async () => {
+    renderDefaultComponent()
+    // Enter last period, click prior period checkbox and make sure its one day ahead
+
+    screen.getByLabelText(HELT_NEDSATT_LABEL).click()
+    userEvent.type(screen.getByTestId(`tom${HELT_NEDSATT_ID}`), '1v{enter}')
+    screen.getByLabelText(HALFTEN_LABEL).click()
+
+    const endOfPriorPeriodDate = getValidDate((screen.getByTestId(`tom${HELT_NEDSATT_ID}`) as HTMLInputElement).value)
+    const actualDate = getValidDate((screen.getByTestId(`from${HALFTEN_ID}`) as HTMLInputElement).value)
+    const expectedDate = addDays(endOfPriorPeriodDate!, 1)
+
+    expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
+  })
+
+  it('Renders validation error if one period overlaps another', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: '1', from: '2021-06-05', to: '2021-06-06', type: CertificateDataValueType.DATE_RANGE },
+          { id: '2', from: '2021-06-01', to: '2021-06-06', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+    }
+
+    renderDefaultComponent(question)
+
+    const expectedErrorMessage = 'Ange sjukskrivningsperioder som inte överlappar varandra.'
+
+    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument()
+  })
+
+  it('Renders without validation error if correct periods', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: '1', from: '2021-06-01', to: '2021-06-05', type: CertificateDataValueType.DATE_RANGE },
+          { id: '2', from: '2021-06-06', to: '2021-06-10', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+    }
+
+    renderDefaultComponent(question)
+
+    const expectedErrorMessage = 'Ange sjukskrivningsperioder som inte överlappar varandra.'
+
+    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
   })
 })

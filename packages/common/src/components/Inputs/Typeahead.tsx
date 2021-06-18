@@ -180,7 +180,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     if (item.disabled) {
       return 'iu-color-muted iu-bg-white disabled'
     } else if (isHoverDifferentFromCursor) {
-      return 'iu-bg-secondary-light iu-color-black'
+      return 'iu-bg-secondary-light iu-color-grey-500'
     } else if (isCursor) {
       return 'iu-bg-main iu-color-white'
     }

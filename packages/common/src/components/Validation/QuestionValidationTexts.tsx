@@ -11,7 +11,7 @@ const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ valid
       {validationErrors &&
         validationErrors.length > 0 &&
         validationErrors.map((validationError, index) => (
-          <p key={index} className="iu-fs-200 iu-color-error">
+          <p key={index} aria-live="polite" id={validationError.id} className="ic-forms__error-message">
             {validationError.text}
           </p>
         ))}

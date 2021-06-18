@@ -22,7 +22,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   return (
     <textarea
       disabled={disabled}
-      className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'iu-border-error' : ''}`}
+      className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'ic-textarea--error' : ''}`}
       rows={rowsMin ? rowsMin : 1}
       name={name ?? ''}
       value={value}
