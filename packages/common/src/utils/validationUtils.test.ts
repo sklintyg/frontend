@@ -827,6 +827,39 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.2'].visible).toBe(false)
   })
 
+  it('Shall set visible to false if show rule not valid, even if hide rule is not valid', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.3'].visible).toBe(false)
+  })
+
+  it('Shall set visible to true if show rule valid, even if hide rule is not valid', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
+
+    const textValue: ValueText = certificate.data['1.2'].value as ValueText
+    textValue.text = 'A little text'
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.3'].visible).toBe(true)
+  })
+
+  it('Shall set visible to false if hide rule valid, even if show rule is valid', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
+
+    const textValue: ValueText = certificate.data['1.2'].value as ValueText
+    textValue.text = 'A little text'
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.3'].visible).toBe(false)
+  })
+
   describe('Intialize values when certificate is not UNSIGNED', () => {
     const certificate = getCertificate()
 

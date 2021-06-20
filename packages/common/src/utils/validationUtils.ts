@@ -203,6 +203,10 @@ function validate(data: CertificateData, id: string) {
       data[id].mandatory = !validationResult.result
     } else if (validationResult.type == CertificateDataValidationType.SHOW_VALIDATION) {
       data[id].visible = validationResult.result
+    } else if (validationResult.type == CertificateDataValidationType.HIDE_VALIDATION) {
+      if (validationResult.result) {
+        data[id].visible = false
+      }
     }
   })
 }
