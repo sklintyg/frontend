@@ -1,32 +1,40 @@
 [
   {
-    "hsaId": "TSTNMT2321000156-1079",
-    "name": "Arnold Johansson",
+    "hsaId": "TSTNMT2321000156-DRAJ",
+    "name": "Ajla Doktor",
     "role": "Läkare",
     "loggedInUnit": "NMT vg3 ve1",
     "loggedInCareProvider": "NMT vg3",
     "preferences": null
   },
   {
-    "hsaId": "TSTNMT2321000156-10CD",
-    "name": "Annika Larsson",
+    "hsaId": "TSTNMT2321000156-DRAL",
+    "name": "Alf Doktor",
+    "role": "Läkare",
+    "loggedInUnit": "NMT vg3 ve1",
+    "loggedInCareProvider": "NMT vg3",
+    "preferences": null
+  },
+  {
+    "hsaId": "TSTNMT2321000156-VAAL",
+    "name": "Alva Vårdadministratör",
     "role": "Vårdadministratör",
-    "loggedInUnit": "NMT vg3 ve1",
-    "loggedInCareProvider": "NMT vg3",
-    "preferences": null
-  },
-  {
-    "hsaId": "IFV1239877878-104B",
-    "name": "Åsa Andersson",
-    "role": "Läkare",
     "loggedInUnit": "WebCert-Enhet2-Mottagning1",
     "loggedInCareProvider": "WebCert-Vårdgivare2",
     "preferences": null
   },
   {
-    "hsaId": "IFV1239877878-104K",
-    "name": "Lars Andersson",
+    "hsaId": "TSTNMT2321000156-DRBE",
+    "name": "Beata Doktor",
     "role": "Läkare",
+    "loggedInUnit": "WebCert-Enhet2-Mottagning2",
+    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "preferences": null
+  },
+  {
+    "hsaId": "TSTNMT2321000156-VABE",
+    "name": "Bent Vårdadministratör",
+    "role": "Vårdadministratör",
     "loggedInUnit": "WebCert-Enhet2-Mottagning2",
     "loggedInCareProvider": "WebCert-Vårdgivare2",
     "preferences": null

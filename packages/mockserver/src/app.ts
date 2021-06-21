@@ -1,14 +1,17 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
 import bootstrapCertificate from './bootstrap/fk7804.json'
+import bootstrapCertificateAf00213 from './bootstrap/bed26d3e-7112-4f08-98bf-01be40e26c80.json'
 import bootstrapUsers from './bootstrap/users.json'
 import {
   Certificate,
+  CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEventType,
   CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
   FakeLogin,
+  Patient,
   ResourceLinkChooseReceivers,
   ResourceLinkSend,
   ResourceLinkType,
@@ -16,13 +19,12 @@ import {
   ValidationError,
   ValueBoolean,
   ValueCode,
-  ValueDiagnosis,
-  ValueDiagnosisList,
-  ValueText,
-  CertificateDataValidationType,
   ValueCodeList,
   ValueDateList,
   ValueDateRangeList,
+  ValueDiagnosis,
+  ValueDiagnosisList,
+  ValueText,
 } from '@frontend/common'
 import bodyParser from 'body-parser'
 import * as fs from 'fs'
@@ -687,6 +689,96 @@ app.post('/moduleapi/diagnos/beskrivning/sok', (req: Request, res: Response, nex
       diagnoser: diagnoses.filter((d) => d.beskrivning.toLowerCase().includes(req.body.descriptionSearchString.toLowerCase())),
       moreResults: false,
     })
+    .status(200)
+    .send()
+})
+
+export interface CertificateType {
+  type: string
+  internalType: string
+  name: string
+  versions: string[]
+  statuses: string[]
+  fillType: string[]
+}
+
+interface CertificateTypesResponse {
+  certificateTypes: CertificateType[]
+}
+
+app.get('/testability/certificate/types', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /testability/certificate/types`)
+  res
+    .json({
+      certificateTypes: [
+        {
+          type: 'AF 00213',
+          internalType: 'af00213',
+          name: 'Arbetsförmedlingens medicinska utlåtande',
+          versions: ['1.0'],
+          statuses: ['UNSIGNED'],
+          fillType: ['EMPTY'],
+        },
+        {
+          type: 'FK 7804',
+          internalType: 'lisjp',
+          name: 'Läkarintyg för sjukpenning',
+          versions: ['1.2'],
+          statuses: ['UNSIGNED'],
+          fillType: ['EMPTY'],
+        },
+      ],
+    } as CertificateTypesResponse)
+    .status(200)
+    .send()
+})
+
+interface CertificatePatientsResponse {
+  patients: Patient[]
+}
+
+app.get('/testability/certificate/patients', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} GET /testability/certificate/patients`)
+  res
+    .json({
+      patients: [
+        {
+          personId: {
+            id: '191212121212',
+            type: 'PERSONNUMMER',
+          },
+          firstName: 'Tolvan',
+          lastName: 'Tolvansson',
+          fullName: 'Tolvan Tolvansson',
+          testIndicated: false,
+          protectedPerson: false,
+          deceased: false,
+        },
+      ],
+    } as CertificatePatientsResponse)
+    .status(200)
+    .send()
+})
+
+interface CreateCertificateResponse {
+  certificateId: string
+}
+
+app.post('/testability/certificate', (req: Request, res: Response, next: NextFunction) => {
+  console.log(`###################################### ${new Date()} POST /testability/certificate`)
+
+  const certificateToClone = req.body.certificateType === 'lisjp' ? bootstrapCertificate : bootstrapCertificateAf00213
+  const certificateClone = (_.cloneDeep(certificateToClone) as unknown) as Certificate
+  certificateClone.metadata.id = uuidv4()
+  certificateRepository[certificateClone.metadata.id] = certificateClone
+  const certificateEvent = createEvent(certificateClone.metadata.id, CertificateEventType.CREATED, null, null)
+  certificateEventRepository[certificateClone.metadata.id] = Array.of(certificateEvent)
+  setValidation(certificateRepository[certificateClone.metadata.id])
+
+  res
+    .json({
+      certificateId: certificateClone.metadata.id,
+    } as CreateCertificateResponse)
     .status(200)
     .send()
 })
