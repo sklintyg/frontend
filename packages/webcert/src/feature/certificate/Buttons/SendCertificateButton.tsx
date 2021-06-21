@@ -9,12 +9,12 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 interface Props {
   name: string
   description: string
-  modalBody: string
+  body: string
   receiver: string
   enabled: boolean
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, receiver, modalBody }) => {
+const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, receiver, body }) => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
 
@@ -32,7 +32,7 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, re
       }}
       confirmButtonText={`Skicka till ${receiver}`}
       declineButtonText="Avbryt">
-      <div dangerouslySetInnerHTML={{ __html: modalBody }}></div>
+      <div dangerouslySetInnerHTML={{ __html: body }}></div>
     </ButtonWithConfirmModal>
   )
 }
