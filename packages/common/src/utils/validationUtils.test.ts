@@ -868,30 +868,40 @@ describe('Set initial values to a certificate', () => {
         certificate.data[id].value = null
         certificate.data[id].visible = false
         certificate.data[id].readOnly = false
+        certificate.data[id].disabled = false
       }
     }
 
-    it('Shall set all data elements as readOnly when certificate is LOCKED', () => {
-      clearValues()
+    it('Shall set all data elements as disabled when certificate is LOCKED but still validate rules', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
       certificate.metadata.status = CertificateStatus.LOCKED
 
       decorateCertificateWithInitialValues(certificate)
 
       expect(certificate.data['1.1'].disabled).toBe(true)
+      expect(certificate.data['1.1'].visible).toBe(true)
       expect(certificate.data['1.2'].disabled).toBe(true)
+      expect(certificate.data['1.2'].visible).toBe(true)
       expect(certificate.data['1.3'].disabled).toBe(true)
+      expect(certificate.data['1.3'].visible).toBe(false)
     })
 
-    it('Shall set all data elements as readOnly when certificate is LOCKED_REVOKED', () => {
-      clearValues()
+    it('Shall set all data elements as disabled when certificate is LOCKED_REVOKED but still validate rules', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
       certificate.metadata.status = CertificateStatus.LOCKED_REVOKED
 
       decorateCertificateWithInitialValues(certificate)
 
-      expect(certificate.data['1.1'].readOnly).toBe(true)
-      expect(certificate.data['1.2'].readOnly).toBe(true)
+      expect(certificate.data['1.1'].disabled).toBe(true)
       expect(certificate.data['1.1'].visible).toBe(true)
+      expect(certificate.data['1.2'].disabled).toBe(true)
       expect(certificate.data['1.2'].visible).toBe(true)
+      expect(certificate.data['1.3'].disabled).toBe(true)
+      expect(certificate.data['1.3'].visible).toBe(false)
     })
 
     it('Shall set all data elements as readOnly when certificate is SIGNED', () => {
