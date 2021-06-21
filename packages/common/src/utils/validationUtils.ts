@@ -7,6 +7,7 @@ import {
   CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
+  CertificateMetadata,
   CertificateStatus,
   getValidDate,
   MaxDateValidation,
@@ -179,13 +180,24 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
   const data = certificate.data
 
   for (const id in data) {
-    if (certificate.metadata.status !== CertificateStatus.UNSIGNED) {
+    if (shouldBeReadOnly(certificate.metadata)) {
       data[id].readOnly = true
       data[id].visible = true
+    } else if (shouldBeDisabled(certificate.metadata)) {
+      validate(data, id)
+      data[id].disabled = true
     } else {
       validate(data, id)
     }
   }
+}
+
+function shouldBeReadOnly(metadata: CertificateMetadata) {
+  return metadata.status === CertificateStatus.SIGNED || metadata.status === CertificateStatus.REVOKED
+}
+
+function shouldBeDisabled(metadata: CertificateMetadata) {
+  return metadata.status === CertificateStatus.LOCKED || metadata.status === CertificateStatus.LOCKED_REVOKED
 }
 
 function validate(data: CertificateData, id: string) {
@@ -203,6 +215,10 @@ function validate(data: CertificateData, id: string) {
       data[id].mandatory = !validationResult.result
     } else if (validationResult.type == CertificateDataValidationType.SHOW_VALIDATION) {
       data[id].visible = validationResult.result
+    } else if (validationResult.type == CertificateDataValidationType.HIDE_VALIDATION) {
+      if (validationResult.result) {
+        data[id].visible = false
+      }
     }
   })
 }

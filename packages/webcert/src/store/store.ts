@@ -6,6 +6,7 @@ import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { userMiddleware } from './user/userMiddleware'
 import { fmbMiddleware } from './fmb/fmbMiddleware'
 import { utilsMiddleware } from './utils/utilsMiddleware'
+import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 
 const store = configureStore({
   reducer,
@@ -16,7 +17,8 @@ const store = configureStore({
       ...certificateMiddleware,
       ...userMiddleware,
       ...fmbMiddleware,
-      ...utilsMiddleware
+      ...utilsMiddleware,
+      ...welcomeMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<

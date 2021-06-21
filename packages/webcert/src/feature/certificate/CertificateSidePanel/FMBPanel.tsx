@@ -4,7 +4,7 @@ import PanelHeader from './PanelHeader'
 import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../../store/fmb/fmbSelectors'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
+import { FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 import styled from 'styled-components'
 
@@ -52,18 +52,15 @@ const FMBPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
             <div className="iu-border-grey-300 iu-p-500">
               <div role="group" aria-label="Diagnosis selection" className="ic-checkbox-group-horizontal">
                 {fmbDiagnosisCodes.map((diagnosisCode: FMBDiagnosisCodeInfo, index: number) => (
-                  <>
-                    <input
-                      key={diagnosisCode.icd10Code}
-                      className="ic-forms__checkbox"
-                      type="checkbox"
-                      id={diagnosisCode.icd10Code}
-                      name={diagnosisCode.icd10Code}
-                      value={index}
-                      onChange={onDiagnosisSelect}
-                    />
-                    <label htmlFor={diagnosisCode.icd10Code}>Checkbox 1</label>
-                  </>
+                  <RadioButton
+                    key={diagnosisCode.icd10Code}
+                    label={diagnosisCode.icd10Description}
+                    value={index}
+                    checked={index === selectedDiagnosisIndex}
+                    id={diagnosisCode.icd10Code}
+                    name={diagnosisCode.icd10Code}
+                    onChange={onDiagnosisSelect}
+                  />
                 ))}
               </div>
             </div>

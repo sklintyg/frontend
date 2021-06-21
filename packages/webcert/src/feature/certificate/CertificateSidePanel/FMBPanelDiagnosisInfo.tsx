@@ -53,15 +53,16 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
             </ButtonTooltip>
           </SubHeader>
           <ul>
-            {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_WORK_CAPACITY)
-              .map((form: FMBDiagnosisCodeInfoForm) =>
-                form.content[0].list?.map((item: string, index: number) => (
-                  <li key={index} className="iu-mt-300">
-                    {item}
-                  </li>
-                ))
-              )}
+            {diagnosisCodes[selectedDiagnosisIndex].forms &&
+              diagnosisCodes[selectedDiagnosisIndex].forms
+                .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_WORK_CAPACITY)
+                .map((form: FMBDiagnosisCodeInfoForm) =>
+                  form.content[0].list?.map((item: string, index: number) => (
+                    <li key={index} className="iu-mt-300">
+                      {item}
+                    </li>
+                  ))
+                )}
           </ul>
         </div>
         <p className="iu-pt-400 iu-fw-heading iu-bg-grey-300">{diagnosisCodes[selectedDiagnosisIndex].icd10Description}</p>
@@ -76,58 +77,63 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ diagnosisCodes, selectedDiagno
         </div>
         <div className="iu-p-500">
           <SubHeader>Funktionsnedsättning</SubHeader>
-          {diagnosisCodes[selectedDiagnosisIndex].forms
-            .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DISABILITY)
-            .map((form: FMBDiagnosisCodeInfoForm) => (
-              <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
-            ))}
+          {diagnosisCodes[selectedDiagnosisIndex].forms &&
+            diagnosisCodes[selectedDiagnosisIndex].forms
+              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DISABILITY)
+              .map((form: FMBDiagnosisCodeInfoForm) => (
+                <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
+              ))}
         </div>
         <div className="iu-p-500">
           <SubHeader>Aktivitetsbegränsning</SubHeader>
           <div>
-            {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_ACTIVITY_LIMITATION)
-              .map((form: FMBDiagnosisCodeInfoForm) => (
-                <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
-              ))}
+            {diagnosisCodes[selectedDiagnosisIndex].forms &&
+              diagnosisCodes[selectedDiagnosisIndex].forms
+                .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_ACTIVITY_LIMITATION)
+                .map((form: FMBDiagnosisCodeInfoForm) => (
+                  <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
+                ))}
           </div>
         </div>
         <div className="iu-p-500">
           <SubHeader>Information om rehabilitering</SubHeader>
           <div>
-            {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_REHABILITATION_INFORMATION)
-              .map((form: FMBDiagnosisCodeInfoForm) => (
-                <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
-              ))}
+            {diagnosisCodes[selectedDiagnosisIndex].forms &&
+              diagnosisCodes[selectedDiagnosisIndex].forms
+                .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_REHABILITATION_INFORMATION)
+                .map((form: FMBDiagnosisCodeInfoForm) => (
+                  <ExpandableText key={form.name} text={form.content[0].text ?? ''} maxLength={maxTextLength} />
+                ))}
           </div>
         </div>
         <div className="iu-p-500">
           <SubHeader>Försäkringsmedicinsk information</SubHeader>
           <div>
-            {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
-              .map((form: FMBDiagnosisCodeInfoForm) =>
-                form.content
-                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_GENERAL_INFO)
-                  .map((content: FMBDiagnosisCodeInfoFormContent) => (
-                    <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
-                  ))
-              )}
+            {diagnosisCodes[selectedDiagnosisIndex].forms &&
+              diagnosisCodes[selectedDiagnosisIndex].forms
+                .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
+                .map((form: FMBDiagnosisCodeInfoForm) =>
+                  form.content
+                    .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_GENERAL_INFO)
+                    .map((content: FMBDiagnosisCodeInfoFormContent) => (
+                      <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
+                    ))
+                )}
           </div>
         </div>
         <div className="iu-p-500">
           <SubHeader>Symtom, prognos, behandling</SubHeader>
           <div>
-            {diagnosisCodes[selectedDiagnosisIndex].forms
-              .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
-              .map((form: FMBDiagnosisCodeInfoForm) =>
-                form.content
-                  .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_SYMPTOM_PROGNOSIS_TREATMENT)
-                  .map((content: FMBDiagnosisCodeInfoFormContent) => (
-                    <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
-                  ))
-              )}
+            {diagnosisCodes[selectedDiagnosisIndex].forms &&
+              diagnosisCodes[selectedDiagnosisIndex].forms
+                .filter((form: FMBDiagnosisCodeInfoForm) => form.name === FMB_DIAGNOSIS)
+                .map((form: FMBDiagnosisCodeInfoForm) =>
+                  form.content
+                    .filter((content: FMBDiagnosisCodeInfoFormContent) => content.heading === FMB_SYMPTOM_PROGNOSIS_TREATMENT)
+                    .map((content: FMBDiagnosisCodeInfoFormContent) => (
+                      <ExpandableText key={content.heading} text={content.text ?? ''} maxLength={maxTextLength} />
+                    ))
+                )}
           </div>
         </div>
         <div className={`iu-p-500 iu-bg-grey-300`}>

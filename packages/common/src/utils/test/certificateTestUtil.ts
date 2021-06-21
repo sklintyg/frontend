@@ -75,6 +75,41 @@ export const getTextElement = (): CertificateDataElement => {
   }
 }
 
+export const getAnotherTextElement = (): CertificateDataElement => {
+  return {
+    id: '1.3',
+    parent: '1.1',
+    index: 2,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'En annan text',
+      description: 'En annan beskrivning',
+      type: ConfigTypes.UE_TEXTAREA,
+      id: 'annanFunktionsnedsattning',
+    },
+    value: {
+      type: CertificateDataValueType.TEXT,
+      id: 'annanFunktionsnedsattning',
+      text: null,
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.SHOW_VALIDATION,
+        questionId: '1.2',
+        expression: '$funktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.HIDE_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+      },
+    ],
+    validationErrors: [],
+  }
+}
+
 export const getCertificate = (): Certificate => {
   return {
     metadata: {
@@ -132,6 +167,7 @@ export const getCertificate = (): Certificate => {
     data: {
       '1.1': getBoooleanElement(),
       '1.2': getTextElement(),
+      '1.3': getAnotherTextElement(),
     },
     links: [],
   }
