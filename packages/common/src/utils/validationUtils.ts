@@ -179,13 +179,24 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
   const data = certificate.data
 
   for (const id in data) {
-    if (certificate.metadata.status !== CertificateStatus.UNSIGNED) {
+    if (shouldBeReadOnly(certificate.metadata.status)) {
       data[id].readOnly = true
       data[id].visible = true
     } else {
       validate(data, id)
+      if (shouldBeDisabled(certificate)) {
+        data[id].disabled = true
+      }
     }
   }
+}
+
+function shouldBeReadOnly(status: CertificateStatus) {
+  return status === CertificateStatus.SIGNED || status === CertificateStatus.LOCKED_REVOKED || status === CertificateStatus.REVOKED
+}
+
+function shouldBeDisabled(certificate: Certificate) {
+  return certificate.metadata.status === CertificateStatus.LOCKED
 }
 
 function validate(data: CertificateData, id: string) {

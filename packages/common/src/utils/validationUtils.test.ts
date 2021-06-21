@@ -877,10 +877,9 @@ describe('Set initial values to a certificate', () => {
 
       decorateCertificateWithInitialValues(certificate)
 
-      expect(certificate.data['1.1'].readOnly).toBe(true)
-      expect(certificate.data['1.2'].readOnly).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
+      expect(certificate.data['1.1'].disabled).toBe(true)
+      expect(certificate.data['1.2'].disabled).toBe(true)
+      expect(certificate.data['1.3'].disabled).toBe(true)
     })
 
     it('Shall set all data elements as readOnly when certificate is LOCKED_REVOKED', () => {
