@@ -7,7 +7,7 @@ import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 import SendCertificateButton from '../Buttons/SendCertificateButton'
 import styled from 'styled-components'
-import { ResourceLinkChooseReceivers, ResourceLinkSend } from '@frontend/common'
+import { ResourceLinkChooseReceivers } from '@frontend/common'
 import ChooseReceiverButton from '../Buttons/ChooseReceiverButton'
 import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 
@@ -29,7 +29,7 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks }) => {
   return (
     <Wrapper>
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SEND_CERTIFICATE)) && (
-        <SendCertificateButton {...(getResourceLink(resourceLinks, ResourceLinkType.SEND_CERTIFICATE) as ResourceLinkSend)} />
+        <SendCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.SEND_CERTIFICATE)} />
       )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE)) && (
         <CopyCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE)} />

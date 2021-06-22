@@ -245,9 +245,8 @@ const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   const certificate: Certificate = getState().ui.uiCertificate.certificate
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/' + certificate.metadata.type + '/send',
+      url: '/api/certificate/' + certificate.metadata.id + '/send',
       method: 'POST',
-      data: certificate,
       onSuccess: sendCertificateSuccess.type,
       onError: sendCertificateError.type,
     })
@@ -261,7 +260,9 @@ const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
     return
   }
 
-  dispatch(getCertificateEvents(action.payload.id))
+  if (action.payload.result == 'OK') {
+    dispatch(getCertificate(action.payload.certificateId))
+  }
 }
 
 const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

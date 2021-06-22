@@ -179,7 +179,8 @@ export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_
 export const sendCertificateError = createAction<string>(SEND_CERTIFICATE_ERROR)
 
 export interface SendCertificateSuccess {
-  id: string
+  certificateId: string
+  result: string
 }
 
 export const signCertificate = createAction(SIGN_CERTIFICATE)
