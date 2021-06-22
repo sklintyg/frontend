@@ -9,7 +9,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 interface Props {
   name: string
   description: string
-  body: string
+  body?: string
   enabled: boolean
 }
 
@@ -31,7 +31,7 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, bo
       }}
       confirmButtonText={name}
       declineButtonText="Avbryt">
-      <div dangerouslySetInnerHTML={{ __html: body }}></div>
+      {body && <div dangerouslySetInnerHTML={{ __html: body }}></div>}
     </ButtonWithConfirmModal>
   )
 }
