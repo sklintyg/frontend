@@ -87,7 +87,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
             if (!foundValue?.from || !foundValue.to) return null
 
             return (
-              <tr>
+              <tr key={element.id}>
                 <td>{element.label}</td>
                 <td>{foundValue.from}</td>
                 <td>{foundValue.to}</td>
