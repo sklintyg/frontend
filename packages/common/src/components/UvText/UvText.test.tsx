@@ -21,6 +21,8 @@ import {
   ValueCodeList,
 } from '@frontend/common'
 import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
+import { ScriptElementKindModifier } from 'typescript'
+import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
 
 describe('UvText', () => {
   it('renders without crashing', () => {
@@ -76,6 +78,16 @@ describe('UvText', () => {
     expect(getByText('Datum 2')).toBeInTheDocument()
     expect(getByText('Datum 3')).toBeInTheDocument()
     expect(getByText('Ej angivet')).toBeInTheDocument()
+  })
+
+  it('displays several date range values', () => {
+    const question = createQuestionWithMultipleDateRanges()
+    render(<UvText question={question} />)
+
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-26')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-28')).toBeInTheDocument()
   })
 
   it('Verify snapshot', () => {
@@ -247,6 +259,50 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
       },
     ],
   }
+  return createQuestion(value, config)
+}
+
+export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
+  const value: ValueDateRangeList = {
+    type: CertificateDataValueType.DATE_RANGE_LIST,
+    list: [
+      {
+        id: 'DATE_1',
+        from: '2021-06-22',
+        to: '2021-06-25',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
+      {
+        id: 'DATE_2',
+        from: '2021-06-26',
+        to: '2021-06-28',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
+    ],
+  }
+  const config: ConfigUeSickLeavePeriod = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+    list: [
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE,
+        id: 'DATE_1',
+        label: 'Datum 1',
+      },
+      {
+        text: '',
+        description: '',
+        type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE,
+        id: 'DATE_2',
+        label: 'Datum 2',
+      },
+    ],
+  }
+
   return createQuestion(value, config)
 }
 
