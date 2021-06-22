@@ -88,7 +88,8 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE)
       return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD) return <UeSickLeavePeriod question={question} key={question.id} />
+    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD)
+      return <UeSickLeavePeriod disabled={disabled} question={question} key={question.id} />
     if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }

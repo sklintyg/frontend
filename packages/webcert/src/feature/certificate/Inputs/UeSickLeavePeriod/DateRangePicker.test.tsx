@@ -66,7 +66,9 @@ const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const renderDefaultComponent = (fromDate = null, toDate = null) => {
   render(
     <DateRangePicker
-      getHasOverlap={() => false}
+      disabled={false}
+      hasOverlap={false}
+      hasValidationError={false}
       updateValue={() => {}}
       getPeriodStartingDate={() => formatDateToString(new Date())}
       label={LABEL}
