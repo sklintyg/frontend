@@ -9,7 +9,6 @@ import {
   ConfigUeSickLeavePeriod,
   ValueDateList,
   ValueDateRange,
-  ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '../../types/certificate'
@@ -31,18 +30,25 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     return '<li>' + item?.label + '</li>'
   }
 
-  const getDiagnosisText = (diagnosis: ValueDiagnosis) => {
-    return `<tr key={${diagnosis.code}}><td>${diagnosis.code}</td><td>${diagnosis.description}</td></tr>`
-  }
-
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
-    let result =
-      '<table class="ic-table"><tr><th>Diagnoskod enligt ' +
-      getDiagnosisTerminologyLabel(diagnosisListValue.list[0].terminology, diagnosisListConfig) +
-      '</th><th></th></tr>'
-    ;(diagnosisListValue.list as ValueDiagnosis[]).map((value) => (result += getDiagnosisText(value)))
-    result += '</table>'
-    return result
+    return (
+      <table className="ic-table">
+        <thead>
+          <tr>
+            <th>{`Diagnoskod enligt ${getDiagnosisTerminologyLabel(diagnosisListValue.list[0].terminology, diagnosisListConfig)}`}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {(diagnosisListValue.list as ValueDiagnosis[]).map((diagnosis) => (
+            <tr key={diagnosis.code}>
+              <td>{diagnosis.code}</td>
+              <td>{diagnosis.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
   }
 
   const getDiagnosisTerminologyLabel = (id: string, config: ConfigUeDiagnoses) => {
@@ -58,14 +64,12 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     return config.list.map((element, index) => {
       const foundValue = value.list.find((v) => v.id === element.id)
       return (
-        <>
-          <p key={element.label} className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>
-            {element.label}
-          </p>
+        <React.Fragment key={element.label}>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
           <Root key={index} className={'iu-bg-secondary-light iu-radius-sm'}>
             <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
           </Root>
-        </>
+        </React.Fragment>
       )
     })
   }
@@ -141,7 +145,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         if (diagnosisListValue.list.length > 0 && question.visible) {
           return (
             <Root className={'iu-p-none'}>
-              <div dangerouslySetInnerHTML={{ __html: getDiagnosisListText(diagnosisListValue, diagnosisListConfig) }}></div>
+              <div>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
             </Root>
           )
         }
