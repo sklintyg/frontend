@@ -29,6 +29,7 @@ interface Props {
   getPeriodStartingDate: () => string
   hasOverlap: boolean
   hasValidationError: boolean
+  disabled: boolean
 }
 
 interface DateRangeValidation {
@@ -45,6 +46,7 @@ const DateRangePicker: React.FC<Props> = ({
   getPeriodStartingDate,
   hasOverlap,
   hasValidationError,
+  disabled,
 }) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
@@ -240,15 +242,14 @@ const DateRangePicker: React.FC<Props> = ({
         <Checkbox
           id={`${periodId}-checkbox`}
           hasValidationError={hasValidationError}
-          disabled={false}
-          value={'test'}
-          // wrapperStyles={checkBoxStyles}
           checked={dateChecked}
           onChange={handleCheckboxClick}
           label={label}
+          disabled={disabled}
         />
         <DatesWrapper id="fromWrapper">
           <DatePickerCustom
+            disabled={disabled}
             label={'Fr.o.m'}
             id={`from${periodId}`}
             textInputRef={fromTextInputRef}
@@ -264,6 +265,7 @@ const DateRangePicker: React.FC<Props> = ({
         </DatesWrapper>
         <DatesWrapper>
           <DatePickerCustom
+            disabled={disabled}
             label={'t.o.m'}
             id={`tom${periodId}`}
             textInputName={`tom${periodId}`}

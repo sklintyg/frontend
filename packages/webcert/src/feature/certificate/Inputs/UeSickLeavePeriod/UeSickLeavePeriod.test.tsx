@@ -74,8 +74,8 @@ const defaultQuestion: CertificateDataElement = {
   validationErrors: [],
 }
 
-const renderDefaultComponent = (question?: CertificateDataElement) => {
-  render(<UeSickLeavePeriod question={question ?? defaultQuestion} />)
+const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
+  render(<UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />)
 }
 
 beforeEach(() => {
@@ -176,5 +176,13 @@ describe('x', () => {
     const expectedErrorMessage = 'Ange sjukskrivningsperioder som inte överlappar varandra.'
 
     expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
+  })
+
+  it('inputs are disabled correctly', () => {
+    renderDefaultComponent(undefined, true)
+
+    expect(screen.getByLabelText(EN_FJARDEDEL_LABEL)).toBeDisabled()
+    expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
+    expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
   })
 })

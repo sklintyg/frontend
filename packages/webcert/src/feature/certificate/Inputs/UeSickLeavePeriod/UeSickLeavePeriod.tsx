@@ -24,9 +24,10 @@ import { getQuestionHasValidationError, getShowValidationErrors } from '../../..
 
 interface Props {
   question: CertificateDataElement
+  disabled: boolean
 }
 
-export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
+export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [hours, setHours] = useState<number | null>(null)
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
@@ -122,6 +123,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question }) => {
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker
+              disabled={disabled}
               hasValidationError={shouldDisplayValidationError}
               hasOverlap={handleGetPeriodHaveOverlap(period.id)}
               getPeriodStartingDate={handleGetPeriodStartingDate}
