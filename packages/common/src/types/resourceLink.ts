@@ -8,7 +8,6 @@ export interface ResourceLink {
 
 export interface ResourceLinkSend extends ResourceLink {
   modalBody: string
-  receiver: string
 }
 
 export interface ResourceLinkChooseReceivers extends ResourceLink {

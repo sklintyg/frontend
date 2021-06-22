@@ -10,11 +10,10 @@ interface Props {
   name: string
   description: string
   body: string
-  receiver: string
   enabled: boolean
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, receiver, body }) => {
+const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, body }) => {
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
 
@@ -25,12 +24,12 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, re
       disabled={!enabled}
       description={description}
       name={name}
-      modalTitle={`Skicka till ${receiver}`}
+      modalTitle={name}
       startIcon={<FontAwesomeIcon size="lg" icon={faEnvelope} />}
       onConfirm={() => {
         dispatch(sendCertificate(certificateMetadata.id))
       }}
-      confirmButtonText={`Skicka till ${receiver}`}
+      confirmButtonText={name}
       declineButtonText="Avbryt">
       <div dangerouslySetInnerHTML={{ __html: body }}></div>
     </ButtonWithConfirmModal>
