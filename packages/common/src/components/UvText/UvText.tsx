@@ -3,9 +3,13 @@ import { ValueBoolean, ValueCodeList, ValueCode, CertificateDataElement, ValueTe
 import {
   CertificateDataConfig,
   CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDiagnoses,
+  ConfigUeSickLeavePeriod,
   ValueDateList,
+  ValueDateRange,
+  ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '../../types/certificate'
@@ -64,6 +68,35 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         </>
       )
     })
+  }
+
+  const getDateRangeListDisplayValue = (valueList: ValueDateRange[], configList: ConfigUeCheckboxDateRange[]) => {
+    return (
+      <table className="ic-table">
+        <thead>
+          <tr>
+            <th scope="col">Nedsättningsgrad</th>
+            <th scope="col">Från och med</th>
+            <th scope="col">Till och med</th>
+          </tr>
+        </thead>
+        <tbody>
+          {configList.map((element, index) => {
+            const foundValue = valueList.find((v) => v.id === element.id)
+
+            if (!foundValue?.from || !foundValue.to) return null
+
+            return (
+              <tr>
+                <td>{element.label}</td>
+                <td>{foundValue.from}</td>
+                <td>{foundValue.to}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
   }
 
   // This function gets a warning for rendering children withous keys.
@@ -125,6 +158,13 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const dateListConfig = question.config as ConfigUeCheckboxMultipleDate
         if (question.visible) {
           return getDateListDisplayValue(dateListValue, dateListConfig)
+        }
+        break
+      case CertificateDataValueType.DATE_RANGE_LIST:
+        const dateRangeListValue = question.value.list as ValueDateRange[]
+        const dateRangeListConfig = (question.config as ConfigUeSickLeavePeriod).list
+        if (dateRangeListValue.length > 0 && dateRangeListValue.some((val) => val.from && val.to)) {
+          return getDateRangeListDisplayValue(dateRangeListValue, dateRangeListConfig)
         }
         break
       default:

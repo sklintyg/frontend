@@ -21,7 +21,6 @@ const MandatoryIcon: React.FC<Props> = ({ additionalStyles, display }) => {
   if (!display) return null
 
   return (
-    //@ts-expect-error css prop
     <Wrapper css={additionalStyles}>
       <Icon className="iu-color-error">*</Icon>
     </Wrapper>
