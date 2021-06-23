@@ -37,7 +37,7 @@ Pre-requisites: Setup the development environment (Follow instructions in 'devel
 3. Start Webcert-frontend (This time using docker-compose.yaml in the frontend repo)
     * docker-compose up -d (start as daemon)
     * docker-compose up (will lock console and use it to print container logs)
-4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.localtest.me/welcome
+4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
 
 When doing step #3, docker will automatically build an image if it doesn't exist. If you already have an image and want to build a new one follow these steps:
 
@@ -48,7 +48,7 @@ When doing step #3, docker will automatically build an image if it doesn't exist
 3. Start Webcert-frontend
     * docker-compose up -d (start as daemon)
     * docker-compose up (will lock console and use it to print container logs)
-4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.localtest.me/welcome
+4. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
 
 ## Deploy Webcert on OpenShift (devtest)
 

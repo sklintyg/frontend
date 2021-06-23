@@ -13,7 +13,6 @@ export const getUser = createAction('[User] Get user')
 export const getUserStarted = createAction('[User] Get user started')
 export const getUserSuccess = createAction<User>('[User] Get user success')
 export const getUserError = createAction<string>('[User] Get user error')
-export const getUserCompleted = createAction('[User] Get user completed')
 
 export const updateUser = createAction<User>('[User] Update user')
 
