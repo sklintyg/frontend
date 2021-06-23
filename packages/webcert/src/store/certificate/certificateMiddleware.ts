@@ -38,6 +38,11 @@ import {
   hideSpinner,
   hideValidationErrors,
   printCertificate,
+  renewCertificate,
+  renewCertificateCompleted,
+  renewCertificateError,
+  renewCertificateStarted,
+  renewCertificateSuccess,
   replaceCertificate,
   replaceCertificateCompleted,
   replaceCertificateError,
@@ -48,8 +53,12 @@ import {
   revokeCertificateError,
   revokeCertificateStarted,
   revokeCertificateSuccess,
+  sendCertificate,
+  sendCertificateError,
+  sendCertificateSuccess,
   setCertificateDataElement,
   setCertificateUnitData,
+  setDisabledCertificateDataChild,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -58,6 +67,7 @@ import {
   signCertificateCompleted,
   signCertificateError,
   signCertificateSuccess,
+  unhideCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateDataElement,
@@ -72,20 +82,9 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
-  setDisabledCertificateDataChild,
-  sendCertificate,
-  renewCertificateStarted,
-  renewCertificateSuccess,
-  renewCertificateError,
-  renewCertificateCompleted,
-  renewCertificate,
-  unhideCertificateDataElement,
-  sendCertificateSuccess,
-  sendCertificateError,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave } from '@frontend/common'
-import { loginUser } from '../user/userActions'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
 
@@ -97,12 +96,6 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   }
 
   dispatch(showSpinner('Laddar...'))
-
-  // TODO: Replace this hack with implementation to handle user session.
-  if (!getState().ui.uiUser.userLoggedIn) {
-    dispatch(loginUser({ redirectAction: { type: getCertificate.type, payload: action.payload } }))
-    return
-  }
 
   dispatch(
     apiCallBegan({

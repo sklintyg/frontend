@@ -4,12 +4,10 @@ import { apiCallBegan } from '../api/apiActions'
 import {
   clearRedirect,
   getUser,
-  getUserCompleted,
   getUserError,
   getUserStarted,
   getUserSuccess,
   loginUser,
-  loginUserError,
   loginUserStarted,
   loginUserSuccess,
   setUserPreference,
@@ -28,24 +26,9 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
     return
   }
 
-  const data =
-    'userJsonDisplay= {\n' +
-    ' "hsaId": "TSTNMT2321000156-1079",\n' +
-    ' "forNamn": "Arnold",\n' +
-    ' "efterNamn": "Johansson",\n' +
-    ' "enhetId": "TSTNMT2321000156-1077",\n' +
-    ' "legitimeradeYrkesgrupper": [\n' +
-    '  "Läkare"\n' +
-    ' ],\n' +
-    ' "origin": "NORMAL",\n' +
-    ' "authenticationMethod": "FAKE"\n' +
-    '}'
-
   if (action.payload.redirectAction) {
     dispatch(updateRedirect(action.payload.redirectAction))
   }
-
-  action.payload.user = action.payload.user ?? data
 
   dispatch(
     apiCallBegan({
@@ -106,7 +89,6 @@ const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   }
 
   dispatch(updateUser(action.payload))
-  dispatch(getUserCompleted())
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
