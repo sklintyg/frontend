@@ -60,6 +60,12 @@ describe('Clean certificate before saving', () => {
         id: '',
         type: CertificateDataValueType.DATE_RANGE,
       },
+      {
+        from: undefined!,
+        to: '',
+        id: '',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
     ]
 
     const filteredValues = filterDateRangeValueList(valueList)
@@ -68,5 +74,6 @@ describe('Clean certificate before saving', () => {
     expect(filteredValues[0].to).toBe(undefined)
     expect(filteredValues[1].from).toBe(undefined)
     expect(filteredValues[1].to).toEqual('2021-05-20')
+    expect(filteredValues[2].from).toBe(undefined)
   })
 })
