@@ -12,6 +12,7 @@ import {
   QuestionValidationTexts,
   ValidationError,
   CertificateDataValueType,
+  filterDateRangeValueList,
 } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
@@ -76,7 +77,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       })
     }
 
-    return updatedValueList
+    return filterDateRangeValueList(updatedValueList)
   }
 
   function getUpdatedValue(valueList: ValueDateRange[]) {

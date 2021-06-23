@@ -1,3 +1,4 @@
+import { ValueDateRange } from './../types/certificate';
 import { ResourceLink } from './../types/resourceLink'
 import { CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Certificate, CertificateEventType } from '..'
 import { ResourceLinkType } from '../types/resourceLink'
@@ -76,4 +77,11 @@ export const getCertificateToSave = (certificate: Certificate): Certificate => {
     }
   }
   return cleanCertificate
+}
+
+
+export const filterDateRangeValueList = (valueList: ValueDateRange[]) => {
+  return valueList.map(
+    (val) => Object.fromEntries(Object.entries(val).filter(([_, v]) => v != null && (v as string).length > 0)) as ValueDateRange
+  )
 }
