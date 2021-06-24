@@ -1,6 +1,7 @@
+import { CertificateDataValueType, ValueDateRange } from './../types/certificate'
 import { getCertificate } from './test/certificateTestUtil'
 import { ValueBoolean, ValueText } from '../types/certificate'
-import { getCertificateToSave } from './certificateUtils'
+import { filterDateRangeValueList, getCertificateToSave } from './certificateUtils'
 
 describe('Clean certificate before saving', () => {
   const certificate = getCertificate()
@@ -43,5 +44,36 @@ describe('Clean certificate before saving', () => {
     const clearedCertificate = getCertificateToSave(certificate)
 
     expect((clearedCertificate.data['1.2'].value as ValueText).text).toEqual('Has text value')
+  })
+
+  it('Filters date range value list correctly', () => {
+    const valueList: ValueDateRange[] = [
+      {
+        from: '2021-05-12',
+        to: '',
+        id: '',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
+      {
+        from: null!,
+        to: '2021-05-20',
+        id: '',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
+      {
+        from: undefined!,
+        to: '',
+        id: '',
+        type: CertificateDataValueType.DATE_RANGE,
+      },
+    ]
+
+    const filteredValues = filterDateRangeValueList(valueList)
+
+    expect(filteredValues[0].from).toEqual('2021-05-12')
+    expect(filteredValues[0].to).toBe(undefined)
+    expect(filteredValues[1].from).toBe(undefined)
+    expect(filteredValues[1].to).toEqual('2021-05-20')
+    expect(filteredValues[2].from).toBe(undefined)
   })
 })
