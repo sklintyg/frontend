@@ -2,21 +2,21 @@ import { MockUser } from './welcomeReducer'
 
 export const mockUserData: MockUser[] = [
   {
-    hsaId: 'TSTNMT2321000156-DRAJ',
+    hsaId: 'TSTNMT2321000156-DRAA',
     forNamn: 'Ajla',
     efterNamn: 'Doktor',
     enhetId: 'TSTNMT2321000156-ALMC',
     legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
-    hsaId: 'TSTNMT2321000156-DRAL',
+    hsaId: 'TSTNMT2321000156-DRAF',
     forNamn: 'Alf',
     efterNamn: 'Doktor',
     enhetId: 'TSTNMT2321000156-ALVC',
     legitimeradeYrkesgrupper: ['Läkare'],
   },
   {
-    hsaId: 'TSTNMT2321000156-VAAL',
+    hsaId: 'TSTNMT2321000156-VAAA',
     forNamn: 'Alva',
     efterNamn: 'Vårdadministratör',
     enhetId: 'TSTNMT2321000156-ALMC',
