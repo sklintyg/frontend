@@ -8,26 +8,41 @@ import { CertificateMetadata } from '../../../../../../common/src/types/certific
 //@ts-expect-error Only relevant data for test
 const certificateMetadata: CertificateMetadata = {
   type: 'lisjp',
+  sent: true,
 }
 
-it('displays that the certificate is sent', () => {
-  const isSignedSpy = jest.spyOn(utils, 'isSigned')
-  const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-  const isSentSpy = jest.spyOn(utils, 'isSent')
+describe('Sent status', () => {
+  it('displays that the certificate is sent', () => {
+    const isSignedSpy = jest.spyOn(utils, 'isSigned')
+    const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
 
-  isSignedSpy.mockReturnValue(true)
-  isReplacedSpy.mockReturnValue(false)
-  isSentSpy.mockReturnValue(true)
+    isSignedSpy.mockReturnValue(true)
+    isReplacedSpy.mockReturnValue(false)
 
-  render(<SentStatus certificateMetadata={certificateMetadata} />)
-  expect(screen.getByText(/Intyget är skickat till/i)).toBeInTheDocument()
-})
+    render(<SentStatus certificateMetadata={certificateMetadata} />)
+    expect(screen.getByText(/Intyget är skickat till/i)).toBeInTheDocument()
+  })
 
-it('doesnt render anything', () => {
-  const isSignedSpy = jest.spyOn(utils, 'isSigned')
+  it('doesnt render anything', () => {
+    const isSignedSpy = jest.spyOn(utils, 'isSigned')
 
-  isSignedSpy.mockReturnValue(false)
+    isSignedSpy.mockReturnValue(false)
 
-  render(<SentStatus />)
-  expect(screen.queryByText(/Intyget är skickat till/i)).not.toBeInTheDocument()
+    render(<SentStatus />)
+    expect(screen.queryByText(/Intyget är skickat till/i)).not.toBeInTheDocument()
+  })
+
+  it('doesnt render anything if certificate is not sent', () => {
+    //@ts-expect-error Only relevant data for test
+    const metadata: CertificateMetadata = {
+      type: 'lisjp',
+      sent: false,
+    }
+    const isSignedSpy = jest.spyOn(utils, 'isSigned')
+
+    isSignedSpy.mockReturnValue(false)
+
+    render(<SentStatus certificateMetadata={metadata} />)
+    expect(screen.queryByText(/Intyget är skickat till/i)).not.toBeInTheDocument()
+  })
 })
