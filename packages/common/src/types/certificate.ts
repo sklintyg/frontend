@@ -21,6 +21,7 @@ export interface CertificateMetadata {
   type: string
   typeVersion: string
   status: CertificateStatus
+  sent: boolean
   created: string
   testCertificate: boolean
   forwarded: boolean
