@@ -64,7 +64,7 @@ const CertificateHeader = () => {
             <RevokedStatus certificateMetadata={certificateMetadata} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
             <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
-            <SentStatus certificateMetadata={certificateMetadata} certificateEvents={historyEntries} />
+            <SentStatus certificateMetadata={certificateMetadata} />
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
             <RevokeParentStatus certificateMetadata={certificateMetadata} />

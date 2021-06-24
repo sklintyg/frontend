@@ -429,6 +429,7 @@ describe('Validate multiple show rules', () => {
       created: '2020-10-12T15:31:37.632',
       testCertificate: false,
       forwarded: false,
+      sent: false,
       relations: {
         children: [],
         parent: null,

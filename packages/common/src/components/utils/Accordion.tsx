@@ -28,6 +28,8 @@ const Text = styled.p`
 
 const StyledButton = styled.button`
   font-size: inherit;
+  text-align: left;
+  line-height: unset !important;
 `
 
 interface Props {

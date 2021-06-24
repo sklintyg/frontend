@@ -30,19 +30,19 @@ const Columns = styled.div`
 `
 
 interface Params {
-  id: string
+  certificateId: string
 }
 
 const CertificatePage = () => {
-  const { id } = useParams<Params>()
+  const { certificateId } = useParams<Params>()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
 
   useEffect(() => {
-    if (id) {
-      dispatch(getCertificate(id))
+    if (certificateId) {
+      dispatch(getCertificate(certificateId))
     }
-  }, [dispatch, id])
+  }, [dispatch, certificateId])
 
   const secondaryItems = [
     <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,

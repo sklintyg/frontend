@@ -7,8 +7,6 @@ export const isSigned = (certificateMetadata: CertificateMetadata) => certificat
 
 export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
 
-export const isSent = (certificateEvents: CertificateEvent[]) => certificateEvents.some((e) => e.type === CertificateEventType.SENT)
-
 export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   const {
     relations: { children },
