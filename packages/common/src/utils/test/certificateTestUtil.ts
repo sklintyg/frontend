@@ -118,6 +118,7 @@ export const getCertificate = (): Certificate => {
       created: '',
       description: '',
       testCertificate: false,
+      sent: false,
       careProvider: {
         unitId: '',
         address: '',
