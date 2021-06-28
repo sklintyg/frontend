@@ -1,13 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { User } from '@frontend/common'
-import { LoginUserQuery, RedirectAction, LoginUserSuccess } from './userReducer'
-import { UserProperty } from '@frontend/common'
-
-export const loginUser = createAction<LoginUserQuery>('[User] Login user')
-export const loginUserStarted = createAction('[User] Login user started')
-export const loginUserSuccess = createAction<LoginUserSuccess>('[User] Login user success')
-export const loginUserError = createAction('[User] Login user error')
-export const loginUserCompleted = createAction('[User] Login user completed')
+import { User, UserProperty } from '@frontend/common'
 
 export const getUser = createAction('[User] Get user')
 export const getUserStarted = createAction('[User] Get user started')
@@ -16,12 +8,24 @@ export const getUserError = createAction<string>('[User] Get user error')
 
 export const updateUser = createAction<User>('[User] Update user')
 
-export const updateRedirect = createAction<RedirectAction>('[User] Update redirect')
-export const clearRedirect = createAction('[User] Clear redirect')
-
 export const setUserPreference = createAction<UserProperty>('[User] Set user preference')
 export const setUserPreferenceStarted = createAction('[User] Set user preference started')
 export const setUserPreferenceSuccess = createAction<UserProperty>('[User] Set user preference success')
 export const setUserPreferenceError = createAction<string>('[User] Set user preference error')
 
 export const updateUserPreference = createAction<UserProperty>('[User] Update user preference')
+
+export const cancelLogout = createAction('[User] Cancel logout')
+export const cancelLogoutStarted = createAction('[User] Cancel logout started')
+export const cancelLogoutSuccess = createAction('[User] Cancel logout success')
+export const cancelLogoutError = createAction<string>('[User] Cancel logout error')
+
+export const triggerLogout = createAction('[User] Trigger logout')
+export const triggerLogoutStarted = createAction('[User] Trigger logout started')
+export const triggerLogoutSuccess = createAction('[User] Trigger logout success')
+export const triggerLogoutError = createAction<string>('[User] Trigger logout error')
+
+export const triggerLogoutNow = createAction('[User] Trigger logout now')
+export const triggerLogoutNowStarted = createAction('[User] Trigger logout now started')
+export const triggerLogoutNowSuccess = createAction('[User] Trigger logout now success')
+export const triggerLogoutNowError = createAction<string>('[User] Trigger logout now error')
