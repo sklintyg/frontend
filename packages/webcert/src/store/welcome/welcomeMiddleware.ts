@@ -14,10 +14,16 @@ import {
   getPatientsError,
   getPatientsStarted,
   getPatientsSuccess,
+  loginUser,
+  loginUserError,
+  loginUserStarted,
+  loginUserSuccess,
+  updateCertificateId,
   updateCertificateTypes,
-  updateCreatedCertificateId,
+  updateNavigateToCertificate,
   updatePatients,
 } from './welcomeActions'
+import { getUser } from '../user/userActions'
 
 const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -37,9 +43,7 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
   )
 }
 
-const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
+const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getCertificateTypesSuccess.match(action)) {
@@ -67,7 +71,7 @@ const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =>
   )
 }
 
-const handleGetPatientsSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleGetPatientsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getPatientsSuccess.match(action)) {
@@ -96,16 +100,45 @@ const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   )
 }
 
-const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!createNewCertificateSuccess.match(action)) {
     return
   }
 
-  dispatch(updateCreatedCertificateId(action.payload.certificateId))
+  dispatch(updateCertificateId(action.payload.certificateId))
+}
+
+const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!loginUser.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/fake',
+      method: 'POST',
+      data: action.payload,
+      onStart: loginUserStarted.type,
+      onSuccess: loginUserSuccess.type,
+      onError: loginUserError.type,
+    })
+  )
+}
+
+const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!loginUserSuccess.match(action)) {
+    return
+  }
+
+  dispatch(getUser())
+
+  dispatch(updateNavigateToCertificate(true))
 }
 
 export const welcomeMiddleware = [
@@ -115,4 +148,6 @@ export const welcomeMiddleware = [
   handleGetPatientsSuccess,
   handleCreateNewCertificate,
   handleCreateNewCertificateSuccess,
+  handleLoginUser,
+  handleLoginUserSuccess,
 ]

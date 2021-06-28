@@ -2,66 +2,29 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import {
-  clearRedirect,
+  cancelLogout,
+  cancelLogoutError,
+  cancelLogoutStarted,
+  cancelLogoutSuccess,
   getUser,
   getUserError,
   getUserStarted,
   getUserSuccess,
-  loginUser,
-  loginUserStarted,
-  loginUserSuccess,
   setUserPreference,
   setUserPreferenceError,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
-  updateRedirect,
+  triggerLogout,
+  triggerLogoutError,
+  triggerLogoutNow,
+  triggerLogoutNowError,
+  triggerLogoutNowStarted,
+  triggerLogoutNowSuccess,
+  triggerLogoutStarted,
+  triggerLogoutSuccess,
   updateUser,
   updateUserPreference,
 } from './userActions'
-
-const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!loginUser.match(action)) {
-    return
-  }
-
-  if (action.payload.redirectAction) {
-    dispatch(updateRedirect(action.payload.redirectAction))
-  }
-
-  dispatch(
-    apiCallBegan({
-      url: '/fake',
-      method: 'POST',
-      data: action.payload.user,
-      onStart: loginUserStarted.type,
-      onSuccess: loginUserSuccess.type,
-      onError: loginUserSuccess.type,
-      onArgs: { history: action.payload.loginUserSuccess?.history, certificateId: action.payload.loginUserSuccess?.certificateId },
-    })
-  )
-}
-
-const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!loginUserSuccess.match(action)) {
-    return
-  }
-
-  dispatch(getUser())
-
-  if (action.payload.history) {
-    action.payload.history.push(`/certificate/${action.payload.certificateId}`)
-  }
-
-  const redirect = getState().ui.uiUser.redirect
-  if (redirect) {
-    dispatch(redirect)
-    dispatch(clearRedirect())
-  }
-}
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -81,7 +44,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (ne
   )
 }
 
-const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getUserSuccess.match(action)) {
@@ -117,9 +80,7 @@ const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
   )
 }
 
-const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
+const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!setUserPreferenceSuccess.match(action)) {
@@ -134,11 +95,66 @@ const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch, getSta
   )
 }
 
+const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!cancelLogout.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/anvandare/logout/cancel',
+      method: 'GET',
+      onStart: cancelLogoutStarted.type,
+      onSuccess: cancelLogoutSuccess.type,
+      onError: cancelLogoutError.type,
+    })
+  )
+}
+
+const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!triggerLogout.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/anvandare/logout',
+      method: 'GET',
+      onStart: triggerLogoutStarted.type,
+      onSuccess: triggerLogoutSuccess.type,
+      onError: triggerLogoutError.type,
+    })
+  )
+}
+
+const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!triggerLogoutNow.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/visa/anvandare/logout/now',
+      method: 'GET',
+      onStart: triggerLogoutNowStarted.type,
+      onSuccess: triggerLogoutNowSuccess.type,
+      onError: triggerLogoutNowError.type,
+    })
+  )
+}
+
 export const userMiddleware = [
-  handleLoginUser,
-  handleLoginUserSuccess,
   handleGetUser,
   handleGetUserSuccess,
   handleSetUserPreference,
   handleSetUserPreferenceSuccess,
+  handleCancelLogout,
+  handleTriggerLogout,
+  handleTriggerLogoutNow,
 ]

@@ -1,7 +1,6 @@
 import { RootState } from '../store'
+import { User } from '@frontend/common'
 
-export const getIsUserLoggedIn = (state: RootState) => state.ui.uiUser.userLoggedIn
+export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
-export const getUser = (state: RootState) => state.ui.uiUser.user
-
-export const getUserPreference = (key: string) => (state: RootState) => state.ui.uiUser.user?.preferences?.[key]
+export const getUserPreference = (key: string) => (state: RootState): string | undefined => state.ui.uiUser.user?.preferences?.[key]
