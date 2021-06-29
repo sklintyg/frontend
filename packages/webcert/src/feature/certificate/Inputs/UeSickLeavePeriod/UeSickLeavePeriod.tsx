@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import DateRangePicker from './DateRangePicker'
 import {
   CertificateDataElement,
@@ -13,6 +13,7 @@ import {
   ValidationError,
   CertificateDataValueType,
   filterDateRangeValueList,
+  getNumberOfSickLeavePeriodDays,
 } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
@@ -29,11 +30,16 @@ interface Props {
 }
 
 export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
-  const [hours, setHours] = useState<number | null>(null)
+  const [baseWorkHours, setBaseWorkHours] = useState<string>('')
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
+
+  useEffect(() => {
+    updateTotalSickDays((question.value as ValueDateRangeList).list)
+  }, [])
 
   const overlapErrors: ValidationError[] = [
     {
@@ -56,6 +62,17 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
     setValueList(updatedValueList)
     dispatchEditDraft(updatedValueList)
+    updateTotalSickDays(updatedValueList)
+  }
+
+  const updateTotalSickDays = (values: ValueDateRange[]) => {
+    const totalSickDays = getNumberOfSickLeavePeriodDays(values)
+
+    if (totalSickDays > 0) {
+      setTotalSickDays(totalSickDays)
+    } else {
+      setTotalSickDays(null)
+    }
   }
 
   const getUpdatedValueList = (valueId: string, fromDate: string | null, toDate: string | null) => {
@@ -108,6 +125,10 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     return getPeriodHasOverlap(valueList, periodId)
   }
 
+  const handleWorkingHoursOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBaseWorkHours(event.target.value)
+  }
+
   if (!question) return null
 
   return (
@@ -116,7 +137,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         <DaysRangeWrapper>
           <FontAwesomeIcon icon={faLightbulb} className="iu-color-main" size="lg" />
           <p>Patienten arbetar i snitt</p>
-          <TextInput className="ic-textfield" type="text" value={hours?.toString()} maxLength={2} />
+          <TextInput onChange={handleWorkingHoursOnChange} className="ic-textfield" type="text" value={baseWorkHours} maxLength={2} />
           <p>timmar/vecka</p>
         </DaysRangeWrapper>
       </div>
@@ -124,6 +145,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker
+              baseWorkHours={baseWorkHours}
               disabled={disabled}
               hasValidationError={shouldDisplayValidationError}
               hasOverlap={handleGetPeriodHaveOverlap(period.id)}
@@ -139,6 +161,14 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         })}
         {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
         {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        {totalSickDays && (
+          <>
+            <p className="iu-color-main">
+              <FontAwesomeIcon icon={faLightbulb} className="iu-color-main iu-mr-200" size="lg" />
+              Intyget motsvarar en period på {totalSickDays} dagar.
+            </p>
+          </>
+        )}
       </div>
     </div>
   )
