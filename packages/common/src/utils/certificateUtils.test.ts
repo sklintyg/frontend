@@ -1,3 +1,4 @@
+import { CertificateDataValueType, ValueDateRange } from './../types/certificate'
 import { getCertificate } from './test/certificateTestUtil'
 import { ValueBoolean, ValueText } from '../types/certificate'
 import { getCertificateToSave } from './certificateUtils'

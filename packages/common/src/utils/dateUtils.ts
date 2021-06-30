@@ -1,5 +1,5 @@
 import { ValueDateRange, ValueDateRangeList } from './../types/certificate'
-import { parse, format, isAfter, isSameDay, areIntervalsOverlapping } from 'date-fns'
+import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -10,6 +10,13 @@ export const _parseformat = 'yyyyMMdd'
 export const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
 export const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
 export const monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i
+
+export enum SickLeavePeriods {
+  EN_FJARDEDEL = 'EN_FJARDEDEL',
+  HALFTEN = 'HALFTEN',
+  TRE_FJARDEDEL = 'TRE_FJARDEDEL',
+  HELT_NEDSATT = 'HELT_NEDSATT',
+}
 
 export const getValidDate = (dateString: string) => {
   if (_dateReg.test(dateString)) {
@@ -111,4 +118,42 @@ export const getPeriodHasOverlap = (valueList: ValueDateRange[], currentPeriodId
 
 const getIsIntervalsCorrect = (leftStartTime: Date, leftEndTime: Date, rightStartTime: Date, rightEndTime: Date) => {
   return leftStartTime <= leftEndTime && rightStartTime <= rightEndTime
+}
+
+export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercentage: string) => {
+  if (sickLeavePercentage === SickLeavePeriods.EN_FJARDEDEL) {
+    return (hoursWorkingPerWeek *= 0.75)
+  } else if (sickLeavePercentage === SickLeavePeriods.HALFTEN) {
+    return (hoursWorkingPerWeek *= 0.5)
+  } else if (sickLeavePercentage === SickLeavePeriods.TRE_FJARDEDEL) {
+    return (hoursWorkingPerWeek *= 0.25)
+  } else if (sickLeavePercentage === SickLeavePeriods.HELT_NEDSATT) {
+    return 0
+  }
+
+  return 0
+}
+
+export const getPeriodWorkDays = (fromDate: Date, toDate: Date) => {
+  return differenceInCalendarDays(toDate, fromDate) + 1
+}
+
+export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]) => {
+  let total = 0
+
+  for (let i = 0; i < periods.length; i++) {
+    if (getValidDate(periods[i].from) && getValidDate(periods[i].to)) {
+      total += getPeriodWorkDays(getValidDate(periods[i].from)!, getValidDate(periods[i].to)!)
+    }
+  }
+
+  return total
+}
+
+export const filterDateRangeValueList = (valueList: ValueDateRange[]) => {
+  const filteredList = valueList.map(
+    (val) => Object.fromEntries(Object.entries(val).filter(([_, v]) => v != null && (v as string).length > 0)) as ValueDateRange
+  )
+
+  return filteredList.filter((val) => val.from?.length > 0 || val.to?.length > 0)
 }

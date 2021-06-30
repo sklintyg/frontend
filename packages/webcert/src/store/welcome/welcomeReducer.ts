@@ -1,5 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateCertificateTypes, updateCreateCertificate, updateCreatedCertificateId, updatePatients } from './welcomeActions'
+import {
+  clearWelcome,
+  updateCertificateTypes,
+  updateCreateCertificate,
+  updateCertificateId,
+  updateNavigateToCertificate,
+  updatePatients,
+} from './welcomeActions'
 import { Patient } from '@frontend/common'
 import { mockUserData } from './mockUserData'
 
@@ -36,13 +43,16 @@ interface WelcomeState {
   createCertificate: CreateCertificate
   createdCertificateId: string
   users: MockUser[]
+  navigateToCertificate: boolean
 }
+
+const DEFAULT_CERTIFICATE_TYPE = 'lisjp'
 
 const initialState: WelcomeState = {
   types: null,
   patients: [],
   createCertificate: {
-    certificateType: 'lisjp',
+    certificateType: DEFAULT_CERTIFICATE_TYPE,
     certificateTypeVersion: '',
     patientId: '',
     personId: '',
@@ -52,6 +62,7 @@ const initialState: WelcomeState = {
   },
   createdCertificateId: '',
   users: [...mockUserData],
+  navigateToCertificate: false,
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
@@ -65,8 +76,24 @@ const utilsReducer = createReducer(initialState, (builder) =>
     .addCase(updateCreateCertificate, (state, action) => {
       state.createCertificate = action.payload
     })
-    .addCase(updateCreatedCertificateId, (state, action) => {
+    .addCase(updateCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
+    })
+    .addCase(clearWelcome, (state) => {
+      state.navigateToCertificate = false
+      state.createdCertificateId = ''
+      state.createCertificate = {
+        certificateType: DEFAULT_CERTIFICATE_TYPE,
+        certificateTypeVersion: '',
+        patientId: '',
+        personId: '',
+        unitId: '',
+        status: '',
+        fillType: '',
+      }
+    })
+    .addCase(updateNavigateToCertificate, (state, action) => {
+      state.navigateToCertificate = action.payload
     })
 )
 

@@ -1,3 +1,4 @@
+import { ValueDateRange } from './../types/certificate'
 import { ResourceLink } from './../types/resourceLink'
 import { CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Certificate, CertificateEventType } from '..'
 import { ResourceLinkType } from '../types/resourceLink'

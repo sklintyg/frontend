@@ -13,6 +13,8 @@ import {
   dayCodeReg,
   weekCodeReg,
   monthCodeReg,
+  getPeriodWorkHours,
+  getPeriodWorkDays,
 } from '@frontend/common'
 import { DateRangeWrapper, DatesWrapper } from './Styles'
 
@@ -30,6 +32,7 @@ interface Props {
   hasOverlap: boolean
   hasValidationError: boolean
   disabled: boolean
+  baseWorkHours: string
 }
 
 interface DateRangeValidation {
@@ -47,6 +50,7 @@ const DateRangePicker: React.FC<Props> = ({
   hasOverlap,
   hasValidationError,
   disabled,
+  baseWorkHours,
 }) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
@@ -57,6 +61,8 @@ const DateRangePicker: React.FC<Props> = ({
     invalidDatePeriod: false,
     validationErrors: [],
   })
+  const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number>(null)
+  const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
 
   function usePrevious(value: any) {
     const ref = React.useRef(value)
@@ -83,12 +89,38 @@ const DateRangePicker: React.FC<Props> = ({
     if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
       updateCheckbox()
       updateValue(periodId, fromDateInput, toDateInput)
+      updateWorkingPeriod(fromDateInput, toDateInput)
     }
   }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString])
 
   useEffect(() => {
+    updateWorkingPeriod(fromDateInput, toDateInput)
+  }, [baseWorkHours])
+
+  useEffect(() => {
     toggleShowValidationError(fromDate, toDate)
   }, [])
+
+  const updateWorkingPeriod = (fromDateString: string | null, toDateString: string | null) => {
+    if (baseWorkHours === '0') {
+      setWorkHoursPerWeek(null)
+      setWorkDaysPerWeek(null)
+      return
+    }
+
+    if (!fromDateString || !toDateString || !parseInt(baseWorkHours)) return
+
+    const fromDate = getValidDate(fromDateString)
+    const toDate = getValidDate(toDateString)
+
+    if (fromDate && toDate) {
+      const workingHoursPerWeek = getPeriodWorkHours(parseInt(baseWorkHours), periodId)
+      const periodWorkDays = getPeriodWorkDays(fromDate, toDate)
+
+      setWorkHoursPerWeek(workingHoursPerWeek)
+      setWorkDaysPerWeek(periodWorkDays)
+    }
+  }
 
   const handleFromTextInputChange = (value: string) => {
     setFromDateInput(value ?? null)
@@ -281,6 +313,11 @@ const DateRangePicker: React.FC<Props> = ({
         </DatesWrapper>
       </DateRangeWrapper>
       {<QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
+      {workHoursPerWeek !== null && workDaysPerWeek !== null && (
+        <p className="iu-color-main">
+          Arbetstid: {workHoursPerWeek} timmar/vecka i {workDaysPerWeek} dagar.
+        </p>
+      )}
     </>
   )
 }

@@ -2,22 +2,20 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, InfoBox } from '@frontend/common'
-import { useDispatch } from 'react-redux'
-import { replaceCertificate } from '../../../store/certificate/certificateActions'
+import { ButtonWithConfirmModal, CertificateMetadata, InfoBox } from '@frontend/common'
 
 interface Props {
   name: string
   description: string
   enabled: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const handleConfirm = () => {
-    dispatch(replaceCertificate(history))
+    history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
   return (
@@ -28,7 +26,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
       startIcon={<FontAwesomeIcon size="lg" icon={faExchangeAlt} />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm}
-      confirmButtonText={'Ersätt'}>
+      confirmButtonText={'Fortsätt på utkast'}>
       <>
         <InfoBox type="info">
           Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.
@@ -43,4 +41,4 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
   )
 }
 
-export default ReplaceCertificateButton
+export default ReplaceCertificateContinueButton

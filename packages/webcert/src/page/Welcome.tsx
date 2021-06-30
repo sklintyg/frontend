@@ -1,14 +1,24 @@
-import { CustomButton, User } from '@frontend/common'
+import { CustomButton, RadioButton } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import { loginUser } from '../store/user/userActions'
-import { createNewCertificate, updateCreateCertificate, updateCreatedCertificateId } from '../store/welcome/welcomeActions'
+import {
+  clearWelcome,
+  createNewCertificate,
+  loginUser,
+  updateCertificateId,
+  updateCreateCertificate,
+  updateNavigateToCertificate,
+} from '../store/welcome/welcomeActions'
 import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
-import { getAvailableUsers, getCreateCertificate, getCreatedCertificateId } from '../store/welcome/welcomeSelectors'
+import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
+import { Wrapper } from '../feature/certificate/Inputs/DatePickerCustom/Styles'
+import { triggerLogoutNow } from '../store/user/userActions'
+import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
+import { MockUser } from '../store/welcome/welcomeReducer'
 
-interface JsonUser extends User {
+interface JsonUser extends MockUser {
   origin: string
   authenticationMethod: string
 }
@@ -48,21 +58,26 @@ const StyledSelect = styled.select`
   max-width: 600px;
 `
 
-const StyledInput = styled.input.attrs((props) => ({
+const StyledInput = styled.input.attrs(() => ({
   type: 'text',
   placeholder: 'intygsid',
 }))`
   max-width: 600px;
 `
 
-const Welcome = () => {
-  const createdCertificateId = useSelector(getCreatedCertificateId())
+const Welcome: React.FC = () => {
+  const certificateId = useSelector(getCertificateId())
   const createCertificate = useSelector(getCreateCertificate())
   const availableUsers = useSelector(getAvailableUsers())
+  const navigateToCertificate = useSelector(getNavigateToCertificate())
+
   const [selectedUser, setSelectedUser] = useState(availableUsers[0])
-  const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
-  const [certificateId, setCertificateId] = useState('')
+  const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' } as JsonUser)
+  const [existingCertificateId, setExistingCertificateId] = useState('')
   const [isCreateNewCertificate, setIsCreateNewCertificate] = useState(false)
+  const [isDeepIntegration, setIsDeepIntegration] = useState(false)
+  const [isFakeLogin, setFakeLogin] = useState(true)
+
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -71,17 +86,36 @@ const Welcome = () => {
     updatedCreateCertificate.personId = selectedUser.hsaId
     updatedCreateCertificate.unitId = selectedUser.enhetId
     dispatch(updateCreateCertificate(updatedCreateCertificate))
+    dispatch(triggerLogoutNow())
   }, [])
 
   useEffect(() => {
-    if (!createdCertificateId) {
+    if (!certificateId) {
       return
     }
 
-    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-    dispatch(loginUser({ user: jsonString, loginUserSuccess: { certificateId: createdCertificateId, history: history } }))
-    dispatch(updateCreatedCertificateId(''))
-  }, [createdCertificateId])
+    if (!isFakeLogin) {
+      dispatch(updateNavigateToCertificate(true))
+    } else {
+      const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
+      dispatch(loginUser(jsonString))
+    }
+  }, [certificateId])
+
+  useEffect(() => {
+    if (!navigateToCertificate) {
+      return
+    }
+
+    if (!isDeepIntegration) {
+      history.push(`/certificate/${certificateId}`)
+      dispatch(clearWelcome())
+    }
+  }, [navigateToCertificate])
+
+  if (navigateToCertificate && isDeepIntegration) {
+    return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? selectedUser.enhetId : ''} sjf={true} />
+  }
 
   const handleChangeMultiple = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedUser = availableUsers.find((user) => user.hsaId === event.target.value)!
@@ -101,13 +135,19 @@ const Welcome = () => {
     if (isCreateNewCertificate) {
       dispatch(createNewCertificate(createCertificate))
     } else {
-      const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-      dispatch(loginUser({ user: jsonString, loginUserSuccess: { certificateId: certificateId, history: history } }))
+      dispatch(updateCertificateId(existingCertificateId))
     }
   }
 
-  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCreateNewCertificateCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsCreateNewCertificate(event.target.checked)
+  }
+
+  const handleDeepIntegrationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsDeepIntegration(event.target.checked)
+    if (!event.target.checked) {
+      setFakeLogin(true)
+    }
   }
 
   return (
@@ -128,7 +168,7 @@ const Welcome = () => {
             </StyledSelect>
             <StyledForm onSubmit={handleLogin}>
               <input
-                onChange={handleCheckbox}
+                onChange={handleCreateNewCertificateCheckbox}
                 className="ic-forms__checkbox"
                 type="checkbox"
                 checked={isCreateNewCertificate}
@@ -139,17 +179,47 @@ const Welcome = () => {
               {!isCreateNewCertificate && (
                 <StyledInput
                   disabled={isCreateNewCertificate}
-                  value={certificateId}
-                  onChange={(e) => setCertificateId(e.target.value)}
+                  value={existingCertificateId}
+                  onChange={(e) => setExistingCertificateId(e.target.value)}
                   type="text"
                   className="ic-textfield"
                   placeholder="intygsid"
                 />
               )}
+              <input
+                onChange={handleDeepIntegrationCheckbox}
+                className="ic-forms__checkbox"
+                type="checkbox"
+                checked={isDeepIntegration}
+                id="isDeepIntegration"
+              />
+              <label htmlFor="isDeepIntegration">Djupintegrerat uthopp?</label>
+              <Wrapper>
+                <RadioButton
+                  key={'fake'}
+                  label={'Fake-inloggning'}
+                  value={'fake'}
+                  checked={isFakeLogin}
+                  id={'fake'}
+                  name={'fake'}
+                  disabled={!isDeepIntegration}
+                  onChange={() => setFakeLogin(true)}
+                />
+                <RadioButton
+                  key={'siths'}
+                  label={'SITHS-inloggning'}
+                  value={'siths'}
+                  checked={!isFakeLogin}
+                  id={'siths'}
+                  name={'siths'}
+                  disabled={!isDeepIntegration}
+                  onChange={() => setFakeLogin(false)}
+                />
+              </Wrapper>
               <CustomButton
                 style="primary"
                 type="submit"
-                disabled={!isCreateNewCertificate && certificateId.length < 1}
+                disabled={!isCreateNewCertificate && existingCertificateId.length < 1}
                 onSubmit={handleLogin}>
                 Logga in
               </CustomButton>

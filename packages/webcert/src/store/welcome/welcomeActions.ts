@@ -37,4 +37,13 @@ interface CreateCertificateResponse {
 
 export const createNewCertificateSuccess = createAction<CreateCertificateResponse>('[Welcome] Create certificate success')
 export const createNewCertificateError = createAction<string>('[Welcome] Create certificate error')
-export const updateCreatedCertificateId = createAction<string>('[Welcome] Update created certificate id')
+export const updateCertificateId = createAction<string>('[Welcome] Update certificate id')
+
+export const loginUser = createAction<string>('[Welcome] Login user')
+export const loginUserStarted = createAction('[Welcome] Login user started')
+export const loginUserSuccess = createAction('[Welcome] Login user success')
+export const loginUserError = createAction('[Welcome] Login user error')
+export const loginUserCompleted = createAction('[Welcome] Login user completed')
+
+export const updateNavigateToCertificate = createAction<boolean>('[Welcome] NavigateToCertificate')
+export const clearWelcome = createAction('[Welcome] Clear Welcome')
