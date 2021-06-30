@@ -87,7 +87,7 @@ describe('Typeahead component', () => {
     expect(moreItem).toHaveLength(1)
   })
 
-  it('allows user to choose option using click or enter keys', () => {
+  it('allows user to choose option using click or enter key', () => {
     renderWithSuggestions(true, false)
     userEvent.click(screen.getByRole('textbox'))
     expect(defaultOnSuggestionSelected).toHaveBeenCalledTimes(0)
@@ -97,6 +97,15 @@ describe('Typeahead component', () => {
     userEvent.click(screen.getAllByRole('option')[1])
     expect(defaultOnSuggestionSelected).toHaveBeenCalledTimes(2)
     expect(defaultOnSuggestionSelected).toHaveBeenNthCalledWith(2, suggestions[1].label)
+  })
+
+  it('allows user to choose option using tab', () => {
+    renderWithSuggestions(true, false)
+    userEvent.click(screen.getByRole('textbox'))
+    expect(defaultOnSuggestionSelected).toHaveBeenCalledTimes(0)
+    userEvent.tab()
+    expect(defaultOnSuggestionSelected).toHaveBeenCalledTimes(1)
+    expect(defaultOnSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[0].label)
   })
 
   it('allows user to navigate list through hover or arrow keys', async () => {
