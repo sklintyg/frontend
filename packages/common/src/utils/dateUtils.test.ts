@@ -1,6 +1,14 @@
 import { isEqual } from 'date-fns'
-import { ConfigUeCheckboxDateRange, ValueDateRange } from './../../../../../../common/src/types/certificate'
-import { getValidDate, getLatestPeriodEndDate, ValueDateRangeList, CertificateDataValueType, getPeriodHasOverlap } from '@frontend/common'
+import {
+  getValidDate,
+  getLatestPeriodEndDate,
+  CertificateDataValueType,
+  getPeriodHasOverlap,
+  getPeriodWorkHours,
+  ConfigUeCheckboxDateRange,
+  ValueDateRange,
+} from '@frontend/common'
+import { getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
 
 const QUESTION_ID = 'Test'
 
@@ -122,6 +130,93 @@ it('returns false if dates are not overlapping', () => {
 
   const expected = false
   const actual = getPeriodHasOverlap(valueList, sutId)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 25% sick leave correctly', () => {
+  const sickLeavePercentage = SickLeavePeriods.EN_FJARDEDEL
+  const expected = 30.0
+
+  const actual = getPeriodWorkHours(40, sickLeavePercentage)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 50% sick leave correctly', () => {
+  const sickLeavePercentage = SickLeavePeriods.HALFTEN
+  const expected = 20.0
+
+  const actual = getPeriodWorkHours(40, sickLeavePercentage)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 75% sick leave correctly', () => {
+  const sickLeavePercentage = SickLeavePeriods.TRE_FJARDEDEL
+  const expected = 10.0
+
+  const actual = getPeriodWorkHours(40, sickLeavePercentage)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 100% sick leave correctly', () => {
+  const sickLeavePercentage = SickLeavePeriods.HELT_NEDSATT
+  const expected = 0.0
+
+  const actual = getPeriodWorkHours(40, sickLeavePercentage)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates uneven number sick leave correctly', () => {
+  const sickLeavePercentage = SickLeavePeriods.EN_FJARDEDEL
+  const expected = 12.75
+
+  const actual = getPeriodWorkHours(17, sickLeavePercentage)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 1 week of sick days correctly', () => {
+  const fromDate = getValidDate('2021-06-20')
+  const toDate = getValidDate('2021-06-26')
+
+  const expected = 7
+  const actual = getPeriodWorkDays(fromDate!, toDate!)
+
+  expect(actual).toBe(expected)
+})
+
+it('Calculates 1 sick day correctly', () => {
+  const fromDate = getValidDate('2021-06-20')
+  const toDate = getValidDate('2021-06-20')
+
+  const expected = 1
+  const actual = getPeriodWorkDays(fromDate!, toDate!)
+
+  expect(actual).toBe(expected)
+})
+
+it('calculates multiple periods of sick leave days correctly', () => {
+  const periods: ValueDateRange[] = [
+    {
+      from: '2021-06-29',
+      to: '2021-07-05',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
+    {
+      from: '2021-07-06',
+      to: '2021-07-12',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
+  ]
+
+  const expected = 14
+  const actual = getNumberOfSickLeavePeriodDays(periods)
 
   expect(actual).toBe(expected)
 })

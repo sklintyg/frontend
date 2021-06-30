@@ -185,4 +185,38 @@ describe('x', () => {
     expect(screen.getByTestId(`from${EN_FJARDEDEL_ID}`)).toBeDisabled()
     expect(screen.getByTestId(`tom${EN_FJARDEDEL_ID}`)).toBeDisabled()
   })
+
+  it('Renders total number of sick days', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: '1', from: '2021-06-01', to: '2021-06-07', type: CertificateDataValueType.DATE_RANGE },
+          { id: '2', from: '2021-06-08', to: '2021-06-14', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+    }
+
+    renderDefaultComponent(question)
+
+    expect(screen.getByText('Intyget motsvarar en period på 14 dagar.')).toBeInTheDocument()
+  })
+
+  it('Renders no total number of sick days if missing valid date ranges', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: '1', from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE },
+          { id: '2', from: '', to: '2021-06-14', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+    }
+
+    renderDefaultComponent(question)
+
+    expect(screen.queryByText('Intyget motsvarar en period på 14 dagar.')).not.toBeInTheDocument()
+  })
 })

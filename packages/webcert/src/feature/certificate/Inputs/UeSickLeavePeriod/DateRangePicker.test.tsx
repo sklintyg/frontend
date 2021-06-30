@@ -14,64 +14,21 @@ import DateRangePicker from './DateRangePicker'
 import * as redux from 'react-redux'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
 
-const LABEL = '25 procent'
-const QUESTION_ID = 'Test'
-
-const question: CertificateDataElement = {
-  id: QUESTION_ID,
-  parent: 'bedomning',
-  index: 18,
-  visible: true,
-  readOnly: false,
-  mandatory: true,
-  config: {
-    text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
-    description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
-    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
-    list: [
-      {
-        id: 'EN_FJARDEDEL',
-        label: '25 procent',
-      },
-      {
-        id: 'HALFTEN',
-        label: '50 procent',
-      },
-      {
-        id: 'TRE_FJARDEDEL',
-        label: '75 procent',
-      },
-      {
-        id: 'HELT_NEDSATT',
-        label: '100 procent',
-      },
-    ],
-  },
-  value: {
-    type: CertificateDataValueType.DATE_RANGE_LIST,
-    list: [],
-  },
-  validation: [
-    {
-      type: CertificateDataValidationType.MANDATORY_VALIDATION,
-      questionId: '32',
-      expression: '$EN_FJARDEDEL || $HALFTEN || $TRE_FJARDEDEL || $HELT_NEDSATT',
-    },
-  ],
-  validationErrors: [],
-}
+const CHECKBOX_LABEL = '25 procent'
+const QUESTION_ID = 'EN_FJARDEDEL'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const renderDefaultComponent = (fromDate = null, toDate = null) => {
+const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0') => {
   render(
     <DateRangePicker
+      baseWorkHours={baseWorkHours}
       disabled={false}
       hasOverlap={false}
       hasValidationError={false}
       updateValue={() => {}}
       getPeriodStartingDate={() => formatDateToString(new Date())}
-      label={LABEL}
+      label={CHECKBOX_LABEL}
       fromDate={fromDate}
       toDate={toDate}
       periodId={QUESTION_ID}
@@ -196,5 +153,37 @@ describe('Date range picker', () => {
     userEvent.clear(tomInput)
     tomInput.blur()
     expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+  })
+
+  it('displays correct number of sick hours and days for one week', () => {
+    renderDefaultComponent(undefined, undefined, '40')
+
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
+
+    expect(screen.getByText('Arbetstid: 30 timmar/vecka i 7 dagar.'))
+  })
+
+  it('displays correct number of sick hours and days for one month', () => {
+    renderDefaultComponent(undefined, undefined, '40')
+
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
+
+    expect(screen.getByText('Arbetstid: 30 timmar/vecka i 31 dagar.')).toBeInTheDocument()
+  })
+
+  it('displays no sick hours/days when missing base work hours', () => {
+    renderDefaultComponent(undefined, undefined, '')
+
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
+
+    expect(screen.queryByText('Arbetstid:')).not.toBeInTheDocument()
+  })
+
+  it('displays no sick hours/days when missing period dates', () => {
+    renderDefaultComponent(undefined, undefined, '40')
+    expect(screen.queryByText('Arbetstid:')).not.toBeInTheDocument()
   })
 })
