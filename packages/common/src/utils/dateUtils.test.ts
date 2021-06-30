@@ -8,7 +8,7 @@ import {
   ConfigUeCheckboxDateRange,
   ValueDateRange,
 } from '@frontend/common'
-import { getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
+import { filterDateRangeValueList, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
 
 const QUESTION_ID = 'Test'
 
@@ -219,4 +219,36 @@ it('calculates multiple periods of sick leave days correctly', () => {
   const actual = getNumberOfSickLeavePeriodDays(periods)
 
   expect(actual).toBe(expected)
+})
+
+it('Filters date range value list correctly', () => {
+  const valueList: ValueDateRange[] = [
+    {
+      from: '2021-05-12',
+      to: '',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
+    {
+      from: null!,
+      to: '2021-05-20',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
+    {
+      from: undefined!,
+      to: '',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
+  ]
+
+  const filteredValues = filterDateRangeValueList(valueList)
+
+  expect(filteredValues[0].from).toEqual('2021-05-12')
+  expect(filteredValues[0].to).toBe(undefined)
+  expect(filteredValues[1].from).toBe(undefined)
+  expect(filteredValues[1].to).toEqual('2021-05-20')
+  expect(filteredValues[2]).toBe(undefined)
+  expect(filteredValues.length).toBe(2)
 })
