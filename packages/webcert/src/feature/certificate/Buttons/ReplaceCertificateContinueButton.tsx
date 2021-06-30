@@ -34,7 +34,7 @@ const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, 
         <p>
           Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När
           ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan
-          du signerar intyget.{' '}
+          du signerar intyget.
         </p>
       </>
     </ButtonWithConfirmModal>
