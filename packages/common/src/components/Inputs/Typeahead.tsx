@@ -116,6 +116,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
   const upPress = useKeyPress('ArrowUp')
   const enterPress = useKeyPress('Enter')
   const escPress = useKeyPress('Escape')
+  const tabPress = useKeyPress('Tab')
   const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
   const [hovered, setHovered] = useState<number>(-1)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
@@ -139,10 +140,10 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     }
   }, [upPress])
   useEffect(() => {
-    if (enterPress && suggestions.length >= cursor && cursor >= 0 && open) {
+    if ((enterPress || tabPress) && suggestions.length >= cursor && cursor >= 0 && open) {
       onClick(suggestions[cursor])
     }
-  }, [enterPress])
+  }, [enterPress, tabPress])
   useEffect(() => {
     if (escPress && open) {
       handleClose()
