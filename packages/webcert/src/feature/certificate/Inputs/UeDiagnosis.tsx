@@ -142,14 +142,18 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     if (typeaheadResult === undefined || typeaheadResult === null || typeaheadResult.resultat !== 'OK') {
       return []
     }
-    return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {
-      const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
-      return {
-        label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
-        disabled: isDisabled,
-        title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
-      }
-    })
+    return typeaheadResult.diagnoser
+      .filter((diagnosis) => {
+        return !(question.value as ValueDiagnosisList).list.find((value) => value.code === diagnosis.kod)
+      })
+      .map((diagnosis: Diagnosis) => {
+        const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
+        return {
+          label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
+          disabled: isDisabled,
+          title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
+        }
+      })
   }
 
   const getCodeFromString = (diagnosis: string) => {
