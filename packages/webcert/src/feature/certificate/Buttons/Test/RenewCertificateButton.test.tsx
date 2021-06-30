@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
 import { User } from '@frontend/common/src'
-import { CertificateMetadata } from '../../../../../../common/src/types/certificate'
+import { CertificateMetadata } from '@frontend/common'
 
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'

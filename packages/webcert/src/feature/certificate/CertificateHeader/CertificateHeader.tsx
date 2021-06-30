@@ -2,12 +2,12 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import {
   getCertificateEvents,
-  getResourceLinks,
   getCertificateMetaData,
+  getIsLocked,
   getIsShowSpinner,
   getIsValidating,
   getIsValidForSigning,
-  getIsLocked,
+  getResourceLinks,
 } from '../../../store/certificate/certificateSelectors'
 import AvailableForPatientStatus from './Status/AvailableForPatientStatus'
 import RevokedStatus from './Status/RevokedStatus'
@@ -75,7 +75,7 @@ const CertificateHeader = () => {
         <Divider />
         <div className="iu-flex">
           <CertificateInfo certificateMetadata={certificateMetadata} />
-          <HeaderButtons resourceLinks={resourceLinks} />
+          <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={certificateMetadata} />
         </div>
       </div>
     </Wrapper>

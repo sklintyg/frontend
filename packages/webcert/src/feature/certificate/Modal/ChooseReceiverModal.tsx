@@ -1,7 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { CustomButton, RadioButton } from '@frontend/common'
+import { useDispatch } from 'react-redux'
+import { CertificateMetadata, CustomButton, RadioButton } from '@frontend/common'
 import ModalBase from '@frontend/common/src/components/utils/Modal/ModalBase'
 import { addCertificateApprovedReceiver } from '../../../store/certificate/certificateActions'
 import { CertificateReceiver } from '@frontend/common/src/types/certificate'
@@ -11,17 +10,16 @@ interface Props {
   handleClose: () => void
   receivers: string[]
   hideClose?: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const ChooseReceiverModal: React.FC<Props> = ({ open, handleClose, receivers, hideClose }) => {
+const ChooseReceiverModal: React.FC<Props> = ({ open, handleClose, receivers, hideClose, certificateMetadata }) => {
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
   const showClose = !hideClose
   const [chosenReceivers, setChosenReceivers] = React.useState<CertificateReceiver[]>([
     ...(certificateMetadata?.approvedReceivers as CertificateReceiver[]),
   ])
-  if (!certificateMetadata || certificateMetadata.approvedReceivers === null || certificateMetadata.approvedReceivers === undefined)
-    return null
+  if (certificateMetadata.approvedReceivers === null || certificateMetadata.approvedReceivers === undefined) return null
 
   const confirmButtonDisabled =
     certificateMetadata.approvedReceivers.length !== receivers.length && chosenReceivers.length !== receivers.length
