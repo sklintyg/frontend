@@ -51,7 +51,7 @@ const descriptionListStyles = css`
 
 const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question }) => {
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item.id === id)
+  const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
@@ -236,37 +236,40 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   )
 }
 
+const checkIsDiagnosisEmpty = (valueDiagnosis: ValueDiagnosis): boolean => {
+  return (
+    (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
+    (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
+  )
+}
+
+const duplicateDiagnosisIsSaved = (updatedValueList: ValueDiagnosis[], valueDiagnosis: ValueDiagnosis): boolean => {
+  return updatedValueList.some(
+    (v) =>
+      valueDiagnosis && v && valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
+  )
+}
+
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  const updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  const savedDiagnosisIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
+  const diagnosisIsSaved = savedDiagnosisIndex !== -1
+  const isDiagnosisEmpty = checkIsDiagnosisEmpty(valueDiagnosis)
 
-  const diagnosisIsEmpty =
-    (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
-    (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
+  if (updatedValueList.length === 0 && isDiagnosisEmpty) return null
 
-  if (updatedValueList.length === 0 && diagnosisIsEmpty) return null
-
-  if (
-    (diagnosisIsEmpty && !updatedValueList.some((v) => v.id === valueDiagnosis.id)) ||
-    updatedValueList.some(
-      (v) => valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
-    )
-  ) {
+  if ((isDiagnosisEmpty && !diagnosisIsSaved) || duplicateDiagnosisIsSaved(updatedValueList, valueDiagnosis)) {
     return null
   }
 
-  const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
-  if (updatedValueIndex === -1) {
-    if (!diagnosisIsEmpty) {
-      updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
+  if (!diagnosisIsSaved) {
+    if (!isDiagnosisEmpty) {
+      updatedValueList.push(valueDiagnosis)
     }
   } else {
-    if (!diagnosisIsEmpty) {
-      updatedValueList[updatedValueIndex] = valueDiagnosis
-    } else {
-      updatedValueList.splice(updatedValueIndex, 1)
-    }
+    updatedValueList[savedDiagnosisIndex] = valueDiagnosis
   }
 
   updatedQuestionValue.list = updatedValueList
