@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { CustomButton, ButtonWithConfirmModal, Checkbox, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
@@ -14,19 +13,15 @@ interface Props {
   description: string
   enabled: boolean
   body?: string
-  certificateMetadata?: CertificateMetadata
+  certificateMetadata: CertificateMetadata
 }
 
 const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const fetchedMetaData = useSelector(getCertificateMetaData)
-  const certificateMetaData = fetchedMetaData ?? propMetaData
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser)
   const showModal = user?.preferences?.dontShowFornyaDialog !== 'true'
-
-  if (!certificateMetaData) return null
 
   const handleConfirm = () => {
     if (checked) {
