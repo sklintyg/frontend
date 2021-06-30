@@ -149,3 +149,11 @@ export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]) => {
 
   return total
 }
+
+export const filterDateRangeValueList = (valueList: ValueDateRange[]) => {
+  const filteredList = valueList.map(
+    (val) => Object.fromEntries(Object.entries(val).filter(([_, v]) => v != null && (v as string).length > 0)) as ValueDateRange
+  )
+
+  return filteredList.filter((val) => val.from?.length > 0 || val.to?.length > 0)
+}
