@@ -1,23 +1,20 @@
-import { ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { useDispatch } from 'react-redux'
 
 interface Props {
   name: string
   description: string
   body?: string
   enabled: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, body }) => {
+const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata }) => {
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
-
-  if (!certificateMetadata) return null
 
   return (
     <ButtonWithConfirmModal

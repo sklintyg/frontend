@@ -1,4 +1,4 @@
-import { ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,13 +10,11 @@ interface Props {
   name: string
   description: string
   enabled: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
-
-  if (!certificateMetadata) return null
 
   return (
     <ButtonWithConfirmModal

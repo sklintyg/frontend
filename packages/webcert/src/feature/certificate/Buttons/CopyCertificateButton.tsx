@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import { isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
@@ -12,15 +12,13 @@ interface Props {
   name: string
   description: string
   enabled: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
   const historyEntries = useSelector(getCertificateEvents)
-
-  if (!certificateMetadata) return null
 
   let isCertReplaced = isReplaced(certificateMetadata)
 

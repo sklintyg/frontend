@@ -1,8 +1,7 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { printCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import { CustomButton } from '@frontend/common'
+import { CertificateMetadata, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,13 +9,11 @@ interface Props {
   name: string
   description: string
   enabled: boolean
+  certificateMetadata: CertificateMetadata
 }
 
-const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const dispatch = useDispatch()
-  const certificateMetadata = useSelector(getCertificateMetaData)
-
-  if (!certificateMetadata) return null
 
   return (
     <CustomButton
