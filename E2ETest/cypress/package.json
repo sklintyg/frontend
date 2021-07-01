@@ -1,0 +1,20 @@
+{
+    "name": "webcert",
+    "private": true,
+    "scripts": {
+        "cypress:open": "cypress open",
+        "test:e2e:chrome": "cypress run --browser chrome --reporter mocha-junit-reporter",
+        "test:e2e:electron": "cypress run --reporter mocha-junit-reporter",
+        "test:e2e:electron:record": "cypress run --reporter mocha-junit-reporter --record",
+        "cy:verify": "cypress verify"
+    },
+    "devDependencies": {
+        "cypress": "^7.5.0",
+        "mocha": "^5.2.0",
+        "mocha-junit-reporter": "^1.23.3"
+    },
+    "dependencies": {
+        "@cypress/react": "^5.9.1",
+        "cypress-react-selector": "^2.3.8"
+    }
+}
