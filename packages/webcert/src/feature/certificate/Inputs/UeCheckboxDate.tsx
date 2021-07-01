@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import DatePickerCustom from './DatePickerCustom/DatePickerCustom'
-import { format } from 'date-fns'
+import { format, isMatch } from 'date-fns'
 import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
@@ -46,8 +46,10 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const handleChange = (checked: boolean, date: string) => {
     setChecked(checked && date !== '' && date !== null)
     setDateString(checked ? date : null)
-    const updatedValue = getUpdatedDateListValue(question, checked, id, date)
-    dispatch(updateCertificateDataElement(updatedValue))
+    if (isMatch(date, _format)) {
+      const updatedValue = getUpdatedDateListValue(question, checked, id, date)
+      dispatch(updateCertificateDataElement(updatedValue))
+    }
   }
 
   const handleCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -78,7 +80,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         textInputOnChange={handleTextChange}
         setDate={handleDateChange}
         inputString={dateString}></DatePickerCustom>
-      {isShowValidationError && (
+      {isShowValidationError && isSingleCheckboxDate && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
         </ValidationWrapper>
