@@ -1,7 +1,6 @@
-import { CertificateDataValueType, ValueDateRange, ValueDateRangeList } from './../types/certificate'
+import { ValueDateRange } from './../types/certificate'
 import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
-import _ from 'lodash'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
