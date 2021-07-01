@@ -61,9 +61,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const handleUpdatedValue = (valueId: string, fromDate: string | null, toDate: string | null) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
     setValueList(updatedValueList)
-    if (updatedValueList.length > 0) {
-      dispatchEditDraft(updatedValueList)
-    }
+    dispatchEditDraft(updatedValueList)
     updateTotalSickDays(updatedValueList)
   }
 
