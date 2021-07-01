@@ -6,10 +6,6 @@ export interface ResourceLink {
   enabled: boolean
 }
 
-export interface ResourceLinkChooseReceivers extends ResourceLink {
-  receivers: string[]
-}
-
 export enum ResourceLinkType {
   EDIT_CERTIFICATE = 'EDIT_CERTIFICATE',
   REMOVE_CERTIFICATE = 'REMOVE_CERTIFICATE',
@@ -21,7 +17,6 @@ export enum ResourceLinkType {
   REPLACE_CERTIFICATE_CONTINUE = 'REPLACE_CERTIFICATE_CONTINUE',
   PRINT_CERTIFICATE = 'PRINT_CERTIFICATE',
   COPY_CERTIFICATE = 'COPY_CERTIFICATE',
-  CHOOSE_RECEIVERS = 'CHOOSE_RECEIVERS',
   RENEW_CERTIFICATE = 'RENEW_CERTIFICATE',
   FMB = 'FMB',
 }

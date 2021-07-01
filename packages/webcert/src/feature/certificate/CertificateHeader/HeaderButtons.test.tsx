@@ -1,13 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import {
-  CertificateMetadata,
-  CertificateRelationType,
-  CertificateStatus,
-  ResourceLink,
-  ResourceLinkChooseReceivers,
-  ResourceLinkType,
-} from '@frontend/common'
+import { CertificateMetadata, CertificateRelationType, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import HeaderButtons from './HeaderButtons'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
@@ -83,27 +76,10 @@ describe('Verify header buttons', () => {
     renderComponent()
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
-
-  it('shall include choose receiver button when its resource link type is available', () => {
-    const expectedButton = 'Välj mottagare'
-    resourceLinks.push({
-      name: expectedButton,
-      description,
-      enabled,
-      type: ResourceLinkType.CHOOSE_RECEIVERS,
-      receivers: ['receiverOne', 'receiverTwo'],
-    } as ResourceLinkChooseReceivers)
-    renderComponent()
-    expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
-  })
 })
 
 const getMetadata = () => {
   return {
-    approvedReceivers: [
-      { name: 'receiverOne', approved: true },
-      { name: 'receiverTwo', approved: false },
-    ],
     relations: {
       parent: null,
       children: [

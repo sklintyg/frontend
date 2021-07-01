@@ -1,11 +1,4 @@
-import {
-  CertificateMetadata,
-  getResourceLink,
-  ResourceLink,
-  ResourceLinkChooseReceivers,
-  resourceLinksAreEqual,
-  ResourceLinkType,
-} from '@frontend/common'
+import { CertificateMetadata, getResourceLink, ResourceLink, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
 import React from 'react'
 import RemoveCertificateButton from '../Buttons/RemoveCertificateButton'
 import PrintCertificateButton from '../Buttons/PrintCertificateButton'
@@ -14,7 +7,6 @@ import RevokeCertificateButton from '../Buttons/RevokeCertificateButton'
 import CopyCertificateButton from '../Buttons/CopyCertificateButton'
 import SendCertificateButton from '../Buttons/SendCertificateButton'
 import styled from 'styled-components'
-import ChooseReceiverButton from '../Buttons/ChooseReceiverButton'
 import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateContinueButton'
 
@@ -77,12 +69,6 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata }) 
       )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.REVOKE_CERTIFICATE)) && (
         <RevokeCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.REVOKE_CERTIFICATE)} />
-      )}
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CHOOSE_RECEIVERS)) && (
-        <ChooseReceiverButton
-          {...(getResourceLink(resourceLinks, ResourceLinkType.CHOOSE_RECEIVERS) as ResourceLinkChooseReceivers)}
-          certificateMetadata={certificateMetadata}
-        />
       )}
     </Wrapper>
   )
