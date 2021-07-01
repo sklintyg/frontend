@@ -241,6 +241,12 @@ it('Filters date range value list correctly', () => {
       id: '',
       type: CertificateDataValueType.DATE_RANGE,
     },
+    {
+      from: '2021-',
+      to: 'x',
+      id: '',
+      type: CertificateDataValueType.DATE_RANGE,
+    },
   ]
 
   const filteredValues = filterDateRangeValueList(valueList)
@@ -251,4 +257,5 @@ it('Filters date range value list correctly', () => {
   expect(filteredValues[1].to).toEqual('2021-05-20')
   expect(filteredValues[2]).toBe(undefined)
   expect(filteredValues.length).toBe(2)
+  expect(filteredValues[3]).toBe(undefined)
 })
