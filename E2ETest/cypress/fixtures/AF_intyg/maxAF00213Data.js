@@ -1,7 +1,9 @@
 af = {
     "funktionsnedsättning": {
         "finnsBesvärPågrundAvSjukdom": true,
-        "närPlanerasBehandlingKlar": "behandlingen planeras vara klar om ett tag"
+        "närPlanerasBehandlingKlar": {
+            "text": "behandlingen planeras vara klar om ett tag"
+        }
     },
 
     "utredning och behandling": {
