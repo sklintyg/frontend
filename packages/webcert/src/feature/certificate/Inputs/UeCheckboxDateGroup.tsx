@@ -1,7 +1,7 @@
 import React from 'react'
 import { CertificateDataElement, QuestionValidationTexts } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 import { ConfigUeCheckboxMultipleDate } from '@frontend/common'
 import UeCheckboxDate from './UeCheckboxDate'
 import { ValueDate, ValueDateList } from '@frontend/common/src'
@@ -9,12 +9,12 @@ import { ValueDate, ValueDateList } from '@frontend/common/src'
 interface Props {
   disabled: boolean
   question: CertificateDataElement
+  isShowValidationError: boolean
 }
 
-const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValidationError }) => {
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
   const values = (question.value as ValueDateList).list
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const getDate = (id: string) => {
@@ -38,6 +38,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
         date={getDate(checkbox.id)}
         disabled={disabled}
         hasValidationError={shouldDisplayValidationError}
+        isShowValidationError={isShowValidationError}
         question={question}
       />
     ))
