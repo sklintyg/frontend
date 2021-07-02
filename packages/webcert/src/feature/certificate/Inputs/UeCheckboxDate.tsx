@@ -39,7 +39,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const values = (question.value as ValueDateList).list
   const isSingleCheckboxDate = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
   const [checked, setChecked] = React.useState(
-    isSingleCheckboxDate ? (question.value as ValueDate).date : values.some((e: ValueDate) => e.id === id)
+    isSingleCheckboxDate ? (question.value as ValueDate).date !== undefined : values.some((e: ValueDate) => e.id === id)
   )
   const [dateString, setDateString] = React.useState(date ? date : null)
 

@@ -74,26 +74,6 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-const testClickOnCheckbox = (clickLabel: boolean) => {
-  const input = screen.getByRole('textbox')
-  const checkbox = screen.getByRole('checkbox')
-  let clickable
-  if (clickLabel) {
-    clickable = screen.getByText(DATE_CHECKBOX.label)
-  } else {
-    clickable = checkbox
-  }
-  expect(clickable).toBeInTheDocument()
-  expect(checkbox).not.toBeChecked()
-  expect(input).toHaveValue('')
-  userEvent.click(clickable)
-  expect(checkbox).toBeChecked()
-  expect(input).toHaveValue(format(new Date(), _format))
-  userEvent.click(clickable)
-  expect(clickable).not.toBeChecked()
-  expect(input).toHaveValue('')
-}
-
 describe('CheckboxDate component', () => {
   it('renders without crashing', () => {
     renderComponent(false, false)
@@ -136,12 +116,21 @@ describe('CheckboxDate component', () => {
 
   it('checks checkbox and sets date when user clicks on checkbox', () => {
     renderComponent(false, false)
-    testClickOnCheckbox(false)
+    const checkbox = screen.getByRole('checkbox')
+    const textbox = screen.getByRole('textbox')
+    userEvent.click(checkbox)
+    expect(checkbox).toBeChecked()
+    expect(textbox).toHaveValue(format(new Date(), _format))
   })
 
   it('checks checkbox and sets date when user clicks on label', () => {
     renderComponent(false, false)
-    testClickOnCheckbox(true)
+    const checkbox = screen.getByRole('checkbox')
+    const textbox = screen.getByRole('textbox')
+    const label = screen.getByText(DATE_CHECKBOX.label)
+    userEvent.click(label)
+    expect(checkbox).toBeChecked()
+    expect(textbox).toHaveValue(format(new Date(), _format))
   })
 
   it('checks checkbox if user writes date', () => {

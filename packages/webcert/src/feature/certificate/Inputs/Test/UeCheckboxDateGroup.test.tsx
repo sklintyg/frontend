@@ -79,34 +79,6 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-const testClick = (label: boolean) => {
-  const checkboxes = screen.queryAllByRole('checkbox')
-  const inputs = screen.queryAllByRole('textbox')
-  let clickable
-  expect(checkboxes).toHaveLength(DATE_CHECKBOXES.length)
-  expect(inputs).toHaveLength(DATE_CHECKBOXES.length)
-  checkboxes.forEach((checkbox: any, index: number) => {
-    if (label) {
-      clickable = screen.queryByText(DATE_CHECKBOXES[index].label)
-    } else {
-      clickable = checkbox
-    }
-
-    expect(clickable).not.toBeNull()
-    expect(checkbox).not.toBeNull()
-    expect(inputs[index]).not.toBeNull()
-
-    expect(checkbox).not.toBeChecked()
-    expect(inputs[index]).toHaveValue('')
-    userEvent.click(clickable)
-    expect(checkbox).toBeChecked()
-    expect(inputs[index]).toHaveValue(format(new Date(), _format))
-    userEvent.click(clickable)
-    expect(checkbox).not.toBeChecked()
-    expect(inputs[index]).toHaveValue('')
-  })
-}
-
 describe('CheckboxDateGroup component', () => {
   it('renders without crashing', () => {
     renderComponent(false, false)
