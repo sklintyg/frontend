@@ -81,24 +81,24 @@ describe('CheckboxDate component', () => {
 
   it('renders checkbox, textinput and calendar button', () => {
     renderComponent(false, false)
-    expect(screen.queryByRole('checkbox')).toBeInTheDocument()
-    expect(screen.queryByRole('textbox')).toBeInTheDocument()
-    expect(screen.queryByRole('button')).toBeInTheDocument()
+    expect(screen.getByRole('checkbox')).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
   it('renders component with correct default values', () => {
     renderComponent(false, false)
-    const checkbox = screen.queryByRole('checkbox')
-    const input = screen.queryByRole('textbox')
+    const checkbox = screen.getByRole('checkbox')
+    const input = screen.getByRole('textbox')
     expect(checkbox).not.toBeChecked()
     expect(input).toHaveValue('')
   })
 
   it('does not disable component if disabled is not set', () => {
     renderComponent(false, false)
-    const checkbox = screen.queryByRole('checkbox')
-    const input = screen.queryByRole('textbox')
-    const button = screen.queryByRole('button')
+    const checkbox = screen.getByRole('checkbox')
+    const input = screen.getByRole('textbox')
+    const button = screen.getByRole('button')
     expect(checkbox).not.toBeDisabled()
     expect(input).not.toBeDisabled()
     expect(button).not.toBeDisabled()
@@ -106,9 +106,9 @@ describe('CheckboxDate component', () => {
 
   it('disables component if disabled is set', () => {
     renderComponent(true, false)
-    const checkbox = screen.queryByRole('checkbox')
-    const input = screen.queryByRole('textbox')
-    const button = screen.queryByRole('button')
+    const checkbox = screen.getByRole('checkbox')
+    const input = screen.getByRole('textbox')
+    const button = screen.getByRole('button')
     expect(checkbox).toBeDisabled()
     expect(input).toBeDisabled()
     expect(button).toBeDisabled()
@@ -187,7 +187,7 @@ describe('CheckboxDate component', () => {
 
   it('renders one validation message when there are validation errors', () => {
     renderComponent(false, true)
-    const validationMessages = screen.queryAllByText(VALIDATION_ERROR)
+    const validationMessages = screen.getAllByText(VALIDATION_ERROR)
     expect(validationMessages).toHaveLength(1)
   })
 })

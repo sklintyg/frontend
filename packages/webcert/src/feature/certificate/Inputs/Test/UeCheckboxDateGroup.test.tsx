@@ -86,9 +86,9 @@ describe('CheckboxDateGroup component', () => {
 
   it('renders all components', () => {
     renderComponent(false, false)
-    expect(screen.queryAllByRole('checkbox')).toHaveLength(DATE_CHECKBOXES.length)
-    expect(screen.queryAllByRole('textbox')).toHaveLength(DATE_CHECKBOXES.length)
-    expect(screen.queryAllByRole('button')).toHaveLength(DATE_CHECKBOXES.length)
+    expect(screen.getAllByRole('checkbox')).toHaveLength(DATE_CHECKBOXES.length)
+    expect(screen.getAllByRole('textbox')).toHaveLength(DATE_CHECKBOXES.length)
+    expect(screen.getAllByRole('button')).toHaveLength(DATE_CHECKBOXES.length)
   })
 
   it('renders all components with correct labels', () => {
@@ -101,7 +101,7 @@ describe('CheckboxDateGroup component', () => {
   describe('disables component correctly', () => {
     it('disables all checkboxes when disabled is set', () => {
       renderComponent(true, false)
-      const checkboxes = screen.queryAllByRole('checkbox')
+      const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).toBeDisabled()
       })
@@ -109,7 +109,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('disables all textboxes when disabled is set', () => {
       renderComponent(true, false)
-      const textboxes = screen.queryAllByRole('textbox')
+      const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).toBeDisabled()
       })
@@ -117,7 +117,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('disables all buttons when disabled is set', () => {
       renderComponent(true, false)
-      const buttons = screen.queryAllByRole('textbox')
+      const buttons = screen.getAllByRole('button')
       buttons.forEach((button) => {
         expect(button).toBeDisabled()
       })
@@ -125,7 +125,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('does not disable all checkboxes when disabled is not set', () => {
       renderComponent(false, false)
-      const checkboxes = screen.queryAllByRole('checkboxe')
+      const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).not.toBeDisabled()
       })
@@ -133,7 +133,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('does not disable all textboxes when disabled is not set', () => {
       renderComponent(false, false)
-      const textboxes = screen.queryAllByRole('textbox')
+      const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).not.toBeDisabled()
       })
@@ -141,7 +141,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('does not disable all buttons when disabled is not set', () => {
       renderComponent(false, false)
-      const buttons = screen.queryAllByRole('button')
+      const buttons = screen.getAllByRole('button')
       buttons.forEach((button) => {
         expect(button).not.toBeDisabled()
       })
@@ -151,7 +151,7 @@ describe('CheckboxDateGroup component', () => {
   describe('default values', () => {
     it('sets correct default values for all checkboxes', () => {
       renderComponent(true, false)
-      const checkboxes = screen.queryAllByRole('checkbox')
+      const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).not.toBeChecked()
       })
@@ -159,7 +159,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('sets correct default values for all textboxes', () => {
       renderComponent(true, false)
-      const textboxes = screen.queryAllByRole('textbox')
+      const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).toHaveValue('')
       })
@@ -244,35 +244,35 @@ describe('CheckboxDateGroup component', () => {
 
   it('renders one validation message when there is a validation error', () => {
     renderComponent(false, true)
-    const validationMessages = screen.queryAllByText(VALIDATION_ERROR)
+    const validationMessages = screen.getAllByText(VALIDATION_ERROR)
     expect(validationMessages).toHaveLength(1)
   })
 
   describe('dispatching updated values', () => {
     it('does not dispatch a value that is not a correct date', () => {
       renderComponent(false, false)
-      const inputs = screen.queryAllByRole('textbox')
+      const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[0], '2020-01')
       expect(dispatchSpy).not.toBeCalled()
     })
 
     it('does not dispatch a value that is a text and not a date', () => {
       renderComponent(false, false)
-      const inputs = screen.queryAllByRole('textbox')
+      const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[1], 'test')
       expect(dispatchSpy).not.toBeCalled()
     })
 
     it('does dispatch a value that is a date', () => {
       renderComponent(false, false)
-      const inputs = screen.queryAllByRole('textbox')
+      const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[2], '2021-01-01')
       expect(dispatchSpy).toBeCalled()
     })
 
     it('does dispatch the value set by a checkbox being checked', () => {
       renderComponent(false, false)
-      const checkbox = screen.queryAllByRole('checkbox')
+      const checkbox = screen.getAllByRole('checkbox')
       userEvent.click(checkbox[0])
       expect(dispatchSpy).toBeCalled()
     })
