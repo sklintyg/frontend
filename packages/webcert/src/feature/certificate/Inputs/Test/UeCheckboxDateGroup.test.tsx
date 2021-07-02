@@ -3,7 +3,12 @@ import '@testing-library/jest-dom'
 import { format } from 'date-fns'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import {
+  CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigTypes,
+} from '@frontend/common/src/types/certificate'
 import * as redux from 'react-redux'
 import UeCheckboxDateGroup from '../UeCheckboxDateGroup'
 
@@ -27,15 +32,16 @@ const DATE_CHECKBOXES = [
   },
 ]
 
+const VALIDATION_ERROR = 'Ange ett svar'
+const QUESTION_ID = 'checkbox'
+
 const question: CertificateDataElement = {
-  id: 'checkbox',
+  id: QUESTION_ID,
   mandatory: true,
   index: 0,
   parent: '',
   visible: true,
   readOnly: false,
-  validation: [],
-  validationErrors: [],
   value: { type: CertificateDataValueType.DATE_LIST, list: [] },
   config: {
     text: '',
@@ -43,21 +49,34 @@ const question: CertificateDataElement = {
     description: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
   },
+  validation: [
+    {
+      type: CertificateDataValidationType.MANDATORY_VALIDATION,
+      questionId: 'checkbox',
+      expression: `!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)`,
+    },
+  ],
+  validationErrors: [{ category: 'category', field: '', text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
 }
 
-const renderComponent = () => {
+const renderComponent = (disabled: boolean, isShowValidationError: boolean) => {
   render(
     <>
-      <UeCheckboxDateGroup question={question} disabled={false} />
+      <UeCheckboxDateGroup question={question} disabled={disabled} isShowValidationError={isShowValidationError} />
     </>
   )
 }
 
+const dispatchSpy = jest.fn()
 beforeEach(() => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
-  useSelectorSpy.mockReturnValue(jest.fn())
+  useDispatchSpy.mockReturnValue(dispatchSpy)
+  useSelectorSpy.mockReturnValue(true)
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
 })
 
 const testClick = (label: boolean) => {
@@ -90,81 +109,201 @@ const testClick = (label: boolean) => {
 
 describe('CheckboxDateGroup component', () => {
   it('renders without crashing', () => {
-    renderComponent()
+    renderComponent(false, false)
   })
 
-  it('renders all components with correct default values & labels', () => {
-    renderComponent()
-    const checkboxes = screen.queryAllByRole('checkbox')
-    const inputs = screen.queryAllByRole('textbox')
-    const buttons = screen.queryAllByRole('button')
-    expect(checkboxes).toHaveLength(DATE_CHECKBOXES.length)
-    expect(inputs).toHaveLength(DATE_CHECKBOXES.length)
-    checkboxes.forEach((c: any, index: number) => {
-      expect(screen.queryByText(DATE_CHECKBOXES[index].label)).not.toBeNull()
-      expect(c).not.toBeDisabled()
-      expect(inputs[index]).not.toBeDisabled()
-      expect(c).not.toBeChecked()
-      expect(inputs[index]).toHaveValue('')
-      expect(buttons[index]).not.toBeDisabled()
+  it('renders all components', () => {
+    renderComponent(false, false)
+    expect(screen.queryAllByRole('checkbox')).toHaveLength(DATE_CHECKBOXES.length)
+    expect(screen.queryAllByRole('textbox')).toHaveLength(DATE_CHECKBOXES.length)
+    expect(screen.queryAllByRole('button')).toHaveLength(DATE_CHECKBOXES.length)
+  })
+
+  it('renders all components with correct labels', () => {
+    renderComponent(false, false)
+    DATE_CHECKBOXES.forEach((checkboxDate) => {
+      expect(screen.getByText(checkboxDate.label)).toBeInTheDocument()
     })
   })
 
-  it('disables checkbox and date input when disabled is set', () => {
-    render(
-      <>
-        <UeCheckboxDateGroup question={question} disabled={true} />
-      </>
-    )
-    const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[]
-    const inputs = screen.getAllByRole('textbox')
-    const buttons = screen.getAllByRole('button')
-    checkboxes.forEach((c: HTMLInputElement, index: number) => {
-      expect(c).toBeDisabled()
-      expect(c).not.toBeChecked()
-      expect(inputs[index]).toBeDisabled()
-      expect(inputs[index]).toHaveValue('')
-      expect(buttons[index]).toBeDisabled()
+  describe('disables component correctly', () => {
+    it('disables all checkboxes when disabled is set', () => {
+      renderComponent(true, false)
+      const checkboxes = screen.queryAllByRole('checkbox')
+      checkboxes.forEach((checkbox) => {
+        expect(checkbox).toBeDisabled()
+      })
+    })
+
+    it('disables all textboxes when disabled is set', () => {
+      renderComponent(true, false)
+      const textboxes = screen.queryAllByRole('textbox')
+      textboxes.forEach((textbox) => {
+        expect(textbox).toBeDisabled()
+      })
+    })
+
+    it('disables all buttons when disabled is set', () => {
+      renderComponent(true, false)
+      const buttons = screen.queryAllByRole('textbox')
+      buttons.forEach((button) => {
+        expect(button).toBeDisabled()
+      })
+    })
+
+    it('does not disable all checkboxes when disabled is not set', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.queryAllByRole('checkboxe')
+      checkboxes.forEach((checkbox) => {
+        expect(checkbox).not.toBeDisabled()
+      })
+    })
+
+    it('does not disable all textboxes when disabled is not set', () => {
+      renderComponent(false, false)
+      const textboxes = screen.queryAllByRole('textbox')
+      textboxes.forEach((textbox) => {
+        expect(textbox).not.toBeDisabled()
+      })
+    })
+
+    it('does not disable all buttons when disabled is not set', () => {
+      renderComponent(false, false)
+      const buttons = screen.queryAllByRole('button')
+      buttons.forEach((button) => {
+        expect(button).not.toBeDisabled()
+      })
     })
   })
 
-  it('checks checkbox and sets date when user clicks on checkbox', () => {
-    renderComponent()
-    testClick(false)
-  })
-
-  it('checks checkbox and sets date when user clicks on label', () => {
-    renderComponent()
-    testClick(true)
-  })
-
-  it('checks checkbox if user writes date', () => {
-    renderComponent()
-    const inputString = 'Hello!'
-    const inputDate = '20200202'
-    const expected = '2020-02-02'
-
-    const index = 2
-    const secondIndex = 0
-    const checkboxes = screen.queryAllByRole('checkbox') as HTMLInputElement[]
-    const inputs = screen.queryAllByRole('textbox')
-    expect(checkboxes).toHaveLength(DATE_CHECKBOXES.length)
-    expect(inputs).toHaveLength(DATE_CHECKBOXES.length)
-    userEvent.type(inputs[index], inputString)
-    checkboxes.forEach((c: HTMLInputElement, i: number) => {
-      if (i === index) {
-        expect(c).toBeChecked()
-        expect(inputs[i]).toHaveValue(inputString)
-      } else {
-        expect(c).not.toBeChecked()
-        expect(inputs[i]).toHaveValue('')
-      }
+  describe('default values', () => {
+    it('sets correct default values for all checkboxes', () => {
+      renderComponent(true, false)
+      const checkboxes = screen.queryAllByRole('checkbox')
+      checkboxes.forEach((checkbox) => {
+        expect(checkbox).not.toBeChecked()
+      })
     })
-    userEvent.type(inputs[secondIndex], inputDate)
-    expect(checkboxes[index]).toBeChecked()
-    expect(checkboxes[secondIndex]).toBeChecked()
-    expect(inputs[index]).toHaveValue(inputString)
-    expect(inputs[secondIndex]).toHaveValue(expected)
+
+    it('sets correct default values for all textboxes', () => {
+      renderComponent(true, false)
+      const textboxes = screen.queryAllByRole('textbox')
+      textboxes.forEach((textbox) => {
+        expect(textbox).toHaveValue('')
+      })
+    })
+  })
+
+  const verifyClickOnCheckbox = (clickable: HTMLElement, checkbox: HTMLElement, textbox: HTMLElement) => {
+    userEvent.click(clickable)
+    expect(checkbox).toBeChecked()
+    expect(textbox).toHaveValue(format(new Date(), _format))
+  }
+
+  const verifyTextInput = (textbox: HTMLElement, checkbox: HTMLElement, input: string) => {
+    userEvent.type(textbox, input)
+    expect(checkbox).toBeChecked()
+    expect(textbox).toHaveValue(input)
+  }
+
+  const verifyValuesAreNotSet = (checkbox: HTMLElement, textbox: HTMLElement) => {
+    expect(checkbox).not.toBeChecked()
+    expect(textbox).toHaveValue('')
+  }
+
+  describe('input values', () => {
+    it('checks checkbox and sets date when user clicks on checkbox', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      checkboxes.forEach((checkbox, index) => {
+        verifyClickOnCheckbox(checkbox, checkbox, textboxes[index])
+      })
+    })
+
+    it('checks checkbox and sets date when user clicks on label', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      checkboxes.forEach((checkbox, index) => {
+        const label = screen.getByText(DATE_CHECKBOXES[index].label)
+        verifyClickOnCheckbox(label, checkbox, textboxes[index])
+      })
+    })
+
+    it('checks checkbox and sets date if user writes date', () => {
+      const inputString = '2020-02-02'
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      textboxes.forEach((textbox, index) => {
+        verifyTextInput(textbox, checkboxes[index], inputString)
+      })
+    })
+
+    it('only checks one checkbox and sets one value when clicking on label', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      const label = screen.getByText(DATE_CHECKBOXES[0].label)
+      userEvent.click(label)
+      verifyValuesAreNotSet(checkboxes[1], textboxes[1])
+      verifyValuesAreNotSet(checkboxes[2], textboxes[2])
+    })
+
+    it('only checks one checkbox and sets one value when clicking on checkbox', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      userEvent.click(checkboxes[1])
+      verifyValuesAreNotSet(checkboxes[0], textboxes[0])
+      verifyValuesAreNotSet(checkboxes[2], textboxes[2])
+    })
+
+    it('only checks one checkbox and sets one value when typing in textbox', () => {
+      renderComponent(false, false)
+      const checkboxes = screen.getAllByRole('checkbox')
+      const textboxes = screen.getAllByRole('textbox')
+      userEvent.type(textboxes[2], 'test')
+      verifyValuesAreNotSet(checkboxes[0], textboxes[0])
+      verifyValuesAreNotSet(checkboxes[1], textboxes[1])
+    })
+  })
+
+  it('renders one validation message when there is a validation error', () => {
+    renderComponent(false, true)
+    const validationMessages = screen.queryAllByText(VALIDATION_ERROR)
+    expect(validationMessages).toHaveLength(1)
+  })
+
+  describe('dispatching updated values', () => {
+    it('does not dispatch a value that is not a correct date', () => {
+      renderComponent(false, false)
+      const inputs = screen.queryAllByRole('textbox')
+      userEvent.type(inputs[0], '2020-01')
+      expect(dispatchSpy).not.toBeCalled()
+    })
+
+    it('does not dispatch a value that is a text and not a date', () => {
+      renderComponent(false, false)
+      const inputs = screen.queryAllByRole('textbox')
+      userEvent.type(inputs[1], 'test')
+      expect(dispatchSpy).not.toBeCalled()
+    })
+
+    it('does dispatch a value that is a date', () => {
+      renderComponent(false, false)
+      const inputs = screen.queryAllByRole('textbox')
+      userEvent.type(inputs[2], '2021-01-01')
+      expect(dispatchSpy).toBeCalled()
+    })
+
+    it('does dispatch the value set by a checkbox being checked', () => {
+      renderComponent(false, false)
+      const checkbox = screen.queryAllByRole('checkbox')
+      userEvent.click(checkbox[0])
+      expect(dispatchSpy).toBeCalled()
+    })
   })
 
   // Test below fails because of a css property (pointer-events: none;). We need to find a workaround asap.

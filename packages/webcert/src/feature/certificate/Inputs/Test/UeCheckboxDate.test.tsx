@@ -94,7 +94,7 @@ const testClickOnCheckbox = (clickLabel: boolean) => {
   expect(input).toHaveValue('')
 }
 
-describe('CheckboxDateGroup component', () => {
+describe('CheckboxDate component', () => {
   it('renders without crashing', () => {
     renderComponent(false, false)
   })
@@ -106,7 +106,7 @@ describe('CheckboxDateGroup component', () => {
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
-  it('renders all components with correct default values', () => {
+  it('renders component with correct default values', () => {
     renderComponent(false, false)
     const checkbox = screen.queryByRole('checkbox')
     const input = screen.queryByRole('textbox')
