@@ -20,7 +20,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
         cy.fixture('vPatienter/tolvanTolvansson').as('vårdtagare');
         cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal');*/
         //function skapaIntygViaApi(fx,status, typ, fillType){
-            cy.skapaIntygViaApi(this,true,true,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,false,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("af00213-utkast med id " + utkastId + " skapat och används i testfallet");
             });
@@ -36,23 +36,23 @@ describe('AF00213-intyg minimalt ifyllt', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                
+                intyg.signeraSkicka();
 
-               // intyg.skrivUtUtkast();
+                intyg.skrivUtUtkast();
 
-        });
-        it('Makulerar ett ifylld AF00213 intyg', function () {
-            //cy.visit('https://wc2.wc.localtest.me/welcome');
-            cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+            });
+             it('Makulerar ett ifylld AF00213 intyg', function () {
+                    //cy.visit('https://wc2.wc.localtest.me/welcome');
+                    cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
-            const önskadUrl = "/certificate/" + this.utkastId ;
-            cy.visit(önskadUrl);
-           // cy.wait(100);
-           // intyg.signeraSkicka();
+                    const önskadUrl = "/certificate/" + this.utkastId ;
+                    cy.visit(önskadUrl);
+                    cy.wait(100);
+                    intyg.signeraSkicka();
 
-            intyg.makulera();
+                    intyg.makulera();
 
-    });
+            });
 
         });
     });

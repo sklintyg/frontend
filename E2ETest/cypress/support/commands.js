@@ -58,15 +58,16 @@ cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
     cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
 }
 // cy.skapaIntygViaApi(this,"SIGNED","lisjp","MAXIMAL")
-function skapaIntygViaApi(fx,status, typ, fillType){
+function skapaIntygViaApi(fx,status, typ, theFill){
     cy.log("skickar mot API");
     const vårdpersonal = fx.vårdpersonal;
     const läkare = fx.vårdpersonal;
     const vårdenhet = fx.vårdenhet;
     const patient = fx.vårdtagare;
+    //const originSträng = (ärDjup ? "DJUPINTEGRATION" : "NORMAL");
     const intygStatus = (status ? "SIGNED" : "UNSIGNED");
     const intygTyp = (typ ? "af00213" : "lisjp");
-    const filler = (fillType ? "MINIMAL" : "EMPTY");
+    const filler = (theFill ?   "MINIMAL" :"EMPTY");
     cy.log(intygStatus + intygTyp + filler);
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
@@ -283,8 +284,8 @@ Cypress.Commands.add("loggaInVårdpersonalIntegrerat", (vårdpersonal, vårdenhe
 Cypress.Commands.add("loggaUt",() => {
  
 });
-Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ) => {
-    skapaIntygViaApi(fx,status,typ);
+Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType) => {
+    skapaIntygViaApi(fx,status,typ,fillType);
  
 });
 
