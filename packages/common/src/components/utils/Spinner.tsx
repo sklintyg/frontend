@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   text?: string
-  size: 'small' | 'large' | undefined
+  size?: 'small' | 'large' | undefined
 }
 
 const Spinner: React.FC<Props> = ({ text, size }) => {
