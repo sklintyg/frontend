@@ -9,6 +9,7 @@ import {
   isHasParent,
   isParentRevoked,
 } from '@frontend/common'
+import { Spinner } from '@frontend/common/src'
 
 interface Props {
   historyEntries: CertificateEvent[]
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
+  const isEmpty = historyEntries.length === 0
   function formatDate(date: string) {
     const d = new Date(date)
     let month = '' + (d.getMonth() + 1)
@@ -156,6 +158,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
   return (
     <div className="iu-fs-100 iu-color-text">
       <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
+        {isEmpty && <Spinner text={'Laddar händelser'} size={'small'}></Spinner>}
         {[...historyEntries].reverse().map((entry, i) => (
           <p key={i}>
             {formatDate(entry.timestamp)} {getHistoryText(entry)}
