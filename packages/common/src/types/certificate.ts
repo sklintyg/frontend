@@ -199,8 +199,8 @@ export interface ValueDateList extends Value {
 
 export interface ValueDateRange extends Value {
   id: string
-  from: string
-  to: string
+  from?: string
+  to?: string
 }
 
 export interface ValueDateRangeList extends Value {
