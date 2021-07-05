@@ -1,7 +1,13 @@
 import { createAction } from '@reduxjs/toolkit'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 
-export const getFMBDiagnosisCodeInfo = createAction<string[]>('[FMB] Get diagnosis code info')
+export interface FMBDiagnoseRequest {
+  icd10Code: string
+  icd10Description: string
+  index: number
+}
+
+export const getFMBDiagnosisCodeInfo = createAction<FMBDiagnoseRequest>('[FMB] Get diagnosis code info')
 
 export const getFMBDiagnosisCodeInfoStarted = createAction('[FMB] Get diagnosis code info started')
 
@@ -11,6 +17,6 @@ export const getFMBDiagnosisCodeInfoError = createAction<string>('[FMB] Get diag
 
 export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>('[FMB] Update diagnosis code info')
 
-export const updateFMBDiagnosisCodeInfoList = createAction<FMBDiagnosisCodeInfo[]>('[FMB] Update diagnosis code info list')
-
 export const updateFMBPanelActive = createAction<boolean>('[FMB] Update panel active')
+
+export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>('[FMB] Remove diagnosis code info')

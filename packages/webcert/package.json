@@ -27,5 +27,8 @@
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
     "typescript": "^3"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.19.0"
   }
 }
