@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Tooltip = styled.div`
   position: relative;
-  display: inline-block;
 
   .tooltiptext {
     position: absolute;

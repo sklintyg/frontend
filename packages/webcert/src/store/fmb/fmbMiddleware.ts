@@ -2,14 +2,15 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import {
+  FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
   getFMBDiagnosisCodeInfoError,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
+  removeFMBDiagnosisCodes,
   updateFMBDiagnosisCodeInfo,
-  updateFMBDiagnosisCodeInfoList,
   updateFMBPanelActive,
-} from '../fmb/fmbActions'
+} from './fmbActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import {
   CertificateDataValueType,
@@ -20,52 +21,28 @@ import {
   ValueDiagnosisList,
 } from '@frontend/common'
 
-const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
+export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getFMBDiagnosisCodeInfo.match(action)) {
     return
   }
 
-  const diagnosisCodesWithoutDuplicates = Array.from(new Set<string>(action.payload))
-  const existingDiagnosisCodes: FMBDiagnosisCodeInfo[] = []
-  const nonExistingDiagnosisCodes: { diagnosisCode: string; index: number }[] = []
-  const diagnosisCodes: FMBDiagnosisCodeInfo[] = getState().ui.uiFMB.fmbDiagnosisCodes
-
-  diagnosisCodesWithoutDuplicates.forEach((diagnosisCode: string, index: number) => {
-    let found = false
-    diagnosisCodes.forEach((diagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
-      if (diagnosisCode === diagnosisCodeInfo.icd10Code) {
-        found = true
-        existingDiagnosisCodes.push(diagnosisCodeInfo)
-      }
+  dispatch(
+    apiCallBegan({
+      url: '/api/fmb/' + action.payload.icd10Code,
+      method: 'GET',
+      onStart: getFMBDiagnosisCodeInfoStarted.type,
+      onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
+      onError: getFMBDiagnosisCodeInfoError.type,
+      onArgs: {
+        ...action.payload,
+      },
     })
-    if (!found) {
-      nonExistingDiagnosisCodes.push({ diagnosisCode, index })
-    }
-  })
-
-  dispatch(updateFMBDiagnosisCodeInfoList(existingDiagnosisCodes))
-
-  nonExistingDiagnosisCodes.forEach((diagnosis: { diagnosisCode: string; index: number }) => {
-    dispatch(
-      apiCallBegan({
-        url: '/api/fmb/' + diagnosis.diagnosisCode,
-        method: 'GET',
-        onStart: getFMBDiagnosisCodeInfoStarted.type,
-        onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
-        onError: getFMBDiagnosisCodeInfoError.type,
-        onArgs: {
-          index: diagnosis.index,
-        },
-      })
-    )
-  })
+  )
 }
 
-const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getFMBDiagnosisCodeInfoSuccess.match(action)) {
@@ -75,27 +52,29 @@ const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!updateCertificate.match(action)) {
     return
   }
 
-  const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)
-  dispatch(updateFMBPanelActive(fmbPanelActive !== undefined))
+  const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)?.enabled
+  dispatch(updateFMBPanelActive(fmbPanelActive))
 
   if (!fmbPanelActive) {
     return
   }
 
   for (const questionId in action.payload.data) {
-    const question = action.payload.data[questionId]
-    getFMBDiagnosisCodes(question.value, dispatch)
+    if (action.payload.data.hasOwnProperty(questionId)) {
+      const question = action.payload.data[questionId]
+      getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+    }
   }
 }
 
-const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
+export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
   return (action: AnyAction): void => {
     next(action)
 
@@ -107,15 +86,50 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, ge
       return
     }
 
-    getFMBDiagnosisCodes(action.payload.value, dispatch)
+    getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
   }
 }
 
-function getFMBDiagnosisCodes(value: Value | null, dispatch: Dispatch): void {
+function getFMBDiagnosisCodes(value: Value | null, existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[], dispatch: Dispatch): void {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
     const valueDiagnosisList = value as ValueDiagnosisList
-    dispatch(getFMBDiagnosisCodeInfo(valueDiagnosisList.list.map((valueDiagnosis) => valueDiagnosis.code)))
+    removeFMBForRemovedDiagnosisCodes(existingFMBDiagnosisCodeInfo, valueDiagnosisList, dispatch)
+    retrieveFMBForAddedDiagnosisCodes(existingFMBDiagnosisCodeInfo, valueDiagnosisList, dispatch)
   }
+}
+
+function removeFMBForRemovedDiagnosisCodes(
+  existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
+  valueDiagnosisList: ValueDiagnosisList,
+  dispatch: Dispatch
+) {
+  existingFMBDiagnosisCodeInfo.forEach((existing) => {
+    const remove = valueDiagnosisList.list.findIndex((diagnosis) => existing.icd10Code === diagnosis.code) < 0
+    if (remove) {
+      dispatch(removeFMBDiagnosisCodes(existing))
+    }
+  })
+}
+
+function retrieveFMBForAddedDiagnosisCodes(
+  existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
+  valueDiagnosisList: ValueDiagnosisList,
+  dispatch: Dispatch
+) {
+  valueDiagnosisList.list.forEach((diagnosis, index) => {
+    const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
+    if (exists) {
+      return
+    }
+
+    const fmbDiagnoseRequest: FMBDiagnoseRequest = {
+      index: index,
+      icd10Code: diagnosis.code,
+      icd10Description: diagnosis.description,
+    }
+
+    dispatch(getFMBDiagnosisCodeInfo(fmbDiagnoseRequest))
+  })
 }
 
 export const fmbMiddleware = [
