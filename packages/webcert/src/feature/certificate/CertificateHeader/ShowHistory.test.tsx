@@ -59,6 +59,30 @@ describe('Verify history events', () => {
     expect(screen.queryByText(/utkastet är skapat/i)).not.toBeInTheDocument()
   })
 
+  it('displays spinner if history events have not been loaded yet', async () => {
+    const mockHistoryEntries: CertificateEvent[] = []
+
+    render(<ShowHistory certificateMetadata={certificateMetadata} historyEntries={mockHistoryEntries} />)
+    userEvent.click(screen.getByText('Visa alla händelser'))
+    expect(screen.getByText('Laddar händelser')).toBeInTheDocument()
+  })
+
+  it('does not display spinner if history events have been loaded', async () => {
+    const mockHistoryEntries: CertificateEvent[] = [
+      {
+        certificateId: 'xxxx',
+        type: CertificateEventType.CREATED,
+        timestamp: '2020-10-14T12:56:58.523Z',
+        relatedCertificateId: null,
+        relatedCertificateStatus: null,
+      },
+    ]
+
+    render(<ShowHistory certificateMetadata={certificateMetadata} historyEntries={mockHistoryEntries} />)
+    userEvent.click(screen.getByText('Visa alla händelser'))
+    expect(screen.queryByText('Laddar händelser')).toBeNull()
+  })
+
   describe('Renewal event', () => {
     it('Display event', async () => {
       const renewHistoryEntry: CertificateEvent[] = [
