@@ -13,7 +13,7 @@ interface Props {
 
 const QuestionWrapper: React.FC<Props> = ({ additionalStyles, children }) => {
   return (
-    <Wrapper css={additionalStyles} className={`contentPaperWrapper questionWrapper box-shadow iu-bg-white`}>
+    <Wrapper css={additionalStyles} className={`contentPaperWrapper questionWrapper iu-bg-white`}>
       {children}
     </Wrapper>
   )
