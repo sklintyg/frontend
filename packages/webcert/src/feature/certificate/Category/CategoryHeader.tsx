@@ -16,7 +16,7 @@ interface Props {
 
 const CategoryHeader: React.FC<Props> = ({ additionalStyles, children }) => {
   return (
-    <Wrapper css={additionalStyles} className={`contentPaperWrapper iu-bg-white iu-radius-sm box-shadow`}>
+    <Wrapper css={additionalStyles} className={`contentPaperWrapper iu-bg-white iu-radius-sm`}>
       {children}
     </Wrapper>
   )
