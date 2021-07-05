@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from '../Inputs/UeRadio'
 import { UvText, CertificateDataConfig, CertificateDataElement, ConfigTypes, Expandable, Accordion, MandatoryIcon } from '@frontend/common'
-import { getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { getIsLocked, getQuestion, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
@@ -21,6 +21,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
+  const isShowValidationError = useSelector(getShowValidationErrors)
 
   const getHeading = () => {
     if (question.config.header) {
@@ -87,7 +88,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
       return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE)
-      return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} />
+      return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} isShowValidationError={isShowValidationError} />
     if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD)
       return <UeSickLeavePeriod disabled={disabled} question={question} key={question.id} />
     if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />

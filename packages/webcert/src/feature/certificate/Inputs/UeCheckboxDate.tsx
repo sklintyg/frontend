@@ -3,10 +3,8 @@ import { CertificateDataValueType, Checkbox } from '@frontend/common'
 import { CertificateDataElement, ConfigTypes, QuestionValidationTexts, ValueDate, ValueDateList } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import { useSelector } from 'react-redux'
-import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import DatePickerCustom from './DatePickerCustom/DatePickerCustom'
-import { format } from 'date-fns'
+import { format, isMatch } from 'date-fns'
 import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
@@ -31,6 +29,7 @@ interface Props {
   disabled?: boolean
   question: CertificateDataElement
   date: string | null
+  isShowValidationError: boolean
 }
 
 const UeCheckboxDate: React.FC<Props> = (props) => {
@@ -38,16 +37,24 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const { label, id, question, hasValidationError, disabled, date } = props
   const dispatch = useAppDispatch()
   const values = (question.value as ValueDateList).list
-  const [checked, setChecked] = React.useState(values.some((e: ValueDate) => e.id === id))
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const isSingleCheckboxDate = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
+  const [checked, setChecked] = React.useState(
+    isSingleCheckboxDate ? (question.value as ValueDate).date !== undefined : values.some((e: ValueDate) => e.id === id)
+  )
   const [dateString, setDateString] = React.useState(date ? date : null)
 
   const handleChange = (checked: boolean, date: string) => {
     setChecked(checked && date !== '' && date !== null)
     setDateString(checked ? date : null)
-    const updatedValue = getUpdatedDateListValue(question, checked, id, date)
-    dispatch(updateCertificateDataElement(updatedValue))
+    if (isMatch(date, _format)) {
+      let updatedValue
+      if (isSingleCheckboxDate) {
+        updatedValue = getUpdatedDateValue(question, checked, id, date)
+      } else {
+        updatedValue = getUpdatedDateListValue(question, checked, id, date)
+      }
+      dispatch(updateCertificateDataElement(updatedValue))
+    }
   }
 
   const handleCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -78,7 +85,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         textInputOnChange={handleTextChange}
         setDate={handleDateChange}
         inputString={dateString}></DatePickerCustom>
-      {isShowValidationError && (
+      {props.isShowValidationError && isSingleCheckboxDate && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
         </ValidationWrapper>
@@ -103,6 +110,23 @@ const getUpdatedDateListValue = (question: CertificateDataElement, checked: bool
   }
   updatedQuestionValue.list = updatedValueList
   updatedQuestion.value = updatedQuestionValue
+
+  return updatedQuestion
+}
+
+const getUpdatedDateValue = (question: CertificateDataElement, checked: boolean, id: string, date: string) => {
+  const updatedQuestion: CertificateDataElement = { ...question }
+
+  const updatedValue = { ...(updatedQuestion.value as ValueDate) }
+  if (checked) {
+    updatedValue.id = id
+    updatedValue.date = date
+  } else {
+    updatedValue.id = ''
+    updatedValue.date = ''
+  }
+
+  updatedQuestion.value = updatedValue
 
   return updatedQuestion
 }
