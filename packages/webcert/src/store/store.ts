@@ -7,6 +7,7 @@ import { userMiddleware } from './user/userMiddleware'
 import { fmbMiddleware } from './fmb/fmbMiddleware'
 import { utilsMiddleware } from './utils/utilsMiddleware'
 import { welcomeMiddleware } from './welcome/welcomeMiddleware'
+import { questionMiddleware } from './question/questionMiddleware'
 
 const store = configureStore({
   reducer,
@@ -18,7 +19,8 @@ const store = configureStore({
       ...userMiddleware,
       ...fmbMiddleware,
       ...utilsMiddleware,
-      ...welcomeMiddleware
+      ...welcomeMiddleware,
+      ...questionMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<
