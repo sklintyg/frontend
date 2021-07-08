@@ -36,6 +36,11 @@ describe('QuestionPanel', () => {
     renderDefaultComponent()
   })
 
+  it('displays header for administrative questions', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
+  })
+
   describe('renders a question', () => {
     const expectedQuestion = createQuestion()
 
