@@ -2,6 +2,7 @@ import { getQuestions, getQuestionsError, getQuestionsStarted, getQuestionsSucce
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
+import { updateCertificate } from '../certificate/certificateActions'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -31,4 +32,14 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch }) =>
   dispatch(updateQuestions(action.payload.questions))
 }
 
-export const questionMiddleware = [handleGetQuestions, handleGetQuestionsSuccess]
+export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!updateCertificate.match(action)) {
+    return
+  }
+
+  dispatch(getQuestions(action.payload.metadata.id))
+}
+
+export const questionMiddleware = [handleGetQuestions, handleGetQuestionsSuccess, handleUpdateCertificate]

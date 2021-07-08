@@ -1,11 +1,11 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Question } from '@frontend/common'
+import { Certificate, Question } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { questionMiddleware } from './questionMiddleware'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { updateCertificate } from '../certificate/certificateActions'
 import { getQuestions, QuestionsResponse } from './questionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
@@ -35,7 +35,26 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
     })
   })
+
+  describe('Handle UpdateCertificate', () => {
+    it('shall get questions when certificate is updated', async () => {
+      const expectedQuestion = createQuestion()
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(updateCertificate(getCertificate('certificateId')))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+    })
+  })
 })
+
+const getCertificate = (id: string): Certificate => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return { metadata: { id: 'certificateId' } }
+}
 
 const createQuestion = (): Question => {
   return {
