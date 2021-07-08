@@ -26,13 +26,20 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const questions = useSelector(getQuestions)
 
   const getHeaderButtons = () => {
-    return <CustomButton text={'Administrativa frågor'}></CustomButton>
+    return (
+      <CustomButton text={questions.length === 0 ? 'Administrativa frågor' : `Administrativa frågor ${questions.length}`}></CustomButton>
+    )
+  }
+
+  const getNoQuestionsMessage = () => {
+    return <EmptyWrapper>Det finns inga administrativa frågor för detta intyg.</EmptyWrapper>
   }
 
   return (
     <>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       {questions && questions.map((question) => <QuestionItem key={question.id} question={question}></QuestionItem>)}
+      {questions && questions.length === 0 && getNoQuestionsMessage()}
     </>
   )
 }

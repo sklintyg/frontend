@@ -41,6 +41,17 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
   })
 
+  it('displays text when there are no questions', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
+  })
+
+  it('displays number of questions in the header', () => {
+    testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
+    renderDefaultComponent()
+    expect(screen.getByText('Administrativa frågor 2')).toBeInTheDocument()
+  })
+
   describe('renders a question', () => {
     const expectedQuestion = createQuestion()
 
@@ -70,7 +81,7 @@ describe('QuestionPanel', () => {
 function createQuestion(): Question {
   return {
     author: 'author',
-    id: 'id',
+    id: String(Math.random()),
     isForwarded: true,
     isHandled: true,
     lastUpdate: '2021-07-08',

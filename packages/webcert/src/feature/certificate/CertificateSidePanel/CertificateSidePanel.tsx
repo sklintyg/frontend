@@ -5,12 +5,13 @@ import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import { ButtonTooltip, Tabs } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLightbulb, faFileAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faFileAlt, faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { getUserPreference } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 import { css } from 'styled-components'
 import styled from 'styled-components/macro'
+import QuestionPanel from '../../../components/question/QuestionPanel'
 
 const Root = styled.div`
   overflow-y: hidden;
@@ -86,6 +87,15 @@ const CertificateSidePanel: React.FC = () => {
     }
 
     array.push(
+      <ButtonTooltip description={'Ärendekommunikation'}>
+        <p>
+          <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
+          Ärendekommunikation{' '}
+        </p>
+      </ButtonTooltip>
+    )
+
+    array.push(
       <ButtonTooltip description="Läs om intyget.">
         <p>Om intyget</p>
       </ButtonTooltip>
@@ -100,6 +110,8 @@ const CertificateSidePanel: React.FC = () => {
     if (fmbInfoPanelActive) {
       array.push(<FMBPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
     }
+
+    array.push(<QuestionPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
 
     array.push(
       <AboutCertificatePanel
