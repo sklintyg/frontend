@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getQuestions } from '../../store/question/questionSelectors'
@@ -16,6 +15,16 @@ const EmptyWrapper = styled.div`
   overflow-y: 100%;
 `
 
+const QuestionWrapper = styled.div`
+  height: 100%;
+  overflow-y: auto;
+`
+
+const Wrapper = styled.div`
+  background-color: #f7f4f2;
+  height: 100%;
+`
+
 interface Props {
   tabIndex: number
   selectedTabIndex: number
@@ -27,7 +36,9 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   const getHeaderButtons = () => {
     return (
-      <CustomButton text={questions.length === 0 ? 'Administrativa frågor' : `Administrativa frågor ${questions.length}`}></CustomButton>
+      <CustomButton
+        text={questions.length === 0 ? 'Administrativa frågor' : `Administrativa frågor ${questions.length}`}
+        rounded={true}></CustomButton>
     )
   }
 
@@ -36,11 +47,13 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   }
 
   return (
-    <>
+    <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
-      {questions && questions.map((question) => <QuestionItem key={question.id} question={question}></QuestionItem>)}
-      {questions && questions.length === 0 && getNoQuestionsMessage()}
-    </>
+      <QuestionWrapper>
+        {questions && questions.map((question) => <QuestionItem key={question.id} question={question}></QuestionItem>)}
+        {questions && questions.length === 0 && getNoQuestionsMessage()}
+      </QuestionWrapper>
+    </Wrapper>
   )
 }
 

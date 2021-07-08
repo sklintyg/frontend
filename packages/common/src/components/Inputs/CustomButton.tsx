@@ -45,7 +45,7 @@ export const CustomButton: React.FC<Props> = (props) => {
       <button
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
-        className={'ic-button iu-radius-md ' + addedClass}
+        className={'ic-button ' + addedClass}
         disabled={props.disabled}
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
