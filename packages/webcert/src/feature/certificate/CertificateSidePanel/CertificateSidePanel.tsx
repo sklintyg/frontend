@@ -44,6 +44,7 @@ const CertificateSidePanel: React.FC = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks)
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
+  const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const aboutCertificateTabIndex = fmbInfoPanelActive ? 1 : 0
 
   if (showSpinner) return null
@@ -86,14 +87,16 @@ const CertificateSidePanel: React.FC = () => {
       )
     }
 
-    array.push(
-      <ButtonTooltip description={'Ärendekommunikation'}>
-        <p>
-          <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
-          Ärendekommunikation{' '}
-        </p>
-      </ButtonTooltip>
-    )
+    if (questionsPanelActive) {
+      array.push(
+        <ButtonTooltip description={questionsPanelActive.description}>
+          <p>
+            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
+            {questionsPanelActive.name}
+          </p>
+        </ButtonTooltip>
+      )
+    }
 
     array.push(
       <ButtonTooltip description="Läs om intyget.">
@@ -111,7 +114,9 @@ const CertificateSidePanel: React.FC = () => {
       array.push(<FMBPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
     }
 
-    array.push(<QuestionPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
+    if (questionsPanelActive) {
+      array.push(<QuestionPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
+    }
 
     array.push(
       <AboutCertificatePanel
