@@ -37,7 +37,8 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const getHeaderButtons = () => {
     return (
       <CustomButton
-        text={questions.length === 0 ? 'Administrativa frågor' : `Administrativa frågor ${questions.length}`}
+        text={'Administrativa frågor'}
+        number={questions.length > 0 ? questions.length : undefined}
         rounded={true}></CustomButton>
     )
   }

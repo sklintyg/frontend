@@ -13,6 +13,7 @@ interface Props {
   tooltip?: string
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
+  number?: string | number | undefined
 }
 
 export const CustomButton: React.FC<Props> = (props) => {
@@ -49,7 +50,7 @@ export const CustomButton: React.FC<Props> = (props) => {
         disabled={props.disabled}
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
-        {props.children} {props.text}{' '}
+        {props.children} {props.text} {props.number && <span className={'ic-button--circle'}>{props.number}</span>}
       </button>
     </ButtonTooltip>
   )
