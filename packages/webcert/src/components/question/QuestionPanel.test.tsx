@@ -69,7 +69,7 @@ describe('QuestionPanel', () => {
     })
 
     it('displays sent', () => {
-      expect(screen.getByText(expectedQuestion.sent)).toBeInTheDocument()
+      expect(screen.getByText(expectedQuestion.sent, { exact: false })).toBeInTheDocument()
     })
 
     it('displays subject', () => {
