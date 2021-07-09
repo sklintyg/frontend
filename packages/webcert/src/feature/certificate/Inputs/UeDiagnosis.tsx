@@ -1,7 +1,14 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  Diagnosis,
+  ValueDiagnosis,
+  ValueDiagnosisList,
+  QuestionValidationTexts,
+} from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
@@ -14,6 +21,7 @@ interface Props {
   disabled: boolean
   id: string
   selectedCodeSystem: string
+  isShowValidationError?: boolean
 }
 
 const Wrapper = styled.div`
@@ -49,7 +57,7 @@ const descriptionListStyles = css`
   grid-column-start: ul;
 `
 
-const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question }) => {
+const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError }) => {
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
@@ -202,6 +210,22 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
+  const getValidationErrors = (isCode: boolean) => {
+    if (!question || !question.validationErrors || question.validationErrors.length === 0) {
+      return []
+    }
+
+    return question.validationErrors.filter(
+      (v) =>
+        v.field.includes('[' + (parseInt(id) - 1) + ']' + (isCode ? '.diagnoskod' : '.diagnosbeskrivning')) ||
+        v.field.includes('[' + (parseInt(id) - 1) + ']' + '.row')
+    )
+  }
+
+  const hasValidationErrors = () => {
+    return isShowValidationError && getValidationErrors(true).length > 0
+  }
+
   return (
     <Wrapper key={id + '-wrapper'}>
       <Typeahead
@@ -211,7 +235,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         listStyles={codeListStyles}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={hasValidationErrors()}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         open={openCode}
@@ -219,6 +243,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
+      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors(true)} />}
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -226,7 +251,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         disabled={disabled}
         inputStyles={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={hasValidationErrors()}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
