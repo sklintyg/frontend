@@ -40,7 +40,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const getNoQuestionsMessage = () => {
     return (
       <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
-        <p>Det finns inga administrativa frågor för detta intyg</p>
+        <p>Det finns inga administrativa frågor för detta intyg.</p>
       </ImageCentered>
     )
   }
