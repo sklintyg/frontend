@@ -5,18 +5,9 @@ import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
 import noDiagnosisIcon from './fmb_no_diagnosis.svg'
-import styled from 'styled-components'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
-
-const EmptyWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  height: 100%;
-  overflow-y: 100%;
-`
+import ImageWithText from '../question/ImageWithText'
 
 interface Props {
   tabIndex: number
@@ -61,15 +52,13 @@ const FMBPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
     <>
       <PanelHeader description="Diagnosspecifik information" minimizeSidePanel={minimizeSidePanel} />
       {isEmpty() ? (
-        <EmptyWrapper>
-          <img alt="" src={noDiagnosisIcon} />
-          <div>Ange minst en diagnos för att få FMB-stöd.</div>
-        </EmptyWrapper>
+        <ImageWithText
+          imgSrc={noDiagnosisIcon}
+          alt={'Ingen diagnos vald'}
+          text={'Ange minst en diagnos för att få FMB-stöd.'}></ImageWithText>
       ) : (
         <>
-          <FMBPanelDiagnoses
-            fmbDiagnosisCodes={fmbDiagnosisCodes}
-            selectedDiagnosisCode={selectedDiagnosisCode}
+          <FMBPanelDiagnoses fmbDiagnosisCodes={fmbDiagnosisCodes} selectedDiagnosisCode={selectedDiagnosisCode}
             onDiagnosisSelect={onDiagnosisSelect}
           />
           {selectedDiagnosisCode && <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} />}

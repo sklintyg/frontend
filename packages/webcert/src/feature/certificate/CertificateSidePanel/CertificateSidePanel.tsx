@@ -132,7 +132,7 @@ const CertificateSidePanel: React.FC = () => {
   return (
     <>
       {minimized !== 'true' ? (
-        <Root>
+        <Root className={"iu-border-secondary-light"}>
           <Tabs
             selectedTabIndex={selectedTabIndex}
             setSelectedTabIndex={handleTabChange}

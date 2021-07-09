@@ -5,6 +5,8 @@ import { getQuestions } from '../../store/question/questionSelectors'
 import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { CustomButton } from '@frontend/common/src'
+import noQuestionsImg from './fragor_svar_nodata.svg'
+import ImageWithText from './ImageWithText'
 
 const EmptyWrapper = styled.div`
   display: flex;
@@ -36,22 +38,19 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   const getHeaderButtons = () => {
     return (
-      <CustomButton
-        text={'Administrativa frågor'}
-        number={questions.length > 0 ? questions.length : undefined}
-        style="primary"
-        rounded={true}></CustomButton>
+      <CustomButton text={'Administrativa frågor'} number={questions.length > 0 ? questions.length : undefined} style="primary"
+                    rounded={true}></CustomButton>
     )
   }
 
   const getNoQuestionsMessage = () => {
-    return <EmptyWrapper>Det finns inga administrativa frågor för detta intyg.</EmptyWrapper>
+    return <ImageWithText imgSrc={noQuestionsImg} alt={'Inga frågor'} text={'Det finns inga administrativa frågor för detta intyg.'} />
   }
 
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
-      <QuestionWrapper>
+      <QuestionWrapper className={'iu-bg-white'}>
         {questions && questions.map((question) => <QuestionItem key={question.id} question={question}></QuestionItem>)}
         {questions && questions.length === 0 && getNoQuestionsMessage()}
       </QuestionWrapper>

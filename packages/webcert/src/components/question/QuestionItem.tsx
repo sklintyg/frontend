@@ -15,6 +15,7 @@ const QuestionHeader = styled.div`
 const Card = styled.div`
   margin: 10px 0 10px 0;
   padding: 10px;
+  border-bottom: 10px solid #e0e0e0;
 `
 
 const Wrapper = styled.div`
