@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -49,7 +49,18 @@ describe('QuestionPanel', () => {
   it('displays number of questions in the header', () => {
     testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
     renderDefaultComponent()
-    expect(screen.getByText('Administrativa frågor 2')).toBeInTheDocument()
+
+    const component = screen.getByText('Administrativa frågor')
+    const numberOfQuestions = within(component).getByText('2')
+    expect(numberOfQuestions).toBeInTheDocument()
+  })
+
+  it('displays no number of questions in the header', () => {
+    renderDefaultComponent()
+
+    const component = screen.getByText('Administrativa frågor')
+    const numberOfQuestions = within(component).queryByText('0')
+    expect(numberOfQuestions).not.toBeInTheDocument()
   })
 
   describe('renders a question', () => {
