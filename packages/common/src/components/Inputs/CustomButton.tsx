@@ -1,6 +1,12 @@
 import React from 'react'
 import { ButtonTooltip } from '@frontend/common/src'
+import styled from 'styled-components'
 
+const NumberCircle = styled.span`
+  width: 0px;
+  height: 0px;
+  padding: 11px;
+`
 interface Props {
   style?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
@@ -50,7 +56,8 @@ export const CustomButton: React.FC<Props> = (props) => {
         disabled={props.disabled}
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
-        {props.children} {props.text} {props.number && <span className={'ic-button--circle'}>{props.number}</span>}
+        {props.children} {props.text}{' '}
+        {props.number && <NumberCircle className={'ic-button--circle iu-ml-300 ic-button--secondary'}>{props.number}</NumberCircle>}
       </button>
     </ButtonTooltip>
   )

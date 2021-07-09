@@ -39,6 +39,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
       <CustomButton
         text={'Administrativa frågor'}
         number={questions.length > 0 ? questions.length : undefined}
+        style="primary"
         rounded={true}></CustomButton>
     )
   }
