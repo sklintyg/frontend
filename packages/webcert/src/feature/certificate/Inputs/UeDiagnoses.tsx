@@ -82,11 +82,11 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               question={question}
               disabled={disabled}
               id={diagnosis.id}
-              selectedCodeSystem={selectedCodeSystem}></UeDiagnosis>
+              selectedCodeSystem={selectedCodeSystem}
+              isShowValidationError={isShowValidationError}></UeDiagnosis>
           )
         })}
       </DiagnosesWrapper>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </>
   )
 }
