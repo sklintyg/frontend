@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (C) 2019 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="78" height="92" viewBox="0 0 78 92">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <rect width="68" height="82" x="10" y="10" fill="#E9EAED" rx="4"/>
+            <rect width="68" height="82" fill="#A9B2BD" rx="4"/>
+            <path fill="#FFF" d="M10 48h48v3H10zM10 54h48v3H10zM10 60h48v3H10zM10 66h29v3H10z"/>
+        </g>
+        <path fill="#FFF" fill-rule="nonzero" d="M25.255 23L18 30l7.255 7v-5.25H38v-3.5H25.255V23zM50 19l-7.255-7v5.25H30v3.5h12.745V26L50 19z"/>
+    </g>
+</svg>
