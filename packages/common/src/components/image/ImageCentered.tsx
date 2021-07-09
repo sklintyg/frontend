@@ -13,17 +13,15 @@ const EmptyWrapper = styled.div`
 interface Props {
   imgSrc: string
   alt: string
-  text: string
 }
 
-const ImageWithText: React.FC<Props> = ({ imgSrc, alt, text }) => {
-
+const ImageCentered: React.FC<Props> = ({ imgSrc, alt, children }) => {
   return (
     <EmptyWrapper>
-      <img className={"iu-mt-600 iu-mb-300"} src={imgSrc} alt={alt} />
-      <p>{text}</p>
+      <img className={'iu-mt-600 iu-mb-300'} src={imgSrc} alt={alt} />
+      {children}
     </EmptyWrapper>
   )
 }
 
-export default ImageWithText
+export default ImageCentered

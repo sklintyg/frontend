@@ -12,6 +12,7 @@ import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 import { css } from 'styled-components'
 import styled from 'styled-components/macro'
 import QuestionPanel from '../../../components/question/QuestionPanel'
+import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 
 const Root = styled.div`
   overflow-y: hidden;
@@ -45,6 +46,7 @@ const CertificateSidePanel: React.FC = () => {
   const resourceLinks = useSelector(getResourceLinks)
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
+  const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
   const aboutCertificateTabIndex = fmbInfoPanelActive ? 1 : 0
 
   if (showSpinner) return null
@@ -90,10 +92,15 @@ const CertificateSidePanel: React.FC = () => {
     if (questionsPanelActive) {
       array.push(
         <ButtonTooltip description={questionsPanelActive.description}>
-          <p>
-            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
-            {questionsPanelActive.name}
-          </p>
+          <p>{questionsPanelActive.name}</p>
+        </ButtonTooltip>
+      )
+    }
+
+    if (questionsNotAvailablePanelActive) {
+      array.push(
+        <ButtonTooltip description={questionsNotAvailablePanelActive.description}>
+          <p>{questionsNotAvailablePanelActive.name}</p>
         </ButtonTooltip>
       )
     }
@@ -118,6 +125,12 @@ const CertificateSidePanel: React.FC = () => {
       array.push(<QuestionPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />)
     }
 
+    if (questionsNotAvailablePanelActive) {
+      array.push(
+        <QuestionNotAvailablePanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} minimizeSidePanel={<MinimizeSidePanel />} />
+      )
+    }
+
     array.push(
       <AboutCertificatePanel
         tabIndex={aboutCertificateTabIndex}
@@ -132,12 +145,13 @@ const CertificateSidePanel: React.FC = () => {
   return (
     <>
       {minimized !== 'true' ? (
-        <Root className={"iu-border-secondary-light"}>
+        <Root className={'iu-border-secondary-light'}>
           <Tabs
             selectedTabIndex={selectedTabIndex}
             setSelectedTabIndex={handleTabChange}
             tabs={getTabsArray()}
-            tabsContent={getTabsContentArray()}></Tabs>
+            tabsContent={getTabsContentArray()}
+          />
         </Root>
       ) : (
         <MinimizedRoot>

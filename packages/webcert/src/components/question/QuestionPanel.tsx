@@ -4,18 +4,8 @@ import { useSelector } from 'react-redux'
 import { getQuestions } from '../../store/question/questionSelectors'
 import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { CustomButton } from '@frontend/common/src'
+import { CustomButton, ImageCentered } from '@frontend/common'
 import noQuestionsImg from './fragor_svar_nodata.svg'
-import ImageWithText from './ImageWithText'
-
-const EmptyWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  height: 100%;
-  overflow-y: 100%;
-`
 
 const QuestionWrapper = styled.div`
   height: 100%;
@@ -38,20 +28,28 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   const getHeaderButtons = () => {
     return (
-      <CustomButton text={'Administrativa frågor'} number={questions.length > 0 ? questions.length : undefined} style="primary"
-                    rounded={true}></CustomButton>
+      <CustomButton
+        text={'Administrativa frågor'}
+        number={questions.length > 0 ? questions.length : undefined}
+        style={'primary'}
+        rounded={true}
+      />
     )
   }
 
   const getNoQuestionsMessage = () => {
-    return <ImageWithText imgSrc={noQuestionsImg} alt={'Inga frågor'} text={'Det finns inga administrativa frågor för detta intyg.'} />
+    return (
+      <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <p>Det finns inga administrativa frågor för detta intyg</p>
+      </ImageCentered>
+    )
   }
 
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       <QuestionWrapper className={'iu-bg-white'}>
-        {questions && questions.map((question) => <QuestionItem key={question.id} question={question}></QuestionItem>)}
+        {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
         {questions && questions.length === 0 && getNoQuestionsMessage()}
       </QuestionWrapper>
     </Wrapper>
