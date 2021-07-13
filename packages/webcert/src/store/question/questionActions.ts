@@ -41,6 +41,14 @@ export const sendQuestionSuccess = createAction<QuestionResponse>('[Question] Se
 
 export const sendQuestionError = createAction<string>('[Question] Send question error')
 
+export const createQuestion = createAction<Question>('[Question] Create question')
+
+export const createQuestionStarted = createAction('[Question] Create question started')
+
+export const createQuestionSuccess = createAction<QuestionResponse>('[Question] Create question success')
+
+export const createQuestionError = createAction<string>('[Question] Create question error')
+
 export const updateQuestions = createAction<Question[]>('[Question] Update questions')
 
 export const addQuestion = createAction<Question>('[Question] Add question')

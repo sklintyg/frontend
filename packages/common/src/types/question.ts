@@ -8,3 +8,9 @@ export interface Question {
   isForwarded: boolean
   lastUpdate: string
 }
+
+export enum QuestionSubject {
+  COORDINATION = 'Avstämningsmöte',
+  CONTACT = 'Kontakt',
+  OTHER = 'Övrigt',
+}

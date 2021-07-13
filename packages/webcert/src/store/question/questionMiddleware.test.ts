@@ -107,6 +107,20 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(editedDraft)
       expect(fakeAxios.history.post.length).toBe(1)
     })
+
+    it('shall handle save question without id', async () => {
+      const questionDraft = createQuestionDraft()
+      const expectedQuestion = createQuestion()
+      const createQuestionResponse = { question: expectedQuestion } as QuestionResponse
+      questionDraft.id = ''
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      fakeAxios.onPost('/api/question').reply(200, createQuestionResponse)
+
+      testStore.dispatch(saveQuestion(questionDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(expectedQuestion)
+    })
   })
 
   describe('Handle SendQuestion', () => {

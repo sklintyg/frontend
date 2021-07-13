@@ -1,6 +1,10 @@
 import {
   addQuestion,
   clearQuestionDraft,
+  createQuestion,
+  createQuestionError,
+  createQuestionStarted,
+  createQuestionSuccess,
   deleteQuestion,
   deleteQuestionError,
   deleteQuestionStarted,
@@ -107,18 +111,53 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => (next)
 
   dispatch(updateQuestionDraft(action.payload))
 
+  if (!action.payload.id) {
+    dispatch(createQuestion(action.payload))
+  } else {
+    dispatch(
+      apiCallBegan({
+        url: '/api/question/' + action.payload.id,
+        method: 'POST',
+        data: {
+          question: action.payload,
+        },
+        onStart: saveQuestionStarted.type,
+        onSuccess: saveQuestionSuccess.type,
+        onError: saveQuestionError.type,
+      })
+    )
+  }
+}
+
+export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!createQuestion.match(action)) {
+    return
+  }
+
   dispatch(
     apiCallBegan({
-      url: '/api/question/' + action.payload.id,
+      url: '/api/question',
       method: 'POST',
       data: {
         question: action.payload,
       },
-      onStart: saveQuestionStarted.type,
-      onSuccess: saveQuestionSuccess.type,
-      onError: saveQuestionError.type,
+      onStart: createQuestionStarted.type,
+      onSuccess: createQuestionSuccess.type,
+      onError: createQuestionError.type,
     })
   )
+}
+
+export const handleCreateQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!createQuestionSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateQuestionDraft(action.payload.question))
 }
 
 export const handleSendQuestion: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
@@ -162,4 +201,6 @@ export const questionMiddleware = [
   handleSaveQuestion,
   handleSendQuestion,
   handleSendQuestionSuccess,
+  handleCreateQuestion,
+  handleCreateQuestionSuccess,
 ]
