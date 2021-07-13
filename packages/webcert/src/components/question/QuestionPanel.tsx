@@ -6,6 +6,7 @@ import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { CustomButton, ImageCentered } from '@frontend/common'
 import noQuestionsImg from './fragor_svar_nodata.svg'
+import QuestionForm from './QuestionForm'
 
 const QuestionWrapper = styled.div`
   height: 100%;
@@ -48,6 +49,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
+      <QuestionForm></QuestionForm>
       <QuestionWrapper className={'iu-bg-white'}>
         {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
         {questions && questions.length === 0 && getNoQuestionsMessage()}
