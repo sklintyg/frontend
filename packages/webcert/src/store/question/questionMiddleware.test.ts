@@ -6,7 +6,15 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { questionMiddleware } from './questionMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
-import { getQuestions, QuestionsResponse } from './questionActions'
+import {
+  deleteQuestion,
+  getQuestions,
+  QuestionResponse,
+  QuestionsResponse,
+  saveQuestion,
+  sendQuestion,
+  updateQuestionDraft,
+} from './questionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -34,6 +42,30 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
     })
+
+    it('shall handle get questions with question draft', async () => {
+      const expectedQuestion = createQuestionDraft()
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.questions).toHaveLength(0)
+    })
+
+    it('shall handle get questions without question draft', async () => {
+      const getQuestionResponse = { questions: [] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
+      const questionDraft = createQuestionDraft()
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
+    })
   })
 
   describe('Handle UpdateCertificate', () => {
@@ -46,6 +78,50 @@ describe('Test question middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+    })
+  })
+
+  describe('Handle DeleteQuestion', () => {
+    it('shall handle delete question', async () => {
+      const questionDraft = createQuestionDraft()
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      fakeAxios.onDelete('/api/question/' + questionDraft.id).reply(200)
+
+      testStore.dispatch(deleteQuestion(questionDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
+    })
+  })
+
+  describe('Handle SaveQuestion', () => {
+    it('shall handle save question', async () => {
+      const questionDraft = createQuestionDraft()
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+
+      const editedDraft = { ...questionDraft, message: 'new message' }
+      testStore.dispatch(saveQuestion(editedDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(editedDraft)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  describe('Handle SendQuestion', () => {
+    it('shall handle send question', async () => {
+      const questionDraft = createQuestionDraft()
+      const expectedQuestion = createQuestion()
+      const sendQuestionResponse = { question: expectedQuestion } as QuestionResponse
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      fakeAxios.onPost('/api/question/' + questionDraft.id + '/send').reply(200, sendQuestionResponse)
+
+      testStore.dispatch(sendQuestion(questionDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
     })
   })
 })
@@ -65,6 +141,16 @@ const createQuestion = (): Question => {
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',
+    subject: 'subject',
+  }
+}
+
+const createQuestionDraft = (): Question => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    id: 'id',
+    message: 'message',
     subject: 'subject',
   }
 }
