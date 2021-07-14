@@ -49,6 +49,8 @@ export const createQuestionSuccess = createAction<QuestionResponse>('[Question] 
 
 export const createQuestionError = createAction<string>('[Question] Create question error')
 
+export const updateCertificateId = createAction<string>('[Question] Update certificateId')
+
 export const updateQuestions = createAction<Question[]>('[Question] Update questions')
 
 export const addQuestion = createAction<Question>('[Question] Add question')

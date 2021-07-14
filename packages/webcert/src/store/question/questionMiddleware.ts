@@ -21,6 +21,7 @@ import {
   sendQuestionError,
   sendQuestionStarted,
   sendQuestionSuccess,
+  updateCertificateId,
   updateQuestionDraft,
   updateQuestions,
 } from './questionActions'
@@ -71,6 +72,7 @@ export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (
     return
   }
 
+  dispatch(updateCertificateId(action.payload.metadata.id))
   dispatch(getQuestions(action.payload.metadata.id))
 }
 
@@ -111,15 +113,17 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => (next)
 
   dispatch(updateQuestionDraft(action.payload))
 
+  const questionToSave = { ...action.payload }
+
   if (!action.payload.id) {
-    dispatch(createQuestion(action.payload))
+    dispatch(createQuestion(questionToSave))
   } else {
     dispatch(
       apiCallBegan({
         url: '/api/question/' + action.payload.id,
         method: 'POST',
         data: {
-          question: action.payload,
+          question: questionToSave,
         },
         onStart: saveQuestionStarted.type,
         onSuccess: saveQuestionSuccess.type,
@@ -129,7 +133,7 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => (next)
   }
 }
 
-export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!createQuestion.match(action)) {
@@ -141,7 +145,9 @@ export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch }) => (nex
       url: '/api/question',
       method: 'POST',
       data: {
-        question: action.payload,
+        certificateId: getState().ui.uiQuestion.certificateId,
+        type: action.payload.type,
+        message: action.payload.message,
       },
       onStart: createQuestionStarted.type,
       onSuccess: createQuestionSuccess.type,

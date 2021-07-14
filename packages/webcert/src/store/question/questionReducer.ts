@@ -1,15 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Question } from '@frontend/common'
-import { addQuestion, clearQuestionDraft, updateQuestionDraft, updateQuestions } from './questionActions'
+import { addQuestion, clearQuestionDraft, updateCertificateId, updateQuestionDraft, updateQuestions } from './questionActions'
+import { QuestionType } from '@frontend/common/src'
 
 interface QuestionState {
   questions: Question[]
   questionDraft: Question
+  certificateId: string
 }
 
 const initialState: QuestionState = {
   questions: [],
   questionDraft: defaultQuestionDraft(),
+  certificateId: '',
 }
 
 const questionReducer = createReducer(initialState, (builder) =>
@@ -26,10 +29,23 @@ const questionReducer = createReducer(initialState, (builder) =>
     .addCase(clearQuestionDraft, (state) => {
       state.questionDraft = defaultQuestionDraft()
     })
+    .addCase(updateCertificateId, (state, action) => {
+      state.certificateId = action.payload
+    })
 )
 
 function defaultQuestionDraft() {
-  return { id: '', subject: '', sent: '', message: '', author: '', isForwarded: false, isHandled: false, lastUpdate: '' }
+  return {
+    id: '',
+    type: QuestionType.DEFAULT,
+    subject: '',
+    sent: '',
+    message: '',
+    author: '',
+    isForwarded: false,
+    isHandled: false,
+    lastUpdate: '',
+  }
 }
 
 export default questionReducer

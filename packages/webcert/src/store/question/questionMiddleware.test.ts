@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, Question } from '@frontend/common'
+import { Certificate, Question, QuestionType } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -108,6 +108,17 @@ describe('Test question middleware', () => {
       expect(fakeAxios.history.post.length).toBe(1)
     })
 
+    it('shall handle save question without type', async () => {
+      const questionDraft = createQuestionDraft()
+      questionDraft.type = QuestionType.DEFAULT
+      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+
+      testStore.dispatch(saveQuestion(questionDraft))
+
+      await flushPromises()
+      expect(JSON.parse(fakeAxios.history.post[0].data).question.type).toBeFalsy()
+    })
+
     it('shall handle save question without id', async () => {
       const questionDraft = createQuestionDraft()
       const expectedQuestion = createQuestion()
@@ -148,6 +159,7 @@ const getCertificate = (id: string): Certificate => {
 
 const createQuestion = (): Question => {
   return {
+    type: QuestionType.COORDINATION,
     author: 'author',
     id: 'id',
     isForwarded: true,
@@ -165,6 +177,6 @@ const createQuestionDraft = (): Question => {
   return {
     id: 'id',
     message: 'message',
-    subject: 'subject',
+    type: QuestionType.COORDINATION,
   }
 }

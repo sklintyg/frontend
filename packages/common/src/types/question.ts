@@ -1,5 +1,6 @@
 export interface Question {
   id: string
+  type: QuestionType
   subject: string
   message: string
   author: string
@@ -9,8 +10,9 @@ export interface Question {
   lastUpdate: string
 }
 
-export enum QuestionSubject {
-  COORDINATION = 'Avstämningsmöte',
-  CONTACT = 'Kontakt',
-  OTHER = 'Övrigt',
+export enum QuestionType {
+  DEFAULT = '',
+  COORDINATION = 'COORDINATION',
+  CONTACT = 'CONTACT',
+  OTHER = 'OTHER',
 }

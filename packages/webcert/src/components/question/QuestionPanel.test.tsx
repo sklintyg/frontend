@@ -26,6 +26,7 @@ const renderDefaultComponent = () => {
 
 describe('QuestionPanel', () => {
   beforeEach(() => {
+    1
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...questionMiddleware),
