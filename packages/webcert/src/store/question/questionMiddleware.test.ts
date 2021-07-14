@@ -53,6 +53,7 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(expectedQuestion)
       expect(testStore.getState().ui.uiQuestion.questions).toHaveLength(0)
+      expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeTruthy()
     })
 
     it('shall handle get questions without question draft', async () => {
@@ -65,6 +66,7 @@ describe('Test question middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
+      expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeFalsy()
     })
   })
 
@@ -132,6 +134,29 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(expectedQuestion)
     })
+
+    it('shall display message that question has been saved', async () => {
+      const questionDraft = createQuestionDraft()
+      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
+
+      testStore.dispatch(saveQuestion(questionDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeTruthy()
+    })
+
+    it('shall display message that question has been saved when created', async () => {
+      const questionDraft = createQuestionDraft()
+      const expectedQuestion = createQuestion()
+      const createQuestionResponse = { question: expectedQuestion } as QuestionResponse
+      questionDraft.id = ''
+      fakeAxios.onPost('/api/question').reply(200, createQuestionResponse)
+
+      testStore.dispatch(saveQuestion(questionDraft))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeTruthy()
+    })
   })
 
   describe('Handle SendQuestion', () => {
@@ -147,6 +172,7 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
       expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
+      expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeFalsy()
     })
   })
 })

@@ -50,10 +50,12 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
-      <QuestionForm questionDraft={questionDraft}></QuestionForm>
-      <QuestionWrapper className={'iu-bg-white'}>
-        {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
-        {questions && questions.length === 0 && getNoQuestionsMessage()}
+      <QuestionWrapper>
+        <QuestionForm questionDraft={questionDraft}></QuestionForm>
+        <div className={'iu-bg-white'}>
+          {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
+          {questions && questions.length === 0 && getNoQuestionsMessage()}
+        </div>
       </QuestionWrapper>
     </Wrapper>
   )

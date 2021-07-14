@@ -23,6 +23,7 @@ import {
   sendQuestionSuccess,
   updateCertificateId,
   updateQuestionDraft,
+  updateQuestionDraftSaved,
   updateQuestions,
 } from './questionActions'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
@@ -60,7 +61,9 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch }) =>
   const questionDraft = action.payload.questions.find((value) => !value.sent)
   if (questionDraft) {
     dispatch(updateQuestionDraft(questionDraft))
+    dispatch(updateQuestionDraftSaved(true))
   } else {
+    dispatch(updateQuestionDraftSaved(false))
     dispatch(clearQuestionDraft())
   }
 }
@@ -112,6 +115,7 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => (next)
   }
 
   dispatch(updateQuestionDraft(action.payload))
+  dispatch(updateQuestionDraftSaved(false))
 
   const questionToSave = { ...action.payload }
 
@@ -131,6 +135,16 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => (next)
       })
     )
   }
+}
+
+export const handleSaveQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!saveQuestionSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateQuestionDraftSaved(true))
 }
 
 export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
@@ -164,6 +178,7 @@ export const handleCreateQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) 
   }
 
   dispatch(updateQuestionDraft(action.payload.question))
+  dispatch(updateQuestionDraftSaved(true))
 }
 
 export const handleSendQuestion: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
@@ -196,6 +211,7 @@ export const handleSendQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) =>
 
   dispatch(addQuestion(action.payload.question))
   dispatch(clearQuestionDraft())
+  dispatch(updateQuestionDraftSaved(false))
 }
 
 export const questionMiddleware = [
@@ -205,6 +221,7 @@ export const questionMiddleware = [
   handleDeleteQuestion,
   handleDeleteQuestionSuccess,
   handleSaveQuestion,
+  handleSaveQuestionSuccess,
   handleSendQuestion,
   handleSendQuestionSuccess,
   handleCreateQuestion,

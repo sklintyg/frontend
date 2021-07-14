@@ -1,18 +1,27 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Question } from '@frontend/common'
-import { addQuestion, clearQuestionDraft, updateCertificateId, updateQuestionDraft, updateQuestions } from './questionActions'
+import {
+  addQuestion,
+  clearQuestionDraft,
+  updateCertificateId,
+  updateQuestionDraft,
+  updateQuestionDraftSaved,
+  updateQuestions,
+} from './questionActions'
 import { QuestionType } from '@frontend/common/src'
 
 interface QuestionState {
   questions: Question[]
   questionDraft: Question
   certificateId: string
+  isQuestionDraftSaved: boolean
 }
 
 const initialState: QuestionState = {
   questions: [],
   questionDraft: defaultQuestionDraft(),
   certificateId: '',
+  isQuestionDraftSaved: false,
 }
 
 const questionReducer = createReducer(initialState, (builder) =>
@@ -31,6 +40,9 @@ const questionReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateCertificateId, (state, action) => {
       state.certificateId = action.payload
+    })
+    .addCase(updateQuestionDraftSaved, (state, action) => {
+      state.isQuestionDraftSaved = action.payload
     })
 )
 

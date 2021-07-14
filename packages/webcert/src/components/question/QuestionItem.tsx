@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Question } from '@frontend/common'
 import { format } from 'date-fns'
 import fkImg from './fk.png'
+import userImage from '../../images/user-image.svg'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -15,7 +16,7 @@ const QuestionHeader = styled.div`
 const Card = styled.div`
   margin: 10px 0 10px 0;
   padding: 10px;
-  border-bottom: 10px solid #e0e0e0;
+  border-bottom: 10px solid #f7f4f2;
 `
 
 const Wrapper = styled.div`
@@ -28,11 +29,15 @@ interface Props {
 }
 
 const QuestionItem: React.FC<Props> = ({ question }) => {
+  const getImageSrc = () => {
+    return question.author === 'Försäkringskassan' ? fkImg : userImage
+  }
+
   return (
     <Card className={'ic-card'}>
       <QuestionHeader>
-        <img src={fkImg} className={'iu-mr-200'} />
-        <div className={'iu-fullwidth'}>
+        <img src={getImageSrc()} className={'iu-mr-200'} />
+        <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.author}</p>
           </Wrapper>

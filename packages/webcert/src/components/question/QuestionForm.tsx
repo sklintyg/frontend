@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Dropdown, Question } from '@frontend/common'
-import { CustomButton, QuestionType, TextArea } from '@frontend/common/src'
+import { ButtonWithConfirmModal, CustomButton, QuestionType, TextArea } from '@frontend/common/src'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteQuestion, saveQuestion, sendQuestion } from '../../store/question/questionActions'
 import _ from 'lodash'
+import { isQuestionDraftSaved } from '../../store/question/questionSelectors'
 
 interface Props {
   questionDraft: Question
@@ -17,6 +18,7 @@ const Wrapper = styled.div`
 const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const dispatch = useDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.DEFAULT
+  const isSaved = useSelector(isQuestionDraftSaved)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
 
@@ -63,9 +65,9 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   }
 
   return (
-    <div className="ic-forms__group iu-bg-white iu-m-300">
+    <div className="ic-forms__group iu-bg-white iu-m-y-300">
       <Wrapper>
-        <h5>Här kan du ställa en ny fråga till Försäkringskassan.</h5>
+        <h4 className={'iu-fs-300'}>Här kan du ställa en ny fråga till Försäkringskassan.</h4>
         <div className="ic-forms__group">
           <Dropdown
             options={subjects.map((subject) => (
@@ -78,9 +80,24 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
         <div className="ic-forms__group">
           <TextArea value={message} onChange={onTextAreaChange}></TextArea>
         </div>
+        {isSaved && <p>Utkast sparat</p>}
         <div className="ic-forms__group ic-button-group">
-          <CustomButton disabled={isFormEmpty} style={'primary'} onClick={handleSendQuestion} text={'Skicka'}></CustomButton>
-          <CustomButton disabled={isFormEmpty} style={'default'} onClick={handleDeleteQuestion} text={'Avbryt'}></CustomButton>
+          <CustomButton
+            disabled={isFormEmpty}
+            style={'primary'}
+            onClick={handleSendQuestion}
+            text={'Skicka'}
+            tooltipClassName={'iu-ml-none'}></CustomButton>
+          <ButtonWithConfirmModal
+            disabled={isFormEmpty}
+            buttonStyle={'default'}
+            modalTitle={'Radera påbörjad fråga'}
+            confirmButtonText={'Ja, radera'}
+            description={''}
+            name={'Avbryt'}
+            onConfirm={handleDeleteQuestion}>
+            <p>Är du säker på att du vill radera din påbörjade fråga?</p>
+          </ButtonWithConfirmModal>
         </div>
       </Wrapper>
     </div>
