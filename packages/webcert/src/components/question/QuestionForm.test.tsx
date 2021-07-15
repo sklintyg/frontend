@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -6,7 +6,7 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { updateQuestionDraft, updateQuestionDraftSaved, updateQuestions } from '../../store/question/questionActions'
+import { updateQuestionDraft, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -58,6 +58,8 @@ describe('QuestionForm', () => {
     it('display default value for question type', () => {
       renderComponent()
       const options = screen.getAllByRole('option')
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       expect(options[0].selected).toBeTruthy()
     })
 
@@ -135,6 +137,16 @@ describe('QuestionForm', () => {
       renderComponent()
       testStore.dispatch(updateQuestionDraftSaved(true))
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
+    })
+
+    it('hides message that question draft has been saved if the user starts edit', () => {
+      testStore.dispatch(updateQuestionDraftSaved(true))
+      renderComponent()
+
+      const messageField = screen.getByRole('textbox')
+      userEvent.type(messageField, 'Det här är ett meddelande')
+
+      expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
   })
 })

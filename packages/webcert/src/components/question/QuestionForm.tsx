@@ -3,7 +3,13 @@ import { Dropdown, Question } from '@frontend/common'
 import { ButtonWithConfirmModal, CustomButton, QuestionType, TextArea } from '@frontend/common/src'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteQuestion, saveQuestion, sendQuestion } from '../../store/question/questionActions'
+import {
+  deleteQuestion,
+  saveQuestion,
+  sendQuestion,
+  updateCreateQuestionsAvailable,
+  updateQuestionDraftSaved,
+} from '../../store/question/questionActions'
 import _ from 'lodash'
 import { isQuestionDraftSaved } from '../../store/question/questionSelectors'
 
@@ -40,6 +46,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
 
   const onTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     dispatchEditDraft(questionDraft, event.currentTarget.value)
+    dispatch(updateQuestionDraftSaved(false))
     setMessage(event.currentTarget.value)
   }
 
