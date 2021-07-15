@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
 const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const dispatch = useDispatch()
-  const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.DEFAULT
+  const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
   const isSaved = useSelector(isQuestionDraftSaved)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
@@ -53,7 +53,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
 
   const getQuestionTypeName = (type: QuestionType): string => {
     switch (type) {
-      case QuestionType.DEFAULT:
+      case QuestionType.MISSING:
         return 'Välj typ av fråga'
       case QuestionType.COORDINATION:
         return 'Avstämningsmöte'

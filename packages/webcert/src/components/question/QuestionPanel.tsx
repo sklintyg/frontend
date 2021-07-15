@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { getQuestionDraft, getQuestions } from '../../store/question/questionSelectors'
+import { getQuestionDraft, getQuestions, isCreateQuestionsAvailable } from '../../store/question/questionSelectors'
 import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { CustomButton, ImageCentered } from '@frontend/common'
@@ -27,6 +27,7 @@ interface Props {
 const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
+  const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
 
   const getHeaderButtons = () => {
     return (
@@ -51,7 +52,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       <QuestionWrapper>
-        <QuestionForm questionDraft={questionDraft}></QuestionForm>
+        {isQuestionFormVisible && <QuestionForm questionDraft={questionDraft}></QuestionForm>}
         <div className={'iu-bg-white'}>
           {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
           {questions && questions.length === 0 && getNoQuestionsMessage()}

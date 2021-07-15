@@ -59,4 +59,6 @@ export const updateQuestionDraft = createAction<Question>('[Question] Update que
 
 export const updateQuestionDraftSaved = createAction<boolean>('[Question] Update question draft saved')
 
+export const updateCreateQuestionsAvailable = createAction<boolean>('[Question] Update create question available')
+
 export const clearQuestionDraft = createAction('[Question] Clear question draft')

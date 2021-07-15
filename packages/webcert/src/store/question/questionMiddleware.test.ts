@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, Question, QuestionType } from '@frontend/common'
+import { Certificate, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -13,6 +13,7 @@ import {
   QuestionsResponse,
   saveQuestion,
   sendQuestion,
+  updateCreateQuestionsAvailable,
   updateQuestionDraft,
 } from './questionActions'
 
@@ -48,6 +49,7 @@ describe('Test question middleware', () => {
       const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
       fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
 
+      testStore.dispatch(updateCreateQuestionsAvailable(true))
       testStore.dispatch(getQuestions('certificateId'))
 
       await flushPromises()
@@ -56,12 +58,26 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeTruthy()
     })
 
+    it('shall handle get questions with question draft when create question not available', async () => {
+      const expectedQuestion = createQuestionDraft()
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(updateCreateQuestionsAvailable(false))
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.questions).toHaveLength(0)
+    })
+
     it('shall handle get questions without question draft', async () => {
       const getQuestionResponse = { questions: [] } as QuestionsResponse
       fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
       const questionDraft = createQuestionDraft()
       testStore.dispatch(updateQuestionDraft(questionDraft))
 
+      testStore.dispatch(updateCreateQuestionsAvailable(true))
       testStore.dispatch(getQuestions('certificateId'))
 
       await flushPromises()
@@ -76,10 +92,21 @@ describe('Test question middleware', () => {
       const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
       fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
 
-      testStore.dispatch(updateCertificate(getCertificate('certificateId')))
+      testStore.dispatch(updateCertificate(getCertificate('certificateId', true)))
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+    })
+
+    it('shall not get questions when resource link is missing', async () => {
+      const expectedQuestion = createQuestion()
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/' + 'certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(updateCertificate(getCertificate('certificateId', false)))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions).toHaveLength(0)
     })
   })
 
@@ -108,17 +135,6 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft).toEqual(editedDraft)
       expect(fakeAxios.history.post.length).toBe(1)
-    })
-
-    it('shall handle save question without type', async () => {
-      const questionDraft = createQuestionDraft()
-      questionDraft.type = QuestionType.DEFAULT
-      fakeAxios.onPost('/api/question/' + questionDraft.id).reply(200)
-
-      testStore.dispatch(saveQuestion(questionDraft))
-
-      await flushPromises()
-      expect(JSON.parse(fakeAxios.history.post[0].data).question.type).toBeFalsy()
     })
 
     it('shall handle save question without id', async () => {
@@ -177,10 +193,10 @@ describe('Test question middleware', () => {
   })
 })
 
-const getCertificate = (id: string): Certificate => {
+const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return { metadata: { id: 'certificateId' } }
+  return { metadata: { id: 'certificateId' }, links: [{ enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS }] }
 }
 
 const createQuestion = (): Question => {

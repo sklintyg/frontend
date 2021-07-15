@@ -6,3 +6,5 @@ export const getQuestions = (state: RootState): Question[] => state.ui.uiQuestio
 export const getQuestionDraft = (state: RootState): Question => state.ui.uiQuestion.questionDraft
 
 export const isQuestionDraftSaved = (state: RootState): boolean => state.ui.uiQuestion.isQuestionDraftSaved
+
+export const isCreateQuestionsAvailable = (state: RootState): boolean => state.ui.uiQuestion.isCreateQuestionsAvailable

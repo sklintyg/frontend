@@ -4,6 +4,7 @@ import {
   addQuestion,
   clearQuestionDraft,
   updateCertificateId,
+  updateCreateQuestionsAvailable,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateQuestions,
@@ -14,6 +15,7 @@ interface QuestionState {
   questions: Question[]
   questionDraft: Question
   certificateId: string
+  isCreateQuestionsAvailable: boolean
   isQuestionDraftSaved: boolean
 }
 
@@ -22,6 +24,7 @@ const initialState: QuestionState = {
   questionDraft: defaultQuestionDraft(),
   certificateId: '',
   isQuestionDraftSaved: false,
+  isCreateQuestionsAvailable: false,
 }
 
 const questionReducer = createReducer(initialState, (builder) =>
@@ -44,12 +47,15 @@ const questionReducer = createReducer(initialState, (builder) =>
     .addCase(updateQuestionDraftSaved, (state, action) => {
       state.isQuestionDraftSaved = action.payload
     })
+    .addCase(updateCreateQuestionsAvailable, (state, action) => {
+      state.isCreateQuestionsAvailable = action.payload
+    })
 )
 
 function defaultQuestionDraft() {
   return {
     id: '',
-    type: QuestionType.DEFAULT,
+    type: QuestionType.MISSING,
     subject: '',
     sent: '',
     message: '',

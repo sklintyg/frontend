@@ -99,10 +99,10 @@ describe('QuestionForm', () => {
       renderComponent()
 
       const combobox = screen.getByRole('combobox')
-      userEvent.selectOptions(combobox, QuestionType.DEFAULT)
+      userEvent.selectOptions(combobox, QuestionType.MISSING)
 
       flushPromises()
-      expect(testStore.getState().ui.uiQuestion.questionDraft.type).toEqual(QuestionType.DEFAULT)
+      expect(testStore.getState().ui.uiQuestion.questionDraft.type).toEqual(QuestionType.MISSING)
     })
 
     xit('writes a message', async () => {

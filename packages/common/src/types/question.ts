@@ -11,7 +11,7 @@ export interface Question {
 }
 
 export enum QuestionType {
-  DEFAULT = '',
+  MISSING = 'MISSING',
   COORDINATION = 'COORDINATION',
   CONTACT = 'CONTACT',
   OTHER = 'OTHER',

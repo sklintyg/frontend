@@ -7,8 +7,8 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
-import { updateQuestions } from '../../store/question/questionActions'
-import { Question } from '@frontend/common'
+import { updateCreateQuestionsAvailable, updateQuestions } from '../../store/question/questionActions'
+import { Question, QuestionType } from '@frontend/common'
 
 let testStore: EnhancedStore
 
@@ -26,7 +26,6 @@ const renderDefaultComponent = () => {
 
 describe('QuestionPanel', () => {
   beforeEach(() => {
-    1
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...questionMiddleware),
@@ -88,6 +87,18 @@ describe('QuestionPanel', () => {
       expect(screen.getByText(expectedQuestion.subject)).toBeInTheDocument()
     })
   })
+
+  it('displays form to create new questions', () => {
+    testStore.dispatch(updateCreateQuestionsAvailable(true))
+    renderDefaultComponent()
+    expect(screen.getByText('Här kan du ställa en ny fråga till Försäkringskassan.')).toBeInTheDocument()
+  })
+
+  it('do not displays form to create new questions', () => {
+    testStore.dispatch(updateCreateQuestionsAvailable(false))
+    renderDefaultComponent()
+    expect(screen.queryByText('Här kan du ställa en ny fråga till Försäkringskassan.')).not.toBeInTheDocument()
+  })
 })
 
 function createQuestion(): Question {
@@ -100,5 +111,6 @@ function createQuestion(): Question {
     message: 'message',
     sent: '2021-07-08',
     subject: 'subject',
+    type: QuestionType.COORDINATION,
   }
 }

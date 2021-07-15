@@ -22,6 +22,7 @@ import {
   sendQuestionStarted,
   sendQuestionSuccess,
   updateCertificateId,
+  updateCreateQuestionsAvailable,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateQuestions,
@@ -30,6 +31,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
+import { getResourceLink, ResourceLinkType } from '@frontend/common'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -49,7 +51,7 @@ export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: Middlewar
   )
 }
 
-export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getQuestionsSuccess.match(action)) {
@@ -58,13 +60,15 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch }) =>
 
   dispatch(updateQuestions(action.payload.questions.filter((value) => value.sent)))
 
-  const questionDraft = action.payload.questions.find((value) => !value.sent)
-  if (questionDraft) {
-    dispatch(updateQuestionDraft(questionDraft))
-    dispatch(updateQuestionDraftSaved(true))
-  } else {
-    dispatch(updateQuestionDraftSaved(false))
-    dispatch(clearQuestionDraft())
+  if (getState().ui.uiQuestion.isCreateQuestionsAvailable) {
+    const questionDraft = action.payload.questions.find((value) => !value.sent)
+    if (questionDraft) {
+      dispatch(updateQuestionDraft(questionDraft))
+      dispatch(updateQuestionDraftSaved(true))
+    } else {
+      dispatch(updateQuestionDraftSaved(false))
+      dispatch(clearQuestionDraft())
+    }
   }
 }
 
@@ -74,9 +78,13 @@ export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (
   if (!updateCertificate.match(action)) {
     return
   }
-
-  dispatch(updateCertificateId(action.payload.metadata.id))
-  dispatch(getQuestions(action.payload.metadata.id))
+  const isQuestionsActive = getResourceLink(action.payload.links, ResourceLinkType.QUESTIONS)?.enabled
+  if (isQuestionsActive) {
+    const isCreateQuestionDraftActive = getResourceLink(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled
+    dispatch(updateCreateQuestionsAvailable(isCreateQuestionDraftActive))
+    dispatch(updateCertificateId(action.payload.metadata.id))
+    dispatch(getQuestions(action.payload.metadata.id))
+  }
 }
 
 export const handleDeleteQuestion: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
