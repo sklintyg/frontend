@@ -54,7 +54,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       <QuestionWrapper>
-        {isQuestionFormVisible && <QuestionForm questionDraft={questionDraft}></QuestionForm>}
+        {isQuestionFormVisible && <QuestionForm questionDraft={questionDraft} />}
         <div className={'iu-bg-white'}>
           {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
           {questions && questions.length === 0 && getNoQuestionsMessage()}

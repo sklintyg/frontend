@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
-import { ButtonTooltip, CustomButton } from '@frontend/common'
+import React from 'react'
+import { CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
 
 interface Props {
