@@ -6,13 +6,13 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { updateQuestionDraft, updateQuestionDraftSaved } from '../../store/question/questionActions'
+import { updateQuestionDraft, updateQuestionDraftSaved, validateQuestion } from '../../store/question/questionActions'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import QuestionForm from './QuestionForm'
 import userEvent from '@testing-library/user-event'
-import { QuestionType } from '@frontend/common/src'
+import { Question, QuestionType } from '@frontend/common/src'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
@@ -22,11 +22,11 @@ const history = createMemoryHistory()
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
-const renderComponent = () => {
+const renderComponent = (questionDraft?: Question) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <QuestionForm questionDraft={testStore.getState().ui.uiQuestion.questionDraft} />
+        <QuestionForm questionDraft={questionDraft ? questionDraft : testStore.getState().ui.uiQuestion.questionDraft} />
       </Router>
     </Provider>
   )
@@ -147,6 +147,52 @@ describe('QuestionForm', () => {
       userEvent.type(messageField, 'Det här är ett meddelande')
 
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
+    })
+
+    it('show missing type when trying to send question with missing type', () => {
+      const questionDraft = {
+        ...testStore.getState().ui.uiQuestion.questionDraft,
+        message: 'Skriver lite text',
+      }
+      testStore.dispatch(validateQuestion(questionDraft))
+      renderComponent(questionDraft)
+
+      userEvent.click(screen.getByText('Skicka'))
+
+      expect(screen.getByText('Ange en rubrik för att kunna skicka frågan.')).toBeInTheDocument()
+      expect(screen.queryByText('Skriv ett meddelande för att kunna skicka frågan.')).not.toBeInTheDocument()
+    })
+
+    it('show missing message when trying to send question with missing message', () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(validateQuestion(questionDraft))
+      renderComponent(questionDraft)
+
+      userEvent.click(screen.getByText('Skicka'))
+      expect(screen.getByText('Skriv ett meddelande för att kunna skicka frågan.')).toBeInTheDocument()
+      expect(screen.queryByText('Ange en rubrik för att kunna skicka frågan.')).not.toBeInTheDocument()
+    })
+
+    it('shall delete question draft when delete is confirmed', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      renderComponent(questionDraft)
+
+      userEvent.click(screen.getByText('Avbryt'))
+      userEvent.click(screen.getByText('Ja, radera'))
+
+      await flushPromises()
+      expect(fakeAxios.history.delete.length).not.toBe(0)
+    })
+
+    it('shall not delete question draft when delete is confirmed', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      renderComponent(questionDraft)
+
+      userEvent.click(screen.getByText('Avbryt'))
+      userEvent.click(screen.getAllByText('Avbryt')[1])
+
+      await flushPromises()
+      expect(fakeAxios.history.delete.length).toBe(0)
     })
   })
 })

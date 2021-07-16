@@ -114,7 +114,8 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               style={'primary'}
               onClick={handleSendQuestion}
               text={'Skicka'}
-              tooltipClassName={'iu-ml-none'}></CustomButton>
+              tooltipClassName={'iu-ml-none'}
+            />
             <ButtonWithConfirmModal
               disabled={isFormEmpty}
               buttonStyle={'default'}
