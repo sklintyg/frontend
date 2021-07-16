@@ -21,6 +21,10 @@ export const deleteQuestionSuccess = createAction('[Question] Delete question su
 
 export const deleteQuestionError = createAction<string>('[Question] Delete question error')
 
+export const editQuestion = createAction<Question>('[Question] Edit question')
+
+export const validateQuestion = createAction<Question>('[Question] Validate question')
+
 export const saveQuestion = createAction<Question>('[Question] Save question')
 
 export const saveQuestionStarted = createAction('[Question] Save question started')
@@ -59,6 +63,14 @@ export const updateQuestionDraft = createAction<Question>('[Question] Update que
 
 export const updateQuestionDraftSaved = createAction<boolean>('[Question] Update question draft saved')
 
+export const updateQuestionMissingType = createAction<boolean>('[Question] Update question missing type')
+
+export const updateQuestionMissingMessage = createAction<boolean>('[Question] Update question missing message')
+
+export const updateDisplayValidationMessages = createAction<boolean>('[Question] Update display validation messages')
+
 export const updateCreateQuestionsAvailable = createAction<boolean>('[Question] Update create question available')
 
 export const clearQuestionDraft = createAction('[Question] Clear question draft')
+
+export const resetState = createAction('[Question] Reset state')

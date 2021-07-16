@@ -1,21 +1,26 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { Dropdown, Question } from '@frontend/common'
+import { Dropdown, Question, StatusWithIcon, ValidationText } from '@frontend/common'
 import { ButtonWithConfirmModal, CustomButton, QuestionType, TextArea } from '@frontend/common/src'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  deleteQuestion,
-  saveQuestion,
-  sendQuestion,
-  updateCreateQuestionsAvailable,
-  updateQuestionDraftSaved,
-} from '../../store/question/questionActions'
+import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import _ from 'lodash'
-import { isQuestionDraftSaved } from '../../store/question/questionSelectors'
+import {
+  isDisplayValidationMessages,
+  isQuestionDraftSaved,
+  isQuestionMissingMessage,
+  isQuestionMissingType,
+} from '../../store/question/questionSelectors'
 
 interface Props {
   questionDraft: Question
 }
+
+const QuestionFormFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const Wrapper = styled.div`
   padding: 10px;
@@ -25,6 +30,9 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const dispatch = useDispatch()
   const isFormEmpty = questionDraft.message === '' && questionDraft.type === QuestionType.MISSING
   const isSaved = useSelector(isQuestionDraftSaved)
+  const isMissingType = useSelector(isQuestionMissingType)
+  const isMissingMessage = useSelector(isQuestionMissingMessage)
+  const showValidationMessages = useSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
 
@@ -34,13 +42,13 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
 
   const onDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const updatedQuestionDraft: Question = { ...questionDraft, type: event.currentTarget.value as QuestionType }
-    dispatch(saveQuestion(updatedQuestionDraft))
+    dispatch(editQuestion(updatedQuestionDraft))
   }
 
   const dispatchEditDraft = useRef(
     _.debounce((questionDraft: Question, value: string) => {
       const updatedQuestionDraft = { ...questionDraft, message: value }
-      dispatch(saveQuestion(updatedQuestionDraft))
+      dispatch(editQuestion(updatedQuestionDraft))
     }, 1000)
   ).current
 
@@ -71,6 +79,10 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
     }
   }
 
+  const showTypeValidationError = () => showValidationMessages && isMissingType
+
+  const showMessageValidationError = () => showValidationMessages && isMissingMessage
+
   return (
     <div className="ic-forms__group iu-bg-white iu-m-y-300">
       <Wrapper>
@@ -82,30 +94,40 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
             ))}
             onChange={onDropdownChange}
             id={'question_form_dropdown'}
-            value={questionDraft.type}></Dropdown>
+            value={questionDraft.type}
+            hasValidationError={showTypeValidationError()}
+          />
+          {showTypeValidationError() && (
+            <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />
+          )}
         </div>
         <div className="ic-forms__group">
-          <TextArea value={message} onChange={onTextAreaChange}></TextArea>
+          <TextArea value={message} onChange={onTextAreaChange} hasValidationError={showMessageValidationError()} />
+          {showMessageValidationError() && (
+            <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />
+          )}
         </div>
-        {isSaved && <p>Utkast sparat</p>}
-        <div className="ic-forms__group ic-button-group">
-          <CustomButton
-            disabled={isFormEmpty}
-            style={'primary'}
-            onClick={handleSendQuestion}
-            text={'Skicka'}
-            tooltipClassName={'iu-ml-none'}></CustomButton>
-          <ButtonWithConfirmModal
-            disabled={isFormEmpty}
-            buttonStyle={'default'}
-            modalTitle={'Radera påbörjad fråga'}
-            confirmButtonText={'Ja, radera'}
-            description={''}
-            name={'Avbryt'}
-            onConfirm={handleDeleteQuestion}>
-            <p>Är du säker på att du vill radera din påbörjade fråga?</p>
-          </ButtonWithConfirmModal>
-        </div>
+        <QuestionFormFooter>
+          <div className="ic-forms__group ic-button-group iu-my-400">
+            <CustomButton
+              disabled={isFormEmpty}
+              style={'primary'}
+              onClick={handleSendQuestion}
+              text={'Skicka'}
+              tooltipClassName={'iu-ml-none'}></CustomButton>
+            <ButtonWithConfirmModal
+              disabled={isFormEmpty}
+              buttonStyle={'default'}
+              modalTitle={'Radera påbörjad fråga'}
+              confirmButtonText={'Ja, radera'}
+              description={''}
+              name={'Avbryt'}
+              onConfirm={handleDeleteQuestion}>
+              <p>Är du säker på att du vill radera din påbörjade fråga?</p>
+            </ButtonWithConfirmModal>
+          </div>
+          {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
+        </QuestionFormFooter>
       </Wrapper>
     </div>
   )

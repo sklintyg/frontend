@@ -3,10 +3,14 @@ import { Question } from '@frontend/common'
 import {
   addQuestion,
   clearQuestionDraft,
+  resetState,
   updateCertificateId,
   updateCreateQuestionsAvailable,
+  updateDisplayValidationMessages,
   updateQuestionDraft,
   updateQuestionDraftSaved,
+  updateQuestionMissingMessage,
+  updateQuestionMissingType,
   updateQuestions,
 } from './questionActions'
 import { QuestionType } from '@frontend/common/src'
@@ -15,19 +19,27 @@ interface QuestionState {
   questions: Question[]
   questionDraft: Question
   certificateId: string
-  isCreateQuestionsAvailable: boolean
   isQuestionDraftSaved: boolean
+  isQuestionMissingType: boolean
+  isQuestionMissingMessage: boolean
+  isDisplayValidationMessages: boolean
+  isCreateQuestionsAvailable: boolean
 }
 
-const initialState: QuestionState = {
-  questions: [],
-  questionDraft: defaultQuestionDraft(),
-  certificateId: '',
-  isQuestionDraftSaved: false,
-  isCreateQuestionsAvailable: false,
+const getInitialState = (): QuestionState => {
+  return {
+    questions: [],
+    questionDraft: defaultQuestionDraft(),
+    certificateId: '',
+    isQuestionDraftSaved: false,
+    isQuestionMissingType: false,
+    isQuestionMissingMessage: false,
+    isDisplayValidationMessages: false,
+    isCreateQuestionsAvailable: false,
+  }
 }
 
-const questionReducer = createReducer(initialState, (builder) =>
+const questionReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(updateQuestions, (state, action) => {
       state.questions = action.payload
@@ -40,6 +52,10 @@ const questionReducer = createReducer(initialState, (builder) =>
     })
     .addCase(clearQuestionDraft, (state) => {
       state.questionDraft = defaultQuestionDraft()
+      state.isQuestionDraftSaved = false
+      state.isQuestionMissingType = false
+      state.isQuestionMissingMessage = false
+      state.isDisplayValidationMessages = false
     })
     .addCase(updateCertificateId, (state, action) => {
       state.certificateId = action.payload
@@ -47,9 +63,19 @@ const questionReducer = createReducer(initialState, (builder) =>
     .addCase(updateQuestionDraftSaved, (state, action) => {
       state.isQuestionDraftSaved = action.payload
     })
+    .addCase(updateQuestionMissingType, (state, action) => {
+      state.isQuestionMissingType = action.payload
+    })
+    .addCase(updateQuestionMissingMessage, (state, action) => {
+      state.isQuestionMissingMessage = action.payload
+    })
     .addCase(updateCreateQuestionsAvailable, (state, action) => {
       state.isCreateQuestionsAvailable = action.payload
     })
+    .addCase(updateDisplayValidationMessages, (state, action) => {
+      state.isDisplayValidationMessages = action.payload
+    })
+    .addCase(resetState, () => getInitialState())
 )
 
 function defaultQuestionDraft() {
