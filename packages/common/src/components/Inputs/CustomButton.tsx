@@ -20,6 +20,7 @@ interface Props {
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
   number?: string | number | undefined
+  tooltipClassName?: string
 }
 
 export const CustomButton: React.FC<Props> = (props) => {
@@ -48,7 +49,7 @@ export const CustomButton: React.FC<Props> = (props) => {
   }
 
   return (
-    <ButtonTooltip description={props.tooltip ? props.tooltip : ''}>
+    <ButtonTooltip description={props.tooltip ? props.tooltip : ''} className={props.tooltipClassName}>
       <button
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}

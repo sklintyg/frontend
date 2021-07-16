@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { getQuestions } from '../../store/question/questionSelectors'
+import { getQuestionDraft, getQuestions, isCreateQuestionsAvailable } from '../../store/question/questionSelectors'
 import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { CustomButton, ImageCentered } from '@frontend/common'
 import noQuestionsImg from './fragor_svar_nodata.svg'
+import QuestionForm from './QuestionForm'
 
 const QuestionWrapper = styled.div`
   height: 100%;
@@ -25,6 +26,8 @@ interface Props {
 
 const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const questions = useSelector(getQuestions)
+  const questionDraft = useSelector(getQuestionDraft)
+  const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
 
   const getHeaderButtons = () => {
     return (
@@ -39,18 +42,23 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   const getNoQuestionsMessage = () => {
     return (
-      <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
-        <p>Det finns inga administrativa frågor för detta intyg.</p>
-      </ImageCentered>
+      <div className="iu-mt-300">
+        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+          <p>Det finns inga administrativa frågor för detta intyg.</p>
+        </ImageCentered>
+      </div>
     )
   }
 
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
-      <QuestionWrapper className={'iu-bg-white'}>
-        {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
-        {questions && questions.length === 0 && getNoQuestionsMessage()}
+      <QuestionWrapper>
+        {isQuestionFormVisible && <QuestionForm questionDraft={questionDraft} />}
+        <div className={'iu-bg-white'}>
+          {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
+          {questions && questions.length === 0 && getNoQuestionsMessage()}
+        </div>
       </QuestionWrapper>
     </Wrapper>
   )
