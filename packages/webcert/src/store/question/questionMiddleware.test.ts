@@ -89,6 +89,18 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
       expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeFalsy()
     })
+
+    it('shall handle get questions with question answer draft', async () => {
+      const expectedQuestion = addAnswerToQuestion(createQuestion(), '')
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[expectedQuestion.id]).toBeTruthy()
+    })
   })
 
   describe('Handle UpdateCertificate', () => {
@@ -370,7 +382,7 @@ describe('Test question middleware', () => {
           answer: undefined,
         },
       } as QuestionResponse
-      fakeAxios.onDelete('/api/question/' + question.id).reply(200, deleteAnswerResponse)
+      fakeAxios.onDelete('/api/question/' + question.id + '/answer').reply(200, deleteAnswerResponse)
 
       testStore.dispatch(deleteAnswer(question))
 

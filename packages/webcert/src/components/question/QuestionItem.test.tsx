@@ -52,14 +52,80 @@ describe('QuestionItem', () => {
   })
 
   it('dont display answer button if the question has an answer', () => {
-    renderComponent(addAnswerToQuestion(createQuestion(), ''))
+    renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
     expect(screen.queryByText('Svara')).not.toBeInTheDocument()
   })
 
+  describe('question with answer', () => {
+    it('dont display answer button if the question has an answer', () => {
+      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är ett svar'))
+
+      expect(screen.queryByText('Svara')).not.toBeInTheDocument()
+    })
+
+    it('dont display send button if the question has an answer', () => {
+      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är ett svar'))
+
+      expect(screen.queryByText('Skicka')).not.toBeInTheDocument()
+    })
+
+    it('dont display cancel button if the question has an answer', () => {
+      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är ett svar'))
+
+      expect(screen.queryByText('Avbryt')).not.toBeInTheDocument()
+    })
+
+    it('does show message that answer has been saved if the question has an answer', () => {
+      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är ett svar'))
+
+      expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
+    })
+
+    it('displays author of the answer', () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar')
+      renderComponent(question)
+
+      expect(question.answer).toBeTruthy()
+      if (question.answer) {
+        expect(screen.getByText(question.answer.author)).toBeInTheDocument()
+      }
+    })
+
+    it('displays message of the answer', () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar')
+      renderComponent(question)
+
+      expect(question.answer).toBeTruthy()
+      if (question.answer) {
+        expect(screen.getByText(question.answer.message)).toBeInTheDocument()
+      }
+    })
+
+    it('displays sent of the answer', () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar')
+      renderComponent(question)
+
+      expect(question.answer).toBeTruthy()
+      if (question.answer) {
+        expect(screen.getByText(question.answer.sent, { exact: false })).toBeInTheDocument()
+      }
+    })
+
+    it('displays subject of the answer', () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar')
+      renderComponent(question)
+
+      expect(question.answer).toBeTruthy()
+      if (question.answer) {
+        expect(screen.getByText('Re: ' + question.subject)).toBeInTheDocument()
+      }
+    })
+  })
+
   describe('answering a question with default values', () => {
     it('display default value for message', () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), ''))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       const message = screen.getByRole('textbox')
 
@@ -67,19 +133,19 @@ describe('QuestionItem', () => {
     })
 
     it('send question disabled', () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), ''))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       expect(screen.getByText(/Skicka/i)).toBeDisabled()
     })
 
     it('cancel question disabled', () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), ''))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
     it('does not show message that answer draft has been saved', () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), ''))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
@@ -88,7 +154,7 @@ describe('QuestionItem', () => {
   describe('answering a question with user inputs', () => {
     xit('writes a message', async () => {
       jest.useFakeTimers()
-      renderComponent(addAnswerToQuestion(createQuestion(), ''))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
@@ -99,7 +165,7 @@ describe('QuestionItem', () => {
     })
 
     it('enable send when answer has value', async () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är mitt svar!'))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       expect(screen.getByText(/Skicka/i)).toBeEnabled()
     })
@@ -107,13 +173,13 @@ describe('QuestionItem', () => {
     it('does show message that answer has been saved', () => {
       const question = createQuestion()
       testStore.dispatch(updateAnswerDraftSaved({ questionId: question.id, isAnswerDraftSaved: true }))
-      renderComponent(addAnswerToQuestion(question, 'Det här är mitt svar!'))
+      renderComponent(addAnswerDraftToQuestion(question, 'Det här är mitt svar!'))
 
       expect(screen.getByText('Utkast sparat')).toBeInTheDocument()
     })
 
     it('hides message that answer has been saved if the user starts edit', () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är mitt svar!'))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, 'Nu ändrar jag mitt svar')
@@ -122,7 +188,7 @@ describe('QuestionItem', () => {
     })
 
     it('shall delete answer when delete is confirmed', async () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är mitt svar!'))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getByText('Ja, radera'))
@@ -132,7 +198,7 @@ describe('QuestionItem', () => {
     })
 
     it('shall not delete answer when delete is confirmed', async () => {
-      renderComponent(addAnswerToQuestion(createQuestion(), 'Det här är mitt svar!'))
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
@@ -143,10 +209,17 @@ describe('QuestionItem', () => {
   })
 })
 
-const addAnswerToQuestion = (question: Question, message: string): Question => {
+const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
   return {
     ...question,
     answer: { author: '', id: '', message, sent: '' },
+  } as Question
+}
+
+const addAnswerToQuestion = (question: Question, message: string): Question => {
+  return {
+    ...question,
+    answer: { author: 'answerAuthor', id: 'answerId', message, sent: '2021-07-16' },
   } as Question
 }
 

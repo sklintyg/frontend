@@ -92,6 +92,17 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
       dispatch(updateQuestionDraftSaved(true))
     }
   }
+
+  action.payload.questions
+    .filter((question) => question.answer && !question.answer.id)
+    .forEach((questionWithAnswerDraft) =>
+      dispatch(
+        updateAnswerDraftSaved({
+          questionId: questionWithAnswerDraft.id,
+          isAnswerDraftSaved: true,
+        })
+      )
+    )
 }
 
 export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {

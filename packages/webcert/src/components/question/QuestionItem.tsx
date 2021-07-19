@@ -7,7 +7,7 @@ import userImage from '../../images/user-image.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { createAnswer, deleteAnswer, editAnswer, sendAnswer, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import _ from 'lodash'
-import { isAnswerDraftSaved, isQuestionDraftSaved } from '../../store/question/questionSelectors'
+import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -61,8 +61,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     setMessage(event.currentTarget.value)
   }
 
-  const getImageSrc = () => {
-    return question.author === 'Försäkringskassan' ? fkImg : userImage
+  const getImageSrc = (author: string) => {
+    return author === 'Försäkringskassan' ? fkImg : userImage
   }
 
   const handleCreateAnswer = () => dispatch(createAnswer(question))
@@ -74,7 +74,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   return (
     <Card className={'ic-card'}>
       <QuestionHeader>
-        <img src={getImageSrc()} className={'iu-mr-200'} />
+        <img src={getImageSrc(question.author)} className={'iu-mr-200'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.author}</p>
@@ -85,9 +85,9 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </Wrapper>
         </div>
       </QuestionHeader>
-      <p>{question.message}</p>
+      <p className={'iu-mb-800'}>{question.message}</p>
       {!question.answer && <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />}
-      {question.answer && (
+      {question.answer && !question.answer.id && (
         <>
           <div className="ic-forms__group">
             <TextArea value={message} onChange={onTextAreaChange} />
@@ -114,6 +114,23 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </div>
             {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
           </QuestionFormFooter>
+        </>
+      )}
+      {question.answer && question.answer.id && (
+        <>
+          <QuestionHeader>
+            <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} />
+            <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+              <Wrapper>
+                <p className={'iu-fw-heading'}>{question.answer.author}</p>
+              </Wrapper>
+              <Wrapper>
+                <p className={'iu-fw-heading'}>{'Re: ' + question.subject}</p>
+                <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.answer.sent), 'yyyy-MM-dd HH:mm')}</p>
+              </Wrapper>
+            </div>
+          </QuestionHeader>
+          <p className={'iu-mb-800'}>{question.answer.message}</p>
         </>
       )}
     </Card>
