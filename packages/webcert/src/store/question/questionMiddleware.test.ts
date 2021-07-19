@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, Question, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Answer, Certificate, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -7,14 +7,19 @@ import apiMiddleware from '../api/apiMiddleware'
 import { questionMiddleware } from './questionMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
 import {
+  createAnswer,
+  deleteAnswer,
   deleteQuestion,
+  editAnswer,
   editQuestion,
   getQuestions,
   QuestionResponse,
   QuestionsResponse,
+  sendAnswer,
   sendQuestion,
   updateCreateQuestionsAvailable,
   updateQuestionDraft,
+  updateQuestions,
   validateQuestion,
 } from './questionActions'
 
@@ -83,6 +88,18 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
       expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeFalsy()
+    })
+
+    it('shall handle get questions with question answer draft', async () => {
+      const expectedQuestion = addAnswerToQuestion(createQuestion(), '')
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[expectedQuestion.id]).toBeTruthy()
     })
   })
 
@@ -290,18 +307,113 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.isDisplayValidationMessages).toBeTruthy()
     })
   })
+
+  describe('Handle createAnswer', () => {
+    it('shall handle create answer', async () => {
+      const question = createQuestion()
+      testStore.dispatch(updateQuestions([question]))
+
+      testStore.dispatch(createAnswer(question))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0].answer).toBeTruthy()
+      expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[question.id]).toEqual(false)
+    })
+  })
+
+  describe('Handle editAnswer', () => {
+    it('shall handle edit answer', async () => {
+      const question = addAnswerToQuestion(createQuestion(), '')
+      testStore.dispatch(updateQuestions([question]))
+      const answer = { ...question.answer, message: 'Det här är det första i svaret...' } as Answer
+      const saveAnswerResponse = { question: { ...question, answer } } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/saveanswer').reply(200, saveAnswerResponse)
+
+      testStore.dispatch(editAnswer({ questionId: question.id, answer }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0].answer).toEqual(answer)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+
+    it('shall set isAnswerDraftSaved when answer has been saved', async () => {
+      const question = addAnswerToQuestion(createQuestion(), '')
+      testStore.dispatch(updateQuestions([question]))
+      const answer = { ...question.answer, message: 'Det här är det första i svaret...' } as Answer
+      const saveAnswerResponse = { question: { ...question, answer } } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/saveanswer').reply(200, saveAnswerResponse)
+
+      testStore.dispatch(editAnswer({ questionId: question.id, answer }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[question.id]).toBeTruthy()
+    })
+  })
+
+  describe('Handle sendAnswer', () => {
+    it('shall handle send answer', async () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar!')
+      testStore.dispatch(updateQuestions([question]))
+      const answer = { ...question.answer } as Answer
+      const sendAnswerResponse = {
+        question: {
+          ...question,
+          isHandled: true,
+          answer: { ...answer, id: 'answerId', author: 'author', sent: new Date().toISOString() },
+        },
+      } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/sendanswer').reply(200, sendAnswerResponse)
+
+      testStore.dispatch(sendAnswer({ questionId: question.id, answer }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(sendAnswerResponse.question)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  describe('Handle deleteAnswer', () => {
+    it('shall handle delete answer', async () => {
+      const question = addAnswerToQuestion(createQuestion(), 'Det här är ett svar!')
+      testStore.dispatch(updateQuestions([question]))
+      const deleteAnswerResponse = {
+        question: {
+          ...question,
+          answer: undefined,
+        },
+      } as QuestionResponse
+      fakeAxios.onDelete('/api/question/' + question.id + '/answer').reply(200, deleteAnswerResponse)
+
+      testStore.dispatch(deleteAnswer(question))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0].answer).toBeFalsy()
+      expect(fakeAxios.history.delete.length).toBe(1)
+    })
+  })
 })
 
 const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     metadata: { id: 'certificateId' },
     links: [
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       { enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS },
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
     ],
   }
+}
+
+const addAnswerToQuestion = (question: Question, message: string): Question => {
+  return {
+    ...question,
+    answer: { author: '', id: '', message, sent: '' },
+  } as Question
 }
 
 const createQuestion = (): Question => {
@@ -310,7 +422,7 @@ const createQuestion = (): Question => {
     author: 'author',
     id: 'id',
     isForwarded: true,
-    isHandled: true,
+    isHandled: false,
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',

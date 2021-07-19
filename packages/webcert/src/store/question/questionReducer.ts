@@ -1,12 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Question } from '@frontend/common'
 import {
+  addAnswer,
   addQuestion,
   clearQuestionDraft,
   resetState,
+  updateAnswer,
+  updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
   updateDisplayValidationMessages,
+  updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateQuestionMissingMessage,
@@ -24,6 +28,9 @@ interface QuestionState {
   isQuestionMissingMessage: boolean
   isDisplayValidationMessages: boolean
   isCreateQuestionsAvailable: boolean
+  isAnswerDraftSaved: {
+    [questionId: string]: boolean
+  }
 }
 
 const getInitialState = (): QuestionState => {
@@ -36,6 +43,7 @@ const getInitialState = (): QuestionState => {
     isQuestionMissingMessage: false,
     isDisplayValidationMessages: false,
     isCreateQuestionsAvailable: false,
+    isAnswerDraftSaved: {},
   }
 }
 
@@ -43,6 +51,14 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(updateQuestions, (state, action) => {
       state.questions = action.payload
+    })
+    .addCase(updateQuestion, (state, action) => {
+      const index = state.questions.findIndex((question) => question.id === action.payload.id)
+      if (index === -1) {
+        state.questions.push(action.payload)
+      } else {
+        state.questions[index] = action.payload
+      }
     })
     .addCase(addQuestion, (state, action) => {
       state.questions.push(action.payload)
@@ -76,6 +92,21 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
       state.isDisplayValidationMessages = action.payload
     })
     .addCase(resetState, () => getInitialState())
+    .addCase(addAnswer, (state, action) => {
+      const question = state.questions.find((question) => question.id === action.payload.questionId)
+      if (question) {
+        question.answer = action.payload.answer
+      }
+    })
+    .addCase(updateAnswer, (state, action) => {
+      const question = state.questions.find((question) => question.id === action.payload.questionId)
+      if (question) {
+        question.answer = action.payload.answer
+      }
+    })
+    .addCase(updateAnswerDraftSaved, (state, action) => {
+      state.isAnswerDraftSaved[action.payload.questionId] = action.payload.isAnswerDraftSaved
+    })
 )
 
 function defaultQuestionDraft() {
@@ -86,6 +117,7 @@ function defaultQuestionDraft() {
     sent: '',
     message: '',
     author: '',
+
     isForwarded: false,
     isHandled: false,
     lastUpdate: '',

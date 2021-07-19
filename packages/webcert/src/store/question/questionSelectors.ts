@@ -14,3 +14,5 @@ export const isQuestionMissingMessage = (state: RootState): boolean => state.ui.
 export const isDisplayValidationMessages = (state: RootState): boolean => state.ui.uiQuestion.isDisplayValidationMessages
 
 export const isCreateQuestionsAvailable = (state: RootState): boolean => state.ui.uiQuestion.isCreateQuestionsAvailable
+
+export const isAnswerDraftSaved = (questionId: string) => (state: RootState): boolean => state.ui.uiQuestion.isAnswerDraftSaved[questionId]

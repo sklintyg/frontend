@@ -1,31 +1,49 @@
 import {
+  addAnswer,
   addQuestion,
   clearQuestionDraft,
+  createAnswer,
   createQuestion,
   createQuestionError,
   createQuestionStarted,
   createQuestionSuccess,
+  deleteAnswer,
+  deleteAnswerError,
+  deleteAnswerStarted,
+  deleteAnswerSuccess,
   deleteQuestion,
   deleteQuestionError,
   deleteQuestionStarted,
   deleteQuestionSuccess,
+  editAnswer,
   editQuestion,
   getQuestions,
   getQuestionsError,
   getQuestionsStarted,
   getQuestionsSuccess,
   resetState,
+  saveAnswer,
+  saveAnswerError,
+  saveAnswerStarted,
+  saveAnswerSuccess,
   saveQuestion,
   saveQuestionError,
   saveQuestionStarted,
   saveQuestionSuccess,
+  sendAnswer,
+  sendAnswerError,
+  sendAnswerStarted,
+  sendAnswerSuccess,
   sendQuestion,
   sendQuestionError,
   sendQuestionStarted,
   sendQuestionSuccess,
+  updateAnswer,
+  updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
   updateDisplayValidationMessages,
+  updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateQuestionMissingMessage,
@@ -37,7 +55,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
-import { getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Answer, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -74,6 +92,17 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
       dispatch(updateQuestionDraftSaved(true))
     }
   }
+
+  action.payload.questions
+    .filter((question) => question.answer && !question.answer.id)
+    .forEach((questionWithAnswerDraft) =>
+      dispatch(
+        updateAnswerDraftSaved({
+          questionId: questionWithAnswerDraft.id,
+          isAnswerDraftSaved: true,
+        })
+      )
+    )
 }
 
 export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
@@ -256,6 +285,122 @@ export const handleSendQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) =>
   dispatch(updateQuestionDraftSaved(false))
 }
 
+export const handleCreateAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!createAnswer.match(action)) {
+    return
+  }
+
+  const newAnswer = { id: '', message: '', author: '', sent: '' } as Answer
+  dispatch(addAnswer({ questionId: action.payload.id, answer: newAnswer }))
+  dispatch(updateAnswerDraftSaved({ questionId: action.payload.id, isAnswerDraftSaved: false }))
+}
+
+export const handleEditAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!editAnswer.match(action)) {
+    return
+  }
+
+  dispatch(updateAnswer(action.payload))
+  dispatch(updateAnswerDraftSaved({ isAnswerDraftSaved: false, questionId: action.payload.questionId }))
+  dispatch(saveAnswer(action.payload))
+}
+
+export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!saveAnswer.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/question/' + action.payload.questionId + '/saveanswer',
+      method: 'POST',
+      data: {
+        message: action.payload.answer.message,
+      },
+      onStart: saveAnswerStarted.type,
+      onSuccess: saveAnswerSuccess.type,
+      onError: saveAnswerError.type,
+    })
+  )
+}
+
+export const handleSaveAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!saveAnswerSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateAnswerDraftSaved({ isAnswerDraftSaved: true, questionId: action.payload.question.id }))
+}
+
+export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendAnswer.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/question/' + action.payload.questionId + '/sendanswer',
+      method: 'POST',
+      data: {
+        message: action.payload.answer.message,
+      },
+      onStart: sendAnswerStarted.type,
+      onSuccess: sendAnswerSuccess.type,
+      onError: sendAnswerError.type,
+    })
+  )
+}
+
+export const handleSendAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!sendAnswerSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateQuestion(action.payload.question))
+}
+
+export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!deleteAnswer.match(action)) {
+    return
+  }
+
+  console.log(action.payload)
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/question/' + action.payload.id + '/answer',
+      method: 'DELETE',
+      onStart: deleteAnswerStarted.type,
+      onSuccess: deleteAnswerSuccess.type,
+      onError: deleteAnswerError.type,
+    })
+  )
+}
+
+export const handleDeleteAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!deleteAnswerSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateQuestion(action.payload.question))
+}
+
 export const questionMiddleware = [
   handleGetQuestions,
   handleGetQuestionsSuccess,
@@ -270,4 +415,12 @@ export const questionMiddleware = [
   handleSendQuestionSuccess,
   handleCreateQuestion,
   handleCreateQuestionSuccess,
+  handleCreateAnswer,
+  handleEditAnswer,
+  handleSaveAnswer,
+  handleSaveAnswerSuccess,
+  handleSendAnswer,
+  handleSendAnswerSuccess,
+  handleDeleteAnswer,
+  handleDeleteAnswerSuccess,
 ]
