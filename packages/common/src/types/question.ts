@@ -7,7 +7,15 @@ export interface Question {
   sent: string
   isHandled: boolean
   isForwarded: boolean
+  answer?: Answer
   lastUpdate: string
+}
+
+export interface Answer {
+  id: string
+  message: string
+  author: string
+  sent: string
 }
 
 export enum QuestionType {
