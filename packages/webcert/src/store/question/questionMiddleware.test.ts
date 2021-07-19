@@ -334,7 +334,6 @@ describe('Test question middleware', () => {
       testStore.dispatch(editAnswer({ questionId: question.id, answer }))
 
       await flushPromises()
-      console.log(fakeAxios.history.post)
       expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[question.id]).toBeTruthy()
     })
   })
@@ -383,12 +382,16 @@ describe('Test question middleware', () => {
 })
 
 const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     metadata: { id: 'certificateId' },
     links: [
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       { enabled: isQuestionsActive, type: ResourceLinkType.QUESTIONS },
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
     ],
   }

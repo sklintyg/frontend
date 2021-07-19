@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Question } from '@frontend/common'
+import { Answer, ButtonWithConfirmModal, CustomButton, Question, StatusWithIcon, TextArea } from '@frontend/common'
 import { format } from 'date-fns'
 import fkImg from './fk.png'
 import userImage from '../../images/user-image.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import { createAnswer, deleteAnswer, editAnswer, sendAnswer, updateAnswerDraftSaved } from '../../store/question/questionActions'
+import _ from 'lodash'
+import { isAnswerDraftSaved, isQuestionDraftSaved } from '../../store/question/questionSelectors'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -24,14 +28,48 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 
+const QuestionFormFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 interface Props {
   question: Question
 }
 
 const QuestionItem: React.FC<Props> = ({ question }) => {
+  const dispatch = useDispatch()
+  const isSaved = useSelector(isAnswerDraftSaved(question.id))
+  const isFormEmpty = !question.answer?.message
+  const [message, setMessage] = useState(question.answer?.message ?? '')
+
+  useEffect(() => {
+    setMessage(question.answer?.message ?? '')
+  }, [question.answer?.message])
+
+  const dispatchEditAnswer = useRef(
+    _.debounce((question: Question, value: string) => {
+      const updatedAnswer = { ...question.answer, message: value } as Answer
+      dispatch(editAnswer({ questionId: question.id, answer: updatedAnswer }))
+    }, 1000)
+  ).current
+
+  const onTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    dispatchEditAnswer(question, event.currentTarget.value)
+    dispatch(updateAnswerDraftSaved({ questionId: question.id, isAnswerDraftSaved: false }))
+    setMessage(event.currentTarget.value)
+  }
+
   const getImageSrc = () => {
     return question.author === 'Försäkringskassan' ? fkImg : userImage
   }
+
+  const handleCreateAnswer = () => dispatch(createAnswer(question))
+
+  const handleSendAnswer = () => dispatch(sendAnswer({ questionId: question.id, answer: { ...question.answer } as Answer }))
+
+  const handleDeleteAnswer = () => dispatch(deleteAnswer(question))
 
   return (
     <Card className={'ic-card'}>
@@ -48,6 +86,36 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </div>
       </QuestionHeader>
       <p>{question.message}</p>
+      {!question.answer && <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />}
+      {question.answer && (
+        <>
+          <div className="ic-forms__group">
+            <TextArea value={message} onChange={onTextAreaChange} />
+          </div>
+          <QuestionFormFooter>
+            <div className="ic-forms__group ic-button-group iu-my-400">
+              <CustomButton
+                disabled={isFormEmpty}
+                style={'primary'}
+                onClick={handleSendAnswer}
+                text={'Skicka'}
+                tooltipClassName={'iu-ml-none'}
+              />
+              <ButtonWithConfirmModal
+                disabled={false}
+                buttonStyle={'default'}
+                modalTitle={'Radera påbörjad svar'}
+                confirmButtonText={'Ja, radera'}
+                description={''}
+                name={'Avbryt'}
+                onConfirm={handleDeleteAnswer}>
+                <p>Är du säker på att du vill radera ditt påbörjade svar?</p>
+              </ButtonWithConfirmModal>
+            </div>
+            {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
+          </QuestionFormFooter>
+        </>
+      )}
     </Card>
   )
 }

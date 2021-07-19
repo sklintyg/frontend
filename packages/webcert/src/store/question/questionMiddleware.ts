@@ -367,9 +367,11 @@ export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch, getState })
     return
   }
 
+  console.log(action.payload)
+
   dispatch(
     apiCallBegan({
-      url: '/api/question/' + action.payload.id,
+      url: '/api/question/' + action.payload.id + '/answer',
       method: 'DELETE',
       onStart: deleteAnswerStarted.type,
       onSuccess: deleteAnswerSuccess.type,
