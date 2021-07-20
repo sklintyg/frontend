@@ -110,3 +110,14 @@ export const deleteAnswer = createAction<Question>('[Question] Delete answer')
 export const deleteAnswerStarted = createAction('[Question] Delete answer started')
 export const deleteAnswerSuccess = createAction<QuestionResponse>('[Question] Delete answer success')
 export const deleteAnswerError = createAction<string>('[Question] Delete answer error')
+
+interface HandleQuestionPayload {
+  questionId: string
+  handled: boolean
+}
+
+export const handleQuestion = createAction<HandleQuestionPayload>('[Question] Handle question')
+export const handleQuestionStarted = createAction('[Question] Handle question started')
+export const handleQuestionSuccess = createAction<QuestionResponse>('[Question] Handle question success')
+export const handleQuestionError = createAction<string>('[Question] Handle question error')
+export const updateHandledQuestion = createAction<HandleQuestionPayload>('[Question] Update handled question')

@@ -10,6 +10,7 @@ import {
   updateCertificateId,
   updateCreateQuestionsAvailable,
   updateDisplayValidationMessages,
+  updateHandledQuestion,
   updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
@@ -107,6 +108,12 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateAnswerDraftSaved, (state, action) => {
       state.isAnswerDraftSaved[action.payload.questionId] = action.payload.isAnswerDraftSaved
     })
+    .addCase(updateHandledQuestion, (state, action) => {
+      const question = state.questions.find((question) => question.id === action.payload.questionId)
+      if (question) {
+        question.handled = action.payload.handled
+      }
+    })
 )
 
 function defaultQuestionDraft() {
@@ -117,10 +124,10 @@ function defaultQuestionDraft() {
     sent: '',
     message: '',
     author: '',
-
-    isForwarded: false,
-    isHandled: false,
+    forwarded: false,
+    handled: false,
     lastUpdate: '',
+    links: [],
   }
 }
 

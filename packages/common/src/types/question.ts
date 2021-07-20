@@ -7,8 +7,8 @@ export interface Question {
   message: string
   author: string
   sent: string
-  isHandled: boolean
-  isForwarded: boolean
+  handled: boolean
+  forwarded: boolean
   answer?: Answer
   lastUpdate: string
   links: ResourceLink[]

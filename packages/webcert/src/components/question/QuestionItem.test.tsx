@@ -215,6 +215,77 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).toBe(0)
     })
   })
+
+  describe('question is handled or unhandled', () => {
+    it('display checkbox when question has resource link handled', () => {
+      renderComponent(createQuestion())
+
+      expect(screen.getByText('Hanterad')).toBeInTheDocument()
+      expect(screen.queryByRole('checkbox')).toBeInTheDocument()
+    })
+
+    it('display checkbox as checked if handled', () => {
+      const question = createQuestion()
+      question.handled = true
+      renderComponent(question)
+
+      expect(screen.queryByRole('checkbox')).toBeChecked()
+    })
+
+    it('display checkbox as unchecked if unhandled', () => {
+      renderComponent(createQuestion())
+
+      expect(screen.queryByRole('checkbox')).not.toBeChecked()
+    })
+
+    it('dont display checkbox when question missing resource link handled', () => {
+      const question = createQuestion()
+      question.links = []
+      renderComponent(question)
+
+      expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+    })
+
+    it('display as handled when question missing resource link handled but is handled', () => {
+      const question = createQuestion()
+      question.links = []
+      question.handled = true
+      renderComponent(question)
+
+      expect(screen.queryByText('Hanterad')).toBeInTheDocument()
+    })
+
+    it('dont display as handled when question missing resource link handled and is unhandled', () => {
+      const question = createQuestion()
+      question.links = []
+      renderComponent(question)
+
+      expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
+    })
+
+    it('shall set as handle if checkbox selected', async () => {
+      renderComponent(createQuestion())
+
+      userEvent.click(screen.getByText('Hanterad'))
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].data).toBe('{"handled":true}')
+    })
+
+    it('shall set as unhandled if checkbox deselected', async () => {
+      const question = createQuestion()
+      question.handled = true
+      renderComponent(question)
+
+      userEvent.click(screen.getByText('Hanterad'))
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].data).toBe('{"handled":false}')
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
@@ -236,8 +307,8 @@ const createQuestion = (): Question => {
     type: QuestionType.COORDINATION,
     author: 'author',
     id: 'id',
-    isForwarded: true,
-    isHandled: false,
+    forwarded: true,
+    handled: false,
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',
@@ -248,6 +319,12 @@ const createQuestion = (): Question => {
         enabled: true,
         name: 'Svara',
         description: 'Svara på fråga',
+      },
+      {
+        type: ResourceLinkType.HANDLE_QUESTION,
+        enabled: true,
+        name: 'Hantera',
+        description: 'Hantera fråga',
       },
     ],
   }
