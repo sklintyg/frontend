@@ -1,6 +1,15 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Answer, ButtonWithConfirmModal, CustomButton, Question, StatusWithIcon, TextArea } from '@frontend/common'
+import {
+  Answer,
+  ButtonWithConfirmModal,
+  CustomButton,
+  getResourceLink,
+  Question,
+  ResourceLinkType,
+  StatusWithIcon,
+  TextArea,
+} from '@frontend/common'
 import { format } from 'date-fns'
 import fkImg from './fk.png'
 import userImage from '../../images/user-image.svg'
@@ -71,6 +80,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const handleDeleteAnswer = () => dispatch(deleteAnswer(question))
 
+  const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+
   return (
     <Card className={'ic-card'}>
       <QuestionHeader>
@@ -86,7 +97,9 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         </div>
       </QuestionHeader>
       <p className={'iu-mb-800'}>{question.message}</p>
-      {!question.answer && <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />}
+      {isAnswerButtonVisible() && (
+        <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
+      )}
       {question.answer && !question.answer.id && (
         <>
           <div className="ic-forms__group">

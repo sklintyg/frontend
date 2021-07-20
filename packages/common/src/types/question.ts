@@ -1,3 +1,5 @@
+import { ResourceLink } from './resourceLink'
+
 export interface Question {
   id: string
   type: QuestionType
@@ -9,6 +11,7 @@ export interface Question {
   isForwarded: boolean
   answer?: Answer
   lastUpdate: string
+  links: ResourceLink[]
 }
 
 export interface Answer {

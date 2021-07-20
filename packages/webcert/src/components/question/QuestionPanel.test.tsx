@@ -112,5 +112,6 @@ function createQuestion(): Question {
     sent: '2021-07-08',
     subject: 'subject',
     type: QuestionType.COORDINATION,
+    links: [],
   }
 }
