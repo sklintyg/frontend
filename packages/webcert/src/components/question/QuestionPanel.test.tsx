@@ -105,8 +105,8 @@ function createQuestion(): Question {
   return {
     author: 'author',
     id: String(Math.random()),
-    isForwarded: true,
-    isHandled: true,
+    forwarded: true,
+    handled: true,
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',

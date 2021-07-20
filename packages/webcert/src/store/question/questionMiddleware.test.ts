@@ -13,6 +13,7 @@ import {
   editAnswer,
   editQuestion,
   getQuestions,
+  handleQuestion,
   QuestionResponse,
   QuestionsResponse,
   sendAnswer,
@@ -358,7 +359,7 @@ describe('Test question middleware', () => {
       const sendAnswerResponse = {
         question: {
           ...question,
-          isHandled: true,
+          handled: true,
           answer: { ...answer, id: 'answerId', author: 'author', sent: new Date().toISOString() },
         },
       } as QuestionResponse
@@ -391,6 +392,44 @@ describe('Test question middleware', () => {
       expect(fakeAxios.history.delete.length).toBe(1)
     })
   })
+
+  describe('Handle handleQuestion', () => {
+    it('shall set question to handled', async () => {
+      const question = createQuestion()
+      testStore.dispatch(updateQuestions([question]))
+      const handleQuestionResponse = {
+        question: {
+          ...question,
+          handled: true,
+        },
+      } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+
+      testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0].handled).toEqual(true)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+
+    it('shall set question to unhandled', async () => {
+      const question = createQuestion()
+      testStore.dispatch(updateQuestions([question]))
+      const handleQuestionResponse = {
+        question: {
+          ...question,
+          handled: false,
+        },
+      } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+
+      testStore.dispatch(handleQuestion({ questionId: question.id, handled: false }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0].handled).toEqual(false)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
 })
 
 const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => {
@@ -421,8 +460,8 @@ const createQuestion = (): Question => {
     type: QuestionType.COORDINATION,
     author: 'author',
     id: 'id',
-    isForwarded: true,
-    isHandled: false,
+    forwarded: true,
+    handled: false,
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',

@@ -21,6 +21,10 @@ import {
   getQuestionsError,
   getQuestionsStarted,
   getQuestionsSuccess,
+  handleQuestion,
+  handleQuestionError,
+  handleQuestionStarted,
+  handleQuestionSuccess,
   resetState,
   saveAnswer,
   saveAnswerError,
@@ -43,6 +47,7 @@ import {
   updateCertificateId,
   updateCreateQuestionsAvailable,
   updateDisplayValidationMessages,
+  updateHandledQuestion,
   updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
@@ -309,7 +314,7 @@ export const handleEditAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) =
   dispatch(saveAnswer(action.payload))
 }
 
-export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!saveAnswer.match(action)) {
@@ -330,7 +335,7 @@ export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch, getState }) =
   )
 }
 
-export const handleSaveAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleSaveAnswerSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!saveAnswerSuccess.match(action)) {
@@ -340,7 +345,7 @@ export const handleSaveAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getSta
   dispatch(updateAnswerDraftSaved({ isAnswerDraftSaved: true, questionId: action.payload.question.id }))
 }
 
-export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!sendAnswer.match(action)) {
@@ -361,7 +366,7 @@ export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch, getState }) =
   )
 }
 
-export const handleSendAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleSendAnswerSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!sendAnswerSuccess.match(action)) {
@@ -371,14 +376,12 @@ export const handleSendAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getSta
   dispatch(updateQuestion(action.payload.question))
 }
 
-export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!deleteAnswer.match(action)) {
     return
   }
-
-  console.log(action.payload)
 
   dispatch(
     apiCallBegan({
@@ -391,10 +394,43 @@ export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch, getState })
   )
 }
 
-export const handleDeleteAnswerSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleDeleteAnswerSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!deleteAnswerSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateQuestion(action.payload.question))
+}
+
+export const handleHandleQuestion: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!handleQuestion.match(action)) {
+    return
+  }
+
+  dispatch(updateHandledQuestion(action.payload))
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/question/' + action.payload.questionId + '/handle',
+      method: 'POST',
+      data: {
+        handled: action.payload.handled,
+      },
+      onStart: handleQuestionStarted.type,
+      onSuccess: handleQuestionSuccess.type,
+      onError: handleQuestionError.type,
+    })
+  )
+}
+
+export const handleHandleQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!handleQuestionSuccess.match(action)) {
     return
   }
 
@@ -423,4 +459,6 @@ export const questionMiddleware = [
   handleSendAnswerSuccess,
   handleDeleteAnswer,
   handleDeleteAnswerSuccess,
+  handleHandleQuestion,
+  handleHandleQuestionSuccess,
 ]

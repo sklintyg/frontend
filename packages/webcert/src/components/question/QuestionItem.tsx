@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {
   Answer,
   ButtonWithConfirmModal,
+  Checkbox,
   CustomButton,
   getResourceLink,
   Question,
@@ -14,7 +15,14 @@ import { format } from 'date-fns'
 import fkImg from './fk.png'
 import userImage from '../../images/user-image.svg'
 import { useDispatch, useSelector } from 'react-redux'
-import { createAnswer, deleteAnswer, editAnswer, sendAnswer, updateAnswerDraftSaved } from '../../store/question/questionActions'
+import {
+  createAnswer,
+  deleteAnswer,
+  editAnswer,
+  handleQuestion,
+  sendAnswer,
+  updateAnswerDraftSaved,
+} from '../../store/question/questionActions'
 import _ from 'lodash'
 import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
 
@@ -80,7 +88,17 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const handleDeleteAnswer = () => dispatch(deleteAnswer(question))
 
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) =>
+    dispatch(
+      handleQuestion({
+        questionId: question.id,
+        handled: event.currentTarget.checked,
+      })
+    )
+
   const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+
+  const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
   return (
     <Card className={'ic-card'}>
@@ -89,6 +107,22 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.author}</p>
+            {isHandleCheckboxVisible() && (
+              <Checkbox
+                id={'hanterad' + question.id}
+                label="Hanterad"
+                value="hanterad"
+                checked={question.handled}
+                vertical={true}
+                disabled={false}
+                onChange={handleChange}
+              />
+            )}
+            {!isHandleCheckboxVisible() && question.handled && (
+              <StatusWithIcon icon={'CheckIcon'} additionalTextStyles={'iu-fs-200 iu-color-grey-400'}>
+                Hanterad
+              </StatusWithIcon>
+            )}
           </Wrapper>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.subject}</p>
