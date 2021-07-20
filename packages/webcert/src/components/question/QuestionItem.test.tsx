@@ -7,7 +7,7 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionItem from './QuestionItem'
-import { Question, QuestionType } from '@frontend/common'
+import { Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 import { updateAnswerDraftSaved } from '../../store/question/questionActions'
 import MockAdapter from 'axios-mock-adapter'
@@ -45,10 +45,18 @@ describe('QuestionItem', () => {
     renderComponent(createQuestion())
   })
 
-  it('display answer button if the question is missing and answer', () => {
+  it('display answer button if the question has answer resource link', () => {
     renderComponent(createQuestion())
 
     expect(screen.getByText('Svara')).toBeInTheDocument()
+  })
+
+  it('dont display answer button if the question is missing answer resource link', () => {
+    const questionWithoutAnswerLink = createQuestion()
+    questionWithoutAnswerLink.links = []
+    renderComponent(questionWithoutAnswerLink)
+
+    expect(screen.queryByText('Svara')).not.toBeInTheDocument()
   })
 
   it('dont display answer button if the question has an answer', () => {
@@ -234,5 +242,13 @@ const createQuestion = (): Question => {
     message: 'message',
     sent: '2021-07-08',
     subject: 'subject',
+    links: [
+      {
+        type: ResourceLinkType.ANSWER_QUESTION,
+        enabled: true,
+        name: 'Svara',
+        description: 'Svara på fråga',
+      },
+    ],
   }
 }
