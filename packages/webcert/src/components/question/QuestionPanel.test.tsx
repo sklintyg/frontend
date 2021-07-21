@@ -111,6 +111,7 @@ function createQuestion(): Question {
     message: 'message',
     sent: '2021-07-08',
     subject: 'subject',
+    reminders: [],
     type: QuestionType.COORDINATION,
     links: [],
   }

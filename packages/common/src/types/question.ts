@@ -10,11 +10,19 @@ export interface Question {
   handled: boolean
   forwarded: boolean
   answer?: Answer
+  reminders: Reminder[]
   lastUpdate: string
   links: ResourceLink[]
 }
 
 export interface Answer {
+  id: string
+  message: string
+  author: string
+  sent: string
+}
+
+export interface Reminder {
   id: string
   message: string
   author: string

@@ -128,6 +128,7 @@ function defaultQuestionDraft() {
     handled: false,
     lastUpdate: '',
     links: [],
+    reminders: [],
   }
 }
 

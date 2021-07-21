@@ -286,6 +286,33 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.post[0].data).toBe('{"handled":false}')
     })
   })
+
+  describe('question with reminders', () => {
+    it('display reminder message', () => {
+      renderComponent(addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara'))
+
+      expect(screen.getByText(/Nu påminner vi er att svara/i)).toBeInTheDocument()
+    })
+
+    it('display reminder title', () => {
+      renderComponent(addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara'))
+
+      expect(screen.getByText(/Påminnelse/i)).toBeInTheDocument()
+    })
+
+    it('display reminder date/time', () => {
+      const question = addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara')
+      renderComponent(question)
+
+      expect(screen.getByText(question.reminders[0].sent, { exact: false })).toBeInTheDocument()
+    })
+
+    it('dont display reminder if the question has an answer', () => {
+      renderComponent(addAnswerToQuestion(addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara'), 'Svar'))
+
+      expect(screen.queryByText(/Påminnelse/i)).not.toBeInTheDocument()
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
@@ -302,6 +329,13 @@ const addAnswerToQuestion = (question: Question, message: string): Question => {
   } as Question
 }
 
+const addReminderToQuestion = (question: Question, message: string): Question => {
+  return {
+    ...question,
+    reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
+  } as Question
+}
+
 const createQuestion = (): Question => {
   return {
     type: QuestionType.COORDINATION,
@@ -313,6 +347,7 @@ const createQuestion = (): Question => {
     message: 'message',
     sent: '2021-07-08',
     subject: 'subject',
+    reminders: [],
     links: [
       {
         type: ResourceLinkType.ANSWER_QUESTION,
