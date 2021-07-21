@@ -466,6 +466,7 @@ const createQuestion = (): Question => {
     message: 'message',
     sent: '2021-07-08',
     subject: 'subject',
+    reminders: [],
     links: [],
   }
 }
