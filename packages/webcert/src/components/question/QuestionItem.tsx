@@ -34,6 +34,13 @@ const QuestionHeader = styled.div`
   justify-content: space-between;
 `
 
+const Reminder = styled.div`
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  padding: 5px;
+`
+
 const Card = styled.div`
   margin: 10px 0 10px 0;
   padding: 10px;
@@ -100,6 +107,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
+  const isRemindersVisible = () => question.reminders.length > 0 && !question.answer?.sent
+
   return (
     <Card className={'ic-card'}>
       <QuestionHeader>
@@ -130,6 +139,23 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </Wrapper>
         </div>
       </QuestionHeader>
+      {isRemindersVisible() &&
+        question.reminders.map((reminder) => (
+          <div className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
+            <Reminder key={reminder.id} className={'iu-fullwidth '}>
+              <i className={`ic-alert__icon ic-info-icon iu-m-none`}></i>
+              <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+                <Wrapper>
+                  <p className={'iu-fw-heading'}>{'Påminnelse'}</p>
+                  <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
+                </Wrapper>
+                <Wrapper>
+                  <div className={'iu-fullwidth'}>{reminder.message}</div>
+                </Wrapper>
+              </div>
+            </Reminder>
+          </div>
+        ))}
       <p className={'iu-mb-800'}>{question.message}</p>
       {isAnswerButtonVisible() && (
         <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
