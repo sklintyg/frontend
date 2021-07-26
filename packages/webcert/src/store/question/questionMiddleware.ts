@@ -45,6 +45,7 @@ import {
   updateAnswer,
   updateAnswerDraftSaved,
   updateCertificateId,
+  updateComplements,
   updateCreateQuestionsAvailable,
   updateDisplayValidationMessages,
   updateHandledQuestion,
@@ -60,7 +61,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
-import { Answer, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Answer, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -108,6 +109,15 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
         })
       )
     )
+
+  const totalComplements = action.payload.questions
+    .filter((question) => question.type === QuestionType.COMPLEMENT)
+    .reduce((totalComplements, question) => {
+      totalComplements.push(...question.complements)
+      return totalComplements
+    }, [] as Complement[])
+
+  dispatch(updateComplements(totalComplements))
 }
 
 export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
@@ -127,6 +137,16 @@ export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (
     dispatch(updateCertificateId(action.payload.metadata.id))
     dispatch(getQuestions(action.payload.metadata.id))
   }
+}
+
+export const handleResetState: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!resetState.match(action)) {
+    return
+  }
+
+  dispatch(updateComplements([]))
 }
 
 export const handleDeleteQuestion: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -443,6 +463,7 @@ export const questionMiddleware = [
   handleUpdateCertificate,
   handleDeleteQuestion,
   handleDeleteQuestionSuccess,
+  handleResetState,
   handleEditQuestion,
   handleValidateQuestion,
   handleSaveQuestion,

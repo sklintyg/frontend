@@ -45,7 +45,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
     <>
       <CustomButton
         tooltip={props.description}
-        style={props.buttonStyle ? props.buttonStyle : 'primary'}
+        buttonStyle={props.buttonStyle ? props.buttonStyle : 'primary'}
         disabled={props.disabled}
         className={props.additionalButtonStyles}
         onClick={handleClickOpen}
@@ -60,13 +60,13 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         buttons={
           <>
             <CustomButton
-              style={props.confirmButtonStyle ? props.confirmButtonStyle : 'primary'}
+              buttonStyle={props.confirmButtonStyle ? props.confirmButtonStyle : 'primary'}
               className={props.additionalConfirmButtonStyles}
               disabled={props.confirmButtonDisabled}
               onClick={handleConfirm}
               text={props.confirmButtonText}
             />
-            <CustomButton onClick={handleClose} style="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
+            <CustomButton onClick={handleClose} buttonStyle="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
           </>
         }
       />

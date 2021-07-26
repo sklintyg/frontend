@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -9,16 +9,21 @@ import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
 import { updateCreateQuestionsAvailable, updateQuestions } from '../../store/question/questionActions'
 import { Question, QuestionType } from '@frontend/common'
+import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-const renderDefaultComponent = () => {
+const renderDefaultComponent = (questions: Question[], isQuestionFormVisible: boolean, questionDraft: Question) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <QuestionPanel tabIndex={0} selectedTabIndex={0} minimizeSidePanel={<></>} />
+        <AdministrativeQuestionPanel
+          administrativeQuestions={questions}
+          isQuestionFormVisible={isQuestionFormVisible}
+          administrativeQuestionDraft={questionDraft}
+        />
       </Router>
     </Provider>
   )
@@ -33,42 +38,19 @@ describe('QuestionPanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
-  })
-
-  it('displays header for administrative questions', () => {
-    renderDefaultComponent()
-    expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
+    renderDefaultComponent([], true, testStore.getState().ui.uiQuestion.questionDraft)
   })
 
   it('displays text when there are no questions', () => {
-    renderDefaultComponent()
+    renderDefaultComponent([], true, testStore.getState().ui.uiQuestion.questionDraft)
     expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
-  })
-
-  it('displays number of questions in the header', () => {
-    testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
-    renderDefaultComponent()
-
-    const component = screen.getByText('Administrativa frågor')
-    const numberOfQuestions = within(component).getByText('2')
-    expect(numberOfQuestions).toBeInTheDocument()
-  })
-
-  it('displays no number of questions in the header', () => {
-    renderDefaultComponent()
-
-    const component = screen.getByText('Administrativa frågor')
-    const numberOfQuestions = within(component).queryByText('0')
-    expect(numberOfQuestions).not.toBeInTheDocument()
   })
 
   describe('renders a question', () => {
     const expectedQuestion = createQuestion()
 
     beforeEach(() => {
-      testStore.dispatch(updateQuestions([expectedQuestion]))
-      renderDefaultComponent()
+      renderDefaultComponent([expectedQuestion], true, testStore.getState().ui.uiQuestion.questionDraft)
     })
 
     it('displays author', () => {
@@ -89,14 +71,12 @@ describe('QuestionPanel', () => {
   })
 
   it('displays form to create new questions', () => {
-    testStore.dispatch(updateCreateQuestionsAvailable(true))
-    renderDefaultComponent()
+    renderDefaultComponent([], true, testStore.getState().ui.uiQuestion.questionDraft)
     expect(screen.getByText('Här kan du ställa en ny fråga till Försäkringskassan.')).toBeInTheDocument()
   })
 
   it('do not displays form to create new questions', () => {
-    testStore.dispatch(updateCreateQuestionsAvailable(false))
-    renderDefaultComponent()
+    renderDefaultComponent([], false, testStore.getState().ui.uiQuestion.questionDraft)
     expect(screen.queryByText('Här kan du ställa en ny fråga till Försäkringskassan.')).not.toBeInTheDocument()
   })
 })

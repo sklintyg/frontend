@@ -1,4 +1,4 @@
-import { Answer, Question } from '@frontend/common'
+import { Answer, Complement, Question } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 
 export const getQuestions = createAction<string>('[Question] Get questions')
@@ -121,3 +121,12 @@ export const handleQuestionStarted = createAction('[Question] Handle question st
 export const handleQuestionSuccess = createAction<QuestionResponse>('[Question] Handle question success')
 export const handleQuestionError = createAction<string>('[Question] Handle question error')
 export const updateHandledQuestion = createAction<HandleQuestionPayload>('[Question] Update handled question')
+
+interface GotoComplementPayload {
+  questionId: string
+  valueId: string
+}
+
+export const gotoComplement = createAction<GotoComplementPayload>('[Question] Go to complement')
+
+export const updateComplements = createAction<Complement[]>('[Question] Update complements')

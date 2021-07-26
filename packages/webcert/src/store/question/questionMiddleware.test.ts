@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Answer, Certificate, Question, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Answer, Certificate, Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -18,11 +18,13 @@ import {
   QuestionsResponse,
   sendAnswer,
   sendQuestion,
+  updateComplements,
   updateCreateQuestionsAvailable,
   updateQuestionDraft,
   updateQuestions,
   validateQuestion,
 } from './questionActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -35,8 +37,12 @@ describe('Test question middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...questionMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...questionMiddleware),
     })
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
   })
 
   describe('Handle GetQuestions', () => {
@@ -101,6 +107,22 @@ describe('Test question middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
       expect(testStore.getState().ui.uiQuestion.isAnswerDraftSaved[expectedQuestion.id]).toBeTruthy()
+    })
+
+    it('shall handle get questions with complements', async () => {
+      const expectedComplements = [
+        { message: 'Vi behöver komplettering', valueId: 'valueId', questionId: 'questionId', questionText: 'questionText' },
+      ] as Complement[]
+      const expectedQuestion = addComplementsToQuestion(createQuestion(), expectedComplements)
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/certificateId').reply(200, getQuestionResponse)
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      const updateComplementsAction = dispatchedActions.find((action) => updateComplements.match(action))
+      expect(updateComplementsAction?.payload).toEqual(expectedComplements)
+      expect(testStore.getState().ui.uiQuestion.questions[0].complements).toEqual(expectedComplements)
     })
   })
 
@@ -455,6 +477,14 @@ const addAnswerToQuestion = (question: Question, message: string): Question => {
   } as Question
 }
 
+const addComplementsToQuestion = (question: Question, complements: Complement[]): Question => {
+  return {
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [...complements],
+  } as Question
+}
+
 const createQuestion = (): Question => {
   return {
     type: QuestionType.COORDINATION,
@@ -465,6 +495,7 @@ const createQuestion = (): Question => {
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',
+    complements: [],
     subject: 'subject',
     reminders: [],
     links: [],

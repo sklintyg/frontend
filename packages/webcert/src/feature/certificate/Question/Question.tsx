@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from '../Inputs/UeRadio'
-import { UvText, CertificateDataConfig, CertificateDataElement, ConfigTypes, Expandable, Accordion, MandatoryIcon } from '@frontend/common'
-import { getIsLocked, getQuestion, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { Accordion, CertificateDataConfig, CertificateDataElement, ConfigTypes, Expandable, MandatoryIcon, UvText } from '@frontend/common'
+import { getComplements, getIsLocked, getQuestion, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
@@ -12,13 +12,27 @@ import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeDiagnoses from '../Inputs/UeDiagnoses'
+import styled from 'styled-components'
 
 interface QuestionProps {
   id: string
 }
 
+const Complement = styled.div`
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  padding: 5px;
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id))
+  const complements = useSelector(getComplements(id))
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
   const isShowValidationError = useSelector(getShowValidationErrors)
@@ -46,12 +60,29 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
-      <QuestionWrapper>
-        {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-        {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
-      </QuestionWrapper>
-    </Expandable>
+    <div className={complements.length > 0 ? 'iu-border-main iu-radius-card' : ''}>
+      <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
+        <QuestionWrapper>
+          {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
+          {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
+          {complements.map((complement, index) => (
+            <div key={index} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
+              <Complement key={complement.valueId} className={'iu-fullwidth '}>
+                <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
+                <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+                  <Wrapper>
+                    <p className={'iu-fw-heading'}>{'Kompletteringsbegäran:'}</p>
+                  </Wrapper>
+                  <Wrapper>
+                    <div className={'iu-fullwidth'}>{complement.message}</div>
+                  </Wrapper>
+                </div>
+              </Complement>
+            </div>
+          ))}
+        </QuestionWrapper>
+      </Expandable>
+    </div>
   )
 
   function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
@@ -63,15 +94,17 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       return (
         <Accordion
           header={question.config.header}
+          titleId={question.id}
           title={question.config.text}
           description={question.config.description}
           displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading iu-mb-300"></Accordion>
+          additionalStyles="iu-fw-heading iu-mb-300"
+        />
       )
     }
     return (
       <>
-        <MandatoryIcon display={displayMandatory}></MandatoryIcon>
+        <MandatoryIcon display={displayMandatory} />
         {getHeading()}
       </>
     )

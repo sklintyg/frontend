@@ -8,6 +8,7 @@ import {
   ValidationError,
   CertificateMetadata,
   CertificateEvent,
+  Complement,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 
@@ -96,6 +97,9 @@ const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
+const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
+const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
+const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
@@ -334,3 +338,14 @@ export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
 
 export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
+
+export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
+
+export interface GotoCertificateDataElement {
+  questionId: string
+  valueId: string
+}
+
+export const updateGotoCertificateDataElement = createAction<GotoCertificateDataElement>(UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT)
+
+export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
