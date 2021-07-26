@@ -1,6 +1,14 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { Dropdown, Question, StatusWithIcon, ValidationText } from '@frontend/common'
-import { ButtonWithConfirmModal, CustomButton, QuestionType, TextArea } from '@frontend/common/src'
+import {
+  ButtonWithConfirmModal,
+  CustomButton,
+  Dropdown,
+  Question,
+  QuestionType,
+  StatusWithIcon,
+  TextArea,
+  ValidationText,
+} from '@frontend/common'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
@@ -76,6 +84,8 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
         return 'Kontakt'
       case QuestionType.OTHER:
         return 'Övrigt'
+      default:
+        return type
     }
   }
 
@@ -84,52 +94,56 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const showMessageValidationError = () => showValidationMessages && isMissingMessage
 
   return (
-    <div className="ic-forms__group iu-bg-white iu-m-y-300">
-      <Wrapper>
-        <h4 className={'iu-fs-300'}>Här kan du ställa en ny fråga till Försäkringskassan.</h4>
-        <div className="ic-forms__group">
-          <Dropdown
-            options={subjects.map((subject) => (
-              <option key={subject} value={subject} label={getQuestionTypeName(subject)} />
-            ))}
-            onChange={onDropdownChange}
-            id={'question_form_dropdown'}
-            value={questionDraft.type}
-            hasValidationError={showTypeValidationError()}
-          />
-          {showTypeValidationError() && (
-            <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />
-          )}
-        </div>
-        <div className="ic-forms__group">
-          <TextArea value={message} onChange={onTextAreaChange} hasValidationError={showMessageValidationError()} />
-          {showMessageValidationError() && (
-            <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />
-          )}
-        </div>
-        <QuestionFormFooter>
-          <div className="ic-forms__group ic-button-group iu-my-400">
-            <CustomButton
-              disabled={isFormEmpty}
-              style={'primary'}
-              onClick={handleSendQuestion}
-              text={'Skicka'}
-              tooltipClassName={'iu-ml-none'}
+    <div className="iu-mb-300">
+      <div className="ic-forms__group iu-bg-white iu-m-y-300">
+        <Wrapper>
+          <h4 className={'iu-fs-300'}>Här kan du ställa en ny fråga till Försäkringskassan.</h4>
+          <div className="ic-forms__group">
+            <Dropdown
+              options={subjects
+                .filter((subject) => subject !== QuestionType.COMPLEMENT)
+                .map((subject) => (
+                  <option key={subject} value={subject} label={getQuestionTypeName(subject)} />
+                ))}
+              onChange={onDropdownChange}
+              id={'question_form_dropdown'}
+              value={questionDraft.type}
+              hasValidationError={showTypeValidationError()}
             />
-            <ButtonWithConfirmModal
-              disabled={isFormEmpty}
-              buttonStyle={'default'}
-              modalTitle={'Radera påbörjad fråga'}
-              confirmButtonText={'Ja, radera'}
-              description={''}
-              name={'Avbryt'}
-              onConfirm={handleDeleteQuestion}>
-              <p>Är du säker på att du vill radera din påbörjade fråga?</p>
-            </ButtonWithConfirmModal>
+            {showTypeValidationError() && (
+              <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />
+            )}
           </div>
-          {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
-        </QuestionFormFooter>
-      </Wrapper>
+          <div className="ic-forms__group">
+            <TextArea value={message} onChange={onTextAreaChange} hasValidationError={showMessageValidationError()} />
+            {showMessageValidationError() && (
+              <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />
+            )}
+          </div>
+          <QuestionFormFooter>
+            <div className="ic-forms__group ic-button-group iu-my-400">
+              <CustomButton
+                disabled={isFormEmpty}
+                buttonStyle={'primary'}
+                onClick={handleSendQuestion}
+                text={'Skicka'}
+                tooltipClassName={'iu-ml-none'}
+              />
+              <ButtonWithConfirmModal
+                disabled={isFormEmpty}
+                buttonStyle={'default'}
+                modalTitle={'Radera påbörjad fråga'}
+                confirmButtonText={'Ja, radera'}
+                description={''}
+                name={'Avbryt'}
+                onConfirm={handleDeleteQuestion}>
+                <p>Är du säker på att du vill radera din påbörjade fråga?</p>
+              </ButtonWithConfirmModal>
+            </div>
+            {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
+          </QuestionFormFooter>
+        </Wrapper>
+      </div>
     </div>
   )
 }

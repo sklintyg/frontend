@@ -7,12 +7,13 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionItem from './QuestionItem'
-import { Question, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
-import { updateAnswerDraftSaved } from '../../store/question/questionActions'
+import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import apiMiddleware from '../../store/api/apiMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -37,8 +38,12 @@ describe('QuestionItem', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...questionMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...questionMiddleware),
     })
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
   })
 
   it('renders without crashing', () => {
@@ -313,6 +318,37 @@ describe('QuestionItem', () => {
       expect(screen.queryByText(/Påminnelse/i)).not.toBeInTheDocument()
     })
   })
+
+  describe('question with complements', () => {
+    beforeEach(() => {
+      renderComponent(
+        addComplementsToQuestion(createQuestion(), [
+          {
+            questionId: 'questionId',
+            valueId: 'valueId',
+            questionText: 'questionText',
+            message: 'complementMessage',
+          },
+        ])
+      )
+    })
+
+    it('display complement title', () => {
+      expect(screen.getByText(/Visa kompletteringsbegäran för:/i)).toBeInTheDocument()
+    })
+
+    it('display complement question', () => {
+      expect(screen.getByText(/questionText/i)).toBeInTheDocument()
+    })
+
+    it('goto question if complement clicked', () => {
+      userEvent.click(screen.getByText(/questionText/i))
+
+      flushPromises()
+      const updateComplementsAction = dispatchedActions.find((action) => gotoComplement.match(action))
+      expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
@@ -336,6 +372,14 @@ const addReminderToQuestion = (question: Question, message: string): Question =>
   } as Question
 }
 
+const addComplementsToQuestion = (question: Question, complements: Complement[]): Question => {
+  return {
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [...complements],
+  } as Question
+}
+
 const createQuestion = (): Question => {
   return {
     type: QuestionType.COORDINATION,
@@ -346,6 +390,8 @@ const createQuestion = (): Question => {
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',
+
+    complements: [],
     subject: 'subject',
     reminders: [],
     links: [

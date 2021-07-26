@@ -1,16 +1,15 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getQuestionDraft, getQuestions, isCreateQuestionsAvailable } from '../../store/question/questionSelectors'
-import QuestionItem from './QuestionItem'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { CustomButton, ImageCentered } from '@frontend/common'
-import noQuestionsImg from './fragor_svar_nodata.svg'
-import QuestionForm from './QuestionForm'
+import { CustomButton, QuestionType } from '@frontend/common'
+import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
+import ComplementQuestionPanel from './ComplementQuestionPanel'
 
-const QuestionWrapper = styled.div`
-  height: 100%;
-  overflow-y: auto;
+const HeaderButtons = styled.div`
+  display: flex;
+  align-items: stretch;
 `
 
 const Wrapper = styled.div`
@@ -28,38 +27,44 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
+  const [isComplementSelected, setComplementSelected] = useState(true)
+
+  const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
+  const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
 
   const getHeaderButtons = () => {
     return (
-      <CustomButton
-        text={'Administrativa frågor'}
-        number={questions.length > 0 ? questions.length : undefined}
-        style={'primary'}
-        rounded={true}
-      />
-    )
-  }
-
-  const getNoQuestionsMessage = () => {
-    return (
-      <div className="iu-mt-300">
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
-          <p>Det finns inga administrativa frågor för detta intyg.</p>
-        </ImageCentered>
-      </div>
+      <HeaderButtons>
+        <CustomButton
+          text={'Kompletteringsbegäran'}
+          number={complementQuestions.length > 0 ? complementQuestions.length : undefined}
+          buttonStyle={'primary'}
+          rounded={true}
+          onClick={() => setComplementSelected(true)}
+        />
+        <CustomButton
+          text={'Administrativa frågor'}
+          number={administrativeQuestions.length > 0 ? administrativeQuestions.length : undefined}
+          buttonStyle={'primary'}
+          rounded={true}
+          onClick={() => setComplementSelected(false)}
+        />
+      </HeaderButtons>
     )
   }
 
   return (
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
-      <QuestionWrapper>
-        {isQuestionFormVisible && <QuestionForm questionDraft={questionDraft} />}
-        <div className={'iu-bg-white'}>
-          {questions && questions.map((question) => <QuestionItem key={question.id} question={question} />)}
-          {questions && questions.length === 0 && getNoQuestionsMessage()}
-        </div>
-      </QuestionWrapper>
+      {isComplementSelected ? (
+        <ComplementQuestionPanel complementQuestions={complementQuestions} />
+      ) : (
+        <AdministrativeQuestionPanel
+          administrativeQuestions={administrativeQuestions}
+          isQuestionFormVisible={isQuestionFormVisible}
+          administrativeQuestionDraft={questionDraft}
+        />
+      )}
     </Wrapper>
   )
 }

@@ -14,11 +14,13 @@ import {
 import { format } from 'date-fns'
 import fkImg from './fk.png'
 import userImage from '../../images/user-image.svg'
+import arrowLeft from '../../images/arrow-left.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createAnswer,
   deleteAnswer,
   editAnswer,
+  gotoComplement,
   handleQuestion,
   sendAnswer,
   updateAnswerDraftSaved,
@@ -41,8 +43,22 @@ const Reminder = styled.div`
   padding: 5px;
 `
 
+const ComplementCard = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+`
+
+const Complement = styled.div`
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  padding: 5px;
+`
+
 const Card = styled.div`
-  margin: 10px 0 10px 0;
+  margin: 0 0 10px 0;
   padding: 10px;
   border-bottom: 10px solid #f7f4f2;
 `
@@ -109,10 +125,16 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const isRemindersVisible = () => question.reminders.length > 0 && !question.answer?.sent
 
+  const isComplementsVisible = () => question.complements.length > 0
+
+  const onClickComplement = (questionId: string, valueId: string): void => {
+    dispatch(gotoComplement({ questionId, valueId }))
+  }
+
   return (
     <Card className={'ic-card'}>
       <QuestionHeader>
-        <img src={getImageSrc(question.author)} className={'iu-mr-200'} />
+        <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.author}</p>
@@ -143,7 +165,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         question.reminders.map((reminder) => (
           <div className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
             <Reminder key={reminder.id} className={'iu-fullwidth '}>
-              <i className={`ic-alert__icon ic-info-icon iu-m-none`}></i>
+              <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
               <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
                 <Wrapper>
                   <p className={'iu-fw-heading'}>{'Påminnelse'}</p>
@@ -156,9 +178,33 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
-      <p className={'iu-mb-800'}>{question.message}</p>
+      <p className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>{question.message}</p>
+      {isComplementsVisible() &&
+        question.complements.map((complement) => (
+          <ComplementCard
+            key={complement.questionId}
+            className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200`}
+            onClick={() => onClickComplement(complement.questionId, complement.valueId)}>
+            <img
+              src={arrowLeft}
+              className={'iu-svg-icon iu-ml-200'}
+              style={{ width: '1rem', height: '1rem', transform: 'rotate(90deg)' }}
+              alt={'Pil'}
+            />
+            <Complement key={complement.questionId} className={'iu-fullwidth'}>
+              <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+                <Wrapper>
+                  <p className={'iu-fw-heading iu-color-grey-400 iu-mb-200'}>{'Visa kompletteringsbegäran för:'}</p>
+                </Wrapper>
+                <Wrapper>
+                  <div className={'iu-fullwidth iu-color-main  iu-text-left'}>{complement.questionText}</div>
+                </Wrapper>
+              </div>
+            </Complement>
+          </ComplementCard>
+        ))}
       {isAnswerButtonVisible() && (
-        <CustomButton style={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
+        <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
       )}
       {question.answer && !question.answer.id && (
         <>
@@ -169,7 +215,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
                 disabled={isFormEmpty}
-                style={'primary'}
+                buttonStyle={'primary'}
                 onClick={handleSendAnswer}
                 text={'Skicka'}
                 tooltipClassName={'iu-ml-none'}
@@ -192,7 +238,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       {question.answer && question.answer.id && (
         <>
           <QuestionHeader>
-            <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} />
+            <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
             <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
               <Wrapper>
                 <p className={'iu-fw-heading'}>{question.answer.author}</p>

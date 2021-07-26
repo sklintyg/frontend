@@ -7,6 +7,7 @@ export interface Question {
   message: string
   author: string
   sent: string
+  complements: Complement[]
   handled: boolean
   forwarded: boolean
   answer?: Answer
@@ -29,9 +30,17 @@ export interface Reminder {
   sent: string
 }
 
+export interface Complement {
+  questionId: string
+  questionText: string
+  valueId: string
+  message: string
+}
+
 export enum QuestionType {
   MISSING = 'MISSING',
   COORDINATION = 'COORDINATION',
   CONTACT = 'CONTACT',
   OTHER = 'OTHER',
+  COMPLEMENT = 'COMPLEMENT',
 }

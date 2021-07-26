@@ -29,7 +29,7 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
         handleClose={handleClose}
         title={modalTitle}
         content={children}
-        buttons={<CustomButton onClick={handleClose} style="default" text="Stäng" />}
+        buttons={<CustomButton onClick={handleClose} buttonStyle="default" text="Stäng" />}
       />
     </>
   )

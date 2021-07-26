@@ -64,7 +64,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
         tooltip={description}
         disabled={!enabled}
         text={name}
-        style={'primary'}
+        buttonStyle={'primary'}
         startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg"></FontAwesomeIcon>}
         onClick={handleClick}
       />

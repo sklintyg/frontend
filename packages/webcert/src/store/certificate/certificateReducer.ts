@@ -1,9 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Certificate, ConfigTypes } from '@frontend/common'
 import {
-  enableCertificateDataElement,
+  Certificate,
+  CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  CertificateEvent,
+  Complement,
+  ConfigTypes,
+  ConfigUeCheckboxMultipleCodes,
+  ValueBoolean,
+  ValueCode,
+  ValueCodeList,
+  ValueText,
+} from '@frontend/common'
+import {
+  clearGotoCertificateDataElement,
   disableCertificateDataElement,
-  unhideCertificateDataElement,
+  enableCertificateDataElement,
+  GotoCertificateDataElement,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -15,27 +29,19 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
+  unhideCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
+  updateCertificateComplements,
   updateCertificateEvents,
   updateCertificateStatus,
   updateCertificateVersion,
+  updateGotoCertificateDataElement,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import {
-  ValueBoolean,
-  CertificateDataValueType,
-  CertificateDataValidationType,
-  ValueText,
-  CertificateEvent,
-  CertificateDataElement,
-  ConfigUeCheckboxMultipleCodes,
-  ValueCodeList,
-  ValueCode,
-} from '@frontend/common'
 
 interface CertificateState {
   certificate?: Certificate
@@ -46,6 +52,8 @@ interface CertificateState {
   showValidationErrors: boolean
   isValidForSigning: boolean
   isDeleted: boolean
+  complements: Complement[]
+  gotoCertificateDataElement?: GotoCertificateDataElement
 }
 
 const initialState: CertificateState = {
@@ -56,6 +64,7 @@ const initialState: CertificateState = {
   showValidationErrors: false,
   isValidForSigning: false,
   isDeleted: false,
+  complements: [],
 }
 
 const certificateReducer = createReducer(initialState, (builder) =>
@@ -241,9 +250,19 @@ const certificateReducer = createReducer(initialState, (builder) =>
             }
           }
         }
+
         return item
       })
       state.certificate.data[action.payload.id].config.list = updatedList
+    })
+    .addCase(updateCertificateComplements, (state, action) => {
+      state.complements = action.payload
+    })
+    .addCase(updateGotoCertificateDataElement, (state, action) => {
+      state.gotoCertificateDataElement = action.payload
+    })
+    .addCase(clearGotoCertificateDataElement, (state) => {
+      state.gotoCertificateDataElement = undefined
     })
 )
 

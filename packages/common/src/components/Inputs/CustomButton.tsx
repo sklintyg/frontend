@@ -7,8 +7,9 @@ const NumberCircle = styled.span`
   height: 0px;
   padding: 11px;
 `
+
 interface Props {
-  style?: 'primary' | 'secondary' | 'success' | 'default'
+  buttonStyle?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
@@ -31,7 +32,7 @@ export const CustomButton: React.FC<Props> = (props) => {
   if (props.disabled) {
     addedClass += 'ic-button--disabled'
   } else {
-    switch (props.style) {
+    switch (props.buttonStyle) {
       case 'success':
         addedClass += 'ic-button--primary iu-bg-grass-base iu-border-grass-base'
         break
@@ -58,7 +59,9 @@ export const CustomButton: React.FC<Props> = (props) => {
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
-        {props.number && <NumberCircle className={'ic-button--circle iu-ml-300 ic-button--secondary'}>{props.number}</NumberCircle>}
+        {props.number && (
+          <NumberCircle className={'ic-notification iu-ml-300 iu-bg-white iu-color-main iu-fs-xs'}>{props.number}</NumberCircle>
+        )}
       </button>
     </ButtonTooltip>
   )

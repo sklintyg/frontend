@@ -34,13 +34,14 @@ const StyledButton = styled.button`
 
 interface Props {
   title: string
+  titleId: string
   header?: string
   description: string
   additionalStyles?: string
   displayMandatory?: boolean
 }
 
-const Accordion: React.FC<Props> = ({ title, description, additionalStyles, displayMandatory, header }) => {
+const Accordion: React.FC<Props> = ({ title, titleId, description, additionalStyles, displayMandatory, header }) => {
   const expandableRef = useRef<null | HTMLDivElement>(null)
   const expandBtn = useRef<null | HTMLButtonElement>(null)
   const hasHeader = header !== null && header !== '' && header !== undefined
@@ -97,7 +98,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
   }
 
   return (
-    <>
+    <div id={titleId}>
       {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
       <div className="ic-expandable" ref={expandableRef}>
         {getHeader()}
@@ -108,7 +109,7 @@ const Accordion: React.FC<Props> = ({ title, description, additionalStyles, disp
             dangerouslySetInnerHTML={{ __html: description }}></Text>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

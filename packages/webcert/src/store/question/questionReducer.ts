@@ -116,12 +116,13 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
 )
 
-function defaultQuestionDraft() {
+function defaultQuestionDraft(): Question {
   return {
     id: '',
     type: QuestionType.MISSING,
     subject: '',
     sent: '',
+    complements: [],
     message: '',
     author: '',
     forwarded: false,

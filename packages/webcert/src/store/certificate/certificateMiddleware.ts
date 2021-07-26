@@ -70,10 +70,12 @@ import {
   unhideCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
+  updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificateUnit,
   updateCertificateVersion,
+  updateGotoCertificateDataElement,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -87,6 +89,7 @@ import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
+import { gotoComplement, updateComplements } from '../question/questionActions'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -551,6 +554,26 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(validateCertificateCompleted())
 }
 
+const handleUpdateComplements: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!updateComplements.match(action)) {
+    return
+  }
+
+  dispatch(updateCertificateComplements(action.payload))
+}
+
+const handleGotoComplement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!gotoComplement.match(action)) {
+    return
+  }
+
+  dispatch(updateGotoCertificateDataElement(action.payload))
+}
+
 const handlePrintCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
@@ -651,4 +674,6 @@ export const certificateMiddleware = [
   handleCopyCertificateSuccess,
   handleSendCertificate,
   handleSendCertificateSuccess,
+  handleUpdateComplements,
+  handleGotoComplement,
 ]
