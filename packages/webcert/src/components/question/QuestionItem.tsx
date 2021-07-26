@@ -4,9 +4,11 @@ import {
   Answer,
   ButtonWithConfirmModal,
   Checkbox,
+  CheckboxWithConfirmModal,
   CustomButton,
   getResourceLink,
   Question,
+  QuestionType,
   ResourceLinkType,
   StatusWithIcon,
   TextArea,
@@ -119,36 +121,58 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       })
     )
 
+  const handleSelect = (isSelected: boolean) =>
+    dispatch(
+      handleQuestion({
+        questionId: question.id,
+        handled: isSelected,
+      })
+    )
+
   const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
   const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
-  const isRemindersVisible = () => question.reminders.length > 0 && !question.answer?.sent
+  const isRemindersVisible = () => question.reminders.length > 0 && !question.handled
 
   const isComplementsVisible = () => question.complements.length > 0
+
+  const isComplementQuestion = () => question.type === QuestionType.COMPLEMENT
 
   const onClickComplement = (questionId: string, valueId: string): void => {
     dispatch(gotoComplement({ questionId, valueId }))
   }
 
   return (
-    <Card className={'ic-card'}>
+    <Card key={question.id} className={'ic-card'}>
       <QuestionHeader>
         <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
         <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
           <Wrapper>
             <p className={'iu-fw-heading'}>{question.author}</p>
-            {isHandleCheckboxVisible() && (
-              <Checkbox
-                id={'hanterad' + question.id}
-                label="Hanterad"
-                value="hanterad"
-                checked={question.handled}
-                vertical={true}
-                disabled={false}
-                onChange={handleChange}
-              />
-            )}
+            {isHandleCheckboxVisible() &&
+              (isComplementQuestion() ? (
+                <CheckboxWithConfirmModal
+                  checked={question.handled}
+                  disabled={false}
+                  buttonStyle={'default'}
+                  modalTitle={'Markera som hanterad'}
+                  confirmButtonText={'Markera som hanterad'}
+                  name={'Hanterad'}
+                  onConfirm={(isSelected: boolean) => handleSelect(isSelected)}>
+                  <p>När ett intyg markeras som hanterad kan detta inte ångras senare.</p>
+                </CheckboxWithConfirmModal>
+              ) : (
+                <Checkbox
+                  id={'hanterad' + question.id}
+                  label="Hanterad"
+                  value="hanterad"
+                  checked={question.handled}
+                  vertical={true}
+                  disabled={false}
+                  onChange={handleChange}
+                />
+              ))}
             {!isHandleCheckboxVisible() && question.handled && (
               <StatusWithIcon icon={'CheckIcon'} additionalTextStyles={'iu-fs-200 iu-color-grey-400'}>
                 Hanterad
