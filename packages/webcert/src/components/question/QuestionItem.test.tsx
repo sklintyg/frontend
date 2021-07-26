@@ -210,7 +210,7 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).not.toBe(0)
     })
 
-    it('shall not delete answer when delete is confirmed', async () => {
+    it('shall not delete answer when delete is cancelled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
@@ -290,6 +290,44 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.post.length).toBe(1)
       expect(fakeAxios.history.post[0].data).toBe('{"handled":false}')
     })
+
+    it('shall set as handled when handle is confirmed', async () => {
+      renderComponent(
+        addComplementsToQuestion(createQuestion(), [
+          {
+            questionId: 'questionId',
+            valueId: 'valueId',
+            questionText: 'questionText',
+            message: 'complementMessage',
+          },
+        ])
+      )
+
+      userEvent.click(screen.getByText('Hanterad'))
+      userEvent.click(screen.getAllByText('Markera som hanterad')[1])
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).not.toBe(0)
+    })
+
+    it('shall not set as handled when handle is cancelled', async () => {
+      renderComponent(
+        addComplementsToQuestion(createQuestion(), [
+          {
+            questionId: 'questionId',
+            valueId: 'valueId',
+            questionText: 'questionText',
+            message: 'complementMessage',
+          },
+        ])
+      )
+
+      userEvent.click(screen.getByText('Hanterad'))
+      userEvent.click(screen.getByText('Avbryt'))
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(0)
+    })
   })
 
   describe('question with reminders', () => {
@@ -312,8 +350,8 @@ describe('QuestionItem', () => {
       expect(screen.getByText(question.reminders[0].sent, { exact: false })).toBeInTheDocument()
     })
 
-    it('dont display reminder if the question has an answer', () => {
-      renderComponent(addAnswerToQuestion(addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara'), 'Svar'))
+    it('dont display reminder if the question is handled', () => {
+      renderComponent(handleQuestion(addReminderToQuestion(createQuestion(), 'Nu påminner vi er att svara')))
 
       expect(screen.queryByText(/Påminnelse/i)).not.toBeInTheDocument()
     })
@@ -369,6 +407,13 @@ const addReminderToQuestion = (question: Question, message: string): Question =>
   return {
     ...question,
     reminders: [{ author: 'Försäkringskassan', id: 'reminderId', message, sent: '2021-07-16' }],
+  } as Question
+}
+
+const handleQuestion = (question: Question): Question => {
+  return {
+    ...question,
+    handled: true,
   } as Question
 }
 
