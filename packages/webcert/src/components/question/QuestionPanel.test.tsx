@@ -7,7 +7,7 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
-import { updateCreateQuestionsAvailable, updateQuestions } from '../../store/question/questionActions'
+import { updateQuestions } from '../../store/question/questionActions'
 import { Question, QuestionType } from '@frontend/common'
 
 let testStore: EnhancedStore
@@ -36,17 +36,34 @@ describe('QuestionPanel', () => {
     renderDefaultComponent()
   })
 
-  it('displays header for administrative questions', () => {
+  it('displays header for complement questions', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
+  })
+
+  it('displays number of questions in the complement questions header', () => {
+    testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion()), addComplementsToQuestion(createQuestion())]))
+    renderDefaultComponent()
+
+    const component = screen.getByText('Kompletteringsbegäran')
+    const numberOfQuestions = within(component).getByText('2')
+    expect(numberOfQuestions).toBeInTheDocument()
+  })
+
+  it('displays no number of questions in the complement questions header', () => {
+    renderDefaultComponent()
+
+    const component = screen.getByText('Kompletteringsbegäran')
+    const numberOfQuestions = within(component).queryByText('0')
+    expect(numberOfQuestions).not.toBeInTheDocument()
+  })
+
+  it('displays number of questions in the administrative questions header', () => {
     renderDefaultComponent()
     expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
   })
 
-  it('displays text when there are no questions', () => {
-    renderDefaultComponent()
-    expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
-  })
-
-  it('displays number of questions in the header', () => {
+  it('displays number of questions in the administrative questions header', () => {
     testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
     renderDefaultComponent()
 
@@ -55,49 +72,12 @@ describe('QuestionPanel', () => {
     expect(numberOfQuestions).toBeInTheDocument()
   })
 
-  it('displays no number of questions in the header', () => {
+  it('displays no number of questions in the administrative questions header', () => {
     renderDefaultComponent()
 
     const component = screen.getByText('Administrativa frågor')
     const numberOfQuestions = within(component).queryByText('0')
     expect(numberOfQuestions).not.toBeInTheDocument()
-  })
-
-  describe('renders a question', () => {
-    const expectedQuestion = createQuestion()
-
-    beforeEach(() => {
-      testStore.dispatch(updateQuestions([expectedQuestion]))
-      renderDefaultComponent()
-    })
-
-    it('displays author', () => {
-      expect(screen.getByText(expectedQuestion.author)).toBeInTheDocument()
-    })
-
-    it('displays message', () => {
-      expect(screen.getByText(expectedQuestion.message)).toBeInTheDocument()
-    })
-
-    it('displays sent', () => {
-      expect(screen.getByText(expectedQuestion.sent, { exact: false })).toBeInTheDocument()
-    })
-
-    it('displays subject', () => {
-      expect(screen.getByText(expectedQuestion.subject)).toBeInTheDocument()
-    })
-  })
-
-  it('displays form to create new questions', () => {
-    testStore.dispatch(updateCreateQuestionsAvailable(true))
-    renderDefaultComponent()
-    expect(screen.getByText('Här kan du ställa en ny fråga till Försäkringskassan.')).toBeInTheDocument()
-  })
-
-  it('do not displays form to create new questions', () => {
-    testStore.dispatch(updateCreateQuestionsAvailable(false))
-    renderDefaultComponent()
-    expect(screen.queryByText('Här kan du ställa en ny fråga till Försäkringskassan.')).not.toBeInTheDocument()
   })
 })
 
@@ -116,4 +96,12 @@ function createQuestion(): Question {
     type: QuestionType.COORDINATION,
     links: [],
   }
+}
+
+const addComplementsToQuestion = (question: Question): Question => {
+  return {
+    ...question,
+    type: QuestionType.COMPLEMENT,
+    complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
+  } as Question
 }
