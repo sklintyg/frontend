@@ -9,6 +9,7 @@ import {
   updateAnswerDraftSaved,
   updateCertificateId,
   updateCreateQuestionsAvailable,
+  updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
   updateHandledQuestion,
   updateQuestion,
@@ -32,6 +33,7 @@ interface QuestionState {
   isAnswerDraftSaved: {
     [questionId: string]: boolean
   }
+  isDisplayingCertificateDraft: boolean
 }
 
 const getInitialState = (): QuestionState => {
@@ -45,6 +47,7 @@ const getInitialState = (): QuestionState => {
     isDisplayValidationMessages: false,
     isCreateQuestionsAvailable: false,
     isAnswerDraftSaved: {},
+    isDisplayingCertificateDraft: false,
   }
 }
 
@@ -113,6 +116,9 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
       if (question) {
         question.handled = action.payload.handled
       }
+    })
+    .addCase(updateDisplayingCertificateDraft, (state) => {
+      state.isDisplayingCertificateDraft = true
     })
 )
 

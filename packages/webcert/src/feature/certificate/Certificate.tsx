@@ -4,8 +4,14 @@ import Category from './Category/Category'
 import Question from './Question/Question'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
-import { getCertificateDataElements, getGotoId, getIsShowSpinner, getSpinnerText } from '../../store/certificate/certificateSelectors'
-import { Backdrop, ConfigTypes } from '@frontend/common'
+import {
+  getCertificateDataElements,
+  getGotoId,
+  getIsComplementingCertificate,
+  getIsShowSpinner,
+  getSpinnerText,
+} from '../../store/certificate/certificateSelectors'
+import { Backdrop, ConfigTypes, InfoBox } from '@frontend/common'
 import CareUnit from './CareUnit/CareUnit'
 import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
@@ -43,6 +49,7 @@ const Certificate: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
   const gotoId = useSelector(getGotoId)
+  const isComplementingCertificate = useSelector(getIsComplementingCertificate)
 
   const certificateContainerId = 'questions-container'
 
@@ -61,6 +68,11 @@ const Certificate: React.FC = () => {
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
+        {isComplementingCertificate && (
+          <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>
+            Försäkringskassan har begärt kompletteringar på intyget.
+          </InfoBox>
+        )}
         {certificateStructure &&
           certificateStructure.map((data) => {
             if (data.component === ConfigTypes.CATEGORY) {

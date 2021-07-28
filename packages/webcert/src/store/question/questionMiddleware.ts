@@ -17,6 +17,7 @@ import {
   deleteQuestionSuccess,
   editAnswer,
   editQuestion,
+  getComplementQuestions,
   getQuestions,
   getQuestionsError,
   getQuestionsStarted,
@@ -47,6 +48,7 @@ import {
   updateCertificateId,
   updateComplements,
   updateCreateQuestionsAvailable,
+  updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
   updateHandledQuestion,
   updateQuestion,
@@ -61,7 +63,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
-import { Answer, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -73,6 +75,24 @@ export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: Middlewar
   dispatch(
     apiCallBegan({
       url: '/api/question/' + action.payload,
+      method: 'GET',
+      onStart: getQuestionsStarted.type,
+      onSuccess: getQuestionsSuccess.type,
+      onError: getQuestionsError.type,
+    })
+  )
+}
+
+export const handleGetComplementQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getComplementQuestions.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/question/' + action.payload + '/complements',
       method: 'GET',
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
@@ -135,7 +155,12 @@ export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => (
     const isCreateQuestionsAvailable = getResourceLink(action.payload.links, ResourceLinkType.CREATE_QUESTIONS)?.enabled
     dispatch(updateCreateQuestionsAvailable(isCreateQuestionsAvailable))
     dispatch(updateCertificateId(action.payload.metadata.id))
-    dispatch(getQuestions(action.payload.metadata.id))
+    if (action.payload.metadata.status === CertificateStatus.UNSIGNED) {
+      dispatch(updateDisplayingCertificateDraft())
+      dispatch(getComplementQuestions(action.payload.metadata.relations.parent?.certificateId ?? action.payload.metadata.id))
+    } else {
+      dispatch(getQuestions(action.payload.metadata.id))
+    }
   }
 }
 
@@ -459,6 +484,7 @@ export const handleHandleQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) 
 
 export const questionMiddleware = [
   handleGetQuestions,
+  handleGetComplementQuestions,
   handleGetQuestionsSuccess,
   handleUpdateCertificate,
   handleDeleteQuestion,

@@ -1,4 +1,5 @@
 import { ResourceLink } from './resourceLink'
+import { CertificateRelation } from './certificate'
 
 export interface Question {
   id: string
@@ -11,6 +12,7 @@ export interface Question {
   handled: boolean
   forwarded: boolean
   answer?: Answer
+  answeredByCertificate?: CertificateRelation
   reminders: Reminder[]
   lastUpdate: string
   links: ResourceLink[]

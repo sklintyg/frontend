@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {
   Answer,
   ButtonWithConfirmModal,
+  CertificateStatus,
   Checkbox,
   CheckboxWithConfirmModal,
   CustomButton,
@@ -29,6 +30,9 @@ import {
 } from '../../store/question/questionActions'
 import _ from 'lodash'
 import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
+import { Link } from 'react-router-dom'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -50,6 +54,12 @@ const ComplementCard = styled.button`
   align-items: center;
   justify-content: space-between;
   background-color: white;
+`
+
+const AnsweredByCertificate = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const Complement = styled.div`
@@ -142,6 +152,29 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const onClickComplement = (questionId: string, valueId: string): void => {
     dispatch(gotoComplement({ questionId, valueId }))
   }
+
+  const getAnsweredByCertificate = (question: Question) => {
+    return (
+      <AnsweredByCertificate key={question.id} className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mt-800 iu-mb-200`}>
+        <FontAwesomeIcon icon={faCheck} className={`iu-color-white`} size="1x" />
+        <Complement key={question.id} className={'iu-fullwidth'}>
+          <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+            <Wrapper>
+              <div className={'iu-fullwidth iu-color-white iu-text-left'}>
+                Kompletteringsbegäran besvarades med ett nytt intyg.{' '}
+                <Link className={'iu-color-white'} to={`/certificate/${question.answeredByCertificate?.certificateId}`}>
+                  Öppna intyget
+                </Link>
+              </div>
+            </Wrapper>
+          </div>
+        </Complement>
+      </AnsweredByCertificate>
+    )
+  }
+
+  const isAnsweredByCertificate = (question: Question) =>
+    question.answeredByCertificate && question.answeredByCertificate.status === CertificateStatus.SIGNED
 
   return (
     <Card key={question.id} className={'ic-card'}>
@@ -276,6 +309,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           <p className={'iu-mb-800'}>{question.answer.message}</p>
         </>
       )}
+      {isAnsweredByCertificate(question) && getAnsweredByCertificate(question)}
     </Card>
   )
 }
