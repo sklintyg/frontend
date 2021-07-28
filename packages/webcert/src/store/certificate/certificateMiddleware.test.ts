@@ -4,7 +4,12 @@ import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
-import { complementCertificate, ComplementCertificateSuccess, updateCertificate } from '../certificate/certificateActions'
+import {
+  answerComplementCertificate,
+  complementCertificate,
+  ComplementCertificateSuccess,
+  updateCertificate,
+} from '../certificate/certificateActions'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
 
@@ -35,7 +40,22 @@ describe('Test certificate middleware', () => {
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
 
-      testStore.dispatch(complementCertificate())
+      testStore.dispatch(complementCertificate(''))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
+    })
+  })
+
+  describe('Handle AnswerComplementCertificate', () => {
+    it('shall update certificate when complemented', async () => {
+      const certificateToComplement = getCertificate('originalCertificateId')
+      const expectedCertificate = getCertificate('updatedCertificateId')
+      const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
+      fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/answercomplement`).reply(200, complementCertificateSuccess)
+      testStore.dispatch(updateCertificate(certificateToComplement))
+
+      testStore.dispatch(answerComplementCertificate('Vi svarar denna komplettering med ett meddelande'))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)

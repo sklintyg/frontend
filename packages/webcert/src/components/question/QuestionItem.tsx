@@ -155,14 +155,16 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const getAnsweredByCertificate = (question: Question) => {
     return (
-      <AnsweredByCertificate key={question.id} className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mt-800 iu-mb-200`}>
-        <FontAwesomeIcon icon={faCheck} className={`iu-color-white`} size="1x" />
+      <AnsweredByCertificate
+        key={question.id}
+        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200`}>
+        <FontAwesomeIcon icon={faCheck} className={`iu-color-main iu-ml-300`} size="1x" />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
             <Wrapper>
-              <div className={'iu-fullwidth iu-color-white iu-text-left'}>
+              <div className={'iu-fullwidth iu-color-black iu-text-left'}>
                 Kompletteringsbegäran besvarades med ett nytt intyg.{' '}
-                <Link className={'iu-color-white'} to={`/certificate/${question.answeredByCertificate?.certificateId}`}>
+                <Link className={'iu-color-black'} to={`/certificate/${question.answeredByCertificate?.certificateId}`}>
                   Öppna intyget
                 </Link>
               </div>
@@ -173,8 +175,27 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     )
   }
 
+  const getAnsweredByMessage = () => {
+    return (
+      <AnsweredByCertificate
+        key={question.id}
+        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}>
+        <FontAwesomeIcon icon={faCheck} className={`iu-color-main iu-ml-300`} size="1x" />
+        <Complement key={question.id} className={'iu-fullwidth'}>
+          <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+            <Wrapper>
+              <div className={'iu-fullwidth iu-color-black iu-text-left'}>Kompletteringsbegäran besvarades med ett meddelande.</div>
+            </Wrapper>
+          </div>
+        </Complement>
+      </AnsweredByCertificate>
+    )
+  }
+
   const isAnsweredByCertificate = (question: Question) =>
     question.answeredByCertificate && question.answeredByCertificate.status === CertificateStatus.SIGNED
+
+  const isComplementAnsweredByMessage = (question: Question) => question.type === QuestionType.COMPLEMENT && question.answer
 
   return (
     <Card key={question.id} className={'ic-card'}>
@@ -292,6 +313,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </QuestionFormFooter>
         </>
       )}
+      {isComplementAnsweredByMessage(question) && getAnsweredByMessage()}
       {question.answer && question.answer.id && (
         <>
           <QuestionHeader>

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
-import { CustomButton, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { getResourceLink } from '@frontend/common/src'
+import { ButtonWithConfirmModal, CustomButton, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faCommentAlt, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
-import { complementCertificate } from '../../store/certificate/certificateActions'
+import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
+import { getResourceLink } from '@frontend/common/src'
+import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 
 interface Props {
   questions: Question[]
@@ -13,40 +14,80 @@ interface Props {
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
+  const [cannotComplement, setCannotComplement] = useState<CannotComplementData>(null)
 
-  const onComplementClick = () => dispatch(complementCertificate())
+  const onComplementClick = () => dispatch(complementCertificate(''))
 
-  const getComplementResourceLink = () =>
-    questions.reduce(
-      (resourceLink, question) => getResourceLink(question.links, ResourceLinkType.COMPLEMENT_CERTIFICATE),
-      null as ResourceLink
-    )
+  const onCannotComplementClick = () => {
+    if (cannotComplement && cannotComplement.answerWithCerticate) {
+      dispatch(complementCertificate(cannotComplement.message))
+    } else {
+      dispatch(answerComplementCertificate(cannotComplement.message))
+    }
+  }
+
+  const getResourceLinkIfExists = (type: ResourceLinkType): ResourceLink | null => {
+    const questionWithResourceLink = questions.find((question) => question.links.some((link) => link.type === type))
+
+    if (questionWithResourceLink) {
+      return getResourceLink(questionWithResourceLink.links, type)
+    }
+
+    return null
+  }
+
+  const showQuestionPanelFooter = () =>
+    getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE) ||
+    getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE)
 
   const getComplementButton = () => {
-    const complementResourceLink = getComplementResourceLink()
+    const complementResourceLink = getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE)
     if (!complementResourceLink) {
       return null
     }
 
     return (
       <CustomButton
+        buttonClasses={'iu-mr-300'}
         tooltip={complementResourceLink.description}
         disabled={!complementResourceLink.enabled}
         buttonStyle="primary"
         text={complementResourceLink.name}
-        startIcon={<FontAwesomeIcon icon={faCopy} size="lg"></FontAwesomeIcon>}
+        startIcon={<FontAwesomeIcon icon={faCopy} size="lg" />}
         onClick={onComplementClick}
       />
     )
   }
 
-  if (!getComplementResourceLink()) {
+  const getCannotComplementButton = () => {
+    const cannotComplementResourceLink = getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE)
+    if (!cannotComplementResourceLink) {
+      return null
+    }
+
+    return (
+      <ButtonWithConfirmModal
+        disabled={!cannotComplementResourceLink.enabled}
+        confirmButtonDisabled={!(cannotComplement && cannotComplement.message)}
+        onConfirm={onCannotComplementClick}
+        modalTitle={'Kan ej komplettera'}
+        confirmButtonText={'Skicka svar'}
+        name={cannotComplementResourceLink.name}
+        description={cannotComplementResourceLink.description}
+        startIcon={<FontAwesomeIcon icon={faCommentAlt} size="lg"></FontAwesomeIcon>}>
+        <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
+      </ButtonWithConfirmModal>
+    )
+  }
+
+  if (!showQuestionPanelFooter()) {
     return null
   }
 
   return (
     <SidePanelFooter backgroundColor="iu-bg-grey-300" textColor="iu-color-white">
       {getComplementButton()}
+      {getCannotComplementButton()}
     </SidePanelFooter>
   )
 }

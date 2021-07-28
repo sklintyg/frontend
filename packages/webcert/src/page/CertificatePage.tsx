@@ -60,10 +60,10 @@ const CertificatePage = () => {
           <CertificateHeader />
           <Wrapper className={`ic-container`}>
             <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
-              <Overflow className="iu-grid-span-8">
+              <Overflow className="iu-grid-span-7">
                 <Certificate />
               </Overflow>
-              <Overflow className="iu-grid-span-4">
+              <Overflow className="iu-grid-span-5">
                 <CertificateSidePanel />
               </Overflow>
             </Columns>

@@ -10,7 +10,7 @@ import { Router } from 'react-router-dom'
 import QuestionPanelFooter from './QuestionPanelFooter'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import userEvent from '@testing-library/user-event'
-import { complementCertificate } from '../../store/certificate/certificateActions'
+import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -48,7 +48,7 @@ describe('', () => {
       renderComponent([expectedQuestion])
     })
 
-    it('display complement button if resource linke is available', () => {
+    it('display complement button if resource link is available', () => {
       expect(screen.getByText('Komplettera')).toBeInTheDocument()
     })
 
@@ -58,6 +58,36 @@ describe('', () => {
       flushPromises()
       const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
       expect(complementCertificateAction).toBeTruthy()
+    })
+
+    it('display cannot complement button if resource link is available', () => {
+      expect(screen.getByText('Kan inte komplettera')).toBeInTheDocument()
+    })
+
+    it('complement certificate with a new certificate and message', () => {
+      userEvent.click(screen.getByText('Kan inte komplettera'))
+      userEvent.click(screen.getByText('Ingen ytterligare medicinsk information kan anges.'))
+      const newMessage = 'Det här är ett meddelande'
+      const messageField = screen.getByRole('textbox')
+      userEvent.type(messageField, newMessage)
+      userEvent.click(screen.getByText('Skicka svar'))
+
+      flushPromises()
+      const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
+      expect(complementCertificateAction?.payload).toEqual(newMessage)
+    })
+
+    it('answer complement with a message', () => {
+      userEvent.click(screen.getByText('Kan inte komplettera'))
+      userEvent.click(screen.getByText('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.'))
+      const newMessage = 'Det här är ett meddelande'
+      const messageField = screen.getByRole('textbox')
+      userEvent.type(messageField, newMessage)
+      userEvent.click(screen.getByText('Skicka svar'))
+
+      flushPromises()
+      const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))
+      expect(answerComplementCertificateAction?.payload).toEqual(newMessage)
     })
   })
 })
@@ -75,6 +105,14 @@ function createQuestion(): Question {
     subject: 'subject',
     reminders: [],
     type: QuestionType.COORDINATION,
-    links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
+    links: [
+      {
+        type: ResourceLinkType.COMPLEMENT_CERTIFICATE,
+        enabled: true,
+        description: 'beskrivning',
+        name: 'Komplettera',
+      },
+      { type: ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Kan inte komplettera' },
+    ],
   }
 }

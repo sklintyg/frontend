@@ -1,6 +1,10 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
+  answerComplementCertificate,
+  answerComplementCertificateError,
+  answerComplementCertificateStarted,
+  answerComplementCertificateSuccess,
   autoSaveCertificate,
   autoSaveCertificateCompleted,
   autoSaveCertificateError,
@@ -368,6 +372,9 @@ const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState 
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/complement',
       method: 'POST',
+      data: {
+        message: action.payload,
+      },
       onStart: complementCertificateStarted.type,
       onSuccess: complementCertificateSuccess.type,
       onError: complementCertificateError.type,
@@ -381,6 +388,48 @@ const handleComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch, ge
   next(action)
 
   if (!complementCertificateSuccess.match(action)) {
+    return
+  }
+
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
+  dispatch(hideSpinner())
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleAnswerComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!answerComplementCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Besvarar kompletterar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/answercomplement',
+      method: 'POST',
+      data: {
+        message: action.payload,
+      },
+      onStart: answerComplementCertificateStarted.type,
+      onSuccess: answerComplementCertificateSuccess.type,
+      onError: answerComplementCertificateError.type,
+    })
+  )
+}
+
+const handleAnswerComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!answerComplementCertificateSuccess.match(action)) {
     return
   }
 
@@ -721,4 +770,6 @@ export const certificateMiddleware = [
   handleGotoComplement,
   handleComplementCertificate,
   handleComplementCertificateSuccess,
+  handleAnswerComplementCertificate,
+  handleAnswerComplementCertificateSuccess,
 ]
