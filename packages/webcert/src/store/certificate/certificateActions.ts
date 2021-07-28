@@ -66,6 +66,12 @@ const COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Complement certificate su
 const COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Complement certificate error`
 const COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Complement certificate completed`
 
+const ANSWER_COMPLEMENT_CERTIFICATE = `${CERTIFICATE} Answer complement certificate`
+const ANSWER_COMPLEMENT_CERTIFICATE_STARTED = `${CERTIFICATE} Answer complement certificate started`
+const ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Answer complement certificate success`
+const ANSWER_COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Answer complement certificate error`
+const ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Answer complement certificate completed`
+
 const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
 const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
 const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
@@ -238,7 +244,7 @@ export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
 
-export const complementCertificate = createAction(COMPLEMENT_CERTIFICATE)
+export const complementCertificate = createAction<string>(COMPLEMENT_CERTIFICATE)
 
 export const complementCertificateStarted = createAction(COMPLEMENT_CERTIFICATE_STARTED)
 
@@ -251,6 +257,16 @@ export const complementCertificateSuccess = createAction<ComplementCertificateSu
 export const complementCertificateError = createAction<string>(COMPLEMENT_CERTIFICATE_ERROR)
 
 export const complementCertificateCompleted = createAction(COMPLEMENT_CERTIFICATE_COMPLETED)
+
+export const answerComplementCertificate = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE)
+
+export const answerComplementCertificateStarted = createAction(ANSWER_COMPLEMENT_CERTIFICATE_STARTED)
+
+export const answerComplementCertificateSuccess = createAction<ComplementCertificateSuccess>(ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS)
+
+export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
+
+export const answerComplementCertificateCompleted = createAction(ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED)
 
 export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
 

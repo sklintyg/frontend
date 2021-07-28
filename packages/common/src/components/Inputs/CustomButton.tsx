@@ -22,6 +22,7 @@ interface Props {
   type?: 'button' | 'submit' | 'reset'
   number?: string | number | undefined
   tooltipClassName?: string
+  buttonClasses?: string
 }
 
 export const CustomButton: React.FC<Props> = (props) => {
@@ -54,7 +55,7 @@ export const CustomButton: React.FC<Props> = (props) => {
       <button
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
-        className={'ic-button ' + addedClass}
+        className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
         disabled={props.disabled}
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}

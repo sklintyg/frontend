@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  type: 'info' | 'error' | 'success'
+  type: 'info' | 'error' | 'success' | 'observe'
   additionalStyles?: string
 }
 
@@ -25,6 +25,8 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
         return 'ic-error-icon'
       case 'success':
         return 'ic-success-icon'
+      case 'observe':
+        return 'ic-observe-icon'
     }
   }
 
@@ -36,6 +38,8 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
         return 'ic-alert--error'
       case 'success':
         return 'ic-alert--success'
+      case 'observe':
+        return 'ic-alert--observe'
     }
   }
 

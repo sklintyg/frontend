@@ -114,6 +114,18 @@ describe('ComplementQuestionPanel', () => {
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/certificateId')
     })
   })
+
+  describe('answered complement', () => {
+    const expectedQuestion = addAnswerByMessage(createQuestion())
+
+    beforeEach(() => {
+      renderComponent([expectedQuestion], false)
+    })
+
+    it('displays information', () => {
+      expect(screen.getByText('Kompletteringsbegäran besvarades med ett meddelande.')).toBeInTheDocument()
+    })
+  })
 })
 
 function createQuestion(): Question {
@@ -128,7 +140,7 @@ function createQuestion(): Question {
     complements: [{ questionId: 'questionId', valueId: 'valueId', questionText: 'questionText', message: 'complementMessage' }],
     subject: 'subject',
     reminders: [],
-    type: QuestionType.COORDINATION,
+    type: QuestionType.COMPLEMENT,
     links: [{ type: ResourceLinkType.COMPLEMENT_CERTIFICATE, enabled: true, description: 'beskrivning', name: 'Komplettera' }],
   }
 }
@@ -137,5 +149,12 @@ function addAnswerByCertificate(question: Question, answerByCertifiate: Certific
   return {
     ...question,
     answeredByCertificate: { ...answerByCertifiate },
+  }
+}
+
+function addAnswerByMessage(question: Question): Question {
+  return {
+    ...question,
+    answer: { author: 'Nisse', message: 'Det här är ett svar på en kompletteringsbegäran', id: 'svarsId', sent: new Date().toISOString() },
   }
 }
