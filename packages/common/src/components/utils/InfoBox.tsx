@@ -40,7 +40,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
   }
 
   return (
-    <StyledWrapper className={`ic-alert ic-alert--status ${getWrapperClass()}`}>
+    <StyledWrapper className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
       <i className={`ic-alert__icon ${getIconClass()}`}></i>
       <p>{children}</p>
     </StyledWrapper>

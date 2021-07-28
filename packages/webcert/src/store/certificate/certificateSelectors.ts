@@ -1,6 +1,14 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateDataElement, CertificateStatus, Complement, ConfigTypes, ResourceLinkType } from '@frontend/common'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateRelationType,
+  CertificateStatus,
+  Complement,
+  ConfigTypes,
+  ResourceLinkType,
+} from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -15,6 +23,15 @@ export const getShowValidationErrors = (state: RootState) => state.ui.uiCertific
 export const getCertificate = (state: RootState): Certificate => state.ui.uiCertificate.certificate!
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
+
+export const getIsComplementingCertificate = (state: RootState): boolean => {
+  const metadata = state.ui.uiCertificate.certificate?.metadata
+  if (!metadata) {
+    return false
+  }
+
+  return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
+}
 
 export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
   state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)

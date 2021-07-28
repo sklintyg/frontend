@@ -1,11 +1,18 @@
 import React, { ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { getQuestionDraft, getQuestions, isCreateQuestionsAvailable } from '../../store/question/questionSelectors'
+import {
+  getQuestionDraft,
+  getQuestions,
+  isCreateQuestionsAvailable,
+  isDisplayingCertificateDraft,
+} from '../../store/question/questionSelectors'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
 import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
+import FMBPanelFooter from '../fmb/FMBPanelFooter'
+import QuestionPanelFooter from './QuestionPanelFooter'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -27,6 +34,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
+  const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const [isComplementSelected, setComplementSelected] = useState(true)
 
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
@@ -57,7 +65,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       {isComplementSelected ? (
-        <ComplementQuestionPanel complementQuestions={complementQuestions} />
+        <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
       ) : (
         <AdministrativeQuestionPanel
           administrativeQuestions={administrativeQuestions}
@@ -65,6 +73,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
           administrativeQuestionDraft={questionDraft}
         />
       )}
+      <QuestionPanelFooter questions={questions} />
     </Wrapper>
   )
 }

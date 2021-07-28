@@ -1,5 +1,14 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Answer, Certificate, Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
+import {
+  Answer,
+  Certificate,
+  CertificateRelationType,
+  CertificateStatus,
+  Complement,
+  Question,
+  QuestionType,
+  ResourceLinkType,
+} from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -136,6 +145,19 @@ describe('Test question middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+    })
+
+    it('shall get questions for complemented certificate when certificate is a draft is updated', async () => {
+      const certificate = addParentCertificate(getCertificate('certificateId', true), 'parentId')
+      const expectedQuestion = addComplementsToQuestion(createQuestion(), [])
+      const getQuestionResponse = { questions: [expectedQuestion] } as QuestionsResponse
+      fakeAxios.onGet('/api/question/parentId/complements').reply(200, getQuestionResponse)
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
+      expect(testStore.getState().ui.uiQuestion.isDisplayingCertificateDraft).toEqual(true)
     })
 
     it('shall not get questions when resource link is missing', async () => {
@@ -459,6 +481,7 @@ const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     metadata: { id: 'certificateId' },
+    status: CertificateStatus.SIGNED,
     links: [
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -467,6 +490,25 @@ const getCertificate = (id: string, isQuestionsActive: boolean): Certificate => 
       // @ts-ignore
       { enabled: isQuestionsActive, type: ResourceLinkType.CREATE_QUESTIONS },
     ],
+  }
+}
+
+const addParentCertificate = (certificate: Certificate, parentId: string): Certificate => {
+  return {
+    ...certificate,
+    metadata: {
+      ...certificate.metadata,
+      status: CertificateStatus.UNSIGNED,
+      relations: {
+        parent: {
+          certificateId: parentId,
+          type: CertificateRelationType.COMPLEMENTED,
+          status: CertificateStatus.SIGNED,
+          created: new Date().toISOString(),
+        },
+        children: [],
+      },
+    },
   }
 }
 

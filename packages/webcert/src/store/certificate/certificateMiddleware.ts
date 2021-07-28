@@ -6,6 +6,10 @@ import {
   autoSaveCertificateError,
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
+  complementCertificate,
+  complementCertificateError,
+  complementCertificateStarted,
+  complementCertificateSuccess,
   copyCertificate,
   copyCertificateCompleted,
   copyCertificateError,
@@ -347,6 +351,45 @@ const handleRevokeCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getSta
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
+const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!complementCertificate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Kompletterar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/complement',
+      method: 'POST',
+      onStart: complementCertificateStarted.type,
+      onSuccess: complementCertificateSuccess.type,
+      onError: complementCertificateError.type,
+    })
+  )
+}
+
+const handleComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!complementCertificateSuccess.match(action)) {
+    return
+  }
+
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
+  dispatch(hideSpinner())
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
 const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
@@ -676,4 +719,6 @@ export const certificateMiddleware = [
   handleSendCertificateSuccess,
   handleUpdateComplements,
   handleGotoComplement,
+  handleComplementCertificate,
+  handleComplementCertificateSuccess,
 ]

@@ -13,6 +13,8 @@ export const getQuestionsSuccess = createAction<QuestionsResponse>('[Question] G
 
 export const getQuestionsError = createAction<string>('[Question] Get questions error')
 
+export const getComplementQuestions = createAction<string>('[Question] Get complement questions')
+
 export const deleteQuestion = createAction<Question>('[Question] Delete question')
 
 export const deleteQuestionStarted = createAction('[Question] Delete question started')
@@ -130,3 +132,5 @@ interface GotoComplementPayload {
 export const gotoComplement = createAction<GotoComplementPayload>('[Question] Go to complement')
 
 export const updateComplements = createAction<Complement[]>('[Question] Update complements')
+
+export const updateDisplayingCertificateDraft = createAction('[Question] Update displaying certificate draft')

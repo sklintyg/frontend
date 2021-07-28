@@ -60,6 +60,12 @@ const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
 const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
 const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
 
+const COMPLEMENT_CERTIFICATE = `${CERTIFICATE} Complement certificate`
+const COMPLEMENT_CERTIFICATE_STARTED = `${CERTIFICATE} Complement certificate started`
+const COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Complement certificate success`
+const COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Complement certificate error`
+const COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Complement certificate completed`
+
 const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
 const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
 const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
@@ -231,6 +237,20 @@ export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>
 export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
+
+export const complementCertificate = createAction(COMPLEMENT_CERTIFICATE)
+
+export const complementCertificateStarted = createAction(COMPLEMENT_CERTIFICATE_STARTED)
+
+export interface ComplementCertificateSuccess {
+  certificate: Certificate
+}
+
+export const complementCertificateSuccess = createAction<ComplementCertificateSuccess>(COMPLEMENT_CERTIFICATE_SUCCESS)
+
+export const complementCertificateError = createAction<string>(COMPLEMENT_CERTIFICATE_ERROR)
+
+export const complementCertificateCompleted = createAction(COMPLEMENT_CERTIFICATE_COMPLETED)
 
 export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
 
