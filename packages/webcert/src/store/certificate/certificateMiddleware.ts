@@ -65,6 +65,7 @@ import {
   sendCertificateError,
   sendCertificateSuccess,
   setCertificateDataElement,
+  updateCertificateSigning,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   showCertificateDataElement,
@@ -288,13 +289,12 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
     }
   }
 
-  dispatch(showSpinner('Signerar...'))
+  //dispatch(showSpinner('Signerar...'))
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/sign',
+      url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
       method: 'POST',
-      data: certificate,
       onSuccess: signCertificateSuccess.type,
       onError: signCertificateError.type,
     })
@@ -308,12 +308,13 @@ const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
     return
   }
 
-  dispatch(hideValidationErrors())
-  decorateCertificateWithInitialValues(action.payload.certificate)
-  dispatch(updateCertificate(action.payload.certificate))
-  dispatch(hideSpinner())
-  dispatch(signCertificateCompleted())
-  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+  dispatch(updateCertificateSigning(action.payload))
+  // dispatch(hideValidationErrors())
+  // decorateCertificateWithInitialValues(action.payload.certificate)
+  // dispatch(updateCertificate(action.payload.certificate))
+  // dispatch(hideSpinner())
+  // dispatch(signCertificateCompleted())
+  // dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
 const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

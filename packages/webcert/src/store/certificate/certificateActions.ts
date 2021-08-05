@@ -135,6 +135,8 @@ const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate chil
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
+const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -204,7 +206,7 @@ export interface SignCertificateSuccess {
   certificate: Certificate
 }
 
-export const signCertificateSuccess = createAction<SignCertificateSuccess>(SIGN_CERTIFICATE_SUCCESS)
+export const signCertificateSuccess = createAction<Signing>(SIGN_CERTIFICATE_SUCCESS)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -321,6 +323,7 @@ export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
 interface AutoSaveCertificateSuccess {
   version: number
 }
+
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
 export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
@@ -385,3 +388,11 @@ export interface GotoCertificateDataElement {
 export const updateGotoCertificateDataElement = createAction<GotoCertificateDataElement>(UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT)
 
 export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
+
+export interface Signing {
+  actionUrl: string
+  id: string
+  signRequest: string
+}
+
+export const updateCertificateSigning = createAction<Signing>(SET_CERTIFICATE_SIGNING)

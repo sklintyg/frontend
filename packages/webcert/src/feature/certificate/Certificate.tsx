@@ -16,6 +16,7 @@ import CareUnit from './CareUnit/CareUnit'
 import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
+import SigningForm from './Signing/SigningForm'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -84,6 +85,7 @@ const Certificate: React.FC = () => {
         <CareUnit />
         <CertificateValidation />
         <CertificateFooter />
+        <SigningForm />
       </Wrapper>
     </Backdrop>
   )

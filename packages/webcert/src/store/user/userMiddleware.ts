@@ -113,10 +113,14 @@ const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
   )
 }
 
-const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!triggerLogout.match(action)) {
+    return
+  }
+
+  if (getState().ui.uiCertificate.signing) {
     return
   }
 
