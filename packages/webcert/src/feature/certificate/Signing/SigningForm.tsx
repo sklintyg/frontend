@@ -4,16 +4,13 @@ import { getSigning } from '../../../store/certificate/certificateSelectors'
 
 const SigningForm: React.FC = () => {
   const signing = useSelector(getSigning)
-  const formRef = useRef(null)
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
-    if (formRef && signing) {
-      const form = (formRef.current as unknown) as HTMLFormElement
-      form.submit()
+    if (signing) {
+      formRef.current?.submit()
     }
   }, [signing])
-
-  //const url = window.location.origin.replace('wc2.', '') + '/visa/intyg/' + certificateId
 
   if (!signing) return null
 
