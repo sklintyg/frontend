@@ -3,12 +3,12 @@ import { History, LocationState } from 'history'
 import {
   Certificate,
   CertificateDataElement,
+  CertificateEvent,
+  CertificateMetadata,
   CertificateStatus,
+  Complement,
   Unit,
   ValidationError,
-  CertificateMetadata,
-  CertificateEvent,
-  Complement,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 
@@ -47,6 +47,8 @@ const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
 const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
+const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
+const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -202,11 +204,15 @@ export const startSignCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export interface SignCertificateSuccess {
+export interface FakeSignCertificateSuccess {
   certificate: Certificate
 }
 
+export const fakeSignCertificateSuccess = createAction<FakeSignCertificateSuccess>(FAKE_SIGN_CERTIFICATE_SUCCESS)
+
 export const startSignCertificateSuccess = createAction<SigningData>(SIGN_CERTIFICATE_SUCCESS)
+
+export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -267,8 +273,6 @@ export const answerComplementCertificateStarted = createAction(ANSWER_COMPLEMENT
 export const answerComplementCertificateSuccess = createAction<ComplementCertificateSuccess>(ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS)
 
 export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
-
-export const answerComplementCertificateCompleted = createAction(ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED)
 
 export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
 
