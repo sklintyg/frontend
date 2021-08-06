@@ -164,4 +164,4 @@ export const getIsLocked = (state: RootState) =>
 export const getIsEditable = (state: RootState) =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
 
-export const getSigning = (state: RootState) => state.ui.uiCertificate.signing
+export const getSigningData = (state: RootState) => state.ui.uiCertificate.signingData

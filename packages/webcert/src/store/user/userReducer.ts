@@ -1,13 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateUser, updateUserPreference } from './userActions'
+import { updateInactivateAutomaticLogout, updateUser, updateUserPreference } from './userActions'
 import { User } from '@frontend/common'
 
 interface UserState {
   user: null | User
+  inactiveAutomaticLogout: boolean
 }
 
 const initialState: UserState = {
   user: null,
+  inactiveAutomaticLogout: false,
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -25,6 +27,9 @@ const userReducer = createReducer(initialState, (builder) =>
       }
 
       state.user.preferences[action.payload.key] = action.payload.value
+    })
+    .addCase(updateInactivateAutomaticLogout, (state, action) => {
+      state.inactiveAutomaticLogout = action.payload
     })
 )
 

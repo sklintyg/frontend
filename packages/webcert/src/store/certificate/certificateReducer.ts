@@ -41,8 +41,8 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-  Signing,
-  updateCertificateSigning,
+  SigningData,
+  updateCertificateSigningData,
 } from './certificateActions'
 
 interface CertificateState {
@@ -56,7 +56,7 @@ interface CertificateState {
   isDeleted: boolean
   complements: Complement[]
   gotoCertificateDataElement?: GotoCertificateDataElement
-  signing?: Signing
+  signingData?: SigningData
 }
 
 const initialState: CertificateState = {
@@ -267,8 +267,8 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(clearGotoCertificateDataElement, (state) => {
       state.gotoCertificateDataElement = undefined
     })
-    .addCase(updateCertificateSigning, (state, action) => {
-      state.signing = action.payload
+    .addCase(updateCertificateSigningData, (state, action) => {
+      state.signingData = action.payload
     })
 )
 

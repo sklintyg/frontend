@@ -8,6 +8,8 @@ import {
   answerComplementCertificate,
   complementCertificate,
   ComplementCertificateSuccess,
+  SigningData,
+  startSignCertificate,
   updateCertificate,
 } from '../certificate/certificateActions'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
@@ -61,13 +63,33 @@ describe('Test certificate middleware', () => {
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
     })
   })
+
+  describe('Handle startSigningCertificate', () => {
+    it('shall update signing data when successfully starting the signing process', async () => {
+      const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
+      const certificate = getCertificate('id', 'lisjp', '2')
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      fakeAxios
+        .onPost(
+          `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`
+        )
+        .reply(200, expectedSigningData)
+
+      testStore.dispatch(startSignCertificate)
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.signingData).toEqual(expectedSigningData)
+    })
+  })
 })
 
-const getCertificate = (id: string): Certificate => {
+const getCertificate = (id: string, type?: string, version?: string): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    metadata: { id },
+    metadata: { id, type, version },
     links: [],
   }
 }

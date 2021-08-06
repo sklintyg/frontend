@@ -22,9 +22,11 @@ import {
   triggerLogoutNowSuccess,
   triggerLogoutStarted,
   triggerLogoutSuccess,
+  updateInactivateAutomaticLogout,
   updateUser,
   updateUserPreference,
 } from './userActions'
+import { startSignCertificate } from '../certificate/certificateActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -120,7 +122,7 @@ const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: Middl
     return
   }
 
-  if (getState().ui.uiCertificate.signing) {
+  if (getState().ui.uiUser.inactiveAutomaticLogout) {
     return
   }
 
@@ -153,6 +155,16 @@ const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
   )
 }
 
+const handleStartSigningCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!startSignCertificate.match(action)) {
+    return
+  }
+
+  dispatch(updateInactivateAutomaticLogout(true))
+}
+
 export const userMiddleware = [
   handleGetUser,
   handleGetUserSuccess,
@@ -161,4 +173,5 @@ export const userMiddleware = [
   handleCancelLogout,
   handleTriggerLogout,
   handleTriggerLogoutNow,
+  handleStartSigningCertificate,
 ]

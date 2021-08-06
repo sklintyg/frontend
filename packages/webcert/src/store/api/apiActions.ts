@@ -10,6 +10,8 @@ export interface ApiCall {
   onArgs?: any
 }
 
-export const apiCallBegan = createAction<ApiCall>('[API] Call began')
-export const apiCallSuccess = createAction<any>('[API] Call success')
-export const apiCallFailed = createAction<string>('[API] Call failed')
+const API = '[API]'
+
+export const apiCallBegan = createAction<ApiCall>(`${API} Call began`)
+export const apiCallSuccess = createAction<any>(`${API} Call success`)
+export const apiCallFailed = createAction<string>(`${API} Call failed`)

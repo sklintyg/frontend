@@ -198,7 +198,7 @@ export interface SendCertificateSuccess {
   result: string
 }
 
-export const signCertificate = createAction(SIGN_CERTIFICATE)
+export const startSignCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
@@ -206,7 +206,7 @@ export interface SignCertificateSuccess {
   certificate: Certificate
 }
 
-export const signCertificateSuccess = createAction<Signing>(SIGN_CERTIFICATE_SUCCESS)
+export const startSignCertificateSuccess = createAction<SigningData>(SIGN_CERTIFICATE_SUCCESS)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -389,10 +389,10 @@ export const updateGotoCertificateDataElement = createAction<GotoCertificateData
 
 export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
 
-export interface Signing {
+export interface SigningData {
   actionUrl: string
   id: string
   signRequest: string
 }
 
-export const updateCertificateSigning = createAction<Signing>(SET_CERTIFICATE_SIGNING)
+export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)

@@ -65,17 +65,17 @@ import {
   sendCertificateError,
   sendCertificateSuccess,
   setCertificateDataElement,
-  updateCertificateSigning,
+  updateCertificateSigningData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  signCertificate,
+  startSignCertificate,
   signCertificateCompleted,
   signCertificateError,
-  signCertificateSuccess,
+  startSignCertificateSuccess,
   unhideCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
@@ -265,15 +265,15 @@ const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
     return
   }
 
-  if (action.payload.result == 'OK') {
+  if (action.payload.result === 'OK') {
     dispatch(getCertificate(action.payload.certificateId))
   }
 }
 
-const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!signCertificate.match(action)) {
+  if (!startSignCertificate.match(action)) {
     return
   }
 
@@ -295,20 +295,20 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
     apiCallBegan({
       url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
       method: 'POST',
-      onSuccess: signCertificateSuccess.type,
+      onSuccess: startSignCertificateSuccess.type,
       onError: signCertificateError.type,
     })
   )
 }
 
-const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleStartSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!signCertificateSuccess.match(action)) {
+  if (!startSignCertificateSuccess.match(action)) {
     return
   }
 
-  dispatch(updateCertificateSigning(action.payload))
+  dispatch(updateCertificateSigningData(action.payload))
   // dispatch(hideValidationErrors())
   // decorateCertificateWithInitialValues(action.payload.certificate)
   // dispatch(updateCertificate(action.payload.certificate))
@@ -743,8 +743,8 @@ export const certificateMiddleware = [
   handleGetCertificateSuccess,
   handleGetCertificateEvents,
   handleGetCertificateEventsSuccess,
-  handleSignCertificate,
-  handleSignCertificateSuccess,
+  handleStartSignCertificate,
+  handleStartSignCertificateSuccess,
   handleUpdateCertificateDataElement,
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
