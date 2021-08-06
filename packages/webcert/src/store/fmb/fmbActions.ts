@@ -7,16 +7,18 @@ export interface FMBDiagnoseRequest {
   index: number
 }
 
-export const getFMBDiagnosisCodeInfo = createAction<FMBDiagnoseRequest>('[FMB] Get diagnosis code info')
+const FMB = '[FMB]'
 
-export const getFMBDiagnosisCodeInfoStarted = createAction('[FMB] Get diagnosis code info started')
+export const getFMBDiagnosisCodeInfo = createAction<FMBDiagnoseRequest>(`${FMB} Get diagnosis code info`)
 
-export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>('[FMB] Get diagnosis code info success')
+export const getFMBDiagnosisCodeInfoStarted = createAction(`${FMB} Get diagnosis code info started`)
 
-export const getFMBDiagnosisCodeInfoError = createAction<string>('[FMB] Get diagnosis code info error')
+export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>(`${FMB} Get diagnosis code info success`)
 
-export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>('[FMB] Update diagnosis code info')
+export const getFMBDiagnosisCodeInfoError = createAction<string>(`${FMB} Get diagnosis code info error`)
 
-export const updateFMBPanelActive = createAction<boolean>('[FMB] Update panel active')
+export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>(`${FMB} Update diagnosis code info`)
 
-export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>('[FMB] Remove diagnosis code info')
+export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel active`)
+
+export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB} Remove diagnosis code info`)

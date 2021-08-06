@@ -26,6 +26,8 @@ import {
   deleteCertificateSuccess,
   disableCertificateDataElement,
   enableCertificateDataElement,
+  fakeSignCertificate,
+  fakeSignCertificateSuccess,
   forwardCertificate,
   forwardCertificateCompleted,
   forwardCertificateError,
@@ -71,16 +73,17 @@ import {
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
-  signCertificate,
   signCertificateCompleted,
   signCertificateError,
-  signCertificateSuccess,
+  startSignCertificate,
+  startSignCertificateSuccess,
   unhideCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
+  updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateGotoCertificateDataElement,
@@ -94,7 +97,7 @@ import {
   validateCertificateSuccess,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
-import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave } from '@frontend/common'
+import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
@@ -264,15 +267,15 @@ const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
     return
   }
 
-  if (action.payload.result == 'OK') {
+  if (action.payload.result === 'OK') {
     dispatch(getCertificate(action.payload.certificateId))
   }
 }
 
-const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!signCertificate.match(action)) {
+  if (!startSignCertificate.match(action)) {
     return
   }
 
@@ -288,6 +291,41 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
     }
   }
 
+  const signingMethod = getState().ui.uiUser.user.signingMethod
+
+  if (signingMethod === SigningMethod.FAKE) {
+    dispatch(fakeSignCertificate)
+  } else if (signingMethod === SigningMethod.DSS) {
+    dispatch(
+      apiCallBegan({
+        url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
+        method: 'POST',
+        onSuccess: startSignCertificateSuccess.type,
+        onError: signCertificateError.type,
+      })
+    )
+  }
+}
+
+const handleStartSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!startSignCertificateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(updateCertificateSigningData(action.payload))
+}
+
+const handleFakeSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!fakeSignCertificate.match(action)) {
+    return
+  }
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
   dispatch(showSpinner('Signerar...'))
 
   dispatch(
@@ -295,16 +333,16 @@ const handleSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       url: '/api/certificate/' + certificate.metadata.id + '/sign',
       method: 'POST',
       data: certificate,
-      onSuccess: signCertificateSuccess.type,
+      onSuccess: fakeSignCertificateSuccess.type,
       onError: signCertificateError.type,
     })
   )
 }
 
-const handleSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleFakeSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!signCertificateSuccess.match(action)) {
+  if (!fakeSignCertificateSuccess.match(action)) {
     return
   }
 
@@ -742,8 +780,8 @@ export const certificateMiddleware = [
   handleGetCertificateSuccess,
   handleGetCertificateEvents,
   handleGetCertificateEventsSuccess,
-  handleSignCertificate,
-  handleSignCertificateSuccess,
+  handleStartSignCertificate,
+  handleStartSignCertificateSuccess,
   handleUpdateCertificateDataElement,
   handleValidateCertificateInFrontEnd,
   handleValidateCertificate,
@@ -772,4 +810,6 @@ export const certificateMiddleware = [
   handleComplementCertificateSuccess,
   handleAnswerComplementCertificate,
   handleAnswerComplementCertificateSuccess,
+  handleFakeSignCertificate,
+  handleFakeSignCertificateSuccess,
 ]

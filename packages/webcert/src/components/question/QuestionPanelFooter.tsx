@@ -14,12 +14,14 @@ interface Props {
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
-  const [cannotComplement, setCannotComplement] = useState<CannotComplementData>(null)
+  const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
 
   const onComplementClick = () => dispatch(complementCertificate(''))
 
   const onCannotComplementClick = () => {
-    if (cannotComplement && cannotComplement.answerWithCerticate) {
+    if (!cannotComplement) return
+
+    if (cannotComplement.answerWithCerticate) {
       dispatch(complementCertificate(cannotComplement.message))
     } else {
       dispatch(answerComplementCertificate(cannotComplement.message))
@@ -74,7 +76,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         confirmButtonText={'Skicka svar'}
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
-        startIcon={<FontAwesomeIcon icon={faCommentAlt} size="lg"></FontAwesomeIcon>}>
+        startIcon={<FontAwesomeIcon icon={faCommentAlt} size="lg" />}>
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
     )

@@ -3,12 +3,12 @@ import { History, LocationState } from 'history'
 import {
   Certificate,
   CertificateDataElement,
+  CertificateEvent,
+  CertificateMetadata,
   CertificateStatus,
+  Complement,
   Unit,
   ValidationError,
-  CertificateMetadata,
-  CertificateEvent,
-  Complement,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 
@@ -47,6 +47,8 @@ const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
 const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
+const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
+const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -135,6 +137,8 @@ const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate chil
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
+const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -196,15 +200,19 @@ export interface SendCertificateSuccess {
   result: string
 }
 
-export const signCertificate = createAction(SIGN_CERTIFICATE)
+export const startSignCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export interface SignCertificateSuccess {
+export interface FakeSignCertificateSuccess {
   certificate: Certificate
 }
 
-export const signCertificateSuccess = createAction<SignCertificateSuccess>(SIGN_CERTIFICATE_SUCCESS)
+export const fakeSignCertificateSuccess = createAction<FakeSignCertificateSuccess>(FAKE_SIGN_CERTIFICATE_SUCCESS)
+
+export const startSignCertificateSuccess = createAction<SigningData>(SIGN_CERTIFICATE_SUCCESS)
+
+export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -266,8 +274,6 @@ export const answerComplementCertificateSuccess = createAction<ComplementCertifi
 
 export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
 
-export const answerComplementCertificateCompleted = createAction(ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED)
-
 export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
 
 export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
@@ -321,6 +327,7 @@ export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
 interface AutoSaveCertificateSuccess {
   version: number
 }
+
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
 export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
@@ -385,3 +392,11 @@ export interface GotoCertificateDataElement {
 export const updateGotoCertificateDataElement = createAction<GotoCertificateDataElement>(UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT)
 
 export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
+
+export interface SigningData {
+  actionUrl: string
+  id: string
+  signRequest: string
+}
+
+export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)

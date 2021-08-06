@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate } from '@frontend/common'
+import { Certificate, SigningMethod } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -8,10 +8,13 @@ import {
   answerComplementCertificate,
   complementCertificate,
   ComplementCertificateSuccess,
+  SigningData,
+  startSignCertificate,
   updateCertificate,
 } from '../certificate/certificateActions'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
+import { updateUser } from '../user/userActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -61,13 +64,51 @@ describe('Test certificate middleware', () => {
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
     })
   })
+
+  describe('Handle startSigningCertificate', () => {
+    it('shall update signing data when successfully starting the signing process', async () => {
+      const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
+      const certificate = getCertificate('id', 'lisjp', '2')
+      setDefaultUser()
+      testStore.dispatch(updateCertificate(certificate))
+
+      fakeAxios
+        .onPost(
+          `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`
+        )
+        .reply(200, expectedSigningData)
+
+      testStore.dispatch(startSignCertificate)
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.signingData).toEqual(expectedSigningData)
+    })
+
+    it('shall make a signing request to DSS when users signing method is DSS', async () => {
+      const certificate = getCertificate('id', 'lisjp', '2')
+      setDefaultUser()
+
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(startSignCertificate)
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  const setDefaultUser = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    testStore.dispatch(updateUser({ signingMethod: SigningMethod.DSS }))
+  }
 })
 
-const getCertificate = (id: string): Certificate => {
+const getCertificate = (id: string, type?: string, version?: string): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    metadata: { id },
+    metadata: { id, type, version },
     links: [],
   }
 }
+
