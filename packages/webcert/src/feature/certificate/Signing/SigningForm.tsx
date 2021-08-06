@@ -26,5 +26,4 @@ const SigningForm: React.FC = () => {
   )
 }
 
-
 export default SigningForm
