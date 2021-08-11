@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
+import { FMBDiagnosisCodeInfo, FMBSickLeavePeriodInfo } from '@frontend/common'
 
 export interface FMBDiagnoseRequest {
   icd10Code: string
@@ -22,3 +22,8 @@ export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>(`${
 export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel active`)
 
 export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB} Remove diagnosis code info`)
+
+export const validateSickLeaveLength = createAction<FMBSickLeavePeriodInfo>(`${FMB} Validate sick leave length`)
+export const validateSickLeaveLengthStarted = createAction(`${FMB} Validate sick leave length started`)
+export const validateSickLeaveLengthSuccess = createAction<string>(`${FMB} Validate sick leave length success`)
+export const validateSickLeaveLengthError = createAction(`${FMB} Validate sick leave length error`)

@@ -1,3 +1,5 @@
+import { ValueDateRange } from './certificate'
+
 export interface FMBDiagnosisCodeInfo {
   icd10Code: string
   icd10Description: string
@@ -7,6 +9,12 @@ export interface FMBDiagnosisCodeInfo {
   referenceLink?: string
   forms?: FMBDiagnosisCodeInfoForm[]
   index: number
+}
+
+export interface FMBSickLeavePeriodInfo {
+  icd10Codes: string[]
+  dateRangeList: ValueDateRange[]
+  personId: string
 }
 
 export interface FMBDiagnosisCodeInfoForm {
