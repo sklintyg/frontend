@@ -8,6 +8,7 @@ import {
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
   removeFMBDiagnosisCodes,
+  setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
   validateSickLeaveLength,
@@ -94,7 +95,7 @@ function getValidationForSickLeavePeriod(
       validateSickLeaveLength({
         icd10Codes: diagnosisCodes,
         personId: personId,
-        dateRangeList: (value as ValueDateRangeList).list,
+        dateRangeList: value as ValueDateRangeList,
       })
     )
   }
@@ -122,7 +123,7 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
 
     getValidationForSickLeavePeriod(
       diagnoses,
-      getState().ui.uiCertificate.certificate.metadata.patient.personId,
+      getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
       action.payload.value,
       dispatch
     )
@@ -185,7 +186,7 @@ export const handleValidateSickLeaveLength: Middleware<Dispatch> = ({ dispatch }
   dispatch(
     apiCallBegan({
       url: '/api/fmb/validateSickLeavePeriod',
-      method: 'GET',
+      method: 'POST',
       data: action.payload,
       onStart: validateSickLeaveLengthStarted.type,
       onSuccess: validateSickLeaveLengthSuccess.type,
@@ -202,7 +203,8 @@ export const handleValidateSickLeaveLengthSuccess: Middleware<Dispatch> = ({ dis
   if (!validateSickLeaveLengthSuccess.match(action)) {
     return
   }
-  console.log(action.payload)
+
+  dispatch(setSickLeavePeriodWarning(action.payload.message))
 }
 
 export const fmbMiddleware = [

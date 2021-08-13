@@ -11,12 +11,6 @@ export interface FMBDiagnosisCodeInfo {
   index: number
 }
 
-export interface FMBSickLeavePeriodInfo {
-  icd10Codes: string[]
-  dateRangeList: ValueDateRange[]
-  personId: string
-}
-
 export interface FMBDiagnosisCodeInfoForm {
   name: FMBDiagnosisCodeInfoFormType
   content: FMBDiagnosisCodeInfoFormContent[]

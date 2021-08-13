@@ -1,15 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { removeFMBDiagnosisCodes, updateFMBDiagnosisCodeInfo, updateFMBPanelActive } from './fmbActions'
+import { removeFMBDiagnosisCodes, setSickLeavePeriodWarning, updateFMBDiagnosisCodeInfo, updateFMBPanelActive } from './fmbActions'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 
 interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]
   fmbPanelActive: boolean
+  sickLeavePeriodWarning: string
 }
 
 const initialState: FMBState = {
   fmbDiagnosisCodeInfo: [],
   fmbPanelActive: false,
+  sickLeavePeriodWarning: '',
 }
 
 const fmbReducer = createReducer(initialState, (builder) =>
@@ -26,6 +28,9 @@ const fmbReducer = createReducer(initialState, (builder) =>
       if (index > -1) {
         state.fmbDiagnosisCodeInfo.splice(index, 1)
       }
+    })
+    .addCase(setSickLeavePeriodWarning, (state, action) => {
+      state.sickLeavePeriodWarning = action.payload
     })
 )
 
