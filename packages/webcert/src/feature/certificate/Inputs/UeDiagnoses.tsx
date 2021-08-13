@@ -32,8 +32,9 @@ interface Props {
 const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeDiagnoses
   const questionValue = question.value as ValueDiagnosisList
+  const firstSavedItem = questionValue.list.find((value) => value && value.terminology != '')
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
-    questionValue.list.length > 0 ? questionValue.list[0].terminology : questionConfig.terminology[0].id
+    questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
   )
   const isShowValidationError = useSelector(getShowValidationErrors)
   const dispatch = useAppDispatch()
@@ -81,11 +82,11 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               question={question}
               disabled={disabled}
               id={diagnosis.id}
-              selectedCodeSystem={selectedCodeSystem}></UeDiagnosis>
+              selectedCodeSystem={selectedCodeSystem}
+              isShowValidationError={isShowValidationError}></UeDiagnosis>
           )
         })}
       </DiagnosesWrapper>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </>
   )
 }

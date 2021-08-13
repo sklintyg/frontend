@@ -19,7 +19,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
     <CustomButton
       tooltip={description}
       disabled={!enabled}
-      style="primary"
+      buttonStyle="primary"
       text={name}
       startIcon={<FontAwesomeIcon icon={faPrint} size="lg"></FontAwesomeIcon>}
       onClick={() => dispatch(printCertificate(certificateMetadata))}

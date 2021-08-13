@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Tooltip = styled.div`
   position: relative;
-  display: inline-block;
 
   .tooltiptext {
     position: absolute;
@@ -42,9 +41,10 @@ const Tooltip = styled.div`
 interface Props {
   description: string
   children: React.ReactNode
+  className?: string
 }
 
-const ButtonTooltip: React.FC<Props> = ({ children, description }) => {
+const ButtonTooltip: React.FC<Props> = ({ children, description, className }) => {
   const getDescription = () => {
     if (description && description !== '') {
       return <span className="tooltiptext">{description}</span>
@@ -52,7 +52,7 @@ const ButtonTooltip: React.FC<Props> = ({ children, description }) => {
   }
 
   return (
-    <Tooltip className="button-tooltip">
+    <Tooltip className={'button-tooltip ' + className}>
       {getDescription()}
       {children}
     </Tooltip>

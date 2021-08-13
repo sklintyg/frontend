@@ -48,7 +48,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
         <div>
           <TextWrapper dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
           <StyledLink to="#" onClick={onReadLessOrMore}>
-            Läs mer
+            Visa mer
             <FontAwesomeIcon icon={faAngleDown} />
           </StyledLink>
         </div>
@@ -57,7 +57,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
           <TextWrapper dangerouslySetInnerHTML={{ __html: text }} />
           {text && text.length > maxLength && (
             <StyledLink to="#" onClick={onReadLessOrMore}>
-              Läs mindre
+              Visa mindre
               <FontAwesomeIcon icon={faAngleDown} rotation={180} />
             </StyledLink>
           )}

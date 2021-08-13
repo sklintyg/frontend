@@ -217,7 +217,7 @@ const Welcome: React.FC = () => {
                 />
               </Wrapper>
               <CustomButton
-                style="primary"
+                buttonStyle="primary"
                 type="submit"
                 disabled={!isCreateNewCertificate && existingCertificateId.length < 1}
                 onSubmit={handleLogin}>

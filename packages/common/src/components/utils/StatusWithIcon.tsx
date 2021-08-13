@@ -7,13 +7,14 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `
+
 interface Props {
   icon?: 'CheckIcon' | 'ErrorOutlineIcon'
   additionalWrapperStyles?: string
   additionalTextStyles?: string
 }
 
-const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyles }) => {
+const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyles, additionalTextStyles }) => {
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
@@ -29,7 +30,7 @@ const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyl
     <>
       <Wrapper className={`status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <div className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark`}>{children}</div>
+        <div className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark ${additionalTextStyles}`}>{children}</div>
       </Wrapper>
     </>
   )

@@ -1,4 +1,4 @@
-import { ValueDateRange, ValueDateRangeList } from './../types/certificate'
+import { ValueDateRange } from './../types/certificate'
 import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
 
@@ -18,7 +18,9 @@ export enum SickLeavePeriods {
   HELT_NEDSATT = 'HELT_NEDSATT',
 }
 
-export const getValidDate = (dateString: string) => {
+export const getValidDate = (dateString: string | undefined) => {
+  if (!dateString) return
+
   if (_dateReg.test(dateString)) {
     const formattedString = dateString.replace(/-/g, '')
     return parse(formattedString, _parseformat, new Date())
@@ -150,10 +152,17 @@ export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]) => {
   return total
 }
 
-export const filterDateRangeValueList = (valueList: ValueDateRange[]) => {
-  const filteredList = valueList.map(
-    (val) => Object.fromEntries(Object.entries(val).filter(([_, v]) => v != null && (v as string).length > 0)) as ValueDateRange
-  )
+export const filterDateRangeValueList = (valueList: ValueDateRange[]): ValueDateRange[] => {
+  return valueList
+    .map((val) => {
+      if (getValidDate(val?.from) === undefined) {
+        delete val.from
+      }
+      if (getValidDate(val?.to) === undefined) {
+        delete val.to
+      }
 
-  return filteredList.filter((val) => val.from?.length > 0 || val.to?.length > 0)
+      return val
+    })
+    .filter((val) => val.to !== undefined || val.from !== undefined)
 }

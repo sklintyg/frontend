@@ -10,7 +10,6 @@
     "testCertificate": false,
     "forwarded": false,
     "relations": {},
-    "approvedReceivers": [],
     "unit": {
       "hsaId": "TSTNMT2321000156-1077",
       "name": "NMT vg3 ve1",

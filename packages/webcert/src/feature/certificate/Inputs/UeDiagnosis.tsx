@@ -1,7 +1,14 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  Diagnosis,
+  ValueDiagnosis,
+  ValueDiagnosisList,
+  QuestionValidationTexts,
+} from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
@@ -14,6 +21,7 @@ interface Props {
   disabled: boolean
   id: string
   selectedCodeSystem: string
+  isShowValidationError?: boolean
 }
 
 const Wrapper = styled.div`
@@ -49,9 +57,9 @@ const descriptionListStyles = css`
   grid-column-start: ul;
 `
 
-const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question }) => {
+const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError }) => {
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item.id === id)
+  const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
@@ -142,14 +150,18 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     if (typeaheadResult === undefined || typeaheadResult === null || typeaheadResult.resultat !== 'OK') {
       return []
     }
-    return typeaheadResult.diagnoser.map((diagnosis: Diagnosis) => {
-      const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
-      return {
-        label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
-        disabled: isDisabled,
-        title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
-      }
-    })
+    return typeaheadResult.diagnoser
+      .filter((diagnosis) => {
+        return !(question.value as ValueDiagnosisList).list.find((value) => value.code === diagnosis.kod)
+      })
+      .map((diagnosis: Diagnosis) => {
+        const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
+        return {
+          label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
+          disabled: isDisabled,
+          title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
+        }
+      })
   }
 
   const getCodeFromString = (diagnosis: string) => {
@@ -198,6 +210,22 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
+  const getValidationErrors = (isCode: boolean) => {
+    if (!question || !question.validationErrors || question.validationErrors.length === 0) {
+      return []
+    }
+
+    return question.validationErrors.filter(
+      (v) =>
+        v.field.includes('[' + (parseInt(id) - 1) + ']' + (isCode ? '.diagnoskod' : '.diagnosbeskrivning')) ||
+        v.field.includes('[' + (parseInt(id) - 1) + ']' + '.row')
+    )
+  }
+
+  const hasValidationErrors = () => {
+    return isShowValidationError && getValidationErrors(true).length > 0
+  }
+
   return (
     <Wrapper key={id + '-wrapper'}>
       <Typeahead
@@ -207,7 +235,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         listStyles={codeListStyles}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={hasValidationErrors()}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         open={openCode}
@@ -215,6 +243,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
+      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors(true)} />}
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -222,7 +251,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         disabled={disabled}
         inputStyles={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={hasValidationErrors()}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
@@ -236,37 +265,40 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   )
 }
 
+const checkIsDiagnosisEmpty = (valueDiagnosis: ValueDiagnosis): boolean => {
+  return (
+    (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
+    (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
+  )
+}
+
+const duplicateDiagnosisIsSaved = (updatedValueList: ValueDiagnosis[], valueDiagnosis: ValueDiagnosis): boolean => {
+  return updatedValueList.some(
+    (v) =>
+      valueDiagnosis && v && valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
+  )
+}
+
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  const updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  const savedDiagnosisIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
+  const diagnosisIsSaved = savedDiagnosisIndex !== -1
+  const isDiagnosisEmpty = checkIsDiagnosisEmpty(valueDiagnosis)
 
-  const diagnosisIsEmpty =
-    (valueDiagnosis.code === undefined || valueDiagnosis.code === '') &&
-    (valueDiagnosis.description === undefined || valueDiagnosis.description === '')
+  if (updatedValueList.length === 0 && isDiagnosisEmpty) return null
 
-  if (updatedValueList.length === 0 && diagnosisIsEmpty) return null
-
-  if (
-    (diagnosisIsEmpty && !updatedValueList.some((v) => v.id === valueDiagnosis.id)) ||
-    updatedValueList.some(
-      (v) => valueDiagnosis.id === v.id && valueDiagnosis.code === v.code && valueDiagnosis.description === v.description
-    )
-  ) {
+  if ((isDiagnosisEmpty && !diagnosisIsSaved) || duplicateDiagnosisIsSaved(updatedValueList, valueDiagnosis)) {
     return null
   }
 
-  const updatedValueIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
-  if (updatedValueIndex === -1) {
-    if (!diagnosisIsEmpty) {
-      updatedValueList = [...updatedValueList, valueDiagnosis as ValueDiagnosis]
+  if (!diagnosisIsSaved) {
+    if (!isDiagnosisEmpty) {
+      updatedValueList.push(valueDiagnosis)
     }
   } else {
-    if (!diagnosisIsEmpty) {
-      updatedValueList[updatedValueIndex] = valueDiagnosis
-    } else {
-      updatedValueList.splice(updatedValueIndex, 1)
-    }
+    updatedValueList[savedDiagnosisIndex] = valueDiagnosis
   }
 
   updatedQuestionValue.list = updatedValueList

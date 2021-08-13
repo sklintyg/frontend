@@ -31,12 +31,6 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
-  approvedReceivers?: CertificateReceiver[]
-}
-
-export interface CertificateReceiver {
-  name: string
-  approved: boolean
 }
 
 export interface CertificateData {
@@ -205,8 +199,8 @@ export interface ValueDateList extends Value {
 
 export interface ValueDateRange extends Value {
   id: string
-  from: string
-  to: string
+  from?: string
+  to?: string
 }
 
 export interface ValueDateRangeList extends Value {
@@ -334,6 +328,7 @@ export enum CertificateRelationType {
   REPLACE = 'REPLACE',
   COPIED = 'COPIED',
   RENEW = 'RENEW',
+  COMPLEMENTED = 'COMPLEMENTED',
 }
 
 export interface CertificateEvent {

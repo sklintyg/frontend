@@ -1,5 +1,5 @@
 import React from 'react'
-import { signCertificate } from '../../../store/certificate/certificateActions'
+import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,12 +18,13 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
 
   return (
     <CustomButton
-      style="success"
+      tooltip={description}
+      buttonStyle="success"
       text={name}
       startIcon={<FontAwesomeIcon size="lg" icon={faFileSignature} />}
       disabled={isValidating || !enabled}
       onClick={() => {
-        dispatch(signCertificate())
+        dispatch(startSignCertificate())
       }}></CustomButton>
   )
 }

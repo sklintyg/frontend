@@ -1,6 +1,14 @@
 import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
-import { Certificate, CertificateDataElement, CertificateStatus, ConfigTypes, ResourceLinkType } from '@frontend/common'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateRelationType,
+  CertificateStatus,
+  Complement,
+  ConfigTypes,
+  ResourceLinkType,
+} from '@frontend/common'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -15,6 +23,27 @@ export const getShowValidationErrors = (state: RootState) => state.ui.uiCertific
 export const getCertificate = (state: RootState): Certificate => state.ui.uiCertificate.certificate!
 
 export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
+
+export const getIsComplementingCertificate = (state: RootState): boolean => {
+  const metadata = state.ui.uiCertificate.certificate?.metadata
+  if (!metadata) {
+    return false
+  }
+
+  return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
+}
+
+export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
+  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
+
+export const getGotoId = (state: RootState): string | undefined => {
+  const questionId = state.ui.uiCertificate.gotoCertificateDataElement?.questionId
+  if (!questionId) {
+    return
+  }
+
+  return state.ui.uiCertificate.certificate?.data[questionId].parent
+}
 
 export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
 
@@ -134,3 +163,5 @@ export const getIsLocked = (state: RootState) =>
 
 export const getIsEditable = (state: RootState) =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
+
+export const getSigningData = (state: RootState) => state.ui.uiCertificate.signingData

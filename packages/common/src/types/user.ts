@@ -10,6 +10,12 @@ export interface User {
   //  "wc.sidebarMinimized":"false"
   //  }
   preferences: { [key: string]: string } | null
+  signingMethod: SigningMethod
+}
+
+export enum SigningMethod {
+  DSS = 'DSS',
+  FAKE = 'FAKE',
 }
 
 export interface UserProperty {

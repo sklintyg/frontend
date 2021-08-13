@@ -1,16 +1,24 @@
 import { createAction } from '@reduxjs/toolkit'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 
-export const getFMBDiagnosisCodeInfo = createAction<string[]>('[FMB] Get diagnosis code info')
+export interface FMBDiagnoseRequest {
+  icd10Code: string
+  icd10Description: string
+  index: number
+}
 
-export const getFMBDiagnosisCodeInfoStarted = createAction('[FMB] Get diagnosis code info started')
+const FMB = '[FMB]'
 
-export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>('[FMB] Get diagnosis code info success')
+export const getFMBDiagnosisCodeInfo = createAction<FMBDiagnoseRequest>(`${FMB} Get diagnosis code info`)
 
-export const getFMBDiagnosisCodeInfoError = createAction<string>('[FMB] Get diagnosis code info error')
+export const getFMBDiagnosisCodeInfoStarted = createAction(`${FMB} Get diagnosis code info started`)
 
-export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>('[FMB] Update diagnosis code info')
+export const getFMBDiagnosisCodeInfoSuccess = createAction<FMBDiagnosisCodeInfo>(`${FMB} Get diagnosis code info success`)
 
-export const updateFMBDiagnosisCodeInfoList = createAction<FMBDiagnosisCodeInfo[]>('[FMB] Update diagnosis code info list')
+export const getFMBDiagnosisCodeInfoError = createAction<string>(`${FMB} Get diagnosis code info error`)
 
-export const updateFMBPanelActive = createAction<boolean>('[FMB] Update panel active')
+export const updateFMBDiagnosisCodeInfo = createAction<FMBDiagnosisCodeInfo>(`${FMB} Update diagnosis code info`)
+
+export const updateFMBPanelActive = createAction<boolean>(`${FMB} Update panel active`)
+
+export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB} Remove diagnosis code info`)

@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
-import { ButtonTooltip, CustomButton } from '@frontend/common'
+import React from 'react'
+import { CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
 
 interface Props {
@@ -9,13 +9,12 @@ interface Props {
   modalTitle: string
   onConfirm: () => any
   confirmButtonText: string
-  confirmButtonColor?: 'inherit' | 'default' | 'primary' | 'secondary'
   additionalConfirmButtonStyles?: string
   confirmButtonDisabled?: boolean
   declineButtonText?: string
   additionalButtonStyles?: string
-  buttonStyle?: 'primary' | 'secondary' | 'success'
-  confirmButtonStyle?: 'primary' | 'secondary' | 'success'
+  buttonStyle?: 'primary' | 'secondary' | 'success' | 'default'
+  confirmButtonStyle?: 'primary' | 'secondary' | 'success' | 'default'
   description: string
   onClick?: () => void
   onClose?: () => void
@@ -46,7 +45,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
     <>
       <CustomButton
         tooltip={props.description}
-        style={props.buttonStyle ? props.buttonStyle : 'primary'}
+        buttonStyle={props.buttonStyle ? props.buttonStyle : 'primary'}
         disabled={props.disabled}
         className={props.additionalButtonStyles}
         onClick={handleClickOpen}
@@ -61,13 +60,13 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         buttons={
           <>
             <CustomButton
-              style={props.buttonStyle ? props.buttonStyle : 'primary'}
+              buttonStyle={props.confirmButtonStyle ? props.confirmButtonStyle : 'primary'}
               className={props.additionalConfirmButtonStyles}
               disabled={props.confirmButtonDisabled}
               onClick={handleConfirm}
               text={props.confirmButtonText}
             />
-            <CustomButton onClick={handleClose} style="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
+            <CustomButton onClick={handleClose} buttonStyle="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
           </>
         }
       />

@@ -3,14 +3,14 @@ import { History, LocationState } from 'history'
 import {
   Certificate,
   CertificateDataElement,
+  CertificateEvent,
+  CertificateMetadata,
   CertificateStatus,
+  Complement,
   Unit,
   ValidationError,
-  CertificateMetadata,
-  CertificateEvent,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
-import { CertificateReceiver } from '@frontend/common/src'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -47,6 +47,8 @@ const SIGN_CERTIFICATE_STARTED = `${CERTIFICATE} Sign certificate started`
 const SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Sign certificate success`
 const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
+const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
+const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -59,6 +61,18 @@ const REPLACE_CERTIFICATE_STARTED = `${CERTIFICATE} Replace certificate started`
 const REPLACE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Replace certificate success`
 const REPLACE_CERTIFICATE_ERROR = `${CERTIFICATE} Replace certificate error`
 const REPLACE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Replace certificate completed`
+
+const COMPLEMENT_CERTIFICATE = `${CERTIFICATE} Complement certificate`
+const COMPLEMENT_CERTIFICATE_STARTED = `${CERTIFICATE} Complement certificate started`
+const COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Complement certificate success`
+const COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Complement certificate error`
+const COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Complement certificate completed`
+
+const ANSWER_COMPLEMENT_CERTIFICATE = `${CERTIFICATE} Answer complement certificate`
+const ANSWER_COMPLEMENT_CERTIFICATE_STARTED = `${CERTIFICATE} Answer complement certificate started`
+const ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Answer complement certificate success`
+const ANSWER_COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Answer complement certificate error`
+const ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Answer complement certificate completed`
 
 const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
 const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
@@ -97,6 +111,9 @@ const UPDATE_CERTIFICATE_EVENTS = `${CERTIFICATE} Update certificate events`
 const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data element`
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
+const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
+const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
+const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
@@ -120,7 +137,7 @@ const SET_DISABLED_CERTIFICATE_DATA_CHILD = `${CERTIFICATE} Set certificate chil
 const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data element`
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
-const ADD_CERTIFICATE_APPROVED_RECEIVER = `${CERTIFICATE} Adds if a receiver is approved or not`
+const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
@@ -183,15 +200,19 @@ export interface SendCertificateSuccess {
   result: string
 }
 
-export const signCertificate = createAction(SIGN_CERTIFICATE)
+export const startSignCertificate = createAction(SIGN_CERTIFICATE)
 
 export const signCertificateStarted = createAction(SIGN_CERTIFICATE_STARTED)
 
-export interface SignCertificateSuccess {
+export interface FakeSignCertificateSuccess {
   certificate: Certificate
 }
 
-export const signCertificateSuccess = createAction<SignCertificateSuccess>(SIGN_CERTIFICATE_SUCCESS)
+export const fakeSignCertificateSuccess = createAction<FakeSignCertificateSuccess>(FAKE_SIGN_CERTIFICATE_SUCCESS)
+
+export const startSignCertificateSuccess = createAction<SigningData>(SIGN_CERTIFICATE_SUCCESS)
+
+export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
@@ -230,6 +251,28 @@ export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>
 export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_ERROR)
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
+
+export const complementCertificate = createAction<string>(COMPLEMENT_CERTIFICATE)
+
+export const complementCertificateStarted = createAction(COMPLEMENT_CERTIFICATE_STARTED)
+
+export interface ComplementCertificateSuccess {
+  certificate: Certificate
+}
+
+export const complementCertificateSuccess = createAction<ComplementCertificateSuccess>(COMPLEMENT_CERTIFICATE_SUCCESS)
+
+export const complementCertificateError = createAction<string>(COMPLEMENT_CERTIFICATE_ERROR)
+
+export const complementCertificateCompleted = createAction(COMPLEMENT_CERTIFICATE_COMPLETED)
+
+export const answerComplementCertificate = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE)
+
+export const answerComplementCertificateStarted = createAction(ANSWER_COMPLEMENT_CERTIFICATE_STARTED)
+
+export const answerComplementCertificateSuccess = createAction<ComplementCertificateSuccess>(ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS)
+
+export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
 
 export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
 
@@ -284,6 +327,7 @@ export const autoSaveCertificateCompleted = createAction(AUTO_SAVE_COMPLETED)
 interface AutoSaveCertificateSuccess {
   version: number
 }
+
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
 export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
@@ -338,4 +382,21 @@ export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DA
 
 export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
 
-export const addCertificateApprovedReceiver = createAction<CertificateReceiver>(ADD_CERTIFICATE_APPROVED_RECEIVER)
+export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
+
+export interface GotoCertificateDataElement {
+  questionId: string
+  valueId: string
+}
+
+export const updateGotoCertificateDataElement = createAction<GotoCertificateDataElement>(UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT)
+
+export const clearGotoCertificateDataElement = createAction(CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT)
+
+export interface SigningData {
+  actionUrl: string
+  id: string
+  signRequest: string
+}
+
+export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)

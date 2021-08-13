@@ -21,7 +21,7 @@ const CertificateValidation = () => {
 
   const validationMessages = validationErrors.map((validation, i) => {
     return (
-      <p key={i}>
+      <p key={i} className={'iu-mt-none'}>
         <Link
           css={linkStyles}
           className={'iu-color-error iu-fs-300'}
@@ -37,7 +37,7 @@ const CertificateValidation = () => {
   })
 
   return (
-    <div className={`iu-pt-400 iu-pb-400 iu-mt-400 contentPaperWrapper`}>
+    <div className={`iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper`}>
       <InfoBox type="error">Utkastet saknar uppgifter i följande avsnitt:</InfoBox>
       <div className={'iu-mt-300'}>{validationMessages}</div>
     </div>

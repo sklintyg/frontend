@@ -12,8 +12,6 @@ import {
   CertificateStatus,
   FakeLogin,
   Patient,
-  ResourceLinkChooseReceivers,
-  ResourceLinkSend,
   ResourceLinkType,
   User,
   ValidationError,
@@ -839,22 +837,14 @@ function createResponse(certificate: Certificate): { certificate: Certificate } 
       break
     case CertificateStatus.SIGNED:
       certificateClone.links.push({
-        type: ResourceLinkType.CHOOSE_RECEIVERS,
-        receivers: ['Försäkringskassan', 'Försäkringsbolaget'],
-        name: 'Välj intygsmottagare',
-        description: `Öppnar ett fönster där du kan välja vilka intygsmottagare intyget får skickas till.`,
-        enabled: true,
-      } as ResourceLinkChooseReceivers)
-      certificateClone.links.push({
         type: ResourceLinkType.SEND_CERTIFICATE,
         name: 'Skicka',
         description: `Öppnar ett fönster där du kan välja att skicka intyget till Försäkringskassan`,
-        modalBody:
+        body:
           '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>' +
           '<p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.</p>',
-        receiver: 'Försäkringskassan',
         enabled: true,
-      } as ResourceLinkSend)
+      })
       certificateClone.links.push({
         type: ResourceLinkType.PRINT_CERTIFICATE,
         name: 'Skriv ut',
@@ -1094,6 +1084,7 @@ function validate(certificate: Certificate): ValidationError[] {
               text: 'Välj minst en diagnos.',
             })
           }
+
           break
         case CertificateDataValueType.DATE_LIST:
           const dateListValue = question.value as ValueDateList

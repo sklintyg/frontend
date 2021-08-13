@@ -40,10 +40,37 @@ const question: CertificateDataElement = {
     list: [{ id: 'id1' }, { id: 'id2' }, { id: 'id3' }],
   },
 }
+
+const questionWithValue: CertificateDataElement = {
+  id: 'diagnos',
+  mandatory: true,
+  index: 0,
+  parent: '',
+  visible: true,
+  readOnly: false,
+  validation: [],
+  validationErrors: [],
+  value: { type: CertificateDataValueType.DIAGNOSIS, list: [{ code: 'F503', description: 'Atypisk bulimia nervosa' }] },
+  config: {
+    text: '',
+    description: '',
+    type: ConfigTypes.UE_DIAGNOSES,
+    terminology: ['ICD_10', 'Annat'],
+    list: [{ id: 'id1' }, { id: 'id2' }, { id: 'id3' }],
+  },
+}
 const renderDefaultComponent = () => {
   render(
     <>
       <UeDiagnosis question={question} disabled={false} id={'diagnosis'} selectedCodeSystem={CODE_SYSTEM} />
+    </>
+  )
+}
+
+const renderComponentWithValue = () => {
+  render(
+    <>
+      <UeDiagnosis question={questionWithValue} disabled={false} id={'diagnosis'} selectedCodeSystem={CODE_SYSTEM} />
     </>
   )
 }
@@ -169,5 +196,14 @@ describe('Diagnosis component', () => {
     await userEvent.keyboard('{escape}')
     expect(input[0]).toHaveValue(testInput1)
     checkListVisibility(false)
+  })
+
+  it('does not show already chosen values in list', async () => {
+    renderComponentWithValue()
+    const input = screen.getAllByRole('textbox')
+    await userEvent.click(input[0])
+    await userEvent.keyboard(testInput1)
+    const listItems = screen.queryAllByRole('option')
+    expect(listItems).toHaveLength(DIAGNOSES.length - 1)
   })
 })
