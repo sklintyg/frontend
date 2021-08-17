@@ -137,13 +137,21 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
       return
     }
 
-    getValidationForSickLeavePeriod(
-      action.payload.value,
-      getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
-      getState().ui.uiCertificate.certificate,
-      dispatch
-    )
     getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+
+    if (
+      action.payload.value &&
+      getState().ui.uiCertificate.certificate &&
+      (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
+        action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
+    ) {
+      getValidationForSickLeavePeriod(
+        action.payload.value,
+        getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
+        getState().ui.uiCertificate.certificate,
+        dispatch
+      )
+    }
   }
 }
 

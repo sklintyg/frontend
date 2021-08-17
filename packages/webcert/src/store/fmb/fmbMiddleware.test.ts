@@ -120,6 +120,32 @@ describe('Test FMB middleware', () => {
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(0)
     })
+
+    it('shall show sick leave period warning if updated element is diagnosis list', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
+
+    it('shall show sick leave period warning if updated element is date range list', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('A01', 0)
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDateRangeListElement()))
+
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
   })
 
   describe('Handle UpdateCertificate', () => {
@@ -227,6 +253,26 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
   }
 }
 
+export const getDateRangeListElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {},
+    value: {
+      type: CertificateDataValueType.DATE_RANGE_LIST,
+      list: [{ id: 'EN_FJARDEDEL', to: '2021-12-12', from: '2020-12-12' }],
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}
+
 export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -244,6 +290,14 @@ export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean)
           ],
     data: {
       '6.1': getDiagnosesElement(codes),
+    },
+    metadata: {
+      patient: {
+        personId: {
+          type: 'type',
+          id: '1912121212',
+        },
+      },
     },
   }
 }
