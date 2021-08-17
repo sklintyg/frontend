@@ -25,7 +25,7 @@ import {
   Value,
   ValueDiagnosisList,
 } from '@frontend/common'
-import { ValueDateRangeList } from '@frontend/common/src'
+import { Certificate, ValueDateRangeList } from '@frontend/common/src'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -81,13 +81,37 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
 }
 
 function getValidationForSickLeavePeriod(
-  diagnoses: Value | null,
-  personId: string,
   value: Value | null,
+  personId: string,
+  certificate: Certificate,
   dispatch: Dispatch<AnyAction>
 ): void {
-  const diagnosisCodes: string[] = []
-  if (value && value.type === CertificateDataValueType.DATE_RANGE_LIST && diagnoses) {
+  let diagnoses = null
+  let dateRangeList = null
+  if (value && value.type === CertificateDataValueType.DATE_RANGE_LIST) {
+    dateRangeList = value
+    for (const questionId in certificate.data) {
+      const question = certificate.data[questionId]
+      if (question.value && question.value!.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+        diagnoses = question.value
+        break
+      }
+    }
+  } else if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+    diagnoses = value
+    for (const questionId in certificate.data) {
+      const question = certificate.data[questionId]
+      if (question.value && question.value!.type === CertificateDataValueType.DATE_RANGE_LIST) {
+        dateRangeList = question.value
+        break
+      }
+    }
+  } else {
+    return
+  }
+
+  if (diagnoses) {
+    const diagnosisCodes: string[] = []
     ;(diagnoses as ValueDiagnosisList).list.forEach((diagnosis, index) => {
       diagnosisCodes[index] = diagnosis.code
     })
@@ -95,7 +119,7 @@ function getValidationForSickLeavePeriod(
       validateSickLeaveLength({
         icd10Codes: diagnosisCodes,
         personId: personId,
-        dateRangeList: value as ValueDateRangeList,
+        dateRangeList: dateRangeList as ValueDateRangeList,
       })
     )
   }
@@ -113,21 +137,12 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
       return
     }
 
-    let diagnoses = null
-    for (const questionId in getState().ui.uiCertificate.certificate.data) {
-      const question = getState().ui.uiCertificate.certificate.data[questionId]
-      if (question.value && question.value!.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-        diagnoses = question.value
-      }
-    }
-
     getValidationForSickLeavePeriod(
-      diagnoses,
-      getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
       action.payload.value,
+      getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
+      getState().ui.uiCertificate.certificate,
       dispatch
     )
-
     getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
   }
 }
