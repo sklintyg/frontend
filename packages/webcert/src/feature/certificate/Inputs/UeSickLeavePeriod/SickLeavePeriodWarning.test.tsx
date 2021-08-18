@@ -1,13 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../../../store/reducers'
 import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
-import { setSickLeavePeriodWarning, updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
+import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
 
 let testStore: EnhancedStore
 const WARNING = 'warning string'
@@ -21,7 +20,7 @@ beforeEach(() => {
 
 const renderComponent = () => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <SickLeavePeriodWarning></SickLeavePeriodWarning>
     </Provider>
   )
