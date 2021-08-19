@@ -111,7 +111,9 @@ const WelcomeCertificateTypes: React.FC = () => {
             <h3>Patient: </h3>
             <Dropdown
               options={patients.map((patient) => (
-                <option key={patient.personId.id} value={patient.personId.id} label={patient.fullName} />
+                <option key={patient.personId.id} value={patient.personId.id}>
+                  {patient.fullName}
+                </option>
               ))}
               onChange={handlePatientChange}
               id={'patient'}
@@ -136,7 +138,9 @@ const WelcomeCertificateTypes: React.FC = () => {
                 <Wrapper>
                   <Dropdown
                     options={value.versions.map((version) => (
-                      <option key={version} value={version} label={version} />
+                      <option key={version} value={version}>
+                        {version}
+                      </option>
                     ))}
                     onChange={handleVersionChange}
                     id={'versions' + value.internalType}
@@ -145,7 +149,9 @@ const WelcomeCertificateTypes: React.FC = () => {
                   />
                   <Dropdown
                     options={value.statuses.map((status) => (
-                      <option key={status} value={status} label={status} />
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
                     ))}
                     onChange={handleStatusChange}
                     id={'status' + value.internalType}
@@ -154,7 +160,9 @@ const WelcomeCertificateTypes: React.FC = () => {
                   />
                   <Dropdown
                     options={value.fillType.map((version) => (
-                      <option key={version} value={version} label={version} />
+                      <option key={version} value={version}>
+                        {version}
+                      </option>
                     ))}
                     onChange={handleFilltypeChange}
                     id={'fillType' + value.internalType}
