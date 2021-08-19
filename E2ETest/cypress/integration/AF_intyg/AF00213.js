@@ -2,7 +2,7 @@
 /// <reference types="Cypress" />
 import * as intyg from '../../support/FK_intyg/fk_helpers'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+// AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
 
 describe('AF00213-intyg tomt', function() {
 
@@ -14,7 +14,7 @@ describe('AF00213-intyg tomt', function() {
         
     });
   
-    context('Använader har möjlighet att uföra följande med ett tomt utkast ',function() {
+    context('Använadare har möjlighet att uföra följande med ett tomt utkast ',function() {
         beforeEach(function() {
             cy.skapaIntygViaApi(this,false,true,false).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');

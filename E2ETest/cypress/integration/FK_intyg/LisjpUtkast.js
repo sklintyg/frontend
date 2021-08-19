@@ -35,7 +35,14 @@ describe('LISJP-utkast tomt', function() {
                 cy.visit(önskadUrl);
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.get('button').contains("Signera intyget").click();
-                expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
+                expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist; //Nedan också
+                cy.contains('Grund för medicinskt underlag').should('exist')
+                cy.contains('Sysselsättning').should('exist')
+                cy.contains('Diagnos').should('exist')
+                cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
+                cy.contains('Bedömning').should('exist')
+                cy.contains('Åtgärder').should('exist')// borde ju vara så här men vill ju kolla så att varningen nedan är rätt
+               
                 expect(cy.get(':nth-child(1) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Grund för medicinskt underlag")).to.exist;
                 expect(cy.get(':nth-child(2) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Sysselsättning")).to.exist;
                 expect(cy.get(':nth-child(3) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Diagnos")).to.exist;

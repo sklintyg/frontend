@@ -79,7 +79,7 @@ export function signera() {
     // https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/ :
     // "If a tree falls in the forest and no one has attached a “fall” event listener, did it really fall?"
 
-    const click = $el => { return $el.click() }
+    //const click = $el => { return $el.click() }
 
     // Parent() p.g.a. att ett element täcker knappen
     cy.get('button').contains("Signera intyget").click();
@@ -106,25 +106,45 @@ export function skrivUtUtkast(){
 }
 // Generell utskriftsfunktion. Gäller inte för t.ex. LISJP
 export function skrivUt(typAvUtskrift, intygsId, intygsTyp){
+    const theUrl = 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + "/pdf" + typAvUtskrift;
     switch(typAvUtskrift) {
         case "utkast":
         case "fullständigt":
+           
             cy.request({
                 method: 'GET',
                 url: 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + "/pdf",
             });
+            cy.log(theUrl);
             cy.log('Skriver ut ett ' + typAvUtskrift + ' intyg (via cy.request, ej grafiskt)');
             break;
         default:
             cy.log('Ingen korrekt typ av utskrift vald');
     }
 }
-
+export function ersatta() {
+    cy.get('button').contains("Ersätt").click();
+    //cy.get('#fornyaBtn').click();
+    //cy.get('.iu-pb-400').then
+    
+    cy.get('.ic-modal').then((ele) => {
+        if(ele.text().includes('Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades')) {
+            //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
+            cy.get('.ic-button-group').contains("Ersätt").click();
+            //cy.get('#button1fornya-dialog').click();
+        }
+    });
+}
 export function fornya() {
-    cy.get('#fornyaBtn').click();
-    cy.get('body').then((ele) => {
-        if(ele.text().includes('De uppgifter som inte kommer med till det nya utkastet är:')) {
-            cy.get('#button1fornya-dialog').click();
+    cy.get('button').contains("Förnya").click();
+    //cy.get('#fornyaBtn').click();
+    //cy.get('.iu-pb-400').then
+    
+    cy.get('.ic-modal').then((ele) => {
+        if(ele.text().includes('Förnya intyg kan användas vid förlängning av en sjukskrivning')) {
+            //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
+            cy.get('.ic-button-group').contains("Förnya").click();
+            //cy.get('#button1fornya-dialog').click();
         }
     });
 }
