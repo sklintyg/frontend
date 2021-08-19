@@ -110,7 +110,12 @@ function getValidationForSickLeavePeriod(
     return
   }
 
-  if (diagnoses) {
+  if (
+    diagnoses &&
+    (diagnoses as ValueDiagnosisList).list.length > 0 &&
+    dateRangeList &&
+    (dateRangeList as ValueDateRangeList).list.length > 0
+  ) {
     const diagnosisCodes: string[] = []
     ;(diagnoses as ValueDiagnosisList).list.forEach((diagnosis, index) => {
       diagnosisCodes[index] = diagnosis.code
@@ -183,7 +188,7 @@ function retrieveFMBForAddedDiagnosisCodes(
 ) {
   valueDiagnosisList.list.forEach((diagnosis, index) => {
     const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
-    if (exists) {
+    if (exists || !diagnosis.code || diagnosis.code == '') {
       return
     }
 

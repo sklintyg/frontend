@@ -10,11 +10,11 @@ import {
   QuestionValidationTexts,
 } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
 import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
+import _ from 'lodash'
 
 interface Props {
   question: CertificateDataElement
@@ -58,7 +58,6 @@ const descriptionListStyles = css`
 `
 
 const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError }) => {
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
@@ -139,12 +138,24 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      updateSavedDiagnosis('', newDescription)
+      dispatchUpdateDiagnosisWithNewDescription('', newDescription)
     } else {
-      updateSavedDiagnosis(code, newDescription)
+      dispatchUpdateDiagnosisWithNewDescription(code, newDescription)
     }
-    updateTypeaheadResult(newDescription, false)
+    dispatchTypeahead(newDescription)
   }
+
+  const dispatchTypeahead = useRef(
+    _.debounce((value: string) => {
+      updateTypeaheadResult(value, false)
+    }, 150)
+  ).current
+
+  const dispatchUpdateDiagnosisWithNewDescription = useRef(
+    _.debounce((code: string, description: string) => {
+      updateSavedDiagnosis(code, description)
+    }, 500)
+  ).current
 
   const getSuggestions = () => {
     if (typeaheadResult === undefined || typeaheadResult === null || typeaheadResult.resultat !== 'OK') {
