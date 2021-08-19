@@ -30,6 +30,7 @@ describe('AF00213-intyg tomt', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
+                expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.get('button').contains("Signera och skicka").click();
                 expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
                 //cy.contains("Utkastet saknar uppgifter i följande avsnitt:");
@@ -56,8 +57,7 @@ describe('AF00213-intyg tomt', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                //intyg.skrivUt(typAvUtskrift, intygsId, intygsTyp){
-                    intyg.skrivUt("utkast", this.utkastId, "af00213");
+                intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request
 
                 //intyg.skrivUtUtkast();
 

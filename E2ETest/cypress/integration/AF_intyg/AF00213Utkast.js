@@ -24,7 +24,7 @@ describe('AF00213-intyg', function() {
         });
         describe('Funktioner på ett AF20013 utkast', () =>{
 
-            it('Skapar en maximalt ifylld AF00213 och skickar den till AF',function(){
+            it('Skapar en minimalt ifylld AF00213 och skickar den till AF',function(){
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -36,7 +36,7 @@ describe('AF00213-intyg', function() {
                 cy.contains("Intyget är tillgängligt för patienten");
 
             });
-            it('raderar ett ifylld AF00213', function () {
+            it('Raderar ett ifylld AF00213', function () {
                     //cy.visit('https://wc2.wc.localtest.me/welcome');
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -47,7 +47,7 @@ describe('AF00213-intyg', function() {
                     intyg.raderaUtkast();
 
             });
-            it('Skriva ut AF00213', function () {
+           /* it('Skriva ut AF00213', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -58,7 +58,7 @@ describe('AF00213-intyg', function() {
 
                 intyg.skrivUtUtkast();
 
-        });
+            });*/
 
         });
     });

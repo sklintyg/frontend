@@ -30,7 +30,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
 
             
            
-            it('Skriva ut AF00213 intyg', function () {
+           /* it('Skriva ut minimalt AF00213 intyg', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -40,7 +40,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
 
                 intyg.skrivUtUtkast();
 
-            });
+            });*/
              it('Makulerar ett ifylld AF00213 intyg', function () {
                     //cy.visit('https://wc2.wc.localtest.me/welcome');
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
