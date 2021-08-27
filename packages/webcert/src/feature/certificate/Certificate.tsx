@@ -17,6 +17,8 @@ import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import SigningForm from './Signing/SigningForm'
+import IcfDropdown from '../../components/icf/IcfDropdown'
+import { getIcfDisability } from '../../store/icf/icfSelectors'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -69,6 +71,7 @@ const Certificate: React.FC = () => {
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
+        <IcfDropdown infoText={'test'} icfSelector={getIcfDisability} />
         {isComplementingCertificate && (
           <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>
             Försäkringskassan har begärt kompletteringar på intyget.
