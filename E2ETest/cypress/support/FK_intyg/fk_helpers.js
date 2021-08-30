@@ -43,24 +43,23 @@ export function sektionKontakt(kontakt) {
 }
 export function signeraSkicka() {
     
-    cy.wait(1000);
-
-    cy.contains("Klart att signera");
+    //cy.contains("Klart att signera"); HÄR FINNS EN BUG ATT TA HAND OM
+    
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
     cy.contains("Utkastet sparas").should('not.exist');
-
-    
-    //const click = $el => { return $el.click() }
     cy.get('button').contains("Signera och skicka").click();
-    //cy.get('button').contains("Logga in").click()
 
-    // Parent() p.g.a. att ett element täcker knappen
-    //cy.get('#signera-utkast-button').parent().should('be.visible')
-
-    //cy.get('#signera-utkast-button')
-    ////.should($el => {
-      //  expect($el.parent()).to.not.be.visible;
-    //})
+}
+export function skickaFraga(amne) {
+    cy.contains("Administrativa frågor").click();
+    cy.wait(100);
+    cy.get('select').select(amne);
+    cy.get('.ic-textarea').type('skickar en fråga angående '+ amne);
+    cy.wait(1000);
+    cy.get('button').contains('Skicka').click();
+    expect(cy.contains('skickar en fråga angående '+ amne)).to.exist;
+    cy.contains('Hanterad').click();
+       
 }
 
 export function signera() {
@@ -94,11 +93,18 @@ export function signera() {
 }
 
 export function skickaTillFk() {
-    cy.get("#sendBtn", { timeout: 60000 }).click();
+    cy.get('button').contains("Skicka till Försäkringskassan").click();
+        // cy.get('button').contains("Avbryt").click();
+        // cy.get('button').contains('Skicka till Försäkringskassan').click({force: true}); //testade funkade inte
+        cy.get('.ic-modal').within((modal)=>
+        {
+             cy.get('button').contains('Skicka till Försäkringskassan').click();
+        });
+   // cy.get("#sendBtn", { timeout: 60000 }).click();
 
     // Modal som dyker upp och frågar om man verkligen vill skicka
-    cy.get("#button1send-dialog").click();
-    cy.contains("Intyget är skickat till Försäkringskassan");
+   // cy.get("#button1send-dialog").click();
+   // cy.contains("Intyget är skickat till Försäkringskassan");
 }
 export function skrivUtUtkast(){
     cy.get('button').contains("Skriv ut").click();
@@ -122,6 +128,7 @@ export function skrivUt(typAvUtskrift, intygsId, intygsTyp){
             cy.log('Ingen korrekt typ av utskrift vald');
     }
 }
+
 export function ersatta() {
     cy.get('button').contains("Ersätt").click();
     //cy.get('#fornyaBtn').click();
@@ -148,13 +155,52 @@ export function fornya() {
         }
     });
 }
-export function kopiera(){
-    cy.get('#copy-utkast').click().then(() => {
-        cy.get('#confirm-draft-copy-button').click();
-        
+export function kopieraUtkast(){
+    cy.contains('Kopiera').click().then(() => {
+        cy.get('.ic-modal').then((ele) => {
+            if(ele.text().includes('Kopiera låst utkast')) {
+                cy.get('.ic-modal').within((modal)=>
+                {
+                     cy.get('button').contains('Kopiera').click();
+                });
+                
+            }
+        });
     });
 }
-
+export function svaraPaKomplettering(alternativ, meddelandeText) {
+    switch(alternativ) {
+        case "nyttIntyg":
+           // cy.get('.ic-modal').within((modal)=>
+            //{
+            cy.contains('Komplettera').click();
+           // });
+            break;
+        case "meddelande":
+            cy.contains('Kan ej komplettera').click();
+            cy.get('.ic-modal').within((modal)=>
+            {
+                cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click();
+                cy.get('.ic-textarea').type(meddelandeText);
+                cy.contains("Skicka svar").click();
+            });
+            cy.log("Svarar med meddelande");
+            break;
+        case "textIntyg":
+            cy.contains('Kan ej komplettera').click();
+            cy.get('.ic-modal').within((modal)=>
+            {
+                cy.contains('Ingen ytterligare medicinsk information kan anges.').click();
+                cy.get('.ic-textarea').type(meddelandeText);
+                cy.contains("Skicka svar").click();
+            });
+            cy.log("Svarar med text");
+           
+            break;
+        default:
+            cy.log('Inget bra alternativ valt');
+    }
+}
 export function raderaUtkast() {
     cy.get('button').contains("Radera").click();
    // cy.get('#ta-bort-utkast').click();
@@ -170,6 +216,23 @@ export function makulera() {
    cy.wait(100);
    cy.get('.ic-button-group > :nth-child(1) > .ic-button').click();
    //cy.get('button').contains("Makulera").click();
+   //cy.get('radio').contains("Intyget har utfärdats på fel patient").check();  
+}
+export function makuleraUtkast() {
+    cy.get('button').contains("Makulera").click();
+   // cy.get('#ta-bort-utkast').click();
+   cy.get('.ic-modal').within((modal)=>
+        {
+            cy.contains("Utkastet har skapats på fel patient").click();
+            cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Utkastet har skapats på fel patient');
+            cy.wait(1000);
+            cy.get('button').contains("Makulera").click();
+        });
+   
+      
+   
+  // cy.get('.ic-button-group > :nth-child(1) > .ic-button').click();
+  
    //cy.get('radio').contains("Intyget har utfärdats på fel patient").check();  
 }
 export function makuleraIntyg(arg) {

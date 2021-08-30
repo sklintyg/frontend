@@ -6,7 +6,7 @@ import * as fk from './fk_helpers'
 
 // De funktioner etc. som är gemensamma för alla FK-intyg kan exporteras direkt
 export {besökÖnskadUrl, loggaUtLoggaIn, sektionÖvrigt, sektionKontakt,loggaUt,kopiera,
-        skickaTillFk, fornya, raderaUtkast, makuleraIntyg,komplettera} from './fk_helpers';
+        skickaTillFk, fornya, raderaUtkast, makuleraIntyg,komplettera, makulera, ersatta,kopieraUtkast, makuleraUtkast} from './fk_helpers';
 
 // -------------------- 'Smittbärarpenning' --------------------
 // Ej implementerad än
@@ -327,6 +327,21 @@ export function stallaFragaTillFK(typAvFraga){
         default:      
         
     }    
+}
+export function verifieraMeddelande() {
+    //iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper  ic-error-icon
+    cy.get('.iu-pt-400').within((texter)=>
+    {
+       // expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
+               // cy.get('button').contains("Signera intyget").click();
+                expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist; //Nedan också
+                cy.contains('Grund för medicinskt underlag').should('exist')
+                cy.contains('Sysselsättning').should('exist')
+                cy.contains('Diagnos').should('exist')
+                cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
+                cy.contains('Bedömning').should('exist')
+                cy.contains('Åtgärder').should('exist')
+    });
 }
 // -------------------- SRS-specifika funktioner --------------------
 export function bytTillSrsPanel() {

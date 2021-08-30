@@ -32,9 +32,10 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(intygsId).to.exist;
-   const theUrl = "https://wc2.wc.localtest.me/fake";
+   const theUrl = "https://wc.localtest.me/fake";
     //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
+  //"authenticationMethod": "FAKE"
 const originSträng = (ärDjup ? "DJUPINTEGRATION" : "NORMAL");
 cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
     cy.request({
@@ -48,24 +49,66 @@ cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
                 "efterNamn": "' + vårdpersonal.efternamn +'",\
                 "enhetId": "' + vårdenhet.id + '",\
                 "legitimeradeYrkesgrupper": ' + vårdpersonal.legitimeradeYrkesgrupper + ',\
-                "origin": "' + originSträng + '",\
-                "authenticationMethod": "FAKE"}'
+                "origin": "' + originSträng + '"}'
         }
     }).then((resp) => {
+        cy.log("json:" ,JSON.stringify(resp));
         expect(resp.status).to.equal(200);  
+        
             
     });
+    
     cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
+}
+//typer av frågor: MISSING, COORDINATION, CONTACT, OTHER, COMPLEMENT private QuestionType type;
+ /*   private String message;
+    private String answer;
+    private boolean answerAsDraft;
+    private boolean reminded;*/
+
+function skapaÄrende(fx,intygsId, typAvFråga, meddelande,reminder = false){
+    //const remind = reminder;
+    cy.request({
+        method: 'POST',              
+        url: 'https://wc.localtest.me/testability/certificate/' + intygsId + '/question',
+        raw: true,  
+       body:{  
+            "type": typAvFråga,
+            "message": meddelande, 
+            "answerAsDraft": false,
+            "reminded": reminder
+        }         
+    }).then((resp) => {
+        expect(resp.status).to.equal(200); 
+        //cy.log("IntygsID");
+        //cy.log(resp.body.certificateId);
+        //cy.log("json:" ,JSON.stringify(resp));
+        //cy.wrap(resp).its('Body.certificatId').then((intygsID) => {
+           // cy.log("IntygsID i return:" + intygsID);
+           
+            // Utan detta klagar Cypress på att man blandar synkron och asynkron kod
+            cy.wrap(resp.body.certificateId).then((id) => {
+                
+                return id;
+            });
+                
+       // });       
+    });
+    
 }
 // cy.skapaIntygViaApi(this,"SIGNED","lisjp","MAXIMAL")
 function skapaIntygViaApi(fx,status, typ, theFill){
-    cy.log("skickar mot API");
+    cy.log("skickar mot API "+ status);
     const vårdpersonal = fx.vårdpersonal;
     const läkare = fx.vårdpersonal;
     const vårdenhet = fx.vårdenhet;
     const patient = fx.vårdtagare;
     //const originSträng = (ärDjup ? "DJUPINTEGRATION" : "NORMAL");
-    const intygStatus = (status ? "SIGNED" : "UNSIGNED");
+   // const intygStatus = (status ? "SIGNED" : "UNSIGNED");
+   const theStatus = ["SIGNED" , "UNSIGNED", "LOCKED"];
+  
+   const intygStatus = theStatus[status];
+   cy.log(intygStatus);
     const intygTyp = (typ ? "af00213" : "lisjp");
     const filler = (theFill ?   "MINIMAL" :"EMPTY");
     cy.log(intygStatus + intygTyp + filler);
@@ -91,9 +134,9 @@ function skapaIntygViaApi(fx,status, typ, theFill){
          }
     }).then((resp) => {
         expect(resp.status).to.equal(200); 
-        cy.log("IntygsID");
-        cy.log(resp.body.certificateId);
-        cy.log("json:" ,JSON.stringify(resp));
+        //cy.log("IntygsID");
+        //cy.log(resp.body.certificateId);
+        //cy.log("json:" ,JSON.stringify(resp));
         //cy.wrap(resp).its('Body.certificatId').then((intygsID) => {
            // cy.log("IntygsID i return:" + intygsID);
            
@@ -287,6 +330,9 @@ Cypress.Commands.add("loggaUt",() => {
 Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType) => {
     skapaIntygViaApi(fx,status,typ,fillType);
  
+});
+Cypress.Commands.add("skapaÄrende", (fx,intygsId, typAvFråga, meddelande) => {
+    skapaÄrende(fx,intygsId, typAvFråga, meddelande);
 });
 
 // Skapa ett utkast enligt intygstyp
@@ -1494,6 +1540,7 @@ function sorteraHändelserKronologiskt(array) {
         return 0;
     });
 }
+
 
 /*
 Verifiera förväntade händelser mot hämtade (riktiga) händelser för
