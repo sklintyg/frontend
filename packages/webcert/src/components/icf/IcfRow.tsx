@@ -10,13 +10,23 @@ const TitleWrapper = styled.div`
 
 interface Props {
   icfCode: IcfCode
+  checked: boolean
   backgroundStyle: string
+  onCodeAdd: (icfCodeToAdd: string) => void
+  onCodeRemove: (icfCodeToRemove: string) => void
 }
 
-const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle }) => {
+const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove }) => {
   const [displayDescription, setDisplayDescription] = useState(false)
 
-  const handleCheckbox = () => {}
+  const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    console.log('Handle checkbox')
+    if (event.target.checked) {
+      onCodeAdd(event.target.value)
+    } else {
+      onCodeRemove(event.target.value)
+    }
+  }
 
   const handleShowMore = () => {
     setDisplayDescription(!displayDescription)
@@ -24,8 +34,8 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle }) => {
   return (
     <div className={`${backgroundStyle} iu-pt-200 iu-pb-200 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
-        <Checkbox onChange={handleCheckbox} label={icfCode.title} checked={false} value={icfCode.code} />
-        <p onClick={handleShowMore} data-testid={icfCode.title}>
+        <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.code} />
+        <p onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer{' '}
         </p>
       </TitleWrapper>

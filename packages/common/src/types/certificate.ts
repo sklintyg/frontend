@@ -239,7 +239,7 @@ export interface ValueText extends Value {
 }
 
 export interface ValueIcf extends Value {
-  codes?: string[]
+  icfCodes?: string[]
   text: string | null
 }
 

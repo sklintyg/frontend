@@ -44,6 +44,7 @@ const Checkbox: React.FC<Props> = (props) => {
   return (
     <div css={wrapperStyles}>
       <input
+        data-testid={id}
         type="checkbox"
         id={id}
         className={`ic-forms__checkbox ${checkboxAdditionalStyles ? checkboxAdditionalStyles : ''}`}

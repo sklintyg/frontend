@@ -25,11 +25,11 @@ const history = createMemoryHistory()
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
-const renderComponent = (infoText = 'infoText test', icfData = getIcfData().activityLimitation) => {
+const renderComponent = (infoText = 'infoText test', icfData = getIcfData().activityLimitation, icfValues = getIcfValues()) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <IcfDropdown infoText={infoText} icfData={icfData!} />
+        <IcfDropdown infoText={infoText} icfData={icfData!} icfCodeValues={icfValues} />
       </Router>
     </Provider>
   )
@@ -92,9 +92,9 @@ describe('IcfDropdown', () => {
   it('display icd codes after ICF button is clicked', () => {
     const icfData = getIcfData()
     renderAndOpenDropdown()
-
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[0].title)[1]).toBeInTheDocument()
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[1].title)[1]).toBeInTheDocument()
+    console.log(icfData.activityLimitation!.commonCodes.icdCodes)
+    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[0].title)[0]).toBeInTheDocument()
+    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[1].title)[0]).toBeInTheDocument()
   })
 
   it('display common icd codes after ICF button is clicked', () => {
@@ -117,7 +117,7 @@ describe('IcfDropdown', () => {
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut!.title)[0])
+    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
 
     expect(screen.getByText(expected!)).toBeInTheDocument()
   })
@@ -128,8 +128,8 @@ describe('IcfDropdown', () => {
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut!.title)[0])
-    userEvent.click(screen.getAllByTestId(sut!.title)[0])
+    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
+    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
 
     expect(screen.queryByText(expected!)).not.toBeInTheDocument()
   })
@@ -163,10 +163,18 @@ describe('IcfDropdown', () => {
       'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'
     )
   })
+
+  it('checkbox is checked if icf id is passed to component', () => {
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.code)
+    renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
+
+    expect(screen.getByRole('checkbox', { name: icfData.activityLimitation?.commonCodes.icfCodes[0].title })).toBeChecked()
+  })
 })
 
-const renderAndOpenDropdown = (title?: string, icfData?: Icf) => {
-  renderComponent(title, icfData)
+const renderAndOpenDropdown = (title?: string, icfData?: Icf, icfValues?: string[]) => {
+  renderComponent(title, icfData, icfValues)
   setDefaultIcfState()
   openIcfDropdown()
 }
@@ -181,28 +189,49 @@ const openIcfDropdown = () => {
   userEvent.click(screen.getByText('Ta hjälp av ICF'))
 }
 
+const getIcfValues = () => {
+  return ['1', '2']
+}
+
 const getIcfData = (): IcfState => {
-  const icfCodes: IcfCode[] = [
+  const commonIcfCodes: IcfCode[] = [
     {
-      code: '1',
+      code: '0',
       description: 'description 0',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 0',
     },
     {
-      code: '2',
+      code: '1',
       description: 'description 1',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 1',
     },
     {
-      code: '3',
+      code: '2',
       description: 'description 2',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 2',
+    },
+  ]
+
+  const uniqueIcfCodes: IcfCode[] = [
+    {
+      code: '3',
+      description: 'description 3',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 3',
+    },
+    {
+      code: '4',
+      description: 'description 4',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 4',
     },
   ]
 
@@ -212,18 +241,12 @@ const getIcfData = (): IcfState => {
 
   return {
     activityLimitation: {
-      commonCodes: { icfCodes: icfCodes, icdCodes: icdCodes },
-      uniqueCodes: [
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_2] },
-      ],
+      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
     },
     disability: {
-      commonCodes: { icfCodes: icfCodes, icdCodes: icdCodes },
-      uniqueCodes: [
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_2] },
-      ],
+      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
     },
   }
 }

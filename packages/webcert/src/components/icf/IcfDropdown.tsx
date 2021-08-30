@@ -33,10 +33,12 @@ const Footer = styled.div`
 interface Props {
   infoText: string
   icfData: Icf
-  onCodeChange: () => void
+  icfCodeValues?: string[]
+  onCodeAdd: (icfCodeToAdd: string) => void
+  onCodeRemove: (icfCodeToRemove: string) => void
 }
 
-const IcfDropdown: React.FC<Props> = ({ infoText, icfData }) => {
+const IcfDropdown: React.FC<Props> = ({ infoText, icfData, icfCodeValues, onCodeAdd, onCodeRemove }) => {
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const icdCodes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef<null | HTMLElement>(null)
@@ -81,14 +83,26 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData }) => {
           {icfData?.commonCodes && (
             <CategoryWrapper className={'iu-bg-white'}>
               <p>ICF-kategorier gemensamma för:</p>
-              <IcfCategory icdCodes={icfData.commonCodes.icdCodes} icfCodes={icfData.commonCodes.icfCodes} />
+              <IcfCategory
+                icfCodeValues={icfCodeValues}
+                icdCodes={icfData.commonCodes.icdCodes}
+                icfCodes={icfData.commonCodes.icfCodes}
+                onCodeAdd={onCodeAdd}
+                onCodeRemove={onCodeRemove}
+              />
             </CategoryWrapper>
           )}
           {icfData?.uniqueCodes &&
             icfData.uniqueCodes.map((icfUnique, i) => (
               <CategoryWrapper className={'iu-bg-white'} key={i}>
                 <p>ICF-kategorier för:</p>
-                <IcfCategory icdCodes={icfUnique.icdCodes} icfCodes={icfData.commonCodes.icfCodes} />
+                <IcfCategory
+                  icfCodeValues={icfCodeValues}
+                  icdCodes={icfUnique.icdCodes}
+                  icfCodes={icfUnique.icfCodes}
+                  onCodeAdd={onCodeAdd}
+                  onCodeRemove={onCodeRemove}
+                />
               </CategoryWrapper>
             ))}
           <Footer className={'iu-bg-secondary-light iu-p-300'}>

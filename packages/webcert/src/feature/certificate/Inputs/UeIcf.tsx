@@ -14,7 +14,7 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
-import { IcdCode, Icf, IcfCode } from '../../../store/icf/icfReducer'
+import { IcdCode, IcfCode, IcfState } from '../../../store/icf/icfReducer'
 
 interface Props {
   question: CertificateDataElement
@@ -24,33 +24,57 @@ interface Props {
 const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
-  const icfCodes = getIcdCodesValue(question)
+  const icfCodeValues = getIcdCodesValue(question)
   const questionConfig = question.config as ConfigUeIcf
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const dispatchEditDraft = useRef(
-    _.debounce((value: string) => {
-      const updatedValue = getUpdatedValue(question, icfCodes, value)
+    _.debounce((textValue: string, icfCodeValues?: string[]) => {
+      const updatedValue = getUpdatedValue(question, icfCodeValues, textValue)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
   ).current
 
   const handleTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setText(event.currentTarget.value)
-    dispatchEditDraft(event.currentTarget.value)
+    dispatchEditDraft(event.currentTarget.value, icfCodeValues)
   }
 
-  const handleCodeChange = () => {
+  const handleAddIcfCodeValue = (icfCodeToAdd: string) => {
+    console.log('add', icfCodeToAdd)
+    if (!icfCodeValues) {
+      dispatchEditDraft(text, [icfCodeToAdd])
+    } else {
+      const updatedIcfCodes = [...icfCodeValues, icfCodeToAdd]
+      dispatchEditDraft(text, updatedIcfCodes)
+    }
+  }
 
+  const handleRemoveIcfCodeValue = (icfCodeToRemove: string) => {
+    console.log('remove', icfCodeToRemove)
+    const updatedIcfCodes = icfCodeValues?.filter((icfCode) => icfCode !== icfCodeToRemove)
+    dispatchEditDraft(text, updatedIcfCodes)
   }
 
   return (
     <div className={`iu-pt-200`}>
-      <IcfDropdown infoText={'test'} icfData={getIcfData()} onCodeChange={handleCodeChange} />
-      <TextArea disabled={disabled} rowsMin={4} hasValidationError={shouldDisplayValidationError} onChange={handleTextChange}
-                name={questionConfig.id} value={text === null ? '' : text} />
+      <IcfDropdown
+        icfCodeValues={icfCodeValues}
+        infoText={'test'}
+        icfData={getIcfData().activityLimitation!}
+        onCodeAdd={handleAddIcfCodeValue}
+        onCodeRemove={handleRemoveIcfCodeValue}
+      />
+      <TextArea
+        disabled={disabled}
+        rowsMin={4}
+        hasValidationError={shouldDisplayValidationError}
+        onChange={handleTextChange}
+        name={questionConfig.id}
+        value={text === null ? '' : text}
+      />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </div>
   )
@@ -77,31 +101,48 @@ function getIcdCodesValue(question: CertificateDataElement): string[] | undefine
   if (question.value?.type !== CertificateDataValueType.ICF) {
     return []
   }
-  return (question.value as ValueIcf).codes
+  return (question.value as ValueIcf).icfCodes
 }
 
-const getIcfData = (): Icf => {
-  const icfCodes: IcfCode[] = [
+const getIcfData = (): IcfState => {
+  const commonIcfCodes: IcfCode[] = [
     {
-      code: '1',
+      code: '0',
       description: 'description 0',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 0',
     },
     {
-      code: '2',
+      code: '1',
       description: 'description 1',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 1',
     },
     {
-      code: '3',
+      code: '2',
       description: 'description 2',
       includes:
         'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
       title: 'title 2',
+    },
+  ]
+
+  const uniqueIcfCodes: IcfCode[] = [
+    {
+      code: '3',
+      description: 'description 3',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 3',
+    },
+    {
+      code: '4',
+      description: 'description 4',
+      includes:
+        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
+      title: 'title 4',
     },
   ]
 
@@ -110,11 +151,14 @@ const getIcfData = (): Icf => {
   const icdCodes: IcdCode[] = [ICD_CODE_1, ICD_CODE_2]
 
   return {
-    commonCodes: { icfCodes: icfCodes, icdCodes: icdCodes },
-    uniqueCodes: [
-      { icfCodes: icfCodes, icdCodes: [ICD_CODE_1] },
-      { icfCodes: icfCodes, icdCodes: [ICD_CODE_2] },
-    ],
+    activityLimitation: {
+      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
+    },
+    disability: {
+      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
+    },
   }
 }
 
