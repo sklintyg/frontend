@@ -209,8 +209,6 @@ export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }
     return
   }
 
-  console.log(action.payload)
-
   dispatch(
     apiCallBegan({
       url: '/api/fmb/validateSickLeavePeriod',
