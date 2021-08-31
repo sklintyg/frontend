@@ -1,5 +1,3 @@
-import { ValueDateRange } from './certificate'
-
 export interface FMBDiagnosisCodeInfo {
   icd10Code: string
   icd10Description: string
