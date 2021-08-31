@@ -11,10 +11,10 @@ import {
   setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
-  validateSickLeaveLength,
-  validateSickLeaveLengthError,
-  validateSickLeaveLengthStarted,
-  validateSickLeaveLengthSuccess,
+  validateSickLeavePeriod,
+  validateSickLeavePeriodError,
+  validateSickLeavePeriodStarted,
+  validateSickLeavePeriodSuccess,
 } from './fmbActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import {
@@ -121,7 +121,7 @@ function getValidationForSickLeavePeriod(
       diagnosisCodes[index] = diagnosis.code
     })
     dispatch(
-      validateSickLeaveLength({
+      validateSickLeavePeriod({
         icd10Codes: diagnosisCodes,
         personId: personId,
         dateRangeList: dateRangeList as ValueDateRangeList,
@@ -202,10 +202,10 @@ function retrieveFMBForAddedDiagnosisCodes(
   })
 }
 
-export const handleValidateSickLeaveLength: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (!validateSickLeaveLength.match(action)) {
+  if (!validateSickLeavePeriod.match(action)) {
     return
   }
 
@@ -216,19 +216,19 @@ export const handleValidateSickLeaveLength: Middleware<Dispatch> = ({ dispatch }
       url: '/api/fmb/validateSickLeavePeriod',
       method: 'POST',
       data: action.payload,
-      onStart: validateSickLeaveLengthStarted.type,
-      onSuccess: validateSickLeaveLengthSuccess.type,
-      onError: validateSickLeaveLengthError.type,
+      onStart: validateSickLeavePeriodStarted.type,
+      onSuccess: validateSickLeavePeriodSuccess.type,
+      onError: validateSickLeavePeriodError.type,
     })
   )
 }
 
-export const handleValidateSickLeaveLengthSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
 
-  if (!validateSickLeaveLengthSuccess.match(action)) {
+  if (!validateSickLeavePeriodSuccess.match(action)) {
     return
   }
 
@@ -240,6 +240,6 @@ export const fmbMiddleware = [
   handleGetFMBDiagnosisCodeInfoSuccess,
   handleUpdateCertificate,
   handleUpdateCertificateDataElement,
-  handleValidateSickLeaveLength,
-  handleValidateSickLeaveLengthSuccess,
+  handleValidateSickLeavePeriod,
+  handleValidateSickLeavePeriodSuccess,
 ]
