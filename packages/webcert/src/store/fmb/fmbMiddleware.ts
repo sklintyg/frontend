@@ -188,7 +188,7 @@ function retrieveFMBForAddedDiagnosisCodes(
 ) {
   valueDiagnosisList.list.forEach((diagnosis, index) => {
     const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
-    if (exists || !diagnosis.code || diagnosis.code == '') {
+    if (exists || !diagnosis.code) {
       return
     }
 
