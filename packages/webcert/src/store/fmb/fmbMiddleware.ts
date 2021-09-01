@@ -80,6 +80,26 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   }
 }
 
+function isValueDiagnosisList(value: Value | null) {
+  return value && value.type === CertificateDataValueType.DIAGNOSIS_LIST
+}
+
+function isValueDateRangeList(value: Value | null) {
+  return value && value.type === CertificateDataValueType.DATE_RANGE_LIST
+}
+
+function isValueListNotEmpty(value: ValueDiagnosisList | ValueDateRangeList) {
+  return value && value.list.length > 0
+}
+
+function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
+  const diagnosisCodes: string[] = []
+  diagnoses.list.forEach((diagnosis, index) => {
+    diagnosisCodes[index] = diagnosis.code
+  })
+  return diagnosisCodes
+}
+
 function getValidationForSickLeavePeriod(
   value: Value | null,
   personId: string,
@@ -88,20 +108,21 @@ function getValidationForSickLeavePeriod(
 ): void {
   let diagnoses = null
   let dateRangeList = null
-  if (value && value.type === CertificateDataValueType.DATE_RANGE_LIST) {
+
+  if (isValueDateRangeList(value)) {
     dateRangeList = value
     for (const questionId in certificate.data) {
       const question = certificate.data[questionId]
-      if (question.value && question.value!.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+      if (isValueDiagnosisList(question.value)) {
         diagnoses = question.value
         break
       }
     }
-  } else if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+  } else if (isValueDiagnosisList(value)) {
     diagnoses = value
     for (const questionId in certificate.data) {
       const question = certificate.data[questionId]
-      if (question.value && question.value!.type === CertificateDataValueType.DATE_RANGE_LIST) {
+      if (isValueDateRangeList(question.value)) {
         dateRangeList = question.value
         break
       }
@@ -110,19 +131,10 @@ function getValidationForSickLeavePeriod(
     return
   }
 
-  if (
-    diagnoses &&
-    (diagnoses as ValueDiagnosisList).list.length > 0 &&
-    dateRangeList &&
-    (dateRangeList as ValueDateRangeList).list.length > 0
-  ) {
-    const diagnosisCodes: string[] = []
-    ;(diagnoses as ValueDiagnosisList).list.forEach((diagnosis, index) => {
-      diagnosisCodes[index] = diagnosis.code
-    })
+  if (isValueListNotEmpty(diagnoses as ValueDiagnosisList) && isValueListNotEmpty(dateRangeList as ValueDateRangeList)) {
     dispatch(
       validateSickLeavePeriod({
-        icd10Codes: diagnosisCodes,
+        icd10Codes: getDiagnosisCodes(diagnoses as ValueDiagnosisList),
         personId: personId,
         dateRangeList: dateRangeList as ValueDateRangeList,
       })
