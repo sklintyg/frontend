@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="9.0590" tests="3" failures="1">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:28:13" tests="0" file="integration/AF_intyg/AF00213Intyg.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="AF00213-intyg minimalt ifyllt" timestamp="2021-08-30T11:28:13" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Användare har möjlighet att uföra följande med AF00213 Intyg " timestamp="2021-08-30T11:28:13" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett AF20013 intyg" timestamp="2021-08-30T11:28:13" tests="3" time="9.0590" failures="1">
+    <testcase name="AF00213-intyg minimalt ifyllt Användare har möjlighet att uföra följande med AF00213 Intyg  Funktioner på ett AF20013 intyg Skriva ut ett signerat AF20013 intyg" time="2.4700" classname="Skriva ut ett signerat AF20013 intyg">
+    </testcase>
+    <testcase name="AF00213-intyg minimalt ifyllt Användare har möjlighet att uföra följande med AF00213 Intyg  Funktioner på ett AF20013 intyg Ersätta ett AF00213 intyg" time="0.0000" classname="Ersätta ett AF00213 intyg">
+      <failure message="Timed out retrying after 20000ms: Expected to find element: `button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 20000ms: Expected to find element: `button`, but never found it.
+    at Object.signeraSkicka (https://wc2.wc.localtest.me/__cypress/tests?p=integration\AF_intyg\AF00213Intyg.js:396:6)
+    at Context.eval (https://wc2.wc.localtest.me/__cypress/tests?p=integration\AF_intyg\AF00213Intyg.js:149:15)]]></failure>
+    </testcase>
+    <testcase name="AF00213-intyg minimalt ifyllt Användare har möjlighet att uföra följande med AF00213 Intyg  Funktioner på ett AF20013 intyg Makulerar ett ifyllt AF00213 intyg" time="6.5890" classname="Makulerar ett ifyllt AF00213 intyg">
+    </testcase>
+  </testsuite>
+</testsuites>

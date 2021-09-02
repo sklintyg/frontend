@@ -72,40 +72,19 @@ export function signera() {
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
     cy.contains("Utkastet sparas").should('not.exist');
 
-    // cy.click() fungerar inte alltid. Det finns ärenden rapporterade
-    // (stängd pga inaktivitet):
-    // https://github.com/cypress-io/cypress/issues/2551
-    // https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/ :
-    // "If a tree falls in the forest and no one has attached a “fall” event listener, did it really fall?"
-
-    //const click = $el => { return $el.click() }
-
-    // Parent() p.g.a. att ett element täcker knappen
     cy.get('button').contains("Signera intyget").click();
     expect(cy.contains("Intyget är tillgängligt för patienten")).to.exist;
-  /*  cy.get('#signera-utkast-button').parent().should('be.visible')
 
-    cy.get('#signera-utkast-button')
-    .pipe(click, {timeout: 60000}) // ToDo: Lång timeout (problem endast på Jenkins, överlastad slav?)
-    .should($el => {
-        expect($el.parent()).to.not.be.visible;
-    });*/
 }
 
 export function skickaTillFk() {
     cy.get('button').contains("Skicka till Försäkringskassan").click();
-        // cy.get('button').contains("Avbryt").click();
-        // cy.get('button').contains('Skicka till Försäkringskassan').click({force: true}); //testade funkade inte
+ 
         cy.get('.ic-modal').within((modal)=>
         {
              cy.get('button').contains('Skicka till Försäkringskassan').click();
         });
-   // cy.get("#sendBtn", { timeout: 60000 }).click();
-
-    // Modal som dyker upp och frågar om man verkligen vill skicka
-   // cy.get("#button1send-dialog").click();
-   // cy.contains("Intyget är skickat till Försäkringskassan");
-}
+ }
 export function skrivUtUtkast(){
     cy.get('button').contains("Skriv ut").click();
     
@@ -167,6 +146,18 @@ export function kopieraUtkast(){
             }
         });
     });
+}
+export function svaraPåÄrende(typAvFråga, meddelande,reminder) {
+    cy.contains(typAvFråga).should('exixt');
+    cy.contains('Svara').click();
+    cy.get('.ic-textarea').type(meddelande);
+    cy.contains("Skicka svar").click();
+           // cy.get('.ic-modal').within((modal)=>
+            //{
+                //cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click();
+                
+                
+           
 }
 export function svaraPaKomplettering(alternativ, meddelandeText) {
     switch(alternativ) {

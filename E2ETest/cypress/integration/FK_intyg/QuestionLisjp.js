@@ -23,8 +23,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
         });
         describe('Funktioner kring ärendekommunikation på ett Lisjp intyg', () =>{
-/*
-             it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
+
+        /*   it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
@@ -62,11 +62,11 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
+                cy.wait(1000);
                 intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
-                cy.wait(700);
+                cy.wait(1000);
                 cy.reload();
                 intyg.svaraPaKomplettering("nyttIntyg", );
                 intyg.signeraSkicka();
@@ -83,11 +83,11 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
+                cy.wait(1000);
                 intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
-                cy.wait(700);
+                cy.wait(1000);
                 cy.reload();
                 intyg.svaraPaKomplettering("meddelande", medText );
                 //cy.reload();
@@ -110,7 +110,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
-                cy.wait(700);
+                cy.wait(1000);
                 cy.reload();
                 intyg.svaraPaKomplettering("textIntyg", medText );
                 intyg.signeraSkicka();
@@ -131,7 +131,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
-                cy.wait(700);
+                cy.wait(1000);
                 cy.reload();
                 cy.contains('Hanterad').click();
                 cy.get('.ic-modal').within((modal)=>
@@ -142,7 +142,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.contains('Komplettera').should('not.exist')
                           
                
-             });
+             });*/
              it('Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 
@@ -151,36 +151,37 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.wait(100);
                 intyg.skickaTillFk();
                 cy.wait(1000);
-                cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK');
-                cy.wait(700);
+                cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK',false);
+                cy.wait(1000);
                 cy.reload();
                 cy.contains('Administrativa frågor').click();
                 cy.contains('Hanterad').click();
-                //cy.wait(700);
+                cy.wait(700);
                 cy.contains('Svara').should('not.exist');
                 cy.contains('Hanterad').click();
                 cy.contains('Svara').should('exist');
 
-             });*/
-             it('Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan', function () {
+             });
+             it('Markera fråga gällande Övrigt på ett Lisjp intyg som har en påminnelse', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 cy.wait(100);
                 intyg.skickaTillFk();
-                cy.wait(1000);
-                cy.skapaÄrende(this, this.utkastId,'COORDINATION','Detta är en övrigt fråga från FK',true);
                 cy.wait(700);
+                cy.skapaÄrende(this, this.utkastId,'CONTACT','Detta är en övrigt fråga från FK',true);
+                cy.wait(1000);
                 cy.reload();
-                cy.pause();
                 cy.contains('Administrativa frågor').click();
                 cy.contains('Svara').should('exist');
-               // cy.contains('Hanterad').click();
-                //cy.wait(700);
-               // cy.contains('Svara').should('not.exist');
-                //cy.contains('Hanterad').click();
-                //cy.contains('Svara').should('exist');
+                cy.contains('Påminnelse').should('exist');
+                cy.contains('Hanterad').click();
+                cy.wait(700);
+                cy.contains('Påminnelse').should('not.exist');
+                cy.contains('Svara').should('not.exist');
+                cy.contains('Hanterad').click();
+                cy.contains('Svara').should('exist');
 
              });
          });

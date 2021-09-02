@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.0000" tests="1" failures="1">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:34:31" tests="0" file="integration/Behorigheter/djupintegrationGamlaWebcert.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="LISJP-intyg tomt" timestamp="2021-08-30T11:34:31" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Använadare har möjlighet att uföra följande med ett tomt utkast " timestamp="2021-08-30T11:34:31" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett tomt LISJP utkast" timestamp="2021-08-30T11:34:31" tests="1" time="0.0000" failures="1">
+    <testcase name="LISJP-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Ett icke ifylld LISJP går ej att signera och skicka till FK" time="0.0000" classname="Ett icke ifylld LISJP går ej att signera och skicka till FK">
+      <failure message="`cy.visit()` failed trying to load:
+
+https://wc2.wc.localtest.me/visa/intyg/35720982-7ab6-4cbd-997f-4cc554e4d000?enhet=TSTNMT2321000156-BEVC
+
+The response we received from your web server was:
+
+  &gt; 500: Internal Server Error
+
+This was considered a failure because the status code was not `2xx`.
+
+This http request was redirected &apos;1&apos; time to:
+
+  - 303: https://localhost/#/lisjp/1.2/edit/35720982-7ab6-4cbd-997f-4cc554e4d000/
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`" type="CypressError"><![CDATA[CypressError: `cy.visit()` failed trying to load:
+
+https://wc2.wc.localtest.me/visa/intyg/35720982-7ab6-4cbd-997f-4cc554e4d000?enhet=TSTNMT2321000156-BEVC
+
+The response we received from your web server was:
+
+  > 500: Internal Server Error
+
+This was considered a failure because the status code was not `2xx`.
+
+This http request was redirected '1' time to:
+
+  - 303: https://localhost/#/lisjp/1.2/edit/35720982-7ab6-4cbd-997f-4cc554e4d000/
+
+If you do not want status codes to cause failures pass the option: `failOnStatusCode: false`
+    at https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:138889:25
+    at visitFailedByErr (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:138264:12)
+    at https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:138869:13
+    at tryCatcher (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:10798:23)
+    at Promise._settlePromiseFromHandler (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:8733:31)
+    at Promise._settlePromise (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:8790:18)
+    at Promise._settlePromise0 (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:8835:10)
+    at Promise._settlePromises (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:8911:18)
+    at _drainQueueStep (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:5505:12)
+    at _drainQueue (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:5498:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:5514:5)
+    at Async.drainQueues (https://wc2.wc.localtest.me/__cypress/runner/cypress_runner.js:5384:14)
+From Your Spec Code:
+    at Context.eval (https://wc2.wc.localtest.me/__cypress/tests?p=support\index.js:2426:5)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

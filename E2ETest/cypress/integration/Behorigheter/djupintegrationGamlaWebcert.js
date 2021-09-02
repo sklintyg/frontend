@@ -12,11 +12,11 @@ describe('LISJP-intyg tomt', function() {
         cy.fixture('vEnheter/betaVC').as('vårdenhet');
         cy.fixture('vPatienter/athenaAndersson').as('vårdtagare');
         cy.fixture('vPersonal/beataDoktor').as('vårdpersonal');
-        cy.skapaLisjpUtkast(this).then((utkastId) => {
+      /*  cy.skapaLisjpUtkast(this).then((utkastId) => {
         
             cy.wrap(utkastId).as('utkastId');
             cy.log("LISJP förifyllt utkast med id " + utkastId + " skapat och används i testfallet");
-        });
+        });*/
         
     });
   
@@ -24,21 +24,23 @@ describe('LISJP-intyg tomt', function() {
         beforeEach(function() {
            
             //UNSIGNED LISJP EMPTY
-          /*  cy.skapaIntygViaApi(this,1,false,false).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,false,false).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("LISJP-utkast med id " + utkastId + " skapat och används i testfallet");
-            });*/
+            });
 
         });
-        describe('Funktioner på ett tomt LISJP utkast', () =>{
+        describe('Funktioner på ett tomt LISJP utkast (ignore)', () =>{
 
             it('Ett icke ifylld LISJP går ej att signera och skicka till FK',function(){
+                Cypress.config('baseUrl', "https://wc.localtest.me")
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhet.id;
                 
                 cy.visit(önskadUrl);
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.contains("Signera intyget").click();
+                cy.get('.ic-page-header').should('not.exist')
                 
             });
         });

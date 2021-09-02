@@ -33,7 +33,8 @@ describe('LISJP-intyg tomt', function() {
                 cy.visit(önskadUrl);
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.contains("Signera intyget").click();
-                
+                cy.get('.ic-page-header').should('exist')
+                               
             });
         });
     });
