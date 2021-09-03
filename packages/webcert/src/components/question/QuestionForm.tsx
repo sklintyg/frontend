@@ -103,7 +103,9 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
               options={subjects
                 .filter((subject) => subject !== QuestionType.COMPLEMENT)
                 .map((subject) => (
-                  <option key={subject} value={subject} label={getQuestionTypeName(subject)} />
+                  <option key={subject} value={subject}>
+                    {getQuestionTypeName(subject)}
+                  </option>
                 ))}
               onChange={onDropdownChange}
               id={'question_form_dropdown'}
