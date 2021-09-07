@@ -8,6 +8,8 @@ import {
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
   removeFMBDiagnosisCodes,
+  setPatientId,
+  setSickLeavePeriodValue,
   setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
@@ -24,8 +26,8 @@ import {
   ResourceLinkType,
   Value,
   ValueDiagnosisList,
+  ValueDateRangeList,
 } from '@frontend/common'
-import { Certificate, ValueDateRangeList } from '@frontend/common/src'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -72,71 +74,50 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
     return
   }
 
+  dispatch(setPatientId(action.payload.metadata.patient.personId.id))
+
   for (const questionId in action.payload.data) {
     if (action.payload.data.hasOwnProperty(questionId)) {
       const question = action.payload.data[questionId]
+      if (isValueDateRangeList(question.value)) {
+        dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
+      }
       getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
     }
   }
-}
 
-function isValueDiagnosisList(value: Value | null) {
-  return value && value.type === CertificateDataValueType.DIAGNOSIS_LIST
+  getValidationForSickLeavePeriod(
+    getState().ui.uiFMB.patientId,
+    getState().ui.uiFMB.sickLeavePeriodValue,
+    getState().ui.uiFMB.fmbDiagnosisCodeInfo,
+    dispatch
+  )
 }
 
 function isValueDateRangeList(value: Value | null) {
   return value && value.type === CertificateDataValueType.DATE_RANGE_LIST
 }
 
-function isValueListNotEmpty(value: ValueDiagnosisList | ValueDateRangeList) {
-  return value && value.list.length > 0
-}
-
-function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
+function getDiagnosisCodes(diagnoses: FMBDiagnosisCodeInfo[]) {
   const diagnosisCodes: string[] = []
-  diagnoses.list.forEach((diagnosis, index) => {
-    diagnosisCodes[index] = diagnosis.code
+  diagnoses.forEach((diagnosis, index) => {
+    diagnosisCodes[index] = diagnosis.icd10Code
   })
   return diagnosisCodes
 }
 
 function getValidationForSickLeavePeriod(
-  value: Value | null,
   personId: string,
-  certificate: Certificate,
+  sickLeaveValue: ValueDateRangeList,
+  fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
   dispatch: Dispatch<AnyAction>
 ): void {
-  let diagnoses = null
-  let dateRangeList = null
-
-  if (isValueDateRangeList(value)) {
-    dateRangeList = value
-    for (const questionId in certificate.data) {
-      const question = certificate.data[questionId]
-      if (isValueDiagnosisList(question.value)) {
-        diagnoses = question.value
-        break
-      }
-    }
-  } else if (isValueDiagnosisList(value)) {
-    diagnoses = value
-    for (const questionId in certificate.data) {
-      const question = certificate.data[questionId]
-      if (isValueDateRangeList(question.value)) {
-        dateRangeList = question.value
-        break
-      }
-    }
-  } else {
-    return
-  }
-
-  if (isValueListNotEmpty(diagnoses as ValueDiagnosisList) && isValueListNotEmpty(dateRangeList as ValueDateRangeList)) {
+  if (sickLeaveValue && sickLeaveValue.list.length > 0 && fmbDiagnosisCodeInfo.length > 0) {
     dispatch(
       validateSickLeavePeriod({
-        icd10Codes: getDiagnosisCodes(diagnoses as ValueDiagnosisList),
+        icd10Codes: getDiagnosisCodes(fmbDiagnosisCodeInfo),
         personId: personId,
-        dateRangeList: dateRangeList as ValueDateRangeList,
+        dateRangeList: sickLeaveValue,
       })
     )
   }
@@ -156,16 +137,19 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
 
     getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
 
+    if (isValueDateRangeList(action.payload.value)) {
+      dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
+    }
+
     if (
       action.payload.value &&
-      getState().ui.uiCertificate.certificate &&
       (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
         action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
     ) {
       getValidationForSickLeavePeriod(
-        action.payload.value,
-        getState().ui.uiCertificate.certificate.metadata.patient.personId.id,
-        getState().ui.uiCertificate.certificate,
+        getState().ui.uiFMB.patientId,
+        getState().ui.uiFMB.sickLeavePeriodValue,
+        getState().ui.uiFMB.fmbDiagnosisCodeInfo,
         dispatch
       )
     }

@@ -35,6 +35,10 @@ export const removeFMBDiagnosisCodes = createAction<FMBDiagnosisCodeInfo>(`${FMB
 
 export const setSickLeavePeriodWarning = createAction<string>(`${FMB} Set sick leave period warning`)
 
+export const setPatientId = createAction<string>(`${FMB} Set patient id`)
+
+export const setSickLeavePeriodValue = createAction<ValueDateRangeList>(`${FMB} Set sick leave period value`)
+
 export const validateSickLeavePeriod = createAction<FMBValidateSickLeavePeriodRequest>(`${FMB} Validate sick leave period`)
 export const validateSickLeavePeriodStarted = createAction(`${FMB} Validate sick leave period started`)
 export const validateSickLeavePeriodSuccess = createAction<ValidateSickLeavePeriodResponse>(`${FMB} Validate sick leave period success`)

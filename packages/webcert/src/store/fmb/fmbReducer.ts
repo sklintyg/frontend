@@ -1,17 +1,29 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { removeFMBDiagnosisCodes, setSickLeavePeriodWarning, updateFMBDiagnosisCodeInfo, updateFMBPanelActive } from './fmbActions'
+import {
+  removeFMBDiagnosisCodes,
+  setPatientId,
+  setSickLeavePeriodValue,
+  setSickLeavePeriodWarning,
+  updateFMBDiagnosisCodeInfo,
+  updateFMBPanelActive,
+} from './fmbActions'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
+import { ValueDateRangeList } from '@frontend/common/src/types/certificate'
 
 interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]
   fmbPanelActive: boolean
   sickLeavePeriodWarning: string
+  patientId: string
+  sickLeavePeriodValue: ValueDateRangeList | null
 }
 
 const initialState: FMBState = {
   fmbDiagnosisCodeInfo: [],
   fmbPanelActive: false,
   sickLeavePeriodWarning: '',
+  patientId: '',
+  sickLeavePeriodValue: null,
 }
 
 const fmbReducer = createReducer(initialState, (builder) =>
@@ -31,6 +43,12 @@ const fmbReducer = createReducer(initialState, (builder) =>
     })
     .addCase(setSickLeavePeriodWarning, (state, action) => {
       state.sickLeavePeriodWarning = action.payload
+    })
+    .addCase(setPatientId, (state, action) => {
+      state.patientId = action.payload
+    })
+    .addCase(setSickLeavePeriodValue, (state, action) => {
+      state.sickLeavePeriodValue = action.payload
     })
 )
 
