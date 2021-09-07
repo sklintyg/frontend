@@ -8,6 +8,7 @@ import {
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
   removeFMBDiagnosisCodes,
+  setDiagnosisListValue,
   setPatientId,
   setSickLeavePeriodValue,
   setSickLeavePeriodWarning,
@@ -82,6 +83,9 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
       if (isValueDateRangeList(question.value)) {
         dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
       }
+      if (isValueDiagnoses(question.value)) {
+        dispatch(setDiagnosisListValue(question.value as ValueDiagnosisList))
+      }
       getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
     }
   }
@@ -89,19 +93,23 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   getValidationForSickLeavePeriod(
     getState().ui.uiFMB.patientId,
     getState().ui.uiFMB.sickLeavePeriodValue,
-    getState().ui.uiFMB.fmbDiagnosisCodeInfo,
+    getState().ui.uiFMB.diagnosisListValue,
     dispatch
   )
+}
+
+function isValueDiagnoses(value: Value | null) {
+  return value && value.type === CertificateDataValueType.DIAGNOSIS_LIST
 }
 
 function isValueDateRangeList(value: Value | null) {
   return value && value.type === CertificateDataValueType.DATE_RANGE_LIST
 }
 
-function getDiagnosisCodes(diagnoses: FMBDiagnosisCodeInfo[]) {
+function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
   const diagnosisCodes: string[] = []
-  diagnoses.forEach((diagnosis, index) => {
-    diagnosisCodes[index] = diagnosis.icd10Code
+  diagnoses.list.forEach((diagnosis, index) => {
+    diagnosisCodes[index] = diagnosis.code
   })
   return diagnosisCodes
 }
@@ -109,17 +117,19 @@ function getDiagnosisCodes(diagnoses: FMBDiagnosisCodeInfo[]) {
 function getValidationForSickLeavePeriod(
   personId: string,
   sickLeaveValue: ValueDateRangeList,
-  fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
+  diagnoses: ValueDiagnosisList,
   dispatch: Dispatch<AnyAction>
 ): void {
-  if (sickLeaveValue && sickLeaveValue.list.length > 0 && fmbDiagnosisCodeInfo.length > 0) {
+  if (sickLeaveValue && diagnoses && sickLeaveValue.list.length > 0 && diagnoses.list.length > 0) {
     dispatch(
       validateSickLeavePeriod({
-        icd10Codes: getDiagnosisCodes(fmbDiagnosisCodeInfo),
+        icd10Codes: getDiagnosisCodes(diagnoses),
         personId: personId,
         dateRangeList: sickLeaveValue,
       })
     )
+  } else {
+    dispatch(setSickLeavePeriodWarning(''))
   }
 }
 
@@ -139,6 +149,8 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
 
     if (isValueDateRangeList(action.payload.value)) {
       dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
+    } else if (isValueDiagnoses(action.payload.value)) {
+      dispatch(setDiagnosisListValue(action.payload.value as ValueDiagnosisList))
     }
 
     if (
@@ -149,7 +161,7 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
       getValidationForSickLeavePeriod(
         getState().ui.uiFMB.patientId,
         getState().ui.uiFMB.sickLeavePeriodValue,
-        getState().ui.uiFMB.fmbDiagnosisCodeInfo,
+        getState().ui.uiFMB.diagnosisListValue,
         dispatch
       )
     }

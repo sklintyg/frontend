@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { FMBDiagnosisCodeInfo, ValueDateRangeList } from '@frontend/common'
+import { ValueDiagnosisList } from '@frontend/common/src'
 
 export interface FMBDiagnoseRequest {
   icd10Code: string
@@ -38,6 +39,8 @@ export const setSickLeavePeriodWarning = createAction<string>(`${FMB} Set sick l
 export const setPatientId = createAction<string>(`${FMB} Set patient id`)
 
 export const setSickLeavePeriodValue = createAction<ValueDateRangeList>(`${FMB} Set sick leave period value`)
+
+export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${FMB} Set diagnosis list value`)
 
 export const validateSickLeavePeriod = createAction<FMBValidateSickLeavePeriodRequest>(`${FMB} Validate sick leave period`)
 export const validateSickLeavePeriodStarted = createAction(`${FMB} Validate sick leave period started`)
