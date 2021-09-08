@@ -1,12 +1,21 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, CertificateDataElement, CertificateDataValueType, ConfigTypes, ResourceLinkType } from '@frontend/common'
-import { FMBDiagnoseRequest, getFMBDiagnosisCodeInfo, updateFMBDiagnosisCodeInfo, updateFMBPanelActive } from './fmbActions'
+import { Certificate, CertificateDataElement, ConfigTypes, ResourceLinkType } from '@frontend/common'
+import {
+  FMBDiagnoseRequest,
+  getFMBDiagnosisCodeInfo,
+  setDiagnosisListValue,
+  setPatientId,
+  setSickLeavePeriodValue,
+  updateFMBDiagnosisCodeInfo,
+  updateFMBPanelActive,
+} from './fmbActions'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { CertificateDataValueType, ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -120,6 +129,36 @@ describe('Test FMB middleware', () => {
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(0)
     })
+
+    it('shall show sick leave period warning if updated element is diagnosis list', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(setSickLeavePeriodValue(getDateRangeListValue()))
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDiagnosesElement([fmbDiagnosisRequest])))
+
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
+
+    it('shall show sick leave period warning if updated element is date range list', async () => {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(setPatientId('191212121212'))
+      testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+      testStore.dispatch(updateCertificateDataElement(getDateRangeListElement()))
+
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
   })
 
   describe('Handle UpdateCertificate', () => {
@@ -227,6 +266,44 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
   }
 }
 
+export const getDateRangeListValue = (): ValueDateRangeList => {
+  const value: ValueDateRangeList = {
+    type: CertificateDataValueType.DATE_RANGE_LIST,
+    list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
+  }
+
+  return value
+}
+
+export const getDiagnosisListValue = (): ValueDiagnosisList => {
+  const value: ValueDiagnosisList = {
+    type: CertificateDataValueType.DIAGNOSIS_LIST,
+    list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', id: '1' }],
+  }
+
+  return value
+}
+
+export const getDateRangeListElement = (): CertificateDataElement => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {},
+    value: {
+      type: CertificateDataValueType.DATE_RANGE_LIST,
+      list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}
+
 export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -244,6 +321,14 @@ export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean)
           ],
     data: {
       '6.1': getDiagnosesElement(codes),
+    },
+    metadata: {
+      patient: {
+        personId: {
+          type: 'type',
+          id: '1912121212',
+        },
+      },
     },
   }
 }

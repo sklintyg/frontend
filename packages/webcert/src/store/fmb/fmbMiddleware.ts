@@ -8,8 +8,16 @@ import {
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
   removeFMBDiagnosisCodes,
+  setDiagnosisListValue,
+  setPatientId,
+  setSickLeavePeriodValue,
+  setSickLeavePeriodWarning,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
+  validateSickLeavePeriod,
+  validateSickLeavePeriodError,
+  validateSickLeavePeriodStarted,
+  validateSickLeavePeriodSuccess,
 } from './fmbActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import {
@@ -19,6 +27,7 @@ import {
   ResourceLinkType,
   Value,
   ValueDiagnosisList,
+  ValueDateRangeList,
 } from '@frontend/common'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -66,11 +75,61 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
     return
   }
 
+  dispatch(setPatientId(action.payload.metadata.patient.personId.id))
+
   for (const questionId in action.payload.data) {
     if (action.payload.data.hasOwnProperty(questionId)) {
       const question = action.payload.data[questionId]
+      if (isValueDateRangeList(question.value)) {
+        dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
+      }
+      if (isValueDiagnoses(question.value)) {
+        dispatch(setDiagnosisListValue(question.value as ValueDiagnosisList))
+      }
       getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
     }
+  }
+
+  getValidationForSickLeavePeriod(
+    getState().ui.uiFMB.patientId,
+    getState().ui.uiFMB.sickLeavePeriodValue,
+    getState().ui.uiFMB.diagnosisListValue,
+    dispatch
+  )
+}
+
+function isValueDiagnoses(value: Value | null) {
+  return value && value.type === CertificateDataValueType.DIAGNOSIS_LIST
+}
+
+function isValueDateRangeList(value: Value | null) {
+  return value && value.type === CertificateDataValueType.DATE_RANGE_LIST
+}
+
+function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
+  const diagnosisCodes: string[] = []
+  diagnoses.list.forEach((diagnosis, index) => {
+    diagnosisCodes[index] = diagnosis.code
+  })
+  return diagnosisCodes
+}
+
+function getValidationForSickLeavePeriod(
+  personId: string,
+  sickLeaveValue: ValueDateRangeList,
+  diagnoses: ValueDiagnosisList,
+  dispatch: Dispatch<AnyAction>
+): void {
+  if (sickLeaveValue && diagnoses && sickLeaveValue.list.length > 0 && diagnoses.list.length > 0) {
+    dispatch(
+      validateSickLeavePeriod({
+        icd10Codes: getDiagnosisCodes(diagnoses),
+        personId: personId,
+        dateRangeList: sickLeaveValue,
+      })
+    )
+  } else {
+    dispatch(setSickLeavePeriodWarning(''))
   }
 }
 
@@ -87,6 +146,25 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
     }
 
     getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+
+    if (isValueDateRangeList(action.payload.value)) {
+      dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
+    } else if (isValueDiagnoses(action.payload.value)) {
+      dispatch(setDiagnosisListValue(action.payload.value as ValueDiagnosisList))
+    }
+
+    if (
+      action.payload.value &&
+      (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
+        action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
+    ) {
+      getValidationForSickLeavePeriod(
+        getState().ui.uiFMB.patientId,
+        getState().ui.uiFMB.sickLeavePeriodValue,
+        getState().ui.uiFMB.diagnosisListValue,
+        dispatch
+      )
+    }
   }
 }
 
@@ -118,7 +196,7 @@ function retrieveFMBForAddedDiagnosisCodes(
 ) {
   valueDiagnosisList.list.forEach((diagnosis, index) => {
     const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
-    if (exists) {
+    if (exists || !diagnosis.code) {
       return
     }
 
@@ -132,9 +210,42 @@ function retrieveFMBForAddedDiagnosisCodes(
   })
 }
 
+export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!validateSickLeavePeriod.match(action)) {
+    return
+  }
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/fmb/validateSickLeavePeriod',
+      method: 'POST',
+      data: action.payload,
+      onStart: validateSickLeavePeriodStarted.type,
+      onSuccess: validateSickLeavePeriodSuccess.type,
+      onError: validateSickLeavePeriodError.type,
+    })
+  )
+}
+
+export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!validateSickLeavePeriodSuccess.match(action)) {
+    return
+  }
+
+  dispatch(setSickLeavePeriodWarning(action.payload.message))
+}
+
 export const fmbMiddleware = [
   handleGetFMBDiagnosisCodeInfo,
   handleGetFMBDiagnosisCodeInfoSuccess,
   handleUpdateCertificate,
   handleUpdateCertificateDataElement,
+  handleValidateSickLeavePeriod,
+  handleValidateSickLeavePeriodSuccess,
 ]
