@@ -113,8 +113,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_TEXTAREA && question.parent === 'funktionsnedsattning')
-      return <UeIcf question={question} key={question.id} disabled={disabled} />
+    if (question.config.type === ConfigTypes.UE_ICF) return <UeIcf question={question} key={question.id} disabled={disabled} />
     if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
     if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN)
       return <UeCheckbox disabled={disabled} key={question.id} question={question} />

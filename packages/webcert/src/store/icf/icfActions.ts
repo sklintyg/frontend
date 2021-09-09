@@ -1,18 +1,23 @@
 import { createAction } from '@reduxjs/toolkit'
-import { IcfState } from './icfReducer'
+import { Icf, IcfState } from './icfReducer'
 
-export interface IcdCodeQuery {
-  icd10Code: string
+export interface IcfRequest {
+  icdCodes: string[]
+}
+
+export interface IcfResponse {
+  disability?: Icf
+  activityLimitation?: Icf
 }
 
 const ICF = '[ICF]'
 
-export const getIcfCodes = createAction<IcdCodeQuery[]>(`${ICF} Get icf codes`)
+export const getIcfCodes = createAction<IcfRequest>(`${ICF} Get icf codes`)
 
 export const getIcfCodesStarted = createAction(`${ICF} Get diagnosis code info started`)
 
-export const getIcfCodesSuccess = createAction<IcfState>(`${ICF} Get diagnosis code info success`)
+export const getIcfCodesSuccess = createAction<IcfResponse>(`${ICF} Get diagnosis code info success`)
 
 export const getIcfCodesError = createAction<string>(`${ICF} Get diagnosis code info error`)
 
-export const updateIcfCodes = createAction<IcfState>(`${ICF} Update diagnosis code info`)
+export const updateIcfCodes = createAction<IcfResponse>(`${ICF} Update diagnosis code info`)

@@ -92,7 +92,6 @@ describe('IcfDropdown', () => {
   it('display icd codes after ICF button is clicked', () => {
     const icfData = getIcfData()
     renderAndOpenDropdown()
-    console.log(icfData.activityLimitation!.commonCodes.icdCodes)
     expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[0].title)[0]).toBeInTheDocument()
     expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[1].title)[0]).toBeInTheDocument()
   })

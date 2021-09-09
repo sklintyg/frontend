@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { getIcfCodes, IcdCodeQuery, updateIcfCodes } from './icfActions'
+import { getIcfCodes, IcfRequest, updateIcfCodes } from './icfActions'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -26,7 +26,7 @@ describe('Test ICF middleware', () => {
 
   describe('Handle getIcfCodes', () => {
     it('shall update ICF state', async () => {
-      const icdCodes: IcdCodeQuery[] = [
+      const icdCodes: IcfRequest[] = [
         { icd10Code: 'A02' },
         {
           icd10Code: 'U071',
@@ -57,6 +57,16 @@ describe('Test ICF middleware', () => {
 
   describe('Handle updateCertificate', () => {
     it('shall update icf codes', async () => {
+      const expectedIcfTitles = getIcfTitles()
+      const certificate = getCertificate(expectedIcfTitles)
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
+    })
+
+    it('shall fetch icf codes when ', async () => {
       const expectedIcfTitles = getIcfTitles()
       const certificate = getCertificate(expectedIcfTitles)
 

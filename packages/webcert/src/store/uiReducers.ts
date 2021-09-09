@@ -7,7 +7,6 @@ import welcomeReducer from './welcome/welcomeReducer'
 import questionReducer from './question/questionReducer'
 import icfReducer from './icf/icfReducer'
 
-
 export default combineReducers({
   uiCertificate: certificateReducer,
   uiUser: userReducer,

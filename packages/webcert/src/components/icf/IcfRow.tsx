@@ -34,7 +34,7 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   return (
     <div className={`${backgroundStyle} iu-pt-200 iu-pb-200 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
-        <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.code} />
+        <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.title} />
         <p onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer{' '}
         </p>

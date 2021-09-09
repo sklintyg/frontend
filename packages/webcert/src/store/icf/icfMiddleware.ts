@@ -1,10 +1,9 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
-import { getIcfCodes, getIcfCodesError, getIcfCodesStarted, getIcfCodesSuccess, updateIcfCodes } from './icfActions'
+import { getIcfCodes, getIcfCodesError, getIcfCodesStarted, getIcfCodesSuccess, IcfRequest, updateIcfCodes } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, FMBDiagnosisCodeInfo, Value, ValueDiagnosisList } from '@frontend/common'
-
+import { ConfigTypes, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -12,17 +11,15 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   if (!getIcfCodes.match(action)) {
     return
   }
-
+  console.log('api call', action.payload)
   dispatch(
     apiCallBegan({
-      url: '/api/icf/facade',
-      method: 'GET',
+      url: '/api/icf',
+      method: 'POST',
+      data: action.payload,
       onStart: getIcfCodesStarted.type,
       onSuccess: getIcfCodesSuccess.type,
       onError: getIcfCodesError.type,
-      onArgs: {
-        ...action.payload,
-      },
     })
   )
 }
@@ -43,6 +40,15 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   if (!updateCertificate.match(action)) {
     return
   }
+
+  //Hämta icf data när intyget laddas in
+  /*if (getState().ui.uiCertificate.certificate)
+    }*/
+  if (getState().ui.uiFMB.fmbDiagnosisCodeInfo.length > 0) {
+    console.log(getState().ui.uiFMB.fmbDiagnosisCodeInfo)
+    const icdCodes = getState().ui.uiFMB.fmbDiagnosisCodeInfo.map((icdCode: FMBDiagnosisCodeInfo) => icdCode.icd10Code) as IcfRequest
+    dispatch(getIcfCodes(icdCodes))
+  }
 }
 
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
@@ -52,46 +58,16 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
     if (!updateCertificateDataElement.match(action)) {
       return
     }
+    //om icd kod ändras så ska vi hämta ny icf data
 
-    if (!getState().ui.uiFMB.fmbPanelActive) {
+    if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
       return
     }
-
-    getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+    console.log(action.payload.value)
+    const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
+    console.log('icdCodes', icdCodes)
+    dispatch(getIcfCodes(icdCodes))
   }
-}
-
-function getFMBDiagnosisCodes(value: Value | null, existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[], dispatch: Dispatch): void {
-  if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    const valueDiagnosisList = value as ValueDiagnosisList
-    removeFMBForRemovedDiagnosisCodes(existingFMBDiagnosisCodeInfo, valueDiagnosisList, dispatch)
-    retrieveFMBForAddedDiagnosisCodes(existingFMBDiagnosisCodeInfo, valueDiagnosisList, dispatch)
-  }
-}
-
-function removeFMBForRemovedDiagnosisCodes(
-  existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
-  valueDiagnosisList: ValueDiagnosisList,
-  dispatch: Dispatch
-) {
-  existingFMBDiagnosisCodeInfo.forEach((existing) => {
-    const remove = valueDiagnosisList.list.findIndex((diagnosis) => existing.icd10Code === diagnosis.code) < 0
-    if (remove) {
-    }
-  })
-}
-
-function retrieveFMBForAddedDiagnosisCodes(
-  existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[],
-  valueDiagnosisList: ValueDiagnosisList,
-  dispatch: Dispatch
-) {
-  valueDiagnosisList.list.forEach((diagnosis, index) => {
-    const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
-    if (exists) {
-      return
-    }
-  })
 }
 
 export const icfMiddleware = [handleGetIcfCodes, handleGetIcfCodesSuccess, handleUpdateCertificate, handleUpdateCertificateDataElement]

@@ -42,7 +42,7 @@ const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onCod
       <div>
         {icfCodes.map((icfCode, i) => (
           <IcfRow
-            checked={getChecked(icfCode.code, icfCodeValues)}
+            checked={getChecked(icfCode.title, icfCodeValues)}
             key={i}
             icfCode={icfCode}
             backgroundStyle={i % 2 === 0 ? '' : 'iu-bg-secondary-light'}
