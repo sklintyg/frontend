@@ -1,9 +1,17 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
-import { getIcfCodes, getIcfCodesError, getIcfCodesStarted, getIcfCodesSuccess, IcfRequest, updateIcfCodes } from './icfActions'
+import {
+  getIcfCodes,
+  getIcfCodesError,
+  getIcfCodesStarted,
+  getIcfCodesSuccess,
+  IcfRequest,
+  updateIcfCodes,
+  updateLoading,
+} from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { ConfigTypes, FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, ConfigTypes, FMBDiagnosisCodeInfo, Value, ValueDiagnosisList } from '@frontend/common'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -11,7 +19,7 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   if (!getIcfCodes.match(action)) {
     return
   }
-  console.log('api call', action.payload)
+
   dispatch(
     apiCallBegan({
       url: '/api/icf',
@@ -31,6 +39,7 @@ export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => 
     return
   }
 
+  dispatch(updateLoading(false))
   dispatch(updateIcfCodes(action.payload))
 }
 
@@ -42,12 +51,11 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   }
 
   //Hämta icf data när intyget laddas in
-  /*if (getState().ui.uiCertificate.certificate)
-    }*/
-  if (getState().ui.uiFMB.fmbDiagnosisCodeInfo.length > 0) {
-    console.log(getState().ui.uiFMB.fmbDiagnosisCodeInfo)
-    const icdCodes = getState().ui.uiFMB.fmbDiagnosisCodeInfo.map((icdCode: FMBDiagnosisCodeInfo) => icdCode.icd10Code) as IcfRequest
-    dispatch(getIcfCodes(icdCodes))
+  for (const questionId in action.payload.data) {
+    if (action.payload.data.hasOwnProperty(questionId)) {
+      const question = action.payload.data[questionId]
+      getFMBDiagnosisCodes(question.value, dispatch)
+    }
   }
 }
 
@@ -63,11 +71,43 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
     if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
       return
     }
-    console.log(action.payload.value)
     const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
-    console.log('icdCodes', icdCodes)
     dispatch(getIcfCodes(icdCodes))
   }
 }
 
-export const icfMiddleware = [handleGetIcfCodes, handleGetIcfCodesSuccess, handleUpdateCertificate, handleUpdateCertificateDataElement]
+const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getIcfCodesStarted.match(action)) {
+    return
+  }
+
+  dispatch(updateLoading(true))
+}
+
+const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getIcfCodesError.match(action)) {
+    return
+  }
+
+  dispatch(updateLoading(false))
+}
+
+function getFMBDiagnosisCodes(value: Value | null, dispatch: Dispatch): void {
+  if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
+    const icdCodes = (value as ValueDiagnosisList).list.map((code) => code.code)
+    dispatch(getIcfCodes({ icdCodes: icdCodes }))
+  }
+}
+
+export const icfMiddleware = [
+  handleGetIcfCodes,
+  handleUpdateCertificate,
+  handleUpdateCertificateDataElement,
+  handleGetIcfCodesStarted,
+  handleGetIcfCodesSuccess,
+  handleGetIcfCodesError,
+]

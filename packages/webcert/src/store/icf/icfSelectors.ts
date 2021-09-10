@@ -8,3 +8,5 @@ export const getIcfActivityLimitation = (state: RootState): Icf | undefined => s
 export const getIcfData = (id: string) => (state: RootState) => {
   return id === 'funktionsnedsattning' ? state.ui.uiIcf.activityLimitation : state.ui.uiIcf.disability
 }
+
+export const getIsLoadingIcfData = () => (state: RootState): boolean => state.ui.uiIcf.loading

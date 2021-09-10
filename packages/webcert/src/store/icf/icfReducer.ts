@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateIcfCodes } from './icfActions'
+import { updateIcfCodes, updateLoading } from './icfActions'
 
 export interface IcfCode {
   title: string
@@ -26,15 +26,22 @@ export interface Icf {
 export interface IcfState {
   disability?: Icf
   activityLimitation?: Icf
+  loading: boolean
 }
 
-const initialState: IcfState = {}
+const initialState: IcfState = {
+  loading: false,
+}
 
 const icfReducer = createReducer(initialState, (builder) =>
-  builder.addCase(updateIcfCodes, (state, action) => {
-    state.activityLimitation = action.payload.activityLimitation
-    state.disability = action.payload.disability
-  })
+  builder
+    .addCase(updateIcfCodes, (state, action) => {
+      state.activityLimitation = action.payload.activityLimitation
+      state.disability = action.payload.disability
+    })
+    .addCase(updateLoading, (state, action) => {
+      state.loading = action.payload
+    })
 )
 
 export default icfReducer

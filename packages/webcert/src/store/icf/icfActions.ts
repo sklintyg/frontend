@@ -21,3 +21,5 @@ export const getIcfCodesSuccess = createAction<IcfResponse>(`${ICF} Get diagnosi
 export const getIcfCodesError = createAction<string>(`${ICF} Get diagnosis code info error`)
 
 export const updateIcfCodes = createAction<IcfResponse>(`${ICF} Update diagnosis code info`)
+
+export const updateLoading = createAction<boolean>(`${ICF} Update loading`)

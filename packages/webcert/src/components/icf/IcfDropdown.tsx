@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { Icf } from '../../store/icf/icfReducer'
 import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, ValuesWrapper } from './Styles'
+import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
 
 interface Props {
   infoText: string
@@ -21,6 +22,13 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef<null | HTMLElement>(null)
   const [displayDropdown, setDisplayDropdown] = useState(false)
+  const loadingIcfData = useSelector(getIsLoadingIcfData())
+
+  useEffect(() => {
+    if (loadingIcfData) {
+      setDisplayDropdown(false)
+    }
+  }, [loadingIcfData])
 
   const getTooltip = () => {
     return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd' : ''
@@ -35,7 +43,11 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
   }
 
   const shouldRenderValues = () => {
-    return chosenIcfCodeValues && chosenIcfCodeValues.length > 0 && icd10Codes.length > 0
+    return chosenIcfCodeValues && chosenIcfCodeValues.length > 0
+  }
+
+  const getDropdownButtonBeDisabled = (): boolean => {
+    return icd10Codes.length === 0 || icfData === undefined || loadingIcfData
   }
 
   /*function useOutsideAlerter(ref: null | React.MutableRefObject<HTMLElement>) {
@@ -61,7 +73,7 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
       <CustomButton
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
-        disabled={icd10Codes.length === 0}
+        disabled={getDropdownButtonBeDisabled()}
         onClick={handleToggleDropdownButtonClick}>
         Ta hjälp av ICF
       </CustomButton>
@@ -113,19 +125,19 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
               </Footer>
             </div>
           </Root>
-          {shouldRenderValues() && (
-            <div className={'iu-p-300 iu-bg-grey-200 iu-mt-200 iu-mb-300'}>
-              <p className={'iu-mb-200'}>{collectionsLabel}</p>
-              <ValuesWrapper>
-                {chosenIcfCodeValues?.map((code) => (
-                  <p key={code} className={'iu-bg-white iu-p-200 iu-fs-200 iu-radius-sm iu-border-black'}>
-                    {code}
-                  </p>
-                ))}
-              </ValuesWrapper>
-            </div>
-          )}
         </>
+      )}
+      {shouldRenderValues() && (
+        <div className={'iu-p-300 iu-bg-grey-200 iu-mt-200 iu-mb-300'}>
+          <p className={'iu-mb-200'}>{collectionsLabel}</p>
+          <ValuesWrapper>
+            {chosenIcfCodeValues?.map((code) => (
+              <p key={code} className={'iu-bg-white iu-p-200 iu-fs-200 iu-radius-sm iu-border-black'}>
+                {code}
+              </p>
+            ))}
+          </ValuesWrapper>
+        </div>
       )}
     </>
   )
