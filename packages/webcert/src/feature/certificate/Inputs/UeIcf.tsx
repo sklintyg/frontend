@@ -34,7 +34,6 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const dispatchEditDraft = useRef(
     _.debounce((textValue: string, icfCodeValues?: string[]) => {
       const updatedValue = getUpdatedValue(question, icfCodeValues, textValue)
-      console.log('update certificate', updatedValue)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
   ).current
@@ -46,7 +45,6 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
 
   const handleAddIcfCodeValue = (icfCodeToAdd: string) => {
     let updatedIcfCodes
-    console.log('add', icfCodeToAdd)
 
     if (!chosenIcfValues) {
       updatedIcfCodes = [icfCodeToAdd]
@@ -58,7 +56,6 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleRemoveIcfCodeValue = (icfCodeToRemove: string) => {
-    console.log('remove', icfCodeToRemove)
     const updatedIcfCodes = chosenIcfValues?.filter((icfCode) => icfCode !== icfCodeToRemove)
     setChosenIcfValues(updatedIcfCodes)
     dispatchEditDraft(text, updatedIcfCodes)

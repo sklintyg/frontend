@@ -3,63 +3,10 @@ import { CustomButton } from '@frontend/common'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
-import styled from 'styled-components/macro'
 import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { Icf } from '../../store/icf/icfReducer'
-import __ from 'lodash/fp/__'
-import _ from 'lodash'
-
-const Root = styled.div`
-  position: relative;
-  height: 0;
-  z-index: 1;
-`
-
-const WrapperWithBorder = styled.div`
-  // max-height: 400px;
-`
-
-const CategoryWrapper = styled.div`
-  padding: 0.75rem;
-  padding-bottom: 0;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: 0.5em;
-`
-
-const Footer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
-`
-
-const StyledTitle = styled.p`
-  position: sticky;
-  top: 0;
-  z-index: 3;
-`
-
-const ScrollDiv = styled.div`
-  overflow: auto;
-  max-height: 300px;
-`
-
-const ValuesWrapper = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
-  align-items: start;
-  flex-wrap: wrap;
-
-  p {
-    margin: 0;
-  }
-`
+import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, ValuesWrapper } from './Styles'
 
 interface Props {
   infoText: string
@@ -122,7 +69,7 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
       {shouldRenderDropdown() && (
         <>
           <Root>
-            <WrapperWithBorder hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
+            <div hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
               <StyledTitle className={'iu-bg-main iu-color-white iu-p-300'}>
                 <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />
                 {infoText}
@@ -164,7 +111,7 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
                   Läs mer om ICF hos Socialstyrelsenlaunch
                 </a>
               </Footer>
-            </WrapperWithBorder>
+            </div>
           </Root>
           {shouldRenderValues() && (
             <div className={'iu-p-300 iu-bg-grey-200 iu-mt-200 iu-mb-300'}>
