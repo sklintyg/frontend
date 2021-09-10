@@ -67,8 +67,9 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   return (
     <div className={`iu-pt-200`}>
       <IcfDropdown
-        icfCodeValues={chosenIcfValues}
+        chosenIcfCodeValues={chosenIcfValues}
         infoText={questionConfig.modalLabel}
+        collectionsLabel={questionConfig.collectionsLabel}
         icfData={icfData}
         onCodeAdd={handleAddIcfCodeValue}
         onCodeRemove={handleRemoveIcfCodeValue}

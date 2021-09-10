@@ -25,11 +25,13 @@ const history = createMemoryHistory()
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
+const COLLECTIONS_LABEL = 'collectionsLabel'
+
 const renderComponent = (infoText = 'infoText test', icfData = getIcfData().activityLimitation, icfValues = getIcfValues()) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <IcfDropdown infoText={infoText} icfData={icfData!} icfCodeValues={icfValues} />
+        <IcfDropdown infoText={infoText} icfData={icfData!} chosenIcfCodeValues={icfValues} collectionsLabel={COLLECTIONS_LABEL} />
       </Router>
     </Provider>
   )
@@ -133,26 +135,6 @@ describe('IcfDropdown', () => {
     expect(screen.queryByText(expected!)).not.toBeInTheDocument()
   })
 
-  it('display disabled add button before any icf code is selected', () => {
-    renderAndOpenDropdown()
-
-    expect(
-      screen.getByRole('button', {
-        name: /lägg till/i,
-      })
-    ).toBeDisabled()
-  })
-
-  it('display disabled cancel button before any icf code is selected', () => {
-    renderAndOpenDropdown()
-
-    expect(
-      screen.getByRole('button', {
-        name: /Avbryt/i,
-      })
-    ).toBeDisabled()
-  })
-
   it('display link in footer to socialstyrelsen', () => {
     renderAndOpenDropdown()
 
@@ -163,19 +145,51 @@ describe('IcfDropdown', () => {
     )
   })
 
+  it('shall display close button in modal', () => {
+    renderAndOpenDropdown()
+
+    expect(screen.getByRole('button', { name: /stäng/i }))
+  })
+
   it('checkbox is checked if icf id is passed to component', () => {
     const icfData = getIcfData()
-    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.code)
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
 
     expect(screen.getByRole('checkbox', { name: icfData.activityLimitation?.commonCodes.icfCodes[0].title })).toBeChecked()
+  })
+
+  it('shall display chosen values', () => {
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    setDefaultFmb()
+    renderComponent(undefined, icfData.activityLimitation, icfValues)
+
+    expect(screen.getAllByText(icfValues![0])[1]).toBeVisible()
+  })
+
+  it('shall display collections label', () => {
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    setDefaultFmb()
+    renderComponent(undefined, icfData.activityLimitation, icfValues)
+
+    expect(screen.getByText(COLLECTIONS_LABEL)).toBeInTheDocument()
+  })
+
+  it('shall not display chosen values if no icd codes', () => {
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    renderComponent(undefined, icfData.activityLimitation, icfValues)
+
+    expect(screen.queryByText(icfValues![0])).not.toBeVisible()
   })
 })
 
 const renderAndOpenDropdown = (title?: string, icfData?: Icf, icfValues?: string[]) => {
   renderComponent(title, icfData, icfValues)
   setDefaultIcfState()
-  openIcfDropdown()
+  toggleIcfDropdown()
 }
 
 const setDefaultIcfState = () => {
@@ -184,7 +198,7 @@ const setDefaultIcfState = () => {
   setDefaultFmb()
 }
 
-const openIcfDropdown = () => {
+const toggleIcfDropdown = () => {
   userEvent.click(screen.getByText('Ta hjälp av ICF'))
 }
 
