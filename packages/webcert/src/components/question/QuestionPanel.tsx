@@ -11,7 +11,6 @@ import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePane
 import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
-import FMBPanelFooter from '../fmb/FMBPanelFooter'
 import QuestionPanelFooter from './QuestionPanelFooter'
 
 const HeaderButtons = styled.div`
@@ -46,16 +45,18 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
         <CustomButton
           text={'Kompletteringsbegäran'}
           number={complementQuestions.length > 0 ? complementQuestions.length : undefined}
-          buttonStyle={'primary'}
+          buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setComplementSelected(true)}
+          buttonClasses={'iu-height-800'}
         />
         <CustomButton
           text={'Administrativa frågor'}
           number={administrativeQuestions.length > 0 ? administrativeQuestions.length : undefined}
-          buttonStyle={'primary'}
+          buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setComplementSelected(false)}
+          buttonClasses={'iu-height-800 iu-ml-300'}
         />
       </HeaderButtons>
     )
