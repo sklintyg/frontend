@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppHeaderUser } from '@frontend/common'
+import { AppHeaderUserUnit } from '@frontend/common'
 import { getUser } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
@@ -10,13 +11,13 @@ const Italic = styled.span`
   font-size: 13px;
 `
 
-const WebcertHeaderUser: React.FC = () => {
+const WebcertHeaderUnit: React.FC = () => {
   const user = useSelector(getUser)
 
   const toString = (user: User): React.ReactNode => {
     return (
       <p>
-        {user.name} <br /> <Italic>{user.role}</Italic>
+        {user.loggedInCareProvider} <br /> <Italic>{user.loggedInUnit}</Italic>
       </p>
     )
   }
@@ -25,9 +26,9 @@ const WebcertHeaderUser: React.FC = () => {
 
   return (
     <>
-      <AppHeaderUser text={toString(user)} />
+      <AppHeaderUserUnit items={toString(user)} />
     </>
   )
 }
 
-export default WebcertHeaderUser
+export default WebcertHeaderUnit

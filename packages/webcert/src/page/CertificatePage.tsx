@@ -5,12 +5,13 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader, AppHeaderLink, Tabs } from '@frontend/common'
-import WebcertTitle from '../components/header/WebcertTitle'
+import { AppHeader, AppHeaderLink } from '@frontend/common'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
+import logo from '../components/header/webcert_logo.png'
+import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
 
 const Root = styled.div`
   height: 100vh;
@@ -44,15 +45,12 @@ const CertificatePage = () => {
     }
   }, [dispatch, certificateId])
 
-  const secondaryItems = [
-    <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
-    <AppHeaderLink text={'Logga ut'} link={'/welcome'} withoutDivider={true}></AppHeaderLink>,
-  ]
+  const secondaryItems = [<AppHeaderLink text={'Om Webcert'} link={'#'} withoutDivider={true}></AppHeaderLink>]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
     <Root>
-      <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
+      <AppHeader logo={logo} primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]} secondaryItems={secondaryItems} />
       {certificateIsDeleted ? (
         <RemovedCertificate />
       ) : (

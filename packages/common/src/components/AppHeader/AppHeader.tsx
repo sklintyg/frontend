@@ -1,31 +1,36 @@
 import React from 'react'
-import AppHeaderAvatarBox from './AppHeaderAvatarBox'
-import { Link } from 'react-router-dom'
+import AppHeaderTitle from './AppHeaderTitle'
+import styled from 'styled-components'
+
+const Header = styled.div`
+  height: unset;
+  padding: 15px 0;
+`
 
 interface Props {
-  title: React.ReactNode
+  title?: React.ReactNode
   primaryItems?: React.ReactNode
   secondaryItems?: React.ReactNode[]
+  logo: string
 }
 
-const AppHeader: React.FC<Props> = (props) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo }) => {
   const getSecondary = () => {
-    return props.secondaryItems?.map((item, index) => <li key={index}>{item}</li>)
+    return secondaryItems?.map((item, index) => (
+      <li key={index}>
+        <a className="ic-link-chevron">{item}</a>
+      </li>
+    ))
   }
 
   return (
     <header className="ic-page-header">
-      <div className="ic-page-header__inner">
-        <div className="ic-page-header__item ic-page-header__logo-container">
-          <Link className="ic-page-header__logo-link" to="#/">
-            <span className="ic-page-header__logo-link-text"> [1177/Inera] </span>
-          </Link>
+      <Header className="ic-page-header__inner">
+        <AppHeaderTitle imgSrc={logo}></AppHeaderTitle>
+        <div className="ic-page-header__item iu-mr-gutter">
+          {primaryItems} <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
         </div>
-        <AppHeaderAvatarBox userItems={props.primaryItems} links={props.secondaryItems} />
-      </div>
-      <nav className="ic-nav iu-fs-200 iu-hide-from-lg ic-nav--full ic-nav--divider iu-bg-secondary-light">
-        <ul className="ic-container">{getSecondary()}</ul>
-      </nav>
+      </Header>
     </header>
   )
 }

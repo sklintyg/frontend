@@ -1,16 +1,13 @@
 import React from 'react'
-import { AppHeaderItem } from '../index'
+import AppHeaderImageWithText from './AppHeaderImageWithText'
+import userImage from '../../images/user-image.svg'
 
 interface Props {
-  text: string
+  text: React.ReactNode
 }
 
 const AppHeaderUser: React.FC<Props> = ({ text }) => {
-  return (
-    <AppHeaderItem>
-      <p>{text}</p>
-    </AppHeaderItem>
-  )
+  return <AppHeaderImageWithText items={text} image={userImage}></AppHeaderImageWithText>
 }
 
 export default AppHeaderUser

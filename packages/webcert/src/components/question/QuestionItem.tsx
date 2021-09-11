@@ -16,7 +16,7 @@ import {
 } from '@frontend/common'
 import { format } from 'date-fns'
 import fkImg from './fk.png'
-import userImage from '../../images/user-image.svg'
+import userImage from '@frontend/common/src/images/user-image.svg'
 import arrowLeft from '../../images/arrow-left.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import {
