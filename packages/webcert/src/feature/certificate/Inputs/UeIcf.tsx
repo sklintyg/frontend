@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../store/store'
 import {
@@ -15,6 +15,8 @@ import { getQuestionHasValidationError, getShowValidationErrors } from '../../..
 import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../store/icf/icfSelectors'
+import { Icf } from '../../../store/icf/icfReducer'
+import { getFilteredIcfValues, getHasNewIcfValues, getIcfValueList } from '../../../components/icf/IcfUtils'
 
 interface Props {
   question: CertificateDataElement
@@ -29,6 +31,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')
   const [chosenIcfValues, setChosenIcfValues] = useState<string[] | undefined>(getIcdCodesValue(question))
+  const [icfValues, setIcfValues] = useState<string[]>([])
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const dispatchEditDraft = useRef(
@@ -37,6 +40,22 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
   ).current
+
+  useEffect(() => {
+    const newIcfValues = getIcfValueList(icfData)
+    setIcfValues(getIcfValueList(icfData))
+    console.log('oldicfvalues', icfValues)
+    console.log('newicfvalues', newIcfValues)
+
+    if (getHasNewIcfValues(icfValues, newIcfValues)) {
+      console.log('there was a difference in icf lists', icfValues, newIcfValues)
+      const updatedChosenIcfValues = getFilteredIcfValues(chosenIcfValues, icfValues, newIcfValues)
+      console.log('dispatching new list', chosenIcfValues, updatedChosenIcfValues)
+      setChosenIcfValues(updatedChosenIcfValues)
+      setIcfValues(newIcfValues)
+      dispatchEditDraft(text, updatedChosenIcfValues)
+    }
+  }, [icfData])
 
   const handleTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setText(event.currentTarget.value)

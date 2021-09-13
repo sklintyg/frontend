@@ -20,7 +20,6 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   const [displayDescription, setDisplayDescription] = useState(false)
 
   const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    console.log('Handle checkbox')
     if (event.target.checked) {
       onCodeAdd(event.target.value)
     } else {
