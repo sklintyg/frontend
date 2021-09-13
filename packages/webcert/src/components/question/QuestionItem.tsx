@@ -54,6 +54,15 @@ const ComplementCard = styled.button`
   align-items: center;
   justify-content: space-between;
   background-color: white;
+
+  &:hover {
+    p {
+      color: white !important;
+    }
+    
+    img {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+  }
 `
 
 const AnsweredByCertificate = styled.div`
@@ -275,7 +284,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   <p className={'iu-fw-heading iu-color-grey-400 iu-mb-200'}>{'Visa kompletteringsbegäran för:'}</p>
                 </Wrapper>
                 <Wrapper>
-                  <div className={'iu-fullwidth iu-color-main  iu-text-left'}>{complement.questionText}</div>
+                  <p className={'iu-fullwidth iu-color-main iu-text-left'}>{complement.questionText}</p>
                 </Wrapper>
               </div>
             </Complement>
