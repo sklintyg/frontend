@@ -22,10 +22,13 @@ export const getFilteredIcfValues = (
   oldValues: string[],
   newValues: string[]
 ): string[] | undefined => {
+  if (newValues.length === 0) return []
+
   const removedIcfValues = oldValues.filter((oldValue) => !newValues.some((newValue) => oldValue === newValue))
   return chosenIcfValues?.filter((val) => !removedIcfValues.includes(val))
 }
 
-export const getHasNewIcfValues = (oldIcfValues: string[], newIcfValues: string[]): boolean => {
-  return oldIcfValues.some((oldVal) => !newIcfValues.includes(oldVal))
+export const isOldListIncludedInNewList = (oldList?: string[], newList?: string[]): boolean => {
+  if (!oldList || !newList) return false
+  return oldList.some((oldVal) => !newList.includes(oldVal))
 }

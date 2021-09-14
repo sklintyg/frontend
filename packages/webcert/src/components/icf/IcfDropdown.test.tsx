@@ -31,7 +31,7 @@ const renderComponent = (infoText = 'infoText test', icfData = getIcfData().acti
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <IcfDropdown infoText={infoText} icfData={icfData!} chosenIcfCodeValues={icfValues} collectionsLabel={COLLECTIONS_LABEL} />
+        <IcfDropdown modalLabel={infoText} icfData={icfData!} chosenIcfCodeValues={icfValues} collectionsLabel={COLLECTIONS_LABEL} />
       </Router>
     </Provider>
   )
@@ -261,6 +261,7 @@ const getIcfData = (): IcfState => {
       commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
       uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
     },
+    loading: false,
   }
 }
 

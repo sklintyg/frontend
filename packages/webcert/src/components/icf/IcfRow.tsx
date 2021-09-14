@@ -35,8 +35,9 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
       <TitleWrapper>
         <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.title} />
         <p onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
-          visa mer{' '}
+          visa mer
         </p>
+        <span aria-hidden="true" className="icon-angle-down" />
       </TitleWrapper>
       {displayDescription && (
         <>

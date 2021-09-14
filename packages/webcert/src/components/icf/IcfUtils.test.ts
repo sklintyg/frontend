@@ -1,4 +1,4 @@
-import { getFilteredIcfValues, getHasNewIcfValues, getIcfValueList } from './IcfUtils'
+import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from './IcfUtils'
 import { Icf, IcfCode } from '../../store/icf/icfReducer'
 
 describe('IcfUtils', () => {
@@ -39,7 +39,7 @@ describe('IcfUtils', () => {
       const oldIcfValues = ['0', '1']
       const newIcfValues = ['0', '1']
 
-      const actual = getHasNewIcfValues(oldIcfValues, newIcfValues)
+      const actual = isOldListIncludedInNewList(oldIcfValues, newIcfValues)
 
       expect(actual).toBe(false)
     })
@@ -48,7 +48,7 @@ describe('IcfUtils', () => {
       const oldIcfValues = ['0', '1', '2']
       const newIcfValues = ['1', '2']
 
-      const actual = getHasNewIcfValues(oldIcfValues, newIcfValues)
+      const actual = isOldListIncludedInNewList(oldIcfValues, newIcfValues)
 
       expect(actual).toBe(true)
     })

@@ -10,7 +10,7 @@ import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, V
 import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
 
 interface Props {
-  infoText: string
+  modalLabel: string
   collectionsLabel: string
   icfData?: Icf
   chosenIcfCodeValues?: string[]
@@ -18,7 +18,7 @@ interface Props {
   onCodeRemove: (icfCodeToRemove: string) => void
 }
 
-const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, onCodeAdd, onCodeRemove, collectionsLabel }) => {
+const IcfDropdown: React.FC<Props> = ({ modalLabel, icfData, chosenIcfCodeValues, onCodeAdd, onCodeRemove, collectionsLabel }) => {
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef<null | HTMLElement>(null)
   const [displayDropdown, setDisplayDropdown] = useState(false)
@@ -39,7 +39,7 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
   }
 
   const shouldRenderDropdown = () => {
-    return infoText && icfData
+    return modalLabel && icfData
   }
 
   const shouldRenderValues = () => {
@@ -84,7 +84,7 @@ const IcfDropdown: React.FC<Props> = ({ infoText, icfData, chosenIcfCodeValues, 
             <div hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
               <StyledTitle className={'iu-bg-main iu-color-white iu-p-300'}>
                 <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />
-                {infoText}
+                {modalLabel}
               </StyledTitle>
               <ScrollDiv className={'iu-pb-300 iu-bg-white'}>
                 {icfData?.commonCodes.icfCodes && (

@@ -15,8 +15,7 @@ import { getQuestionHasValidationError, getShowValidationErrors } from '../../..
 import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../store/icf/icfSelectors'
-import { Icf } from '../../../store/icf/icfReducer'
-import { getFilteredIcfValues, getHasNewIcfValues, getIcfValueList } from '../../../components/icf/IcfUtils'
+import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from '../../../components/icf/IcfUtils'
 
 interface Props {
   question: CertificateDataElement
@@ -26,7 +25,7 @@ interface Props {
 const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
-  const icfData = useSelector(getIcfData(question.id))
+  const icfData = useSelector(getIcfData((question.value as ValueIcf).id))
   const questionConfig = question.config as ConfigUeIcf
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')
@@ -36,6 +35,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
 
   const dispatchEditDraft = useRef(
     _.debounce((textValue: string, icfCodeValues?: string[]) => {
+      console.log('dispatching')
       const updatedValue = getUpdatedValue(question, icfCodeValues, textValue)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
@@ -43,17 +43,15 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
 
   useEffect(() => {
     const newIcfValues = getIcfValueList(icfData)
-    setIcfValues(getIcfValueList(icfData))
-    console.log('oldicfvalues', icfValues)
-    console.log('newicfvalues', newIcfValues)
+    const oldIcfValues = [...icfValues]
+    setIcfValues(newIcfValues)
 
-    if (getHasNewIcfValues(icfValues, newIcfValues)) {
-      console.log('there was a difference in icf lists', icfValues, newIcfValues)
-      const updatedChosenIcfValues = getFilteredIcfValues(chosenIcfValues, icfValues, newIcfValues)
-      console.log('dispatching new list', chosenIcfValues, updatedChosenIcfValues)
-      setChosenIcfValues(updatedChosenIcfValues)
-      setIcfValues(newIcfValues)
-      dispatchEditDraft(text, updatedChosenIcfValues)
+    if (isOldListIncludedInNewList(oldIcfValues, newIcfValues)) {
+      const updatedChosenIcfValues = getFilteredIcfValues(chosenIcfValues, oldIcfValues, newIcfValues)
+      if (isOldListIncludedInNewList(chosenIcfValues, updatedChosenIcfValues)) {
+        setChosenIcfValues(updatedChosenIcfValues)
+        dispatchEditDraft(text, updatedChosenIcfValues)
+      }
     }
   }, [icfData])
 
@@ -64,6 +62,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
 
   const handleAddIcfCodeValue = (icfCodeToAdd: string) => {
     let updatedIcfCodes
+    console.log('adding icf value')
 
     if (!chosenIcfValues) {
       updatedIcfCodes = [icfCodeToAdd]
@@ -84,7 +83,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
     <div className={`iu-pt-200`}>
       <IcfDropdown
         chosenIcfCodeValues={chosenIcfValues}
-        infoText={questionConfig.modalLabel}
+        modalLabel={questionConfig.modalLabel}
         collectionsLabel={questionConfig.collectionsLabel}
         icfData={icfData}
         onCodeAdd={handleAddIcfCodeValue}
