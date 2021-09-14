@@ -23,7 +23,7 @@ const Overflow = styled.div`
 `
 
 const Wrapper = styled.div`
-  height: calc(100vh - 220px);
+  height: calc(100vh - 100px);
 `
 
 const Columns = styled.div`
