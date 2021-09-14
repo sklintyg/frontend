@@ -112,6 +112,16 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         } else {
           return 'Intyget är makulerat'
         }
+      case CertificateEventType.INCOMING_MESSAGE:
+        return 'Försäkringskassan har ställt en fråga'
+      case CertificateEventType.OUTGOING_MESSAGE:
+        return 'En fråga har skickats till Försäkringskassan'
+      case CertificateEventType.REQUEST_FOR_COMPLEMENT:
+        return 'Försäkringkassan har begärt komplettering'
+      case CertificateEventType.INCOMING_MESSAGE_HANDLED:
+        return 'En fråga från Försäkringskassan är markerad som hanterad'
+      case CertificateEventType.OUTGOING_MESSAGE_HANDLED:
+        return 'En fråga till Försäkringskassan är markerad som hanterad'
       case CertificateEventType.LOCKED:
         return 'Utkastet låstes'
       case CertificateEventType.COPIED_FROM:
