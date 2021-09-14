@@ -25,7 +25,7 @@ const WebcertHeaderUser: React.FC = () => {
 
   return (
     <>
-      <AppHeaderUser text={toString(user)} />
+      <AppHeaderUser items={toString(user)} />
     </>
   )
 }
