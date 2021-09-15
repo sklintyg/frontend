@@ -37,7 +37,6 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
         <p onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer
         </p>
-        <span aria-hidden="true" className="icon-angle-down" />
       </TitleWrapper>
       {displayDescription && (
         <>

@@ -13,7 +13,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import UeIcf from '../UeIcf'
 import { icfMiddleware } from '../../../../store/icf/icfMiddleware'
 import { CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import { IcdCode, IcfCode, IcfState } from '../../../../store/icf/icfReducer'
 import { updateIcfCodes } from '../../../../store/icf/icfActions'
 import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import apiMiddleware from '../../../../store/api/apiMiddleware'
