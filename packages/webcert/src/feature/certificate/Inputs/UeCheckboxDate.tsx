@@ -26,6 +26,7 @@ interface Props {
   id: string
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
+  datePickerAdditionalStyles?: string
   disabled?: boolean
   question: CertificateDataElement
   date: string | null
@@ -79,12 +80,14 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         disabled={disabled}
         onChange={handleCheckboxChange}
         hasValidationError={hasValidationError}
+        checkboxAdditionalStyles={props.checkboxAdditionalStyles}
       />
       <DatePickerCustom
         disabled={disabled}
         textInputOnChange={handleTextChange}
         setDate={handleDateChange}
-        inputString={dateString}></DatePickerCustom>
+        inputString={dateString}
+        additionalStyles={props.datePickerAdditionalStyles}></DatePickerCustom>
       {props.isShowValidationError && isSingleCheckboxDate && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>

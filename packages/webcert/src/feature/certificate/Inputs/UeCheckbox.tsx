@@ -13,7 +13,6 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { useAppDispatch } from '../../../store/store'
 import { useSelector } from 'react-redux'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { css } from 'styled-components'
 
 interface Props {
   label?: string
@@ -22,13 +21,10 @@ interface Props {
   checked?: boolean
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
+  wrapperAdditionalStyles?: string
   disabled?: boolean
   question: CertificateDataElement
 }
-
-const wrapperStyles = css`
-  padding-top: 14px;
-`
 
 const UeCheckbox: React.FC<Props> = (props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
@@ -70,7 +66,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
         disabled={disabled}
         onChange={handleChange}
         hasValidationError={hasValidationError}
-        wrapperStyles={!isSingleCheckbox ? wrapperStyles : undefined}
+        wrapperAdditionalStyles={props.wrapperAdditionalStyles}
       />
       {isShowValidationError && isSingleCheckbox && (
         <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>

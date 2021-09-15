@@ -25,7 +25,7 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  padding-top: 10px;
+  padding-top: 15px;
   display: grid;
   align-items: flex-start;
   grid-template-columns: 150px repeat(3, 1fr);

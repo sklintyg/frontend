@@ -49,6 +49,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
         checked={radio.id === code}
         hasValidationError={shouldDisplayValidationError}
         onChange={handleChange}
+        wrapperAdditionalStyles={index !== radiobuttons.length - 1 ? 'iu-pb-400' : ''}
       />
     ))
   }
