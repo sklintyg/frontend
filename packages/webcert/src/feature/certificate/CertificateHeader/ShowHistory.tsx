@@ -116,6 +116,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         return 'Försäkringskassan har ställt en fråga'
       case CertificateEventType.OUTGOING_MESSAGE:
         return 'En fråga har skickats till Försäkringskassan'
+      case CertificateEventType.INCOMING_ANSWER:
+        return 'Försäkringskassan har svarat på en fråga'
       case CertificateEventType.REQUEST_FOR_COMPLEMENT:
         return 'Försäkringkassan har begärt komplettering'
       case CertificateEventType.INCOMING_MESSAGE_HANDLED:
