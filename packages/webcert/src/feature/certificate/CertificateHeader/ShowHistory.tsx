@@ -18,6 +18,7 @@ interface Props {
 
 const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) => {
   const isEmpty = historyEntries.length === 0
+
   function formatDate(date: string) {
     const d = new Date(date)
     let month = '' + (d.getMonth() + 1)
@@ -167,15 +168,21 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
     }
   }
 
+  function getHistoryEntry(index: number, entry: CertificateEvent) {
+    const text = getHistoryText(entry)
+    if (!text) return
+    return (
+      <p key={index}>
+        {formatDate(entry.timestamp)} {text}
+      </p>
+    )
+  }
+
   return (
     <div className="iu-fs-100 iu-color-text">
       <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
         {isEmpty && <Spinner text={'Laddar händelser'} size={'small'}></Spinner>}
-        {[...historyEntries].reverse().map((entry, i) => (
-          <p key={i}>
-            {formatDate(entry.timestamp)} {getHistoryText(entry)}
-          </p>
-        ))}
+        {[...historyEntries].reverse().map((entry, i) => getHistoryEntry(i, entry))}
       </TextWithInfoModal>
     </div>
   )
