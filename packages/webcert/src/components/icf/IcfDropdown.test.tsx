@@ -11,11 +11,12 @@ import apiMiddleware from '../../store/api/apiMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import IcfDropdown from './IcfDropdown'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
-import { IcdCode, Icf, IcfCode, IcfState } from '../../store/icf/icfReducer'
+import { Icf } from '../../store/icf/icfReducer'
 import { updateIcfCodes } from '../../store/icf/icfActions'
 import userEvent from '@testing-library/user-event'
 import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
+import { getIcfData } from './icfTestUtils'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -27,11 +28,23 @@ const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
 
-const renderComponent = (infoText = 'infoText test', icfData = getIcfData().activityLimitation, icfValues = getIcfValues()) => {
+const renderComponent = (
+  infoText = 'infoText test',
+  icfData = getIcfData().activityLimitation,
+  icfValues = getIcfValues(),
+  disabled = false
+) => {
+
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <IcfDropdown modalLabel={infoText} icfData={icfData!} chosenIcfCodeValues={icfValues} collectionsLabel={COLLECTIONS_LABEL} />
+        <IcfDropdown
+          modalLabel={infoText}
+          icfData={icfData!}
+          chosenIcfCodeValues={icfValues}
+          collectionsLabel={COLLECTIONS_LABEL}
+          disabled={disabled}
+        />
       </Router>
     </Provider>
   )
@@ -56,6 +69,13 @@ describe('IcfDropdown', () => {
 
   it('display disabled button if no icd codes', () => {
     renderComponent()
+
+    expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
+  })
+
+  it('display disabled button if disabled prop is true', () => {
+    renderComponent(undefined, undefined, undefined, true)
+    setDefaultIcfState()
 
     expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
   })
@@ -165,7 +185,8 @@ describe('IcfDropdown', () => {
     setDefaultFmb()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    expect(screen.getAllByText(icfValues![0])[1]).toBeVisible()
+    const valueTitle = screen.getAllByText(icfValues![0])[1]
+    expect(valueTitle).toBeVisible()
   })
 
   it('shall display collections label', () => {
@@ -177,12 +198,13 @@ describe('IcfDropdown', () => {
     expect(screen.getByText(COLLECTIONS_LABEL)).toBeInTheDocument()
   })
 
-  it('shall not display chosen values if no icd codes', () => {
+  it('shall display chosen values if no icd codes', () => {
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    expect(screen.queryByText(icfValues![0])).not.toBeVisible()
+    const valueTitle = screen.queryAllByText(icfValues![0])[1]
+    expect(valueTitle).toBeVisible()
   })
 })
 
@@ -204,65 +226,6 @@ const toggleIcfDropdown = () => {
 
 const getIcfValues = () => {
   return ['1', '2']
-}
-
-const getIcfData = (): IcfState => {
-  const commonIcfCodes: IcfCode[] = [
-    {
-      code: '0',
-      description: 'description 0',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 0',
-    },
-    {
-      code: '1',
-      description: 'description 1',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 1',
-    },
-    {
-      code: '2',
-      description: 'description 2',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 2',
-    },
-  ]
-
-  const uniqueIcfCodes: IcfCode[] = [
-    {
-      code: '3',
-      description: 'description 3',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 3',
-    },
-    {
-      code: '4',
-      description: 'description 4',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 4',
-    },
-  ]
-
-  const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
-  const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
-  const icdCodes: IcdCode[] = [ICD_CODE_1, ICD_CODE_2]
-
-  return {
-    activityLimitation: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
-    },
-    disability: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
-    },
-    loading: false,
-  }
 }
 
 const setDefaultFmb = () => {

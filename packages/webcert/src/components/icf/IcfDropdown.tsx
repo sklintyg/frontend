@@ -16,9 +16,18 @@ interface Props {
   chosenIcfCodeValues?: string[]
   onCodeAdd: (icfCodeToAdd: string) => void
   onCodeRemove: (icfCodeToRemove: string) => void
+  disabled: boolean
 }
 
-const IcfDropdown: React.FC<Props> = ({ modalLabel, icfData, chosenIcfCodeValues, onCodeAdd, onCodeRemove, collectionsLabel }) => {
+const IcfDropdown: React.FC<Props> = ({
+  modalLabel,
+  icfData,
+  chosenIcfCodeValues,
+  onCodeAdd,
+  onCodeRemove,
+  collectionsLabel,
+  disabled,
+}) => {
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef<null | HTMLElement>(null)
   const [displayDropdown, setDisplayDropdown] = useState(false)
@@ -47,7 +56,7 @@ const IcfDropdown: React.FC<Props> = ({ modalLabel, icfData, chosenIcfCodeValues
   }
 
   const getDropdownButtonBeDisabled = (): boolean => {
-    return icd10Codes.length === 0 || icfData === undefined || loadingIcfData
+    return disabled || icd10Codes.length === 0 || icfData === undefined || loadingIcfData
   }
 
   /*function useOutsideAlerter(ref: null | React.MutableRefObject<HTMLElement>) {

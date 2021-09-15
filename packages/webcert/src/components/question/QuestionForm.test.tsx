@@ -107,15 +107,15 @@ describe('QuestionForm', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft.type).toEqual(QuestionType.MISSING)
     })
 
-    xit('writes a message', async () => {
-      jest.useFakeTimers()
+    it('writes a message', () => {
+      jest.useFakeTimers('modern')
       renderComponent()
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
       jest.advanceTimersByTime(2000)
-      await flushPromises()
+      flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 

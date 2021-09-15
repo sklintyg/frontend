@@ -18,6 +18,7 @@ import { updateIcfCodes } from '../../../../store/icf/icfActions'
 import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import apiMiddleware from '../../../../store/api/apiMiddleware'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getIcfData } from '../../../../components/icf/icfTestUtils'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -39,7 +40,7 @@ const renderComponent = (question: CertificateDataElement, disabled = false) => 
 
 const QUESTION_ID = 'questionid'
 
-const createQuestion = (): CertificateDataElement => {
+const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
   return {
     id: QUESTION_ID,
     mandatory: true,
@@ -49,7 +50,7 @@ const createQuestion = (): CertificateDataElement => {
     readOnly: false,
     validation: [],
     validationErrors: [],
-    value: { type: CertificateDataValueType.ICF },
+    value: { type: CertificateDataValueType.ICF, icfCodes: icfCodes } as ValueIcf,
     config: {
       id: QUESTION_ID,
       label: 'test',
@@ -64,6 +65,7 @@ const createQuestion = (): CertificateDataElement => {
 describe('UeIcf', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
+    jest.useFakeTimers('modern')
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...icfMiddleware),
@@ -80,26 +82,77 @@ describe('UeIcf', () => {
 
   it('shall dispatch updateCertificateDataElement when clicking icf value', () => {
     setDefaultIcfState()
+
     const icfData = getIcfData()
     const question = createQuestion()
     const expectedIcfValueTitle = icfData.activityLimitation?.commonCodes.icfCodes[0].title
-    const expectedValue = {
-      id: QUESTION_ID,
-      type: CertificateDataValueType.ICF,
-      icfCodes: [expectedIcfValueTitle],
-      text: '',
-    } as ValueIcf
+    const expectedValue = createValue([expectedIcfValueTitle!], '')
 
     renderAndOpenDropdown(question)
-    question.value = expectedValue
-
     userEvent.click(screen.getByText(`${expectedIcfValueTitle}`))
+    jest.advanceTimersByTime(2000)
 
     flushPromises()
     const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
-    expect(updateCertificateDataElementAction?.payload.value).toEqual(expectedValue)
+    expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValue.icfCodes)
+  })
+
+  it('shall dispatch updateCertificateDataElement when entering text value', () => {
+    setDefaultIcfState()
+    const question = createQuestion()
+    renderComponent(question)
+    const expectedTextValue = 'Det här är ett meddelande'
+
+    const messageField = screen.getByRole('textbox')
+    userEvent.type(messageField, expectedTextValue)
+    jest.advanceTimersByTime(2000)
+
+    flushPromises()
+    const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
+    expect(updateCertificateDataElementAction?.payload.value.text).toEqual(expectedTextValue)
+  })
+
+  it('shall dispatch updateCertificateDataElement and clear chosen values when fetching updated empty icf data', () => {
+    setDefaultIcfState()
+    const initialValues = ['1', '2', '3']
+    const question = createQuestion(initialValues)
+    renderComponent(question)
+
+    testStore.dispatch(updateIcfCodes({ disability: undefined, activityLimitation: undefined }))
+    jest.advanceTimersByTime(10000)
+
+    flushPromises()
+    const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
+    expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual([])
+  })
+
+  it('shall dispatch updateCertificateDataElement and filter chosen values when fetching updated icf data', () => {
+    setDefaultIcfState()
+    const icfData = getIcfData()
+    const icfCodes = icfData.disability?.commonCodes.icfCodes
+    const initialValues = [icfCodes![0].title, icfCodes![1].title, icfCodes![2].title]
+    const expectedValues = [icfCodes![0].title, icfCodes![1].title]
+    const question = createQuestion(initialValues)
+    renderComponent(question)
+
+    icfData.disability!.commonCodes.icfCodes = [{ title: icfCodes![0].title }, { title: icfCodes![1].title }]
+    testStore.dispatch(updateIcfCodes(icfData))
+    jest.advanceTimersByTime(10000)
+
+    flushPromises()
+    const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
+    expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValues)
   })
 })
+
+const createValue = (icfCodes: string[], text: string) => {
+  return {
+    id: QUESTION_ID,
+    type: CertificateDataValueType.ICF,
+    icfCodes: icfCodes,
+    text: text,
+  } as ValueIcf
+}
 
 const renderAndOpenDropdown = (question: CertificateDataElement, disabled = false) => {
   renderComponent(question, disabled)
@@ -115,65 +168,6 @@ const setDefaultIcfState = () => {
 
 const toggleIcfDropdown = () => {
   userEvent.click(screen.getByText('Ta hjälp av ICF'))
-}
-
-const getIcfData = (loading = false): IcfState => {
-  const commonIcfCodes: IcfCode[] = [
-    {
-      code: '0',
-      description: 'description 0',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 0',
-    },
-    {
-      code: '1',
-      description: 'description 1',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 1',
-    },
-    {
-      code: '2',
-      description: 'description 2',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 2',
-    },
-  ]
-
-  const uniqueIcfCodes: IcfCode[] = [
-    {
-      code: '3',
-      description: 'description 3',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 3',
-    },
-    {
-      code: '4',
-      description: 'description 4',
-      includes:
-        'avlägsningsfunktioner, avföringskonsistens, avföringsfrekvens, avföringskontinens, väderspänningar; funktionsnedsättningar såsom förstoppning, diarré, vattnig avföring, nedsatt förmåga i ändtarmens slutmuskel eller inkontinens',
-      title: 'title 4',
-    },
-  ]
-
-  const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
-  const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
-  const icdCodes: IcdCode[] = [ICD_CODE_1, ICD_CODE_2]
-
-  return {
-    activityLimitation: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
-    },
-    disability: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
-    },
-    loading: loading,
-  }
 }
 
 const setDefaultFmb = () => {
