@@ -97,14 +97,14 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   unselectedText: string
 }
 
-export interface ConfigUeCheckboxCode extends CertificateDataConfig {
+export interface CheckboxCode {
   id: string
   label: string
   disabled?: boolean
 }
 
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
-  list: ConfigUeCheckboxCode[]
+  list: CheckboxCode[]
 }
 
 export interface ConfigUeRadioCode extends CertificateDataConfig {
