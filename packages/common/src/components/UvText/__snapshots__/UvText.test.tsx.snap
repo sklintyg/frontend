@@ -12,11 +12,8 @@ exports[`UvText Verify snapshot 1`] = `
 >
   <div
     className="iu-fs-200"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "Text",
-      }
-    }
-  />
+  >
+    Text
+  </div>
 </div>
 `;

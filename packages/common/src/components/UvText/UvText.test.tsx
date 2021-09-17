@@ -21,7 +21,6 @@ import {
   ValueCodeList,
 } from '@frontend/common'
 import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
-import { ScriptElementKindModifier } from 'typescript'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
 
 describe('UvText', () => {
@@ -189,23 +188,14 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     list: [
       {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_1',
         label: 'Code 1',
       },
       {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_2',
         label: 'Code 2',
       },
       {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_CODE,
         id: 'CODE_3',
         label: 'Code 3',
       },
