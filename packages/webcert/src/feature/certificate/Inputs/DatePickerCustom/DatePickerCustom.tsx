@@ -21,7 +21,7 @@ interface Props {
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
-  additionalStyles: string
+  additionalStyles?: string
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'

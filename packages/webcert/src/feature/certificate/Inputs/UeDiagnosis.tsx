@@ -124,9 +124,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
-      updateSavedDiagnosis('', '')
+      updateSavedDiagnosis(question, '', '')
     } else {
-      updateSavedDiagnosis('', description)
+      updateSavedDiagnosis(question, '', description)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true)
   }
@@ -138,9 +138,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      dispatchUpdateDiagnosisWithNewDescription('', newDescription)
+      dispatchUpdateDiagnosisWithNewDescription(question, '', newDescription)
     } else {
-      dispatchUpdateDiagnosisWithNewDescription(code, newDescription)
+      dispatchUpdateDiagnosisWithNewDescription(question, code, newDescription)
     }
     dispatchTypeahead(newDescription)
   }
@@ -152,8 +152,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   ).current
 
   const dispatchUpdateDiagnosisWithNewDescription = useRef(
-    _.debounce((code: string, description: string) => {
-      updateSavedDiagnosis(code, description)
+    _.debounce((question: CertificateDataElement, code: string, description: string) => {
+      updateSavedDiagnosis(question, code, description)
     }, 500)
   ).current
 
@@ -190,10 +190,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    updateSavedDiagnosis(newCode, newDesc)
+    updateSavedDiagnosis(question, newCode, newDesc)
   }
 
-  const updateSavedDiagnosis = (code: string, description: string) => {
+  const updateSavedDiagnosis = (question: CertificateDataElement, code: string, description: string) => {
     const diagnosisValue: ValueDiagnosis = {
       type: CertificateDataValueType.DIAGNOSIS,
       id: id,
