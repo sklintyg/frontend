@@ -134,6 +134,8 @@ describe('UeIcf', () => {
     const question = createQuestion(initialValues)
     renderComponent(question)
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     icfData.disability!.commonCodes.icfCodes = [{ title: icfCodes![0].title }, { title: icfCodes![1].title }]
     testStore.dispatch(updateIcfCodes(icfData))
     jest.advanceTimersByTime(10000)

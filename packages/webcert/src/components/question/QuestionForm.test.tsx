@@ -174,6 +174,7 @@ describe('QuestionForm', () => {
     })
 
     it('shall delete question draft when delete is confirmed', async () => {
+      jest.useRealTimers()
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
 
@@ -184,14 +185,14 @@ describe('QuestionForm', () => {
       expect(fakeAxios.history.delete.length).not.toBe(0)
     })
 
-    it('shall not delete question draft when delete is confirmed', async () => {
+    it('shall not delete question draft when delete is confirmed', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
 
-      await flushPromises()
+      flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
     })
   })

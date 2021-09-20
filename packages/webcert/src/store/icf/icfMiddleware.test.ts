@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter'
-import { getIcfCodes, IcfRequest, updateIcfCodes } from './icfActions'
+import { getIcfCodes, IcfRequest, IcfResponse, updateIcfCodes } from './icfActions'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -26,16 +26,13 @@ describe('Test ICF middleware', () => {
 
   describe('Handle getIcfCodes', () => {
     it('shall update ICF state', async () => {
-      const icdCodes: IcfRequest[] = [
-        { icd10Code: 'A02' },
-        {
-          icd10Code: 'U071',
-        },
-      ]
+      const request: IcfRequest = {
+        icdCodes: ['A02', 'U071'],
+      }
       const expectedIcfInfo = getIcfData()
-      fakeAxios.onGet('/api/icf/facade').reply(200, expectedIcfInfo)
+      fakeAxios.onPost('/api/icf').reply(200, expectedIcfInfo)
 
-      testStore.dispatch(getIcfCodes(icdCodes))
+      testStore.dispatch(getIcfCodes(request))
 
       await flushPromises()
       expect(testStore.getState().ui.uiIcf.disability).toEqual(expectedIcfInfo.disability)
@@ -44,41 +41,41 @@ describe('Test ICF middleware', () => {
   })
 
   describe('Handle updateIcfCodes', () => {
-    it('shall update ICF state', async () => {
+    it('shall update ICF state', () => {
       const expectedIcfInfo = getIcfData()
 
       testStore.dispatch(updateIcfCodes(expectedIcfInfo))
 
-      await flushPromises()
+      flushPromises()
       expect(testStore.getState().ui.uiIcf.disability).toEqual(expectedIcfInfo.disability)
       expect(testStore.getState().ui.uiIcf.activityLimitation).toEqual(expectedIcfInfo.activityLimitation)
     })
   })
 
   describe('Handle updateCertificate', () => {
-    it('shall update icf codes', async () => {
+    it('shall update icf codes', () => {
       const expectedIcfTitles = getIcfTitles()
       const certificate = getCertificate(expectedIcfTitles)
 
       testStore.dispatch(updateCertificate(certificate))
 
-      await flushPromises()
+      flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
     })
 
-    it('shall fetch icf codes when ', async () => {
+    it('shall fetch icf codes when ', () => {
       const expectedIcfTitles = getIcfTitles()
       const certificate = getCertificate(expectedIcfTitles)
 
       testStore.dispatch(updateCertificate(certificate))
 
-      await flushPromises()
+      flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
     })
   })
 })
 
-const getIcfData = (): IcfState => {
+const getIcfData = (): IcfResponse => {
   const icfCodes: IcfCode[] = [
     {
       code: '1',
