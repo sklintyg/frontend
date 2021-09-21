@@ -56,7 +56,6 @@ describe('App header', () => {
 
   it('displays logo', (): void => {
     render(<AppHeader logo={'src'} alt={'alt text'} />)
-    const image = screen.getByAltText(/alt text/i)
-    expect(image).toBeInTheDocument()
+    expect(screen.getByAltText(/alt text/i)).toBeInTheDocument()
   })
 })
