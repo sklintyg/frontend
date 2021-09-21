@@ -126,11 +126,14 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
       case CertificateEventType.OUTGOING_MESSAGE_HANDLED:
         return 'En fråga till Försäkringskassan är markerad som hanterad'
       case CertificateEventType.COMPLEMENTED:
-        return (
-          <>
-            Intyget har kompletterats med ett annat intyg <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
-          </>
-        )
+        if (certificateMetadata.status === CertificateStatus.UNSIGNED) {
+          return (
+            <>
+              Utkastet är skapat för att komplettera ett tidigare intyg.{' '}
+              <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        } else return ''
       case CertificateEventType.LOCKED:
         return 'Utkastet låstes'
       case CertificateEventType.COPIED_FROM:
