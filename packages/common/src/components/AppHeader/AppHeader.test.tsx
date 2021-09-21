@@ -2,7 +2,6 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import AppHeader from './AppHeader'
-import userImage from '../../images/user-image.svg'
 
 describe('App header', () => {
   it('displays primary items', (): void => {
@@ -56,9 +55,8 @@ describe('App header', () => {
   })
 
   it('displays logo', (): void => {
-    render(<AppHeader logo={userImage} alt={'alt text'} />)
+    render(<AppHeader logo={'src'} alt={'alt text'} />)
     const image = screen.getByAltText(/alt text/i)
     expect(image).toBeInTheDocument()
-    expect(image).toHaveAttribute('src', 'user-image.svg')
   })
 })
