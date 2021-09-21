@@ -39,7 +39,9 @@ const UeDropdown: React.FC<Props> = (props) => {
         id={question.id}
         label={question.config.label + ''}
         options={config.list.map((item, i) => (
-          <option key={item.id} value={item.id} label={item.label} />
+          <option key={item.id} value={item.id}>
+            {item.label}
+          </option>
         ))}
         disabled={disabled}
         onChange={handleChange}

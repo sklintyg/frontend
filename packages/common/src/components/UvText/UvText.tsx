@@ -2,13 +2,11 @@ import * as React from 'react'
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigUeIcf,
+  CheckboxCode,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueText,
-} from '@frontend/common'
-import {
   CertificateDataConfig,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
@@ -18,7 +16,7 @@ import {
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
-} from '../../types/certificate'
+} from '@frontend/common'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -56,8 +54,8 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   }
 
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
-    const item = (config.list as ValueCode[]).find((item) => item.id === id)
-    return '<li>' + item?.label + '</li>'
+    const item = (config.list as CheckboxCode[]).find((item) => item.id === id)
+    return <li>{item?.label}</li>
   }
 
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
@@ -163,7 +161,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           return (
             <Root className={'iu-bg-secondary-light iu-radius-sm'}>
               {(codeListValue.list as ValueCode[]).map((value, key) => (
-                <div key={key} dangerouslySetInnerHTML={{ __html: getCodeListText(value.id, codeListConfig) }}></div>
+                <div key={key}>{getCodeListText(value.id, codeListConfig)}</div>
               ))}
             </Root>
           )
@@ -217,7 +215,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     if (displayText && displayText.length > 0) {
       return (
         <Root className={'iu-bg-secondary-light iu-radius-sm'}>
-          <div className={'iu-fs-200'} dangerouslySetInnerHTML={{ __html: displayText }}/>
+          <div className={'iu-fs-200'}>{displayText}</div>
         </Root>
       )
     }

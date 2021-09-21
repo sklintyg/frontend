@@ -23,6 +23,7 @@ import _ from 'lodash'
 import { isValid, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 
 interface Props {
   question: CertificateDataElement
@@ -169,6 +170,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             </p>
           </>
         )}
+        <SickLeavePeriodWarning />
       </div>
     </div>
   )
