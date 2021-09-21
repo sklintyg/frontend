@@ -11,10 +11,11 @@ interface Props {
   title?: React.ReactNode
   primaryItems?: React.ReactNode
   secondaryItems?: React.ReactNode[]
-  logo: string
+  logo?: string
+  alt?: string
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt }) => {
   const getSecondary = () => {
     return secondaryItems?.map((item, index) => (
       <li key={index}>
@@ -26,7 +27,8 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo 
   return (
     <header className="ic-page-header">
       <Header className="ic-page-header__inner">
-        <AppHeaderTitle imgSrc={logo}></AppHeaderTitle>
+        {title && title}
+        {logo && <AppHeaderTitle imgSrc={logo} alt={alt}></AppHeaderTitle>}
         <div className="ic-page-header__item iu-mr-gutter">
           {primaryItems} <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
         </div>

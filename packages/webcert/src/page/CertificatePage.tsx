@@ -50,7 +50,12 @@ const CertificatePage = () => {
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
     <Root>
-      <AppHeader logo={logo} primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]} secondaryItems={secondaryItems} />
+      <AppHeader
+        logo={logo}
+        alt={'Logo Webcert'}
+        primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+        secondaryItems={secondaryItems}
+      />
       {certificateIsDeleted ? (
         <RemovedCertificate />
       ) : (
