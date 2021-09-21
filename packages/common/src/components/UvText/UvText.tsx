@@ -2,7 +2,6 @@ import * as React from 'react'
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  CheckboxCode,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -16,6 +15,8 @@ import {
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ConfigUeIcf,
+  CheckboxCode,
 } from '@frontend/common'
 import styled from 'styled-components'
 
@@ -130,8 +131,6 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
       </table>
     )
   }
-
-  // This function gets a warning for rendering children withous keys.
 
   const getUVText = () => {
     if (question.value === undefined || question.value === null) {
