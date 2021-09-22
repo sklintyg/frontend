@@ -29,7 +29,7 @@ const IcfDropdown: React.FC<Props> = ({
   disabled,
 }) => {
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
-  const rootRef = useRef<null | HTMLElement>(null)
+  const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const loadingIcfData = useSelector(getIsLoadingIcfData())
 
@@ -38,6 +38,20 @@ const IcfDropdown: React.FC<Props> = ({
       setDisplayDropdown(false)
     }
   }, [loadingIcfData])
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick)
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+    }
+  }, [])
+
+  const handleClick = (e: Event) => {
+    if (rootRef.current?.contains(e.target as Node)) {
+      return
+    }
+    setDisplayDropdown(false)
+  }
 
   const getTooltip = () => {
     return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd' : ''
@@ -59,24 +73,6 @@ const IcfDropdown: React.FC<Props> = ({
     return disabled || icd10Codes.length === 0 || icfData === undefined || loadingIcfData
   }
 
-  /*function useOutsideAlerter(ref: null | React.MutableRefObject<HTMLElement>) {
-    useEffect(() => {
-     
-      function handleClickOutside(event) {
-        if (ref?.current && !ref.current.contains(event.target)) {
-          alert("You clicked outside of me!");
-        }
-      }
-
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  } */
-
   return (
     <>
       <CustomButton
@@ -89,7 +85,7 @@ const IcfDropdown: React.FC<Props> = ({
 
       {shouldRenderDropdown() && (
         <>
-          <Root>
+          <Root ref={rootRef}>
             <div hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
               <StyledTitle className={'iu-bg-main iu-color-white iu-p-300'}>
                 <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />

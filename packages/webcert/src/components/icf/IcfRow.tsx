@@ -8,6 +8,13 @@ const TitleWrapper = styled.div`
   justify-content: space-between;
 `
 
+const ShowMoreText = styled.p`
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
+`
+
 interface Props {
   icfCode: IcfCode
   checked: boolean
@@ -34,9 +41,9 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
     <div className={`${backgroundStyle} iu-pt-200 iu-pb-200 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
         <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.title} />
-        <p onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
+        <ShowMoreText onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer
-        </p>
+        </ShowMoreText>
       </TitleWrapper>
       {displayDescription && (
         <>
