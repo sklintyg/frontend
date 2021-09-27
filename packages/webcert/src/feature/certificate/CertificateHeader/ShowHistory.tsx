@@ -142,16 +142,21 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           )
         } else return ''
       case CertificateEventType.COMPLEMENTED:
-        if (event.relatedCertificateStatus === CertificateStatus.UNSIGNED) {
-          return (
-            <>
-              Det finns redan en påbörjad komplettering. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
-            </>
-          )
-        } else {
+        if (event.relatedCertificateStatus === CertificateStatus.SIGNED) {
           return (
             <>
               Intyget har kompletterats med ett annat intyg. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        } else if (
+          event.relatedCertificateStatus === CertificateStatus.REVOKED ||
+          event.relatedCertificateStatus === CertificateStatus.LOCKED_REVOKED
+        ) {
+          return ''
+        } else {
+          return (
+            <>
+              Det finns redan en påbörjad komplettering. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
             </>
           )
         }
