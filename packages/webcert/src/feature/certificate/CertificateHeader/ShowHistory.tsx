@@ -125,15 +125,36 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         return 'En fråga från Försäkringskassan är markerad som hanterad'
       case CertificateEventType.OUTGOING_MESSAGE_HANDLED:
         return 'En fråga till Försäkringskassan är markerad som hanterad'
-      case CertificateEventType.COMPLEMENTED:
+      case CertificateEventType.COMPLEMENTS:
         if (certificateMetadata.status === CertificateStatus.UNSIGNED) {
           return (
             <>
               Utkastet är skapat för att komplettera ett tidigare intyg.{' '}
-              <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        } else if (certificateMetadata.status === CertificateStatus.REVOKED) {
+          return (
+            <>
+              Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.
+              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
             </>
           )
         } else return ''
+      case CertificateEventType.COMPLEMENTED:
+        if (event.relatedCertificateStatus === CertificateStatus.UNSIGNED) {
+          return (
+            <>
+              Det finns redan en påbörjad komplettering. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+            </>
+          )
+        } else {
+          return (
+            <>
+              Intyget har kompletterats med ett annat intyg. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            </>
+          )
+        }
       case CertificateEventType.LOCKED:
         return 'Utkastet låstes'
       case CertificateEventType.COPIED_FROM:
