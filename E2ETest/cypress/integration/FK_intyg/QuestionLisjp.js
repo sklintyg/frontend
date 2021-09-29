@@ -16,7 +16,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
     context('Användare har möjlighet skicka ärendekommunikation på ett Lisjp intyg ',function() {
       beforeEach(function() {
         
-            cy.skapaIntygViaApi(this,0,false,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,0,false,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("Lisjp-utkast med id " + utkastId + " skapat och används i testfallet");
             });
@@ -24,13 +24,13 @@ describe('FK7804-intyg Ärende kommunikation', function() {
         });
         describe('Funktioner kring ärendekommunikation på ett Lisjp intyg', () =>{
 
-        /*   it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
+          it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+               // cy.wait(100);
+               // intyg.skickaTillFk();
                 intyg.skickaFraga("Avstämningsmöte");
                 //cy.get('.iu-mb-800')contains('skickar en fråga angående avstämmningsmöte.').should(exist);                
                
@@ -40,8 +40,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+               // cy.wait(100);
+               // intyg.skickaTillFk();
                 intyg.skickaFraga("Kontakt"); 
                 //cy.get('.iu-mb-800')contains('skickar en fråga angående avstämmningsmöte.').should(exist);               
                
@@ -51,8 +51,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+              //  cy.wait(100);
+               // intyg.skickaTillFk();
                 intyg.skickaFraga("Övrigt");
                 //cy.get('.iu-mb-800').contains('skickar en fråga angående Övrigt.').should(exist);
                 
@@ -62,8 +62,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(1000);
-                intyg.skickaTillFk();
+                //cy.wait(1000);
+                //intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -83,8 +83,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(1000);
-                intyg.skickaTillFk();
+               // cy.wait(1000);
+                //intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -106,8 +106,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+                //cy.wait(100);
+               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -127,8 +127,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+               // cy.wait(100);
+               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -142,14 +142,14 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.contains('Komplettera').should('not.exist')
                           
                
-             });*/
+             });
              it('Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+               // cy.wait(100);
+               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK',false);
                 cy.wait(1000);
@@ -162,28 +162,69 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.contains('Svara').should('exist');
 
              });
-             it('Markera fråga gällande Övrigt på ett Lisjp intyg som har en påminnelse', function () {
+             it('Svara på fråga gällande Kontakt på ett Lisjp intyg som har en påminnelse.', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-                const medText = "Det är ingen som vill svara så jag svarar med meddelande";
+                const medText = "this is an answer";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
-                intyg.skickaTillFk();
+               // cy.wait(100);
+               // intyg.skickaTillFk();
                 cy.wait(700);
                 cy.skapaÄrende(this, this.utkastId,'CONTACT','Detta är en övrigt fråga från FK',true);
-                cy.wait(1000);
+                cy.wait(1500);
                 cy.reload();
                 cy.contains('Administrativa frågor').click();
                 cy.contains('Svara').should('exist');
                 cy.contains('Påminnelse').should('exist');
-                cy.contains('Hanterad').click();
+                intyg.svaraPåÄrende('Kontakt', medText);
                 cy.wait(700);
                 cy.contains('Påminnelse').should('not.exist');
                 cy.contains('Svara').should('not.exist');
-                cy.contains('Hanterad').click();
-                cy.contains('Svara').should('exist');
+               
 
              });
+             it('Svara på fråga gällande Avstämningsmöte på ett Lisjp intyg som har en påminnelse.', function () {
+               cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+               const medText = "this is an answer";
+               const önskadUrl = "/certificate/" + this.utkastId ;
+               cy.visit(önskadUrl);
+              // cy.wait(100);
+              // intyg.skickaTillFk();
+               cy.wait(700);
+               cy.skapaÄrende(this, this.utkastId,'COORDINATION','Detta är en övrigt fråga från FK',true);
+               cy.wait(1500);
+               cy.reload();
+               cy.contains('Administrativa frågor').click();
+               cy.contains('Svara').should('exist');
+               cy.contains('Påminnelse').should('exist');
+               intyg.svaraPåÄrende('Avstämningsmöte', medText);
+               cy.wait(700);
+               cy.contains('Påminnelse').should('not.exist');
+               cy.contains('Svara').should('not.exist');
+              
+
+            });
+            it('Svara på fråga gällande Övrigt på ett Lisjp intyg som har en påminnelse.', function () {
+               cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+               const medText = "this is an answer";
+               const önskadUrl = "/certificate/" + this.utkastId ;
+               cy.visit(önskadUrl);
+               //cy.wait(100);
+              // intyg.skickaTillFk();
+               cy.wait(700);
+               cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK',true);
+               cy.wait(1500);
+               cy.reload();
+               cy.contains('Administrativa frågor').click();
+               cy.contains('Svara').should('exist');
+               cy.contains('Påminnelse').should('exist');
+               intyg.svaraPåÄrende('Övrigt', medText);
+               cy.wait(700);
+               cy.contains('Påminnelse').should('not.exist');
+               cy.contains('Svara').should('not.exist');
+              
+
+            });
          });
      });
 });

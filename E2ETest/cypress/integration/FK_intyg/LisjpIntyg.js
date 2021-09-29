@@ -25,7 +25,7 @@ describe('FK7804-intyg minimalt ifyllt', function() {
         });
         describe('Funktioner på ett Lisjp intyg', () =>{
 
-            it('Makulerar ett signerat FK7804 intyg', function () {
+            it('Makulerar ett signerat LISJP intyg', function () {
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                     const önskadUrl = "/certificate/" + this.utkastId ;
                     cy.visit(önskadUrl);
@@ -87,6 +87,7 @@ describe('FK7804-intyg minimalt ifyllt', function() {
                 //cy.get('.CertificateFooter__RightWrapper-sc-1mdu7r7-1 > .iu-fs-200').contains(this.utkastId).should('not.exist');
                
             });
+            
 
         });
     });

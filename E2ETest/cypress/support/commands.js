@@ -49,7 +49,7 @@ cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
                 "origin": "' + originSträng + '"}'
         }
     }).then((resp) => {
-        cy.log("json:" ,JSON.stringify(resp));
+        //cy.log("json:" ,JSON.stringify(resp));
         expect(resp.status).to.equal(200);  
         
             
@@ -96,19 +96,19 @@ function skapaÄrende(fx,intygsId, typAvFråga, meddelande,reminder){
     
 }
 // cy.skapaIntygViaApi(this,"SIGNED","lisjp","MAXIMAL")
-function skapaIntygViaApi(fx,status, typ, theFill){
-    cy.log("skickar mot API "+ status);
+function skapaIntygViaApi(fx,status, typ, theFill,sent){
+   // cy.log("skickar mot API "+ status);
     const vårdpersonal = fx.vårdpersonal;
     const läkare = fx.vårdpersonal;
     const vårdenhet = fx.vårdenhet;
     const patient = fx.vårdtagare;
     const theStatus = ["SIGNED" , "UNSIGNED", "LOCKED"];
-  
     const intygStatus = theStatus[status];
-    cy.log(intygStatus);
+    const beingSent =(sent ? true : false );
+   // cy.log(intygStatus);
     const intygTyp = (typ ? "af00213" : "lisjp");
     const filler = (theFill ?   "MINIMAL" :"EMPTY");
-    cy.log(intygStatus + intygTyp + filler);
+    //cy.log(intygStatus + intygTyp + filler);
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(patient).to.exist;
@@ -125,7 +125,8 @@ function skapaIntygViaApi(fx,status, typ, theFill){
             "personId":läkare.hsaId,//"TSTNMT2321000156-DRAA",
             "unitId":vårdenhet.id,//"TSTNMT2321000156-ALVC",
             "status":intygStatus,
-            "fillType": filler
+            "fillType": filler,
+            "sent": beingSent
          }
     }).then((resp) => {
             expect(resp.status).to.equal(200); 
@@ -146,11 +147,12 @@ Cypress.Commands.add("loggaInVårdpersonalNormal", (vårdpersonal, vårdenhet, u
 Cypress.Commands.add("loggaInVårdpersonalIntegrerat", (vårdpersonal, vårdenhet, utkastId) => {
     loggaInVårdpersonal(vårdpersonal, vårdenhet, utkastId,true);
 });*/
+
 Cypress.Commands.add("loggaUt",() => {
  
 });
-Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType) => {
-    skapaIntygViaApi(fx,status,typ,fillType);
+Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType, sent) => {
+    skapaIntygViaApi(fx,status,typ,fillType,sent);
  
 });
 Cypress.Commands.add("skapaÄrende", (fx,intygsId, typAvFråga, meddelande,reminder) => {

@@ -29,12 +29,8 @@ describe('LISJP-intyg låst utkast', function() {
 
         });
         describe('Funktioner på ett låst LISJP utkast', () =>{
-
-            
-           
-
-             
-            it('Skriva ut ett låst LISJP utkast', function () {
+                 
+             it('Skriva ut ett låst LISJP utkast', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
@@ -42,17 +38,7 @@ describe('LISJP-intyg låst utkast', function() {
                // intyg.signeraSkicka();
                 intyg.skrivUt("utkast", this.utkastId, "lisjp");//skriver ut via request
             });
-          /*  it('Ersätta ett AF00213 intyg', function (){
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-                const önskadUrl = "/certificate/" + this.utkastId ;
-                cy.visit(önskadUrl);
-                intyg.signeraSkicka();
-                intyg.ersatta();
-                //cy.get('button').contains("Skicka till Arbetsförmedlingen").should('not.exist');
-                cy.contains(this.utkastId).should('not.exist')
-                //cy.get('.CertificateFooter__RightWrapper-sc-1mdu7r7-1 > .iu-fs-200').contains(this.utkastId).should('not.exist');
-               
-            });*/
+        
             it('Makulerar ett låst LISJP utkast', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
@@ -63,9 +49,9 @@ describe('LISJP-intyg låst utkast', function() {
                 intyg.makuleraUtkast();
                 expect(cy.contains('Intyget är makulerat'))
 
-        });
-        it('Kopiera ett låst LISJP utkast så att det går att signera och skicka', function () {
-            cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+            });
+            it('Kopiera ett låst LISJP utkast så att det går att signera och skicka', function () {
+                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
@@ -75,7 +61,14 @@ describe('LISJP-intyg låst utkast', function() {
                 intyg.signera();
                 intyg.skickaTillFk();
                 //expect(cy.contains('Intyget är makulerat'))
-        });
+             });
+            it('Ett LISJP  låst utkast ska  inte kunna editeras',function(){
+                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+                const önskadUrl = "/certificate/" + this.utkastId;
+                cy.visit(önskadUrl);
+                cy.get('.ic-textarea').should('be.disabled'); 
+                cy.contains('Utkastet är låst').should('exist');                           
+            });
 
         });
     });

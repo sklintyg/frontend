@@ -27,20 +27,13 @@ describe('AF00213-intyg tomt', function() {
         describe('Funktioner på ett tomt AF20013 utkast', () =>{
 
             it('Ett icke ifylld AF00213 går ej att signera och skicka till AF',function(){
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-
                 const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.get('button').contains("Signera och skicka").click();
                 intyg.verifieraMeddelande();
-                /*expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
-                expect(cy.get(':nth-child(1) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Funktionsnedsättning")).to.exist;
-                //cy.contains("Funktionsnedsättning");
-                expect(cy.get(':nth-child(2) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Utredning och behandling")).to.exist;
-                expect(cy.get(':nth-child(3) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Arbetets påverkan på sjukdom/skada")).to.exist;*/
-                
+             
             });
             it('Det är möjligt att raderar ett icke ifylld AF00213', function () {
                     //cy.visit('https://wc2.wc.localtest.me/welcome');
@@ -55,15 +48,11 @@ describe('AF00213-intyg tomt', function() {
 
             });
             it('Skriva ut ett icke ifyllt AF00213', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request
-
-                //intyg.skrivUtUtkast();
-
+                
         });
 
         });

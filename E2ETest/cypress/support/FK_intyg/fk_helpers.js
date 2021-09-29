@@ -147,14 +147,25 @@ export function kopieraUtkast(){
         });
     });
 }
-export function svaraPåÄrende(typAvFråga, meddelande,reminder) {
-    cy.contains(typAvFråga).should('exixt');
-    cy.contains('Svara').click();
-    cy.get('.ic-textarea').type(meddelande);
-    cy.contains("Skicka svar").click();
-           // cy.get('.ic-modal').within((modal)=>
-            //{
-                //cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click();
+export function svaraPåÄrende(typAvFråga, meddelande) {
+   // cy.contains(typAvFråga).should('exixt');
+   
+   //cy.contains(typAvFråga).should('exixt');
+/*   cy.get('.iu-fw-heading').within((thePanel) =>
+   {
+        cy.log(typAvFråga);
+        cy.contains(typAvFråga).should('exist');
+   });*/
+   
+    
+    cy.get('.sc-iTVJFM').within((panel)=>
+    {
+        cy.contains(typAvFråga).should('exist');
+        cy.contains("Svara").click();
+        cy.get('.ic-textarea').type(meddelande);
+        cy.contains('Skicka').click();
+        //cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click();
+    });
                 
                 
            
