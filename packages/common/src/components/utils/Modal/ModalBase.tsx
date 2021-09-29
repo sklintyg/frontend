@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
 
 const ModalContentWrapper = styled.div`
   p + p {
@@ -20,6 +21,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
   if (!open) {
     return null
   }
+
   return (
     <>
       <div className="ic-backdrop" onClick={handleClose}></div>
