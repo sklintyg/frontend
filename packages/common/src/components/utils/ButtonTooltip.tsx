@@ -5,6 +5,7 @@ const Tooltip = styled.div`
   position: relative;
 
   .tooltiptext {
+    color: #5f5f5f !important;
     position: absolute;
     visibility: hidden;
     bottom: 100%;

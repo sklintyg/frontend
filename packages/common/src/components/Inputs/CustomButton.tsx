@@ -63,7 +63,7 @@ export const CustomButton: React.FC<Props> = (props) => {
         {props.number && (
           <NumberCircle
             className={`ic-notification iu-ml-300 iu-fs-100 
-            ${props.buttonStyle == 'secondary' ? 'iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}
+            ${props.buttonStyle === 'secondary' ? 'iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}
             `}>
             {props.number}
           </NumberCircle>
