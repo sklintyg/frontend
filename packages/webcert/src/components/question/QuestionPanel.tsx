@@ -21,6 +21,8 @@ const HeaderButtons = styled.div`
 const Wrapper = styled.div`
   background-color: #f7f4f2;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 interface Props {
