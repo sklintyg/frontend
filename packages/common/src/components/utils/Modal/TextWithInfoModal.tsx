@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CustomButton, ModalBase } from '../..'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
 
 interface Props {
   text: string
@@ -10,6 +11,7 @@ interface Props {
 
 const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles, additionalContentStyles, children }) => {
   const [open, setOpen] = React.useState(false)
+  const escPress = useKeyPress('Escape')
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -18,6 +20,12 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
   const handleClose = () => {
     setOpen(false)
   }
+
+  useEffect(() => {
+    if (escPress) {
+      handleClose()
+    }
+  }, [escPress])
 
   return (
     <>
