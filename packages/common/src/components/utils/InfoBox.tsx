@@ -7,7 +7,11 @@ interface Props {
   squared?: boolean
 }
 
-const StyledWrapper = styled.div`
+interface StyledWrapperProps {
+  squared: boolean
+}
+
+const StyledWrapper = styled.div<StyledWrapperProps>`
   border-radius: ${(props) => (props.squared ? '0' : '')};
   padding: 4px 8px;
   flex-wrap: nowrap;
@@ -46,6 +50,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared })
   }
 
   return (
+    // @ts-expect-error squared is giving error but it's working as intended
     <StyledWrapper squared={squared} className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
       <i className={`ic-alert__icon ${getIconClass()}`}></i>
       <p>{children}</p>
