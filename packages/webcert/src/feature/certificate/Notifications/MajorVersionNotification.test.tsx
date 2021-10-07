@@ -34,8 +34,13 @@ describe('MajorVersionNotification', () => {
     expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
   })
 
-  it('shall not reder a banner if latest major version', () => {
+  it('shall not render a banner if latest major version', () => {
     setState(true)
+    renderDefaultComponent()
+    expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
+  })
+
+  it('shall not render a banner if empty state', () => {
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
@@ -48,6 +53,8 @@ const setState = (isLatestMajorVersion: boolean) => {
 
 const createCertificate = (isLatestMajorVersion: boolean): Certificate => {
   return {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     metadata: { latestMajorVersion: isLatestMajorVersion },
   }
 }

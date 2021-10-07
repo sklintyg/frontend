@@ -166,4 +166,5 @@ export const getIsEditable = (state: RootState) =>
 
 export const getSigningData = (state: RootState) => state.ui.uiCertificate.signingData
 
-export const getIsLatestMajorVersion = (state: RootState) => state.ui.uiCertificate.certificate?.metadata?.latestMajorVersion
+export const getIsLatestMajorVersion = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
