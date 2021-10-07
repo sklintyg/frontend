@@ -5,12 +5,13 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader, AppHeaderLink, Tabs } from '@frontend/common'
+import { AppHeader, AppHeaderLink, InfoBox, Tabs } from '@frontend/common'
 import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
+import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
 
 const Root = styled.div`
   height: 100vh;
@@ -57,6 +58,7 @@ const CertificatePage = () => {
         <RemovedCertificate />
       ) : (
         <>
+          <MajorVersionNotification />
           <CertificateHeader />
           <Wrapper className={`ic-container`}>
             <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">

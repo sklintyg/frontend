@@ -4,9 +4,11 @@ import styled from 'styled-components'
 interface Props {
   type: 'info' | 'error' | 'success' | 'observe'
   additionalStyles?: string
+  squared?: boolean
 }
 
 const StyledWrapper = styled.div`
+  border-radius: ${(props) => (props.squared ? '0' : '')};
   padding: 4px 8px;
   flex-wrap: nowrap;
 
@@ -16,7 +18,7 @@ const StyledWrapper = styled.div`
   }
 `
 
-const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
+const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared }) => {
   const getIconClass = () => {
     switch (type) {
       case 'info':
@@ -44,7 +46,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles }) => {
   }
 
   return (
-    <StyledWrapper className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
+    <StyledWrapper squared={squared} className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
       <i className={`ic-alert__icon ${getIconClass()}`}></i>
       <p>{children}</p>
     </StyledWrapper>
