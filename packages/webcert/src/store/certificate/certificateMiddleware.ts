@@ -431,6 +431,7 @@ const handleComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch, ge
 
   decorateCertificateWithInitialValues(action.payload.certificate)
   dispatch(updateCertificate(action.payload.certificate))
+  dispatch(validateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
