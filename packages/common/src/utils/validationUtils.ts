@@ -219,6 +219,8 @@ function validate(data: CertificateData, id: string) {
       if (validationResult.result) {
         data[id].visible = false
       }
+    } else if (validationResult.type == CertificateDataValidationType.ENABLE_VALIDATION) {
+      data[id].disabled = !validationResult.result
     }
   })
 }
