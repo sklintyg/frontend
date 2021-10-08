@@ -17,9 +17,9 @@ const SigningForm: React.FC = () => {
   return (
     <>
       <form ref={formRef} action={signingData.actionUrl} method="POST">
-        <input hidden={true} type="text" name="Binding" value={'POST/XML/1.0'} />
-        <input hidden={true} type="text" name="RelayState" value={signingData.id} />
-        <input hidden={true} type="text" name="EidSignRequest" value={signingData.signRequest} />
+        <input hidden={true} type="text" name="Binding" defaultValue={'POST/XML/1.0'} />
+        <input hidden={true} type="text" name="RelayState" defaultValue={signingData.id} />
+        <input hidden={true} type="text" name="EidSignRequest" defaultValue={signingData.signRequest} />
         <input hidden={true} type="submit" />
       </form>
     </>
