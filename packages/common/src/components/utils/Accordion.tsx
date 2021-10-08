@@ -18,6 +18,8 @@ const ArrowUp = styled.div`
 
 const Text = styled.p`
   white-space: pre-line;
+  max-height: 188px;
+  overflow-y: auto;
 
   ul {
     list-style: unset;
@@ -104,9 +106,7 @@ const Accordion: React.FC<Props> = ({ title, titleId, description, additionalSty
         {getHeader()}
         <div id="content-1" className="ic-expandable__content ic-expandable-target">
           <ArrowUp aria-hidden="true" />
-          <Text
-            className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200 iu-color-text"
-            dangerouslySetInnerHTML={{ __html: description }}></Text>
+          <Text className="iu-bg-grey-300 iu-p-300 iu-mb-300 iu-fs-200 iu-color-text" dangerouslySetInnerHTML={{ __html: description }} />
         </div>
       </div>
     </div>
