@@ -93,8 +93,8 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
         modalLabel={questionConfig.modalLabel}
         collectionsLabel={questionConfig.collectionsLabel}
         icfData={icfData}
-        onCodeAdd={handleAddIcfCodeValue}
-        onCodeRemove={handleRemoveIcfCodeValue}
+        onAddCode={handleAddIcfCodeValue}
+        onRemoveCode={handleRemoveIcfCodeValue}
       />
       <TextArea
         disabled={disabled}

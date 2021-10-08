@@ -15,19 +15,19 @@ interface Props {
   icdCodes: IcdCode[]
   icfCodes: IcfCode[]
   icfCodeValues?: string[]
-  onCodeAdd: (icfCodeToAdd: string) => void
-  onCodeRemove: (icfCodeToRemove: string) => void
+  onAddCode: (icfCodeToAdd: string) => void
+  onRemoveCode: (icfCodeToRemove: string) => void
 }
 
-const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onCodeAdd, onCodeRemove }) => {
+const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onAddCode, onRemoveCode }) => {
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
     if (!icfCodeValues) return false
 
     return icfCodeValues.some((code) => code === icfCode)
   }
 
-  return (
-    <>
+  const getIcfTitles = () => {
+    return (
       <IcdWrapper>
         {icdCodes.map((code, i) => {
           return (
@@ -38,19 +38,27 @@ const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onCod
           )
         })}
       </IcdWrapper>
+    )
+  }
+
+  const getIcfRows = () => {
+    return icfCodes.map((icfCode, i) => (
+      <IcfRow
+        checked={getChecked(icfCode.title, icfCodeValues)}
+        key={i}
+        icfCode={icfCode}
+        backgroundStyle={i % 2 === 0 ? '' : 'iu-bg-secondary-light'}
+        onCodeAdd={onAddCode}
+        onCodeRemove={onRemoveCode}
+      />
+    ))
+  }
+
+  return (
+    <>
+      {getIcfTitles()}
       <hr />
-      <div>
-        {icfCodes.map((icfCode, i) => (
-          <IcfRow
-            checked={getChecked(icfCode.title, icfCodeValues)}
-            key={i}
-            icfCode={icfCode}
-            backgroundStyle={i % 2 === 0 ? '' : 'iu-bg-secondary-light'}
-            onCodeAdd={onCodeAdd}
-            onCodeRemove={onCodeRemove}
-          />
-        ))}
-      </div>
+      <div>{getIcfRows()}</div>
     </>
   )
 }
