@@ -430,6 +430,7 @@ describe('Validate multiple show rules', () => {
       testCertificate: false,
       forwarded: false,
       sent: false,
+      latestMajorVersion: true,
       relations: {
         children: [],
         parent: null,
