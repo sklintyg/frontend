@@ -3,7 +3,7 @@ import React from 'react'
 
 interface IcfChosenValuesProps {
   collectionsLabel: string
-  chosenIcfCodeValues: string[] | null
+  chosenIcfCodeValues: string[] | undefined
 }
 
 const IcfChosenValues: React.FC<IcfChosenValuesProps> = ({ collectionsLabel, chosenIcfCodeValues }) => {

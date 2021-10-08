@@ -5,7 +5,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { icfMiddleware } from './icfMiddleware'
-import { IcdCode, IcfCode, IcfState } from './icfReducer'
+import { IcdCode, IcfCode } from './icfReducer'
 import { Certificate, CertificateStatus, IcfTitles } from '@frontend/common'
 import { updateCertificate } from '../certificate/certificateActions'
 

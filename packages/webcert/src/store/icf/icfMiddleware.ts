@@ -11,7 +11,7 @@ import {
   updateLoading,
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, ConfigTypes, FMBDiagnosisCodeInfo, Value, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
@@ -50,11 +50,14 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
     return
   }
 
-  //Hämta icf data när intyget laddas in
   for (const questionId in action.payload.data) {
     if (action.payload.data.hasOwnProperty(questionId)) {
       const question = action.payload.data[questionId]
-      getFMBDiagnosisCodes(question.value, dispatch)
+      const icdCodes = getIcdCodesFromQuestionValue(question.value)
+
+      if (icdCodes && icdCodes.length > 0) {
+        dispatch(getIcfCodes({ icdCodes: icdCodes }))
+      }
     }
   }
 }
@@ -66,7 +69,6 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
     if (!updateCertificateDataElement.match(action)) {
       return
     }
-    //om icd kod ändras så ska vi hämta ny icf data
 
     if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
       return
@@ -96,10 +98,9 @@ const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch, getState }) =>
   dispatch(updateLoading(false))
 }
 
-function getFMBDiagnosisCodes(value: Value | null, dispatch: Dispatch): void {
+function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    const icdCodes = (value as ValueDiagnosisList).list.map((code) => code.code)
-    dispatch(getIcfCodes({ icdCodes: icdCodes }))
+    return (value as ValueDiagnosisList).list.map((code) => code.code)
   }
 }
 
