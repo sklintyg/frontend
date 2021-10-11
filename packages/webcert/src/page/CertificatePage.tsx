@@ -12,6 +12,7 @@ import { getIsCertificateDeleted } from '../store/certificate/certificateSelecto
 import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
+import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
 
 const Root = styled.div`
   height: 100vh;
@@ -60,6 +61,7 @@ const CertificatePage = () => {
         <RemovedCertificate />
       ) : (
         <>
+          <MajorVersionNotification />
           <CertificateHeader />
           <Wrapper className={`ic-container`}>
             <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">

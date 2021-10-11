@@ -249,8 +249,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       </QuestionHeader>
       {isRemindersVisible() &&
         question.reminders.map((reminder) => (
-          <div className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
-            <Reminder key={reminder.id} className={'iu-fullwidth '}>
+          <div key={reminder.id} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
+            <Reminder className={'iu-fullwidth '}>
               <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
               <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
                 <Wrapper>

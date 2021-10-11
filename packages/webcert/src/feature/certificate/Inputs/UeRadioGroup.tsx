@@ -16,6 +16,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const dispatch = useAppDispatch()
+  const shouldBeHorizontal = radiobuttons.length <= 2
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setCode(event.currentTarget.value)
@@ -55,11 +56,9 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="radio-group-wrapper">
-      <div>
-        <div className="radio-child">{renderRadioButtons()}</div>
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-      </div>
+    <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+      {renderRadioButtons()}
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
 }

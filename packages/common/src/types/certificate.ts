@@ -31,6 +31,7 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
+  latestMajorVersion: boolean
 }
 
 export interface CertificateData {
