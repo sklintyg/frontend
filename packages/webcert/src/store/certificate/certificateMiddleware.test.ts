@@ -7,12 +7,14 @@ import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   complementCertificate,
+  complementCertificateSuccess,
   ComplementCertificateSuccess,
+  hideSpinner,
   SigningData,
   startSignCertificate,
   updateCertificate,
 } from '../certificate/certificateActions'
-import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 
@@ -47,6 +49,55 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
+    })
+  })
+
+  describe('Handle ComplementCertificateSuccess', () => {
+    beforeEach(() => {
+      fakeAxios = new MockAdapter(axios)
+      testStore = configureStore({
+        reducer,
+        middleware: (getDefaultMiddleware) =>
+          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...certificateMiddleware),
+      })
+    })
+
+    it('shall update certificate on success', async () => {
+      const certificateToComplement = getCertificate('id')
+
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      await flushPromises()
+      const updateCertificateDispatchFound = dispatchedActions.some((action) => updateCertificate.match(action))
+
+      expect(updateCertificateDispatchFound).toBeTruthy()
+    })
+
+    it('shall validate certificate on success', async () => {
+      const certificateToComplement = getCertificate('id')
+
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      await flushPromises()
+
+      expect(fakeAxios.history.post.some((req) => req.url?.includes('validate'))).toBeTruthy()
+    })
+
+    it('shall hide spinner on success', async () => {
+      const certificateToComplement = getCertificate('id')
+
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      await flushPromises()
+      const updateCertificateDispatchFound = dispatchedActions.some((action) => hideSpinner.match(action))
+
+      expect(updateCertificateDispatchFound).toBeTruthy()
+    })
+
+    it('shall get certificate events on success', async () => {
+      const certificateToComplement = getCertificate('id')
+
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      await flushPromises()
+
+      expect(fakeAxios.history.get.some((req) => req.url?.includes('events'))).toBeTruthy()
     })
   })
 
@@ -111,4 +162,3 @@ const getCertificate = (id: string, type?: string, version?: string): Certificat
     links: [],
   }
 }
-
