@@ -270,7 +270,7 @@ const DateRangePicker: React.FC<Props> = ({
 
   return (
     <>
-      <DateRangeWrapper className="iu-mb-300">
+      <DateRangeWrapper className="iu-mb-400">
         <Checkbox
           id={`${periodId}-checkbox`}
           hasValidationError={hasValidationError}

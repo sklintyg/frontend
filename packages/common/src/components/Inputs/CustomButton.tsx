@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const NumberCircle = styled.span`
   width: 0px;
   height: 0px;
-  padding: 11px;
+  padding: 3px 7px;
 `
 
 interface Props {
@@ -61,7 +61,12 @@ export const CustomButton: React.FC<Props> = (props) => {
         {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
         {props.number && (
-          <NumberCircle className={'ic-notification iu-ml-300 iu-bg-white iu-color-main iu-fs-xs'}>{props.number}</NumberCircle>
+          <NumberCircle
+            className={`ic-notification iu-ml-300 iu-fs-100 
+            ${props.buttonStyle === 'secondary' ? 'iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}
+            `}>
+            {props.number}
+          </NumberCircle>
         )}
       </button>
     </ButtonTooltip>

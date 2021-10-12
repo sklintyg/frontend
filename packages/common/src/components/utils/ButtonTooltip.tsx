@@ -5,26 +5,25 @@ const Tooltip = styled.div`
   position: relative;
 
   .tooltiptext {
+    color: #5f5f5f !important;
     position: absolute;
     visibility: hidden;
-    width: 120px;
     bottom: 100%;
     left: 50%;
     margin-left: -60px;
-    background-color: black;
-    color: #fff;
     text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
+    padding: 10px;
     margin-bottom: 7px;
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.35s;
+    box-shadow: 0 0 1.25rem 0 rgb(0 0 0 / 30%);
+    background-color: white;
   }
 
   &:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+    opacity: unset;
   }
 
   .tooltiptext::after {
@@ -32,10 +31,9 @@ const Tooltip = styled.div`
     position: absolute;
     top: 100%; /* At the bottom of the tooltip */
     left: 50%;
-    margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: white transparent transparent transparent;
   }
 `
 interface Props {
