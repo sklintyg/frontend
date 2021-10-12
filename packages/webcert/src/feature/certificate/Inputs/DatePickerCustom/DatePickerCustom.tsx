@@ -21,6 +21,7 @@ interface Props {
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
+  additionalStyles?: string
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -39,6 +40,7 @@ const DatePickerCustom: React.FC<Props> = ({
   textInputDataTestId,
   displayValidationErrorOutline,
   disabled,
+  additionalStyles,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -110,7 +112,7 @@ const DatePickerCustom: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <DatePickerWrapper className="date-picker">
+      <DatePickerWrapper className={`date-picker + ${additionalStyles}`}>
         {label && (
           <label className="iu-mr-300" htmlFor={id}>
             {label}

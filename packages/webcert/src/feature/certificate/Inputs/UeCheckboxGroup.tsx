@@ -26,6 +26,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled || checkbox.disabled}
         hasValidationError={shouldDisplayValidationError}
         question={question}
+        wrapperAdditionalStyles={index !== 0 ? 'iu-pt-400' : ''}
       />
     ))
   }

@@ -53,8 +53,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   ]
 
   const dispatchEditDraft = useRef(
-    _.debounce((valueList: ValueDateRange[]) => {
-      const updatedQuestion = getUpdatedValue(valueList)
+    _.debounce((question: CertificateDataElement, valueList: ValueDateRange[]) => {
+      const updatedQuestion = getUpdatedValue(question, valueList)
       dispatch(updateCertificateDataElement(updatedQuestion))
     }, 1000)
   ).current
@@ -62,7 +62,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const handleUpdatedValue = (valueId: string, fromDate: string | null, toDate: string | null) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
     setValueList(updatedValueList)
-    dispatchEditDraft(updatedValueList)
+    dispatchEditDraft(question, updatedValueList)
     updateTotalSickDays(updatedValueList)
   }
 
@@ -98,7 +98,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     return filterDateRangeValueList(updatedValueList)
   }
 
-  function getUpdatedValue(valueList: ValueDateRange[]) {
+  function getUpdatedValue(question: CertificateDataElement, valueList: ValueDateRange[]) {
     const updatedQuestion: CertificateDataElement = { ...question }
     const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateRangeList) }
 
