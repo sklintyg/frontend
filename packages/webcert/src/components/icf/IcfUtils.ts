@@ -1,6 +1,6 @@
-import { Icf } from '../../store/icf/icfReducer'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 
-export const getIcfValueList = (icfData: Icf | undefined): string[] => {
+export const getIcfValueList = (icfData: AvailableIcfCodes | undefined): string[] => {
   if (!icfData || (!icfData.uniqueCodes && !icfData.commonCodes)) return []
 
   const uniqueCodes = icfData.uniqueCodes?.map((code) => code.icfCodes?.map((icfCode) => icfCode.title)).flat()

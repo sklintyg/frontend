@@ -1,4 +1,4 @@
-import { IcdCode, IcfCode, IcfState } from '../../store/icf/icfReducer'
+import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
 
 export const getIcfData = (loading = false): IcfState => {
   const commonIcfCodes: IcfCode[] = [
@@ -44,16 +44,16 @@ export const getIcfData = (loading = false): IcfState => {
 
   const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
   const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
-  const icdCodes: IcdCode[] = [ICD_CODE_1, ICD_CODE_2]
+  const icdCodes: Icd10Code[] = [ICD_CODE_1, ICD_CODE_2]
 
   return {
     activityLimitation: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
+      commonCodes: { icfCodes: commonIcfCodes, icd10Codes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icd10Codes: [ICD_CODE_1] }],
     },
     disability: {
-      commonCodes: { icfCodes: commonIcfCodes, icdCodes: icdCodes },
-      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icdCodes: [ICD_CODE_1] }],
+      commonCodes: { icfCodes: commonIcfCodes, icd10Codes: icdCodes },
+      uniqueCodes: [{ icfCodes: uniqueIcfCodes, icd10Codes: [ICD_CODE_1] }],
     },
     loading: loading,
   }

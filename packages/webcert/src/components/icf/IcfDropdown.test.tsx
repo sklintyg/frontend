@@ -11,7 +11,7 @@ import apiMiddleware from '../../store/api/apiMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import IcfDropdown from './IcfDropdown'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
-import { Icf } from '../../store/icf/icfReducer'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { updateIcfCodes } from '../../store/icf/icfActions'
 import userEvent from '@testing-library/user-event'
 import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
@@ -34,7 +34,6 @@ const renderComponent = (
   icfValues = getIcfValues(),
   disabled = false
 ) => {
-
   render(
     <Provider store={testStore}>
       <Router history={history}>
@@ -114,8 +113,8 @@ describe('IcfDropdown', () => {
   it('display icd codes after ICF button is clicked', () => {
     const icfData = getIcfData()
     renderAndOpenDropdown()
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[0].title)[0]).toBeInTheDocument()
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icdCodes[1].title)[0]).toBeInTheDocument()
+    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icd10Codes[0].title)[0]).toBeInTheDocument()
+    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icd10Codes[1].title)[0]).toBeInTheDocument()
   })
 
   it('display common icd codes after ICF button is clicked', () => {
@@ -208,7 +207,7 @@ describe('IcfDropdown', () => {
   })
 })
 
-const renderAndOpenDropdown = (title?: string, icfData?: Icf, icfValues?: string[]) => {
+const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfValues?: string[]) => {
   renderComponent(title, icfData, icfValues)
   setDefaultIcfState()
   toggleIcfDropdown()

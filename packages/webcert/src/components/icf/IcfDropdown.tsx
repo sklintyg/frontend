@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
-import { Icf } from '../../store/icf/icfReducer'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, ValuesWrapper } from './Styles'
 import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
@@ -14,7 +14,7 @@ import IcfChosenValues from './IcfChosenValues'
 interface Props {
   modalLabel: string
   collectionsLabel: string
-  icfData?: Icf
+  icfData?: AvailableIcfCodes
   chosenIcfCodeValues?: string[]
   onAddCode: (icfCodeToAdd: string) => void
   onRemoveCode: (icfCodeToRemove: string) => void
@@ -83,7 +83,7 @@ const IcfDropdown: React.FC<Props> = ({
         <p>ICF-kategorier gemensamma för:</p>
         <IcfCategory
           icfCodeValues={chosenIcfCodeValues}
-          icdCodes={icfData.commonCodes.icdCodes}
+          icd10Codes={icfData.commonCodes.icd10Codes}
           icfCodes={icfData.commonCodes.icfCodes}
           onAddCode={onAddCode}
           onRemoveCode={onRemoveCode}
@@ -100,7 +100,7 @@ const IcfDropdown: React.FC<Props> = ({
         <p>ICF-kategorier för:</p>
         <IcfCategory
           icfCodeValues={chosenIcfCodeValues}
-          icdCodes={icfUnique.icdCodes}
+          icd10Codes={icfUnique.icd10Codes}
           icfCodes={icfUnique.icfCodes}
           onAddCode={onAddCode}
           onRemoveCode={onRemoveCode}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IcdCode, IcfCode } from '../../store/icf/icfReducer'
+import { Icd10Code, IcfCode } from '../../store/icf/icfReducer'
 import styled from 'styled-components/macro'
 import IcfRow from './IcfRow'
 
@@ -12,14 +12,14 @@ const IcdWrapper = styled.div`
 `
 
 interface Props {
-  icdCodes: IcdCode[]
+  icd10Codes: Icd10Code[]
   icfCodes: IcfCode[]
   icfCodeValues?: string[]
   onAddCode: (icfCodeToAdd: string) => void
   onRemoveCode: (icfCodeToRemove: string) => void
 }
 
-const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onAddCode, onRemoveCode }) => {
+const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode }) => {
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
     if (!icfCodeValues) return false
 
@@ -29,11 +29,11 @@ const IcfCategory: React.FC<Props> = ({ icdCodes, icfCodes, icfCodeValues, onAdd
   const getIcfTitles = () => {
     return (
       <IcdWrapper>
-        {icdCodes.map((code, i) => {
+        {icd10Codes.map((code, i) => {
           return (
             <React.Fragment key={i}>
               <strong>{code.title}</strong>
-              {icdCodes.length > 1 && i === 0 && <strong> |</strong>}
+              {icd10Codes.length > 1 && i === 0 && <strong> |</strong>}
             </React.Fragment>
           )
         })}

@@ -8,24 +8,24 @@ export interface IcfCode {
   code: string
 }
 
-export interface IcdCode {
+export interface Icd10Code {
   code: string
   title: string
 }
 
-export interface IcfIcd {
+export interface IcfCodeCollection {
   icfCodes: IcfCode[]
-  icdCodes: IcdCode[]
+  icd10Codes: Icd10Code[]
 }
 
-export interface Icf {
-  commonCodes: IcfIcd
-  uniqueCodes: IcfIcd[]
+export interface AvailableIcfCodes {
+  commonCodes: IcfCodeCollection
+  uniqueCodes: IcfCodeCollection[]
 }
 
 export interface IcfState {
-  disability?: Icf
-  activityLimitation?: Icf
+  disability?: AvailableIcfCodes
+  activityLimitation?: AvailableIcfCodes
   loading: boolean
 }
 

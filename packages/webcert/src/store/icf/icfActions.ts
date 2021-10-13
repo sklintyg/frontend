@@ -1,13 +1,13 @@
 import { createAction } from '@reduxjs/toolkit'
-import { Icf, IcfState } from './icfReducer'
+import { AvailableIcfCodes, IcfState } from './icfReducer'
 
 export interface IcfRequest {
   icdCodes: string[]
 }
 
 export interface IcfResponse {
-  disability?: Icf
-  activityLimitation?: Icf
+  disability?: AvailableIcfCodes
+  activityLimitation?: AvailableIcfCodes
 }
 
 const ICF = '[ICF]'

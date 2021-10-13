@@ -1,5 +1,5 @@
 import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from './IcfUtils'
-import { Icf, IcfCode } from '../../store/icf/icfReducer'
+import { AvailableIcfCodes, IcfCode } from '../../store/icf/icfReducer'
 
 describe('IcfUtils', () => {
   describe('getIcfValues', () => {
@@ -55,12 +55,12 @@ describe('IcfUtils', () => {
   })
 })
 
-function getIcfData(): Icf {
+function getIcfData(): AvailableIcfCodes {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const icfCodes: IcfCode[] = [{ title: '0' }, { title: '1' }, { title: '2' }]
   return {
     uniqueCodes: [{ icfCodes: icfCodes }],
     commonCodes: { icfCodes: icfCodes },
-  } as Icf
+  } as AvailableIcfCodes
 }

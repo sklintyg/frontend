@@ -5,7 +5,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { icfMiddleware } from './icfMiddleware'
-import { IcdCode, IcfCode } from './icfReducer'
+import { Icd10Code, IcfCode } from './icfReducer'
 import { Certificate, CertificateStatus, IcfTitles } from '@frontend/common'
 import { updateCertificate } from '../certificate/certificateActions'
 
@@ -102,21 +102,21 @@ const getIcfData = (): IcfResponse => {
 
   const ICD_CODE_1 = { code: 'A02', title: 'Andra salmonellainfektioner' }
   const ICD_CODE_2 = { code: 'U071', title: 'Covid-19, virus identifierat' }
-  const icdCodes: IcdCode[] = [ICD_CODE_1, ICD_CODE_2]
+  const icdCodes: Icd10Code[] = [ICD_CODE_1, ICD_CODE_2]
 
   return {
     activityLimitation: {
-      commonCodes: { icfCodes: icfCodes, icdCodes: icdCodes },
+      commonCodes: { icfCodes: icfCodes, icd10Codes: icdCodes },
       uniqueCodes: [
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_2] },
+        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_1] },
+        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_2] },
       ],
     },
     disability: {
-      commonCodes: { icfCodes: icfCodes, icdCodes: icdCodes },
+      commonCodes: { icfCodes: icfCodes, icd10Codes: icdCodes },
       uniqueCodes: [
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_1] },
-        { icfCodes: icfCodes, icdCodes: [ICD_CODE_2] },
+        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_1] },
+        { icfCodes: icfCodes, icd10Codes: [ICD_CODE_2] },
       ],
     },
   }
