@@ -2,6 +2,17 @@
 
 def s2iWebhook = registerWebhook()
 def build = ""
+def latestTag = "${RELEASE_VERSION}.latest"
+def dbName = "${appReleaseName}-${new Random().nextInt() % 1000}".replace('-', '')
+def appReleaseName = "${APP_NAME}-${RELEASE_VERSION}"
+
+// function to run database commands
+def dbScript(cmd) {
+  sh(
+          script: "oc rsh \$(oc get pods | grep mysql- | grep Running | awk \'{ print \$1 }\')  bash -c \"mysql -u root -e \'${cmd}\'\"",
+          returnStatus: true
+  )
+}
 
 // run shell command, return status code
 def shell(cmd) {
@@ -32,6 +43,72 @@ pipeline {
             steps {
                 script {
                     git url: "https://github.com/sklintyg/frontend.git"
+                }
+            }
+        }
+
+        stage('Deploy Intygstjänst') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                          // [ name, tag ] default version is "${RELEASE_VERSION}.latest"
+                          def svc = (backingService.contains(":") ? backingService : backingService + ":${latestTag}").split(":")
+                          backingServiceName = "intygstjanst"
+                          def backingServiceVersion = "3.15.0.+"
+                          def healthUri = "inera-certificate"
+
+                          log "Create database"
+                          backingServiceDbName = "${backingServiceName.replace('-', '')}${dbName}"
+                          def status = dbScript("create database ${backingServiceDbName} character set utf8mb4;")
+                          if (status != 0) {
+                            error("Unable to create database ${backingServiceDbName}")
+                          }
+
+                          // checkout actual configuration for the base service version, then copy to the actual backing service name.
+                          // Note: not multi-thread safe, implies one build at a time
+                          backingServiceAppName = "${backingServiceName}-${appReleaseName}"
+                          def svcGitRef = backingServiceVersion.equals("${latestTag}") ? "${GIT_BRANCH}" : "v${backingServiceVersion}"
+
+                          // Replace configured backingServiceVersion with the version extracted from git tag
+                          log "Extract config for intygstjanst ${svcGitRef}"
+                          backingServiceAppVersion = extractConfig(tmpDir, "https://github.com/sklintyg/intygstjanst.git", svcGitRef, "${STAGE}", latestTag)
+
+                          // Delete any old resources
+                          log "Delete old resources"
+                          shell("oc delete configmap ${backingServiceAppName}-config")
+                          shell("oc delete configmap ${backingServiceAppName}-configmap-envvar")
+                          shell("oc delete secret ${backingServiceAppName}-env")
+                          shell("oc delete secret ${backingServiceAppName}-certifikat")
+                          shell("oc delete secret ${backingServiceAppName}-secret-envvar")
+
+                          // Create new resources
+                          log "Create new resources"
+                          def wd = "cd ${tmpDir}/devops/openshift; "
+                          eshell(wd + "oc create configmap ${backingServiceAppName}-configmap-envvar --from-env-file=${STAGE}/configmap-envvar.properties")
+                          eshell(wd + "oc create configmap ${backingServiceAppName}-config --from-file=${STAGE}/config/")
+                          eshell(wd + "oc create secret generic ${backingServiceAppName}-secret-envvar --from-env-file=${STAGE}/secret-envvar.properties --type=Opaque")
+                          eshell(wd + "oc create secret generic ${backingServiceAppName}-env --from-file=${STAGE}/env/ --type=Opaque")
+                          eshell(wd + "oc create secret generic ${backingServiceAppName}-certifikat --from-file=${STAGE}/certifikat/ --type=Opaque")
+
+                          def imageStream = openshift.selector("is", "${backingServiceName}-verified").object().status.dockerImageRepository
+                          log "Use ImageStream ${imageStream}:${backingServiceAppVersion}"
+
+                          def deployModel = openshift.process("-f", "${gitDevopsDir}/openshift/${DEPLOY_TEMPLATE}",
+                                  "-p", "APP_NAME=${backingServiceAppName}",
+                                  "-p", "IMAGE='${imageStream}:${backingServiceAppVersion}'",
+                                  "-p", "DATABASE_NAME=${backingServiceDbName}",
+                                  "-p", "HEALTH_URI=${healthUri}",
+                                  "-p", "STAGE=test")
+                          log "Wait for rollout (limited to 5 minutes)"
+                          timeout(5) {
+                            def rm = openshift.apply(deployModel).narrow("dc").rollout()
+                            log "Waiting for deployment to complete"
+                            rm.status()
+                            log "Deployment done."
+                          }
+                        }
+                    }
                 }
             }
         }
