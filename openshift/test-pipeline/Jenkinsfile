@@ -78,13 +78,13 @@ pipeline {
 
     stages {
 
-        stage('Checkout Source') {
-            steps {
-                script {
-                    git url: "https://github.com/sklintyg/frontend.git", branch: GIT_BRANCH
-                }
-            }
-        }
+//         stage('Checkout Source') {
+//             steps {
+//                 script {
+//                     git url: "https://github.com/sklintyg/frontend.git", branch: GIT_BRANCH
+//                 }
+//             }
+//         }
 
         stage('Deploy Intygstjänst') {
             steps {
