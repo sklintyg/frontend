@@ -35,6 +35,16 @@ objects:
             from:
               kind: "ImageStreamTag"
               name: "webcert-frontend:latest"
+        - type: "ImageChange"
+          imageChange:
+            from:
+              kind: "ImageStreamTag"
+              name: "webcert-verified:${RELEASE_VERSION}.latest"
+        - type: "ImageChange"
+          imageChange:
+            from:
+              kind: "ImageStreamTag"
+              name: "intygstjanst-verified:${RELEASE_VERSION}.latest"
       source:
         git:
           uri: "${GIT_URL}"
