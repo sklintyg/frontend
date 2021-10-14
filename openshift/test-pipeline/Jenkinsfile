@@ -81,7 +81,7 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 script {
-                    git url: "https://github.com/sklintyg/frontend.git"
+                    git url: "https://github.com/sklintyg/frontend.git", branch: GIT_BRANCH
                 }
             }
         }
