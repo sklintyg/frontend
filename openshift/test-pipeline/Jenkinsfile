@@ -252,7 +252,7 @@ pipeline {
 
                 imageStream = openshift.selector("is", "${intygstjanstBackingServiceName}-verified").object().status.dockerImageRepository
 
-                shell("oc process -f ${gitDevopsDir}/openshift/${DEPLOY_TEMPLATE} -p APP_NAME=\"${intygstjanstBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${intygstjanstBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${intygstjanstBackingServiceDbName} | oc delete -f -")
+                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${intygstjanstBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${intygstjanstBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${intygstjanstBackingServiceDbName} | oc delete -f -")
                 dbScript("drop database ${intygstjanstBackingServiceDbName};")
 
                 shell("oc delete configmap ${intygstjanstBackingServiceAppName}-config")
@@ -268,7 +268,7 @@ pipeline {
 
                 imageStream = openshift.selector("is", "${webcertBackingServiceName}-verified").object().status.dockerImageRepository
 
-                shell("oc process -f ${gitDevopsDir}/openshift/${DEPLOY_TEMPLATE} -p APP_NAME=\"${webcertBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${webcertBackingServiceDbName} | oc delete -f -")
+                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${webcertBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${webcertBackingServiceDbName} | oc delete -f -")
                 dbScript("drop database ${webcertBackingServiceDbName};")
 
                 shell("oc delete configmap ${webcertBackingServiceAppName}-config")
