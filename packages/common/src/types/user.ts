@@ -1,9 +1,11 @@
+import { Unit } from './certificate'
+
 export interface User {
   hsaId: string
   name: string
   role: string
-  loggedInUnit: string
-  loggedInCareProvider: string
+  loggedInUnit: Unit
+  loggedInCareProvider: Unit
   //TODO: This is filled at login in backend. It looks like below in the user-object. It makes it easier to fetch data if preference is a map.
   //"anvandarPreference": {
   //  "wc.dontShowFornyaDialog":"false",

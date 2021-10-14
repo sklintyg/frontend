@@ -14,8 +14,8 @@ const PREFERENCES = { dontShowFornyaDialog: 'false' }
 const user: User = {
   hsaId: '1234abc',
   name: 'Test Testtest',
-  loggedInUnit: 'testUnit',
-  loggedInCareProvider: 'testProvider',
+  loggedInUnit: { unitName: 'testUnit' },
+  loggedInCareProvider: { unitName: 'testProvider' },
   role: 'doctor',
   preferences: PREFERENCES,
 }

@@ -17,7 +17,7 @@ const WebcertHeaderUnit: React.FC = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <p>
-        {user.loggedInCareProvider} <br /> <Italic>{user.loggedInUnit}</Italic>
+        {user.loggedInCareProvider.unitName} <br /> <Italic>{user.loggedInUnit.unitName}</Italic>
       </p>
     )
   }
