@@ -1,0 +1,59 @@
+#!groovy
+
+def s2iWebhook = registerWebhook()
+def build = ""
+
+// run shell command, return status code
+def shell(cmd) {
+    sh(
+            script: cmd,
+            returnStatus: true
+    )
+}
+
+// run shell command and signal an error on failure
+def eshell(cmd) {
+    def rc = shell(cmd)
+    if (rc != 0) {
+        error("Error: shell command exited with error code ${rc}")
+    }
+}
+
+def log(msg) {
+    echo "${new Date().format('yyyy-MM-dd HH:mm:ss.SSS')} : ${msg}"
+}
+
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Source') {
+            steps {
+                script {
+                    git url: "https://github.com/sklintyg/frontend.git"
+                }
+            }
+        }
+
+    post {
+        success {
+            script {
+                log "Pipeline success :)"
+                util.notifySuccess()
+            }
+        }
+
+        failure {
+            script {
+                log "Pipeline Failed :("
+                util.notifyFailed()
+            }
+        }
+
+        cleanup {
+            log "Clean up in post work space"
+            cleanWs()
+        }
+    }
+}
