@@ -14,8 +14,6 @@ const MajorVersionNotification: React.FC = () => {
     return isSameCareProvider && isDifferentUnit
   }
 
-  console.log(shouldRender())
-
   if (!shouldRender()) return null
 
   return (
