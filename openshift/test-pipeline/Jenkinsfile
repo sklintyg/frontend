@@ -42,6 +42,37 @@ def log(msg) {
     echo "${new Date().format('yyyy-MM-dd HH:mm:ss.SSS')} : ${msg}"
 }
 
+// function to extract openshift stage configuration only from repo. dir must not exist
+// returns build version. This is only used for Intygstjänst as a backing service
+def extractConfig(dir, url, ref, stage, latestTag) {
+  eshell("rm -rf ${dir}")
+  eshell("mkdir ${dir}")
+  def wd = "cd ${dir}; "
+  eshell(wd + "git init")
+  eshell(wd + "git remote add origin -f ${url} 2> /dev/null")
+  eshell(wd + "git config core.sparsecheckout true")
+  eshell(wd + "echo 'devops/openshift/${stage}/*' >> .git/info/sparse-checkout")
+  if (ref.startsWith("v")) {
+    log "Extract config - Get tag for ${ref}"
+    if (ref.endsWith('.+')) {
+      ref = ref.replace('+', '')
+    }
+    def tag = sh(
+            script: wd + "git tag -l | grep ${ref} | sort -V | tail -1",
+            returnStdout: true
+    ).trim()
+    log "Extract config - Start checkout for ${ref}"
+    eshell(wd + "git checkout tags/${tag}")
+    log "Extract config - Finish checkout for ${ref}"
+    return tag.substring(1)
+  } else {
+    log "Extract config - Start checkout for ${ref}"
+    eshell(wd + "git checkout ${ref}")
+    log "Extract config - Finish checkout for ${ref}"
+    return "${latestTag}"
+  }
+}
+
 pipeline {
     agent any
 
