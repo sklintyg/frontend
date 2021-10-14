@@ -3,8 +3,8 @@
 def s2iWebhook = registerWebhook()
 def build = ""
 def latestTag = "${RELEASE_VERSION}.latest"
-def dbName = "${appReleaseName}-${new Random().nextInt() % 1000}".replace('-', '')
 def appReleaseName = "${APP_NAME}-${RELEASE_VERSION}"
+def dbName = "${appReleaseName}-${new Random().nextInt() % 1000}".replace('-', '')
 
 // function to run database commands
 def dbScript(cmd) {
