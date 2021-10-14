@@ -6,6 +6,13 @@ def latestTag = "${RELEASE_VERSION}.latest"
 def appReleaseName = "${APP_NAME}-${RELEASE_VERSION}"
 def dbName = "${appReleaseName}-${new Random().nextInt() % 1000}".replace('-', '')
 
+// Parameters for backing service. Scope global so we can clean up
+def backingService = ""
+def backingServiceName = ""
+def backingServiceAppName = ""
+def backingServiceAppVersion = ""
+def backingServiceDbName = ""
+
 // function to run database commands
 def dbScript(cmd) {
   sh(
@@ -53,7 +60,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                           // [ name, tag ] default version is "${RELEASE_VERSION}.latest"
-                          def svc = (backingService.contains(":") ? backingService : backingService + ":${latestTag}").split(":")
+                          // def svc = (backingService.contains(":") ? backingService : backingService + ":${latestTag}").split(":")
                           backingServiceName = "intygstjanst"
                           def backingServiceVersion = "3.15.0.+"
                           def healthUri = "inera-certificate"
