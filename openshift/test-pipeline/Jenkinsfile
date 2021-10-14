@@ -133,7 +133,7 @@ pipeline {
                           def imageStream = openshift.selector("is", "${backingServiceName}-verified").object().status.dockerImageRepository
                           log "Use ImageStream ${imageStream}:${backingServiceAppVersion}"
 
-                          def deployModel = openshift.process("-f", "${openshift/test-pipeline/deploytemplate-webapp.yaml",
+                          def deployModel = openshift.process("-f", "openshift/test-pipeline/deploytemplate-webapp.yaml",
                                   "-p", "APP_NAME=${backingServiceAppName}",
                                   "-p", "IMAGE='${imageStream}:${backingServiceAppVersion}'",
                                   "-p", "DATABASE_NAME=${backingServiceDbName}",
