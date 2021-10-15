@@ -5,7 +5,7 @@ import AppHeader from './AppHeader'
 
 describe('App header', () => {
   it('displays primary items', (): void => {
-    render(<AppHeader primaryItems={<p>Test</p>} />)
+    render(<AppHeader primaryItems={[<p>Test</p>]} />)
     expect(screen.getByText(/Test/i)).toBeInTheDocument()
   })
 
@@ -17,12 +17,12 @@ describe('App header', () => {
   it('displays several primary items', (): void => {
     render(
       <AppHeader
-        primaryItems={
+        primaryItems={[
           <div>
             <p>Test</p>
             <span>My text</span>
-          </div>
-        }
+          </div>,
+        ]}
       />
     )
     expect(screen.getByText(/Test/i)).toBeInTheDocument()
@@ -38,12 +38,12 @@ describe('App header', () => {
   it('displays primary and secondary items', (): void => {
     render(
       <AppHeader
-        primaryItems={
+        primaryItems={[
           <div>
             <p>Primary items</p>
             <span>My text</span>
-          </div>
-        }
+          </div>,
+        ]}
         secondaryItems={['Testing', 'Test test']}
       />
     )
