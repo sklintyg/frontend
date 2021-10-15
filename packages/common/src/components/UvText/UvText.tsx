@@ -19,11 +19,10 @@ import {
   CheckboxCode,
 } from '@frontend/common'
 import styled from 'styled-components'
+import Badge from './Badge'
 
 const Root = styled.div`
-  white-space: pre-wrap;
-  display: inline-block;
-  padding: 8px 14px;
+  overflow-wrap: anywhere;
 `
 
 interface UvTextProps {
@@ -95,9 +94,9 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
       return (
         <React.Fragment key={element.label}>
           <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
-          <Root key={index} className={'iu-bg-secondary-light iu-radius-sm'}>
+          <Badge>
             <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
-          </Root>
+          </Badge>
         </React.Fragment>
       )
     })
@@ -158,11 +157,11 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const codeListConfig = question.config
         if (codeListValue.list.length > 0 && question.visible) {
           return (
-            <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+            <Badge>
               {(codeListValue.list as ValueCode[]).map((value, key) => (
                 <div key={key}>{getCodeListText(value.id, codeListConfig)}</div>
               ))}
-            </Root>
+            </Badge>
           )
         }
         break
@@ -170,11 +169,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const diagnosisListValue = question.value as ValueDiagnosisList
         const diagnosisListConfig = question.config as ConfigUeDiagnoses
         if (diagnosisListValue.list.length > 0 && question.visible) {
-          return (
-            <Root className={'iu-p-none'}>
-              <div>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
-            </Root>
-          )
+          return <div className={'iu-p-none'}>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
         }
         break
       case CertificateDataValueType.CODE:
@@ -212,11 +207,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         break
     }
     if (displayText && displayText.length > 0) {
-      return (
-        <Root className={'iu-bg-secondary-light iu-radius-sm'}>
-          <div className={'iu-fs-200'}>{displayText}</div>
-        </Root>
-      )
+      return <Badge>{displayText}</Badge>
     }
   }
 
