@@ -10,6 +10,16 @@ const Root = styled.div`
   overflow-y: auto;
 `
 
+const Wrapper = styled.div`
+  height: 100%;
+  background-color: white;
+  overflow-y: auto;
+
+  > *:not(:last-child) {
+    border-bottom: 10px solid #f7f4f2;
+  }
+`
+
 interface Props {
   complementQuestions: Question[]
   isDisplayingCertificateDraft: boolean
@@ -48,13 +58,13 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
 
   return (
     <Root>
-      <div className={'iu-bg-white'}>
+      <Wrapper>
         {!isDisplayingCertificateDraft && getContinueOnDraft()}
         {complementQuestions.map((complementQuestion) => (
           <QuestionItem key={complementQuestion.id} question={complementQuestion} />
         ))}
         {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
-      </div>
+      </Wrapper>
     </Root>
   )
 }

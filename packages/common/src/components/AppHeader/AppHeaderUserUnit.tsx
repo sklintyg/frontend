@@ -1,19 +1,13 @@
 import React from 'react'
-import { User } from '../../types/user'
-import { AppHeaderItem } from '../index'
+import AppHeaderImageWithText from './AppHeaderImageWithText'
+import unitImage from '../../images/unit-image.svg'
 
 interface Props {
-  user: User
+  items: React.ReactNode
 }
 
-const AppHeaderUserUnit: React.FC<Props> = ({ user }) => {
-  return (
-    <AppHeaderItem>
-      <p>
-        {user.loggedInCareProvider} - {user.loggedInUnit}
-      </p>
-    </AppHeaderItem>
-  )
+const AppHeaderUserUnit: React.FC<Props> = ({ items }) => {
+  return <AppHeaderImageWithText items={items} image={unitImage}></AppHeaderImageWithText>
 }
 
 export default AppHeaderUserUnit

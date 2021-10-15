@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Checkbox, CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
 
 interface Props {
   disabled: boolean
@@ -22,6 +23,7 @@ interface Props {
 const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState<boolean>(false)
+  const escPress = useKeyPress('Escape')
 
   const handleClickOpen: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setSelected(event.currentTarget.checked)
@@ -40,6 +42,12 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
     setOpen(false)
     props.onConfirm(selected)
   }
+
+  useEffect(() => {
+    if (escPress) {
+      handleClose()
+    }
+  }, [escPress])
 
   return (
     <>

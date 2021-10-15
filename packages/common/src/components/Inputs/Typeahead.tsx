@@ -3,6 +3,7 @@ import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { scroller, Element } from 'react-scroll'
+import { useKeyPress } from '../../utils/userFunctionUtils'
 
 interface Props {
   value?: string
@@ -63,36 +64,6 @@ const MoreResultsListItem = styled.li`
   padding: 7px 3px;
   cursor: auto;
 `
-
-const useKeyPress = (targetKey: string) => {
-  const [keyPressed, setKeyPressed] = React.useState(false)
-
-  // @ts-ignore
-  function downHandler({ key }) {
-    if (key === targetKey) {
-      setKeyPressed(true)
-    }
-  }
-
-  // @ts-ignore
-  const upHandler = ({ key }) => {
-    if (key === targetKey) {
-      setKeyPressed(false)
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', downHandler)
-    window.addEventListener('keyup', upHandler)
-
-    return () => {
-      window.removeEventListener('keydown', downHandler)
-      window.removeEventListener('keyup', upHandler)
-    }
-  })
-
-  return keyPressed
-}
 
 const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {

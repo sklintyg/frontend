@@ -31,6 +31,7 @@ export interface CertificateMetadata {
   patient: Patient
   issuedBy: Staff
   version: number
+  latestMajorVersion: boolean
 }
 
 export interface CertificateData {
@@ -369,6 +370,7 @@ export enum CertificateEventType {
   INCOMING_MESSAGE_HANDLED = 'INCOMING_MESSAGE_HANDLED',
   OUTGOING_MESSAGE = 'OUTGOING_MESSAGE',
   OUTGOING_MESSAGE_HANDLED = 'OUTGOING_MESSAGE_HANDLED',
+  INCOMING_ANSWER = 'INCOMING_ANSWER',
   INCOMING_MESSAGE_REMINDER = 'INCOMING_MESSAGE_REMINDER',
   REQUEST_FOR_COMPLEMENT = 'REQUEST_FOR_COMPLEMENT',
 
@@ -376,6 +378,7 @@ export enum CertificateEventType {
   REPLACED = 'REPLACED',
   REPLACES = 'REPLACES',
   RENEWAL_OF = 'RENEWAL_OF',
+  COMPLEMENTS = 'COMPLEMENTS',
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
   CREATED_FROM = 'CREATED_FROM',

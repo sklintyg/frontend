@@ -13,7 +13,7 @@ interface Props {
   checkboxAdditionalStyles?: string
   vertical?: boolean
   disabled?: boolean
-  wrapperStyles?: FlattenSimpleInterpolation
+  wrapperAdditionalStyles?: string
 }
 
 interface LabelProps {
@@ -38,11 +38,11 @@ const Checkbox: React.FC<Props> = (props) => {
     vertical,
     hasValidationError,
     disabled,
-    wrapperStyles,
+    wrapperAdditionalStyles,
   } = props
 
   return (
-    <div css={wrapperStyles}>
+    <div className={wrapperAdditionalStyles}>
       <input
         data-testid={id}
         type="checkbox"

@@ -155,6 +155,7 @@ export const getCertificate = (): Certificate => {
       description: '',
       testCertificate: false,
       sent: false,
+      latestMajorVersion: true,
       careProvider: {
         unitId: '',
         address: '',
