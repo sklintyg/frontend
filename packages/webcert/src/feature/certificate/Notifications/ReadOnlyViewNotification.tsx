@@ -4,7 +4,7 @@ import { InfoBox } from '@frontend/common'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
 
-const MajorVersionNotification: React.FC = () => {
+const ReadOnlyViewNotification: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData)
   const user = useSelector(getUser)
 
@@ -23,4 +23,4 @@ const MajorVersionNotification: React.FC = () => {
   )
 }
 
-export default MajorVersionNotification
+export default ReadOnlyViewNotification
