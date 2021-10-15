@@ -49,7 +49,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
     return (
       <div className={'iu-p-300'}>
         <InfoBox type={'info'}>
-          Det finns redan en påbörjad komplettering.
+          <p>Det finns redan en påbörjad komplettering.</p>
           <Link to={`/certificate/${question.answeredByCertificate?.certificateId}`}>Öppna utkastet</Link>
         </InfoBox>
       </div>

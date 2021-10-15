@@ -1,6 +1,7 @@
 import { CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import styled from 'styled-components'
+import PatientStatusNotifications from '../Notifications/PatientStatusNotifications'
 
 const Wrapper = styled.section`
   flex-grow: 1;
@@ -16,6 +17,7 @@ const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
       <h2 className={`iu-mb-200 iu-fs-400 iu-color-sky-dark`}>
         {certificateMetadata.patient.fullName} - {certificateMetadata.patient.personId.id}
       </h2>
+      <PatientStatusNotifications />
     </Wrapper>
   )
 }

@@ -13,7 +13,7 @@ interface StyledWrapperProps {
 
 const StyledWrapper = styled.div<StyledWrapperProps>`
   border-radius: ${(props) => (props.squared ? '0' : '')};
-  padding: 4px 8px;
+  padding: 4px 8px 4px 0;
   flex-wrap: nowrap;
 
   p {
@@ -53,7 +53,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared })
     // @ts-expect-error squared is giving error but it's working as intended
     <StyledWrapper squared={squared} className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
       <i className={`ic-alert__icon ${getIconClass()}`}></i>
-      <p>{children}</p>
+      {children}
     </StyledWrapper>
   )
 }

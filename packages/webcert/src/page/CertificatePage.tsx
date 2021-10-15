@@ -13,6 +13,7 @@ import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
 import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
+import PatientStatusNotifications from '../feature/certificate/Notifications/PatientStatusNotifications'
 
 const Root = styled.div`
   height: 100vh;

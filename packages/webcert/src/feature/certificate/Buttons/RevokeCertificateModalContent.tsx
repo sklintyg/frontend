@@ -49,7 +49,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
 
   return (
     <>
-      <InfoBox type="info">{infoBoxText}</InfoBox>
+      <InfoBox type="info">
+        <p>{infoBoxText}</p>
+      </InfoBox>
       <p>{infoText}</p>
       <p className="iu-fw-bold iu-fs-200">{revokeReasonText}</p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">

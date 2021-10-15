@@ -168,3 +168,21 @@ export const getSigningData = (state: RootState) => state.ui.uiCertificate.signi
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
+
+export const getIsPatientDeceased = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : true
+
+export const getIsPatientProtectedPerson = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.protectedPerson : true
+
+export const getIsPatientTestIndicated = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.testIndicated : true
+
+export const getIsPatientNameDifferentFromJS = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentNameFromJS : true
+
+export const getIsPatientIdDifferentFromJS = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentIdFromJS : true
+
+export const getPatientReserveId = (state: RootState): string =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : ''

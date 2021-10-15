@@ -318,6 +318,9 @@ export interface Patient {
   testIndicated: boolean
   protectedPerson: boolean
   deceased: boolean
+  differentNameFromJS: boolean
+  differentIdFromJS: boolean
+  reserveId: string
 }
 
 export interface PersonId {
