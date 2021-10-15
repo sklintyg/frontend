@@ -11,8 +11,8 @@ describe('Webcert header unit', () => {
     const mockUser: User = {
       name: 'Test Testsson',
       role: 'Läkare',
-      loggedInUnit: 'Unit',
-      loggedInCareProvider: 'Care provider',
+      loggedInUnit: { unitName: 'Unit' },
+      loggedInCareProvider: { unitName: 'Care provider' },
     }
     spy.mockReturnValue(mockUser)
 
