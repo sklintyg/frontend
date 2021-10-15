@@ -9,19 +9,19 @@ const Header = styled.div`
 
 interface Props {
   title?: React.ReactNode
-  primaryItems?: React.ReactNode
+  primaryItems?: React.ReactNode[]
   secondaryItems?: React.ReactNode[]
   logo?: string
   alt?: string
 }
 
 const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt }) => {
+  const getPrimary = () => {
+    return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
+  }
+
   const getSecondary = () => {
-    return secondaryItems?.map((item, index) => (
-      <li key={index}>
-        <a className="ic-link-chevron">{item}</a>
-      </li>
-    ))
+    return secondaryItems?.map((item, index) => <li key={index}>{item}</li>)
   }
 
   return (
@@ -30,7 +30,10 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
         {title && title}
         {logo && <AppHeaderTitle imgSrc={logo} alt={alt}></AppHeaderTitle>}
         <div className="ic-page-header__item iu-mr-gutter">
-          {primaryItems} <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
+          {getPrimary()}
+          <ul className="ic-link-list--nav iu-mx-400">
+            {getSecondary()}
+          </ul>
         </div>
       </Header>
     </header>
