@@ -27,7 +27,7 @@ describe('PatientStatusNotificationWithModal', () => {
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 
-  it('shall render notification if status is set', () => {
+  it('shall open modal if user clicks on status', () => {
     renderDefaultComponent(true)
     userEvent.click(screen.getByText(INFO_TEXT))
     expect(screen.getByText(MODAL_TITLE)).toBeInTheDocument()

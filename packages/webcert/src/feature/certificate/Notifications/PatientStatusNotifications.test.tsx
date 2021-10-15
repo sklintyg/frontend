@@ -70,13 +70,13 @@ describe('PatientStatusNotifications', () => {
     expect(screen.queryByText(INFO_TEXT_DIFFERENT_NAME)).not.toBeInTheDocument()
   })
 
-  it('shall render protected person status if set', () => {
+  it('shall render different id status if set', () => {
     setState(false, false, false, true, '')
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_DIFFERENT_ID)).toBeInTheDocument()
   })
 
-  it('shall not render protected status if not set', () => {
+  it('shall not render different id status if not set', () => {
     setState(false, false, false, false, '')
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_DIFFERENT_ID)).not.toBeInTheDocument()
