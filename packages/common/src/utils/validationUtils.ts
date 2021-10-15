@@ -17,6 +17,7 @@ import {
   ValueDateList,
   ValueDateRangeList,
   ValueDiagnosisList,
+  ValueIcf,
   ValueText,
 } from '..'
 
@@ -77,6 +78,11 @@ export const parseExpression = (
           (d) => d.id === adjustedId && d.code !== undefined && d.code.length > 0 && d.description !== undefined && d.description.length > 0
         )
         return diagnosis ? 1 : 0
+
+      case CertificateDataValueType.ICF:
+        const valueIcf = element.value as ValueIcf
+        return valueIcf.id === adjustedId && valueIcf.text ? 1 : 0
+
       default:
         return 0
     }
