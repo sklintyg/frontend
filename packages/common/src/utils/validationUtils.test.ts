@@ -163,21 +163,21 @@ describe('Validate mandatory rule for date range values', () => {
 
   it('it should validate as false when from date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, to: '2021-10-15' }]
+    value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when to date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, from: '2021-10-15' }]
+    value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when from and to date are valid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16' }]
+    value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE_LIST }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
