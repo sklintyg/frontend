@@ -20,6 +20,12 @@ def webcertBackingServiceAppName = ""
 def webcertBackingServiceAppVersion = ""
 def webcertBackingServiceDbName = ""
 
+def webcertFrontendBackingService = ""
+def webcertFrontendBackingServiceName = ""
+def webcertFrontendBackingServiceAppName = ""
+def webcertFrontendBackingServiceAppVersion = ""
+def webcertFrontendBackingServiceDbName = ""
+
 // function to run database commands
 def dbScript(cmd) {
   sh(
@@ -223,6 +229,52 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy Webcert-frontend') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                          webcertFrontendBackingServiceName = "webcert-frontend"
+                          def webcertFrontendBackingServiceVersion = "6.10.0.+"
+                          def healthUri = "/"
+
+                          // checkout actual configuration for the base service version, then copy to the actual backing service name.
+                          // Note: not multi-thread safe, implies one build at a time
+                          webcertFrontendBackingServiceAppName = "${webcertFrontendBackingServiceName}-${appReleaseName}"
+                          webcertFrontendBackingServiceAppVersion = "latest"
+
+                          // Delete any old resources
+                          log "Delete old resources"
+                          shell("oc delete configmap ${webcertFrontendBackingServiceAppName}-configmap-envvar")
+                          shell("oc delete secret ${webcertFrontendBackingServiceAppName}-secret-envvar")
+
+                          // Create new resources
+                          log "Create new resources"
+                          eshell("oc create configmap ${webcertFrontendBackingServiceAppName}-configmap-envvar --from-env-file=${env.WORKSPACE}/openshift/test-pipeline/configmap-envvar.properties")
+                          eshell("oc create secret generic ${webcertFrontendBackingServiceAppName}-secret-envvar --from-env-file=${env.WORKSPACE}/openshift/test-pipeline/secret-envvar.properties --type=Opaque")
+
+                          def imageStream = openshift.selector("is", "${webcertFrontendBackingServiceName}").object().status.dockerImageRepository
+                          log "Use ImageStream ${imageStream}:${webcertFrontendBackingServiceAppVersion}"
+
+                          def deployModel = openshift.process("-f", "${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-frontend.yaml",
+                                  "-p", "APP_NAME=${webcertFrontendBackingServiceAppName}",
+                                  "-p", "IMAGE='${imageStream}:${webcertFrontendBackingServiceAppVersion}'",
+                                  "-p", "WEBCERT_API=${webcertBackingServiceAppName}",
+                                  "-p", "HEALTH_URI=${healthUri}",
+                                  "-p", "STAGE=test")
+                          log "Wait for rollout (limited to 5 minutes)"
+                          timeout(5) {
+                            def rm = openshift.apply(deployModel).narrow("dc").rollout()
+                            log "Waiting for deployment to complete"
+                            rm.status()
+                            log "Deployment done."
+                          }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {
@@ -276,6 +328,18 @@ pipeline {
                 shell("oc delete secret ${webcertBackingServiceAppName}-certifikat")
                 shell("oc delete configmap ${webcertBackingServiceAppName}-configmap-envvar")
                 shell("oc delete secret ${webcertBackingServiceAppName}-secret-envvar")
+
+                // Clean up after Webcert-frontend
+
+                echo "Logs for ${webcertFrontendBackingServiceAppName}"
+                openshift.selector("dc", "${webcertFrontendBackingServiceAppName}").logs()
+
+                imageStream = openshift.selector("is", "${webcertFrontendBackingServiceName}-verified").object().status.dockerImageRepository
+
+                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${webcertFrontendBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertFrontendBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${webcertFrontendBackingServiceDbName} | oc delete -f -")
+
+                shell("oc delete configmap ${webcertFrontendBackingServiceAppName}-configmap-envvar")
+                shell("oc delete secret ${webcertFrontendBackingServiceAppName}-secret-envvar")
               }
             }
           }
