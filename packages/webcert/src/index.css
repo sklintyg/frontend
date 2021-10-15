@@ -70,3 +70,7 @@ img {
   height: 100%;
   width: 100%;
 }
+
+.ic-card.ic-expandable .ic-expandable-button:after {
+  top: 10px !important;
+}
