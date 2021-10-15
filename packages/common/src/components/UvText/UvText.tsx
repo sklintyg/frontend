@@ -2,7 +2,6 @@ import * as React from 'react'
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  CheckboxCode,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -16,6 +15,8 @@ import {
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ConfigUeIcf,
+  CheckboxCode,
 } from '@frontend/common'
 import styled from 'styled-components'
 
@@ -30,6 +31,29 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
+  const getUvIcf = (collectionsLabel: string, icfCodes: string[], textValue: string) => {
+    return (
+      <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+        <div className={'iu-fs-200'}>
+          {icfCodes.length > 0 && (
+            <>
+              <p>{collectionsLabel}</p>
+              <div className={'iu-flex iu-mb-400'}>
+                {icfCodes.map((code, i) => (
+                  <React.Fragment key={code}>
+                    <p>{code}</p>
+                    {i !== icfCodes.length - 1 && <label className={'iu-ml-200 iu-mr-200'}>-</label>}
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+          <p>{textValue}</p>
+        </div>
+      </Root>
+    )
+  }
+
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as CheckboxCode[]).find((item) => item.id === id)
     return <li>{item?.label}</li>
@@ -108,8 +132,6 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     )
   }
 
-  // This function gets a warning for rendering children withous keys.
-
   const getUVText = () => {
     if (question.value === undefined || question.value === null) {
       return null
@@ -174,6 +196,15 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const dateRangeListConfig = (question.config as ConfigUeSickLeavePeriod).list
         if (dateRangeListValue.length > 0 && dateRangeListValue.some((val) => val.from && val.to)) {
           return getDateRangeListDisplayValue(dateRangeListValue, dateRangeListConfig)
+        }
+        break
+      case CertificateDataValueType.ICF:
+        const icfCodes = question.value.icfCodes as string[]
+        const icfTextValue = question.value.text as string
+        const collectionsLabel = (question.config as ConfigUeIcf).collectionsLabel
+
+        if (icfCodes.length || collectionsLabel.length) {
+          return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
         }
         break
       default:

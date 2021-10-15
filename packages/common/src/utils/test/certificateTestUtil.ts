@@ -75,6 +75,42 @@ export const getTextElement = (): CertificateDataElement => {
   }
 }
 
+export const getIcfElement = (): CertificateDataElement => {
+  return {
+    id: '1.2',
+    parent: '1.1',
+    index: 1,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+      type: ConfigTypes.UE_ICF,
+      id: 'funktionsnedsattning',
+    },
+    value: {
+      type: CertificateDataValueType.ICF,
+      id: 'funktionsnedsattning',
+      text: null,
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '1.2',
+        expression: '$funktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.SHOW_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+      },
+    ],
+    validationErrors: [],
+  }
+}
+
 export const getAnotherTextElement = (): CertificateDataElement => {
   return {
     id: '1.3',
