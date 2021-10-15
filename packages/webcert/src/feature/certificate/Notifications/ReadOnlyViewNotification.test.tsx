@@ -49,7 +49,7 @@ describe('ReadOnlyViewNotification', () => {
   })
 
   it('shall not render a banner if care provider id is not same', () => {
-    setState(UNIT_ID, CARE_PROVIDER_ID, 'other care provider id', USER_LOGGED_IN_UNIT_ID)
+    setState(UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_UNIT_ID, USER_LOGGED_IN_CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
