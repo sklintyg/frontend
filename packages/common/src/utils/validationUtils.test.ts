@@ -5,10 +5,12 @@ import {
   CertificateDataValueType,
   CertificateStatus,
   ConfigTypes,
+  getIcfElement,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueIcf,
   ValueText,
 } from '..'
 import { decorateCertificateWithInitialValues, parseExpression, validateExpressions } from './validationUtils'
@@ -60,6 +62,31 @@ describe('Validate mandatory rule for text values', () => {
     const valueText = textElement.value as ValueText
     valueText.text = 'Här är en text'
     const result = parseExpression('$funktionsnedsattning', textElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate mandatory rule for icf values', () => {
+  const icfElement = getIcfElement()
+
+  it('it should validate as false when text is null', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = null
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when text is empty', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = ''
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when text is at least one character long', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = 'Här är en text'
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
     expect(result).toBe(true)
   })
 })

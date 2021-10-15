@@ -165,15 +165,15 @@ describe('QuestionItem', () => {
   })
 
   describe('answering a question with user inputs', () => {
-    xit('writes a message', async () => {
-      jest.useFakeTimers()
+    xit('writes a message', () => {
+      jest.useFakeTimers('modern')
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
-      jest.advanceTimersByTime(2000)
-      await flushPromises()
+      flushPromises()
+      jest.advanceTimersByTime(10000)
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 
@@ -196,11 +196,11 @@ describe('QuestionItem', () => {
 
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, 'Nu ändrar jag mitt svar')
-
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
 
     it('shall delete answer when delete is confirmed', async () => {
+      jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
@@ -210,18 +210,22 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).not.toBe(0)
     })
 
-    it('shall not delete answer when delete is cancelled', async () => {
+    it('shall not delete answer when delete is cancelled', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
 
-      await flushPromises()
+      flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
     })
   })
 
   describe('question is handled or unhandled', () => {
+    afterEach(() => {
+      clearDispatchedActions()
+    })
+
     it('display checkbox when question has resource link handled', () => {
       renderComponent(createQuestion())
 
@@ -270,6 +274,7 @@ describe('QuestionItem', () => {
     })
 
     it('shall set as handle if checkbox selected', async () => {
+      jest.useRealTimers()
       renderComponent(createQuestion())
 
       userEvent.click(screen.getByText('Hanterad'))
@@ -280,6 +285,7 @@ describe('QuestionItem', () => {
     })
 
     it('shall set as unhandled if checkbox deselected', async () => {
+      jest.useRealTimers()
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
@@ -292,6 +298,7 @@ describe('QuestionItem', () => {
     })
 
     it('shall set as handled when handle is confirmed', async () => {
+      jest.useRealTimers()
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -310,7 +317,7 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.post.length).not.toBe(0)
     })
 
-    it('shall not set as handled when handle is cancelled', async () => {
+    it('shall not set as handled when handle is cancelled', () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -325,7 +332,7 @@ describe('QuestionItem', () => {
       userEvent.click(screen.getByText('Hanterad'))
       userEvent.click(screen.getByText('Avbryt'))
 
-      await flushPromises()
+      flushPromises()
       expect(fakeAxios.history.post.length).toBe(0)
     })
   })
