@@ -9,6 +9,7 @@ import {
   ConfigTypes,
   ResourceLinkType,
 } from '@frontend/common'
+import { PersonId } from '@frontend/common/src'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -170,19 +171,19 @@ export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
 
 export const getIsPatientDeceased = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : true
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false
 
 export const getIsPatientProtectedPerson = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.protectedPerson : true
 
 export const getIsPatientTestIndicated = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.testIndicated : true
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.testIndicated : false
 
-export const getIsPatientNameDifferentFromJS = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentNameFromJS : true
+export const getIsPatientNameDifferentFromEHR = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentNameFromEHR : false
 
-export const getIsPatientIdDifferentFromJS = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentIdFromJS : true
+export const getPreviousPatientId = (state: RootState): PersonId =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.previousPersonId : true
 
-export const getPatientReserveId = (state: RootState): string =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : ''
+export const getIsPatientIdUpdated = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdUpdated : false

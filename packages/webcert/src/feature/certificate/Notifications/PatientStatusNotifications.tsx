@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { InfoBox, TextWithInfoModal } from '@frontend/common'
 import {
   getIsPatientDeceased,
-  getIsPatientIdDifferentFromJS,
-  getIsPatientNameDifferentFromJS,
+  getIsPatientIdUpdated,
+  getIsPatientNameDifferentFromEHR,
   getIsPatientProtectedPerson,
   getIsPatientTestIndicated,
-  getPatientReserveId,
+  getPreviousPatientId,
 } from '../../../store/certificate/certificateSelectors'
 import styled from 'styled-components'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
+import { PersonId } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   width: fit-content;
@@ -22,9 +22,9 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientDeceased = useSelector(getIsPatientDeceased)
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
-  const isPatientNameDifferentFromJS = useSelector(getIsPatientNameDifferentFromJS)
-  const isPatientIdDifferentFromJS = useSelector(getIsPatientIdDifferentFromJS)
-  const patientReserveId: string = useSelector(getPatientReserveId)
+  const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
+  const previousPatientId: PersonId = useSelector(getPreviousPatientId)
+  const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
 
   const testPersonTitle = 'Patienten är en valideringsperson'
   const protectedPersonTitle = 'Patienten har skyddade personuppgifter'
@@ -33,9 +33,9 @@ const PatientStatusNotifications: React.FC = () => {
     !isPatientDeceased &&
     !isPatientProtectedPerson &&
     !isPatientTestIndicated &&
-    !isPatientNameDifferentFromJS &&
-    !isPatientIdDifferentFromJS &&
-    !patientReserveId
+    !isPatientNameDifferentFromEHR &&
+    !previousPatientId &&
+    !isPatientIdUpdated
   )
     return null
 
@@ -64,7 +64,7 @@ const PatientStatusNotifications: React.FC = () => {
         </p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
-        status={isPatientNameDifferentFromJS}
+        status={isPatientNameDifferentFromEHR}
         title={'Patientens namn skiljer sig från det i journalsystemet'}
         modalTitle={'Patientens namn skiljer sig'}>
         <p>
@@ -72,7 +72,7 @@ const PatientStatusNotifications: React.FC = () => {
           journalsystemet.
         </p>
       </PatientStatusNotificationWithModal>
-      <PatientStatusNotification title={'Patientens personnummer har ändrats'} status={isPatientIdDifferentFromJS} />
+      <PatientStatusNotification title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientStatusNotificationWithModal status={isPatientTestIndicated} title={testPersonTitle} modalTitle={testPersonTitle}>
         <p>
           En valideringsperson är en fingerad person som används i syfte att validera funktion, felsöka och säkerställa kvalitet i tjänsten.
@@ -81,8 +81,8 @@ const PatientStatusNotifications: React.FC = () => {
         </p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
-        status={patientReserveId != '' && patientReserveId}
-        title={'Patienten har samordningsnummer kopplat till reservnummer: ' + patientReserveId}
+        status={!isPatientIdUpdated && previousPatientId && previousPatientId.id !== ''}
+        title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (previousPatientId ? previousPatientId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>
       </PatientStatusNotificationWithModal>
