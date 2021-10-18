@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="5.4230" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:33:33" tests="0" file="integration/AF_intyg/AF00213.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="AF00213-intyg tomt" timestamp="2021-08-30T11:33:33" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Använadare har möjlighet att uföra följande med ett tomt utkast " timestamp="2021-08-30T11:33:33" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett tomt AF20013 utkast" timestamp="2021-08-30T11:33:33" tests="3" time="5.4230" failures="0">
+    <testcase name="AF00213-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt AF20013 utkast Ett icke ifylld AF00213 går ej att signera och skicka till AF" time="3.9700" classname="Ett icke ifylld AF00213 går ej att signera och skicka till AF">
+    </testcase>
+    <testcase name="AF00213-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt AF20013 utkast Det är möjligt att raderar ett icke ifylld AF00213" time="0.7730" classname="Det är möjligt att raderar ett icke ifylld AF00213">
+    </testcase>
+    <testcase name="AF00213-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt AF20013 utkast Skriva ut ett icke ifyllt AF00213" time="0.6800" classname="Skriva ut ett icke ifyllt AF00213">
+    </testcase>
+  </testsuite>
+</testsuites>
