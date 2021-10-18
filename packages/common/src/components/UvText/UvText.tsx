@@ -21,8 +21,12 @@ import {
 import styled from 'styled-components'
 import Badge from './Badge'
 
-const Root = styled.div`
-  overflow-wrap: anywhere;
+const IcfCode = styled.p`
+  flex-shrink: 0;
+`
+
+const IcfCodeWrapper = styled.div`
+  flex-wrap: wrap;
 `
 
 interface UvTextProps {
@@ -32,24 +36,24 @@ interface UvTextProps {
 const UvText: React.FC<UvTextProps> = ({ question }) => {
   const getUvIcf = (collectionsLabel: string, icfCodes: string[], textValue: string) => {
     return (
-      <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+      <Badge>
         <div className={'iu-fs-200'}>
           {icfCodes && icfCodes.length > 0 && (
             <>
               <p>{collectionsLabel}</p>
-              <div className={'iu-flex iu-mb-400'}>
+              <IcfCodeWrapper className={'iu-flex iu-mb-400'}>
                 {icfCodes.map((code, i) => (
                   <React.Fragment key={code}>
-                    <p>{code}</p>
+                    <IcfCode>{code}</IcfCode>
                     {i !== icfCodes.length - 1 && <label className={'iu-ml-200 iu-mr-200'}>-</label>}
                   </React.Fragment>
                 ))}
-              </div>
+              </IcfCodeWrapper>
             </>
           )}
           <p>{textValue}</p>
         </div>
-      </Root>
+      </Badge>
     )
   }
 
