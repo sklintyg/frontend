@@ -20,6 +20,7 @@ import {
   ValueIcf,
   ValueText,
 } from '..'
+import { ValueDateRange } from '@frontend/common'
 
 export const parseExpression = (
   expression: string,
@@ -53,6 +54,11 @@ export const parseExpression = (
 
       case CertificateDataValueType.DATE_RANGE_LIST:
         const dateRangeList = (element.value as ValueDateRangeList).list
+
+        if (shouldValidateDayDifference(adjustedId)) {
+          return validateDayDifference(adjustedId, dateRangeList)
+        }
+
         const dateRange = dateRangeList.find((dateR) => dateR.id === adjustedId)
 
         if (!dateRange || dateRange?.from === null || dateRange?.to === null) {
@@ -133,6 +139,29 @@ const validateMaxDate = (id: string, validation: MaxDateValidation, data: Certif
   } else return true
 }
 
+const shouldValidateDayDifference = (adjustedId: string): boolean => {
+  return adjustedId.includes('.')
+}
+
+const validateDayDifference = (adjustedId: string, dateRangeList: ValueDateRange[]): number => {
+  const updatedAdjustedId = adjustedId.replace(/\.from/g, '').replace(/\.to/g, '')
+
+  const dateRange = dateRangeList.find((dateR) => dateR.id === updatedAdjustedId)
+
+  if (!dateRange) return 0
+
+  let date
+
+  if (adjustedId.includes('from')) {
+    date = getValidDate(dateRange.from)
+  } else if (adjustedId.includes('to')) {
+    date = getValidDate(dateRange.to)
+  }
+
+  if (!date) return 0
+  return differenceInDays(date, new Date()) + 1
+}
+
 const differenceInDays = (a: Date, b: Date) => {
   return Math.floor((a.getTime() - b.getTime()) / (1000 * 60 * 60 * 24))
 }
@@ -142,7 +171,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
   const data = certificate.data
 
   for (const id in data) {
-    const validations = data[id].validation ? data[id].validation : []
+    const validations = data[id].validation ?? []
 
     const needsValidation = validations.find((validation) => validation.questionId === updated.id)
 
