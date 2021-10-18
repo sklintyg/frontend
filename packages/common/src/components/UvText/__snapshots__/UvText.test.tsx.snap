@@ -2,18 +2,12 @@
 
 exports[`UvText Verify snapshot 1`] = `
 .c0 {
-  white-space: pre-wrap;
-  display: inline-block;
-  padding: 8px 14px;
+  overflow-wrap: anywhere;
 }
 
 <div
-  className="c0 iu-bg-secondary-light iu-radius-sm"
+  className="c0 ic-badge ic-badge--small iu-bg-secondary-light"
 >
-  <div
-    className="iu-fs-200"
-  >
-    Text
-  </div>
+  Text
 </div>
 `;

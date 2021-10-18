@@ -68,6 +68,7 @@ export enum ConfigTypes {
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
+  UE_ICF = 'UE_ICF',
 }
 
 export interface CertificateDataConfig {
@@ -76,6 +77,7 @@ export interface CertificateDataConfig {
   text: string
   description: string
   type: ConfigTypes
+
   [propName: string]: unknown
 }
 
@@ -159,6 +161,13 @@ export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
 }
 
+export interface ConfigUeIcf extends CertificateDataConfig {
+  id: string
+  label: string
+  modalLabel: string
+  collectionsLabel: string
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -170,12 +179,14 @@ export enum CertificateDataValueType {
   DATE_RANGE_LIST = 'DATE_RANGE_LIST',
   DIAGNOSIS = 'DIAGNOSIS',
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
+  ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
 }
 
 export interface Value {
   type: CertificateDataValueType
+
   [propName: string]: unknown
 }
 
@@ -228,6 +239,12 @@ export interface ValueText extends Value {
   text: string | null
 }
 
+export interface ValueIcf extends Value {
+  id: string
+  icfCodes?: string[]
+  text: string | null
+}
+
 // Validation
 
 export enum CertificateDataValidationType {
@@ -245,6 +262,7 @@ export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
   expression: string
+
   [propName: string]: unknown
 }
 
@@ -352,16 +370,30 @@ export enum CertificateEventType {
   INCOMING_MESSAGE_HANDLED = 'INCOMING_MESSAGE_HANDLED',
   OUTGOING_MESSAGE = 'OUTGOING_MESSAGE',
   OUTGOING_MESSAGE_HANDLED = 'OUTGOING_MESSAGE_HANDLED',
+  INCOMING_ANSWER = 'INCOMING_ANSWER',
   INCOMING_MESSAGE_REMINDER = 'INCOMING_MESSAGE_REMINDER',
   REQUEST_FOR_COMPLEMENT = 'REQUEST_FOR_COMPLEMENT',
+
   REVOKED = 'REVOKED',
   REPLACED = 'REPLACED',
   REPLACES = 'REPLACES',
   RENEWAL_OF = 'RENEWAL_OF',
+  COMPLEMENTS = 'COMPLEMENTS',
   COMPLEMENTED = 'COMPLEMENTED',
   EXTENDED = 'EXTENDED',
   CREATED_FROM = 'CREATED_FROM',
   COPIED_BY = 'COPIED_BY',
   COPIED_FROM = 'COPIED_FROM',
   RELATED_CERTIFICATE_REVOKED = 'RELATED_CERTIFICATE_REVOKED',
+}
+
+export interface IcfTitles {
+  activityLimitation: {
+    unique: string[]
+    common: string[]
+  }
+  disability: {
+    unique: string[]
+    common: string[]
+  }
 }

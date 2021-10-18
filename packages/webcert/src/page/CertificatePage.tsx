@@ -6,11 +6,12 @@ import CertificateHeader from '../feature/certificate/CertificateHeader/Certific
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import { AppHeader, AppHeaderLink } from '@frontend/common'
-import WebcertTitle from '../components/header/WebcertTitle'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
+import logo from '../components/header/webcert_logo.png'
+import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
 import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
 
 const Root = styled.div`
@@ -23,7 +24,7 @@ const Overflow = styled.div`
 `
 
 const Wrapper = styled.div`
-  height: calc(100vh - 220px);
+  height: calc(100vh - 167px);
 `
 
 const Columns = styled.div`
@@ -46,14 +47,18 @@ const CertificatePage = () => {
   }, [dispatch, certificateId])
 
   const secondaryItems = [
-    <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
-    <AppHeaderLink text={'Logga ut'} link={'/welcome'} withoutDivider={true}></AppHeaderLink>,
+    <AppHeaderLink addedClass={'ic-link-chevron'} text={'Om Webcert'} link={'#'} withoutDivider={true}></AppHeaderLink>,
   ]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
     <Root>
-      <AppHeader title={<WebcertTitle />} primaryItems={<WebcertHeaderUser />} secondaryItems={secondaryItems} />
+      <AppHeader
+        logo={logo}
+        alt={'Logo Webcert'}
+        primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+        secondaryItems={secondaryItems}
+      />
       {certificateIsDeleted ? (
         <RemovedCertificate />
       ) : (

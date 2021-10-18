@@ -22,7 +22,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const dispatchEditDraft = useRef(
-    _.debounce((value: string) => {
+    _.debounce((question: CertificateDataElement, value: string) => {
       const updatedValue = getUpdatedValue(question, value)
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
@@ -34,7 +34,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setText(event.currentTarget.value)
-    dispatchEditDraft(event.currentTarget.value)
+    dispatchEditDraft(question, event.currentTarget.value)
   }
 
   return (

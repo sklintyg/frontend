@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
 
 interface Props {
   disabled: boolean
@@ -23,6 +24,7 @@ interface Props {
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(false)
+  const escPress = useKeyPress('Escape')
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -40,6 +42,12 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
     setOpen(false)
     props.onConfirm()
   }
+
+  useEffect(() => {
+    if (escPress) {
+      handleClose()
+    }
+  }, [escPress])
 
   return (
     <>
