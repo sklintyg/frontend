@@ -29,8 +29,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(100);
-               // intyg.skickaTillFk();
                 intyg.skickaFraga("Avstämningsmöte");
                 //cy.get('.iu-mb-800')contains('skickar en fråga angående avstämmningsmöte.').should(exist);                
                

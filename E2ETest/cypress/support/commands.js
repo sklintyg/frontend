@@ -29,12 +29,13 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(intygsId).to.exist;
-   const theUrl = "https://wc.localtest.me/fake";
+  const theUrl = "https://wc.localtest.me/fake";
+   //const theUrl: '/fake';
     //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
   //"authenticationMethod": "FAKE"
-const originSträng = (ärDjup ? "DJUPINTEGRATION" : "NORMAL");
-cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
+    const originSträng = (ärDjup ? "DJUPINTEGRATION" : "NORMAL");
+    cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
     cy.request({
         method: 'POST',
         url: theUrl,
@@ -127,8 +128,8 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
             "status":intygStatus,
             "fillType": filler,
             "sent": beingSent
-         }
-    }).then((resp) => {
+        }
+        }).then((resp) => {
             expect(resp.status).to.equal(200); 
             // Utan detta klagar Cypress på att man blandar synkron och asynkron kod
             cy.wrap(resp.body.certificateId).then((id) => {
@@ -139,18 +140,7 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
 
 }
 
-/*
-Cypress.Commands.add("loggaInVårdpersonalNormal", (vårdpersonal, vårdenhet, utkastId) => {
-    loggaInVårdpersonal(vårdpersonal, vårdenhet, utkastId,false);
-});
 
-Cypress.Commands.add("loggaInVårdpersonalIntegrerat", (vårdpersonal, vårdenhet, utkastId) => {
-    loggaInVårdpersonal(vårdpersonal, vårdenhet, utkastId,true);
-});*/
-
-Cypress.Commands.add("loggaUt",() => {
- 
-});
 Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType, sent) => {
     skapaIntygViaApi(fx,status,typ,fillType,sent);
  
@@ -161,7 +151,6 @@ Cypress.Commands.add("skapaÄrende", (fx,intygsId, typAvFråga, meddelande,remin
 
 
 function rensaIntyg(fx){
-
    
     cy.request({
     method: 'DELETE',
@@ -170,8 +159,7 @@ function rensaIntyg(fx){
         expect(resp.status).to.equal(200);
     }); 
    
-    
-    cy.request({
+     cy.request({
         method: 'DELETE',
         url: '/testability/intyg/patient/' + fx.personnummer,
         }).then((resp) =>{
@@ -180,7 +168,6 @@ function rensaIntyg(fx){
         const intygsUrl = Cypress.env('intygTjanstUrl') + "/inera-certificate/resources/certificate/citizen/";
     //expect(Object.values(implementeradeIntyg)).to.include.members([intygstyp]);
     //cy.log(vårdtagare.personnummerKompakt + vårdtagare.förnamn +vårdtagare.efternamn + vårdtagare.postadress + vårdtagare.postnummer + vårdtagare.postort);
-   
         cy.request({
             method: 'DELETE',
             url: intygsUrl + fx.personnummer,
@@ -194,7 +181,7 @@ function taBortIntyg(fx) {
     const intygsID = fx.intygsID
     const intygsUrl = Cypress.env('intygTjanstUrl') + "/inera-certificate/resources/certificate/" + intygsID;
  
-     cy.log(intygsID);
+    cy.log(intygsID);
     cy.request({
         method: 'DELETE',
         url: intygsUrl,
@@ -219,20 +206,3 @@ Cypress.Commands.add("loggaInVårdpersonalNormal", (vårdpersonal, vårdenhet) =
 Cypress.Commands.add("loggaInVårdpersonalIntegrerat", (vårdpersonal, vårdenhet, intygsId) => {
     loggaInVårdpersonal(vårdpersonal, vårdenhet,  intygsId, true,);
 });
-// Debug-funktion. Anropa denna för att skriva ut alla aktivitetstyper (e.g. Läsa)
-// och argument (om de finns). Använder assert istället för cy.log() för att få ut
-// dem i loggen direkt.
-function skrivUtHändelser(händelseArray) {
-    assert.isTrue(true, "Skriver ut activityType och activityArgs för alla händelser:");
-    for (var debugLoop = 0; debugLoop < händelseArray.length; debugLoop++) {
-        var debugActivity = händelseArray[debugLoop].getElementsByTagName("activity")[0];
-
-        var debugActivityType = "ActivityType: " + debugActivity.getElementsByTagName("activitytype")[0].innerText;
-
-        var debugActivityArgs = ""
-        if (debugActivity.getElementsByTagName("activityargs") && debugActivity.getElementsByTagName("activityargs")[0]) {
-            debugActivityArgs = ", activityArgs: " + debugActivity.getElementsByTagName("activityargs")[0].innerText;
-        }
-        assert.isTrue(true, debugActivityType + debugActivityArgs);
-    }
-}
