@@ -34,7 +34,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     return (
       <Root className={'iu-bg-secondary-light iu-radius-sm'}>
         <div className={'iu-fs-200'}>
-          {icfCodes.length > 0 && (
+          {icfCodes && icfCodes.length > 0 && (
             <>
               <p>{collectionsLabel}</p>
               <div className={'iu-flex iu-mb-400'}>
@@ -64,7 +64,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         <thead>
           <tr>
             <th>{`Diagnoskod enligt ${getDiagnosisTerminologyLabel(diagnosisListValue.list[0].terminology, diagnosisListConfig)}`}</th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -198,7 +198,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const icfTextValue = question.value.text as string
         const collectionsLabel = (question.config as ConfigUeIcf).collectionsLabel
 
-        if (icfCodes.length || collectionsLabel.length) {
+        if ((icfCodes && icfCodes.length) || (icfTextValue && icfTextValue.length)) {
           return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
         }
         break
