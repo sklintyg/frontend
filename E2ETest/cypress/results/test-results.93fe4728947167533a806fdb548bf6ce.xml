@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="9.3970" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:34:47" tests="0" file="integration/FK_intyg/LISJP.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="LISJP-intyg tomt" timestamp="2021-08-30T11:34:47" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Använadare har möjlighet att uföra följande med ett tomt utkast " timestamp="2021-08-30T11:34:48" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett tomt LISJP utkast" timestamp="2021-08-30T11:34:48" tests="3" time="9.3970" failures="0">
+    <testcase name="LISJP-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Ett icke ifylld LISJP går ej att signera och skicka till FK" time="5.5470" classname="Ett icke ifylld LISJP går ej att signera och skicka till FK">
+    </testcase>
+    <testcase name="LISJP-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Det är möjligt att raderar ett icke ifyllt LISJP" time="2.1580" classname="Det är möjligt att raderar ett icke ifyllt LISJP">
+    </testcase>
+    <testcase name="LISJP-intyg tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Skriva ut ett icke ifyllt LISJP" time="1.6920" classname="Skriva ut ett icke ifyllt LISJP">
+    </testcase>
+  </testsuite>
+</testsuites>

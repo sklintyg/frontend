@@ -46,7 +46,9 @@ const CertificatePage = () => {
     }
   }, [dispatch, certificateId])
 
-  const secondaryItems = [<AppHeaderLink text={'Om Webcert'} link={'#'} withoutDivider={true}></AppHeaderLink>]
+  const secondaryItems = [
+    <AppHeaderLink addedClass={'ic-link-chevron'} text={'Om Webcert'} link={'#'} withoutDivider={true}></AppHeaderLink>,
+  ]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (

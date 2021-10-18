@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="21.2390" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:32:03" tests="0" file="integration/FK_intyg/LisjpUtkast.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="LISJP-utkast tomt" timestamp="2021-08-30T11:32:03" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Använadare har möjlighet att uföra följande med ett tomt utkast " timestamp="2021-08-30T11:32:03" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett tomt LISJP utkast" timestamp="2021-08-30T11:32:03" tests="3" time="21.2390" failures="0">
+    <testcase name="LISJP-utkast tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Skapar en minimalt ifylld FK7804 och skickar den till FK" time="11.8560" classname="Skapar en minimalt ifylld FK7804 och skickar den till FK">
+    </testcase>
+    <testcase name="LISJP-utkast tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Det är möjligt att raderar ett ifyllt LISJP" time="3.8310" classname="Det är möjligt att raderar ett ifyllt LISJP">
+    </testcase>
+    <testcase name="LISJP-utkast tomt Använadare har möjlighet att uföra följande med ett tomt utkast  Funktioner på ett tomt LISJP utkast Skriva ut ett ifyllt LISJP" time="5.5520" classname="Skriva ut ett ifyllt LISJP">
+    </testcase>
+  </testsuite>
+</testsuites>

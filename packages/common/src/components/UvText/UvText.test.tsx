@@ -19,6 +19,8 @@ import {
   ConfigUeRadioMultipleCodes,
   ValueCode,
   ValueCodeList,
+  ValueIcf,
+  ConfigUeIcf,
 } from '@frontend/common'
 import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
@@ -61,6 +63,37 @@ describe('UvText', () => {
     const question = createQuestionWithCodeValue()
     const { getByText } = render(<UvText question={question} />)
     getByText(/This code/i)
+  })
+
+  it('displays no icf collections label if empty icf list', () => {
+    const question = createQuestionWithIcfValue([])
+    render(<UvText question={question} />)
+
+    expect(screen.queryByText(question.config.collectionsLabel as string)).not.toBeInTheDocument()
+  })
+
+  it('displays icf collections label if icf list is not empty', () => {
+    const question = createQuestionWithIcfValue(['test', 'test 2'])
+    render(<UvText question={question} />)
+
+    expect(screen.getByText(question.config.collectionsLabel as string)).toBeInTheDocument()
+  })
+
+  it('displays icf values if icf list is not empty', () => {
+    const question = createQuestionWithIcfValue(['test', 'test 2'])
+    const questionValue = question.value as ValueIcf
+    render(<UvText question={question} />)
+
+    expect(screen.getByText(questionValue.icfCodes![0])).toBeInTheDocument()
+    expect(screen.getByText(questionValue.icfCodes![1])).toBeInTheDocument()
+  })
+
+  it('displays icf text value', () => {
+    const question = createQuestionWithIcfValue(['test', 'test 2'])
+    const questionValue = question.value as ValueIcf
+    render(<UvText question={question} />)
+
+    expect(screen.getByText(questionValue.text as string)).toBeInTheDocument()
   })
 
   it('displays several code values', () => {
@@ -128,6 +161,26 @@ export function createQuestionWithBooleanValue(): CertificateDataElement {
     label: '',
     text: '',
     type: ConfigTypes.UE_RADIO_BOOLEAN,
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataElement {
+  const value: ValueIcf = {
+    type: CertificateDataValueType.ICF,
+    id: '',
+    text: 'text value',
+    icfCodes: icfCodes,
+  }
+  const config: ConfigUeIcf = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_ICF,
+    label: 'label',
+    collectionsLabel: 'collections label',
+    modalLabel: '',
   }
 
   return createQuestion(value, config)

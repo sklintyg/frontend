@@ -3,40 +3,60 @@
     "hsaId": "TSTNMT2321000156-DRAJ",
     "name": "Ajla Doktor",
     "role": "Läkare",
-    "loggedInUnit": "NMT vg3 ve1",
-    "loggedInCareProvider": "NMT vg3",
+    "loggedInUnit": {
+      "unitName": "NMT vg3 ve1"
+    },
+    "loggedInCareProvider": {
+      "unitName": "NMT vg3"
+    },
     "preferences": null
   },
   {
     "hsaId": "TSTNMT2321000156-DRAL",
     "name": "Alf Doktor",
     "role": "Läkare",
-    "loggedInUnit": "NMT vg3 ve1",
-    "loggedInCareProvider": "NMT vg3",
+    "loggedInUnit": {
+      "unitName": "NMT vg3 ve1"
+    },
+    "loggedInCareProvider": {
+      "unitName": "NMT vg3"
+    },
     "preferences": null
   },
   {
     "hsaId": "TSTNMT2321000156-VAAL",
     "name": "Alva Vårdadministratör",
     "role": "Vårdadministratör",
-    "loggedInUnit": "WebCert-Enhet2-Mottagning1",
-    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "loggedInUnit": {
+      "unitName": "WebCert-Enhet2-Mottagning1"
+    },
+    "loggedInCareProvider": {
+      "unitName": "WebCert-Vårdgivare2"
+    },
     "preferences": null
   },
   {
     "hsaId": "TSTNMT2321000156-DRBE",
     "name": "Beata Doktor",
     "role": "Läkare",
-    "loggedInUnit": "WebCert-Enhet2-Mottagning2",
-    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "loggedInUnit": {
+      "unitName": "WebCert-Enhet2-Mottagning2"
+    },
+    "loggedInCareProvider": {
+      "unitName": "WebCert-Vårdgivare2"
+    },
     "preferences": null
   },
   {
     "hsaId": "TSTNMT2321000156-VABE",
     "name": "Bent Vårdadministratör",
     "role": "Vårdadministratör",
-    "loggedInUnit": "WebCert-Enhet2-Mottagning2",
-    "loggedInCareProvider": "WebCert-Vårdgivare2",
+    "loggedInUnit": {
+      "unitName": "WebCert-Enhet2-Mottagning2"
+    },
+    "loggedInCareProvider": {
+      "unitName": "WebCert-Vårdgivare2"
+    },
     "preferences": null
   }
 ]

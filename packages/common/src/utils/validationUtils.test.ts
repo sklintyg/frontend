@@ -5,17 +5,23 @@ import {
   CertificateDataValueType,
   CertificateStatus,
   ConfigTypes,
+  formatDateToString,
+  getIcfElement,
+  getSickLeavePeriodElement,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRangeList,
+  ValueIcf,
   ValueText,
 } from '..'
 import { decorateCertificateWithInitialValues, parseExpression, validateExpressions } from './validationUtils'
-import { getBoooleanElement, getCertificate, getTextElement } from './test/certificateTestUtil'
+import { getBooleanElement, getCertificate, getTextElement } from './test/certificateTestUtil'
+import { addDays } from 'date-fns'
 
 describe('Validate mandatory rule for boolean values', () => {
-  const booleanElement = getBoooleanElement()
+  const booleanElement = getBooleanElement()
 
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
@@ -64,8 +70,33 @@ describe('Validate mandatory rule for text values', () => {
   })
 })
 
+describe('Validate mandatory rule for icf values', () => {
+  const icfElement = getIcfElement()
+
+  it('it should validate as false when text is null', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = null
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when text is empty', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = ''
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when text is at least one character long', () => {
+    const valueIcf = icfElement.value as ValueIcf
+    valueIcf.text = 'Här är en text'
+    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
 describe('Validate show rule for boolean values', () => {
-  const booleanElement = getBoooleanElement()
+  const booleanElement = getBooleanElement()
 
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
@@ -85,6 +116,69 @@ describe('Validate show rule for boolean values', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
     const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate show rule for date range values', () => {
+  const sickLeavePeriodElement = getSickLeavePeriodElement()
+  const SUT_ID = 'EN_FJARDEDEL'
+
+  it('it should validate as false when from date is less than -7 days from todays date', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    const fromDate = formatDateToString(new Date())
+    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when to date is less than -7 days from todays date', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    const toDate = formatDateToString(new Date())
+    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when from date is greater than -7 days from todays date', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    const fromDate = formatDateToString(addDays(new Date(), -7))
+    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as true when to date is greater than -7 days from todays date', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    const toDate = formatDateToString(addDays(new Date(), -7))
+    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate mandatory rule for date range values', () => {
+  const sickLeavePeriodElement = getSickLeavePeriodElement()
+  const SUT_ID = 'EN_FJARDEDEL'
+
+  it('it should validate as false when from date is invalid', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when to date is invalid', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when from and to date are valid', () => {
+    const value = sickLeavePeriodElement.value as ValueDateRangeList
+    value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
 })
