@@ -87,6 +87,10 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     setTab(selectedTabIndex)
   }, [])
 
+  useEffect(() => {
+    setTab(selectedTabIndex)
+  }, [selectedTabIndex])
+
   // The tab switching function
   const switchTab = (oldTab: HTMLElement, newTab: HTMLElement) => {
     newTab.focus()

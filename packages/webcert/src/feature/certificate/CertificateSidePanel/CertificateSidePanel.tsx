@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import { useSelector } from 'react-redux'
 import AboutCertificatePanel from './AboutCertificatePanel'
@@ -20,13 +20,11 @@ const Root = styled.div`
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
-  const fmbTabIndex = 0
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks)
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
-  const aboutCertificateTabIndex = fmbInfoPanelActive ? 1 : 0
 
   if (showSpinner) return null
 
@@ -34,11 +32,12 @@ const CertificateSidePanel: React.FC = () => {
     setSelectedTabIndex(value)
   }
 
-  const getTabsArray = () => {
-    const array = []
+  const getTabs = () => {
+    const tabsArray: ReactNode[] = []
+    const tabsContentArray: ReactNode[] = []
 
     if (fmbInfoPanelActive) {
-      array.push(
+      tabsArray.push(
         <ButtonTooltip description={fmbInfoPanelActive.description}>
           <p>
             <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
@@ -46,51 +45,42 @@ const CertificateSidePanel: React.FC = () => {
           </p>
         </ButtonTooltip>
       )
+
+      tabsContentArray.push(<FMBPanel />)
     }
 
     if (questionsPanelActive) {
-      array.push(
+      tabsArray.push(
         <ButtonTooltip description={questionsPanelActive.description}>
           <p>{questionsPanelActive.name}</p>
         </ButtonTooltip>
       )
+
+      tabsContentArray.push(<QuestionPanel />)
     }
 
     if (questionsNotAvailablePanelActive) {
-      array.push(
+      tabsArray.push(
         <ButtonTooltip description={questionsNotAvailablePanelActive.description}>
           <p>{questionsNotAvailablePanelActive.name}</p>
         </ButtonTooltip>
       )
+
+      tabsContentArray.push(<QuestionNotAvailablePanel />)
     }
 
-    array.push(
+    tabsArray.push(
       <ButtonTooltip description="Läs om intyget.">
         <p>Om intyget</p>
       </ButtonTooltip>
     )
 
-    return array
-  }
+    tabsContentArray.push(<AboutCertificatePanel />)
 
-  const getTabsContentArray = () => {
-    const array = []
-
-    if (fmbInfoPanelActive) {
-      array.push(<FMBPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} />)
+    return {
+      getTabsArray: () => tabsArray,
+      getTabsContentArray: () => tabsContentArray,
     }
-
-    if (questionsPanelActive) {
-      array.push(<QuestionPanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} />)
-    }
-
-    if (questionsNotAvailablePanelActive) {
-      array.push(<QuestionNotAvailablePanel tabIndex={fmbTabIndex} selectedTabIndex={selectedTabIndex} />)
-    }
-
-    array.push(<AboutCertificatePanel tabIndex={aboutCertificateTabIndex} selectedTabIndex={selectedTabIndex} />)
-
-    return array
   }
 
   return (
@@ -98,8 +88,8 @@ const CertificateSidePanel: React.FC = () => {
       <Tabs
         selectedTabIndex={selectedTabIndex}
         setSelectedTabIndex={handleTabChange}
-        tabs={getTabsArray()}
-        tabsContent={getTabsContentArray()}
+        tabs={getTabs().getTabsArray()}
+        tabsContent={getTabs().getTabsContentArray()}
       />
     </Root>
   )
