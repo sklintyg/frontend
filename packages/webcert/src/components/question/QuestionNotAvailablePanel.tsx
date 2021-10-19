@@ -3,12 +3,7 @@ import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHea
 import { ImageCentered } from '@frontend/common'
 import questionsAndAnswersImg from './fragor_svar_flik.svg'
 
-interface Props {
-  tabIndex: number
-  selectedTabIndex: number
-}
-
-const QuestionNotAvailablePanel: React.FC<Props> = () => {
+const QuestionNotAvailablePanel: React.FC = () => {
   return (
     <div>
       <PanelHeader description={'Kompletteringsbegäran och administrativa frågor'} />

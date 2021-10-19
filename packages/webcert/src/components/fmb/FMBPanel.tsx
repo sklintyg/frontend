@@ -8,12 +8,7 @@ import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 
-interface Props {
-  tabIndex: number
-  selectedTabIndex: number
-}
-
-const FMBPanel: React.FC<Props> = () => {
+const FMBPanel: React.FC = () => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
 

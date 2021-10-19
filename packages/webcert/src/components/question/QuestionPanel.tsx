@@ -25,12 +25,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-interface Props {
-  tabIndex: number
-  selectedTabIndex: number
-}
-
-const QuestionPanel: React.FC<Props> = () => {
+const QuestionPanel: React.FC = () => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)

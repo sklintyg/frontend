@@ -25,12 +25,7 @@ const CertificateVersion = styled.span`
   text-transform: uppercase;
 `
 
-interface Props {
-  selectedTabIndex: number
-  tabIndex: number
-}
-
-const AboutCertificatePanel: React.FC<Props> = () => {
+const AboutCertificatePanel: React.FC = () => {
   const certMetaData = useSelector(getCertificateMetaData)
 
   return (
