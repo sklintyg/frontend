@@ -28,10 +28,9 @@ const Wrapper = styled.div`
 interface Props {
   tabIndex: number
   selectedTabIndex: number
-  minimizeSidePanel: ReactNode
 }
 
-const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
+const QuestionPanel: React.FC<Props> = () => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
@@ -66,7 +65,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   return (
     <Wrapper>
-      <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
+      <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
         <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
       ) : (

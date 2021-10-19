@@ -11,10 +11,9 @@ import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 interface Props {
   tabIndex: number
   selectedTabIndex: number
-  minimizeSidePanel: ReactNode
 }
 
-const FMBPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
+const FMBPanel: React.FC<Props> = () => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
 
@@ -49,7 +48,7 @@ const FMBPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
 
   return (
     <>
-      <PanelHeader description="Diagnosspecifik information" minimizeSidePanel={minimizeSidePanel} />
+      <PanelHeader description="Diagnosspecifik information" />
       {isEmpty() ? (
         <ImageCentered imgSrc={noDiagnosisIcon} alt={'Ingen diagnos vald'}>
           <p>Ange minst en diagnos för att få FMB-stöd.</p>
