@@ -12,6 +12,7 @@ import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
+import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
       <HeaderButtons>
         <CustomButton
           text={'Kompletteringsbegäran'}
-          number={complementQuestions.length > 0 ? complementQuestions.length : undefined}
+          number={getNumberOfUnhandledQuestions(complementQuestions)}
           buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setComplementSelected(true)}
@@ -54,7 +55,7 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
         />
         <CustomButton
           text={'Administrativa frågor'}
-          number={administrativeQuestions.length > 0 ? administrativeQuestions.length : undefined}
+          number={getNumberOfUnhandledQuestions(administrativeQuestions)}
           buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setComplementSelected(false)}
@@ -68,10 +69,13 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
     <Wrapper>
       <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
       {isComplementSelected ? (
-        <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
+        <ComplementQuestionPanel
+          complementQuestions={getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions)}
+          isDisplayingCertificateDraft={isCertificateDraft}
+        />
       ) : (
         <AdministrativeQuestionPanel
-          administrativeQuestions={administrativeQuestions}
+          administrativeQuestions={getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions)}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
         />
