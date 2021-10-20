@@ -26,3 +26,14 @@ const doesComplementAndAdministrativeHaveUnhandledQuestions = (administrativeQue
 const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
   return !(getNumberOfUnhandledQuestions(complementQuestions) === 0 && getNumberOfUnhandledQuestions(administrativeQuestions) > 0)
 }
+
+export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]): Question[] => {
+  return questions.sort((questionA, questionB) => orderByLastUpdated(questionA, questionB)).sort((question) => (question.handled ? -1 : 1))
+}
+
+const orderByLastUpdated = (questionA: Question, questionB: Question) => {
+  const dateA = new Date(questionA.lastUpdate).getTime()
+  const dateB = new Date(questionB.lastUpdate).getTime()
+
+  return dateA > dateB ? 1 : -1
+}
