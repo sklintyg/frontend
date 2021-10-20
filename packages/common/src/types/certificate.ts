@@ -319,7 +319,7 @@ export interface Patient {
   testIndicated: boolean
   protectedPerson: boolean
   deceased: boolean
-  differentIdFromJS: boolean
+  differentNameFromEHR: boolean
   personIdUpdated: boolean
 }
 

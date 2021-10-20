@@ -182,8 +182,8 @@ export const getIsPatientTestIndicated = (state: RootState): boolean =>
 export const getIsPatientNameDifferentFromEHR = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentNameFromEHR : false
 
-export const getPreviousPatientId = (state: RootState): PersonId =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.previousPersonId : true
+export const getPreviousPatientId = (state: RootState): PersonId | null =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.previousPersonId : null
 
 export const getIsPatientIdUpdated = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdUpdated : false

@@ -15,11 +15,6 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   border-radius: ${(props) => (props.squared ? '0' : '')};
   padding: 4px 8px 4px 0;
   flex-wrap: nowrap;
-
-  p {
-    font-size: 14px;
-    margin-left: 8px;
-  }
 `
 
 const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared }) => {

@@ -14,8 +14,8 @@ import PatientStatusNotificationWithModal from './PatientStatusNotificationWithM
 import { PersonId } from '@frontend/common/src'
 
 const Wrapper = styled.div`
-  width: fit-content;
   padding-bottom: 10px;
+  display: flex;
 `
 
 const PatientStatusNotifications: React.FC = () => {
@@ -23,7 +23,7 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
-  const previousPatientId: PersonId = useSelector(getPreviousPatientId)
+  const previousPatientId: PersonId | null = useSelector(getPreviousPatientId)
   const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
 
   const testPersonTitle = 'Patienten är en valideringsperson'
@@ -41,8 +41,12 @@ const PatientStatusNotifications: React.FC = () => {
 
   return (
     <Wrapper>
-      <PatientStatusNotification title={'Patienten är avliden'} status={isPatientDeceased} />
-      <PatientStatusNotificationWithModal status={isPatientProtectedPerson} title={protectedPersonTitle} modalTitle={protectedPersonTitle}>
+      <PatientStatusNotification type={'observe'} title={'Patienten är avliden'} status={isPatientDeceased} />
+      <PatientStatusNotificationWithModal
+        type={'observe'}
+        status={isPatientProtectedPerson}
+        title={protectedPersonTitle}
+        modalTitle={protectedPersonTitle}>
         <p>
           Att en patient har skyddade personuppgifter betyder att Skatteverket har bedömt att patientens personuppgifter är extra viktiga
           att skydda. Det finns speciella riktlinjer för hur personuppgifter för de invånarna ska hanteras. I Webcert innebär det att:
@@ -63,17 +67,12 @@ const PatientStatusNotifications: React.FC = () => {
           </ul>
         </p>
       </PatientStatusNotificationWithModal>
+      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientStatusNotificationWithModal
-        status={isPatientNameDifferentFromEHR}
-        title={'Patientens namn skiljer sig från det i journalsystemet'}
-        modalTitle={'Patientens namn skiljer sig'}>
-        <p>
-          Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i
-          journalsystemet.
-        </p>
-      </PatientStatusNotificationWithModal>
-      <PatientStatusNotification title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
-      <PatientStatusNotificationWithModal status={isPatientTestIndicated} title={testPersonTitle} modalTitle={testPersonTitle}>
+        type={'observe'}
+        status={isPatientTestIndicated}
+        title={testPersonTitle}
+        modalTitle={testPersonTitle}>
         <p>
           En valideringsperson är en fingerad person som används i syfte att validera funktion, felsöka och säkerställa kvalitet i tjänsten.
           Intyg utfärdade på valideringsperson kan inte skickas till intygsmottagare. De kommer inte heller visas i Intygsstatistik,
@@ -81,10 +80,21 @@ const PatientStatusNotifications: React.FC = () => {
         </p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
-        status={!isPatientIdUpdated && previousPatientId && previousPatientId.id !== ''}
+        type={'info'}
+        status={(!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean}
         title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (previousPatientId ? previousPatientId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>
+      </PatientStatusNotificationWithModal>
+      <PatientStatusNotificationWithModal
+        type={'info'}
+        status={isPatientNameDifferentFromEHR}
+        title={'Patientens namn skiljer sig från det i journalsystemet'}
+        modalTitle={'Patientens namn skiljer sig'}>
+        <p>
+          Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i
+          journalsystemet.
+        </p>
       </PatientStatusNotificationWithModal>
     </Wrapper>
   )
