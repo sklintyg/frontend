@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import {
@@ -13,6 +13,7 @@ import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
 import { getShouldComplementedBeActive } from './questionUtils'
+import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const QuestionPanel: React.FC = () => {
       <HeaderButtons>
         <CustomButton
           text={'Kompletteringsbegäran'}
-          number={complementQuestions.length > 0 ? complementQuestions.length : undefined}
+          number={getNumberOfUnhandledQuestions(complementQuestions)}
           buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setIsComplementSelected(true)}
@@ -52,7 +53,7 @@ const QuestionPanel: React.FC = () => {
         />
         <CustomButton
           text={'Administrativa frågor'}
-          number={administrativeQuestions.length > 0 ? administrativeQuestions.length : undefined}
+          number={getNumberOfUnhandledQuestions(administrativeQuestions)}
           buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setIsComplementSelected(false)}
@@ -66,10 +67,13 @@ const QuestionPanel: React.FC = () => {
     <Wrapper className={'iu-bg-light-grey'}>
       <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
-        <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
+        <ComplementQuestionPanel
+          complementQuestions={getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions)}
+          isDisplayingCertificateDraft={isCertificateDraft}
+        />
       ) : (
         <AdministrativeQuestionPanel
-          administrativeQuestions={administrativeQuestions}
+          administrativeQuestions={getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions)}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
         />
