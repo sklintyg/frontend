@@ -107,7 +107,8 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
     const intygStatus = theStatus[status];
     const beingSent =(sent ? true : false );
    // cy.log(intygStatus);
-    const intygTyp = (typ ? "af00213" : "lisjp");
+    const intygTyp = ["af00213" , "lisjp","ag7804"];
+    const intygsTypen = intygTyp[typ];
     const filler = (theFill ?   "MINIMAL" :"EMPTY");
     //cy.log(intygStatus + intygTyp + filler);
     expect(vårdpersonal).to.exist;
@@ -120,7 +121,7 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
         url: 'https://wc.localtest.me/testability/certificate/',
         raw: true,
         body:{
-            "certificateType":intygTyp,
+            "certificateType":intygsTypen,
             "certificateTypeVersion":"1.0",
             "patientId":patient.personnummerKompakt,//"191212121212",
             "personId":läkare.hsaId,//"TSTNMT2321000156-DRAA",
