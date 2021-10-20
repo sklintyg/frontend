@@ -74,15 +74,14 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     Array.prototype.forEach.call(panels.current, (panel, i) => {
       panel.setAttribute('role', 'tabpanel')
       panel.setAttribute('tabindex', '-1')
-      const id = panel.getAttribute('id')
       panel.setAttribute('aria-labelledby', tabRefs.current[i].id)
       panel.hidden = true
     })
 
-    // Initially activate the first tab and reveal the first tab panel
-    tabRefs.current[0].removeAttribute('tabindex')
-    tabRefs.current[0].setAttribute('aria-selected', 'true')
-    panels.current[0].hidden = false
+    // Initially activate the selectedTabIndex tab and reveal the selectedTabIndex tab panel
+    tabRefs.current[selectedTabIndex].removeAttribute('tabindex')
+    tabRefs.current[selectedTabIndex].setAttribute('aria-selected', 'true')
+    panels.current[selectedTabIndex].hidden = false
 
     setTab(selectedTabIndex)
   }, [])
