@@ -19,7 +19,6 @@ const HeaderButtons = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: #f7f4f2;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -59,7 +58,7 @@ const QuestionPanel: React.FC = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper className={'iu-bg-light-grey'}>
       <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
         <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />

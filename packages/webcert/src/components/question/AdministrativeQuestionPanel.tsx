@@ -31,7 +31,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
   return (
     <Root>
       {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
-      <div className={'iu-bg-white'}>
+      <div className={'iu-bg-light-grey'}>
         {administrativeQuestions.map((administrativeQuestion) => (
           <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
         ))}
