@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 interface TextAreaProps {
   hasValidationError?: boolean
@@ -10,6 +11,10 @@ interface TextAreaProps {
   rowsMin?: number
 }
 
+const Root = styled.textarea`
+  cursor: auto;
+`
+
 const TextArea: React.FC<TextAreaProps> = (props) => {
   const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value } = props
 
@@ -20,7 +25,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }
 
   return (
-    <textarea
+    <Root
       disabled={disabled}
       className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'ic-textarea--error' : ''}`}
       rows={rowsMin ? rowsMin : 1}

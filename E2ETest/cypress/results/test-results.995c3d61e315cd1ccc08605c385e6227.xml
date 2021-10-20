@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="11.2990" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:32:35" tests="0" file="integration/FK_intyg/QuestionLisjp.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="FK7804-intyg Ärende kommunikation" timestamp="2021-08-30T11:32:35" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Användare har möjlighet skicka ärendekommunikation på ett Lisjp intyg " timestamp="2021-08-30T11:32:35" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner kring ärendekommunikation på ett Lisjp intyg" timestamp="2021-08-30T11:32:35" tests="1" time="11.2990" failures="0">
+    <testcase name="FK7804-intyg Ärende kommunikation Användare har möjlighet skicka ärendekommunikation på ett Lisjp intyg  Funktioner kring ärendekommunikation på ett Lisjp intyg Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan" time="11.2990" classname="Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan">
+    </testcase>
+  </testsuite>
+</testsuites>

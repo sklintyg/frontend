@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="9.1300" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-08-30T11:29:18" tests="0" file="integration/AF_intyg/AF00213Utkast.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="AF00213-intyg" timestamp="2021-08-30T11:29:18" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Använader har möjlighet att uföra följande med utkast " timestamp="2021-08-30T11:29:18" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Funktioner på ett AF20013 utkast" timestamp="2021-08-30T11:29:18" tests="3" time="9.1300" failures="0">
+    <testcase name="AF00213-intyg Använader har möjlighet att uföra följande med utkast  Funktioner på ett AF20013 utkast Skapar en minimalt ifylld AF00213 och skickar den till AF" time="6.0660" classname="Skapar en minimalt ifylld AF00213 och skickar den till AF">
+    </testcase>
+    <testcase name="AF00213-intyg Använader har möjlighet att uföra följande med utkast  Funktioner på ett AF20013 utkast Raderar ett ifylld AF00213" time="1.7030" classname="Raderar ett ifylld AF00213">
+    </testcase>
+    <testcase name="AF00213-intyg Använader har möjlighet att uföra följande med utkast  Funktioner på ett AF20013 utkast Skriva ut ett AF00213 utkast" time="1.3610" classname="Skriva ut ett AF00213 utkast">
+    </testcase>
+  </testsuite>
+</testsuites>

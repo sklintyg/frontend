@@ -19,11 +19,14 @@ import {
   CheckboxCode,
 } from '@frontend/common'
 import styled from 'styled-components'
+import Badge from './Badge'
 
-const Root = styled.div`
-  white-space: pre-wrap;
-  display: inline-block;
-  padding: 8px 14px;
+const IcfCode = styled.p`
+  flex-shrink: 0;
+`
+
+const IcfCodeWrapper = styled.div`
+  flex-wrap: wrap;
 `
 
 interface UvTextProps {
@@ -33,24 +36,24 @@ interface UvTextProps {
 const UvText: React.FC<UvTextProps> = ({ question }) => {
   const getUvIcf = (collectionsLabel: string, icfCodes: string[], textValue: string) => {
     return (
-      <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+      <Badge>
         <div className={'iu-fs-200'}>
-          {icfCodes.length > 0 && (
+          {icfCodes && icfCodes.length > 0 && (
             <>
               <p>{collectionsLabel}</p>
-              <div className={'iu-flex iu-mb-400'}>
+              <IcfCodeWrapper className={'iu-flex iu-mb-400'}>
                 {icfCodes.map((code, i) => (
                   <React.Fragment key={code}>
-                    <p>{code}</p>
+                    <IcfCode>{code}</IcfCode>
                     {i !== icfCodes.length - 1 && <label className={'iu-ml-200 iu-mr-200'}>-</label>}
                   </React.Fragment>
                 ))}
-              </div>
+              </IcfCodeWrapper>
             </>
           )}
           <p>{textValue}</p>
         </div>
-      </Root>
+      </Badge>
     )
   }
 
@@ -65,7 +68,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         <thead>
           <tr>
             <th>{`Diagnoskod enligt ${getDiagnosisTerminologyLabel(diagnosisListValue.list[0].terminology, diagnosisListConfig)}`}</th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -95,9 +98,9 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
       return (
         <React.Fragment key={element.label}>
           <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
-          <Root key={index} className={'iu-bg-secondary-light iu-radius-sm'}>
+          <Badge>
             <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
-          </Root>
+          </Badge>
         </React.Fragment>
       )
     })
@@ -158,11 +161,11 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const codeListConfig = question.config
         if (codeListValue.list.length > 0 && question.visible) {
           return (
-            <Root className={'iu-bg-secondary-light iu-radius-sm'}>
+            <Badge>
               {(codeListValue.list as ValueCode[]).map((value, key) => (
                 <div key={key}>{getCodeListText(value.id, codeListConfig)}</div>
               ))}
-            </Root>
+            </Badge>
           )
         }
         break
@@ -170,11 +173,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const diagnosisListValue = question.value as ValueDiagnosisList
         const diagnosisListConfig = question.config as ConfigUeDiagnoses
         if (diagnosisListValue.list.length > 0 && question.visible) {
-          return (
-            <Root className={'iu-p-none'}>
-              <div>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
-            </Root>
-          )
+          return <div className={'iu-p-none'}>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
         }
         break
       case CertificateDataValueType.CODE:
@@ -203,7 +202,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         const icfTextValue = question.value.text as string
         const collectionsLabel = (question.config as ConfigUeIcf).collectionsLabel
 
-        if (icfCodes.length || collectionsLabel.length) {
+        if ((icfCodes && icfCodes.length) || (icfTextValue && icfTextValue.length)) {
           return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
         }
         break
@@ -212,11 +211,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         break
     }
     if (displayText && displayText.length > 0) {
-      return (
-        <Root className={'iu-bg-secondary-light iu-radius-sm'}>
-          <div className={'iu-fs-200'}>{displayText}</div>
-        </Root>
-      )
+      return <Badge>{displayText}</Badge>
     }
   }
 
