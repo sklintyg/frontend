@@ -174,7 +174,7 @@ export const getIsPatientDeceased = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false
 
 export const getIsPatientProtectedPerson = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.protectedPerson : true
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.protectedPerson : false
 
 export const getIsPatientTestIndicated = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.testIndicated : false
