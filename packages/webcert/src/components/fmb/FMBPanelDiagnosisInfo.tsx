@@ -29,7 +29,9 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">
-        <InfoBox type={'info'}>För den angivna diagnosen finns för tillfället inget FMB-stöd.</InfoBox>
+        <InfoBox type={'info'}>
+          <p>För den angivna diagnosen finns för tillfället inget FMB-stöd.</p>
+        </InfoBox>
       </EmptyWrapper>
     )
   }
