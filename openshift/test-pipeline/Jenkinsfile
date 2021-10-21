@@ -275,6 +275,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Execute e2e-tests') {
+                steps {
+                    script {
+                        def wd = "cd ${tmpDir}/E2ETest/cypress; "
+                        shell(wd + "npm -v")
+                        shell(wd + "node -v")
+                        shell(wd + "yarn -v")
+                        shell(wd + "yarn install")
+                        shell(wd + "yarn run cy:run")
+                    }
+                }
+        }
     }
 
     post {
