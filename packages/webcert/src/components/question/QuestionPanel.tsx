@@ -36,10 +36,10 @@ const QuestionPanel: React.FC = () => {
 
   useEffect(() => {
     setIsComplementSelected(getShouldComplementedBeActive())
-  }, [])
+  }, [administrativeQuestions.length])
 
   const getShouldComplementedBeActive = () => {
-    return administrativeQuestions && administrativeQuestions.length > 0
+    return !(administrativeQuestions && administrativeQuestions.length > 0)
   }
 
   const getHeaderButtons = () => {
