@@ -200,7 +200,6 @@ export const getAnotherTextElement = (): CertificateDataElement => {
 }
 
 export const getCertificate = (): Certificate => {
-  // @ts-ignore
   return {
     metadata: {
       id: '',
@@ -240,6 +239,8 @@ export const getCertificate = (): Certificate => {
         personId: {
           id: '',
           type: '',
+          differentNameFromEHR: false,
+          personIdUpdated: false,
         },
         coordinationNumber: false,
         deceased: false,
