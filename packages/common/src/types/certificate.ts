@@ -311,7 +311,7 @@ export interface Unit {
 
 export interface Patient {
   personId: PersonId
-  previousPersonId: PersonId
+  previousPersonId?: PersonId
   firstName: string
   lastName: string
   fullName: string
