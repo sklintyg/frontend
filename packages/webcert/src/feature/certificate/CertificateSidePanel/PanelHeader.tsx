@@ -11,14 +11,12 @@ const Root = styled.div`
 
 interface Props {
   description: string
-  minimizeSidePanel: ReactNode
 }
 
-const PanelHeader: React.FC<Props> = ({ description, minimizeSidePanel }) => {
+const PanelHeader: React.FC<Props> = ({ description }) => {
   return (
     <Root className="iu-bg-grey-300">
       <p className="iu-fw-heading">{description}</p>
-      {minimizeSidePanel}
     </Root>
   )
 }
