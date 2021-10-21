@@ -12,6 +12,7 @@ import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
+import { getShouldComplementedBeActive } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -35,12 +36,8 @@ const QuestionPanel: React.FC = () => {
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
 
   useEffect(() => {
-    setIsComplementSelected(getShouldComplementedBeActive())
+    setIsComplementSelected(getShouldComplementedBeActive(administrativeQuestions, complementQuestions))
   }, [administrativeQuestions.length])
-
-  const getShouldComplementedBeActive = () => {
-    return !(administrativeQuestions && administrativeQuestions.length > 0)
-  }
 
   const getHeaderButtons = () => {
     return (
