@@ -354,7 +354,7 @@ pipeline {
 //                 shell("oc delete secret ${webcertFrontendBackingServiceAppName}-secret-envvar")
 //               }
 //             }
-//           }
+          }
         }
 
         cleanup {
