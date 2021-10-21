@@ -10,17 +10,11 @@ const Root = styled.div`
 `
 
 interface Props {
-  minimizeSidePanel: ReactNode
   content: ReactNode
 }
 
-const PanelHeaderCustomized: React.FC<Props> = ({ minimizeSidePanel, content }) => {
-  return (
-    <Root className="iu-bg-grey-300">
-      {content}
-      {minimizeSidePanel}
-    </Root>
-  )
+const PanelHeaderCustomized: React.FC<Props> = ({ content }) => {
+  return <Root className="iu-bg-grey-300">{content}</Root>
 }
 
 export default PanelHeaderCustomized
