@@ -25,18 +25,12 @@ const CertificateVersion = styled.span`
   text-transform: uppercase;
 `
 
-interface Props {
-  selectedTabIndex: number
-  tabIndex: number
-  minimizeSidePanel: ReactNode
-}
-
-const AboutCertificatePanel: React.FC<Props> = ({ minimizeSidePanel }) => {
+const AboutCertificatePanel: React.FC = () => {
   const certMetaData = useSelector(getCertificateMetaData)
 
   return (
     <>
-      <PanelHeader description="Om intyget" minimizeSidePanel={minimizeSidePanel} />
+      <PanelHeader description="Om intyget" />
       <ContentWrapper className={`iu-border-grey-300`}>
         <p className="iu-fw-heading">
           {certMetaData && (
