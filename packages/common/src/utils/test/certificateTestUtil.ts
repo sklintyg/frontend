@@ -200,6 +200,7 @@ export const getAnotherTextElement = (): CertificateDataElement => {
 }
 
 export const getCertificate = (): Certificate => {
+  // @ts-ignore
   return {
     metadata: {
       id: '',
