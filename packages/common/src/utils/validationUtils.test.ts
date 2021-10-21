@@ -552,9 +552,9 @@ describe('Validate multiple show rules', () => {
         personId: {
           id: '191212121212',
           type: 'Personnummer',
-          differentNameFromEHR: false,
-          personIdUpdated: false,
         },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
         firstName: 'Tolvan',
         lastName: 'Tolvansson',
         fullName: 'Tolvan Tolvansson',

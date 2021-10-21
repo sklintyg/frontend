@@ -239,9 +239,9 @@ export const getCertificate = (): Certificate => {
         personId: {
           id: '',
           type: '',
-          differentNameFromEHR: false,
-          personIdUpdated: false,
         },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
         coordinationNumber: false,
         deceased: false,
         firstName: '',
