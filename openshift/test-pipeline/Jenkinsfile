@@ -279,12 +279,11 @@ pipeline {
         stage('Execute e2e-tests') {
                 steps {
                     script {
-                        def wd = "cd ${tmpDir}/E2ETest/cypress; "
-                        shell(wd + "npm -v")
-                        shell(wd + "node -v")
-                        shell(wd + "yarn -v")
-                        shell(wd + "yarn install")
-                        shell(wd + "yarn run cy:run")
+                        shell("npm -v")
+                        shell("node -v")
+                        shell("yarn -v")
+                        shell("E2ETest/cypress/yarn install")
+                        shell("E2ETest/cypress/yarn run cy:run")
                     }
                 }
         }
@@ -308,54 +307,54 @@ pipeline {
         always {
           script {
             echo "cleanup"
-            openshift.withCluster() {
-              openshift.withProject() {
-                // Clean up after Intygstjanst
-
-                echo "Logs for ${intygstjanstBackingServiceAppName}"
-                openshift.selector("dc", "${intygstjanstBackingServiceAppName}").logs()
-
-                imageStream = openshift.selector("is", "${intygstjanstBackingServiceName}-verified").object().status.dockerImageRepository
-
-                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${intygstjanstBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${intygstjanstBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${intygstjanstBackingServiceDbName} | oc delete -f -")
-                dbScript("drop database ${intygstjanstBackingServiceDbName};")
-
-                shell("oc delete configmap ${intygstjanstBackingServiceAppName}-config")
-                shell("oc delete secret ${intygstjanstBackingServiceAppName}-env")
-                shell("oc delete secret ${intygstjanstBackingServiceAppName}-certifikat")
-                shell("oc delete configmap ${intygstjanstBackingServiceAppName}-configmap-envvar")
-                shell("oc delete secret ${intygstjanstBackingServiceAppName}-secret-envvar")
-
-                // Clean up after Webcert
-
-                echo "Logs for ${webcertBackingServiceAppName}"
-                openshift.selector("dc", "${webcertBackingServiceAppName}").logs()
-
-                imageStream = openshift.selector("is", "${webcertBackingServiceName}-verified").object().status.dockerImageRepository
-
-                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${webcertBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${webcertBackingServiceDbName} | oc delete -f -")
-                dbScript("drop database ${webcertBackingServiceDbName};")
-
-                shell("oc delete configmap ${webcertBackingServiceAppName}-config")
-                shell("oc delete secret ${webcertBackingServiceAppName}-env")
-                shell("oc delete secret ${webcertBackingServiceAppName}-certifikat")
-                shell("oc delete configmap ${webcertBackingServiceAppName}-configmap-envvar")
-                shell("oc delete secret ${webcertBackingServiceAppName}-secret-envvar")
-
-                // Clean up after Webcert-frontend
-
-                echo "Logs for ${webcertFrontendBackingServiceAppName}"
-                openshift.selector("dc", "${webcertFrontendBackingServiceAppName}").logs()
-
-                imageStream = openshift.selector("is", "${webcertFrontendBackingServiceName}").object().status.dockerImageRepository
-
-                shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-frontend.yaml -p APP_NAME=\"${webcertFrontendBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertFrontendBackingServiceAppVersion}\" -p STAGE=${STAGE} -p WEBCERT_API=${webcertBackingServiceAppName} | oc delete -f -")
-
-                shell("oc delete configmap ${webcertFrontendBackingServiceAppName}-configmap-envvar")
-                shell("oc delete secret ${webcertFrontendBackingServiceAppName}-secret-envvar")
-              }
-            }
-          }
+//             openshift.withCluster() {
+//               openshift.withProject() {
+//                 // Clean up after Intygstjanst
+//
+//                 echo "Logs for ${intygstjanstBackingServiceAppName}"
+//                 openshift.selector("dc", "${intygstjanstBackingServiceAppName}").logs()
+//
+//                 imageStream = openshift.selector("is", "${intygstjanstBackingServiceName}-verified").object().status.dockerImageRepository
+//
+//                 shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${intygstjanstBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${intygstjanstBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${intygstjanstBackingServiceDbName} | oc delete -f -")
+//                 dbScript("drop database ${intygstjanstBackingServiceDbName};")
+//
+//                 shell("oc delete configmap ${intygstjanstBackingServiceAppName}-config")
+//                 shell("oc delete secret ${intygstjanstBackingServiceAppName}-env")
+//                 shell("oc delete secret ${intygstjanstBackingServiceAppName}-certifikat")
+//                 shell("oc delete configmap ${intygstjanstBackingServiceAppName}-configmap-envvar")
+//                 shell("oc delete secret ${intygstjanstBackingServiceAppName}-secret-envvar")
+//
+//                 // Clean up after Webcert
+//
+//                 echo "Logs for ${webcertBackingServiceAppName}"
+//                 openshift.selector("dc", "${webcertBackingServiceAppName}").logs()
+//
+//                 imageStream = openshift.selector("is", "${webcertBackingServiceName}-verified").object().status.dockerImageRepository
+//
+//                 shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-webapp.yaml -p APP_NAME=\"${webcertBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertBackingServiceAppVersion}\" -p STAGE=${STAGE} -p DATABASE_NAME=${webcertBackingServiceDbName} | oc delete -f -")
+//                 dbScript("drop database ${webcertBackingServiceDbName};")
+//
+//                 shell("oc delete configmap ${webcertBackingServiceAppName}-config")
+//                 shell("oc delete secret ${webcertBackingServiceAppName}-env")
+//                 shell("oc delete secret ${webcertBackingServiceAppName}-certifikat")
+//                 shell("oc delete configmap ${webcertBackingServiceAppName}-configmap-envvar")
+//                 shell("oc delete secret ${webcertBackingServiceAppName}-secret-envvar")
+//
+//                 // Clean up after Webcert-frontend
+//
+//                 echo "Logs for ${webcertFrontendBackingServiceAppName}"
+//                 openshift.selector("dc", "${webcertFrontendBackingServiceAppName}").logs()
+//
+//                 imageStream = openshift.selector("is", "${webcertFrontendBackingServiceName}").object().status.dockerImageRepository
+//
+//                 shell("oc process -f ${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-frontend.yaml -p APP_NAME=\"${webcertFrontendBackingServiceAppName}\" -p IMAGE=\"${imageStream}:${webcertFrontendBackingServiceAppVersion}\" -p STAGE=${STAGE} -p WEBCERT_API=${webcertBackingServiceAppName} | oc delete -f -")
+//
+//                 shell("oc delete configmap ${webcertFrontendBackingServiceAppName}-configmap-envvar")
+//                 shell("oc delete secret ${webcertFrontendBackingServiceAppName}-secret-envvar")
+//               }
+//             }
+//           }
         }
 
         cleanup {
