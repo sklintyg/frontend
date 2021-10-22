@@ -19,19 +19,12 @@ const HeaderButtons = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: #f7f4f2;
   height: 100%;
   display: flex;
   flex-direction: column;
 `
 
-interface Props {
-  tabIndex: number
-  selectedTabIndex: number
-  minimizeSidePanel: ReactNode
-}
-
-const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
+const QuestionPanel: React.FC = () => {
   const questions = useSelector(getQuestions)
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
@@ -65,8 +58,8 @@ const QuestionPanel: React.FC<Props> = ({ minimizeSidePanel }) => {
   }
 
   return (
-    <Wrapper>
-      <PanelHeaderCustomized content={getHeaderButtons()} minimizeSidePanel={minimizeSidePanel} />
+    <Wrapper className={'iu-bg-light-grey'}>
+      <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
         <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
       ) : (

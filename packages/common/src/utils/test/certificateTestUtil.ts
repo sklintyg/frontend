@@ -240,6 +240,8 @@ export const getCertificate = (): Certificate => {
           id: '',
           type: '',
         },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
         coordinationNumber: false,
         deceased: false,
         firstName: '',

@@ -311,6 +311,7 @@ export interface Unit {
 
 export interface Patient {
   personId: PersonId
+  previousPersonId?: PersonId
   firstName: string
   lastName: string
   fullName: string
@@ -318,6 +319,8 @@ export interface Patient {
   testIndicated: boolean
   protectedPerson: boolean
   deceased: boolean
+  differentNameFromEHR: boolean
+  personIdUpdated: boolean
 }
 
 export interface PersonId {
