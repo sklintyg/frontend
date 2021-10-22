@@ -511,6 +511,7 @@ describe('Validate multiple show rules', () => {
     validationErrors: [],
   }
 
+  // @ts-ignore
   const certificate: Certificate = {
     metadata: {
       id: 'bed26d3e-7112-4f08-98bf-01be40e26c80',
@@ -552,6 +553,8 @@ describe('Validate multiple show rules', () => {
           id: '191212121212',
           type: 'Personnummer',
         },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
         firstName: 'Tolvan',
         lastName: 'Tolvansson',
         fullName: 'Tolvan Tolvansson',

@@ -18,7 +18,9 @@ const ReadOnlyViewNotification: React.FC = () => {
 
   return (
     <InfoBox squared type={'observe'}>
-      Utfärdat på: {metadata?.careProvider.unitName} - {metadata?.unit.unitName}
+      <p>
+        Utfärdat på: {metadata?.careProvider.unitName} - {metadata?.unit.unitName}
+      </p>
     </InfoBox>
   )
 }

@@ -38,7 +38,9 @@ const CertificateValidation = () => {
 
   return (
     <div className={`iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper`}>
-      <InfoBox type="error">Utkastet saknar uppgifter i följande avsnitt:</InfoBox>
+      <InfoBox type="error">
+        <p>Utkastet saknar uppgifter i följande avsnitt:</p>
+      </InfoBox>
       <div className={'iu-mt-300'}>{validationMessages}</div>
     </div>
   )

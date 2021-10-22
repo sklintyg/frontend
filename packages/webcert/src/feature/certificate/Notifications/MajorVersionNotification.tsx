@@ -10,7 +10,7 @@ const MajorVersionNotification: React.FC = () => {
 
   return (
     <InfoBox squared type={'info'}>
-      Du kan inte använda alla funktioner, intyget är av en äldre version.
+      <p>Du kan inte använda alla funktioner, intyget är av en äldre version.</p>
     </InfoBox>
   )
 }
