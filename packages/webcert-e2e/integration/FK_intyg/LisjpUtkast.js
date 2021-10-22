@@ -1,11 +1,11 @@
 /* globals context cy */
 /// <reference types="Cypress" />
 //import * as intyg from '../../support/FK_intyg/fk_helpers'
-import * as intyg from '../../support/SKR_intyg/ag7804Intyg'
+import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
+// LISJP = Läkarintyg för sjukpenning, FK 7804
 
-describe('AG7804-utkast tomt', function() {
+describe('LISJP-utkast tomt', function() {
 
     before(function() {
         cy.fixture('FK_intyg/minLisjpData').as('intygsdata');
@@ -15,29 +15,34 @@ describe('AG7804-utkast tomt', function() {
         
     });
   
-    context('Använadare har möjlighet att uföra följande med ett tomt AG7804-utkast ',function() {
+    context('Använadare har möjlighet att uföra följande med ett tomt utkast ',function() {
         beforeEach(function() {
             //UNSIGNED LISJP FILLED
-            cy.skapaIntygViaApi(this,1,2,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,false,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
-                cy.log("AG7804-utkast med id " + utkastId + " skapat och används i testfallet");
+                cy.log("LISJP-utkast med id " + utkastId + " skapat och används i testfallet");
             });
 
         });
-        describe('Funktioner på ett tomt AG7804-utkast', () =>{
-        
-            it('Skapar en minimalt ifylld AG7804 och signerar',function(){
+        describe('Funktioner på ett tomt LISJP utkast', () =>{
+           /* const intygStatus = (status ? "SIGNED" : "UNSIGNED");
+            const intygTyp = (typ ? "af00213" : "lisjp");
+            const filler = (theFill ?   "MINIMAL" :"EMPTY");*/
+
+            it('Skapar en minimalt ifylld FK7804 och skickar den till FK',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
                 intyg.signera();
 
+                intyg.skickaTillFk();
+                cy.contains("Intyget är skickat till Försäkringskassan");
                 cy.contains("Intyget är tillgängligt för patienten");
 
             });
 
-            it('Det är möjligt att raderar ett ifyllt AG7804', function () {
+            it('Det är möjligt att raderar ett ifyllt LISJP', function () {
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                     const önskadUrl = "/certificate/" + this.utkastId ;
                     cy.visit(önskadUrl);
@@ -46,14 +51,14 @@ describe('AG7804-utkast tomt', function() {
 
             });
 
-            it('Skriva ut ett ifyllt AG7804', function () {
+            it('Skriva ut ett ifyllt LISJP', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                intyg.skrivUt("utkast", this.utkastId, "ag7804");//skriver ut via request      
+                intyg.skrivUt("utkast", this.utkastId, "lisjp");//skriver ut via request      
             });
-            it('Det går inte att signera ett AG7804 utkast som inte innehåller alla obligatoriska fält', function () {
+            it('Det går inte att signera ett LISJP utkast som inte innehåller alla obligatoriska fält', function () {
 
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
