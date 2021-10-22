@@ -16,13 +16,13 @@ const areComplementAndAdministrativeEmpty = (administrativeQuestions: Question[]
   return (!administrativeQuestions || !administrativeQuestions.length) && (!complementQuestions || !complementQuestions.length)
 }
 
-const doesComplementAndAdministrativeHaveUnhandledQuestions = (complementQuestions: Question[], administrativeQuestions: Question[]) => {
+const doesComplementAndAdministrativeHaveUnhandledQuestions = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
   const unhandledComplementQuestions = getNumberOfUnhandledQuestions(complementQuestions)
   const unhandledAdministrativeQuestions = getNumberOfUnhandledQuestions(administrativeQuestions)
 
   return unhandledAdministrativeQuestions > 0 && unhandledComplementQuestions > 0
 }
 
-const onlyAdministrativeQuestionsAreUnhandled = (complementQuestions: Question[], administrativeQuestions: Question[]) => {
+const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
   return !(getNumberOfUnhandledQuestions(complementQuestions) === 0 && getNumberOfUnhandledQuestions(administrativeQuestions) > 0)
 }
