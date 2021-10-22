@@ -34,6 +34,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
   const getHistoryText = (event: CertificateEvent) => {
     switch (event.type) {
       case CertificateEventType.CREATED:
+      case CertificateEventType.CREATED_FROM:
         return 'Utkastet är skapat'
       case CertificateEventType.SIGNED:
         return 'Intyget är signerat'

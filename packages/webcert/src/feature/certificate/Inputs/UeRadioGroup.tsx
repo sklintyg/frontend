@@ -35,6 +35,10 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
     return updatedQuestion
   }
 
+  function isLastRadiobutton(index: number) {
+    return index === radiobuttons.length - 1
+  }
+
   const renderRadioButtons = () => {
     if (!radiobuttons) {
       return null
@@ -50,7 +54,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
         checked={radio.id === code}
         hasValidationError={shouldDisplayValidationError}
         onChange={handleChange}
-        wrapperAdditionalStyles={index !== radiobuttons.length - 1 ? 'iu-pb-400' : ''}
+        wrapperAdditionalStyles={!shouldBeHorizontal && !isLastRadiobutton(index) ? 'iu-pb-400' : ''}
       />
     ))
   }
