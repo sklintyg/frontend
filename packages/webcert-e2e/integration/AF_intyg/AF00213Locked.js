@@ -14,67 +14,60 @@ describe('AF00213-intyg minimalt ifyllt', function() {
         
     });
   
-    context('Användare har möjlighet att uföra följande med AF00213 Intyg ',function() {
+    context('Användare har möjlighet att uföra följande med låst AF00213 Utkast ',function() {
       beforeEach(function() {
            /*   cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata');
         cy.fixture('vEnheter/alfaVC').as('vårdenhet');
         cy.fixture('vPatienter/tolvanTolvansson').as('vårdtagare');
         cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal');*/
         //function skapaIntygViaApi(fx,status, typ, fillType){
-            cy.skapaIntygViaApi(this,1,0,true).then((utkastId) => {
+            const status = 2;//sätter utkastet till låst
+            cy.skapaIntygViaApi(this,status,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
-                cy.log("af00213-utkast med id " + utkastId + " skapat och används i testfallet");
+                cy.log("af00213-låst utkast med id " + utkastId + " skapat och används i testfallet");
             });
 
         });
-        describe('Funktioner på ett AF20013 intyg', () =>{
+        describe('Funktioner på ett låst AF20013 utkast', () =>{
 
-            
-           
-           /* it('Skriva ut minimalt AF00213 intyg', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-
-                const önskadUrl = "/certificate/" + this.utkastId ;
-                cy.visit(önskadUrl);
-                intyg.signeraSkicka();
-
-                intyg.skrivUtUtkast();
-
-            });*/
              
-            it('Skriva ut ett signerat AF20013 intyg', function () {
+            it('Skriva ut ett låst AF00213 utkast', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                intyg.signeraSkicka();
+               // intyg.signeraSkicka();
                 intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request
             });
-            it('Ersätta ett AF00213 intyg', function (){
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-                const önskadUrl = "/certificate/" + this.utkastId ;
-                cy.visit(önskadUrl);
-                intyg.signeraSkicka();
-                intyg.ersatta();
-                //cy.get('button').contains("Skicka till Arbetsförmedlingen").should('not.exist');
-                cy.contains(this.utkastId).should('not.exist')
-                //cy.get('.CertificateFooter__RightWrapper-sc-1mdu7r7-1 > .iu-fs-200').contains(this.utkastId).should('not.exist');
-               
-            });
-            it('Makulerar ett ifyllt AF00213 intyg', function () {
+            it('Makulerar ett låst AF00213 utkast', function () {
                 //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 cy.wait(100);
-                intyg.signeraSkicka();
+                intyg.makuleraUtkast();
+                expect(cy.contains('Intyget är makulerat'));
+            });
+            it('Kopiera ett låst AF00213 utkast så att det går att signera och skicka', function () {
+                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
-                intyg.makulera();
+                const önskadUrl = "/certificate/" + this.utkastId ;
+                cy.visit(önskadUrl);
+                cy.wait(100);
+                intyg.kopieraUtkast();
                 cy.contains(this.utkastId).should('not.exist')
-
-        });
+                intyg.signeraSkicka();
+            });
+            it('Ett AF00213 låst utkast ska  inte kunna editeras',function(){
+                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
+                const önskadUrl = "/certificate/" + this.utkastId;
+                cy.visit(önskadUrl);
+                cy.get('.ic-textarea').should('be.disabled'); 
+                cy.contains('Utkastet är låst').should('exist');
+               
+                                
+            });
 
         });
     });

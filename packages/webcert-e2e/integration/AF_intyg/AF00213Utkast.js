@@ -18,7 +18,7 @@ describe('AF00213-intyg', function() {
     context('Använader har möjlighet att uföra följande med utkast ',function() {
         beforeEach(function() {
             //UNSIGNED AF00213 FILLED
-            cy.skapaIntygViaApi(this,1,0,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("AF00213-utkast med id " + utkastId + " skapat och används i testfallet");
             });
