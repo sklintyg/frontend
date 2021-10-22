@@ -1,5 +1,6 @@
 {
-    "name": "webcert",
+    "name": "@frontend/webcert-e2e",
+    "version": "0.1.0",
     "private": true,
     "scripts": {
         "cypress:open": "cypress open",
@@ -16,7 +17,8 @@
     },
     "dependencies": {
         "@cypress/react": "^5.9.1",
+        "cypress-failed-log": "^2.9.2",
+        "cypress-pipe": "^2.0.0",
         "cypress-react-selector": "^2.3.8"
     }
-    
 }

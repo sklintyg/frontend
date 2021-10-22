@@ -31,7 +31,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled 
       confirmButtonText={'Ersätt'}>
       <>
         <InfoBox type="info">
-          Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.
+          <p>Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.</p>
         </InfoBox>
         <p>
           Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När

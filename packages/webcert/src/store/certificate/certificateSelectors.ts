@@ -9,6 +9,7 @@ import {
   ConfigTypes,
   ResourceLinkType,
 } from '@frontend/common'
+import { PersonId } from '@frontend/common/src'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -168,3 +169,21 @@ export const getSigningData = (state: RootState) => state.ui.uiCertificate.signi
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
+
+export const getIsPatientDeceased = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.deceased : false
+
+export const getIsPatientProtectedPerson = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.protectedPerson : false
+
+export const getIsPatientTestIndicated = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.testIndicated : false
+
+export const getIsPatientNameDifferentFromEHR = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.differentNameFromEHR : false
+
+export const getPreviousPatientId = (state: RootState): PersonId | undefined =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.previousPersonId : undefined
+
+export const getIsPatientIdUpdated = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdUpdated : false

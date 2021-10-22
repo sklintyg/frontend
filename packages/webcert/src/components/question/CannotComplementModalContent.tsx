@@ -58,7 +58,9 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
         />
         {textArea.display && textArea.name === 'ANSWER_WITH_MESSAGE' && (
           <div className={'iu-ml-700 iu-my-300'}>
-            <InfoBox type="observe">Ingen medicinsk information får anges.</InfoBox>
+            <InfoBox type="observe">
+              <p>Ingen medicinsk information får anges.</p>
+            </InfoBox>
             <p className="iu-fs-200 iu-my-300">
               <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
               Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
