@@ -277,15 +277,12 @@ pipeline {
         }
 
         stage('Execute e2e-tests') {
-                steps {
-                    script {
-                        shell("npm -v")
-                        shell("node -v")
-                        shell("yarn -v")
-                        shell("E2ETest/cypress/yarn install")
-                        shell("E2ETest/cypress/yarn run cy:run")
-                    }
+            steps {
+                script {
+                    yarn command: 'init -y'
+                    yarn command: 'workspace @frontend/webcert-e2e cy:run'
                 }
+            }
         }
     }
 
