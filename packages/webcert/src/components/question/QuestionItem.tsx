@@ -50,6 +50,10 @@ const Reminder = styled.div`
   padding: 5px;
 `
 
+const ReminderText = styled.p`
+  white-space: pre-line;
+`
+
 const ComplementCard = styled.button`
   display: flex;
   align-items: center;
@@ -261,7 +265,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
                 </Wrapper>
                 <Wrapper>
-                  <div className={'iu-fullwidth'}>{reminder.message}</div>
+                  <ReminderText className={'iu-fullwidth'}>{reminder.message}</ReminderText>
                 </Wrapper>
               </div>
             </Reminder>
