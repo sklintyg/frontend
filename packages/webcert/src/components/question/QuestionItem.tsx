@@ -33,6 +33,7 @@ import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -148,6 +149,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     )
 
   const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+
+  const isLastDateToReplyVisible = () => getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
   const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
@@ -267,28 +270,40 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       <p className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>{question.message}</p>
       {isComplementsVisible() &&
         question.complements.map((complement) => (
-          <ComplementCard
-            key={complement.questionId}
-            className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200`}
-            onClick={() => onClickComplement(complement.questionId, complement.valueId)}>
-            <img
-              src={arrowLeft}
-              className={'iu-svg-icon iu-ml-200'}
-              style={{ width: '1rem', height: '1rem', transform: 'rotate(90deg)' }}
-              alt={'Pil'}
-            />
-            <Complement key={complement.questionId} className={'iu-fullwidth'}>
-              <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
-                <Wrapper>
-                  <p className={'iu-fw-heading iu-color-grey-400 iu-mb-200'}>{'Visa kompletteringsbegäran för:'}</p>
-                </Wrapper>
-                <Wrapper>
-                  <p className={'iu-fullwidth iu-color-main iu-text-left'}>{complement.questionText}</p>
-                </Wrapper>
-              </div>
-            </Complement>
-          </ComplementCard>
+          <>
+            <ComplementCard
+              key={complement.questionId}
+              className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200`}
+              onClick={() => onClickComplement(complement.questionId, complement.valueId)}>
+              <img
+                src={arrowLeft}
+                className={'iu-svg-icon iu-ml-200'}
+                style={{ width: '1rem', height: '1rem', transform: 'rotate(90deg)' }}
+                alt={'Pil'}
+              />
+              <Complement key={complement.questionId} className={'iu-fullwidth'}>
+                <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+                  <Wrapper>
+                    <p className={'iu-fw-heading iu-color-grey-400 iu-mb-200'}>{'Visa kompletteringsbegäran för:'}</p>
+                  </Wrapper>
+                  <Wrapper>
+                    <p className={'iu-fullwidth iu-color-main iu-text-left'}>{complement.questionText}</p>
+                  </Wrapper>
+                </div>
+              </Complement>
+            </ComplementCard>
+            <p className={' iu-mb-100 iu-color-text iu-fs-200'}>
+              <FontAwesomeIcon className={'iu-mr-200'} icon={faCalendarAlt} />
+              Svara senast: {question.lastDateToReply}
+            </p>
+          </>
         ))}
+      {isLastDateToReplyVisible() && (
+        <p className={'iu-mb-300 iu-fs-200'}>
+          <FontAwesomeIcon className={'iu-mr-200'} icon={faCalendarAlt} />
+          Svara senast: {question.lastDateToReply}
+        </p>
+      )}
       {isAnswerButtonVisible() && (
         <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
       )}
