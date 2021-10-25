@@ -278,9 +278,9 @@ pipeline {
 
         stage('Execute e2e-tests') {
             steps {
-                script {
-                    yarn command: 'init -y'
-                    yarn command: 'workspace @frontend/webcert-e2e cy:run'
+                nodejs('nodejs-14.18') {
+                    eshell("yarn install")
+                    eshell("yarn workspace @frontend/webcert-e2e cy:run")
                 }
             }
         }
