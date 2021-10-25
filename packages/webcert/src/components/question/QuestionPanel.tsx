@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import {
@@ -12,6 +12,7 @@ import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
+import { getShouldComplementedBeActive } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -29,10 +30,14 @@ const QuestionPanel: React.FC = () => {
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
-  const [isComplementSelected, setComplementSelected] = useState(true)
+  const [isComplementSelected, setIsComplementSelected] = useState(true)
 
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
+
+  useEffect(() => {
+    setIsComplementSelected(getShouldComplementedBeActive(administrativeQuestions, complementQuestions))
+  }, [administrativeQuestions.length])
 
   const getHeaderButtons = () => {
     return (
@@ -42,7 +47,7 @@ const QuestionPanel: React.FC = () => {
           number={complementQuestions.length > 0 ? complementQuestions.length : undefined}
           buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
-          onClick={() => setComplementSelected(true)}
+          onClick={() => setIsComplementSelected(true)}
           buttonClasses={'iu-height-800'}
         />
         <CustomButton
@@ -50,7 +55,7 @@ const QuestionPanel: React.FC = () => {
           number={administrativeQuestions.length > 0 ? administrativeQuestions.length : undefined}
           buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
-          onClick={() => setComplementSelected(false)}
+          onClick={() => setIsComplementSelected(false)}
           buttonClasses={'iu-height-800 iu-ml-300'}
         />
       </HeaderButtons>

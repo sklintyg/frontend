@@ -23,7 +23,7 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
-  const previousPatientId: PersonId | null = useSelector(getPreviousPatientId)
+  const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId)
   const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
 
   const testPersonTitle = 'Patienten är en valideringsperson'
