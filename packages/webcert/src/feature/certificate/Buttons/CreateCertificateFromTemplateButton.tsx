@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
-import { renewCertificate, renewCertificateFromTemplate } from '../../../store/certificate/certificateActions'
+import { renewCertificate, createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
 import { getUser } from '../../../store/user/userSelectors'
 import { updateUserPreference } from '../../../store/user/userActions'
@@ -16,12 +16,12 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const RenewCertificateFromTemplateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
+const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
   const handleConfirm = () => {
-    dispatch(renewCertificateFromTemplate(history))
+    dispatch(createCertificateFromTemplate(history))
   }
 
   return (
@@ -38,4 +38,4 @@ const RenewCertificateFromTemplateButton: React.FC<Props> = ({ name, description
   )
 }
 
-export default RenewCertificateFromTemplateButton
+export default CreateCertificateFromTemplateButton

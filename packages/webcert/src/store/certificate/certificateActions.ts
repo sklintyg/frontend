@@ -80,11 +80,11 @@ const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
 const RENEW_CERTIFICATE_ERROR = `${CERTIFICATE} Renew certificate error`
 const RENEW_CERTIFICATE_COMPLETED = `${CERTIFICATE} Renew certificate completed`
 
-const RENEW_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Renew certificate from template`
-const RENEW_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Renew certificate started from template`
-const RENEW_CERTIFICATE_FROM_TEMPLATE_SUCCESS = `${CERTIFICATE} Renew certificate success from template`
-const RENEW_CERTIFICATE_FROM_TEMPLATE_ERROR = `${CERTIFICATE} Renew certificate error from template`
-const RENEW_CERTIFICATE_FROM_TEMPLATE_COMPLETED = `${CERTIFICATE} Renew certificate completed from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Renew certificate from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Renew certificate started from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS = `${CERTIFICATE} Renew certificate success from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR = `${CERTIFICATE} Renew certificate error from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_COMPLETED = `${CERTIFICATE} Renew certificate completed from template`
 
 const COPY_CERTIFICATE = `${CERTIFICATE} Copy certificate`
 const COPY_CERTIFICATE_STARTED = `${CERTIFICATE} Copy certificate started`
@@ -299,15 +299,15 @@ export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFI
 
 export const copyCertificateStarted = createAction(COPY_CERTIFICATE_STARTED)
 
-export const renewCertificateFromTemplate = createAction<History<LocationState>>(RENEW_CERTIFICATE_FROM_TEMPLATE)
+export const createCertificateFromTemplate = createAction<History<LocationState>>(CREATE_CERTIFICATE_FROM_TEMPLATE)
 
-export const renewCertificateFromTemplateStarted = createAction(RENEW_CERTIFICATE_FROM_TEMPLATE_STARTED)
+export const createCertificateFromTemplateStarted = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED)
 
-export const renewCertificateFromTemplateSuccess = createAction<RenewCertificateSuccess>(RENEW_CERTIFICATE_FROM_TEMPLATE_SUCCESS)
+export const createCertificateFromTemplateSuccess = createAction<RenewCertificateSuccess>(CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS)
 
-export const renewCertificateFromTemplateError = createAction<string>(RENEW_CERTIFICATE_FROM_TEMPLATE_ERROR)
+export const createCertificateFromTemplateError = createAction<string>(CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR)
 
-export const renewCertificateTemplateCompleted = createAction(RENEW_CERTIFICATE_FROM_TEMPLATE_COMPLETED)
+export const createCertificateTemplateCompleted = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE_COMPLETED)
 
 export interface CopyCertificateSuccess {
   certificateId: string

@@ -51,10 +51,10 @@ import {
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateError,
-  renewCertificateFromTemplate,
-  renewCertificateFromTemplateError,
-  renewCertificateFromTemplateStarted,
-  renewCertificateFromTemplateSuccess,
+  createCertificateFromTemplate,
+  createCertificateFromTemplateError,
+  createCertificateFromTemplateStarted,
+  createCertificateFromTemplateSuccess,
   renewCertificateStarted,
   renewCertificateSuccess,
   replaceCertificate,
@@ -556,12 +556,12 @@ const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
-const handleRenewCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
 
-  if (!renewCertificateFromTemplate.match(action)) {
+  if (!createCertificateFromTemplate.match(action)) {
     return
   }
 
@@ -571,27 +571,27 @@ const handleRenewCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, ge
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/renew/template',
+      url: '/api/certificate/' + certificate.metadata.id + '/template',
       method: 'POST',
-      onStart: renewCertificateFromTemplateStarted.type,
-      onSuccess: renewCertificateFromTemplateSuccess.type,
-      onError: renewCertificateFromTemplateError.type,
+      onStart: createCertificateFromTemplateStarted.type,
+      onSuccess: createCertificateFromTemplateSuccess.type,
+      onError: createCertificateFromTemplateError.type,
       onArgs: { history: action.payload },
     })
   )
 }
 
-const handleRenewCertificateFromTemplateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
   action: AnyAction
 ): void => {
   next(action)
 
-  if (!renewCertificateFromTemplateSuccess.match(action)) {
+  if (!createCertificateFromTemplateSuccess.match(action)) {
     return
   }
 
   dispatch(hideSpinner())
-  //dispatch(renewCertificateCompleted())
+  //dispatch(createCertificateFromTemplateCompleted())
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
@@ -840,8 +840,8 @@ export const certificateMiddleware = [
   handleRevokeCertificateSuccess,
   handleRenewCertificate,
   handleRenewCertificateSuccess,
-  handleRenewCertificateFromTemplate,
-  handleRenewCertificateFromTemplateSuccess,
+  handleCreateCertificateFromTemplate,
+  handleCreateCertificateFromTemplateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
   handleForwardCertificate,

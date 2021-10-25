@@ -9,7 +9,7 @@ import SendCertificateButton from '../Buttons/SendCertificateButton'
 import styled from 'styled-components'
 import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateContinueButton'
-import RenewCertificateFromTemplateButton from '../Buttons/RenewCertificateFromTemplateButton'
+import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
@@ -29,9 +29,9 @@ interface Props {
 const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata }) => {
   return (
     <Wrapper>
-      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.RENEW_CERTIFICATE_FROM_TEMPLATE)) && (
-        <RenewCertificateFromTemplateButton
-          {...getResourceLink(resourceLinks, ResourceLinkType.RENEW_CERTIFICATE_FROM_TEMPLATE)}
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)) && (
+        <CreateCertificateFromTemplateButton
+          {...getResourceLink(resourceLinks, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)}
           certificateMetadata={certificateMetadata}
         />
       )}
