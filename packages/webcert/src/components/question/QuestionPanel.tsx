@@ -13,7 +13,7 @@ import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
 import { getShouldComplementedBeActive } from './questionUtils'
-import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
+import { getNumberOfUnhandledQuestions } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -67,13 +67,10 @@ const QuestionPanel: React.FC = () => {
     <Wrapper className={'iu-bg-light-grey'}>
       <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
-        <ComplementQuestionPanel
-          complementQuestions={getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions)}
-          isDisplayingCertificateDraft={isCertificateDraft}
-        />
+        <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
       ) : (
         <AdministrativeQuestionPanel
-          administrativeQuestions={getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions)}
+          administrativeQuestions={administrativeQuestions}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
         />
