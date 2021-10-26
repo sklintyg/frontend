@@ -16,7 +16,7 @@ export interface Question {
   reminders: Reminder[]
   lastUpdate: string
   links: ResourceLink[]
-  lastDateToReply: string
+  lastDateToReply?: string
 }
 
 export interface Answer {
