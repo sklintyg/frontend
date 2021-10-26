@@ -154,8 +154,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
 
-  const isLastDateToReplyVisible = () =>
-    getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled && question.lastDateToReply
+  const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
 
   const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 

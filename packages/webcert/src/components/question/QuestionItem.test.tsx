@@ -56,7 +56,7 @@ describe('QuestionItem', () => {
     expect(screen.getByText('Svara')).toBeInTheDocument()
   })
 
-  it('display last date to reply if the question has handle resource link and last date to reply string', () => {
+  it('display last date to reply if the question is not handled and has last date to reply string', () => {
     const expectedDate = '2021-10-25'
     const expectedText = `Svara senast: ${expectedDate}`
     renderComponent(addLastDateToReplyToQuestion(createQuestion(), expectedDate))
@@ -64,17 +64,17 @@ describe('QuestionItem', () => {
     expect(screen.getByText(expectedText)).toBeInTheDocument()
   })
 
-  it('dont display last date to reply if the question has no handle resource link and only last date to reply string', () => {
+  it('dont display last date to reply if the question is handled and only has last date to reply string', () => {
     const expectedDate = '2021-10-25'
     const expectedText = `Svara senast: ${expectedDate}`
-    const question = addLastDateToReplyToQuestion(createQuestion(), expectedDate)
+    const question = addLastDateToReplyToQuestion(handleQuestion(createQuestion()), expectedDate)
     question.links = []
     renderComponent(question)
 
     expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
   })
 
-  it('dont display last date to reply if the question has handle resource link but no last date to reply string', () => {
+  it('dont display last date to reply if the question is not handled but has no last date to reply string', () => {
     const expectedText = 'Svara senast:'
     renderComponent(createQuestion())
 
