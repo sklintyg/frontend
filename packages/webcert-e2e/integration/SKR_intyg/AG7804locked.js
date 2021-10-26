@@ -1,10 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
 
-import * as intyg from '../../support/FK_intyg/lisjpIntyg'
+import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
-describe('LISJP-intyg låst utkast', function() {
+// AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
+describe('AG7804-intyg låst utkast', function() {
 
     before(function() {
         cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata');
@@ -17,24 +17,24 @@ describe('LISJP-intyg låst utkast', function() {
     context('Användare har möjlighet att uföra följande med låst LISJP Utkast ',function() {
       beforeEach(function() {
                    
-            cy.skapaIntygViaApi(this,2,1,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,2,2,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("LISJP-låst utkast med id " + utkastId + " skapat och används i testfallet");
             });
 
         });
-        describe('Funktioner på ett låst LISJP utkast', () =>{
+        describe('Funktioner på ett låst AG7804 utkast', () =>{
                  
-             it('Skriva ut ett låst LISJP utkast', function () {
+             it('Skriva ut ett låst AG7804 utkast', function () {
                 
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                
-                intyg.skrivUt("utkast", this.utkastId, "lisjp");//skriver ut via request
+                intyg.skrivUt("utkast", this.utkastId, "ag7804");//skriver ut via request
             });
         
-            it('Makulerar ett låst LISJP utkast', function () {
+            it('Makulerar ett låst AG7804 utkast', function () {
                 
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -43,21 +43,20 @@ describe('LISJP-intyg låst utkast', function() {
                 cy.wait(100);
                 intyg.makuleraUtkast();
                 expect(cy.contains('Intyget är makulerat'))
-
+                
             });
-            it('Kopiera ett låst LISJP utkast så att det går att signera och skicka', function () {
+            it('Kopiera ett låst AG7804 utkast så att det går att signera', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 cy.wait(100);
                 intyg.kopieraUtkast();
-                cy.contains(this.utkastId).should('not.exist')
+                cy.contains(this.utkastId).should('not.exist');
                 intyg.signera();
-                intyg.skickaTillFk();
-                
+                               
              });
-            it('Ett LISJP  låst utkast ska  inte kunna editeras',function(){
+            it('Ett AG7804  låst utkast ska  inte kunna editeras',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId;
                 cy.visit(önskadUrl);
