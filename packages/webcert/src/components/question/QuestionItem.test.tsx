@@ -56,6 +56,31 @@ describe('QuestionItem', () => {
     expect(screen.getByText('Svara')).toBeInTheDocument()
   })
 
+  it('display last date to reply if the question is not handled and has last date to reply string', () => {
+    const expectedDate = '2021-10-25'
+    const expectedText = `Svara senast: ${expectedDate}`
+    renderComponent(addLastDateToReplyToQuestion(createQuestion(), expectedDate))
+
+    expect(screen.getByText(expectedText)).toBeInTheDocument()
+  })
+
+  it('dont display last date to reply if the question is handled and only has last date to reply string', () => {
+    const expectedDate = '2021-10-25'
+    const expectedText = `Svara senast: ${expectedDate}`
+    const question = addLastDateToReplyToQuestion(handleQuestion(createQuestion()), expectedDate)
+    question.links = []
+    renderComponent(question)
+
+    expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
+  })
+
+  it('dont display last date to reply if the question is not handled but has no last date to reply string', () => {
+    const expectedText = 'Svara senast:'
+    renderComponent(createQuestion())
+
+    expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
+  })
+
   it('dont display answer button if the question is missing answer resource link', () => {
     const questionWithoutAnswerLink = createQuestion()
     questionWithoutAnswerLink.links = []
@@ -430,6 +455,13 @@ const addComplementsToQuestion = (question: Question, complements: Complement[])
     type: QuestionType.COMPLEMENT,
     complements: [...complements],
   } as Question
+}
+
+const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: string): Question => {
+  return {
+    ...question,
+    lastDateToReply: lastDateToReply,
+  }
 }
 
 const createQuestion = (): Question => {

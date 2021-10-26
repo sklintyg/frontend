@@ -4,7 +4,6 @@ import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
 import noQuestionsImg from './fragor_svar_nodata.svg'
 import styled from 'styled-components'
-import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const Root = styled.div`
   height: 100%;
@@ -33,7 +32,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
     <Root>
       {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
       <div className={'iu-bg-light-grey'}>
-        {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (
+        {administrativeQuestions.map((administrativeQuestion) => (
           <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
         ))}
         {administrativeQuestions.length === 0 && getNoQuestionsMessage()}

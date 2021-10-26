@@ -3,6 +3,9 @@ import { Question } from '@frontend/common'
 export const getNumberOfUnhandledQuestions = (questions: Question[]): number | undefined => {
   const unhandledQuestions = questions.filter((question) => !question.handled)
   return unhandledQuestions.length > 0 ? unhandledQuestions.length : undefined
+export const getNumberOfUnhandledQuestions = (questions: Question[]): number => {
+  const unhandledQuestions = questions.filter((question) => !question.handled)
+  return unhandledQuestions.length > 0 ? unhandledQuestions.length : 0
 }
 
 export const getShouldComplementedBeActive = (administrativeQuestions: Question[], complementQuestions: Question[]): boolean => {

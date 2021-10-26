@@ -12,8 +12,7 @@ import { CustomButton, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
-import { getShouldComplementedBeActive } from './questionUtils'
-import { getNumberOfUnhandledQuestions } from './questionUtils'
+import { getShouldComplementedBeActive, getNumberOfUnhandledQuestions } from './questionUtils'
 
 const HeaderButtons = styled.div`
   display: flex;
