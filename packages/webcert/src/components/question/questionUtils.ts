@@ -1,15 +1,16 @@
 import { Question } from '@frontend/common'
 
-export const getNumberOfUnhandledQuestions = (questions: Question[]): number => {
+export const getNumberOfUnhandledQuestions = (questions: Question[]): number | undefined => {
   const unhandledQuestions = questions.filter((question) => !question.handled)
-  return unhandledQuestions.length > 0 ? unhandledQuestions.length : 0
+  return unhandledQuestions.length > 0 ? unhandledQuestions.length : undefined
 }
 
 export const getShouldComplementedBeActive = (administrativeQuestions: Question[], complementQuestions: Question[]): boolean => {
   if (areComplementAndAdministrativeEmpty(administrativeQuestions, complementQuestions)) return true
   if (doesComplementAndAdministrativeHaveUnhandledQuestions(administrativeQuestions, complementQuestions)) return true
+  if (onlyAdministrativeQuestionsAreUnhandled(administrativeQuestions, complementQuestions)) return false
 
-  return onlyAdministrativeQuestionsAreUnhandled(administrativeQuestions, complementQuestions)
+  return true
 }
 
 const areComplementAndAdministrativeEmpty = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
@@ -17,14 +18,26 @@ const areComplementAndAdministrativeEmpty = (administrativeQuestions: Question[]
 }
 
 const doesComplementAndAdministrativeHaveUnhandledQuestions = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
-  const unhandledComplementQuestions = getNumberOfUnhandledQuestions(complementQuestions)
-  const unhandledAdministrativeQuestions = getNumberOfUnhandledQuestions(administrativeQuestions)
+  const numberOfUnhandledComplementQuestions = getNumberOfUnhandledQuestions(complementQuestions)
+  const numberOfUnhandledAdministrativeQuestions = getNumberOfUnhandledQuestions(administrativeQuestions)
 
-  return unhandledAdministrativeQuestions > 0 && unhandledComplementQuestions > 0
+  return (
+    numberOfUnhandledAdministrativeQuestions &&
+    numberOfUnhandledAdministrativeQuestions > 0 &&
+    numberOfUnhandledComplementQuestions &&
+    numberOfUnhandledComplementQuestions > 0
+  )
 }
 
-const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Question[], complementQuestions: Question[]) => {
-  return !(getNumberOfUnhandledQuestions(complementQuestions) === 0 && getNumberOfUnhandledQuestions(administrativeQuestions) > 0)
+const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Question[], complementQuestions: Question[]): boolean => {
+  const numberOfUnhandledComplementQuestions = getNumberOfUnhandledQuestions(complementQuestions)
+  const numberOfUnhandledAdministrativeQuestions = getNumberOfUnhandledQuestions(administrativeQuestions)
+
+  return (
+    numberOfUnhandledComplementQuestions === undefined &&
+    numberOfUnhandledAdministrativeQuestions !== undefined &&
+    numberOfUnhandledAdministrativeQuestions > 0
+  )
 }
 
 export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]): Question[] => {

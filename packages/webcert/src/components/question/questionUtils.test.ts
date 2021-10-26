@@ -19,7 +19,7 @@ describe('questionUtils', () => {
       // @ts-ignore
       const questions: Question[] = [{ handled: true }, { handled: true }, { handled: true }]
 
-      const expected = 0
+      const expected = undefined
       const actual = getNumberOfUnhandledQuestions(questions)
 
       expect(actual).toBe(expected)
@@ -61,6 +61,9 @@ describe('questionUtils', () => {
       const expected = false
       const actual = getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
       expect(actual).toBe(expected)
+    })
+  })
+
   describe('getQuestionsOrderedByLastUpdatedAndHandled', () => {
     it('orders questions correctly after last update', () => {
       const questions: Question[] = [
