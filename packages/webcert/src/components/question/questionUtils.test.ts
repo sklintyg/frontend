@@ -3,7 +3,7 @@ import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive, getQuesti
 
 describe('questionUtils', () => {
   describe('getNumberOfUnhandledQuestions', () => {
-    it('returns correct number of unhandled questions if unhandled', () => {
+    it('returns correct number of unhandled questions', () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const questions: Question[] = [{ handled: true }, { handled: false }, { handled: false }]
