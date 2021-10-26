@@ -33,6 +33,7 @@ import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -47,6 +48,10 @@ const Reminder = styled.div`
   align-items: top;
   justify-content: space-between;
   padding: 5px;
+`
+
+const ReminderText = styled.p`
+  white-space: pre-line;
 `
 
 const ComplementCard = styled.button`
@@ -148,6 +153,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     )
 
   const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+
+  const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
 
   const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
 
@@ -258,7 +265,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
                 </Wrapper>
                 <Wrapper>
-                  <div className={'iu-fullwidth'}>{reminder.message}</div>
+                  <ReminderText className={'iu-fullwidth'}>{reminder.message}</ReminderText>
                 </Wrapper>
               </div>
             </Reminder>
@@ -289,6 +296,12 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Complement>
           </ComplementCard>
         ))}
+      {isLastDateToReplyVisible() && (
+        <p className={'iu-mb-300 iu-color-text iu-fs-200'}>
+          <FontAwesomeIcon className={'iu-mr-200'} icon={faCalendarAlt} />
+          Svara senast: {question.lastDateToReply}
+        </p>
+      )}
       {isAnswerButtonVisible() && (
         <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
       )}
