@@ -339,7 +339,7 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
-                            performTest("cypress", "latest", ${webcertFrontendBackingServiceAppName}, ${webcertBackingServiceAppName})
+                            performTest("cypress", "latest", "${webcertFrontendBackingServiceAppName}", "${webcertBackingServiceAppName}")
                         }
                     }
                 }
