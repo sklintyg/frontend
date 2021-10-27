@@ -85,6 +85,64 @@ def extractConfig(dir, url, ref, stage, latestTag) {
   }
 }
 
+def performTest(testName, buildVersion, appReleaseName, appWebReleaseName) {
+  log "Do ${testName}"
+
+  // Setup callback webhook
+  def hook = registerWebhook()
+
+  // Just use name
+  def targetUrl = "http://${appReleaseName}:8080"
+  def targetUrlWebcert = "http://${appWebReleaseName}:8080"
+  def actuatorUrl = "http://${appReleaseName}:8081"
+
+  def imageStream = openshift.selector("is", "${APP_NAME}").object().status.dockerImageRepository
+  log "Use ImageStream: ${imageStream}"
+
+  // to make the pod name somewhat unique
+  // TODO: use generateName in Pod template, i.e. when it works
+  def num = (new Random().nextInt() % 100000) + 1
+  def suffix = (num < 0) ? "${num}" : "-${num}"
+  def pod = openshift.process("-f", "${env.WORKSPACE}/openshift/test-pipeline/testrunnertemplate-pod.yaml",
+          "-p", "APP_NAME=${appReleaseName}",
+          "-p", "IMAGE='${imageStream}-${ARTIFACT_IMAGE_SUFFIX}:${buildVersion}'",
+          "-p", "STAGE=${STAGE}",
+          "-p", "TARGET_URL='${targetUrl}'",
+          "-p", "TARGET_URL_WEBCERT='${targetUrlWebcert}'",
+          "-p", "ACTUATOR_URL='${actuatorUrl}'",
+          "-p", "BUILD_VERSION=${buildVersion}",
+          "-p", "JOB_NAME=${JOB_NAME}",
+          "-p", "CALLBACK_URL='${hook.getURL()}'",
+          "-p", "BUILD_TAG=${appReleaseName}${suffix}",
+          "-p", "TESTS=${testName}")
+  openshift.apply(pod)
+
+  def data = ""
+  timeout(45) {
+    log "Waiting (max 45 min) for POST to ${hook.getURL()}"
+    data = waitForWebhook(hook).trim()
+
+    log "Publishing ${testName} reports for ${JOB_NAME}/${buildVersion}"
+    publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "/var/lib/jenkins/reports/$JOB_NAME/${buildVersion}/${testName}/",
+            reportFiles          : "${testName}.html",
+            reportName           : "${testName.capitalize()} Results",
+    ])
+  }
+
+  log "Logs for ${appReleaseName}${suffix}"
+  openshift.selector("pod", "${appReleaseName}${suffix}").logs()
+
+  if ("SUCCESS".equals(data)) {
+    log "Test SUCCESS"
+  } else {
+    error("${testName} FAILED, see HTML report for details")
+  }
+}
+
 pipeline {
     agent any
 
@@ -278,9 +336,12 @@ pipeline {
 
         stage('Execute e2e-tests') {
             steps {
-                nodejs('nodejs-14.18') {
-                    eshell("yarn install")
-                    eshell("yarn workspace @frontend/webcert-e2e cy:run")
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            performTest("cypress", "latest", ${webcertFrontendBackingServiceAppName}, ${webcertBackingServiceAppName})
+                        }
+                    }
                 }
             }
         }
