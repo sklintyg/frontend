@@ -6,6 +6,10 @@ echo $PIPELINE_CALLBACK_URL
 cd /tmp/src
 
 # Install dependencies
+echo "############### Configure yarn ###############"
+yarn cache dir
+
+# Install dependencies
 echo "############### Installing workspace ###############"
 yarn install
 INIT_RESULT=$?
