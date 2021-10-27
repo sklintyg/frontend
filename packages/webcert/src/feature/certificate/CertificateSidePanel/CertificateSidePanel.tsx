@@ -36,19 +36,6 @@ const CertificateSidePanel: React.FC = () => {
     const tabsArray: ReactNode[] = []
     const tabsContentArray: ReactNode[] = []
 
-    if (fmbInfoPanelActive) {
-      tabsArray.push(
-        <ButtonTooltip description={fmbInfoPanelActive.description}>
-          <p>
-            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
-            {fmbInfoPanelActive.name}
-          </p>
-        </ButtonTooltip>
-      )
-
-      tabsContentArray.push(<FMBPanel />)
-    }
-
     if (questionsPanelActive) {
       tabsArray.push(
         <ButtonTooltip description={questionsPanelActive.description}>
@@ -67,6 +54,19 @@ const CertificateSidePanel: React.FC = () => {
       )
 
       tabsContentArray.push(<QuestionNotAvailablePanel />)
+    }
+
+    if (fmbInfoPanelActive) {
+      tabsArray.push(
+        <ButtonTooltip description={fmbInfoPanelActive.description}>
+          <p>
+            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
+            {fmbInfoPanelActive.name}
+          </p>
+        </ButtonTooltip>
+      )
+
+      tabsContentArray.push(<FMBPanel />)
     }
 
     tabsArray.push(
