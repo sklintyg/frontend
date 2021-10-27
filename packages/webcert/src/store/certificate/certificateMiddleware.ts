@@ -618,7 +618,6 @@ const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({ dispatch, 
       onStart: createCertificateFromCandidateStarted.type,
       onSuccess: createCertificateFromCandidateSuccess.type,
       onError: createCertificateFromCandidateError.type,
-      onArgs: { history: action.payload },
     })
   )
 }
@@ -633,7 +632,7 @@ const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> = ({ dis
   }
 
   dispatch(hideSpinner())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(getCertificate(action.payload.certificateId))
 }
 
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {

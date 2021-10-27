@@ -1,12 +1,10 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
+import { useDispatch } from 'react-redux'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
-import { renewCertificate, createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
+import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
-import { getUser } from '../../../store/user/userSelectors'
-import { updateUserPreference } from '../../../store/user/userActions'
 
 interface Props {
   name: string

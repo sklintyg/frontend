@@ -3,12 +3,14 @@ import { Certificate, SigningMethod } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
+import { createMemoryHistory } from 'history'
 import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
+  createCertificateFromTemplate,
   hideSpinner,
   SigningData,
   startSignCertificate,
@@ -144,6 +146,22 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  describe('Handle CreateCertificateFromTemplate', () => {
+    it('shall return certificate with new type', async () => {
+      const originalCertificate = getCertificate('originalCertificateId', 'lisjp')
+      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const createCertificateFromTemplateSuccess = { certificate: expectedCertificate }
+      const history = createMemoryHistory()
+      fakeAxios.onPost(`/api/certificate/${originalCertificate.metadata.id}/template`).reply(200, createCertificateFromTemplateSuccess)
+      testStore.dispatch(updateCertificate(originalCertificate))
+
+      testStore.dispatch(createCertificateFromTemplate(history))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
     })
   })
 

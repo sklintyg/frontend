@@ -22,6 +22,7 @@ import HeaderButtons from './HeaderButtons'
 import LockedStatus from './Status/LockedStatus'
 import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
+import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -59,6 +60,7 @@ const CertificateHeader = () => {
   return (
     <Wrapper>
       <div className="ic-container iu-pt-200">
+        <CreateCertificateFromCandidateModal resourceLinks={resourceLinks}></CreateCertificateFromCandidateModal>
         <StatusWrapper>
           <StatusLeftSide>
             <RevokedStatus certificateMetadata={certificateMetadata} />

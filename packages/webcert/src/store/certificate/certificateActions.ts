@@ -307,18 +307,30 @@ export const createCertificateFromTemplate = createAction<History<LocationState>
 
 export const createCertificateFromTemplateStarted = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED)
 
-export const createCertificateFromTemplateSuccess = createAction<RenewCertificateSuccess>(CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS)
+export const createCertificateFromTemplateSuccess = createAction<CreateCertificateFromTemplateSuccess>(
+  CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS
+)
 
 export const createCertificateFromTemplateError = createAction<string>(CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR)
 
-export const createCertificateFromCandidate = createAction<History<LocationState>>(CREATE_CERTIFICATE_FROM_CANDIDATE)
+export interface CreateCertificateFromTemplateSuccess {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const createCertificateFromCandidate = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE)
 
 export const createCertificateFromCandidateStarted = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED)
 
-export const createCertificateFromCandidateSuccess = createAction<RenewCertificateSuccess>(CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS)
+export const createCertificateFromCandidateSuccess = createAction<CreateCertificateFromCandidateSuccess>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS
+)
 
 export const createCertificateFromCandidateError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR)
 
+export interface CreateCertificateFromCandidateSuccess {
+  certificateId: string
+}
 
 export interface CopyCertificateSuccess {
   certificateId: string
