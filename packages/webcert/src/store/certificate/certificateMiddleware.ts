@@ -99,6 +99,10 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  createCertificateFromCandidateSuccess,
+  createCertificateFromCandidate,
+  createCertificateFromCandidateStarted,
+  createCertificateFromCandidateError,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
@@ -565,7 +569,7 @@ const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, g
     return
   }
 
-  dispatch(showSpinner('Förnyar...'))
+  dispatch(showSpinner('Laddar...'))
 
   const certificate: Certificate = getState().ui.uiCertificate.certificate
 
@@ -591,7 +595,44 @@ const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> = ({ disp
   }
 
   dispatch(hideSpinner())
-  //dispatch(createCertificateFromTemplateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
+const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromCandidate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Laddar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/candidate',
+      method: 'POST',
+      onStart: createCertificateFromCandidateStarted.type,
+      onSuccess: createCertificateFromCandidateSuccess.type,
+      onError: createCertificateFromCandidateError.type,
+      onArgs: { history: action.payload },
+    })
+  )
+}
+
+const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromCandidateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
@@ -842,6 +883,8 @@ export const certificateMiddleware = [
   handleRenewCertificateSuccess,
   handleCreateCertificateFromTemplate,
   handleCreateCertificateFromTemplateSuccess,
+  handleCreateCertificateFromCandidate,
+  handleCreateCertificateFromCandidateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
   handleForwardCertificate,

@@ -80,11 +80,15 @@ const RENEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Renew certificate success`
 const RENEW_CERTIFICATE_ERROR = `${CERTIFICATE} Renew certificate error`
 const RENEW_CERTIFICATE_COMPLETED = `${CERTIFICATE} Renew certificate completed`
 
-const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Renew certificate from template`
-const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Renew certificate started from template`
-const CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS = `${CERTIFICATE} Renew certificate success from template`
-const CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR = `${CERTIFICATE} Renew certificate error from template`
-const CREATE_CERTIFICATE_FROM_TEMPLATE_COMPLETED = `${CERTIFICATE} Renew certificate completed from template`
+const CREATE_CERTIFICATE_FROM_CANDIDATE = `${CERTIFICATE} Create certificate from candidate`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED = `${CERTIFICATE} Create certificate started from candidate`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR = `${CERTIFICATE} Create certificate error from candidate`
+
+const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Create certificate from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Create certificate started from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS = `${CERTIFICATE} Create certificate success from template`
+const CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR = `${CERTIFICATE} Create certificate error from template`
 
 const COPY_CERTIFICATE = `${CERTIFICATE} Copy certificate`
 const COPY_CERTIFICATE_STARTED = `${CERTIFICATE} Copy certificate started`
@@ -307,7 +311,14 @@ export const createCertificateFromTemplateSuccess = createAction<RenewCertificat
 
 export const createCertificateFromTemplateError = createAction<string>(CREATE_CERTIFICATE_FROM_TEMPLATE_ERROR)
 
-export const createCertificateTemplateCompleted = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE_COMPLETED)
+export const createCertificateFromCandidate = createAction<History<LocationState>>(CREATE_CERTIFICATE_FROM_CANDIDATE)
+
+export const createCertificateFromCandidateStarted = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED)
+
+export const createCertificateFromCandidateSuccess = createAction<RenewCertificateSuccess>(CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS)
+
+export const createCertificateFromCandidateError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR)
+
 
 export interface CopyCertificateSuccess {
   certificateId: string
