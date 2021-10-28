@@ -3,14 +3,14 @@ import { Certificate, SigningMethod } from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
-import { createMemoryHistory } from 'history'
 import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
-  createCertificateFromTemplate,
+  createCertificateFromCandidate,
+  CreateCertificateFromCandidateSuccess,
   hideSpinner,
   SigningData,
   startSignCertificate,
@@ -149,19 +149,20 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle CreateCertificateFromTemplate', () => {
-    it('shall return certificate with new type', async () => {
-      const originalCertificate = getCertificate('originalCertificateId', 'lisjp')
+  describe('Handle CreateCertificateFromCandidate', () => {
+    it('shall return certificate filled in certificate from candidate', async () => {
       const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
-      const createCertificateFromTemplateSuccess = { certificate: expectedCertificate }
-      const history = createMemoryHistory()
-      fakeAxios.onPost(`/api/certificate/${originalCertificate.metadata.id}/template`).reply(200, createCertificateFromTemplateSuccess)
-      testStore.dispatch(updateCertificate(originalCertificate))
+      const createCertificateFromCandidateSuccess: CreateCertificateFromCandidateSuccess = {
+        certificateId: expectedCertificate.metadata.id,
+      }
+      fakeAxios.onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`).reply(200, createCertificateFromCandidateSuccess)
+      testStore.dispatch(updateCertificate(expectedCertificate))
 
-      testStore.dispatch(createCertificateFromTemplate(history))
+      testStore.dispatch(createCertificateFromCandidate())
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
+      expect(fakeAxios.history.post.length).toBe(1)
     })
   })
 
