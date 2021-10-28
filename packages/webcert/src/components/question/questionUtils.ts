@@ -1,4 +1,5 @@
 import { Question } from '@frontend/common'
+import { firstBy } from 'thenby'
 
 export const getNumberOfUnhandledQuestions = (questions: Question[]): number | undefined => {
   const unhandledQuestions = questions.filter((question) => !question.handled)
@@ -41,12 +42,12 @@ const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Questi
 }
 
 export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]): Question[] => {
-  return questions.sort((questionA, questionB) => orderByLastUpdated(questionA, questionB)).sort((question) => (question.handled ? -1 : 1))
-}
+  return questions.sort(
+    firstBy((questionA) => ((questionA as Question).handled ? -1 : 1)).thenBy((questionA, questionB) => {
+      const dateA = new Date(questionA.lastUpdate).getTime()
+      const dateB = new Date(questionB.lastUpdate).getTime()
 
-const orderByLastUpdated = (questionA: Question, questionB: Question) => {
-  const dateA = new Date(questionA.lastUpdate).getTime()
-  const dateB = new Date(questionB.lastUpdate).getTime()
-
-  return dateA > dateB ? 1 : -1
+      return dateA < dateB ? 1 : -1
+    })
+  )
 }
