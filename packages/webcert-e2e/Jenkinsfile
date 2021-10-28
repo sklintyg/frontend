@@ -66,7 +66,7 @@ pipeline {
           sh 'node --version'
 
           // Slå på Chuck Norris-plugin. Kan tas bort utan negativ påverkan.
-          //chuckNorris()
+          chuckNorris()
         }
       }
     }

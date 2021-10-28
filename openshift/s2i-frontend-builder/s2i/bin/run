@@ -1,18 +1,15 @@
 #!/bin/bash
 
 # Source code provided to directory
-S2I_SOURCE_DIR=${S2I_SOURCE_DIR-"/tmp/src/E2ETest/cypress"}
+S2I_SOURCE_DIR=${S2I_SOURCE_DIR-"/tmp/src"}
 
 # Clean home for test run user (unknown uid)
 export HOME=/tmp/nohome
 
 # runs one test
 function testrun() {
-    ARGS="$1"
-    [ "$ARGS" = "fitnesseTest" ] && ARGS="$ARGS -PfileOutput -PoutputFormat=html"
-    [ "$ARGS" = "restAssuredTest" ] && ARGS="$ARGS -x processResources"
-    echo "---> Testing application with GRADLE_ARGS=$ARGS"
-    (cd $S2I_SOURCE_DIR; gradle --no-daemon $ARGS)
+    echo "---> Testing application"
+    (cd $S2I_SOURCE_DIR; yarn workspace @frontend/webcert-e2e cy:run)
     ERR=$?
     return $ERR
 }
@@ -42,27 +39,9 @@ if [ $# -gt 1  ] && [ "$1" = "testrun" ]; then
     mkdir -p $REPORT_DIR
     RESULT=SUCCESS
 
-    shift
-    TESTS=(${*/,/ })
-    for TEST in ${TESTS[*]}
-    do
-        testrun $TEST
-        [ $? -ne 0 ] && RESULT=FAILED
-        case "$TEST" in
-            "restAssuredTest")
-                save_report ${S2I_SOURCE_DIR}/web/build/reports/tests/$TEST/index.html $TEST d
-                ;;
-            "protractorTest")
-                save_report ${S2I_SOURCE_DIR}/test/reports/index.html $TEST d
-                ;;
-            "fitnesseTest")
-                save_report ${S2I_SOURCE_DIR}/test/fitnesse-results.html $TEST f
-                ;;
-            "cypressTest")
-                save_report ${S2I_SOURCE_DIR}/test/build/test-results/mochawesome.html $TEST d
-                ;;
-        esac
-    done
+    testrun $TEST
+    [ $? -ne 0 ] && RESULT=FAILED
+    save_report ${S2I_SOURCE_DIR}/test/build/test-results/mochawesome.html $TEST d
 
     # Report back
     echo "---> Done, report back status $RESULT to $CALLBACK_URL"
