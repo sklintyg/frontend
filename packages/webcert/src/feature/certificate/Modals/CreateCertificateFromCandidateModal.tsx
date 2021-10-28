@@ -3,18 +3,16 @@ import { CustomButton, ModalBase } from '@frontend/common'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { ResourceLink, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
+import { ResourceLink } from '@frontend/common/src'
 
 interface Props {
-  resourceLinks: ResourceLink[]
+  resourceLink: ResourceLink | undefined
 }
 
-const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLinks }) => {
+const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
-  const resourceLink = resourceLinks.find((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE))
 
   useEffect(() => {
     if (escPress) {
@@ -23,7 +21,7 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLinks })
   }, [escPress])
 
   useEffect(() => {
-    if (resourceLink) {
+    if (resourceLink && resourceLink.enabled) {
       setOpen(true)
     }
   }, [resourceLink])
