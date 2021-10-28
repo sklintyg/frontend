@@ -29,7 +29,7 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(intygsId).to.exist;
-  const theUrl = "https://wc.localtest.me/fake";
+  const theUrl = Cypress.config('webcertUrl') + '/fake';
    //const theUrl: '/fake';
     //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
@@ -51,11 +51,11 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
         }
     }).then((resp) => {
         //cy.log("json:" ,JSON.stringify(resp));
-        expect(resp.status).to.equal(200);  
-        
-            
+        expect(resp.status).to.equal(200);
+
+
     });
-    
+
     cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn+vårdpersonal.hsaId);
 }
 //typer av frågor: MISSING, COORDINATION, CONTACT, OTHER, COMPLEMENT private QuestionType type;
@@ -67,34 +67,34 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
 function skapaÄrende(fx,intygsId, typAvFråga, meddelande,reminder){
     cy.log(typAvFråga);
     const remind = (reminder ? true : false);
-   
+
     cy.request({
-        method: 'POST',              
-        url: 'https://wc.localtest.me/testability/certificate/' + intygsId + '/question',
-        raw: true,  
-       body:{  
+        method: 'POST',
+        url: Cypress.config('webcertUrl') + '/testability/certificate/' + intygsId + '/question',
+        raw: true,
+       body:{
             "type": typAvFråga,
-            "message": meddelande, 
+            "message": meddelande,
             "answerAsDraft": false,
             "reminded": remind
-        }         
+        }
     }).then((resp) => {
-        expect(resp.status).to.equal(200); 
+        expect(resp.status).to.equal(200);
         //cy.log("IntygsID");
         //cy.log(resp.body.certificateId);
         //cy.log("json:" ,JSON.stringify(resp));
         //cy.wrap(resp).its('Body.certificatId').then((intygsID) => {
            // cy.log("IntygsID i return:" + intygsID);
-           
+
             // Utan detta klagar Cypress på att man blandar synkron och asynkron kod
             cy.wrap(resp.body.certificateId).then((id) => {
-                
+
                 return id;
             });
-                
-       // });       
+
+       // });
     });
-    
+
 }
 // cy.skapaIntygViaApi(this,"SIGNED","lisjp","MAXIMAL")
 function skapaIntygViaApi(fx,status, typ, theFill,sent){
@@ -118,7 +118,7 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
     cy.clearCookies(true);
     cy.request({
         method: 'POST',
-        url: 'https://wc.localtest.me/testability/certificate/',
+        url: Cypress.config('webcertUrl') + '/testability/certificate/',
         raw: true,
         body:{
             "certificateType":intygsTypen,
@@ -131,12 +131,12 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
             "sent": beingSent
         }
         }).then((resp) => {
-            expect(resp.status).to.equal(200); 
+            expect(resp.status).to.equal(200);
             // Utan detta klagar Cypress på att man blandar synkron och asynkron kod
             cy.wrap(resp.body.certificateId).then((id) => {
-                
+
             return id;
-        });   
+        });
     });
 
 }
@@ -144,7 +144,7 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
 
 Cypress.Commands.add("skapaIntygViaApi",(fx,status, typ,fillType, sent) => {
     skapaIntygViaApi(fx,status,typ,fillType,sent);
- 
+
 });
 Cypress.Commands.add("skapaÄrende", (fx,intygsId, typAvFråga, meddelande,reminder) => {
     skapaÄrende(fx,intygsId, typAvFråga, meddelande,reminder);
@@ -152,20 +152,20 @@ Cypress.Commands.add("skapaÄrende", (fx,intygsId, typAvFråga, meddelande,remin
 
 
 function rensaIntyg(fx){
-   
+
     cy.request({
     method: 'DELETE',
     url: '/testability/intyg/handelser/patient/' + fx.personnummerKompakt,
     }).then((resp) =>{
         expect(resp.status).to.equal(200);
-    }); 
-   
+    });
+
      cy.request({
         method: 'DELETE',
         url: '/testability/intyg/patient/' + fx.personnummer,
         }).then((resp) =>{
             expect(resp.status).to.equal(200);
-        }); 
+        });
         const intygsUrl = Cypress.env('intygTjanstUrl') + "/inera-certificate/resources/certificate/citizen/";
     //expect(Object.values(implementeradeIntyg)).to.include.members([intygstyp]);
     //cy.log(vårdtagare.personnummerKompakt + vårdtagare.förnamn +vårdtagare.efternamn + vårdtagare.postadress + vårdtagare.postnummer + vårdtagare.postort);
@@ -174,30 +174,30 @@ function rensaIntyg(fx){
             url: intygsUrl + fx.personnummer,
             }).then((resp) =>{
                 expect(resp.status).to.equal(200);
-            }); 
-     
+            });
+
 }
 function taBortIntyg(fx) {
-   
+
     const intygsID = fx.intygsID
     const intygsUrl = Cypress.env('intygTjanstUrl') + "/inera-certificate/resources/certificate/" + intygsID;
- 
+
     cy.log(intygsID);
     cy.request({
         method: 'DELETE',
         url: intygsUrl,
         }).then((resp) =>{
             expect(resp.status).to.equal(200);
-    });        
-            
+    });
+
 }
 Cypress.Commands.add("taBortIntyg", fx => {
-    taBortIntyg(fx);   
+    taBortIntyg(fx);
 
 });
 
 Cypress.Commands.add("rensaIntyg", fx => {
-    rensaIntyg(fx);   
+    rensaIntyg(fx);
 
 });
 Cypress.Commands.add("loggaInVårdpersonalNormal", (vårdpersonal, vårdenhet) => {
