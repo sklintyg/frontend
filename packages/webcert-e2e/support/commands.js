@@ -29,7 +29,7 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(intygsId).to.exist;
-  const theUrl = Cypress.config('webcertUrl') + '/fake";
+  const theUrl = Cypress.config('webcertUrl') + '/fake';
    //const theUrl: '/fake';
     //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
