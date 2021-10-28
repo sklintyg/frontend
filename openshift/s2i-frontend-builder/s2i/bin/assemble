@@ -64,6 +64,15 @@ mv packages/webcert/build/* /tmp/artifacts/build
 echo "############### Moving Nginx Configuration ###############"
 mv packages/webcert/nginx/* /tmp/artifacts/nginx
 
+# make writeable
+function make_writeable() {
+    for d in $*; do
+        [ -d "$d" ] && chmod -R a+rwx $d
+    done
+}
+
+make_writeable $YARN_CACHE_FOLDER $CYPRESS_CACHE_FOLDER /tmp/src
+
 if [ $BUILD_RESULT -ne 0 ]; then
     echo "Failed to build, exit code: $BUILD_RESULT"
     exit $BUILD_RESULT
