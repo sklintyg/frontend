@@ -16,7 +16,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
     context('Användare har möjlighet skicka ärendekommunikation på ett Lisjp intyg ',function() {
       beforeEach(function() {
         
-            cy.skapaIntygViaApi(this,0,false,true,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,0,1,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("Lisjp-utkast med id " + utkastId + " skapat och används i testfallet");
             });

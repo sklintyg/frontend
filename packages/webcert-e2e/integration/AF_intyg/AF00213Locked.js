@@ -22,7 +22,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
         cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal');*/
         //function skapaIntygViaApi(fx,status, typ, fillType){
             const status = 2;//sätter utkastet till låst
-            cy.skapaIntygViaApi(this,status,true,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,status,0,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("af00213-låst utkast med id " + utkastId + " skapat och används i testfallet");
             });

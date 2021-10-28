@@ -17,7 +17,7 @@ describe('LISJP-intyg låst utkast', function() {
     context('Användare har möjlighet att uföra följande med låst LISJP Utkast ',function() {
       beforeEach(function() {
                    
-            cy.skapaIntygViaApi(this,2,false,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,2,1,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("LISJP-låst utkast med id " + utkastId + " skapat och används i testfallet");
             });

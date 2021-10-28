@@ -17,7 +17,7 @@ describe('FK7804-intyg minimalt ifyllt', function() {
     context('Användare har möjlighet att uföra följande med FK7804 Intyg ',function() {
       beforeEach(function() {
              //UNSIGNED LISJP FILLED
-            cy.skapaIntygViaApi(this,1,false,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,1,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("Lisjp-utkast med id " + utkastId + " skapat och används i testfallet");
             });

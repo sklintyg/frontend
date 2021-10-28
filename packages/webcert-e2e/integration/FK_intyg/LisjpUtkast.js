@@ -18,7 +18,7 @@ describe('LISJP-utkast tomt', function() {
     context('Använadare har möjlighet att uföra följande med ett tomt utkast ',function() {
         beforeEach(function() {
             //UNSIGNED LISJP FILLED
-            cy.skapaIntygViaApi(this,1,false,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,1,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("LISJP-utkast med id " + utkastId + " skapat och används i testfallet");
             });

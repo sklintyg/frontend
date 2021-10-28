@@ -18,7 +18,7 @@ describe('AF00213-intyg tomt', function() {
     context('Använadare har möjlighet att uföra följande med ett tomt utkast ',function() {
         beforeEach(function() {
             //unsigned AF00213 EMPTY
-            cy.skapaIntygViaApi(this,1,true,false).then((utkastId) => {
+            cy.skapaIntygViaApi(this,1,0,false).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("af00213-utkast med id " + utkastId + " skapat och används i testfallet");
             });
