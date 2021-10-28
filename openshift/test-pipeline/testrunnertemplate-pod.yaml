@@ -5,25 +5,34 @@ metadata:
 parameters:
 - name: APP_NAME
   required: true
+  value: "webcert-frontend"
 - name: STAGE
   required: true
   value: "test"
 - name: TARGET_URL
   required: true
+- name: TARGET_URL_WEBCERT
+  required: true
 - name: ACTUATOR_URL
   required: false
 - name: JOB_NAME
   required: true
+  value: "test"
 - name: BUILD_VERSION
   required: true
+  value: "latest"
 - name: CALLBACK_URL
   required: true
+  value: "test"
 - name: BUILD_TAG
   required: true
+  value: "latest"
 - name: IMAGE
   required: true
+  value: "webcert-frontend-artifact"
 - name: TESTS
   required: true
+  value: "test"
 - name: NO_PROXY
   required: true
   value: "*"
@@ -52,6 +61,10 @@ objects:
           value: ${NO_PROXY}
         - name: no_proxy
           value: ${NO_PROXY}
+        - name: CYPRESS_BASE_URL
+          value: ${TARGET_URL}
+        - name: CYPRESS_WEBCERT_URL
+          value: ${TARGET_URL_WEBCERT}
         resources:
           limits:
             cpu: 1
