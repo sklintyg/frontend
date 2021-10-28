@@ -41,16 +41,25 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
   })
 
-  it('displays number of questions in the complement questions header', () => {
-    testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion()), addComplementsToQuestion(createQuestion())]))
+  it('displays number of unhandled questions in the complement questions header', () => {
+    testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
     renderDefaultComponent()
 
     const component = screen.getByText('Kompletteringsbegäran')
-    const numberOfQuestions = within(component).getByText('2')
+    const numberOfQuestions = within(component).getByText('1')
     expect(numberOfQuestions).toBeInTheDocument()
   })
 
   it('displays no number of questions in the complement questions header', () => {
+    renderDefaultComponent()
+
+    const component = screen.getByText('Kompletteringsbegäran')
+    const numberOfQuestions = within(component).queryByText('0')
+    expect(numberOfQuestions).not.toBeInTheDocument()
+  })
+
+  it('displays no number of questions in the complement questions header if all questions are handled', () => {
+    testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion()), addComplementsToQuestion(createQuestion())]))
     renderDefaultComponent()
 
     const component = screen.getByText('Kompletteringsbegäran')
@@ -63,12 +72,12 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
   })
 
-  it('displays number of questions in the administrative questions header', () => {
-    testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
+  it('displays number of unhandled questions in the administrative questions header', () => {
+    testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
 
     const component = screen.getByText('Administrativa frågor')
-    const numberOfQuestions = within(component).getByText('2')
+    const numberOfQuestions = within(component).getByText('1')
     expect(numberOfQuestions).toBeInTheDocument()
   })
 
@@ -79,14 +88,23 @@ describe('QuestionPanel', () => {
     const numberOfQuestions = within(component).queryByText('0')
     expect(numberOfQuestions).not.toBeInTheDocument()
   })
+
+  it('displays no number of questions in the administrative questions header if all questions are handled', () => {
+    testStore.dispatch(updateQuestions([createQuestion(), createQuestion()]))
+    renderDefaultComponent()
+
+    const component = screen.getByText('Administrativa frågor')
+    const numberOfQuestions = within(component).queryByText('0')
+    expect(numberOfQuestions).not.toBeInTheDocument()
+  })
 })
 
-function createQuestion(): Question {
+function createQuestion(handled = true): Question {
   return {
     author: 'author',
     id: String(Math.random()),
     forwarded: true,
-    handled: true,
+    handled: handled,
     lastUpdate: '2021-07-08',
     message: 'message',
     sent: '2021-07-08',
