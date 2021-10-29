@@ -99,6 +99,11 @@ const QuestionFormFooter = styled.div`
   justify-content: space-between;
 `
 
+const QuestionMessage = styled.p`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+`
+
 interface Props {
   question: Question
 }
@@ -271,7 +276,9 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
-      <p className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>{question.message}</p>
+      <QuestionMessage className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
+        {question.message}
+      </QuestionMessage>
       {isComplementsVisible() &&
         question.complements.map((complement) => (
           <ComplementCard
