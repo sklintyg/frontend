@@ -60,7 +60,7 @@ const Certificate: React.FC = () => {
         duration: 250,
         smooth: true,
         containerId: certificateContainerId,
-        offset: -20,
+        offset: -80,
       })
       dispatch(clearGotoCertificateDataElement())
     }
