@@ -1,7 +1,7 @@
 {
     "baseUrl": "https://wc2.wc.localtest.me",
-    "webcertUrl": "https://wc.localtest.me",
     "env": {
+      "webcertUrl": "https://wc.localtest.me",
       "intygMockBaseUrl": "http://nmt-vs-tintyg.intyg.nordicmedtest.se",
       "intygTjanstUrl": "https://intygstjanst-devtest.intyg.nordicmedtest.se",
       "logSenderTimeout": 45000,
