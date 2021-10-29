@@ -28,17 +28,6 @@ const resourceLinkDisabled: ResourceLink = {
   enabled: false,
 }
 
-const user: User = {
-  hsaId: '1234abc',
-  name: 'Test Testtest',
-  loggedInUnit: { unitName: 'testUnit' },
-  loggedInCareProvider: { unitName: 'testProvider' },
-  role: 'doctor',
-}
-
-//@ts-expect-error creating object so component renders
-const certificateMetadata: CertificateMetadata = {}
-
 const renderDefaultComponent = () => {
   render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkEnabled}></CreateCertificateFromCandidateModal>)
 }
@@ -60,6 +49,11 @@ describe('Create certificate from candidate modal', () => {
 
   it('shall not show modal if disabled', () => {
     render(<CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateModal>)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+  })
+
+  it('shall not show modal if resourcelink is undefined', () => {
+    render(<CreateCertificateFromCandidateModal resourceLink={undefined}></CreateCertificateFromCandidateModal>)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 

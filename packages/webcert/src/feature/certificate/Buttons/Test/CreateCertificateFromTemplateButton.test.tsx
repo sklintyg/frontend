@@ -2,22 +2,13 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { User } from '@frontend/common/src'
 import { CertificateMetadata } from '@frontend/common'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
 
-const NAME = 'Renew button name'
-const DESCRIPTION = 'Renew button description'
-const BODY = 'Renew button body'
-const user: User = {
-  hsaId: '1234abc',
-  name: 'Test Testtest',
-  loggedInUnit: { unitName: 'testUnit' },
-  loggedInCareProvider: { unitName: 'testProvider' },
-  role: 'doctor',
-}
+const NAME = 'Template button name'
+const DESCRIPTION = 'Template button description'
+const BODY = 'Template button body'
 
 //@ts-expect-error creating object so component renders
 const certificateMetadata: CertificateMetadata = {}
