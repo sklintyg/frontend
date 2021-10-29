@@ -29,7 +29,7 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
     expect(vårdpersonal).to.exist;
     expect(vårdenhet).to.exist;
     expect(intygsId).to.exist;
-  const theUrl = Cypress.env('webcertUrl') + '/fake';
+  const theUrl = Cypress.config('baseUrl') + '/fake';
    //const theUrl: '/fake';
     //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
@@ -70,7 +70,7 @@ function skapaÄrende(fx,intygsId, typAvFråga, meddelande,reminder){
 
     cy.request({
         method: 'POST',
-        url: Cypress.env('webcertUrl') + '/testability/certificate/' + intygsId + '/question',
+        url: Cypress.config('baseUrl') + '/testability/certificate/' + intygsId + '/question',
         raw: true,
        body:{
             "type": typAvFråga,
@@ -118,7 +118,7 @@ function skapaIntygViaApi(fx,status, typ, theFill,sent){
     cy.clearCookies(true);
     cy.request({
         method: 'POST',
-        url: Cypress.env('webcertUrl') + '/testability/certificate/',
+        url: Cypress.config('baseUrl') + '/testability/certificate/',
         raw: true,
         body:{
             "certificateType":intygsTypen,

@@ -92,8 +92,8 @@ def performTest(testName, buildVersion, appReleaseName, appWebReleaseName) {
   def hook = registerWebhook()
 
   // Just use name
-  def targetUrl = "http://${appReleaseName}:8080"
-  def targetUrlWebcert = "http://${appWebReleaseName}:8080"
+  def targetUrl = "https://wc2.webcert-dintyg.intyg.nordicmedtest.se"
+  def targetUrlWebcert = "https://webcert-dintyg.intyg.nordicmedtest.se"
   def actuatorUrl = "http://${appReleaseName}:8081"
 
   def imageStream = openshift.selector("is", "${APP_NAME}").object().status.dockerImageRepository
@@ -318,7 +318,7 @@ pipeline {
                           def deployModel = openshift.process("-f", "${env.WORKSPACE}/openshift/test-pipeline/deploytemplate-frontend.yaml",
                                   "-p", "APP_NAME=${webcertFrontendBackingServiceAppName}",
                                   "-p", "IMAGE='${imageStream}:${webcertFrontendBackingServiceAppVersion}'",
-                                  "-p", "WEBCERT_API=${webcertBackingServiceAppName}",
+                                  "-p", "WEBCERT_API=${webcertBackingServiceAppName}:8080",
                                   "-p", "HEALTH_URI=${healthUri}",
                                   "-p", "STAGE=test")
                           log "Wait for rollout (limited to 5 minutes)"

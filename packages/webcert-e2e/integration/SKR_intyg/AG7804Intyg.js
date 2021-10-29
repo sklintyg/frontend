@@ -49,7 +49,6 @@ describe('AG7804-intyg minimalt ifyllt', function() {
 
             });
             it('Skriva ut ett signerat AG7804-intyg', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);

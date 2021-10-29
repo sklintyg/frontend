@@ -32,7 +32,6 @@ describe('AF00213-intyg minimalt ifyllt', function() {
 
              
             it('Skriva ut ett låst AF00213 utkast', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
@@ -40,7 +39,6 @@ describe('AF00213-intyg minimalt ifyllt', function() {
                 intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request
             });
             it('Makulerar ett låst AF00213 utkast', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;

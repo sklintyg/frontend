@@ -36,7 +36,6 @@ describe('AF00213-intyg tomt', function() {
              
             });
             it('Det är möjligt att raderar ett icke ifylld AF00213', function () {
-                    //cy.visit('https://wc2.wc.localtest.me/welcome');
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                     const önskadUrl = "/certificate/" + this.utkastId ;
