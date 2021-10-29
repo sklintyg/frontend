@@ -92,8 +92,8 @@ def performTest(testName, buildVersion, appReleaseName, appWebReleaseName) {
   def hook = registerWebhook()
 
   // Just use name
-  def targetUrl = "http://wc2.webcert-dintyg.intyg.nordicmedtest.se/"
-  def targetUrlWebcert = "http://webcert-dintyg.intyg.nordicmedtest.se/"
+  def targetUrl = "http://wc2.webcert-dintyg.intyg.nordicmedtest.se"
+  def targetUrlWebcert = "http://webcert-dintyg.intyg.nordicmedtest.se"
   def actuatorUrl = "http://${appReleaseName}:8081"
 
   def imageStream = openshift.selector("is", "${APP_NAME}").object().status.dockerImageRepository
