@@ -67,9 +67,9 @@ describe('questionUtils', () => {
   describe('getQuestionsOrderedByLastUpdatedAndHandled', () => {
     it('orders questions correctly after last update', () => {
       const questions: Question[] = [
-        { lastUpdate: '2021-10-20T13:10:00.000', id: '1' },
+        { lastUpdate: '2021-10-20T13:01:00.000', id: '1' },
         { lastUpdate: '2021-10-20T13:05:00.000', id: '2' },
-        { lastUpdate: '2021-10-20T13:01:00.000', id: '3' },
+        { lastUpdate: '2021-10-20T13:10:00.000', id: '3' },
       ]
 
       const expected = [...questions.reverse()]

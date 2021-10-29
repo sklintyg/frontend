@@ -42,7 +42,9 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.header) {
       return (
         <>
-          <h4 className={`iu-fw-heading iu-fs-300 iu-mb-300`}>{question.config.header}</h4>
+          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+            {question.config.header}
+          </h4>
           <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>
             {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
           </h5>
@@ -50,7 +52,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
       )
     } else {
       return (
-        <h4 className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+        <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
           {!question.config.text && question.readOnly ? (question.config.label as string) : question.config.text}
         </h4>
       )
