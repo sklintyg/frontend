@@ -41,12 +41,19 @@ const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Questi
 }
 
 export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]): Question[] => {
-  return questions.sort((questionA, questionB) => orderByLastUpdated(questionA, questionB)).sort((question) => (question.handled ? -1 : 1))
+  return questions.sort((questionA, questionB) => {
+    return (
+      compare(convertBooleanToNumber(questionA.handled), convertBooleanToNumber(questionB.handled)) ||
+      compare(new Date(questionA.lastUpdate).getTime(), new Date(questionB.lastUpdate).getTime())
+    )
+  })
 }
 
-const orderByLastUpdated = (questionA: Question, questionB: Question) => {
-  const dateA = new Date(questionA.lastUpdate).getTime()
-  const dateB = new Date(questionB.lastUpdate).getTime()
+const compare = function(a: number, b: number) {
+  if (a > b) return -1
+  if (a < b) return 1
 
-  return dateA > dateB ? 1 : -1
+  return 0
 }
+
+const convertBooleanToNumber = (value: boolean) => (value ? 1 : -1)
