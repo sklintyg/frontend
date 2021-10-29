@@ -16,7 +16,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
     context('Användare har möjlighet skicka ärendekommunikation på ett Lisjp intyg ',function() {
       beforeEach(function() {
         
-            cy.skapaIntygViaApi(this,0,false,true,true).then((utkastId) => {
+            cy.skapaIntygViaApi(this,0,1,true,true).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("Lisjp-utkast med id " + utkastId + " skapat och används i testfallet");
             });
@@ -24,13 +24,13 @@ describe('FK7804-intyg Ärende kommunikation', function() {
         });
         describe('Funktioner kring ärendekommunikation på ett Lisjp intyg', () =>{
 
-          it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
+             it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 intyg.skickaFraga("Avstämningsmöte");
-                //cy.get('.iu-mb-800')contains('skickar en fråga angående avstämmningsmöte.').should(exist);                
+                           
                
              });
              it('Skicka fråga gällande Kontakt på ett Lisjp intyg', function () {
@@ -38,10 +38,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(100);
-               // intyg.skickaTillFk();
-                intyg.skickaFraga("Kontakt"); 
-                //cy.get('.iu-mb-800')contains('skickar en fråga angående avstämmningsmöte.').should(exist);               
+                intyg.skickaFraga("Kontakt");                            
                
              });
              it('Skicka fråga gällande Övrigt på ett Lisjp intyg', function () {
@@ -49,19 +46,14 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-              //  cy.wait(100);
-               // intyg.skickaTillFk();
                 intyg.skickaFraga("Övrigt");
-                //cy.get('.iu-mb-800').contains('skickar en fråga angående Övrigt.').should(exist);
-                
+                           
                
              });
              it('Svara på fråga gällande Komplettering  med nytt Intyg på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                //cy.wait(1000);
-                //intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -69,10 +61,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 intyg.svaraPaKomplettering("nyttIntyg", );
                 intyg.signeraSkicka();
                 cy.contains(this.utkastId).should('not.exist')
-               // cy.reload();
-                //cy.skickaFraga("Övrigt");
-               // cy.get('.iu-mb-800').contains('skickar en fråga angående Övrigt.').should(exist);
-                
+                              
                
              });
             
@@ -81,21 +70,13 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(1000);
-                //intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
                 cy.reload();
                 intyg.svaraPaKomplettering("meddelande", medText );
-                //cy.reload();
-               // cy.wait(500);
-                //intyg.signeraSkicka();
-               // cy.contains(this.utkastId).should('not.exist')
                 cy.contains(medText);
-               // cy.reload();
-                //cy.skickaFraga("Övrigt");
-               // cy.get('.iu-mb-800').contains('skickar en fråga angående Övrigt.').should(exist);
+               
                 
                
              });
@@ -104,8 +85,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                //cy.wait(100);
-               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -114,9 +93,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 intyg.signeraSkicka();
                 cy.contains(this.utkastId).should('not.exist')
                 cy.contains(medText);
-               // cy.reload();
-                //cy.skickaFraga("Övrigt");
-               // cy.get('.iu-mb-800').contains('skickar en fråga angående Övrigt.').should(exist);
+               
                 
                
              });
@@ -125,8 +102,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(100);
-               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'COMPLEMENT','Nu vill jag ha en komplettering skapad');
                 cy.wait(1000);
@@ -146,8 +121,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(100);
-               // intyg.skickaTillFk();
                 cy.wait(1000);
                 cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK',false);
                 cy.wait(1000);
@@ -165,10 +138,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const medText = "this is an answer";
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               // cy.wait(100);
-               // intyg.skickaTillFk();
                 cy.wait(700);
-                cy.skapaÄrende(this, this.utkastId,'CONTACT','Detta är en övrigt fråga från FK',true);
+                cy.skapaÄrende(this, this.utkastId,'CONTACT','Detta är en Kontakt fråga från FK',true);
                 cy.wait(1500);
                 cy.reload();
                 cy.contains('Administrativa frågor').click();
@@ -186,10 +157,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                const medText = "this is an answer";
                const önskadUrl = "/certificate/" + this.utkastId ;
                cy.visit(önskadUrl);
-              // cy.wait(100);
-              // intyg.skickaTillFk();
                cy.wait(700);
-               cy.skapaÄrende(this, this.utkastId,'COORDINATION','Detta är en övrigt fråga från FK',true);
+               cy.skapaÄrende(this, this.utkastId,'COORDINATION','Detta är en Avstämningsmötes fråga från FK',true);
                cy.wait(1500);
                cy.reload();
                cy.contains('Administrativa frågor').click();
@@ -207,8 +176,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                const medText = "this is an answer";
                const önskadUrl = "/certificate/" + this.utkastId ;
                cy.visit(önskadUrl);
-               //cy.wait(100);
-              // intyg.skickaTillFk();
                cy.wait(700);
                cy.skapaÄrende(this, this.utkastId,'OTHER','Detta är en övrigt fråga från FK',true);
                cy.wait(1500);

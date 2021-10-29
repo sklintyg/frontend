@@ -4,6 +4,7 @@ import QuestionItem from './QuestionItem'
 import noQuestionsImg from './fragor_svar_nodata.svg'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const Root = styled.div`
   height: 100%;
@@ -60,7 +61,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
     <Root>
       <Wrapper>
         {!isDisplayingCertificateDraft && getContinueOnDraft()}
-        {complementQuestions.map((complementQuestion) => (
+        {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
           <QuestionItem key={complementQuestion.id} question={complementQuestion} />
         ))}
         {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
