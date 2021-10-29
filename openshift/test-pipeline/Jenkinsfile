@@ -108,7 +108,7 @@ def performTest(testName, buildVersion, appReleaseName, appWebReleaseName) {
           "-p", "IMAGE='${imageStream}-${ARTIFACT_IMAGE_SUFFIX}:${buildVersion}'",
           "-p", "STAGE=${STAGE}",
           "-p", "TARGET_URL='${targetUrl}'",
-          "-p", "TARGET_URL_WEBCERT='${targetUrlWebcert}'",
+          "-p", "TARGET_URL_WEBCERT='${targetUrl}'",
           "-p", "ACTUATOR_URL='${actuatorUrl}'",
           "-p", "BUILD_VERSION=${buildVersion}",
           "-p", "JOB_NAME=${JOB_NAME}",
