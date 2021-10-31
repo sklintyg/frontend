@@ -368,7 +368,6 @@ pipeline {
             openshift.withCluster() {
               openshift.withProject() {
                 // Clean up after Intygstjanst
-
                 echo "Logs for ${intygstjanstBackingServiceAppName}"
                 openshift.selector("dc", "${intygstjanstBackingServiceAppName}").logs()
 
@@ -384,7 +383,6 @@ pipeline {
                 shell("oc delete secret ${intygstjanstBackingServiceAppName}-secret-envvar")
 
                 // Clean up after Webcert
-
                 echo "Logs for ${webcertBackingServiceAppName}"
                 openshift.selector("dc", "${webcertBackingServiceAppName}").logs()
 
