@@ -400,7 +400,6 @@ pipeline {
                 shell("oc delete secret ${webcertBackingServiceAppName}-secret-envvar")
 
                 // Clean up after Webcert-frontend
-
                 echo "Logs for ${webcertFrontendBackingServiceAppName}"
                 openshift.selector("dc", "${webcertFrontendBackingServiceAppName}").logs()
 
