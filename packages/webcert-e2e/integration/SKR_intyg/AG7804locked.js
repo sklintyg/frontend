@@ -4,7 +4,7 @@
 import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
 
 // AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
-describe('AG7804-intyg låst utkast', function() {
+xdescribe('AG7804-intyg låst utkast', function() {
 
     before(function() {
         cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata');

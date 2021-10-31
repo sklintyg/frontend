@@ -5,7 +5,7 @@ import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
 
 // AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
 
-describe('AG7804-intyg tomt', function() {
+xdescribe('AG7804-intyg tomt', function() {
 
     before(function() {
         cy.fixture('FK_intyg/minLisjpData').as('intygsdata');
