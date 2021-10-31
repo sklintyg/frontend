@@ -48,6 +48,10 @@ objects:
               value: ${JAVA_OPTS}
             - name: DATABASE_NAME
               value: ${DATABASE_NAME}
+            - name: WEBCERT_COOKIE_DOMAIN_NAME
+              value: "webcert-dintyg.intyg.nordicmedtest.se"
+            - name: CERTIFICATE_VIEW_HOST_REACT_CLIENT
+              value: "wc2.webcert-dintyg.intyg.nordicmedtest.se"
             envFrom:
               - secretRef:
                   name: ${APP_NAME}-secret-envvar
@@ -138,5 +142,3 @@ objects:
         deploymentconfig: ${APP_NAME}
       sessionAffinity: None
       type: ClusterIP
-
-
