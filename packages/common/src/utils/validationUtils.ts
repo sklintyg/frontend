@@ -258,7 +258,11 @@ function validate(data: CertificateData, id: string) {
     } else if (validationResult.type === CertificateDataValidationType.ENABLE_VALIDATION) {
       data[id].disabled = !validationResult.result
     } else if (validationResult.type === CertificateDataValidationType.HIGHLIGHT_VALIDATION) {
-      data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
+      if (validationResult.result) {
+        data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
+      } else {
+        data[id].style = CertificateDataElementStyleEnum.NORMAL
+      }
     }
   })
 }

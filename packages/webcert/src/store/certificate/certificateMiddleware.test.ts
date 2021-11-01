@@ -151,7 +151,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
-      const certificate = getCertificateWithHiglightValidation('VALUE')
+      const certificate = getCertificateWithHiglightValidation(true)
 
       testStore.dispatch(updateCertificate(certificate))
       testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
@@ -161,13 +161,12 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall unstyle certificate data element', async () => {
-      const certificate = getCertificateWithHiglightValidation('NOT_VALUE')
-
+      const certificate = getCertificateWithHiglightValidation(false)
       testStore.dispatch(updateCertificate(certificate))
       testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
+      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)
     })
   })
 
@@ -187,14 +186,14 @@ const getCertificate = (id: string, type?: string, version?: string): Certificat
   }
 }
 
-const getCertificateWithHiglightValidation = (code: string): Certificate => {
+const getCertificateWithHiglightValidation = (selected: boolean): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     metadata: { id: 'id', type: 'type', version: 'version' },
     data: [
       {
-        id: '1',
+        id: '0',
         readOnly: false,
         parent: '0',
         index: 1,
@@ -206,15 +205,14 @@ const getCertificateWithHiglightValidation = (code: string): Certificate => {
           type: null,
         },
         value: {
-          type: CertificateDataValueType.CODE,
-          value: code,
-          code: code,
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
         },
         validation: [
           {
-            questionId: '1',
+            questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-            expression: 'VALUE',
+            expression: '$0',
           },
         ],
       },

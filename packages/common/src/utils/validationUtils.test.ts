@@ -1,6 +1,7 @@
 import {
   Certificate,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateStatus,
@@ -959,6 +960,24 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.3'].visible).toBe(false)
   })
 
+  it('should set highlight if validation is true', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.HIGHLIGHTED)
+  })
+
+  it('should unstyle element if validation is false', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
+  })
+
   describe('Intialize values when certificate is not UNSIGNED', () => {
     const certificate = getCertificate()
 
@@ -1025,46 +1044,6 @@ describe('Set initial values to a certificate', () => {
       expect(certificate.data['1.2'].readOnly).toBe(true)
       expect(certificate.data['1.1'].visible).toBe(true)
       expect(certificate.data['1.2'].visible).toBe(true)
-    })
-  })
-
-  describe('Validate highlight rule for boolean value', () => {
-    const element: CertificateDataElement = {
-      id: '1',
-      parent: 'diagnos',
-      index: 1,
-      visible: true,
-      readOnly: false,
-      mandatory: false,
-      disabled: false,
-      config: {
-        text: '',
-        description: '',
-        type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
-      },
-      value: {
-        type: CertificateDataValueType.BOOLEAN,
-      },
-      validation: [
-        {
-          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-          questionId: '1',
-          expression: '$1',
-        },
-      ],
-      validationErrors: [],
-    }
-
-    it('it should validate as false when value is false', () => {
-      element.value!.selected = false
-      const result = parseExpression('$1', element, CertificateDataValidationType.HIGHLIGHT_VALIDATION)
-      expect(result).toBe(false)
-    })
-
-    it('it should validate as true when code is set', () => {
-      element.value!.selected = true
-      const result = parseExpression('$1', element, CertificateDataValidationType.HIGHLIGHT_VALIDATION)
-      expect(result).toBe(true)
     })
   })
 })

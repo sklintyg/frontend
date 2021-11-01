@@ -34,6 +34,11 @@ export const getBooleanElement = (): CertificateDataElement => {
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
       },
+      {
+        type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+      },
     ],
     validationErrors: [],
   }
