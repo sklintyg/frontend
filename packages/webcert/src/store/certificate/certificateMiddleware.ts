@@ -95,6 +95,8 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  highlightCertificateDataElement,
+  unstyleCertificateDataElement,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
@@ -772,6 +774,15 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         } else {
           dispatch(disableCertificateDataElement(result.id))
         }
+        break
+
+      case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
+        if (result.result) {
+          dispatch(highlightCertificateDataElement(result.id))
+        } else {
+          dispatch(unstyleCertificateDataElement(result.id))
+        }
+        break
     }
   })
 }
