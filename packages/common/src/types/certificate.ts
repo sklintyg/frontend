@@ -50,7 +50,7 @@ export interface CertificateDataElement {
   value: Value | null
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
-  style: CertificateDataElementStyleEnum
+  style?: CertificateDataElementStyleEnum
 }
 
 export enum CertificateDataElementStyleEnum {
