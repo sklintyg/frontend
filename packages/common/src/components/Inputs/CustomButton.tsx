@@ -25,7 +25,7 @@ interface Props {
   buttonClasses?: string
 }
 
-export const CustomButton: React.FC<Props> = (props) => {
+export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
   let addedClass = ''
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
@@ -53,6 +53,7 @@ export const CustomButton: React.FC<Props> = (props) => {
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''} className={props.tooltipClassName}>
       <button
+        ref={ref}
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
@@ -71,6 +72,6 @@ export const CustomButton: React.FC<Props> = (props) => {
       </button>
     </ButtonTooltip>
   )
-}
+})
 
 export default CustomButton

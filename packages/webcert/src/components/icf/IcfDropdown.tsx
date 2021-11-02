@@ -10,6 +10,8 @@ import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, V
 import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
+import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   modalLabel: string
@@ -32,6 +34,7 @@ const IcfDropdown: React.FC<Props> = ({
 }) => {
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
+  const btnRef = useRef() as React.MutableRefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const loadingIcfData = useSelector(getIsLoadingIcfData())
 
@@ -49,7 +52,7 @@ const IcfDropdown: React.FC<Props> = ({
   }, [])
 
   const handleClick = (e: Event) => {
-    if (rootRef.current?.contains(e.target as Node)) {
+    if (rootRef.current?.contains(e.target as Node) || btnRef.current?.contains(e.target as Node)) {
       return
     }
     setDisplayDropdown(false)
@@ -112,11 +115,14 @@ const IcfDropdown: React.FC<Props> = ({
   return (
     <>
       <CustomButton
+        ref={btnRef}
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
         disabled={getDropdownButtonBeDisabled()}
         onClick={handleToggleDropdownButtonClick}>
+        <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF
+        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} className={'iu-ml-300'} />
       </CustomButton>
 
       {shouldRenderDropdown() && (
