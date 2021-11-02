@@ -4,6 +4,7 @@ import {
   Certificate,
   CertificateData,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
   CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
@@ -246,16 +247,22 @@ function validate(data: CertificateData, id: string) {
       result: getResult(validation, data, id),
     }
 
-    if (validationResult.type == CertificateDataValidationType.MANDATORY_VALIDATION) {
+    if (validationResult.type === CertificateDataValidationType.MANDATORY_VALIDATION) {
       data[id].mandatory = !validationResult.result
-    } else if (validationResult.type == CertificateDataValidationType.SHOW_VALIDATION) {
+    } else if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
       data[id].visible = validationResult.result
-    } else if (validationResult.type == CertificateDataValidationType.HIDE_VALIDATION) {
+    } else if (validationResult.type === CertificateDataValidationType.HIDE_VALIDATION) {
       if (validationResult.result) {
         data[id].visible = false
       }
-    } else if (validationResult.type == CertificateDataValidationType.ENABLE_VALIDATION) {
+    } else if (validationResult.type === CertificateDataValidationType.ENABLE_VALIDATION) {
       data[id].disabled = !validationResult.result
+    } else if (validationResult.type === CertificateDataValidationType.HIGHLIGHT_VALIDATION) {
+      if (validationResult.result) {
+        data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
+      } else {
+        data[id].style = CertificateDataElementStyleEnum.NORMAL
+      }
     }
   })
 }

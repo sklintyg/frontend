@@ -13,10 +13,12 @@ import {
   SigningData,
   startSignCertificate,
   updateCertificate,
+  validateCertificateInFrontEnd,
 } from '../certificate/certificateActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
+import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -147,6 +149,27 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle highlight certificate data element', () => {
+    it('shall highlight certificate data element', async () => {
+      const certificate = getCertificateWithHiglightValidation(true)
+
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.HIGHLIGHTED)
+    })
+
+    it('shall unstyle certificate data element', async () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(validateCertificateInFrontEnd(certificate.data[0]))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate.data[0].style).toEqual(CertificateDataElementStyleEnum.NORMAL)
+    })
+  })
+
   const setDefaultUser = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -159,6 +182,41 @@ const getCertificate = (id: string, type?: string, version?: string): Certificat
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     metadata: { id, type, version },
+    links: [],
+  }
+}
+
+const getCertificateWithHiglightValidation = (selected: boolean): Certificate => {
+  return {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    metadata: { id: 'id', type: 'type', version: 'version' },
+    data: [
+      {
+        id: '0',
+        readOnly: false,
+        parent: '0',
+        index: 1,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: null,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+        },
+        validation: [
+          {
+            questionId: '0',
+            type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+            expression: '$0',
+          },
+        ],
+      },
+    ],
     links: [],
   }
 }
