@@ -53,7 +53,7 @@ export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
   return (
     <ButtonTooltip description={props.tooltip ? props.tooltip : ''} className={props.tooltipClassName}>
       <button
-        ref={ref}
+        ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}

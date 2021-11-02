@@ -6,7 +6,7 @@ import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import { ButtonWrapper, CategoryWrapper, Footer, Root, ScrollDiv, StyledTitle, ValuesWrapper } from './Styles'
+import { CategoryWrapper, Root, ScrollDiv, StyledTitle } from './Styles'
 import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
@@ -34,7 +34,7 @@ const IcfDropdown: React.FC<Props> = ({
 }) => {
   const icd10Codes = useSelector(getFMBDiagnosisCodes)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
-  const btnRef = useRef() as React.MutableRefObject<HTMLButtonElement>
+  const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const loadingIcfData = useSelector(getIsLoadingIcfData())
 
@@ -52,10 +52,14 @@ const IcfDropdown: React.FC<Props> = ({
   }, [])
 
   const handleClick = (e: Event) => {
-    if (rootRef.current?.contains(e.target as Node) || btnRef.current?.contains(e.target as Node)) {
-      return
+    if (clickedOutsideDropdown(e)) {
+      setDisplayDropdown(false)
     }
-    setDisplayDropdown(false)
+    return
+  }
+
+  const clickedOutsideDropdown = (e: Event) => {
+    return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
   }
 
   const getTooltip = () => {
@@ -74,7 +78,7 @@ const IcfDropdown: React.FC<Props> = ({
     return chosenIcfCodeValues && chosenIcfCodeValues.length > 0
   }
 
-  const getDropdownButtonBeDisabled = (): boolean => {
+  const shouldDropdownButtonBeDisabled = (): boolean => {
     return disabled || icd10Codes.length === 0 || icfData === undefined || loadingIcfData
   }
 
@@ -118,7 +122,7 @@ const IcfDropdown: React.FC<Props> = ({
         ref={btnRef}
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
-        disabled={getDropdownButtonBeDisabled()}
+        disabled={shouldDropdownButtonBeDisabled()}
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF
