@@ -1,7 +1,16 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from '../Inputs/UeRadio'
-import { Accordion, CertificateDataConfig, CertificateDataElement, ConfigTypes, Expandable, MandatoryIcon, UvText } from '@frontend/common'
+import {
+  Accordion,
+  CertificateDataConfig,
+  CertificateDataElement,
+  CertificateDataElementStyleEnum,
+  ConfigTypes,
+  Expandable,
+  MandatoryIcon,
+  UvText,
+} from '@frontend/common'
 import { getComplements, getIsLocked, getQuestion, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
@@ -65,7 +74,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   return (
     <div className={complements.length > 0 ? 'iu-border-main iu-radius-card' : ''}>
       <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
-        <QuestionWrapper>
+        <QuestionWrapper highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
           {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
           {complements.map((complement, index) => (

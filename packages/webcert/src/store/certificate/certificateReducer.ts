@@ -43,7 +43,10 @@ import {
   validateCertificateStarted,
   SigningData,
   updateCertificateSigningData,
+  highlightCertificateDataElement,
+  unstyleCertificateDataElement,
 } from './certificateActions'
+import { CertificateDataElementStyleEnum } from '@frontend/common/src'
 
 interface CertificateState {
   certificate?: Certificate
@@ -269,6 +272,20 @@ const certificateReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateCertificateSigningData, (state, action) => {
       state.signingData = action.payload
+    })
+    .addCase(highlightCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.HIGHLIGHTED
+    })
+    .addCase(unstyleCertificateDataElement, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.NORMAL
     })
 )
 

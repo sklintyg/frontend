@@ -1,6 +1,7 @@
 import {
   Certificate,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateStatus,
@@ -957,6 +958,24 @@ describe('Set initial values to a certificate', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect(certificate.data['1.3'].visible).toBe(false)
+  })
+
+  it('should set highlight if validation is true', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = true
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.HIGHLIGHTED)
+  })
+
+  it('should unstyle element if validation is false', () => {
+    const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+    booleanValue.selected = false
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
   })
 
   describe('Intialize values when certificate is not UNSIGNED', () => {
