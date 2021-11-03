@@ -224,13 +224,14 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             {isHandleCheckboxVisible() &&
               (isComplementQuestion() ? (
                 <CheckboxWithConfirmModal
+                  id={question.id}
                   checked={question.handled}
                   disabled={false}
                   buttonStyle={'default'}
                   modalTitle={'Markera som hanterad'}
                   confirmButtonText={'Markera som hanterad'}
                   name={'Hanterad'}
-                  onConfirm={(isSelected: boolean) => handleSelect(isSelected)}>
+                  onConfirm={handleSelect}>
                   <p>När ett intyg markeras som hanterad kan detta inte ångras senare.</p>
                 </CheckboxWithConfirmModal>
               ) : (
