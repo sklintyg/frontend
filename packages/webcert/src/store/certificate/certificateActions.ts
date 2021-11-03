@@ -149,6 +149,9 @@ const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate dat
 
 const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 
+const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
+const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -439,3 +442,6 @@ export interface SigningData {
 }
 
 export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)
+
+export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
+export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)

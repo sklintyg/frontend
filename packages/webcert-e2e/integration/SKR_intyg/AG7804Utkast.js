@@ -1,7 +1,7 @@
 /* globals context cy */
 /// <reference types="Cypress" />
 //import * as intyg from '../../support/FK_intyg/fk_helpers'
-import * as intyg from '../../support/SKR_intyg/ag7804Intyg'
+import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
 
 // AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
 

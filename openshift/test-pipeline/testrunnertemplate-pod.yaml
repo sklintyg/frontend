@@ -63,8 +63,10 @@ objects:
           value: ${NO_PROXY}
         - name: CYPRESS_BASE_URL
           value: ${TARGET_URL}
-        - name: CYPRESS_WEBCERT_URL
+        - name: CYPRESS_webcertUrl
           value: ${TARGET_URL_WEBCERT}
+        - name: CYPRESS_VIDEO
+          value: "false"
         resources:
           limits:
             cpu: 1

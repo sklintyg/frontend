@@ -28,23 +28,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
 
         });
         describe('Funktioner på ett AF20013 intyg', () =>{
-
-            
-           
-           /* it('Skriva ut minimalt AF00213 intyg', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
-
-                const önskadUrl = "/certificate/" + this.utkastId ;
-                cy.visit(önskadUrl);
-                intyg.signeraSkicka();
-
-                intyg.skrivUtUtkast();
-
-            });*/
-             
             it('Skriva ut ett signerat AF20013 intyg', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
@@ -63,7 +47,6 @@ describe('AF00213-intyg minimalt ifyllt', function() {
                
             });
             it('Makulerar ett ifyllt AF00213 intyg', function () {
-                //cy.visit('https://wc2.wc.localtest.me/welcome');
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;

@@ -50,10 +50,6 @@ const Reminder = styled.div`
   padding: 5px;
 `
 
-const ReminderText = styled.p`
-  white-space: pre-line;
-`
-
 const ComplementCard = styled.button`
   display: flex;
   align-items: center;
@@ -99,9 +95,10 @@ const QuestionFormFooter = styled.div`
   justify-content: space-between;
 `
 
-const QuestionMessage = styled.p`
+const FormattedText = styled.p`
   overflow-wrap: break-word;
   word-wrap: break-word;
+  white-space: pre-line;
 `
 
 interface Props {
@@ -270,15 +267,15 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
                 </Wrapper>
                 <Wrapper>
-                  <ReminderText className={'iu-fullwidth'}>{reminder.message}</ReminderText>
+                  <FormattedText className={'iu-fullwidth'}>{reminder.message}</FormattedText>
                 </Wrapper>
               </div>
             </Reminder>
           </div>
         ))}
-      <QuestionMessage className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
+      <FormattedText className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
         {question.message}
-      </QuestionMessage>
+      </FormattedText>
       {isComplementsVisible() &&
         question.complements.map((complement) => (
           <ComplementCard

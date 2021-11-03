@@ -50,6 +50,12 @@ export interface CertificateDataElement {
   value: Value | null
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
+  style?: CertificateDataElementStyleEnum
+}
+
+export enum CertificateDataElementStyleEnum {
+  NORMAL = 'NORMAL',
+  HIGHLIGHTED = 'HIGHLIGHTED',
 }
 
 // Configs
@@ -256,6 +262,7 @@ export enum CertificateDataValidationType {
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
+  HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
 }
 
 export interface CertificateDataValidation {
@@ -283,6 +290,8 @@ export interface DisableValidation extends CertificateDataValidation {
 export interface EnableValidation extends CertificateDataValidation {}
 
 export interface MandatoryValidation extends CertificateDataValidation {}
+
+export interface HighlightValidation extends CertificateDataValidation {}
 
 // How to handle date ranges i.e. min & max
 export interface MaxDateValidation extends CertificateDataValidation {

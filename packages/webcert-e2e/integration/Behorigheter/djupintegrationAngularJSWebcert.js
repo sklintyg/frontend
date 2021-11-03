@@ -33,7 +33,8 @@ describe('LISJP-intyg tomt', function() {
         describe('Funktioner på ett tomt LISJP utkast (ignore)', () =>{
 
             it('Ett icke ifylld LISJP går ej att signera och skicka till FK',function(){
-                Cypress.config('baseUrl', "https://wc.localtest.me")
+                const webcertUrl = Cypress.env('webcertUrl')
+                Cypress.config('baseUrl', webcertUrl)
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhet.id;
                 

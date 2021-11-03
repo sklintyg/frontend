@@ -8,9 +8,7 @@ import * as fk from '../FK_intyg/fk_helpers';
 export {
     besökÖnskadUrl, loggaUtLoggaIn, sektionÖvrigt, sektionKontakt, loggaUt, kopiera,skrivUt,
     skickaTillFk, fornya, raderaUtkast, makuleraIntyg,makuleraUtkast, signera, makulera, ersatta, kopieraUtkast
-} from './../FK_intyg/fk_helpers';
- // -------------------- 'Smittbärarpenning' --------------------
-// Ej implementerad än
+} from '../FK_intyg/fk_helpers';
 
 
 export function verifieraMeddelande() {
