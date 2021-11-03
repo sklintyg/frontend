@@ -10,8 +10,11 @@
 
 .ic-forms__radio,
 .ic-forms__checkbox {
-  position: unset;
-  display: none;
+  width: 0;
+}
+
+input:disabled + label, input:disabled::placeholder {
+  font-style: italic;
 }
 
 .ic-alert {

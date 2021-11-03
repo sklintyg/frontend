@@ -46,7 +46,7 @@ const Checkbox: React.FC<Props> = (props) => {
       <input
         data-testid={id}
         type="checkbox"
-        id={id}
+        id={'checkbox_' + id}
         className={`ic-forms__checkbox ${checkboxAdditionalStyles ? checkboxAdditionalStyles : ''}`}
         name={name}
         value={value}
@@ -54,7 +54,7 @@ const Checkbox: React.FC<Props> = (props) => {
         checked={checked}
         disabled={disabled}
       />
-      <Label hasValidationError={hasValidationError} htmlFor={id} style={{ display: `${vertical} ? block : 'unset'` }}>
+      <Label hasValidationError={hasValidationError} htmlFor={'checkbox_' + id} style={{ display: `${vertical} ? block : 'unset'` }}>
         {label}
       </Label>
     </div>
