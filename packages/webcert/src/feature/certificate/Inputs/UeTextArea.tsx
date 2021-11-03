@@ -47,7 +47,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
         onChange={handleChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 800}></TextArea>
+        limit={textValidation ? textValidation.limit : 3500}></TextArea>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
