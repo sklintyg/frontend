@@ -1,11 +1,11 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { Question, QuestionType } from '@frontend/common'
+import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import ComplementStatus from './ComplementStatus'
 
-const renderComponent = (questions: Question[]) => {
-  render(<ComplementStatus questions={questions} />)
+const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
+  render(<ComplementStatus certificateMetadata={certificateMetadata} questions={questions} />)
 }
 
 const EXPECTED_TEXT = 'Försäkringskassan har begärt komplettering'
@@ -13,19 +13,22 @@ const EXPECTED_TEXT = 'Försäkringskassan har begärt komplettering'
 describe('Complement status', () => {
   it('displays that FK has requested complements', () => {
     const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
-    renderComponent(questions)
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED)
+    renderComponent(certificateMetadata, questions)
 
     expect(screen.getByText(EXPECTED_TEXT)).toBeInTheDocument()
   })
 
   it('doesnt render anything if empty question list', () => {
-    renderComponent([])
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED)
+    renderComponent(certificateMetadata, [])
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if no unhandled questions', () => {
     const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: true }]
-    renderComponent(questions)
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED)
+    renderComponent(certificateMetadata, questions)
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
@@ -39,7 +42,23 @@ describe('Complement status', () => {
       { type: QuestionType.OTHER, handled: false },
       { type: QuestionType.MISSING, handled: false },
     ]
-    renderComponent(questions)
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED)
+    renderComponent(certificateMetadata, questions)
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
+  })
+
+  it('doesnt render anything if not signed', () => {
+    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.UNSIGNED)
+    renderComponent(certificateMetadata, questions)
+
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 })
+
+const createCertificateMetadata = (status: CertificateStatus): CertificateMetadata => {
+  return {
+    status: status,
+    type: 'lisjp',
+  }
+}
