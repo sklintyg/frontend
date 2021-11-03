@@ -76,6 +76,13 @@ describe('Verify header buttons', () => {
     renderComponent()
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
+
+  it('shall include create certificate from template button when its resource link type is available', () => {
+    const expectedButton = 'Skapa utkast'
+    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REVOKE_CERTIFICATE })
+    renderComponent()
+    expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
+  })
 })
 
 const getMetadata = () => {

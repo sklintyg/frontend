@@ -22,6 +22,8 @@ import HeaderButtons from './HeaderButtons'
 import LockedStatus from './Status/LockedStatus'
 import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
+import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
+import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -51,6 +53,9 @@ const CertificateHeader = () => {
   const isShowSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks)
   const isLocked = useSelector(getIsLocked)
+  const candidateResourceLink = resourceLinks.find((link) =>
+    resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
+  )
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -59,6 +64,7 @@ const CertificateHeader = () => {
   return (
     <Wrapper>
       <div className="ic-container iu-pt-200">
+        <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink}></CreateCertificateFromCandidateModal>
         <StatusWrapper>
           <StatusLeftSide>
             <RevokedStatus certificateMetadata={certificateMetadata} />

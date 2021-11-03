@@ -9,6 +9,8 @@ import {
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
+  createCertificateFromCandidate,
+  CreateCertificateFromCandidateSuccess,
   hideSpinner,
   SigningData,
   startSignCertificate,
@@ -149,6 +151,23 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle CreateCertificateFromCandidate', () => {
+    it('shall return certificate filled in certificate from candidate', async () => {
+      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const createCertificateFromCandidateSuccess: CreateCertificateFromCandidateSuccess = {
+        certificateId: expectedCertificate.metadata.id,
+      }
+      fakeAxios.onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`).reply(200, createCertificateFromCandidateSuccess)
+      testStore.dispatch(updateCertificate(expectedCertificate))
+
+      testStore.dispatch(createCertificateFromCandidate())
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+    
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(true)

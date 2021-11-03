@@ -14,6 +14,11 @@
   display: none;
 }
 
+.ic-alert {
+  padding: 4px 8px 4px 0 !important;
+  flex-wrap: nowrap !important;
+}
+
 .iu-no-padding {
   padding: 0 !important;
 }

@@ -51,6 +51,10 @@ import {
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateError,
+  createCertificateFromTemplate,
+  createCertificateFromTemplateError,
+  createCertificateFromTemplateStarted,
+  createCertificateFromTemplateSuccess,
   renewCertificateStarted,
   renewCertificateSuccess,
   replaceCertificate,
@@ -95,6 +99,10 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
+  createCertificateFromCandidateSuccess,
+  createCertificateFromCandidate,
+  createCertificateFromCandidateStarted,
+  createCertificateFromCandidateError,
   highlightCertificateDataElement,
   unstyleCertificateDataElement,
 } from './certificateActions'
@@ -554,6 +562,81 @@ const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
+const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromTemplate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Laddar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/template',
+      method: 'POST',
+      onStart: createCertificateFromTemplateStarted.type,
+      onSuccess: createCertificateFromTemplateSuccess.type,
+      onError: createCertificateFromTemplateError.type,
+      onArgs: { history: action.payload },
+    })
+  )
+}
+
+const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromTemplateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
+const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromCandidate.match(action)) {
+    return
+  }
+
+  dispatch(showSpinner('Laddar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/candidate',
+      method: 'POST',
+      onStart: createCertificateFromCandidateStarted.type,
+      onSuccess: createCertificateFromCandidateSuccess.type,
+      onError: createCertificateFromCandidateError.type,
+    })
+  )
+}
+
+const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+  action: AnyAction
+): void => {
+  next(action)
+
+  if (!createCertificateFromCandidateSuccess.match(action)) {
+    return
+  }
+
+  dispatch(hideSpinner())
+  dispatch(getCertificate(action.payload.certificateId))
+}
+
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
@@ -808,6 +891,10 @@ export const certificateMiddleware = [
   handleRevokeCertificateSuccess,
   handleRenewCertificate,
   handleRenewCertificateSuccess,
+  handleCreateCertificateFromTemplate,
+  handleCreateCertificateFromTemplateSuccess,
+  handleCreateCertificateFromCandidate,
+  handleCreateCertificateFromCandidateSuccess,
   handleReplaceCertificate,
   handleReplaceCertificateSuccess,
   handleForwardCertificate,

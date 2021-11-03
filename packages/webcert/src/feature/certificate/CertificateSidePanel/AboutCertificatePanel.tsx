@@ -42,7 +42,7 @@ const AboutCertificatePanel: React.FC = () => {
             </>
           )}
         </p>
-        <Description>{certMetaData?.description}</Description>
+        {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }}></Description>}
       </ContentWrapper>
       <AboutCertificatePanelFooter />
     </>
