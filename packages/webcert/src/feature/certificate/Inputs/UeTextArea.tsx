@@ -6,7 +6,7 @@ import { CertificateDataElement, CertificateDataValueType, ValueText } from '@fr
 import { QuestionValidationTexts, TextArea } from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { ConfigUeTextArea } from './../../../../../common/src/types/certificate'
+import { CertificateDataValidationType, ConfigUeTextArea, TextValidation } from '@frontend/common'
 
 interface Props {
   question: CertificateDataElement
@@ -20,6 +20,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: string) => {
@@ -45,7 +46,8 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
         hasValidationError={questionHasValidationError}
         onChange={handleChange}
         name={questionConfig.id}
-        value={text === null ? '' : text}></TextArea>
+        value={text === null ? '' : text}
+        limit={textValidation ? textValidation.limit : 800}></TextArea>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )

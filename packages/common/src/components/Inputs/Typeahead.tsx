@@ -21,6 +21,7 @@ interface Props {
   highlighted?: boolean
   hasValidationError?: boolean
   moreResults?: boolean
+  limit?: number
 }
 
 export interface Suggestion {
@@ -81,6 +82,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     onClose,
     moreResults,
     getItemText,
+    limit,
   } = props
 
   const downPress = useKeyPress('ArrowDown')
@@ -207,6 +209,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         onChange={onChange}
         value={value}
         onBlur={handleClose}
+        limit={limit}
         activeDescendant={cursor >= 0 && open ? 'typeahead-list-option-' + cursor : undefined}
       />
       <div css={listStyles}>{open ? renderSuggestions() : ''}</div>
