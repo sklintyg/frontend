@@ -18,6 +18,7 @@ interface Props {
   onClick?: () => void
   onClose?: () => void
   checked: boolean
+  id: string
 }
 
 const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
@@ -52,7 +53,7 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
   return (
     <>
       <Checkbox
-        id={'checkbox'}
+        id={props.id}
         label={props.name}
         value="checked"
         checked={props.checked}
