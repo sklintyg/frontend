@@ -6,6 +6,7 @@ import {
   CertificateStatus,
   ConfigTypes,
 } from '../../types/certificate'
+import { Question, QuestionType } from '../../types/question'
 
 export const getBooleanElement = (): CertificateDataElement => {
   return {
@@ -269,4 +270,8 @@ export const getCertificate = (): Certificate => {
     },
     links: [],
   }
+}
+
+export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
+  return [{ type: type, handled: handled }]
 }
