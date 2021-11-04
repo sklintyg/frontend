@@ -8,6 +8,7 @@ interface Props {
 
 const Wrapper = styled.p`
   text-align: right;
+  font-style: italic;
 `
 
 const CharacterCounter: React.FC<Props> = (props) => {
