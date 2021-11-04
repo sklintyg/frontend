@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  limit: number
+  limit?: number
   value: string
 }
 
@@ -17,7 +17,7 @@ const CharacterCounter: React.FC<Props> = (props) => {
     return null
   }
 
-  return <Wrapper className={'iu-pb-200'}>Tecken kvar: {limit - value.length}</Wrapper>
+  return <Wrapper className={'iu-pb-200'}>Tecken kvar: {limit - (value ? value.length : 0)}</Wrapper>
 }
 
 export default CharacterCounter

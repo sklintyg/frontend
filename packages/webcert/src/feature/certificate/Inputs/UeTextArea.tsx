@@ -20,7 +20,9 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
+  const textValidation = question.validation
+    ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
+    : undefined
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: string) => {
