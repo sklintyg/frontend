@@ -87,6 +87,11 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
     dispatchEditDraft(question, text, updatedIcfCodes)
   }
 
+  const getPlaceHolder = (): string => {
+    if (!chosenIcfValues) return ''
+    return chosenIcfValues.length > 0 ? questionConfig.placeholder : ''
+  }
+
   return (
     <div className={`iu-pt-200`}>
       <IcfDropdown
@@ -106,6 +111,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
         name={questionConfig.id}
         value={text === null ? '' : text}
         limit={textValidation ? textValidation.limit : 3500}
+        placeholder={getPlaceHolder()}
       />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </div>
