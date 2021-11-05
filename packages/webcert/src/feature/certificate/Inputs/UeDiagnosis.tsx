@@ -15,6 +15,7 @@ import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
 import _ from 'lodash'
+import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
 
 interface Props {
   question: CertificateDataElement
@@ -68,6 +69,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
   const diagnosisInput = React.createRef<HTMLInputElement>()
+  const textValidation = question.validation
+    ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
+    : undefined
 
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 3
@@ -271,7 +275,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
-        limit={81}
+        limit={textValidation ? textValidation.limit : 250}
       />
     </Wrapper>
   )
