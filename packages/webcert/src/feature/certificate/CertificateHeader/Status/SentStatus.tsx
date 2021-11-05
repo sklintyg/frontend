@@ -1,12 +1,19 @@
 import React from 'react'
-import { CertificateMetadata, isReplaced, isSigned, StatusWithIcon } from '@frontend/common'
+import { CertificateMetadata, hasUnhandledComplementQuestions, isReplaced, isSigned, Question, StatusWithIcon } from '@frontend/common'
 
 interface Props {
   certificateMetadata: CertificateMetadata
+  questions: Question[]
 }
 
-const SentStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isSigned(certificateMetadata) || isReplaced(certificateMetadata) || !certificateMetadata.sent) return null
+const SentStatus: React.FC<Props> = ({ certificateMetadata, questions }) => {
+  if (
+    !isSigned(certificateMetadata) ||
+    isReplaced(certificateMetadata) ||
+    !certificateMetadata.sent ||
+    hasUnhandledComplementQuestions(questions)
+  )
+    return null
 
   //TODO: Replace this with recipient from backend
   return (

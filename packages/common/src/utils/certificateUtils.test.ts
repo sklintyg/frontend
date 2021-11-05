@@ -1,7 +1,7 @@
-import { CertificateDataValueType, ValueDateRange } from './../types/certificate'
-import { getCertificate } from './test/certificateTestUtil'
+import { getCertificate, getQuestions } from './test/certificateTestUtil'
 import { ValueBoolean, ValueText } from '../types/certificate'
-import { getCertificateToSave } from './certificateUtils'
+import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
+import { QuestionType } from '../types/question'
 
 describe('Clean certificate before saving', () => {
   const certificate = getCertificate()
@@ -44,5 +44,35 @@ describe('Clean certificate before saving', () => {
     const clearedCertificate = getCertificateToSave(certificate)
 
     expect((clearedCertificate.data['1.2'].value as ValueText).text).toEqual('Has text value')
+  })
+})
+
+describe('hasUnhandledComplementQuestions', () => {
+  it('returns true if unhandled complement questions', () => {
+    const questions = getQuestions(false, QuestionType.COMPLEMENT)
+    const actual = hasUnhandledComplementQuestions(questions)
+    expect(actual).toBe(true)
+  })
+
+  it('returns false if handled complement questions', () => {
+    const questions = getQuestions(true, QuestionType.COMPLEMENT)
+    const actual = hasUnhandledComplementQuestions(questions)
+    expect(actual).toBe(false)
+  })
+
+  it('returns false if no questions', () => {
+    const actual = hasUnhandledComplementQuestions([])
+    expect(actual).toBe(false)
+  })
+
+  it('returns false if other types than complement', () => {
+    const questions = [
+      ...getQuestions(false, QuestionType.OTHER),
+      ...getQuestions(false, QuestionType.MISSING),
+      ...getQuestions(false, QuestionType.CONTACT),
+      ...getQuestions(false, QuestionType.COORDINATION),
+    ]
+    const actual = hasUnhandledComplementQuestions(questions)
+    expect(actual).toBe(false)
   })
 })
