@@ -35,17 +35,13 @@ export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
   } else {
     switch (props.buttonStyle) {
       case 'success':
-        addedClass += 'ic-button--primary iu-bg-grass-base iu-border-grass-base'
-        break
       case 'primary':
         addedClass += 'ic-button--primary'
         break
-      case 'secondary':
-        addedClass += 'ic-button--secondary'
-        break
       case 'default':
+      case 'secondary':
       default:
-        addedClass += 'ic-button--default iu-bg-white iu-border-black iu-color-black'
+        addedClass += 'ic-button--secondary'
         break
     }
   }
