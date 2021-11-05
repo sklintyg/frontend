@@ -131,6 +131,7 @@ const IcfDropdown: React.FC<Props> = ({
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
+        buttonStyle="secondary"
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF

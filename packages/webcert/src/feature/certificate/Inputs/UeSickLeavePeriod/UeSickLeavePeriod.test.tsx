@@ -219,4 +219,26 @@ describe('x', () => {
 
     expect(screen.queryByText('Intyget motsvarar en period på 14 dagar.')).not.toBeInTheDocument()
   })
+
+  it('should not render total number of sick days if question is disabled', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      disabled: true,
+    }
+
+    renderDefaultComponent(question)
+
+    expect(screen.queryByText('Intyget motsvarar en period på 14 dagar.')).not.toBeInTheDocument()
+  })
+
+  it('should not render hourly calculation if question is disabled', () => {
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      disabled: true,
+    }
+
+    renderDefaultComponent(question)
+
+    expect(screen.queryByText('Patienten arbetar i snitt', { exact: false })).not.toBeInTheDocument()
+  })
 })
