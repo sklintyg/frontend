@@ -135,12 +135,21 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   return (
     <div>
       <div>
-        <DaysRangeWrapper>
-          <FontAwesomeIcon icon={faLightbulb} className="iu-color-main" size="lg" />
-          <p>Patienten arbetar i snitt</p>
-          <TextInput onChange={handleWorkingHoursOnChange} className="ic-textfield" type="text" value={baseWorkHours} maxLength={2} />
-          <p>timmar/vecka</p>
-        </DaysRangeWrapper>
+        {!question.disabled && (
+          <DaysRangeWrapper>
+            <FontAwesomeIcon icon={faLightbulb} className="iu-color-main" size="lg" />
+            <p>Patienten arbetar i snitt</p>
+            <TextInput
+              onChange={handleWorkingHoursOnChange}
+              className="ic-textfield"
+              value={baseWorkHours}
+              type="text"
+              maxLength="2"
+              pattern="\d*"
+            />
+            <p>timmar/vecka</p>
+          </DaysRangeWrapper>
+        )}
       </div>
       <div>
         {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
@@ -162,7 +171,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         })}
         {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
         {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-        {totalSickDays && (
+        {totalSickDays && !question.disabled && (
           <>
             <p className="iu-color-main">
               <FontAwesomeIcon icon={faLightbulb} className="iu-color-main iu-mr-200" size="lg" />
