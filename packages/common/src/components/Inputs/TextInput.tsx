@@ -13,6 +13,7 @@ interface Props {
   placeholder?: string
   additionalStyles?: FlattenSimpleInterpolation
   activeDescendant?: string
+  limit?: number
 }
 
 const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -28,6 +29,7 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
     placeholder,
     onBlur,
     activeDescendant,
+    limit,
   } = props
   return (
     <>
@@ -45,6 +47,7 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
         onBlur={onBlur}
         onChange={(e) => onChange(e)}
         aria-activedescendant={activeDescendant}
+        maxLength={limit ? limit : 3500}
       />
     </>
   )

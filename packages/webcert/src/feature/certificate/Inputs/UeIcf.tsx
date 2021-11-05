@@ -16,6 +16,7 @@ import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../store/icf/icfSelectors'
 import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from '../../../components/icf/IcfUtils'
+import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
 
 interface Props {
   question: CertificateDataElement
@@ -32,6 +33,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const [chosenIcfValues, setChosenIcfValues] = useState<string[] | undefined>(getIcdCodesValue(question))
   const [icfValues, setIcfValues] = useState<string[]>([])
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, textValue: string, icfCodeValues?: string[]) => {
@@ -103,6 +105,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
         onChange={handleTextChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
+        limit={textValidation ? textValidation.limit : 3500}
       />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </div>
