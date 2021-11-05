@@ -38,28 +38,7 @@ const renderComponent = (question: CertificateDataElement, disabled = false) => 
 }
 
 const QUESTION_ID = 'questionid'
-
-const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
-  return {
-    id: QUESTION_ID,
-    mandatory: true,
-    index: 0,
-    parent: '',
-    visible: true,
-    readOnly: false,
-    validation: [],
-    validationErrors: [],
-    value: { type: CertificateDataValueType.ICF, icfCodes: icfCodes } as ValueIcf,
-    config: {
-      id: QUESTION_ID,
-      label: 'test',
-      modalLabel: 'test',
-      collectionsLabel: 'test',
-      description: 'test',
-      type: ConfigTypes.UE_ICF,
-    } as ConfigUeIcf,
-  } as CertificateDataElement
-}
+const PLACEHOLDER = 'placeholder'
 
 describe('UeIcf', () => {
   beforeEach(() => {
@@ -144,7 +123,44 @@ describe('UeIcf', () => {
     const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValues)
   })
+
+  it('shall not display placeholder if no chosen icf values', () => {
+    const question = createQuestion()
+    renderComponent(question)
+
+    expect(screen.queryByText(PLACEHOLDER)).not.toBeInTheDocument()
+  })
+
+  it('shall display placeholder if chosen icf values', () => {
+    const question = createQuestion(['test'])
+    renderComponent(question)
+
+    expect(screen.getByText(PLACEHOLDER)).toBeInTheDocument()
+  })
 })
+
+const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
+  return {
+    id: QUESTION_ID,
+    mandatory: true,
+    index: 0,
+    parent: '',
+    visible: true,
+    readOnly: false,
+    validation: [],
+    validationErrors: [],
+    value: { type: CertificateDataValueType.ICF, icfCodes: icfCodes } as ValueIcf,
+    config: {
+      id: QUESTION_ID,
+      label: 'test',
+      modalLabel: 'test',
+      collectionsLabel: 'test',
+      description: 'test',
+      type: ConfigTypes.UE_ICF,
+      placeholder: PLACEHOLDER,
+    } as ConfigUeIcf,
+  } as CertificateDataElement
+}
 
 const createValue = (icfCodes: string[], text: string) => {
   return {
