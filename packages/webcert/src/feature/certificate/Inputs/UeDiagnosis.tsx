@@ -271,6 +271,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
+        limit={81}
       />
     </Wrapper>
   )

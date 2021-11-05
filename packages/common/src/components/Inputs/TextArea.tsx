@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import CharacterCounter from './CharacterCounter'
 
 interface TextAreaProps {
   hasValidationError?: boolean
@@ -9,6 +10,7 @@ interface TextAreaProps {
   additionalStyles?: string
   disabled?: boolean
   rowsMin?: number
+  limit: number
 }
 
 const Root = styled.textarea`
@@ -16,7 +18,7 @@ const Root = styled.textarea`
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
-  const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value } = props
+  const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value, limit } = props
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
@@ -25,14 +27,18 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   }
 
   return (
-    <Root
-      disabled={disabled}
-      className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'ic-textarea--error' : ''}`}
-      rows={rowsMin ? rowsMin : 1}
-      name={name ?? ''}
-      value={value}
-      onChange={(e) => handleOnChange(e)}
-    />
+    <>
+      <Root
+        disabled={disabled}
+        className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'ic-textarea--error' : ''}`}
+        rows={rowsMin ? rowsMin : 1}
+        name={name ?? ''}
+        value={value}
+        onChange={(e) => handleOnChange(e)}
+        maxLength={limit}
+      />
+      <CharacterCounter limit={limit} value={value}></CharacterCounter>
+    </>
   )
 }
 
