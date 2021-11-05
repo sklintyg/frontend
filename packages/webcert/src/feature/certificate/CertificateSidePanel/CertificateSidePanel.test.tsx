@@ -3,7 +3,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
 import reducer from '../../../store/reducers'
-import { Certificate, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { Certificate, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import CertificateSidePanel from './CertificateSidePanel'
@@ -163,5 +163,6 @@ const openAboutTab = () => {
 const createCertificate = (resourceLinks: ResourceLink[]): Certificate => {
   return {
     links: resourceLinks,
+    metadata: { status: CertificateStatus.SIGNED },
   }
 }

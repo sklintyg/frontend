@@ -8,11 +8,13 @@ import {
   isDisplayingCertificateDraft,
 } from '../../store/question/questionSelectors'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { CustomButton, QuestionType } from '@frontend/common'
+import { CustomButton, Question, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import QuestionPanelFooter from './QuestionPanelFooter'
 import { getShouldComplementedBeActive, getNumberOfUnhandledQuestions } from './questionUtils'
+import usePrevious from '../../hooks/usePrevious'
+import { getIsSigned } from '../../store/certificate/certificateSelectors'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -30,21 +32,31 @@ const QuestionPanel: React.FC = () => {
   const questionDraft = useSelector(getQuestionDraft)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
+  const isSigned = useSelector(getIsSigned())
   const [isComplementSelected, setIsComplementSelected] = useState(true)
 
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
 
+  const previousQuestionsLength = usePrevious(administrativeQuestions.length)
+
   useEffect(() => {
+    if (previousQuestionsLength !== 0 || (previousQuestionsLength.length > 0 && administrativeQuestions.length > previousQuestionsLength))
+      return
     setIsComplementSelected(getShouldComplementedBeActive(administrativeQuestions, complementQuestions))
-  }, [administrativeQuestions.length])
+  }, [administrativeQuestions.length, previousQuestionsLength])
+
+  const getButtonNumber = (questions: Question[]) => {
+    if (!isSigned) return undefined
+    return getNumberOfUnhandledQuestions(questions)
+  }
 
   const getHeaderButtons = () => {
     return (
       <HeaderButtons>
         <CustomButton
           text={'Kompletteringsbegäran'}
-          number={getNumberOfUnhandledQuestions(complementQuestions)}
+          number={getButtonNumber(complementQuestions)}
           buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setIsComplementSelected(true)}
@@ -52,7 +64,7 @@ const QuestionPanel: React.FC = () => {
         />
         <CustomButton
           text={'Administrativa frågor'}
-          number={getNumberOfUnhandledQuestions(administrativeQuestions)}
+          number={getButtonNumber(administrativeQuestions)}
           buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
           rounded={true}
           onClick={() => setIsComplementSelected(false)}
