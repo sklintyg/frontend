@@ -135,7 +135,7 @@ describe('UeIcf', () => {
     const question = createQuestion(['test'])
     renderComponent(question)
 
-    expect(screen.getByText(PLACEHOLDER)).toBeInTheDocument()
+    expect(screen.getByPlaceholderText(PLACEHOLDER)).toBeInTheDocument()
   })
 })
 
