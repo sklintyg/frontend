@@ -79,7 +79,14 @@ const IcfDropdown: React.FC<Props> = ({
   }
 
   const shouldDropdownButtonBeDisabled = (): boolean => {
-    return disabled || icd10Codes.length === 0 || icfData === undefined || loadingIcfData
+    return (
+      disabled ||
+      icd10Codes.length === 0 ||
+      icfData === undefined ||
+      icfData.uniqueCodes?.length === 0 ||
+      icfData.commonCodes?.icfCodes?.length === 0 ||
+      loadingIcfData
+    )
   }
 
   const getCommonCodes = () => {
@@ -119,6 +126,7 @@ const IcfDropdown: React.FC<Props> = ({
   return (
     <>
       <CustomButton
+        buttonStyle={'secondary'}
         ref={btnRef}
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
@@ -126,7 +134,7 @@ const IcfDropdown: React.FC<Props> = ({
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF
-        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} className={'iu-ml-300'} />
+        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} size={'sm'} className={'iu-ml-200'} />
       </CustomButton>
 
       {shouldRenderDropdown() && (

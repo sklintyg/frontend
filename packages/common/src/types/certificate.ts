@@ -172,6 +172,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   label: string
   modalLabel: string
   collectionsLabel: string
+  placeholder: string
 }
 
 // Values
