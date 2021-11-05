@@ -19,7 +19,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled }) => {
   return (
     <CustomButton
       tooltip={description}
-      buttonStyle="success"
+      buttonStyle="primary"
       text={name}
       startIcon={<FontAwesomeIcon size="lg" icon={faFileSignature} />}
       disabled={isValidating || !enabled}

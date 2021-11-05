@@ -9,7 +9,7 @@ const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => 
   if (!isSigned(certificateMetadata)) return null
 
   return (
-    <StatusWithIcon icon={'CheckIcon'}>
+    <StatusWithIcon icon={'CheckIcon'} isModal={true}>
       <TextWithInfoModal text="Intyget är tillgängligt för patienten" modalTitle="Intyget är tillgängligt för patienten">
         <p>
           Intyget är tillgängligt för patienten i Mina intyg, som nås via <a href="https://minaintyg.se/">minaintyg.se</a>

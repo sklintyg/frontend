@@ -12,9 +12,10 @@ interface Props {
   icon?: 'CheckIcon' | 'ErrorOutlineIcon'
   additionalWrapperStyles?: string
   additionalTextStyles?: string
+  isModal?: boolean
 }
 
-const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyles, additionalTextStyles }) => {
+const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWrapperStyles, additionalTextStyles }) => {
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
@@ -30,7 +31,7 @@ const StatusWithIcon: React.FC<Props> = ({ icon, children, additionalWrapperStyl
     <>
       <Wrapper className={`status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <div className={`iu-ml-200 iu-fs-100 iu-color-secondary-dark ${additionalTextStyles}`}>{children}</div>
+        <div className={`iu-ml-200 iu-fs-100 ${isModal ? '' : 'iu-color-secondary-dark'} ${additionalTextStyles}`}>{children}</div>
       </Wrapper>
     </>
   )

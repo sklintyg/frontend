@@ -11,14 +11,17 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id))
+  const isCertificateEditable = !category.readOnly && !category.disabled
 
   return (
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
-        {category.config.description && (
-          <Accordion titleId={category.id} title={category.config.text} description={category.config.description} />
+        {category.config.description && isCertificateEditable && (
+          <Accordion titleId={category.id} title={category.config.text} description={category.config.description} isCategory={true} />
         )}
-        {!category.config.description && <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>}
+        {(!category.config.description || !isCertificateEditable) && (
+          <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
+        )}
       </CategoryHeader>
     </Expandable>
   )

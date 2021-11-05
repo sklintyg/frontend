@@ -59,7 +59,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as CheckboxCode[]).find((item) => item.id === id)
-    return <li>{item?.label}</li>
+    return <li key={id}>{item?.label}</li>
   }
 
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
@@ -162,9 +162,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         if (codeListValue.list.length > 0 && question.visible) {
           return (
             <Badge>
-              {(codeListValue.list as ValueCode[]).map((value, key) => (
-                <div key={key}>{getCodeListText(value.id, codeListConfig)}</div>
-              ))}
+              <ul>{(codeListValue.list as ValueCode[]).map((value, key) => getCodeListText(value.id, codeListConfig))}</ul>
             </Badge>
           )
         }

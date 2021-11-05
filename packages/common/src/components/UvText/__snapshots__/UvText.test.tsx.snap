@@ -5,6 +5,11 @@ exports[`UvText Verify snapshot 1`] = `
   overflow-wrap: anywhere;
 }
 
+.c0 ul {
+  list-style: unset;
+  padding-left: 15px;
+}
+
 <div
   className="c0 ic-badge ic-badge--small iu-bg-secondary-light"
 >
