@@ -28,13 +28,7 @@ import {
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
-const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getUser.match(action)) {
-    return
-  }
-
+const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/user',
@@ -46,23 +40,11 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (ne
   )
 }
 
-const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getUserSuccess.match(action)) {
-    return
-  }
-
+const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload))
 }
 
-const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!setUserPreference.match(action)) {
-    return
-  }
-
+const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/anvandare/preferences',
@@ -82,13 +64,7 @@ const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
   )
 }
 
-const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!setUserPreferenceSuccess.match(action)) {
-    return
-  }
-
+const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     updateUserPreference({
       key: action.payload.key,
@@ -97,13 +73,7 @@ const handleSetUserPreferenceSuccess: Middleware<Dispatch> = ({ dispatch }: Midd
   )
 }
 
-const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!cancelLogout.match(action)) {
-    return
-  }
-
+const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/anvandare/logout/cancel',
@@ -115,13 +85,7 @@ const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
   )
 }
 
-const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!triggerLogout.match(action)) {
-    return
-  }
-
+const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   if (getState().ui.uiUser.inactiveAutomaticLogout) {
     return
   }
@@ -137,13 +101,7 @@ const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   )
 }
 
-const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!triggerLogoutNow.match(action)) {
-    return
-  }
-
+const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/visa/anvandare/logout/now',
@@ -155,23 +113,25 @@ const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
   )
 }
 
-const handleStartSigningCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!startSignCertificate.match(action)) {
-    return
-  }
-
+const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateInactivateAutomaticLogout(true))
 }
 
-export const userMiddleware = [
-  handleGetUser,
-  handleGetUserSuccess,
-  handleSetUserPreference,
-  handleSetUserPreferenceSuccess,
-  handleCancelLogout,
-  handleTriggerLogout,
-  handleTriggerLogoutNow,
-  handleStartSigningCertificate,
-]
+const middlewareMethods = {
+  [getUser.type]: handleGetUser,
+  [getUserSuccess.type]: handleGetUserSuccess,
+  [setUserPreference.type]: handleSetUserPreference,
+  [setUserPreferenceSuccess.type]: handleSetUserPreferenceSuccess,
+  [cancelLogout.type]: handleCancelLogout,
+  [triggerLogout.type]: handleTriggerLogout,
+  [triggerLogoutNow.type]: handleTriggerLogoutNow,
+  [startSignCertificate.type]: handleStartSignCertificate,
+}
+
+export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}

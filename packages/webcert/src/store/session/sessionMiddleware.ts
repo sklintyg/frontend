@@ -1,4 +1,4 @@
-import { Dispatch, Middleware } from 'redux'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
   clearPollHandle,
@@ -16,13 +16,7 @@ import {
 import { apiCallBegan } from '../api/apiActions'
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 
-export const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!startPoll.match(action)) {
-    return
-  }
-
+const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
     return
   }
@@ -34,26 +28,14 @@ export const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) =>
   dispatch(setPollHandle(handlePoll))
 }
 
-export const handleStopPoll: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!stopPoll.match(action)) {
-    return
-  }
-
+const handleStopPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
     clearInterval(getState().ui.uiSession.pollHandle)
     dispatch(clearPollHandle())
   }
 }
 
-export const handleGetSessionStatus: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getSessionStatus.match(action)) {
-    return
-  }
-
+const handleGetSessionStatus: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pending) {
     return
   }
@@ -71,13 +53,7 @@ export const handleGetSessionStatus: Middleware<Dispatch> = ({ dispatch, getStat
   )
 }
 
-export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getSessionStatusSuccess.match(action)) {
-    return
-  }
-
+const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(setSessionStatusPending(false))
   dispatch(setSessionStatus(action.payload))
 
@@ -86,55 +62,39 @@ export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }
   }
 }
 
-export const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getSessionStatusError.match(action)) {
-    return
-  }
-
+const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(setSessionStatusPending(false))
   dispatch(setSessionStatus({ authenticated: false, hasSession: false, secondsUntilExpire: 0 }))
   dispatch(setLoggedOut(true))
 }
 
-export const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getUserSuccess.match(action)) {
-    return
-  }
-
+const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(startPoll())
 }
 
-export const handleTriggerLogoutStarted: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!triggerLogoutStarted.match(action)) {
-    return
-  }
-
+const handleTriggerLogoutStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(stopPoll())
 }
 
-export const handleTriggerLogoutNowStarted: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!triggerLogoutNowStarted.match(action)) {
-    return
-  }
-
+const handleTriggerLogoutNowStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(stopPoll())
 }
 
-export const sessionMiddleware = [
-  handleStartPoll,
-  handleStopPoll,
-  handleGetSessionStatus,
-  handleGetSessionStatusSuccess,
-  handleGetSessionStatusError,
-  handleGetUserSuccess,
-  handleTriggerLogoutStarted,
-  handleTriggerLogoutNowStarted,
-]
+const middlewareMethods = {
+  [startPoll.type]: handleStartPoll,
+  [stopPoll.type]: handleStopPoll,
+  [getSessionStatus.type]: handleGetSessionStatus,
+  [getSessionStatusSuccess.type]: handleGetSessionStatusSuccess,
+  [getSessionStatusError.type]: handleGetSessionStatusError,
+  [getUserSuccess.type]: handleGetUserSuccess,
+  [triggerLogoutStarted.type]: handleTriggerLogoutStarted,
+  [triggerLogoutNowStarted.type]: handleTriggerLogoutNowStarted,
+}
+
+export const sessionMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}

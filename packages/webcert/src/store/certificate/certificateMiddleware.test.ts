@@ -33,7 +33,7 @@ describe('Test certificate middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...certificateMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, certificateMiddleware),
     })
   })
 
@@ -62,7 +62,7 @@ describe('Test certificate middleware', () => {
       testStore = configureStore({
         reducer,
         middleware: (getDefaultMiddleware) =>
-          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...certificateMiddleware),
+          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
       })
     })
 
@@ -167,7 +167,7 @@ describe('Test certificate middleware', () => {
       expect(fakeAxios.history.post.length).toBe(1)
     })
   })
-    
+
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(true)
