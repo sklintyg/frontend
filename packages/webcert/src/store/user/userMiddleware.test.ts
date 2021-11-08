@@ -18,7 +18,7 @@ describe('Test certificate middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...userMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, userMiddleware),
     })
   })
 
