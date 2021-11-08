@@ -26,7 +26,7 @@ describe('QuestionNotAvailablePanel', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...questionMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
     })
   })
 

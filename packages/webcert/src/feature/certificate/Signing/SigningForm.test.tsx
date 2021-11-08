@@ -21,7 +21,7 @@ describe('SigningForm', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...certificateMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
     })
   })
 
