@@ -181,6 +181,7 @@ export function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataE
     label: 'label',
     collectionsLabel: 'collections label',
     modalLabel: '',
+    placeholder: '',
   }
 
   return createQuestion(value, config)

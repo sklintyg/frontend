@@ -11,6 +11,7 @@ interface TextAreaProps {
   disabled?: boolean
   rowsMin?: number
   limit: number
+  placeholder?: string
 }
 
 const Root = styled.textarea`
@@ -18,7 +19,7 @@ const Root = styled.textarea`
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
-  const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value, limit } = props
+  const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value, limit, placeholder } = props
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
@@ -36,6 +37,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
         value={value}
         onChange={(e) => handleOnChange(e)}
         maxLength={limit}
+        placeholder={placeholder}
       />
       <CharacterCounter limit={limit} value={value}></CharacterCounter>
     </>

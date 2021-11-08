@@ -1,48 +1,60 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
 import SentStatus from './SentStatus'
-import { CertificateMetadata } from '../../../../../../common/src/types/certificate'
+import { CertificateMetadata, CertificateRelation, CertificateStatus } from '../../../../../../common/src/types/certificate'
+import { Question, QuestionType } from '@frontend/common'
 
-//@ts-expect-error Only relevant data for test
-const certificateMetadata: CertificateMetadata = {
-  type: 'lisjp',
-  sent: true,
+const EXPECTED_TEXT = 'Intyget är skickat till'
+
+const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
+  render(<SentStatus certificateMetadata={certificateMetadata} questions={questions} />)
 }
 
 describe('Sent status', () => {
-  it('displays that the certificate is sent', () => {
-    const isSignedSpy = jest.spyOn(utils, 'isSigned')
-    const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-
-    isSignedSpy.mockReturnValue(true)
-    isReplacedSpy.mockReturnValue(false)
-
-    render(<SentStatus certificateMetadata={certificateMetadata} />)
-    expect(screen.getByText(/Intyget är skickat till/i)).toBeInTheDocument()
+  it('displays that the certificate is sent if signed, sent, not replaced and has no unhandled complement questions', () => {
+    const certificateMetadata = createMetadata(CertificateStatus.SIGNED, [], true)
+    const questions = createQuestions(true)
+    renderComponent(certificateMetadata, questions)
+    expect(screen.getByText(EXPECTED_TEXT, { exact: false })).toBeInTheDocument()
   })
 
-  it('doesnt render anything', () => {
-    const isSignedSpy = jest.spyOn(utils, 'isSigned')
-
-    isSignedSpy.mockReturnValue(false)
-
-    render(<SentStatus />)
-    expect(screen.queryByText(/Intyget är skickat till/i)).not.toBeInTheDocument()
+  it('doesnt render anything if missing data', () => {
+    renderComponent(undefined, undefined)
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if certificate is not sent', () => {
-    //@ts-expect-error Only relevant data for test
-    const metadata: CertificateMetadata = {
-      type: 'lisjp',
-      sent: false,
-    }
-    const isSignedSpy = jest.spyOn(utils, 'isSigned')
+    const certificateMetadata = createMetadata(CertificateStatus.SIGNED, [], false)
+    const questions = createQuestions(false)
+    renderComponent(certificateMetadata, questions)
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
+  })
 
-    isSignedSpy.mockReturnValue(false)
+  it('doesnt render anything if certificate is not signed', () => {
+    const certificateMetadata = createMetadata(CertificateStatus.UNSIGNED, [], true)
+    const questions = createQuestions(false)
+    renderComponent(certificateMetadata, questions)
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
+  })
 
-    render(<SentStatus certificateMetadata={metadata} />)
-    expect(screen.queryByText(/Intyget är skickat till/i)).not.toBeInTheDocument()
+  it('doesnt render anything if complement question exists', () => {
+    const certificateMetadata = createMetadata(CertificateStatus.SIGNED, [], true)
+    const questions = createQuestions(false)
+    renderComponent(certificateMetadata, questions)
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 })
+
+const createMetadata = (status: CertificateStatus, children: CertificateRelation[], sent: boolean): CertificateMetadata => {
+  return {
+    status: status,
+    relations: { children: children },
+    type: 'lisjp',
+    sent: sent,
+  }
+}
+
+const createQuestions = (handled: boolean): Question[] => {
+  return [{ type: QuestionType.COMPLEMENT, handled: handled }]
+}

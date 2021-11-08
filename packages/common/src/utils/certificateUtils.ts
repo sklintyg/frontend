@@ -1,9 +1,8 @@
-import { ValueDateRange } from './../types/certificate'
 import { ResourceLink } from './../types/resourceLink'
-import { CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Certificate, CertificateEventType } from '..'
+import { Certificate, CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Question, QuestionType } from '..'
 import { ResourceLinkType } from '../types/resourceLink'
 
-export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.SIGNED
+export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 
 export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
 
@@ -75,4 +74,8 @@ export const getCertificateToSave = (certificate: Certificate): Certificate => {
     }
   }
   return cleanCertificate
+}
+
+export const hasUnhandledComplementQuestions = (questions: Question[]): boolean => {
+  return questions.some((question) => question.type === QuestionType.COMPLEMENT && !question.handled)
 }

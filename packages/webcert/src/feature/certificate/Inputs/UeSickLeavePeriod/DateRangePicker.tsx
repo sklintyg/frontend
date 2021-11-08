@@ -17,6 +17,7 @@ import {
   getPeriodWorkDays,
 } from '@frontend/common'
 import { DateRangeWrapper, DatesWrapper } from './Styles'
+import usePrevious from '../../../../hooks/usePrevious'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
@@ -63,16 +64,6 @@ const DateRangePicker: React.FC<Props> = ({
   })
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
-
-  function usePrevious(value: any) {
-    const ref = React.useRef(value)
-
-    React.useEffect(() => {
-      ref.current = value
-    })
-
-    return ref.current
-  }
 
   const previousFromDateString = usePrevious(fromDateInput)
   const previousToDateString = usePrevious(toDateInput)

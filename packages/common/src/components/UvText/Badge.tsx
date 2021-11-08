@@ -3,6 +3,11 @@ import styled from 'styled-components'
 
 const Root = styled.div`
   overflow-wrap: anywhere;
+
+  ul {
+    list-style: unset;
+    padding-left: 15px;
+  }
 `
 
 const Badge: React.FC = ({ children }) => {

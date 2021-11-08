@@ -24,6 +24,8 @@ import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
+import { getQuestions } from '../../../store/question/questionSelectors'
+import ComplementStatus from './Status/ComplementStatus'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -53,6 +55,7 @@ const CertificateHeader = () => {
   const isShowSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks)
   const isLocked = useSelector(getIsLocked)
+  const questions = useSelector(getQuestions)
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
@@ -70,7 +73,8 @@ const CertificateHeader = () => {
             <RevokedStatus certificateMetadata={certificateMetadata} />
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
             <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
-            <SentStatus certificateMetadata={certificateMetadata} />
+            <ComplementStatus certificateMetadata={certificateMetadata} questions={questions} />
+            <SentStatus certificateMetadata={certificateMetadata} questions={questions} />
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
             <RevokeParentStatus certificateMetadata={certificateMetadata} />

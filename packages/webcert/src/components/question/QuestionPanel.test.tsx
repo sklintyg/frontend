@@ -8,7 +8,8 @@ import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
 import { updateQuestions } from '../../store/question/questionActions'
-import { Question, QuestionType } from '@frontend/common'
+import { Certificate, CertificateStatus, Question, QuestionType } from '@frontend/common'
+import { updateCertificate } from '../../store/certificate/certificateActions'
 
 let testStore: EnhancedStore
 
@@ -41,13 +42,28 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
   })
 
-  it('displays number of unhandled questions in the complement questions header', () => {
+  it('displays number of unhandled questions in the complement questions header if signed certificate', () => {
+    const certificate: Certificate = { metadata: { status: CertificateStatus.SIGNED }, links: [] }
+    testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
+
     renderDefaultComponent()
 
     const component = screen.getByText('Kompletteringsbegäran')
     const numberOfQuestions = within(component).getByText('1')
     expect(numberOfQuestions).toBeInTheDocument()
+  })
+
+  it('displays no number of unhandled questions in the complement questions header if unsigned certificate', () => {
+    const certificate: Certificate = { metadata: { status: CertificateStatus.UNSIGNED }, links: [] }
+    testStore.dispatch(updateCertificate(certificate))
+    testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
+
+    renderDefaultComponent()
+
+    const component = screen.getByText('Kompletteringsbegäran')
+    const numberOfQuestions = within(component).queryByText('1')
+    expect(numberOfQuestions).not.toBeInTheDocument()
   })
 
   it('displays no number of questions in the complement questions header', () => {
@@ -72,13 +88,26 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
   })
 
-  it('displays number of unhandled questions in the administrative questions header', () => {
+  it('displays number of unhandled questions in the administrative questions header if signed certificate', () => {
+    const certificate: Certificate = { metadata: { status: CertificateStatus.SIGNED }, links: [] }
+    testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
 
     const component = screen.getByText('Administrativa frågor')
     const numberOfQuestions = within(component).getByText('1')
     expect(numberOfQuestions).toBeInTheDocument()
+  })
+
+  it('displays no number of unhandled questions in the administrative questions header if unsigned certificate', () => {
+    const certificate: Certificate = { metadata: { status: CertificateStatus.UNSIGNED }, links: [] }
+    testStore.dispatch(updateCertificate(certificate))
+    testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
+    renderDefaultComponent()
+
+    const component = screen.getByText('Administrativa frågor')
+    const numberOfQuestions = within(component).queryByText('1')
+    expect(numberOfQuestions).not.toBeInTheDocument()
   })
 
   it('displays no number of questions in the administrative questions header', () => {
