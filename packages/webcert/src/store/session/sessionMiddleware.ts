@@ -14,6 +14,7 @@ import {
   stopPoll,
 } from './sessionActions'
 import { apiCallBegan } from '../api/apiActions'
+import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 
 export const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
   next(action)
@@ -70,7 +71,7 @@ export const handleGetSessionStatus: Middleware<Dispatch> = ({ dispatch, getStat
   )
 }
 
-export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getSessionStatusSuccess.match(action)) {
@@ -85,7 +86,7 @@ export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch, 
   }
 }
 
-export const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+export const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getSessionStatusError.match(action)) {
@@ -97,10 +98,43 @@ export const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch, ge
   dispatch(setLoggedOut(true))
 }
 
+export const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getUserSuccess.match(action)) {
+    return
+  }
+
+  dispatch(startPoll())
+}
+
+export const handleTriggerLogoutStarted: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!triggerLogoutStarted.match(action)) {
+    return
+  }
+
+  dispatch(stopPoll())
+}
+
+export const handleTriggerLogoutNowStarted: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!triggerLogoutNowStarted.match(action)) {
+    return
+  }
+
+  dispatch(stopPoll())
+}
+
 export const sessionMiddleware = [
   handleStartPoll,
   handleStopPoll,
   handleGetSessionStatus,
   handleGetSessionStatusSuccess,
   handleGetSessionStatusError,
+  handleGetUserSuccess,
+  handleTriggerLogoutStarted,
+  handleTriggerLogoutNowStarted,
 ]
