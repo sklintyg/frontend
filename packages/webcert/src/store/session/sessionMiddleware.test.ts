@@ -5,7 +5,16 @@ import reducer from '../reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import apiMiddleware from '../api/apiMiddleware'
 import { sessionMiddleware } from './sessionMiddleware'
-import { getSessionStatus, getSessionStatusSuccess, setPollHandle, setSessionStatusPending, startPoll, stopPoll } from './sessionActions'
+import {
+  getSessionStatus,
+  getSessionStatusError,
+  getSessionStatusSuccess,
+  setPollHandle,
+  setSessionStatus,
+  setSessionStatusPending,
+  startPoll,
+  stopPoll,
+} from './sessionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -106,6 +115,65 @@ describe('Test session middleware', () => {
     it('shall set session to logged out is not authenticated - THIS IS TEMPORARY UNTIL ERROR-HANDLING IS IMPLEMENTED -', async () => {
       const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
       testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.loggedOut).toEqual(true)
+    })
+  })
+
+  describe('Handle Get Session Status Success', () => {
+    beforeEach(() => {
+      testStore.dispatch(setSessionStatusPending(true))
+    })
+
+    it('shall store session status', async () => {
+      const sessionStatus = { authenticated: true, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.sessionStatus).toEqual(sessionStatus)
+    })
+
+    it('shall update session status pending to false', async () => {
+      const sessionStatus = { authenticated: true, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pending).toEqual(false)
+    })
+
+    it('shall set session to logged out is not authenticated - THIS IS TEMPORARY UNTIL ERROR-HANDLING IS IMPLEMENTED -', async () => {
+      const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.loggedOut).toEqual(true)
+    })
+  })
+
+  describe('Handle Get Session Status Error', () => {
+    beforeEach(() => {
+      testStore.dispatch(setSessionStatus({ authenticated: true, hasSession: true, secondsUntilExpire: 9999 }))
+      testStore.dispatch(setSessionStatusPending(true))
+    })
+
+    it('shall reset session status', async () => {
+      const sessionStatus = { authenticated: false, hasSession: false, secondsUntilExpire: 0 }
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.sessionStatus).toEqual(sessionStatus)
+    })
+
+    it('shall update session status pending to false', async () => {
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pending).toEqual(false)
+    })
+
+    it('shall set session to logged out if error occurred - THIS IS TEMPORARY UNTIL ERROR-HANDLING IS IMPLEMENTED -', async () => {
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
 
       await flushPromises()
       expect(testStore.getState().ui.uiSession.loggedOut).toEqual(true)

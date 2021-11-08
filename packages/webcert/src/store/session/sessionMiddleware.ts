@@ -5,13 +5,14 @@ import {
   getSessionStatus,
   getSessionStatusError,
   getSessionStatusStarted,
-  getSessionStatusSuccess, setLoggedOut,
+  getSessionStatusSuccess,
+  setLoggedOut,
   setPollHandle,
   setSessionStatus,
   setSessionStatusPending,
   startPoll,
-  stopPoll
-} from "./sessionActions";
+  stopPoll,
+} from './sessionActions'
 import { apiCallBegan } from '../api/apiActions'
 
 export const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
@@ -84,4 +85,22 @@ export const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch, 
   }
 }
 
-export const sessionMiddleware = [handleStartPoll, handleStopPoll, handleGetSessionStatus, handleGetSessionStatusSuccess]
+export const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!getSessionStatusError.match(action)) {
+    return
+  }
+
+  dispatch(setSessionStatusPending(false))
+  dispatch(setSessionStatus({ authenticated: false, hasSession: false, secondsUntilExpire: 0 }))
+  dispatch(setLoggedOut(true))
+}
+
+export const sessionMiddleware = [
+  handleStartPoll,
+  handleStopPoll,
+  handleGetSessionStatus,
+  handleGetSessionStatusSuccess,
+  handleGetSessionStatusError,
+]
