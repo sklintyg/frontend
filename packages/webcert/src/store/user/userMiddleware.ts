@@ -27,6 +27,7 @@ import {
   updateUserPreference,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
+import { createError } from '../error/errorActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -42,6 +43,10 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload))
+}
+
+const handleGetUserError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  // dispatch(createError({ message: action.payload }))
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -120,6 +125,7 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
+  [getUserError.type]: handleGetUserError,
   [setUserPreference.type]: handleSetUserPreference,
   [setUserPreferenceSuccess.type]: handleSetUserPreferenceSuccess,
   [cancelLogout.type]: handleCancelLogout,

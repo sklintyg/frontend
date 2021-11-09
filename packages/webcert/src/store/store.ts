@@ -10,6 +10,7 @@ import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 import { questionMiddleware } from './question/questionMiddleware'
 import { icfMiddleware } from './icf/icfMiddleware'
 import { sessionMiddleware } from './session/sessionMiddleware'
+import { errorMiddleware } from './error/errorMiddleware'
 
 const store = configureStore({
   reducer,
@@ -24,7 +25,8 @@ const store = configureStore({
       welcomeMiddleware,
       questionMiddleware,
       icfMiddleware,
-      sessionMiddleware
+      sessionMiddleware,
+      errorMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<
