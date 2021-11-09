@@ -28,7 +28,7 @@ describe('Test FMB middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...fmbMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, fmbMiddleware),
     })
   })
 

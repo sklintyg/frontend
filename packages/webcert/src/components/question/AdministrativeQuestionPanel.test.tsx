@@ -33,7 +33,7 @@ describe('QuestionPanel', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...questionMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
     })
   })
 

@@ -13,13 +13,7 @@ import {
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
 
-export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getIcfCodes.match(action)) {
-    return
-  }
-
+export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/icf',
@@ -32,24 +26,12 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getIcfCodesSuccess.match(action)) {
-    return
-  }
-
+export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateLoading(false))
   dispatch(updateIcfCodes(action.payload))
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!updateCertificate.match(action)) {
-    return
-  }
-
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   for (const questionId in action.payload.data) {
     if (action.payload.data.hasOwnProperty(questionId)) {
       const question = action.payload.data[questionId]
@@ -62,39 +44,20 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   }
 }
 
-export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
-  return (action: AnyAction): void => {
-    next(action)
-
-    if (!updateCertificateDataElement.match(action)) {
-      return
-    }
-
-    if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
-      return
-    }
-    const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
-    dispatch(getIcfCodes(icdCodes))
-  }
-}
-
-const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getIcfCodesStarted.match(action)) {
+const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
     return
   }
 
+  const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
+  dispatch(getIcfCodes(icdCodes))
+}
+
+const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateLoading(true))
 }
 
-const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getIcfCodesError.match(action)) {
-    return
-  }
-
+const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateLoading(false))
 }
 
@@ -104,11 +67,19 @@ function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined
   }
 }
 
-export const icfMiddleware = [
-  handleGetIcfCodes,
-  handleUpdateCertificate,
-  handleUpdateCertificateDataElement,
-  handleGetIcfCodesStarted,
-  handleGetIcfCodesSuccess,
-  handleGetIcfCodesError,
-]
+const middlewareMethods = {
+  [getIcfCodes.type]: handleGetIcfCodes,
+  [getIcfCodesStarted.type]: handleGetIcfCodesStarted,
+  [getIcfCodesSuccess.type]: handleGetIcfCodesSuccess,
+  [getIcfCodesError.type]: handleGetIcfCodesError,
+  [updateCertificate.type]: handleUpdateCertificate,
+  [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
+}
+
+export const icfMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}

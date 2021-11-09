@@ -54,4 +54,4 @@ objects:
               value: "${GIT_CI_BRANCH}"
             - name: "GIT_URL"
               value: "${GIT_URL}"
-          jenkinsfilePath: openshift/Jenkinsfile
+          jenkinsfilePath: openshift/build-pipeline/Jenkinsfile

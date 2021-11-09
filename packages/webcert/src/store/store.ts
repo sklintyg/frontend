@@ -17,14 +17,14 @@ const store = configureStore({
     getDefaultMiddleware().prepend(
       // correctly typed middlewares can just be used
       apiMiddleware,
-      ...certificateMiddleware,
-      ...userMiddleware,
-      ...fmbMiddleware,
-      ...utilsMiddleware,
-      ...welcomeMiddleware,
-      ...questionMiddleware,
-      ...icfMiddleware,
-      ...sessionMiddleware
+      certificateMiddleware,
+      userMiddleware,
+      fmbMiddleware,
+      utilsMiddleware,
+      welcomeMiddleware,
+      questionMiddleware,
+      icfMiddleware,
+      sessionMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<
