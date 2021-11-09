@@ -7,6 +7,7 @@ import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 import { css } from 'styled-components'
+import _ from 'lodash'
 
 const additionalHeaderStyles = css`
   display: flex;
@@ -31,7 +32,7 @@ const additionalContentStyles = css`
 `
 
 const UvCareUnitAddress: React.FC = (props) => {
-  const metadata = useSelector(getCertificateMetaData)
+  const metadata = useSelector(getCertificateMetaData, _.isEqual)
 
   if (!metadata) return null
 

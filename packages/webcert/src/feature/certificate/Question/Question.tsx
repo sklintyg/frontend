@@ -23,6 +23,7 @@ import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod
 import UeDiagnoses from '../Inputs/UeDiagnoses'
 import styled from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
+import _ from 'lodash'
 
 interface QuestionProps {
   id: string
@@ -41,11 +42,11 @@ const Wrapper = styled.div`
 `
 
 const Question: React.FC<QuestionProps> = ({ id }) => {
-  const question = useSelector(getQuestion(id))
-  const complements = useSelector(getComplements(id))
+  const question = useSelector(getQuestion(id), _.isEqual)
+  const complements = useSelector(getComplements(id), _.isEqual)
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
-  const isShowValidationError = useSelector(getShowValidationErrors)
+  const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
 
   const getHeading = () => {
     if (question.config.header) {

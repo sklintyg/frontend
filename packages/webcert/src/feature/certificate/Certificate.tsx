@@ -17,6 +17,7 @@ import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import SigningForm from './Signing/SigningForm'
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -46,7 +47,7 @@ const Wrapper = styled.div`
 
 const Certificate: React.FC = () => {
   const dispatch = useDispatch()
-  const certificateStructure = useSelector(getCertificateDataElements)
+  const certificateStructure = useSelector(getCertificateDataElements, _.isEqual)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
   const gotoId = useSelector(getGotoId)

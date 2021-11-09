@@ -4,13 +4,14 @@ import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
 import { Accordion, Expandable } from '@frontend/common'
+import _ from 'lodash'
 
 interface CategoryProps {
   id: string
 }
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
-  const category = useSelector(getQuestion(id))
+  const category = useSelector(getQuestion(id), _.isEqual)
   const isCertificateEditable = !category.readOnly && !category.disabled
 
   return (

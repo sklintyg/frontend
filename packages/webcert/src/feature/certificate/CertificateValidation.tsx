@@ -4,6 +4,7 @@ import { getAllValidationErrors, getShowValidationErrors } from '../../store/cer
 import { Link } from 'react-scroll'
 import { InfoBox } from '@frontend/common'
 import { css } from 'styled-components/macro'
+import _ from 'lodash'
 
 const linkStyles = css`
   cursor: pointer;
@@ -15,7 +16,7 @@ const linkStyles = css`
 
 const CertificateValidation = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getAllValidationErrors())
+  const validationErrors = useSelector(getAllValidationErrors(), _.isEqual)
 
   if (!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 
