@@ -72,6 +72,7 @@ function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined
 
 const middlewareMethods = {
   [getIcfCodes.type]: handleGetIcfCodes,
+  [getIcfCodesSuccess.type]: handleGetIcfCodesSuccess,
   [updateCertificate.type]: handleUpdateCertificate,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [getSessionStatusSuccess.type]: handleGetIcfCodesStarted,
