@@ -1,9 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { setError } from './errorActions'
 
+export const CONCURRENT_MODIFICATION = 'CONCURRENT_MODIFICATION'
+export const TIMEOUT = 'TIMEOUT'
+export const UNEXPECTED_ERROR = 'UNEXPECTED_ERROR'
+export const CONCURRENT_MODIFICATION_ERROR_MESSAGE =
+  'Utkastet har samtidigt ändrats av en annan användare och kunde därför inte sparas. Ladda om sidan och försök igen. Utkastet ändrades av:'
+
 export enum ErrorType {
-  ROUTE,
-  MODAL,
+  ROUTE = 'ROUTE',
+  MODAL = 'MODAL',
 }
 
 export interface ErrorData {
