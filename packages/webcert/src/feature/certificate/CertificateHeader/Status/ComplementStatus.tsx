@@ -9,7 +9,7 @@ interface Props {
 const RevokedStatus: React.FC<Props> = ({ questions, certificateMetadata }) => {
   if (!hasUnhandledComplementQuestions(questions) || !isSigned(certificateMetadata)) return null
 
-  return <StatusWithIcon>Försäkringskassan har begärt komplettering</StatusWithIcon>
+  return <StatusWithIcon icon={'ErrorOutlineIcon'}>Försäkringskassan har begärt komplettering</StatusWithIcon>
 }
 
 export default RevokedStatus
