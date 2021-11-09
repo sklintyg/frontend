@@ -7,6 +7,7 @@ import { copyCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import _ from 'lodash'
 
 interface Props {
   name: string
@@ -18,7 +19,7 @@ interface Props {
 const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const historyEntries = useSelector(getCertificateEvents)
+  const historyEntries = useSelector(getCertificateEvents, _.isEqual)
 
   let isCertReplaced = isReplaced(certificateMetadata)
 
@@ -49,7 +50,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, ce
       confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Kopiera'}>
       <p>
         Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
-        redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.
+        redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.{' '}
       </p>
     </ButtonWithConfirmModal>
   )

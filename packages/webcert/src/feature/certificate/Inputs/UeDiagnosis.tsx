@@ -9,7 +9,7 @@ import {
   ValueDiagnosisList,
   QuestionValidationTexts,
 } from '@frontend/common'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
 import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
@@ -65,7 +65,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
-  const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
+  const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
   const diagnosisInput = React.createRef<HTMLInputElement>()

@@ -26,7 +26,7 @@ interface Props {
 const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
-  const icfData = useSelector(getIcfData((question.value as ValueIcf).id))
+  const icfData = useSelector(getIcfData((question.value as ValueIcf).id), _.isEqual)
   const questionConfig = question.config as ConfigUeIcf
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')

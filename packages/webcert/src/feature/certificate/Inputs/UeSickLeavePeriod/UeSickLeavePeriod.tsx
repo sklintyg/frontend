@@ -144,7 +144,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               className="ic-textfield"
               value={baseWorkHours}
               type="text"
-              maxLength="2"
+              maxLength={2}
               pattern="\d*"
             />
             <p>timmar/vecka</p>

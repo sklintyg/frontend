@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppHeaderUser } from '@frontend/common'
 import { getUser } from '../../store/user/userSelectors'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
 
@@ -11,7 +11,7 @@ const Italic = styled.span`
 `
 
 const WebcertHeaderUser: React.FC = () => {
-  const user = useSelector(getUser)
+  const user = useSelector(getUser, shallowEqual)
 
   const toString = (user: User): React.ReactNode => {
     return (

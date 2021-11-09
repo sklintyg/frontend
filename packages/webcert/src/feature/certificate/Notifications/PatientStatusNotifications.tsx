@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import {
   getIsPatientDeceased,
   getIsPatientIdUpdated,
@@ -23,7 +23,7 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientProtectedPerson = useSelector(getIsPatientProtectedPerson)
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
-  const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId)
+  const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId, shallowEqual)
   const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
 
   const testPersonTitle = 'Patienten är en valideringsperson'
@@ -76,7 +76,7 @@ const PatientStatusNotifications: React.FC = () => {
         <p>
           En valideringsperson är en fingerad person som används i syfte att validera funktion, felsöka och säkerställa kvalitet i tjänsten.
           Intyg utfärdade på valideringsperson kan inte skickas till intygsmottagare. De kommer inte heller visas i Intygsstatistik,
-          Rehabstöd eller i Mina intyg.
+          Rehabstöd eller i Mina intyg.{' '}
         </p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
@@ -93,7 +93,7 @@ const PatientStatusNotifications: React.FC = () => {
         modalTitle={'Patientens namn skiljer sig'}>
         <p>
           Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i
-          journalsystemet.
+          journalsystemet.{' '}
         </p>
       </PatientStatusNotificationWithModal>
     </Wrapper>
