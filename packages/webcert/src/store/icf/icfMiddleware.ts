@@ -12,8 +12,6 @@ import {
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
-import { getSessionStatusError, getSessionStatusSuccess } from '../session/sessionActions'
-import { getUserSuccess } from '../user/userActions'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -46,12 +44,11 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (a
   }
 }
 
-export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
-  action: AnyAction
-): void => {
+const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
     return
   }
+
   const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
   dispatch(getIcfCodes(icdCodes))
 }
@@ -72,12 +69,11 @@ function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined
 
 const middlewareMethods = {
   [getIcfCodes.type]: handleGetIcfCodes,
+  [getIcfCodesStarted.type]: handleGetIcfCodesStarted,
   [getIcfCodesSuccess.type]: handleGetIcfCodesSuccess,
+  [getIcfCodesError.type]: handleGetIcfCodesError,
   [updateCertificate.type]: handleUpdateCertificate,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
-  [getSessionStatusSuccess.type]: handleGetIcfCodesStarted,
-  [getSessionStatusError.type]: handleGetIcfCodesSuccess,
-  [getUserSuccess.type]: handleGetIcfCodesError,
 }
 
 export const icfMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
