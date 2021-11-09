@@ -15,6 +15,7 @@ import {
 } from './sessionActions'
 import { apiCallBegan } from '../api/apiActions'
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
+import { createError } from '../error/errorActions'
 
 const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
@@ -23,7 +24,7 @@ const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => 
 
   const handlePoll = setInterval(() => {
     dispatch(getSessionStatus())
-  }, 30000)
+  }, 5000)
 
   dispatch(setPollHandle(handlePoll))
 }
