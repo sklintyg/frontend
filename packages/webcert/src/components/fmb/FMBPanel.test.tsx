@@ -28,7 +28,7 @@ describe('FMBPanel', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(...fmbMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(fmbMiddleware),
     })
   })
 

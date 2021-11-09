@@ -6,6 +6,7 @@ import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
 import styled from 'styled-components/macro'
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,8 +23,8 @@ const RightWrapper = styled.div`
 `
 
 export const CertificateFooter: React.FC = () => {
-  const certificateMetadata = useSelector(getCertificateMetaData)
-  const resourceLinks = useSelector(getResourceLinks)
+  const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
 
   if (!certificateMetadata || !resourceLinks) return null

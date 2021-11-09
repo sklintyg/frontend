@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import FMBPanelFooter from './FMBPanelFooter'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { useSelector } from 'react-redux'
@@ -7,9 +7,10 @@ import FMBPanelDiagnoses from './FMBPanelDiagnoses'
 import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
+import _ from 'lodash'
 
 const FMBPanel: React.FC = () => {
-  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes)
+  const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
 
   const onDiagnosisSelect = (icd10Code: string) => {

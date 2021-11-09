@@ -37,7 +37,7 @@ describe('QuestionForm', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...questionMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, questionMiddleware),
     })
   })
 

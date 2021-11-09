@@ -4,6 +4,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 const ContentWrapper = styled.div`
   padding: 16px;
@@ -26,7 +27,7 @@ const CertificateVersion = styled.span`
 `
 
 const AboutCertificatePanel: React.FC = () => {
-  const certMetaData = useSelector(getCertificateMetaData)
+  const certMetaData = useSelector(getCertificateMetaData, _.isEqual)
 
   return (
     <>

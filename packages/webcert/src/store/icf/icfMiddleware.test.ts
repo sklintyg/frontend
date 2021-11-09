@@ -20,7 +20,7 @@ describe('Test ICF middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...icfMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, icfMiddleware),
     })
   })
 

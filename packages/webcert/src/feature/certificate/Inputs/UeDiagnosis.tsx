@@ -9,12 +9,13 @@ import {
   ValueDiagnosisList,
   QuestionValidationTexts,
 } from '@frontend/common'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
 import { useAppDispatch } from '../../../store/store'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
 import _ from 'lodash'
+import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
 
 interface Props {
   question: CertificateDataElement
@@ -64,10 +65,13 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
-  const typeaheadResult = useSelector(getDiagnosisTypeaheadResult())
+  const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
   const diagnosisInput = React.createRef<HTMLInputElement>()
+  const textValidation = question.validation
+    ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
+    : undefined
 
   const MAX_NUMBER_OF_TYPEAHEAD_RESULTS = 18
   const MIN_CODE_LENGTH = 3
@@ -271,7 +275,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
-        limit={81}
+        limit={textValidation ? textValidation.limit : 250}
       />
     </Wrapper>
   )

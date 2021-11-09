@@ -10,6 +10,7 @@ import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
 import styled from 'styled-components/macro'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
+import _ from 'lodash'
 
 const Root = styled.div`
   overflow-y: hidden;
@@ -21,7 +22,7 @@ const Root = styled.div`
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-  const resourceLinks = useSelector(getResourceLinks)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)

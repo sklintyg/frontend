@@ -26,17 +26,11 @@ import {
   getResourceLink,
   ResourceLinkType,
   Value,
-  ValueDiagnosisList,
   ValueDateRangeList,
+  ValueDiagnosisList,
 } from '@frontend/common'
 
-export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getFMBDiagnosisCodeInfo.match(action)) {
-    return
-  }
-
+export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/fmb/' + action.payload.icd10Code,
@@ -51,23 +45,11 @@ export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }
   )
 }
 
-export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getFMBDiagnosisCodeInfoSuccess.match(action)) {
-    return
-  }
-
+export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!updateCertificate.match(action)) {
-    return
-  }
-
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)?.enabled
   dispatch(updateFMBPanelActive(fmbPanelActive))
 
@@ -133,38 +115,32 @@ function getValidationForSickLeavePeriod(
   }
 }
 
-export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => {
-  return (action: AnyAction): void => {
-    next(action)
+export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  if (!getState().ui.uiFMB.fmbPanelActive) {
+    return
+  }
 
-    if (!updateCertificateDataElement.match(action)) {
-      return
-    }
+  getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
 
-    if (!getState().ui.uiFMB.fmbPanelActive) {
-      return
-    }
+  if (isValueDateRangeList(action.payload.value)) {
+    dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
+  } else if (isValueDiagnoses(action.payload.value)) {
+    dispatch(setDiagnosisListValue(action.payload.value as ValueDiagnosisList))
+  }
 
-    getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
-
-    if (isValueDateRangeList(action.payload.value)) {
-      dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
-    } else if (isValueDiagnoses(action.payload.value)) {
-      dispatch(setDiagnosisListValue(action.payload.value as ValueDiagnosisList))
-    }
-
-    if (
-      action.payload.value &&
-      (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
-        action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
-    ) {
-      getValidationForSickLeavePeriod(
-        getState().ui.uiFMB.patientId,
-        getState().ui.uiFMB.sickLeavePeriodValue,
-        getState().ui.uiFMB.diagnosisListValue,
-        dispatch
-      )
-    }
+  if (
+    action.payload.value &&
+    (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
+      action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
+  ) {
+    getValidationForSickLeavePeriod(
+      getState().ui.uiFMB.patientId,
+      getState().ui.uiFMB.sickLeavePeriodValue,
+      getState().ui.uiFMB.diagnosisListValue,
+      dispatch
+    )
   }
 }
 
@@ -210,13 +186,7 @@ function retrieveFMBForAddedDiagnosisCodes(
   })
 }
 
-export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!validateSickLeavePeriod.match(action)) {
-    return
-  }
-
+export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/fmb/validateSickLeavePeriod',
@@ -229,23 +199,25 @@ export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }
   )
 }
 
-export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (
+export const handleValidateSickLeavePeriodSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
-  next(action)
-
-  if (!validateSickLeavePeriodSuccess.match(action)) {
-    return
-  }
-
   dispatch(setSickLeavePeriodWarning(action.payload.message))
 }
 
-export const fmbMiddleware = [
-  handleGetFMBDiagnosisCodeInfo,
-  handleGetFMBDiagnosisCodeInfoSuccess,
-  handleUpdateCertificate,
-  handleUpdateCertificateDataElement,
-  handleValidateSickLeavePeriod,
-  handleValidateSickLeavePeriodSuccess,
-]
+const middlewareMethods = {
+  [getFMBDiagnosisCodeInfo.type]: handleGetFMBDiagnosisCodeInfo,
+  [getFMBDiagnosisCodeInfoSuccess.type]: handleGetFMBDiagnosisCodeInfoSuccess,
+  [updateCertificate.type]: handleUpdateCertificate,
+  [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
+  [validateSickLeavePeriod.type]: handleValidateSickLeavePeriod,
+  [validateSickLeavePeriodSuccess.type]: handleValidateSickLeavePeriodSuccess,
+}
+
+export const fmbMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}
