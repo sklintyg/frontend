@@ -1,6 +1,7 @@
 import React from 'react'
 import { CustomTooltip } from '@frontend/common/src'
 import styled from 'styled-components'
+import { Place } from 'react-tooltip'
 
 const NumberCircle = styled.span`
   width: 0px;
@@ -25,7 +26,7 @@ interface Props {
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
   number?: string | number | undefined
-  tooltipPlacement?: string
+  tooltipPlacement?: Place
   buttonClasses?: string
 }
 
