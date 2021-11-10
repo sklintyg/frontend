@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { CustomTooltip } from '@frontend/common/src'
 import styled from 'styled-components'
 
