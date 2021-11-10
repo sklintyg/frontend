@@ -51,7 +51,7 @@ describe('Test session middleware', () => {
       testStore.dispatch(throwError(error))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiError.error.stacktrace).toEqual(error.stackTrace)
+      expect(testStore.getState().ui.uiError.error.stackTrace).toEqual(error.stackTrace)
     })
 
     it('shall create errorData with certificateId if included', async () => {
@@ -117,7 +117,7 @@ describe('Test session middleware', () => {
       testStore.dispatch(throwError(expectedErrorRequest))
 
       await flushPromises()
-      expect(JSON.parse(fakeAxios.history.post[0].data).stacktrace).toEqual(expectedErrorRequest.stackTrace)
+      expect(JSON.parse(fakeAxios.history.post[0].data).stackTrace).toEqual(expectedErrorRequest.stackTrace)
     })
 
     it('shall include a message when logging error', async () => {
