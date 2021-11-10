@@ -20,7 +20,7 @@ export interface ErrorRequest {
   type: ErrorType
   errorCode: string
   certificateId?: string
-  stacktrace?: string
+  stackTrace?: string
 }
 
 export interface ErrorLogRequest {
@@ -28,7 +28,7 @@ export interface ErrorLogRequest {
   errorCode: string
   errorId: string
   certificateId?: string
-  stacktrace?: string
+  stackTrace?: string
 }
 
 interface ErrorState {

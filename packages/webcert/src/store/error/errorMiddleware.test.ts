@@ -47,11 +47,11 @@ describe('Test session middleware', () => {
     })
 
     it('shall create errorData with same stacktrace', async () => {
-      const error: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, stacktrace: new Error().stack }
+      const error: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, stackTrace: new Error().stack }
       testStore.dispatch(throwError(error))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiError.error.stacktrace).toEqual(error.stacktrace)
+      expect(testStore.getState().ui.uiError.error.stacktrace).toEqual(error.stackTrace)
     })
 
     it('shall create errorData with certificateId if included', async () => {
@@ -113,11 +113,11 @@ describe('Test session middleware', () => {
     })
 
     it('shall include stacktrace when logging error', async () => {
-      const expectedErrorRequest: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, stacktrace: new Error().stack }
+      const expectedErrorRequest: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, stackTrace: new Error().stack }
       testStore.dispatch(throwError(expectedErrorRequest))
 
       await flushPromises()
-      expect(JSON.parse(fakeAxios.history.post[0].data).stacktrace).toEqual(expectedErrorRequest.stacktrace)
+      expect(JSON.parse(fakeAxios.history.post[0].data).stacktrace).toEqual(expectedErrorRequest.stackTrace)
     })
 
     it('shall include a message when logging error', async () => {
