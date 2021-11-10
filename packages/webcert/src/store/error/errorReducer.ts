@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { setError } from './errorActions'
+import { clearError, setActiveCertificateId, setError } from './errorActions'
 
 export enum ErrorType {
-  ROUTE,
-  MODAL,
+  ROUTE = 'ROUTE',
+  MODAL = 'MODAL',
 }
 
 export interface ErrorData {
@@ -20,7 +20,7 @@ export interface ErrorRequest {
   type: ErrorType
   errorCode: string
   certificateId?: string
-  stacktrace?: string
+  stackTrace?: string
 }
 
 export interface ErrorLogRequest {
@@ -28,23 +28,29 @@ export interface ErrorLogRequest {
   errorCode: string
   errorId: string
   certificateId?: string
-  stacktrace?: string
+  stackTrace?: string
 }
 
 interface ErrorState {
-  error: ErrorData | null
+  error?: ErrorData
+  activeCertificateId?: string
 }
 
 const getInitialState = (): ErrorState => {
-  return {
-    error: null,
-  }
+  return {}
 }
 
 const errorReducer = createReducer(getInitialState(), (builder) =>
-  builder.addCase(setError, (state, action) => {
-    state.error = action.payload
-  })
+  builder
+    .addCase(setError, (state, action) => {
+      state.error = action.payload
+    })
+    .addCase(setActiveCertificateId, (state, action) => {
+      state.activeCertificateId = action.payload
+    })
+    .addCase(clearError, (state) => {
+      state.error = undefined
+    })
 )
 
 export default errorReducer
