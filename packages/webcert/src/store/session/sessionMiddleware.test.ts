@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import reducer from '../reducers'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import apiMiddleware from '../api/apiMiddleware'
 import { sessionMiddleware } from './sessionMiddleware'
 import {
@@ -17,6 +17,8 @@ import {
 } from './sessionActions'
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
+import { throwError } from '../error/errorActions'
+import { ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -114,12 +116,41 @@ describe('Test session middleware', () => {
       expect(testStore.getState().ui.uiSession.pending).toEqual(false)
     })
 
-    it('shall set session to logged out is not authenticated - THIS IS TEMPORARY UNTIL ERROR-HANDLING IS IMPLEMENTED -', async () => {
+    it('shall throw error if not authenticated', async () => {
       const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
       testStore.dispatch(getSessionStatusSuccess(sessionStatus))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiSession.loggedOut).toEqual(true)
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction).toBeTruthy()
+    })
+
+    it('shall throw error with type ROUTE if not authenticated', async () => {
+      const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw error with errorCode timeout if not authenticated', async () => {
+      const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual('timeout')
+    })
+
+    it('shall stop polling if not authenticated', async () => {
+      testStore.dispatch(startPoll())
+
+      const sessionStatus = { authenticated: false, hasSession: true, secondsUntilExpire: 999 }
+      testStore.dispatch(getSessionStatusSuccess(sessionStatus))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pollHandle).toBeFalsy()
     })
   })
 
@@ -144,11 +175,37 @@ describe('Test session middleware', () => {
       expect(testStore.getState().ui.uiSession.pending).toEqual(false)
     })
 
-    it('shall set session to logged out if error occurred - THIS IS TEMPORARY UNTIL ERROR-HANDLING IS IMPLEMENTED -', async () => {
+    it('shall throw error if session status returns error', async () => {
       testStore.dispatch(getSessionStatusError('Something went wrong!'))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiSession.loggedOut).toEqual(true)
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction).toBeTruthy()
+    })
+
+    it('shall throw error with type ROUTE if session status returns error', async () => {
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw error with errorCode timeout if session status returns error', async () => {
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual('timeout')
+    })
+
+    it('shall stop polling if session status returns error', async () => {
+      testStore.dispatch(startPoll())
+
+      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pollHandle).toBeFalsy()
     })
   })
 
