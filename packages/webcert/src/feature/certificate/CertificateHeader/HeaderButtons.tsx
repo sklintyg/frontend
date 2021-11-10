@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
 
-  > .button-tooltip:not(:first-child) {
+  > * + * {
     margin-left: 8px;
   }
 `

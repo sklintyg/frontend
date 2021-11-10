@@ -126,7 +126,6 @@ const IcfDropdown: React.FC<Props> = ({
   return (
     <>
       <CustomButton
-        buttonStyle={'secondary'}
         ref={btnRef}
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}

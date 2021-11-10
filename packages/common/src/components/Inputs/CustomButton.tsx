@@ -1,11 +1,15 @@
-import React from 'react'
-import { ButtonTooltip } from '@frontend/common/src'
+import React, { useEffect, useRef, useState } from 'react'
+import { CustomTooltip } from '@frontend/common/src'
 import styled from 'styled-components'
 
 const NumberCircle = styled.span`
   width: 0px;
   height: 0px;
   padding: 3px 7px;
+`
+
+const Wrapper = styled.div`
+  width: fit-content;
 `
 
 interface Props {
@@ -21,11 +25,11 @@ interface Props {
   rounded?: boolean
   type?: 'button' | 'submit' | 'reset'
   number?: string | number | undefined
-  tooltipClassName?: string
+  tooltipPlacement?: string
   buttonClasses?: string
 }
 
-export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
+export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
   let addedClass = ''
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
@@ -36,7 +40,7 @@ export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
     switch (props.buttonStyle) {
       case 'success':
       case 'primary':
-        addedClass += 'ic-button--primary'
+        addedClass += 'ic-button--primary iu-border-main'
         break
       case 'default':
       case 'secondary':
@@ -47,7 +51,7 @@ export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
   }
 
   return (
-    <ButtonTooltip description={props.tooltip ? props.tooltip : ''} className={props.tooltipClassName}>
+    <Wrapper data-tip={props.tooltip}>
       <button
         ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
@@ -66,7 +70,8 @@ export const CustomButton: React.FC<Props> = React.forwardRef((props, ref) => {
           </NumberCircle>
         )}
       </button>
-    </ButtonTooltip>
+      <CustomTooltip placement={props.tooltipPlacement} />
+    </Wrapper>
   )
 })
 

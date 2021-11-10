@@ -124,13 +124,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton
-                disabled={isFormEmpty}
-                buttonStyle={'primary'}
-                onClick={handleSendQuestion}
-                text={'Skicka'}
-                tooltipClassName={'iu-ml-none'}
-              />
+              <CustomButton disabled={isFormEmpty} buttonStyle={'primary'} onClick={handleSendQuestion} text={'Skicka'} />
               <ButtonWithConfirmModal
                 disabled={isFormEmpty}
                 buttonStyle={'default'}
