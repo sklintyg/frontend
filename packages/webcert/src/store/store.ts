@@ -9,6 +9,8 @@ import { utilsMiddleware } from './utils/utilsMiddleware'
 import { welcomeMiddleware } from './welcome/welcomeMiddleware'
 import { questionMiddleware } from './question/questionMiddleware'
 import { icfMiddleware } from './icf/icfMiddleware'
+import { sessionMiddleware } from './session/sessionMiddleware'
+import { errorMiddleware } from './error/errorMiddleware'
 
 const store = configureStore({
   reducer,
@@ -16,13 +18,15 @@ const store = configureStore({
     getDefaultMiddleware().prepend(
       // correctly typed middlewares can just be used
       apiMiddleware,
-      ...certificateMiddleware,
-      ...userMiddleware,
-      ...fmbMiddleware,
-      ...utilsMiddleware,
-      ...welcomeMiddleware,
-      ...questionMiddleware,
-      ...icfMiddleware
+      certificateMiddleware,
+      userMiddleware,
+      fmbMiddleware,
+      utilsMiddleware,
+      welcomeMiddleware,
+      questionMiddleware,
+      icfMiddleware,
+      sessionMiddleware,
+      errorMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<

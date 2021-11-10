@@ -44,7 +44,7 @@ const PhoneNumberInput = styled.input.attrs((props) => ({
 
 const UeCareUnitAddress: React.FC = () => {
   const dispatch = useDispatch()
-  const unit = useSelector(getUnit())
+  const unit = useSelector(getUnit(), _.isEqual)
   const disabled = useSelector(getIsLocked)
   const editable = useSelector(getIsEditable)
   const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)

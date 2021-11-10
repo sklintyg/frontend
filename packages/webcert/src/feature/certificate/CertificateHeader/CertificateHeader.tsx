@@ -26,6 +26,7 @@ import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFrom
 import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
 import { getQuestions } from '../../../store/question/questionSelectors'
 import ComplementStatus from './Status/ComplementStatus'
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -48,14 +49,14 @@ const StatusLeftSide = styled.div`
 `
 
 const CertificateHeader = () => {
-  const certificateMetadata = useSelector(getCertificateMetaData)
-  const historyEntries = useSelector(getCertificateEvents)
+  const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
+  const historyEntries = useSelector(getCertificateEvents, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isShowSpinner = useSelector(getIsShowSpinner)
-  const resourceLinks = useSelector(getResourceLinks)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const isLocked = useSelector(getIsLocked)
-  const questions = useSelector(getQuestions)
+  const questions = useSelector(getQuestions, _.isEqual)
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )

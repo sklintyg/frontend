@@ -6,6 +6,7 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
+  autoSaveCertificateError,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
@@ -21,6 +22,8 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
+import { throwError } from '../error/errorActions'
+import { ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -33,12 +36,38 @@ describe('Test certificate middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, ...certificateMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
     })
   })
 
   afterEach(() => {
     clearDispatchedActions()
+  })
+
+  describe('Handle autoSave error', () => {
+    it('shall throw error if autosave fails', async () => {
+      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction).toBeTruthy()
+    })
+
+    it('shall throw error with type MODAL if autosave fails', async () => {
+      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
+    })
+
+    it('shall throw error with errorCode concurrent-editing if autosave fails', async () => {
+      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual('concurrent-editing')
+    })
   })
 
   describe('Handle ComplementCertificate', () => {
@@ -62,7 +91,7 @@ describe('Test certificate middleware', () => {
       testStore = configureStore({
         reducer,
         middleware: (getDefaultMiddleware) =>
-          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, ...certificateMiddleware),
+          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
       })
     })
 
@@ -167,7 +196,7 @@ describe('Test certificate middleware', () => {
       expect(fakeAxios.history.post.length).toBe(1)
     })
   })
-    
+
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(true)

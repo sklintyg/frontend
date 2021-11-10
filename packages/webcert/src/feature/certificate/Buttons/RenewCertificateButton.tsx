@@ -7,6 +7,7 @@ import { renewCertificate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
 import { getUser } from '../../../store/user/userSelectors'
 import { updateUserPreference } from '../../../store/user/userActions'
+import _ from 'lodash'
 
 interface Props {
   name: string
@@ -20,7 +21,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
   const dispatch = useDispatch()
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
-  const user = useSelector(getUser)
+  const user = useSelector(getUser, _.isEqual)
   const showModal = user?.preferences?.dontShowFornyaDialog !== 'true'
 
   const handleConfirm = () => {

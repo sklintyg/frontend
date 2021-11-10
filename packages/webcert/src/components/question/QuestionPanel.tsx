@@ -15,6 +15,7 @@ import QuestionPanelFooter from './QuestionPanelFooter'
 import { getShouldComplementedBeActive, getNumberOfUnhandledQuestions } from './questionUtils'
 import usePrevious from '../../hooks/usePrevious'
 import { getIsSigned } from '../../store/certificate/certificateSelectors'
+import _ from 'lodash'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -28,8 +29,8 @@ const Wrapper = styled.div`
 `
 
 const QuestionPanel: React.FC = () => {
-  const questions = useSelector(getQuestions)
-  const questionDraft = useSelector(getQuestionDraft)
+  const questions = useSelector(getQuestions, _.isEqual)
+  const questionDraft = useSelector(getQuestionDraft, _.isEqual)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const isSigned = useSelector(getIsSigned())

@@ -25,13 +25,7 @@ import {
 } from './welcomeActions'
 import { getUser } from '../user/userActions'
 
-const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getCertificateTypes.match(action)) {
-    return
-  }
-
+const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/testability/certificate/types',
@@ -43,23 +37,11 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
   )
 }
 
-const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getCertificateTypesSuccess.match(action)) {
-    return
-  }
-
+const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateCertificateTypes(action.payload.certificateTypes))
 }
 
-const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getPatients.match(action)) {
-    return
-  }
-
+const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/testability/certificate/patients',
@@ -71,23 +53,11 @@ const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =>
   )
 }
 
-const handleGetPatientsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getPatientsSuccess.match(action)) {
-    return
-  }
-
+const handleGetPatientsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updatePatients(action.payload.patients))
 }
 
-const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!createNewCertificate.match(action)) {
-    return
-  }
-
+const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/testability/certificate',
@@ -100,23 +70,11 @@ const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   )
 }
 
-const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!createNewCertificateSuccess.match(action)) {
-    return
-  }
-
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateCertificateId(action.payload.certificateId))
 }
 
-const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!loginUser.match(action)) {
-    return
-  }
-
+const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/fake',
@@ -129,25 +87,27 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
   )
 }
 
-const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!loginUserSuccess.match(action)) {
-    return
-  }
-
+const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(getUser())
 
   dispatch(updateNavigateToCertificate(true))
 }
 
-export const welcomeMiddleware = [
-  handleGetCertificateTypes,
-  handleGetCertificateTypesSuccess,
-  handleGetPatients,
-  handleGetPatientsSuccess,
-  handleCreateNewCertificate,
-  handleCreateNewCertificateSuccess,
-  handleLoginUser,
-  handleLoginUserSuccess,
-]
+const middlewareMethods = {
+  [getCertificateTypes.type]: handleGetCertificateTypes,
+  [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
+  [getPatients.type]: handleGetPatients,
+  [getPatientsSuccess.type]: handleGetPatientsSuccess,
+  [createNewCertificate.type]: handleCreateNewCertificate,
+  [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
+  [loginUser.type]: handleLoginUser,
+  [loginUserSuccess.type]: handleLoginUserSuccess,
+}
+
+export const welcomeMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}

@@ -5,6 +5,7 @@ import Welcome from './page/Welcome'
 import 'inera-core-css/src/themes/inera-master.scss'
 import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
+import ErrorComponent from './components/error/ErrorComponent'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ErrorComponent />
       <Switch>
         <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
         <Route path="/welcome" render={() => <Welcome />} />

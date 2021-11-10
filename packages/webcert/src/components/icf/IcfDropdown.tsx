@@ -12,6 +12,7 @@ import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import _ from 'lodash'
 
 interface Props {
   modalLabel: string
@@ -32,7 +33,7 @@ const IcfDropdown: React.FC<Props> = ({
   collectionsLabel,
   disabled,
 }) => {
-  const icd10Codes = useSelector(getFMBDiagnosisCodes)
+  const icd10Codes = useSelector(getFMBDiagnosisCodes, _.isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
@@ -130,7 +131,7 @@ const IcfDropdown: React.FC<Props> = ({
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
-        buttonStyle="secondary"
+        // buttonStyle="secondary"
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF

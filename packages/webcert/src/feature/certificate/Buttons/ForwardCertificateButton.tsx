@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReply } from '@fortawesome/free-solid-svg-icons'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import _ from 'lodash'
 
 interface Props {
   name: string
@@ -14,7 +15,7 @@ interface Props {
 
 const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
   const dispatch = useDispatch()
-  const metadata = useSelector(getCertificateMetaData)
+  const metadata = useSelector(getCertificateMetaData, _.isEqual)
 
   if (!metadata) return null
 

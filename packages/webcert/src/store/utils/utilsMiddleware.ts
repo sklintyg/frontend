@@ -15,12 +15,6 @@ import {
 } from './utilsActions'
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getAllDynamicLinks.match(action)) {
-    return
-  }
-
   dispatch(
     apiCallBegan({
       url: '/config/links',
@@ -32,9 +26,7 @@ const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
+const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
   if (!getAllDynamicLinksSuccess.match(action)) {
@@ -44,13 +36,7 @@ const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch, getSt
   dispatch(updateDynamicLinks(action.payload))
 }
 
-const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getDiagnosisTypeahead.match(action)) {
-    return
-  }
-
+const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   let url: string
   let queryProperty: string
   if (action.payload.code) {
@@ -77,21 +63,21 @@ const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: Middlew
   )
 }
 
-const handleGetDiagnosisTypeaheadSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => (next) => (
-  action: AnyAction
-): void => {
-  next(action)
-
-  if (!getDiagnosisTypeaheadSuccess.match(action)) {
-    return
-  }
-
+const handleGetDiagnosisTypeaheadSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateDiagnosisTypeahead(action.payload))
 }
 
-export const utilsMiddleware = [
-  handleGetAllDynamicLinks,
-  handleGetAllDynamicLinksSuccess,
-  handleGetDiagnosisTypeahead,
-  handleGetDiagnosisTypeaheadSuccess,
-]
+const middlewareMethods = {
+  [getAllDynamicLinks.type]: handleGetAllDynamicLinks,
+  [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
+  [getDiagnosisTypeahead.type]: handleGetDiagnosisTypeahead,
+  [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
+}
+
+export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
+  }
+}
