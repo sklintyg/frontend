@@ -1,8 +1,8 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip, { Place } from 'react-tooltip'
 
 interface Props {
-  placement?: string
+  placement?: Place
 }
 
 const CustomTooltip: React.FC<Props> = ({ placement }) => {
