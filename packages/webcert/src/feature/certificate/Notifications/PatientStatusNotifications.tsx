@@ -69,9 +69,9 @@ const PatientStatusNotifications: React.FC = () => {
           </ul>
         </p>
       </PatientStatusNotificationWithModal>
-      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
+      <PatientStatusNotification type={'observe'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientStatusNotificationWithModal
-        type={'observe'}
+        type={'info'}
         status={isPatientTestIndicated}
         title={testPersonTitle}
         modalTitle={testPersonTitle}>
