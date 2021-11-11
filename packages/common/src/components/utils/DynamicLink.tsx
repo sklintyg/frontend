@@ -18,7 +18,7 @@ const DynamicLink: React.FC<Props> = ({ link }) => {
           <CustomTooltip />
         </>
       ) : (
-        <p className="iu-fs-200">{'WARNING: could not resolve dynamic link'}</p>
+        <span className="iu-fs-200">{'WARNING: could not resolve dynamic link'}</span>
       )}
     </>
   )
