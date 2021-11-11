@@ -27,7 +27,7 @@ import {
   updateUserPreference,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
-import { createError } from '../error/errorActions'
+import { throwError } from '../error/errorActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(

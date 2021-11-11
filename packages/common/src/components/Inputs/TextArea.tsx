@@ -10,7 +10,7 @@ interface TextAreaProps {
   additionalStyles?: string
   disabled?: boolean
   rowsMin?: number
-  limit: number
+  limit?: number
   placeholder?: string
 }
 

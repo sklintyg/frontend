@@ -3,7 +3,7 @@ import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/c
 import { useSelector } from 'react-redux'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { ButtonTooltip, Tabs } from '@frontend/common'
+import { CustomTooltip, Tabs } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
@@ -39,9 +39,10 @@ const CertificateSidePanel: React.FC = () => {
 
     if (questionsPanelActive) {
       tabsArray.push(
-        <ButtonTooltip description={questionsPanelActive.description}>
-          <p>{questionsPanelActive.name}</p>
-        </ButtonTooltip>
+        <>
+          <p data-tip={questionsPanelActive.description}>{questionsPanelActive.name}</p>
+          <CustomTooltip />
+        </>
       )
 
       tabsContentArray.push(<QuestionPanel />)
@@ -49,9 +50,10 @@ const CertificateSidePanel: React.FC = () => {
 
     if (questionsNotAvailablePanelActive) {
       tabsArray.push(
-        <ButtonTooltip description={questionsNotAvailablePanelActive.description}>
-          <p>{questionsNotAvailablePanelActive.name}</p>
-        </ButtonTooltip>
+        <>
+          <p data-tip={questionsNotAvailablePanelActive.description}>{questionsNotAvailablePanelActive.name}</p>
+          <CustomTooltip />
+        </>
       )
 
       tabsContentArray.push(<QuestionNotAvailablePanel />)
@@ -59,21 +61,23 @@ const CertificateSidePanel: React.FC = () => {
 
     if (fmbInfoPanelActive) {
       tabsArray.push(
-        <ButtonTooltip description={fmbInfoPanelActive.description}>
-          <p>
+        <>
+          <p data-tip={fmbInfoPanelActive.description}>
             <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
             {fmbInfoPanelActive.name}
           </p>
-        </ButtonTooltip>
+          <CustomTooltip />
+        </>
       )
 
       tabsContentArray.push(<FMBPanel />)
     }
 
     tabsArray.push(
-      <ButtonTooltip description="Läs om intyget.">
-        <p>Om intyget</p>
-      </ButtonTooltip>
+      <>
+        <p data-tip={'Läs om intyget.'}>Om intyget</p>
+        <CustomTooltip />
+      </>
     )
 
     tabsContentArray.push(<AboutCertificatePanel />)

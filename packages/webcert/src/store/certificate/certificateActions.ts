@@ -372,7 +372,7 @@ interface AutoSaveCertificateSuccess {
 
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
-export const autoSaveCertificateError = createAction<Certificate>(AUTO_SAVE_ERROR)
+export const autoSaveCertificateError = createAction<string>(AUTO_SAVE_ERROR)
 
 export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
 

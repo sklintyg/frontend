@@ -1,4 +1,4 @@
-import { ButtonTooltip, ButtonWithConfirmModal, CustomButton } from '@frontend/common'
+import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
 import React from 'react'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,11 +26,9 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled 
   //startIcon={<ReplyIcon style={{ transform: 'scaleX(-1)' }} />}
   if (metadata.forwarded) {
     return (
-      <ButtonTooltip description={description}>
-        <CustomButton disabled={!enabled} onClick={handleEmailSend}>
-          {name}
-        </CustomButton>
-      </ButtonTooltip>
+      <CustomButton disabled={!enabled} onClick={handleEmailSend} tooltip={description}>
+        {name}
+      </CustomButton>
     )
   }
 

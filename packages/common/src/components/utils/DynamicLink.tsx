@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonTooltip } from '@frontend/common'
+import { CustomTooltip } from '@frontend/common'
 import { DynamicLinkData } from '../../types/utils'
 import { Link } from 'react-router-dom'
 
@@ -11,15 +11,12 @@ const DynamicLink: React.FC<Props> = ({ link }) => {
   return (
     <>
       {link ? (
-        <Link target={link.target} to={link.url}>
-          {link.tooltip ? (
-            <ButtonTooltip description={link.tooltip}>
-              <p>{link.text}</p>
-            </ButtonTooltip>
-          ) : (
-            <p>{link.text}</p>
-          )}
-        </Link>
+        <>
+          <Link target={link.target} to={link.url}>
+            <span data-tip={link.tooltip}>{link.text}</span>
+          </Link>
+          <CustomTooltip />
+        </>
       ) : (
         <p className="iu-fs-200">{'WARNING: could not resolve dynamic link'}</p>
       )}

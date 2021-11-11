@@ -19,6 +19,14 @@ import {
   copyCertificateError,
   copyCertificateStarted,
   copyCertificateSuccess,
+  createCertificateFromCandidate,
+  createCertificateFromCandidateError,
+  createCertificateFromCandidateStarted,
+  createCertificateFromCandidateSuccess,
+  createCertificateFromTemplate,
+  createCertificateFromTemplateError,
+  createCertificateFromTemplateStarted,
+  createCertificateFromTemplateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateError,
@@ -47,14 +55,11 @@ import {
   hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
+  highlightCertificateDataElement,
   printCertificate,
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateError,
-  createCertificateFromTemplate,
-  createCertificateFromTemplateError,
-  createCertificateFromTemplateStarted,
-  createCertificateFromTemplateSuccess,
   renewCertificateStarted,
   renewCertificateSuccess,
   replaceCertificate,
@@ -82,6 +87,7 @@ import {
   startSignCertificate,
   startSignCertificateSuccess,
   unhideCertificateDataElement,
+  unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateComplements,
@@ -99,18 +105,14 @@ import {
   validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
-  createCertificateFromCandidateSuccess,
-  createCertificateFromCandidate,
-  createCertificateFromCandidateStarted,
-  createCertificateFromCandidateError,
-  highlightCertificateDataElement,
-  unstyleCertificateDataElement,
 } from './certificateActions'
 import { apiCallBegan } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
+import { throwError } from '../error/errorActions'
+import { ErrorType } from '../error/errorReducer'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -524,6 +526,11 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(autoSaveCertificateCompleted())
 }
 
+const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(autoSaveCertificateCompleted())
+  dispatch(throwError({ errorCode: 'concurrent-editing', type: ErrorType.MODAL }))
+}
+
 const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
@@ -631,6 +638,7 @@ const middlewareMethods = {
   [validateCertificateSuccess.type]: handleValidateCertificateSuccess,
   [autoSaveCertificate.type]: handleAutoSaveCertificate,
   [autoSaveCertificateSuccess.type]: handleAutoSaveCertificateSuccess,
+  [autoSaveCertificateError.type]: handleAutoSaveCertificateError,
   [updateCertificateUnit.type]: handleUpdateCertificateUnit,
   [deleteCertificate.type]: handleDeleteCertificate,
   [deleteCertificateSuccess.type]: handleDeleteCertificateSuccess,
