@@ -162,7 +162,7 @@ export interface GetCertificateSuccess {
 
 export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
-export const getCertificateError = createAction<string>(GET_CERTIFICATE_ERROR)
+export const getCertificateError = createAction<any>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 

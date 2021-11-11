@@ -46,6 +46,14 @@ describe('Test session middleware', () => {
       expect(testStore.getState().ui.uiError.error.errorCode).toEqual(error.errorCode)
     })
 
+    it('shall create errorData with message if included', async () => {
+      const error: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, certificateId: 'certificateId' }
+      testStore.dispatch(throwError(error))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiError.error.certificateId).toEqual(error.certificateId)
+    })
+
     it('shall create errorData with same stacktrace', async () => {
       const error: ErrorRequest = { errorCode: 'errorCode', type: ErrorType.MODAL, stackTrace: new Error().stack }
       testStore.dispatch(throwError(error))
@@ -120,7 +128,20 @@ describe('Test session middleware', () => {
       expect(JSON.parse(fakeAxios.history.post[0].data).stackTrace).toEqual(expectedErrorRequest.stackTrace)
     })
 
-    it('shall include a message when logging error', async () => {
+    it('shall include passed message when logging error', async () => {
+      const expectedErrorRequest: ErrorRequest = {
+        errorCode: 'errorCode',
+        message: 'This is the message',
+        type: ErrorType.MODAL,
+        stackTrace: new Error().stack,
+      }
+      testStore.dispatch(throwError(expectedErrorRequest))
+
+      await flushPromises()
+      expect(JSON.parse(fakeAxios.history.post[0].data).message).toEqual(expectedErrorRequest.message)
+    })
+
+    it('shall create message when missing when logging error', async () => {
       testStore.dispatch(throwError({ errorCode: 'errorCode', type: ErrorType.MODAL }))
 
       await flushPromises()
