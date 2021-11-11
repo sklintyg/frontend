@@ -71,7 +71,7 @@ const PatientStatusNotifications: React.FC = () => {
       </PatientStatusNotificationWithModal>
       <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientStatusNotificationWithModal
-        type={'info'}
+        type={'observe'}
         status={isPatientTestIndicated}
         title={testPersonTitle}
         modalTitle={testPersonTitle}>
@@ -82,7 +82,7 @@ const PatientStatusNotifications: React.FC = () => {
         </p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
-        type={'observe'}
+        type={'info'}
         status={(!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean}
         title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (patient && previousPatientId ? patient.personId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
