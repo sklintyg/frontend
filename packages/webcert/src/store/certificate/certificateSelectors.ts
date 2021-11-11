@@ -9,7 +9,7 @@ import {
   ConfigTypes,
   ResourceLinkType,
 } from '@frontend/common'
-import { PersonId } from '@frontend/common/src'
+import { Patient, PersonId } from '@frontend/common/src'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -180,3 +180,6 @@ export const getPreviousPatientId = (state: RootState): PersonId | undefined =>
 
 export const getIsPatientIdUpdated = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdUpdated : false
+
+export const getPatient = (state: RootState): Patient | undefined =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient : undefined

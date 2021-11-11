@@ -25,7 +25,8 @@ const INFO_TEXT_PROTECTED = 'Patienten har skyddade personuppgifter'
 const INFO_TEXT_DIFFERENT_NAME = 'Patientens namn skiljer sig från det i journalsystemet'
 const INFO_TEXT_DIFFERENT_ID = 'Patientens personnummer har ändrats'
 const ALTERNATE_ID = '1912121213'
-const INFO_TEXT_RESERVE_ID = 'Patienten har samordningsnummer kopplat till reservnummer: ' + ALTERNATE_ID
+const PERSON_ID = '191111111111'
+const INFO_TEXT_RESERVE_ID = 'Patienten har samordningsnummer kopplat till reservnummer: ' + PERSON_ID
 
 describe('PatientStatusNotifications', () => {
   beforeEach(() => {
@@ -145,6 +146,9 @@ const createCertificate = (
         differentNameFromEHR: isNameDifferentFromEHR,
         previousPersonId: previousPersonId,
         personIdUpdated: personIdUpdated,
+        personId: {
+          id: PERSON_ID,
+        },
       },
     },
   }
