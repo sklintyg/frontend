@@ -4,6 +4,8 @@ import { render, screen, waitForDomChange } from '@testing-library/react'
 import AvailableForPatientStatus from './AvailableForPatientStatus'
 import * as utils from '@frontend/common/src/utils/certificateUtils'
 import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 
 it('displays that the certificate is available for the patient', async () => {
   const spy = jest.spyOn(utils, 'isSigned')
@@ -11,7 +13,11 @@ it('displays that the certificate is available for the patient', async () => {
   spy.mockReturnValue(true)
 
   // @ts-expect-error we don't need to send all props
-  render(<AvailableForPatientStatus />)
+  render(
+    <Provider store={store}>
+      <AvailableForPatientStatus />
+    </Provider>
+  )
 
   expect(screen.getByText(/intyget är tillgängligt för patienten/i)).toBeInTheDocument()
   userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
