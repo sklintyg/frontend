@@ -13,6 +13,7 @@ export interface User {
   //  }
   preferences: { [key: string]: string } | null
   signingMethod: SigningMethod
+  protectedPerson: boolean
 }
 
 export enum SigningMethod {
