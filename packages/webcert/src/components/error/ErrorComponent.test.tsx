@@ -26,6 +26,7 @@ const history = createMemoryHistory()
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+
 const location: Location = window.location
 delete window.location
 window.location = {
@@ -80,6 +81,8 @@ describe('ErrorComponent', () => {
     it('shall route user to error page if timeout error exists', () => {
       setErrorState(ErrorType.ROUTE, TIMEOUT)
       renderComponent()
+
+      expect(history.location.pathname).toBe('/error')
     })
   })
 })

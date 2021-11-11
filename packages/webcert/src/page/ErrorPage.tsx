@@ -1,41 +1,38 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import Certificate from '../feature/certificate/Certificate'
-import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
-import { getCertificate } from '../store/certificate/certificateActions'
-import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader, AppHeaderLink } from '@frontend/common'
-import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
-import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
+import React from 'react'
+import { useLocation, Link } from 'react-router-dom'
+import { AppHeader } from '@frontend/common'
 import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
-import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
-import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
 import { TIMEOUT } from '../store/error/errorReducer'
-import { Link } from 'react-scroll'
+import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
+import errorImage from '../images/fel-1.svg'
 
 const Root = styled.div`
   height: 100vh;
 `
 
-interface ErrorPageProps {
-  errorCode: string
-}
+const TextWrapper = styled.div`
+  text-align: center;
+  max-width: 475px;
+  margin: 0 auto;
+`
 
-const ErrorPage: React.FC<ErrorPageProps> = ({ errorCode }) => {
+const ErrorPage: React.FC = () => {
+  const location = useLocation()
+  const errorCode = location.state as string
+
+  console.log(location)
   const getContent = () => {
     switch (errorCode) {
       case TIMEOUT:
         return (
-          <div>
+          <>
             <strong>Du är utloggad</strong>
             <p>
-              Du har blivit utloggad från Webcert på grund av inaktivitet. Om du vill fortsätta använda Webcert behöver du logga in igen.
+              Du har blivit utloggad från Webcert på grund av inaktivitet. Om du vill fortsätta använda Webcert behöver du logga in igen.{' '}
             </p>
             <Link to={'/'}>Gå till startsidan</Link>
-          </div>
+          </>
         )
     }
   }
@@ -43,6 +40,9 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ errorCode }) => {
   return (
     <Root>
       <AppHeader logo={logo} alt={'Logo Webcert'} />
+      <TextWrapper>
+        <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
+      </TextWrapper>
     </Root>
   )
 }
