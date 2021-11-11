@@ -79,7 +79,7 @@ describe('IcfDropdown', () => {
     expect(screen.getByText('Ta hjälp av ICF')).toBeDisabled()
   })
 
-  it('display tooltip if no icd codes', () => {
+  xit('display tooltip if no icd codes', () => {
     renderComponent()
     const expected = 'Ange minst en diagnos för att få ICF-stöd'
 
