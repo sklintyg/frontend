@@ -13,11 +13,22 @@ import {
   updateDiagnosisTypeahead,
   updateDynamicLinks,
 } from './utilsActions'
+import { updateCertificate } from '../certificate/certificateActions'
+
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (!updateCertificate.match(action)) {
+    return
+  }
+
+  dispatch(getAllDynamicLinks())
+}
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
-      url: '/config/links',
+      url: '/api/config/links',
       method: 'GET',
       onStart: getAllDynamicLinksStarted.type,
       onSuccess: getAllDynamicLinksSuccess.type,
@@ -72,6 +83,7 @@ const middlewareMethods = {
   [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
   [getDiagnosisTypeahead.type]: handleGetDiagnosisTypeahead,
   [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
+  [updateCertificate.type]: handleUpdateCertificate,
 }
 
 export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
