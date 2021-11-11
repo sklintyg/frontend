@@ -67,7 +67,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
         {textArea.display && textArea.name === 'FEL_PATIENT' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
           </div>
         )}
         <RadioButton
@@ -83,7 +83,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
               <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
               Ange orsaken till felet.
             </p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
           </div>
         )}
       </div>

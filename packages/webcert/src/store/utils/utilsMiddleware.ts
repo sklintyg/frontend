@@ -13,17 +13,6 @@ import {
   updateDiagnosisTypeahead,
   updateDynamicLinks,
 } from './utilsActions'
-import { updateCertificate } from '../certificate/certificateActions'
-
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!updateCertificate.match(action)) {
-    return
-  }
-
-  dispatch(getAllDynamicLinks())
-}
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   dispatch(
@@ -83,7 +72,6 @@ const middlewareMethods = {
   [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
   [getDiagnosisTypeahead.type]: handleGetDiagnosisTypeahead,
   [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
-  [updateCertificate.type]: handleUpdateCertificate,
 }
 
 export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
