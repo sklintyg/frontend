@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { ButtonTooltip, FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
+import { CustomTooltip, FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
 
 interface Props {
   fmbDiagnosisCodes: FMBDiagnosisCodeInfo[]
@@ -16,9 +16,7 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
     <div className="iu-border-grey-300 iu-p-500 iu-m-none">
       <div role="group" aria-label="Diagnosis selection" className="ic-checkbox-group-vertical">
         {fmbDiagnosisCodes.map((diagnosisCode: FMBDiagnosisCodeInfo) => (
-          <ButtonTooltip
-            key={diagnosisCode.icd10Code}
-            description={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}>
+          <>
             <RadioButton
               key={diagnosisCode.icd10Code}
               label={diagnosisCode.icd10Description}
@@ -28,8 +26,10 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
               name={diagnosisCode.icd10Code}
               disabled={!diagnosisCode.diagnosTitle}
               onChange={onChange}
+              data-tip={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}
             />
-          </ButtonTooltip>
+            <CustomTooltip />
+          </>
         ))}
       </div>
     </div>

@@ -72,6 +72,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
+    "react-tooltip": "^4.2.21",
     "styled-components": "^5.2.1",
     "ts-jest": "^26.5.4",
     "typescript": "^3"

@@ -54,6 +54,7 @@ describe('Create certificate from template button', () => {
 
   it('shall set description for button', () => {
     renderDefaultComponent(true)
+    userEvent.hover(screen.getByText(NAME))
     expect(screen.getByText(DESCRIPTION)).toBeInTheDocument()
   })
 

@@ -307,9 +307,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           Svara senast: {question.lastDateToReply}
         </p>
       )}
-      {isAnswerButtonVisible() && (
-        <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} tooltipClassName={'iu-ml-none'} />
-      )}
+      {isAnswerButtonVisible() && <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} />}
       {question.answer && !question.answer.id && (
         <>
           <div className="ic-forms__group">
@@ -317,13 +315,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton
-                disabled={isFormEmpty}
-                buttonStyle={'primary'}
-                onClick={handleSendAnswer}
-                text={'Skicka'}
-                tooltipClassName={'iu-ml-none'}
-              />
+              <CustomButton disabled={isFormEmpty} buttonStyle={'primary'} onClick={handleSendAnswer} text={'Skicka'} />
               <ButtonWithConfirmModal
                 disabled={false}
                 buttonStyle={'default'}
