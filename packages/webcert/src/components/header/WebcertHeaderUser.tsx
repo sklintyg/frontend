@@ -2,8 +2,9 @@ import React from 'react'
 import { AppHeaderUser } from '@frontend/common'
 import { getUser } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
-import { User } from '@frontend/common/src'
 import styled from 'styled-components'
+import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
+import { User } from '@frontend/common/src'
 
 const Italic = styled.span`
   font-style: italic;
@@ -15,9 +16,10 @@ const WebcertHeaderUser: React.FC = () => {
 
   const toString = (user: User): React.ReactNode => {
     return (
-      <p>
+      <div>
         {user.name} <br /> <Italic>{user.role}</Italic>
-      </p>
+        {user.protectedPerson && <ProtectedPersonDoctorModal />}
+      </div>
     )
   }
 
