@@ -85,7 +85,7 @@ describe('IcfDropdown', () => {
 
     userEvent.hover(screen.getByText('Ta hjälp av ICF'))
 
-    expect(screen.getByText(expected)).toBeInTheDocument()
+    expect(screen.queryByText(expected)).not.toBeNull()
   })
 
   it('display enabled button if icd codes exist', () => {

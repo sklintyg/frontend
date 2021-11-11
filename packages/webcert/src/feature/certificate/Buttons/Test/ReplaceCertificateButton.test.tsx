@@ -43,6 +43,7 @@ describe('Replace continue button', () => {
 
   it('shall set the description passed as prop', () => {
     renderDefaultComponent(true)
+    userEvent.hover(screen.getByText(NAME))
     const description = screen.queryByText(DESCRIPTION)
     expect(description).not.toBeNull()
   })

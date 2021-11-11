@@ -47,13 +47,21 @@ describe('Renew certificate button', () => {
     expect(button).toBeDisabled()
   })
 
-  it('sets correct name and description for button', () => {
+  it('sets correct name for button', () => {
     renderDefaultComponent(true)
     const name = screen.queryByText(NAME)
-    const description = screen.queryByText(DESCRIPTION)
-    const body = screen.queryByText(BODY)
     expect(name).not.toBeNull()
-    expect(description).not.toBeNull()
+  })
+
+  it('sets correct description for button', () => {
+    renderDefaultComponent(true)
+    userEvent.hover(screen.getByText(NAME))
+    expect(screen.queryByText(DESCRIPTION)).not.toBeNull()
+  })
+
+  it('sets correct body for button', () => {
+    renderDefaultComponent(true)
+    const body = screen.queryByText(BODY)
     expect(body).toBeNull()
   })
 
