@@ -15,8 +15,8 @@ import {
   ErrorType,
   TIMEOUT,
 } from '../../store/error/errorReducer'
-import { createError, setError } from '../../store/error/errorActions'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { clearError, setError, throwError } from '../../store/error/errorActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
 
 let fakeAxios: MockAdapter
@@ -75,6 +75,18 @@ describe('ErrorComponent', () => {
       userEvent.click(screen.getByText('Ladda om intyget'))
       expect(window.location.reload).toHaveBeenCalledTimes(1)
     })
+
+    it('shall clear error on close', () => {
+      clearDispatchedActions()
+      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      renderComponent()
+
+      userEvent.click(screen.getByText('Stäng'))
+
+      const error = dispatchedActions.find((action) => setError.match(action))
+      const clearedError = dispatchedActions.find((action) => clearError.match(action))
+      expect(error?.payload.errorId).toEqual(clearedError?.payload.errorId)
+    })
   })
 
   describe('ErrorType.ROUTE, CONCURRENT_MODIFICATION', () => {
@@ -90,9 +102,8 @@ describe('ErrorComponent', () => {
 const setErrorState = (type: ErrorType, errorCode: string) => {
   const error: ErrorRequest = {
     type: type,
-
     errorCode: errorCode,
   }
 
-  testStore.dispatch(createError(error))
+  testStore.dispatch(throwError(error))
 }

@@ -21,7 +21,6 @@ const ErrorPage: React.FC = () => {
   const location = useLocation()
   const errorCode = location.state as string
 
-  console.log(location)
   const getContent = () => {
     switch (errorCode) {
       case TIMEOUT:
