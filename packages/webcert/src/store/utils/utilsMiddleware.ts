@@ -17,7 +17,7 @@ import {
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
-      url: '/config/links',
+      url: '/api/config/links',
       method: 'GET',
       onStart: getAllDynamicLinksStarted.type,
       onSuccess: getAllDynamicLinksSuccess.type,

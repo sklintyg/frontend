@@ -89,3 +89,7 @@ img {
   text-align: center !important;
   box-shadow: 0 0 1.25rem 0 rgb(0 0 0 / 20%) !important;
 }
+
+.ic-textarea {
+  min-height: unset !important;
+}
