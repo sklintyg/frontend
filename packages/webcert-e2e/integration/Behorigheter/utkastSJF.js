@@ -70,10 +70,9 @@ describe('LISJP-intyg tomt', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
                 cy.visit(önskadUrl);
-                cy.get('.ic-textarea').type('Det ska inte vara möjligt att skriva').should('exist'); //TO BE DONE CHANGE TO not.exist instead of 'exist'
+                cy.get('.ic-textarea').type('Det ska inte vara möjligt att skriva').should('not.exist');
                 cy.contains('Klart att signera').should('exist');
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
-                                
             });
         });
     });
