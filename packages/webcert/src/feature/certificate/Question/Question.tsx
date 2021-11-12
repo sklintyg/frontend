@@ -11,7 +11,13 @@ import {
   MandatoryIcon,
   UvText,
 } from '@frontend/common'
-import { getComplements, getIsLocked, getQuestion, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import {
+  getComplements,
+  getIsEditable,
+  getIsLocked,
+  getQuestion,
+  getShowValidationErrors,
+} from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
@@ -44,7 +50,8 @@ const Wrapper = styled.div`
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
-  const disabled = useSelector(getIsLocked) || (question.disabled as boolean)
+  const isEditable = useSelector(getIsEditable)
+  const disabled = useSelector(getIsLocked) || (question.disabled as boolean) || !isEditable
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
   const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
 

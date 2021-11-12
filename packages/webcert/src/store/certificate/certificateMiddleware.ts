@@ -112,7 +112,7 @@ import { decorateCertificateWithInitialValues, validateExpressions } from '@fron
 import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
-import { ErrorType } from '../error/errorReducer'
+import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -124,6 +124,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
       onStart: getCertificateStarted.type,
       onSuccess: getCertificateSuccess.type,
       onError: getCertificateError.type,
+      onArgs: { certificateId: action.payload },
     })
   )
 }
@@ -137,6 +138,19 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
     dispatch(validateCertificate(action.payload.certificate))
   }
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (action.payload.error?.errorCode === AUTHORIZATION_PROBLEM) {
+    dispatch(
+      throwError({
+        certificateId: action.payload.certificateId,
+        errorCode: action.payload.error.errorCode,
+        message: action.payload.error.message,
+        type: ErrorType.ROUTE,
+      })
+    )
+  }
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -528,7 +542,7 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
 
 const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(autoSaveCertificateCompleted())
-  dispatch(throwError({ errorCode: 'concurrent-editing', type: ErrorType.MODAL }))
+  dispatch(throwError({ errorCode: CONCURRENT_MODIFICATION, type: ErrorType.MODAL }))
 }
 
 const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -628,6 +642,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
 const middlewareMethods = {
   [getCertificate.type]: handleGetCertificate,
   [getCertificateSuccess.type]: handleGetCertificateSuccess,
+  [getCertificateError.type]: handleGetCertificateError,
   [getCertificateEvents.type]: handleGetCertificateEvents,
   [getCertificateEventsSuccess.type]: handleGetCertificateEventsSuccess,
   [startSignCertificate.type]: handleStartSignCertificate,

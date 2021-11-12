@@ -33,7 +33,7 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
     dispatch(apiCallFailed(error.message))
 
     if (onError) {
-      dispatch({ type: onError, payload: { ...error.message, ...onArgs } })
+      dispatch({ type: onError, payload: { error: { ...error.response.data }, ...onArgs } })
     }
   }
 }
