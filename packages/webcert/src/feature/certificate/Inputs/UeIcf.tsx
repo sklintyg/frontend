@@ -105,7 +105,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
       />
       <TextArea
         disabled={disabled}
-        rowsMin={4}
+        rowsMin={6}
         hasValidationError={shouldDisplayValidationError}
         onChange={handleTextChange}
         name={questionConfig.id}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
-import { useEffect } from 'react'
+import WCDynamicLink from '../../../components/utils/WCDynamicLink'
 
 const mandatoryIconAdditonalStyles = css`
   top: -4px;
@@ -39,7 +39,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
     <>
       Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
       intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
-      intyg på <a href={'https://www.minaintyg.se'}>minaintyg.se</a>
+      intyg på <WCDynamicLink linkKey={'minaintyg'} />.
     </>
   )
 
@@ -67,7 +67,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
         {textArea.display && textArea.name === 'FEL_PATIENT' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
           </div>
         )}
         <RadioButton
@@ -83,7 +83,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
               <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
               Ange orsaken till felet.
             </p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
           </div>
         )}
       </div>

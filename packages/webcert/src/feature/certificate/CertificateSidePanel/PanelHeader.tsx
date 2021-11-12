@@ -15,7 +15,7 @@ interface Props {
 
 const PanelHeader: React.FC<Props> = ({ description }) => {
   return (
-    <Root className="iu-bg-grey-300">
+    <Root>
       <p className="iu-fw-heading">{description}</p>
     </Root>
   )

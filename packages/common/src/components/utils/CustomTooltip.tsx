@@ -6,7 +6,15 @@ interface Props {
 }
 
 const CustomTooltip: React.FC<Props> = ({ placement }) => {
-  return <ReactTooltip type={'light'} effect={'solid'} place={placement ? placement : 'bottom'} className={'ic-popover iu-fw-body'} />
+  return (
+    <ReactTooltip
+      role={'tooltip'}
+      type={'light'}
+      effect={'solid'}
+      place={placement ? placement : 'bottom'}
+      className={'ic-popover iu-fw-body'}
+    />
+  )
 }
 
 export default CustomTooltip

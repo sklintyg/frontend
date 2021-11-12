@@ -7,6 +7,7 @@ import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
+import { getAllDynamicLinks } from './store/utils/utilsActions'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -17,6 +18,7 @@ function App() {
     window.addEventListener('beforeunload', handleWindowBeforeUnload)
     dispatch(cancelLogout())
     dispatch(getUser())
+    dispatch(getAllDynamicLinks())
     return () => {
       window.removeEventListener('beforeunload', handleWindowBeforeUnload)
     }

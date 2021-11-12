@@ -13,6 +13,8 @@ import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
 import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
+import { TextWithInfoModal } from '@frontend/common/src'
+import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
 
 const Root = styled.div`
   height: 100vh;
@@ -47,7 +49,9 @@ const CertificatePage = () => {
   }, [dispatch, certificateId])
 
   const secondaryItems = [
-    <AppHeaderLink addedClass={'ic-link-chevron'} text={'Om Webcert'} link={'#'} withoutDivider={true}></AppHeaderLink>,
+    <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
+      <AboutWebcertModalContent></AboutWebcertModalContent>
+    </TextWithInfoModal>,
   ]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.

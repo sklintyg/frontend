@@ -5,6 +5,8 @@ import * as utils from '@frontend/common/src/utils/certificateUtils'
 import RevokedStatus from './RevokedStatus'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 
 it('displays that the certificate is revoked', async () => {
   const isRevokedSpy = jest.spyOn(utils, 'isRevoked')
@@ -12,9 +14,11 @@ it('displays that the certificate is revoked', async () => {
   isRevokedSpy.mockReturnValue(true)
 
   render(
-    <BrowserRouter>
-      <RevokedStatus />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <RevokedStatus />
+      </BrowserRouter>
+    </Provider>
   )
   expect(screen.getByText(/intyget är makulerat/i)).toBeInTheDocument()
   userEvent.click(screen.getByText(/intyget är makulerat/i))

@@ -7,9 +7,7 @@ import { faGraduationCap, faExternalLinkAlt } from '@fortawesome/free-solid-svg-
 const AboutCertificatePanelFooter = () => {
   return (
     <SidePanelFooter backgroundColor="iu-bg-white" textColor="iu-color-main">
-      <a href={'https://inera.atlassian.net/wiki/spaces/EIT/pages/358876066/Intygsskolan'} target="_blank">
-        Hitta svar på dina frågor i Ineras intygsskola
-      </a>
+      <WCDynamicLink linkKey={'ineraIntygsskola'} />
       <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-fs-200 iu-ml-200" />
     </SidePanelFooter>
   )

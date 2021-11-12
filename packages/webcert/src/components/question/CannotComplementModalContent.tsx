@@ -46,7 +46,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
               Kommentera varför det inte är möjligt att ange ytterligare medicinsk information. När du skickar svaret skapas en kopia av
               intyget med din kommentar i fältet "Övriga upplysningar". Intyget måste därefter signeras och skickas till Försäkringskassan.
             </p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={500} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={500} />
           </div>
         )}
         <RadioButton
@@ -66,7 +66,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
               Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
               så ska du delge Försäkringskassan det genom att svara med ett meddelande.{' '}
             </p>
-            <TextArea rowsMin={4} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={500} />
+            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={500} />
           </div>
         )}
       </div>

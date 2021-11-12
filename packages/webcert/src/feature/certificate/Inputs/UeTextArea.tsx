@@ -44,7 +44,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
     <div className={`iu-pt-200`}>
       <TextArea
         disabled={disabled}
-        rowsMin={4}
+        rowsMin={6}
         hasValidationError={questionHasValidationError}
         onChange={handleChange}
         name={questionConfig.id}
