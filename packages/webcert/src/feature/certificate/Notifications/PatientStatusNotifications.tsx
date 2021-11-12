@@ -6,6 +6,7 @@ import {
   getIsPatientNameDifferentFromEHR,
   getIsPatientProtectedPerson,
   getIsPatientTestIndicated,
+  getPatient,
   getPreviousPatientId,
 } from '../../../store/certificate/certificateSelectors'
 import styled from 'styled-components'
@@ -25,6 +26,7 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
   const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId, shallowEqual)
   const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
+  const patient = useSelector(getPatient)
 
   const testPersonTitle = 'Patienten är en valideringsperson'
   const protectedPersonTitle = 'Patienten har skyddade personuppgifter'
@@ -41,9 +43,9 @@ const PatientStatusNotifications: React.FC = () => {
 
   return (
     <Wrapper>
-      <PatientStatusNotification type={'observe'} title={'Patienten är avliden'} status={isPatientDeceased} />
+      <PatientStatusNotification type={'info'} title={'Patienten är avliden'} status={isPatientDeceased} />
       <PatientStatusNotificationWithModal
-        type={'observe'}
+        type={'info'}
         status={isPatientProtectedPerson}
         title={protectedPersonTitle}
         modalTitle={protectedPersonTitle}>
@@ -67,9 +69,9 @@ const PatientStatusNotifications: React.FC = () => {
           </ul>
         </p>
       </PatientStatusNotificationWithModal>
-      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
+      <PatientStatusNotification type={'observe'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientStatusNotificationWithModal
-        type={'observe'}
+        type={'info'}
         status={isPatientTestIndicated}
         title={testPersonTitle}
         modalTitle={testPersonTitle}>
@@ -82,12 +84,12 @@ const PatientStatusNotifications: React.FC = () => {
       <PatientStatusNotificationWithModal
         type={'info'}
         status={(!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean}
-        title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (previousPatientId ? previousPatientId.id : '')}
+        title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (patient && previousPatientId ? patient.personId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
-        type={'info'}
+        type={'observe'}
         status={isPatientNameDifferentFromEHR}
         title={'Patientens namn skiljer sig från det i journalsystemet'}
         modalTitle={'Patientens namn skiljer sig'}>
