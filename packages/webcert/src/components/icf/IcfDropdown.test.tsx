@@ -157,8 +157,8 @@ describe('IcfDropdown', () => {
   it('display link in footer to socialstyrelsen', () => {
     renderAndOpenDropdown()
 
-    expect(screen.getByText('Läs mer om ICF hos Socialstyrelsenlaunch')).toBeInTheDocument()
-    expect(screen.getByText('Läs mer om ICF hos Socialstyrelsenlaunch')).toHaveAttribute(
+    expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toBeInTheDocument()
+    expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toHaveAttribute(
       'href',
       'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'
     )

@@ -28,29 +28,31 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal iu-mt-200">
-      <RadioButton
-        disabled={disabled}
-        hasValidationError={shouldDisplayValidationError}
-        label={questionConfig.selectedText}
-        id={questionConfig.id + 'true'}
-        name={questionConfig.id + 'radio'}
-        value={'true'}
-        checked={booleanValue.selected !== null && booleanValue.selected}
-        onChange={handleChange}
-      />
-      <RadioButton
-        disabled={disabled}
-        hasValidationError={shouldDisplayValidationError}
-        label={questionConfig.unselectedText}
-        id={questionConfig.id + 'false'}
-        name={questionConfig.id + 'radio'}
-        value={'false'}
-        checked={booleanValue.selected !== null && !booleanValue.selected}
-        onChange={handleChange}
-      />
+    <>
+      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal iu-mt-200">
+        <RadioButton
+          disabled={disabled}
+          hasValidationError={shouldDisplayValidationError}
+          label={questionConfig.selectedText}
+          id={questionConfig.id + 'true'}
+          name={questionConfig.id + 'radio'}
+          value={'true'}
+          checked={booleanValue.selected !== null && booleanValue.selected}
+          onChange={handleChange}
+        />
+        <RadioButton
+          disabled={disabled}
+          hasValidationError={shouldDisplayValidationError}
+          label={questionConfig.unselectedText}
+          id={questionConfig.id + 'false'}
+          name={questionConfig.id + 'radio'}
+          value={'false'}
+          checked={booleanValue.selected !== null && !booleanValue.selected}
+          onChange={handleChange}
+        />
+      </div>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-    </div>
+    </>
   )
 }
 

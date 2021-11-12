@@ -59,7 +59,12 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as CheckboxCode[]).find((item) => item.id === id)
-    return <li key={id}>{item?.label}</li>
+    return item ? item.label : ''
+  }
+
+  const getCodeListConfigIndex = (id: string, config: CertificateDataConfig) => {
+    const index = (config.list as CheckboxCode[]).findIndex((item) => item.id === id)
+    return index
   }
 
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
@@ -117,19 +122,22 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           </tr>
         </thead>
         <tbody>
-          {configList.map((element, index) => {
-            const foundValue = valueList.find((v) => v.id === element.id)
+          {configList
+            .slice()
+            .reverse()
+            .map((element, index) => {
+              const foundValue = valueList.find((v) => v.id === element.id)
 
-            if (!foundValue?.from || !foundValue.to) return null
+              if (!foundValue?.from || !foundValue.to) return null
 
-            return (
-              <tr key={element.id}>
-                <td>{element.label}</td>
-                <td>{foundValue.from}</td>
-                <td>{foundValue.to}</td>
-              </tr>
-            )
-          })}
+              return (
+                <tr key={element.id}>
+                  <td>{element.label}</td>
+                  <td>{foundValue.from}</td>
+                  <td>{foundValue.to}</td>
+                </tr>
+              )
+            })}
         </tbody>
       </table>
     )
@@ -162,7 +170,14 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         if (codeListValue.list.length > 0 && question.visible) {
           return (
             <Badge>
-              <ul>{(codeListValue.list as ValueCode[]).map((value, key) => getCodeListText(value.id, codeListConfig))}</ul>
+              <ul>
+                {(codeListValue.list as ValueCode[])
+                  .slice()
+                  .sort((a, b) => getCodeListConfigIndex(a.id, codeListConfig) - getCodeListConfigIndex(b.id, codeListConfig))
+                  .map((value, key) => (
+                    <li key={value.id}>{getCodeListText(value.id, codeListConfig)}</li>
+                  ))}
+              </ul>
             </Badge>
           )
         }
