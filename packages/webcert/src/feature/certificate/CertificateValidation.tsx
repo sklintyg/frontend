@@ -20,7 +20,7 @@ const CertificateValidation = () => {
 
   if (!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 
-  const validationMessages = validationErrors.map((validation, i) => {
+  const validationMessages = Array.from(new Set(validationErrors)).map((validation, i) => {
     return (
       <p key={i} className={'iu-mt-none'}>
         <Link

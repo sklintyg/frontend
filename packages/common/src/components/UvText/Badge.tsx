@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const Root = styled.div`
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
 
   ul {
     list-style: unset;
