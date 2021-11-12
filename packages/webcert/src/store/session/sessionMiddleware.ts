@@ -16,7 +16,7 @@ import {
 import { apiCallBegan } from '../api/apiActions'
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { throwError } from '../error/errorActions'
-import { ErrorType } from '../error/errorReducer'
+import { ErrorType, TIMEOUT } from '../error/errorReducer'
 
 const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
@@ -25,7 +25,7 @@ const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => 
 
   const handlePoll = setInterval(() => {
     dispatch(getSessionStatus())
-  }, 5000)
+  }, 30000)
 
   dispatch(setPollHandle(handlePoll))
 }
@@ -61,7 +61,7 @@ const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }) => ()
 
   if (!action.payload.authenticated) {
     dispatch(stopPoll())
-    dispatch(throwError({ errorCode: 'timeout', type: ErrorType.ROUTE }))
+    dispatch(throwError({ errorCode: TIMEOUT, type: ErrorType.ROUTE }))
   }
 }
 
@@ -69,7 +69,7 @@ const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }) => () =
   dispatch(setSessionStatusPending(false))
   dispatch(setSessionStatus({ authenticated: false, hasSession: false, secondsUntilExpire: 0 }))
   dispatch(stopPoll())
-  dispatch(throwError({ errorCode: 'timeout', type: ErrorType.ROUTE }))
+  dispatch(throwError({ errorCode: TIMEOUT, type: ErrorType.ROUTE }))
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {

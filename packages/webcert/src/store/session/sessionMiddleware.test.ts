@@ -18,7 +18,7 @@ import {
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { throwError } from '../error/errorActions'
-import { ErrorType } from '../error/errorReducer'
+import { ErrorType, TIMEOUT } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -140,7 +140,7 @@ describe('Test session middleware', () => {
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual('timeout')
+      expect(throwErrorAction?.payload.errorCode).toEqual(TIMEOUT)
     })
 
     it('shall stop polling if not authenticated', async () => {
@@ -196,7 +196,7 @@ describe('Test session middleware', () => {
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual('timeout')
+      expect(throwErrorAction?.payload.errorCode).toEqual(TIMEOUT)
     })
 
     it('shall stop polling if session status returns error', async () => {

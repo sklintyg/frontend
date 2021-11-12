@@ -30,7 +30,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, c
   const getButtons = () => {
     return (
       <>
-        <CustomButton onClick={handleConfirm} text={confirmButtonText} />
+        <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />
         <CustomButton onClick={handleClose} text={closeButtonText} />
       </>
     )

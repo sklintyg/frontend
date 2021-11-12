@@ -18,7 +18,8 @@ const handleThrowError: Middleware<Dispatch> = ({ dispatch, getState }) => () =>
 
   dispatch(setError(errorData))
 
-  const errorLogRequest: ErrorLogRequest = { ...errorData, message: 'What should we set as text!' }
+  const message = action.payload.message ? action.payload.message : 'No message'
+  const errorLogRequest: ErrorLogRequest = { ...errorData, message }
 
   dispatch(apiCallBegan({ data: errorLogRequest, method: 'POST', url: '/api/log/error' }))
 }

@@ -12,6 +12,7 @@ import {
   ComplementCertificateSuccess,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  getCertificateError,
   hideSpinner,
   SigningData,
   startSignCertificate,
@@ -23,7 +24,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
 import { throwError } from '../error/errorActions'
-import { ErrorType } from '../error/errorReducer'
+import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -42,6 +43,56 @@ describe('Test certificate middleware', () => {
 
   afterEach(() => {
     clearDispatchedActions()
+  })
+
+  describe('Handle getCertificate error', () => {
+    const expectedError = {
+      error: {
+        errorCode: AUTHORIZATION_PROBLEM,
+        message: 'This is the message',
+      },
+      certificateId: 'certificateId',
+    }
+
+    it('shall throw error if getCertificate fails', async () => {
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction).toBeTruthy()
+    })
+
+    it('shall throw error with type ROUTE if getCertificate fails', async () => {
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw error with errorCode AUTHORIZATION_PROBLEM if getCertificate fails', async () => {
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(AUTHORIZATION_PROBLEM)
+    })
+
+    it('shall throw error with message if getCertificate fails', async () => {
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.message).toEqual(expectedError.error.message)
+    })
+
+    it('shall throw error with certificateId if getCertificate fails', async () => {
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.certificateId).toEqual(expectedError.certificateId)
+    })
   })
 
   describe('Handle autoSave error', () => {
@@ -66,7 +117,7 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual('concurrent-editing')
+      expect(throwErrorAction?.payload.errorCode).toEqual(CONCURRENT_MODIFICATION)
     })
   })
 
