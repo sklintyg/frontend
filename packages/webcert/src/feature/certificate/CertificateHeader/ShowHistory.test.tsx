@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import ShowHistory from './ShowHistory'
 import userEvent from '@testing-library/user-event'
-import { CertificateEvent, CertificateEventType, CertificateMetadata, CertificateStatus } from '@frontend/common'
+import { CertificateEvent, CertificateEventType, CertificateMetadata, CertificateRelationType, CertificateStatus } from '@frontend/common'
 import { BrowserRouter } from 'react-router-dom'
 
 //@ts-expect-error Only relevant data for test
@@ -123,6 +123,171 @@ describe('Verify history events', () => {
 
       userEvent.click(screen.getByText('Visa alla händelser'))
 
+      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    })
+  })
+
+  describe('Complements event', () => {
+    //@ts-expect-error Only relevant data for test
+    const certificateMetadata: CertificateMetadata = {
+      type: 'lisjp',
+    }
+
+    it('Display event if unsigned', async () => {
+      certificateMetadata.status = CertificateStatus.UNSIGNED
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.COMPLEMENTS,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: 'relatedCertificateId',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
+      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    })
+
+    it('Display event if signed', async () => {
+      certificateMetadata.status = CertificateStatus.SIGNED
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.COMPLEMENTS,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: 'relatedCertificateId',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
+      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    })
+
+    it('Display event if revoked', async () => {
+      certificateMetadata.status = CertificateStatus.REVOKED
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.COMPLEMENTS,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: 'relatedCertificateId',
+          relatedCertificateStatus: CertificateStatus.SIGNED,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(screen.getByText(/Utkastet är skapat för att komplettera ett tidigare intyg./i)).toBeInTheDocument()
+      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    })
+  })
+
+  describe('Revoke events', () => {
+    //@ts-expect-error Only relevant data for test
+    const certificateMetadata: CertificateMetadata = {
+      type: 'lisjp',
+      status: CertificateStatus.REVOKED,
+      relations: {
+        parent: null,
+        children: [],
+      },
+    }
+
+    it('Display revoke event', async () => {
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.REVOKED,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: null,
+          relatedCertificateStatus: null,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(screen.getByText(/Intyget är makulerat/i)).toBeInTheDocument()
+    })
+
+    it('Display revoke event when parent was complemented but isnt revoked', async () => {
+      certificateMetadata.relations.parent = {
+        type: CertificateRelationType.COMPLEMENTED,
+        status: CertificateStatus.SIGNED,
+        certificateId: 'relatedCertificateId',
+        created: new Date().toISOString(),
+      }
+
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.REVOKED,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: null,
+          relatedCertificateStatus: null,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(
+        screen.getByText(/Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras./i)
+      ).toBeInTheDocument()
+      expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
+    })
+
+    it('Display revoke event when parent was replaced but isnt revoked', async () => {
+      certificateMetadata.relations.parent = {
+        type: CertificateRelationType.REPLACE,
+        status: CertificateStatus.SIGNED,
+        certificateId: 'relatedCertificateId',
+        created: new Date().toISOString(),
+      }
+
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.REVOKED,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: null,
+          relatedCertificateStatus: null,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(
+        screen.getByText(/Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras./i)
+      ).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
   })
