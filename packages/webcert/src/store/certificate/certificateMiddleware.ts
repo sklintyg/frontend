@@ -113,6 +113,7 @@ import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
+import _ from 'lodash'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -519,9 +520,8 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState 
   dispatch(autoSaveCertificate(certificate))
 }
 
-const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
   const certificate = getState().ui.uiCertificate.certificate
-
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id,
@@ -532,6 +532,10 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
       onError: autoSaveCertificateError.type,
     })
   )
+}, 1000)
+
+const handleAutoSaveCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => () => (): void => {
+  autoSaving(middlewareAPI)
 }
 
 const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -540,22 +544,28 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(autoSaveCertificateCompleted())
 }
 
-const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(autoSaveCertificateCompleted())
   dispatch(throwError({ errorCode: CONCURRENT_MODIFICATION, type: ErrorType.MODAL }))
 }
 
-const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
+  const certificate = getState().ui.uiCertificate.certificate
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + action.payload.metadata.id + '/validate',
+      url: '/api/certificate/' + certificate.metadata.id + '/validate',
       method: 'POST',
-      data: action.payload,
+      data: certificate,
       onStart: validateCertificateStarted.type,
       onSuccess: validateCertificateSuccess.type,
       onError: validateCertificateError.type,
     })
   )
+}, 1000)
+
+const handleValidateCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => () => (): void => {
+  middlewareAPI.dispatch(validateCertificateStarted())
+  validating(middlewareAPI)
 }
 
 const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
