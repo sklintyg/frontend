@@ -6,6 +6,11 @@ import ErrorModal from './ErrorModal'
 import { useHistory } from 'react-router-dom'
 import { clearError } from '../../store/error/errorActions'
 
+export interface ErrorRoute {
+  errorCode: string
+  errorId: string
+}
+
 const ErrorComponent: React.FC = () => {
   const activeError = useSelector(getActiveError)
   const history = useHistory()
@@ -49,7 +54,7 @@ const ErrorComponent: React.FC = () => {
       case ErrorType.ROUTE:
         history.push({
           pathname: '/error',
-          state: activeError.errorCode,
+          state: { errorCode: activeError.errorCode, errorId: activeError.errorId },
         })
         return null
       default:

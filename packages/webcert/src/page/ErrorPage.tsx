@@ -7,6 +7,9 @@ import { AUTHORIZATION_PROBLEM, TIMEOUT } from '../store/error/errorReducer'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import errorImage from '../images/fel-1.svg'
 import WCDynamicLink from '../components/utils/WCDynamicLink'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ErrorRoute } from '../components/error/ErrorComponent'
 
 const Root = styled.div`
   height: 100vh;
@@ -18,9 +21,19 @@ const TextWrapper = styled.div`
   margin: 0 auto;
 `
 
+const CopyText = styled.p`
+  text-align: center;
+`
+
+const StyledCopyIcon = styled(FontAwesomeIcon)`
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
 const ErrorPage: React.FC = () => {
   const location = useLocation()
-  const errorCode = location.state as string
+  const { errorCode, errorId } = location.state as ErrorRoute
 
   const getContent = () => {
     switch (errorCode) {
@@ -53,6 +66,9 @@ const ErrorPage: React.FC = () => {
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>
+      <CopyText className={'iu-pt-400'}>
+        <strong>errorId:</strong> {errorId} <StyledCopyIcon icon={faCopy} onClick={() => navigator.clipboard.writeText(errorId)} />
+      </CopyText>
     </Root>
   )
 }
