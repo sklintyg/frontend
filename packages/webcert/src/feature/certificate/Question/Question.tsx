@@ -128,7 +128,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     }
     return (
       <>
-        <Icon id={question.config.icon} />
+        {question.config.icon && <Icon id={question.config.icon} />}
         <MandatoryIcon display={displayMandatory} />
         {getHeading()}
       </>
