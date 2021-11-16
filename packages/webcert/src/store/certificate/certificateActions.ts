@@ -38,6 +38,12 @@ const FORWARD_CERTIFICATE_SUCCESS = `${CERTIFICATE} Forward certificate success`
 const FORWARD_CERTIFICATE_ERROR = `${CERTIFICATE} Forward certificate error`
 const FORWARD_CERTIFICATE_COMPLETED = `${CERTIFICATE} Forward certificate completed`
 
+const READY_FOR_SIGN = `${CERTIFICATE} Ready for sign`
+const READY_FOR_SIGN_STARTED = `${CERTIFICATE} Ready for sign started`
+const READY_FOR_SIGN_SUCCESS = `${CERTIFICATE} Ready for sign success`
+const READY_FOR_SIGN_ERROR = `${CERTIFICATE} Ready for sign error`
+const READY_FOR_SIGN_COMPLETED = `${CERTIFICATE} Ready for sign completed`
+
 const SEND_CERTIFICATE = `${CERTIFICATE} Send certificate`
 const SEND_CERTIFICATE_SUCCESS = `${CERTIFICATE} Send certificate success`
 const SEND_CERTIFICATE_ERROR = `${CERTIFICATE} Send certificate error`
@@ -72,7 +78,6 @@ const ANSWER_COMPLEMENT_CERTIFICATE = `${CERTIFICATE} Answer complement certific
 const ANSWER_COMPLEMENT_CERTIFICATE_STARTED = `${CERTIFICATE} Answer complement certificate started`
 const ANSWER_COMPLEMENT_CERTIFICATE_SUCCESS = `${CERTIFICATE} Answer complement certificate success`
 const ANSWER_COMPLEMENT_CERTIFICATE_ERROR = `${CERTIFICATE} Answer complement certificate error`
-const ANSWER_COMPLEMENT_CERTIFICATE_COMPLETED = `${CERTIFICATE} Answer complement certificate completed`
 
 const RENEW_CERTIFICATE = `${CERTIFICATE} Renew certificate`
 const RENEW_CERTIFICATE_STARTED = `${CERTIFICATE} Renew certificate started`
@@ -203,6 +208,16 @@ export const forwardCertificateSuccess = createAction<ForwardCertificateSuccess>
 export const forwardCertificateError = createAction<string>(FORWARD_CERTIFICATE_ERROR)
 
 export const forwardCertificateCompleted = createAction(FORWARD_CERTIFICATE_COMPLETED)
+
+export const readyForSign = createAction(READY_FOR_SIGN)
+
+export const readyForSignStarted = createAction(READY_FOR_SIGN_STARTED)
+
+export const readyForSignSuccess = createAction(READY_FOR_SIGN_SUCCESS)
+
+export const readyForSignError = createAction<string>(READY_FOR_SIGN_ERROR)
+
+export const readyForSignCompleted = createAction(READY_FOR_SIGN_COMPLETED)
 
 export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
 export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_CERTIFICATE_SUCCESS)
