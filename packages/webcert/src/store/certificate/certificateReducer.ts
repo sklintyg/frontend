@@ -45,6 +45,7 @@ import {
   updateCertificateSigningData,
   highlightCertificateDataElement,
   unstyleCertificateDataElement,
+  setReadyForSign,
 } from './certificateActions'
 import { CertificateDataElementStyleEnum } from '@frontend/common/src'
 
@@ -286,6 +287,13 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.NORMAL
+    })
+    .addCase(setReadyForSign, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.metadata.readyForSign = action.payload
     })
 )
 

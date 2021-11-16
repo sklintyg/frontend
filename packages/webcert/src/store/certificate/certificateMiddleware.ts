@@ -83,6 +83,7 @@ import {
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
+  setReadyForSign,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -227,8 +228,6 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
 }
 
 const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
-  dispatch(showSpinner('Markera klar för signering...'))
-
   const certificate: Certificate = getState().ui.uiCertificate.certificate
 
   dispatch(
@@ -243,12 +242,13 @@ const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: Middle
 }
 
 const handleReadyForSignSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  decorateCertificateWithInitialValues(action.payload.certificate)
-  dispatch(updateCertificate(action.payload.certificate))
-  dispatch(hideSpinner())
+  if (!readyForSignSuccess.match(action)) {
+    return
+  }
+  if (action.payload.certificate.metadata.readyForSign) {
+    dispatch(setReadyForSign(action.payload.certificate.metadata.readyForSign))
+  }
   dispatch(readyForSignCompleted())
-  dispatch(validateCertificate(action.payload.certificate))
-  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
 const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
