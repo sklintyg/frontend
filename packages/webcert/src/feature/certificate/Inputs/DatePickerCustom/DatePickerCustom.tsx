@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { format, isValid, parse } from 'date-fns'
-import styled from 'styled-components/macro'
+import { isValid, parse } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
-import { formatDateToString, getValidDate, QuestionValidationTexts, _dateReg, _dateRegDashesOptional, _format } from '@frontend/common'
+import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
 
 interface Props {
@@ -22,6 +21,7 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
   additionalStyles?: string
+  textInputOnChangeForceCorrectDateFormat?: boolean
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -41,6 +41,7 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
+  textInputOnChangeForceCorrectDateFormat,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -61,11 +62,12 @@ const DatePickerCustom: React.FC<Props> = ({
 
   const getValidDateForPicker = (dateString: string) => {
     if (_dateReg.test(dateString)) {
-      const formattedString = dateString.replace(/-/g, '')
-      return parse(formattedString, 'yyyyMMdd', new Date())
-    } else if (_dateRegDashesOptional.test(dateString)) {
-      return parse(dateString, 'yyyyMMdd', new Date())
+      dateString = dateString.replace(/-/g, '')
     }
+
+    const date = parse(dateString, 'yyyyMMdd', new Date())
+
+    if (isValid(date)) return date
 
     return new Date()
   }
@@ -79,13 +81,17 @@ const DatePickerCustom: React.FC<Props> = ({
   const handleTextInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value
 
-    const updatedFromDate = getValidDate(value)
+    const parsedDate = getValidDate(value)
 
-    if (isValid(updatedFromDate)) {
-      const dateString = formatDateToString(updatedFromDate!)
-      value = dateString
+    if (isValid(parsedDate)) {
+      value = formatDateToString(parsedDate!)
     }
-    textInputOnChange(value)
+
+    if (textInputOnChangeForceCorrectDateFormat && isValid(parsedDate)) {
+      textInputOnChange(value)
+    } else {
+      textInputOnChange(value)
+    }
   }
 
   const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
