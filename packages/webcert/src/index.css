@@ -134,3 +134,6 @@ img {
   border-right-color: #ccc !important;
 }
 
+.react-datepicker__day--selected {
+  background-color: #01A5A3 !important;
+}
