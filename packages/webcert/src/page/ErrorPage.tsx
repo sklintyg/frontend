@@ -10,6 +10,7 @@ import WCDynamicLink from '../components/utils/WCDynamicLink'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorRoute } from '../components/error/ErrorComponent'
+import ErrorCopyText from '../components/error/ErrorCopyText'
 
 const Root = styled.div`
   height: 100vh;
@@ -21,18 +22,11 @@ const TextWrapper = styled.div`
   margin: 0 auto;
 `
 
-const CopyText = styled.p`
-  text-align: center;
-`
-
-const StyledCopyIcon = styled(FontAwesomeIcon)`
-  &:hover {
-    opacity: 0.8;
-  }
-`
-
 const ErrorPage: React.FC = () => {
   const location = useLocation()
+
+  if (!location.state) return null
+
   const { errorCode, errorId } = location.state as ErrorRoute
 
   const getContent = () => {
@@ -57,6 +51,8 @@ const ErrorPage: React.FC = () => {
             </p>
           </>
         )
+      default:
+        return <p>Ett oväntat fel uppstod</p>
     }
   }
 
@@ -66,9 +62,7 @@ const ErrorPage: React.FC = () => {
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>
-      <CopyText className={'iu-pt-400'}>
-        <strong>errorId:</strong> {errorId} <StyledCopyIcon icon={faCopy} onClick={() => navigator.clipboard.writeText(errorId)} />
-      </CopyText>
+      <ErrorCopyText errorId={errorId} />
     </Root>
   )
 }

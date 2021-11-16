@@ -87,6 +87,14 @@ describe('ErrorComponent', () => {
       const clearedError = dispatchedActions.find((action) => clearError.match(action))
       expect(error?.payload.errorId).toEqual(clearedError?.payload.errorId)
     })
+
+    it('shall display errorId', () => {
+      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      renderComponent()
+
+      const error = dispatchedActions.find((action) => setError.match(action))
+      expect(screen.getByText(error?.payload.errorId)).toBeInTheDocument()
+    })
   })
 
   describe('ErrorType.ROUTE, CONCURRENT_MODIFICATION', () => {

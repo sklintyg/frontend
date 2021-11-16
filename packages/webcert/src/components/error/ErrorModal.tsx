@@ -7,17 +7,7 @@ import { ErrorData } from '../../store/error/errorReducer'
 import styled from 'styled-components'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const CopyText = styled.p`
-  position: absolute;
-  right: 20px;
-`
-
-const StyledCopyIcon = styled(FontAwesomeIcon)`
-  &:hover {
-    opacity: 0.8;
-  }
-`
+import ErrorCopyText from './ErrorCopyText'
 
 interface ErrorModalProps {
   onConfirm?: () => void
@@ -57,10 +47,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, c
           <p>{content}</p>
         </div>
         <div className="ic-button-group ic-button-group--center">{getButtons()}</div>
-        <CopyText className={'iu-pt-400'}>
-          <strong>errorId:</strong> {errorData.errorId}{' '}
-          <StyledCopyIcon icon={faCopy} onClick={() => navigator.clipboard.writeText(errorData.errorId)} />
-        </CopyText>
+        <ErrorCopyText errorId={errorData.errorId} />
       </div>
     </FocusTrap>
   )
