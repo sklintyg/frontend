@@ -57,6 +57,11 @@ import {
   hideValidationErrors,
   highlightCertificateDataElement,
   printCertificate,
+  readyForSign,
+  readyForSignCompleted,
+  readyForSignError,
+  readyForSignStarted,
+  readyForSignSuccess,
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateError,
@@ -217,6 +222,31 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
   dispatch(updateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
   dispatch(forwardCertificateCompleted())
+  dispatch(validateCertificate(action.payload.certificate))
+  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+  dispatch(showSpinner('Markera klar för signering...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: `/api/certificate/${certificate.metadata.id}/readyforsign`,
+      method: 'POST',
+      onStart: readyForSignStarted.type,
+      onSuccess: readyForSignSuccess.type,
+      onError: readyForSignError.type,
+    })
+  )
+}
+
+const handleReadyForSignSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  decorateCertificateWithInitialValues(action.payload.certificate)
+  dispatch(updateCertificate(action.payload.certificate))
+  dispatch(hideSpinner())
+  dispatch(readyForSignCompleted())
   dispatch(validateCertificate(action.payload.certificate))
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
@@ -680,6 +710,8 @@ const middlewareMethods = {
   [replaceCertificateSuccess.type]: handleReplaceCertificateSuccess,
   [forwardCertificate.type]: handleForwardCertificate,
   [forwardCertificateSuccess.type]: handleForwardCertificateSuccess,
+  [readyForSign.type]: handleReadyForSign,
+  [readyForSignSuccess.type]: handleReadyForSignSuccess,
   [copyCertificate.type]: handleCopyCertificate,
   [copyCertificateSuccess.type]: handleCopyCertificateSuccess,
   [sendCertificate.type]: handleSendCertificate,
