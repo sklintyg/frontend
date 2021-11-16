@@ -43,6 +43,7 @@ const READY_FOR_SIGN_STARTED = `${CERTIFICATE} Ready for sign started`
 const READY_FOR_SIGN_SUCCESS = `${CERTIFICATE} Ready for sign success`
 const READY_FOR_SIGN_ERROR = `${CERTIFICATE} Ready for sign error`
 const READY_FOR_SIGN_COMPLETED = `${CERTIFICATE} Ready for sign completed`
+const SET_READY_FOR_SIGN = `${CERTIFICATE} Set ready for sign`
 
 const SEND_CERTIFICATE = `${CERTIFICATE} Send certificate`
 const SEND_CERTIFICATE_SUCCESS = `${CERTIFICATE} Send certificate success`
@@ -213,11 +214,17 @@ export const readyForSign = createAction(READY_FOR_SIGN)
 
 export const readyForSignStarted = createAction(READY_FOR_SIGN_STARTED)
 
-export const readyForSignSuccess = createAction(READY_FOR_SIGN_SUCCESS)
+export interface ReadyForSignSuccess {
+  certificate: Certificate
+}
+
+export const readyForSignSuccess = createAction<ReadyForSignSuccess>(READY_FOR_SIGN_SUCCESS)
 
 export const readyForSignError = createAction<string>(READY_FOR_SIGN_ERROR)
 
 export const readyForSignCompleted = createAction(READY_FOR_SIGN_COMPLETED)
+
+export const setReadyForSign = createAction<string>(SET_READY_FOR_SIGN)
 
 export const sendCertificate = createAction<string>(SEND_CERTIFICATE)
 export const sendCertificateSuccess = createAction<SendCertificateSuccess>(SEND_CERTIFICATE_SUCCESS)
