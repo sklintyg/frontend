@@ -1,4 +1,4 @@
-import { CustomTooltip, FMBDiagnosisCodeInfo } from '@frontend/common'
+import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
@@ -19,7 +19,6 @@ const FMBPanelRelatedDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => 
       <SubHeader data-tip={'Informationen nedan gäller för angivna diagnoskoder, men kan även vara relevant för fler diagnoskoder.'}>
         Relaterade diagnoskoder (ICD-10-SE)
         <FontAwesomeIcon icon={faInfoCircle} className="iu-ml-200 iu-mb-200" />
-        <CustomTooltip />
       </SubHeader>
       <div>{fmbDiagnosisCodeInfo.relatedDiagnoses}</div>
     </div>

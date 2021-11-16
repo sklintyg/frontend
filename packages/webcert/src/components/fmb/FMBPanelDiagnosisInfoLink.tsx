@@ -16,8 +16,8 @@ const FMBPanelDiagnosisInfoLink: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) =>
   return (
     <div className={`iu-p-500 iu-bg-grey-300`}>
       <p className="iu-fw-heading">Mer information</p>
-      <Link className="iu-fs-200" target="_blank" to={{ pathname: fmbDiagnosisCodeInfo.referenceLink }}>
-        <p className="iu-fs-200">
+      <Link target="_blank" to={{ pathname: fmbDiagnosisCodeInfo.referenceLink }}>
+        <p>
           {fmbDiagnosisCodeInfo.referenceDescription}
           <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-ml-200 iu-fs-100" />
         </p>

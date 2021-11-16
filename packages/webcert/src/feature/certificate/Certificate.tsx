@@ -18,6 +18,7 @@ import { scroller } from 'react-scroll'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import SigningForm from './Signing/SigningForm'
 import _ from 'lodash'
+import { CustomTooltip } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -69,6 +70,7 @@ const Certificate: React.FC = () => {
 
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
+      <CustomTooltip />
       <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
         {isComplementingCertificate && (
           <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>

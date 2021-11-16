@@ -3,7 +3,7 @@ import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/c
 import { useSelector } from 'react-redux'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { CustomTooltip, Tabs } from '@frontend/common'
+import { Tabs } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { getResourceLink, ResourceLinkType } from '@frontend/common/src'
@@ -39,10 +39,9 @@ const CertificateSidePanel: React.FC = () => {
 
     if (questionsPanelActive) {
       tabsArray.push(
-        <>
-          <p data-tip={questionsPanelActive.description}>{questionsPanelActive.name}</p>
-          <CustomTooltip />
-        </>
+        <div data-tip={questionsPanelActive.description}>
+          <p>{questionsPanelActive.name}</p>
+        </div>
       )
 
       tabsContentArray.push(<QuestionPanel />)
@@ -50,10 +49,9 @@ const CertificateSidePanel: React.FC = () => {
 
     if (questionsNotAvailablePanelActive) {
       tabsArray.push(
-        <>
-          <p data-tip={questionsNotAvailablePanelActive.description}>{questionsNotAvailablePanelActive.name}</p>
-          <CustomTooltip />
-        </>
+        <div data-tip={questionsNotAvailablePanelActive.description}>
+          <p>{questionsNotAvailablePanelActive.name}</p>
+        </div>
       )
 
       tabsContentArray.push(<QuestionNotAvailablePanel />)
@@ -61,23 +59,21 @@ const CertificateSidePanel: React.FC = () => {
 
     if (fmbInfoPanelActive) {
       tabsArray.push(
-        <>
-          <p data-tip={fmbInfoPanelActive.description}>
+        <div data-tip={fmbInfoPanelActive.description}>
+          <p>
             <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
             {fmbInfoPanelActive.name}
           </p>
-          <CustomTooltip />
-        </>
+        </div>
       )
 
       tabsContentArray.push(<FMBPanel />)
     }
 
     tabsArray.push(
-      <>
-        <p data-tip={'Läs om intyget.'}>Om intyget</p>
-        <CustomTooltip />
-      </>
+      <div data-tip={'Läs om intyget.'}>
+        <p>Om intyget</p>
+      </div>
     )
 
     tabsContentArray.push(<AboutCertificatePanel />)

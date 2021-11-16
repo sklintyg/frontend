@@ -1,5 +1,4 @@
 import React from 'react'
-import { CustomTooltip } from '@frontend/common/src'
 import styled from 'styled-components'
 import { Place } from 'react-tooltip'
 
@@ -71,7 +70,6 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
           </NumberCircle>
         )}
       </button>
-      <CustomTooltip placement={props.tooltipPlacement} />
     </Wrapper>
   )
 })

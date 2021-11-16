@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { CustomTooltip, FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
+import { FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
 
 interface Props {
   fmbDiagnosisCodes: FMBDiagnosisCodeInfo[]
@@ -28,7 +28,6 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
               onChange={onChange}
               data-tip={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}
             />
-            <CustomTooltip />
           </>
         ))}
       </div>
