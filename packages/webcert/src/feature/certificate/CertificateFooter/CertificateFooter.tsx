@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getResourceLink, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
+import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
 import { getCertificateMetaData, getIsValidForSigning, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
 import styled from 'styled-components/macro'
 import _ from 'lodash'
+import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,14 +30,10 @@ export const CertificateFooter: React.FC = () => {
 
   if (!certificateMetadata || !resourceLinks) return null
 
-  //TODO: we're overwiting this until we've added more data from the backend. Otherwise the button says "Signera" only.
-  // Currently we got two links, "sign" and "send", and we're only checking for sign here.
-  // This works currently because AF00213 only supports a combination of sign and send.
-
   const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
-  const canForward =
-    resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE)) &&
-    !resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
+  const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
+  const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
+  const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
@@ -56,8 +53,21 @@ export const CertificateFooter: React.FC = () => {
           )}
         </div>
       )}
+
+      {canReadyForSign && !isReadyForSign && (
+        <div className={'iu-flex'}>
+          <ReadyForSignButton isValidForSigning={isValidForSigning} {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)} />
+        </div>
+      )}
+
+      {canReadyForSign && isReadyForSign && (
+        <InfoBox type={'success'}>
+          <p>Utkastet är sparat och markerat klart för signering.</p>
+        </InfoBox>
+      )}
+
       <RightWrapper>
-        {canForward && !isValidForSigning && <ShowValidationErrorsSwitch />}
+        {(canForward || (canReadyForSign && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
         <p className={'iu-fs-200'}>Intygs-ID: {certificateMetadata.id}</p>
       </RightWrapper>
     </Wrapper>
