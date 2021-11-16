@@ -85,12 +85,14 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
       <DatePickerCustom
         disabled={disabled}
         textInputOnChange={handleTextChange}
+        textInputOnChangeForceCorrectDateFormat={true}
         setDate={handleDateChange}
         inputString={dateString}
-        additionalStyles={props.datePickerAdditionalStyles}></DatePickerCustom>
+        additionalStyles={props.datePickerAdditionalStyles}
+      />
       {props.isShowValidationError && isSingleCheckboxDate && (
         <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>
+          <QuestionValidationTexts validationErrors={question.validationErrors} />
         </ValidationWrapper>
       )}
     </Wrapper>

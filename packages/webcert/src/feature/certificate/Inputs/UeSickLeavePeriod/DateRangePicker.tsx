@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import DatePickerCustom from '../DatePickerCustom/DatePickerCustom'
-import { addDays, isBefore } from 'date-fns'
+import { addDays, isBefore, isValid } from 'date-fns'
 import { QuestionValidationTexts, ValidationError } from '@frontend/common'
 import _ from 'lodash'
 import {
@@ -79,10 +79,17 @@ const DateRangePicker: React.FC<Props> = ({
 
     if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
       updateCheckbox()
-      updateValue(periodId, fromDateInput, toDateInput)
-      updateWorkingPeriod(fromDateInput, toDateInput)
+
+      if (shouldDispatchUpdatedValues(fromDateInput!, toDateInput!)) {
+        updateValue(periodId, fromDateInput, toDateInput)
+        updateWorkingPeriod(fromDateInput, toDateInput)
+      }
     }
   }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString])
+
+  const shouldDispatchUpdatedValues = (fromDateInput: string, toDateInput: string) => {
+    return (isValid(getValidDate(fromDateInput)) && isValid(getValidDate(toDateInput))) || (!fromDateInput && !toDateInput)
+  }
 
   useEffect(() => {
     updateWorkingPeriod(fromDateInput, toDateInput)
@@ -200,7 +207,7 @@ const DateRangePicker: React.FC<Props> = ({
     } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
       const newDate = getValidDate(toDateString)
 
-      if (newDate) {
+      if (newDate && isValid(newDate)) {
         return formatDateToString(newDate)
       }
     } else return null
@@ -226,7 +233,7 @@ const DateRangePicker: React.FC<Props> = ({
     } else if (_dateReg.test(toDateInput) || _dateRegDashesOptional.test(toDateInput)) {
       const newDate = getValidDate(toDateInput)
 
-      if (newDate) {
+      if (newDate && isValid(newDate)) {
         setToDateInput(formatDateToString(newDate))
       }
     }
