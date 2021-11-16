@@ -14,9 +14,8 @@ import {
   CertificateDataValueType,
   filterDateRangeValueList,
   getNumberOfSickLeavePeriodDays,
+  Icon,
 } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import _ from 'lodash'
@@ -137,7 +136,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <div>
         {!question.disabled && (
           <DaysRangeWrapper>
-            <FontAwesomeIcon icon={faLightbulb} className="iu-color-main" size="lg" />
+            <Icon id={'lightbulb_outline'} includeTooltip={true} />
             <p>Patienten arbetar i snitt</p>
             <TextInput
               onChange={handleWorkingHoursOnChange}
@@ -172,12 +171,12 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
         {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
         {totalSickDays && !question.disabled && (
-          <>
+          <div>
             <p className="iu-color-main">
-              <FontAwesomeIcon icon={faLightbulb} className="iu-color-main iu-mr-200" size="lg" />
+              <Icon id={'lightbulb_outline'} includeTooltip={true} />
               Intyget motsvarar en period på {totalSickDays} dagar.
             </p>
-          </>
+          </div>
         )}
         <SickLeavePeriodWarning />
       </div>

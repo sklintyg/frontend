@@ -95,6 +95,10 @@ img {
   box-shadow: 0 0 1.25rem 0 rgb(0 0 0 / 20%) !important;
 }
 
+.__react_component_tooltip.show {
+  opacity: 1 !important;
+}
+
 .ic-textarea {
   min-height: unset !important;
 }

@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  TextWithInfoModal,
   CertificateEvent,
   CertificateEventType,
-  CertificateStatus,
   CertificateMetadata,
+  CertificateRelationType,
+  CertificateStatus,
   isHasParent,
   isParentRevoked,
+  TextWithInfoModal,
 } from '@frontend/common'
 import { Spinner } from '@frontend/common/src'
 
@@ -105,12 +106,21 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         const parentRevoked = isParentRevoked(certificateMetadata)
 
         if (hasParent && !parentRevoked) {
-          return (
-            <>
-              Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
-            </>
-          )
+          if (certificateMetadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED) {
+            return (
+              <>
+                Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
+                <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
+              </>
+            )
+          } else {
+            return (
+              <>
+                Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
+                <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
+              </>
+            )
+          }
         } else {
           return 'Intyget är makulerat'
         }
@@ -127,21 +137,12 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
       case CertificateEventType.OUTGOING_MESSAGE_HANDLED:
         return 'En fråga till Försäkringskassan är markerad som hanterad'
       case CertificateEventType.COMPLEMENTS:
-        if (certificateMetadata.status === CertificateStatus.UNSIGNED) {
-          return (
-            <>
-              Utkastet är skapat för att komplettera ett tidigare intyg.{' '}
-              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
-            </>
-          )
-        } else if (certificateMetadata.status === CertificateStatus.REVOKED) {
-          return (
-            <>
-              Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.
-              <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
-            </>
-          )
-        } else return ''
+        return (
+          <>
+            Utkastet är skapat för att komplettera ett tidigare intyg.{' '}
+            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+          </>
+        )
       case CertificateEventType.COMPLEMENTED:
         if (event.relatedCertificateStatus === CertificateStatus.SIGNED) {
           return (

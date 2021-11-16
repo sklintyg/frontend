@@ -7,6 +7,10 @@ import { AUTHORIZATION_PROBLEM, TIMEOUT } from '../store/error/errorReducer'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import errorImage from '../images/fel-1.svg'
 import WCDynamicLink from '../components/utils/WCDynamicLink'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ErrorRoute } from '../components/error/ErrorComponent'
+import ErrorCopyText from '../components/error/ErrorCopyText'
 
 const Root = styled.div`
   height: 100vh;
@@ -20,7 +24,10 @@ const TextWrapper = styled.div`
 
 const ErrorPage: React.FC = () => {
   const location = useLocation()
-  const errorCode = location.state as string
+
+  if (!location.state) return null
+
+  const { errorCode, errorId } = location.state as ErrorRoute
 
   const getContent = () => {
     switch (errorCode) {
@@ -44,6 +51,8 @@ const ErrorPage: React.FC = () => {
             </p>
           </>
         )
+      default:
+        return <p>Ett oväntat fel uppstod</p>
     }
   }
 
@@ -53,6 +62,7 @@ const ErrorPage: React.FC = () => {
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>
+      <ErrorCopyText errorId={errorId} />
     </Root>
   )
 }

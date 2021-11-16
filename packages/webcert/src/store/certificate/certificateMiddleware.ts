@@ -57,6 +57,11 @@ import {
   hideValidationErrors,
   highlightCertificateDataElement,
   printCertificate,
+  readyForSign,
+  readyForSignCompleted,
+  readyForSignError,
+  readyForSignStarted,
+  readyForSignSuccess,
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateError,
@@ -78,6 +83,7 @@ import {
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
+  setReadyForSign,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -113,6 +119,7 @@ import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
+import _ from 'lodash'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -218,6 +225,30 @@ const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => 
   dispatch(forwardCertificateCompleted())
   dispatch(validateCertificate(action.payload.certificate))
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: `/api/certificate/${certificate.metadata.id}/readyforsign`,
+      method: 'POST',
+      onStart: readyForSignStarted.type,
+      onSuccess: readyForSignSuccess.type,
+      onError: readyForSignError.type,
+    })
+  )
+}
+
+const handleReadyForSignSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (!readyForSignSuccess.match(action)) {
+    return
+  }
+  if (action.payload.certificate.metadata.readyForSign) {
+    dispatch(setReadyForSign(action.payload.certificate.metadata.readyForSign))
+  }
+  dispatch(readyForSignCompleted())
 }
 
 const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
@@ -519,9 +550,8 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState 
   dispatch(autoSaveCertificate(certificate))
 }
 
-const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
   const certificate = getState().ui.uiCertificate.certificate
-
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id,
@@ -532,6 +562,10 @@ const handleAutoSaveCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
       onError: autoSaveCertificateError.type,
     })
   )
+}, 1000)
+
+const handleAutoSaveCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => () => (): void => {
+  autoSaving(middlewareAPI)
 }
 
 const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -540,22 +574,28 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(autoSaveCertificateCompleted())
 }
 
-const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(autoSaveCertificateCompleted())
   dispatch(throwError({ errorCode: CONCURRENT_MODIFICATION, type: ErrorType.MODAL }))
 }
 
-const handleValidateCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
+  const certificate = getState().ui.uiCertificate.certificate
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + action.payload.metadata.id + '/validate',
+      url: '/api/certificate/' + certificate.metadata.id + '/validate',
       method: 'POST',
-      data: action.payload,
+      data: certificate,
       onStart: validateCertificateStarted.type,
       onSuccess: validateCertificateSuccess.type,
       onError: validateCertificateError.type,
     })
   )
+}, 1000)
+
+const handleValidateCertificate: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => () => (): void => {
+  middlewareAPI.dispatch(validateCertificateStarted())
+  validating(middlewareAPI)
 }
 
 const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -670,6 +710,8 @@ const middlewareMethods = {
   [replaceCertificateSuccess.type]: handleReplaceCertificateSuccess,
   [forwardCertificate.type]: handleForwardCertificate,
   [forwardCertificateSuccess.type]: handleForwardCertificateSuccess,
+  [readyForSign.type]: handleReadyForSign,
+  [readyForSignSuccess.type]: handleReadyForSignSuccess,
   [copyCertificate.type]: handleCopyCertificate,
   [copyCertificateSuccess.type]: handleCopyCertificateSuccess,
   [sendCertificate.type]: handleSendCertificate,

@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { MandatoryIcon } from '@frontend/common'
+import { icon } from '@fortawesome/fontawesome-svg-core'
+import Icon from '../image/Icon'
 
 const Text = styled.p`
   max-height: 188px;
@@ -35,15 +37,17 @@ interface Props {
   additionalStyles?: string
   displayMandatory?: boolean
   isCategory?: boolean
+  icon?: string
 }
 
-const Accordion: React.FC<Props> = ({ title, titleId, description, additionalStyles, displayMandatory, header, isCategory }) => {
+const Accordion: React.FC<Props> = ({ icon, title, titleId, description, additionalStyles, displayMandatory, header, isCategory }) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
   const getHeader = () => {
     if (!hasHeader) {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+          <Icon id={icon ? icon : ''} />
           <MandatoryIcon display={displayMandatory as boolean} />{' '}
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
         </StyledSummary>
@@ -51,6 +55,7 @@ const Accordion: React.FC<Props> = ({ title, titleId, description, additionalSty
     } else {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+          <Icon id={icon ? icon : ''} />
           <MandatoryIcon display={displayMandatory as boolean} /> <h5 className={`iu-fs-200 ${additionalStyles}`}>{title}</h5>
         </StyledSummary>
       )

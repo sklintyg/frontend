@@ -20,7 +20,7 @@ const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }
         rel="noreferrer"
         target={'_blank'}
         href={'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'}>
-        Läs mer om ICF hos Socialstyrelsenlaunch
+        Läs mer om ICF hos Socialstyrelsen
         <FontAwesomeIcon icon={faExternalLinkAlt} className={'iu-ml-100'} size={'xs'} />
       </a>
     </Footer>

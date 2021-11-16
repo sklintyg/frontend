@@ -1,0 +1,114 @@
+import React from 'react'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '../../../../store/reducers'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import ReadyForSignButton from '../ReadyForSignButton'
+import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { getCertificate } from '@frontend/common'
+
+const NAME = 'ReadyForSign button name'
+const DESCRIPTION = 'ReadyForSign button description'
+
+describe('ReadyForSign button', () => {
+  let testStore: EnhancedStore
+
+  beforeEach(() => {
+    clearDispatchedActions()
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
+    })
+  })
+
+  const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean) => {
+    testStore.dispatch(updateCertificate(getCertificate()))
+    render(
+      <Provider store={testStore}>
+        <ReadyForSignButton name={NAME} description={DESCRIPTION} enabled={enabled} isValidForSigning={isValidForSigning} />
+      </Provider>
+    )
+  }
+
+  it('shall enable button when enabled is true and isValidForSigning is true', () => {
+    renderDefaultComponent(true, true)
+    const button = screen.queryByRole('button')
+    expect(button).toBeEnabled()
+  })
+
+  it('shall disable button when enabled is false and isValidForSigning is true', () => {
+    renderDefaultComponent(false, true)
+    const button = screen.queryByRole('button')
+    expect(button).toBeDisabled()
+  })
+
+  it('shall set the name passed as prop and isValidForSigning is true', () => {
+    renderDefaultComponent(true, true)
+    const name = screen.queryByText(NAME)
+    expect(name).not.toBeNull()
+  })
+
+  it('shall set the description passed as prop and isValidForSigning is true', () => {
+    renderDefaultComponent(true, true)
+    userEvent.hover(screen.getByText(NAME))
+    const description = screen.queryByText(DESCRIPTION)
+    expect(description).not.toBeNull()
+  })
+
+  it("shall dispatch readyForSign when button 'readyForSign' is clicked and isValidForSigning is true", () => {
+    renderDefaultComponent(true, true)
+    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    userEvent.click(screen.getByText(NAME))
+    expect(dispatchedActions.find((action) => readyForSign.match(action))).toBeDefined()
+  })
+
+  it('shall enable button when enabled is true and isValidForSigning is false', () => {
+    renderDefaultComponent(true, false)
+    const button = screen.queryByRole('button')
+    expect(button).toBeEnabled()
+  })
+
+  it('shall disable button when enabled is false and isValidForSigning is false', () => {
+    renderDefaultComponent(false, false)
+    const button = screen.queryByRole('button')
+    expect(button).toBeDisabled()
+  })
+
+  it('shall set the name passed as prop and isValidForSigning is false', () => {
+    renderDefaultComponent(true, false)
+    const name = screen.queryByText(NAME)
+    expect(name).not.toBeNull()
+  })
+
+  it('shall set the description passed as prop and isValidForSigning is false', () => {
+    renderDefaultComponent(true, false)
+    userEvent.hover(screen.getByText(NAME))
+    const description = screen.queryByText(DESCRIPTION)
+    expect(description).not.toBeNull()
+  })
+
+  it('shall open modal when clicked and isValidForSigning is false', () => {
+    renderDefaultComponent(true, false)
+    const button = screen.queryByRole('button') as HTMLButtonElement
+    userEvent.click(button)
+    expect(screen.queryByRole('dialog')).not.toBeNull()
+  })
+
+  it("shall dispatch readyForSign when modal dialog button 'readyForSign' is clicked", () => {
+    renderDefaultComponent(true, false)
+    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    userEvent.click(screen.getByText('Markera klart för signering'))
+    expect(dispatchedActions.find((action) => readyForSign.match(action))).toBeDefined()
+  })
+
+  it("shall not dispatch readyForSign when modal dialog button 'cancelled' is clicked", () => {
+    renderDefaultComponent(true, false)
+    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
+    userEvent.click(screen.getByText('Avbryt'))
+    expect(dispatchedActions.find((action) => readyForSign.match(action))).not.toBeDefined()
+  })
+})

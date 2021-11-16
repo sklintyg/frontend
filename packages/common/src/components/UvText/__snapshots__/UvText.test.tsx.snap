@@ -3,6 +3,7 @@
 exports[`UvText Verify snapshot 1`] = `
 .c0 {
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .c0 ul {

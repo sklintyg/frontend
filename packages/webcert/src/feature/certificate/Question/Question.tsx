@@ -10,6 +10,7 @@ import {
   Expandable,
   MandatoryIcon,
   UvText,
+  Icon,
 } from '@frontend/common'
 import {
   getComplements,
@@ -112,18 +113,22 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
     if (!readOnly && config.description) {
       return (
-        <Accordion
-          header={question.config.header}
-          titleId={question.id}
-          title={question.config.text}
-          description={question.config.description}
-          displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading iu-mb-300"
-        />
+        <>
+          <Accordion
+            icon={question.config.icon}
+            header={question.config.header}
+            titleId={question.id}
+            title={question.config.text}
+            description={question.config.description}
+            displayMandatory={displayMandatory}
+            additionalStyles="iu-fw-heading iu-mb-300"
+          />
+        </>
       )
     }
     return (
       <>
+        {question.config.icon && <Icon id={question.config.icon} />}
         <MandatoryIcon display={displayMandatory} />
         {getHeading()}
       </>

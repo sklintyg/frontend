@@ -17,8 +17,9 @@ import {
   SigningData,
   startSignCertificate,
   updateCertificate,
+  validateCertificate,
   validateCertificateInFrontEnd,
-} from '../certificate/certificateActions'
+} from './certificateActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
@@ -162,7 +163,8 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
-      expect(fakeAxios.history.post.some((req) => req.url?.includes('validate'))).toBeTruthy()
+      const validateAction = dispatchedActions.find((action) => validateCertificate.match(action))
+      expect(validateAction).toBeTruthy()
     })
 
     it('shall hide spinner on success', async () => {
