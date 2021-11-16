@@ -101,3 +101,38 @@ img {
 .ic-textarea {
   min-height: unset !important;
 }
+
+.react-datepicker__navigation {
+  background: none !important;
+  line-height: 1.7rem !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  top: 10px !important;
+  width: 0 !important;
+  padding: 0 !important;
+  border: 0.45rem solid transparent !important;
+  z-index: 1 !important;
+  height: 10px !important;
+  width: 10px !important;
+  text-indent: -999em !important;
+  overflow: hidden !important;
+}
+
+.react-datepicker__navigation--next {
+  right: 10px !important;
+  border-left-color: #ccc !important;
+}
+
+.react-datepicker__navigation--next:hover {
+  border-left-color: #b3b3b3 !important;
+}
+
+.react-datepicker__navigation--previous {
+  left: 10px !important;
+  border-right-color: #ccc !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #01A5A3 !important;
+}

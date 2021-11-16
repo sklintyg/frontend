@@ -11,12 +11,15 @@ export const DatesWrapper = styled.div`
   label {
     margin-right: 0.625em;
   }
+
+  & + & {
+    margin-left: 8px;
+  }
 `
 export const DateRangeWrapper = styled.div`
   display: grid;
-  grid-template-columns: 150px repeat(2, 1fr);
+  grid-template-columns: 135px repeat(2, 1fr);
   align-items: baseline;
-  gap: 3rem;
 `
 
 export const checkBoxStyles = css`
