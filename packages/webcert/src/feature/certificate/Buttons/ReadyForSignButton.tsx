@@ -12,7 +12,7 @@ interface Props {
   isValidForSigning: boolean
 }
 
-const ReadyToSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning }) => {
+const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning }) => {
   const dispatch = useDispatch()
 
   const getComponentWhenDraftInvalid = () => (
@@ -46,4 +46,4 @@ const ReadyToSignButton: React.FC<Props> = ({ name, description, enabled, isVali
   return isValidForSigning ? getComponentWhenDraftValid() : getComponentWhenDraftInvalid()
 }
 
-export default ReadyToSignButton
+export default ReadyForSignButton

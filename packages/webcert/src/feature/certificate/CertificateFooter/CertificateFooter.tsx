@@ -7,7 +7,7 @@ import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
 import styled from 'styled-components/macro'
 import _ from 'lodash'
-import ReadyToSignButton from '../Buttons/ReadyToSignButton'
+import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,7 +56,7 @@ export const CertificateFooter: React.FC = () => {
 
       {canReadyForSign && !isReadyForSign && (
         <div className={'iu-flex'}>
-          <ReadyToSignButton isValidForSigning={isValidForSigning} {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)} />
+          <ReadyForSignButton isValidForSigning={isValidForSigning} {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)} />
         </div>
       )}
 

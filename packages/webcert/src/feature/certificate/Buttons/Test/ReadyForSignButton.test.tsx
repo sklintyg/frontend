@@ -7,7 +7,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import ReadyToSignButton from '../ReadyToSignButton'
+import ReadyForSignButton from '../ReadyForSignButton'
 import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getCertificate } from '@frontend/common'
 
@@ -29,7 +29,7 @@ describe('ReadyForSign button', () => {
     testStore.dispatch(updateCertificate(getCertificate()))
     render(
       <Provider store={testStore}>
-        <ReadyToSignButton name={NAME} description={DESCRIPTION} enabled={enabled} isValidForSigning={isValidForSigning} />
+        <ReadyForSignButton name={NAME} description={DESCRIPTION} enabled={enabled} isValidForSigning={isValidForSigning} />
       </Provider>
     )
   }
