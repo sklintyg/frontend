@@ -1,11 +1,6 @@
 import { ExpandableText, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormContentHeading } from '@frontend/common'
 import React from 'react'
-import styled from 'styled-components/macro'
-
-const SubHeader = styled.p`
-  font-size: 14px;
-  font-weight: bold;
-`
+import { Italic } from './FMBPanel'
 
 interface Props {
   header: string
@@ -29,13 +24,11 @@ const FMBPanelDiagnosisInfoSection: React.FC<Props> = ({ header, form, contentHe
 
   return (
     <div className="iu-p-500">
-      <SubHeader>{header}</SubHeader>
+      <p className={'iu-fw-heading'}>{header}</p>
       {form ? (
         <div>{<ExpandableText key={header} text={getContent()} maxLength={maxTextLength} />}</div>
       ) : (
-        <div>
-          <em>{'För den angivna diagnosen finns ingen FMB-information för ' + header}</em>
-        </div>
+        <Italic>{'För den angivna diagnosen finns ingen FMB-information för ' + header}</Italic>
       )}
     </div>
   )

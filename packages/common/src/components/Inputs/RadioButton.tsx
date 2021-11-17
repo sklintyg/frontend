@@ -25,7 +25,7 @@ const Label = styled.label<LabelProps>`
 `
 
 const RadioButton: React.FC<Props> = (props) => {
-  const { label, name, id, onChange, value, checked, additionalStyles, hasValidationError, wrapperAdditionalStyles } = props
+  const { label, name, id, onChange, value, checked, additionalStyles, hasValidationError, wrapperAdditionalStyles, children } = props
 
   return (
     <div className={wrapperAdditionalStyles}>
@@ -40,7 +40,7 @@ const RadioButton: React.FC<Props> = (props) => {
         checked={checked}
       />
       <Label hasValidationError={hasValidationError} htmlFor={id}>
-        {label}
+        {label} {children}
       </Label>
     </div>
   )

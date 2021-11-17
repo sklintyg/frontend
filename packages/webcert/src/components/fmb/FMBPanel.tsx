@@ -8,6 +8,11 @@ import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
 import _ from 'lodash'
+import styled from 'styled-components/macro'
+
+export const Italic = styled.p`
+  font-style: italic;
+`
 
 const FMBPanel: React.FC = () => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)

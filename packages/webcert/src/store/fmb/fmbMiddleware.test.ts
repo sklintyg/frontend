@@ -191,6 +191,20 @@ describe('Test FMB middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo[0]).toEqual(expectedFMBDiagnosisInfo)
     })
+
+    it('shall set original icd10 values', async () => {
+      const originalCode = 'F312'
+      const actualCode = 'F31'
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest(originalCode, 0)
+      const fmbDiagnosisResponse = getResponseWithFMB(actualCode)
+      const expectedFMBDiagnosisInfo = getFMBDiagnosisCodeInfoResultWithOtherCode(actualCode, fmbDiagnosisRequest.index, originalCode)
+      fakeAxios.onGet('/api/fmb/' + fmbDiagnosisRequest.icd10Code).reply(200, fmbDiagnosisResponse)
+
+      testStore.dispatch(updateCertificate(getCertificate([fmbDiagnosisRequest], true)))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo[0]).toEqual(expectedFMBDiagnosisInfo)
+    })
   })
 })
 
@@ -217,7 +231,24 @@ const getResponseWithEmptyFMB = () => {
 const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   return {
     icd10Code: code,
+    originalIcd10Code: code,
     icd10Description: 'Description for ' + code,
+    index: index,
+    originalIcd10Description: 'Description for ' + code,
+    diagnosTitle: 'diagnosTitle',
+    forms: [],
+    referenceDescription: 'referenceDescription',
+    referenceLink: 'referenceLink',
+    relatedDiagnoses: 'relatedDiagnoses',
+  }
+}
+
+const getFMBDiagnosisCodeInfoResultWithOtherCode = (code: string, index: number, originalCode: string) => {
+  return {
+    icd10Code: code,
+    originalIcd10Code: originalCode,
+    icd10Description: 'Description for ' + code,
+    originalIcd10Description: 'Description for ' + originalCode,
     diagnosTitle: 'diagnosTitle',
     forms: [],
     referenceDescription: 'referenceDescription',
@@ -229,9 +260,9 @@ const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
 
 const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   return {
-    icd10Code: code,
-    icd10Description: 'Description for ' + code,
     index: index,
+    originalIcd10Code: code,
+    originalIcd10Description: 'Description for ' + code,
   }
 }
 
