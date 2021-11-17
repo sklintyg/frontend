@@ -41,6 +41,7 @@ export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }
       onArgs: {
         originalIcd10Code: action.payload.icd10Code,
         originalIcd10Description: action.payload.icd10Description,
+        index: action.payload.index,
       },
     })
   )
