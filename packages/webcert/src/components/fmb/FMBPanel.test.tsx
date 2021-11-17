@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
 
@@ -67,7 +68,7 @@ describe('FMBPanel', () => {
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
 
-    expect(screen.getByLabelText(/Description for A01/i)).toBeDisabled()
+    expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
   })
 
   it('shall select first diagnoses when two diagnoses are selected with FMB recommendation ', async () => {
@@ -112,6 +113,27 @@ describe('FMBPanel', () => {
       'https://roi.socialstyrelsen.se/fmb'
     )
   })
+
+  it('shall show symbol that fmb info is shown for other diagnosis code if fmb result doesnt exist for code', async () => {
+    const fmbDiagnosisCodeInfoResult = getFMBDiagnosisCodeInfoResultWithOtherDiagnosis('A01', 'A011', 0)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    renderDefaultComponent()
+    expect(screen.getByTestId('fmbInfoCircle')).toBeInTheDocument()
+  })
+
+  it('shall not show symbol that fmb info is shown for other diagnosis code if fmb result is empty', async () => {
+    const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    renderDefaultComponent()
+    expect(screen.queryByTestId('fmbInfoCircle')).not.toBeInTheDocument()
+  })
+
+  it('shall not show symbol that fmb info is shown for other diagnosis code if fmb result exists for code', async () => {
+    const fmbDiagnosisCodeInfoResult = getFMBDiagnosisCodeInfoResult('A01', 0)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    renderDefaultComponent()
+    expect(screen.queryByTestId('fmbInfoCircle')).not.toBeInTheDocument()
+  })
 })
 
 const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
@@ -124,13 +146,27 @@ const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
     referenceLink: 'referenceLink ' + code,
     relatedDiagnoses: 'relatedDiagnoses ' + code,
     index: index,
+    originalIcd10Code: code,
+    originalIcd10Description: 'Description for ' + code,
   }
 }
 
 const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   return {
+    index: index,
+    icd10Code: code,
+    icd10Description: 'Description for ' + code,
+    originalIcd10Code: code,
+    originalIcd10Description: 'Description for ' + code,
+  }
+}
+
+const getFMBDiagnosisCodeInfoResultWithOtherDiagnosis = (code: string, originalCode: string, index: number) => {
+  return {
     icd10Code: code,
     icd10Description: 'Description for ' + code,
     index: index,
+    originalIcd10Code: originalCode,
+    originalIcd10Description: 'Description for ' + originalCode,
   }
 }
