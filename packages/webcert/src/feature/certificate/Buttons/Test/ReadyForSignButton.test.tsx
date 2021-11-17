@@ -10,6 +10,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import ReadyForSignButton from '../ReadyForSignButton'
 import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getCertificate } from '@frontend/common'
+import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'ReadyForSign button name'
 const DESCRIPTION = 'ReadyForSign button description'
@@ -29,6 +30,7 @@ describe('ReadyForSign button', () => {
     testStore.dispatch(updateCertificate(getCertificate()))
     render(
       <Provider store={testStore}>
+        <CustomTooltip />
         <ReadyForSignButton name={NAME} description={DESCRIPTION} enabled={enabled} isValidForSigning={isValidForSigning} />
       </Provider>
     )

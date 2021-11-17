@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { User } from '@frontend/common/src'
+import { CustomTooltip, User } from '@frontend/common/src'
 import { CertificateMetadata } from '@frontend/common'
 
 const NAME = 'Renew button name'
@@ -25,7 +25,16 @@ const certificateMetadata: CertificateMetadata = {}
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
-    <RenewCertificateButton certificateMetadata={certificateMetadata} name={NAME} description={DESCRIPTION} body={BODY} enabled={enabled} />
+    <>
+      <RenewCertificateButton
+        certificateMetadata={certificateMetadata}
+        name={NAME}
+        description={DESCRIPTION}
+        body={BODY}
+        enabled={enabled}
+      />
+      <CustomTooltip />
+    </>
   )
 }
 
@@ -53,9 +62,9 @@ describe('Renew certificate button', () => {
     expect(name).not.toBeNull()
   })
 
-  it('sets correct description for button', () => {
+  it('sets correct description for button', async () => {
     renderDefaultComponent(true)
-    userEvent.hover(screen.getByText(NAME))
+    await userEvent.hover(screen.getByText(NAME))
     expect(screen.queryByText(DESCRIPTION)).not.toBeNull()
   })
 
