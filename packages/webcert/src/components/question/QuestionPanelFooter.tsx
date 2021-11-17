@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { getResourceLink } from '@frontend/common/src'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   questions: Question[]
@@ -14,15 +15,16 @@ interface Props {
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
 
-  const onComplementClick = () => dispatch(complementCertificate(''))
+  const onComplementClick = () => dispatch(complementCertificate({ message: '', history: history }))
 
   const onCannotComplementClick = () => {
     if (!cannotComplement) return
 
     if (cannotComplement.answerWithCerticate) {
-      dispatch(complementCertificate(cannotComplement.message))
+      dispatch(complementCertificate({ message: cannotComplement.message, history: history }))
     } else {
       dispatch(answerComplementCertificate(cannotComplement.message))
     }

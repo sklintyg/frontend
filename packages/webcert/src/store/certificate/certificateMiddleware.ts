@@ -362,21 +362,19 @@ const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState 
       url: '/api/certificate/' + certificate.metadata.id + '/complement',
       method: 'POST',
       data: {
-        message: action.payload,
+        message: action.payload.message,
       },
       onStart: complementCertificateStarted.type,
       onSuccess: complementCertificateSuccess.type,
       onError: complementCertificateError.type,
+      onArgs: { history: action.payload.history },
     })
   )
 }
 
 const handleComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  decorateCertificateWithInitialValues(action.payload.certificate)
-  dispatch(updateCertificate(action.payload.certificate))
-  dispatch(validateCertificate(action.payload.certificate))
   dispatch(hideSpinner())
-  dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+  action.payload.history.push(`/certificate/${action.payload.certificate.metadata.id}`)
 }
 
 const handleAnswerComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
