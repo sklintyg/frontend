@@ -7,6 +7,10 @@ interface Props {
   squared?: boolean
 }
 
+const Icon = styled.i`
+  margin-top: 3px;
+`
+
 interface StyledWrapperProps {
   squared: boolean
 }
@@ -45,8 +49,10 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared })
   return (
     // @ts-expect-error squared is giving error but it's working as intended
     <StyledWrapper squared={squared} className={`ic-alert ic-alert--status ${getWrapperClass()} ${additionalStyles}`}>
-      <i className={`ic-alert__icon ${getIconClass()}`}></i>
-      {children}
+      <div>
+        <Icon className={`iu-fl ic-alert__icon ${getIconClass()}`}></Icon>
+        <div className={'iu-ml-300'}>{children}</div>
+      </div>
     </StyledWrapper>
   )
 }

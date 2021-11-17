@@ -63,7 +63,7 @@ const Certificate: React.FC = () => {
       <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
         {isComplementingCertificate && (
           <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>
-            Försäkringskassan har begärt kompletteringar på intyget.
+            <p> Försäkringskassan har begärt kompletteringar på intyget. </p>
           </InfoBox>
         )}
         {certificateStructure &&
