@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { CertificateMetadata } from '@frontend/common'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
+import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'
@@ -15,13 +16,16 @@ const certificateMetadata: CertificateMetadata = {}
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
-    <CreateCertificateFromTemplateButton
-      certificateMetadata={certificateMetadata}
-      name={NAME}
-      description={DESCRIPTION}
-      body={BODY}
-      enabled={enabled}
-    />
+    <>
+      <CustomTooltip />
+      <CreateCertificateFromTemplateButton
+        certificateMetadata={certificateMetadata}
+        name={NAME}
+        description={DESCRIPTION}
+        body={BODY}
+        enabled={enabled}
+      />
+    </>
   )
 }
 
