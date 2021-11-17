@@ -583,7 +583,7 @@ const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/validate',
       method: 'POST',
-      data: certificate,
+      data: getCertificateToSave(certificate),
       onStart: validateCertificateStarted.type,
       onSuccess: validateCertificateSuccess.type,
       onError: validateCertificateError.type,
