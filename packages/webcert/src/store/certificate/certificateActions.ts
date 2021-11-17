@@ -287,12 +287,18 @@ export const replaceCertificateError = createAction<string>(REPLACE_CERTIFICATE_
 
 export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMPLETED)
 
-export const complementCertificate = createAction<string>(COMPLEMENT_CERTIFICATE)
+export interface ComplementCertificate {
+  message: string
+  history: History<LocationState>
+}
+
+export const complementCertificate = createAction<ComplementCertificate>(COMPLEMENT_CERTIFICATE)
 
 export const complementCertificateStarted = createAction(COMPLEMENT_CERTIFICATE_STARTED)
 
 export interface ComplementCertificateSuccess {
   certificate: Certificate
+  history: History<LocationState>
 }
 
 export const complementCertificateSuccess = createAction<ComplementCertificateSuccess>(COMPLEMENT_CERTIFICATE_SUCCESS)
