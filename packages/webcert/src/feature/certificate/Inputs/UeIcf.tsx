@@ -94,15 +94,17 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <div className={`iu-pt-200`}>
-      <IcfDropdown
-        disabled={disabled}
-        chosenIcfCodeValues={chosenIcfValues}
-        modalLabel={questionConfig.modalLabel}
-        collectionsLabel={questionConfig.collectionsLabel}
-        icfData={icfData}
-        onAddCode={handleAddIcfCodeValue}
-        onRemoveCode={handleRemoveIcfCodeValue}
-      />
+      {!disabled && (
+        <IcfDropdown
+          disabled={disabled}
+          chosenIcfCodeValues={chosenIcfValues}
+          modalLabel={questionConfig.modalLabel}
+          collectionsLabel={questionConfig.collectionsLabel}
+          icfData={icfData}
+          onAddCode={handleAddIcfCodeValue}
+          onRemoveCode={handleRemoveIcfCodeValue}
+        />
+      )}
       <TextArea
         disabled={disabled}
         rowsMin={6}
