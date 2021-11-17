@@ -1,6 +1,8 @@
 export interface FMBDiagnosisCodeInfo {
   icd10Code: string
+  originalIcd10Code?: string
   icd10Description: string
+  originalIcd10Description?: string
   diagnosTitle?: string
   relatedDiagnoses?: string
   referenceDescription?: string
