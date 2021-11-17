@@ -6,20 +6,7 @@ import styled from 'styled-components'
 
 const StyledLink = styled(Link)`
   display: flex;
-  font-size: 14px;
-  color: 'inherit';
   align-items: bottom;
-`
-
-const TextWrapper = styled.div`
-  p + p {
-    margin-top: 14px;
-    margin-bottom: 0;
-  }
-  p:first-child {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 `
 
 interface Props {
@@ -46,19 +33,19 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
     <>
       {!expand && text && text.length > maxLength ? (
         <div>
-          <TextWrapper dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
+          <p dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
           <StyledLink to="#" onClick={onReadLessOrMore}>
             Visa mer
-            <FontAwesomeIcon icon={faAngleDown} />
+            <FontAwesomeIcon icon={faAngleDown} className={'iu-mt-200 iu-ml-200'} />
           </StyledLink>
         </div>
       ) : (
         <div>
-          <TextWrapper dangerouslySetInnerHTML={{ __html: text }} />
+          <p dangerouslySetInnerHTML={{ __html: text }} />
           {text && text.length > maxLength && (
             <StyledLink to="#" onClick={onReadLessOrMore}>
               Visa mindre
-              <FontAwesomeIcon icon={faAngleDown} rotation={180} />
+              <FontAwesomeIcon icon={faAngleDown} rotation={180} className={'iu-mt-200 iu-ml-200'} />
             </StyledLink>
           )}
         </div>

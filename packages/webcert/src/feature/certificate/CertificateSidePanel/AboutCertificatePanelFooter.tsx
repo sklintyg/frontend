@@ -8,7 +8,6 @@ const AboutCertificatePanelFooter = () => {
   return (
     <SidePanelFooter backgroundColor="iu-bg-white" textColor="iu-color-main">
       <WCDynamicLink linkKey={'ineraIntygsskola'} />
-      <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-fs-200 iu-ml-200" />
     </SidePanelFooter>
   )
 }
