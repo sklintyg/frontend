@@ -161,7 +161,8 @@ describe('Date range picker', () => {
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
-    expect(screen.getByText('Arbetstid: 30 timmar/vecka i 7 dagar.'))
+    expect(screen.getByText('Arbetstid: 30 timmar/vecka'))
+    expect(screen.getByText('i 7 dagar.', { exact: false }))
   })
 
   it('displays correct number of sick hours and days for one month', () => {
@@ -170,7 +171,8 @@ describe('Date range picker', () => {
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.type(screen.getByLabelText('t.o.m'), '1m{enter}')
 
-    expect(screen.getByText('Arbetstid: 30 timmar/vecka i 31 dagar.')).toBeInTheDocument()
+    expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
+    expect(screen.getByText('i 31 dagar', { exact: false })).toBeInTheDocument()
   })
 
   it('displays no sick hours/days when missing base work hours', () => {
@@ -185,5 +187,14 @@ describe('Date range picker', () => {
   it('displays no sick hours/days when missing period dates', () => {
     renderDefaultComponent(undefined, undefined, '40')
     expect(screen.queryByText('Arbetstid:')).not.toBeInTheDocument()
+  })
+
+  it('displays no sick hours when value is cleared', () => {
+    renderDefaultComponent(undefined, undefined, '0')
+
+    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
+
+    expect(screen.queryByText('Arbetstid:', { exact: false })).not.toBeInTheDocument()
   })
 })
