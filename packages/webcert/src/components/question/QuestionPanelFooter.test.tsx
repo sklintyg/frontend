@@ -74,7 +74,7 @@ describe('', () => {
 
       flushPromises()
       const complementCertificateAction = dispatchedActions.find((action) => complementCertificate.match(action))
-      expect(complementCertificateAction?.payload).toEqual(newMessage)
+      expect(complementCertificateAction?.payload.message).toEqual(newMessage)
     })
 
     it('answer complement with a message', () => {
