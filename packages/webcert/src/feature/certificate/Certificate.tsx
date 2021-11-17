@@ -31,18 +31,9 @@ const Wrapper = styled.div`
     fontweight: bold;
   }
 
-  .questionWrapper + .questionWrapper .MuiPaper-root {
-    paddingtop: 0;
-  }
-
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
-  }
-
-  .categoryWrapper + .questionWrapper .MuiPaper-root {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
   }
 `
 
