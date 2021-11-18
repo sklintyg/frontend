@@ -137,3 +137,17 @@ img {
 .react-datepicker__day--selected {
   background-color: #01A5A3 !important;
 }
+
+.ic-page-header__inner {
+  max-width: 1385px !important;
+}
+
+@media(max-width: 1024px) {
+  .ic-page-header__item {
+    padding-right: 100px !important;
+  }
+
+  .ic-page-header__logo-container {
+    width: 7.5rem !important;
+  }
+}

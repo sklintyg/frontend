@@ -20,6 +20,11 @@ export const DateRangeWrapper = styled.div`
   display: grid;
   grid-template-columns: 135px repeat(2, 1fr);
   align-items: baseline;
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+  }
 `
 
 export const checkBoxStyles = css`
@@ -50,4 +55,13 @@ export const TextInput = styled.input`
   padding: 4px 4px;
   height: 35px;
   text-align: center;
+`
+
+export const DateGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+  }
 `
