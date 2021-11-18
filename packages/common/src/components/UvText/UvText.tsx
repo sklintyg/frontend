@@ -20,6 +20,7 @@ import {
 } from '@frontend/common'
 import styled from 'styled-components'
 import Badge from './Badge'
+import { ConfigUeCheckboxBoolean } from '../../types/certificate'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -54,6 +55,21 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           <p>{textValue}</p>
         </div>
       </Badge>
+    )
+  }
+
+  const getCheckboxBooleanText = (value: ValueBoolean, config: ConfigUeCheckboxBoolean): JSX.Element => {
+    return (
+      <>
+        {config.label && <p className={`iu-fw-heading iu-fs-300`}>{config.label}</p>}
+        <Badge>
+          {value.selected === undefined || value.selected === null
+            ? 'Ej angivet'
+            : value.selected
+            ? config.selectedText
+            : config.unselectedText}
+        </Badge>
+      </>
     )
   }
 
@@ -143,12 +159,9 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
     switch (question.value.type) {
       case CertificateDataValueType.BOOLEAN:
-        const booleanConfig = question.config
+        const booleanConfig = question.config as ConfigUeCheckboxBoolean
         const booleanValue = question.value as ValueBoolean
-        if (booleanValue.selected !== null && question.visible) {
-          displayText = booleanValue.selected ? (booleanConfig.selectedText as string) : (booleanConfig.unselectedText as string)
-        }
-        break
+        return getCheckboxBooleanText(booleanValue, booleanConfig)
       case CertificateDataValueType.TEXT:
         const textValue = question.value as ValueText
         if (textValue.text != null && textValue.text.length > 0) {
