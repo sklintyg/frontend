@@ -6,8 +6,9 @@ interface AppHeaderTitleProp {
   alt?: string
 }
 
+// To change color: https://codepen.io/sosuke/pen/Pjoqqp
 const Img = styled.img`
-  filter: brightness(0) saturate(100%) invert(47%) sepia(70%) saturate(1013%) hue-rotate(141deg) brightness(86%) contrast(99%);
+  filter: brightness(0) invert(16%) sepia(52%) saturate(6486%) hue-rotate(172deg) brightness(98%) contrast(100%);
 `
 
 const AppHeaderTitle: React.FC<AppHeaderTitleProp> = ({ imgSrc, alt }) => {

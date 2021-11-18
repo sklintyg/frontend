@@ -81,7 +81,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <div className={complements.length > 0 ? 'iu-border-main iu-radius-card' : ''}>
+    <div className={complements.length > 0 ? 'iu-border-main iu-radius-card iu-rem-border-3' : ''}>
       <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
         <QuestionWrapper highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
