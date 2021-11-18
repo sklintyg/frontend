@@ -42,12 +42,15 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, c
 
   return (
     <FocusTrap active={open}>
-      <div role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
-        <div className="ic-modal__body">
-          <p>{content}</p>
+      <div>
+        <div className="ic-backdrop" onClick={handleClose} />
+        <div role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
+          <div className="ic-modal__body">
+            <p>{content}</p>
+          </div>
+          <div className="ic-button-group ic-button-group--center">{getButtons()}</div>
+          <ErrorCopyText errorId={errorData.errorId} />
         </div>
-        <div className="ic-button-group ic-button-group--center">{getButtons()}</div>
-        <ErrorCopyText errorId={errorData.errorId} />
       </div>
     </FocusTrap>
   )
