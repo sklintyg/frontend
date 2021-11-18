@@ -44,6 +44,18 @@ describe('UvText', () => {
     getByText(/Boolean value = true/i)
   })
 
+  it('displaying boolean true value for checkbox boolean value', () => {
+    const question = createQuestionWithCheckboxBooleanValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/Boolean value = true/i)
+  })
+
+  it('displaying boolean true value for checkbox boolean value', () => {
+    const question = createQuestionWithCheckboxBooleanValue()
+    const { getByText } = render(<UvText question={question} />)
+    getByText(/This is the label/i)
+  })
+
   it('displaying empty value', () => {
     const question = createQuestionWithTextValue()
     ;(question.value as ValueText).text = null
@@ -121,12 +133,6 @@ describe('UvText', () => {
     expect(screen.getByText('2021-06-26')).toBeInTheDocument()
     expect(screen.getByText('2021-06-28')).toBeInTheDocument()
   })
-
-  it('Verify snapshot', () => {
-    const question = createQuestionWithTextValue()
-    const tree = renderer.create(<UvText question={question} />).toJSON()
-    expect(tree).toMatchSnapshot()
-  })
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
@@ -142,6 +148,25 @@ export function createQuestionWithTextValue(): CertificateDataElement {
     id: '',
     text: '',
     type: ConfigTypes.UE_TEXTAREA,
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement {
+  const value: ValueBoolean = {
+    type: CertificateDataValueType.BOOLEAN,
+    selected: true,
+    id: '',
+  }
+  const config: ConfigUeRadioBoolean = {
+    id: '',
+    selectedText: 'Boolean value = true',
+    unselectedText: 'Boolean value = false',
+    description: '',
+    label: 'This is the label',
+    text: '',
+    type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
   }
 
   return createQuestion(value, config)
