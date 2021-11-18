@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { isValid, parse } from 'date-fns'
 import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
