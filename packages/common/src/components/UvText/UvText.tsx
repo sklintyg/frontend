@@ -72,7 +72,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
       <table className="ic-table">
         <thead>
           <tr>
-            <th>{`Diagnoskod enligt ${getDiagnosisTerminologyLabel(diagnosisListValue.list[0].terminology, diagnosisListConfig)}`}</th>
+            <th>{`Diagnoskod enligt ICD-10 SE`}</th>
             <th />
           </tr>
         </thead>
@@ -86,15 +86,6 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         </tbody>
       </table>
     )
-  }
-
-  const getDiagnosisTerminologyLabel = (id: string, config: ConfigUeDiagnoses) => {
-    const terminology = config.terminology.find((t) => t.id === id)
-    if (terminology) {
-      return terminology.label
-    } else {
-      return id
-    }
   }
 
   const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {

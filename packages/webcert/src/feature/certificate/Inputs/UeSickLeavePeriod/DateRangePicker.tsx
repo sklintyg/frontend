@@ -100,7 +100,7 @@ const DateRangePicker: React.FC<Props> = ({
   }, [])
 
   const updateWorkingPeriod = (fromDateString: string | null, toDateString: string | null) => {
-    if (baseWorkHours === '0') {
+    if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
       setWorkHoursPerWeek(null)
       setWorkDaysPerWeek(null)
       return
@@ -313,9 +313,9 @@ const DateRangePicker: React.FC<Props> = ({
         </DateGrid>
       </DateRangeWrapper>
       {!disabled && <QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
-      {workHoursPerWeek !== null && workDaysPerWeek !== null && (
+      {workHoursPerWeek && workDaysPerWeek && (
         <p className="iu-color-main">
-          Arbetstid: {workHoursPerWeek} timmar/vecka i {workDaysPerWeek} dagar.
+          Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>
       )}
     </>

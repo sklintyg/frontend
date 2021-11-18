@@ -92,7 +92,6 @@ img {
   width: fit-content;
   max-width: 190px !important;
   text-align: center !important;
-  box-shadow: 0 0 1.25rem 0 rgb(0 0 0 / 20%) !important;
 }
 
 .__react_component_tooltip.show {

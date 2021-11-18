@@ -1,7 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import { CustomTooltip } from '../index'
 
 interface Props {
   id: string
@@ -33,12 +32,7 @@ const Icon: React.FC<Props> = ({ id, includeTooltip }) => {
     return null
   }
 
-  return (
-    <>
-      <FontAwesomeIcon icon={icon} className="iu-color-main iu-mr-300" size="lg" data-tip={includeTooltip ? getIconTooltip(id) : ''} />
-      {includeTooltip && <CustomTooltip />}
-    </>
-  )
+  return <FontAwesomeIcon icon={icon} className="iu-color-main iu-mr-300" size="lg" data-tip={includeTooltip ? getIconTooltip(id) : ''} />
 }
 
 export default Icon
