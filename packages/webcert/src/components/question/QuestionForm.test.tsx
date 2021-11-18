@@ -119,12 +119,22 @@ describe('QuestionForm', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 
-    it('enable send and cancel when question draft has value', async () => {
+    it('enable send and cancel when question draft has value and has been saved', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
       renderComponent()
       expect(screen.getByText(/Skicka/i)).toBeEnabled()
       expect(screen.getByText(/Avbryt/i)).toBeEnabled()
+    })
+
+    it('disable send and cancel when question draft has value and has not been saved', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(false))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i)).toBeDisabled()
+      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
     it('disable send and cancel when question draft has no values', async () => {
@@ -155,6 +165,7 @@ describe('QuestionForm', () => {
         message: 'Skriver lite text',
       }
       testStore.dispatch(validateQuestion(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
       renderComponent(questionDraft)
 
       userEvent.click(screen.getByText('Skicka'))
@@ -166,6 +177,7 @@ describe('QuestionForm', () => {
     it('show missing message when trying to send question with missing message', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(validateQuestion(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
       renderComponent(questionDraft)
 
       userEvent.click(screen.getByText('Skicka'))
@@ -177,6 +189,7 @@ describe('QuestionForm', () => {
       jest.useRealTimers()
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
+      testStore.dispatch(updateQuestionDraftSaved(true))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getByText('Ja, radera'))
@@ -188,6 +201,7 @@ describe('QuestionForm', () => {
     it('shall not delete question draft when delete is confirmed', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
+      testStore.dispatch(updateQuestionDraftSaved(true))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
