@@ -13,7 +13,6 @@ import {
 } from '../store/welcome/welcomeActions'
 import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
-import { Wrapper } from '../feature/certificate/Inputs/DatePickerCustom/Styles'
 import { triggerLogoutNow } from '../store/user/userActions'
 import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
 import { MockUser } from '../store/welcome/welcomeReducer'
@@ -194,7 +193,7 @@ const Welcome: React.FC = () => {
                 id="isDeepIntegration"
               />
               <label htmlFor="isDeepIntegration">Djupintegrerat uthopp?</label>
-              <Wrapper>
+              <div>
                 <RadioButton
                   key={'fake'}
                   label={'Fake-inloggning'}
@@ -215,7 +214,7 @@ const Welcome: React.FC = () => {
                   disabled={!isDeepIntegration}
                   onChange={() => setFakeLogin(false)}
                 />
-              </Wrapper>
+              </div>
               <CustomButton
                 buttonStyle="primary"
                 type="submit"

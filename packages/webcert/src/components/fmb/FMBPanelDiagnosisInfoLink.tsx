@@ -1,8 +1,7 @@
 import React from 'react'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
+import ExternalLinkIcon from '@frontend/common/src/components/image/ExternalLinkIcon'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
@@ -19,7 +18,7 @@ const FMBPanelDiagnosisInfoLink: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) =>
       <Link target="_blank" to={{ pathname: fmbDiagnosisCodeInfo.referenceLink }}>
         <p>
           {fmbDiagnosisCodeInfo.referenceDescription}
-          <FontAwesomeIcon icon={faExternalLinkAlt} className="iu-ml-200 iu-fs-100" />
+          <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
         </p>
       </Link>
     </div>

@@ -2,7 +2,7 @@ import { ButtonWrapper, Footer } from './Styles'
 import { CustomButton } from '@frontend/common'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import ExternalLinkIcon from '@frontend/common/src/components/image/ExternalLinkIcon'
 
 interface IcfFooterProps {
   handleToggleDropdownButtonClick: () => void
@@ -21,7 +21,7 @@ const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }
         target={'_blank'}
         href={'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'}>
         Läs mer om ICF hos Socialstyrelsen
-        <FontAwesomeIcon icon={faExternalLinkAlt} className={'iu-ml-100'} size={'xs'} />
+        <ExternalLinkIcon className={'iu-ml-100'} />
       </a>
     </Footer>
   )

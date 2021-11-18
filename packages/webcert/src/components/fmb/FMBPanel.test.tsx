@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import FMBPanel from './FMBPanel'
-import { Wrapper } from '../../feature/certificate/Inputs/DatePickerCustom/Styles'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
@@ -9,7 +8,6 @@ import { Provider } from 'react-redux'
 import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
 
@@ -19,7 +17,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel tabIndex={0} selectedTabIndex={0} minimizeSidePanel={<Wrapper />} />
+        <FMBPanel />
       </Router>
     </Provider>
   )

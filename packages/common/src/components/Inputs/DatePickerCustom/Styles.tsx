@@ -10,11 +10,11 @@ interface buttonProps {
 }
 
 export const StyledButton = styled.button<buttonProps>`
-  padding: 13px !important;
   min-width: 0;
+  padding: 0 !important;
+  width: 55px;
+  height: 2.956rem;
   box-shadow: none;
-  border-width: 1px !important;
-  border-bottom-width: 2px !important;
 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
