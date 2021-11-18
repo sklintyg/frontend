@@ -126,7 +126,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleWorkingHoursOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBaseWorkHours(event.target.value)
+    setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))
   }
 
   if (!question) return null
@@ -138,14 +138,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           <DaysRangeWrapper>
             <Icon id={'lightbulb_outline'} includeTooltip={true} />
             <p>Patienten arbetar i snitt</p>
-            <TextInput
-              onChange={handleWorkingHoursOnChange}
-              className="ic-textfield"
-              value={baseWorkHours}
-              type="text"
-              maxLength={2}
-              pattern="\d*"
-            />
+            <TextInput onChange={handleWorkingHoursOnChange} className="ic-textfield" value={baseWorkHours} type="text" maxLength={2} />
             <p>timmar/vecka</p>
           </DaysRangeWrapper>
         )}

@@ -7,6 +7,7 @@ import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { CertificateMetadata, CertificateRelationType, CertificateStatus } from '@frontend/common'
+import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'Replace continue button name'
 const DESCRIPTION = 'Replace continue button description'
@@ -17,6 +18,7 @@ const history = createMemoryHistory()
 const renderDefaultComponent = (enabled: boolean) => {
   render(
     <Router history={history}>
+      <CustomTooltip />
       <ReplaceCertificateContinueButton name={NAME} description={DESCRIPTION} enabled={enabled} certificateMetadata={getMetadata()} />
     </Router>
   )

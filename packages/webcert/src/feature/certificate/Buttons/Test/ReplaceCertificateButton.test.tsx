@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import ReplaceCertificateButton from '../ReplaceCertificateButton'
+import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'Replace button name'
 const DESCRIPTION = 'Replace button description'
@@ -11,7 +12,12 @@ const DESCRIPTION = 'Replace button description'
 const mockDispatchFn = jest.fn()
 
 const renderDefaultComponent = (enabled: boolean) => {
-  render(<ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} />)
+  render(
+    <>
+      <CustomTooltip />
+      <ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} />
+    </>
+  )
 }
 
 describe('Replace continue button', () => {

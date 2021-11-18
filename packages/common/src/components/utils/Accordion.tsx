@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { MandatoryIcon } from '@frontend/common'
-import { icon } from '@fortawesome/fontawesome-svg-core'
 import Icon from '../image/Icon'
 
 const Text = styled.p`
@@ -67,7 +66,7 @@ const Accordion: React.FC<Props> = ({ icon, title, titleId, description, additio
       {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
       <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
         {getHeader()}
-        <Text className={`${!isCategory ? 'iu-mb-400' : ''}`}>{description}</Text>
+        <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={{ __html: description }}></Text>
       </StyledDetails>
     </div>
   )
