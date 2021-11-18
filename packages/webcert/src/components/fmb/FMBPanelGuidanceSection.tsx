@@ -15,9 +15,13 @@ const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
 
   return (
     <div className="iu-p-500">
-      <p className={'iu-fw-heading'} data-tip={'Vägledning för sjukskrivning vid ' + fmbDiagnosisCodeInfo.originalIcd10Description + '.'}>
+      <p className={'iu-fw-heading'}>
         Vägledning för sjukskrivning
-        <FontAwesomeIcon icon={faInfoCircle} className="iu-ml-200 iu-mb-200" />
+        <FontAwesomeIcon
+          icon={faInfoCircle}
+          className="iu-ml-200 iu-mb-200"
+          data-tip={'Vägledning för sjukskrivning vid ' + fmbDiagnosisCodeInfo.originalIcd10Description + '.'}
+        />
       </p>
       {!workCapacityList ||
         (workCapacityList.length === 0 && (

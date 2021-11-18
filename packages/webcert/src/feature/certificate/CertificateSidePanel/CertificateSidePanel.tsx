@@ -3,7 +3,7 @@ import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/c
 import { useSelector } from 'react-redux'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import { CustomTooltip, Tabs, getResourceLink, ResourceLinkType } from '@frontend/common'
+import { Tabs, getResourceLink, ResourceLinkType } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components/macro'
