@@ -137,6 +137,18 @@ describe('UeIcf', () => {
 
     expect(screen.getByPlaceholderText(PLACEHOLDER)).toBeInTheDocument()
   })
+
+  it('shall display button when question is enabled', () => {
+    const question = createQuestion()
+    renderComponent(question, false)
+    expect(screen.getByText('Ta hjälp av ICF')).toBeInTheDocument()
+  })
+
+  it('shall not display button when question is disabled', () => {
+    const question = createQuestion()
+    renderComponent(question, true)
+    expect(screen.queryByText('Ta hjälp av ICF')).not.toBeInTheDocument()
+  })
 })
 
 const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
