@@ -40,7 +40,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
     <>
       <Root className={'iu-m-none'}>
         <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-        <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.icd10Description} />
+        <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
         <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
         <FMBPanelDiagnosisInfoSection
           header={'Funktionsnedsättning'}
