@@ -15,8 +15,11 @@ import PatientStatusNotificationWithModal from './PatientStatusNotificationWithM
 import { PersonId } from '@frontend/common/src'
 
 const Wrapper = styled.div`
-  padding-bottom: 10px;
   display: flex;
+
+  > * {
+    margin-bottom: 10px;
+  }
 `
 
 const PatientStatusNotifications: React.FC = () => {
@@ -31,19 +34,11 @@ const PatientStatusNotifications: React.FC = () => {
   const testPersonTitle = 'Patienten är en valideringsperson'
   const protectedPersonTitle = 'Patienten har skyddade personuppgifter'
 
-  if (
-    !isPatientDeceased &&
-    !isPatientProtectedPerson &&
-    !isPatientTestIndicated &&
-    !isPatientNameDifferentFromEHR &&
-    !previousPatientId &&
-    !isPatientIdUpdated
-  )
-    return null
+  const showReserveIdStatus = (!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean
 
   return (
     <Wrapper>
-      <PatientStatusNotification type={'info'} title={'Patienten är avliden'} status={true} />
+      <PatientStatusNotification type={'info'} title={'Patienten är avliden'} status={isPatientDeceased} />
       <PatientStatusNotificationWithModal
         type={'info'}
         status={isPatientProtectedPerson}
@@ -83,7 +78,7 @@ const PatientStatusNotifications: React.FC = () => {
       </PatientStatusNotificationWithModal>
       <PatientStatusNotificationWithModal
         type={'info'}
-        status={(!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean}
+        status={showReserveIdStatus}
         title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (patient && previousPatientId ? patient.personId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>

@@ -16,7 +16,7 @@ import {
   getPeriodWorkHours,
   getPeriodWorkDays,
 } from '@frontend/common'
-import { DateRangeWrapper, DatesWrapper } from './Styles'
+import { DateRangeWrapper, DatesWrapper, DateGrid } from './Styles'
 import usePrevious from '../../../../hooks/usePrevious'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
@@ -277,38 +277,40 @@ const DateRangePicker: React.FC<Props> = ({
           label={label}
           disabled={disabled}
         />
-        <DatesWrapper id="fromWrapper">
-          <DatePickerCustom
-            disabled={disabled}
-            label={'Fr.o.m'}
-            id={`from${periodId}`}
-            textInputRef={fromTextInputRef}
-            textInputOnBlur={handleFromTextInputOnBlur}
-            textInputOnKeyDown={handleFromTextInputOnKeyDown}
-            textInputName={`from${periodId}`}
-            inputString={fromDateInput}
-            setDate={handleDatePickerSelectFrom}
-            textInputOnChange={handleFromTextInputChange}
-            textInputDataTestId={`from${periodId}`}
-            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
-          />
-        </DatesWrapper>
-        <DatesWrapper>
-          <DatePickerCustom
-            disabled={disabled}
-            label={'t.o.m'}
-            id={`tom${periodId}`}
-            textInputName={`tom${periodId}`}
-            textInputRef={tomTextInputRef}
-            inputString={toDateInput}
-            setDate={handleDatePickerSelectTo}
-            textInputOnChange={handleToTextInputChange}
-            textInputOnBlur={handleToTextInputOnBlur}
-            textInputOnKeyDown={handleToTextInputOnKeyDown}
-            textInputDataTestId={`tom${periodId}`}
-            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
-          />
-        </DatesWrapper>
+        <DateGrid>
+          <DatesWrapper id="fromWrapper">
+            <DatePickerCustom
+              disabled={disabled}
+              label={'Fr.o.m'}
+              id={`from${periodId}`}
+              textInputRef={fromTextInputRef}
+              textInputOnBlur={handleFromTextInputOnBlur}
+              textInputOnKeyDown={handleFromTextInputOnKeyDown}
+              textInputName={`from${periodId}`}
+              inputString={fromDateInput}
+              setDate={handleDatePickerSelectFrom}
+              textInputOnChange={handleFromTextInputChange}
+              textInputDataTestId={`from${periodId}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+            />
+          </DatesWrapper>
+          <DatesWrapper>
+            <DatePickerCustom
+              disabled={disabled}
+              label={'t.o.m'}
+              id={`tom${periodId}`}
+              textInputName={`tom${periodId}`}
+              textInputRef={tomTextInputRef}
+              inputString={toDateInput}
+              setDate={handleDatePickerSelectTo}
+              textInputOnChange={handleToTextInputChange}
+              textInputOnBlur={handleToTextInputOnBlur}
+              textInputOnKeyDown={handleToTextInputOnKeyDown}
+              textInputDataTestId={`tom${periodId}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+            />
+          </DatesWrapper>
+        </DateGrid>
       </DateRangeWrapper>
       {!disabled && <QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
       {workHoursPerWeek && workDaysPerWeek && (
