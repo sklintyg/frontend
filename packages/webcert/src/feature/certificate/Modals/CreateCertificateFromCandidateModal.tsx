@@ -14,6 +14,10 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) 
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   useEffect(() => {
     if (escPress) {
       handleClose()
@@ -32,10 +36,6 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) 
 
   const handleConfirm = () => {
     dispatch(createCertificateFromCandidate())
-  }
-
-  const handleClose = () => {
-    setOpen(false)
   }
 
   return (
