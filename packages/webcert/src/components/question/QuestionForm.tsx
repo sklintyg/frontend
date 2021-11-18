@@ -124,9 +124,9 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton disabled={isFormEmpty} buttonStyle={'primary'} onClick={handleSendQuestion} text={'Skicka'} />
+              <CustomButton disabled={isFormEmpty || !isSaved} buttonStyle={'primary'} onClick={handleSendQuestion} text={'Skicka'} />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty}
+                disabled={isFormEmpty || !isSaved}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad fråga'}
                 confirmButtonText={'Ja, radera'}
