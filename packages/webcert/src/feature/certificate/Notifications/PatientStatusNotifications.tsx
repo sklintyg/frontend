@@ -43,7 +43,7 @@ const PatientStatusNotifications: React.FC = () => {
 
   return (
     <Wrapper>
-      <PatientStatusNotification type={'info'} title={'Patienten är avliden'} status={isPatientDeceased} />
+      <PatientStatusNotification type={'info'} title={'Patienten är avliden'} status={true} />
       <PatientStatusNotificationWithModal
         type={'info'}
         status={isPatientProtectedPerson}
