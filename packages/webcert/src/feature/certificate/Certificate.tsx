@@ -26,11 +26,6 @@ const Wrapper = styled.div`
   padding-right: 16px;
   padding-left: 16px;
 
-  .questionWrapper + .questionWrapper .questionTitle {
-    font-size: 14px !important;
-    fontweight: bold;
-  }
-
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
@@ -65,7 +60,7 @@ const Certificate: React.FC = () => {
       <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
         {isComplementingCertificate && (
           <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>
-            Försäkringskassan har begärt kompletteringar på intyget.
+            <p> Försäkringskassan har begärt kompletteringar på intyget. </p>
           </InfoBox>
         )}
         {certificateStructure &&
