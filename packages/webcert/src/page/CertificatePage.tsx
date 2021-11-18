@@ -18,15 +18,25 @@ import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcert
 
 const Root = styled.div`
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 `
 
-const Overflow = styled.div`
-  height: 100%;
+const OverflowScroll = styled.div`
   overflow-y: auto;
 `
 
-const Wrapper = styled.div`
-  height: calc(100vh - 167px);
+const OverflowHidden = styled.div`
+  overflow-y: hidden;
+`
+
+const NoFlexGrow = styled.div`
+  flex-grow: 0;
+`
+
+const Content = styled.div`
+  overflow: hidden;
+  flex-grow: 1;
 `
 
 const Columns = styled.div`
@@ -37,7 +47,7 @@ interface Params {
   certificateId: string
 }
 
-const CertificatePage = () => {
+const CertificatePage: React.FC = () => {
   const { certificateId } = useParams<Params>()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
@@ -50,35 +60,39 @@ const CertificatePage = () => {
 
   const secondaryItems = [
     <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
-      <AboutWebcertModalContent></AboutWebcertModalContent>
+      <AboutWebcertModalContent />
     </TextWithInfoModal>,
   ]
 
   // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
     <Root>
-      <AppHeader
-        logo={logo}
-        alt={'Logo Webcert'}
-        primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
-        secondaryItems={secondaryItems}
-      />
+      <NoFlexGrow>
+        <AppHeader
+          logo={logo}
+          alt={'Logo Webcert'}
+          primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+          secondaryItems={secondaryItems}
+        />
+      </NoFlexGrow>
       {certificateIsDeleted ? (
         <RemovedCertificate />
       ) : (
         <>
-          <MajorVersionNotification />
-          <CertificateHeader />
-          <Wrapper className={`ic-container`}>
+          <NoFlexGrow>
+            <MajorVersionNotification />
+            <CertificateHeader />
+          </NoFlexGrow>
+          <Content className={`ic-container`}>
             <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
-              <Overflow className="iu-grid-span-7">
+              <OverflowScroll className="iu-grid-span-7">
                 <Certificate />
-              </Overflow>
-              <Overflow className="iu-grid-span-5">
+              </OverflowScroll>
+              <OverflowHidden className="iu-grid-span-5">
                 <CertificateSidePanel />
-              </Overflow>
+              </OverflowHidden>
             </Columns>
-          </Wrapper>
+          </Content>
         </>
       )}
     </Root>
