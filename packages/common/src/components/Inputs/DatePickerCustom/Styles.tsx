@@ -26,7 +26,7 @@ export const TextInput = styled.input`
   border-bottom-right-radius: 0;
   max-width: 15ch;
   border-right: 0 !important;
-  min-width: 122px;
+  min-width: 133px;
 `
 
 export const ValidationWrapper = styled.div`
