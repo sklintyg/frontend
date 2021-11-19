@@ -37,16 +37,27 @@ interface Props {
   displayMandatory?: boolean
   isCategory?: boolean
   icon?: string
+  includeIconTooltip?: boolean
 }
 
-const Accordion: React.FC<Props> = ({ icon, title, titleId, description, additionalStyles, displayMandatory, header, isCategory }) => {
+const Accordion: React.FC<Props> = ({
+  icon,
+  title,
+  titleId,
+  description,
+  additionalStyles,
+  displayMandatory,
+  header,
+  isCategory,
+  includeIconTooltip,
+}) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
   const getHeader = () => {
     if (!hasHeader) {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon id={icon ? icon : ''} />
+          <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} />
           <MandatoryIcon display={displayMandatory as boolean} />{' '}
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
         </StyledSummary>
@@ -54,7 +65,7 @@ const Accordion: React.FC<Props> = ({ icon, title, titleId, description, additio
     } else {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon id={icon ? icon : ''} />
+          <Icon iconType={icon ? icon : ''} />
           <MandatoryIcon display={displayMandatory as boolean} /> <h5 className={`iu-fs-200 ${additionalStyles}`}>{title}</h5>
         </StyledSummary>
       )

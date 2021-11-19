@@ -140,7 +140,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <div>
         {!disabled && (
           <DaysRangeWrapper>
-            <Icon id={'lightbulb_outline'} includeTooltip={true} />
+            <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
             <p>Patienten arbetar i snitt</p>
             <TextInput onChange={handleWorkingHoursOnChange} className="ic-textfield" value={baseWorkHours} type="text" maxLength={2} />
             <p>timmar/vecka</p>
@@ -170,7 +170,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         {totalSickDays && !disabled && (
           <div>
             <p className="iu-color-main">
-              <Icon id={'lightbulb_outline'} includeTooltip={true} />
+              <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
               Intyget motsvarar en period på {totalSickDays} dagar.{' '}
             </p>
           </div>

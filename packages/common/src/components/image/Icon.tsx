@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
-  id: string
+  iconType: string
   includeTooltip?: boolean
 }
 
-const Icon: React.FC<Props> = ({ id, includeTooltip }) => {
+const Icon: React.FC<Props> = ({ iconType, includeTooltip }) => {
   const getIconName = (id: string) => {
     switch (id) {
       case 'lightbulb_outline':
@@ -20,19 +20,21 @@ const Icon: React.FC<Props> = ({ id, includeTooltip }) => {
   const getIconTooltip = (id: string) => {
     switch (id) {
       case 'lightbulb_outline':
-        return 'Funktionen är ett stöd i ifyllnad och bedömning.'
+        return 'Funktionen är ett stöd för ifyllnad och bedömning.'
       default:
         return ''
     }
   }
 
-  const icon = getIconName(id)
+  const icon = getIconName(iconType)
 
   if (!icon) {
     return null
   }
 
-  return <FontAwesomeIcon icon={icon} className="iu-color-main iu-mr-300" size="lg" data-tip={includeTooltip ? getIconTooltip(id) : ''} />
+  return (
+    <FontAwesomeIcon icon={icon} className="iu-color-main iu-mr-300" size="lg" data-tip={includeTooltip ? getIconTooltip(iconType) : ''} />
+  )
 }
 
 export default Icon
