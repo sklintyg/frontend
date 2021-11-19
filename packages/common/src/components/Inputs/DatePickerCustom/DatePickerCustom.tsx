@@ -4,6 +4,7 @@ import { isValid, parse } from 'date-fns'
 import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
 import calendarImage from '../../../images/calendar.svg'
+import 'react-datepicker/dist/react-datepicker.css'
 
 interface Props {
   disabled?: boolean
