@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { isValid, parse } from 'date-fns'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
 import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
+import calendarImage from '../../../images/calendar.svg'
 
 interface Props {
   disabled?: boolean
@@ -152,7 +150,7 @@ const DatePickerCustom: React.FC<Props> = ({
               onClick={() => setOpen(true)}
               className={`ic-button `}
               onClickCapture={() => setOpen(true)}>
-              <FontAwesomeIcon icon={faCalendarWeek} size="lg" />
+              <img src={calendarImage} />{' '}
             </StyledButton>
           }
           onClickOutside={() => setOpen(false)}

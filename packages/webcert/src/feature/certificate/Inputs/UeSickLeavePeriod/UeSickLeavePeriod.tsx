@@ -134,7 +134,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   return (
     <div>
       <div>
-        {!question.disabled && (
+        {!disabled && (
           <DaysRangeWrapper>
             <Icon id={'lightbulb_outline'} includeTooltip={true} />
             <p>Patienten arbetar i snitt</p>
@@ -163,7 +163,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         })}
         {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
         {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-        {totalSickDays && !question.disabled && (
+        {totalSickDays && !disabled && (
           <div>
             <p className="iu-color-main">
               <Icon id={'lightbulb_outline'} includeTooltip={true} />

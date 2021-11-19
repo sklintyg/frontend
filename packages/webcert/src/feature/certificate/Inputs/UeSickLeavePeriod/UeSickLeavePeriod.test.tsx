@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { getByText, render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   CertificateDataElement,
@@ -8,11 +8,9 @@ import {
   CertificateDataValueType,
   ConfigTypes,
   getValidDate,
-  ValueDateRangeList,
 } from '@frontend/common'
-import DateRangePicker from './DateRangePicker'
 import * as redux from 'react-redux'
-import { differenceInCalendarDays, isEqual, addDays } from 'date-fns'
+import { isEqual, addDays } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const LABEL = '25 procent'
@@ -85,7 +83,7 @@ beforeEach(() => {
   useSelectorSpy.mockReturnValue(jest.fn())
 })
 
-describe('x', () => {
+describe('UeSickLeavePeriod', () => {
   it('Renders without crashing', () => {
     renderDefaultComponent()
   })
@@ -231,13 +229,12 @@ describe('x', () => {
     expect(screen.queryByText('Intyget motsvarar en period på 14 dagar.')).not.toBeInTheDocument()
   })
 
-  it('should not render hourly calculation if question is disabled', () => {
+  it('should not render hourly calculation if component is disabled', () => {
     const question: CertificateDataElement = {
       ...defaultQuestion,
-      disabled: true,
     }
 
-    renderDefaultComponent(question)
+    renderDefaultComponent(question, true)
 
     expect(screen.queryByText('Patienten arbetar i snitt', { exact: false })).not.toBeInTheDocument()
   })

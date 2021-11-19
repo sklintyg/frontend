@@ -1,9 +1,15 @@
 import React from 'react'
 import { CertificateDataValueType, Checkbox } from '@frontend/common'
-import { CertificateDataElement, ConfigTypes, QuestionValidationTexts, ValueDate, ValueDateList } from '@frontend/common/src'
+import {
+  CertificateDataElement,
+  ConfigTypes,
+  DatePickerCustom,
+  QuestionValidationTexts,
+  ValueDate,
+  ValueDateList,
+} from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import DatePickerCustom from './DatePickerCustom/DatePickerCustom'
 import { format, isMatch } from 'date-fns'
 import styled from 'styled-components/macro'
 

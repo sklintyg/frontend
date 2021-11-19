@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
 import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
 import { Backdrop, Dropdown, RadioButton } from '@frontend/common'
-import { Wrapper } from '../../feature/certificate/Inputs/DatePickerCustom/Styles'
 
 interface CreateCertificate {
   certificateType: string
@@ -124,7 +123,7 @@ const WelcomeCertificateTypes: React.FC = () => {
         <h3>Intyg: </h3>
         {certificateTypes &&
           certificateTypes.map((value) => (
-            <Wrapper key={value.internalType}>
+            <div key={value.internalType}>
               <RadioButton
                 key={value.internalType}
                 label={value.name + ' (' + value.type + ')'}
@@ -135,7 +134,7 @@ const WelcomeCertificateTypes: React.FC = () => {
                 onChange={handleTypeChange}
               />
               {value.internalType === createCertificate.certificateType && (
-                <Wrapper>
+                <div>
                   <Dropdown
                     options={value.versions.map((version) => (
                       <option key={version} value={version}>
@@ -169,9 +168,9 @@ const WelcomeCertificateTypes: React.FC = () => {
                     key={'fillType' + value.internalType}
                     value={createCertificate.fillType}
                   />
-                </Wrapper>
+                </div>
               )}
-            </Wrapper>
+            </div>
           ))}
       </Backdrop>
     </>

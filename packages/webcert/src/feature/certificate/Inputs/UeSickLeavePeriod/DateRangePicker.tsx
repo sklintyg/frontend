@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import DatePickerCustom from '../DatePickerCustom/DatePickerCustom'
 import { addDays, isBefore, isValid } from 'date-fns'
 import { QuestionValidationTexts, ValidationError } from '@frontend/common'
 import _ from 'lodash'
@@ -18,6 +17,7 @@ import {
 } from '@frontend/common'
 import { DateRangeWrapper, DatesWrapper, DateGrid } from './Styles'
 import usePrevious from '../../../../hooks/usePrevious'
+import { DatePickerCustom } from '@frontend/common/src'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
