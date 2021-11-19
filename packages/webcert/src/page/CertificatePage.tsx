@@ -5,16 +5,17 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader, AppHeaderLink } from '@frontend/common'
+import { AppHeader } from '@frontend/common'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
-import MajorVersionNotification from '../feature/certificate/Notifications/MajorVersionNotification'
+import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import { TextWithInfoModal } from '@frontend/common/src'
 import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
+import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 
 const Root = styled.div`
   height: 100vh;
@@ -64,7 +65,6 @@ const CertificatePage: React.FC = () => {
     </TextWithInfoModal>,
   ]
 
-  // Todo: Remove fixed height below and do some JS magic to calculate the height.
   return (
     <Root>
       <NoFlexGrow>
@@ -81,6 +81,7 @@ const CertificatePage: React.FC = () => {
         <>
           <NoFlexGrow>
             <MajorVersionNotification />
+            <ReadOnlyViewNotification />
             <CertificateHeader />
           </NoFlexGrow>
           <Content className={`ic-container`}>

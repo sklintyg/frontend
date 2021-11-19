@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { InfoBox } from '@frontend/common'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { getUser } from '../../../store/user/userSelectors'
 import _ from 'lodash'
+import NotificationBannerBase from './NotificationBannerBase'
 
 const ReadOnlyViewNotification: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
@@ -18,11 +18,11 @@ const ReadOnlyViewNotification: React.FC = () => {
   if (!shouldRender()) return null
 
   return (
-    <InfoBox squared type={'observe'}>
+    <NotificationBannerBase type={'observe'}>
       <p>
         Utfärdat på: {metadata?.careProvider.unitName} - {metadata?.unit.unitName}
       </p>
-    </InfoBox>
+    </NotificationBannerBase>
   )
 }
 
