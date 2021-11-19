@@ -23,6 +23,7 @@ import { isValid, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
+import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 
 interface Props {
   question: CertificateDataElement
@@ -131,8 +132,11 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
 
   if (!question) return null
 
+  const config = question.config as ConfigUeSickLeavePeriod
+
   return (
     <div>
+      <PreviousSickLeavePeriod previousSickLeavePeriod={config.previousSickLeavePeriod} />
       <div>
         {!disabled && (
           <DaysRangeWrapper>
@@ -144,7 +148,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         )}
       </div>
       <div>
-        {(question.config as ConfigUeSickLeavePeriod).list.map((period: ConfigUeCheckboxDateRange, i) => {
+        {config.list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker
               baseWorkHours={baseWorkHours}
@@ -167,7 +171,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           <div>
             <p className="iu-color-main">
               <Icon id={'lightbulb_outline'} includeTooltip={true} />
-              Intyget motsvarar en period på {totalSickDays} dagar.
+              Intyget motsvarar en period på {totalSickDays} dagar.{' '}
             </p>
           </div>
         )}
