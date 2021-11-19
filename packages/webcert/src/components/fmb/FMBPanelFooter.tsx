@@ -13,7 +13,11 @@ const LogoWrapper = styled.div`
 const FMBPanelFooter: React.FC = () => {
   return (
     <SidePanelFooter backgroundColor="iu-bg-main" textColor="iu-color-white">
-      <Link className="ic-link iu-fs-200 iu-color-white" target="_blank" to={{ pathname: 'https://roi.socialstyrelsen.se/fmb' }}>
+      <Link
+        title={'Öppnar Socialstyrelsens beslutsstöd för angiven huvuddiagnos'}
+        className="ic-link iu-fs-200 iu-color-white"
+        target="_blank"
+        to={{ pathname: 'https://roi.socialstyrelsen.se/fmb' }}>
         <p className="iu-fs-200">
           Läs mer om FMB hos Socialstyrelsen
           <ExternalLinkIcon light={true} className="iu-ml-200 iu-fs-100" />
