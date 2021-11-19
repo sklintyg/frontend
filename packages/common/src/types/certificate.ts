@@ -143,6 +143,7 @@ export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
 
 export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
   list: ConfigUeCheckboxDateRange[]
+  previousSickLeavePeriod: string
 }
 
 export interface ConfigUeDiagnosisTerminology {

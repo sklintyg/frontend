@@ -354,6 +354,7 @@ export const createQuestionWithMultipleDateRanges = (): CertificateDataElement =
     id: '',
     text: '',
     type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+    previousSickLeavePeriod: '',
     list: [
       {
         text: '',
