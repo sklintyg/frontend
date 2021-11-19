@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { InfoBox } from '@frontend/common'
 import { getIsLatestMajorVersion } from '../../../store/certificate/certificateSelectors'
+import NotificationBannerBase from './NotificationBannerBase'
 
 const MajorVersionNotification: React.FC = () => {
   const isLatestMajorVersion = useSelector(getIsLatestMajorVersion)
@@ -9,9 +9,9 @@ const MajorVersionNotification: React.FC = () => {
   if (isLatestMajorVersion) return null
 
   return (
-    <InfoBox squared type={'info'}>
+    <NotificationBannerBase type={'observe'}>
       <p>Du kan inte använda alla funktioner, intyget är av en äldre version.</p>
-    </InfoBox>
+    </NotificationBannerBase>
   )
 }
 
