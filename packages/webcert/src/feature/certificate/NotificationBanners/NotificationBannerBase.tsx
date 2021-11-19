@@ -7,7 +7,7 @@ interface Props {
 
 const NotificationBannerBase: React.FC<Props> = ({ type, children }) => {
   return (
-    <InfoBox squared type={'observe'} additionalWrapperStyles={'ic-container'}>
+    <InfoBox squared type={type} additionalWrapperStyles={'ic-container'}>
       {children}
     </InfoBox>
   )
