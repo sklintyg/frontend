@@ -7,10 +7,11 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
+  ConfigUeSickLeavePeriod,
   getValidDate,
 } from '@frontend/common'
 import * as redux from 'react-redux'
-import { isEqual, addDays } from 'date-fns'
+import { addDays, isEqual } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const LABEL = '25 procent'
@@ -237,5 +238,20 @@ describe('UeSickLeavePeriod', () => {
     renderDefaultComponent(question, true)
 
     expect(screen.queryByText('Patienten arbetar i snitt', { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('should render previous sick leave period if it exists', () => {
+    const expectedPreviousSickLeavePeriod = 'This is the previous sick leave period'
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      config: {
+        ...defaultQuestion.config,
+        previousSickLeavePeriod: expectedPreviousSickLeavePeriod,
+      } as ConfigUeSickLeavePeriod,
+    }
+
+    renderDefaultComponent(question)
+
+    expect(screen.queryByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
   })
 })
