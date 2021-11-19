@@ -14,6 +14,8 @@ import {
   CreateCertificateFromCandidateSuccess,
   getCertificateError,
   hideSpinner,
+  readyForSign,
+  readyForSignSuccess,
   SigningData,
   startSignCertificate,
   updateCertificate,
@@ -123,6 +125,45 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.errorCode).toEqual(CONCURRENT_MODIFICATION)
+    })
+  })
+
+  describe('Handle ReadyForSign', () => {
+    it('shall call api to make the certificate ready for sign', async () => {
+      const certificate = getCertificate('certificateId')
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(readyForSign())
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/certificate/certificateId/readyforsign')
+    })
+  })
+
+  describe('Handle ReadyForSignSuccess', () => {
+    it('shall update readyForSign', async () => {
+      const certificate = getCertificate('certificateId')
+      testStore.dispatch(updateCertificate(certificate))
+
+      const expectedReadyForSign = new Date().toISOString()
+      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', '99', expectedReadyForSign)
+      testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate.metadata.readyForSign).toBe(expectedReadyForSign)
+    })
+
+    it('shall update version', async () => {
+      const certificate = getCertificate('certificateId')
+      testStore.dispatch(updateCertificate(certificate))
+
+      const expectedVersion = '99'
+      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', expectedVersion, new Date().toISOString())
+      testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.certificate.metadata.version).toBe(expectedVersion)
     })
   })
 
@@ -292,11 +333,11 @@ describe('Test certificate middleware', () => {
   }
 })
 
-const getCertificate = (id: string, type?: string, version?: string): Certificate => {
+const getCertificate = (id: string, type?: string, version?: string, readyForSign?: string): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    metadata: { id, type, version },
+    metadata: { id, type, version, readyForSign },
     links: [],
   }
 }
