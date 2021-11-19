@@ -247,6 +247,7 @@ const handleReadyForSignSuccess: Middleware<Dispatch> = ({ dispatch }) => () => 
   }
   if (action.payload.certificate.metadata.readyForSign) {
     dispatch(setReadyForSign(action.payload.certificate.metadata.readyForSign))
+    dispatch(updateCertificateVersion(action.payload.certificate.metadata.version))
   }
   dispatch(readyForSignCompleted())
 }
