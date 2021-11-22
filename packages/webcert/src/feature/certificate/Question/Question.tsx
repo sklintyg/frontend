@@ -18,6 +18,7 @@ import {
   getIsLocked,
   getQuestion,
   getShowValidationErrors,
+  getComplementsIncludingSubquestions,
 } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
@@ -36,6 +37,10 @@ interface QuestionProps {
   id: string
 }
 
+interface HighlightedProps {
+  highlight: boolean
+}
+
 const Complement = styled.div`
   display: flex;
   align-items: top;
@@ -48,9 +53,17 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 
+const Highlighted = styled.div<HighlightedProps>`
+  border-radius: ${(props) => (props.highlight ? '0.1875px' : '')};
+  outline: ${(props) => (props.highlight ? '1.5px solid #01a5a3' : '')};
+  margin-top: ${(props) => (props.highlight ? '1.5px' : '')};
+  margin-left: ${(props) => (props.highlight ? '1.5px' : '')};
+`
+
 const Question: React.FC<QuestionProps> = ({ id }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
+  const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubquestions(id), _.isEqual)
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean) || !isEditable
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
@@ -81,7 +94,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <div className={complements.length > 0 ? 'iu-border-main iu-radius-card iu-rem-border-3' : ''}>
+    <Highlighted highlight={complementsIncludingSubquestions.length > 0}>
       <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
         <QuestionWrapper highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
@@ -103,7 +116,7 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
           ))}
         </QuestionWrapper>
       </Expandable>
-    </div>
+    </Highlighted>
   )
 
   function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {

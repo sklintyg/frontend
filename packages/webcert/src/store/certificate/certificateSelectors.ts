@@ -37,6 +37,9 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
 export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
   state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
 
+export const getComplementsIncludingSubquestions = (questionId: string) => (state: RootState): Complement[] =>
+  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
+
 export const getGotoId = (state: RootState): string | undefined => state.ui.uiCertificate.gotoCertificateDataElement?.questionId
 
 export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
