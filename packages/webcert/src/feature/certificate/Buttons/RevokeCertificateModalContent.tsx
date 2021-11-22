@@ -19,9 +19,8 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
   const locked = useSelector(getIsLocked)
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('radio button on change')
     setTextArea({ ...textArea, display: true, name: event.target.id })
-    onChange({ reason: event.target.name, message: textArea.value })
+    onChange({ reason: event.target.value, message: textArea.value })
   }
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
