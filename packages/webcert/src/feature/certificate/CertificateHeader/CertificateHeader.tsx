@@ -27,6 +27,7 @@ import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
 import { getQuestions } from '../../../store/question/questionSelectors'
 import ComplementStatus from './Status/ComplementStatus'
 import _ from 'lodash'
+import HasBeenComplementedStatus from './Status/HasBeenComplementedStatus'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -75,7 +76,8 @@ const CertificateHeader = () => {
             <SignableStatus certificateMetadata={certificateMetadata} isValidForSigning={isValidForSigning} />
             <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
             <ComplementStatus certificateMetadata={certificateMetadata} questions={questions} />
-            <SentStatus certificateMetadata={certificateMetadata} questions={questions} />
+            <SentStatus certificateMetadata={certificateMetadata} questions={questions} historyEntries={historyEntries} />
+            <HasBeenComplementedStatus historyEntries={historyEntries} />
             <ReplacedStatus certificateMetadata={certificateMetadata} />
             <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
             <RevokeParentStatus certificateMetadata={certificateMetadata} />

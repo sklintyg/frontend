@@ -1,17 +1,28 @@
 import React from 'react'
-import { CertificateMetadata, hasUnhandledComplementQuestions, isReplaced, isSigned, Question, StatusWithIcon } from '@frontend/common'
+import {
+  CertificateMetadata,
+  hasUnhandledComplementQuestions,
+  getComplementedByCertificateEvent,
+  isReplaced,
+  isSigned,
+  Question,
+  StatusWithIcon,
+  CertificateEvent,
+} from '@frontend/common'
 
 interface Props {
   certificateMetadata: CertificateMetadata
   questions: Question[]
+  historyEntries: CertificateEvent[]
 }
 
-const SentStatus: React.FC<Props> = ({ certificateMetadata, questions }) => {
+const SentStatus: React.FC<Props> = ({ certificateMetadata, questions, historyEntries }) => {
   if (
     !isSigned(certificateMetadata) ||
     isReplaced(certificateMetadata) ||
     !certificateMetadata.sent ||
-    hasUnhandledComplementQuestions(questions)
+    hasUnhandledComplementQuestions(questions) ||
+    getComplementedByCertificateEvent(historyEntries)
   )
     return null
 
