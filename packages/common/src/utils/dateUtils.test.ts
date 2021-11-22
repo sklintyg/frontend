@@ -7,6 +7,7 @@ import {
   getPeriodWorkHours,
   ConfigUeCheckboxDateRange,
   ValueDateRange,
+  isDateRangeValid,
 } from '@frontend/common'
 import { filterDateRangeValueList, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
 
@@ -258,4 +259,42 @@ it('Filters date range value list correctly', () => {
   expect(filteredValues[2]).toBe(undefined)
   expect(filteredValues.length).toBe(2)
   expect(filteredValues[3]).toBe(undefined)
+})
+
+describe('isDateRangeValid', () => {
+  it('returns true if both dates are valid', () => {
+    const fromDate = '2021-11-22'
+    const toDate = '2021-11-23'
+
+    const actual = isDateRangeValid(fromDate, toDate)
+
+    expect(actual).toBe(true)
+  })
+
+  it('returns false if from date is invalid', () => {
+    const fromDate = '2021-11-'
+    const toDate = '2021-11-23'
+
+    const actual = isDateRangeValid(fromDate, toDate)
+
+    expect(actual).toBe(false)
+  })
+
+  it('returns false if to date is invalid', () => {
+    const fromDate = '2021-11-22'
+    const toDate = '2021-11-'
+
+    const actual = isDateRangeValid(fromDate, toDate)
+
+    expect(actual).toBe(false)
+  })
+
+  it('returns false if both dates are valid and to date is before from date', () => {
+    const fromDate = '2021-11-22'
+    const toDate = '2021-11-21'
+
+    const actual = isDateRangeValid(fromDate, toDate)
+
+    expect(actual).toBe(false)
+  })
 })
