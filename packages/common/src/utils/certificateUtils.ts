@@ -1,5 +1,14 @@
 import { ResourceLink } from './../types/resourceLink'
-import { Certificate, CertificateEvent, CertificateMetadata, CertificateRelationType, CertificateStatus, Question, QuestionType } from '..'
+import {
+  Certificate,
+  CertificateEvent,
+  CertificateEventType,
+  CertificateMetadata,
+  CertificateRelationType,
+  CertificateStatus,
+  Question,
+  QuestionType,
+} from '..'
 import { ResourceLinkType } from '../types/resourceLink'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
@@ -78,4 +87,8 @@ export const getCertificateToSave = (certificate: Certificate): Certificate => {
 
 export const hasUnhandledComplementQuestions = (questions: Question[]): boolean => {
   return questions.some((question) => question.type === QuestionType.COMPLEMENT && !question.handled)
+}
+
+export const getComplementedByCertificateEvent = (historyEntries: CertificateEvent[]): CertificateEvent | undefined => {
+  return historyEntries ? historyEntries.find((c) => c.type === CertificateEventType.COMPLEMENTED) : undefined
 }
