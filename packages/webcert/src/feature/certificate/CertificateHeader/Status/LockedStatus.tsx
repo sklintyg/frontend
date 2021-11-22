@@ -9,7 +9,7 @@ const LockedStatus: React.FC<Props> = ({ certificateMetadata }) => {
   if (!isDisabled(certificateMetadata)) return null
 
   return (
-    <StatusWithIcon icon={'ErrorOutlineIcon'}>
+    <StatusWithIcon icon={'ErrorOutlineIcon'} isModal>
       <TextWithInfoModal text="Utkastet är låst" modalTitle="Utkastet är låst">
         <p>Det har gått fler än fjorton dagar sedan det här utkastet skapades. Det har därför låsts.</p>
         <p>
