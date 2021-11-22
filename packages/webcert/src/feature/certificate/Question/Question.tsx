@@ -32,6 +32,8 @@ import UeDiagnoses from '../Inputs/UeDiagnoses'
 import styled from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
 import _ from 'lodash'
+import { useEffect } from 'react'
+import ReactTooltip from 'react-tooltip'
 
 interface QuestionProps {
   id: string
@@ -68,6 +70,10 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   const disabled = useSelector(getIsLocked) || (question.disabled as boolean) || !isEditable
   const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
   const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
+
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  }, [question])
 
   const getHeading = () => {
     if (question.config.header) {
@@ -126,22 +132,21 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
 
     if (!readOnly && config.description) {
       return (
-        <>
-          <Accordion
-            icon={question.config.icon}
-            header={question.config.header}
-            titleId={question.id}
-            title={question.config.text}
-            description={question.config.description}
-            displayMandatory={displayMandatory}
-            additionalStyles="iu-fw-heading iu-mb-300"
-          />
-        </>
+        <Accordion
+          icon={question.config.icon}
+          includeIconTooltip
+          header={question.config.header}
+          titleId={question.id}
+          title={question.config.text}
+          description={question.config.description}
+          displayMandatory={displayMandatory}
+          additionalStyles="iu-fw-heading iu-mb-300"
+        />
       )
     }
     return (
       <>
-        {question.config.icon && <Icon id={question.config.icon} />}
+        {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon display={displayMandatory} />
         {getHeading()}
       </>

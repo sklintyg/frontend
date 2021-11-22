@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
+import { updateDynamicLinks } from '../../store/utils/utilsActions'
 
 let testStore: EnhancedStore
 
@@ -104,12 +105,12 @@ describe('FMBPanel', () => {
   })
 
   it('shall display link where to get more information at Socialstyrelsen', async () => {
+    const expectedText = 'Läs mer om FMB hos Socialstyrelsen'
+    const expectedLink = 'https://roi.socialstyrelsen.se/fmb'
+    testStore.dispatch(updateDynamicLinks({ fmbSoc: { text: expectedText, target: '', key: 'fmbSoc', url: expectedLink, tooltip: '' } }))
     renderDefaultComponent()
 
-    expect(screen.getByText('Läs mer om FMB hos Socialstyrelsen').closest('a')).toHaveAttribute(
-      'href',
-      'https://roi.socialstyrelsen.se/fmb'
-    )
+    expect(screen.getByText(expectedText).closest('a')).toHaveAttribute('href', expectedLink)
   })
 
   it('shall show symbol that fmb info is shown for other diagnosis code if fmb result doesnt exist for code', async () => {
@@ -164,6 +165,7 @@ const getFMBDiagnosisCodeInfoResultWithOtherDiagnosis = (code: string, originalC
     icd10Code: code,
     icd10Description: 'Description for ' + code,
     index: index,
+
     originalIcd10Code: originalCode,
     originalIcd10Description: 'Description for ' + originalCode,
   }
