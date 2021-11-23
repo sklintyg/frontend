@@ -51,7 +51,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
   }
 
   return (
-    <Wrapper data-tip={props.tooltip}>
+    <Wrapper data-tip={props.tooltip} className={'custom-button'}>
       <button
         ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
