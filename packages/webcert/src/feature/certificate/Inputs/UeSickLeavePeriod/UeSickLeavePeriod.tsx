@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import DateRangePicker from './DateRangePicker'
 import {
   CertificateDataElement,
@@ -18,7 +18,6 @@ import {
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import _ from 'lodash'
 import { isValid, addDays } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
@@ -52,17 +51,11 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     },
   ]
 
-  const dispatchEditDraft = useRef(
-    _.debounce((question: CertificateDataElement, valueList: ValueDateRange[]) => {
-      const updatedQuestion = getUpdatedValue(question, valueList)
-      dispatch(updateCertificateDataElement(updatedQuestion))
-    }, 1000)
-  ).current
-
   const handleUpdatedValue = (valueId: string, fromDate: string | null, toDate: string | null) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
     setValueList(updatedValueList)
-    dispatchEditDraft(question, updatedValueList)
+    const updatedQuestion = getUpdatedValue(question, updatedValueList)
+    dispatch(updateCertificateDataElement(updatedQuestion))
     updateTotalSickDays(updatedValueList)
   }
 
@@ -165,8 +158,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             />
           )
         })}
-        {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors}></QuestionValidationTexts>}
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
         {totalSickDays && !disabled && (
           <div>
             <p className="iu-color-main">

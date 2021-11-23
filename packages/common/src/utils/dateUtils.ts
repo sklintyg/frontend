@@ -1,5 +1,5 @@
 import { ValueDateRange } from './../types/certificate'
-import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays } from 'date-fns'
+import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays, isValid, isBefore } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -165,4 +165,12 @@ export const filterDateRangeValueList = (valueList: ValueDateRange[]): ValueDate
       return val
     })
     .filter((val) => val.to !== undefined || val.from !== undefined)
+}
+
+export const isDateRangeValid = (fromDateInput: string, toDateInput: string): boolean => {
+  return (
+    isValid(getValidDate(fromDateInput)) &&
+    isValid(getValidDate(toDateInput)) &&
+    !isBefore(getValidDate(toDateInput)!, getValidDate(fromDateInput)!)
+  )
 }
