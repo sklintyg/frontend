@@ -1,6 +1,6 @@
 import React from 'react'
 import RemovedCertificate from '../RemovedCertificate/RemovedCertificate'
-import ToastModal from './ToastModal'
+import { ToastModal } from '@frontend/common'
 
 interface Props {
   routedFromDeletedCertificate: boolean
