@@ -7,8 +7,6 @@ import { AUTHORIZATION_PROBLEM, TIMEOUT } from '../store/error/errorReducer'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import errorImage from '../images/fel-1.svg'
 import WCDynamicLink from '../components/utils/WCDynamicLink'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
 

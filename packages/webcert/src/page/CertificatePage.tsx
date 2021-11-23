@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
@@ -16,6 +16,7 @@ import MajorVersionNotification from '../feature/certificate/NotificationBanners
 import { TextWithInfoModal } from '@frontend/common/src'
 import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
+import CertificateDeletedModal from '../feature/certificate/Modals/CertificateDeletedModal'
 
 const Root = styled.div`
   height: 100vh;
@@ -44,14 +45,21 @@ const Columns = styled.div`
   height: 100%;
 `
 
+export interface CertificateDeletionRoute {
+  routedFromDeletedCertificate: boolean
+}
+
 interface Params {
   certificateId: string
 }
 
 const CertificatePage: React.FC = () => {
   const { certificateId } = useParams<Params>()
+  const location = useLocation()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
+
+  const routedFromDeletedCertificate = (location?.state as CertificateDeletionRoute)?.routedFromDeletedCertificate
 
   useEffect(() => {
     if (certificateId) {
@@ -67,6 +75,7 @@ const CertificatePage: React.FC = () => {
 
   return (
     <Root>
+      <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
       <NoFlexGrow>
         <AppHeader
           logo={logo}

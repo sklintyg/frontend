@@ -184,18 +184,26 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${action.payload}/${certificate.metadata.version}`,
+      url: `/api/certificate/${action.payload.certificateId}/${certificate.metadata.version}`,
       method: 'DELETE',
       onStart: deleteCertificateStarted.type,
       onSuccess: deleteCertificateSuccess.type,
       onError: deleteCertificateError.type,
+      onArgs: { history: action.payload.history, metadata: certificate.metadata },
     })
   )
 }
 
-const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
-  dispatch(updateCertificateAsDeleted())
-  dispatch(hideSpinner())
+const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (action.payload.metadata.relations?.parent?.certificateId) {
+    action.payload.history.push({
+      pathname: `/certificate/${action.payload.metadata.relations.parent.certificateId}`,
+      state: { routedFromDeletedCertificate: true },
+    })
+  } else {
+    dispatch(updateCertificateAsDeleted())
+    dispatch(hideSpinner())
+  }
   dispatch(deleteCertificateCompleted())
 }
 

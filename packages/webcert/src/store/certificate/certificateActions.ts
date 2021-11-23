@@ -186,11 +186,21 @@ export const getCertificateEventsError = createAction<string>(GET_CERTIFICATE_EV
 
 export const getCertificateEventsCompleted = createAction(GET_CERTIFICATE_EVENTS_COMPLETED)
 
-export const deleteCertificate = createAction<string>(DELETE_CERTIFICATE)
+export interface DeleteCertificate {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const deleteCertificate = createAction<DeleteCertificate>(DELETE_CERTIFICATE)
 
 export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
 
-export const deleteCertificateSuccess = createAction(DELETE_CERTIFICATE_SUCCESS)
+export interface DeleteCertificateSuccess {
+  parentCertificateId: string
+  history: History<LocationState>
+}
+
+export const deleteCertificateSuccess = createAction<DeleteCertificateSuccess>(DELETE_CERTIFICATE_SUCCESS)
 
 export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
 
