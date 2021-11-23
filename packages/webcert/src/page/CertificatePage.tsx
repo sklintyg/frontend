@@ -8,7 +8,7 @@ import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/Ce
 import { AppHeader } from '@frontend/common'
 import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import { getIsCertificateDeleted } from '../store/certificate/certificateSelectors'
+import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
@@ -45,21 +45,15 @@ const Columns = styled.div`
   height: 100%;
 `
 
-export interface CertificateDeletionRoute {
-  routedFromDeletedCertificate: boolean
-}
-
 interface Params {
   certificateId: string
 }
 
 const CertificatePage: React.FC = () => {
   const { certificateId } = useParams<Params>()
-  const location = useLocation()
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
-
-  const routedFromDeletedCertificate = (location?.state as CertificateDeletionRoute)?.routedFromDeletedCertificate
+  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
 
   useEffect(() => {
     if (certificateId) {

@@ -103,6 +103,7 @@ import {
   updateCertificateUnit,
   updateCertificateVersion,
   updateGotoCertificateDataElement,
+  updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -196,10 +197,8 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 
 const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   if (action.payload.metadata.relations?.parent?.certificateId) {
-    action.payload.history.push({
-      pathname: `/certificate/${action.payload.metadata.relations.parent.certificateId}`,
-      state: { routedFromDeletedCertificate: true },
-    })
+    dispatch(updateRoutedFromDeletedCertificate(true))
+    action.payload.history.push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`)
   } else {
     dispatch(updateCertificateAsDeleted())
     dispatch(hideSpinner())

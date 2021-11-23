@@ -359,6 +359,25 @@ describe('Test certificate middleware', () => {
       expect(spinnerActive).toBe(false)
     })
 
+    it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {
+      mockHistory.push.mockClear()
+      const parentCertificate: CertificateRelation = {
+        certificateId: 'parent',
+        type: CertificateRelationType.RENEW,
+        created: '',
+        status: CertificateStatus.SIGNED,
+      }
+      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const routedFromDeletedCertificate = testStore.getState().ui.uiCertificate.routedFromDeletedCertificate
+      expect(routedFromDeletedCertificate).toBe(true)
+    })
+
     it('shall route user after successful deletion if parent certificate exists', async () => {
       mockHistory.push.mockClear()
       const parentCertificate: CertificateRelation = {

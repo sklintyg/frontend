@@ -15,13 +15,20 @@ const AnimatedDiv = styled.div`
   animation: ${move} 2s cubic-bezier(0.39, 0.58, 0.57, 1);
 `
 
-const ToastModal: React.FC = ({ children }) => {
+interface Props {
+  onClose?: () => void
+}
+
+const ToastModal: React.FC<Props> = ({ children, onClose }) => {
   const [open, setOpen] = useState(true)
   const [allowClosingOfModal, setAllowClosingOfModal] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setAllowClosingOfModal(true), 1000)
-    setTimeout(() => setOpen(false), 2000)
+    setTimeout(() => {
+      setOpen(false)
+      onClose?.()
+    }, 2000)
   }, [])
 
   if (!open) return null
@@ -30,6 +37,7 @@ const ToastModal: React.FC = ({ children }) => {
     if (!allowClosingOfModal) return
 
     setOpen(false)
+    onClose?.()
   }
 
   return (

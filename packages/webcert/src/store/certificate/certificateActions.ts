@@ -32,6 +32,8 @@ const DELETE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Delete certificate success`
 const DELETE_CERTIFICATE_ERROR = `${CERTIFICATE} Delete certificate error`
 const DELETE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Delete certificate completed`
 
+const UPDATE_ROUTED_FROM_DELETED_CERTIFICATE = `${CERTIFICATE} update routed from deleted certificate`
+
 const FORWARD_CERTIFICATE = `${CERTIFICATE} Forward certificate`
 const FORWARD_CERTIFICATE_STARTED = `${CERTIFICATE} Forward certificate started`
 const FORWARD_CERTIFICATE_SUCCESS = `${CERTIFICATE} Forward certificate success`
@@ -205,6 +207,8 @@ export const deleteCertificateSuccess = createAction<DeleteCertificateSuccess>(D
 export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
 
 export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLETED)
+
+export const updateRoutedFromDeletedCertificate = createAction<boolean>(UPDATE_ROUTED_FROM_DELETED_CERTIFICATE)
 
 export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
 
