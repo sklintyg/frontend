@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  CertificateEvent,
-  CertificateStatus,
-  getComplementedByCertificateEvent,
-  StatusWithIcon,
-} from '@frontend/common/src'
+import { CertificateEvent, CertificateStatus, getComplementedByCertificateEvent, StatusWithIcon } from '@frontend/common/src'
 import { Link } from 'react-router-dom'
 
 interface Props {

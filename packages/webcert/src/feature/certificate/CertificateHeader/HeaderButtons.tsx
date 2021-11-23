@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
 
-  > * + * {
+  > .custom-button:not(:first-child) {
     margin-left: 8px;
   }
 `
