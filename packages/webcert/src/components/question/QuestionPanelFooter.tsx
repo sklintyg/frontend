@@ -23,7 +23,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const onCannotComplementClick = () => {
     if (!cannotComplement) return
 
-    if (cannotComplement.answerWithCerticate) {
+    if (cannotComplement.answerWithCertificate) {
       dispatch(complementCertificate({ message: cannotComplement.message, history: history }))
     } else {
       dispatch(answerComplementCertificate(cannotComplement.message))

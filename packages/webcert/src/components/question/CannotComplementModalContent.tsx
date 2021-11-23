@@ -2,12 +2,12 @@ import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
 import { css } from 'styled-components'
 
-const mandatoryIconAdditonalStyles = css`
+const mandatoryIconAdditionalStyles = css`
   top: -4px;
 `
 
 export interface CannotComplementData {
-  answerWithCerticate: boolean
+  answerWithCertificate: boolean
   message: string
 }
 
@@ -19,13 +19,13 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTextArea({ ...textArea, display: true, name: event.target.id })
-    onChange({ answerWithCerticate: event.target.id === 'ANSWER_WITH_CERTIFICATE', message: textArea.value })
+    setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
+    onChange({ answerWithCertificate: event.target.id === 'ANSWER_WITH_CERTIFICATE', message: '' })
   }
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea({ ...textArea, value: event.target.value })
-    onChange({ answerWithCerticate: textArea.name === 'ANSWER_WITH_CERTIFICATE', message: event.target.value })
+    onChange({ answerWithCertificate: textArea.name === 'ANSWER_WITH_CERTIFICATE', message: event.target.value })
   }
 
   return (
@@ -42,7 +42,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
         {textArea.display && textArea.name === 'ANSWER_WITH_CERTIFICATE' && (
           <div className={'iu-ml-700 iu-my-300'}>
             <p className="iu-fs-200 iu-mb-300">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
+              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
               Kommentera varför det inte är möjligt att ange ytterligare medicinsk information. När du skickar svaret skapas en kopia av
               intyget med din kommentar i fältet "Övriga upplysningar". Intyget måste därefter signeras och skickas till Försäkringskassan.
             </p>
@@ -62,7 +62,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
               <p>Ingen medicinsk information får anges.</p>
             </InfoBox>
             <p className="iu-fs-200 iu-my-300">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
+              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
               Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
               så ska du delge Försäkringskassan det genom att svara med ett meddelande.{' '}
             </p>
