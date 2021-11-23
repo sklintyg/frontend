@@ -59,6 +59,7 @@ export const TextInput = styled.input`
 
 export const DateGrid = styled.div`
   display: grid;
+  align-items: baseline;
   grid-template-columns: 1fr 1fr;
   @media (max-width: 1200px) {
     grid-template-columns: 1fr;

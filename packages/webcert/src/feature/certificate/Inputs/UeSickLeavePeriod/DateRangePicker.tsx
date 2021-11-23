@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { addDays, isBefore, isValid } from 'date-fns'
-import { QuestionValidationTexts, ValidationError } from '@frontend/common'
-import _ from 'lodash'
+import { isDateRangeValid, QuestionValidationTexts, ValidationError } from '@frontend/common'
 import {
   Checkbox,
   getValidDate,
@@ -69,27 +68,17 @@ const DateRangePicker: React.FC<Props> = ({
   const previousToDateString = usePrevious(toDateInput)
 
   useEffect(() => {
-    const updateCheckbox = () => {
-      if (fromDateInput || toDateInput) {
-        setDateChecked(true)
-      } else {
-        setDateChecked(false)
-      }
-    }
-
     if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
-      updateCheckbox()
+      updateCheckbox(fromDateInput, toDateInput)
 
-      if (shouldDispatchUpdatedValues(fromDateInput!, toDateInput!)) {
+      if (isDateRangeValid(fromDateInput!, toDateInput!)) {
         updateValue(periodId, fromDateInput, toDateInput)
         updateWorkingPeriod(fromDateInput, toDateInput)
+      } else if (shouldClearPreviousPeriod(fromDateInput!, toDateInput!, previousFromDateString, previousToDateString)) {
+        updateValue(periodId, null, null)
       }
     }
   }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString])
-
-  const shouldDispatchUpdatedValues = (fromDateInput: string, toDateInput: string) => {
-    return (isValid(getValidDate(fromDateInput)) && isValid(getValidDate(toDateInput))) || (!fromDateInput && !toDateInput)
-  }
 
   useEffect(() => {
     updateWorkingPeriod(fromDateInput, toDateInput)
@@ -98,6 +87,18 @@ const DateRangePicker: React.FC<Props> = ({
   useEffect(() => {
     toggleShowValidationError(fromDate, toDate)
   }, [])
+
+  const updateCheckbox = (fromDateInput: string | null, toDateInput: string | null) => {
+    if (fromDateInput || toDateInput) {
+      setDateChecked(true)
+    } else {
+      setDateChecked(false)
+    }
+  }
+
+  const shouldClearPreviousPeriod = (updatedFrom: string, updatedTo: string, previousFrom: string, previousTo: string): boolean => {
+    return !isDateRangeValid(updatedFrom, updatedTo) && isDateRangeValid(previousFrom, previousTo)
+  }
 
   const updateWorkingPeriod = (fromDateString: string | null, toDateString: string | null) => {
     if (!baseWorkHours || baseWorkHours === '0' || baseWorkHours === '') {
@@ -312,7 +313,12 @@ const DateRangePicker: React.FC<Props> = ({
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
-      {!disabled && <QuestionValidationTexts validationErrors={validations.validationErrors}></QuestionValidationTexts>}
+      {!disabled && (
+        <div className={'iu-mb-400'}>
+          <QuestionValidationTexts validationErrors={validations.validationErrors} />
+        </div>
+      )}
+
       {workHoursPerWeek && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
