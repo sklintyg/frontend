@@ -313,7 +313,11 @@ const DateRangePicker: React.FC<Props> = ({
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
-      {!disabled && <QuestionValidationTexts validationErrors={validations.validationErrors}/>}
+      {!disabled && (
+        <div className={'iu-mb-400'}>
+          <QuestionValidationTexts validationErrors={validations.validationErrors} />
+        </div>
+      )}
 
       {workHoursPerWeek && workDaysPerWeek && (
         <p className="iu-color-main">
