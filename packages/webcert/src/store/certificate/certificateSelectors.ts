@@ -188,3 +188,7 @@ export const getIsPatientIdUpdated = (state: RootState): boolean =>
 
 export const getPatient = (state: RootState): Patient | undefined =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient : undefined
+
+export const getResponsibleHospName = (state: RootState): string => {
+  return state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.responsibleHospName : ''
+}

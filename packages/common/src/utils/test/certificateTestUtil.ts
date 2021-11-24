@@ -215,6 +215,7 @@ export const getCertificate = (): Certificate => {
       testCertificate: false,
       sent: false,
       latestMajorVersion: true,
+      responsibleHospName: '',
       careProvider: {
         unitId: '',
         address: '',
