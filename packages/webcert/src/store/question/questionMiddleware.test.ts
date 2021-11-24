@@ -27,10 +27,12 @@ import {
   QuestionsResponse,
   sendAnswer,
   sendQuestion,
+  sendQuestionError,
   updateComplements,
   updateCreateQuestionsAvailable,
   updateQuestionDraft,
   updateQuestions,
+  updateSendingQuestion,
   validateQuestion,
 } from './questionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
@@ -326,6 +328,7 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.questions[0]).toEqual(expectedQuestion)
       expect(testStore.getState().ui.uiQuestion.questionDraft).not.toEqual(questionDraft)
       expect(testStore.getState().ui.uiQuestion.isQuestionDraftSaved).toBeFalsy()
+      expect(testStore.getState().ui.uiQuestion.isSendingQuestion).toBeFalsy()
     })
 
     it('shall not send question if invalid', async () => {
@@ -350,6 +353,34 @@ describe('Test question middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.isDisplayValidationMessages).toBeTruthy()
+    })
+
+    it('shall set isSending to true when sending question', async () => {
+      const questionDraft = createQuestionDraft()
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(validateQuestion(questionDraft))
+
+      testStore.dispatch(sendQuestion(questionDraft))
+
+      await flushPromises()
+      const updateSendingQuestionAction = dispatchedActions.find((action) => updateSendingQuestion.match(action))
+      expect(updateSendingQuestionAction?.payload).toEqual(true)
+    })
+
+    it('shall set isSending to false when sending question fails', async () => {
+      testStore.dispatch(updateSendingQuestion(true))
+      testStore.dispatch(
+        sendQuestionError({
+          error: {
+            errorCode: 'UNEXPECTED_ERROR',
+            api: 'POST /api/send',
+            message: 'something went wrong',
+          },
+        })
+      )
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.isSendingQuestion).toEqual(false)
     })
   })
 

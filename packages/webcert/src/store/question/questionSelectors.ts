@@ -18,3 +18,5 @@ export const isCreateQuestionsAvailable = (state: RootState): boolean => state.u
 export const isAnswerDraftSaved = (questionId: string) => (state: RootState): boolean => state.ui.uiQuestion.isAnswerDraftSaved[questionId]
 
 export const isDisplayingCertificateDraft = (state: RootState): boolean => state.ui.uiQuestion.isDisplayingCertificateDraft
+
+export const isSendingQuestion = (state: RootState): boolean => state.ui.uiQuestion.isSendingQuestion
