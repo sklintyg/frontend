@@ -16,11 +16,15 @@ interface Props {
 const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
   if (!isReplaced(certificateMetadata)) return null
 
+  const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
+
+  if (replacedCertificateStatus !== CertificateStatus.SIGNED && certificateMetadata.status === CertificateStatus.REVOKED) {
+    return null
+  }
+
   const locked = isLocked(certificateMetadata)
 
   const getText = () => {
-    const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
-
     switch (replacedCertificateStatus) {
       case CertificateStatus.SIGNED:
         return (

@@ -1,18 +1,12 @@
 import React from 'react'
-import { CertificateEvent, CertificateStatus, getComplementedByCertificateEvent, StatusWithIcon } from '@frontend/common/src'
+import { CertificateEvent, CertificateStatus, StatusWithIcon } from '@frontend/common/src'
 import { Link } from 'react-router-dom'
 
 interface Props {
-  historyEntries: CertificateEvent[]
+  certificateEvent: CertificateEvent
 }
 
-const HasBeenComplementedStatus: React.FC<Props> = ({ historyEntries }) => {
-  const certificateEvent = getComplementedByCertificateEvent(historyEntries)
-
-  if (!certificateEvent) {
-    return null
-  }
-
+const HasBeenComplementedStatus: React.FC<Props> = ({ certificateEvent }) => {
   const getText = () => {
     const relatedCertificateStatus = certificateEvent.relatedCertificateStatus
     switch (relatedCertificateStatus) {

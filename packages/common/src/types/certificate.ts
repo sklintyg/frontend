@@ -359,10 +359,11 @@ export interface CertificateRelation {
 }
 
 export enum CertificateRelationType {
-  REPLACE = 'REPLACE',
+  REPLACED = 'REPLACED',
   COPIED = 'COPIED',
   RENEW = 'RENEW',
   COMPLEMENTED = 'COMPLEMENTED',
+  EXTENDED = 'EXTENDED',
 }
 
 export interface CertificateEvent {
