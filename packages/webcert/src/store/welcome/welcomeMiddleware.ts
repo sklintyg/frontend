@@ -1,21 +1,17 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import {
   createNewCertificate,
-  createNewCertificateError,
   createNewCertificateStarted,
   createNewCertificateSuccess,
   getCertificateTypes,
-  getCertificateTypesError,
   getCertificateTypesStarted,
   getCertificateTypesSuccess,
   getPatients,
-  getPatientsError,
   getPatientsStarted,
   getPatientsSuccess,
   loginUser,
-  loginUserError,
   loginUserStarted,
   loginUserSuccess,
   updateCertificateId,
@@ -32,7 +28,7 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
       method: 'GET',
       onStart: getCertificateTypesStarted.type,
       onSuccess: getCertificateTypesSuccess.type,
-      onError: getCertificateTypesError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -48,7 +44,7 @@ const handleGetPatients: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =>
       method: 'GET',
       onStart: getPatientsStarted.type,
       onSuccess: getPatientsSuccess.type,
-      onError: getPatientsError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -65,7 +61,7 @@ const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
       data: action.payload,
       onStart: createNewCertificateStarted.type,
       onSuccess: createNewCertificateSuccess.type,
-      onError: createNewCertificateError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -82,7 +78,7 @@ const handleLoginUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
       data: action.payload,
       onStart: loginUserStarted.type,
       onSuccess: loginUserSuccess.type,
-      onError: loginUserError.type,
+      onError: apiGenericError.type,
     })
   )
 }

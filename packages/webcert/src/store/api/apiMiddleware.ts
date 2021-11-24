@@ -16,8 +16,6 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
     dispatch({ type: onStart, payload: { ...onArgs } })
   }
 
-  next(action)
-
   try {
     const response = await axios.request({
       url,
