@@ -44,6 +44,8 @@ export const getGotoId = (state: RootState): string | undefined => state.ui.uiCe
 
 export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
 
+export const getIsRoutedFromDeletedCertificate = () => (state: RootState) => state.ui.uiCertificate.routedFromDeletedCertificate
+
 export const getIsUnsigned = () => (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.UNSIGNED
 

@@ -46,6 +46,7 @@ import {
   highlightCertificateDataElement,
   unstyleCertificateDataElement,
   setReadyForSign,
+  updateRoutedFromDeletedCertificate,
 } from './certificateActions'
 import { CertificateDataElementStyleEnum } from '@frontend/common/src'
 
@@ -61,6 +62,7 @@ interface CertificateState {
   complements: Complement[]
   gotoCertificateDataElement?: GotoCertificateDataElement
   signingData?: SigningData
+  routedFromDeletedCertificate: boolean
 }
 
 const initialState: CertificateState = {
@@ -72,6 +74,7 @@ const initialState: CertificateState = {
   isValidForSigning: false,
   isDeleted: false,
   complements: [],
+  routedFromDeletedCertificate: false,
 }
 
 const certificateReducer = createReducer(initialState, (builder) =>
@@ -294,6 +297,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
       }
 
       state.certificate.metadata.readyForSign = action.payload
+    })
+    .addCase(updateRoutedFromDeletedCertificate, (state, action) => {
+      state.routedFromDeletedCertificate = action.payload
     })
 )
 

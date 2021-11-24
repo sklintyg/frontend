@@ -1,16 +1,14 @@
 import React from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { AppHeader } from '@frontend/common'
 import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
-import { AUTHORIZATION_PROBLEM, TIMEOUT } from '../store/error/errorReducer'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import errorImage from '../images/fel-1.svg'
 import WCDynamicLink from '../components/utils/WCDynamicLink'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
+import { ErrorCode } from '../store/error/errorReducer'
 
 const Root = styled.div`
   height: 100vh;
@@ -31,7 +29,7 @@ const ErrorPage: React.FC = () => {
 
   const getContent = () => {
     switch (errorCode) {
-      case TIMEOUT:
+      case ErrorCode.TIMEOUT:
         return (
           <>
             <strong>Du är utloggad</strong>
@@ -41,7 +39,7 @@ const ErrorPage: React.FC = () => {
             </p>
           </>
         )
-      case AUTHORIZATION_PROBLEM:
+      case ErrorCode.AUTHORIZATION_PROBLEM:
         return (
           <>
             <strong>Behörighet saknas</strong>

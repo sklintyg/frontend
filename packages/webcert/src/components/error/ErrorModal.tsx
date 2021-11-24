@@ -4,14 +4,11 @@ import FocusTrap from 'focus-trap-react'
 import { clearError } from '../../store/error/errorActions'
 import { useDispatch } from 'react-redux'
 import { ErrorData } from '../../store/error/errorReducer'
-import styled from 'styled-components'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ErrorCopyText from './ErrorCopyText'
 
 interface ErrorModalProps {
   onConfirm?: () => void
-  confirmButtonText: string
+  confirmButtonText?: string
   closeButtonText?: string
   content: string
   errorData: ErrorData
@@ -34,7 +31,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonText, c
   const getButtons = () => {
     return (
       <>
-        <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />
+        {confirmButtonText && <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />}
         <CustomButton onClick={handleClose} text={closeButtonText} />
       </>
     )

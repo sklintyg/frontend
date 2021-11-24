@@ -2,7 +2,6 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
   answerComplementCertificate,
-  answerComplementCertificateError,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
   autoSaveCertificate,
@@ -10,26 +9,22 @@ import {
   autoSaveCertificateError,
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
+  certificateApiGenericError,
   complementCertificate,
-  complementCertificateError,
   complementCertificateStarted,
   complementCertificateSuccess,
   copyCertificate,
   copyCertificateCompleted,
-  copyCertificateError,
   copyCertificateStarted,
   copyCertificateSuccess,
   createCertificateFromCandidate,
-  createCertificateFromCandidateError,
   createCertificateFromCandidateStarted,
   createCertificateFromCandidateSuccess,
   createCertificateFromTemplate,
-  createCertificateFromTemplateError,
   createCertificateFromTemplateStarted,
   createCertificateFromTemplateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
-  deleteCertificateError,
   deleteCertificateStarted,
   deleteCertificateSuccess,
   disableCertificateDataElement,
@@ -38,15 +33,12 @@ import {
   fakeSignCertificateSuccess,
   forwardCertificate,
   forwardCertificateCompleted,
-  forwardCertificateError,
   forwardCertificateStarted,
   forwardCertificateSuccess,
   getCertificate,
   getCertificateCompleted,
-  getCertificateError,
   getCertificateEvents,
   getCertificateEventsCompleted,
-  getCertificateEventsError,
   getCertificateEventsStarted,
   getCertificateEventsSuccess,
   getCertificateStarted,
@@ -59,26 +51,21 @@ import {
   printCertificate,
   readyForSign,
   readyForSignCompleted,
-  readyForSignError,
   readyForSignStarted,
   readyForSignSuccess,
   renewCertificate,
   renewCertificateCompleted,
-  renewCertificateError,
   renewCertificateStarted,
   renewCertificateSuccess,
   replaceCertificate,
   replaceCertificateCompleted,
-  replaceCertificateError,
   replaceCertificateStarted,
   replaceCertificateSuccess,
   revokeCertificate,
   revokeCertificateCompleted,
-  revokeCertificateError,
   revokeCertificateStarted,
   revokeCertificateSuccess,
   sendCertificate,
-  sendCertificateError,
   sendCertificateSuccess,
   setCertificateDataElement,
   setCertificateUnitData,
@@ -89,7 +76,6 @@ import {
   showSpinner,
   showValidationErrors,
   signCertificateCompleted,
-  signCertificateError,
   startSignCertificate,
   startSignCertificateSuccess,
   unhideCertificateDataElement,
@@ -103,6 +89,7 @@ import {
   updateCertificateUnit,
   updateCertificateVersion,
   updateGotoCertificateDataElement,
+  updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -112,14 +99,14 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataValidationType } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
-import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
 import _ from 'lodash'
+import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -130,7 +117,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
       method: 'GET',
       onStart: getCertificateStarted.type,
       onSuccess: getCertificateSuccess.type,
-      onError: getCertificateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { certificateId: action.payload },
     })
   )
@@ -147,19 +134,6 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
-const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  if (action.payload.error?.errorCode === AUTHORIZATION_PROBLEM) {
-    dispatch(
-      throwError({
-        certificateId: action.payload.certificateId,
-        errorCode: action.payload.error.errorCode,
-        message: action.payload.error.message,
-        type: ErrorType.ROUTE,
-      })
-    )
-  }
-}
-
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
@@ -167,7 +141,7 @@ const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: Middlewa
       method: 'GET',
       onStart: getCertificateEventsStarted.type,
       onSuccess: getCertificateEventsSuccess.type,
-      onError: getCertificateEventsError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -184,18 +158,24 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${action.payload}/${certificate.metadata.version}`,
+      url: `/api/certificate/${action.payload.certificateId}/${certificate.metadata.version}`,
       method: 'DELETE',
       onStart: deleteCertificateStarted.type,
       onSuccess: deleteCertificateSuccess.type,
-      onError: deleteCertificateError.type,
+      onError: certificateApiGenericError.type,
+      onArgs: { history: action.payload.history, metadata: certificate.metadata },
     })
   )
 }
 
-const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
-  dispatch(updateCertificateAsDeleted())
-  dispatch(hideSpinner())
+const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (action.payload.metadata.relations?.parent?.certificateId) {
+    dispatch(updateRoutedFromDeletedCertificate(true))
+    action.payload.history.push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`)
+  } else {
+    dispatch(updateCertificateAsDeleted())
+    dispatch(hideSpinner())
+  }
   dispatch(deleteCertificateCompleted())
 }
 
@@ -213,7 +193,7 @@ const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
       },
       onStart: forwardCertificateStarted.type,
       onSuccess: forwardCertificateSuccess.type,
-      onError: forwardCertificateError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
@@ -236,7 +216,7 @@ const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: Middle
       method: 'POST',
       onStart: readyForSignStarted.type,
       onSuccess: readyForSignSuccess.type,
-      onError: readyForSignError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -259,7 +239,7 @@ const handleSendCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       url: '/api/certificate/' + certificate.metadata.id + '/send',
       method: 'POST',
       onSuccess: sendCertificateSuccess.type,
-      onError: sendCertificateError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -293,7 +273,7 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
         url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
         method: 'POST',
         onSuccess: startSignCertificateSuccess.type,
-        onError: signCertificateError.type,
+        onError: apiGenericError.type,
       })
     )
   }
@@ -314,7 +294,7 @@ const handleFakeSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
       method: 'POST',
       data: certificate,
       onSuccess: fakeSignCertificateSuccess.type,
-      onError: signCertificateError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
@@ -340,7 +320,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       data: action.payload,
       onStart: revokeCertificateStarted.type,
       onSuccess: revokeCertificateSuccess.type,
-      onError: revokeCertificateError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
@@ -367,7 +347,7 @@ const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState 
       },
       onStart: complementCertificateStarted.type,
       onSuccess: complementCertificateSuccess.type,
-      onError: complementCertificateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { history: action.payload.history },
     })
   )
@@ -394,7 +374,7 @@ const handleAnswerComplementCertificate: Middleware<Dispatch> = ({ dispatch, get
       },
       onStart: answerComplementCertificateStarted.type,
       onSuccess: answerComplementCertificateSuccess.type,
-      onError: answerComplementCertificateError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
@@ -421,7 +401,7 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
       },
       onStart: replaceCertificateStarted.type,
       onSuccess: replaceCertificateSuccess.type,
-      onError: replaceCertificateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
     })
   )
@@ -444,7 +424,7 @@ const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
       method: 'POST',
       onStart: renewCertificateStarted.type,
       onSuccess: renewCertificateSuccess.type,
-      onError: renewCertificateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
     })
   )
@@ -469,7 +449,7 @@ const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, g
       method: 'POST',
       onStart: createCertificateFromTemplateStarted.type,
       onSuccess: createCertificateFromTemplateSuccess.type,
-      onError: createCertificateFromTemplateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
     })
   )
@@ -493,7 +473,7 @@ const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({ dispatch, 
       method: 'POST',
       onStart: createCertificateFromCandidateStarted.type,
       onSuccess: createCertificateFromCandidateSuccess.type,
-      onError: createCertificateFromCandidateError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
@@ -520,7 +500,7 @@ const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       },
       onStart: copyCertificateStarted.type,
       onSuccess: copyCertificateSuccess.type,
-      onError: copyCertificateError.type,
+      onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
     })
   )
@@ -530,6 +510,11 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(hideSpinner())
   dispatch(copyCertificateCompleted())
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
+const handleGenericCertificateApiError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(hideSpinner())
+  dispatch(throwError(createErrorRequestFromApiError(action.payload.error, action.payload.certificateId)))
 }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
@@ -573,9 +558,17 @@ const handleAutoSaveCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(autoSaveCertificateCompleted())
 }
 
-const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+const handleAutoSaveCertificateError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  if (!autoSaveCertificateError.match(action)) {
+    return
+  }
   dispatch(autoSaveCertificateCompleted())
-  dispatch(throwError({ errorCode: CONCURRENT_MODIFICATION, type: ErrorType.MODAL }))
+
+    if (action.payload.error.errorCode === 'UNKNOWN_INTERNAL_PROBLEM') {
+    dispatch(throwError(createConcurrencyErrorRequestFromApiError(action.payload.error)))
+  } else {
+    dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+  }
 }
 
 const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
@@ -681,7 +674,6 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
 const middlewareMethods = {
   [getCertificate.type]: handleGetCertificate,
   [getCertificateSuccess.type]: handleGetCertificateSuccess,
-  [getCertificateError.type]: handleGetCertificateError,
   [getCertificateEvents.type]: handleGetCertificateEvents,
   [getCertificateEventsSuccess.type]: handleGetCertificateEventsSuccess,
   [startSignCertificate.type]: handleStartSignCertificate,
@@ -723,6 +715,7 @@ const middlewareMethods = {
   [answerComplementCertificateSuccess.type]: handleAnswerComplementCertificateSuccess,
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
+  [certificateApiGenericError.type]: handleGenericCertificateApiError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
