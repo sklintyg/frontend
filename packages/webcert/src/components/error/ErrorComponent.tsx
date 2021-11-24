@@ -1,58 +1,45 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getActiveError } from '../../store/error/errorSelectors'
-import ErrorModal from './ErrorModal'
 import { useHistory } from 'react-router-dom'
-import { clearError } from '../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
+import ConcurrentModification from './modals/ConcurrentModification'
+import UnknownInternalProblem from './modals/UnknownInternalProblem'
+import InvalidState from './modals/InvalidState'
+import InvalidStateReplaced from './modals/InvalidStateReplaced'
+import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
+import AuthorizationProblem from './modals/AuthorizationProblem'
+import AuthorizationProblemConfidentialityMarking from './modals/AuthorizationProblemConfidentialityMarking'
 
 export interface ErrorRoute {
   errorCode: string
   errorId: string
 }
 
-export const CONCURRENT_MODIFICATION_ERROR_MESSAGE =
-  'Utkastet har samtidigt ändrats av en annan användare och kunde därför inte sparas. Ladda om sidan och försök igen.'
-
 const ErrorComponent: React.FC = () => {
   const activeError = useSelector(getActiveError)
   const history = useHistory()
-  const dispatch = useDispatch()
 
   if (!activeError) return null
-
-  const getModalOnClose = () => {
-    switch (activeError.errorCode) {
-      case ErrorCode.CONCURRENT_MODIFICATION:
-        return () => {
-          dispatch(clearError({ errorId: activeError.errorId }))
-          window.location.reload()
-        }
-      default:
-        return undefined
-    }
-  }
 
   const getModal = () => {
     switch (activeError.errorCode) {
       case ErrorCode.CONCURRENT_MODIFICATION:
-        return (
-          <ErrorModal
-            errorData={activeError}
-            confirmButtonText={'Ladda om intyget'}
-            onConfirm={getModalOnClose()}
-            content={CONCURRENT_MODIFICATION_ERROR_MESSAGE}
-          />
-        )
-      case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
-        return (
-          <ErrorModal
-            errorData={activeError}
-            content={'Ett tekniskt problem inträffade. Försök igen och kontakta supporten om problemet kvarstår.'}
-          />
-        )
+        return <ConcurrentModification errorData={activeError} />
+      case (ErrorCode.INTERNAL_PROBLEM, ErrorCode.UNKNOWN_INTERNAL_PROBLEM):
+        return <UnknownInternalProblem errorData={activeError} />
+      case ErrorCode.INVALID_STATE:
+        return <InvalidState errorData={activeError} />
+      case ErrorCode.INVALID_STATE_REPLACED:
+        return <InvalidStateReplaced errorData={activeError} />
+      case ErrorCode.COMPLEMENT_INTYG_EXISTS:
+        return <ComplementaryCertificateExists errorData={activeError} />
+      case ErrorCode.AUTHORIZATION_PROBLEM:
+        return <AuthorizationProblem errorData={activeError} />
+      case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING:
+        return <AuthorizationProblemConfidentialityMarking errorData={activeError} />
       default:
-        return null
+        return <UnknownInternalProblem errorData={activeError} />
     }
   }
 
