@@ -6,26 +6,15 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../../store/reducers'
 import userEvent from '@testing-library/user-event'
-import MockAdapter from 'axios-mock-adapter'
-import ErrorComponent from './ErrorComponent'
-import {
-  CONCURRENT_MODIFICATION,
-  CONCURRENT_MODIFICATION_ERROR_MESSAGE,
-  ErrorRequest,
-  ErrorType,
-  TIMEOUT,
-} from '../../store/error/errorReducer'
+import ErrorComponent, { CONCURRENT_MODIFICATION_ERROR_MESSAGE } from './ErrorComponent'
+import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
 import { clearError, setError, throwError } from '../../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
 
-let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
-
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const location: Location = window.location
 delete window.location
@@ -62,14 +51,14 @@ describe('ErrorComponent', () => {
 
   describe('ErrorType.MODAL, CONCURRENT_MODIFICATION', () => {
     it('shall display concurrent-modification modal if concurrent modification error exists', () => {
-      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
 
       expect(screen.getByText(CONCURRENT_MODIFICATION_ERROR_MESSAGE)).toBeInTheDocument()
     })
 
     it('shall reload page on confirm', () => {
-      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
 
       userEvent.click(screen.getByText('Ladda om intyget'))
@@ -78,7 +67,7 @@ describe('ErrorComponent', () => {
 
     it('shall clear error on close', () => {
       clearDispatchedActions()
-      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
 
       userEvent.click(screen.getByText('Stäng'))
@@ -89,7 +78,7 @@ describe('ErrorComponent', () => {
     })
 
     it('shall display errorId', () => {
-      setErrorState(ErrorType.MODAL, CONCURRENT_MODIFICATION)
+      setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
 
       const error = dispatchedActions.find((action) => setError.match(action))
@@ -99,7 +88,7 @@ describe('ErrorComponent', () => {
 
   describe('ErrorType.ROUTE, CONCURRENT_MODIFICATION', () => {
     it('shall route user to error page if timeout error exists', () => {
-      setErrorState(ErrorType.ROUTE, TIMEOUT)
+      setErrorState(ErrorType.ROUTE, ErrorCode.TIMEOUT)
       renderComponent()
 
       expect(history.location.pathname).toBe('/error')
@@ -107,7 +96,7 @@ describe('ErrorComponent', () => {
   })
 })
 
-const setErrorState = (type: ErrorType, errorCode: string) => {
+const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
   const error: ErrorRequest = {
     type: type,
     errorCode: errorCode,

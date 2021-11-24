@@ -7,6 +7,8 @@ import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
+  CertificateApiGenericError,
+  certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
@@ -27,7 +29,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
 import { throwError } from '../error/errorActions'
-import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
+import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorCode, ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -52,49 +54,50 @@ describe('Test certificate middleware', () => {
     clearDispatchedActions()
   })
 
-  describe('Handle getCertificate error', () => {
+  describe('Handle certificateApiGenericError', () => {
     const expectedError = {
       error: {
-        errorCode: AUTHORIZATION_PROBLEM,
+        api: 'POST /api/call',
+        errorCode: 'AUTHORIZATION_PROBLEM',
         message: 'This is the message',
       },
       certificateId: 'certificateId',
     }
 
-    it('shall throw error if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction).toBeTruthy()
     })
 
-    it('shall throw error with type ROUTE if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with type ROUTE', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
     })
 
-    it('shall throw error with errorCode AUTHORIZATION_PROBLEM if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with errorCode AUTHORIZATION_PROBLEM', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(AUTHORIZATION_PROBLEM)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
 
-    it('shall throw error with message if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with message if exists', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.message).toEqual(expectedError.error.message)
+      expect(throwErrorAction?.payload.message).toContain(expectedError.error.message)
     })
 
-    it('shall throw error with certificateId if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with certificateId if exists', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
@@ -103,8 +106,16 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle autoSave error', () => {
+    const expectedError = {
+      error: {
+        api: 'POST /api/call',
+        errorCode: 'UNKNOWN_INTERNAL_PROBLEM',
+        message: 'This is the message',
+      }
+    }
+
     it('shall throw error if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
@@ -112,19 +123,27 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw error with type MODAL if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
     })
 
-    it('shall throw error with errorCode concurrent-editing if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+    it('shall throw error with errorCode CONCURRENT_MODIFICATION if autosave fails with UNKNOWN_INTERNAL_PROBLEM', async () => {
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(CONCURRENT_MODIFICATION)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.CONCURRENT_MODIFICATION)
+    })
+
+    it('shall throw error with original errorCode if its NOT UKNOWN_INTERNAL_ERROR', async () => {
+      testStore.dispatch(autoSaveCertificateError({ error: { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM } }))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
   })
 

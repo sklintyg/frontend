@@ -4,43 +4,34 @@ import {
   clearQuestionDraft,
   createAnswer,
   createQuestion,
-  createQuestionError,
   createQuestionStarted,
   createQuestionSuccess,
   deleteAnswer,
-  deleteAnswerError,
   deleteAnswerStarted,
   deleteAnswerSuccess,
   deleteQuestion,
-  deleteQuestionError,
   deleteQuestionStarted,
   deleteQuestionSuccess,
   editAnswer,
   editQuestion,
   getComplementQuestions,
   getQuestions,
-  getQuestionsError,
   getQuestionsStarted,
   getQuestionsSuccess,
   handleQuestion,
-  handleQuestionError,
   handleQuestionStarted,
   handleQuestionSuccess,
   resetState,
   saveAnswer,
-  saveAnswerError,
   saveAnswerStarted,
   saveAnswerSuccess,
   saveQuestion,
-  saveQuestionError,
   saveQuestionStarted,
   saveQuestionSuccess,
   sendAnswer,
-  sendAnswerError,
   sendAnswerStarted,
   sendAnswerSuccess,
   sendQuestion,
-  sendQuestionError,
   sendQuestionStarted,
   sendQuestionSuccess,
   updateAnswer,
@@ -61,7 +52,7 @@ import {
 } from './questionActions'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 
@@ -72,7 +63,7 @@ export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: Middlewar
       method: 'GET',
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
-      onError: getQuestionsError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -84,7 +75,7 @@ export const handleGetComplementQuestions: Middleware<Dispatch> = ({ dispatch }:
       method: 'GET',
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
-      onError: getQuestionsError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -155,7 +146,7 @@ export const handleDeleteQuestion: Middleware<Dispatch> = ({ dispatch }: Middlew
       method: 'DELETE',
       onStart: deleteQuestionStarted.type,
       onSuccess: deleteQuestionSuccess.type,
-      onError: deleteQuestionError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -192,7 +183,7 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => () => 
       },
       onStart: saveQuestionStarted.type,
       onSuccess: saveQuestionSuccess.type,
-      onError: saveQuestionError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -213,7 +204,7 @@ export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch, getState 
       },
       onStart: createQuestionStarted.type,
       onSuccess: createQuestionSuccess.type,
-      onError: createQuestionError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -238,7 +229,7 @@ export const handleSendQuestion: Middleware<Dispatch> = ({ dispatch, getState })
       },
       onStart: sendQuestionStarted.type,
       onSuccess: sendQuestionSuccess.type,
-      onError: sendQuestionError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -271,7 +262,7 @@ export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
       },
       onStart: saveAnswerStarted.type,
       onSuccess: saveAnswerSuccess.type,
-      onError: saveAnswerError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -290,7 +281,7 @@ export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
       },
       onStart: sendAnswerStarted.type,
       onSuccess: sendAnswerSuccess.type,
-      onError: sendAnswerError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -306,7 +297,7 @@ export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch }) => () => 
       method: 'DELETE',
       onStart: deleteAnswerStarted.type,
       onSuccess: deleteAnswerSuccess.type,
-      onError: deleteAnswerError.type,
+      onError: apiGenericError.type,
     })
   )
 }
@@ -327,7 +318,7 @@ export const handleHandleQuestion: Middleware<Dispatch> = ({ dispatch }) => () =
       },
       onStart: handleQuestionStarted.type,
       onSuccess: handleQuestionSuccess.type,
-      onError: handleQuestionError.type,
+      onError: apiGenericError.type,
     })
   )
 }

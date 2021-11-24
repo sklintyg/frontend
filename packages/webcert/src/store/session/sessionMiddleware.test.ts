@@ -18,7 +18,7 @@ import {
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { throwError } from '../error/errorActions'
-import { ErrorType, TIMEOUT } from '../error/errorReducer'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -140,7 +140,7 @@ describe('Test session middleware', () => {
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(TIMEOUT)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.TIMEOUT)
     })
 
     it('shall stop polling if not authenticated', async () => {
@@ -155,6 +155,14 @@ describe('Test session middleware', () => {
   })
 
   describe('Handle Get Session Status Error', () => {
+    const expectedError = {
+      error: {
+        api: 'POST /api/call',
+        errorCode: 'AUTHORIZATION_PROBLEM',
+        message: 'This is the message',
+      },
+    }
+
     beforeEach(() => {
       testStore.dispatch(setSessionStatus({ authenticated: true, hasSession: true, secondsUntilExpire: 9999 }))
       testStore.dispatch(setSessionStatusPending(true))
@@ -162,21 +170,21 @@ describe('Test session middleware', () => {
 
     it('shall reset session status', async () => {
       const sessionStatus = { authenticated: false, hasSession: false, secondsUntilExpire: 0 }
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       expect(testStore.getState().ui.uiSession.sessionStatus).toEqual(sessionStatus)
     })
 
     it('shall update session status pending to false', async () => {
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       expect(testStore.getState().ui.uiSession.pending).toEqual(false)
     })
 
     it('shall throw error if session status returns error', async () => {
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
@@ -184,25 +192,25 @@ describe('Test session middleware', () => {
     })
 
     it('shall throw error with type ROUTE if session status returns error', async () => {
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
     })
 
-    it('shall throw error with errorCode timeout if session status returns error', async () => {
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+    it('shall throw error with errorCode if session status returns error', async () => {
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(TIMEOUT)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
 
     it('shall stop polling if session status returns error', async () => {
       testStore.dispatch(startPoll())
 
-      testStore.dispatch(getSessionStatusError('Something went wrong!'))
+      testStore.dispatch(getSessionStatusError(expectedError))
 
       await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeFalsy()
@@ -243,6 +251,7 @@ describe('Test session middleware', () => {
 
 function getDummyUser(): User {
   return {
+    protectedPerson: false,
     hsaId: 'hsaid',
     loggedInCareProvider: getDummyUnit(),
     loggedInUnit: getDummyUnit(),

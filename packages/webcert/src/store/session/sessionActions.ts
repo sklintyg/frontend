@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { SessionStatus } from './sessionReducer'
+import {ApiError} from "../api/apiActions";
 
 const SESSION = '[Session]'
 
@@ -12,7 +13,13 @@ export const clearPollHandle = createAction(`${SESSION} Clear poll handle`)
 export const getSessionStatus = createAction(`${SESSION} Get session status`)
 export const getSessionStatusStarted = createAction(`${SESSION} Get session status started`)
 export const getSessionStatusSuccess = createAction<SessionStatus>(`${SESSION} Get session status success`)
-export const getSessionStatusError = createAction<string>(`${SESSION} Get session status error`)
+
+
+export interface SessionStatusError {
+  error: ApiError
+}
+
+export const getSessionStatusError = createAction<SessionStatusError>(`${SESSION} Get session status error`)
 
 export const setSessionStatusPending = createAction<boolean>(`${SESSION} Set session status pending`)
 export const setSessionStatus = createAction<SessionStatus>(`${SESSION} Set session status`)
