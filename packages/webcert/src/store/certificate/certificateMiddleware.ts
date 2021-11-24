@@ -162,7 +162,6 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       method: 'DELETE',
       onStart: deleteCertificateStarted.type,
       onSuccess: deleteCertificateSuccess.type,
-      onError: deleteCertificateError.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload.history, metadata: certificate.metadata },
     })
