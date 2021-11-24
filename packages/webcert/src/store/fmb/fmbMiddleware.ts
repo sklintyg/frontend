@@ -1,6 +1,6 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import {apiCallBegan, apiGenericError, apiSilentGenericError} from '../api/apiActions'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
@@ -37,7 +37,7 @@ export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }
       method: 'GET',
       onStart: getFMBDiagnosisCodeInfoStarted.type,
       onSuccess: getFMBDiagnosisCodeInfoSuccess.type,
-      onError: getFMBDiagnosisCodeInfoError.type,
+      onError: apiSilentGenericError.type,
       onArgs: {
         originalIcd10Code: action.payload.icd10Code,
         originalIcd10Description: action.payload.icd10Description,
@@ -196,7 +196,7 @@ export const handleValidateSickLeavePeriod: Middleware<Dispatch> = ({ dispatch }
       data: action.payload,
       onStart: validateSickLeavePeriodStarted.type,
       onSuccess: validateSickLeavePeriodSuccess.type,
-      onError: validateSickLeavePeriodError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }

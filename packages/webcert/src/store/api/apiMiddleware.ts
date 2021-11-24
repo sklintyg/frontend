@@ -1,11 +1,13 @@
-import { Middleware, MiddlewareAPI, Dispatch } from 'redux'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import axios from 'axios'
-import { apiCallBegan, apiCallFailed, apiCallSuccess } from './apiActions'
+import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
 import { AnyAction } from '@reduxjs/toolkit'
+import { throwError } from '../error/errorActions'
+import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 
-const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
+const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {
-    return next(action)
+    return
   }
 
   const { url, method, data, onStart, onSuccess, onError, onArgs } = action.payload
@@ -13,8 +15,6 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
   if (onStart) {
     dispatch({ type: onStart, payload: { ...onArgs } })
   }
-
-  next(action)
 
   try {
     const response = await axios.request({
@@ -33,8 +33,49 @@ const apiMiddleware: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispat
     dispatch(apiCallFailed(error.message))
 
     if (onError) {
-      dispatch({ type: onError, payload: { error: { ...error.response.data }, ...onArgs } })
+      dispatch({
+        type: onError,
+        payload: {
+          error: createApiError(method + ' ' + url, error.response, error.message),
+          ...onArgs,
+        },
+      })
     }
+  }
+}
+
+const handleApiGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+}
+
+const handleApiSilentGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
+}
+
+function createApiError(api: string, response: any, altMessage: string): ApiError {
+  if (!response) {
+    return { api, errorCode: 'UNKNOWN_INTERNAL_PROBLEM', message: altMessage }
+  }
+
+  if (response.data && response.data.errorCode) {
+    return { api, errorCode: response.data.errorCode, message: response.data.message }
+  }
+
+  const errorCode: string = response.status === 403 ? 'TIMEOUT' : 'UNKNOWN_INTERNAL_PROBLEM'
+  return { api, errorCode, message: response.status + ' - ' + response.statusText }
+}
+
+const middlewareMethods = {
+  [apiCallBegan.type]: handleApiCallBegan,
+  [apiGenericError.type]: handleApiGenericError,
+  [apiSilentGenericError.type]: handleApiSilentGenericError,
+}
+
+export const apiMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  next(action)
+
+  if (middlewareMethods.hasOwnProperty(action.type)) {
+    middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }
 

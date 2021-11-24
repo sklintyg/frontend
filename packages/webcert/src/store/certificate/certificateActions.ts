@@ -11,6 +11,7 @@ import {
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -159,6 +160,8 @@ const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
+
+const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
@@ -414,7 +417,11 @@ interface AutoSaveCertificateSuccess {
 
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
-export const autoSaveCertificateError = createAction<string>(AUTO_SAVE_ERROR)
+interface AutoSaveCertificateError {
+  error: ApiError
+}
+
+export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
 
 export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
 
@@ -487,3 +494,9 @@ export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIF
 
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
+
+export interface CertificateApiGenericError {
+  error: ApiError
+}
+
+export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
