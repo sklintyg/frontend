@@ -6,7 +6,12 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import {updateSendingQuestion, updateQuestionDraft, updateQuestionDraftSaved, validateQuestion} from '../../store/question/questionActions'
+import {
+  updateQuestionDraft,
+  updateQuestionDraftSaved,
+  updateSendingQuestion,
+  validateQuestion,
+} from '../../store/question/questionActions'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
