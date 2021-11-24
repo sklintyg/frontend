@@ -1,31 +1,30 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { clearError, setActiveCertificateId, setError } from './errorActions'
 
-export const CONCURRENT_MODIFICATION = 'CONCURRENT_MODIFICATION'
-export const TIMEOUT = 'TIMEOUT'
-export const UNEXPECTED_ERROR = 'UNEXPECTED_ERROR'
-export const AUTHORIZATION_PROBLEM = 'AUTHORIZATION_PROBLEM'
-export const CONCURRENT_MODIFICATION_ERROR_MESSAGE =
-  'Utkastet har samtidigt ändrats av en annan användare och kunde därför inte sparas. Ladda om sidan och försök igen.'
-
 export enum ErrorType {
   ROUTE = 'ROUTE',
   MODAL = 'MODAL',
+  SILENT = 'SILENT',
+}
+
+export enum ErrorCode {
+  CONCURRENT_MODIFICATION = 'CONCURRENT_MODIFICATION',
+  UNKNOWN_INTERNAL_PROBLEM = 'UNKNOWN_INTERNAL_PROBLEM',
+  TIMEOUT = 'TIMEOUT',
+  UNEXPECTED_ERROR = 'UNEXPECTED_ERROR',
+  AUTHORIZATION_PROBLEM = 'AUTHORIZATION_PROBLEM',
 }
 
 export interface ErrorData {
   type: ErrorType
-  // 'timeout',
-  // 'concurrent-editing',
-  // 'unexpected-error'
-  errorCode: string
+  errorCode: ErrorCode
   errorId: string
   certificateId?: string
 }
 
 export interface ErrorRequest {
   type: ErrorType
-  errorCode: string
+  errorCode: ErrorCode
   message?: string
   certificateId?: string
   stackTrace?: string
@@ -33,7 +32,7 @@ export interface ErrorRequest {
 
 export interface ErrorLogRequest {
   message: string
-  errorCode: string
+  errorCode: ErrorCode
   errorId: string
   certificateId?: string
   stackTrace?: string
