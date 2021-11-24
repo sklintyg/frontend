@@ -89,6 +89,7 @@ import {
   updateCertificateUnit,
   updateCertificateVersion,
   updateGotoCertificateDataElement,
+  updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
   validateCertificateCompleted,
@@ -157,18 +158,24 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${action.payload}/${certificate.metadata.version}`,
+      url: `/api/certificate/${action.payload.certificateId}/${certificate.metadata.version}`,
       method: 'DELETE',
       onStart: deleteCertificateStarted.type,
       onSuccess: deleteCertificateSuccess.type,
       onError: certificateApiGenericError.type,
+      onArgs: { history: action.payload.history, metadata: certificate.metadata },
     })
   )
 }
 
-const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
-  dispatch(updateCertificateAsDeleted())
-  dispatch(hideSpinner())
+const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (action.payload.metadata.relations?.parent?.certificateId) {
+    dispatch(updateRoutedFromDeletedCertificate(true))
+    action.payload.history.push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`)
+  } else {
+    dispatch(updateCertificateAsDeleted())
+    dispatch(hideSpinner())
+  }
   dispatch(deleteCertificateCompleted())
 }
 

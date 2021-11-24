@@ -1,5 +1,12 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, SigningMethod } from '@frontend/common'
+import {
+  Certificate,
+  CertificateRelation,
+  CertificateRelations,
+  CertificateRelationType,
+  CertificateStatus,
+  SigningMethod,
+} from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -14,6 +21,7 @@ import {
   ComplementCertificateSuccess,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  deleteCertificate,
   getCertificateError,
   hideSpinner,
   readyForSign,
@@ -345,6 +353,69 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('handleDeleteCertificate', () => {
+    it('shall set isDeleted true on successful deletion', async () => {
+      const certificate = getCertificate('test', '', '0', '', undefined)
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const isDeleted = testStore.getState().ui.uiCertificate.isDeleted
+      expect(isDeleted).toBe(true)
+    })
+
+    it('shall hide spinner on successful deletion', async () => {
+      const certificate = getCertificate('test', '', '0', '', undefined)
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const spinnerActive = testStore.getState().ui.uiCertificate.spinner
+      expect(spinnerActive).toBe(false)
+    })
+
+    it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {
+      mockHistory.push.mockClear()
+      const parentCertificate: CertificateRelation = {
+        certificateId: 'parent',
+        type: CertificateRelationType.RENEW,
+        created: '',
+        status: CertificateStatus.SIGNED,
+      }
+      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const routedFromDeletedCertificate = testStore.getState().ui.uiCertificate.routedFromDeletedCertificate
+      expect(routedFromDeletedCertificate).toBe(true)
+    })
+
+    it('shall route user after successful deletion if parent certificate exists', async () => {
+      mockHistory.push.mockClear()
+      const parentCertificate: CertificateRelation = {
+        certificateId: 'parent',
+        type: CertificateRelationType.RENEW,
+        created: '',
+        status: CertificateStatus.SIGNED,
+      }
+      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
+    })
+  })
+
   const setDefaultUser = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -352,11 +423,17 @@ describe('Test certificate middleware', () => {
   }
 })
 
-const getCertificate = (id: string, type?: string, version?: string, readyForSign?: string): Certificate => {
+const getCertificate = (
+  id: string,
+  type?: string,
+  version?: string,
+  readyForSign?: string,
+  relations?: CertificateRelations
+): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    metadata: { id, type, version, readyForSign },
+    metadata: { id, type, version, readyForSign, relations: relations },
     links: [],
   }
 }
@@ -377,6 +454,7 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
         config: {
           text: '',
           description: '',
+
           type: null,
         },
         value: {
