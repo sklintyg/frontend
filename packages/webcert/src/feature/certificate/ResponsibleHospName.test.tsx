@@ -4,17 +4,17 @@ import { Provider } from 'react-redux'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Certificate, CertificateStatus, User } from '@frontend/common'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import reducer from '../../../store/reducers'
-import ResponsibleHospNameNotification from './ResponsibleHospNameNotification'
-import { updateUser } from '../../../store/user/userActions'
+import { updateCertificate } from '../../store/certificate/certificateActions'
+import reducer from '../../store/reducers'
+import ResponsibleHospName from './ResponsibleHospName'
+import { updateUser } from '../../store/user/userActions'
 
 let testStore: EnhancedStore
 
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <ResponsibleHospNameNotification />
+      <ResponsibleHospName />
     </Provider>
   )
 }
@@ -25,7 +25,7 @@ const RESPONSIBLE_HOSP_NAME = 'Doctor Test-Doctorsson'
 const RESPONSIBLE_CERTIFICATE_ISSUER = 'Ansvarig intygsutfärdare'
 const NOT_SPECIFIED = 'Ej angivet'
 
-describe('ResponsibleHospNameNotification', () => {
+describe('ResponsibleHospName', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,

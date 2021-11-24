@@ -19,7 +19,7 @@ import { clearGotoCertificateDataElement } from '../../store/certificate/certifi
 import SigningForm from './Signing/SigningForm'
 import _ from 'lodash'
 import { CustomTooltip } from '@frontend/common/src'
-import ResponsibleHospNameNotification from './Notifications/ResponsibleHospNameNotification'
+import ResponsibleHospName from './ResponsibleHospName'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -64,7 +64,7 @@ const Certificate: React.FC = () => {
             <p> Försäkringskassan har begärt kompletteringar på intyget. </p>
           </InfoBox>
         )}
-        <ResponsibleHospNameNotification />
+        <ResponsibleHospName />
         {certificateStructure &&
           certificateStructure.map((data) => {
             if (data.component === ConfigTypes.CATEGORY) {
