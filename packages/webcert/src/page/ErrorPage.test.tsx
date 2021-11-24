@@ -5,10 +5,10 @@ import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../store/reducers'
-import { AUTHORIZATION_PROBLEM, TIMEOUT } from '../store/error/errorReducer'
 import ErrorPage from './ErrorPage'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../store/error/errorMiddleware'
+import { ErrorCode } from '../store/error/errorReducer'
 
 let testStore: EnhancedStore
 
@@ -56,7 +56,7 @@ describe('ErrorPage', () => {
 
   describe('TIMEOUT', () => {
     it('shall display that the user has been logged out due to inactivity', () => {
-      history.push('/error', { errorCode: TIMEOUT, errorId: ERROR_ID })
+      history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
       renderComponent()
 
       expect(screen.getByText(LOGGED_OUT_TITLE)).toBeInTheDocument()
@@ -66,7 +66,7 @@ describe('ErrorPage', () => {
 
   describe('AUTHORIZATION_PROBLEM', () => {
     it('shall display that the user is missing authorization', () => {
-      history.push('/error', { errorCode: AUTHORIZATION_PROBLEM, errorId: ERROR_ID })
+      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM, errorId: ERROR_ID })
       renderComponent()
 
       expect(screen.getByText(AUTHORIZATION_MISSING_TITLE)).toBeInTheDocument()
