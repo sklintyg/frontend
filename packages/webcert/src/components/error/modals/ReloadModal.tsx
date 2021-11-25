@@ -7,7 +7,11 @@ const ReloadModal: React.FC<ModalProps> = ({ errorData, children }) => {
   const dispatch = useDispatch()
 
   return (
-    <ErrorModalBase errorData={errorData} confirmButtonText={'Ladda om intyget'} onConfirm={() => reloadPage(errorData, dispatch)}>
+    <ErrorModalBase
+      errorData={errorData}
+      confirmButtonText={'Ladda om intyget'}
+      closeButtonText={'Stäng'}
+      onConfirm={reloadPage(errorData, dispatch)}>
       {children}
     </ErrorModalBase>
   )

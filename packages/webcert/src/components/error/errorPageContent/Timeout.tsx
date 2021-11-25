@@ -1,6 +1,4 @@
-import { ModalProps } from '../modals/ModalUtils'
 import React from 'react'
-import ErrorModalBase from '../modals/ErrorModalBase'
 
 const TIMEOUT_TITLE = 'Du är utloggad.'
 const TIMEOUT_MESSAGE =
