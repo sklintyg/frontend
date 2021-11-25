@@ -92,5 +92,7 @@ export const hasUnhandledComplementQuestions = (questions: Question[]): boolean 
 }
 
 export const getComplementedByCertificateEvent = (historyEntries: CertificateEvent[]): CertificateEvent | undefined => {
-  return historyEntries ? historyEntries.find((c) => c.type === CertificateEventType.COMPLEMENTED) : undefined
+  return historyEntries
+    ? historyEntries.find((c) => c.type === CertificateEventType.COMPLEMENTED && c.relatedCertificateStatus !== CertificateStatus.REVOKED)
+    : undefined
 }
