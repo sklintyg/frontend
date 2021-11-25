@@ -5,10 +5,17 @@ import styled from 'styled-components/macro'
 import logo from '../components/header/webcert_logo.png'
 import CenteredImageWithContent from '../components/image/CenteredImageWithContent'
 import errorImage from '../images/fel-1.svg'
-import WCDynamicLink from '../components/utils/WCDynamicLink'
 import { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
 import { ErrorCode } from '../store/error/errorReducer'
+import AuthorizationProblem from '../components/error/errorPageContent/AuthorizationProblem'
+import Timeout from '../components/error/errorPageContent/Timeout'
+import DataNotFound from '../components/error/errorPageContent/DataNotFound'
+import AuthorizationProblemConfidentialityMarking from '../components/error/errorPageContent/AuthorizationProblemConfidentialityMarking'
+import AuthorizationProblemConfidentialityMarkingUnit from '../components/error/errorPageContent/AuthorizationProblemConfidentialityMarkingUnit'
+import AuthorizationUserSessionAlreadyActive from '../components/error/errorPageContent/AuthorizationUserSessionAlreadyActive'
+import UnknownInternalProblem from '../components/error/errorPageContent/UnknownInternalProblem'
+import InternalProblem from '../components/error/errorPageContent/InternalProblem'
 
 const Root = styled.div`
   height: 100vh;
@@ -30,27 +37,24 @@ const ErrorPage: React.FC = () => {
   const getContent = () => {
     switch (errorCode) {
       case ErrorCode.TIMEOUT:
-        return (
-          <>
-            <strong>Du är utloggad</strong>
-            <p>
-              Du har blivit utloggad från Webcert på grund av inaktivitet. Om du vill fortsätta använda Webcert behöver du öppna intyget
-              från journalsystemet.{' '}
-            </p>
-          </>
-        )
+        return <Timeout />
+      case ErrorCode.DATA_NOT_FOUND:
+        return <DataNotFound />
       case ErrorCode.AUTHORIZATION_PROBLEM:
-        return (
-          <>
-            <strong>Behörighet saknas</strong>
-            <p>
-              Du saknar behörighet för att komma åt utkastet. För att få hjälp, kontakta i första hand din lokala IT-avdelning och i andra
-              hand <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.{' '}
-            </p>
-          </>
-        )
+        return <AuthorizationProblem />
+      case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING:
+        return <AuthorizationProblemConfidentialityMarking />
+      case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET:
+        return <AuthorizationProblemConfidentialityMarkingUnit />
+      case ErrorCode.AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE:
+        return <AuthorizationUserSessionAlreadyActive />
+      case ErrorCode.INTERNAL_PROBLEM:
+        return <InternalProblem />
+      case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
+        return <UnknownInternalProblem />
+
       default:
-        return <p>Ett oväntat fel uppstod</p>
+        return <UnknownInternalProblem />
     }
   }
 
