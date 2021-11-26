@@ -2,10 +2,19 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
-import ComplementStatus from './ComplementStatus'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
+import { Provider } from 'react-redux'
+import store from '@frontend/webcert/src/store/store'
+import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {
-  render(<ComplementStatus certificateMetadata={certificateMetadata} questions={questions} />)
+  render(
+    <>
+      <Provider store={store}>
+        <CertificateHeaderStatuses historyEntries={[]} certificateMetadata={certificateMetadata} questions={questions} />
+      </Provider>
+    </>
+  )
 }
 
 const EXPECTED_TEXT = 'Försäkringskassan har begärt komplettering'
@@ -54,11 +63,12 @@ describe('Complement status', () => {
 
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
-})
 
-const createCertificateMetadata = (status: CertificateStatus): CertificateMetadata => {
-  return {
-    status: status,
-    type: 'lisjp',
-  }
-}
+  it('should not render status if revoked', () => {
+    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
+    const certificateMetadata = createCertificateMetadata(CertificateStatus.REVOKED)
+    renderComponent(certificateMetadata, questions)
+
+    expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
+  })
+})

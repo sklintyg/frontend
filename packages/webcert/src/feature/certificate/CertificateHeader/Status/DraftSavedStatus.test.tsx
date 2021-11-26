@@ -1,24 +1,34 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
 import DraftSavedStatus from './DraftSavedStatus'
+import { createCertificateMetadata } from './statusTestUtils'
+import { CertificateStatus } from '@frontend/common/src'
 
-it('displays that the draft is saved', () => {
-  const isDraftSavedSpy = jest.spyOn(utils, 'isDraftSaved')
+const renderComponent = (isSigned: boolean, isValidating: boolean) => {
+  render(
+    <DraftSavedStatus
+      isEditable={true}
+      certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED)}
+      isValidating={isValidating}
+    />
+  )
+}
 
-  isDraftSavedSpy.mockReturnValue(true)
-  // @ts-expect-error we don't need to send all props
-  render(<DraftSavedStatus isEditable={true} />)
-  expect(screen.getByText(/utkastet är sparat/i)).toBeInTheDocument()
-})
+describe('Draft saved status', () => {
+  it('displays that the draft is saved', () => {
+    renderComponent(false, false)
+    expect(screen.getByText('Utkastet är sparat')).toBeInTheDocument()
+  })
 
-it('doesnt render anything', async () => {
-  const isDraftSavedSpy = jest.spyOn(utils, 'isDraftSaved')
+  it('displays that the draft is being saved', () => {
+    renderComponent(false, true)
+    expect(screen.getByText('Utkastet sparas')).toBeInTheDocument()
+  })
 
-  isDraftSavedSpy.mockReturnValue(false)
-
-  // @ts-expect-error we don't need to send all props
-  render(<DraftSavedStatus />)
-  expect(screen.queryByText(/utkastet är sparat/i)).not.toBeInTheDocument()
+  it('doesnt render status if signed', async () => {
+    renderComponent(true, false)
+    expect(screen.queryByText('Utkastet är sparat')).not.toBeInTheDocument()
+    expect(screen.queryByText('Utkastet sparas')).not.toBeInTheDocument()
+  })
 })

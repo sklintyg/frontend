@@ -27,6 +27,18 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   return false
 }
 
+export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata) => {
+  const {
+    relations: { children },
+  } = certificateMetadata
+
+  if (children && children.length > 0) {
+    return children.some((relation) => relation.type === CertificateRelationType.REPLACED && relation.status !== CertificateStatus.REVOKED)
+  }
+
+  return false
+}
+
 export const isLocked = (certificateMetadata: CertificateMetadata) =>
   certificateMetadata.status === CertificateStatus.LOCKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 

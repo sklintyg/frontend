@@ -3,10 +3,14 @@ import { CertificateEvent, CertificateStatus, StatusWithIcon } from '@frontend/c
 import { Link } from 'react-router-dom'
 
 interface Props {
-  certificateEvent: CertificateEvent
+  certificateEvent: CertificateEvent | undefined
 }
 
 const HasBeenComplementedStatus: React.FC<Props> = ({ certificateEvent }) => {
+  if (!certificateEvent) {
+    return null
+  }
+
   const getText = () => {
     const relatedCertificateStatus = certificateEvent.relatedCertificateStatus
     switch (relatedCertificateStatus) {

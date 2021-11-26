@@ -1,45 +1,62 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitForDomChange } from '@testing-library/react'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
-import RevokedStatus from './RevokedStatus'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import { BrowserRouter } from 'react-router-dom'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
+import { createCertificateMetadata } from './statusTestUtils'
+import { CertificateStatus } from '@frontend/common/src'
 
-it('displays that the certificate is revoked', async () => {
-  const isRevokedSpy = jest.spyOn(utils, 'isRevoked')
-
-  isRevokedSpy.mockReturnValue(true)
-
+const renderComponent = (isRevoked: boolean) => {
   render(
     <Provider store={store}>
       <BrowserRouter>
-        <RevokedStatus />
+        <CertificateHeaderStatuses
+          certificateMetadata={
+            isRevoked ? createCertificateMetadata(CertificateStatus.REVOKED) : createCertificateMetadata(CertificateStatus.SIGNED)
+          }
+          historyEntries={[]}
+          questions={[]}
+        />
       </BrowserRouter>
     </Provider>
   )
-  expect(screen.getByText(/intyget är makulerat/i)).toBeInTheDocument()
-  userEvent.click(screen.getByText(/intyget är makulerat/i))
+}
 
-  expect(screen.getByRole('heading', { name: /intyget är makulerat/i })).toBeInTheDocument()
-  expect(screen.getByText(/intyget är inte längre tillgängligt för patienten i mina intyg, som nås via/i)).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: /stäng/i })).toBeInTheDocument()
+describe('Revoked status', () => {
+  it('should display status that the certificate is revoked', () => {
+    renderComponent(true)
+    expect(screen.getByText('Intyget är makulerat')).toBeInTheDocument()
+  })
 
-  userEvent.click(screen.getByRole('button', { name: /stäng/i }))
-  expect(screen.queryByText(/intyget är inte längre tillgängligt för patienten i mina intyg, som nås via/i)).not.toBeInTheDocument()
-})
+  it('should display heading of modal if clicking on link', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är makulerat'))
+    expect(screen.getByRole('heading', { name: 'Intyget är makulerat' })).toBeInTheDocument()
+  })
 
-it('doesnt render anything', async () => {
-  const isRevokedSpy = jest.spyOn(utils, 'isRevoked')
+  it('should display body of modal if clicking on link', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är makulerat'))
+    expect(
+      screen.getByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
+    ).toBeInTheDocument()
+  })
 
-  isRevokedSpy.mockReturnValue(false)
+  it('should close modal correctly', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är makulerat'))
+    expect(screen.getByRole('button', { name: 'Stäng' })).toBeInTheDocument()
+    userEvent.click(screen.getByText('Stäng'))
+    expect(
+      screen.queryByText('Intyget är inte längre tillgängligt för patienten i mina intyg, som nås via', { exact: false })
+    ).not.toBeInTheDocument()
+  })
 
-  render(
-    <BrowserRouter>
-      <RevokedStatus />
-    </BrowserRouter>
-  )
-  expect(screen.queryByText(/utkastet är sparat/i)).not.toBeInTheDocument()
+  it('should not render status if not revoked', async () => {
+    renderComponent(false)
+    expect(screen.queryByText('Intyget är makulerat')).not.toBeInTheDocument()
+  })
 })

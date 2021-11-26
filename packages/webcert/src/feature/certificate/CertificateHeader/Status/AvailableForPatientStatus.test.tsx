@@ -1,45 +1,58 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitForDomChange } from '@testing-library/react'
-import AvailableForPatientStatus from './AvailableForPatientStatus'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
+import { CertificateStatus } from '@frontend/common/src'
+import { createCertificateMetadata } from './statusTestUtils'
 
-it('displays that the certificate is available for the patient', async () => {
-  const spy = jest.spyOn(utils, 'isSigned')
-
-  spy.mockReturnValue(true)
-
-  // @ts-expect-error we don't need to send all props
+const renderComponent = (isSigned: boolean) => {
   render(
     <Provider store={store}>
-      <AvailableForPatientStatus />
+      <CertificateHeaderStatuses
+        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED)}
+        historyEntries={[]}
+        questions={[]}
+      />
     </Provider>
   )
+}
 
-  expect(screen.getByText(/intyget är tillgängligt för patienten/i)).toBeInTheDocument()
-  userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
+describe('Available for patient status', () => {
+  it('should display that the certificate is available for the patient', async () => {
+    renderComponent(true)
+    expect(screen.getByText('Intyget är tillgängligt för patienten')).toBeInTheDocument()
+  })
 
-  expect(
-    screen.getByRole('heading', {
-      name: /intyget är tillgängligt för patienten/i,
-    })
-  ).toBeInTheDocument()
-  expect(screen.getByText(/intyget är tillgängligt för patienten i mina intyg, som nås via/i)).toBeInTheDocument()
+  it('should show modal header', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
 
-  userEvent.click(screen.getByRole('button', { name: /stäng/i }))
-  expect(screen.queryByText(/intyget är tillgängligt för patienten i mina intyg, som nås via/i)).not.toBeInTheDocument()
-})
+    expect(
+      screen.getByRole('heading', {
+        name: 'Intyget är tillgängligt för patienten',
+      })
+    ).toBeInTheDocument()
+  })
 
-it('doesnt render anything', async () => {
-  const spy = jest.spyOn(utils, 'isSigned')
+  it('should show modal body', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
 
-  spy.mockReturnValue(false)
+    expect(screen.getByText('Intyget är tillgängligt för patienten i mina intyg, som nås via', { exact: false })).toBeInTheDocument()
+  })
 
-  // @ts-expect-error we don't need to send all props
-  render(<AvailableForPatientStatus />)
+  it('should close modal when pressing close button', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Intyget är tillgängligt för patienten'))
+    userEvent.click(screen.getByRole('button', { name: 'Stäng' }))
+    expect(screen.queryByText('Intyget är tillgängligt för patienten i mina intyg, som nås via')).not.toBeInTheDocument()
+  })
 
-  expect(screen.queryByText(/intyget är tillgängligt för patienten/i)).not.toBeInTheDocument()
+  it('should not render status if certificate is unsigned', () => {
+    renderComponent(false)
+    expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
+  })
 })

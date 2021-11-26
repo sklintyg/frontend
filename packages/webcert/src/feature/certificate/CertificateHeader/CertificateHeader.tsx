@@ -48,6 +48,8 @@ const CertificateHeader = () => {
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
+  const questions = useSelector(getQuestions, _.isEqual)
+  const isValidForSigning = useSelector(getIsValidForSigning)
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -59,7 +61,12 @@ const CertificateHeader = () => {
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink}></CreateCertificateFromCandidateModal>
         <StatusWrapper>
           <StatusLeftSide>
-            <CertificateHeaderStatuses historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
+            <CertificateHeaderStatuses
+              historyEntries={historyEntries}
+              certificateMetadata={certificateMetadata}
+              questions={questions}
+              isValidForSigning={isValidForSigning}
+            />
           </StatusLeftSide>
           <ShowHistory historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
         </StatusWrapper>
