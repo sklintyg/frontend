@@ -1,9 +1,9 @@
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 import React from 'react'
 import ErrorModalBase from './ErrorModalBase'
 
-const MODULE_PROBLEM_TITLE = 'Tekniskt fel.'
-const MODULE_PROBLEM_MESSAGE = 'Utkastet kunde inte sparas. Om problemet kvarstår, kontakta din lokala IT-administratör.'
+export const MODULE_PROBLEM_TITLE = 'Tekniskt fel.'
+export const MODULE_PROBLEM_MESSAGE = 'Utkastet kunde inte sparas. Om problemet kvarstår, kontakta din lokala IT-administratör.'
 
 const ModuleProblem: React.FC<ModalProps> = ({ errorData }) => {
   return (

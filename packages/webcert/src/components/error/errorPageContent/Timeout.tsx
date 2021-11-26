@@ -1,7 +1,7 @@
 import React from 'react'
 
-const TIMEOUT_TITLE = 'Du är utloggad.'
-const TIMEOUT_MESSAGE =
+export const TIMEOUT_TITLE = 'Du är utloggad.'
+export const TIMEOUT_MESSAGE =
   'Du har blivit utloggad från Webcert på grund av inaktivitet. ' +
   'Om du vill fortsätta använda Webcert behöver du öppna intyget från journalsystemet.'
 

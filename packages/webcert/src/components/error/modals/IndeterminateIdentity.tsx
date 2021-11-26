@@ -1,9 +1,9 @@
 import React from 'react'
 import ErrorModalBase from './ErrorModalBase'
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 
-const INDETERMINATE_IDENTITY_TITLE = 'Intyget kunde inte signeras.'
-const INDETERMINATE_IDENTITY_MESSAGE =
+export const INDETERMINATE_IDENTITY_TITLE = 'Intyget kunde inte signeras.'
+export const INDETERMINATE_IDENTITY_MESSAGE =
   'Det verkar som att du valt en annan identitet att signera med än den du loggade in med. ' +
   'Du måste identifiera dig på samma sätt som när du loggade in. Kontrollera om du har valt rätt och prova igen.'
 

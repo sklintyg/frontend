@@ -1,9 +1,9 @@
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 import React from 'react'
 import ReloadModal from './ReloadModal'
 
-const INVALID_STATE_TITLE = 'Funktionen är inte giltig.'
-const INVALID_STATE_MESSAGE =
+export const INVALID_STATE_TITLE = 'Funktionen är inte giltig.'
+export const INVALID_STATE_MESSAGE =
   'Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen.'
 
 const InvalidState: React.FC<ModalProps> = ({ errorData }) => {

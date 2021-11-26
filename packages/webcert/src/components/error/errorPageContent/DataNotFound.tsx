@@ -1,7 +1,7 @@
 import React from 'react'
 
-const DATA_NOT_FOUND_TITLE = 'Intyget kunde inte hittas.'
-const DATA_NOT_FOUND_MESSAGE = 'Intyget är borttaget eller så saknas behörighet.'
+export const DATA_NOT_FOUND_TITLE = 'Intyget kunde inte hittas.'
+export const DATA_NOT_FOUND_MESSAGE = 'Intyget är borttaget eller så saknas behörighet.'
 
 const DataNotFound: React.FC = () => {
   return (

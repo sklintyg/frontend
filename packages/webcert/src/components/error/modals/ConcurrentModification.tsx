@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 import ReloadModal from './ReloadModal'
 
 export const CONCURRENT_MODIFICATION_ERROR_MESSAGE =

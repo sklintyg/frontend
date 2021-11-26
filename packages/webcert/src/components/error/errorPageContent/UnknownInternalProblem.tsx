@@ -1,7 +1,7 @@
 import React from 'react'
 
-const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Ett tekniskt problem inträffade.'
-const UNKNOWN_INTERNAL_PROBLEM_MESSAGE = 'Försök igen och kontakta supporten om problemet kvarstår.'
+export const UNKNOWN_INTERNAL_PROBLEM_TITLE = 'Ett tekniskt problem inträffade.'
+export const UNKNOWN_INTERNAL_PROBLEM_MESSAGE = 'Försök igen och kontakta supporten om problemet kvarstår.'
 
 const UnknownInternalProblem: React.FC = () => {
   return (

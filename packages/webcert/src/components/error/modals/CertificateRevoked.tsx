@@ -1,9 +1,9 @@
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 import React from 'react'
 import ReloadModal from './ReloadModal'
 
-const CERTIFICATE_REVOKED_TITLE = 'Operation är inte möjlig.'
-const CERTIFICATE_REVOKED_MESSAGE =
+export const CERTIFICATE_REVOKED_TITLE = 'Operation är inte möjlig.'
+export const CERTIFICATE_REVOKED_MESSAGE =
   'Förmodligen har en annan användare makulerat intyget medan du arbetat på samma post. Ladda om sidan och försök igen.'
 
 const CertificateRevoked: React.FC<ModalProps> = ({ errorData }) => {

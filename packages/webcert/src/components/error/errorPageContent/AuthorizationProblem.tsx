@@ -1,8 +1,9 @@
 import React from 'react'
+import WCDynamicLink from '../../utils/WCDynamicLink'
 
-const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas.'
-const AUTHORIZATION_PROBLEM_MESSAGE = 'Du saknar behörighet att använda denna resurs.'
-const AUTHORIZATION_PROBLEM_MESSAGE_2 = 'Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.'
+export const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas.'
+export const AUTHORIZATION_PROBLEM_MESSAGE =
+  'Du saknar behörighet för att komma åt utkastet. ' + 'För att få hjälp, kontakta i första hand din lokala IT-avdelning och i andra hand '
 
 const AuthorizationProblem: React.FC = () => {
   return (
@@ -10,9 +11,8 @@ const AuthorizationProblem: React.FC = () => {
       <p>
         <strong>{AUTHORIZATION_PROBLEM_TITLE}</strong>
       </p>
-      <p>{AUTHORIZATION_PROBLEM_MESSAGE}</p>
       <p>
-        <strong>{AUTHORIZATION_PROBLEM_MESSAGE_2}</strong>
+        {AUTHORIZATION_PROBLEM_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.
       </p>
     </>
   )

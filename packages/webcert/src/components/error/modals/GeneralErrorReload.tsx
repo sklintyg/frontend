@@ -1,11 +1,11 @@
 import React from 'react'
 import WCDynamicLink from '../../utils/WCDynamicLink'
 import ReloadModal from './ReloadModal'
-import { ModalProps } from './ModalUtils'
+import { ModalProps } from './errorUtils'
 
-const GENERAL_ERROR_TITLE = 'Intyget kunde inte visas.'
-const GENERAL_ERROR_MESSAGE =
-  'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand '
+export const GENERAL_ERROR_TITLE = 'Intyget kunde inte visas.'
+export const GENERAL_ERROR_MESSAGE =
+  'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand'
 
 const GeneralErrorReload: React.FC<ModalProps> = ({ errorData }) => {
   return (

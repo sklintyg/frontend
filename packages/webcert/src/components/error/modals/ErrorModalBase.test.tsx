@@ -8,9 +8,9 @@ import reducer from '../../../store/reducers'
 import userEvent from '@testing-library/user-event'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
-import { clearError, setError } from '../../../store/error/errorActions'
+import { clearError } from '../../../store/error/errorActions'
+import ErrorModalBase from './ErrorModalBase'
 
 let testStore: EnhancedStore
 
@@ -23,17 +23,28 @@ window.location = {
   reload: jest.fn(),
 }
 
-const renderComponent = (errorData: ErrorData) => {
+const CONFIRM_BUTTON_TEXT = 'CONFIRM_BUTTON_TEXT'
+const CLOSE_BUTTON_TEXT = 'CLOSE_BUTTON_TEXT'
+
+const renderComponent = (
+  errorData: ErrorData,
+  onConfirm = () => {},
+  confirmButtonText = CONFIRM_BUTTON_TEXT,
+  closeButtonText = CLOSE_BUTTON_TEXT,
+  children?: React.ReactFragment
+) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <ReloadModal errorData={errorData} />
+        <ErrorModalBase errorData={errorData} closeButtonText={closeButtonText} confirmButtonText={confirmButtonText} onConfirm={onConfirm}>
+          {children}
+        </ErrorModalBase>
       </Router>
     </Provider>
   )
 }
 
-describe('ReloadModal', () => {
+describe('ErrorModalBase', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
@@ -49,31 +60,41 @@ describe('ReloadModal', () => {
     renderComponent(createError())
   })
 
-  it('shall reload page on confirm', () => {
-    renderComponent(createError())
-
-    userEvent.click(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT))
-    expect(window.location.reload).toHaveBeenCalledTimes(1)
-  })
-
   it('shall display confirm button text', () => {
-    renderComponent(createError())
+    renderComponent(createError(), undefined, CONFIRM_BUTTON_TEXT)
 
-    expect(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT)).toBeInTheDocument()
+    expect(screen.getByText(CONFIRM_BUTTON_TEXT)).toBeInTheDocument()
   })
 
   it('shall display close button text', () => {
-    renderComponent(createError())
+    renderComponent(createError(), undefined, undefined, CLOSE_BUTTON_TEXT)
 
-    expect(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT)).toBeInTheDocument()
+    expect(screen.getByText(CLOSE_BUTTON_TEXT)).toBeInTheDocument()
+  })
+
+  it('shall display errorId', () => {
+    const expectedText = 'errorid'
+    renderComponent(createError(expectedText))
+
+    expect(screen.getByText(expectedText)).toBeInTheDocument()
+  })
+
+  it('shall call onConfirm function when clicking confirm button', () => {
+    const onConfirm = jest.fn()
+    const expectedId = 'test'
+    renderComponent(createError(expectedId), onConfirm, CONFIRM_BUTTON_TEXT)
+
+    userEvent.click(screen.getByText(CONFIRM_BUTTON_TEXT))
+
+    expect(onConfirm).toHaveBeenCalledTimes(1)
   })
 
   it('shall clear error on close', () => {
     const expectedErrorId = 'errorid'
     clearDispatchedActions()
-    renderComponent(createError(expectedErrorId))
+    renderComponent(createError(expectedErrorId), undefined, undefined, CLOSE_BUTTON_TEXT)
 
-    userEvent.click(screen.getByText(RELOAD_CLOSE_BUTTON_TEXT))
+    userEvent.click(screen.getByText(CLOSE_BUTTON_TEXT))
 
     const clearedError = dispatchedActions.find((action) => clearError.match(action))
     expect(expectedErrorId).toEqual(clearedError?.payload.errorId)
