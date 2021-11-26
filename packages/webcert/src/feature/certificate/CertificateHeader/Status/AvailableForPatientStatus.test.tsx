@@ -8,11 +8,11 @@ import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { CertificateStatus } from '@frontend/common/src'
 import { createCertificateMetadata } from './statusTestUtils'
 
-const renderComponent = (isSigned: boolean) => {
+const renderComponent = (isSigned: boolean, type?: string) => {
   render(
     <Provider store={store}>
       <CertificateHeaderStatuses
-        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED)}
+        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, type)}
         historyEntries={[]}
         questions={[]}
       />
@@ -57,7 +57,7 @@ describe('Available for patient status', () => {
   })
 
   it('shall render specific text in modal if certificate is lisjp', () => {
-    renderComponent('lisjp')
+    renderComponent(true, 'lisjp')
 
     userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
     expect(
@@ -66,7 +66,7 @@ describe('Available for patient status', () => {
   })
 
   it('shall not render specific text in modal if certificate is not lisjp', () => {
-    renderComponent('ag7804')
+    renderComponent(true, 'ag7804')
     userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
     expect(
       screen.queryByText('Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.', { exact: false })

@@ -6,10 +6,10 @@ import {
   CertificateStatus,
 } from '@frontend/common/src'
 
-export const createCertificateMetadata = (status: CertificateStatus): CertificateMetadata => {
+export const createCertificateMetadata = (status: CertificateStatus, type?: string): CertificateMetadata => {
   return {
     status: status,
-    type: 'lisjp',
+    type: type ? type : 'lisjp',
     relations: {
       children: [],
     },
