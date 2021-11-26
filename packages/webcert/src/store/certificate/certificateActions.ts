@@ -11,6 +11,7 @@ import {
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { ApiError } from '../api/apiActions'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -31,6 +32,8 @@ const DELETE_CERTIFICATE_STARTED = `${CERTIFICATE} Delete certificate started`
 const DELETE_CERTIFICATE_SUCCESS = `${CERTIFICATE} Delete certificate success`
 const DELETE_CERTIFICATE_ERROR = `${CERTIFICATE} Delete certificate error`
 const DELETE_CERTIFICATE_COMPLETED = `${CERTIFICATE} Delete certificate completed`
+
+const UPDATE_ROUTED_FROM_DELETED_CERTIFICATE = `${CERTIFICATE} update routed from deleted certificate`
 
 const FORWARD_CERTIFICATE = `${CERTIFICATE} Forward certificate`
 const FORWARD_CERTIFICATE_STARTED = `${CERTIFICATE} Forward certificate started`
@@ -158,6 +161,8 @@ const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
 
+const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -186,15 +191,27 @@ export const getCertificateEventsError = createAction<string>(GET_CERTIFICATE_EV
 
 export const getCertificateEventsCompleted = createAction(GET_CERTIFICATE_EVENTS_COMPLETED)
 
-export const deleteCertificate = createAction<string>(DELETE_CERTIFICATE)
+export interface DeleteCertificate {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const deleteCertificate = createAction<DeleteCertificate>(DELETE_CERTIFICATE)
 
 export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
 
-export const deleteCertificateSuccess = createAction(DELETE_CERTIFICATE_SUCCESS)
+export interface DeleteCertificateSuccess {
+  parentCertificateId: string
+  history: History<LocationState>
+}
+
+export const deleteCertificateSuccess = createAction<DeleteCertificateSuccess>(DELETE_CERTIFICATE_SUCCESS)
 
 export const deleteCertificateError = createAction<string>(DELETE_CERTIFICATE_ERROR)
 
 export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLETED)
+
+export const updateRoutedFromDeletedCertificate = createAction<boolean>(UPDATE_ROUTED_FROM_DELETED_CERTIFICATE)
 
 export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
 
@@ -400,7 +417,11 @@ interface AutoSaveCertificateSuccess {
 
 export const autoSaveCertificateSuccess = createAction<AutoSaveCertificateSuccess>(AUTO_SAVE_SUCCESS)
 
-export const autoSaveCertificateError = createAction<string>(AUTO_SAVE_ERROR)
+interface AutoSaveCertificateError {
+  error: ApiError
+}
+
+export const autoSaveCertificateError = createAction<AutoSaveCertificateError>(AUTO_SAVE_ERROR)
 
 export const validateCertificateInFrontEnd = createAction<CertificateDataElement>(VALIDATE_CERTIFICATE_IN_FRONTEND)
 
@@ -473,3 +494,9 @@ export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIF
 
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
+
+export interface CertificateApiGenericError {
+  error: ApiError
+}
+
+export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)

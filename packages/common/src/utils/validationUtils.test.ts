@@ -527,6 +527,7 @@ describe('Validate multiple show rules', () => {
       forwarded: false,
       sent: false,
       latestMajorVersion: true,
+      responsibleHospName: 'responsibleHospName',
       relations: {
         children: [],
         parent: null,

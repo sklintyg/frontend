@@ -55,4 +55,21 @@ describe('Available for patient status', () => {
     renderComponent(false)
     expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
   })
+
+  it('shall render specific text in modal if certificate is lisjp', () => {
+    renderComponent('lisjp')
+
+    userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
+    expect(
+      screen.queryByText('Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.', { exact: false })
+    ).toBeInTheDocument()
+  })
+
+  it('shall not render specific text in modal if certificate is not lisjp', () => {
+    renderComponent('ag7804')
+    userEvent.click(screen.getByText(/intyget är tillgängligt för patienten/i))
+    expect(
+      screen.queryByText('Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.', { exact: false })
+    ).not.toBeInTheDocument()
+  })
 })

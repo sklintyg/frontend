@@ -12,6 +12,8 @@ import {
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
+import { throwError } from '../error/errorActions'
+import { createSilentErrorRequestFromApiError } from '../error/errorCreator'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -57,8 +59,9 @@ const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (
   dispatch(updateLoading(true))
 }
 
-const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateLoading(false))
+  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
 function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {

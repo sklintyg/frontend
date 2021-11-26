@@ -3,8 +3,8 @@ import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   name: string
@@ -15,6 +15,7 @@ interface Props {
 
 const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   return (
     <ButtonWithConfirmModal
@@ -25,7 +26,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       startIcon={<FontAwesomeIcon icon={faTrash} size={'lg'} />}
       modalTitle="Radera utkast"
       onConfirm={() => {
-        dispatch(deleteCertificate(certificateMetadata.id))
+        dispatch(deleteCertificate({ certificateId: certificateMetadata.id, history: history }))
       }}
       confirmButtonText="Radera"
       declineButtonText="Avbryt">
