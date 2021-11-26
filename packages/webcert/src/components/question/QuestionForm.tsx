@@ -18,6 +18,7 @@ import {
   isQuestionDraftSaved,
   isQuestionMissingMessage,
   isQuestionMissingType,
+  isSendingQuestion,
 } from '../../store/question/questionSelectors'
 
 interface Props {
@@ -40,6 +41,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const isSaved = useSelector(isQuestionDraftSaved)
   const isMissingType = useSelector(isQuestionMissingType)
   const isMissingMessage = useSelector(isQuestionMissingMessage)
+  const isSending = useSelector(isSendingQuestion)
   const showValidationMessages = useSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
@@ -124,9 +126,14 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton disabled={isFormEmpty || !isSaved} buttonStyle={'primary'} onClick={handleSendQuestion} text={'Skicka'} />
+              <CustomButton
+                disabled={isFormEmpty || !isSaved || isSending}
+                buttonStyle={'primary'}
+                onClick={handleSendQuestion}
+                text={'Skicka'}
+              />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || !isSaved}
+                disabled={isFormEmpty || !isSaved || isSending}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad fråga'}
                 confirmButtonText={'Ja, radera'}

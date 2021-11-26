@@ -6,7 +6,12 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { updateQuestionDraft, updateQuestionDraftSaved, validateQuestion } from '../../store/question/questionActions'
+import {
+  updateQuestionDraft,
+  updateQuestionDraftSaved,
+  updateSendingQuestion,
+  validateQuestion,
+} from '../../store/question/questionActions'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -141,6 +146,26 @@ describe('QuestionForm', () => {
       renderComponent()
       expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
       expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()
+    })
+
+    it('disable send and cancel when question draft is being sent', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
+      testStore.dispatch(updateSendingQuestion(true))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
+      expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()
+    })
+
+    it('enable send and cancel when question draft is NOT being sent', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
+      testStore.dispatch(updateSendingQuestion(false))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i).closest('button')).toBeEnabled()
+      expect(screen.getByText(/Avbryt/i).closest('button')).toBeEnabled()
     })
 
     it('does show message that question draft has been saved', () => {
