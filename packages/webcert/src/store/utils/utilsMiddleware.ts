@@ -1,13 +1,11 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   getAllDynamicLinks,
-  getAllDynamicLinksError,
   getAllDynamicLinksStarted,
   getAllDynamicLinksSuccess,
   getDiagnosisTypeahead,
-  getDiagnosisTypeaheadError,
   getDiagnosisTypeaheadStarted,
   getDiagnosisTypeaheadSuccess,
   updateDiagnosisTypeahead,
@@ -21,7 +19,7 @@ const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: Middleware
       method: 'GET',
       onStart: getAllDynamicLinksStarted.type,
       onSuccess: getAllDynamicLinksSuccess.type,
-      onError: getAllDynamicLinksError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -58,7 +56,7 @@ const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: Middlew
       },
       onStart: getDiagnosisTypeaheadStarted.type,
       onSuccess: getDiagnosisTypeaheadSuccess.type,
-      onError: getDiagnosisTypeaheadError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }

@@ -1,5 +1,12 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, SigningMethod } from '@frontend/common'
+import {
+  Certificate,
+  CertificateRelation,
+  CertificateRelations,
+  CertificateRelationType,
+  CertificateStatus,
+  SigningMethod,
+} from '@frontend/common'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
@@ -7,11 +14,14 @@ import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
+  CertificateApiGenericError,
+  certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  deleteCertificate,
   getCertificateError,
   hideSpinner,
   readyForSign,
@@ -27,7 +37,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
 import { throwError } from '../error/errorActions'
-import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorType } from '../error/errorReducer'
+import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorCode, ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -52,49 +62,50 @@ describe('Test certificate middleware', () => {
     clearDispatchedActions()
   })
 
-  describe('Handle getCertificate error', () => {
+  describe('Handle certificateApiGenericError', () => {
     const expectedError = {
       error: {
-        errorCode: AUTHORIZATION_PROBLEM,
+        api: 'POST /api/call',
+        errorCode: 'AUTHORIZATION_PROBLEM',
         message: 'This is the message',
       },
       certificateId: 'certificateId',
     }
 
-    it('shall throw error if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction).toBeTruthy()
     })
 
-    it('shall throw error with type ROUTE if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with type ROUTE', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
     })
 
-    it('shall throw error with errorCode AUTHORIZATION_PROBLEM if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with errorCode AUTHORIZATION_PROBLEM', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(AUTHORIZATION_PROBLEM)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
 
-    it('shall throw error with message if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with message if exists', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.message).toEqual(expectedError.error.message)
+      expect(throwErrorAction?.payload.message).toContain(expectedError.error.message)
     })
 
-    it('shall throw error with certificateId if getCertificate fails', async () => {
-      testStore.dispatch(getCertificateError(expectedError))
+    it('shall throw error with certificateId if exists', async () => {
+      testStore.dispatch(certificateApiGenericError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
@@ -103,8 +114,16 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle autoSave error', () => {
+    const expectedError = {
+      error: {
+        api: 'POST /api/call',
+        errorCode: 'UNKNOWN_INTERNAL_PROBLEM',
+        message: 'This is the message',
+      }
+    }
+
     it('shall throw error if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
@@ -112,19 +131,27 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw error with type MODAL if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
     })
 
-    it('shall throw error with errorCode concurrent-editing if autosave fails', async () => {
-      testStore.dispatch(autoSaveCertificateError('Autosaved failed!'))
+    it('shall throw error with errorCode CONCURRENT_MODIFICATION if autosave fails with UNKNOWN_INTERNAL_PROBLEM', async () => {
+      testStore.dispatch(autoSaveCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorCode).toEqual(CONCURRENT_MODIFICATION)
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.CONCURRENT_MODIFICATION)
+    })
+
+    it('shall throw error with original errorCode if its NOT UKNOWN_INTERNAL_ERROR', async () => {
+      testStore.dispatch(autoSaveCertificateError({ error: { ...expectedError.error, errorCode: ErrorCode.AUTHORIZATION_PROBLEM } }))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
   })
 
@@ -326,6 +353,69 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('handleDeleteCertificate', () => {
+    it('shall set isDeleted true on successful deletion', async () => {
+      const certificate = getCertificate('test', '', '0', '', undefined)
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const isDeleted = testStore.getState().ui.uiCertificate.isDeleted
+      expect(isDeleted).toBe(true)
+    })
+
+    it('shall hide spinner on successful deletion', async () => {
+      const certificate = getCertificate('test', '', '0', '', undefined)
+      testStore.dispatch(updateCertificate(certificate))
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const spinnerActive = testStore.getState().ui.uiCertificate.spinner
+      expect(spinnerActive).toBe(false)
+    })
+
+    it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {
+      mockHistory.push.mockClear()
+      const parentCertificate: CertificateRelation = {
+        certificateId: 'parent',
+        type: CertificateRelationType.RENEW,
+        created: '',
+        status: CertificateStatus.SIGNED,
+      }
+      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      const routedFromDeletedCertificate = testStore.getState().ui.uiCertificate.routedFromDeletedCertificate
+      expect(routedFromDeletedCertificate).toBe(true)
+    })
+
+    it('shall route user after successful deletion if parent certificate exists', async () => {
+      mockHistory.push.mockClear()
+      const parentCertificate: CertificateRelation = {
+        certificateId: 'parent',
+        type: CertificateRelationType.RENEW,
+        created: '',
+        status: CertificateStatus.SIGNED,
+      }
+      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      await flushPromises()
+
+      expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
+    })
+  })
+
   const setDefaultUser = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -333,11 +423,17 @@ describe('Test certificate middleware', () => {
   }
 })
 
-const getCertificate = (id: string, type?: string, version?: string, readyForSign?: string): Certificate => {
+const getCertificate = (
+  id: string,
+  type?: string,
+  version?: string,
+  readyForSign?: string,
+  relations?: CertificateRelations
+): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    metadata: { id, type, version, readyForSign },
+    metadata: { id, type, version, readyForSign, relations: relations },
     links: [],
   }
 }
@@ -358,6 +454,7 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
         config: {
           text: '',
           description: '',
+
           type: null,
         },
         value: {

@@ -1,23 +1,18 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   cancelLogout,
-  cancelLogoutError,
   cancelLogoutStarted,
   cancelLogoutSuccess,
   getUser,
-  getUserError,
   getUserStarted,
   getUserSuccess,
   setUserPreference,
-  setUserPreferenceError,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
   triggerLogout,
-  triggerLogoutError,
   triggerLogoutNow,
-  triggerLogoutNowError,
   triggerLogoutNowStarted,
   triggerLogoutNowSuccess,
   triggerLogoutStarted,
@@ -27,7 +22,6 @@ import {
   updateUserPreference,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
-import { throwError } from '../error/errorActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -36,17 +30,13 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
       method: 'GET',
       onStart: getUserStarted.type,
       onSuccess: getUserSuccess.type,
-      onError: getUserError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload))
-}
-
-const handleGetUserError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  // dispatch(createError({ message: action.payload }))
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -60,7 +50,7 @@ const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
       },
       onStart: setUserPreferenceStarted.type,
       onSuccess: setUserPreferenceSuccess.type,
-      onError: setUserPreferenceError.type,
+      onError: apiSilentGenericError.type,
       onArgs: {
         key: action.payload.key,
         value: action.payload.value,
@@ -85,7 +75,7 @@ const handleCancelLogout: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
       method: 'GET',
       onStart: cancelLogoutStarted.type,
       onSuccess: cancelLogoutSuccess.type,
-      onError: cancelLogoutError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -101,7 +91,7 @@ const handleTriggerLogout: Middleware<Dispatch> = ({ dispatch, getState }: Middl
       method: 'GET',
       onStart: triggerLogoutStarted.type,
       onSuccess: triggerLogoutSuccess.type,
-      onError: triggerLogoutError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -113,7 +103,7 @@ const handleTriggerLogoutNow: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
       method: 'GET',
       onStart: triggerLogoutNowStarted.type,
       onSuccess: triggerLogoutNowSuccess.type,
-      onError: triggerLogoutNowError.type,
+      onError: apiSilentGenericError.type,
     })
   )
 }
@@ -125,7 +115,6 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
-  [getUserError.type]: handleGetUserError,
   [setUserPreference.type]: handleSetUserPreference,
   [setUserPreferenceSuccess.type]: handleSetUserPreferenceSuccess,
   [cancelLogout.type]: handleCancelLogout,

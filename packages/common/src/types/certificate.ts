@@ -33,6 +33,7 @@ export interface CertificateMetadata {
   issuedBy: Staff
   version: number
   latestMajorVersion: boolean
+  responsibleHospName: string
 }
 
 export interface CertificateData {
