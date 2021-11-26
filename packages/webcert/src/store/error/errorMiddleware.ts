@@ -2,7 +2,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { setActiveCertificateId, setError, throwError } from './errorActions'
 import { ErrorData, ErrorLogRequest, ErrorType } from './errorReducer'
-import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 
 const handleThrowError: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
@@ -28,7 +28,6 @@ const handleThrowError: Middleware<Dispatch> = ({ dispatch, getState }) => () =>
       data: errorLogRequest,
       method: 'POST',
       url: '/api/log/error',
-      onError: apiSilentGenericError.type,
     })
   )
 }
