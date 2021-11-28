@@ -6,7 +6,7 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
 import { getUser } from '../../../store/user/userSelectors'
-import { updateUserPreference } from '../../../store/user/userActions'
+import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
 
 interface Props {
@@ -22,11 +22,12 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
   const user = useSelector(getUser, _.isEqual)
-  const showModal = user?.preferences?.dontShowFornyaDialog !== 'true'
+  const dontShowFornyaDialog = 'wc.dontShowFornyaDialog'
+  const showModal = user?.preferences?.[dontShowFornyaDialog] !== 'true'
 
   const handleConfirm = () => {
     if (checked) {
-      dispatch(updateUserPreference({ key: 'dontShowFornyaDialog', value: 'true' }))
+      dispatch(setUserPreference({ key: dontShowFornyaDialog, value: 'true' }))
     }
     dispatch(renewCertificate(history))
   }
