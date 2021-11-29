@@ -139,7 +139,6 @@ const DatePickerCustom: React.FC<Props> = ({
           data-testid={textInputDataTestId}
         />
         <DatePicker
-          calendarStartDay={1}
           disabled={disabled}
           shouldCloseOnSelect={true}
           onChange={() => {
@@ -151,7 +150,7 @@ const DatePickerCustom: React.FC<Props> = ({
               displayValidationError={displayValidationErrorOutline || displayFormattingError}
               onClick={() => setOpen(true)}
               className={`ic-button `}
-              onClickCapture={() => setOpen(!open)}>
+              onClickCapture={() => setOpen(true)}>
               <img src={calendarImage} />{' '}
             </StyledButton>
           }
