@@ -1,5 +1,6 @@
 import { Answer, Complement, Question } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
+import { ApiGenericError } from '../api/apiActions'
 
 const QUESTION = '[Question]'
 
@@ -47,7 +48,9 @@ export interface QuestionResponse {
 
 export const sendQuestionSuccess = createAction<QuestionResponse>(`${QUESTION} Send question success`)
 
-export const sendQuestionError = createAction<string>(`${QUESTION} Send question error`)
+export const sendQuestionError = createAction<ApiGenericError>(`${QUESTION} Send question error`)
+
+export const updateSendingQuestion = createAction<boolean>(`${QUESTION} Set sending question`)
 
 export const createQuestion = createAction<Question>(`${QUESTION} Create question`)
 
