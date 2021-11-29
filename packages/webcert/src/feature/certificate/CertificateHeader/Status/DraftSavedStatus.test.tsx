@@ -1,17 +1,26 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import DraftSavedStatus from './DraftSavedStatus'
 import { createCertificateMetadata } from './statusTestUtils'
 import { CertificateStatus } from '@frontend/common/src'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
+import { BrowserRouter } from 'react-router-dom'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 
 const renderComponent = (isSigned: boolean, isValidating: boolean) => {
   render(
-    <DraftSavedStatus
-      isEditable={true}
-      certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED)}
-      isValidating={isValidating}
-    />
+    <Provider store={store}>
+      <BrowserRouter>
+        <CertificateHeaderStatuses
+          certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, 'lisjp')}
+          historyEntries={[]}
+          questions={[]}
+          isValidForSigning={false}
+          isValidating={isValidating}
+        />
+      </BrowserRouter>
+    </Provider>
   )
 }
 

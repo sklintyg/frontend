@@ -1,4 +1,4 @@
-import { CertificateMetadata, StatusWithIcon, TextWithInfoModal, isDisabled } from '@frontend/common'
+import { CertificateMetadata, StatusWithIcon } from '@frontend/common'
 import React from 'react'
 import RevokedStatus from './RevokedStatus'
 import SignableStatus from './SignableStatus'
@@ -9,12 +9,12 @@ import HasBeenComplementedStatus from './HasBeenComplementedStatus'
 import ReplacedStatus from './ReplacedStatus'
 import AvailableForPatientStatus from './AvailableForPatientStatus'
 import LockedStatus from './LockedStatus'
-import { useSelector } from 'react-redux'
-import { getIsLocked, getIsValidating, getIsValidForSigning } from '../../../../store/certificate/certificateSelectors'
 import {
   CertificateEvent,
   getComplementedByCertificateEvent,
   hasUnhandledComplementQuestions,
+  isDraft,
+  isLocked,
   isReplacedByActiveChild,
   isRevoked,
   isSigned,
@@ -26,18 +26,26 @@ interface Props {
   historyEntries: CertificateEvent[]
   questions: Question[]
   isValidForSigning?: boolean
+  isValidating?: boolean
 }
 
-const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, historyEntries, questions, isValidForSigning }) => {
-  const isValidating = useSelector(getIsValidating)
-  const isLocked = useSelector(getIsLocked)
+const CertificateHeaderStatuses: React.FC<Props> = ({
+  certificateMetadata,
+  historyEntries,
+  questions,
+  isValidForSigning,
+  isValidating,
+}) => {
+  const isCertificateLocked = isLocked(certificateMetadata)
 
   const getStatusInFirstPosition = () => {
     const complementedEvent = getComplementedByCertificateEvent(historyEntries)
-    if (isRevoked(certificateMetadata)) {
+
+    if (isCertificateLocked) {
+      return <LockedStatus certificateMetadata={certificateMetadata} />
+    } else if (isRevoked(certificateMetadata)) {
       return <RevokedStatus certificateMetadata={certificateMetadata} />
-    }
-    if (isSigned(certificateMetadata)) {
+    } else if (isSigned(certificateMetadata)) {
       if (isReplacedByActiveChild(certificateMetadata)) {
         return <ReplacedStatus certificateMetadata={certificateMetadata} />
       }
@@ -51,8 +59,6 @@ const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, histo
         return <SentStatus certificateMetadata={certificateMetadata} />
       }
       return <StatusWithIcon icon={'CheckIcon'}>Intyget har signerats</StatusWithIcon>
-    } else if (isLocked) {
-      return <LockedStatus certificateMetadata={certificateMetadata} />
     } else {
       return <SignableStatus isValidForSigning={isValidForSigning ? isValidForSigning : false} />
     }
@@ -61,7 +67,9 @@ const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, histo
   return (
     <>
       {getStatusInFirstPosition()}
-      <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating} isEditable={!isLocked} />
+      {!isCertificateLocked && isDraft(certificateMetadata) && (
+        <DraftSavedStatus certificateMetadata={certificateMetadata} isValidating={isValidating ? isValidating : false} />
+      )}
       <AvailableForPatientStatus certificateMetadata={certificateMetadata} />
     </>
   )

@@ -41,6 +41,29 @@ export const createCertificateMetadataWithReplacedOption = (
   }
 }
 
+export const createCertificateMetadataWithParentRelation = (
+  status: CertificateStatus,
+  parentStatus: CertificateStatus,
+  type: CertificateRelationType,
+  sent?: boolean
+): CertificateMetadata => {
+  // @ts-ignore
+  return {
+    status: status,
+    sent: sent ? sent : false,
+    type: 'lisjp',
+    relations: {
+      parent: {
+        type: type,
+        status: parentStatus,
+        certificateId: 'certificateId',
+        created: 'created',
+      },
+      children: [],
+    },
+  }
+}
+
 export const createHistoryEntriesWithComplementEvent = (status: CertificateStatus): CertificateEvent[] => {
   return [
     {

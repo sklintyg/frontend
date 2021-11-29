@@ -50,6 +50,7 @@ const CertificateHeader = () => {
   )
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
+  const isValidating = useSelector(getIsValidating)
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -66,6 +67,7 @@ const CertificateHeader = () => {
               certificateMetadata={certificateMetadata}
               questions={questions}
               isValidForSigning={isValidForSigning}
+              isValidating={isValidating}
             />
           </StatusLeftSide>
           <ShowHistory historyEntries={historyEntries} certificateMetadata={certificateMetadata} />
