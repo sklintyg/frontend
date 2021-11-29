@@ -21,7 +21,7 @@ const renderComponent = (status: CertificateStatus, includeEvent: boolean) => {
           certificateMetadata={
             includeEvent
               ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, status, CertificateRelationType.COMPLEMENTED, true)
-              : createCertificateMetadata(CertificateStatus.SIGNED)
+              : createCertificateMetadata(CertificateStatus.SIGNED, true)
           }
           questions={[]}
         />

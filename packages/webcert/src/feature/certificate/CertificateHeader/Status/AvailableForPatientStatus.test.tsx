@@ -12,8 +12,7 @@ const renderComponent = (isSigned: boolean, type?: string) => {
   render(
     <Provider store={store}>
       <CertificateHeaderStatuses
-        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, type)}
-        historyEntries={[]}
+        certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, false, type)}
         questions={[]}
       />
     </Provider>

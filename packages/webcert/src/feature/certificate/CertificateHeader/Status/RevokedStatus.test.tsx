@@ -15,9 +15,10 @@ const renderComponent = (isRevoked: boolean) => {
       <BrowserRouter>
         <CertificateHeaderStatuses
           certificateMetadata={
-            isRevoked ? createCertificateMetadata(CertificateStatus.REVOKED) : createCertificateMetadata(CertificateStatus.SIGNED)
+            isRevoked
+              ? createCertificateMetadata(CertificateStatus.REVOKED, true)
+              : createCertificateMetadata(CertificateStatus.SIGNED, true)
           }
-          historyEntries={[]}
           questions={[]}
         />
       </BrowserRouter>

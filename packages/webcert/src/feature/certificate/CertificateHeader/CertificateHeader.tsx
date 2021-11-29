@@ -63,7 +63,6 @@ const CertificateHeader = () => {
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
-              historyEntries={historyEntries}
               certificateMetadata={certificateMetadata}
               questions={questions}
               isValidForSigning={isValidForSigning}

@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata, createCertificateMetadataWithReplacedOption } from './statusTestUtils'
-import { CertificateStatus } from '@frontend/common/src'
+import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
+import { CertificateRelationType, CertificateStatus } from '@frontend/common/src'
 
 const renderComponent = (childStatus: CertificateStatus) => {
   render(
@@ -15,10 +15,9 @@ const renderComponent = (childStatus: CertificateStatus) => {
         <CertificateHeaderStatuses
           certificateMetadata={
             childStatus
-              ? createCertificateMetadataWithReplacedOption(CertificateStatus.SIGNED, true, childStatus)
-              : createCertificateMetadata(CertificateStatus.SIGNED)
+              ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, childStatus, CertificateRelationType.REPLACED, true)
+              : createCertificateMetadata(CertificateStatus.SIGNED, true)
           }
-          historyEntries={[]}
           questions={[]}
         />
       </BrowserRouter>
