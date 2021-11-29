@@ -4,6 +4,7 @@ import {
   CertificateEvent,
   CertificateEventType,
   CertificateMetadata,
+  CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
   Question,
@@ -105,8 +106,10 @@ export const hasUnhandledComplementQuestions = (questions: Question[]): boolean 
   return questions.some((question) => question.type === QuestionType.COMPLEMENT && !question.handled)
 }
 
-export const getComplementedByCertificateEvent = (historyEntries: CertificateEvent[]): CertificateEvent | undefined => {
-  return historyEntries
-    ? historyEntries.find((c) => c.type === CertificateEventType.COMPLEMENTED && c.relatedCertificateStatus !== CertificateStatus.REVOKED)
+export const getComplementedByCertificateRelation = (certificateMetadata: CertificateMetadata): CertificateRelation | undefined => {
+  return certificateMetadata && certificateMetadata.relations && certificateMetadata.relations.children
+    ? certificateMetadata.relations.children.find(
+        (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
+      )
     : undefined
 }

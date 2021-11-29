@@ -1,10 +1,10 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { CertificateStatus } from '../../../../../../common/src/types/certificate'
+import { CertificateRelationType, CertificateStatus } from '../../../../../../common/src/types/certificate'
 import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { createCertificateMetadata, createHistoryEntriesWithComplementEvent } from './statusTestUtils'
+import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -18,8 +18,11 @@ const renderComponent = (status: CertificateStatus, includeEvent: boolean) => {
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(CertificateStatus.SIGNED)}
-          historyEntries={includeEvent ? createHistoryEntriesWithComplementEvent(status) : []}
+          certificateMetadata={
+            includeEvent
+              ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, status, CertificateRelationType.COMPLEMENTED, true)
+              : createCertificateMetadata(CertificateStatus.SIGNED)
+          }
           questions={[]}
         />
       </BrowserRouter>

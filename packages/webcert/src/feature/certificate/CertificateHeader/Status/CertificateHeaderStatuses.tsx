@@ -12,6 +12,7 @@ import LockedStatus from './LockedStatus'
 import {
   CertificateEvent,
   getComplementedByCertificateEvent,
+  getComplementedByCertificateRelation,
   hasUnhandledComplementQuestions,
   isDraft,
   isLocked,
@@ -23,23 +24,16 @@ import {
 
 interface Props {
   certificateMetadata: CertificateMetadata
-  historyEntries: CertificateEvent[]
   questions: Question[]
   isValidForSigning?: boolean
   isValidating?: boolean
 }
 
-const CertificateHeaderStatuses: React.FC<Props> = ({
-  certificateMetadata,
-  historyEntries,
-  questions,
-  isValidForSigning,
-  isValidating,
-}) => {
+const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, questions, isValidForSigning, isValidating }) => {
   const isCertificateLocked = isLocked(certificateMetadata)
 
   const getStatusInFirstPosition = () => {
-    const complementedEvent = getComplementedByCertificateEvent(historyEntries)
+    const complementedRelation = getComplementedByCertificateRelation(certificateMetadata)
 
     if (isCertificateLocked) {
       return <LockedStatus certificateMetadata={certificateMetadata} />
@@ -49,8 +43,8 @@ const CertificateHeaderStatuses: React.FC<Props> = ({
       if (isReplacedByActiveChild(certificateMetadata)) {
         return <ReplacedStatus certificateMetadata={certificateMetadata} />
       }
-      if (complementedEvent) {
-        return <HasBeenComplementedStatus certificateEvent={complementedEvent} />
+      if (complementedRelation) {
+        return <HasBeenComplementedStatus relation={complementedRelation} />
       }
       if (hasUnhandledComplementQuestions(questions)) {
         return <ComplementStatus />

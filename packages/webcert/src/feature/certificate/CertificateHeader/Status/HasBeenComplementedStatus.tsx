@@ -1,19 +1,19 @@
 import React from 'react'
-import { CertificateEvent, CertificateStatus, StatusWithIcon } from '@frontend/common/src'
+import { CertificateRelation, CertificateStatus, StatusWithIcon } from '@frontend/common/src'
 import { Link } from 'react-router-dom'
 
 interface Props {
-  certificateEvent: CertificateEvent | undefined
+  relation: CertificateRelation | undefined
 }
 
-const HasBeenComplementedStatus: React.FC<Props> = ({ certificateEvent }) => {
-  if (!certificateEvent) {
+const HasBeenComplementedStatus: React.FC<Props> = ({ relation }) => {
+  if (!relation) {
     return null
   }
 
   const getText = () => {
-    const relatedCertificateStatus = certificateEvent.relatedCertificateStatus
-    switch (relatedCertificateStatus) {
+    const status = relation.status
+    switch (status) {
       case CertificateStatus.UNSIGNED:
         return 'Det finns redan en påbörjad komplettering.'
       case CertificateStatus.SIGNED:
@@ -22,8 +22,8 @@ const HasBeenComplementedStatus: React.FC<Props> = ({ certificateEvent }) => {
   }
 
   const getLink = () => {
-    const relatedCertificateStatus = certificateEvent.relatedCertificateStatus
-    switch (relatedCertificateStatus) {
+    const status = relation.status
+    switch (status) {
       case CertificateStatus.UNSIGNED:
         return 'Öppna utkastet.'
       case CertificateStatus.SIGNED:
@@ -35,7 +35,7 @@ const HasBeenComplementedStatus: React.FC<Props> = ({ certificateEvent }) => {
 
   return (
     <StatusWithIcon icon={'ErrorOutlineIcon'}>
-      {getText()} <Link to={`/certificate/${certificateEvent.relatedCertificateId}`}>{getLink()}</Link>
+      {getText()} <Link to={`/certificate/${relation.certificateId}`}>{getLink()}</Link>
     </StatusWithIcon>
   )
 }
