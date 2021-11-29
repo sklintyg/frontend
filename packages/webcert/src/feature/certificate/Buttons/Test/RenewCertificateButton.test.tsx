@@ -10,7 +10,8 @@ import { CertificateMetadata } from '@frontend/common'
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'
 const BODY = 'Renew button body'
-const PREFERENCES = { dontShowFornyaDialog: 'false' }
+const DONT_SHOW_FORNYA_DIALOG = 'wc.dontShowFornyaDialog'
+const PREFERENCES = { [DONT_SHOW_FORNYA_DIALOG]: 'false' }
 const user: User = {
   hsaId: '1234abc',
   name: 'Test Testtest',
@@ -107,9 +108,10 @@ describe('Renew certificate button', () => {
   })
 
   it('does not show dialog if preference to hide renewal dialog is set', () => {
-    user.preferences!.dontShowFornyaDialog = 'true'
+    user.preferences = { [DONT_SHOW_FORNYA_DIALOG]: 'true' }
     renderDefaultComponent(true)
-    userEvent.click(screen.queryByRole('button')!)
+    expect(screen.queryByRole('dialog')).toBeNull()
+    userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 })
