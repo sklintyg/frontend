@@ -4,6 +4,7 @@ import {
   CertificateEvent,
   CertificateEventType,
   CertificateMetadata,
+  CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
   Question,
@@ -21,7 +22,19 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   } = certificateMetadata
 
   if (children && children.length > 0) {
-    return children.some((relation) => relation.type === CertificateRelationType.REPLACE)
+    return children.some((relation) => relation.type === CertificateRelationType.REPLACED)
+  }
+
+  return false
+}
+
+export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata) => {
+  const {
+    relations: { children },
+  } = certificateMetadata
+
+  if (children && children.length > 0) {
+    return children.some((relation) => relation.type === CertificateRelationType.REPLACED && relation.status !== CertificateStatus.REVOKED)
   }
 
   return false
@@ -30,8 +43,12 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
 export const isLocked = (certificateMetadata: CertificateMetadata) =>
   certificateMetadata.status === CertificateStatus.LOCKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
+export const isLockedRevoked = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
+
+export const isDraft = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
+
 export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean) =>
-  certificateMetadata.status === CertificateStatus.UNSIGNED && !isValidating
+  isDraft(certificateMetadata) && !isValidating
 
 export const isRevoked = (certificateMetadata: CertificateMetadata) =>
   certificateMetadata.status === CertificateStatus.REVOKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
@@ -89,6 +106,8 @@ export const hasUnhandledComplementQuestions = (questions: Question[]): boolean 
   return questions.some((question) => question.type === QuestionType.COMPLEMENT && !question.handled)
 }
 
-export const getComplementedByCertificateEvent = (historyEntries: CertificateEvent[]): CertificateEvent | undefined => {
-  return historyEntries ? historyEntries.find((c) => c.type === CertificateEventType.COMPLEMENTED) : undefined
+export const getComplementedByCertificateRelation = (certificateMetadata: CertificateMetadata): CertificateRelation | undefined => {
+  return certificateMetadata?.relations?.children?.find(
+    (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
+  )
 }
