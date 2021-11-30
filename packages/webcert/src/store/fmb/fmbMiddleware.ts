@@ -1,6 +1,6 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import {apiCallBegan, apiGenericError, apiSilentGenericError} from '../api/apiActions'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,

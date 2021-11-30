@@ -1,14 +1,17 @@
 import { CertificateMetadata, StatusWithIcon, TextWithInfoModal, isDisabled } from '@frontend/common'
 import React from 'react'
+import { isLockedRevoked } from '@frontend/common/src'
 
 interface Props {
   certificateMetadata: CertificateMetadata
 }
 
 const LockedStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isDisabled(certificateMetadata)) return null
+  const isDraftLockedRevoked = isLockedRevoked(certificateMetadata)
 
-  return (
+  return isDraftLockedRevoked ? (
+    <StatusWithIcon icon={'ErrorOutlineIcon'}>Utkastet är makulerat</StatusWithIcon>
+  ) : (
     <StatusWithIcon icon={'ErrorOutlineIcon'} isModal>
       <TextWithInfoModal text="Utkastet är låst" modalTitle="Utkastet är låst">
         <p>Det har gått fler än fjorton dagar sedan det här utkastet skapades. Det har därför låsts.</p>

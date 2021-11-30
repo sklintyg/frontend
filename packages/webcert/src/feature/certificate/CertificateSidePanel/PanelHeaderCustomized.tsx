@@ -7,6 +7,7 @@ const Root = styled.div`
   position: sticky;
   bottom: 0;
   padding: 20px;
+  border-bottom: 1px solid #d9dadc;
 `
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const PanelHeaderCustomized: React.FC<Props> = ({ content }) => {
-  return <Root className="iu-bg-grey-300">{content}</Root>
+  return <Root className="iu-bg-white">{content}</Root>
 }
 
 export default PanelHeaderCustomized

@@ -1,82 +1,52 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as utils from '@frontend/common/src/utils/certificateUtils'
-import ReplacedStatus from './ReplacedStatus'
-import { CertificateMetadata, CertificateStatus } from '@frontend/common'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
-import { CertificateRelationType } from '@frontend/common/src'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
+import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
+import { CertificateRelationType, CertificateStatus } from '@frontend/common/src'
 
-const mockMetadata: CertificateMetadata = {
-  relations: {
-    children: [{ certificateId: 'test', created: '2000-01-01', status: CertificateStatus.SIGNED, type: CertificateRelationType.REPLACE }],
-  },
+const renderComponent = (childStatus: CertificateStatus) => {
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <CertificateHeaderStatuses
+          certificateMetadata={
+            childStatus
+              ? createCertificateMetadataWithChildRelation(CertificateStatus.SIGNED, childStatus, CertificateRelationType.REPLACED, true)
+              : createCertificateMetadata(CertificateStatus.SIGNED, true)
+          }
+          questions={[]}
+        />
+      </BrowserRouter>
+    </Provider>
+  )
 }
 
-it('displays that the certificate is replaced by a signed certificate', () => {
-  const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-  const isLockedSpy = jest.spyOn(utils, 'isLocked')
-  const getReplacedCertificateStatusSpy = jest.spyOn(utils, 'getReplacedCertificateStatus')
+describe('Replaced status', () => {
+  it('should display that the certificate is replaced by a signed certificate', () => {
+    renderComponent(CertificateStatus.SIGNED)
+    expect(screen.getByText('Intyget har ersatts av')).toBeInTheDocument()
+    expect(screen.getByText('detta intyg', { exact: false })).toBeInTheDocument()
+  })
 
-  isReplacedSpy.mockReturnValue(true)
-  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.SIGNED)
-  isLockedSpy.mockReturnValue(false)
+  it('should display that the certificate is replaced by an unsigned certificate', () => {
+    renderComponent(CertificateStatus.UNSIGNED)
+    expect(screen.getByText('Det finns redan ett påbörjat utkast som ska ersätta detta intyg.')).toBeInTheDocument()
+    expect(screen.getByText('Öppna utkastet')).toBeInTheDocument()
+  })
 
-  render(
-    <BrowserRouter>
-      <ReplacedStatus certificateMetadata={mockMetadata} />
-    </BrowserRouter>
-  )
-  expect(screen.getByText(/Intyget har ersatts av/i)).toBeInTheDocument()
-})
+  it('should not display status if not replaced', () => {
+    renderComponent(undefined)
+    expect(screen.queryByText('Intyget har ersatts av')).not.toBeInTheDocument()
+    expect(screen.queryByText('Det finns redan ett påbörjat utkast som ska ersätta detta intyg.')).not.toBeInTheDocument()
+  })
 
-it('displays that the certificate is replaced by an unsigned certificate', async () => {
-  const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-  const getReplacedCertificateStatusSpy = jest.spyOn(utils, 'getReplacedCertificateStatus')
-  const isLockedSpy = jest.spyOn(utils, 'isLocked')
-
-  isReplacedSpy.mockReturnValue(true)
-  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.UNSIGNED)
-  isLockedSpy.mockReturnValue(false)
-
-  render(
-    <BrowserRouter>
-      <ReplacedStatus certificateMetadata={mockMetadata} />
-    </BrowserRouter>
-  )
-  expect(screen.getByText(/Det finns redan ett påbörjat utkast som ska ersätta detta intyg/i)).toBeInTheDocument()
-})
-
-it('displays that the certificate is replaced by a revoked certificate', async () => {
-  const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-  const getReplacedCertificateStatusSpy = jest.spyOn(utils, 'getReplacedCertificateStatus')
-  const isLockedSpy = jest.spyOn(utils, 'isLocked')
-
-  isReplacedSpy.mockReturnValue(true)
-  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.REVOKED)
-  isLockedSpy.mockReturnValue(false)
-
-  render(
-    <BrowserRouter>
-      <ReplacedStatus certificateMetadata={mockMetadata} />
-    </BrowserRouter>
-  )
-  expect(screen.getByText(/Intyget ersattes av ett intyg som nu är makulerat./i)).toBeInTheDocument()
-})
-
-it('doesnt render anything', async () => {
-  const isReplacedSpy = jest.spyOn(utils, 'isReplaced')
-  const getReplacedCertificateStatusSpy = jest.spyOn(utils, 'getReplacedCertificateStatus')
-  const isLockedSpy = jest.spyOn(utils, 'isLocked')
-
-  isReplacedSpy.mockReturnValue(false)
-  getReplacedCertificateStatusSpy.mockReturnValue(CertificateStatus.SIGNED)
-  isLockedSpy.mockReturnValue(false)
-
-  render(
-    <BrowserRouter>
-      <ReplacedStatus certificateMetadata={mockMetadata} />
-    </BrowserRouter>
-  )
-  expect(screen.queryByText(/Intyget har ersatts av/i)).not.toBeInTheDocument()
+  it('should not display status if child is revoked', () => {
+    renderComponent(CertificateStatus.REVOKED)
+    expect(screen.queryByText('Intyget har ersatts av')).not.toBeInTheDocument()
+    expect(screen.queryByText('Det finns redan ett påbörjat utkast som ska ersätta detta intyg.')).not.toBeInTheDocument()
+  })
 })
