@@ -9,6 +9,8 @@ import ErrorPage from './ErrorPage'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../store/error/errorMiddleware'
 import { ErrorCode } from '../store/error/errorReducer'
+import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
+import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 
 let testStore: EnhancedStore
 
@@ -32,11 +34,6 @@ const renderComponent = () => {
 }
 
 const ERROR_ID = 'ERROR_ID'
-const LOGGED_OUT_TITLE = 'Du är utloggad'
-const LOGGED_OUT_DESCRIPTION = 'Du har blivit utloggad från Webcert på grund av inaktivitet.'
-
-const AUTHORIZATION_MISSING_TITLE = 'Behörighet saknas'
-const AUTHORIZATION_MISSING_DESCRIPTION = 'Du saknar behörighet för att komma åt utkastet.'
 
 describe('ErrorPage', () => {
   beforeEach(() => {
@@ -59,8 +56,8 @@ describe('ErrorPage', () => {
       history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
       renderComponent()
 
-      expect(screen.getByText(LOGGED_OUT_TITLE)).toBeInTheDocument()
-      expect(screen.getByText(LOGGED_OUT_DESCRIPTION, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(TIMEOUT_TITLE)).toBeInTheDocument()
+      expect(screen.getByText(TIMEOUT_MESSAGE, { exact: false })).toBeInTheDocument()
     })
   })
 
@@ -69,8 +66,8 @@ describe('ErrorPage', () => {
       history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM, errorId: ERROR_ID })
       renderComponent()
 
-      expect(screen.getByText(AUTHORIZATION_MISSING_TITLE)).toBeInTheDocument()
-      expect(screen.getByText(AUTHORIZATION_MISSING_DESCRIPTION, { exact: false })).toBeInTheDocument()
+      expect(screen.getByText(AUTHORIZATION_PROBLEM_TITLE)).toBeInTheDocument()
+      expect(screen.getByText(AUTHORIZATION_PROBLEM_MESSAGE, { exact: false })).toBeInTheDocument()
     })
   })
 })
