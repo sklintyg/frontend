@@ -101,6 +101,8 @@ const FormattedText = styled.p`
   white-space: pre-line;
 `
 
+export const COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE = 'Kompletteringsbegäran har besvarats med ett meddelande.'
+
 interface Props {
   question: Question
 }
@@ -201,7 +203,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
             <Wrapper>
-              <div className={'iu-fullwidth iu-color-black iu-text-left'}>Kompletteringsbegäran besvarades med ett meddelande.</div>
+              <div className={'iu-fullwidth iu-color-black iu-text-left'}>{COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE}</div>
             </Wrapper>
           </div>
         </Complement>

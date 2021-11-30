@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Place } from 'react-tooltip'
+import ReactTooltip, { Place } from 'react-tooltip'
 
 const NumberCircle = styled.span`
   width: 0px;
@@ -30,6 +30,10 @@ interface Props {
 }
 
 export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  }, [props.tooltip])
+
   let addedClass = ''
   if (props.rounded) {
     addedClass = 'ic-button--rounded '
