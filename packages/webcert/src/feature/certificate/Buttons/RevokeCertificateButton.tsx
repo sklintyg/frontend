@@ -36,7 +36,6 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
     } else if (dispatchObject.reason === 'FEL_PATIENT') {
       return false
     }
-
     return true
   }
 

@@ -1,11 +1,4 @@
-import {
-  CertificateMetadata,
-  isReplaced,
-  getReplacedCertificateStatus,
-  CertificateStatus,
-  StatusWithIcon,
-  isLocked,
-} from '@frontend/common'
+import { CertificateMetadata, getReplacedCertificateStatus, CertificateStatus, StatusWithIcon } from '@frontend/common'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -14,39 +7,20 @@ interface Props {
 }
 
 const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isReplaced(certificateMetadata)) return null
-
-  const locked = isLocked(certificateMetadata)
+  const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
 
   const getText = () => {
-    const replacedCertificateStatus = getReplacedCertificateStatus(certificateMetadata)
-
     switch (replacedCertificateStatus) {
       case CertificateStatus.SIGNED:
         return (
           <>
-            {locked ? 'Utkastet' : 'Intyget'} har ersatts av{' '}
-            <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>detta intyg</Link>
+            Intyget har ersatts av <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>detta intyg</Link>
           </>
         )
       case CertificateStatus.UNSIGNED:
         return (
           <>
-            Det finns redan ett påbörjat utkast som ska ersätta detta {locked ? 'utkast' : 'intyg'}.{' '}
-            <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>Öppna utkastet</Link>
-          </>
-        )
-      case CertificateStatus.REVOKED:
-        return (
-          <>
-            {locked ? 'Utkastet' : 'Intyget'} ersattes av ett intyg som nu är makulerat.{' '}
-            <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>Öppna intyget</Link>
-          </>
-        )
-      case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
-        return (
-          <>
-            Utkastet ersattes av ett utkast som nu är låst.{' '}
+            Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
             <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>Öppna utkastet</Link>
           </>
         )

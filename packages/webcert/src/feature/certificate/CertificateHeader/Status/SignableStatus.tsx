@@ -3,12 +3,9 @@ import React from 'react'
 
 interface Props {
   isValidForSigning: boolean
-  certificateMetadata: CertificateMetadata
 }
 
-const SignableStatus: React.FC<Props> = ({ isValidForSigning, certificateMetadata }) => {
-  if (!isUnsigned(certificateMetadata)) return null
-
+const SignableStatus: React.FC<Props> = ({ isValidForSigning }) => {
   return (
     <StatusWithIcon icon={isValidForSigning ? 'CheckIcon' : 'ErrorOutlineIcon'}>
       {isValidForSigning ? 'Klart att signera' : 'Obligatoriska uppgifter saknas'}
