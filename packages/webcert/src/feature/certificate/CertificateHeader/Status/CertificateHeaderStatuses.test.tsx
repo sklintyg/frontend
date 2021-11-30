@@ -106,7 +106,7 @@ const renderComponentWithDraft = (status: CertificateStatus, isValidating: boole
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(status)}
+          certificateMetadata={createCertificateMetadata(status, false)}
           questions={[]}
           isValidating={isValidating}
           isValidForSigning={isValidForSigning}
@@ -147,8 +147,6 @@ const renderComponentWithChildRelation = (
       <BrowserRouter>
         <CertificateHeaderStatuses
           certificateMetadata={createCertificateMetadataWithChildRelation(status, childStatus, relationType, isSent)}
-          historyEntries={[]}
-          questions={[]}
           isValidating={false}
           questions={
             hasUnhandledComplementQuestions

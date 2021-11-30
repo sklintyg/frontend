@@ -107,9 +107,7 @@ export const hasUnhandledComplementQuestions = (questions: Question[]): boolean 
 }
 
 export const getComplementedByCertificateRelation = (certificateMetadata: CertificateMetadata): CertificateRelation | undefined => {
-  return certificateMetadata && certificateMetadata.relations && certificateMetadata.relations.children
-    ? certificateMetadata.relations.children.find(
-        (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
-      )
-    : undefined
+  return certificateMetadata?.relations?.children?.find(
+    (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
+  )
 }
