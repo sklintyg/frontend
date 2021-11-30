@@ -8,6 +8,7 @@ import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
+import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 
 let testStore: EnhancedStore
 
@@ -123,7 +124,7 @@ describe('ComplementQuestionPanel', () => {
     })
 
     it('displays information', () => {
-      expect(screen.getByText('Kompletteringsbegäran besvarades med ett meddelande.')).toBeInTheDocument()
+      expect(screen.getByText(COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE)).toBeInTheDocument()
     })
   })
 })
