@@ -28,6 +28,7 @@ export interface CertificateMetadata {
   readyForSign?: string
   relations: CertificateRelations
   unit: Unit
+  careUnit: Unit
   careProvider: Unit
   patient: Patient
   issuedBy: Staff
