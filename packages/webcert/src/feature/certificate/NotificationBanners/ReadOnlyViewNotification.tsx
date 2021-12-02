@@ -11,8 +11,8 @@ const ReadOnlyViewNotification: React.FC = () => {
 
   const shouldRender = (): boolean => {
     const isSameCareProvider = metadata?.careProvider.unitId === user?.loggedInCareProvider.unitId
-    const isDifferentUnit = metadata?.unit.unitId !== user?.loggedInUnit.unitId
-    return isSameCareProvider && isDifferentUnit
+    const isDifferentCareUnit = metadata?.careUnit.unitId !== user?.loggedInCareUnit.unitId
+    return isSameCareProvider && isDifferentCareUnit
   }
 
   if (!shouldRender()) return null
@@ -20,7 +20,7 @@ const ReadOnlyViewNotification: React.FC = () => {
   return (
     <NotificationBannerBase type={'observe'}>
       <p>
-        Utfärdat på: {metadata?.careProvider.unitName} - {metadata?.unit.unitName}
+        Utfärdat på: {metadata?.careProvider.unitName} - {metadata?.careUnit.unitName}
       </p>
     </NotificationBannerBase>
   )

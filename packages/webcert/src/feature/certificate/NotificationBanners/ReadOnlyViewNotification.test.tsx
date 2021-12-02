@@ -19,14 +19,14 @@ const renderDefaultComponent = () => {
   )
 }
 
-const UNIT_ID = 'UNIT_ID'
-const UNIT_NAME = 'UNIT_NAME'
+const CARE_UNIT_ID = 'CARE_UNIT_ID'
+const CARE_UNIT_NAME = 'CARE_UNIT_NAME'
 const CARE_PROVIDER_ID = 'CARE_PROVIDER_ID'
 const CARE_PROVIDER_NAME = 'CARE_UNIT_NAME'
-const USER_LOGGED_IN_UNIT_ID = 'USER_LOGGED_IN_UNIT_ID'
+const USER_LOGGED_IN_CARE_UNIT_ID = 'USER_LOGGED_IN_CARE_UNIT_ID'
 const USER_LOGGED_IN_CARE_PROVIDER_ID = 'USER_LOGGED_IN_CARE_PROVIDER_ID'
 
-const INFO_TEXT = `Utfärdat på: ${CARE_PROVIDER_NAME} - ${UNIT_NAME}`
+const INFO_TEXT = `Utfärdat på: ${CARE_PROVIDER_NAME} - ${CARE_UNIT_NAME}`
 
 describe('ReadOnlyViewNotification', () => {
   beforeEach(() => {
@@ -37,19 +37,19 @@ describe('ReadOnlyViewNotification', () => {
   })
 
   it('shall render a banner if care provider id is same but not unit id', () => {
-    setState(UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_UNIT_ID, CARE_PROVIDER_ID)
+    setState(CARE_UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_CARE_UNIT_ID, CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
   })
 
   it('shall not render a banner if unit id is same', () => {
-    setState(UNIT_ID, CARE_PROVIDER_ID, UNIT_ID, CARE_PROVIDER_ID)
+    setState(CARE_UNIT_ID, CARE_PROVIDER_ID, CARE_UNIT_ID, CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 
   it('shall not render a banner if care provider id is not same', () => {
-    setState(UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_UNIT_ID, USER_LOGGED_IN_CARE_PROVIDER_ID)
+    setState(CARE_UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_CARE_UNIT_ID, USER_LOGGED_IN_CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
@@ -67,10 +67,10 @@ const setState = (unitId: string, careProviderId: string, userUnitId: string, us
   testStore.dispatch(updateCertificate(certificate))
 }
 
-const createUser = (userUnitId: string, userCareProviderId: string): User => {
+const createUser = (userCareUnitId: string, userCareProviderId: string): User => {
   return {
-    loggedInUnit: {
-      unitId: userUnitId,
+    loggedInCareUnit: {
+      unitId: userCareUnitId,
     },
     loggedInCareProvider: {
       unitId: userCareProviderId,
@@ -78,14 +78,14 @@ const createUser = (userUnitId: string, userCareProviderId: string): User => {
   }
 }
 
-const createCertificate = (unitId: string, careProviderId: string): Certificate => {
+const createCertificate = (careUnitId: string, careProviderId: string): Certificate => {
   return {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     metadata: {
-      unit: {
-        unitId: unitId,
-        unitName: UNIT_NAME,
+      careUnit: {
+        unitId: careUnitId,
+        unitName: CARE_UNIT_NAME,
       },
       careProvider: {
         unitId: careProviderId,
