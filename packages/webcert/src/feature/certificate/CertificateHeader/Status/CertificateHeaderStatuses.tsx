@@ -52,7 +52,7 @@ const CertificateHeaderStatuses: React.FC<Props> = ({ certificateMetadata, quest
       if (certificateMetadata.sent) {
         return <SentStatus certificateMetadata={certificateMetadata} />
       }
-      return <StatusWithIcon icon={'CheckIcon'}>Intyget har signerats</StatusWithIcon>
+      return <StatusWithIcon icon={'CheckIcon'}>Intyget är signerat</StatusWithIcon>
     } else {
       return <SignableStatus isValidForSigning={isValidForSigning ? isValidForSigning : false} />
     }

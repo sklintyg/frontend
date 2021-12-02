@@ -28,7 +28,7 @@ const COMPLEMENT_CERTIFICATE = 'Intyget har kompletterats med ett annat intyg.'
 const REVOKED_RENEWED = 'Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.'
 const REVOKED_REPLACED = 'Intyget ersatte ett tidigare intyg som också kan behöva makuleras.'
 const REVOKED_COMPLEMENTED = 'Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.'
-const SIGNED_STATUS = 'Intyget har signerats'
+const SIGNED_STATUS = 'Intyget är signerat'
 const REPLACED_DRAFT = 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg.'
 const REPLACED_CERTIFICATE = 'Intyget har ersatts av'
 
