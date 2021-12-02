@@ -150,3 +150,7 @@ img {
     width: 7.5rem !important;
   }
 }
+
+.ic-link-list--nav .ic-button--secondary {
+  color: #01A5A3 !important;
+}
