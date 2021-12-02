@@ -4,7 +4,10 @@ import { revokeCertificate, RevokeCertificateReason } from '../../../store/certi
 import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import _ from 'lodash'
+import { CertificateStatus, isDraft } from '@frontend/common/src'
 
 interface Props {
   name: string
@@ -16,6 +19,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
+  const metadata = useSelector(getCertificateMetaData, _.isEqual)
 
   const handleRevokeForm = (obj: RevokeCertificateReason) => {
     setDispatchObject(obj)
@@ -48,7 +52,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
       disabled={!enabled}
       description={description}
       startIcon={<FontAwesomeIcon size="lg" icon={faTrash} />}
-      modalTitle="Makulera intyg"
+      modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
       confirmButtonText="Makulera">
       <RevokeCertificateModalContent onChange={handleRevokeForm} />
