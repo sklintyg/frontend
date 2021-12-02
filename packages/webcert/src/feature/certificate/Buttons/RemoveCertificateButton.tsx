@@ -30,7 +30,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       }}
       confirmButtonText="Radera"
       declineButtonText="Avbryt">
-      <p>När du raderar utkastet tas det bort från webcert</p>
+      <p>När du raderar utkastet tas det bort från webcert.</p>
     </ButtonWithConfirmModal>
   )
 }
