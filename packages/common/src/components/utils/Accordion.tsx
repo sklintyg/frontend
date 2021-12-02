@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { MandatoryIcon } from '@frontend/common'
 import Icon from '../image/Icon'
+import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 
 const Text = styled.p`
-  max-height: 188px;
+  max-height: 195px;
   overflow-y: auto;
+  white-space: pre-wrap;
 
   ul {
     list-style: unset;
@@ -29,7 +31,7 @@ const StyledDetails = styled.details`
 `
 
 interface Props {
-  title: string
+  title?: string
   titleId: string
   header?: string
   description: string
@@ -38,6 +40,7 @@ interface Props {
   isCategory?: boolean
   icon?: string
   includeIconTooltip?: boolean
+  iconSize?: FontAwesomeIconProps['size']
 }
 
 const Accordion: React.FC<Props> = ({
@@ -50,6 +53,8 @@ const Accordion: React.FC<Props> = ({
   header,
   isCategory,
   includeIconTooltip,
+  iconSize,
+  children,
 }) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
@@ -57,7 +62,7 @@ const Accordion: React.FC<Props> = ({
     if (!hasHeader) {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} />
+          <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
           <MandatoryIcon display={displayMandatory as boolean} />{' '}
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
         </StyledSummary>
@@ -65,7 +70,7 @@ const Accordion: React.FC<Props> = ({
     } else {
       return (
         <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon iconType={icon ? icon : ''} />
+          <Icon iconType={icon ? icon : ''} size={iconSize} />
           <MandatoryIcon display={displayMandatory as boolean} /> <h5 className={`iu-fs-200 ${additionalStyles}`}>{title}</h5>
         </StyledSummary>
       )
@@ -76,7 +81,15 @@ const Accordion: React.FC<Props> = ({
     <div id={titleId}>
       {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
       <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
-        {getHeader()}
+        {title ? (
+          getHeader()
+        ) : (
+          <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron">
+            {' '}
+            <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
+            {children}
+          </StyledSummary>
+        )}
         <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={{ __html: description }}></Text>
       </StyledDetails>
     </div>

@@ -23,6 +23,7 @@ import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
+import { Accordion } from '@frontend/common/src'
 
 interface Props {
   question: CertificateDataElement
@@ -133,10 +134,24 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <div>
         {!disabled && (
           <DaysRangeWrapper>
-            <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
-            <p>Patienten arbetar i snitt</p>
-            <TextInput onChange={handleWorkingHoursOnChange} className="ic-textfield" value={baseWorkHours} type="text" maxLength={2} />
-            <p>timmar/vecka</p>
+            <Accordion
+              titleId={'workHours'}
+              icon={'lightbulb_outline'}
+              iconSize={'sm'}
+              includeIconTooltip={true}
+              description={
+                'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
+              }>
+              <p className={'iu-fs-300 iu-fw-body'}>Patienten arbetar i snitt</p>
+              <TextInput
+                onChange={handleWorkingHoursOnChange}
+                className="ic-textfield iu-mx-200"
+                value={baseWorkHours}
+                type="text"
+                maxLength={2}
+              />
+              <p className={'iu-fs-300 iu-fw-body'}>timmar/vecka</p>
+            </Accordion>
           </DaysRangeWrapper>
         )}
       </div>
