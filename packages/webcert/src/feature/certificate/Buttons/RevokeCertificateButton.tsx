@@ -7,7 +7,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
-import { CertificateStatus, isDraft } from '@frontend/common/src'
+import { CertificateStatus } from '@frontend/common/src'
 
 interface Props {
   name: string
