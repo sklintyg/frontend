@@ -225,6 +225,15 @@ export const getCertificate = (): Certificate => {
         zipCode: '',
         unitName: '',
       },
+      careUnit: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
       unit: {
         unitId: '',
         address: '',

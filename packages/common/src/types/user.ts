@@ -5,6 +5,7 @@ export interface User {
   name: string
   role: string
   loggedInUnit: Unit
+  loggedInCareUnit: Unit
   loggedInCareProvider: Unit
   preferences: { [key: string]: string } | null
   signingMethod: SigningMethod

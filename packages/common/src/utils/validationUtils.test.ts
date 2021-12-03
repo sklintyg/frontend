@@ -541,6 +541,15 @@ describe('Validate multiple show rules', () => {
         phoneNumber: '0101112131416',
         email: 'enhet3@webcert.invalid.se',
       },
+      careUnit: {
+        unitId: 'TSTNMT2321000156-1077',
+        unitName: 'NMT vg3 ve1',
+        address: 'NMT gata 3',
+        zipCode: '12345',
+        city: 'Testhult',
+        phoneNumber: '0101112131416',
+        email: 'enhet3@webcert.invalid.se',
+      },
       careProvider: {
         unitId: 'TSTNMT2321000156-102Q',
         unitName: 'NMT vg3',
