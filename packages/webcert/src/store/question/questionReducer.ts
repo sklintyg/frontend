@@ -5,7 +5,7 @@ import {
   addQuestion,
   clearQuestionDraft,
   resetState,
-  updateSendingQuestion,
+  toggleQuestionFunctionBlocker,
   updateAnswer,
   updateAnswerDraftSaved,
   updateCertificateId,
@@ -19,8 +19,10 @@ import {
   updateQuestionMissingMessage,
   updateQuestionMissingType,
   updateQuestions,
+  updateSendingQuestion,
 } from './questionActions'
 import { QuestionType } from '@frontend/common/src'
+import { FunctionBlocker, toggleFunctionBlocker } from '../../components/utils/functionBlockerUtils'
 
 interface QuestionState {
   questions: Question[]
@@ -36,6 +38,7 @@ interface QuestionState {
   }
   isDisplayingCertificateDraft: boolean
   isSendingQuestion: boolean
+  functionBlockers: FunctionBlocker[]
 }
 
 const getInitialState = (): QuestionState => {
@@ -51,6 +54,7 @@ const getInitialState = (): QuestionState => {
     isAnswerDraftSaved: {},
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
+    functionBlockers: [],
   }
 }
 
@@ -126,6 +130,9 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateSendingQuestion, (state, action) => {
       state.isSendingQuestion = action.payload
+    })
+    .addCase(toggleQuestionFunctionBlocker, (state, action) => {
+      state.functionBlockers = toggleFunctionBlocker(state.functionBlockers, action.payload)
     })
 )
 

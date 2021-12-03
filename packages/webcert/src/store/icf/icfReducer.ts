@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateIcfCodes, updateLoading } from './icfActions'
+import { toggleIcfFunctionBlocker, updateIcfCodes, updateLoading } from './icfActions'
+import { FunctionBlocker, toggleFunctionBlocker } from '../../components/utils/functionBlockerUtils'
 
 export interface IcfCode {
   title: string
@@ -27,10 +28,12 @@ export interface IcfState {
   disability?: AvailableIcfCodes
   activityLimitation?: AvailableIcfCodes
   loading: boolean
+  functionBlockers: FunctionBlocker[]
 }
 
 const initialState: IcfState = {
   loading: false,
+  functionBlockers: [],
 }
 
 const icfReducer = createReducer(initialState, (builder) =>
@@ -41,6 +44,9 @@ const icfReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateLoading, (state, action) => {
       state.loading = action.payload
+    })
+    .addCase(toggleIcfFunctionBlocker, (state, action) => {
+      state.functionBlockers = toggleFunctionBlocker(state.functionBlockers, action.payload)
     })
 )
 

@@ -150,4 +150,23 @@ describe('Test API middleware', () => {
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.SILENT)
     })
   })
+
+  describe('handle functionBlocker', () => {
+    const FUNCTION_BLOCKER_TYPE = 'FUNCTION_BLOCKER_TYPE'
+    const URL = 'URL'
+
+    beforeEach(() => {
+      clearDispatchedActions()
+    })
+
+    it('shall dispatch functionBlockerType', async () => {
+      fakeAxios.onGet(URL).reply(200)
+
+      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionBlockerType: FUNCTION_BLOCKER_TYPE }))
+      await flushPromises()
+      const functionBlockerAction: AnyAction | undefined = dispatchedActions.find((action) => action.type === FUNCTION_BLOCKER_TYPE)
+
+      expect(functionBlockerAction).toBeTruthy()
+    })
+  })
 })

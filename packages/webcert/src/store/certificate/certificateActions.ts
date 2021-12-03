@@ -12,6 +12,7 @@ import {
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 import { ApiError } from '../api/apiActions'
+import { FunctionBlocker, TOGGLE_FUNCTION_BLOCKER } from '../../components/utils/functionBlockerUtils'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -500,3 +501,5 @@ export interface CertificateApiGenericError {
 }
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
+
+export const toggleCertificateFunctionBlocker = createAction<FunctionBlocker>(`${CERTIFICATE} ${TOGGLE_FUNCTION_BLOCKER}`)

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { AvailableIcfCodes, IcfState } from './icfReducer'
+import { FunctionBlocker, TOGGLE_FUNCTION_BLOCKER } from '../../components/utils/functionBlockerUtils'
 
 export interface IcfRequest {
   icdCodes: string[]
@@ -23,3 +24,5 @@ export const getIcfCodesError = createAction<string>(`${ICF} Get diagnosis code 
 export const updateIcfCodes = createAction<IcfResponse>(`${ICF} Update diagnosis code info`)
 
 export const updateLoading = createAction<boolean>(`${ICF} Update loading`)
+
+export const toggleIcfFunctionBlocker = createAction<FunctionBlocker>(`${ICF} ${TOGGLE_FUNCTION_BLOCKER}`)

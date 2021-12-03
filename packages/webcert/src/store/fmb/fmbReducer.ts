@@ -5,11 +5,13 @@ import {
   setPatientId,
   setSickLeavePeriodValue,
   setSickLeavePeriodWarning,
+  toggleFMBFunctionBlocker,
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
 } from './fmbActions'
 import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import { ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src/types/certificate'
+import { FunctionBlocker, toggleFunctionBlocker } from '../../components/utils/functionBlockerUtils'
 
 interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]
@@ -18,6 +20,7 @@ interface FMBState {
   patientId: string
   sickLeavePeriodValue: ValueDateRangeList | null
   diagnosisListValue: ValueDiagnosisList | null
+  functionBlockers: FunctionBlocker[]
 }
 
 const initialState: FMBState = {
@@ -27,6 +30,7 @@ const initialState: FMBState = {
   patientId: '',
   sickLeavePeriodValue: null,
   diagnosisListValue: null,
+  functionBlockers: [],
 }
 
 const fmbReducer = createReducer(initialState, (builder) =>
@@ -55,6 +59,9 @@ const fmbReducer = createReducer(initialState, (builder) =>
     })
     .addCase(setDiagnosisListValue, (state, action) => {
       state.diagnosisListValue = action.payload
+    })
+    .addCase(toggleFMBFunctionBlocker, (state, action) => {
+      state.functionBlockers = toggleFunctionBlocker(state.functionBlockers, action.payload)
     })
 )
 
