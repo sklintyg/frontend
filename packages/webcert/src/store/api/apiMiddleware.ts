@@ -20,7 +20,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
 
   try {
     if (functionBlockerType) {
-      dispatch({ type: functionBlocker, payload: functionBlocker })
+      dispatch({ type: functionBlockerType, payload: functionBlocker })
     }
 
     const response = await axios.request({
@@ -49,7 +49,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
     }
   } finally {
     if (functionBlockerType) {
-      dispatch({ type: functionBlocker, payload: functionBlocker })
+      dispatch({ type: functionBlockerType, payload: functionBlocker })
     }
   }
 }

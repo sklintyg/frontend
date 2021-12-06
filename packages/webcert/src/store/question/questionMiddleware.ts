@@ -35,6 +35,7 @@ import {
   sendQuestionError,
   sendQuestionStarted,
   sendQuestionSuccess,
+  toggleQuestionFunctionBlocker,
   updateAnswer,
   updateAnswerDraftSaved,
   updateCertificateId,
@@ -68,6 +69,7 @@ export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: Middlewar
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
       onError: apiSilentGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -80,6 +82,7 @@ export const handleGetComplementQuestions: Middleware<Dispatch> = ({ dispatch }:
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
       onError: apiSilentGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -151,6 +154,7 @@ export const handleDeleteQuestion: Middleware<Dispatch> = ({ dispatch }: Middlew
       onStart: deleteQuestionStarted.type,
       onSuccess: deleteQuestionSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -188,6 +192,7 @@ export const handleSaveQuestion: Middleware<Dispatch> = ({ dispatch }) => () => 
       onStart: saveQuestionStarted.type,
       onSuccess: saveQuestionSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -209,6 +214,7 @@ export const handleCreateQuestion: Middleware<Dispatch> = ({ dispatch, getState 
       onStart: createQuestionStarted.type,
       onSuccess: createQuestionSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -236,6 +242,7 @@ export const handleSendQuestion: Middleware<Dispatch> = ({ dispatch, getState })
       onStart: sendQuestionStarted.type,
       onSuccess: sendQuestionSuccess.type,
       onError: sendQuestionError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -274,6 +281,7 @@ export const handleSaveAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
       onStart: saveAnswerStarted.type,
       onSuccess: saveAnswerSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -293,6 +301,7 @@ export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
       onStart: sendAnswerStarted.type,
       onSuccess: sendAnswerSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -309,6 +318,7 @@ export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch }) => () => 
       onStart: deleteAnswerStarted.type,
       onSuccess: deleteAnswerSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
@@ -330,6 +340,7 @@ export const handleHandleQuestion: Middleware<Dispatch> = ({ dispatch }) => () =
       onStart: handleQuestionStarted.type,
       onSuccess: handleQuestionSuccess.type,
       onError: apiGenericError.type,
+      functionBlockerType: toggleQuestionFunctionBlocker.type,
     })
   )
 }
