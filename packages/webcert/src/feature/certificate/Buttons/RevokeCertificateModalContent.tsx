@@ -12,11 +12,13 @@ const mandatoryIconAdditonalStyles = css`
 
 interface Props {
   onChange: (obj: RevokeCertificateReason) => void
+  type: string
 }
 
-export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => {
+export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
+  const recipient = type === 'lisjp' ? 'Försäkringskassan' : 'Arbetsförmedlingen'
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -42,7 +44,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange }) => 
     </>
   )
 
-  const revokeReasonText = locked ? 'Ange varför du makulerar det låsta utkastet:' : 'Ange varför du makulerar intyget'
+  const revokeReasonText = locked
+    ? 'Ange för ' + recipient + ' varför du makulerar det låsta utkastet:'
+    : 'Ange för ' + recipient + ' varför du makulerar intyget'
 
   const textLabel = locked ? 'Utkastet har skapats på fel patient' : 'Intyget har utfärdats på fel patient'
 
