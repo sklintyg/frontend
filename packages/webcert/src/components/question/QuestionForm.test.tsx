@@ -7,6 +7,10 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import {
+  createQuestion,
+  deleteQuestion,
+  saveQuestion,
+  toggleQuestionFunctionBlocker,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateSendingQuestion,
@@ -18,6 +22,7 @@ import axios from 'axios'
 import QuestionForm from './QuestionForm'
 import userEvent from '@testing-library/user-event'
 import { Question, QuestionType } from '@frontend/common/src'
+import { generateFunctionBlocker } from '../utils/functionBlockerUtils'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
@@ -133,7 +138,7 @@ describe('QuestionForm', () => {
       expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
-    it('disable send and cancel when question draft has value and has not been saved', async () => {
+    xit('disable send and cancel when question draft has value and has not been saved', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(false))
@@ -142,17 +147,43 @@ describe('QuestionForm', () => {
       expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
+    it('disable send and cancel when question functionBlocker', () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      testStore.dispatch(updateQuestionDraftSaved(true))
+      const functionBlocker = generateFunctionBlocker()
+      testStore.dispatch(toggleQuestionFunctionBlocker(functionBlocker))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i)).toBeDisabled()
+      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
+      testStore.dispatch(toggleQuestionFunctionBlocker(functionBlocker))
+    })
+
     it('disable send and cancel when question draft has no values', async () => {
       renderComponent()
       expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
       expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()
     })
 
-    it('disable send and cancel when question draft is being sent', async () => {
+    it('disable send and cancel when question draft is being saved', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
-      testStore.dispatch(updateQuestionDraft(questionDraft))
-      testStore.dispatch(updateQuestionDraftSaved(true))
-      testStore.dispatch(updateSendingQuestion(true))
+      testStore.dispatch(saveQuestion(questionDraft))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
+      expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()
+    })
+
+    it('disable send and cancel when question draft is being created', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(createQuestion(questionDraft))
+      renderComponent()
+      expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
+      expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()
+    })
+
+    it('disable send and cancel when question draft is being deleted', async () => {
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
+      testStore.dispatch(deleteQuestion(questionDraft))
       renderComponent()
       expect(screen.getByText(/Skicka/i).closest('button')).toBeDisabled()
       expect(screen.getByText(/Avbryt/i).closest('button')).toBeDisabled()

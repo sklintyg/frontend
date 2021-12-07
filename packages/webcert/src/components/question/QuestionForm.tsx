@@ -19,7 +19,6 @@ import {
   isQuestionFunctionDisabled,
   isQuestionMissingMessage,
   isQuestionMissingType,
-  isSendingQuestion,
 } from '../../store/question/questionSelectors'
 
 interface Props {

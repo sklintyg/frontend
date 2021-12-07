@@ -37,7 +37,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 import { updateUser } from '../user/userActions'
 import { CertificateDataElementStyleEnum, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src'
 import { throwError } from '../error/errorActions'
-import { AUTHORIZATION_PROBLEM, CONCURRENT_MODIFICATION, ErrorCode, ErrorType } from '../error/errorReducer'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
