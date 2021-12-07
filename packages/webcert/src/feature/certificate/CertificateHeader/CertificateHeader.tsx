@@ -16,7 +16,7 @@ import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
-import { getQuestions } from '../../../store/question/questionSelectors'
+import { getQuestions, isQuestionFunctionDisabled } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
 
@@ -51,6 +51,7 @@ const CertificateHeader = () => {
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
+  const functionDisabled = useSelector(isQuestionFunctionDisabled)
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -59,7 +60,7 @@ const CertificateHeader = () => {
   return (
     <Wrapper>
       <div className="ic-container iu-pt-200">
-        <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink}></CreateCertificateFromCandidateModal>
+        <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
@@ -74,7 +75,7 @@ const CertificateHeader = () => {
         <Divider />
         <div className="iu-flex">
           <CertificateInfo certificateMetadata={certificateMetadata} />
-          <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={certificateMetadata} />
+          <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />
         </div>
       </div>
     </Wrapper>

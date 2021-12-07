@@ -16,6 +16,7 @@ import _ from 'lodash'
 import {
   isDisplayValidationMessages,
   isQuestionDraftSaved,
+  isQuestionFunctionDisabled,
   isQuestionMissingMessage,
   isQuestionMissingType,
   isSendingQuestion,
@@ -41,10 +42,10 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const isSaved = useSelector(isQuestionDraftSaved)
   const isMissingType = useSelector(isQuestionMissingType)
   const isMissingMessage = useSelector(isQuestionMissingMessage)
-  const isSending = useSelector(isSendingQuestion)
   const showValidationMessages = useSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
+  const isFunctionBlocked = useSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(questionDraft.message)
@@ -127,13 +128,13 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
-                disabled={isFormEmpty || !isSaved || isSending}
+                disabled={isFormEmpty || isFunctionBlocked}
                 buttonStyle={'primary'}
                 onClick={handleSendQuestion}
                 text={'Skicka'}
               />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || !isSaved || isSending}
+                disabled={isFormEmpty || isFunctionBlocked}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad fråga'}
                 confirmButtonText={'Ja, radera'}

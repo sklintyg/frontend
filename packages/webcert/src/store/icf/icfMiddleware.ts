@@ -9,7 +9,6 @@ import {
   IcfRequest,
   toggleIcfFunctionBlocker,
   updateIcfCodes,
-  updateLoading,
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
@@ -30,9 +29,14 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
+const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {}
+
 export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(updateLoading(false))
   dispatch(updateIcfCodes(action.payload))
+}
+
+const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
 const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
@@ -55,15 +59,6 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
 
   const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
   dispatch(getIcfCodes(icdCodes))
-}
-
-const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
-  dispatch(updateLoading(true))
-}
-
-const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(updateLoading(false))
-  dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
 function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {

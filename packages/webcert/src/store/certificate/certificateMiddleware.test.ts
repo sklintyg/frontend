@@ -119,7 +119,7 @@ describe('Test certificate middleware', () => {
         api: 'POST /api/call',
         errorCode: 'UNKNOWN_INTERNAL_PROBLEM',
         message: 'This is the message',
-      }
+      },
     }
 
     it('shall throw error if autosave fails', async () => {
@@ -202,6 +202,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
 
+      // @ts-expect-error mocking history
       testStore.dispatch(complementCertificate({ message: '', history: mockHistory }))
 
       await flushPromises()
@@ -222,7 +223,8 @@ describe('Test certificate middleware', () => {
     xit('shall update certificate on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      // @ts-expect-error mocking history
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
       await flushPromises()
       const updateCertificateDispatchFound = dispatchedActions.some((action) => updateCertificate.match(action))
 
@@ -232,7 +234,8 @@ describe('Test certificate middleware', () => {
     xit('shall validate certificate on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
+      // @ts-expect-error mocking history
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
       await flushPromises()
 
       const validateAction = dispatchedActions.find((action) => validateCertificate.match(action))
@@ -242,6 +245,7 @@ describe('Test certificate middleware', () => {
     it('shall hide spinner on success', async () => {
       const certificateToComplement = getCertificate('id')
 
+      // @ts-expect-error mocking history
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
       await flushPromises()
       const updateCertificateDispatchFound = dispatchedActions.some((action) => hideSpinner.match(action))
@@ -253,6 +257,7 @@ describe('Test certificate middleware', () => {
       mockHistory.push.mockClear()
       const certificateToComplement = getCertificate('id')
 
+      // @ts-expect-error mocking history
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
       await flushPromises()
 
@@ -262,6 +267,7 @@ describe('Test certificate middleware', () => {
     xit('shall get certificate events on success', async () => {
       const certificateToComplement = getCertificate('id')
 
+      // @ts-expect-error mocking history
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
       await flushPromises()
 
@@ -359,6 +365,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
+      // @ts-expect-error mocking history
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
       await flushPromises()
 
@@ -371,6 +378,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
+      // @ts-expect-error mocking history
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
       await flushPromises()
 
@@ -390,6 +398,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
+      // @ts-expect-error mocking history
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
       await flushPromises()
 
@@ -409,6 +418,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
+      // @ts-expect-error mocking history
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
       await flushPromises()
 
@@ -454,7 +464,6 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
         config: {
           text: '',
           description: '',
-
           type: null,
         },
         value: {
