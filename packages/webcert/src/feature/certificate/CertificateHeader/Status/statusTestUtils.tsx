@@ -1,11 +1,13 @@
 import { CertificateMetadata, CertificateRelationType, CertificateStatus } from '@frontend/common/src'
 
 export const createCertificateMetadata = (status: CertificateStatus, isSent: boolean, type?: string): CertificateMetadata => {
+  // @ts-ignore
   return {
     status: status,
     sent: isSent,
     type: type ? type : 'lisjp',
     relations: {
+      parent: null,
       children: [],
     },
   }
@@ -46,6 +48,7 @@ export const createCertificateMetadataWithChildRelation = (
     sent: sent ? sent : false,
     type: 'lisjp',
     relations: {
+      parent: null,
       children: [
         {
           type: type,

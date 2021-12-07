@@ -4,6 +4,7 @@ import { CertificateMetadata, CertificateRelationType, CertificateStatus, Resour
 import HeaderButtons from './HeaderButtons'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
+import userEvent from '@testing-library/user-event'
 
 describe('Verify header buttons', () => {
   const resourceLinks: ResourceLink[] = []
@@ -54,6 +55,15 @@ describe('Verify header buttons', () => {
     resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
+  })
+
+  it('shall include print certificate button with modal when its resource link type is available', () => {
+    const expectedButton = 'Skriv ut'
+    resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
+    renderComponent()
+    userEvent.click(screen.getByText(expectedButton))
+    expect(screen.getByText('Skriv ut utkast')).toBeInTheDocument()
+    expect(screen.getByText('Expected body')).toBeInTheDocument()
   })
 
   it('shall include renew certificate button when its resource link type is available', () => {

@@ -10,8 +10,6 @@ import ReplacedStatus from './ReplacedStatus'
 import AvailableForPatientStatus from './AvailableForPatientStatus'
 import LockedStatus from './LockedStatus'
 import {
-  CertificateEvent,
-  getComplementedByCertificateEvent,
   getComplementedByCertificateRelation,
   hasUnhandledComplementQuestions,
   isDraft,
