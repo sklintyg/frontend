@@ -167,8 +167,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
       case CertificateEventType.COPIED_FROM:
         return (
           <>
-            Utkastet är skapat som en kopia på ett låst utkast.{' '}
-            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+            Utkastet är skapat som en kopia på ett låst utkast <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
           </>
         )
       case CertificateEventType.COPIED_BY:
