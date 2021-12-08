@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { CategoryWrapper, Root, ScrollDiv, StyledTitle } from './Styles'
-import { getIsLoadingIcfData, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
+import { isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
@@ -131,7 +131,6 @@ const IcfDropdown: React.FC<Props> = ({
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
-        // buttonStyle="secondary"
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF
