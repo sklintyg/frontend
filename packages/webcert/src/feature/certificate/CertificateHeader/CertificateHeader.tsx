@@ -8,6 +8,7 @@ import {
   getIsValidating,
   getIsValidForSigning,
   getResourceLinks,
+  isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
@@ -16,7 +17,7 @@ import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
-import { getQuestions, isQuestionFunctionDisabled } from '../../../store/question/questionSelectors'
+import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
 
@@ -51,7 +52,7 @@ const CertificateHeader = () => {
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
-  const functionDisabled = useSelector(isQuestionFunctionDisabled)
+  const functionDisabled = useSelector(isCertificateFunctionDisabled)
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
