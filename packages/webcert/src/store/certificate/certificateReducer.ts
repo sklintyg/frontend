@@ -47,9 +47,11 @@ import {
   unstyleCertificateDataElement,
   setReadyForSign,
   updateRoutedFromDeletedCertificate,
+  toggleCertificateFunctionDisabler,
 } from './certificateActions'
 import { CertificateDataElementStyleEnum } from '@frontend/common/src'
 import { setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
 interface CertificateState {
   certificate?: Certificate
@@ -64,6 +66,7 @@ interface CertificateState {
   gotoCertificateDataElement?: GotoCertificateDataElement
   signingData?: SigningData
   routedFromDeletedCertificate: boolean
+  functionDisablers: FunctionDisabler[]
 }
 
 const initialState: CertificateState = {
@@ -76,6 +79,7 @@ const initialState: CertificateState = {
   isDeleted: false,
   complements: [],
   routedFromDeletedCertificate: false,
+  functionDisablers: [],
 }
 
 const certificateReducer = createReducer(initialState, (builder) =>
@@ -283,6 +287,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateRoutedFromDeletedCertificate, (state, action) => {
       state.routedFromDeletedCertificate = action.payload
+    })
+    .addCase(toggleCertificateFunctionDisabler, (state, action) => {
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 

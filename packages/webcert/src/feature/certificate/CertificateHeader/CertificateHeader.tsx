@@ -8,6 +8,7 @@ import {
   getIsValidating,
   getIsValidForSigning,
   getResourceLinks,
+  isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
@@ -51,6 +52,7 @@ const CertificateHeader = () => {
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
+  const functionDisabled = useSelector(isCertificateFunctionDisabled)
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -59,7 +61,7 @@ const CertificateHeader = () => {
   return (
     <Wrapper>
       <div className="ic-container iu-pt-200">
-        <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink}></CreateCertificateFromCandidateModal>
+        <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
@@ -74,7 +76,7 @@ const CertificateHeader = () => {
         <Divider />
         <div className="iu-flex">
           <CertificateInfo certificateMetadata={certificateMetadata} />
-          <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={certificateMetadata} />
+          <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={certificateMetadata} functionDisabled={functionDisabled} />
         </div>
       </div>
     </Wrapper>
