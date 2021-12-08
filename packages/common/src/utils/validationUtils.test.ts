@@ -6,6 +6,7 @@ import {
   CertificateDataValueType,
   CertificateStatus,
   ConfigTypes,
+  ConfigUeCheckboxMultipleCodes,
   formatDateToString,
   getIcfElement,
   getSickLeavePeriodElement,
@@ -986,6 +987,24 @@ describe('Set initial values to a certificate', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
+  })
+
+  it('should disable child element if validation is true', () => {
+    const value: ValueCodeList = certificate.data['1.4'].value as ValueCodeList
+    value.list = [{ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' }]
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect((certificate.data['1.4'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeTruthy()
+  })
+
+  it('should enable child element if validation is false', () => {
+    const value: ValueCodeList = certificate.data['1.4'].value as ValueCodeList
+    value.list = []
+
+    decorateCertificateWithInitialValues(certificate)
+
+    expect((certificate.data['1.4'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeFalsy()
   })
 
   describe('Intialize values when certificate is not UNSIGNED', () => {
