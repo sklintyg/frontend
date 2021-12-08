@@ -26,12 +26,18 @@ describe('ReadyForSign button', () => {
     })
   })
 
-  const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean) => {
+  const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean, functionDisabled = false) => {
     testStore.dispatch(updateCertificate(getCertificate()))
     render(
       <Provider store={testStore}>
         <CustomTooltip />
-        <ReadyForSignButton name={NAME} description={DESCRIPTION} enabled={enabled} isValidForSigning={isValidForSigning} />
+        <ReadyForSignButton
+          name={NAME}
+          description={DESCRIPTION}
+          enabled={enabled}
+          isValidForSigning={isValidForSigning}
+          functionDisabled={functionDisabled}
+        />
       </Provider>
     )
   }
@@ -76,6 +82,12 @@ describe('ReadyForSign button', () => {
 
   it('shall disable button when enabled is false and isValidForSigning is false', () => {
     renderDefaultComponent(false, false)
+    const button = screen.queryByRole('button')
+    expect(button).toBeDisabled()
+  })
+
+  it('shall disable button when functionDisabled, enabled and isValidForSigning is true', () => {
+    renderDefaultComponent(true, true, true)
     const button = screen.queryByRole('button')
     expect(button).toBeDisabled()
   })

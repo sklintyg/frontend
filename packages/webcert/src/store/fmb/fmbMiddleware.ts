@@ -1,10 +1,9 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
+import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
-  getFMBDiagnosisCodeInfoError,
   getFMBDiagnosisCodeInfoStarted,
   getFMBDiagnosisCodeInfoSuccess,
   removeFMBDiagnosisCodes,
@@ -15,7 +14,6 @@ import {
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
   validateSickLeavePeriod,
-  validateSickLeavePeriodError,
   validateSickLeavePeriodStarted,
   validateSickLeavePeriodSuccess,
 } from './fmbActions'

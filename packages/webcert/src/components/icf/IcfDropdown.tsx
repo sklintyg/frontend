@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { CategoryWrapper, Root, ScrollDiv, StyledTitle } from './Styles'
-import { getIsLoadingIcfData } from '../../store/icf/icfSelectors'
+import { isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
@@ -37,13 +37,13 @@ const IcfDropdown: React.FC<Props> = ({
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
-  const loadingIcfData = useSelector(getIsLoadingIcfData())
+  const functionDisabled = useSelector(isIcfFunctionDisabled)
 
   useEffect(() => {
-    if (loadingIcfData) {
+    if (functionDisabled) {
       setDisplayDropdown(false)
     }
-  }, [loadingIcfData])
+  }, [functionDisabled])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick)
@@ -86,7 +86,7 @@ const IcfDropdown: React.FC<Props> = ({
       icfData === undefined ||
       icfData.uniqueCodes?.length === 0 ||
       icfData.commonCodes?.icfCodes?.length === 0 ||
-      loadingIcfData
+      functionDisabled
     )
   }
 
@@ -131,7 +131,6 @@ const IcfDropdown: React.FC<Props> = ({
         buttonClasses={'iu-mb-200'}
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
-        // buttonStyle="secondary"
         onClick={handleToggleDropdownButtonClick}>
         <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
         Ta hjälp av ICF

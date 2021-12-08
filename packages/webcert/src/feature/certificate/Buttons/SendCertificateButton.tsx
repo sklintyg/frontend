@@ -1,11 +1,11 @@
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled } from '@frontend/common'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 
-interface Props {
+interface Props extends FunctionDisabled {
   name: string
   description: string
   body?: string
@@ -13,7 +13,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata }) => {
+const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata, functionDisabled }) => {
   const dispatch = useDispatch()
 
   return (
@@ -27,8 +27,9 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, bo
         dispatch(sendCertificate(certificateMetadata.id))
       }}
       confirmButtonText={name}
-      declineButtonText="Avbryt">
-      {body && <div dangerouslySetInnerHTML={{ __html: body }}></div>}
+      declineButtonText="Avbryt"
+      confirmButtonDisabled={functionDisabled}>
+      {body && <div dangerouslySetInnerHTML={{ __html: body }} />}{' '}
     </ButtonWithConfirmModal>
   )
 }

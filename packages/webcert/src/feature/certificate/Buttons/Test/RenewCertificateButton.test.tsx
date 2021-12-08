@@ -24,7 +24,7 @@ const user: User = {
 //@ts-expect-error creating object so component renders
 const certificateMetadata: CertificateMetadata = {}
 
-const renderDefaultComponent = (enabled: boolean) => {
+const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(
     <>
       <RenewCertificateButton
@@ -33,6 +33,7 @@ const renderDefaultComponent = (enabled: boolean) => {
         description={DESCRIPTION}
         body={BODY}
         enabled={enabled}
+        functionDisabled={functionDisabled}
       />
       <CustomTooltip />
     </>
@@ -52,6 +53,12 @@ describe('Renew certificate button', () => {
   })
 
   it('correctly disables button', () => {
+    renderDefaultComponent(false)
+    const button = screen.queryByRole('button')
+    expect(button).toBeDisabled()
+  })
+
+  it('shall disable button if disableFunction is true', () => {
     renderDefaultComponent(false)
     const button = screen.queryByRole('button')
     expect(button).toBeDisabled()
