@@ -85,7 +85,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
     return (
-      <table className="ic-table">
+      <table className="ic-table iu-fullwidth">
         <thead>
           <tr>
             <th>{`Diagnoskod enligt ICD-10 SE`}</th>
@@ -120,7 +120,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
 
   const getDateRangeListDisplayValue = (valueList: ValueDateRange[], configList: ConfigUeCheckboxDateRange[]) => {
     return (
-      <table className="ic-table">
+      <table className="ic-table iu-fullwidth">
         <thead>
           <tr>
             <th scope="col">Nedsättningsgrad</th>
