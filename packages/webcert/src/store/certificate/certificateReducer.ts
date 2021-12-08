@@ -8,6 +8,7 @@ import {
   Complement,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
+  UnitValidationErrors,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -181,6 +182,15 @@ const certificateReducer = createReducer(initialState, (builder) =>
           }
         }
       }
+
+      state.certificate!.metadata.unitValidationErrors = {} as UnitValidationErrors
+      for (const validationError of action.payload) {
+        if (validationError.category === 'vardenhet' && validationError.field === 'grunddata.skapadAv.vardenhet.postadress') {
+          state.certificate!.metadata.unitValidationErrors.addressValidationErrors = []
+          state.certificate!.metadata.unitValidationErrors.addressValidationErrors.push(validationError)
+        }
+      }
+
       state.isValidForSigning = action.payload.length === 0
     })
     .addCase(showValidationErrors, (state) => {

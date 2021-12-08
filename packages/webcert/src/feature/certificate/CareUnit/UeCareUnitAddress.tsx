@@ -1,9 +1,15 @@
 import React, { useRef, useState } from 'react'
-import { Unit } from '@frontend/common'
+import { MandatoryIcon, QuestionValidationTexts, Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIsEditable, getIsLocked, getUnit } from '../../../store/certificate/certificateSelectors'
+import {
+  getMetadataUnitValidationErrors,
+  getIsEditable,
+  getIsLocked,
+  getShowValidationErrors,
+  getUnit,
+} from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
@@ -43,6 +49,8 @@ const PhoneNumberInput = styled.input.attrs((props) => ({
 `
 
 const UeCareUnitAddress: React.FC = () => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getMetadataUnitValidationErrors(), _.isEqual) //TODO: Vad betyder _.isEqual
   const dispatch = useDispatch()
   const unit = useSelector(getUnit(), _.isEqual)
   const disabled = useSelector(getIsLocked)
@@ -71,11 +79,12 @@ const UeCareUnitAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className={`iu-grid-cols iu-grid-cols-12`}>
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={isShowValidationError && !careUnitInfo.address} />
             <label htmlFor={'address'}>Postadress</label>
           </div>
           <div className="iu-grid-span-9">
             <AddressInput
-              className="ic-textfield"
+              className={`ic-textfield ${isShowValidationError && !careUnitInfo.address ? 'ic-textfield--error' : ''}`}
               type="text"
               disabled={disabled || !editable}
               onChange={handleChange}
@@ -83,9 +92,13 @@ const UeCareUnitAddress: React.FC = () => {
               id={'address'}
               value={careUnitInfo.address}
             />
+            {isShowValidationError && validationErrors && (
+              <QuestionValidationTexts validationErrors={validationErrors.addressValidationErrors}></QuestionValidationTexts>
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={isShowValidationError && !careUnitInfo.zipCode} />
             <label htmlFor={'zipCode'}>Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -100,6 +113,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={isShowValidationError && !careUnitInfo.city} />
             <label htmlFor={'city'}>Postort</label>
           </div>
           <div className="iu-grid-span-9">
@@ -114,6 +128,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={isShowValidationError && !careUnitInfo.phoneNumber} />
             <label htmlFor={'phoneNumber'}>Telefonnummer</label>
           </div>
           <div className="iu-grid-span-9">

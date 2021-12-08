@@ -8,6 +8,7 @@ import {
   Complement,
   ConfigTypes,
   ResourceLinkType,
+  UnitValidationErrors,
 } from '@frontend/common'
 import { Patient, PersonId } from '@frontend/common/src'
 
@@ -150,6 +151,14 @@ export const getAllValidationErrors = () => (state: RootState) => {
   result.sort((a, b) => a.index - b.index)
 
   return result
+}
+
+export const getMetadataUnitValidationErrors = () => (state: RootState) => {
+  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
+    return {} as UnitValidationErrors
+  }
+
+  return state.ui.uiCertificate.certificate.metadata.unitValidationErrors
 }
 
 export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents
