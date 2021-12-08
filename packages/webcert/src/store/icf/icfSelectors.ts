@@ -4,4 +4,4 @@ export const getIcfData = (id: string) => (state: RootState) => {
   return id === 'aktivitetsbegransning' ? state.ui.uiIcf.activityLimitation : state.ui.uiIcf.disability
 }
 
-export const isIcfFunctionDisabled = (state: RootState): boolean => state.ui.uiIcf.functionBlockers.length > 0
+export const isIcfFunctionDisabled = (state: RootState): boolean => state.ui.uiIcf.functionDisablers.length > 0

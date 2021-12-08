@@ -20,7 +20,7 @@ interface FMBState {
   patientId: string
   sickLeavePeriodValue: ValueDateRangeList | null
   diagnosisListValue: ValueDiagnosisList | null
-  functionBlockers: FunctionDisabler[]
+  functionDisablers: FunctionDisabler[]
 }
 
 const initialState: FMBState = {
@@ -30,7 +30,7 @@ const initialState: FMBState = {
   patientId: '',
   sickLeavePeriodValue: null,
   diagnosisListValue: null,
-  functionBlockers: [],
+  functionDisablers: [],
 }
 
 const fmbReducer = createReducer(initialState, (builder) =>
@@ -61,7 +61,7 @@ const fmbReducer = createReducer(initialState, (builder) =>
       state.diagnosisListValue = action.payload
     })
     .addCase(toggleFMBFunctionDisabler, (state, action) => {
-      state.functionBlockers = toggleFunctionDisabler(state.functionBlockers, action.payload)
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 

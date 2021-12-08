@@ -65,7 +65,7 @@ interface CertificateState {
   gotoCertificateDataElement?: GotoCertificateDataElement
   signingData?: SigningData
   routedFromDeletedCertificate: boolean
-  functionBlockers: FunctionDisabler[]
+  functionDisablers: FunctionDisabler[]
 }
 
 const initialState: CertificateState = {
@@ -78,7 +78,7 @@ const initialState: CertificateState = {
   isDeleted: false,
   complements: [],
   routedFromDeletedCertificate: false,
-  functionBlockers: [],
+  functionDisablers: [],
 }
 
 const certificateReducer = createReducer(initialState, (builder) =>
@@ -306,7 +306,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.routedFromDeletedCertificate = action.payload
     })
     .addCase(toggleCertificateFunctionDisabler, (state, action) => {
-      state.functionBlockers = toggleFunctionDisabler(state.functionBlockers, action.payload)
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 

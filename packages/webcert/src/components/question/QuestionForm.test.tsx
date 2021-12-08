@@ -147,16 +147,17 @@ describe('QuestionForm', () => {
       expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
-    it('disable send and cancel when question functionBlocker', () => {
+    it('disable send and cancel when question functionDisabler exists', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(true))
-      const functionBlocker = generateFunctionDisabler()
-      testStore.dispatch(toggleQuestionFunctionDisabler(functionBlocker))
+      const functionDisabler = generateFunctionDisabler()
+      testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
       renderComponent()
+
       expect(screen.getByText(/Skicka/i)).toBeDisabled()
       expect(screen.getByText(/Avbryt/i)).toBeDisabled()
-      testStore.dispatch(toggleQuestionFunctionDisabler(functionBlocker))
+      testStore.dispatch(toggleQuestionFunctionDisabler(functionDisabler))
     })
 
     it('disable send and cancel when question draft has no values', async () => {

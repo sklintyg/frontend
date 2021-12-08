@@ -5,4 +5,4 @@ export const getFMBDiagnosisCodes = (state: RootState): FMBDiagnosisCodeInfo[] =
 
 export const getSickLeavePeriodWarning = (state: RootState): string => state.ui.uiFMB.sickLeavePeriodWarning
 
-export const isFMBFunctionDisabled = (state: RootState): boolean => state.ui.uiFMB.functionBlockers.length > 0
+export const isFMBFunctionDisabled = (state: RootState): boolean => state.ui.uiFMB.functionDisablers.length > 0

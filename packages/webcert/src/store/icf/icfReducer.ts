@@ -27,11 +27,11 @@ export interface AvailableIcfCodes {
 export interface IcfState {
   disability?: AvailableIcfCodes
   activityLimitation?: AvailableIcfCodes
-  functionBlockers: FunctionDisabler[]
+  functionDisablers: FunctionDisabler[]
 }
 
 const initialState: IcfState = {
-  functionBlockers: [],
+  functionDisablers: [],
 }
 
 const icfReducer = createReducer(initialState, (builder) =>
@@ -41,7 +41,7 @@ const icfReducer = createReducer(initialState, (builder) =>
       state.disability = action.payload.disability
     })
     .addCase(toggleIcfFunctionDisabler, (state, action) => {
-      state.functionBlockers = toggleFunctionDisabler(state.functionBlockers, action.payload)
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 

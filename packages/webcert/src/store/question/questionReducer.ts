@@ -38,7 +38,7 @@ interface QuestionState {
   }
   isDisplayingCertificateDraft: boolean
   isSendingQuestion: boolean
-  functionBlockers: FunctionDisabler[]
+  functionDisablers: FunctionDisabler[]
 }
 
 const getInitialState = (): QuestionState => {
@@ -54,7 +54,7 @@ const getInitialState = (): QuestionState => {
     isAnswerDraftSaved: {},
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
-    functionBlockers: [],
+    functionDisablers: [],
   }
 }
 
@@ -132,7 +132,7 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
       state.isSendingQuestion = action.payload
     })
     .addCase(toggleQuestionFunctionDisabler, (state, action) => {
-      state.functionBlockers = toggleFunctionDisabler(state.functionBlockers, action.payload)
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 
