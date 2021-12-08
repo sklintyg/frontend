@@ -8,7 +8,7 @@ export interface ApiCall {
   onSuccess?: string
   onError?: string
   onArgs?: any
-  functionBlockerType?: string
+  functionDisablerType?: string
 }
 
 const API = '[API]'

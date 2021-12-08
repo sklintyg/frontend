@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { FMBDiagnosisCodeInfo, ValueDateRangeList } from '@frontend/common'
 import { ValueDiagnosisList } from '@frontend/common/src'
-import { FunctionBlocker, TOGGLE_FUNCTION_BLOCKER } from '../../components/utils/functionBlockerUtils'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../components/utils/functionDisablerUtils'
 
 export interface FMBDiagnoseRequest {
   icd10Code: string
@@ -48,4 +48,4 @@ export const validateSickLeavePeriodStarted = createAction(`${FMB} Validate sick
 export const validateSickLeavePeriodSuccess = createAction<ValidateSickLeavePeriodResponse>(`${FMB} Validate sick leave period success`)
 export const validateSickLeavePeriodError = createAction(`${FMB} Validate sick leave period error`)
 
-export const toggleFMBFunctionBlocker = createAction<FunctionBlocker>(`${FMB} ${TOGGLE_FUNCTION_BLOCKER}`)
+export const toggleFMBFunctionDisabler = createAction<FunctionDisabler>(`${FMB} ${TOGGLE_FUNCTION_DISABLER}`)

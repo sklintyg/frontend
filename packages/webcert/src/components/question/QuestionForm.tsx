@@ -44,7 +44,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   const showValidationMessages = useSelector(isDisplayValidationMessages)
   const [message, setMessage] = useState(questionDraft.message)
   const subjects: QuestionType[] = Object.values(QuestionType)
-  const isFunctionBlocked = useSelector(isQuestionFunctionDisabled)
+  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(questionDraft.message)
@@ -127,13 +127,13 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
-                disabled={isFormEmpty || isFunctionBlocked}
+                disabled={isFormEmpty || isFunctionDisabled}
                 buttonStyle={'primary'}
                 onClick={handleSendQuestion}
                 text={'Skicka'}
               />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || isFunctionBlocked}
+                disabled={isFormEmpty || isFunctionDisabled}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad fråga'}
                 confirmButtonText={'Ja, radera'}

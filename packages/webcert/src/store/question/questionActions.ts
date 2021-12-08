@@ -1,7 +1,7 @@
 import { Answer, Complement, Question } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { ApiGenericError } from '../api/apiActions'
-import { FunctionBlocker, TOGGLE_FUNCTION_BLOCKER } from '../../components/utils/functionBlockerUtils'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../components/utils/functionDisablerUtils'
 
 const QUESTION = '[Question]'
 
@@ -141,4 +141,4 @@ export const updateComplements = createAction<Complement[]>(`${QUESTION} Update 
 
 export const updateDisplayingCertificateDraft = createAction(`${QUESTION} Update displaying certificate draft`)
 
-export const toggleQuestionFunctionBlocker = createAction<FunctionBlocker>(`${QUESTION} ${TOGGLE_FUNCTION_BLOCKER}`)
+export const toggleQuestionFunctionDisabler = createAction<FunctionDisabler>(`${QUESTION} ${TOGGLE_FUNCTION_DISABLER}`)

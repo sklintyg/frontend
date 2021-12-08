@@ -111,7 +111,3 @@ export const getComplementedByCertificateRelation = (certificateMetadata: Certif
     (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
   )
 }
-
-export interface FunctionDisabled {
-  functionDisabled: boolean
-}

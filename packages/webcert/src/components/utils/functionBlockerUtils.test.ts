@@ -1,105 +1,105 @@
 import {
-  addFunctionBlocker,
-  FunctionBlocker,
-  generateFunctionBlocker,
-  isFunctionBlocked,
-  removeFunctionBlocker,
-  toggleFunctionBlocker,
-} from './functionBlockerUtils'
+  addFunctionDisabler,
+  FunctionDisabler,
+  generateFunctionDisabler,
+  isFunctionDisabled,
+  removeFunctionDisabler,
+  toggleFunctionDisabler,
+} from './functionDisablerUtils'
 
-let functionBlockers: FunctionBlocker[]
+let functionDisablers: FunctionDisabler[]
 
-describe('functionBlockerUtils', () => {
+describe('functionDisablerUtils', () => {
   beforeEach(() => {
-    functionBlockers = []
+    functionDisablers = []
   })
 
-  describe('generateFunctionBlocker', () => {
-    it('returns functionBlocker with generated id', () => {
-      const functionBlocker = generateFunctionBlocker()
+  describe('generateFunctionDisabler', () => {
+    it('returns functionDisabler with generated id', () => {
+      const functionDisabler = generateFunctionDisabler()
 
-      expect(functionBlocker.id).not.toBeNull()
-    })
-  })
-
-  describe('addFunctionBlocker', () => {
-    it('shall add functionBlocker to array', () => {
-      const functionBlocker = generateFunctionBlocker()
-
-      functionBlockers = addFunctionBlocker(functionBlockers, functionBlocker)
-
-      expect(functionBlockers.length).toBe(1)
-      expect(functionBlockers[0].id).toBe(functionBlocker.id)
+      expect(functionDisabler.id).not.toBeNull()
     })
   })
 
-  describe('removeFunctionBlocker', () => {
-    it('shall remove functionBlocker from array', () => {
-      const functionBlocker = generateFunctionBlocker()
-      functionBlockers = addFunctionBlocker(functionBlockers, functionBlocker)
+  describe('addFunctionDisabler', () => {
+    it('shall add functionDisabler to array', () => {
+      const functionDisabler = generateFunctionDisabler()
 
-      functionBlockers = removeFunctionBlocker(functionBlockers, functionBlocker)
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler)
 
-      expect(functionBlockers.length).toBe(0)
-    })
-
-    it('shall remove correct functionBlocker from array if multiple entries', () => {
-      const functionBlocker = generateFunctionBlocker()
-      const functionBlocker_2 = generateFunctionBlocker()
-      functionBlockers = addFunctionBlocker(functionBlockers, functionBlocker)
-      functionBlockers = addFunctionBlocker(functionBlockers, functionBlocker_2)
-
-      functionBlockers = removeFunctionBlocker(functionBlockers, functionBlocker)
-
-      expect(functionBlockers.length).toBe(1)
-      expect(functionBlockers[0].id).toBe(functionBlocker_2.id)
+      expect(functionDisablers.length).toBe(1)
+      expect(functionDisablers[0].id).toBe(functionDisabler.id)
     })
   })
 
-  describe('toggleFunctionBlocker', () => {
-    it('shall add functionBlocker if no previous functionBlocker with same id exists', () => {
-      const functionBlocker = generateFunctionBlocker()
+  describe('removeFunctionDisabler', () => {
+    it('shall remove functionDisabler from array', () => {
+      const functionDisabler = generateFunctionDisabler()
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler)
 
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlocker)
+      functionDisablers = removeFunctionDisabler(functionDisablers, functionDisabler)
 
-      expect(functionBlockers.length).toBe(1)
-      expect(functionBlockers[0].id).toBe(functionBlocker.id)
+      expect(functionDisablers.length).toBe(0)
     })
 
-    it('shall remove functionBlocker if it already exists', () => {
-      const functionBlocker = generateFunctionBlocker()
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlocker)
+    it('shall remove correct functionDisabler from array if multiple entries', () => {
+      const functionDisabler = generateFunctionDisabler()
+      const functionDisabler_2 = generateFunctionDisabler()
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler)
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler_2)
 
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlocker)
+      functionDisablers = removeFunctionDisabler(functionDisablers, functionDisabler)
 
-      expect(functionBlockers.length).toBe(0)
-    })
-
-    it('shall remove correct functionBlocker if multiple entries exist', () => {
-      const functionBlockerToRemove = generateFunctionBlocker()
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlockerToRemove)
-      const functionBlocker_2 = generateFunctionBlocker()
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlocker_2)
-
-      functionBlockers = toggleFunctionBlocker(functionBlockers, functionBlockerToRemove)
-
-      expect(functionBlockers.length).toBe(1)
-      expect(functionBlockers[0].id).toBe(functionBlocker_2.id)
+      expect(functionDisablers.length).toBe(1)
+      expect(functionDisablers[0].id).toBe(functionDisabler_2.id)
     })
   })
 
-  describe('isFunctionBlocked', () => {
-    it('shall return true if functionBlocker exists', () => {
-      const functionBlocker = generateFunctionBlocker()
-      functionBlockers = addFunctionBlocker(functionBlockers, functionBlocker)
+  describe('toggleFunctionDisabler', () => {
+    it('shall add functionDisabler if no previous functionDisabler with same id exists', () => {
+      const functionDisabler = generateFunctionDisabler()
 
-      const actual = isFunctionBlocked(functionBlockers)
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisabler)
+
+      expect(functionDisablers.length).toBe(1)
+      expect(functionDisablers[0].id).toBe(functionDisabler.id)
+    })
+
+    it('shall remove functionDisabler if it already exists', () => {
+      const functionDisabler = generateFunctionDisabler()
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisabler)
+
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisabler)
+
+      expect(functionDisablers.length).toBe(0)
+    })
+
+    it('shall remove correct functionDisabler if multiple entries exist', () => {
+      const functionDisablerToRemove = generateFunctionDisabler()
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisablerToRemove)
+      const functionDisabler_2 = generateFunctionDisabler()
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisabler_2)
+
+      functionDisablers = toggleFunctionDisabler(functionDisablers, functionDisablerToRemove)
+
+      expect(functionDisablers.length).toBe(1)
+      expect(functionDisablers[0].id).toBe(functionDisabler_2.id)
+    })
+  })
+
+  describe('isFunctionDisabled', () => {
+    it('shall return true if functionDisabler exists', () => {
+      const functionDisabler = generateFunctionDisabler()
+      functionDisablers = addFunctionDisabler(functionDisablers, functionDisabler)
+
+      const actual = isFunctionDisabled(functionDisablers)
 
       expect(actual).toBe(true)
     })
 
-    it('shall return false if no functionBlocker exists', () => {
-      const actual = isFunctionBlocked([])
+    it('shall return false if no functionDisabler exists', () => {
+      const actual = isFunctionDisabled([])
 
       expect(actual).toBe(false)
     })

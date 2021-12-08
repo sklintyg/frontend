@@ -162,7 +162,7 @@ describe('Test API middleware', () => {
     it('shall dispatch functionBlockerType', async () => {
       fakeAxios.onGet(URL).reply(200)
 
-      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionBlockerType: FUNCTION_BLOCKER_TYPE }))
+      testStore.dispatch(apiCallBegan({ url: URL, method: 'GET', functionDisablerType: FUNCTION_BLOCKER_TYPE }))
       await flushPromises()
       const functionBlockerAction: AnyAction | undefined = dispatchedActions.find((action) => action.type === FUNCTION_BLOCKER_TYPE)
 

@@ -7,7 +7,7 @@ import {
   getIcfCodesStarted,
   getIcfCodesSuccess,
   IcfRequest,
-  toggleIcfFunctionBlocker,
+  toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
@@ -24,7 +24,7 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
       onStart: getIcfCodesStarted.type,
       onSuccess: getIcfCodesSuccess.type,
       onError: getIcfCodesError.type,
-      functionBlockerType: toggleIcfFunctionBlocker.type,
+      functionDisablerType: toggleIcfFunctionDisabler.type,
     })
   )
 }

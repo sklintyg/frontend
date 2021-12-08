@@ -10,7 +10,7 @@ import {
   createQuestion,
   deleteQuestion,
   saveQuestion,
-  toggleQuestionFunctionBlocker,
+  toggleQuestionFunctionDisabler,
   updateQuestionDraft,
   updateQuestionDraftSaved,
   updateSendingQuestion,
@@ -22,7 +22,7 @@ import axios from 'axios'
 import QuestionForm from './QuestionForm'
 import userEvent from '@testing-library/user-event'
 import { Question, QuestionType } from '@frontend/common/src'
-import { generateFunctionBlocker } from '../utils/functionBlockerUtils'
+import { generateFunctionDisabler } from '../utils/functionDisablerUtils'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
@@ -151,12 +151,12 @@ describe('QuestionForm', () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(true))
-      const functionBlocker = generateFunctionBlocker()
-      testStore.dispatch(toggleQuestionFunctionBlocker(functionBlocker))
+      const functionBlocker = generateFunctionDisabler()
+      testStore.dispatch(toggleQuestionFunctionDisabler(functionBlocker))
       renderComponent()
       expect(screen.getByText(/Skicka/i)).toBeDisabled()
       expect(screen.getByText(/Avbryt/i)).toBeDisabled()
-      testStore.dispatch(toggleQuestionFunctionBlocker(functionBlocker))
+      testStore.dispatch(toggleQuestionFunctionDisabler(functionBlocker))
     })
 
     it('disable send and cancel when question draft has no values', async () => {

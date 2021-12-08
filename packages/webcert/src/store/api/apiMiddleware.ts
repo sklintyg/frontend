@@ -4,23 +4,23 @@ import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError,
 import { AnyAction } from '@reduxjs/toolkit'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { FunctionBlocker, generateFunctionBlocker } from '../../components/utils/functionBlockerUtils'
+import { FunctionDisabler, generateFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
 const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {
     return
   }
 
-  const { url, method, data, onStart, onSuccess, onError, onArgs, functionBlockerType } = action.payload
-  const functionBlocker: FunctionBlocker = generateFunctionBlocker()
+  const { url, method, data, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
+  const functionBlocker: FunctionDisabler = generateFunctionDisabler()
 
   if (onStart) {
     dispatch({ type: onStart, payload: { ...onArgs } })
   }
 
   try {
-    if (functionBlockerType) {
-      dispatch({ type: functionBlockerType, payload: functionBlocker })
+    if (functionDisablerType) {
+      dispatch({ type: functionDisablerType, payload: functionBlocker })
     }
 
     const response = await axios.request({
@@ -48,8 +48,8 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
       })
     }
   } finally {
-    if (functionBlockerType) {
-      dispatch({ type: functionBlockerType, payload: functionBlocker })
+    if (functionDisablerType) {
+      dispatch({ type: functionDisablerType, payload: functionBlocker })
     }
   }
 }
