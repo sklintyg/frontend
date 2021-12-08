@@ -1,22 +1,22 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled } from '@frontend/common'
 import { isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { getCertificateEvents } from '../../../store/certificate/certificateSelectors'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import _ from 'lodash'
 
-interface Props {
+interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
 }
 
-const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
+const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const historyEntries = useSelector(getCertificateEvents, _.isEqual)
@@ -44,10 +44,11 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, ce
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon icon={faCopy} size="lg"></FontAwesomeIcon>}
+      startIcon={<FontAwesomeIcon icon={faCopy} size="lg" />}
       modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
-      confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Kopiera'}>
+      confirmButtonText={isCertReplaced ? 'Fortsätt på utkast' : 'Kopiera'}
+      confirmButtonDisabled={functionDisabled}>
       <p>
         Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
         redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.{' '}

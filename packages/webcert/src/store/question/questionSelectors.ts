@@ -19,4 +19,4 @@ export const isAnswerDraftSaved = (questionId: string) => (state: RootState): bo
 
 export const isDisplayingCertificateDraft = (state: RootState): boolean => state.ui.uiQuestion.isDisplayingCertificateDraft
 
-export const isSendingQuestion = (state: RootState): boolean => state.ui.uiQuestion.isSendingQuestion
+export const isQuestionFunctionDisabled = (state: RootState): boolean => state.ui.uiQuestion.functionDisablers.length > 0

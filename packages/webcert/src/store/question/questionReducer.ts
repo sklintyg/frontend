@@ -5,7 +5,7 @@ import {
   addQuestion,
   clearQuestionDraft,
   resetState,
-  updateSendingQuestion,
+  toggleQuestionFunctionDisabler,
   updateAnswer,
   updateAnswerDraftSaved,
   updateCertificateId,
@@ -19,8 +19,10 @@ import {
   updateQuestionMissingMessage,
   updateQuestionMissingType,
   updateQuestions,
+  updateSendingQuestion,
 } from './questionActions'
 import { QuestionType } from '@frontend/common/src'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
 interface QuestionState {
   questions: Question[]
@@ -36,6 +38,7 @@ interface QuestionState {
   }
   isDisplayingCertificateDraft: boolean
   isSendingQuestion: boolean
+  functionDisablers: FunctionDisabler[]
 }
 
 const getInitialState = (): QuestionState => {
@@ -51,6 +54,7 @@ const getInitialState = (): QuestionState => {
     isAnswerDraftSaved: {},
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
+    functionDisablers: [],
   }
 }
 
@@ -126,6 +130,9 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateSendingQuestion, (state, action) => {
       state.isSendingQuestion = action.payload
+    })
+    .addCase(toggleQuestionFunctionDisabler, (state, action) => {
+      state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
 )
 

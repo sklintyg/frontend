@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton, FunctionDisabled } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
@@ -9,7 +9,7 @@ import { getUser } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
 
-interface Props {
+interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
@@ -17,7 +17,14 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
+const RenewCertificateButton: React.FC<Props> = ({
+  name,
+  description,
+  enabled,
+  body,
+  certificateMetadata: propMetaData,
+  functionDisabled,
+}) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
@@ -50,14 +57,10 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
           confirmButtonText={'Förnya'}
           name={name}
           description={description}
-          startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg"></FontAwesomeIcon>}>
-          <div className={'iu-pb-400'} dangerouslySetInnerHTML={{ __html: body as string }}></div>
-          <Checkbox
-            id={'renew-modal-checkbox'}
-            disabled={false}
-            onChange={onCheckboxChange}
-            label={'Visa inte igen.'}
-            checked={checked}></Checkbox>
+          startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
+          confirmButtonDisabled={functionDisabled}>
+          <div className={'iu-pb-400'} dangerouslySetInnerHTML={{ __html: body as string }} />
+          <Checkbox id={'renew-modal-checkbox'} disabled={false} onChange={onCheckboxChange} label={'Visa inte igen.'} checked={checked} />
         </ButtonWithConfirmModal>
       )
     }
@@ -67,7 +70,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
         disabled={!enabled}
         text={name}
         buttonStyle={'primary'}
-        startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg"></FontAwesomeIcon>}
+        startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
         onClick={handleClick}
       />
     )

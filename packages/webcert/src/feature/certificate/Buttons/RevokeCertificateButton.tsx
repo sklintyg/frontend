@@ -1,4 +1,4 @@
-import { ButtonWithConfirmModal } from '@frontend/common'
+import { ButtonWithConfirmModal, FunctionDisabled } from '@frontend/common'
 import React, { useState } from 'react'
 import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
@@ -9,13 +9,13 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import _ from 'lodash'
 import { CertificateStatus } from '@frontend/common/src'
 
-interface Props {
+interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
 }
 
-const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }) => {
+const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
@@ -46,7 +46,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled }
   return (
     <ButtonWithConfirmModal
       onClose={() => setConfirmButtonDisabled(true)}
-      confirmButtonDisabled={confirmButtonDisabled}
+      confirmButtonDisabled={confirmButtonDisabled || functionDisabled}
       buttonStyle="secondary"
       name={name}
       disabled={!enabled}

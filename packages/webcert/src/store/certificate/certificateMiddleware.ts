@@ -78,6 +78,7 @@ import {
   signCertificateCompleted,
   startSignCertificate,
   startSignCertificateSuccess,
+  toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
   unstyleCertificateDataElement,
   updateCertificate,
@@ -119,6 +120,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
       onSuccess: getCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { certificateId: action.payload },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -164,6 +166,7 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       onSuccess: deleteCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload.history, metadata: certificate.metadata },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -194,6 +197,7 @@ const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
       onStart: forwardCertificateStarted.type,
       onSuccess: forwardCertificateSuccess.type,
       onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -217,6 +221,7 @@ const handleReadyForSign: Middleware<Dispatch> = ({ dispatch, getState }: Middle
       onStart: readyForSignStarted.type,
       onSuccess: readyForSignSuccess.type,
       onError: apiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -274,6 +279,7 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
         method: 'POST',
         onSuccess: startSignCertificateSuccess.type,
         onError: apiGenericError.type,
+        functionDisablerType: toggleCertificateFunctionDisabler.type,
       })
     )
   }
@@ -295,6 +301,7 @@ const handleFakeSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }:
       data: certificate,
       onSuccess: fakeSignCertificateSuccess.type,
       onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -321,6 +328,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
       onStart: revokeCertificateStarted.type,
       onSuccess: revokeCertificateSuccess.type,
       onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -349,6 +357,7 @@ const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState 
       onSuccess: complementCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload.history },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -375,6 +384,7 @@ const handleAnswerComplementCertificate: Middleware<Dispatch> = ({ dispatch, get
       onStart: answerComplementCertificateStarted.type,
       onSuccess: answerComplementCertificateSuccess.type,
       onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -403,6 +413,7 @@ const handleReplaceCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
       onSuccess: replaceCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -426,6 +437,7 @@ const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mi
       onSuccess: renewCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -451,6 +463,7 @@ const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, g
       onSuccess: createCertificateFromTemplateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -474,6 +487,7 @@ const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({ dispatch, 
       onStart: createCertificateFromCandidateStarted.type,
       onSuccess: createCertificateFromCandidateSuccess.type,
       onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -502,6 +516,7 @@ const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: Mid
       onSuccess: copyCertificateSuccess.type,
       onError: certificateApiGenericError.type,
       onArgs: { history: action.payload },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
@@ -544,6 +559,7 @@ const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
       onStart: autoSaveCertificateStarted.type,
       onSuccess: autoSaveCertificateSuccess.type,
       onError: autoSaveCertificateError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }, 1000)
@@ -581,6 +597,7 @@ const validating = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
       onStart: validateCertificateStarted.type,
       onSuccess: validateCertificateSuccess.type,
       onError: validateCertificateError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }, 1000)
