@@ -38,9 +38,9 @@ export const isFunctionDisabled = (functionDisablers: FunctionDisabler[]): boole
 }
 
 export const generateFunctionDisabler = (): FunctionDisabler => {
-  return { id: uuidv4() }
+  return { id: generateRandomId() }
 }
 
-function uuidv4(): string {
+function generateRandomId(): string {
   return (Date.now() * Math.random()).toString()
 }
