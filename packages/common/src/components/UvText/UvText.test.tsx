@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -48,12 +47,6 @@ describe('UvText', () => {
     const question = createQuestionWithCheckboxBooleanValue()
     const { getByText } = render(<UvText question={question} />)
     getByText(/Boolean value = true/i)
-  })
-
-  it('displaying boolean true value for checkbox boolean value', () => {
-    const question = createQuestionWithCheckboxBooleanValue()
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/This is the label/i)
   })
 
   it('displaying empty value', () => {
