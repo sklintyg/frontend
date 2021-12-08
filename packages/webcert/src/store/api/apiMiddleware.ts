@@ -12,15 +12,19 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
   }
 
   const { url, method, data, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-  const functionDisabler: FunctionDisabler = generateFunctionDisabler()
+  let functionDisabler: FunctionDisabler
 
   if (onStart) {
     dispatch({ type: onStart, payload: { ...onArgs } })
   }
 
+  if (functionDisablerType) {
+    functionDisabler = generateFunctionDisabler()
+  }
+
   try {
     if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler })
+      dispatch({ type: functionDisablerType, payload: functionDisabler! })
     }
 
     const response = await axios.request({
@@ -49,7 +53,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
     }
   } finally {
     if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler })
+      dispatch({ type: functionDisablerType, payload: functionDisabler! })
     }
   }
 }
