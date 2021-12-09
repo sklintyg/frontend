@@ -132,7 +132,6 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   )
 
   function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
-    console.log(getHeading())
     if (disabled) {
       return getHeading()
     }
