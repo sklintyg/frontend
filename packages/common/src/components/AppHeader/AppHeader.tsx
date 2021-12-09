@@ -7,10 +7,6 @@ const HeaderInner = styled.div`
   padding: 15px 0;
 `
 
-const Header = styled.header`
-  z-index: 0;
-`
-
 interface Props {
   title?: React.ReactNode
   primaryItems?: React.ReactNode[]
@@ -29,7 +25,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
   }
 
   return (
-    <Header className="ic-page-header">
+    <header className="ic-page-header">
       <HeaderInner className="ic-page-header__inner">
         {title && title}
         {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
@@ -38,7 +34,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
         </div>
       </HeaderInner>
-    </Header>
+    </header>
   )
 }
 
