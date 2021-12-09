@@ -145,7 +145,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               <p className={'iu-fs-300 iu-fw-body'}>Patienten arbetar i snitt</p>
               <TextInput
                 onChange={handleWorkingHoursOnChange}
-                className="ic-textfield iu-mx-200"
+                className="ic-textfield iu-mx-200 iu-fs-300"
                 value={baseWorkHours}
                 type="text"
                 maxLength={2}
