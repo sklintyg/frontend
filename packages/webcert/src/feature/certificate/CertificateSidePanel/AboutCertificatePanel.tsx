@@ -11,6 +11,10 @@ const ContentWrapper = styled.div`
   height: 100%;
   overflow-y: auto;
   margin-top: 0;
+
+  ul {
+    margin: 8px 0 8px 0;
+  }
 `
 
 const Description = styled.p`
