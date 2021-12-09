@@ -2,9 +2,13 @@ import React from 'react'
 import AppHeaderTitle from './AppHeaderTitle'
 import styled from 'styled-components'
 
-const Header = styled.div`
+const HeaderInner = styled.div`
   height: unset;
   padding: 15px 0;
+`
+
+const Header = styled.header`
+  z-index: 0;
 `
 
 interface Props {
@@ -25,16 +29,16 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
   }
 
   return (
-    <header className="ic-page-header">
-      <Header className="ic-page-header__inner">
+    <Header className="ic-page-header">
+      <HeaderInner className="ic-page-header__inner">
         {title && title}
-        {logo && <AppHeaderTitle imgSrc={logo} alt={alt}></AppHeaderTitle>}
+        {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
         <div className="ic-page-header__item iu-mr-gutter">
           {getPrimary()}
           <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
         </div>
-      </Header>
-    </header>
+      </HeaderInner>
+    </Header>
   )
 }
 

@@ -55,6 +55,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
           label="Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget."
           value="ANSWER_WITH_MESSAGE"
           name="radio_cannot_complement_reason"
+          wrapperAdditionalStyles={'iu-mt-200'}
         />
         {textArea.display && textArea.name === 'ANSWER_WITH_MESSAGE' && (
           <div className={'iu-ml-700 iu-my-300'}>
