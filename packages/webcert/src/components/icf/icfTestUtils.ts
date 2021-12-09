@@ -1,6 +1,6 @@
 import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
 
-export const getIcfData = (loading = false): IcfState => {
+export const getIcfData = (): IcfState => {
   const commonIcfCodes: IcfCode[] = [
     {
       code: '0',
@@ -55,6 +55,6 @@ export const getIcfData = (loading = false): IcfState => {
       commonCodes: { icfCodes: commonIcfCodes, icd10Codes: icdCodes },
       uniqueCodes: [{ icfCodes: uniqueIcfCodes, icd10Codes: [ICD_CODE_1] }],
     },
-    loading: loading,
+    functionDisablers: [],
   }
 }
