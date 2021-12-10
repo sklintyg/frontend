@@ -57,12 +57,11 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
       return null
     }
     return radiobuttons.map((radio, index) => (
-      <>
+      <React.Fragment key={index}>
         <RadioButton
           id={radio.id as string}
           value={radio.id}
           name={question.id}
-          key={index}
           label={radio.label}
           disabled={disabled}
           checked={radio.id === code}
@@ -80,7 +79,7 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
             disableHighlight={true}
           />
         )}
-      </>
+      </React.Fragment>
     ))
   }
 
