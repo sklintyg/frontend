@@ -34,7 +34,7 @@ const UeDropdown: React.FC<Props> = (props) => {
   }
 
   return (
-    <div>
+    <>
       <Dropdown
         id={question.id}
         label={question.config.label + ''}
@@ -48,8 +48,8 @@ const UeDropdown: React.FC<Props> = (props) => {
         value={selected}
         hasValidationError={hasValidationError}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-    </div>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+    </>
   )
 }
 export default UeDropdown

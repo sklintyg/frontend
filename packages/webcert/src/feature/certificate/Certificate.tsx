@@ -5,13 +5,15 @@ import Question from './Question/Question'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import {
+  CertificateStructure,
   getCertificateDataElements,
   getGotoId,
   getIsComplementingCertificate,
   getIsShowSpinner,
+  getIsSigned,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
-import { Backdrop, ConfigTypes, InfoBox } from '@frontend/common'
+import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox } from '@frontend/common'
 import CareUnit from './CareUnit/CareUnit'
 import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
@@ -40,6 +42,7 @@ const Certificate: React.FC = () => {
   const spinnerText = useSelector(getSpinnerText)
   const gotoId = useSelector(getGotoId)
   const isComplementingCertificate = useSelector(getIsComplementingCertificate)
+  const isSigned = useSelector(getIsSigned())
 
   const certificateContainerId = 'questions-container'
 
@@ -55,6 +58,11 @@ const Certificate: React.FC = () => {
     }
   }, [gotoId])
 
+  const filterHidden = (data: CertificateStructure): boolean => {
+    if (!data.style || isSigned) return true
+    return data.style !== CertificateDataElementStyleEnum.HIDDEN
+  }
+
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
       <CustomTooltip />
@@ -66,13 +74,15 @@ const Certificate: React.FC = () => {
         )}
         <ResponsibleHospName />
         {certificateStructure &&
-          certificateStructure.map((data) => {
-            if (data.component === ConfigTypes.CATEGORY) {
-              return <Category key={data.id} id={data.id} />
-            } else {
-              return <Question key={data.id} id={data.id} />
-            }
-          })}
+          certificateStructure
+            .filter((data) => filterHidden(data))
+            .map((data) => {
+              if (data.component === ConfigTypes.CATEGORY) {
+                return <Category key={data.id} id={data.id} />
+              } else {
+                return <Question key={data.id} id={data.id} />
+              }
+            })}
         <CareUnit />
         <CertificateValidation />
         <CertificateFooter />
