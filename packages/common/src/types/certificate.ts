@@ -59,6 +59,7 @@ export interface CertificateDataElement {
 export enum CertificateDataElementStyleEnum {
   NORMAL = 'NORMAL',
   HIGHLIGHTED = 'HIGHLIGHTED',
+  HIDDEN = 'HIDDEN',
 }
 
 // Configs
@@ -75,6 +76,7 @@ export enum ConfigTypes {
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
   UE_RADIO_CODE = 'UE_RADIO_CODE',
   UE_RADIO_MULTIPLE_CODE = 'UE_RADIO_MULTIPLE_CODE',
+  UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN = 'UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN',
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
@@ -124,9 +126,20 @@ export interface ConfigUeRadioCode extends CertificateDataConfig {
   label: string
 }
 
+export interface ConfigUeRadioCodeOptionalDropdown extends CertificateDataConfig {
+  id: string
+  label: string
+  dropdownQuestionId: string
+}
+
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
   list: ConfigUeRadioCode[]
+}
+
+export interface ConfigUeRadioMultipleCodesOptionalDropdown extends CertificateDataConfig {
+  id: string
+  list: ConfigUeRadioCodeOptionalDropdown[]
 }
 
 export interface ConfigUeCheckboxDate extends CertificateDataConfig {

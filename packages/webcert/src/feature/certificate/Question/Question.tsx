@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import UeRadio from '../Inputs/UeRadio'
 import {
@@ -8,17 +9,17 @@ import {
   CertificateDataElementStyleEnum,
   ConfigTypes,
   Expandable,
+  Icon,
   MandatoryIcon,
   UvText,
-  Icon,
 } from '@frontend/common'
 import {
   getComplements,
+  getComplementsIncludingSubquestions,
   getIsEditable,
   getIsLocked,
   getQuestion,
   getShowValidationErrors,
-  getComplementsIncludingSubquestions,
 } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
@@ -32,11 +33,14 @@ import UeDiagnoses from '../Inputs/UeDiagnoses'
 import styled from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
 import _ from 'lodash'
-import { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
+import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface QuestionProps {
   id: string
+  additionalWrapperStyles?: FlattenSimpleInterpolation
+  disableHighlight?: boolean
 }
 
 interface HighlightedProps {
@@ -62,7 +66,7 @@ const Highlighted = styled.div<HighlightedProps>`
   margin-left: ${(props) => (props.highlight ? '1.5px' : '')};
 `
 
-const Question: React.FC<QuestionProps> = ({ id }) => {
+const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disableHighlight }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
   const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubquestions(id), _.isEqual)
@@ -106,9 +110,11 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   return (
-    <Highlighted highlight={complementsIncludingSubquestions.length > 0}>
+    <Highlighted highlight={complementsIncludingSubquestions.length > 0 && !disableHighlight}>
       <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
-        <QuestionWrapper highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
+        <QuestionWrapper
+          additionalStyles={additionalWrapperStyles}
+          highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
           {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
           {complements.map((complement, index) => (
@@ -175,6 +181,8 @@ const Question: React.FC<QuestionProps> = ({ id }) => {
     if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD)
       return <UeSickLeavePeriod disabled={disabled} question={question} key={question.id} />
     if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
+    if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN)
+      return <UeRadioGroupOptionalDropdown disabled={disabled} key={question.id} question={question} />
     return <div>Cannot find a component for: {question.config.type}</div>
   }
 

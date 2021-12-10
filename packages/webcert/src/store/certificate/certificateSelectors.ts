@@ -3,6 +3,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
   CertificateRelationType,
   CertificateStatus,
   Complement,
@@ -96,6 +97,7 @@ export interface CertificateStructure {
   id: string
   component: string
   index: number
+  style?: CertificateDataElementStyleEnum
 }
 
 const certificateStructure: CertificateStructure[] = []
@@ -110,6 +112,7 @@ export const getCertificateDataElements = createSelector<RootState, Certificate,
       id: certificate.data[questionId].id,
       component: certificate.data[questionId].config.type,
       index: certificate.data[questionId].index,
+      style: certificate.data[questionId].style,
     })
   }
 
