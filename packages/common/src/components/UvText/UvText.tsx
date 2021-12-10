@@ -61,7 +61,6 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
   const getCheckboxBooleanText = (value: ValueBoolean, config: ConfigUeCheckboxBoolean): JSX.Element => {
     return (
       <>
-        {config.label && <p className={`iu-fw-heading iu-fs-300`}>{config.label}</p>}
         <Badge>
           {value.selected === undefined || value.selected === null
             ? 'Ej angivet'

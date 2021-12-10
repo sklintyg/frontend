@@ -83,6 +83,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
           label="Annat allvarligt fel"
           value="ANNAT_ALLVARLIGT_FEL"
           name="radio_invoke_reason"
+          wrapperAdditionalStyles={'iu-mt-200'}
         />
         {textArea.display && textArea.name === 'ANNAT_ALLVARLIGT_FEL' && (
           <div>

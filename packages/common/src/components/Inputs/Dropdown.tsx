@@ -14,7 +14,10 @@ interface Props {
 const Dropdown: React.FC<Props> = (props) => {
   const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
   return (
-    <div className={`ic-forms__select ${hasValidationError ? 'iu-border-error' : ''} ${disabled ? 'ic-forms__select--disabled' : ''}`}>
+    <div
+      className={`ic-forms__select ${hasValidationError ? 'iu-border-error dropdown' : 'dropdown'} ${
+        disabled ? 'ic-forms__select--disabled' : ''
+      }`}>
       {label !== 'undefined' ? <label>{label}</label> : null}
       <select value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
         {options}
