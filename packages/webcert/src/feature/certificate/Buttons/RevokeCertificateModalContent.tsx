@@ -48,7 +48,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
     if (locked) {
       return `Ange för ${recipient} varför du makulerar det låsta utkastet:`
     } else {
-      return `Ange för ${recipient} varför du makulerar intyget`
+      return `Ange för ${recipient} varför du makulerar intyget:`
     }
   }
 
