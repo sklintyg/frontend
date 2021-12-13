@@ -44,13 +44,13 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
     </>
   )
 
-  const revokeReasonText = locked
-    ? 'Ange för' + recipient
-      ? recipient
-      : '' + 'varför du makulerar det låsta utkastet:'
-    : 'Ange för' + recipient
-    ? recipient
-    : '' + 'varför du makulerar intyget'
+  const getRevokeReasonText = (): string => {
+    if (locked) {
+      return `Ange för ${recipient} varför du makulerar det låsta utkastet:`
+    } else {
+      return `Ange för ${recipient} varför du makulerar intyget:`
+    }
+  }
 
   const textLabel = locked ? 'Utkastet har skapats på fel patient' : 'Intyget har utfärdats på fel patient'
 
@@ -60,7 +60,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
         <p>{infoBoxText}</p>
       </InfoBox>
       <p>{infoText}</p>
-      <p className="iu-fw-bold iu-fs-200">{revokeReasonText}</p>
+      <p className="iu-fw-bold iu-fs-200">{getRevokeReasonText()}</p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
         <RadioButton
