@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import { isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
@@ -8,6 +8,7 @@ import { getCertificateEvents } from '../../../store/certificate/certificateSele
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import _ from 'lodash'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

@@ -1,10 +1,11 @@
-import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

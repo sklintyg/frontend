@@ -1,11 +1,4 @@
-import {
-  CertificateMetadata,
-  FunctionDisabled,
-  getResourceLink,
-  ResourceLink,
-  resourceLinksAreEqual,
-  ResourceLinkType,
-} from '@frontend/common'
+import { CertificateMetadata, getResourceLink, ResourceLink, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
 import React from 'react'
 import RemoveCertificateButton from '../Buttons/RemoveCertificateButton'
 import PrintCertificateButton from '../Buttons/PrintCertificateButton'
@@ -17,6 +10,7 @@ import styled from 'styled-components'
 import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
