@@ -1,13 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled } from '@frontend/common'
-import { isReplaced, isReplacingCertificateRevoked } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, isReplacedByCopiedCertificate } from '@frontend/common'
+import { isReplacingCertificateRevoked } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
 import { getCertificateEvents } from '../../../store/certificate/certificateSelectors'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import _ from 'lodash'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -21,7 +22,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, ce
   const dispatch = useDispatch()
   const historyEntries = useSelector(getCertificateEvents, _.isEqual)
 
-  let isCertReplaced = isReplaced(certificateMetadata)
+  let isCertReplaced = isReplacedByCopiedCertificate(certificateMetadata)
 
   if (isCertReplaced) {
     const replacingIsRevoked = isReplacingCertificateRevoked(historyEntries)

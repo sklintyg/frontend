@@ -28,6 +28,18 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   return false
 }
 
+export const isReplacedByCopiedCertificate = (certificateMetadata: CertificateMetadata) => {
+  const {
+    relations: { children },
+  } = certificateMetadata
+
+  if (children && children.length > 0) {
+    return children.some((relation) => relation.type === CertificateRelationType.COPIED)
+  }
+
+  return false
+}
+
 export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata) => {
   const {
     relations: { children },
