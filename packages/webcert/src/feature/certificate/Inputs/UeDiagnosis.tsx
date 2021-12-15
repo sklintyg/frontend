@@ -252,11 +252,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   const hasValidationErrors = () => {
-    return (
-      hasValidationError ||
-      (isShowValidationError && (getValidationErrors(true, false).length > 0 || getValidationErrors(false, false).length > 0)) ||
-      getValidationErrors(false, true).length > 0
-    )
+    const hasCodeError = getValidationErrors(true, false).length > 0
+    const hasDescriptionError = getValidationErrors(false, false).length > 0
+    const hasRowError = getValidationErrors(false, true).length > 0
+    return hasValidationError || (isShowValidationError && (hasCodeError || hasDescriptionError)) || hasRowError
   }
 
   const hasTwoErrorOnSameRow = () => {
