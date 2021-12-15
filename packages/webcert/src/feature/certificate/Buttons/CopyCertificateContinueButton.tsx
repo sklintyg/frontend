@@ -1,10 +1,9 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
-import { useDispatch } from 'react-redux'
-import { copyCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import _ from 'lodash'
 import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
@@ -14,12 +13,11 @@ interface Props extends FunctionDisabled {
   certificateMetadata: CertificateMetadata
 }
 
-const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const CopyCertificateContinueButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const handleConfirm = () => {
-    return () => dispatch(copyCertificate(history))
+    return () => history.push(`/certificate/${certificateMetadata.relations.children[0].certificateId}`)
   }
 
   return (
@@ -30,7 +28,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, fu
       startIcon={<FontAwesomeIcon icon={faCopy} size="lg" />}
       modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
-      confirmButtonText={'Kopiera'}
+      confirmButtonText={'Fortsätt på utkast'}
       confirmButtonDisabled={functionDisabled}>
       <p>
         Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
@@ -40,4 +38,4 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, fu
   )
 }
 
-export default CopyCertificateButton
+export default CopyCertificateContinueButton
