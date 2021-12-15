@@ -87,7 +87,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
-              hasValidationError={isShowValidationError && getValidationErrors().length > 0}
+              hasValidationError={diagnosis.id === '1' ? isShowValidationError && getValidationErrors().length > 0 : false}
               isShowValidationError={isShowValidationError}></UeDiagnosis>
           )
         })}

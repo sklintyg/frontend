@@ -23,7 +23,7 @@ interface Props {
   id: string
   selectedCodeSystem: string
   isShowValidationError?: boolean
-  hasValidationError: boolean
+  hasValidationError?: boolean
 }
 
 const Wrapper = styled.div`
