@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-import _ from 'lodash'
 import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
