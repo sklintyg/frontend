@@ -52,6 +52,10 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
     dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
+  const getValidationErrors = () => {
+    return question.validationErrors.filter((v) => v.field === 'diagnoser')
+  }
+
   //TODO: Validering under varje input
 
   return (
@@ -83,10 +87,12 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
+              hasValidationError={isShowValidationError && getValidationErrors().length > 0}
               isShowValidationError={isShowValidationError}></UeDiagnosis>
           )
         })}
       </DiagnosesWrapper>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors()} />}
     </>
   )
 }
