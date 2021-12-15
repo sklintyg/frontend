@@ -1,6 +1,6 @@
-import { getCertificate, getQuestions } from './test/certificateTestUtil'
-import { ValueBoolean, ValueText } from '../types/certificate'
-import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
+import { getCertificate, getQuestions, getRelation } from './test/certificateTestUtil'
+import { CertificateRelation, CertificateRelationType, ValueBoolean, ValueText } from '../types/certificate'
+import { getCertificateToSave, hasUnhandledComplementQuestions, isReplacedByCopiedCertificate } from './certificateUtils'
 import { QuestionType } from '../types/question'
 
 describe('Clean certificate before saving', () => {
@@ -73,6 +73,26 @@ describe('hasUnhandledComplementQuestions', () => {
       ...getQuestions(false, QuestionType.COORDINATION),
     ]
     const actual = hasUnhandledComplementQuestions(questions)
+    expect(actual).toBe(false)
+  })
+})
+
+describe('isReplacedByCopiedCertificate', () => {
+  it('returns true if certificate has child relation with copied type relation', () => {
+    const certificate = getCertificate()
+    certificate.metadata.relations.children = getRelation(CertificateRelationType.COPIED)
+
+    const actual = isReplacedByCopiedCertificate(certificate.metadata)
+
+    expect(actual).toBe(true)
+  })
+
+  it('returns false if certificate has no child relation', () => {
+    const certificate = getCertificate()
+    certificate.metadata.relations.children = []
+
+    const actual = isReplacedByCopiedCertificate(certificate.metadata)
+
     expect(actual).toBe(false)
   })
 })
