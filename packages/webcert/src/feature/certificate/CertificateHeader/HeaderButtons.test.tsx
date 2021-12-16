@@ -18,7 +18,7 @@ describe('Verify header buttons', () => {
   const renderComponent = () =>
     render(
       <Provider store={store}>
-        <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={getMetadata()} />
+        <HeaderButtons functionDisabled={false} resourceLinks={resourceLinks} certificateMetadata={getMetadata()} />
       </Provider>
     )
 
@@ -102,7 +102,7 @@ const getMetadata = () => {
       children: [
         {
           certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
-          type: CertificateRelationType.REPLACE,
+          type: CertificateRelationType.REPLACED,
           status: CertificateStatus.UNSIGNED,
           created: new Date().toISOString(),
         },
