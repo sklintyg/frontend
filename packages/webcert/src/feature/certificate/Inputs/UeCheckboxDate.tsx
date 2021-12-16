@@ -1,5 +1,5 @@
 import React from 'react'
-import { CertificateDataValueType, Checkbox } from '@frontend/common'
+import { CertificateDataValueType, Checkbox, getValidDate } from '@frontend/common'
 import {
   CertificateDataElement,
   ConfigTypes,
@@ -10,7 +10,7 @@ import {
 } from '@frontend/common/src'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
-import { format, isMatch } from 'date-fns'
+import { format, isValid } from 'date-fns'
 import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
@@ -53,7 +53,10 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const handleChange = (checked: boolean, date: string) => {
     setChecked(checked && date !== '' && date !== null)
     setDateString(checked ? date : null)
-    if (isMatch(date, _format)) {
+
+    const parsedDate = getValidDate(date)
+
+    if (isValid(parsedDate)) {
       let updatedValue
       if (isSingleCheckboxDate) {
         updatedValue = getUpdatedDateValue(question, checked, id, date)
@@ -91,7 +94,6 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
       <DatePickerCustom
         disabled={disabled}
         textInputOnChange={handleTextChange}
-        textInputOnChangeForceCorrectDateFormat={true}
         setDate={handleDateChange}
         inputString={dateString}
         additionalStyles={props.datePickerAdditionalStyles}
