@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton, FunctionDisabled } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { getUser } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
