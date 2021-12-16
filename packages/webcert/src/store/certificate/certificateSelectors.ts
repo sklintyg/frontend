@@ -2,16 +2,14 @@ import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
-  CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateRelationType,
   CertificateStatus,
   Complement,
-  ConfigTypes,
   ResourceLinkType,
-  UnitValidationErrors,
 } from '@frontend/common'
 import { Patient, PersonId } from '@frontend/common/src'
+import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 
 export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
 
@@ -121,47 +119,20 @@ export const getCertificateDataElements = createSelector<RootState, Certificate,
   return certificateStructure
 })
 
-export const getAllValidationErrors = () => (state: RootState) => {
-  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
+export const getValidationErrorSummary = () => (state: RootState) => {
+  if (!state.ui.uiCertificate.certificate) {
     return []
   }
 
-  const certificateData = state.ui.uiCertificate.certificate.data
-  let result: CertificateDataElement[] = []
-
-  //Perhaps this could be simplified
-  for (const questionId in certificateData) {
-    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
-      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
-        result = result.concat(certificateData[certificateData[questionId].parent])
-      } else {
-        let parent = certificateData[questionId].parent
-        while (true) {
-          if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
-            result = result.concat(certificateData[parent])
-            break
-          } else if (!certificateData[parent].parent) {
-            // if parents parent is not a category and it's null, break to avoid endless loop
-            break
-          } else {
-            parent = certificateData[parent].parent
-          }
-        }
-      }
-    }
-  }
-
-  result.sort((a, b) => a.index - b.index)
-
-  return result
+  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
 }
 
-export const getMetadataUnitValidationErrors = () => (state: RootState) => {
-  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
-    return {} as UnitValidationErrors
+export const getCareUnitValidationErrors = () => (state: RootState) => {
+  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
+    return []
   }
 
-  return state.ui.uiCertificate.certificate.metadata.unitValidationErrors
+  return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
 }
 
 export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents

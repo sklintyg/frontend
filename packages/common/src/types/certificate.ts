@@ -28,7 +28,7 @@ export interface CertificateMetadata {
   readyForSign?: string
   relations: CertificateRelations
   unit: Unit
-  unitValidationErrors: UnitValidationErrors
+  careUnitValidationErrors?: ValidationError[]
   careUnit: Unit
   careProvider: Unit
   patient: Patient
@@ -327,11 +327,10 @@ export interface ValidationError {
   text: string
 }
 
-export interface UnitValidationErrors {
-  addressValidationErrors: ValidationError[]
-  zipCodeValidationErrors: ValidationError[]
-  cityValidationErrors: ValidationError[]
-  phoneNumberValidationErrors: ValidationError[]
+export interface ValidationErrorSummary {
+  id: string
+  text: string
+  index: number
 }
 
 export interface Unit {

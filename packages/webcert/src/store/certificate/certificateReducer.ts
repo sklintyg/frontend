@@ -8,7 +8,6 @@ import {
   Complement,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
-  UnitValidationErrors,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -81,6 +80,8 @@ const initialState: CertificateState = {
   routedFromDeletedCertificate: false,
   functionDisablers: [],
 }
+
+const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
 
 const certificateReducer = createReducer(initialState, (builder) =>
   builder
@@ -183,11 +184,10 @@ const certificateReducer = createReducer(initialState, (builder) =>
         }
       }
 
-      state.certificate!.metadata.unitValidationErrors = {} as UnitValidationErrors
+      state.certificate!.metadata.careUnitValidationErrors = []
       for (const validationError of action.payload) {
-        if (validationError.category === 'vardenhet' && validationError.field === 'grunddata.skapadAv.vardenhet.postadress') {
-          state.certificate!.metadata.unitValidationErrors.addressValidationErrors = []
-          state.certificate!.metadata.unitValidationErrors.addressValidationErrors.push(validationError)
+        if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
+          state.certificate!.metadata.careUnitValidationErrors.push(validationError)
         }
       }
 
