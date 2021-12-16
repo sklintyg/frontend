@@ -1,4 +1,4 @@
-import { ButtonWithConfirmModal, FunctionDisabled } from '@frontend/common'
+import { ButtonWithConfirmModal } from '@frontend/common'
 import React, { useState } from 'react'
 import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import { CertificateStatus } from '@frontend/common/src'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

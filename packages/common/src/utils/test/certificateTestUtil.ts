@@ -3,6 +3,8 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  CertificateRelation,
+  CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
 } from '../../types/certificate'
@@ -286,4 +288,8 @@ export const getQuestions = (handled: boolean, type: QuestionType): Question[] =
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return [{ type: type, handled: handled }]
+}
+
+export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {
+  return [{ type: type, certificateId: '', status: CertificateStatus.UNSIGNED, created: '' }]
 }
