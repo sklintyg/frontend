@@ -43,6 +43,10 @@ const FMBPanel: React.FC = () => {
     }
   }
 
+  const hasNoFMBSupport = (): boolean => {
+    return fmbDiagnosisCodes.length > 1 && fmbDiagnosisCodes.find((value) => value.diagnosTitle) === undefined
+  }
+
   if (!isEmpty() && isNoDiagnosesSelected()) {
     selectDefaultDiagnosis()
   }
@@ -61,7 +65,9 @@ const FMBPanel: React.FC = () => {
             selectedDiagnosisCode={selectedDiagnosisCode}
             onDiagnosisSelect={onDiagnosisSelect}
           />
-          {selectedDiagnosisCode && <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} />}
+          {selectedDiagnosisCode && (
+            <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} hasNoFMBSupport={hasNoFMBSupport()} />
+          )}
         </>
       )}
       <FMBPanelFooter />
