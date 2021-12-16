@@ -11,6 +11,7 @@ import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
 import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
@@ -46,6 +47,13 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, fu
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE)) && (
         <CopyCertificateButton
           {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE)}
+          certificateMetadata={certificateMetadata}
+          functionDisabled={functionDisabled}
+        />
+      )}
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.COPY_CERTIFICATE_CONTINUE)) && (
+        <CopyCertificateContinueButton
+          {...getResourceLink(resourceLinks, ResourceLinkType.COPY_CERTIFICATE_CONTINUE)}
           certificateMetadata={certificateMetadata}
           functionDisabled={functionDisabled}
         />
