@@ -1,21 +1,15 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import {
-  CertificateDataElement,
-  CertificateDataValueType,
-  Diagnosis,
-  ValueDiagnosis,
-  ValueDiagnosisList,
-  QuestionValidationTexts,
-} from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
 import { shallowEqual, useSelector } from 'react-redux'
-import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
-import { useAppDispatch } from '../../../store/store'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { useAppDispatch } from '../../../../store/store'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import _ from 'lodash'
 import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
+import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
   question: CertificateDataElement
@@ -77,6 +71,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
+  const [shouldShowErrorStylingList, setShouldShowErrorStylingList] = React.useState<string[]>([])
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
@@ -237,32 +232,17 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
-  const getValidationErrors = (isCode: boolean, isRow: boolean) => {
-    if (!question || !question.validationErrors || question.validationErrors.length === 0) {
-      return []
+  const updateListWithErrorStyling = (visible: boolean, elementId: string) => {
+    if (visible) {
+      shouldShowErrorStylingList.push(elementId)
+      setShouldShowErrorStylingList(shouldShowErrorStylingList)
+    } else {
+      setShouldShowErrorStylingList(shouldShowErrorStylingList.filter((e) => e !== elementId))
     }
-
-    if (isRow) {
-      return question.validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}].row`))
-    }
-
-    return question.validationErrors.filter((v) =>
-      v.field.includes(`[${parseInt(id) - 1}]${isCode ? '.diagnoskod' : '.diagnosbeskrivning'}`)
-    )
   }
 
-  const hasValidationErrors = () => {
-    const hasCodeError = getValidationErrors(true, false).length > 0
-    const hasDescriptionError = getValidationErrors(false, false).length > 0
-    const hasRowError = getValidationErrors(false, true).length > 0
-    return hasValidationError || (isShowValidationError && (hasCodeError || hasDescriptionError)) || hasRowError
-  }
-
-  const hasTwoErrorOnSameRow = () => {
-    return (
-      question.validationErrors &&
-      question.validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && !v.field.includes('.row')).length === 2
-    )
+  const errorStylingListContainsId = () => {
+    return shouldShowErrorStylingList.filter((savedId) => savedId === id).length > 0
   }
 
   return (
@@ -274,7 +254,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         listStyles={wholeRowGrid}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={hasValidationErrors()}
+        hasValidationError={errorStylingListContainsId() || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         open={openCode}
@@ -282,13 +262,22 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
-      {isShowValidationError && (
-        <QuestionValidationTexts
-          additionalStyles={hasTwoErrorOnSameRow() ? codeErrorStyles : wholeRowGrid}
-          validationErrors={getValidationErrors(true, false)}
-        />
-      )}
-      <QuestionValidationTexts additionalStyles={wholeRowGrid} validationErrors={getValidationErrors(false, true)} />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnoskod'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={codeErrorStyles}
+        disabled={!isShowValidationError}
+        addIdToErrorStylingList={updateListWithErrorStyling}
+      />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'row'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        addIdToErrorStylingList={updateListWithErrorStyling}
+      />
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -296,7 +285,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         disabled={disabled}
         inputStyles={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={hasValidationErrors()}
+        hasValidationError={errorStylingListContainsId() || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
@@ -307,12 +296,15 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         moreResults={typeaheadResult?.moreResults}
         limit={textValidation ? textValidation.limit : 250}
       />
-      {isShowValidationError && (
-        <QuestionValidationTexts
-          additionalStyles={hasTwoErrorOnSameRow() ? descriptionErrorStyles : wholeRowGrid}
-          validationErrors={getValidationErrors(false, false)}
-        />
-      )}
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnosbeskrivning'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={descriptionErrorStyles}
+        disabled={!isShowValidationError && !hasValidationError}
+        addIdToErrorStylingList={updateListWithErrorStyling}
+      />
     </Wrapper>
   )
 }
