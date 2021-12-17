@@ -9,7 +9,7 @@ import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
 import { getAllDynamicLinks } from './store/utils/utilsActions'
 
-function App() {
+function App(): JSX.Element {
   const dispatch = useAppDispatch()
 
   const handleWindowBeforeUnload = () => dispatch(triggerLogout())

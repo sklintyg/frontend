@@ -1,7 +1,6 @@
 import { ButtonWrapper, Footer } from './Styles'
 import { CustomButton } from '@frontend/common'
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ExternalLinkIcon from '@frontend/common/src/components/image/ExternalLinkIcon'
 
 interface IcfFooterProps {
@@ -26,5 +25,6 @@ const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }
     </Footer>
   )
 }
+
 
 export default IcfFooter

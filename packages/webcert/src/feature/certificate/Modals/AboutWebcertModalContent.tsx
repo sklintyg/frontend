@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   padding-bottom: 10px;
 `
 
-const AboutWebcertModalContent: React.FC = ({}) => {
+const AboutWebcertModalContent: React.FC = () => {
   return (
     <Wrapper>
       <InfoBox type={'observe'}>

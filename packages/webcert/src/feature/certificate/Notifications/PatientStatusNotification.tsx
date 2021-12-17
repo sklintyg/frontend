@@ -7,6 +7,7 @@ interface Props {
   title: string
   type: 'info' | 'error' | 'success' | 'observe'
 }
+
 const Wrapper = styled.div`
   width: fit-content;
   margin-right: 10px;

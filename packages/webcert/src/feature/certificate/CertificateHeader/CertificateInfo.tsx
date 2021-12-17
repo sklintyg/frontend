@@ -32,4 +32,5 @@ const CertificateInfo: React.FC<Props> = ({ certificateMetadata }) => {
   )
 }
 
+
 export default CertificateInfo

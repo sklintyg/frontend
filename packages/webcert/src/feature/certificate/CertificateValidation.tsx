@@ -14,7 +14,7 @@ const linkStyles = css`
   }
 `
 
-const CertificateValidation = () => {
+const CertificateValidation: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getAllValidationErrors(), _.isEqual)
 

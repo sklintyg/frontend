@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Story } from '@storybook/react'
-import { CertificateDataElement, CertificateStatus, UvText } from '../..'
+import { CertificateDataElement, UvText } from '../..'
 import { createQuestionWithBooleanValue, createQuestionWithTextValue } from './UvText.test'
 
 export default {

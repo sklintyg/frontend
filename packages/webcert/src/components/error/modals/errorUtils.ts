@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorData } from '../../../store/error/errorReducer'
+import { ErrorData } from '../../../store/error/errorReducer'
 import { Dispatch } from 'react'
 import { clearError } from '../../../store/error/errorActions'
 
