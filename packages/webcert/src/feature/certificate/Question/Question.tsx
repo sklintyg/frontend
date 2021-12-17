@@ -87,7 +87,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
             {question.config.header}
           </h4>
           <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.text}</h5>
-          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.label}</h5>}
+          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.label as string}</h5>}
         </>
       )
     } else {
@@ -98,7 +98,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           </h4>
           {question.readOnly && (
             <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
-              {question.config.label}
+              {question.config.label as string}
             </h4>
           )}
         </>
