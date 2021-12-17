@@ -26,5 +26,4 @@ const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }
   )
 }
 
-
 export default IcfFooter

@@ -40,5 +40,4 @@ const HasBeenComplementedStatus: React.FC<Props> = ({ relation }) => {
   )
 }
 
-
 export default HasBeenComplementedStatus
