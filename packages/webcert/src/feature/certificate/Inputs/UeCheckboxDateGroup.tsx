@@ -1,8 +1,7 @@
 import React from 'react'
-import { CertificateDataElement, QuestionValidationTexts } from '@frontend/common'
+import { CertificateDataElement, ConfigUeCheckboxMultipleDate, QuestionValidationTexts } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
-import { ConfigUeCheckboxMultipleDate } from '@frontend/common'
 import UeCheckboxDate from './UeCheckboxDate'
 import { ValueDate, ValueDateList } from '@frontend/common/src'
 
@@ -40,7 +39,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValida
         hasValidationError={shouldDisplayValidationError}
         isShowValidationError={isShowValidationError}
         question={question}
-        datePickerAdditionalStyles={index != checkboxes.length - 1 ? 'iu-pb-400' : ''}
+        datePickerAdditionalStyles={index !== checkboxes.length - 1 ? 'iu-pb-400' : ''}
       />
     ))
   }
@@ -49,7 +48,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValida
     <div className="checkbox-group-wrapper">
       <div>
         <div className="checkbox-child">{renderCheckboxes()}</div>
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
       </div>
     </div>
   )
