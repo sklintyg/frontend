@@ -71,7 +71,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
-  const [shouldShowErrorStylingList, setShouldShowErrorStylingList] = React.useState<string[]>([])
+  const [shouldShowErrorStyling, setShouldShowErrorStyling] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
@@ -232,17 +232,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
-  const updateListWithErrorStyling = (visible: boolean, elementId: string) => {
-    if (visible) {
-      shouldShowErrorStylingList.push(elementId)
-      setShouldShowErrorStylingList(shouldShowErrorStylingList)
-    } else {
-      setShouldShowErrorStylingList(shouldShowErrorStylingList.filter((e) => e !== elementId))
+  const hasErrorStyling = (visible: boolean, elementId: string) => {
+    if (elementId === id) {
+      setShouldShowErrorStyling(visible)
     }
-  }
-
-  const errorStylingListContainsId = () => {
-    return shouldShowErrorStylingList.filter((savedId) => savedId === id).length > 0
   }
 
   return (
@@ -254,7 +247,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         listStyles={wholeRowGrid}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={errorStylingListContainsId() || hasValidationError}
+        hasValidationError={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         open={openCode}
@@ -269,14 +262,15 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         defaultStyle={wholeRowGrid}
         specificStyle={codeErrorStyles}
         disabled={!isShowValidationError}
-        addIdToErrorStylingList={updateListWithErrorStyling}
+        hasErrorStyling={hasErrorStyling}
       />
       <DiagnosisValidation
         validationErrors={question.validationErrors}
         fieldId={'row'}
         id={id}
         defaultStyle={wholeRowGrid}
-        addIdToErrorStylingList={updateListWithErrorStyling}
+        hasErrorStyling={hasErrorStyling}
+        disabled={false}
       />
       <Typeahead
         ref={diagnosisInput}
@@ -285,7 +279,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         disabled={disabled}
         inputStyles={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={errorStylingListContainsId() || hasValidationError}
+        hasValidationError={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
@@ -303,7 +297,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         defaultStyle={wholeRowGrid}
         specificStyle={descriptionErrorStyles}
         disabled={!isShowValidationError && !hasValidationError}
-        addIdToErrorStylingList={updateListWithErrorStyling}
+        hasErrorStyling={hasErrorStyling}
       />
     </Wrapper>
   )

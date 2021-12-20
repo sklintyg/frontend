@@ -10,7 +10,7 @@ interface QuestionValidationTextsProps {
   specificStyle?: FlattenSimpleInterpolation
   disabled?: boolean
   fieldId: string
-  addIdToErrorStylingList: (visible: boolean, id: string) => void
+  hasErrorStyling: (visible: boolean, id: string) => void
 }
 
 const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
@@ -20,7 +20,7 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
   specificStyle,
   disabled,
   defaultStyle,
-  addIdToErrorStylingList,
+  hasErrorStyling,
 }) => {
   const getFilteredValidationErrors = () => {
     if (!validationErrors || validationErrors.length === 0) {
@@ -34,22 +34,36 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
   }
 
   const hasTwoErrorsOnSameRow = () => {
-    return (
-      validationErrors &&
-      validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && !v.field.includes('.row')).length === 2
-    )
+    return validationErrors && getNbrOfNonInstantValidatingErrors() === 2
   }
 
   const getStyle = () => {
     return hasTwoErrorsOnSameRow() && specificStyle ? specificStyle : defaultStyle
   }
 
+  const hasInstantValidatingError = () => {
+    return (
+      validationErrors && validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && v.field.includes('.row')).length > 0
+    )
+  }
+
+  const getNbrOfNonInstantValidatingErrors = () => {
+    return validationErrors
+      ? validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && !v.field.includes('.row')).length
+      : 0
+  }
+
+  const shouldShowErrorStyling = () => {
+    return hasInstantValidatingError() || (!disabled && getNbrOfNonInstantValidatingErrors() > 0)
+  }
+
   const filteredValidationErrors = getFilteredValidationErrors()
+
+  hasErrorStyling(shouldShowErrorStyling(), id)
 
   if (!isVisible()) {
     return null
   }
-  addIdToErrorStylingList(isVisible(), id)
 
   return <QuestionValidationTexts additionalStyles={getStyle()} validationErrors={filteredValidationErrors} />
 }
