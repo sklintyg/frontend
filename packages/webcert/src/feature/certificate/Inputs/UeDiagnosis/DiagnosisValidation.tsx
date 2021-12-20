@@ -6,11 +6,11 @@ import { FlattenSimpleInterpolation } from 'styled-components/macro'
 interface QuestionValidationTextsProps {
   validationErrors: ValidationError[]
   id: string
-  defaultStyle: FlattenSimpleInterpolation
+  defaultStyle?: FlattenSimpleInterpolation
   specificStyle?: FlattenSimpleInterpolation
   disabled?: boolean
   fieldId: string
-  hasErrorStyling: (visible: boolean, id: string) => void
+  handleErrorStyling: (visible: boolean, id: string) => void
 }
 
 const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
@@ -20,7 +20,7 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
   specificStyle,
   disabled,
   defaultStyle,
-  hasErrorStyling,
+  handleErrorStyling,
 }) => {
   const getFilteredValidationErrors = () => {
     if (!validationErrors || validationErrors.length === 0) {
@@ -59,7 +59,7 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
 
   const filteredValidationErrors = getFilteredValidationErrors()
 
-  hasErrorStyling(shouldShowErrorStyling(), id)
+  handleErrorStyling(shouldShowErrorStyling(), id)
 
   if (!isVisible()) {
     return null

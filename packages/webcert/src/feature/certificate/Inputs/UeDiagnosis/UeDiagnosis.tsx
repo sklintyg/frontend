@@ -262,14 +262,14 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         defaultStyle={wholeRowGrid}
         specificStyle={codeErrorStyles}
         disabled={!isShowValidationError}
-        hasErrorStyling={hasErrorStyling}
+        handleErrorStyling={hasErrorStyling}
       />
       <DiagnosisValidation
         validationErrors={question.validationErrors}
         fieldId={'row'}
         id={id}
         defaultStyle={wholeRowGrid}
-        hasErrorStyling={hasErrorStyling}
+        handleErrorStyling={hasErrorStyling}
         disabled={false}
       />
       <Typeahead
@@ -297,7 +297,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         defaultStyle={wholeRowGrid}
         specificStyle={descriptionErrorStyles}
         disabled={!isShowValidationError && !hasValidationError}
-        hasErrorStyling={hasErrorStyling}
+        handleErrorStyling={hasErrorStyling}
       />
     </Wrapper>
   )
