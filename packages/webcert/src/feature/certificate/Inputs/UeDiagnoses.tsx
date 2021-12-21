@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CertificateDataElement, ConfigUeDiagnoses, RadioButton, ValueDiagnosisList } from '@frontend/common'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { useState } from 'react'
 import styled from 'styled-components'
 import UeDiagnosis from './UeDiagnosis'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
@@ -32,7 +32,7 @@ interface Props {
 const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeDiagnoses
   const questionValue = question.value as ValueDiagnosisList
-  const firstSavedItem = questionValue.list.find((value) => value && value.terminology != '')
+  const firstSavedItem = questionValue.list.find((value) => value && value.terminology !== '')
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
     questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
   )
