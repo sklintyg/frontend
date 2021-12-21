@@ -1,9 +1,10 @@
-import { ButtonWithConfirmModal, CustomButton, FunctionDisabled } from '@frontend/common'
+import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
 import React from 'react'
 import { readyForSign } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

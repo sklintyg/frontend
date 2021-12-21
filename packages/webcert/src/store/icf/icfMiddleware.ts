@@ -29,7 +29,9 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {}
+const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+  return
+}
 
 export const handleGetIcfCodesSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateIcfCodes(action.payload))

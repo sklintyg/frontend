@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
-import { getCertificateMetaData, getIsValidForSigning, getResourceLinks } from '../../../store/certificate/certificateSelectors'
+import {
+  getCertificateMetaData,
+  getIsValidForSigning,
+  getResourceLinks,
+  isCertificateFunctionDisabled,
+} from '../../../store/certificate/certificateSelectors'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
@@ -27,6 +32,7 @@ export const CertificateFooter: React.FC = () => {
   const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
+  const functionDisabled = useSelector(isCertificateFunctionDisabled)
 
   if (!certificateMetadata || !resourceLinks) return null
 
@@ -39,13 +45,19 @@ export const CertificateFooter: React.FC = () => {
     <Wrapper>
       {canSign && (
         <div className={'iu-flex'}>
-          <SignAndSendButton {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }} />
+          <SignAndSendButton
+            functionDisabled={functionDisabled}
+            {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }}
+          />
         </div>
       )}
 
       {canForward && (
         <div className={'iu-flex'}>
-          <ForwardCertificateButton {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)} />
+          <ForwardCertificateButton
+            functionDisabled={functionDisabled}
+            {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
+          />
           {certificateMetadata.forwarded && (
             <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
               Vidarebefordrat
@@ -56,7 +68,11 @@ export const CertificateFooter: React.FC = () => {
 
       {canReadyForSign && !isReadyForSign && (
         <div className={'iu-flex'}>
-          <ReadyForSignButton isValidForSigning={isValidForSigning} {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)} />
+          <ReadyForSignButton
+            functionDisabled={functionDisabled}
+            isValidForSigning={isValidForSigning}
+            {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)}
+          />
         </div>
       )}
 

@@ -2,7 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata, FunctionDisabled, InfoBox } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, InfoBox } from '@frontend/common'
+import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

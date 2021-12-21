@@ -6,6 +6,7 @@ import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidation
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
 import calendarImage from '../../../images/calendar.svg'
 import 'react-datepicker/dist/react-datepicker.css'
+
 registerLocale('sv', sv)
 setDefaultLocale('sv')
 
@@ -23,7 +24,6 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
   additionalStyles?: string
-  textInputOnChangeForceCorrectDateFormat?: boolean
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -43,7 +43,6 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
-  textInputOnChangeForceCorrectDateFormat,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -89,11 +88,7 @@ const DatePickerCustom: React.FC<Props> = ({
       value = formatDateToString(parsedDate!)
     }
 
-    if (textInputOnChangeForceCorrectDateFormat && isValid(parsedDate)) {
-      textInputOnChange(value)
-    } else {
-      textInputOnChange(value)
-    }
+    textInputOnChange(value)
   }
 
   const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
