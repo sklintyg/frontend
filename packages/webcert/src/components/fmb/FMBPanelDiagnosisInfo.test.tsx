@@ -7,10 +7,10 @@ import { createMemoryHistory } from 'history'
 
 const history = createMemoryHistory()
 
-const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo, hasNoFMBSupport: boolean) => {
+const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo, hasSeveralDiagnoses: boolean) => {
   render(
     <Router history={history}>
-      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasNoFMBSupport={hasNoFMBSupport} />
+      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasSeveralDiagnoses={hasSeveralDiagnoses} />
     </Router>
   )
 }

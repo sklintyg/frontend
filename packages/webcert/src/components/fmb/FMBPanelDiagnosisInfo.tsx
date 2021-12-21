@@ -23,16 +23,16 @@ const EmptyWrapper = styled.div`
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
-  hasNoFMBSupport: boolean
+  hasSeveralDiagnoses: boolean
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasNoFMBSupport }) => {
+const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">
         <InfoBox type={'observe'}>
           <p>
-            {hasNoFMBSupport
+            {hasSeveralDiagnoses
               ? 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.'
               : 'För den angivna diagnosen finns för tillfället inget FMB-stöd.'}{' '}
           </p>
