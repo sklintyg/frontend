@@ -69,7 +69,7 @@ const Highlighted = styled.div<HighlightedProps>`
 const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disableHighlight }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
-  const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubquestions(id), _.isEqual)
+  const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubQuestions(id), _.isEqual)
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
@@ -163,7 +163,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
   }
 
   return (
-    <Highlighted highlight={complementsIncludingSubQuestions.length > 0 && !disableHighlight}>
+    <Highlighted highlight={complementsIncludingSubquestions.length > 0 && !disableHighlight}>
       <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
         <QuestionWrapper
           additionalStyles={additionalWrapperStyles}
