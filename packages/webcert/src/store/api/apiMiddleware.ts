@@ -24,7 +24,8 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
 
   try {
     if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler! })
+      // @ts-expect-error functionDisabler wont be undefined if type has a value
+      dispatch({ type: functionDisablerType, payload: functionDisabler })
     }
 
     const response = await axios.request({
@@ -53,7 +54,8 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
     }
   } finally {
     if (functionDisablerType) {
-      dispatch({ type: functionDisablerType, payload: functionDisabler! })
+      // @ts-expect-error functionDisabler wont be undefined if type has a value
+      dispatch({ type: functionDisablerType, payload: functionDisabler })
     }
   }
 }
