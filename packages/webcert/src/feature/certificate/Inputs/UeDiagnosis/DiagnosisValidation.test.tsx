@@ -42,6 +42,21 @@ describe('Diagnosis validation component', () => {
     renderDefaultComponent('row', getValidationErrors('field', 1), true, '1')
     expect(screen.queryByText(EXPECTED_ERROR)).not.toBeInTheDocument()
   })
+
+  it('should style instant error messages regardless of disabled value', () => {
+    renderDefaultComponent('row', getValidationErrors('row', 1), true, '1')
+    expect(handleErrorStyling).toBeCalledWith(true, '1')
+  })
+
+  it('should not style non instant error messages if disabled is true', () => {
+    renderDefaultComponent('row', getValidationErrors('field', 1), true, '1')
+    expect(handleErrorStyling).toBeCalledWith(false, '1')
+  })
+
+  it('should style non instant error messages if disabled is false', () => {
+    renderDefaultComponent('row', getValidationErrors('row', 1), false, '1')
+    expect(handleErrorStyling).toBeCalledWith(true, '1')
+  })
 })
 
 const getValidationErrors = (field: string, id: number) => {
