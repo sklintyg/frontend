@@ -284,6 +284,81 @@ export const getCertificate = (): Certificate => {
   }
 }
 
+export const getCertificateWithQuestion = (questionId: string, question: CertificateDataElement): Certificate => {
+  return {
+    metadata: {
+      id: '',
+      type: '',
+      created: '',
+      description: '',
+      testCertificate: false,
+      sent: false,
+      latestMajorVersion: true,
+      responsibleHospName: '',
+      careProvider: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      careUnit: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      unit: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      forwarded: false,
+      name: '',
+      status: CertificateStatus.UNSIGNED,
+      issuedBy: {
+        personId: '',
+        fullName: '',
+        prescriptionCode: '',
+      },
+      patient: {
+        personId: {
+          id: '',
+          type: '',
+        },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
+        coordinationNumber: false,
+        deceased: false,
+        firstName: '',
+        fullName: '',
+        lastName: '',
+        protectedPerson: false,
+        testIndicated: false,
+      },
+      relations: {
+        children: [],
+        parent: null,
+      },
+      version: 1,
+      typeVersion: '1.0',
+    },
+    data: {
+      questionId: question,
+    },
+    links: [],
+  }
+}
+
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

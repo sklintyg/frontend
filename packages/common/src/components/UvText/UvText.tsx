@@ -20,7 +20,15 @@ import {
 } from '@frontend/common'
 import styled from 'styled-components'
 import Badge from './Badge'
-import { ConfigUeCheckboxBoolean } from '../../types/certificate'
+import {
+  CertificateDataElementStyleEnum,
+  ConfigTypes,
+  ConfigUeCheckboxBoolean,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
+} from '../../types/certificate'
+import { useSelector } from 'react-redux'
+import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
+import _ from 'lodash'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -35,6 +43,17 @@ interface UvTextProps {
 }
 
 const UvText: React.FC<UvTextProps> = ({ question }) => {
+  const getOptionalDropdown = () => {
+    if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN) {
+      return (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list.find(
+        (r) => r.dropdownQuestionId && r.id === (question.value as ValueCode).id
+      )
+    }
+  }
+
+  const optionalDropdown = getOptionalDropdown()
+  const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
+
   const getUvIcf = (collectionsLabel: string, icfCodes: string[], textValue: string) => {
     return (
       <Badge>
@@ -149,6 +168,16 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     )
   }
 
+  const getCodeValue = (questionElement: CertificateDataElement): string => {
+    const codeValue = questionElement.value as ValueCode
+    const codeConfig = questionElement.config
+    if (codeValue.id !== undefined && questionElement.visible) {
+      const chosenValue = (codeConfig.list as ValueCode[]).find((item) => item.id === codeValue.id)
+      return chosenValue ? (chosenValue.label as string) : ''
+    }
+    return 'Ej angivet'
+  }
+
   const getUVText = () => {
     if (question.value === undefined || question.value === null) {
       return null
@@ -193,10 +222,9 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         }
         break
       case CertificateDataValueType.CODE:
-        const codeValue = question.value as ValueCode
-        const codeConfig = question.config
-        if (codeValue.id !== undefined && question.visible) {
-          displayText = (codeConfig.list as ValueCode[]).find((item) => item.id === codeValue.id)?.label as string
+        displayText = getCodeValue(question)
+        if (questionWithOptionalDropdown) {
+          displayText += ` ${getCodeValue(questionWithOptionalDropdown)}`
         }
         break
       case CertificateDataValueType.DATE_LIST:
@@ -226,7 +254,7 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
         displayText = 'Okänd datatyp'
         break
     }
-    if (displayText && displayText.length > 0) {
+    if (displayText && displayText.length > 0 && question.style !== CertificateDataElementStyleEnum.HIDDEN) {
       return <Badge>{displayText}</Badge>
     }
   }
