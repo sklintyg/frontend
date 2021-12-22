@@ -59,7 +59,7 @@ const UvCareUnitAddress: React.FC = (props) => {
       </CategoryHeader>
       <QuestionWrapper additionalStyles={additionalContentStyles}>
         <h4 className="iu-mb-200 iu-color-white iu-fs-300">Namn och kontaktuppgifter till vårdenheten</h4>
-        <p>{metadata.issuedBy.fullName}</p>
+        <p>{metadata?.issuedBy?.fullName}</p>
         <p>{metadata.unit.unitName}</p>
         <p>{metadata.unit.address}</p>
         <p>

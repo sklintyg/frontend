@@ -26,7 +26,7 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
           <>
             <RadioButton
               key={diagnosisCode.icd10Code}
-              label={diagnosisCode.originalIcd10Description!}
+              label={diagnosisCode.originalIcd10Description ?? ''}
               value={diagnosisCode.icd10Code}
               checked={diagnosisCode.icd10Code === selectedDiagnosisCode?.icd10Code}
               id={diagnosisCode.icd10Code}
@@ -34,7 +34,7 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
               disabled={!diagnosisCode.diagnosTitle}
               onChange={onChange}
               data-tip={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}>
-              {diagnosisCode.icd10Code && diagnosisCode.icd10Code !== diagnosisCode.originalIcd10Code! && (
+              {diagnosisCode.icd10Code && diagnosisCode.icd10Code !== diagnosisCode.originalIcd10Code && (
                 <FontAwesomeIcon
                   data-testid={'fmbInfoCircle'}
                   icon={faInfoCircle}
