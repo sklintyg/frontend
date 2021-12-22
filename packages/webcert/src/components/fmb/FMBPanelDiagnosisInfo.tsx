@@ -34,7 +34,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSever
           <p>
             {hasSeveralDiagnoses
               ? 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.'
-              : 'För den angivna diagnosen finns för tillfället inget FMB-stöd.'}{' '}
+              : 'För den angivna diagnosen finns för tillfället inget FMB-stöd.'}
           </p>
         </InfoBox>
       </EmptyWrapper>
