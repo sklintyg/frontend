@@ -15,8 +15,6 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
     onDiagnosisSelect(event.target.value)
   }
 
-  console.log(selectedDiagnosisCode)
-
   useEffect(() => {
     ReactTooltip.rebuild()
   })
