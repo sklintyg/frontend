@@ -83,7 +83,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
           <div>
             <p className="iu-fw-bold iu-fs-200">
               <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
-              Ange orsaken till felet.{' '}
+              Ange orsaken till felet.
             </p>
             <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
           </div>
