@@ -63,8 +63,8 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
       <p className="iu-fw-bold iu-fs-200">{getRevokeReasonText()}</p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
-        <RadioButton id="FEL_PATIENT" onChange={handleRadioButtonChange} label={textLabel} />
-        {/*TODO: kolla om fel patient ska togglas om den är locked. value="FEL_PATIENT" name="radio_invoke_reason" */}
+        <RadioButton id="FEL_PATIENT" onChange={handleRadioButtonChange} label={textLabel} value="FEL_PATIENT" name="radio_invoke_reason" />
+        {/*TODO: kolla om fel patient ska togglas om den är locked.  */}
         {textArea.display && textArea.name === 'FEL_PATIENT' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>
