@@ -284,7 +284,7 @@ export const getCertificate = (): Certificate => {
   }
 }
 
-export const getCertificateWithQuestion = (questionId: string, question: CertificateDataElement): Certificate => {
+export const getCertificateWithQuestion = (question: CertificateDataElement): Certificate => {
   return {
     metadata: {
       id: '',

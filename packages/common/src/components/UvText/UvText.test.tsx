@@ -31,7 +31,7 @@ import {
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
-import { updateCertificate, updateCertificateDataElement } from '@frontend/webcert/src/store/certificate/certificateActions'
+import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 
 const renderDefaultComponent = (question: CertificateDataElement) => {
   render(
@@ -140,7 +140,7 @@ describe('UvText', () => {
   it('should add text of optional dropdown to radio group text', () => {
     const question = createQuestionWithOptionalDropdown()
     const dropdownQuestion = createDropdownQuestion()
-    store.dispatch(updateCertificate(getCertificateWithQuestion('dropdownId', dropdownQuestion)))
+    store.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
   })
@@ -398,12 +398,12 @@ const createQuestionWithOptionalDropdown = () => {
     description: '',
     id: '',
     text: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
     list: [
       {
         id: 'CODE_1',
         label: 'Code 1',
-        dropdownQuestionId: 'dropdownId',
+        dropdownQuestionId: 'questionId',
       },
       {
         id: 'CODE_2',
@@ -429,9 +429,9 @@ const createDropdownQuestion = () => {
 
   const config: ConfigUeDropdown = {
     description: '',
-    id: '',
+    id: 'questionId',
     text: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+    type: ConfigTypes.UE_DROPDOWN,
     list: [
       {
         id: 'CODE_DROPDOWN',
@@ -439,7 +439,18 @@ const createDropdownQuestion = () => {
       },
     ],
   }
-  return createQuestion(value, config)
+  return {
+    id: 'questionId',
+    readOnly: true,
+    index: 0,
+    mandatory: false,
+    visible: true,
+    parent: 'parent',
+    validationErrors: [],
+    validation: [],
+    config,
+    value,
+  }
 }
 
 export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
