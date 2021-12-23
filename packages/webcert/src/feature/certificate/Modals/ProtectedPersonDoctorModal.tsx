@@ -11,7 +11,7 @@ const ItalicLink = styled.span`
   }
 `
 
-const ProtectedPersonDoctorModal: React.FC = ({}) => {
+const ProtectedPersonDoctorModal: React.FC = () => {
   const isUserDoctor = useSelector(isDoctor)
 
   return (

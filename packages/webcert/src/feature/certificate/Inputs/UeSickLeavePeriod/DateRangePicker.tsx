@@ -1,20 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { addDays, isBefore, isValid } from 'date-fns'
-import { isDateRangeValid, QuestionValidationTexts, ValidationError } from '@frontend/common'
 import {
-  Checkbox,
-  getValidDate,
-  formatDateToString,
-  parseDayCodes,
   _dateReg,
   _dateRegDashesOptional,
+  Checkbox,
   dayCodeReg,
-  weekCodeReg,
-  monthCodeReg,
-  getPeriodWorkHours,
+  formatDateToString,
   getPeriodWorkDays,
+  getPeriodWorkHours,
+  getValidDate,
+  isDateRangeValid,
+  monthCodeReg,
+  parseDayCodes,
+  QuestionValidationTexts,
+  ValidationError,
+  weekCodeReg,
 } from '@frontend/common'
-import { DateRangeWrapper, DatesWrapper, DateGrid } from './Styles'
+import { DateGrid, DateRangeWrapper, DatesWrapper } from './Styles'
 import usePrevious from '../../../../hooks/usePrevious'
 import { DatePickerCustom } from '@frontend/common/src'
 

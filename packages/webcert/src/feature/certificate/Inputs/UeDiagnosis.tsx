@@ -5,9 +5,9 @@ import {
   CertificateDataElement,
   CertificateDataValueType,
   Diagnosis,
+  QuestionValidationTexts,
   ValueDiagnosis,
   ValueDiagnosisList,
-  QuestionValidationTexts,
 } from '@frontend/common'
 import { shallowEqual, useSelector } from 'react-redux'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import {
   CertificateDataElement,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
   QuestionValidationTexts,
   RadioButton,
   ValueCode,
-  ConfigUeRadioMultipleCodesOptionalDropdown,
 } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import Question from '../Question/Question'
-import { FlattenSimpleInterpolation, css } from 'styled-components/macro'
+import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 
 const dropDownStyles: FlattenSimpleInterpolation = css`
   padding: 0 !important;

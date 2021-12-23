@@ -1,4 +1,4 @@
-import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from './IcfUtils'
+import { getFilteredIcfValues, getIcfValueList, isOldListIncludedInNewList } from './IcfUtils'
 import { AvailableIcfCodes, IcfCode } from '../../store/icf/icfReducer'
 
 describe('IcfUtils', () => {
