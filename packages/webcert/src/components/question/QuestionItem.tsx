@@ -31,9 +31,8 @@ import {
 import _ from 'lodash'
 import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`

@@ -1,22 +1,22 @@
 import * as React from 'react'
 import {
+  CertificateDataConfig,
   CertificateDataElement,
   CertificateDataValueType,
-  ValueBoolean,
-  ValueCode,
-  ValueCodeList,
-  ValueText,
-  CertificateDataConfig,
+  CheckboxCode,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDiagnoses,
+  ConfigUeIcf,
   ConfigUeSickLeavePeriod,
+  ValueBoolean,
+  ValueCode,
+  ValueCodeList,
   ValueDateList,
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
-  ConfigUeIcf,
-  CheckboxCode,
+  ValueText,
 } from '@frontend/common'
 import styled from 'styled-components'
 import Badge from './Badge'

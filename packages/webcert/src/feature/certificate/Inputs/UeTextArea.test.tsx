@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
 import UeTextArea from './UeTextArea'
-import { CertificateDataValueType, CertificateDataElement } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType } from '@frontend/common'
 import { CertificateDataValidationType } from '@frontend/common/src'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')

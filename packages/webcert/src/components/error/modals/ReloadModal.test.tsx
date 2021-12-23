@@ -10,7 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
-import { clearError, setError } from '../../../store/error/errorActions'
+import { clearError } from '../../../store/error/errorActions'
 
 let testStore: EnhancedStore
 

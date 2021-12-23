@@ -1,4 +1,4 @@
-import { CertificateMetadata, getReplacedCertificateStatus, CertificateStatus, StatusWithIcon } from '@frontend/common'
+import { CertificateMetadata, CertificateStatus, getReplacedCertificateStatus, StatusWithIcon } from '@frontend/common'
 import React from 'react'
 import { Link } from 'react-router-dom'
 

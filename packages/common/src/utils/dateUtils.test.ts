@@ -1,13 +1,13 @@
 import { isEqual } from 'date-fns'
 import {
-  getValidDate,
-  getLatestPeriodEndDate,
   CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
+  getLatestPeriodEndDate,
   getPeriodHasOverlap,
   getPeriodWorkHours,
-  ConfigUeCheckboxDateRange,
-  ValueDateRange,
+  getValidDate,
   isDateRangeValid,
+  ValueDateRange,
 } from '@frontend/common'
 import { filterDateRangeValueList, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
 
