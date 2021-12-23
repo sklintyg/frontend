@@ -158,7 +158,7 @@ function removeFMBForRemovedDiagnosisCodes(
   dispatch: Dispatch
 ) {
   existingFMBDiagnosisCodeInfo.forEach((existing) => {
-    const remove = valueDiagnosisList.list.findIndex((diagnosis) => existing.icd10Code === diagnosis.code) < 0
+    const remove = valueDiagnosisList.list.findIndex((diagnosis) => existing.originalIcd10Code === diagnosis.code) < 0
     if (remove) {
       dispatch(removeFMBDiagnosisCodes(existing))
     }
@@ -171,7 +171,7 @@ function retrieveFMBForAddedDiagnosisCodes(
   dispatch: Dispatch
 ) {
   valueDiagnosisList.list.forEach((diagnosis, index) => {
-    const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.icd10Code === diagnosis.code) > -1
+    const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.originalIcd10Code === diagnosis.code) > -1
     if (exists || !diagnosis.code) {
       return
     }
