@@ -1,4 +1,4 @@
-import { CertificateMetadata, StatusWithIcon, TextWithInfoModal, isDisabled } from '@frontend/common'
+import { CertificateMetadata, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import { isLockedRevoked } from '@frontend/common/src'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CertificateDataElement, QuestionValidationTexts, ConfigUeCheckboxMultipleCodes } from '@frontend/common'
+import { CertificateDataElement, ConfigUeCheckboxMultipleCodes, QuestionValidationTexts } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import UeCheckbox from './UeCheckbox'

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CertificateMetadata, TextWithInfoModal, isRevoked, StatusWithIcon } from '@frontend/common'
+import { CertificateMetadata, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import WCDynamicLink from '../../../../components/utils/WCDynamicLink'
 import { CertificateRelationType } from '@frontend/common/src'
 import { Link } from 'react-router-dom'

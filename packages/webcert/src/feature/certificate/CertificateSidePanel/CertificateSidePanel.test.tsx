@@ -37,8 +37,7 @@ describe('CertificateSidePanel', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
     })
   })
 

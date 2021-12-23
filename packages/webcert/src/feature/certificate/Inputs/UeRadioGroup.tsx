@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CertificateDataElement, QuestionValidationTexts, ConfigUeRadioMultipleCodes, RadioButton, ValueCode } from '@frontend/common'
+import { CertificateDataElement, ConfigUeRadioMultipleCodes, QuestionValidationTexts, RadioButton, ValueCode } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
