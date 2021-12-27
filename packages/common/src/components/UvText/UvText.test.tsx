@@ -30,7 +30,9 @@ import {
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '@frontend/webcert/src/store/reducers'
+import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
 
 let testStore: EnhancedStore
 
@@ -43,6 +45,13 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 }
 
 describe('UvText', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+    })
+  })
+
   it('renders without crashing', () => {
     const question = createQuestionWithTextValue()
     renderDefaultComponent(question)
@@ -141,7 +150,7 @@ describe('UvText', () => {
   it('should add text of optional dropdown to radio group text', () => {
     const question = createQuestionWithOptionalDropdown()
     const dropdownQuestion = createDropdownQuestion()
-    tesStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
+    testStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
   })
