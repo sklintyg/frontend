@@ -29,13 +29,14 @@ import {
 } from '../..'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
 import { Provider } from 'react-redux'
-import store from '@frontend/webcert/src/store/store'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { getSessionStatus, setPollHandle } from '@frontend/webcert/src/store/session/sessionActions'
+import { EnhancedStore } from '@reduxjs/toolkit'
+
+let testStore: EnhancedStore
 
 const renderDefaultComponent = (question: CertificateDataElement) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <UvText question={question} />
     </Provider>
   )
