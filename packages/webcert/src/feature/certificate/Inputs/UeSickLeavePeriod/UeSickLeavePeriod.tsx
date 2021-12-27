@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DateRangePicker from './DateRangePicker'
 import {
   CertificateDataElement,
+  CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
   ConfigUeSickLeavePeriod,
+  filterDateRangeValueList,
   formatDateToString,
   getLatestPeriodEndDate,
-  ValueDateRange,
+  getNumberOfSickLeavePeriodDays,
   getPeriodHasOverlap,
-  ValueDateRangeList,
-  ConfigUeCheckboxDateRange,
+  Icon,
   QuestionValidationTexts,
   ValidationError,
-  CertificateDataValueType,
-  filterDateRangeValueList,
-  getNumberOfSickLeavePeriodDays,
-  Icon,
+  ValueDateRange,
+  ValueDateRangeList,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { isValid, addDays } from 'date-fns'
+import { addDays, isValid } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'

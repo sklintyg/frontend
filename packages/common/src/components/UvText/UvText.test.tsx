@@ -5,21 +5,21 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import UvText from './UvText'
 import {
-  ValueBoolean,
-  CertificateDataElement,
   CertificateDataConfig,
-  Value,
+  CertificateDataElement,
   CertificateDataValueType,
-  ValueText,
   ConfigTypes,
-  ConfigUeRadioBoolean,
-  ConfigUeTextArea,
   ConfigUeCheckboxMultipleCodes,
+  ConfigUeIcf,
+  ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeTextArea,
+  Value,
+  ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueIcf,
-  ConfigUeIcf,
+  ValueText,
 } from '@frontend/common'
 import {
   ConfigUeCheckboxMultipleDate,

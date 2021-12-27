@@ -24,23 +24,6 @@ import { MODULE_PROBLEM_MESSAGE, MODULE_PROBLEM_TITLE } from './modals/ModulePro
 import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './modals/IndeterminateIdentity'
 import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { GENERAL_ERROR_MESSAGE, GENERAL_ERROR_TITLE } from './modals/GeneralErrorReload'
-import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from './errorPageContent/Timeout'
-import { DATA_NOT_FOUND_MESSAGE, DATA_NOT_FOUND_TITLE } from './errorPageContent/DataNotFound'
-import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from './errorPageContent/AuthorizationProblem'
-import {
-  AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_MESSAGE,
-  AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_TITLE,
-} from './errorPageContent/AuthorizationProblemConfidentialityMarking'
-import {
-  AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_UNIT_MESSAGE,
-  AUTHORIZATION_PROBLEM_CONFIDENTIALITY_MARKING_UNIT_TITLE,
-} from './errorPageContent/AuthorizationProblemConfidentialityMarkingUnit'
-import {
-  AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_MESSAGE,
-  AUTHORIZATION_USER_SESSION_ALREADY_ACTIVE_TITLE,
-} from './errorPageContent/AuthorizationUserSessionAlreadyActive'
-import { INTERNAL_PROBLEM_MESSAGE, INTERNAL_PROBLEM_TITLE } from './errorPageContent/InternalProblem'
-import { UNKNOWN_INTERNAL_PROBLEM_MESSAGE, UNKNOWN_INTERNAL_PROBLEM_TITLE } from './errorPageContent/UnknownInternalProblem'
 
 let testStore: EnhancedStore
 

@@ -28,4 +28,5 @@ const MandatoryIcon: React.FC<Props> = ({ additionalStyles, display }) => {
   )
 }
 
+
 export default MandatoryIcon

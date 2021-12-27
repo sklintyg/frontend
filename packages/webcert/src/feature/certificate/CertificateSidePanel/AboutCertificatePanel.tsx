@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
@@ -47,7 +47,7 @@ const AboutCertificatePanel: React.FC = () => {
             </>
           )}
         </p>
-        {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }}></Description>}
+        {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }} />}
       </ContentWrapper>
       <AboutCertificatePanelFooter />
     </>

@@ -1,4 +1,4 @@
-import { CertificateMetadata, isUnsigned, StatusWithIcon } from '@frontend/common'
+import { StatusWithIcon } from '@frontend/common'
 import React from 'react'
 
 interface Props {
