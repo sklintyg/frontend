@@ -42,10 +42,6 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 }
 
 describe('UvText', () => {
-  beforeEach(() => {
-    store.dispatch(setPollHandle(setInterval(() => {}, 30000)))
-  })
-
   it('renders without crashing', () => {
     const question = createQuestionWithTextValue()
     renderDefaultComponent(question)
