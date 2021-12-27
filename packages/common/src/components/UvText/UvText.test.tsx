@@ -141,7 +141,7 @@ describe('UvText', () => {
   it('should add text of optional dropdown to radio group text', () => {
     const question = createQuestionWithOptionalDropdown()
     const dropdownQuestion = createDropdownQuestion()
-    store.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
+    tesStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
   })
