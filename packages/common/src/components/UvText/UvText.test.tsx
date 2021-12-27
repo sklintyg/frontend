@@ -31,7 +31,7 @@ import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certifi
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { clearPollHandle } from '@frontend/webcert/src/store/session/sessionActions'
+import { getSessionStatus, setPollHandle } from '@frontend/webcert/src/store/session/sessionActions'
 
 const renderDefaultComponent = (question: CertificateDataElement) => {
   render(
@@ -43,7 +43,7 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 
 describe('UvText', () => {
   beforeEach(() => {
-    store.dispatch(clearPollHandle())
+    store.dispatch(setPollHandle(setInterval(() => {}, 30000)))
   })
 
   it('renders without crashing', () => {
