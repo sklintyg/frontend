@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { useState } from 'react'
 import styled from 'styled-components'
 import UeDiagnosis from './UeDiagnosis'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -86,7 +86,8 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
               hasValidationError={diagnosis.id === '1' ? isShowValidationError && getValidationErrors().length > 0 : false}
-              isShowValidationError={isShowValidationError}></UeDiagnosis>
+              isShowValidationError={isShowValidationError}
+            />
           )
         })}
       </DiagnosesWrapper>

@@ -1,5 +1,5 @@
 import { getCertificate, getQuestions } from './test/certificateTestUtil'
-import {  ValueBoolean, ValueText } from '../types/certificate'
+import { ValueBoolean, ValueText } from '../types/certificate'
 import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
 import { QuestionType } from '../types/question'
 

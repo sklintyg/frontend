@@ -1,4 +1,4 @@
-import { CustomTooltip, FMBDiagnosisCodeInfo } from '@frontend/common'
+import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect } from 'react'

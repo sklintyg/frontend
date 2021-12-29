@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { CertificateDataValueType, CertificateDataElement, ConfigUeRadioBoolean, ValueBoolean } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean, ValueBoolean } from '@frontend/common'
 import UeRadio from './UeRadio'
 
 it('displays two radio buttons that toggle checked mode correctly', async () => {

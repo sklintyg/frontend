@@ -1,5 +1,5 @@
 import { Question } from '@frontend/common'
-import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive, getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
+import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled, getShouldComplementedBeActive } from './questionUtils'
 
 describe('questionUtils', () => {
   describe('getNumberOfUnhandledQuestions', () => {

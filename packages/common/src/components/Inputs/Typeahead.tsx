@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState, useEffect, useRef } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { scroller, Element } from 'react-scroll'
+import { Element, scroller } from 'react-scroll'
 import { useKeyPress } from '../../utils/userFunctionUtils'
 
 interface Props {

@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react'
-import { CustomButton, ModalBase } from '@frontend/common'
-import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
-import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
-import { useDispatch } from 'react-redux'
-import { InfoBox, ResourceLink } from '@frontend/common/src'
+import React from 'react'
+import { InfoBox } from '@frontend/common/src'
 import styled from 'styled-components'
 import WCDynamicLink from '../../../components/utils/WCDynamicLink'
-import DynamicLink from '@frontend/common/src/components/utils/DynamicLink'
-import SidePanelFooter from '../CertificateSidePanel/Footer/SidePanelFooter'
 
 const Wrapper = styled.div`
   p, h4 {
   padding-bottom: 10px;
 `
 
-const AboutWebcertModalContent: React.FC = ({}) => {
+const AboutWebcertModalContent: React.FC = () => {
   return (
     <Wrapper>
       <InfoBox type={'observe'}>

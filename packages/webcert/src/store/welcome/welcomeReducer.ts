@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   clearWelcome,
+  updateCertificateId,
   updateCertificateTypes,
   updateCreateCertificate,
-  updateCertificateId,
   updateNavigateToCertificate,
   updatePatients,
 } from './welcomeActions'

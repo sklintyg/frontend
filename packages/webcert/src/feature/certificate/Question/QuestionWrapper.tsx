@@ -12,6 +12,7 @@ const Wrapper = styled.section<WrapperProps>`
   border-top-right-radius: 0;
   background-color: ${(props) => (props.highlighted ? '#FFF8E0' : '')} !important;
 `
+
 interface Props {
   additionalStyles?: FlattenSimpleInterpolation
   highlighted?: boolean

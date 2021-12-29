@@ -19,7 +19,7 @@ const FMBPanel: React.FC = () => {
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
 
   const onDiagnosisSelect = (icd10Code: string) => {
-    const fmbDiagnoseCode = fmbDiagnosisCodes.find((value) => value.icd10Code === icd10Code)
+    const fmbDiagnoseCode = fmbDiagnosisCodes.find((value) => value.originalIcd10Code === icd10Code)
     if (fmbDiagnoseCode) {
       setSelectedDiagnosisCode(fmbDiagnoseCode)
     }
@@ -43,6 +43,10 @@ const FMBPanel: React.FC = () => {
     }
   }
 
+  const hasSeveralDiagnoses = (): boolean => {
+    return fmbDiagnosisCodes.length > 1
+  }
+
   if (!isEmpty() && isNoDiagnosesSelected()) {
     selectDefaultDiagnosis()
   }
@@ -61,7 +65,9 @@ const FMBPanel: React.FC = () => {
             selectedDiagnosisCode={selectedDiagnosisCode}
             onDiagnosisSelect={onDiagnosisSelect}
           />
-          {selectedDiagnosisCode && <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} />}
+          {selectedDiagnosisCode && (
+            <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} hasSeveralDiagnoses={hasSeveralDiagnoses()} />
+          )}
         </>
       )}
       <FMBPanelFooter />

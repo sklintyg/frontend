@@ -1,4 +1,4 @@
-import { RadioButton, TextArea, MandatoryIcon, InfoBox } from '@frontend/common'
+import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
@@ -18,7 +18,7 @@ interface Props {
 export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
-  const recipient = type ? (type === 'lisjp' ? ' Försäkringskassan ' : ' Arbetsförmedlingen ') : undefined
+  const recipient = type ? (type === 'lisjp' ? 'för Försäkringskassan' : '') : ''
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -46,9 +46,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   const getRevokeReasonText = (): string => {
     if (locked) {
-      return `Ange för ${recipient} varför du makulerar det låsta utkastet:`
+      return `Ange ${recipient} varför du makulerar det låsta utkastet:`
     } else {
-      return `Ange för ${recipient} varför du makulerar intyget:`
+      return `Ange ${recipient} varför du makulerar intyget:`
     }
   }
 
@@ -63,14 +63,8 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
       <p className="iu-fw-bold iu-fs-200">{getRevokeReasonText()}</p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">
         {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
-        <RadioButton
-          id="FEL_PATIENT"
-          onChange={handleRadioButtonChange}
-          label={textLabel}
-          //TODO: kolla om fel patient ska togglas om den är locked.
-          value="FEL_PATIENT"
-          name="radio_invoke_reason"
-        />
+        <RadioButton id="FEL_PATIENT" onChange={handleRadioButtonChange} label={textLabel} value="FEL_PATIENT" name="radio_invoke_reason" />
+        {/*TODO: kolla om fel patient ska togglas om den är locked.  */}
         {textArea.display && textArea.name === 'FEL_PATIENT' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>

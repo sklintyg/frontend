@@ -133,6 +133,16 @@ describe('FMBPanel', () => {
     renderDefaultComponent()
     expect(screen.queryByTestId('fmbInfoCircle')).not.toBeInTheDocument()
   })
+
+  it('shall display no fmb info exists for diagnoses', async () => {
+    const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
+    const fmbDiagnosisCodeInfoResult2 = getEmptyFMBDiagnosisCodeInfoResult('B01', 1)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult2))
+    renderDefaultComponent()
+
+    expect(screen.queryAllByText(/För de angivna diagnoserna finns för tillfället inget FMB-stöd./i)).not.toHaveLength(0)
+  })
 })
 
 const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {

@@ -1,5 +1,5 @@
 import { ValueDateRange } from './../types/certificate'
-import { parse, format, isAfter, isSameDay, areIntervalsOverlapping, differenceInCalendarDays, isValid, isBefore } from 'date-fns'
+import { areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
 import { ConfigUeCheckboxDateRange } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -34,7 +34,7 @@ export const formatDateToString = (date: Date) => {
 }
 
 export const parseDayCodes = (input: string) => {
-  if (input && typeof input === 'string') {
+  if (input) {
     let result = dayCodeReg.exec(input)
     if (result && result.length > 0) {
       return parseInt(result[1], 10)
@@ -52,7 +52,7 @@ export const parseDayCodes = (input: string) => {
 }
 
 export const parseMonthCode = (input: string) => {
-  if (input && typeof input === 'string') {
+  if (input) {
     const result = monthCodeReg.exec(input)
     if (result && result.length > 0) {
       return parseInt(result[1], 10)

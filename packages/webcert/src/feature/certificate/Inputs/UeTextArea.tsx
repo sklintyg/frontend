@@ -2,11 +2,18 @@ import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
-import { CertificateDataElement, CertificateDataValueType, ValueText } from '@frontend/common'
-import { QuestionValidationTexts, TextArea } from '@frontend/common'
+import {
+  CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigUeTextArea,
+  QuestionValidationTexts,
+  TextArea,
+  TextValidation,
+  ValueText,
+} from '@frontend/common'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { CertificateDataValidationType, ConfigUeTextArea, TextValidation } from '@frontend/common'
 
 interface Props {
   question: CertificateDataElement
