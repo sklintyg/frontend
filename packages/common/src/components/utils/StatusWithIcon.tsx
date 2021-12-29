@@ -6,6 +6,10 @@ import { faCheck, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+
+  .statusContent > a {
+    font-size: 12px;
+  }
 `
 
 interface Props {
@@ -31,7 +35,9 @@ const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWr
     <>
       <Wrapper className={`status ${additionalWrapperStyles}`}>
         {icon && getIcon(icon)}
-        <div className={`iu-ml-200 iu-fs-100 ${isModal ? '' : 'iu-color-secondary-dark'} ${additionalTextStyles}`}>{children}</div>
+        <div className={`iu-ml-200 statusContent ${isModal ? '' : 'iu-color-secondary-dark iu-fs-100'} ${additionalTextStyles}`}>
+          {children}
+        </div>
       </Wrapper>
     </>
   )

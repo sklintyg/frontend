@@ -215,8 +215,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
   }
 
   return (
-    <div className="iu-fs-100 iu-color-text">
-      <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
+    <div>
+      <TextWithInfoModal additionalStyles={'iu-fs-100'} text="Visa alla händelser" modalTitle="Alla händelser">
         {isEmpty && <Spinner text={'Laddar händelser'} size={'small'} />}
         {[...historyEntries].reverse().map((entry, i) => getHistoryEntry(i, entry))}
       </TextWithInfoModal>
