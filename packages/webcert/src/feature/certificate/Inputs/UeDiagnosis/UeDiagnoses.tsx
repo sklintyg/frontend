@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { CertificateDataElement, ConfigUeDiagnoses, RadioButton, ValueDiagnosisList } from '@frontend/common'
-import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
+import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import styled from 'styled-components'
 import UeDiagnosis from './UeDiagnosis'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../../store/store'
 
 const RadioWrapper = styled.div`
   display: flex;
@@ -52,7 +52,9 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
     dispatch(updateCertificateDataElement(updatedQuestion))
   }
 
-  //TODO: Validering under varje input
+  const getValidationErrors = () => {
+    return question.validationErrors.filter((v) => v.field === 'diagnoser')
+  }
 
   return (
     <>
@@ -83,11 +85,13 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
+              hasValidationError={diagnosis.id === '1' ? isShowValidationError && getValidationErrors().length > 0 : false}
               isShowValidationError={isShowValidationError}
             />
           )
         })}
       </DiagnosesWrapper>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors()} />}
     </>
   )
 }
