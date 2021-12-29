@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import 'jest-styled-components'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -21,74 +20,97 @@ import {
   ValueIcf,
   ValueText,
 } from '@frontend/common'
-import { ConfigUeCheckboxMultipleDate, ValueDateList } from '../..'
+import {
+  ConfigUeCheckboxMultipleDate,
+  ConfigUeDropdown,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
+  getCertificateWithQuestion,
+  ValueDateList,
+} from '../..'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
+import { Provider } from 'react-redux'
+import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '@frontend/webcert/src/store/reducers'
+import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
+
+let testStore: EnhancedStore
+
+const renderDefaultComponent = (question: CertificateDataElement) => {
+  render(
+    <Provider store={testStore}>
+      <UvText question={question} />
+    </Provider>
+  )
+}
 
 describe('UvText', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+    })
+  })
+
   it('renders without crashing', () => {
     const question = createQuestionWithTextValue()
-    const div = document.createElement('div')
-    ReactDOM.render(<UvText question={question} />, div)
+    renderDefaultComponent(question)
   })
 
   it('displaying text value', () => {
     const question = createQuestionWithTextValue()
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/Text/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Text/i)).toBeInTheDocument()
   })
 
   it('displaying boolean value', () => {
     const question = createQuestionWithBooleanValue()
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/Boolean value = true/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Boolean value = true/i)).toBeInTheDocument()
   })
 
   it('displaying boolean true value for checkbox boolean value', () => {
     const question = createQuestionWithCheckboxBooleanValue()
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/Boolean value = true/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Boolean value = true/i)).toBeInTheDocument()
   })
 
   it('displaying empty value', () => {
     const question = createQuestionWithTextValue()
     ;(question.value as ValueText).text = null
-    // const question = createQuestion({ type: CertificateDataValueType.TEXT } as Value)
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/Ej angivet/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Ej angivet/i)).toBeInTheDocument()
   })
 
   it('displaying unknown value type', () => {
     const question = createQuestionWithTextValue()
     ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/Okänd datatyp/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Okänd datatyp/i)).toBeInTheDocument()
   })
 
   it('displays code value', () => {
     const question = createQuestionWithCodeValue()
-    const { getByText } = render(<UvText question={question} />)
-    getByText(/This code/i)
+    renderDefaultComponent(question)
+    expect(screen.getByText(/This code/i)).toBeInTheDocument()
   })
 
   it('displays no icf collections label if empty icf list', () => {
     const question = createQuestionWithIcfValue([])
-    render(<UvText question={question} />)
-
+    renderDefaultComponent(question)
     expect(screen.queryByText(question.config.collectionsLabel as string)).not.toBeInTheDocument()
   })
 
   it('displays icf collections label if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
-    render(<UvText question={question} />)
-
+    renderDefaultComponent(question)
     expect(screen.getByText(question.config.collectionsLabel as string)).toBeInTheDocument()
   })
 
   it('displays icf values if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
     const questionValue = question.value as ValueIcf
-    render(<UvText question={question} />)
-
+    renderDefaultComponent(question)
     expect(screen.getByText(questionValue.icfCodes![0])).toBeInTheDocument()
     expect(screen.getByText(questionValue.icfCodes![1])).toBeInTheDocument()
   })
@@ -96,35 +118,41 @@ describe('UvText', () => {
   it('displays icf text value', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
     const questionValue = question.value as ValueIcf
-    render(<UvText question={question} />)
-
+    renderDefaultComponent(question)
     expect(screen.getByText(questionValue.text as string)).toBeInTheDocument()
   })
 
   it('displays several code values', () => {
     const question = createQuestionWithMultipleCodeValues()
-    const { getByText } = render(<UvText question={question} />)
-    expect(getByText('Code 1')).toBeInTheDocument()
-    expect(getByText('Code 2')).toBeInTheDocument()
+    renderDefaultComponent(question)
+    expect(screen.getByText('Code 1')).toBeInTheDocument()
+    expect(screen.getByText('Code 2')).toBeInTheDocument()
   })
 
   it('displays several date values', () => {
     const question = createQuestionWithMultipleDates()
-    const { getByText } = render(<UvText question={question} />)
-    expect(getByText('Datum 1')).toBeInTheDocument()
-    expect(getByText('Datum 2')).toBeInTheDocument()
-    expect(getByText('Datum 3')).toBeInTheDocument()
-    expect(getByText('Ej angivet')).toBeInTheDocument()
+    renderDefaultComponent(question)
+    expect(screen.getByText('Datum 1')).toBeInTheDocument()
+    expect(screen.getByText('Datum 2')).toBeInTheDocument()
+    expect(screen.getByText('Datum 3')).toBeInTheDocument()
+    expect(screen.getByText('Ej angivet')).toBeInTheDocument()
   })
 
   it('displays several date range values', () => {
     const question = createQuestionWithMultipleDateRanges()
-    render(<UvText question={question} />)
-
+    renderDefaultComponent(question)
     expect(screen.getByText('2021-06-22')).toBeInTheDocument()
     expect(screen.getByText('2021-06-25')).toBeInTheDocument()
     expect(screen.getByText('2021-06-26')).toBeInTheDocument()
     expect(screen.getByText('2021-06-28')).toBeInTheDocument()
+  })
+
+  it('should add text of optional dropdown to radio group text', () => {
+    const question = createQuestionWithOptionalDropdown()
+    const dropdownQuestion = createDropdownQuestion()
+    testStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
+    renderDefaultComponent(question)
+    expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
   })
 })
 
@@ -367,6 +395,72 @@ export const createQuestionWithMultipleDateRanges = (): CertificateDataElement =
   }
 
   return createQuestion(value, config)
+}
+
+const createQuestionWithOptionalDropdown = () => {
+  const value: ValueCode = {
+    type: CertificateDataValueType.CODE,
+    id: 'CODE_1',
+    code: 'CODE_1',
+  }
+
+  const config: ConfigUeRadioMultipleCodesOptionalDropdown = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+    list: [
+      {
+        id: 'CODE_1',
+        label: 'Code 1',
+        dropdownQuestionId: 'questionId',
+      },
+      {
+        id: 'CODE_2',
+        label: 'Code 2',
+        dropdownQuestionId: '',
+      },
+      {
+        id: 'CODE_3',
+        label: 'Code 3',
+        dropdownQuestionId: '',
+      },
+    ],
+  }
+  return createQuestion(value, config)
+}
+
+const createDropdownQuestion = () => {
+  const value: ValueCode = {
+    type: CertificateDataValueType.CODE,
+    id: 'CODE_DROPDOWN',
+    code: 'CODE_DROPDOWN',
+  }
+
+  const config: ConfigUeDropdown = {
+    description: '',
+    id: 'questionId',
+    text: '',
+    type: ConfigTypes.UE_DROPDOWN,
+    list: [
+      {
+        id: 'CODE_DROPDOWN',
+        label: 'dropdown value',
+      },
+    ],
+  }
+  return {
+    id: 'questionId',
+    readOnly: true,
+    index: 0,
+    mandatory: false,
+    visible: true,
+    parent: 'parent',
+    validationErrors: [],
+    validation: [],
+    config,
+    value,
+  }
 }
 
 export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
