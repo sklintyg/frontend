@@ -29,13 +29,13 @@ import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
-import UeDiagnoses from '../Inputs/UeDiagnoses'
 import styled from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
 import _ from 'lodash'
 import ReactTooltip from 'react-tooltip'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 
 interface QuestionProps {
   id: string
