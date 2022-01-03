@@ -42,7 +42,7 @@ const AboutCertificatePanel: React.FC = () => {
             <>
               {certMetaData.name}
               <CertificateVersion>
-                {certMetaData.type} {certMetaData.typeVersion}
+                {certMetaData.typeName ? certMetaData.typeName : certMetaData.type} {certMetaData.typeVersion}
               </CertificateVersion>
             </>
           )}
