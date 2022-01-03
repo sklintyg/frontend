@@ -255,6 +255,8 @@ const DateRangePicker: React.FC<Props> = ({
   const reset = () => {
     setFromDateInput(null)
     setToDateInput(null)
+    setWorkHoursPerWeek(null)
+    setWorkDaysPerWeek(null)
     resetValidation()
   }
 
@@ -320,8 +322,7 @@ const DateRangePicker: React.FC<Props> = ({
           <QuestionValidationTexts validationErrors={validations.validationErrors} />
         </div>
       )}
-
-      {workHoursPerWeek && workDaysPerWeek && (
+      {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>
