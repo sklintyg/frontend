@@ -20,6 +20,7 @@ export interface CertificateMetadata {
   description: string
   type: string
   typeVersion: string
+  typeName?: string
   status: CertificateStatus
   sent: boolean
   created: string
