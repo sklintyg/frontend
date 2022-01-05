@@ -2,6 +2,7 @@ import { RootState } from '../store'
 import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
+  CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateEvent,
   CertificateMetadata,
@@ -11,6 +12,8 @@ import {
   ResourceLink,
   ResourceLinkType,
   Unit,
+  ValidationError,
+  ValidationErrorSummary,
 } from '@frontend/common'
 import { Patient, PersonId } from '@frontend/common/src'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
@@ -129,7 +132,7 @@ export const getCertificateDataElements = createSelector<RootState, Certificate 
   }
 )
 
-export const getValidationErrorSummary = () => (state: RootState) => {
+export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
   if (!state.ui.uiCertificate.certificate) {
     return []
   }
@@ -137,7 +140,7 @@ export const getValidationErrorSummary = () => (state: RootState) => {
   return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
 }
 
-export const getCareUnitValidationErrors = () => (state: RootState) => {
+export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] | undefined => {
   if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
     return []
   }

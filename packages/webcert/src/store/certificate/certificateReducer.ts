@@ -184,10 +184,12 @@ const certificateReducer = createReducer(initialState, (builder) =>
         }
       }
 
-      state.certificate!.metadata.careUnitValidationErrors = []
-      for (const validationError of action.payload) {
-        if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
-          state.certificate!.metadata.careUnitValidationErrors.push(validationError)
+      if (state.certificate) {
+        state.certificate.metadata.careUnitValidationErrors = []
+        for (const validationError of action.payload) {
+          if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
+            state.certificate.metadata.careUnitValidationErrors.push(validationError)
+          }
         }
       }
 
