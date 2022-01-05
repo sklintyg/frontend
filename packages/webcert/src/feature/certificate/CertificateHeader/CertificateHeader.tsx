@@ -56,7 +56,7 @@ const CertificateHeader: React.FC = () => {
   const functionDisabled = useSelector(isCertificateFunctionDisabled)
   const user = useSelector(getUser, _.isEqual)
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
-  const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true'
+  const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
