@@ -2,40 +2,21 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
-import { ResourceLink, ResourceLinkType } from '@frontend/common/src'
-import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
 import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
 import userEvent from '@testing-library/user-event'
 
-const NAME = 'Name'
-const BODY = 'Body'
-
-const resourceLinkEnabled: ResourceLink = {
-  type: ResourceLinkType.PROTECTED_USER_APPROVAL,
-  name: NAME,
-  body: BODY,
-  description: '',
-  enabled: true,
-}
-
-const resourceLinkDisabled: ResourceLink = {
-  type: ResourceLinkType.PROTECTED_USER_APPROVAL,
-  name: NAME,
-  body: BODY,
-  description: '',
-  enabled: false,
-}
-
-const renderDefaultComponent = () => {
+const renderDefaultComponent = (showModal: boolean) => {
   render(
     <Provider store={store}>
-      <ProtectedUserApprovalModal resourceLink={resourceLinkEnabled}></ProtectedUserApprovalModal>
+      <ProtectedUserApprovalModal showModal={showModal} preferenceKey={'KEY'}></ProtectedUserApprovalModal>
     </Provider>
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 let useDispatchSpy
 beforeEach(() => {
   useDispatchSpy = jest.spyOn(redux, 'useDispatch')
@@ -44,66 +25,53 @@ beforeEach(() => {
 
 describe('Create certificate from candidate modal', () => {
   it('shall render without crashing', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
   })
 
   it('shall show modal if enabled', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
   })
 
   it('shall not show modal if disabled', () => {
-    render(
-      <Provider store={store}>
-        <CreateCertificateFromCandidateModal resourceLink={resourceLinkDisabled}></CreateCertificateFromCandidateModal>
-      </Provider>
-    )
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  })
-
-  it('shall not show modal if resourcelink is undefined', () => {
-    render(
-      <Provider store={store}>
-        <CreateCertificateFromCandidateModal resourceLink={undefined}></CreateCertificateFromCandidateModal>
-      </Provider>
-    )
+    renderDefaultComponent(false)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('shall set title for modal', () => {
-    renderDefaultComponent()
-    expect(screen.getByText(NAME)).toBeInTheDocument()
+    renderDefaultComponent(true)
+    expect(screen.getByText('Användning av Webcert med skyddade personuppgifter')).toBeInTheDocument()
   })
 
   it('shall set body for modal', () => {
-    renderDefaultComponent()
-    expect(screen.getByText(BODY)).toBeInTheDocument()
+    renderDefaultComponent(true)
+    expect(screen.getByText('Du har skyddade personuppgifter.')).toBeInTheDocument()
   })
 
   it('shall show checkbox in modal', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 
   it('shall disable confirm button if checkbox is unchecked', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     expect(screen.getByText('Till Webcert')).toBeDisabled()
   })
 
   it('shall enable confirm button if checkbox is checked', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     userEvent.click(screen.getByRole('checkbox'))
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
   it('shall enable confirm button if checkbox is checked', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     userEvent.click(screen.getByRole('checkbox'))
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
   it('shall dispatch error if cancel button is pressed', () => {
-    renderDefaultComponent()
+    renderDefaultComponent(true)
     userEvent.click(screen.getByText('Avbryt'))
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

@@ -20,6 +20,7 @@ import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
 import ProtectedUserApprovalModal from '../Modals/ProtectedUserApprovalModal'
+import { getUser } from '../../../store/user/userSelectors'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -49,11 +50,13 @@ const CertificateHeader: React.FC = () => {
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
-  const protectedUserApprovalResourceLink = getResourceLink(resourceLinks, ResourceLinkType.PROTECTED_USER_APPROVAL)
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const functionDisabled = useSelector(isCertificateFunctionDisabled)
+  const user = useSelector(getUser, _.isEqual)
+  const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
+  const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true'
 
   if (!certificateMetadata || isShowSpinner || !resourceLinks) {
     return null
@@ -63,7 +66,7 @@ const CertificateHeader: React.FC = () => {
     <Wrapper>
       <div className="ic-container iu-pt-200">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
-        <ProtectedUserApprovalModal resourceLink={protectedUserApprovalResourceLink} />
+        <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal} key={protectedUserApprovalKey} />
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
