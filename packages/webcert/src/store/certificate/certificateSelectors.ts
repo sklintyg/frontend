@@ -140,7 +140,7 @@ export const getValidationErrorSummary = () => (state: RootState): ValidationErr
   return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
 }
 
-export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] | undefined => {
+export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
   if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
     return []
   }
