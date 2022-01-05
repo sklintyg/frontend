@@ -15,10 +15,11 @@ import HeaderButtons from './HeaderButtons'
 import styled from 'styled-components/macro'
 import { Divider } from '@frontend/common'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
-import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
+import { getResourceLink, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
 import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import ProtectedUserApprovalModal from '../Modals/ProtectedUserApprovalModal'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -48,6 +49,7 @@ const CertificateHeader: React.FC = () => {
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
+  const protectedUserApprovalResourceLink = getResourceLink(resourceLinks, ResourceLinkType.PROTECTED_USER_APPROVAL)
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
@@ -61,6 +63,7 @@ const CertificateHeader: React.FC = () => {
     <Wrapper>
       <div className="ic-container iu-pt-200">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
+        <ProtectedUserApprovalModal resourceLink={protectedUserApprovalResourceLink} />
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
