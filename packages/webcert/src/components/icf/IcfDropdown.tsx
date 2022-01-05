@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CustomButton } from '@frontend/common'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,6 @@ import { isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import _ from 'lodash'
 
 interface Props {

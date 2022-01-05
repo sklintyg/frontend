@@ -7,7 +7,6 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
-import { updateCreateQuestionsAvailable, updateQuestions } from '../../store/question/questionActions'
 import { Question, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 

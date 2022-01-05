@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import styled from 'styled-components'
 
 interface Props {

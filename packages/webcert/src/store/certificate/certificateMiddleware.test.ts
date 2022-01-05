@@ -14,7 +14,6 @@ import apiMiddleware from '../api/apiMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
-  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
@@ -22,7 +21,6 @@ import {
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
   deleteCertificate,
-  getCertificateError,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,

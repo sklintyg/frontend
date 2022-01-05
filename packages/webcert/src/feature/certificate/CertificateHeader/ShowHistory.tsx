@@ -110,14 +110,14 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
-                <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
+                <Link to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</Link>
               </>
             )
           } else {
             return (
               <>
                 Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-                <Link to={`/certificate/${certificateMetadata.relations.parent!.certificateId}`}>Öppna intyget</Link>
+                <Link to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</Link>
               </>
             )
           }
@@ -215,9 +215,9 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
   }
 
   return (
-    <div className="iu-fs-100 iu-color-text">
-      <TextWithInfoModal text="Visa alla händelser" modalTitle="Alla händelser">
-        {isEmpty && <Spinner text={'Laddar händelser'} size={'small'}></Spinner>}
+    <div>
+      <TextWithInfoModal additionalStyles={'iu-fs-100'} text="Visa alla händelser" modalTitle="Alla händelser">
+        {isEmpty && <Spinner text={'Laddar händelser'} size={'small'} />}
         {[...historyEntries].reverse().map((entry, i) => getHistoryEntry(i, entry))}
       </TextWithInfoModal>
     </div>

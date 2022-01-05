@@ -1,17 +1,9 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-  formatDateToString,
-  getValidDate,
-} from '@frontend/common'
+import { formatDateToString, getValidDate } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
-import * as redux from 'react-redux'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
 
 const CHECKBOX_LABEL = '25 procent'

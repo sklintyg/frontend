@@ -1,5 +1,4 @@
 import React from 'react'
-import { AppHeaderUser } from '@frontend/common'
 import { AppHeaderUserUnit } from '@frontend/common'
 import { getUser } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'

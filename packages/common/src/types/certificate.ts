@@ -20,6 +20,7 @@ export interface CertificateMetadata {
   description: string
   type: string
   typeVersion: string
+  typeName?: string
   status: CertificateStatus
   sent: boolean
   created: string
@@ -127,7 +128,7 @@ export interface ConfigUeRadioCode extends CertificateDataConfig {
   label: string
 }
 
-export interface ConfigUeRadioCodeOptionalDropdown extends CertificateDataConfig {
+export interface ConfigUeRadioCodeOptionalDropdown {
   id: string
   label: string
   dropdownQuestionId: string
@@ -176,7 +177,7 @@ export interface ConfigUeDiagnoses extends CertificateDataConfig {
   list: ConfigUeDiagnosisId[]
 }
 
-export interface ConfigUeDropdownItem extends CertificateDataConfig {
+export interface ConfigUeDropdownItem {
   id: string
   label: string
 }

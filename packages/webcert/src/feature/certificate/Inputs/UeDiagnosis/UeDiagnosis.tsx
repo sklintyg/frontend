@@ -1,21 +1,15 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import {
-  CertificateDataElement,
-  CertificateDataValueType,
-  Diagnosis,
-  ValueDiagnosis,
-  ValueDiagnosisList,
-  QuestionValidationTexts,
-} from '@frontend/common'
+import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
 import { shallowEqual, useSelector } from 'react-redux'
-import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../store/utils/utilsActions'
-import { useAppDispatch } from '../../../store/store'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getDiagnosisTypeaheadResult } from '../../../store/utils/utilsSelectors'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { useAppDispatch } from '../../../../store/store'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import _ from 'lodash'
 import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
+import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
   question: CertificateDataElement
@@ -23,22 +17,22 @@ interface Props {
   id: string
   selectedCodeSystem: string
   isShowValidationError?: boolean
+  hasValidationError?: boolean
 }
 
 const Wrapper = styled.div`
   padding-top: 15px;
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 150px repeat(3, 1fr);
-  grid-column-gap: 10px;
+  grid-template-columns: 175px repeat(3, 1fr);
   grid-template-rows: 1fr;
+  grid-column-gap: 10px;
   grid-template-areas:
     'code diagnosis diagnosis diagnosis'
-    'ulc ul ul ul';
+    'codeError descError descError descError';
 `
 
 const codeAdditionalStyles = css`
-  max-width: 150px;
   grid-area: code;
 `
 
@@ -46,25 +40,38 @@ const descriptionAdditionalStyles = css`
   grid-area: diagnosis;
 `
 
-const codeListStyles = css`
+const wholeRowGrid = css`
   position: relative;
-  grid-column-end: ul;
-  grid-column-start: ulc;
+  grid-column-end: diagnosis;
+  grid-column-start: code;
 `
 
 const descriptionListStyles = css`
   position: relative;
-  grid-column-end: ul;
-  grid-column-start: ul;
+  grid-column-end: diagnosis;
+  grid-column-start: diagnosis;
 `
 
-const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError }) => {
+const codeErrorStyles = css`
+  grid-column-end: codeError;
+  grid-column-start: codeError;
+  grid-row-start: 2;
+`
+
+const descriptionErrorStyles = css`
+  grid-column-end: descError;
+  grid-column-start: descError;
+  grid-row-start: 2;
+`
+
+const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError, hasValidationError }) => {
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
+  const [shouldShowErrorStyling, setShouldShowErrorStyling] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
@@ -225,20 +232,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
-  const getValidationErrors = (isCode: boolean) => {
-    if (!question || !question.validationErrors || question.validationErrors.length === 0) {
-      return []
+  const hasErrorStyling = (visible: boolean, elementId: string) => {
+    if (elementId === id) {
+      setShouldShowErrorStyling(visible)
     }
-
-    return question.validationErrors.filter(
-      (v) =>
-        v.field.includes('[' + (parseInt(id) - 1) + ']' + (isCode ? '.diagnoskod' : '.diagnosbeskrivning')) ||
-        v.field.includes('[' + (parseInt(id) - 1) + ']' + '.row')
-    )
-  }
-
-  const hasValidationErrors = () => {
-    return isShowValidationError && getValidationErrors(true).length > 0
   }
 
   return (
@@ -247,10 +244,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         ref={codeInput}
         suggestions={getSuggestions()}
         inputStyles={codeAdditionalStyles}
-        listStyles={codeListStyles}
+        listStyles={wholeRowGrid}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={hasValidationErrors()}
+        hasValidationError={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         open={openCode}
@@ -258,7 +255,23 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors(true)} />}
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnoskod'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={codeErrorStyles}
+        disabled={!isShowValidationError}
+        handleErrorStyling={hasErrorStyling}
+      />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'row'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        handleErrorStyling={hasErrorStyling}
+        disabled={false}
+      />
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -266,7 +279,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         disabled={disabled}
         inputStyles={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={hasValidationErrors()}
+        hasValidationError={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
@@ -276,6 +289,15 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
         limit={textValidation ? textValidation.limit : 250}
+      />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnosbeskrivning'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={descriptionErrorStyles}
+        disabled={!isShowValidationError && !hasValidationError}
+        handleErrorStyling={hasErrorStyling}
       />
     </Wrapper>
   )
@@ -298,7 +320,7 @@ const duplicateDiagnosisIsSaved = (updatedValueList: ValueDiagnosis[], valueDiag
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
-  const updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
+  let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
   const savedDiagnosisIndex = updatedValueList.findIndex((val) => val.id === valueDiagnosis.id)
   const diagnosisIsSaved = savedDiagnosisIndex !== -1
   const isDiagnosisEmpty = checkIsDiagnosisEmpty(valueDiagnosis)
@@ -314,7 +336,11 @@ function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: Value
       updatedValueList.push(valueDiagnosis)
     }
   } else {
-    updatedValueList[savedDiagnosisIndex] = valueDiagnosis
+    if (isDiagnosisEmpty) {
+      updatedValueList = updatedValueList.filter((diagnosis) => diagnosis.id !== valueDiagnosis.id)
+    } else {
+      updatedValueList[savedDiagnosisIndex] = valueDiagnosis
+    }
   }
 
   updatedQuestionValue.list = updatedValueList

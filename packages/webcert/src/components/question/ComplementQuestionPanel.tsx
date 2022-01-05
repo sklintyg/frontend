@@ -43,7 +43,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
         complementQuestion.answeredByCertificate && complementQuestion.answeredByCertificate.status === CertificateStatus.UNSIGNED
     )
 
-    if (question == undefined) {
+    if (question === undefined) {
       return null
     }
 

@@ -12,6 +12,9 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id), _.isEqual)
+
+  if (!category) return null
+
   const isCertificateEditable = !category.readOnly && !category.disabled
 
   return (
