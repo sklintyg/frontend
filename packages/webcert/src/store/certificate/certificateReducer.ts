@@ -81,6 +81,8 @@ const initialState: CertificateState = {
   functionDisablers: [],
 }
 
+const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
+
 const certificateReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
@@ -181,6 +183,16 @@ const certificateReducer = createReducer(initialState, (builder) =>
           }
         }
       }
+
+      if (state.certificate) {
+        state.certificate.metadata.careUnitValidationErrors = []
+        for (const validationError of action.payload) {
+          if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
+            state.certificate.metadata.careUnitValidationErrors.push(validationError)
+          }
+        }
+      }
+
       state.isValidForSigning = action.payload.length === 0
     })
     .addCase(showValidationErrors, (state) => {

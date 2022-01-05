@@ -29,6 +29,7 @@ export interface CertificateMetadata {
   readyForSign?: string
   relations: CertificateRelations
   unit: Unit
+  careUnitValidationErrors?: ValidationError[]
   careUnit: Unit
   careProvider: Unit
   patient: Patient
@@ -325,6 +326,12 @@ export interface ValidationError {
   field: string
   type: string
   text: string
+}
+
+export interface ValidationErrorSummary {
+  id: string
+  text: string
+  index: number
 }
 
 export interface Unit {

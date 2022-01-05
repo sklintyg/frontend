@@ -207,6 +207,102 @@ export const getAnotherTextElement = (): CertificateDataElement => {
   }
 }
 
+export const getCheckBoxElement = (): CertificateDataElement => {
+  return {
+    id: '28',
+    parent: 'sysselsattning',
+    index: 7,
+    config: {
+      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
+      description:
+        'Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.',
+      list: [
+        {
+          id: 'NUVARANDE_ARBETE',
+          label: 'Nuvarande arbete',
+        },
+        {
+          id: 'ARBETSSOKANDE',
+          label: 'Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden',
+        },
+        {
+          id: 'FORALDRALEDIG',
+          label: 'Föräldraledighet för vård av barn',
+        },
+        {
+          id: 'STUDIER',
+          label: 'Studier',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.CODE_LIST,
+      list: [
+        {
+          code: 'NUVARANDE_ARBETE',
+          id: 'NUVARANDE_ARBETE',
+          type: 'CODE',
+        },
+      ],
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '28',
+        expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
+      },
+      {
+        type: CertificateDataValidationType.HIDE_VALIDATION,
+        questionId: '27',
+        expression: '$avstangningSmittskydd',
+      },
+    ],
+    mandatory: false,
+    readOnly: false,
+    visible: true,
+    validationErrors: [],
+  }
+}
+
+export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
+  return {
+    id: 'funktionsnedsattning',
+    parent: '',
+    index: 11,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Sjukdomens konsekvenser',
+      description: 'En annan beskrivning',
+      type: ConfigTypes.CATEGORY,
+    },
+    value: null,
+    validation: [],
+    validationErrors: [],
+  }
+}
+
+export const getCategorySysselsattning = (): CertificateDataElement => {
+  return {
+    id: 'sysselsattning',
+    parent: '',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Sysselsättning',
+      description: 'En annan beskrivning',
+      type: ConfigTypes.CATEGORY,
+    },
+    value: null,
+    validation: [],
+    validationErrors: [],
+  }
+}
+
 export const getCertificate = (): Certificate => {
   return {
     metadata: {
@@ -279,6 +375,9 @@ export const getCertificate = (): Certificate => {
       '1.1': getBooleanElement(),
       '1.2': getTextElement(),
       '1.3': getAnotherTextElement(),
+      '28': getCheckBoxElement(),
+      funktionsnedsattning: getCategoryFunktionsnedsattning(),
+      sysselsattning: getCategorySysselsattning(),
     },
     links: [],
   }

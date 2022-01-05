@@ -10,8 +10,11 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   CertificateStatus,
+  ConfigTypes,
   getValidDate,
   MaxDateValidation,
+  ValidationError,
+  ValidationErrorSummary,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -22,6 +25,13 @@ import {
   ValueText,
 } from '..'
 import { ValueDateRange } from '@frontend/common'
+
+export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
+export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
+export const CARE_UNIT_CITY_FIELD = 'grunddata.skapadAv.vardenhet.postort'
+export const CARE_UNIT_PHONE_NUMBER_FIELD = 'grunddata.skapadAv.vardenhet.telefonnummer'
+export const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
+export const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
 
 export const parseExpression = (
   expression: string,
@@ -226,6 +236,72 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
       validate(data, id)
     }
   }
+}
+
+export const getValidationErrors = (validationErrors: ValidationError[], field: string): ValidationError[] => {
+  const result = []
+  for (const validationError of validationErrors) {
+    if (validationError.field === field) {
+      result.push(validationError)
+    }
+  }
+  return result
+}
+
+export const getSortedValidationErrorSummary = (certificate: Certificate): ValidationErrorSummary[] => {
+  let result: ValidationErrorSummary[] = []
+
+  //Perhaps this could be simplified
+  const certificateData = certificate.data
+  for (const questionId in certificateData) {
+    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
+      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
+        if (result.findIndex((validation) => validation.id == certificateData[certificateData[questionId].parent].id) === -1) {
+          result = result.concat({
+            id: certificateData[certificateData[questionId].parent].id,
+            text: certificateData[certificateData[questionId].parent].config.text,
+            index: certificateData[certificateData[questionId].parent].index,
+          } as ValidationErrorSummary)
+        }
+      } else {
+        let parent = certificateData[questionId].parent
+        while (true) {
+          if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
+            if (result.findIndex((validation) => validation.id == certificateData[parent].id) === -1) {
+              result = result.concat({
+                id: certificateData[parent].id,
+                text: certificateData[parent].config.text,
+                index: certificateData[parent].index,
+              } as ValidationErrorSummary)
+            }
+            break
+          } else if (!certificateData[parent].parent) {
+            // if parents parent is not a category and it's null, break to avoid endless loop
+            break
+          } else {
+            parent = certificateData[parent].parent
+          }
+        }
+      }
+    }
+  }
+
+  result.sort((a, b) => a.index - b.index)
+
+  result = addCareUnitValidationErrors(result, certificate.metadata.careUnitValidationErrors)
+
+  return result
+}
+
+function addCareUnitValidationErrors(validationErrorSummary: ValidationErrorSummary[], careUnitValidationErrors?: ValidationError[]) {
+  if (careUnitValidationErrors && careUnitValidationErrors.length > 0) {
+    validationErrorSummary = validationErrorSummary.concat({
+      id: CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
+      text: CARE_UNIT_ADDRESS_CATEGORY_TITLE,
+    } as ValidationErrorSummary)
+  }
+
+  return validationErrorSummary
 }
 
 function shouldBeReadOnly(metadata: CertificateMetadata) {

@@ -9,12 +9,14 @@ import {
   CertificateRelationType,
   CertificateStatus,
   Complement,
-  ConfigTypes,
   ResourceLink,
   ResourceLinkType,
   Unit,
+  ValidationError,
+  ValidationErrorSummary,
 } from '@frontend/common'
 import { Patient, PersonId } from '@frontend/common/src'
+import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
@@ -130,39 +132,20 @@ export const getCertificateDataElements = createSelector<RootState, Certificate 
   }
 )
 
-export const getAllValidationErrors = () => (state: RootState): CertificateDataElement[] => {
-  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
+export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
+  if (!state.ui.uiCertificate.certificate) {
     return []
   }
 
-  const certificateData = state.ui.uiCertificate.certificate.data
-  let result: CertificateDataElement[] = []
+  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
+}
 
-  //Perhaps this could be simplified
-  for (const questionId in certificateData) {
-    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
-      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
-        result = result.concat(certificateData[certificateData[questionId].parent])
-      } else {
-        let parent = certificateData[questionId].parent
-        while (true) {
-          if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
-            result = result.concat(certificateData[parent])
-            break
-          } else if (!certificateData[parent].parent) {
-            // if parents parent is not a category and it's null, break to avoid endless loop
-            break
-          } else {
-            parent = certificateData[parent].parent
-          }
-        }
-      }
-    }
+export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
+  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
+    return []
   }
 
-  result.sort((a, b) => a.index - b.index)
-
-  return result
+  return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
