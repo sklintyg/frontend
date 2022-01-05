@@ -59,7 +59,7 @@ const ProtectedUserApprovalModal: React.FC<Props> = ({ showModal, preferenceKey 
               </li>
             )}
             <li>
-              Vid kommunikation med Försäkringskassan kring ett intyg, kommer ditt namn att vara synligt. Detta kan " + "göra att
+              Vid kommunikation med Försäkringskassan kring ett intyg, kommer ditt namn att vara synligt. Detta kan göra att
               information om dig och var du arbetar kan spridas.
             </li>
           </ul>
