@@ -66,7 +66,7 @@ const CertificateHeader: React.FC = () => {
     <Wrapper>
       <div className="ic-container iu-pt-200">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
-        <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal} key={protectedUserApprovalKey} />
+        <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal} preferenceKey={protectedUserApprovalKey} />
         <StatusWrapper>
           <StatusLeftSide>
             <CertificateHeaderStatuses
