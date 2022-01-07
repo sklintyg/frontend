@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getAllValidationErrors, getShowValidationErrors } from '../../store/certificate/certificateSelectors'
+import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 import { Link } from 'react-scroll'
 import { InfoBox } from '@frontend/common'
 import { css } from 'styled-components/macro'
@@ -16,7 +16,7 @@ const linkStyles = css`
 
 const CertificateValidation: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getAllValidationErrors(), _.isEqual)
+  const validationErrors = useSelector(getValidationErrorSummary(), _.isEqual)
 
   if (!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 
@@ -31,7 +31,7 @@ const CertificateValidation: React.FC = () => {
           offset={-20}
           containerId="questions-container"
           to={`${validation.id}`}>
-          {validation.config.text}
+          {validation.text}
         </Link>
       </p>
     )
