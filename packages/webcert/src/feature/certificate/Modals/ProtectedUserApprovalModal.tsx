@@ -15,6 +15,7 @@ const ProtectedUserApprovalModal: React.FC<Props> = ({ showModal, preferenceKey 
   const dispatch = useDispatch()
   const [approved, setApproved] = useState(false)
   const isUserDoctor = useSelector(isDoctor)
+  const [open, setOpen] = useState(true)
 
   if (!showModal) {
     return null
@@ -30,13 +31,14 @@ const ProtectedUserApprovalModal: React.FC<Props> = ({ showModal, preferenceKey 
 
   const onConfirm = () => {
     if (approved) {
+      setOpen(false)
       dispatch(setUserPreference({ key: preferenceKey, value: 'true' }))
     }
   }
 
   return (
     <ModalBase
-      open={true}
+      open={open}
       handleClose={onCancel}
       title={'Användning av Webcert med skyddade personuppgifter'}
       buttons={
@@ -59,8 +61,8 @@ const ProtectedUserApprovalModal: React.FC<Props> = ({ showModal, preferenceKey 
               </li>
             )}
             <li>
-              Vid kommunikation med Försäkringskassan kring ett intyg, kommer ditt namn att vara synligt. Detta kan göra att
-              information om dig och var du arbetar kan spridas.
+              Vid kommunikation med Försäkringskassan kring ett intyg, kommer ditt namn att vara synligt. Detta kan göra att information om
+              dig och var du arbetar kan spridas.
             </li>
           </ul>
           <p className="iu-py-300">
