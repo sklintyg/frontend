@@ -60,10 +60,12 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
-      {renderRadioButtons()}
+    <>
+      <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+        {renderRadioButtons()}
+      </div>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-    </div>
+    </>
   )
 }
 
