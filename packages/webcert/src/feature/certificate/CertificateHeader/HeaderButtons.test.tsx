@@ -62,7 +62,7 @@ describe('Verify header buttons', () => {
     resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
     userEvent.click(screen.getByText(expectedButton))
-    expect(screen.getByText('Skriv ut utkast')).toBeInTheDocument()
+    expect(screen.getByText('Skriv ut intyg')).toBeInTheDocument()
     expect(screen.getByText('Expected body')).toBeInTheDocument()
   })
 
