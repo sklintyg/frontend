@@ -4,7 +4,7 @@ import { printCertificate } from '../../../store/certificate/certificateActions'
 import { CertificateMetadata, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
-import { ButtonWithConfirmModal } from '@frontend/common/src'
+import { ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common/src'
 
 interface Props {
   name: string
@@ -25,7 +25,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
           disabled={!enabled}
           buttonStyle="primary"
           name={name}
-          modalTitle={'Skriv ut utkast'}
+          modalTitle={isDraft(certificateMetadata) || isLocked(certificateMetadata) ? 'Skriv ut utkast' : 'Skriv ut intyg'}
           startIcon={<FontAwesomeIcon icon={faPrint} size="lg"></FontAwesomeIcon>}
           onConfirm={() => dispatch(printCertificate(certificateMetadata))}
           confirmButtonText={'Skriv ut'}>
