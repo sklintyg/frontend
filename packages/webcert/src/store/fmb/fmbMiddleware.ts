@@ -49,6 +49,13 @@ export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dis
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
+const isIcdCodeSystemChosen = (value: Value) => {
+  if (!value || value.type !== CertificateDataValueType.DIAGNOSIS_LIST) {
+    return true
+  }
+  return (value as ValueDiagnosisList).list.length === 0 || (value as ValueDiagnosisList).list[0].terminology.toLowerCase().includes('icd')
+}
+
 const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   const fmbPanelActive = getResourceLink(action.payload.links, ResourceLinkType.FMB)?.enabled
   dispatch(updateFMBPanelActive(fmbPanelActive))
@@ -67,6 +74,9 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
       }
       if (isValueDiagnoses(question.value)) {
         dispatch(setDiagnosisListValue(question.value as ValueDiagnosisList))
+      }
+      if (!isIcdCodeSystemChosen(question.value)) {
+        return
       }
       getFMBDiagnosisCodes(question.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
     }
@@ -122,7 +132,9 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
     return
   }
 
-  getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+  if (isIcdCodeSystemChosen(action.payload.value)) {
+    getFMBDiagnosisCodes(action.payload.value, getState().ui.uiFMB.fmbDiagnosisCodeInfo, dispatch)
+  }
 
   if (isValueDateRangeList(action.payload.value)) {
     dispatch(setSickLeavePeriodValue(action.payload.value as ValueDateRangeList))
@@ -132,6 +144,7 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
 
   if (
     action.payload.value &&
+    isIcdCodeSystemChosen(action.payload.value) &&
     (action.payload.value.type === CertificateDataValueType.DATE_RANGE_LIST ||
       action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST)
   ) {

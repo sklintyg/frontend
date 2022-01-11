@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FMBPanelFooter from './FMBPanelFooter'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { useSelector } from 'react-redux'
-import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
+import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
 import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
@@ -17,6 +17,9 @@ export const Italic = styled.p`
 const FMBPanel: React.FC = () => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
+  const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
+  const isIcd10Chosen =
+    diagnosisValue && (diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd'))
 
   const onDiagnosisSelect = (icd10Code: string) => {
     const fmbDiagnoseCode = fmbDiagnosisCodes.find((value) => value.originalIcd10Code === icd10Code)
@@ -51,7 +54,11 @@ const FMBPanel: React.FC = () => {
     selectDefaultDiagnosis()
   }
 
-  return (
+  return !isIcd10Chosen ? (
+    <ImageCentered imgSrc={noDiagnosisIcon} alt={'Inget FMB-stöd'}>
+      <p>FMB-stödet finns enbart för koder som ingår i ICD-10-SE.</p>
+    </ImageCentered>
+  ) : (
     <>
       <PanelHeader description="Diagnosspecifik information" />
       {isEmpty() ? (
