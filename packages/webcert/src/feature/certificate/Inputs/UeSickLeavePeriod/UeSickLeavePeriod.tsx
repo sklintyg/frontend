@@ -173,8 +173,10 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             />
           )
         })}
-        {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+        <div className={'iu-pb-500'}>
+          {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
+          {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+        </div>
         {totalSickDays && !disabled && (
           <div>
             <p className="iu-color-main">
