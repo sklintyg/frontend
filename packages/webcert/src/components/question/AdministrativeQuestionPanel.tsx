@@ -8,7 +8,12 @@ import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const Root = styled.div`
   overflow-y: auto;
-  height: calc(100% - 136px);
+  height: 100%;
+`
+
+const Wrapper = styled.div`
+  height: calc(100% - 55px);
+  overflow-y: auto;
 `
 
 interface Props {
@@ -30,13 +35,15 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
 
   return (
     <Root>
-      {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
-      <div className={'iu-bg-light-grey'}>
-        {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (
-          <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
-        ))}
-        {administrativeQuestions.length === 0 && getNoQuestionsMessage()}
-      </div>
+      <Wrapper>
+        {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
+        <div className={'iu-bg-light-grey'}>
+          {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (
+            <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
+          ))}
+          {administrativeQuestions.length === 0 && getNoQuestionsMessage()}
+        </div>
+      </Wrapper>
     </Root>
   )
 }
