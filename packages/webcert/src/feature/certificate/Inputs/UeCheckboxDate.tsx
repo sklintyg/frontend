@@ -50,9 +50,23 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   )
   const [dateString, setDateString] = React.useState(date ? date : null)
 
+  const deleteDateFromSavedValue = () => {
+    let updatedValue
+    if (!isSingleCheckboxDate) {
+      updatedValue = getUpdatedDateListValue(question, false, id, '')
+    } else {
+      updatedValue = getUpdatedDateValue(question, false, id, '')
+    }
+    dispatch(updateCertificateDataElement(updatedValue))
+  }
+
   const handleChange = (checked: boolean, date: string) => {
     setChecked(checked && date !== '' && date !== null)
     setDateString(checked ? date : null)
+
+    if (date === '') {
+      deleteDateFromSavedValue()
+    }
 
     const parsedDate = getValidDate(date)
 
@@ -117,8 +131,9 @@ const getUpdatedDateListValue = (question: CertificateDataElement, checked: bool
   if (updatedValueIndex === -1 && checked) {
     updatedValueList = [...updatedValueList, { id: id, date: date, type: CertificateDataValueType.DATE } as ValueDate]
   } else {
-    if (!checked) {
-      updatedValueList.splice(updatedValueIndex, 1)
+    updatedValueList.splice(updatedValueIndex, 1)
+    if (checked) {
+      updatedValueList = [...updatedValueList, { id: id, date: date, type: CertificateDataValueType.DATE } as ValueDate]
     }
   }
   updatedQuestionValue.list = updatedValueList
