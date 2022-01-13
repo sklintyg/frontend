@@ -171,14 +171,14 @@ describe('CheckboxDate component', () => {
     expect(dispatchSpy).not.toBeCalled()
   })
 
-  it('does saves value that is a valid date', () => {
+  it('does save value that is a valid date', () => {
     renderComponent(false, false)
     const input = screen.getByRole('textbox')
     userEvent.type(input, '2020-02-02')
     expect(dispatchSpy).toBeCalled()
   })
 
-  it('does saves value that has been formatted into a valid date', () => {
+  it('does save value that has been formatted into a valid date', () => {
     renderComponent(false, false)
     const input = screen.getByRole('textbox')
     userEvent.type(input, '20210101')

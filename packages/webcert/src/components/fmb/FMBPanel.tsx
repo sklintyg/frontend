@@ -19,7 +19,7 @@ const FMBPanel: React.FC = () => {
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
   const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
   const isIcd10Chosen =
-    diagnosisValue && (diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd'))
+    !diagnosisValue || diagnosisValue.list.length === 0 || diagnosisValue.list[0].terminology.toLowerCase().includes('icd')
 
   const onDiagnosisSelect = (icd10Code: string) => {
     const fmbDiagnoseCode = fmbDiagnosisCodes.find((value) => value.originalIcd10Code === icd10Code)
