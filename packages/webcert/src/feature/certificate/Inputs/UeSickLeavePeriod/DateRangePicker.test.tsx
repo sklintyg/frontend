@@ -11,7 +11,7 @@ const QUESTION_ID = 'EN_FJARDEDEL'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0') => {
+const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0', isShowValidationError = false) => {
   render(
     <DateRangePicker
       baseWorkHours={baseWorkHours}
@@ -24,6 +24,7 @@ const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = 
       fromDate={fromDate}
       toDate={toDate}
       periodId={QUESTION_ID}
+      isShowValidationError={isShowValidationError}
     />
   )
 }
@@ -128,23 +129,74 @@ describe('Date range picker', () => {
     expect(differenceInDays).toBe(30)
   })
 
-  it('shows invalid text validation error message', async () => {
-    renderDefaultComponent()
+  describe('Validation error', () => {
+    it('shows invalid text message', async () => {
+      renderDefaultComponent()
 
-    const fromInput = screen.getByLabelText('Fr.o.m')
-    const tomInput = screen.getByLabelText('t.o.m')
+      const fromInput = screen.getByLabelText('Fr.o.m')
+      const tomInput = screen.getByLabelText('t.o.m')
 
-    userEvent.type(fromInput, 'x{enter}')
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    userEvent.clear(fromInput)
-    fromInput.blur()
-    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+      userEvent.type(fromInput, 'x{enter}')
+      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+      userEvent.clear(fromInput)
+      fromInput.blur()
+      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
 
-    userEvent.type(tomInput, 'x{enter}')
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    userEvent.clear(tomInput)
-    tomInput.blur()
-    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+      userEvent.type(tomInput, 'x{enter}')
+      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+      userEvent.clear(tomInput)
+      tomInput.blur()
+      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+    })
+
+    it('shows not complete date message when only from date is inserted', () => {
+      renderDefaultComponent(null, null, '0', true)
+
+      const input = screen.getByLabelText('Fr.o.m')
+
+      userEvent.type(input, '20210202')
+      userEvent.click(screen.getByText('t.o.m'))
+      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
+    })
+
+    it('shows not complete date message when only tom date is inserted', () => {
+      renderDefaultComponent(null, null, '0', true)
+
+      const input = screen.getByLabelText('t.o.m')
+
+      userEvent.type(input, '20210202')
+      userEvent.click(screen.getByText('Fr.o.m'))
+      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
+    })
+
+    it('should not show complete date message when error messages have not been toggled but from date is inserted', () => {
+      renderDefaultComponent(null, null, '0', false)
+
+      const input = screen.getByLabelText('Fr.o.m')
+
+      userEvent.type(input, '20210202')
+      userEvent.click(screen.getByText('t.o.m'))
+      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
+    })
+
+    it('should not show complete date message when error messages have not been toggled but tom date is inserted', () => {
+      renderDefaultComponent(null, null, '0', false)
+
+      const input = screen.getByLabelText('t.o.m')
+
+      userEvent.type(input, '20210202')
+      userEvent.click(screen.getByText('Fr.o.m'))
+      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
+    })
+
+    it('should not show complete date message if complete dates are inserted', () => {
+      renderDefaultComponent(null, null, '0', false)
+
+      userEvent.type(screen.getByLabelText('Fr.o.m'), '20210202')
+      userEvent.type(screen.getByLabelText('t.o.m'), '20210202')
+      userEvent.click(screen.getByText('Fr.o.m'))
+      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
+    })
   })
 
   it('displays correct number of sick hours and days for one week', () => {
