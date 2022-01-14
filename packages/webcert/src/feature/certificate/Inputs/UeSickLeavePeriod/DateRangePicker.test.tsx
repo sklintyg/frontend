@@ -11,7 +11,7 @@ const QUESTION_ID = 'EN_FJARDEDEL'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0', isShowValidationError = false) => {
+const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0', showValidationError = false) => {
   render(
     <DateRangePicker
       baseWorkHours={baseWorkHours}
@@ -24,7 +24,7 @@ const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = 
       fromDate={fromDate}
       toDate={toDate}
       periodId={QUESTION_ID}
-      isShowValidationError={isShowValidationError}
+      isShowValidationError={showValidationError}
     />
   )
 }

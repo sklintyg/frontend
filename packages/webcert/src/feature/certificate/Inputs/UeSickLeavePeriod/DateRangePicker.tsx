@@ -94,10 +94,6 @@ const DateRangePicker: React.FC<Props> = ({
     toggleShowValidationError(fromDate, toDate)
   }, [])
 
-  useEffect(() => {
-    toggleShowValidationError(fromDateInput, toDateInput)
-  }, [isShowValidationError])
-
   const updateCheckbox = (fromDateInput: string | null, toDateInput: string | null) => {
     if (fromDateInput || toDateInput) {
       setDateChecked(true)
@@ -181,7 +177,7 @@ const DateRangePicker: React.FC<Props> = ({
 
     if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
       updatedValidationErrors.invalidDatePeriod = true
-    } else if (isShowValidationError && ((fromDate && !toDate) || (toDate && !fromDate))) {
+    } else if ((fromDate && !toDate) || (toDate && !fromDate)) {
       updatedValidationErrors.notCompleteDate = true
     }
 
@@ -294,11 +290,17 @@ const DateRangePicker: React.FC<Props> = ({
 
   const getShouldDisplayValidationErrorOutline = (id: string) => {
     let hasNotCompleteDateValidation = false
-    if (validations.notCompleteDate) {
-      hasNotCompleteDateValidation =
-        validations.validationErrors.find((v) => v.type === 'NOT_COMPLETE_DATE' && v.id.includes(id)) !== undefined
+    if (isShowValidationError) {
+      hasNotCompleteDateValidation = validations.validationErrors.some((v) => v.type === 'NOT_COMPLETE_DATE' && v.id.includes(id))
     }
     return hasNotCompleteDateValidation || validations.invalidDatePeriod || hasOverlap || hasValidationError
+  }
+
+  const filterValidationErrors = (validationErrors: ValidationError[]) => {
+    if (!isShowValidationError) {
+      return validationErrors.filter((v) => v.type !== 'NOT_COMPLETE_DATE')
+    }
+    return validationErrors
   }
 
   return (
@@ -349,7 +351,7 @@ const DateRangePicker: React.FC<Props> = ({
       </DateRangeWrapper>
       {!disabled && (
         <div className={'iu-mb-400'}>
-          <QuestionValidationTexts validationErrors={validations.validationErrors} />
+          <QuestionValidationTexts validationErrors={filterValidationErrors(validations.validationErrors)} />
         </div>
       )}
       {workHoursPerWeek !== null && workDaysPerWeek && (
