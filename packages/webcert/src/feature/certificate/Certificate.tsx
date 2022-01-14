@@ -29,6 +29,8 @@ const Wrapper = styled.div`
   padding-right: 16px;
   padding-left: 16px;
 
+  -webkit-transform: translateZ(0); // Fix for disappearing sign button INTYGFV-14332
+
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
