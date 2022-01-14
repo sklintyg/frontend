@@ -159,6 +159,14 @@ describe('Test FMB middleware', () => {
 
       expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
     })
+
+    it('shall not fetch FMB recommendations if code system is different than icd10', async () => {
+      testStore.dispatch(updateCertificateDataElement(getDiagnosisElementWithCodeSystem('unknown')))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
+      expect(fakeAxios.history.get.length).toBe(0)
+    })
   })
 
   describe('Handle UpdateCertificate', () => {
@@ -204,6 +212,14 @@ describe('Test FMB middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo[0]).toEqual(expectedFMBDiagnosisInfo)
+    })
+
+    it('shall not fetch FMB recommendations if code system is different than icd10', async () => {
+      testStore.dispatch(updateCertificate(getCertificateWithDiagnosisElementWithCodeSystem('unknown')))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
+      expect(fakeAxios.history.get.length).toBe(0)
     })
   })
 })
@@ -266,6 +282,40 @@ const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   }
 }
 
+export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+      type: ConfigTypes.UE_DIAGNOSES,
+      id: 'funktionsnedsattning',
+    },
+    value: {
+      type: CertificateDataValueType.DIAGNOSIS_LIST,
+      list: [
+        {
+          code: 'code',
+          desc: 'desc',
+          terminology: codeSystem,
+          id: '1',
+          type: CertificateDataValueType.DIAGNOSIS,
+        },
+      ],
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}
+
 export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -309,7 +359,7 @@ export const getDateRangeListValue = (): ValueDateRangeList => {
 export const getDiagnosisListValue = (): ValueDiagnosisList => {
   const value: ValueDiagnosisList = {
     type: CertificateDataValueType.DIAGNOSIS_LIST,
-    list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', id: '1' }],
+    list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
   }
 
   return value
@@ -332,6 +382,32 @@ export const getDateRangeListElement = (): CertificateDataElement => {
     },
     validation: [],
     validationErrors: [],
+  }
+}
+
+export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    links: [
+      {
+        type: ResourceLinkType.FMB,
+        enabled: true,
+        name: 'FMB',
+        description: 'FMB',
+      },
+    ],
+    data: {
+      '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
+    },
+    metadata: {
+      patient: {
+        personId: {
+          type: 'type',
+          id: '1912121212',
+        },
+      },
+    },
   }
 }
 
