@@ -622,7 +622,7 @@ const handleGotoComplement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
 
 const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAction): void => {
   const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
-  window.open(printUrl, '_self')
+  window.open(printUrl, 'printTargetIFrame')
 }
 
 const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (

@@ -5,6 +5,7 @@ import { CertificateMetadata, CustomButton } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import { ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common/src'
+import styled from 'styled-components'
 
 interface Props {
   name: string
@@ -14,11 +15,16 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
+const IFrame = styled.iframe`
+  display: none;
+`
+
 const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, body }) => {
   const dispatch = useDispatch()
 
   return (
     <>
+      <IFrame name="printTargetIFrame"></IFrame>
       {body ? (
         <ButtonWithConfirmModal
           description={description}
