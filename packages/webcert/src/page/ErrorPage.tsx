@@ -16,6 +16,7 @@ import AuthorizationProblemConfidentialityMarkingUnit from '../components/error/
 import AuthorizationUserSessionAlreadyActive from '../components/error/errorPageContent/AuthorizationUserSessionAlreadyActive'
 import UnknownInternalProblem from '../components/error/errorPageContent/UnknownInternalProblem'
 import InternalProblem from '../components/error/errorPageContent/InternalProblem'
+import ProtectedPersonAgreementError from '../components/error/errorPageContent/ProtectedPersonAgreementError'
 
 const Root = styled.div`
   height: 100vh;
@@ -52,7 +53,8 @@ const ErrorPage: React.FC = () => {
         return <InternalProblem />
       case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
         return <UnknownInternalProblem />
-
+      case ErrorCode.NOT_APPROVED_PROTECTED_PERSON_AGREEMENT:
+        return <ProtectedPersonAgreementError />
       default:
         return <UnknownInternalProblem />
     }
