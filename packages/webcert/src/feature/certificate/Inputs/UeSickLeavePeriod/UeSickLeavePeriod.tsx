@@ -170,6 +170,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               toDate={valueList.find((x) => x.id === period.id)?.to ?? null}
               label={period.label}
               periodId={period.id}
+              isShowValidationError={isShowValidationError}
             />
           )
         })}
