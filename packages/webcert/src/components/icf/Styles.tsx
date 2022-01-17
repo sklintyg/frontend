@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 export const Root = styled.div`
   position: relative;
   height: 0;
-  z-index: 1;
+  z-index: 10;
 `
 
 export const CategoryWrapper = styled.div`
