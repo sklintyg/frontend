@@ -59,9 +59,10 @@ const ComplementCard = styled.button`
     p {
       color: white !important;
     }
-    
+
     img {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+    }
   }
 `
 
