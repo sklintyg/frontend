@@ -25,7 +25,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
   return (
     <>
       <FocusTrap active={open}>
-        <div>
+        <div tabIndex={0}>
           <div className="ic-backdrop" onClick={handleClose} />
           <div role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
