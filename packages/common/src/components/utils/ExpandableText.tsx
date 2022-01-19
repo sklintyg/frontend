@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -12,9 +13,10 @@ const StyledLink = styled(Link)`
 interface Props {
   text: string
   maxLength: number
+  additionalStyles?: FlattenSimpleInterpolation
 }
 
-export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
+export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalStyles }) => {
   const [expand, setExpand] = useState(false)
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
     <>
       {!expand && text && text.length > maxLength ? (
         <div>
-          <p dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} />
+          <p dangerouslySetInnerHTML={{ __html: trimToLastCompleteWord(text, maxLength) }} css={additionalStyles} />
           <StyledLink to="#" onClick={onReadLessOrMore}>
             Visa mer
             <FontAwesomeIcon icon={faAngleDown} className={'iu-mt-200 iu-ml-200'} />
@@ -41,7 +43,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength }) => {
         </div>
       ) : (
         <div>
-          <p dangerouslySetInnerHTML={{ __html: text }} />
+          <p dangerouslySetInnerHTML={{ __html: text }} css={additionalStyles} />
           {text && text.length > maxLength && (
             <StyledLink to="#" onClick={onReadLessOrMore}>
               Visa mindre
