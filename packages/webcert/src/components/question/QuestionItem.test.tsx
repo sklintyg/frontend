@@ -419,6 +419,18 @@ describe('QuestionItem', () => {
       expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
     })
   })
+
+  describe('question message', () => {
+    it('should show exapandable text for complements with message longer than limit', () => {
+      renderComponent(createComplementWithLongText())
+      expect(screen.getByText('Visa mer', { exact: false })).toBeInTheDocument()
+    })
+
+    it('should not show expandable text for messages that are longer than the limit but not a complement', () => {
+      renderComponent(createQuestionWithLongText())
+      expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
@@ -461,6 +473,76 @@ const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: strin
   return {
     ...question,
     lastDateToReply: lastDateToReply,
+  }
+}
+
+const createComplementWithLongText = (): Question => {
+  return {
+    type: QuestionType.COMPLEMENT,
+    author: 'author',
+    id: 'id',
+    forwarded: true,
+    handled: false,
+    lastUpdate: '2021-07-08',
+    message:
+      'message message message message message message message message message' +
+      'message message message message message message message message message message message ' +
+      'message message message message message message message message message' +
+      'message message message message message message message message message',
+    sent: '2021-07-08',
+
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    links: [
+      {
+        type: ResourceLinkType.ANSWER_QUESTION,
+        enabled: true,
+        name: 'Svara',
+        description: 'Svara på fråga',
+      },
+      {
+        type: ResourceLinkType.HANDLE_QUESTION,
+        enabled: true,
+        name: 'Hantera',
+        description: 'Hantera fråga',
+      },
+    ],
+  }
+}
+
+const createQuestionWithLongText = (): Question => {
+  return {
+    type: QuestionType.COORDINATION,
+    author: 'author',
+    id: 'id',
+    forwarded: true,
+    handled: false,
+    lastUpdate: '2021-07-08',
+    message:
+      'message message message message message message message message message' +
+      'message message message message message message message message message message message ' +
+      'message message message message message message message message message' +
+      'message message message message message message message message message',
+    sent: '2021-07-08',
+
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    links: [
+      {
+        type: ResourceLinkType.ANSWER_QUESTION,
+        enabled: true,
+        name: 'Svara',
+        description: 'Svara på fråga',
+      },
+      {
+        type: ResourceLinkType.HANDLE_QUESTION,
+        enabled: true,
+        name: 'Hantera',
+        description: 'Hantera fråga',
+      },
+    ],
   }
 }
 
