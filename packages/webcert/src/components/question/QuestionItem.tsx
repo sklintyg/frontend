@@ -284,7 +284,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </div>
         ))}
       <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
-        {isComplementsVisible() ? (
+        {isComplementQuestion() ? (
           <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
         ) : (
           <FormattedText>{question.message}</FormattedText>
