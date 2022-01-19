@@ -1,6 +1,7 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
+  addClientValidationError,
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
@@ -43,6 +44,7 @@ import {
   getCertificateEventsSuccess,
   getCertificateStarted,
   getCertificateSuccess,
+  getVisibleValidationErrors,
   hideCertificateDataElement,
   hideCertificateDataElementMandatory,
   hideSpinner,
@@ -53,6 +55,7 @@ import {
   readyForSignCompleted,
   readyForSignStarted,
   readyForSignSuccess,
+  removeClientValidationError,
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateStarted,
@@ -71,6 +74,7 @@ import {
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -89,6 +93,7 @@ import {
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
+  updateClientValidationError,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -103,7 +108,7 @@ import {
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataValidationType } from '@frontend/common/src'
+import { CertificateDataValidationType, ValidationError } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import _ from 'lodash'
@@ -633,6 +638,41 @@ const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, g
   dispatch(validateCertificateInFrontEndCompleted())
 }
 
+const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  const currentValidationErrors = [...getState().ui.uiCertificate.clientValidationErrors]
+  if (!currentValidationErrors) {
+    return
+  }
+  const duplicatedValidationIndex = currentValidationErrors.findIndex(
+    (v: ValidationError) =>
+      v.type === action.payload.validationError.type &&
+      v.id === action.payload.validationError.id &&
+      v.text === action.payload.validationError.text &&
+      v.field === action.payload.validationError.field
+  )
+  if (duplicatedValidationIndex !== -1) {
+    if (action.payload.shouldBeRemoved) {
+      dispatch(
+        removeClientValidationError(duplicatedValidationIndex)
+        // setValidationErrorsForQuestion({
+        //   questionId: action.payload.validationError.id,
+        //   validationErrors: currentValidationErrors.splice(duplicatedValidationIndex, 1),
+        // })
+      )
+    }
+  } else if (!action.payload.shouldBeRemoved) {
+    dispatch(
+      addClientValidationError(action.payload.validationError)
+      // setValidationErrorsForQuestion({
+      //   questionId: action.payload.validationError.id,
+      //   validationErrors: [...currentValidationErrors, action.payload.validationError],
+      // })
+    )
+  }
+}
+
 function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
   if (!certificate) {
     return
@@ -733,6 +773,7 @@ const middlewareMethods = {
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
   [certificateApiGenericError.type]: handleGenericCertificateApiError,
+  [updateClientValidationError.type]: handleUpdateClientValidationError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

@@ -20,7 +20,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { addDays, isValid } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import {
+  getQuestionHasValidationError,
+  getShowValidationErrors,
+  getVisibleValidationErrors,
+} from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { Accordion } from '@frontend/common/src'
@@ -34,9 +38,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [baseWorkHours, setBaseWorkHours] = useState<string>('')
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'sjukskrivningar'))
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
@@ -161,7 +164,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             <DateRangePicker
               baseWorkHours={baseWorkHours}
               disabled={disabled}
-              hasValidationError={shouldDisplayValidationError}
+              hasValidationError={validationErrors.length > 0}
               hasOverlap={handleGetPeriodHaveOverlap(period.id)}
               getPeriodStartingDate={handleGetPeriodStartingDate}
               updateValue={handleUpdatedValue}
@@ -170,13 +173,13 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               toDate={valueList.find((x) => x.id === period.id)?.to ?? null}
               label={period.label}
               periodId={period.id}
-              isShowValidationError={isShowValidationError}
+              questionId={question.id}
             />
           )
         })}
         <div className={'iu-pb-500'}>
           {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
-          {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+          <QuestionValidationTexts validationErrors={validationErrors} />
         </div>
         {totalSickDays && !disabled && (
           <div>
