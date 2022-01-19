@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import {
   Answer,
   ButtonWithConfirmModal,
@@ -7,6 +7,7 @@ import {
   Checkbox,
   CheckboxWithConfirmModal,
   CustomButton,
+  ExpandableText,
   getResourceLink,
   Question,
   QuestionType,
@@ -59,9 +60,10 @@ const ComplementCard = styled.button`
     p {
       color: white !important;
     }
-    
+
     img {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+    }
   }
 `
 
@@ -95,6 +97,12 @@ const QuestionFormFooter = styled.div`
 `
 
 const FormattedText = styled.p`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+`
+
+const FormattedTextStyles = css`
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -275,9 +283,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
-      <FormattedText className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
-        {question.message}
-      </FormattedText>
+      <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
+        {isComplementQuestion() ? (
+          <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
+        ) : (
+          <FormattedText>{question.message}</FormattedText>
+        )}
+      </div>
       {isComplementsVisible() &&
         question.complements.map((complement) => (
           <ComplementCard
