@@ -30,7 +30,7 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import _ from 'lodash'
-import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
+import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
 import { faCalendarAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -119,6 +119,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message
   const [message, setMessage] = useState(question.answer?.message ?? '')
+  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(question.answer?.message ?? '')
@@ -328,9 +329,14 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton disabled={isFormEmpty} buttonStyle={'primary'} onClick={handleSendAnswer} text={'Skicka'} />
+              <CustomButton
+                disabled={isFormEmpty || isFunctionDisabled}
+                buttonStyle={'primary'}
+                onClick={handleSendAnswer}
+                text={'Skicka'}
+              />
               <ButtonWithConfirmModal
-                disabled={false}
+                disabled={isFormEmpty || isFunctionDisabled}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad svar'}
                 confirmButtonText={'Ja, radera'}

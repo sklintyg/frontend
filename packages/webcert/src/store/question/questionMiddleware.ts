@@ -29,6 +29,7 @@ import {
   saveQuestionStarted,
   saveQuestionSuccess,
   sendAnswer,
+  sendAnswerError,
   sendAnswerStarted,
   sendAnswerSuccess,
   sendQuestion,
@@ -300,7 +301,7 @@ export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
       },
       onStart: sendAnswerStarted.type,
       onSuccess: sendAnswerSuccess.type,
-      onError: apiGenericError.type,
+      onError: sendAnswerError.type,
       functionDisablerType: toggleQuestionFunctionDisabler.type,
     })
   )
@@ -308,6 +309,10 @@ export const handleSendAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (a
 
 export const handleSendAnswerSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateQuestion(action.payload.question))
+}
+
+export const handleSendAnswerError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
 }
 
 export const handleDeleteAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
@@ -372,6 +377,7 @@ const middlewareMethods = {
   [saveAnswerSuccess.type]: handleSaveAnswerSuccess,
   [sendAnswer.type]: handleSendAnswer,
   [sendAnswerSuccess.type]: handleSendAnswerSuccess,
+  [sendAnswerError.type]: handleSendAnswerError,
   [deleteAnswer.type]: handleDeleteAnswer,
   [deleteAnswerSuccess.type]: handleDeleteAnswerSuccess,
   [handleQuestion.type]: handleHandleQuestion,
