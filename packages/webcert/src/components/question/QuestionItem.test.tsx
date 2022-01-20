@@ -179,7 +179,7 @@ describe('QuestionItem', () => {
     it('cancel question disabled', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
-      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
+      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
     it('does not show message that answer draft has been saved', () => {
@@ -202,10 +202,11 @@ describe('QuestionItem', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 
-    it('enable send when answer has value', async () => {
+    it('enable send and cancel when answer has value', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       expect(screen.getByText(/Skicka/i)).toBeEnabled()
+      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
     it('does show message that answer has been saved', () => {
@@ -243,6 +244,37 @@ describe('QuestionItem', () => {
 
       flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
+    })
+
+    it('disable send and cancel while sending answer draft', async () => {
+      jest.useRealTimers()
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
+
+      const sendButton = screen.getByText('Skicka')
+      const cancelButton = screen.getByText('Avbryt')
+
+      userEvent.click(sendButton)
+
+      expect(sendButton).toBeDisabled()
+      expect(cancelButton).toBeDisabled()
+
+      await flushPromises()
+    })
+
+    it('disable send and cancel while deleting answer draft', async () => {
+      jest.useRealTimers()
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
+
+      const sendButton = screen.getByText('Skicka')
+      const cancelButton = screen.getByText('Avbryt')
+
+      userEvent.click(cancelButton)
+      userEvent.click(screen.getByText('Ja, radera'))
+
+      expect(sendButton).toBeDisabled()
+      expect(cancelButton).toBeDisabled()
+
+      await flushPromises()
     })
   })
 
