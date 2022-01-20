@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { formatDateToString, getValidDate } from '@frontend/common'
 import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 
 const CHECKBOX_LABEL = '25 procent'
 const QUESTION_ID = 'EN_FJARDEDEL'
@@ -13,19 +15,21 @@ const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
 const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0', showValidationError = false) => {
   render(
-    <DateRangePicker
-      baseWorkHours={baseWorkHours}
-      disabled={false}
-      hasOverlap={false}
-      hasValidationError={false}
-      updateValue={() => {}}
-      getPeriodStartingDate={() => formatDateToString(new Date())}
-      label={CHECKBOX_LABEL}
-      fromDate={fromDate}
-      toDate={toDate}
-      periodId={QUESTION_ID}
-      isShowValidationError={showValidationError}
-    />
+    <Provider store={store}>
+      <DateRangePicker
+        baseWorkHours={baseWorkHours}
+        disabled={false}
+        hasOverlap={false}
+        hasValidationError={false}
+        updateValue={() => {}}
+        getPeriodStartingDate={() => formatDateToString(new Date())}
+        label={CHECKBOX_LABEL}
+        fromDate={fromDate}
+        toDate={toDate}
+        periodId={QUESTION_ID}
+        isShowValidationError={showValidationError}
+      />
+    </Provider>
   )
 }
 
