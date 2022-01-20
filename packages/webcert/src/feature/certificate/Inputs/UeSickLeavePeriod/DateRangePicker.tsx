@@ -264,9 +264,6 @@ const DateRangePicker: React.FC<Props> = ({
   }
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    if (!validationErrors) {
-      return hasValidationError
-    }
     if (hasValidationError) {
       return true
     }
