@@ -7,19 +7,19 @@ import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import { hideValidationErrors, removeClientValidationError, showValidationErrors } from '../../../../store/certificate/certificateActions'
 
 const CHECKBOX_LABEL = '25 procent'
 const QUESTION_ID = 'EN_FJARDEDEL'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0', showValidationError = false) => {
+const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0') => {
   render(
     <Provider store={store}>
       <DateRangePicker
         baseWorkHours={baseWorkHours}
         disabled={false}
-        hasOverlap={false}
         hasValidationError={false}
         updateValue={() => {}}
         getPeriodStartingDate={() => formatDateToString(new Date())}
@@ -27,13 +27,17 @@ const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = 
         fromDate={fromDate}
         toDate={toDate}
         periodId={QUESTION_ID}
-        isShowValidationError={showValidationError}
+        questionId={'questionId'}
       />
     </Provider>
   )
 }
 
 describe('Date range picker', () => {
+  afterEach(() => {
+    store.dispatch(removeClientValidationError(0))
+  })
+
   it('renders without crashing', () => {
     renderDefaultComponent()
   })
@@ -154,7 +158,8 @@ describe('Date range picker', () => {
     })
 
     it('shows not complete date message when only from date is inserted', () => {
-      renderDefaultComponent(null, null, '0', true)
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(showValidationErrors())
 
       const input = screen.getByLabelText('Fr.o.m')
 
@@ -164,7 +169,8 @@ describe('Date range picker', () => {
     })
 
     it('shows not complete date message when only tom date is inserted', () => {
-      renderDefaultComponent(null, null, '0', true)
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(showValidationErrors())
 
       const input = screen.getByLabelText('t.o.m')
 
@@ -173,8 +179,9 @@ describe('Date range picker', () => {
       expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
     })
 
-    it('should not show complete date message when error messages have not been toggled but from date is inserted', () => {
-      renderDefaultComponent(null, null, '0', false)
+    it('should not show complete date message when validation errors are hidden but from date is inserted', () => {
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(hideValidationErrors())
 
       const input = screen.getByLabelText('Fr.o.m')
 
@@ -183,8 +190,9 @@ describe('Date range picker', () => {
       expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
     })
 
-    it('should not show complete date message when error messages have not been toggled but tom date is inserted', () => {
-      renderDefaultComponent(null, null, '0', false)
+    it('should not show complete date message when validation errors are hidden but tom date is inserted', () => {
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(hideValidationErrors())
 
       const input = screen.getByLabelText('t.o.m')
 
@@ -194,7 +202,7 @@ describe('Date range picker', () => {
     })
 
     it('should not show complete date message if complete dates are inserted', () => {
-      renderDefaultComponent(null, null, '0', false)
+      renderDefaultComponent(null, null, '0')
 
       userEvent.type(screen.getByLabelText('Fr.o.m'), '20210202')
       userEvent.type(screen.getByLabelText('t.o.m'), '20210202')
