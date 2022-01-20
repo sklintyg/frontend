@@ -261,7 +261,7 @@ describe('QuestionItem', () => {
       await flushPromises()
     })
 
-    it('disable send and cancel when deletet answer draft is being sent', async () => {
+    it('disable send and cancel when deleted answer draft is being sent', async () => {
       jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
