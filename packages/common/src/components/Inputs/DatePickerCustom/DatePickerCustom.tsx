@@ -24,7 +24,7 @@ interface Props {
   textInputName?: string
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
-  displayValidationErrorOutline?: boolean
+  displayValidationErrorOutline: boolean
   additionalStyles?: string
   componentField: string
   questionId: string
