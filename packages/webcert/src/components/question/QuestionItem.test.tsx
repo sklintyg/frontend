@@ -246,7 +246,7 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).toBe(0)
     })
 
-    it('disable send and cancel when answer draft is being sent', async () => {
+    it('disable send and cancel while sending answer draft', async () => {
       jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
@@ -261,7 +261,7 @@ describe('QuestionItem', () => {
       await flushPromises()
     })
 
-    it('disable send and cancel when deleted answer draft is being sent', async () => {
+    it('disable send and cancel while deleting answer draft', async () => {
       jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
