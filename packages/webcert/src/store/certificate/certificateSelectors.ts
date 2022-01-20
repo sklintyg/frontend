@@ -153,7 +153,7 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
 }
 
 export const getVisibleValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
-  let validationErrors = []
+  let validationErrors
   const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
   validationErrors = [...clientValidationErrors]
 
@@ -162,14 +162,13 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
     if (question.validationErrors) {
       validationErrors = [...validationErrors, ...question.validationErrors]
     }
-
-    if (state.ui.uiCertificate.showValidationErrors) {
-      return validationErrors.filter((v: ValidationError) => doesFieldsMatch(field, v.field))
-    } else {
-      return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
-    }
   }
-  return validationErrors
+
+  if (state.ui.uiCertificate.showValidationErrors) {
+    return validationErrors.filter((v: ValidationError) => doesFieldsMatch(field, v.field))
+  } else {
+    return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
+  }
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
