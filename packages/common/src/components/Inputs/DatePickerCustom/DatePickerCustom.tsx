@@ -26,7 +26,7 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
   additionalStyles?: string
-  componentField?: string
+  componentField: string
   questionId: string
 }
 
