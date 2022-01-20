@@ -638,6 +638,16 @@ const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, g
   dispatch(validateCertificateInFrontEndCompleted())
 }
 
+const isSameValidationError = (savedValidationError: ValidationError, payloadValidationError: ValidationError) => {
+  return (
+    savedValidationError.type === payloadValidationError.type &&
+    savedValidationError.id === payloadValidationError.id &&
+    savedValidationError.text === payloadValidationError.text &&
+    savedValidationError.field &&
+    savedValidationError.field.includes(payloadValidationError.field)
+  )
+}
+
 const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
@@ -645,31 +655,15 @@ const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, get
   if (!currentValidationErrors) {
     return
   }
-  const duplicatedValidationIndex = currentValidationErrors.findIndex(
-    (v: ValidationError) =>
-      v.type === action.payload.validationError.type &&
-      v.id === action.payload.validationError.id &&
-      v.text === action.payload.validationError.text &&
-      v.field === action.payload.validationError.field
+  const duplicatedValidationIndex = currentValidationErrors.findIndex((v: ValidationError) =>
+    isSameValidationError(v, action.payload.validationError)
   )
   if (duplicatedValidationIndex !== -1) {
     if (action.payload.shouldBeRemoved) {
-      dispatch(
-        removeClientValidationError(duplicatedValidationIndex)
-        // setValidationErrorsForQuestion({
-        //   questionId: action.payload.validationError.id,
-        //   validationErrors: currentValidationErrors.splice(duplicatedValidationIndex, 1),
-        // })
-      )
+      dispatch(removeClientValidationError(duplicatedValidationIndex))
     }
   } else if (!action.payload.shouldBeRemoved) {
-    dispatch(
-      addClientValidationError(action.payload.validationError)
-      // setValidationErrorsForQuestion({
-      //   questionId: action.payload.validationError.id,
-      //   validationErrors: [...currentValidationErrors, action.payload.validationError],
-      // })
-    )
+    dispatch(addClientValidationError(action.payload.validationError))
   }
 }
 

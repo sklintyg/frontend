@@ -6,6 +6,8 @@ import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidation
 import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
 import calendarImage from '../../../images/calendar.svg'
 import 'react-datepicker/dist/react-datepicker.css'
+import { updateClientValidationError } from '@frontend/webcert/src/store/certificate/certificateActions'
+import { useDispatch } from 'react-redux'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -24,10 +26,11 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline?: boolean
   additionalStyles?: string
+  componentField?: string
+  questionId: string
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
-const InvalidDateFormatValidationMessage = [{ category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' }]
 
 const DatePickerCustom: React.FC<Props> = ({
   label,
@@ -43,9 +46,12 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
+  componentField,
+  questionId,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
+  const dispatch = useDispatch()
 
   let date: Date
 
@@ -54,6 +60,26 @@ const DatePickerCustom: React.FC<Props> = ({
       updateFormattingValidation(inputString)
     }
   }, [])
+
+  useEffect(() => {
+    toggleFormattingError()
+  }, [displayFormattingError])
+
+  const toggleFormattingError = () => {
+    dispatch(
+      updateClientValidationError({
+        shouldBeRemoved: !displayFormattingError,
+        validationError: {
+          category: '',
+          field: componentField,
+          id: questionId,
+          text: INVALID_DATE_FORMAT_ERROR,
+          type: 'INVALID_DATE_FORMAT',
+          showAlways: true,
+        },
+      })
+    )
+  }
 
   useEffect(() => {
     if (displayFormattingError) {
@@ -127,7 +153,7 @@ const DatePickerCustom: React.FC<Props> = ({
           name={textInputName}
           type="text"
           maxLength={10}
-          className={` ic-textfield ${displayValidationErrorOutline || displayFormattingError ? 'ic-textfield--error' : ''}`}
+          className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error' : ''}`}
           onChange={handleTextInputOnChange}
           onBlur={handleTextInputOnBlur}
           onKeyDown={textInputOnKeyDown}
@@ -146,7 +172,7 @@ const DatePickerCustom: React.FC<Props> = ({
           dateFormat={_format}
           customInput={
             <StyledButton
-              displayValidationError={displayValidationErrorOutline || displayFormattingError}
+              displayValidationError={displayValidationErrorOutline}
               onClick={() => setOpen(true)}
               className={`ic-button `}
               onClickCapture={() => setOpen(!open)}>
@@ -163,12 +189,6 @@ const DatePickerCustom: React.FC<Props> = ({
           showWeekNumbers
         />
       </DatePickerWrapper>
-
-      {displayFormattingError && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={InvalidDateFormatValidationMessage}></QuestionValidationTexts>
-        </ValidationWrapper>
-      )}
     </Wrapper>
   )
 }

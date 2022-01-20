@@ -35,7 +35,6 @@ interface Props {
   toDate: string | null
   updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
   getPeriodStartingDate: () => string
-  hasOverlap: boolean
   hasValidationError: boolean
   disabled: boolean
   baseWorkHours: string
@@ -49,7 +48,6 @@ const DateRangePicker: React.FC<Props> = ({
   toDate,
   updateValue,
   getPeriodStartingDate,
-  hasOverlap,
   hasValidationError,
   disabled,
   baseWorkHours,
@@ -143,7 +141,7 @@ const DateRangePicker: React.FC<Props> = ({
   const handleToTextInputOnBlur = () => {
     formatToInputTextField()
     const parsedToDate = getParsedToDateString(fromDateInput, toDateInput)
-    toggleShowValidationError(fromDateInput, toDateInput)
+    toggleShowValidationError(fromDateInput, parsedToDate ?? toDateInput)
   }
 
   const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
@@ -177,12 +175,18 @@ const DateRangePicker: React.FC<Props> = ({
       })
     )
 
+    let notCompleteDateField = ''
+    if (!notCompleteDatePeriod) {
+      notCompleteDateField = periodId
+    } else {
+      notCompleteDateField = !toDateInput ? 'tom.' + periodId : 'from.' + periodId
+    }
     dispatch(
       updateClientValidationError({
         shouldBeRemoved: !notCompleteDatePeriod,
         validationError: {
           category: '',
-          field: !toDateInput ? 'tom.' + periodId : 'from.' + periodId,
+          field: notCompleteDateField,
           id: questionId,
           text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
           type: 'NOT_COMPLETE_DATE',
@@ -295,6 +299,8 @@ const DateRangePicker: React.FC<Props> = ({
               textInputOnChange={handleFromTextInputChange}
               textInputDataTestId={`from${periodId}`}
               displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'from')}
+              componentField={'from.' + periodId}
+              questionId={questionId}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -311,11 +317,15 @@ const DateRangePicker: React.FC<Props> = ({
               textInputOnKeyDown={handleToTextInputOnKeyDown}
               textInputDataTestId={`tom${periodId}`}
               displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'tom')}
+              componentField={'tom.' + periodId}
+              questionId={questionId}
             />
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
-      <QuestionValidationTexts validationErrors={validationErrors} />
+      <div className={'iu-pb-300'}>
+        <QuestionValidationTexts validationErrors={validationErrors} />
+      </div>
       {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}

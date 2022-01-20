@@ -12,6 +12,8 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'
 import styled from 'styled-components/macro'
+import { useSelector } from 'react-redux'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,6 +27,8 @@ const Wrapper = styled.div`
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
+  padding-bottom: 16px;
+  margin-top: 0;
 `
 
 interface Props {
@@ -36,7 +40,6 @@ interface Props {
   disabled?: boolean
   question: CertificateDataElement
   date: string | null
-  isShowValidationError: boolean
 }
 
 const UeCheckboxDate: React.FC<Props> = (props) => {
@@ -49,6 +52,8 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     isSingleCheckboxDate ? (question.value as ValueDate).date !== undefined : values.some((e: ValueDate) => e.id === id)
   )
   const [dateString, setDateString] = React.useState(date ? date : null)
+  const field = 'row.' + id
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, field))
 
   const deleteDateFromSavedValue = () => {
     let updatedValue
@@ -111,12 +116,13 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         setDate={handleDateChange}
         inputString={dateString}
         additionalStyles={props.datePickerAdditionalStyles}
+        questionId={question.id}
+        displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
+        componentField={field}
       />
-      {props.isShowValidationError && isSingleCheckboxDate && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={question.validationErrors} />
-        </ValidationWrapper>
-      )}
+      <ValidationWrapper>
+        <QuestionValidationTexts validationErrors={validationErrors} />
+      </ValidationWrapper>
     </Wrapper>
   )
 }

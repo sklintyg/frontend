@@ -149,8 +149,7 @@ export const getCareUnitValidationErrors = () => (state: RootState): ValidationE
 }
 
 const doesFieldsMatch = (payloadField: string, validationField: string) => {
-  //return !payloadField || (validationField && validationField.includes(payloadField))
-  return validationField.includes(payloadField)
+  return !validationField || validationField.includes(payloadField)
 }
 
 export const getVisibleValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
