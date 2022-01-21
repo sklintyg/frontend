@@ -112,7 +112,7 @@ export const saveAnswerError = createAction<string>(`${QUESTION} Save answer err
 export const sendAnswer = createAction<AnswerPayload>(`${QUESTION} Send answer`)
 export const sendAnswerStarted = createAction(`${QUESTION} Send answer started`)
 export const sendAnswerSuccess = createAction<QuestionResponse>(`${QUESTION} Send answer success`)
-export const sendAnswerError = createAction<string>(`${QUESTION} Send answer error`)
+export const sendAnswerError = createAction<ApiGenericError>(`${QUESTION} Send answer error`)
 
 export const deleteAnswer = createAction<Question>(`${QUESTION} Delete answer`)
 export const deleteAnswerStarted = createAction(`${QUESTION} Delete answer started`)
