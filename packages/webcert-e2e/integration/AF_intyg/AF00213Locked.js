@@ -45,7 +45,7 @@ describe('AF00213-intyg minimalt ifyllt', function() {
                 cy.visit(önskadUrl);
                 cy.wait(100);
                 intyg.makuleraUtkast();
-                expect(cy.contains('Intyget är makulerat'));
+                expect(cy.contains('Utkastet är makulerat'));
             });
             it('Kopiera ett låst AF00213 utkast så att det går att signera och skicka', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
