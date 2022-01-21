@@ -262,9 +262,10 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
   const certificate: Certificate = getState().ui.uiCertificate.certificate
   for (const questionId in certificate.data) {
     if (
-      certificate.data[questionId].visible &&
-      certificate.data[questionId].validationErrors &&
-      certificate.data[questionId].validationErrors.length > 0
+      (certificate.data[questionId].visible &&
+        certificate.data[questionId].validationErrors &&
+        certificate.data[questionId].validationErrors.length > 0) ||
+      getState().ui.uiCertificate.clientValidationErrors.some((v: ValidationError) => v.id === questionId)
     ) {
       dispatch(showValidationErrors())
       return

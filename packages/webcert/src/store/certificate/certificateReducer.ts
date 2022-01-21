@@ -198,7 +198,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         }
       }
 
-      state.isValidForSigning = action.payload.length === 0
+      state.isValidForSigning = action.payload.length === 0 && state.clientValidationErrors.length === 0
     })
     .addCase(showValidationErrors, (state) => {
       state.showValidationErrors = true
