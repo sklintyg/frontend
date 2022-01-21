@@ -159,7 +159,7 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
 
   if (state.ui.uiCertificate.certificate) {
     const question = state.ui.uiCertificate.certificate.data[questionId]
-    if (question.validationErrors) {
+    if (question && question.validationErrors) {
       validationErrors = [...validationErrors, ...question.validationErrors]
     }
   }

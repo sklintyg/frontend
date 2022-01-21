@@ -52,8 +52,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     isSingleCheckboxDate ? (question.value as ValueDate).date !== undefined : values.some((e: ValueDate) => e.id === id)
   )
   const [dateString, setDateString] = React.useState(date ? date : null)
-  const field = 'row.' + id
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, field))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, id))
 
   const deleteDateFromSavedValue = () => {
     let updatedValue
@@ -118,7 +117,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         additionalStyles={props.datePickerAdditionalStyles}
         questionId={question.id}
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
-        componentField={field}
+        componentField={id}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
