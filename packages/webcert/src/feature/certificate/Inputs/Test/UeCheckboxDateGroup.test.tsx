@@ -60,7 +60,7 @@ const question: CertificateDataElement = {
       expression: `!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)`,
     },
   ],
-  validationErrors: [{ category: 'category', field: 'baseratPa', text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
+  validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
 }
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'

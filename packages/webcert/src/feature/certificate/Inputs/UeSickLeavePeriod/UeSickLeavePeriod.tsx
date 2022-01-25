@@ -35,7 +35,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'sjukskrivningar'))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
@@ -115,7 +115,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       id: question.id,
       text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
       type: 'OVERLAP_ERROR',
-      field: 'sjukskrivningar',
+      field: question.id,
       showAlways: true,
     }
     dispatch(updateClientValidationError({ shouldBeRemoved: !shouldAddError, validationError: overlapError }))
