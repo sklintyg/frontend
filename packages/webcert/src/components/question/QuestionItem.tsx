@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import {
   Answer,
   ButtonWithConfirmModal,
@@ -7,6 +7,7 @@ import {
   Checkbox,
   CheckboxWithConfirmModal,
   CustomButton,
+  ExpandableText,
   getResourceLink,
   Question,
   QuestionType,
@@ -29,7 +30,7 @@ import {
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
 import _ from 'lodash'
-import { isAnswerDraftSaved } from '../../store/question/questionSelectors'
+import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
 import { faCalendarAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -59,9 +60,10 @@ const ComplementCard = styled.button`
     p {
       color: white !important;
     }
-    
+
     img {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3539%) hue-rotate(184deg) brightness(110%) contrast(101%);
+    }
   }
 `
 
@@ -100,6 +102,12 @@ const FormattedText = styled.p`
   white-space: pre-line;
 `
 
+const FormattedTextStyles = css`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+`
+
 export const COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE = 'Kompletteringsbegäran har besvarats med ett meddelande.'
 
 interface Props {
@@ -111,6 +119,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message
   const [message, setMessage] = useState(question.answer?.message ?? '')
+  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
     setMessage(question.answer?.message ?? '')
@@ -275,9 +284,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
-      <FormattedText className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
-        {question.message}
-      </FormattedText>
+      <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
+        {isComplementQuestion() ? (
+          <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
+        ) : (
+          <FormattedText>{question.message}</FormattedText>
+        )}
+      </div>
       {isComplementsVisible() &&
         question.complements.map((complement) => (
           <ComplementCard
@@ -316,9 +329,14 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton disabled={isFormEmpty} buttonStyle={'primary'} onClick={handleSendAnswer} text={'Skicka'} />
+              <CustomButton
+                disabled={isFormEmpty || isFunctionDisabled}
+                buttonStyle={'primary'}
+                onClick={handleSendAnswer}
+                text={'Skicka'}
+              />
               <ButtonWithConfirmModal
-                disabled={false}
+                disabled={isFormEmpty || isFunctionDisabled}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad svar'}
                 confirmButtonText={'Ja, radera'}
