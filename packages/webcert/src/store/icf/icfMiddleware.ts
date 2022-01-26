@@ -7,6 +7,7 @@ import {
   getIcfCodesStarted,
   getIcfCodesSuccess,
   IcfRequest,
+  setOriginalIcd10Codes,
   toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
@@ -49,6 +50,7 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (a
 
       if (icdCodes && icdCodes.length > 0) {
         dispatch(getIcfCodes({ icdCodes: icdCodes }))
+        dispatch(setOriginalIcd10Codes(icdCodes))
       }
     }
   }

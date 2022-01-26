@@ -56,5 +56,6 @@ export const getIcfData = (): IcfState => {
       uniqueCodes: [{ icfCodes: uniqueIcfCodes, icd10Codes: [ICD_CODE_1] }],
     },
     functionDisablers: [],
+    originalIcd10Codes: [],
   }
 }
