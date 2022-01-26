@@ -210,7 +210,7 @@ describe('IcfDropdown', () => {
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderComponent(undefined, icfData.activityLimitation, icfValues)
-    expect(screen.getByTestId('originalWarningIcf')).toBeInTheDocument()
+    expect(screen.queryAllByTestId('originalWarningIcf').length > 0).toBeTruthy()
   })
 
   it('shall not show info symbol that support exists for another icd10 code', () => {

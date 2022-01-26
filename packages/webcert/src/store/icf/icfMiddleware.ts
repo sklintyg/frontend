@@ -61,8 +61,10 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
     return
   }
 
-  const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
-  dispatch(getIcfCodes(icdCodes))
+  const icdCodes = (action.payload.value as ValueDiagnosisList).list.map((code) => code.code)
+  const icfRequest = { icdCodes: icdCodes } as IcfRequest
+  dispatch(getIcfCodes(icfRequest))
+  dispatch(setOriginalIcd10Codes(icdCodes))
 }
 
 function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {
