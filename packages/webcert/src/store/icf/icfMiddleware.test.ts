@@ -7,8 +7,8 @@ import apiMiddleware from '../api/apiMiddleware'
 import { icfMiddleware } from './icfMiddleware'
 import { Icd10Code, IcfCode } from './icfReducer'
 import { Certificate, CertificateStatus, IcfTitles } from '@frontend/common'
-import { updateCertificate } from '../certificate/certificateActions'
-import { getCertificateWithDiagnosisElementWithCodeSystem } from '../../components/icf/icfTestUtils'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { getCertificateWithDiagnosisElementWithCodeSystem, getDiagnosisElementWithCodeSystem } from '../../components/icf/icfTestUtils'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -75,7 +75,7 @@ describe('Test ICF middleware', () => {
     })
 
     it('shall save icd 10 codes to state', () => {
-      const certificate = getCertificateWithDiagnosisElementWithCodeSystem('icd10')
+      const certificate = getCertificateWithDiagnosisElementWithCodeSystem('ICD_10_SE')
 
       testStore.dispatch(updateCertificate(certificate))
 
@@ -87,6 +87,26 @@ describe('Test ICF middleware', () => {
       const certificate = getCertificateWithDiagnosisElementWithCodeSystem('test')
 
       testStore.dispatch(updateCertificate(certificate))
+
+      flushPromises()
+      expect(testStore.getState().ui.uiIcf.originalIcd10Codes).toHaveLength(0)
+    })
+  })
+
+  describe('HandleUpdateCertificateDataElement', () => {
+    it('shall save icd 10 codes to state', () => {
+      const element = getDiagnosisElementWithCodeSystem('ICD_10_SE')
+
+      testStore.dispatch(updateCertificateDataElement(element))
+
+      flushPromises()
+      expect(testStore.getState().ui.uiIcf.originalIcd10Codes).toHaveLength(1)
+    })
+
+    it('shall not save codes that are not icd 10 to state', () => {
+      const element = getDiagnosisElementWithCodeSystem('test')
+
+      testStore.dispatch(updateCertificateDataElement(element))
 
       flushPromises()
       expect(testStore.getState().ui.uiIcf.originalIcd10Codes).toHaveLength(0)
