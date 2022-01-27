@@ -5,10 +5,11 @@ import {
   ConfigTypes,
   DatePickerCustom,
   QuestionValidationTexts,
+  ValidationError,
   ValueDate,
   ValueDateList,
 } from '@frontend/common/src'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'
 import styled from 'styled-components/macro'
@@ -97,6 +98,10 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     handleChange(true, value)
   }
 
+  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
+    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+  }
+
   return (
     <Wrapper>
       <Checkbox
@@ -118,6 +123,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         questionId={question.id}
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
         componentField={id}
+        onDispatchValidationError={dispatchValidationError}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />

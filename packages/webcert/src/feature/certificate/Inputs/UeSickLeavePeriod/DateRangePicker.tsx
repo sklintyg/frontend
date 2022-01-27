@@ -161,19 +161,14 @@ const DateRangePicker: React.FC<Props> = ({
     const invalidDatePeriod = fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)
     const notCompleteDatePeriod = (fromDate && !toDate) || (toDate && !fromDate)
 
-    dispatch(
-      updateClientValidationError({
-        shouldBeRemoved: !invalidDatePeriod,
-        validationError: {
-          category: '',
-          field: 'row.' + periodId,
-          id: questionId,
-          text: INVALID_DATE_PERIOD_ERROR,
-          type: 'INVALID_DATE_PERIOD',
-          showAlways: true,
-        },
-      })
-    )
+    dispatchValidationError(!invalidDatePeriod, {
+      category: '',
+      field: 'row.' + periodId,
+      id: questionId,
+      text: INVALID_DATE_PERIOD_ERROR,
+      type: 'INVALID_DATE_PERIOD',
+      showAlways: true,
+    })
 
     let notCompleteDateField = ''
     if (!notCompleteDatePeriod) {
@@ -181,18 +176,13 @@ const DateRangePicker: React.FC<Props> = ({
     } else {
       notCompleteDateField = !toDateInput ? 'tom.' + periodId : 'from.' + periodId
     }
-    dispatch(
-      updateClientValidationError({
-        shouldBeRemoved: !notCompleteDatePeriod,
-        validationError: {
-          category: '',
-          field: notCompleteDateField,
-          id: questionId,
-          text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
-          type: 'NOT_COMPLETE_DATE',
-        },
-      })
-    )
+    dispatchValidationError(!notCompleteDatePeriod, {
+      category: '',
+      field: notCompleteDateField,
+      id: questionId,
+      text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
+      type: 'NOT_COMPLETE_DATE',
+    })
   }
 
   const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
@@ -273,6 +263,10 @@ const DateRangePicker: React.FC<Props> = ({
     return validationErrors.length > 0
   }
 
+  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
+    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+  }
+
   return (
     <>
       <DateRangeWrapper className="iu-mb-400">
@@ -301,6 +295,7 @@ const DateRangePicker: React.FC<Props> = ({
               displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'from')}
               componentField={'from.' + periodId}
               questionId={questionId}
+              onDispatchValidationError={dispatchValidationError}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -319,6 +314,7 @@ const DateRangePicker: React.FC<Props> = ({
               displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'tom')}
               componentField={'tom.' + periodId}
               questionId={questionId}
+              onDispatchValidationError={dispatchValidationError}
             />
           </DatesWrapper>
         </DateGrid>

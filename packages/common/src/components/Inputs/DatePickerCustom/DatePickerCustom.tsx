@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
-import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
-import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
+import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
+import { DatePickerWrapper, StyledButton, TextInput, Wrapper } from './Styles'
 import calendarImage from '../../../images/calendar.svg'
 import 'react-datepicker/dist/react-datepicker.css'
-import { updateClientValidationError } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { useDispatch } from 'react-redux'
+import { ValidationError } from '../../..'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -28,6 +27,7 @@ interface Props {
   additionalStyles?: string
   componentField: string
   questionId: string
+  onDispatchValidationError: (shouldBeRemoved: boolean, validationError: ValidationError) => void
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -48,10 +48,10 @@ const DatePickerCustom: React.FC<Props> = ({
   additionalStyles,
   componentField,
   questionId,
+  onDispatchValidationError,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
-  const dispatch = useDispatch()
 
   let date: Date
 
@@ -66,19 +66,14 @@ const DatePickerCustom: React.FC<Props> = ({
   }, [displayFormattingError])
 
   const toggleFormattingError = () => {
-    dispatch(
-      updateClientValidationError({
-        shouldBeRemoved: !displayFormattingError,
-        validationError: {
-          category: '',
-          field: componentField,
-          id: questionId,
-          text: INVALID_DATE_FORMAT_ERROR,
-          type: 'INVALID_DATE_FORMAT',
-          showAlways: true,
-        },
-      })
-    )
+    onDispatchValidationError(!displayFormattingError, {
+      category: '',
+      field: componentField,
+      id: questionId,
+      text: INVALID_DATE_FORMAT_ERROR,
+      type: 'INVALID_DATE_FORMAT',
+      showAlways: true,
+    })
   }
 
   useEffect(() => {
