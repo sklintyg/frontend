@@ -70,6 +70,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
         onChange={(e) => handleOnChange(e)}
         maxLength={limit}
         placeholder={placeholder}
+        id={name}
       />
       {!disableCounter && <CharacterCounter limit={limit} value={value}></CharacterCounter>}
     </>
