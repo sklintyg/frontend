@@ -9,8 +9,6 @@ const Wrapper = styled.div`
 
   .statusContent > a {
     font-size: 12px;
-    display: table-cell;
-    vertical-align: middle;
   }
 `
 
