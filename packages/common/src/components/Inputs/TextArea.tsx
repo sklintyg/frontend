@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import CharacterCounter from './CharacterCounter'
 
@@ -12,14 +12,36 @@ interface TextAreaProps {
   rowsMin?: number
   limit?: number
   placeholder?: string
+  disableCounter?: boolean
+  autoResize?: boolean
 }
 
-const Root = styled.textarea`
+interface RootProps {
+  hideOverflow: boolean
+}
+
+const Root = styled.textarea<RootProps>`
   cursor: auto;
+  overflow-y: ${(props) => (props.hideOverflow ? 'hidden' : '')};
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
-  const { hasValidationError, additionalStyles, children, disabled, name, onChange, rowsMin, value, limit, placeholder } = props
+  const {
+    hasValidationError,
+    additionalStyles,
+    children,
+    disabled,
+    name,
+    onChange,
+    rowsMin,
+    value,
+    limit,
+    placeholder,
+    disableCounter,
+    autoResize,
+  } = props
+
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
@@ -27,19 +49,30 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (autoResize && textareaRef && textareaRef.current) {
+      textareaRef.current.style.height = '0px'
+      const scrollHeight = textareaRef.current.scrollHeight
+      textareaRef.current.style.height = scrollHeight + 'px'
+    }
+  }, [value])
+
   return (
     <>
       <Root
+        hideOverflow={autoResize as boolean}
         disabled={disabled}
         className={`${additionalStyles}  ic-textarea iu-no-resize ${hasValidationError ? 'ic-textarea--error' : ''}`}
         rows={rowsMin ? rowsMin : 6}
+        ref={textareaRef}
         name={name ?? ''}
         value={value}
         onChange={(e) => handleOnChange(e)}
         maxLength={limit}
         placeholder={placeholder}
+        id={name}
       />
-      <CharacterCounter limit={limit} value={value}></CharacterCounter>
+      {!disableCounter && <CharacterCounter limit={limit} value={value}></CharacterCounter>}
     </>
   )
 }
