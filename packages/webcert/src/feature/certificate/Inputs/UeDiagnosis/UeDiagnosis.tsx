@@ -110,7 +110,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     dispatch(resetDiagnosisTypeahead())
   }
 
-  const updateTypeaheadResult = (searched: string, isCode: boolean) => {
+  const updateTypeaheadResult = (searched: string, isCode: boolean, selectedCodeSystem: string) => {
     if (
       searched !== undefined &&
       ((isCode && searched.length >= MIN_CODE_LENGTH) || (!isCode && searched.length >= MIN_DESCRIPTION_LENGTH))
@@ -139,7 +139,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     } else {
       updateSavedDiagnosis(question, '', description)
     }
-    updateTypeaheadResult(newCode.toUpperCase(), true)
+    updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
   }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -153,12 +153,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     } else {
       dispatchUpdateDiagnosisWithNewDescription(question, code, newDescription)
     }
-    dispatchTypeahead(newDescription)
+    dispatchTypeahead(newDescription, selectedCodeSystem)
   }
 
   const dispatchTypeahead = useRef(
-    _.debounce((value: string) => {
-      updateTypeaheadResult(value, false)
+    _.debounce((value: string, selectedCodeSystem: string) => {
+      updateTypeaheadResult(value, false, selectedCodeSystem)
     }, 150)
   ).current
 
