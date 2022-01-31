@@ -12,6 +12,11 @@ const Root = styled.div`
   overflow-y: auto;
 `
 
+const Wrapper = styled.div`
+  height: calc(100% - 45px);
+  overflow-y: auto;
+`
+
 const EmptyWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,14 +28,19 @@ const EmptyWrapper = styled.div`
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
+  hasSeveralDiagnoses: boolean
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
+const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">
         <InfoBox type={'observe'}>
-          <p>För den angivna diagnosen finns för tillfället inget FMB-stöd.</p>
+          <p>
+            {hasSeveralDiagnoses
+              ? 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.'
+              : 'För den angivna diagnosen finns för tillfället inget FMB-stöd.'}
+          </p>
         </InfoBox>
       </EmptyWrapper>
     )
@@ -39,32 +49,34 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
   return (
     <>
       <Root className={'iu-m-none'}>
-        <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-        <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
-        <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-        <FMBPanelDiagnosisInfoSection
-          header={'Funktionsnedsättning'}
-          form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DISABILITY)}
-        />
-        <FMBPanelDiagnosisInfoSection
-          header={'Aktivitetsbegränsning'}
-          form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_ACTIVITY_LIMITATION)}
-        />
-        <FMBPanelDiagnosisInfoSection
-          header={'Information om rehabilitering'}
-          form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_REHABILITATION_INFORMATION)}
-        />
-        <FMBPanelDiagnosisInfoSection
-          header={'Försäkringsmedicinsk information'}
-          form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
-          contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_GENERAL_INFO}
-        />
-        <FMBPanelDiagnosisInfoSection
-          header={'Symtom, prognos, behandling'}
-          form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
-          contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_SYMPTOM_PROGNOSIS_TREATMENT}
-        />
-        <FMBPanelDiagnosisInfoLink fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+        <Wrapper>
+          <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+          <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
+          <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+          <FMBPanelDiagnosisInfoSection
+            header={'Funktionsnedsättning'}
+            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DISABILITY)}
+          />
+          <FMBPanelDiagnosisInfoSection
+            header={'Aktivitetsbegränsning'}
+            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_ACTIVITY_LIMITATION)}
+          />
+          <FMBPanelDiagnosisInfoSection
+            header={'Information om rehabilitering'}
+            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_REHABILITATION_INFORMATION)}
+          />
+          <FMBPanelDiagnosisInfoSection
+            header={'Försäkringsmedicinsk information'}
+            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
+            contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_GENERAL_INFO}
+          />
+          <FMBPanelDiagnosisInfoSection
+            header={'Symtom, prognos, behandling'}
+            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
+            contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_SYMPTOM_PROGNOSIS_TREATMENT}
+          />
+          <FMBPanelDiagnosisInfoLink fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+        </Wrapper>
       </Root>
     </>
   )

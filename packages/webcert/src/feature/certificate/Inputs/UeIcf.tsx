@@ -15,7 +15,7 @@ import { getQuestionHasValidationError, getShowValidationErrors } from '../../..
 import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../store/icf/icfSelectors'
-import { getFilteredIcfValues, isOldListIncludedInNewList, getIcfValueList } from '../../../components/icf/IcfUtils'
+import { getFilteredIcfValues, getIcfValueList, isOldListIncludedInNewList } from '../../../components/icf/IcfUtils'
 import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
 
 interface Props {

@@ -7,59 +7,65 @@ import { createMemoryHistory } from 'history'
 
 const history = createMemoryHistory()
 
-const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo) => {
+const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo, hasSeveralDiagnoses: boolean) => {
   render(
     <Router history={history}>
-      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasSeveralDiagnoses={hasSeveralDiagnoses} />
     </Router>
   )
 }
 
 describe('FMBPanelDiagnosisInfo', () => {
   it('shall display message when diagnosis doesnt have FMB recommendations', async () => {
-    renderDefaultComponent(emptyFMBDiagnosisCodeInfo)
+    renderDefaultComponent(emptyFMBDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/För den angivna diagnosen finns för tillfället inget FMB-stöd./i)).toBeInTheDocument()
   })
 
+  it('shall display message when no diagnosis have FMB recommendations', async () => {
+    renderDefaultComponent(emptyFMBDiagnosisCodeInfo, true)
+
+    expect(screen.queryByText(/För de angivna diagnoserna finns för tillfället inget FMB-stöd./i)).toBeInTheDocument()
+  })
+
   it('shall display guidance information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/Vid lindrig anorexia nervosa bör sjukskrivning undvikas./i)).toBeInTheDocument()
   })
 
   it('shall display diagnosis description when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText('Anorexia nervosa')).toBeInTheDocument()
   })
 
   it('shall display related diagnosis codes when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/F500, F501/i)).toBeInTheDocument()
   })
 
   it('shall display disability when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/Anorexia nervosa kan ge betydande kroppsliga funktionsnedsättningar/i)).toBeInTheDocument()
   })
 
   it('shall display activity limitations when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/Patienten har ofta en önskan att ha en högre aktivitetsgrad/i)).toBeInTheDocument()
   })
 
   it('shall display rehabilitation information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.queryByText(/Det är bra om arbetsuppgifterna kan anpassas till fysiskt lättare/i)).toBeInTheDocument()
   })
 
   it('shall display fmb general information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(
       screen.queryByText(/Det finns en spännvidd för hur en given sjukdom påverkar olika individers arbetsförmåga/i)
@@ -67,7 +73,7 @@ describe('FMBPanelDiagnosisInfo', () => {
   })
 
   it('shall display symptom information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(
       screen.queryByText(/Anorexia nervosa \(med varianter\) är viljestyrd viktnedgång som vidmakthålls av en upplevelse/i)
@@ -75,7 +81,7 @@ describe('FMBPanelDiagnosisInfo', () => {
   })
 
   it('shall display symptom information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(
       screen.queryByText(/Anorexia nervosa \(med varianter\) är viljestyrd viktnedgång som vidmakthålls av en upplevelse/i)
@@ -83,7 +89,7 @@ describe('FMBPanelDiagnosisInfo', () => {
   })
 
   it('shall display link where to get more information about the FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo)
+    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 
     expect(screen.getByText('Information om Anorexia nervosa hos Socialstyrelsen').closest('a')).toHaveAttribute(
       'href',

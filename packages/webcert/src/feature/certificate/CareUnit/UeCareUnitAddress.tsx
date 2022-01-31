@@ -1,22 +1,33 @@
 import React, { useRef, useState } from 'react'
-import { Unit } from '@frontend/common'
+import { MandatoryIcon, QuestionValidationTexts, Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIsEditable, getIsLocked, getUnit } from '../../../store/certificate/certificateSelectors'
+import {
+  getIsEditable,
+  getIsLocked,
+  getShowValidationErrors,
+  getUnit,
+  getCareUnitValidationErrors,
+} from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 import styled from 'styled-components/macro'
+import {
+  CARE_UNIT_ADDRESS_FIELD,
+  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
+  CARE_UNIT_ADDRESS_CATEGORY_TITLE,
+  CARE_UNIT_CITY_FIELD,
+  CARE_UNIT_PHONE_NUMBER_FIELD,
+  CARE_UNIT_ZIP_CODE_FIELD,
+  getValidationErrors,
+} from '@frontend/common/src/utils/validationUtils'
+import { TextArea } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   align-items: center;
 `
-
-const AddressInput = styled.input.attrs((props) => ({
-  type: 'text',
-  maxLength: 209,
-}))``
 
 const ZipCodeInput = styled.input.attrs((props) => ({
   type: 'text',
@@ -43,6 +54,8 @@ const PhoneNumberInput = styled.input.attrs((props) => ({
 `
 
 const UeCareUnitAddress: React.FC = () => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getCareUnitValidationErrors(), _.isEqual)
   const dispatch = useDispatch()
   const unit = useSelector(getUnit(), _.isEqual)
   const disabled = useSelector(getIsLocked)
@@ -66,65 +79,83 @@ const UeCareUnitAddress: React.FC = () => {
   return (
     <>
       <CategoryHeader>
-        <CategoryTitle>Vårdenhetens adress</CategoryTitle>
+        <CategoryTitle titleId={CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID}>{CARE_UNIT_ADDRESS_CATEGORY_TITLE}</CategoryTitle>
       </CategoryHeader>
       <QuestionWrapper>
         <Wrapper className={`iu-grid-cols iu-grid-cols-12`}>
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!careUnitInfo.address} />
             <label htmlFor={'address'}>Postadress</label>
           </div>
           <div className="iu-grid-span-9">
-            <AddressInput
-              className="ic-textfield"
-              type="text"
+            <TextArea
+              hasValidationError={isShowValidationError && !careUnitInfo.address}
+              limit={209}
               disabled={disabled || !editable}
               onChange={handleChange}
               name={'address'}
-              id={'address'}
+              rowsMin={1}
               value={careUnitInfo.address}
+              disableCounter={true}
+              autoResize={true}
             />
+            {isShowValidationError && validationErrors && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)} />
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!careUnitInfo.zipCode} />
             <label htmlFor={'zipCode'}>Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
             <ZipCodeInput
               disabled={disabled || !editable}
-              className={`ic-textfield`}
+              className={`ic-textfield ${isShowValidationError && !careUnitInfo.zipCode ? 'ic-textfield--error' : ''}`}
               onChange={handleChange}
               name={'zipCode'}
               id={'zipCode'}
               value={careUnitInfo.zipCode}
             />
+            {isShowValidationError && validationErrors && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_ZIP_CODE_FIELD)} />
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!careUnitInfo.city} />
             <label htmlFor={'city'}>Postort</label>
           </div>
           <div className="iu-grid-span-9">
             <CityInput
               disabled={disabled || !editable}
-              className={`ic-textfield`}
+              className={`ic-textfield ${isShowValidationError && !careUnitInfo.city ? 'ic-textfield--error' : ''}`}
               onChange={handleChange}
               name={'city'}
               id={'city'}
               value={careUnitInfo.city}
             />
+            {isShowValidationError && validationErrors && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_CITY_FIELD)} />
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!careUnitInfo.phoneNumber} />
             <label htmlFor={'phoneNumber'}>Telefonnummer</label>
           </div>
           <div className="iu-grid-span-9">
             <PhoneNumberInput
               disabled={disabled || !editable}
-              className={`ic-textfield`}
+              className={`ic-textfield ${isShowValidationError && !careUnitInfo.phoneNumber ? 'ic-textfield--error' : ''}`}
               onChange={handleChange}
               name={'phoneNumber'}
               id={'phoneNumber'}
               value={careUnitInfo.phoneNumber}
             />
+            {isShowValidationError && validationErrors && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_PHONE_NUMBER_FIELD)} />
+            )}
           </div>
         </Wrapper>
       </QuestionWrapper>

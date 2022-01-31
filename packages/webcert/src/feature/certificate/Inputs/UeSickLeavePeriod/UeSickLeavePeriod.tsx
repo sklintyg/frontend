@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DateRangePicker from './DateRangePicker'
 import {
   CertificateDataElement,
+  CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
   ConfigUeSickLeavePeriod,
+  filterDateRangeValueList,
   formatDateToString,
   getLatestPeriodEndDate,
-  ValueDateRange,
+  getNumberOfSickLeavePeriodDays,
   getPeriodHasOverlap,
-  ValueDateRangeList,
-  ConfigUeCheckboxDateRange,
+  Icon,
   QuestionValidationTexts,
   ValidationError,
-  CertificateDataValueType,
-  filterDateRangeValueList,
-  getNumberOfSickLeavePeriodDays,
-  Icon,
+  ValueDateRange,
+  ValueDateRangeList,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { isValid, addDays } from 'date-fns'
+import { addDays, isValid } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
@@ -170,11 +170,14 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               toDate={valueList.find((x) => x.id === period.id)?.to ?? null}
               label={period.label}
               periodId={period.id}
+              isShowValidationError={isShowValidationError}
             />
           )
         })}
-        {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+        <div className={'iu-pb-500'}>
+          {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
+          {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+        </div>
         {totalSickDays && !disabled && (
           <div>
             <p className="iu-color-main">

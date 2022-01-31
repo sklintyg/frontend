@@ -1,26 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { addDays, isBefore, isValid } from 'date-fns'
-import { isDateRangeValid, QuestionValidationTexts, ValidationError } from '@frontend/common'
 import {
-  Checkbox,
-  getValidDate,
-  formatDateToString,
-  parseDayCodes,
   _dateReg,
   _dateRegDashesOptional,
+  Checkbox,
   dayCodeReg,
-  weekCodeReg,
-  monthCodeReg,
-  getPeriodWorkHours,
+  formatDateToString,
   getPeriodWorkDays,
+  getPeriodWorkHours,
+  getValidDate,
+  isDateRangeValid,
+  monthCodeReg,
+  parseDayCodes,
+  QuestionValidationTexts,
+  ValidationError,
+  weekCodeReg,
 } from '@frontend/common'
-import { DateRangeWrapper, DatesWrapper, DateGrid } from './Styles'
+import { DateGrid, DateRangeWrapper, DatesWrapper } from './Styles'
 import usePrevious from '../../../../hooks/usePrevious'
 import { DatePickerCustom } from '@frontend/common/src'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
+const NOT_COMPLETE_DATE_ERROR_MESSAGE = 'Ange ett datum.'
 
 interface Props {
   label: string
@@ -33,10 +36,12 @@ interface Props {
   hasValidationError: boolean
   disabled: boolean
   baseWorkHours: string
+  isShowValidationError: boolean
 }
 
 interface DateRangeValidation {
   invalidDatePeriod: boolean
+  notCompleteDate: boolean
   validationErrors: ValidationError[]
 }
 
@@ -51,6 +56,7 @@ const DateRangePicker: React.FC<Props> = ({
   hasValidationError,
   disabled,
   baseWorkHours,
+  isShowValidationError,
 }) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
@@ -59,11 +65,11 @@ const DateRangePicker: React.FC<Props> = ({
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [validations, setValidation] = useState<DateRangeValidation>({
     invalidDatePeriod: false,
+    notCompleteDate: false,
     validationErrors: [],
   })
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
-
   const previousFromDateString = usePrevious(fromDateInput)
   const previousToDateString = usePrevious(toDateInput)
 
@@ -166,10 +172,13 @@ const DateRangePicker: React.FC<Props> = ({
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
     const updatedValidationErrors = { ...validations }
 
+    updatedValidationErrors.notCompleteDate = false
+    updatedValidationErrors.invalidDatePeriod = false
+
     if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
       updatedValidationErrors.invalidDatePeriod = true
-    } else {
-      updatedValidationErrors.invalidDatePeriod = false
+    } else if ((fromDate && !toDate) || (toDate && !fromDate)) {
+      updatedValidationErrors.notCompleteDate = true
     }
 
     setValidation(updatedValidationErrors)
@@ -183,6 +192,19 @@ const DateRangePicker: React.FC<Props> = ({
       updatedValidationErrorList = [
         ...updatedValidationErrorList,
         { category: '', field: '', id: '', text: INVALID_DATE_PERIOD_ERROR, type: '' },
+      ]
+    }
+
+    if (validations.notCompleteDate) {
+      updatedValidationErrorList = [
+        ...updatedValidationErrorList,
+        {
+          category: '',
+          field: '',
+          id: !toDateInput ? 'tom' + periodId : 'from' + periodId,
+          text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
+          type: 'NOT_COMPLETE_DATE',
+        },
       ]
     }
 
@@ -253,18 +275,32 @@ const DateRangePicker: React.FC<Props> = ({
   const reset = () => {
     setFromDateInput(null)
     setToDateInput(null)
+    setWorkHoursPerWeek(null)
+    setWorkDaysPerWeek(null)
     resetValidation()
   }
 
   const resetValidation = () => {
     setValidation({
       invalidDatePeriod: false,
+      notCompleteDate: false,
       validationErrors: [],
     })
   }
 
-  const getShouldDisplayValidationErrorOutline = () => {
-    return validations.invalidDatePeriod || hasOverlap || hasValidationError
+  const getShouldDisplayValidationErrorOutline = (id: string) => {
+    let hasNotCompleteDateValidation = false
+    if (isShowValidationError) {
+      hasNotCompleteDateValidation = validations.validationErrors.some((v) => v.type === 'NOT_COMPLETE_DATE' && v.id.includes(id))
+    }
+    return hasNotCompleteDateValidation || validations.invalidDatePeriod || hasOverlap || hasValidationError
+  }
+
+  const filterValidationErrors = (validationErrors: ValidationError[]) => {
+    if (!isShowValidationError) {
+      return validationErrors.filter((v) => v.type !== 'NOT_COMPLETE_DATE')
+    }
+    return validationErrors
   }
 
   return (
@@ -292,7 +328,7 @@ const DateRangePicker: React.FC<Props> = ({
               setDate={handleDatePickerSelectFrom}
               textInputOnChange={handleFromTextInputChange}
               textInputDataTestId={`from${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(`from${periodId}`)}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -308,18 +344,17 @@ const DateRangePicker: React.FC<Props> = ({
               textInputOnBlur={handleToTextInputOnBlur}
               textInputOnKeyDown={handleToTextInputOnKeyDown}
               textInputDataTestId={`tom${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline()}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(`tom${periodId}`)}
             />
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
       {!disabled && (
         <div className={'iu-mb-400'}>
-          <QuestionValidationTexts validationErrors={validations.validationErrors} />
+          <QuestionValidationTexts validationErrors={filterValidationErrors(validations.validationErrors)} />
         </div>
       )}
-
-      {workHoursPerWeek && workDaysPerWeek && (
+      {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>

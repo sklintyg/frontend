@@ -1,12 +1,8 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { ResourceLink, ResourceLinkType, User } from '@frontend/common/src'
-import { CertificateMetadata } from '@frontend/common'
-import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
+import { ResourceLink, ResourceLinkType } from '@frontend/common/src'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
 
 const NAME = 'Name'

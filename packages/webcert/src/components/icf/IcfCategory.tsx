@@ -7,7 +7,6 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip'
 
 const IcdWrapper = styled.div`
-  display: flex;
   strong {
     margin-top: 0;
     margin-right: 0.25rem;
@@ -43,7 +42,7 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
                 {code.title}{' '}
                 <FontAwesomeIcon icon={faInfoCircle} data-tip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`} />
               </strong>
-              {icd10Codes.length > 1 && i === 0 && <strong> |</strong>}
+              {icd10Codes.length > 1 && i + 1 !== icd10Codes.length && <strong> |</strong>}
             </React.Fragment>
           )
         })}

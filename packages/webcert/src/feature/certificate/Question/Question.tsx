@@ -15,7 +15,7 @@ import {
 } from '@frontend/common'
 import {
   getComplements,
-  getComplementsIncludingSubquestions,
+  getComplementsIncludingSubQuestions,
   getIsEditable,
   getIsLocked,
   getQuestion,
@@ -29,13 +29,13 @@ import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
-import UeDiagnoses from '../Inputs/UeDiagnoses'
 import styled from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
 import _ from 'lodash'
 import ReactTooltip from 'react-tooltip'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 
 interface QuestionProps {
   id: string
@@ -69,15 +69,18 @@ const Highlighted = styled.div<HighlightedProps>`
 const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disableHighlight }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
-  const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubquestions(id), _.isEqual)
+  const complementsIncludingSubquestions = useSelector(getComplementsIncludingSubQuestions(id), _.isEqual)
   const isEditable = useSelector(getIsEditable)
-  const disabled = useSelector(getIsLocked) || (question.disabled as boolean) || !isEditable
-  const displayMandatory = !question.readOnly && question.mandatory && !question.disabled
+  const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
+  const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
   const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
 
   useEffect(() => {
     ReactTooltip.rebuild()
   }, [question])
+
+  // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
+  if (!question || (!question.visible && !question.readOnly)) return null
 
   const getHeading = () => {
     if (question.config.header) {
@@ -87,7 +90,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
             {question.config.header}
           </h4>
           <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.text}</h5>
-          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.label}</h5>}
+          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.label as string}</h5>}
         </>
       )
     } else {
@@ -98,7 +101,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           </h4>
           {question.readOnly && (
             <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
-              {question.config.label}
+              {question.config.label as string}
             </h4>
           )}
         </>
@@ -106,38 +109,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
     }
   }
 
-  // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
-  if (!question || (!question.visible && !question.readOnly)) return null
-
-  return (
-    <Highlighted highlight={complementsIncludingSubquestions.length > 0 && !disableHighlight}>
-      <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
-        <QuestionWrapper
-          additionalStyles={additionalWrapperStyles}
-          highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
-          {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-          {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
-          {complements.map((complement, index) => (
-            <div key={index} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
-              <Complement key={complement.valueId} className={'iu-fullwidth '}>
-                <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
-                <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
-                  <Wrapper>
-                    <p className={'iu-fw-heading'}>{'Kompletteringsbegäran:'}</p>
-                  </Wrapper>
-                  <Wrapper>
-                    <div className={'iu-fullwidth'}>{complement.message}</div>
-                  </Wrapper>
-                </div>
-              </Complement>
-            </div>
-          ))}
-        </QuestionWrapper>
-      </Expandable>
-    </Highlighted>
-  )
-
-  function getQuestionComponent(config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) {
+  const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
     if (disabled) {
       return getHeading()
     }
@@ -189,6 +161,34 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
   function getUnifiedViewComponent(question: CertificateDataElement) {
     return <UvText question={question} />
   }
+
+  return (
+    <Highlighted highlight={complementsIncludingSubquestions.length > 0 && !disableHighlight}>
+      <Expandable isExpanded={question.visible} additionalStyles={'questionWrapper'}>
+        <QuestionWrapper
+          additionalStyles={additionalWrapperStyles}
+          highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
+          {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
+          {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
+          {complements.map((complement, index) => (
+            <div key={index} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
+              <Complement key={complement.valueId} className={'iu-fullwidth '}>
+                <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
+                <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+                  <Wrapper>
+                    <p className={'iu-fw-heading'}>{'Kompletteringsbegäran:'}</p>
+                  </Wrapper>
+                  <Wrapper>
+                    <div className={'iu-fullwidth'}>{complement.message}</div>
+                  </Wrapper>
+                </div>
+              </Complement>
+            </div>
+          ))}
+        </QuestionWrapper>
+      </Expandable>
+    </Highlighted>
+  )
 }
 
 export default Question

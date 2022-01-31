@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
@@ -6,9 +6,14 @@ import PanelHeader from './PanelHeader'
 import styled from 'styled-components'
 import _ from 'lodash'
 
+const Root = styled.div`
+  height: 100%;
+  overflow-y: auto;
+`
+
 const ContentWrapper = styled.div`
   padding: 16px;
-  height: 100%;
+  height: calc(100% - 45px);
   overflow-y: auto;
   margin-top: 0;
 
@@ -36,19 +41,21 @@ const AboutCertificatePanel: React.FC = () => {
   return (
     <>
       <PanelHeader description="Om intyget" />
-      <ContentWrapper className={`iu-border-grey-300`}>
-        <p className="iu-fw-heading">
-          {certMetaData && (
-            <>
-              {certMetaData.name}
-              <CertificateVersion>
-                {certMetaData.type} {certMetaData.typeVersion}
-              </CertificateVersion>
-            </>
-          )}
-        </p>
-        {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }}></Description>}
-      </ContentWrapper>
+      <Root>
+        <ContentWrapper className={`iu-border-grey-300`}>
+          <p className="iu-fw-heading">
+            {certMetaData && (
+              <>
+                {certMetaData.name}
+                <CertificateVersion>
+                  {certMetaData.typeName ? certMetaData.typeName : certMetaData.type} {certMetaData.typeVersion}
+                </CertificateVersion>
+              </>
+            )}
+          </p>
+          {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }} />}
+        </ContentWrapper>
+      </Root>
       <AboutCertificatePanelFooter />
     </>
   )

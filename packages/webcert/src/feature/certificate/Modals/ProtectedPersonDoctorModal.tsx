@@ -11,7 +11,7 @@ const ItalicLink = styled.span`
   }
 `
 
-const ProtectedPersonDoctorModal: React.FC = ({}) => {
+const ProtectedPersonDoctorModal: React.FC = () => {
   const isUserDoctor = useSelector(isDoctor)
 
   return (
@@ -19,7 +19,7 @@ const ProtectedPersonDoctorModal: React.FC = ({}) => {
       {' '}
       -{' '}
       <TextWithInfoModal text={'Skyddade personuppgifter'} modalTitle={'Användning av Webcert med skyddade personuppgifter'}>
-        <InfoBox type={'info'}>
+        <InfoBox type={'info'} deactivateIconWrap={true}>
           <p>Du har skyddade personuppgifter.</p>
         </InfoBox>
         <p className={'iu-fw-bold iu-pt-300'}>Att använda Webcert med skyddade personuppgifter innebär:</p>

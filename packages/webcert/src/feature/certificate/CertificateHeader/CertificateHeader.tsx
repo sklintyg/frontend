@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import {
   getCertificateEvents,
   getCertificateMetaData,
-  getIsLocked,
   getIsShowSpinner,
   getIsValidating,
   getIsValidForSigning,
@@ -41,7 +40,7 @@ const StatusLeftSide = styled.div`
   }
 `
 
-const CertificateHeader = () => {
+const CertificateHeader: React.FC = () => {
   const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
   const historyEntries = useSelector(getCertificateEvents, _.isEqual)
   const isShowSpinner = useSelector(getIsShowSpinner)

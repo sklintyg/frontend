@@ -12,7 +12,7 @@ const Root = styled.div`
 `
 
 const Wrapper = styled.div`
-  height: 100%;
+  height: calc(100% - 55px);
   background-color: white;
   overflow-y: auto;
 
@@ -43,7 +43,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
         complementQuestion.answeredByCertificate && complementQuestion.answeredByCertificate.status === CertificateStatus.UNSIGNED
     )
 
-    if (question == undefined) {
+    if (question === undefined) {
       return null
     }
 

@@ -10,6 +10,7 @@ import {
   formatDateToString,
   getIcfElement,
   getSickLeavePeriodElement,
+  ValidationError,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -18,7 +19,16 @@ import {
   ValueIcf,
   ValueText,
 } from '..'
-import { decorateCertificateWithInitialValues, parseExpression, validateExpressions } from './validationUtils'
+import {
+  CARE_UNIT_ADDRESS_CATEGORY_TITLE,
+  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
+  CARE_UNIT_ADDRESS_FIELD,
+  decorateCertificateWithInitialValues,
+  getSortedValidationErrorSummary,
+  getValidationErrors,
+  parseExpression,
+  validateExpressions,
+} from './validationUtils'
 import { getBooleanElement, getCertificate, getTextElement } from './test/certificateTestUtil'
 import { addDays } from 'date-fns'
 
@@ -1074,5 +1084,53 @@ describe('Set initial values to a certificate', () => {
       expect(certificate.data['1.1'].visible).toBe(true)
       expect(certificate.data['1.2'].visible).toBe(true)
     })
+  })
+
+  it('should return validation errors from field', () => {
+    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationErrors: ValidationError[] = []
+    validationErrors.push(validationError)
+
+    const result = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
+
+    expect(result.length).toBe(1)
+    expect(result[0].field).toBe(CARE_UNIT_ADDRESS_FIELD)
+  })
+
+  it('should return empty array on non existing field', () => {
+    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationErrors: ValidationError[] = []
+    validationErrors.push(validationError)
+
+    const result = getValidationErrors(validationErrors, 'NON_EXISTING_FIELD')
+
+    expect(result.length).toBe(0)
+  })
+
+  it('should return empty validation error summary', () => {
+    const result = getSortedValidationErrorSummary(certificate)
+
+    expect(result.length).toBe(0)
+  })
+
+  it('should return sorted validation error summary including care unit address', () => {
+    const certificate = getCertificate()
+    const validationError: ValidationError = { id: '', category: '', field: '', type: '', text: '' }
+    certificate.data['1.2'].validationErrors.push(validationError)
+    certificate.data['28'].validationErrors.push(validationError)
+    certificate.metadata.careUnitValidationErrors = []
+    certificate.metadata.careUnitValidationErrors.push(validationError)
+
+    const result = getSortedValidationErrorSummary(certificate)
+
+    expect(result.length).toBe(3)
+    expect(result[0].id).toBe('sysselsattning')
+    expect(result[0].text).toBe('Sysselsättning')
+    expect(result[0].index).toBe(6)
+    expect(result[1].id).toBe('funktionsnedsattning')
+    expect(result[1].text).toBe('Sjukdomens konsekvenser')
+    expect(result[1].index).toBe(11)
+    expect(result[2].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
+    expect(result[2].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
   })
 })

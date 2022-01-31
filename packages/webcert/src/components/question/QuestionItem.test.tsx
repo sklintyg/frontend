@@ -179,7 +179,7 @@ describe('QuestionItem', () => {
     it('cancel question disabled', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
 
-      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
+      expect(screen.getByText(/Avbryt/i)).toBeDisabled()
     })
 
     it('does not show message that answer draft has been saved', () => {
@@ -202,10 +202,11 @@ describe('QuestionItem', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 
-    it('enable send when answer has value', async () => {
+    it('enable send and cancel when answer has value', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       expect(screen.getByText(/Skicka/i)).toBeEnabled()
+      expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
     it('does show message that answer has been saved', () => {
@@ -243,6 +244,37 @@ describe('QuestionItem', () => {
 
       flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
+    })
+
+    it('disable send and cancel while sending answer draft', async () => {
+      jest.useRealTimers()
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
+
+      const sendButton = screen.getByText('Skicka')
+      const cancelButton = screen.getByText('Avbryt')
+
+      userEvent.click(sendButton)
+
+      expect(sendButton).toBeDisabled()
+      expect(cancelButton).toBeDisabled()
+
+      await flushPromises()
+    })
+
+    it('disable send and cancel while deleting answer draft', async () => {
+      jest.useRealTimers()
+      renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
+
+      const sendButton = screen.getByText('Skicka')
+      const cancelButton = screen.getByText('Avbryt')
+
+      userEvent.click(cancelButton)
+      userEvent.click(screen.getByText('Ja, radera'))
+
+      expect(sendButton).toBeDisabled()
+      expect(cancelButton).toBeDisabled()
+
+      await flushPromises()
     })
   })
 
@@ -419,6 +451,18 @@ describe('QuestionItem', () => {
       expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
     })
   })
+
+  describe('question message', () => {
+    it('should show exapandable text for complements with message longer than limit', () => {
+      renderComponent(createComplementWithLongText())
+      expect(screen.getByText('Visa mer', { exact: false })).toBeInTheDocument()
+    })
+
+    it('should not show expandable text for messages that are longer than the limit but not a complement', () => {
+      renderComponent(createQuestionWithLongText())
+      expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
@@ -461,6 +505,76 @@ const addLastDateToReplyToQuestion = (question: Question, lastDateToReply: strin
   return {
     ...question,
     lastDateToReply: lastDateToReply,
+  }
+}
+
+const createComplementWithLongText = (): Question => {
+  return {
+    type: QuestionType.COMPLEMENT,
+    author: 'author',
+    id: 'id',
+    forwarded: true,
+    handled: false,
+    lastUpdate: '2021-07-08',
+    message:
+      'message message message message message message message message message' +
+      'message message message message message message message message message message message ' +
+      'message message message message message message message message message' +
+      'message message message message message message message message message',
+    sent: '2021-07-08',
+
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    links: [
+      {
+        type: ResourceLinkType.ANSWER_QUESTION,
+        enabled: true,
+        name: 'Svara',
+        description: 'Svara på fråga',
+      },
+      {
+        type: ResourceLinkType.HANDLE_QUESTION,
+        enabled: true,
+        name: 'Hantera',
+        description: 'Hantera fråga',
+      },
+    ],
+  }
+}
+
+const createQuestionWithLongText = (): Question => {
+  return {
+    type: QuestionType.COORDINATION,
+    author: 'author',
+    id: 'id',
+    forwarded: true,
+    handled: false,
+    lastUpdate: '2021-07-08',
+    message:
+      'message message message message message message message message message' +
+      'message message message message message message message message message message message ' +
+      'message message message message message message message message message' +
+      'message message message message message message message message message',
+    sent: '2021-07-08',
+
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    links: [
+      {
+        type: ResourceLinkType.ANSWER_QUESTION,
+        enabled: true,
+        name: 'Svara',
+        description: 'Svara på fråga',
+      },
+      {
+        type: ResourceLinkType.HANDLE_QUESTION,
+        enabled: true,
+        name: 'Hantera',
+        description: 'Hantera fråga',
+      },
+    ],
   }
 }
 

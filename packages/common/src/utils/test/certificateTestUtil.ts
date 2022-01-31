@@ -3,6 +3,8 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  CertificateRelation,
+  CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
 } from '../../types/certificate'
@@ -304,6 +306,102 @@ export const getCodeListElement = (): CertificateDataElement => {
   }
 }
 
+export const getCheckBoxElement = (): CertificateDataElement => {
+  return {
+    id: '28',
+    parent: 'sysselsattning',
+    index: 7,
+    config: {
+      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+      text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
+      description:
+        'Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.',
+      list: [
+        {
+          id: 'NUVARANDE_ARBETE',
+          label: 'Nuvarande arbete',
+        },
+        {
+          id: 'ARBETSSOKANDE',
+          label: 'Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden',
+        },
+        {
+          id: 'FORALDRALEDIG',
+          label: 'Föräldraledighet för vård av barn',
+        },
+        {
+          id: 'STUDIER',
+          label: 'Studier',
+        },
+      ],
+    },
+    value: {
+      type: CertificateDataValueType.CODE_LIST,
+      list: [
+        {
+          code: 'NUVARANDE_ARBETE',
+          id: 'NUVARANDE_ARBETE',
+          type: 'CODE',
+        },
+      ],
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '28',
+        expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
+      },
+      {
+        type: CertificateDataValidationType.HIDE_VALIDATION,
+        questionId: '27',
+        expression: '$avstangningSmittskydd',
+      },
+    ],
+    mandatory: false,
+    readOnly: false,
+    visible: true,
+    validationErrors: [],
+  }
+}
+
+export const getCategoryFunktionsnedsattning = (): CertificateDataElement => {
+  return {
+    id: 'funktionsnedsattning',
+    parent: '',
+    index: 11,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Sjukdomens konsekvenser',
+      description: 'En annan beskrivning',
+      type: ConfigTypes.CATEGORY,
+    },
+    value: null,
+    validation: [],
+    validationErrors: [],
+  }
+}
+
+export const getCategorySysselsattning = (): CertificateDataElement => {
+  return {
+    id: 'sysselsattning',
+    parent: '',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Sysselsättning',
+      description: 'En annan beskrivning',
+      type: ConfigTypes.CATEGORY,
+    },
+    value: null,
+    validation: [],
+    validationErrors: [],
+  }
+}
+
 export const getCertificate = (): Certificate => {
   return {
     metadata: {
@@ -377,6 +475,84 @@ export const getCertificate = (): Certificate => {
       '1.2': getTextElement(),
       '1.3': getAnotherTextElement(),
       '1.4': getCodeListElement(),
+      '28': getCheckBoxElement(),
+      funktionsnedsattning: getCategoryFunktionsnedsattning(),
+      sysselsattning: getCategorySysselsattning(),
+    },
+    links: [],
+  }
+}
+
+export const getCertificateWithQuestion = (question: CertificateDataElement): Certificate => {
+  return {
+    metadata: {
+      id: '',
+      type: '',
+      created: '',
+      description: '',
+      testCertificate: false,
+      sent: false,
+      latestMajorVersion: true,
+      responsibleHospName: '',
+      careProvider: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      careUnit: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      unit: {
+        unitId: '',
+        address: '',
+        city: '',
+        email: '',
+        phoneNumber: '',
+        zipCode: '',
+        unitName: '',
+      },
+      forwarded: false,
+      name: '',
+      status: CertificateStatus.UNSIGNED,
+      issuedBy: {
+        personId: '',
+        fullName: '',
+        prescriptionCode: '',
+      },
+      patient: {
+        personId: {
+          id: '',
+          type: '',
+        },
+        differentNameFromEHR: false,
+        personIdUpdated: false,
+        coordinationNumber: false,
+        deceased: false,
+        firstName: '',
+        fullName: '',
+        lastName: '',
+        protectedPerson: false,
+        testIndicated: false,
+      },
+      relations: {
+        children: [],
+        parent: null,
+      },
+      version: 1,
+      typeVersion: '1.0',
+    },
+    data: {
+      questionId: question,
     },
     links: [],
   }
@@ -386,4 +562,8 @@ export const getQuestions = (handled: boolean, type: QuestionType): Question[] =
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return [{ type: type, handled: handled }]
+}
+
+export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {
+  return [{ type: type, certificateId: '', status: CertificateStatus.UNSIGNED, created: '' }]
 }

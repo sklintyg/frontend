@@ -4,27 +4,35 @@ import {
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
+  CertificateEvent,
+  CertificateMetadata,
   CertificateRelationType,
   CertificateStatus,
   Complement,
-  ConfigTypes,
+  ResourceLink,
   ResourceLinkType,
+  Unit,
+  ValidationError,
+  ValidationErrorSummary,
 } from '@frontend/common'
 import { Patient, PersonId } from '@frontend/common/src'
+import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
+import { SigningData } from './certificateActions'
 
-export const getIsShowSpinner = (state: RootState) => state.ui.uiCertificate.spinner
+export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
-export const getSpinnerText = (state: RootState) => state.ui.uiCertificate.spinnerText
+export const getSpinnerText = (state: RootState): string => state.ui.uiCertificate.spinnerText
 
-export const getIsValidating = (state: RootState) => state.ui.uiCertificate.validationInProgress
+export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
 
-export const getIsValidForSigning = (state: RootState) => state.ui.uiCertificate.isValidForSigning
+export const getIsValidForSigning = (state: RootState): boolean => state.ui.uiCertificate.isValidForSigning
 
-export const getShowValidationErrors = (state: RootState) => state.ui.uiCertificate.showValidationErrors
+export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
 
-export const getCertificate = (state: RootState): Certificate => state.ui.uiCertificate.certificate!
+export const getCertificate = (state: RootState): Certificate | undefined => state.ui.uiCertificate.certificate
 
-export const getQuestion = (id: string) => (state: RootState) => state.ui.uiCertificate.certificate!.data[id]
+export const getQuestion = (id: string) => (state: RootState): CertificateDataElement | undefined =>
+  state.ui.uiCertificate.certificate?.data[id]
 
 export const getIsComplementingCertificate = (state: RootState): boolean => {
   const metadata = state.ui.uiCertificate.certificate?.metadata
@@ -38,21 +46,22 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
 export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
   state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
 
-export const getComplementsIncludingSubquestions = (questionId: string) => (state: RootState): Complement[] =>
+export const getComplementsIncludingSubQuestions = (questionId: string) => (state: RootState): Complement[] =>
   state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
 
 export const getGotoId = (state: RootState): string | undefined => state.ui.uiCertificate.gotoCertificateDataElement?.questionId
 
-export const getIsCertificateDeleted = () => (state: RootState) => state.ui.uiCertificate.isDeleted
+export const getIsCertificateDeleted = () => (state: RootState): boolean => state.ui.uiCertificate.isDeleted
 
-export const getIsRoutedFromDeletedCertificate = () => (state: RootState) => state.ui.uiCertificate.routedFromDeletedCertificate
+export const getIsRoutedFromDeletedCertificate = () => (state: RootState): boolean => state.ui.uiCertificate.routedFromDeletedCertificate
 
 export const getIsUnsigned = () => (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.UNSIGNED
 
-export const getIsSigned = () => (state: RootState) => state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.SIGNED
+export const getIsSigned = () => (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.SIGNED
 
-export const getUnit = () => (state: RootState) => {
+export const getUnit = () => (state: RootState): Unit => {
   if (!state.ui.uiCertificate.certificate?.metadata.unit) {
     return {
       unitId: '',
@@ -68,7 +77,7 @@ export const getUnit = () => (state: RootState) => {
   return state.ui.uiCertificate.certificate.metadata.unit
 }
 
-export const getQuestionHasValidationError = (id: string) => (state: RootState) => {
+export const getQuestionHasValidationError = (id: string) => (state: RootState): boolean => {
   const {
     ui: {
       uiCertificate: { showValidationErrors, certificate },
@@ -84,7 +93,7 @@ export const getQuestionHasValidationError = (id: string) => (state: RootState) 
   return question.validationErrors.length > 0
 }
 
-export const getCertificateMetaData = (state: RootState) => {
+export const getCertificateMetaData = (state: RootState): CertificateMetadata | null => {
   const { certificate } = state.ui.uiCertificate
   if (!certificate) {
     return null
@@ -101,72 +110,56 @@ export interface CertificateStructure {
 }
 
 const certificateStructure: CertificateStructure[] = []
-export const getCertificateDataElements = createSelector<RootState, Certificate, CertificateStructure[]>(getCertificate, (certificate) => {
-  certificateStructure.length = 0
-  if (!certificate) {
-    return []
-  }
-
-  for (const questionId in certificate.data) {
-    certificateStructure.push({
-      id: certificate.data[questionId].id,
-      component: certificate.data[questionId].config.type,
-      index: certificate.data[questionId].index,
-      style: certificate.data[questionId].style,
-    })
-  }
-
-  certificateStructure.sort((a, b) => a.index - b.index)
-  return certificateStructure
-})
-
-export const getAllValidationErrors = () => (state: RootState) => {
-  if (!state.ui.uiCertificate.showValidationErrors || !state.ui.uiCertificate.certificate) {
-    return []
-  }
-
-  const certificateData = state.ui.uiCertificate.certificate.data
-  let result: CertificateDataElement[] = []
-
-  //Perhaps this could be simplified
-  for (const questionId in certificateData) {
-    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
-      if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
-        result = result.concat(certificateData[certificateData[questionId].parent])
-      } else {
-        let parent = certificateData[questionId].parent
-        while (true) {
-          if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
-            result = result.concat(certificateData[parent])
-            break
-          } else if (!certificateData[parent].parent) {
-            // if parents parent is not a category and it's null, break to avoid endless loop
-            break
-          } else {
-            parent = certificateData[parent].parent
-          }
-        }
-      }
+export const getCertificateDataElements = createSelector<RootState, Certificate | undefined, CertificateStructure[]>(
+  getCertificate,
+  (certificate) => {
+    certificateStructure.length = 0
+    if (!certificate) {
+      return []
     }
+
+    for (const questionId in certificate.data) {
+      certificateStructure.push({
+        id: certificate.data[questionId].id,
+        component: certificate.data[questionId].config.type,
+        index: certificate.data[questionId].index,
+        style: certificate.data[questionId].style,
+      })
+    }
+
+    certificateStructure.sort((a, b) => a.index - b.index)
+    return certificateStructure
+  }
+)
+
+export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
+  if (!state.ui.uiCertificate.certificate) {
+    return []
   }
 
-  result.sort((a, b) => a.index - b.index)
-
-  return result
+  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
 }
 
-export const getCertificateEvents = (state: RootState) => state.ui.uiCertificate.certificateEvents
+export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
+  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors) {
+    return []
+  }
 
-export const getResourceLinks = (state: RootState) => state.ui.uiCertificate.certificate?.links ?? []
+  return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
+}
 
-export const getIsLocked = (state: RootState) =>
+export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
+
+export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
+
+export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED ||
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED_REVOKED
 
-export const getIsEditable = (state: RootState) =>
+export const getIsEditable = (state: RootState): boolean | undefined =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
 
-export const getSigningData = (state: RootState) => state.ui.uiCertificate.signingData
+export const getSigningData = (state: RootState): SigningData | undefined => state.ui.uiCertificate.signingData
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true

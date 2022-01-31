@@ -2,7 +2,6 @@ import { ResourceLink } from './../types/resourceLink'
 import {
   Certificate,
   CertificateEvent,
-  CertificateEventType,
   CertificateMetadata,
   CertificateRelation,
   CertificateRelationType,

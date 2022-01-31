@@ -1,5 +1,4 @@
 import React from 'react'
-import { AppHeaderItem } from '../index'
 import { Link } from 'react-router-dom'
 
 interface Props {

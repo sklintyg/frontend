@@ -5,16 +5,29 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
 import { Provider } from 'react-redux'
-import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
+import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
+import { CertificateDataValueType } from '@frontend/common/src'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
 const renderDefaultComponent = () => {
+  testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
+  render(
+    <Provider store={testStore}>
+      <Router history={history}>
+        <FMBPanel />
+      </Router>
+    </Provider>
+  )
+}
+
+const renderDefaultComponentWithoutDiagnosisValue = () => {
+  testStore.dispatch(setDiagnosisListValue(getDiagnosisValueWithCodeSystem('ICD-10-SE')))
   render(
     <Provider store={testStore}>
       <Router history={history}>
@@ -133,7 +146,42 @@ describe('FMBPanel', () => {
     renderDefaultComponent()
     expect(screen.queryByTestId('fmbInfoCircle')).not.toBeInTheDocument()
   })
+
+  it('shall display no fmb info exists for diagnoses', async () => {
+    const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
+    const fmbDiagnosisCodeInfoResult2 = getEmptyFMBDiagnosisCodeInfoResult('B01', 1)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult2))
+    renderDefaultComponent()
+
+    expect(screen.queryAllByText(/För de angivna diagnoserna finns för tillfället inget FMB-stöd./i)).not.toHaveLength(0)
+  })
+
+  it('shall show no fmb support for code system text if different code system than icd10', () => {
+    const diagnosisValue = getDiagnosisValueWithCodeSystem('unkown')
+    testStore.dispatch(setDiagnosisListValue(diagnosisValue))
+    renderDefaultComponentWithoutDiagnosisValue()
+    expect(screen.queryByText('FMB-stödet finns enbart för koder som ingår i ICD-10-SE.'))
+  })
 })
+
+const getDiagnosisValueWithCodeSystem = (codeSystem: string) => {
+  return {
+    type: CertificateDataValueType.DIAGNOSIS_LIST,
+    list:
+      codeSystem.length === 0
+        ? []
+        : [
+            {
+              id: '1',
+              type: CertificateDataValueType.DIAGNOSIS,
+              code: 'CODE',
+              description: 'DESC',
+              terminology: codeSystem,
+            },
+          ],
+  }
+}
 
 const getFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   return {

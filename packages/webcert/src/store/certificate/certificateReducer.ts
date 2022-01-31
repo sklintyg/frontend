@@ -22,32 +22,32 @@ import {
   hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
+  highlightCertificateDataElement,
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
+  setReadyForSign,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
+  SigningData,
+  toggleCertificateFunctionDisabler,
   unhideCertificateDataElement,
+  unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
+  updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
   updateGotoCertificateDataElement,
+  updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-  SigningData,
-  updateCertificateSigningData,
-  highlightCertificateDataElement,
-  unstyleCertificateDataElement,
-  setReadyForSign,
-  updateRoutedFromDeletedCertificate,
-  toggleCertificateFunctionDisabler,
 } from './certificateActions'
 import { CertificateDataElementStyleEnum } from '@frontend/common/src'
 import { setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
@@ -82,6 +82,8 @@ const initialState: CertificateState = {
   functionDisablers: [],
 }
 
+const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
+
 const certificateReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
@@ -96,7 +98,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         }
 
         if (question.value) {
-          switch (question.value!.type) {
+          switch (question.value.type) {
             case CertificateDataValueType.TEXT:
               const textValue = question.value as ValueText
               if (textValue.text === undefined) {
@@ -128,7 +130,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         return
       }
 
-      for (const questionId in state.certificate!.data) {
+      for (const questionId in state.certificate.data) {
         state.certificate.data[questionId].readOnly = true
       }
     })
@@ -168,9 +170,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
       state.validationInProgress = false
     })
     .addCase(updateValidationErrors, (state, action) => {
-      for (const questionId in state.certificate!.data) {
-        const question = state.certificate!.data[questionId]
-        if (question.config.type === ConfigTypes.CATEGORY) {
+      for (const questionId in state.certificate?.data) {
+        const question = state.certificate?.data[questionId]
+        if (!question || question.config.type === ConfigTypes.CATEGORY) {
           continue
         }
 
@@ -182,6 +184,16 @@ const certificateReducer = createReducer(initialState, (builder) =>
           }
         }
       }
+
+      if (state.certificate) {
+        state.certificate.metadata.careUnitValidationErrors = []
+        for (const validationError of action.payload) {
+          if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
+            state.certificate.metadata.careUnitValidationErrors.push(validationError)
+          }
+        }
+      }
+
       state.isValidForSigning = action.payload.length === 0
     })
     .addCase(showValidationErrors, (state) => {
@@ -195,21 +207,21 @@ const certificateReducer = createReducer(initialState, (builder) =>
         return
       }
 
-      state.certificate!.data[action.payload].visible = true
+      state.certificate.data[action.payload].visible = true
     })
     .addCase(hideCertificateDataElement, (state, action) => {
       if (!state.certificate) {
         return
       }
 
-      state.certificate!.data[action.payload].visible = false
+      state.certificate.data[action.payload].visible = false
     })
     .addCase(unhideCertificateDataElement, (state, action) => {
       if (!state.certificate) {
         return
       }
-      if (!state.certificate!.data[action.payload].validation.some((v) => v.type === CertificateDataValidationType.SHOW_VALIDATION)) {
-        state.certificate!.data[action.payload].visible = true
+      if (!state.certificate.data[action.payload].validation.some((v) => v.type === CertificateDataValidationType.SHOW_VALIDATION)) {
+        state.certificate.data[action.payload].visible = true
       }
     })
     .addCase(showCertificateDataElementMandatory, (state, action) => {

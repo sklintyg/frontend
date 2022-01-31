@@ -42,7 +42,7 @@ describe('AG7804-intyg låst utkast', function() {
                 cy.visit(önskadUrl);
                 cy.wait(100);
                 intyg.makuleraUtkast();
-                expect(cy.contains('Intyget är makulerat'))
+                expect(cy.contains('Utkastet är makulerat'))
                 
             });
             it('Kopiera ett låst AG7804 utkast så att det går att signera', function () {

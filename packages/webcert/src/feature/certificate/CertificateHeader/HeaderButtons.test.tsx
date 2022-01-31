@@ -18,7 +18,7 @@ describe('Verify header buttons', () => {
   const renderComponent = () =>
     render(
       <Provider store={store}>
-        <HeaderButtons resourceLinks={resourceLinks} certificateMetadata={getMetadata()} />
+        <HeaderButtons functionDisabled={false} resourceLinks={resourceLinks} certificateMetadata={getMetadata()} />
       </Provider>
     )
 
@@ -62,7 +62,7 @@ describe('Verify header buttons', () => {
     resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
     userEvent.click(screen.getByText(expectedButton))
-    expect(screen.getByText('Skriv ut utkast')).toBeInTheDocument()
+    expect(screen.getByText('Skriv ut intyg')).toBeInTheDocument()
     expect(screen.getByText('Expected body')).toBeInTheDocument()
   })
 
@@ -102,7 +102,7 @@ const getMetadata = () => {
       children: [
         {
           certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
-          type: CertificateRelationType.REPLACE,
+          type: CertificateRelationType.REPLACED,
           status: CertificateStatus.UNSIGNED,
           created: new Date().toISOString(),
         },
