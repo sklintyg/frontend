@@ -23,15 +23,11 @@ import {
   CARE_UNIT_ZIP_CODE_FIELD,
   getValidationErrors,
 } from '@frontend/common/src/utils/validationUtils'
+import { TextArea } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   align-items: center;
 `
-
-const AddressInput = styled.input.attrs((props) => ({
-  type: 'text',
-  maxLength: 209,
-}))``
 
 const ZipCodeInput = styled.input.attrs((props) => ({
   type: 'text',
@@ -92,14 +88,16 @@ const UeCareUnitAddress: React.FC = () => {
             <label htmlFor={'address'}>Postadress</label>
           </div>
           <div className="iu-grid-span-9">
-            <AddressInput
-              className={`ic-textfield ${isShowValidationError && !careUnitInfo.address ? 'ic-textfield--error' : ''}`}
-              type="text"
+            <TextArea
+              hasValidationError={isShowValidationError && !careUnitInfo.address}
+              limit={209}
               disabled={disabled || !editable}
               onChange={handleChange}
               name={'address'}
-              id={'address'}
+              rowsMin={1}
               value={careUnitInfo.address}
+              disableCounter={true}
+              autoResize={true}
             />
             {isShowValidationError && validationErrors && (
               <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)} />
