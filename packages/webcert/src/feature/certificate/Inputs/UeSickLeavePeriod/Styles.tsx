@@ -17,13 +17,12 @@ export const DatesWrapper = styled.div`
   }
 `
 export const DateRangeWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 135px repeat(2, 1fr);
+  display: flex;
+  justify-content: space-between;
   align-items: baseline;
 
   @media (max-width: 820px) {
-    grid-template-columns: 1fr;
-    grid-gap: 8px;
+    flex-direction: column;
   }
 `
 
