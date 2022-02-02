@@ -3,10 +3,11 @@ import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
 import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
-import { DatePickerWrapper, StyledButton, TextInput, Wrapper } from './Styles'
-import calendarImage from '../../../images/calendar.svg'
+import { DatePickerWrapper, StyledButton, TextInput, Wrapper, FocusWrapper } from './Styles'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ValidationError } from '../../..'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -142,47 +143,50 @@ const DatePickerCustom: React.FC<Props> = ({
             {label}
           </label>
         )}
-        <TextInput
-          disabled={disabled}
-          id={id}
-          name={textInputName}
-          type="text"
-          maxLength={10}
-          className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error' : ''}`}
-          onChange={handleTextInputOnChange}
-          onBlur={handleTextInputOnBlur}
-          onKeyDown={textInputOnKeyDown}
-          placeholder="åååå-mm-dd"
-          value={inputString ?? ''}
-          ref={textInputRef}
-          data-testid={textInputDataTestId}
-        />
-        <DatePicker
-          calendarStartDay={1}
-          disabled={disabled}
-          shouldCloseOnSelect={true}
-          onChange={() => {
-            /*Empty*/
-          }}
-          dateFormat={_format}
-          customInput={
-            <StyledButton
-              displayValidationError={displayValidationErrorOutline}
-              onClick={() => setOpen(true)}
-              className={`ic-button `}
-              onClickCapture={() => setOpen(!open)}>
-              <img src={calendarImage} />{' '}
-            </StyledButton>
-          }
-          onClickOutside={() => setOpen(false)}
-          open={open}
-          selected={date}
-          onSelect={(date: any, event: any) => {
-            setOpen(false)
-            handleDateOnSelect(date)
-          }}
-          showWeekNumbers
-        />
+        <FocusWrapper>
+          <TextInput
+            disabled={disabled}
+            id={id}
+            name={textInputName}
+            type="text"
+            maxLength={10}
+            className={` ic-textfield ${displayValidationErrorOutline || displayFormattingError ? 'ic-textfield--error' : ''}`}
+            onChange={handleTextInputOnChange}
+            onBlur={handleTextInputOnBlur}
+            onKeyDown={textInputOnKeyDown}
+            placeholder="åååå-mm-dd"
+            value={inputString ?? ''}
+            ref={textInputRef}
+            data-testid={textInputDataTestId}
+          />
+          <DatePicker
+            calendarStartDay={1}
+            disabled={disabled}
+            shouldCloseOnSelect={true}
+            onChange={() => {
+              /*Empty*/
+            }}
+            dateFormat={_format}
+            customInput={
+              <StyledButton
+                displayValidationError={displayValidationErrorOutline}
+                onClick={() => setOpen(true)}
+                className={`ic-button `}
+                onClickCapture={() => setOpen(!open)}>
+                <FontAwesomeIcon icon={faCalendar} />{' '}
+              </StyledButton>
+            }
+            onClickOutside={() => setOpen(false)}
+            open={open}
+            selected={date}
+            onSelect={(date: any, event: any) => {
+              setOpen(false)
+              handleDateOnSelect(date)
+            }}
+            showWeekNumbers
+            popperPlacement="bottom-end"
+          />
+        </FocusWrapper>
       </DatePickerWrapper>
     </Wrapper>
   )

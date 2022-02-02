@@ -19,10 +19,8 @@ import { getVisibleValidationErrors } from '../../../store/certificate/certifica
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-
-  > * {
-    flex: 1;
-  }
+  justify-content: space-between;
+  align-items: baseline;
 `
 
 const ValidationWrapper = styled.div`
@@ -103,7 +101,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper className="iu-pb-400">
       <Checkbox
         id={'checkbox_' + id}
         label={label}

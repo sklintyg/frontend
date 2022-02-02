@@ -4,10 +4,9 @@ import { faChevronDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
-import { getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { CategoryWrapper, Root, ScrollDiv, StyledTitle } from './Styles'
-import { isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
+import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
@@ -32,7 +31,7 @@ const IcfDropdown: React.FC<Props> = ({
   collectionsLabel,
   disabled,
 }) => {
-  const icd10Codes = useSelector(getFMBDiagnosisCodes, _.isEqual)
+  const icd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)

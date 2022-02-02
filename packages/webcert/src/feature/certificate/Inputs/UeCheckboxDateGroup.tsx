@@ -37,7 +37,6 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled}
         hasValidationError={validationErrors.length > 0}
         question={question}
-        datePickerAdditionalStyles={index !== checkboxes.length - 1 ? 'iu-pb-400' : ''}
       />
     ))
   }
