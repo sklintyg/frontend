@@ -23,4 +23,6 @@ export const getIcfCodesError = createAction<string>(`${ICF} Get diagnosis code 
 
 export const updateIcfCodes = createAction<IcfResponse>(`${ICF} Update diagnosis code info`)
 
+export const setOriginalIcd10Codes = createAction<string[]>(`${ICF} Set original icd 10 codes`)
+
 export const toggleIcfFunctionDisabler = createAction<FunctionDisabler>(`${ICF} ${TOGGLE_FUNCTION_DISABLER}`)

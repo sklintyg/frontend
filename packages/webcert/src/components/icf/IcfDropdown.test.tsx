@@ -12,10 +12,8 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import IcfDropdown from './IcfDropdown'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import { updateIcfCodes } from '../../store/icf/icfActions'
+import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import userEvent from '@testing-library/user-event'
-import { updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import { getIcfData } from './icfTestUtils'
 
 let fakeAxios: MockAdapter
@@ -43,6 +41,8 @@ const renderComponent = (
           chosenIcfCodeValues={icfValues}
           collectionsLabel={COLLECTIONS_LABEL}
           disabled={disabled}
+          onAddCode={() => {}}
+          onRemoveCode={() => {}}
         />
       </Router>
     </Provider>
@@ -181,7 +181,7 @@ describe('IcfDropdown', () => {
   it('shall display chosen values', () => {
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
-    setDefaultFmb()
+    updateOriginalIcd10Codes()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
     const valueTitle = screen.getAllByText(icfValues![0])[1]
@@ -191,7 +191,7 @@ describe('IcfDropdown', () => {
   it('shall display collections label', () => {
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
-    setDefaultFmb()
+    updateOriginalIcd10Codes()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
     expect(screen.getByText(COLLECTIONS_LABEL)).toBeInTheDocument()
@@ -205,6 +205,21 @@ describe('IcfDropdown', () => {
     const valueTitle = screen.queryAllByText(icfValues![0])[1]
     expect(valueTitle).toBeVisible()
   })
+
+  it('shall show info symbol that support is for another icd10 code', () => {
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    renderComponent(undefined, icfData.activityLimitation, icfValues)
+    expect(screen.queryAllByTestId('originalWarningIcf').length > 0).toBeTruthy()
+  })
+
+  it('shall not show info symbol that support exists for another icd10 code', () => {
+    const icfData = getIcfData()
+    updateOriginalIcd10Codes()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    renderComponent(undefined, icfData.activityLimitation, icfValues)
+    expect(screen.queryByTestId('originalWarningIcf')).not.toBeInTheDocument()
+  })
 })
 
 const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfValues?: string[]) => {
@@ -216,7 +231,7 @@ const renderAndOpenDropdown = (title?: string, icfData?: AvailableIcfCodes, icfV
 const setDefaultIcfState = () => {
   const icfData = getIcfData()
   testStore.dispatch(updateIcfCodes(icfData))
-  setDefaultFmb()
+  updateOriginalIcd10Codes()
 }
 
 const toggleIcfDropdown = () => {
@@ -227,12 +242,8 @@ const getIcfValues = () => {
   return ['1', '2']
 }
 
-const setDefaultFmb = () => {
-  const codeInfo: FMBDiagnosisCodeInfo = {
-    icd10Code: 'A02',
-    icd10Description: 'description',
-    index: 0,
-  }
+const updateOriginalIcd10Codes = () => {
+  const codeInfo: string[] = ['A02', 'U071']
 
-  testStore.dispatch(updateFMBDiagnosisCodeInfo(codeInfo))
+  testStore.dispatch(setOriginalIcd10Codes(codeInfo))
 }
