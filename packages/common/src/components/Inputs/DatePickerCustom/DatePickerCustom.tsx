@@ -162,6 +162,7 @@ const DatePickerCustom: React.FC<Props> = ({
               handleDateOnSelect(date)
             }}
             showWeekNumbers
+            popperPlacement="bottom-end"
           />
         </FocusWrapper>
       </DatePickerWrapper>
