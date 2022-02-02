@@ -17,10 +17,10 @@ import {
   ValueDateRangeList,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { addDays, isValid } from 'date-fns'
 import { DaysRangeWrapper, TextInput } from './Styles'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { Accordion } from '@frontend/common/src'
@@ -34,23 +34,16 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [baseWorkHours, setBaseWorkHours] = useState<string>('')
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
   }, [])
 
-  const overlapErrors: ValidationError[] = [
-    {
-      category: question.parent,
-      id: question.id,
-      text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
-      type: '',
-      field: '',
-    },
-  ]
+  useEffect(() => {
+    toggleOverlapError(hasAnyOverlap())
+  }, [valueList])
 
   const handleUpdatedValue = (valueId: string, fromDate: string | null, toDate: string | null) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
@@ -116,6 +109,18 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     return valueList.some((val) => getPeriodHasOverlap(valueList, val.id))
   }
 
+  const toggleOverlapError = (shouldAddError: boolean) => {
+    const overlapError: ValidationError = {
+      category: question.parent,
+      id: question.id,
+      text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+      type: 'OVERLAP_ERROR',
+      field: question.id,
+      showAlways: true,
+    }
+    dispatch(updateClientValidationError({ shouldBeRemoved: !shouldAddError, validationError: overlapError }))
+  }
+
   const handleGetPeriodHaveOverlap = (periodId: string) => {
     return getPeriodHasOverlap(valueList, periodId)
   }
@@ -161,8 +166,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             <DateRangePicker
               baseWorkHours={baseWorkHours}
               disabled={disabled}
-              hasValidationError={shouldDisplayValidationError}
-              hasOverlap={handleGetPeriodHaveOverlap(period.id)}
+              hasValidationError={validationErrors.length > 0 || handleGetPeriodHaveOverlap(period.id)}
               getPeriodStartingDate={handleGetPeriodStartingDate}
               updateValue={handleUpdatedValue}
               key={period.id}
@@ -170,13 +174,12 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               toDate={valueList.find((x) => x.id === period.id)?.to ?? null}
               label={period.label}
               periodId={period.id}
-              isShowValidationError={isShowValidationError}
+              questionId={question.id}
             />
           )
         })}
         <div className={'iu-pb-500'}>
-          {hasAnyOverlap() && <QuestionValidationTexts validationErrors={overlapErrors} />}
-          {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+          <QuestionValidationTexts validationErrors={validationErrors} />
         </div>
         {totalSickDays && !disabled && (
           <div>

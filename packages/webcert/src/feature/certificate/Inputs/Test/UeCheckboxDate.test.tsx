@@ -9,8 +9,11 @@ import {
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import * as redux from 'react-redux'
 import UeCheckboxDate from '../UeCheckboxDate'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
+
+const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
 const _format = 'yyyy-MM-dd'
 const DATE_CHECKBOX = {
@@ -49,30 +52,19 @@ const question: CertificateDataElement = {
 const renderComponent = (disabled: boolean, hasValidationError: boolean) => {
   render(
     <>
-      <UeCheckboxDate
-        question={question}
-        disabled={disabled}
-        isShowValidationError={true}
-        id={DATE_CHECKBOX.id}
-        hasValidationError={hasValidationError}
-        label={DATE_CHECKBOX.label}
-        date={''}
-      />
+      <Provider store={store}>
+        <UeCheckboxDate
+          question={question}
+          disabled={disabled}
+          id={DATE_CHECKBOX.id}
+          hasValidationError={hasValidationError}
+          label={DATE_CHECKBOX.label}
+          date={''}
+        />
+      </Provider>
     </>
   )
 }
-
-const dispatchSpy = jest.fn()
-beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(dispatchSpy)
-  useSelectorSpy.mockReturnValue(true)
-})
-
-afterEach(() => {
-  jest.clearAllMocks()
-})
 
 describe('CheckboxDate component', () => {
   it('renders without crashing', () => {
@@ -157,37 +149,27 @@ describe('CheckboxDate component', () => {
     expect(input).toHaveValue(expected)
   })
 
-  it('does not save value that is not a complete date', () => {
+  it('should display error when input is not a complete date', () => {
     renderComponent(false, false)
     const input = screen.getByRole('textbox')
     userEvent.type(input, '2020-01')
-    expect(dispatchSpy).not.toBeCalled()
+    userEvent.tab()
+    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
   })
 
-  it('does not save value that is not a valid date', () => {
+  it('should display error when input is not a valid date', () => {
     renderComponent(false, false)
     const input = screen.getByRole('textbox')
     userEvent.type(input, 'test')
-    expect(dispatchSpy).not.toBeCalled()
+    userEvent.tab()
+    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
   })
 
-  it('does save value that is a valid date', () => {
+  it('should not display error when input is a valid date', () => {
     renderComponent(false, false)
     const input = screen.getByRole('textbox')
-    userEvent.type(input, '2020-02-02')
-    expect(dispatchSpy).toBeCalled()
-  })
-
-  it('does save value that has been formatted into a valid date', () => {
-    renderComponent(false, false)
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '20210101')
-    expect(dispatchSpy).toBeCalled()
-  })
-
-  it('renders one validation message when there are validation errors', () => {
-    renderComponent(false, true)
-    const validationMessages = screen.getAllByText(VALIDATION_ERROR)
-    expect(validationMessages).toHaveLength(1)
+    userEvent.type(input, '20200101')
+    userEvent.tab()
+    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
 })

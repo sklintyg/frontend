@@ -1,20 +1,19 @@
 import React from 'react'
 import { CertificateDataElement, ConfigUeCheckboxMultipleDate, QuestionValidationTexts } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import UeCheckboxDate from './UeCheckboxDate'
 import { ValueDate, ValueDateList } from '@frontend/common/src'
 
 interface Props {
   disabled: boolean
   question: CertificateDataElement
-  isShowValidationError: boolean
 }
 
-const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValidationError }) => {
+const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
   const values = (question.value as ValueDateList).list
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
 
   const getDate = (id: string) => {
     const index = values.findIndex((date: ValueDate) => date.id === id)
@@ -36,8 +35,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValida
         label={checkbox.label}
         date={getDate(checkbox.id)}
         disabled={disabled}
-        hasValidationError={shouldDisplayValidationError}
-        isShowValidationError={isShowValidationError}
+        hasValidationError={validationErrors.length > 0}
         question={question}
       />
     ))
@@ -47,7 +45,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled, isShowValida
     <div className="checkbox-group-wrapper">
       <div>
         <div className="checkbox-child">{renderCheckboxes()}</div>
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </div>
     </div>
   )

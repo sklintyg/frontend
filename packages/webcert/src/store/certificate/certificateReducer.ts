@@ -14,6 +14,7 @@ import {
   ValueText,
 } from '@frontend/common'
 import {
+  addClientValidationError,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -23,10 +24,12 @@ import {
   hideSpinner,
   hideValidationErrors,
   highlightCertificateDataElement,
+  removeClientValidationError,
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -49,7 +52,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { CertificateDataElementStyleEnum } from '@frontend/common/src'
+import { CertificateDataElementStyleEnum, ValidationError } from '@frontend/common/src'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
 interface CertificateState {
@@ -66,6 +69,7 @@ interface CertificateState {
   signingData?: SigningData
   routedFromDeletedCertificate: boolean
   functionDisablers: FunctionDisabler[]
+  clientValidationErrors: ValidationError[]
 }
 
 const initialState: CertificateState = {
@@ -79,6 +83,7 @@ const initialState: CertificateState = {
   complements: [],
   routedFromDeletedCertificate: false,
   functionDisablers: [],
+  clientValidationErrors: [],
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
@@ -193,7 +198,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         }
       }
 
-      state.isValidForSigning = action.payload.length === 0
+      state.isValidForSigning = action.payload.length === 0 && state.clientValidationErrors.length === 0
     })
     .addCase(showValidationErrors, (state) => {
       state.showValidationErrors = true
@@ -320,6 +325,14 @@ const certificateReducer = createReducer(initialState, (builder) =>
     })
     .addCase(toggleCertificateFunctionDisabler, (state, action) => {
       state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
+    })
+    .addCase(addClientValidationError, (state, action) => {
+      state.clientValidationErrors.push(action.payload)
+    })
+    .addCase(removeClientValidationError, (state, action) => {
+      const clientValidationErrors = [...state.clientValidationErrors]
+      clientValidationErrors.splice(action.payload, 1)
+      state.clientValidationErrors = clientValidationErrors
     })
 )
 

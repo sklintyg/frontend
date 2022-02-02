@@ -26,7 +26,7 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
     if (!validationErrors || validationErrors.length === 0) {
       return []
     }
-    return validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}].${fieldId}`))
+    return validationErrors.filter((v) => v.field.includes(`${parseInt(id) - 1}.${fieldId}`))
   }
 
   const isVisible = () => {
@@ -43,13 +43,13 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
 
   const hasInstantValidatingError = () => {
     return (
-      validationErrors && validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && v.field.includes('.row')).length > 0
+      validationErrors && validationErrors.filter((v) => v.field.includes(`${parseInt(id) - 1}`) && v.field.includes('.row')).length > 0
     )
   }
 
   const getNbrOfNonInstantValidatingErrors = () => {
     return validationErrors
-      ? validationErrors.filter((v) => v.field.includes(`[${parseInt(id) - 1}]`) && !v.field.includes('.row')).length
+      ? validationErrors.filter((v) => v.field.includes(`${parseInt(id) - 1}`) && !v.field.includes('.row')).length
       : 0
   }
 
