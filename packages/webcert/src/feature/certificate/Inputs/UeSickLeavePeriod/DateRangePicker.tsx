@@ -19,6 +19,9 @@ import {
 import { DateGrid, DateRangeWrapper, DatesWrapper } from './Styles'
 import usePrevious from '../../../../hooks/usePrevious'
 import { DatePickerCustom } from '@frontend/common/src'
+import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
@@ -32,17 +35,10 @@ interface Props {
   toDate: string | null
   updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
   getPeriodStartingDate: () => string
-  hasOverlap: boolean
   hasValidationError: boolean
   disabled: boolean
   baseWorkHours: string
-  isShowValidationError: boolean
-}
-
-interface DateRangeValidation {
-  invalidDatePeriod: boolean
-  notCompleteDate: boolean
-  validationErrors: ValidationError[]
+  questionId: string
 }
 
 const DateRangePicker: React.FC<Props> = ({
@@ -52,26 +48,22 @@ const DateRangePicker: React.FC<Props> = ({
   toDate,
   updateValue,
   getPeriodStartingDate,
-  hasOverlap,
   hasValidationError,
   disabled,
   baseWorkHours,
-  isShowValidationError,
+  questionId,
 }) => {
   const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
   const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
   const [toDateInput, setToDateInput] = useState<string | null>(toDate)
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
-  const [validations, setValidation] = useState<DateRangeValidation>({
-    invalidDatePeriod: false,
-    notCompleteDate: false,
-    validationErrors: [],
-  })
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
   const previousFromDateString = usePrevious(fromDateInput)
   const previousToDateString = usePrevious(toDateInput)
+  const dispatch = useDispatch()
+  const validationErrors = useSelector(getVisibleValidationErrors(questionId, periodId))
 
   useEffect(() => {
     if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
@@ -89,10 +81,6 @@ const DateRangePicker: React.FC<Props> = ({
   useEffect(() => {
     updateWorkingPeriod(fromDateInput, toDateInput)
   }, [baseWorkHours])
-
-  useEffect(() => {
-    toggleShowValidationError(fromDate, toDate)
-  }, [])
 
   const updateCheckbox = (fromDateInput: string | null, toDateInput: string | null) => {
     if (fromDateInput || toDateInput) {
@@ -170,45 +158,31 @@ const DateRangePicker: React.FC<Props> = ({
   }
 
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
-    const updatedValidationErrors = { ...validations }
+    const invalidDatePeriod = fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)
+    const notCompleteDatePeriod = (fromDate && !toDate) || (toDate && !fromDate)
 
-    updatedValidationErrors.notCompleteDate = false
-    updatedValidationErrors.invalidDatePeriod = false
+    dispatchValidationError(!invalidDatePeriod, {
+      category: '',
+      field: 'row.' + periodId,
+      id: questionId,
+      text: INVALID_DATE_PERIOD_ERROR,
+      type: 'INVALID_DATE_PERIOD',
+      showAlways: true,
+    })
 
-    if (fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)) {
-      updatedValidationErrors.invalidDatePeriod = true
-    } else if ((fromDate && !toDate) || (toDate && !fromDate)) {
-      updatedValidationErrors.notCompleteDate = true
+    let notCompleteDateField = ''
+    if (!notCompleteDatePeriod) {
+      notCompleteDateField = periodId
+    } else {
+      notCompleteDateField = !toDateInput ? 'tom.' + periodId : 'from.' + periodId
     }
-
-    setValidation(updatedValidationErrors)
-    updateValidationMessages(updatedValidationErrors)
-  }
-
-  const updateValidationMessages = (validations: DateRangeValidation) => {
-    let updatedValidationErrorList: ValidationError[] = []
-
-    if (validations.invalidDatePeriod) {
-      updatedValidationErrorList = [
-        ...updatedValidationErrorList,
-        { category: '', field: '', id: '', text: INVALID_DATE_PERIOD_ERROR, type: '' },
-      ]
-    }
-
-    if (validations.notCompleteDate) {
-      updatedValidationErrorList = [
-        ...updatedValidationErrorList,
-        {
-          category: '',
-          field: '',
-          id: !toDateInput ? 'tom' + periodId : 'from' + periodId,
-          text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
-          type: 'NOT_COMPLETE_DATE',
-        },
-      ]
-    }
-
-    setValidation({ ...validations, validationErrors: updatedValidationErrorList })
+    dispatchValidationError(!notCompleteDatePeriod, {
+      category: '',
+      field: notCompleteDateField,
+      id: questionId,
+      text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
+      type: 'NOT_COMPLETE_DATE',
+    })
   }
 
   const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
@@ -277,30 +251,20 @@ const DateRangePicker: React.FC<Props> = ({
     setToDateInput(null)
     setWorkHoursPerWeek(null)
     setWorkDaysPerWeek(null)
-    resetValidation()
   }
 
-  const resetValidation = () => {
-    setValidation({
-      invalidDatePeriod: false,
-      notCompleteDate: false,
-      validationErrors: [],
-    })
-  }
-
-  const getShouldDisplayValidationErrorOutline = (id: string) => {
-    let hasNotCompleteDateValidation = false
-    if (isShowValidationError) {
-      hasNotCompleteDateValidation = validations.validationErrors.some((v) => v.type === 'NOT_COMPLETE_DATE' && v.id.includes(id))
+  const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
+    if (hasValidationError) {
+      return true
     }
-    return hasNotCompleteDateValidation || validations.invalidDatePeriod || hasOverlap || hasValidationError
+    if (id) {
+      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
+    }
+    return validationErrors.length > 0
   }
 
-  const filterValidationErrors = (validationErrors: ValidationError[]) => {
-    if (!isShowValidationError) {
-      return validationErrors.filter((v) => v.type !== 'NOT_COMPLETE_DATE')
-    }
-    return validationErrors
+  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
+    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
   }
 
   return (
@@ -328,7 +292,10 @@ const DateRangePicker: React.FC<Props> = ({
               setDate={handleDatePickerSelectFrom}
               textInputOnChange={handleFromTextInputChange}
               textInputDataTestId={`from${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(`from${periodId}`)}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'from')}
+              componentField={'from.' + periodId}
+              questionId={questionId}
+              onDispatchValidationError={dispatchValidationError}
             />
           </DatesWrapper>
           <DatesWrapper>
@@ -344,16 +311,17 @@ const DateRangePicker: React.FC<Props> = ({
               textInputOnBlur={handleToTextInputOnBlur}
               textInputOnKeyDown={handleToTextInputOnKeyDown}
               textInputDataTestId={`tom${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(`tom${periodId}`)}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'tom')}
+              componentField={'tom.' + periodId}
+              questionId={questionId}
+              onDispatchValidationError={dispatchValidationError}
             />
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
-      {!disabled && (
-        <div className={'iu-mb-400'}>
-          <QuestionValidationTexts validationErrors={filterValidationErrors(validations.validationErrors)} />
-        </div>
-      )}
+      <div className={'iu-pb-300'}>
+        <QuestionValidationTexts validationErrors={validationErrors} />
+      </div>
       {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}

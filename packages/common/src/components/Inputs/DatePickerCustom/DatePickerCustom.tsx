@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
-import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
-import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper, FocusWrapper } from './Styles'
+import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
+import { DatePickerWrapper, StyledButton, TextInput, Wrapper, FocusWrapper } from './Styles'
 import 'react-datepicker/dist/react-datepicker.css'
-import { faCalendar } from '@fortawesome/free-regular-svg-icons'
+import { ValidationError } from '../../..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -23,12 +24,14 @@ interface Props {
   textInputName?: string
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
-  displayValidationErrorOutline?: boolean
+  displayValidationErrorOutline: boolean
   additionalStyles?: string
+  componentField: string
+  questionId: string
+  onDispatchValidationError: (shouldBeRemoved: boolean, validationError: ValidationError) => void
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
-const InvalidDateFormatValidationMessage = [{ category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' }]
 
 const DatePickerCustom: React.FC<Props> = ({
   label,
@@ -43,6 +46,10 @@ const DatePickerCustom: React.FC<Props> = ({
   textInputDataTestId,
   displayValidationErrorOutline,
   disabled,
+  additionalStyles,
+  componentField,
+  questionId,
+  onDispatchValidationError,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -54,6 +61,21 @@ const DatePickerCustom: React.FC<Props> = ({
       updateFormattingValidation(inputString)
     }
   }, [])
+
+  useEffect(() => {
+    toggleFormattingError()
+  }, [displayFormattingError])
+
+  const toggleFormattingError = () => {
+    onDispatchValidationError(!displayFormattingError, {
+      category: '',
+      field: componentField,
+      id: questionId,
+      text: INVALID_DATE_FORMAT_ERROR,
+      type: 'INVALID_DATE_FORMAT',
+      showAlways: true,
+    })
+  }
 
   useEffect(() => {
     if (displayFormattingError) {
@@ -115,7 +137,7 @@ const DatePickerCustom: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <DatePickerWrapper className={`date-picker`}>
+      <DatePickerWrapper className={`date-picker + ${additionalStyles}`}>
         {label && (
           <label className="iu-mr-300" htmlFor={id}>
             {label}
@@ -128,7 +150,7 @@ const DatePickerCustom: React.FC<Props> = ({
             name={textInputName}
             type="text"
             maxLength={10}
-            className={` ic-textfield ${displayValidationErrorOutline || displayFormattingError ? 'ic-textfield--error' : ''}`}
+            className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error' : ''}`}
             onChange={handleTextInputOnChange}
             onBlur={handleTextInputOnBlur}
             onKeyDown={textInputOnKeyDown}
@@ -147,7 +169,7 @@ const DatePickerCustom: React.FC<Props> = ({
             dateFormat={_format}
             customInput={
               <StyledButton
-                displayValidationError={displayValidationErrorOutline || displayFormattingError}
+                displayValidationError={displayValidationErrorOutline}
                 onClick={() => setOpen(true)}
                 className={`ic-button `}
                 onClickCapture={() => setOpen(!open)}>
@@ -166,12 +188,6 @@ const DatePickerCustom: React.FC<Props> = ({
           />
         </FocusWrapper>
       </DatePickerWrapper>
-
-      {displayFormattingError && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={InvalidDateFormatValidationMessage}></QuestionValidationTexts>
-        </ValidationWrapper>
-      )}
     </Wrapper>
   )
 }

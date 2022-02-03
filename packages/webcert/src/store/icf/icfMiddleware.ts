@@ -6,12 +6,12 @@ import {
   getIcfCodesError,
   getIcfCodesStarted,
   getIcfCodesSuccess,
-  IcfRequest,
+  setOriginalIcd10Codes,
   toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, ConfigTypes, Value, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, Value, ValueDiagnosisList } from '@frontend/common'
 import { throwError } from '../error/errorActions'
 import { createSilentErrorRequestFromApiError } from '../error/errorCreator'
 
@@ -41,31 +41,33 @@ const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (ac
   dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
+function handleUpdateIcfState(value: Value, dispatch: Dispatch<AnyAction>) {
+  const icdCodes = getIcdCodesFromQuestionValue(value)
+
+  if (icdCodes && icdCodes.length > 0) {
+    dispatch(getIcfCodes({ icdCodes: icdCodes }))
+    dispatch(setOriginalIcd10Codes(icdCodes))
+  } else {
+    dispatch(setOriginalIcd10Codes([]))
+  }
+}
+
 const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   for (const questionId in action.payload.data) {
     if (action.payload.data.hasOwnProperty(questionId)) {
       const question = action.payload.data[questionId]
-      const icdCodes = getIcdCodesFromQuestionValue(question.value)
-
-      if (icdCodes && icdCodes.length > 0) {
-        dispatch(getIcfCodes({ icdCodes: icdCodes }))
-      }
+      handleUpdateIcfState(question.value, dispatch)
     }
   }
 }
 
 const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  if (!(action.payload.config.type === ConfigTypes.UE_DIAGNOSES)) {
-    return
-  }
-
-  const icdCodes = { icdCodes: (action.payload.value as ValueDiagnosisList).list.map((code) => code.code) } as IcfRequest
-  dispatch(getIcfCodes(icdCodes))
+  handleUpdateIcfState(action.payload.value, dispatch)
 }
 
 function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    return (value as ValueDiagnosisList).list.map((code) => code.code)
+    return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map((code) => code.code)
   }
 }
 

@@ -164,6 +164,11 @@ const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
 
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
 
+const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation error`
+const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
+const ADD_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Add client validation error`
+const REMOVE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Remove client validation error`
+
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
@@ -502,4 +507,21 @@ export interface CertificateApiGenericError {
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
 
+export interface ModifyValidationErrors {
+  questionId: string
+  validationErrors: ValidationError[]
+}
+
+export interface UpdateValidationError {
+  shouldBeRemoved: boolean
+  validationError: ValidationError
+}
+
 export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
+
+export const updateClientValidationError = createAction<UpdateValidationError>(UPDATE_CLIENT_VALIDATION_ERROR)
+
+export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
+
+export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
+export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)

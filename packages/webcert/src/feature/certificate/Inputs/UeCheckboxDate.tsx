@@ -5,13 +5,16 @@ import {
   ConfigTypes,
   DatePickerCustom,
   QuestionValidationTexts,
+  ValidationError,
   ValueDate,
   ValueDateList,
 } from '@frontend/common/src'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'
 import styled from 'styled-components/macro'
+import { useSelector } from 'react-redux'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,6 +26,8 @@ const Wrapper = styled.div`
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
+  padding-bottom: 16px;
+  margin-top: 0;
 `
 
 interface Props {
@@ -30,10 +35,10 @@ interface Props {
   id: string
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
+  datePickerAdditionalStyles?: string
   disabled?: boolean
   question: CertificateDataElement
   date: string | null
-  isShowValidationError: boolean
 }
 
 const UeCheckboxDate: React.FC<Props> = (props) => {
@@ -46,6 +51,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     isSingleCheckboxDate ? (question.value as ValueDate).date !== undefined : values.some((e: ValueDate) => e.id === id)
   )
   const [dateString, setDateString] = React.useState(date ? date : null)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, id))
 
   const deleteDateFromSavedValue = () => {
     let updatedValue
@@ -90,6 +96,10 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     handleChange(true, value)
   }
 
+  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
+    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+  }
+
   return (
     <Wrapper className="iu-pb-400">
       <Checkbox
@@ -102,12 +112,20 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         hasValidationError={hasValidationError}
         checkboxAdditionalStyles={props.checkboxAdditionalStyles}
       />
-      <DatePickerCustom disabled={disabled} textInputOnChange={handleTextChange} setDate={handleDateChange} inputString={dateString} />
-      {props.isShowValidationError && isSingleCheckboxDate && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={question.validationErrors} />
-        </ValidationWrapper>
-      )}
+      <DatePickerCustom
+        disabled={disabled}
+        textInputOnChange={handleTextChange}
+        setDate={handleDateChange}
+        inputString={dateString}
+        additionalStyles={props.datePickerAdditionalStyles}
+        questionId={question.id}
+        displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
+        componentField={id}
+        onDispatchValidationError={dispatchValidationError}
+      />
+      <ValidationWrapper>
+        <QuestionValidationTexts validationErrors={validationErrors} />
+      </ValidationWrapper>
     </Wrapper>
   )
 }

@@ -1,6 +1,7 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
+  addClientValidationError,
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
@@ -53,6 +54,7 @@ import {
   readyForSignCompleted,
   readyForSignStarted,
   readyForSignSuccess,
+  removeClientValidationError,
   renewCertificate,
   renewCertificateCompleted,
   renewCertificateStarted,
@@ -89,6 +91,7 @@ import {
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
+  updateClientValidationError,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -103,7 +106,7 @@ import {
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataValidationType } from '@frontend/common/src'
+import { CertificateDataValidationType, ValidationError } from '@frontend/common/src'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import _ from 'lodash'
@@ -259,9 +262,10 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
   const certificate: Certificate = getState().ui.uiCertificate.certificate
   for (const questionId in certificate.data) {
     if (
-      certificate.data[questionId].visible &&
-      certificate.data[questionId].validationErrors &&
-      certificate.data[questionId].validationErrors.length > 0
+      (certificate.data[questionId].visible &&
+        certificate.data[questionId].validationErrors &&
+        certificate.data[questionId].validationErrors.length > 0) ||
+      getState().ui.uiCertificate.clientValidationErrors.some((v: ValidationError) => v.id === questionId)
     ) {
       dispatch(showValidationErrors())
       return
@@ -633,6 +637,35 @@ const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, g
   dispatch(validateCertificateInFrontEndCompleted())
 }
 
+const isSameValidationError = (savedValidationError: ValidationError, payloadValidationError: ValidationError) => {
+  return (
+    savedValidationError.type === payloadValidationError.type &&
+    savedValidationError.id === payloadValidationError.id &&
+    savedValidationError.text === payloadValidationError.text &&
+    savedValidationError.field &&
+    savedValidationError.field.includes(payloadValidationError.field)
+  )
+}
+
+const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  const currentValidationErrors = [...getState().ui.uiCertificate.clientValidationErrors]
+  if (!currentValidationErrors) {
+    return
+  }
+  const duplicatedValidationIndex = currentValidationErrors.findIndex((v: ValidationError) =>
+    isSameValidationError(v, action.payload.validationError)
+  )
+  if (duplicatedValidationIndex !== -1) {
+    if (action.payload.shouldBeRemoved) {
+      dispatch(removeClientValidationError(duplicatedValidationIndex))
+    }
+  } else if (!action.payload.shouldBeRemoved) {
+    dispatch(addClientValidationError(action.payload.validationError))
+  }
+}
+
 function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
   if (!certificate) {
     return
@@ -733,6 +766,7 @@ const middlewareMethods = {
   [fakeSignCertificate.type]: handleFakeSignCertificate,
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
   [certificateApiGenericError.type]: handleGenericCertificateApiError,
+  [updateClientValidationError.type]: handleUpdateClientValidationError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

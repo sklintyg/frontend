@@ -326,6 +326,7 @@ export interface ValidationError {
   field: string
   type: string
   text: string
+  showAlways?: boolean
 }
 
 export interface ValidationErrorSummary {

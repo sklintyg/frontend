@@ -6,3 +6,5 @@ export const getIcfData = (id: string) => (state: RootState): AvailableIcfCodes 
 }
 
 export const isIcfFunctionDisabled = (state: RootState): boolean => state.ui.uiIcf.functionDisablers.length > 0
+
+export const getOriginalIcd10Codes = (state: RootState): string[] => state.ui.uiIcf.originalIcd10Codes
