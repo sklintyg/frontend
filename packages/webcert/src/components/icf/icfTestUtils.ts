@@ -1,7 +1,6 @@
 import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
 import { Certificate, CertificateDataElement, CertificateDataValueType, ConfigTypes, ResourceLinkType } from '@frontend/common/src'
 
-
 export const getIcfData = (): IcfState => {
   const commonIcfCodes: IcfCode[] = [
     {
