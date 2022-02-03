@@ -1,6 +1,7 @@
 import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
 import { Certificate, CertificateDataElement, CertificateDataValueType, ConfigTypes, ResourceLinkType } from '@frontend/common/src'
 
+
 export const getIcfData = (): IcfState => {
   const commonIcfCodes: IcfCode[] = [
     {
@@ -62,8 +63,6 @@ export const getIcfData = (): IcfState => {
 }
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     links: [
       {
@@ -77,6 +76,8 @@ export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: str
       '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
     },
     metadata: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       patient: {
         personId: {
           type: 'type',

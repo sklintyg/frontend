@@ -53,7 +53,10 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const getValidationErrors = () => {
-    return question.validationErrors.filter((v) => v.field === 'diagnoser')
+    if (!question.validationErrors) {
+      return []
+    }
+    return question.validationErrors.filter((v) => v.field === question.id)
   }
 
   return (
@@ -96,4 +99,4 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-export default UeDiagnoses
+export default UeDiagnoses;

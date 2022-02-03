@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import React, { ChangeEvent } from "react";
+import { FlattenSimpleInterpolation } from "styled-components/macro";
 
 interface Props {
   expanded?: boolean
@@ -40,7 +40,7 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
         css={additionalStyles}
         type="text"
         disabled={disabled}
-        className={`${hasValidationError ? 'iu-border-error' : ''} ic-textfield`}
+        className={`${hasValidationError ? 'ic-textfield--error' : ''} ic-textfield`}
         name={name ?? ''}
         placeholder={placeholder}
         value={value}
@@ -53,4 +53,4 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
   )
 })
 
-export default TextInput
+export default TextInput;
