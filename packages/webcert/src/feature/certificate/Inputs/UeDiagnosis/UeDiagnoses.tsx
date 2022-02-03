@@ -99,4 +99,4 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-export default UeDiagnoses;
+export default UeDiagnoses
