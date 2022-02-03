@@ -64,7 +64,7 @@ const getValidationErrors = (field: string, id: number) => {
     {
       id: 'questionId',
       text: EXPECTED_ERROR,
-      field: 'diagnosis[' + (id - 1) + '].' + field,
+      field: 'diagnosis.' + (id - 1) + '.' + field,
       category: 'category',
       type: 'type',
     },

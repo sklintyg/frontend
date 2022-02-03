@@ -1108,7 +1108,7 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return empty validation error summary', () => {
-    const result = getSortedValidationErrorSummary(certificate)
+    const result = getSortedValidationErrorSummary(certificate, [])
 
     expect(result.length).toBe(0)
   })
@@ -1121,7 +1121,7 @@ describe('Set initial values to a certificate', () => {
     certificate.metadata.careUnitValidationErrors = []
     certificate.metadata.careUnitValidationErrors.push(validationError)
 
-    const result = getSortedValidationErrorSummary(certificate)
+    const result = getSortedValidationErrorSummary(certificate, [])
 
     expect(result.length).toBe(3)
     expect(result[0].id).toBe('sysselsattning')
@@ -1132,5 +1132,11 @@ describe('Set initial values to a certificate', () => {
     expect(result[1].index).toBe(11)
     expect(result[2].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
     expect(result[2].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
+  })
+
+  it('should include client validation errors in result', () => {
+    const certificate = getCertificate()
+    const result = getSortedValidationErrorSummary(certificate, [{ id: '1.2', category: '', field: '', type: '', text: '' }])
+    expect(result.length).toBe(1)
   })
 })

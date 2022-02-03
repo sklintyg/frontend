@@ -11,6 +11,10 @@ import {
 } from '@frontend/common/src/types/certificate'
 import * as redux from 'react-redux'
 import UeCheckboxDateGroup from '../UeCheckboxDateGroup'
+import store from '../../../../store/store'
+import { Provider } from 'react-redux'
+import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { getCertificateWithQuestion } from '@frontend/common/src'
 
 const _format = 'yyyy-MM-dd'
 const DATE_CHECKBOXES = [
@@ -52,47 +56,39 @@ const question: CertificateDataElement = {
   validation: [
     {
       type: CertificateDataValidationType.MANDATORY_VALIDATION,
-      questionId: 'checkbox',
+      questionId: QUESTION_ID,
       expression: `!$undersokningAvPatienten && ($telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU)`,
     },
   ],
-  validationErrors: [{ category: 'category', field: '', text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
+  validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
 }
 
-const renderComponent = (disabled: boolean, isShowValidationError: boolean) => {
+const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
+
+const renderComponent = (disabled: boolean) => {
   render(
-    <>
-      <UeCheckboxDateGroup question={question} disabled={disabled} isShowValidationError={isShowValidationError} />
-    </>
+    <Provider store={store}>
+      <UeCheckboxDateGroup question={question} disabled={disabled} />
+    </Provider>
   )
 }
 
-const dispatchSpy = jest.fn()
-beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(dispatchSpy)
-  useSelectorSpy.mockReturnValue(true)
-})
-
-afterEach(() => {
-  jest.clearAllMocks()
-})
-
 describe('CheckboxDateGroup component', () => {
+  store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+
   it('renders without crashing', () => {
-    renderComponent(false, false)
+    renderComponent(false)
   })
 
   it('renders all components', () => {
-    renderComponent(false, false)
+    renderComponent(false)
     expect(screen.getAllByRole('checkbox')).toHaveLength(DATE_CHECKBOXES.length)
     expect(screen.getAllByRole('textbox')).toHaveLength(DATE_CHECKBOXES.length)
     expect(screen.getAllByRole('button')).toHaveLength(DATE_CHECKBOXES.length)
   })
 
   it('renders all components with correct labels', () => {
-    renderComponent(false, false)
+    renderComponent(false)
     DATE_CHECKBOXES.forEach((checkboxDate) => {
       expect(screen.getByText(checkboxDate.label)).toBeInTheDocument()
     })
@@ -100,7 +96,7 @@ describe('CheckboxDateGroup component', () => {
 
   describe('disables component correctly', () => {
     it('disables all checkboxes when disabled is set', () => {
-      renderComponent(true, false)
+      renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).toBeDisabled()
@@ -108,7 +104,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('disables all textboxes when disabled is set', () => {
-      renderComponent(true, false)
+      renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).toBeDisabled()
@@ -116,7 +112,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('disables all buttons when disabled is set', () => {
-      renderComponent(true, false)
+      renderComponent(true)
       const buttons = screen.getAllByRole('button')
       buttons.forEach((button) => {
         expect(button).toBeDisabled()
@@ -124,7 +120,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('does not disable all checkboxes when disabled is not set', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).not.toBeDisabled()
@@ -132,7 +128,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('does not disable all textboxes when disabled is not set', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).not.toBeDisabled()
@@ -140,7 +136,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('does not disable all buttons when disabled is not set', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const buttons = screen.getAllByRole('button')
       buttons.forEach((button) => {
         expect(button).not.toBeDisabled()
@@ -150,7 +146,7 @@ describe('CheckboxDateGroup component', () => {
 
   describe('default values', () => {
     it('sets correct default values for all checkboxes', () => {
-      renderComponent(true, false)
+      renderComponent(true)
       const checkboxes = screen.getAllByRole('checkbox')
       checkboxes.forEach((checkbox) => {
         expect(checkbox).not.toBeChecked()
@@ -158,7 +154,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('sets correct default values for all textboxes', () => {
-      renderComponent(true, false)
+      renderComponent(true)
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox) => {
         expect(textbox).toHaveValue('')
@@ -185,7 +181,7 @@ describe('CheckboxDateGroup component', () => {
 
   describe('input values', () => {
     it('checks checkbox and sets date when user clicks on checkbox', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       checkboxes.forEach((checkbox, index) => {
@@ -194,7 +190,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('checks checkbox and sets date when user clicks on label', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       checkboxes.forEach((checkbox, index) => {
@@ -205,7 +201,7 @@ describe('CheckboxDateGroup component', () => {
 
     it('checks checkbox and sets date if user writes date', () => {
       const inputString = '2020-02-02'
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       textboxes.forEach((textbox, index) => {
@@ -214,7 +210,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('only checks one checkbox and sets one value when clicking on label', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       const label = screen.getByText(DATE_CHECKBOXES[0].label)
@@ -224,7 +220,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('only checks one checkbox and sets one value when clicking on checkbox', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       userEvent.click(checkboxes[1])
@@ -233,7 +229,7 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('only checks one checkbox and sets one value when typing in textbox', () => {
-      renderComponent(false, false)
+      renderComponent(false)
       const checkboxes = screen.getAllByRole('checkbox')
       const textboxes = screen.getAllByRole('textbox')
       userEvent.type(textboxes[2], 'test')
@@ -242,39 +238,48 @@ describe('CheckboxDateGroup component', () => {
     })
   })
 
-  it('renders one validation message when there is a validation error', () => {
-    renderComponent(false, true)
-    const validationMessages = screen.getAllByText(VALIDATION_ERROR)
-    expect(validationMessages).toHaveLength(1)
+  it('renders validation message when there is a validation error', () => {
+    renderComponent(false)
+    store.dispatch(showValidationErrors())
+    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    store.dispatch(hideValidationErrors())
+  })
+
+  it('does not render validation message if validation messages are hidden', () => {
+    renderComponent(false)
+    expect(screen.queryByText(VALIDATION_ERROR)).not.toBeInTheDocument()
   })
 
   describe('dispatching updated values', () => {
-    it('does not dispatch a value that is not a correct date', () => {
-      renderComponent(false, false)
+    it('should display error message when input is not a correct date', () => {
+      renderComponent(false)
       const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[0], '2020-01')
-      expect(dispatchSpy).not.toBeCalled()
+      userEvent.tab()
+      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
     })
 
-    it('does not dispatch a value that is a text and not a date', () => {
-      renderComponent(false, false)
+    it('should render error message when input is a text and not a date', () => {
+      renderComponent(false)
       const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[1], 'test')
-      expect(dispatchSpy).not.toBeCalled()
+      userEvent.tab()
+      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
     })
 
-    it('does dispatch a value that is a date', () => {
-      renderComponent(false, false)
+    it('should not render error message when input is a date', () => {
+      renderComponent(false)
       const inputs = screen.getAllByRole('textbox')
       userEvent.type(inputs[2], '2021-01-01')
-      expect(dispatchSpy).toBeCalled()
+      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
     })
 
-    it('does dispatch the value set by a checkbox being checked', () => {
-      renderComponent(false, false)
+    it('should not render error message when value set by a checkbox being checked', () => {
+      renderComponent(false)
       const checkbox = screen.getAllByRole('checkbox')
       userEvent.click(checkbox[0])
-      expect(dispatchSpy).toBeCalled()
+      userEvent.tab()
+      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
     })
   })
 

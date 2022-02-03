@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { createSelector } from '@reduxjs/toolkit'
+import { AnyAction, createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
@@ -137,7 +137,7 @@ export const getValidationErrorSummary = () => (state: RootState): ValidationErr
     return []
   }
 
-  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate)
+  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
 }
 
 export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
@@ -146,6 +146,29 @@ export const getCareUnitValidationErrors = () => (state: RootState): ValidationE
   }
 
   return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
+}
+
+const doesFieldsMatch = (payloadField: string, validationField: string) => {
+  return !validationField || validationField.includes(payloadField)
+}
+
+export const getVisibleValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
+  let validationErrors
+  const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
+  validationErrors = [...clientValidationErrors]
+
+  if (state.ui.uiCertificate.certificate) {
+    const question = state.ui.uiCertificate.certificate.data[questionId]
+    if (question && question.validationErrors) {
+      validationErrors = [...validationErrors, ...question.validationErrors]
+    }
+  }
+
+  if (state.ui.uiCertificate.showValidationErrors) {
+    return validationErrors.filter((v: ValidationError) => doesFieldsMatch(field, v.field))
+  } else {
+    return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
+  }
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents

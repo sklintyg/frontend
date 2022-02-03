@@ -8,6 +8,10 @@ import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
 import { getAllDynamicLinks } from './store/utils/utilsActions'
+import { ErrorBoundary } from 'react-error-boundary'
+import { throwError } from './store/error/errorActions'
+import { createErrorRequest } from './store/error/errorCreator'
+import { ErrorCode, ErrorType } from './store/error/errorReducer'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -24,11 +28,26 @@ function App(): JSX.Element {
     }
   })
 
+  const onError = (error: Error) => {
+    dispatch(
+      throwError(
+        createErrorRequest(ErrorType.ROUTE, ErrorCode.UNEXPECTED_ERROR, error.message, undefined, error.stack ? error.stack : undefined)
+      )
+    )
+  }
+
   return (
     <BrowserRouter>
       <ErrorComponent />
       <Switch>
-        <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+        <Route
+          path="/certificate/:certificateId"
+          render={() => (
+            <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: error.message</>} onError={onError}>
+              <CertificatePage />
+            </ErrorBoundary>
+          )}
+        />
         <Route path="/welcome" render={() => <Welcome />} />
         <Route path={'/error'} render={() => <ErrorPage />} />
       </Switch>

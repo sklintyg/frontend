@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
-import { _dateReg, _format, formatDateToString, getValidDate, QuestionValidationTexts } from '@frontend/common'
-import { DatePickerWrapper, StyledButton, TextInput, ValidationWrapper, Wrapper } from './Styles'
-import calendarImage from '../../../images/calendar.svg'
+import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
+import { DatePickerWrapper, StyledButton, TextInput, Wrapper, FocusWrapper } from './Styles'
 import 'react-datepicker/dist/react-datepicker.css'
+import { ValidationError } from '../../..'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -22,12 +24,14 @@ interface Props {
   textInputName?: string
   textInputRef?: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined
   textInputDataTestId?: string
-  displayValidationErrorOutline?: boolean
+  displayValidationErrorOutline: boolean
   additionalStyles?: string
+  componentField: string
+  questionId: string
+  onDispatchValidationError: (shouldBeRemoved: boolean, validationError: ValidationError) => void
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
-const InvalidDateFormatValidationMessage = [{ category: '', field: '', id: '', text: INVALID_DATE_FORMAT_ERROR, type: '' }]
 
 const DatePickerCustom: React.FC<Props> = ({
   label,
@@ -43,6 +47,9 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
+  componentField,
+  questionId,
+  onDispatchValidationError,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -54,6 +61,21 @@ const DatePickerCustom: React.FC<Props> = ({
       updateFormattingValidation(inputString)
     }
   }, [])
+
+  useEffect(() => {
+    toggleFormattingError()
+  }, [displayFormattingError])
+
+  const toggleFormattingError = () => {
+    onDispatchValidationError(!displayFormattingError, {
+      category: '',
+      field: componentField,
+      id: questionId,
+      text: INVALID_DATE_FORMAT_ERROR,
+      type: 'INVALID_DATE_FORMAT',
+      showAlways: true,
+    })
+  }
 
   useEffect(() => {
     if (displayFormattingError) {
@@ -121,54 +143,51 @@ const DatePickerCustom: React.FC<Props> = ({
             {label}
           </label>
         )}
-        <TextInput
-          disabled={disabled}
-          id={id}
-          name={textInputName}
-          type="text"
-          maxLength={10}
-          className={` ic-textfield ${displayValidationErrorOutline || displayFormattingError ? 'ic-textfield--error' : ''}`}
-          onChange={handleTextInputOnChange}
-          onBlur={handleTextInputOnBlur}
-          onKeyDown={textInputOnKeyDown}
-          placeholder="åååå-mm-dd"
-          value={inputString ?? ''}
-          ref={textInputRef}
-          data-testid={textInputDataTestId}
-        />
-        <DatePicker
-          calendarStartDay={1}
-          disabled={disabled}
-          shouldCloseOnSelect={true}
-          onChange={() => {
-            /*Empty*/
-          }}
-          dateFormat={_format}
-          customInput={
-            <StyledButton
-              displayValidationError={displayValidationErrorOutline || displayFormattingError}
-              onClick={() => setOpen(true)}
-              className={`ic-button `}
-              onClickCapture={() => setOpen(!open)}>
-              <img src={calendarImage} />{' '}
-            </StyledButton>
-          }
-          onClickOutside={() => setOpen(false)}
-          open={open}
-          selected={date}
-          onSelect={(date: any, event: any) => {
-            setOpen(false)
-            handleDateOnSelect(date)
-          }}
-          showWeekNumbers
-        />
+        <FocusWrapper>
+          <TextInput
+            disabled={disabled}
+            id={id}
+            name={textInputName}
+            type="text"
+            maxLength={10}
+            className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error' : ''}`}
+            onChange={handleTextInputOnChange}
+            onBlur={handleTextInputOnBlur}
+            onKeyDown={textInputOnKeyDown}
+            placeholder="åååå-mm-dd"
+            value={inputString ?? ''}
+            ref={textInputRef}
+            data-testid={textInputDataTestId}
+          />
+          <DatePicker
+            calendarStartDay={1}
+            disabled={disabled}
+            shouldCloseOnSelect={true}
+            onChange={() => {
+              /*Empty*/
+            }}
+            dateFormat={_format}
+            customInput={
+              <StyledButton
+                displayValidationError={displayValidationErrorOutline}
+                onClick={() => setOpen(true)}
+                className={`ic-button `}
+                onClickCapture={() => setOpen(!open)}>
+                <FontAwesomeIcon icon={faCalendar} />{' '}
+              </StyledButton>
+            }
+            onClickOutside={() => setOpen(false)}
+            open={open}
+            selected={date}
+            onSelect={(date: any, event: any) => {
+              setOpen(false)
+              handleDateOnSelect(date)
+            }}
+            showWeekNumbers
+            popperPlacement="bottom-end"
+          />
+        </FocusWrapper>
       </DatePickerWrapper>
-
-      {displayFormattingError && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={InvalidDateFormatValidationMessage}></QuestionValidationTexts>
-        </ValidationWrapper>
-      )}
     </Wrapper>
   )
 }

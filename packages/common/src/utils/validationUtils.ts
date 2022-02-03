@@ -249,13 +249,19 @@ export const getValidationErrors = (validationErrors: ValidationError[], field: 
   return result
 }
 
-export const getSortedValidationErrorSummary = (certificate: Certificate): ValidationErrorSummary[] => {
+export const getSortedValidationErrorSummary = (
+  certificate: Certificate,
+  clientValidationErrors: ValidationError[]
+): ValidationErrorSummary[] => {
   let result: ValidationErrorSummary[] = []
 
   //Perhaps this could be simplified
   const certificateData = certificate.data
   for (const questionId in certificateData) {
-    if (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) {
+    if (
+      (certificateData[questionId].validationErrors && certificateData[questionId].validationErrors.length > 0) ||
+      clientValidationErrors.some((v) => v.id === questionId)
+    ) {
       if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
         if (result.findIndex((validation) => validation.id == certificateData[certificateData[questionId].parent].id) === -1) {
           result = result.concat({

@@ -5,6 +5,9 @@ import IcfRow from './IcfRow'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip'
+import { useSelector } from 'react-redux'
+import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
+import _ from 'lodash'
 
 const IcdWrapper = styled.div`
   strong {
@@ -22,10 +25,16 @@ interface Props {
 }
 
 const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode }) => {
+  const originalIcd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
+
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
     if (!icfCodeValues) return false
 
     return icfCodeValues.some((code) => code === icfCode)
+  }
+
+  const isOriginalIcd10Code = (icd10Code: string) => {
+    return originalIcd10Codes.some((code: string) => code === icd10Code)
   }
 
   useEffect(() => {
@@ -40,7 +49,13 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
             <React.Fragment key={i}>
               <strong>
                 {code.title}{' '}
-                <FontAwesomeIcon icon={faInfoCircle} data-tip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`} />
+                {!isOriginalIcd10Code(code.code) && (
+                  <FontAwesomeIcon
+                    icon={faInfoCircle}
+                    data-tip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`}
+                    data-testid={'originalWarningIcf'}
+                  />
+                )}
               </strong>
               {icd10Codes.length > 1 && i + 1 !== icd10Codes.length && <strong> |</strong>}
             </React.Fragment>

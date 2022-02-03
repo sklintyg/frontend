@@ -13,6 +13,8 @@ import {
 import * as redux from 'react-redux'
 import { addDays, isEqual } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
+import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 
 const LABEL = '25 procent'
 const QUESTION_ID = 'Test'
@@ -74,15 +76,12 @@ const defaultQuestion: CertificateDataElement = {
 }
 
 const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
-  render(<UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />)
+  render(
+    <Provider store={store}>
+      <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
+    </Provider>
+  )
 }
-
-beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
-  useSelectorSpy.mockReturnValue(jest.fn())
-})
 
 describe('UeSickLeavePeriod', () => {
   it('Renders without crashing', () => {
