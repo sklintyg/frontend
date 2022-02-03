@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import { FlattenSimpleInterpolation } from "styled-components/macro";
+import React, { ChangeEvent } from 'react'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface Props {
   expanded?: boolean
@@ -53,4 +53,4 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
   )
 })
 
-export default TextInput;
+export default TextInput
