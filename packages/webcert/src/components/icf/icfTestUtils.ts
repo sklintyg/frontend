@@ -62,8 +62,6 @@ export const getIcfData = (): IcfState => {
 }
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     links: [
       {
@@ -77,6 +75,8 @@ export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: str
       '6.1': getDiagnosisElementWithCodeSystem(codeSystem),
     },
     metadata: {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       patient: {
         personId: {
           type: 'type',
