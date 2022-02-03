@@ -52,6 +52,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
+import { setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataElementStyleEnum, ValidationError } from '@frontend/common/src'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
@@ -266,26 +267,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
       if (!state.certificate || !action.payload.affectedIds) {
         return
       }
-
-      const question = state.certificate.data[action.payload.id] as CertificateDataElement
-      const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item, i) => {
-        const isAffected = action.payload.affectedIds?.some((id: string) => item.id === id)
-        if (isAffected) {
-          item.disabled = action.payload.result
-          if (item.disabled) {
-            const index = (state.certificate?.data[action.payload.id].value as ValueCodeList).list.findIndex(
-              (value) => item.id === value.id
-            )
-            if (index !== -1) {
-              ;(state.certificate?.data[action.payload.id].value as ValueCodeList).list.splice(index, 1)
-            }
-          }
-        }
-
-        return item
-      })
-
-      state.certificate.data[action.payload.id].config.list = updatedList
+      setDisableForChildElement(state.certificate!.data, action.payload)
     })
     .addCase(updateCertificateComplements, (state, action) => {
       state.complements = action.payload

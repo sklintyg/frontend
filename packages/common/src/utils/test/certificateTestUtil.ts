@@ -257,6 +257,18 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         questionId: '27',
         expression: '$avstangningSmittskydd',
       },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '28',
+        expression: '$NUVARANDE_ARBETE',
+        id: ['ARBETSSOKANDE'],
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '28',
+        expression: '$ARBETSSOKANDE',
+        id: ['NUVARANDE_ARBETE'],
+      },
     ],
     mandatory: false,
     readOnly: false,

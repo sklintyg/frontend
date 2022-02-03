@@ -10,6 +10,7 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   CertificateStatus,
+  ConfigUeCheckboxMultipleCodes,
   ConfigTypes,
   getValidDate,
   MaxDateValidation,
@@ -318,6 +319,25 @@ function shouldBeDisabled(metadata: CertificateMetadata) {
   return metadata.status === CertificateStatus.LOCKED || metadata.status === CertificateStatus.LOCKED_REVOKED
 }
 
+export function setDisableForChildElement(data: CertificateData, validationResult: ValidationResult) {
+  const question = data[validationResult.id] as CertificateDataElement
+  const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item, i) => {
+    const isAffected = validationResult.affectedIds!.some((id: string) => item.id === id)
+    if (isAffected) {
+      item.disabled = validationResult.result
+      if (item.disabled) {
+        const index = (question.value as ValueCodeList).list.findIndex((value) => item.id === value.id)
+        if (index !== -1) {
+          ;(question.value as ValueCodeList).list.splice(index, 1)
+        }
+      }
+    }
+
+    return item
+  })
+  data[validationResult.id].config.list = updatedList
+}
+
 function validate(data: CertificateData, id: string) {
   const validations = data[id].validation || []
 
@@ -345,6 +365,8 @@ function validate(data: CertificateData, id: string) {
       } else {
         data[id].style = CertificateDataElementStyleEnum.NORMAL
       }
+    } else if (validationResult.type === CertificateDataValidationType.DISABLE_VALIDATION) {
+      setDisableForChildElement(data, validationResult)
     }
   })
 }
