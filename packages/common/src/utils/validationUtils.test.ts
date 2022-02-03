@@ -1000,21 +1000,15 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should disable child element if validation is true', () => {
-    const value: ValueCodeList = certificate.data['1.4'].value as ValueCodeList
-    value.list = [{ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' }]
-
     decorateCertificateWithInitialValues(certificate)
 
-    expect((certificate.data['1.4'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeTruthy()
+    expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeTruthy()
   })
 
   it('should enable child element if validation is false', () => {
-    const value: ValueCodeList = certificate.data['1.4'].value as ValueCodeList
-    value.list = []
-
     decorateCertificateWithInitialValues(certificate)
 
-    expect((certificate.data['1.4'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeFalsy()
+    expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
   })
 
   describe('Intialize values when certificate is not UNSIGNED', () => {
