@@ -99,4 +99,4 @@ const CertificateSidePanel: React.FC = () => {
   )
 }
 
-export default CertificateSidePanel;
+export default CertificateSidePanel

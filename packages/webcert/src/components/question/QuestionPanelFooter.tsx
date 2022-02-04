@@ -96,4 +96,4 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   )
 }
 
-export default QuestionPanelFooter;
+export default QuestionPanelFooter

@@ -168,4 +168,4 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
   )
 }
 
-export default Tabs;
+export default Tabs

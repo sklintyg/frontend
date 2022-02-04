@@ -4,7 +4,6 @@ import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Foot
 import styled from 'styled-components'
 import WCDynamicLink from '../utils/WCDynamicLink'
 
-
 const LogoWrapper = styled.div`
   margin-left: auto;
   width: 40px;

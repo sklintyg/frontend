@@ -90,4 +90,4 @@ const FMBPanel: React.FC<Props> = ({ headerHeight }) => {
   )
 }
 
-export default FMBPanel;
+export default FMBPanel

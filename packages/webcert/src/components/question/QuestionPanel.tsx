@@ -102,4 +102,4 @@ const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
   )
 }
 
-export default QuestionPanel;
+export default QuestionPanel
