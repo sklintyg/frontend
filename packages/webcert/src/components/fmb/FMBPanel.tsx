@@ -14,7 +14,11 @@ export const Italic = styled.p`
   font-style: italic;
 `
 
-const FMBPanel: React.FC = () => {
+interface Props {
+  headerHeight: number
+}
+
+const FMBPanel: React.FC<Props> = ({ headerHeight }) => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
   const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
@@ -73,7 +77,11 @@ const FMBPanel: React.FC = () => {
             onDiagnosisSelect={onDiagnosisSelect}
           />
           {selectedDiagnosisCode && (
-            <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} hasSeveralDiagnoses={hasSeveralDiagnoses()} />
+            <FMBPanelDiagnosisInfo
+              fmbDiagnosisCodeInfo={selectedDiagnosisCode}
+              hasSeveralDiagnoses={hasSeveralDiagnoses()}
+              headerHeight={headerHeight}
+            />
           )}
         </>
       )}
@@ -82,4 +90,4 @@ const FMBPanel: React.FC = () => {
   )
 }
 
-export default FMBPanel
+export default FMBPanel;

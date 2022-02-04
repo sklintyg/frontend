@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType, InfoBox } from '@frontend/common'
 import styled from 'styled-components/macro'
 import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
@@ -12,8 +12,13 @@ const Root = styled.div`
   overflow-y: auto;
 `
 
-const Wrapper = styled.div`
-  height: calc(100% - 45px);
+interface StyledProps {
+  shouldLimitHeight: boolean
+  headerHeight: number
+}
+
+const Wrapper = styled.div<StyledProps>`
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
   overflow-y: auto;
 `
 
@@ -29,9 +34,17 @@ const EmptyWrapper = styled.div`
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
   hasSeveralDiagnoses: boolean
+  headerHeight: number
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
+const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses, headerHeight }) => {
+  const contentRef = useRef(null)
+  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+
+  useEffect(() => {
+    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
+  }, [contentRef.current])
+
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">
@@ -49,7 +62,7 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSever
   return (
     <>
       <Root className={'iu-m-none'}>
-        <Wrapper>
+        <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
           <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
           <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
           <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />

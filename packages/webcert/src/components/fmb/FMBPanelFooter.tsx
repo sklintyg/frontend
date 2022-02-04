@@ -4,6 +4,7 @@ import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Foot
 import styled from 'styled-components'
 import WCDynamicLink from '../utils/WCDynamicLink'
 
+
 const LogoWrapper = styled.div`
   margin-left: auto;
   width: 40px;
@@ -11,7 +12,7 @@ const LogoWrapper = styled.div`
 
 const FMBPanelFooter: React.FC = () => {
   return (
-    <SidePanelFooter backgroundColor="iu-bg-main" textColor="iu-color-white">
+    <SidePanelFooter backgroundColor="iu-bg-main iu-m-none" textColor="iu-color-white">
       <WCDynamicLink linkKey={'fmbSoc'} light />
       <LogoWrapper>
         <img alt="" src={sosLogo} />

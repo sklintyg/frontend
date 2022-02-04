@@ -25,6 +25,7 @@ const CertificateSidePanel: React.FC = () => {
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
+  const [headerHeight, setHeaderHeight] = useState(0)
 
   if (showSpinner) return null
 
@@ -43,7 +44,7 @@ const CertificateSidePanel: React.FC = () => {
         </div>
       )
 
-      tabsContentArray.push(<QuestionPanel />)
+      tabsContentArray.push(<QuestionPanel headerHeight={headerHeight} />)
     }
 
     if (questionsNotAvailablePanelActive) {
@@ -66,7 +67,7 @@ const CertificateSidePanel: React.FC = () => {
         </div>
       )
 
-      tabsContentArray.push(<FMBPanel />)
+      tabsContentArray.push(<FMBPanel headerHeight={headerHeight} />)
     }
 
     tabsArray.push(
@@ -75,7 +76,7 @@ const CertificateSidePanel: React.FC = () => {
       </div>
     )
 
-    tabsContentArray.push(<AboutCertificatePanel />)
+    tabsContentArray.push(<AboutCertificatePanel headerHeight={headerHeight} />)
 
     return {
       getTabsArray: () => tabsArray,
@@ -86,6 +87,9 @@ const CertificateSidePanel: React.FC = () => {
   return (
     <Root className={'iu-border-secondary-light'}>
       <Tabs
+        setHeaderHeight={(height: number) => {
+          setHeaderHeight(height)
+        }}
         selectedTabIndex={selectedTabIndex}
         setSelectedTabIndex={handleTabChange}
         tabs={getTabs().getTabsArray()}
@@ -95,4 +99,4 @@ const CertificateSidePanel: React.FC = () => {
   )
 }
 
-export default CertificateSidePanel
+export default CertificateSidePanel;

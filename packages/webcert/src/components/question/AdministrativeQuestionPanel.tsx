@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ImageCentered, Question } from '@frontend/common'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
@@ -11,8 +11,13 @@ const Root = styled.div`
   height: 100%;
 `
 
-const Wrapper = styled.div`
-  height: calc(100% - 55px);
+interface StyledProps {
+  shouldLimitHeight: boolean
+  headerHeight: number
+}
+
+const Wrapper = styled.div<StyledProps>`
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
   overflow-y: auto;
 `
 
@@ -20,9 +25,22 @@ interface Props {
   administrativeQuestions: Question[]
   isQuestionFormVisible: boolean
   administrativeQuestionDraft: Question
+  headerHeight: number
 }
 
-const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }) => {
+const AdministrativeQuestionPanel: React.FC<Props> = ({
+  administrativeQuestions,
+  isQuestionFormVisible,
+  administrativeQuestionDraft,
+  headerHeight,
+}) => {
+  const contentRef = useRef(null)
+  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+
+  useEffect(() => {
+    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
+  }, [contentRef.current])
+
   const getNoQuestionsMessage = () => {
     return (
       <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
@@ -35,7 +53,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
 
   return (
     <Root>
-      <Wrapper>
+      <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
         {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
         <div className={'iu-bg-light-grey'}>
           {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (

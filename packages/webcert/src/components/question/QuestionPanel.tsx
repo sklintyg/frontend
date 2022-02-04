@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import {
@@ -28,13 +28,18 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const QuestionPanel: React.FC = () => {
+interface Props {
+  headerHeight: number
+}
+
+const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
   const questions = useSelector(getQuestions, _.isEqual)
   const questionDraft = useSelector(getQuestionDraft, _.isEqual)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const isSigned = useSelector(getIsSigned())
   const [isComplementSelected, setIsComplementSelected] = useState(true)
+  const footerRef = useRef(null)
 
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
@@ -79,12 +84,17 @@ const QuestionPanel: React.FC = () => {
     <Wrapper className={'iu-bg-light-grey'}>
       <PanelHeaderCustomized content={getHeaderButtons()} />
       {isComplementSelected ? (
-        <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
+        <ComplementQuestionPanel
+          complementQuestions={complementQuestions}
+          isDisplayingCertificateDraft={isCertificateDraft}
+          headerHeight={headerHeight}
+        />
       ) : (
         <AdministrativeQuestionPanel
           administrativeQuestions={administrativeQuestions}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
+          headerHeight={headerHeight}
         />
       )}
       <QuestionPanelFooter questions={questions} />
@@ -92,4 +102,4 @@ const QuestionPanel: React.FC = () => {
   )
 }
 
-export default QuestionPanel
+export default QuestionPanel;
