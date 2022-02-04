@@ -24,6 +24,11 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { Accordion } from '@frontend/common/src'
+import { css } from 'styled-components/macro'
+
+const AccordionStyles = css`
+  flex: 0 0 100%;
+`
 
 interface Props {
   question: CertificateDataElement
@@ -140,6 +145,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         {!disabled && (
           <DaysRangeWrapper>
             <Accordion
+              wrapperStyles={AccordionStyles}
               titleId={'workHours'}
               icon={'lightbulb_outline'}
               iconSize={'sm'}
@@ -160,7 +166,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           </DaysRangeWrapper>
         )}
       </div>
-      <div>
+      <div className={'iu-pt-300'}>
         {config.list.map((period: ConfigUeCheckboxDateRange, i) => {
           return (
             <DateRangePicker

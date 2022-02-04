@@ -42,7 +42,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="checkbox-group-wrapper">
+    <div className="checkbox-group-wrapper iu-pt-500">
       <div>
         <div className="checkbox-child">{renderCheckboxes()}</div>
         <QuestionValidationTexts validationErrors={validationErrors} />
