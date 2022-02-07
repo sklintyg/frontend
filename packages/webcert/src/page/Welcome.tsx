@@ -10,6 +10,7 @@ import {
   updateCertificateId,
   updateCreateCertificate,
   updateNavigateToCertificate,
+  populateFmb,
 } from '../store/welcome/welcomeActions'
 import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
@@ -61,6 +62,10 @@ const StyledInput = styled.input.attrs(() => ({
   type: 'text',
   placeholder: 'intygsid',
 }))`
+  max-width: 600px;
+`
+
+const ExpandableDetails = styled.details`
   max-width: 600px;
 `
 
@@ -149,84 +154,121 @@ const Welcome: React.FC = () => {
     }
   }
 
+  const dispatchPopulateFmb = () => {
+    dispatch(populateFmb)
+  }
+
   return (
     <div>
       <div className="ic-container">
-        <div className="iu-grid-cols">
-          <div className="iu-grid-span-12">
-            <h1>Testinloggningar för Webcert</h1>
+        <div className="iu-grid-span-12">
+          <h1>Testinloggningar för Webcert</h1>
+        </div>
+        <div className="iu-grid-rows iu-mt-500">
+          <div className="iu-grid-cols iu-grid-cols-12">
+            <div className="iu-grid-span-7">
+              <h2>Användare</h2>
+              <StyledSelect value={selectedUser.hsaId} onChange={handleChangeMultiple} size={availableUsers.length}>
+                {availableUsers.map((user) => (
+                  <option key={user.hsaId} value={user.hsaId}>
+                    {user.forNamn} {user.efterNamn} ({user.legitimeradeYrkesgrupper?.[0] ?? 'Vårdadmin'}){' '}
+                  </option>
+                ))}
+              </StyledSelect>
+              <StyledForm onSubmit={handleLogin}>
+                <input
+                  onChange={handleCreateNewCertificateCheckbox}
+                  className="ic-forms__checkbox"
+                  type="checkbox"
+                  checked={isCreateNewCertificate}
+                  id="isCreateNewCertificate"
+                />
+                <label htmlFor="isCreateNewCertificate">Skapa nytt utkast/intyg?</label>
+                {isCreateNewCertificate && <WelcomeCertificateTypes />}
+                {!isCreateNewCertificate && (
+                  <StyledInput
+                    disabled={isCreateNewCertificate}
+                    value={existingCertificateId}
+                    onChange={(e) => setExistingCertificateId(e.target.value)}
+                    type="text"
+                    className="ic-textfield"
+                    placeholder="intygsid"
+                  />
+                )}
+                <input
+                  onChange={handleDeepIntegrationCheckbox}
+                  className="ic-forms__checkbox"
+                  type="checkbox"
+                  checked={isDeepIntegration}
+                  id="isDeepIntegration"
+                />
+                <label htmlFor="isDeepIntegration">Djupintegrerat uthopp?</label>
+                <div>
+                  <RadioButton
+                    key={'fake'}
+                    label={'Fake-inloggning'}
+                    value={'fake'}
+                    checked={isFakeLogin}
+                    id={'fake'}
+                    name={'fake'}
+                    disabled={!isDeepIntegration}
+                    onChange={() => setFakeLogin(true)}
+                  />
+                  <RadioButton
+                    key={'siths'}
+                    label={'SITHS-inloggning'}
+                    value={'siths'}
+                    checked={!isFakeLogin}
+                    id={'siths'}
+                    name={'siths'}
+                    disabled={!isDeepIntegration}
+                    onChange={() => setFakeLogin(false)}
+                  />
+                </div>
+                <CustomButton
+                  buttonStyle="primary"
+                  type="submit"
+                  disabled={!isCreateNewCertificate && existingCertificateId.length < 1}
+                  onSubmit={handleLogin}>
+                  Logga in
+                </CustomButton>
+              </StyledForm>
+            </div>
+            <div className="iu-grid-span-5">
+              <h3>Inloggningsprofil</h3>
+              <JsonInfo>{JSON.stringify(jsonUser, undefined, 4)}</JsonInfo>
+            </div>
           </div>
-          <div className="iu-grid-span-5">
-            <h2>Användare</h2>
-            <StyledSelect value={selectedUser.hsaId} onChange={handleChangeMultiple} size={availableUsers.length}>
-              {availableUsers.map((user) => (
-                <option key={user.hsaId} value={user.hsaId}>
-                  {user.forNamn} {user.efterNamn} ({user.legitimeradeYrkesgrupper?.[0] ?? 'Vårdadmin'}){' '}
-                </option>
-              ))}
-            </StyledSelect>
-            <StyledForm onSubmit={handleLogin}>
-              <input
-                onChange={handleCreateNewCertificateCheckbox}
-                className="ic-forms__checkbox"
-                type="checkbox"
-                checked={isCreateNewCertificate}
-                id="isCreateNewCertificate"
-              />
-              <label htmlFor="isCreateNewCertificate">Skapa nytt utkast/intyg?</label>
-              {isCreateNewCertificate && <WelcomeCertificateTypes />}
-              {!isCreateNewCertificate && (
-                <StyledInput
-                  disabled={isCreateNewCertificate}
-                  value={existingCertificateId}
-                  onChange={(e) => setExistingCertificateId(e.target.value)}
-                  type="text"
-                  className="ic-textfield"
-                  placeholder="intygsid"
-                />
-              )}
-              <input
-                onChange={handleDeepIntegrationCheckbox}
-                className="ic-forms__checkbox"
-                type="checkbox"
-                checked={isDeepIntegration}
-                id="isDeepIntegration"
-              />
-              <label htmlFor="isDeepIntegration">Djupintegrerat uthopp?</label>
-              <div>
-                <RadioButton
-                  key={'fake'}
-                  label={'Fake-inloggning'}
-                  value={'fake'}
-                  checked={isFakeLogin}
-                  id={'fake'}
-                  name={'fake'}
-                  disabled={!isDeepIntegration}
-                  onChange={() => setFakeLogin(true)}
-                />
-                <RadioButton
-                  key={'siths'}
-                  label={'SITHS-inloggning'}
-                  value={'siths'}
-                  checked={!isFakeLogin}
-                  id={'siths'}
-                  name={'siths'}
-                  disabled={!isDeepIntegration}
-                  onChange={() => setFakeLogin(false)}
-                />
-              </div>
-              <CustomButton
-                buttonStyle="primary"
-                type="submit"
-                disabled={!isCreateNewCertificate && existingCertificateId.length < 1}
-                onSubmit={handleLogin}>
-                Logga in
-              </CustomButton>
-            </StyledForm>
-          </div>
-          <div className="iu-grid-span-7">
-            <h3>Inloggningsprofil</h3>
-            <JsonInfo>{JSON.stringify(jsonUser, undefined, 4)}</JsonInfo>
+        </div>
+        <div className="iu-grid-rows iu-mt-500">
+          <div className="iu-grid-cols iu-grid-cols-12">
+            <div className="iu-grid-span-7">
+              <ExpandableDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable">
+                <summary className="ic-expandable-button ic-inner ic-expandable-button--chevron">Övriga parametrar</summary>
+                <CustomButton buttonStyle="primary" type="button" onClick={dispatchPopulateFmb}>
+                  Populera FMB
+                </CustomButton>
+              </ExpandableDetails>
+              <ExpandableDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable iu-mt-500">
+                <summary className="ic-expandable-button ic-inner ic-expandable-button--chevron">Hjälplänkar</summary>
+                <p>Nedan finns ett antal snabblänkar till hjälpfunktioner för utvecklings- och teständamål.</p>
+                <p>
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/version.jsp" target="_blank">
+                    Versions- och bygginformation
+                  </a>
+                </p>
+                <p>
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/apis/index.html" target="_blank">
+                    REST-endpoints
+                  </a>
+                </p>
+                <p>
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/simulator/index.html" target="_blank">
+                    Ärendeverktyget
+                  </a>
+                </p>
+              </ExpandableDetails>
+            </div>
           </div>
         </div>
       </div>
