@@ -89,7 +89,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   }
 
   return (
-    <SidePanelFooter backgroundColor="iu-bg-grey-300" textColor="iu-color-white">
+    <SidePanelFooter backgroundColor="iu-bg-grey-300" textColor="iu-color-white" additionalStyles={'iu-m-none'}>
       {getComplementButton()}
       {getCannotComplementButton()}
     </SidePanelFooter>
