@@ -8,9 +8,7 @@ interface Props {
   value?: string
   checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  onFocus?: (event: FocusEvent<HTMLInputElement>) => void
+  onFocus?: React.FocusEventHandler<HTMLInputElement>
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
   vertical?: boolean
