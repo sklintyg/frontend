@@ -9,6 +9,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import _ from 'lodash'
 import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
+import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
   question: CertificateDataElement
@@ -254,6 +255,23 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnoskod'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={codeErrorStyles}
+        disabled={!isShowValidationError}
+        handleErrorStyling={hasErrorStyling}
+      />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'row'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        handleErrorStyling={hasErrorStyling}
+        disabled={false}
+      />
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -271,6 +289,15 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
         limit={textValidation ? textValidation.limit : 250}
+      />
+      <DiagnosisValidation
+        validationErrors={question.validationErrors}
+        fieldId={'diagnosbeskrivning'}
+        id={id}
+        defaultStyle={wholeRowGrid}
+        specificStyle={descriptionErrorStyles}
+        disabled={!isShowValidationError && !hasValidationError}
+        handleErrorStyling={hasErrorStyling}
       />
     </Wrapper>
   )
