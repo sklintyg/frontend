@@ -47,3 +47,7 @@ export const loginUserCompleted = createAction('[Welcome] Login user completed')
 
 export const updateNavigateToCertificate = createAction<boolean>('[Welcome] NavigateToCertificate')
 export const clearWelcome = createAction('[Welcome] Clear Welcome')
+
+export const populateFmb = createAction('[Welcome] Populate FMB')
+export const populateFmbStarted = createAction('[Welcome] Populate FMB started')
+export const populateFmbSuccess = createAction('[Welcome] Populate FMB success')
