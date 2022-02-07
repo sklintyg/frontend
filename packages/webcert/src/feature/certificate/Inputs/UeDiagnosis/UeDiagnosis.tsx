@@ -135,9 +135,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
-      updateSavedDiagnosis(question, '', '')
+      dispatchUpdateDiagnosis(question, '', '')
     } else {
-      updateSavedDiagnosis(question, '', description)
+      dispatchUpdateDiagnosis(question, '', description)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
   }
@@ -149,9 +149,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      dispatchUpdateDiagnosisWithNewDescription(question, '', newDescription)
+      dispatchUpdateDiagnosis(question, '', newDescription)
     } else {
-      dispatchUpdateDiagnosisWithNewDescription(question, code, newDescription)
+      dispatchUpdateDiagnosis(question, code, newDescription)
     }
     dispatchTypeahead(newDescription, selectedCodeSystem)
   }
@@ -162,7 +162,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }, 150)
   ).current
 
-  const dispatchUpdateDiagnosisWithNewDescription = useRef(
+  const dispatchUpdateDiagnosis = useRef(
     _.debounce((question: CertificateDataElement, code: string, description: string) => {
       updateSavedDiagnosis(question, code, description)
     }, 500)
@@ -201,7 +201,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    updateSavedDiagnosis(question, newCode, newDesc)
+    dispatchUpdateDiagnosis(question, newCode, newDesc)
   }
 
   const updateSavedDiagnosis = (question: CertificateDataElement, code: string, description: string) => {
