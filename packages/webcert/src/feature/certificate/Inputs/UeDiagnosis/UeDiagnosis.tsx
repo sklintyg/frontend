@@ -318,7 +318,6 @@ const duplicateDiagnosisIsSaved = (updatedValueList: ValueDiagnosis[], valueDiag
 }
 
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
-  console.log(valueDiagnosis)
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
   let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
