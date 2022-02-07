@@ -36,6 +36,7 @@ import {
   validateQuestion,
 } from './questionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { certificateMiddleware } from '../certificate/certificateMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -48,7 +49,8 @@ describe('Test question middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware),
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware, certificateMiddleware),
     })
   })
 
@@ -487,6 +489,41 @@ describe('Test question middleware', () => {
       expect(fakeAxios.history.post.length).toBe(1)
     })
 
+    it('shall reload certificate after setting complement to handled', async () => {
+      const question = createComplement()
+      testStore.dispatch(updateQuestions([question]))
+      const handleQuestionResponse = {
+        question: {
+          ...question,
+          handled: true,
+        },
+      } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+
+      testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/certificate/')
+    })
+
+    it('shall not reload certificate after setting question to handled', async () => {
+      const question = createQuestion()
+      testStore.dispatch(updateQuestions([question]))
+      const handleQuestionResponse = {
+        question: {
+          ...question,
+          handled: true,
+        },
+      } as QuestionResponse
+      fakeAxios.onPost('/api/question/' + question.id + '/handle').reply(200, handleQuestionResponse)
+
+      testStore.dispatch(handleQuestion({ questionId: question.id, handled: true }))
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(0)
+    })
+
     it('shall set question to unhandled', async () => {
       const question = createQuestion()
       testStore.dispatch(updateQuestions([question]))
@@ -561,6 +598,23 @@ const addComplementsToQuestion = (question: Question, complements: Complement[])
 const createQuestion = (): Question => {
   return {
     type: QuestionType.COORDINATION,
+    author: 'author',
+    id: 'id',
+    forwarded: true,
+    handled: false,
+    lastUpdate: '2021-07-08',
+    message: 'message',
+    sent: '2021-07-08',
+    complements: [],
+    subject: 'subject',
+    reminders: [],
+    links: [],
+  }
+}
+
+const createComplement = (): Question => {
+  return {
+    type: QuestionType.COMPLEMENT,
     author: 'author',
     id: 'id',
     forwarded: true,
