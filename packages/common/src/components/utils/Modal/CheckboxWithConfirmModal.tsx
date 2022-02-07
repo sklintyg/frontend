@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Checkbox, CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface Props {
   disabled: boolean
@@ -19,6 +20,7 @@ interface Props {
   onClose?: () => void
   checked: boolean
   id: string
+  wrapperStyles?: FlattenSimpleInterpolation
 }
 
 const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
@@ -51,7 +53,7 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
   }, [escPress])
 
   return (
-    <>
+    <div css={props.wrapperStyles}>
       <Checkbox
         id={props.id}
         label={props.name}
@@ -79,7 +81,7 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
           </>
         }
       />
-    </>
+    </div>
   )
 }
 
