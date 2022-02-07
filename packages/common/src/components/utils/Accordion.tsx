@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { MandatoryIcon } from '@frontend/common'
 import Icon from '../image/Icon'
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 const Text = styled.p`
   max-height: 195px;
@@ -41,6 +42,7 @@ interface Props {
   icon?: string
   includeIconTooltip?: boolean
   iconSize?: FontAwesomeIconProps['size']
+  wrapperStyles: FlattenSimpleInterpolation
 }
 
 const Accordion: React.FC<Props> = ({
@@ -55,6 +57,7 @@ const Accordion: React.FC<Props> = ({
   includeIconTooltip,
   iconSize,
   children,
+  wrapperStyles,
 }) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
@@ -78,7 +81,7 @@ const Accordion: React.FC<Props> = ({
   }
 
   return (
-    <div id={titleId}>
+    <div id={titleId} css={wrapperStyles}>
       {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
       <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
         {title ? (
