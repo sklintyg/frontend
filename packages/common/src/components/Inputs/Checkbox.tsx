@@ -8,6 +8,9 @@ interface Props {
   value?: string
   checked?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void
   hasValidationError?: boolean
   checkboxAdditionalStyles?: string
   vertical?: boolean
@@ -31,6 +34,7 @@ const Checkbox: React.FC<Props> = (props) => {
     id,
     name,
     onChange,
+    onFocus,
     value,
     checked,
     checkboxAdditionalStyles,
@@ -52,6 +56,7 @@ const Checkbox: React.FC<Props> = (props) => {
         onChange={onChange}
         checked={checked}
         disabled={disabled}
+        onFocus={onFocus}
       />
       <Label hasValidationError={hasValidationError} htmlFor={'checkbox_' + id} style={{ display: `${vertical} ? block : 'unset'` }}>
         {label}

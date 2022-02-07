@@ -137,13 +137,13 @@ const IcfDropdown: React.FC<Props> = ({
 
       {shouldRenderDropdown() && (
         <>
-          <Root ref={rootRef}>
+          <Root ref={rootRef} id={'icfDropdown'}>
             <div hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
               <StyledTitle className={'iu-bg-main iu-color-white iu-p-300'}>
                 <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />
                 {modalLabel}
               </StyledTitle>
-              <ScrollDiv className={'iu-pb-300 iu-bg-white'}>
+              <ScrollDiv className={'iu-pb-300 iu-bg-white'} id={'icfScrollContainer'}>
                 {getCommonCodes()}
                 {getUniqueCodes()}
               </ScrollDiv>
