@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CertificateStatus, ImageCentered, InfoBox, Question } from '@frontend/common'
 import QuestionItem from './QuestionItem'
 import noQuestionsImg from './fragor_svar_nodata.svg'
@@ -11,8 +11,13 @@ const Root = styled.div`
   overflow-y: auto;
 `
 
-const Wrapper = styled.div`
-  height: calc(100% - 55px);
+interface StyledProps {
+  shouldLimitHeight: boolean
+  headerHeight: number
+}
+
+const Wrapper = styled.div<StyledProps>`
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
   background-color: white;
   overflow-y: auto;
 
@@ -24,9 +29,17 @@ const Wrapper = styled.div`
 interface Props {
   complementQuestions: Question[]
   isDisplayingCertificateDraft: boolean
+  headerHeight: number
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
+const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft, headerHeight }) => {
+  const contentRef = useRef(null)
+  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+
+  useEffect(() => {
+    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
+  }, [contentRef.current])
+
   const getNoQuestionsMessage = () => {
     return (
       <div>
@@ -61,7 +74,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
 
   return (
     <Root>
-      <Wrapper>
+      <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
         {!isDisplayingCertificateDraft && getContinueOnDraft()}
         {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
           <QuestionItem key={complementQuestion.id} question={complementQuestion} />
