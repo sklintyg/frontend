@@ -9,7 +9,6 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import _ from 'lodash'
 import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
-import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
   question: CertificateDataElement
@@ -135,9 +134,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
-      updateSavedDiagnosis(question, '', '')
+      dispatchUpdateDiagnosis(question, '', '')
     } else {
-      updateSavedDiagnosis(question, '', description)
+      dispatchUpdateDiagnosis(question, '', description)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
   }
@@ -149,9 +148,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      dispatchUpdateDiagnosisWithNewDescription(question, '', newDescription)
+      dispatchUpdateDiagnosis(question, '', newDescription)
     } else {
-      dispatchUpdateDiagnosisWithNewDescription(question, code, newDescription)
+      dispatchUpdateDiagnosis(question, code, newDescription)
     }
     dispatchTypeahead(newDescription, selectedCodeSystem)
   }
@@ -162,7 +161,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }, 150)
   ).current
 
-  const dispatchUpdateDiagnosisWithNewDescription = useRef(
+  const dispatchUpdateDiagnosis = useRef(
     _.debounce((question: CertificateDataElement, code: string, description: string) => {
       updateSavedDiagnosis(question, code, description)
     }, 500)
@@ -201,7 +200,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    updateSavedDiagnosis(question, newCode, newDesc)
+    dispatchUpdateDiagnosis(question, newCode, newDesc)
   }
 
   const updateSavedDiagnosis = (question: CertificateDataElement, code: string, description: string) => {
@@ -255,23 +254,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
       />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'diagnoskod'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        specificStyle={codeErrorStyles}
-        disabled={!isShowValidationError}
-        handleErrorStyling={hasErrorStyling}
-      />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'row'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        handleErrorStyling={hasErrorStyling}
-        disabled={false}
-      />
       <Typeahead
         ref={diagnosisInput}
         suggestions={getSuggestions()}
@@ -289,15 +271,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}
         limit={textValidation ? textValidation.limit : 250}
-      />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'diagnosbeskrivning'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        specificStyle={descriptionErrorStyles}
-        disabled={!isShowValidationError && !hasValidationError}
-        handleErrorStyling={hasErrorStyling}
       />
     </Wrapper>
   )
@@ -318,6 +291,7 @@ const duplicateDiagnosisIsSaved = (updatedValueList: ValueDiagnosis[], valueDiag
 }
 
 function getUpdatedValue(question: CertificateDataElement, valueDiagnosis: ValueDiagnosis): CertificateDataElement | null {
+  console.log(valueDiagnosis)
   const updatedQuestion: CertificateDataElement = { ...question }
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDiagnosisList) }
   let updatedValueList = [...(updatedQuestionValue.list as ValueDiagnosis[])]
