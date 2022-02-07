@@ -18,6 +18,9 @@ import {
   updateCertificateTypes,
   updateNavigateToCertificate,
   updatePatients,
+  populateFmb,
+  populateFmbStarted,
+  populateFmbSuccess,
 } from './welcomeActions'
 import { getUser } from '../user/userActions'
 
@@ -89,6 +92,18 @@ const handleLoginUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
   dispatch(updateNavigateToCertificate(true))
 }
 
+const handlePopulateFmb: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/testability/fmb/updatefmbdata',
+      method: 'GET',
+      onStart: populateFmbStarted.type,
+      onSuccess: populateFmbSuccess.type,
+      onError: apiGenericError.type,
+    })
+  )
+}
+
 const middlewareMethods = {
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
@@ -98,6 +113,7 @@ const middlewareMethods = {
   [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
   [loginUser.type]: handleLoginUser,
   [loginUserSuccess.type]: handleLoginUserSuccess,
+  [populateFmb.type]: handlePopulateFmb,
 }
 
 export const welcomeMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
