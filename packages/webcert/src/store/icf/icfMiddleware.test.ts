@@ -8,7 +8,11 @@ import { icfMiddleware } from './icfMiddleware'
 import { Icd10Code, IcfCode } from './icfReducer'
 import { Certificate, CertificateStatus, IcfTitles } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getCertificateWithDiagnosisElementWithCodeSystem, getDiagnosisElementWithCodeSystem } from '../../components/icf/icfTestUtils'
+import {
+  getCertificateWithDiagnosisElementWithCodeSystem,
+  getCodeElement,
+  getDiagnosisElementWithCodeSystem,
+} from '../../components/icf/icfTestUtils'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -110,6 +114,16 @@ describe('Test ICF middleware', () => {
 
       flushPromises()
       expect(testStore.getState().ui.uiIcf.originalIcd10Codes).toHaveLength(0)
+    })
+
+    it('shall keep saved icd codes if other data element is updated', () => {
+      const diagnosisElement = getDiagnosisElementWithCodeSystem('ICD_10_SE')
+      const otherElement = getCodeElement()
+      testStore.dispatch(updateCertificateDataElement(diagnosisElement))
+      testStore.dispatch(updateCertificateDataElement(otherElement))
+
+      flushPromises()
+      expect(testStore.getState().ui.uiIcf.originalIcd10Codes).toHaveLength(1)
     })
   })
 })
