@@ -57,7 +57,7 @@ import {
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
-import { updateCertificate } from '../certificate/certificateActions'
+import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
 import { createErrorRequestFromApiError } from '../error/errorCreator'
 import { throwError } from '../error/errorActions'
@@ -350,8 +350,11 @@ export const handleHandleQuestion: Middleware<Dispatch> = ({ dispatch }) => () =
   )
 }
 
-export const handleHandleQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+export const handleHandleQuestionSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   dispatch(updateQuestion(action.payload.question))
+  if (action.payload.question.type === QuestionType.COMPLEMENT && action.payload.question.handled) {
+    dispatch(getCertificate(getState().ui.uiQuestion.certificateId))
+  }
 }
 
 const middlewareMethods = {
