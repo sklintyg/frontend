@@ -120,3 +120,30 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
     validationErrors: [],
   }
 }
+
+export const getCodeElement = (): CertificateDataElement => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return {
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
+      description:
+        'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
+      type: ConfigTypes.UE_DIAGNOSES,
+      id: 'funktionsnedsattning',
+    },
+    value: {
+      type: CertificateDataValueType.CODE,
+      code: 'code',
+      id: 'id',
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}

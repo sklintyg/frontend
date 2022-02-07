@@ -44,11 +44,9 @@ const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (ac
 function handleUpdateIcfState(value: Value, dispatch: Dispatch<AnyAction>) {
   const icdCodes = getIcdCodesFromQuestionValue(value)
 
-  if (icdCodes && icdCodes.length > 0) {
+  if (icdCodes) {
     dispatch(getIcfCodes({ icdCodes: icdCodes }))
     dispatch(setOriginalIcd10Codes(icdCodes))
-  } else {
-    dispatch(setOriginalIcd10Codes([]))
   }
 }
 
@@ -68,6 +66,8 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
 function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
     return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map((code) => code.code)
+  } else {
+    return undefined
   }
 }
 

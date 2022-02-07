@@ -15,11 +15,12 @@ const TextWrapper = styled.div`
 interface Props {
   backgroundColor: 'iu-bg-grey-300' | 'iu-bg-main' | 'iu-bg-white'
   textColor?: 'iu-color-text' | 'iu-color-white' | 'iu-color-main'
+  additionalStyles?: string
 }
 
-const SidePanelFooter: React.FC<Props> = ({ children, backgroundColor, textColor }) => {
+const SidePanelFooter: React.FC<Props> = ({ children, backgroundColor, textColor, additionalStyles }) => {
   return (
-    <Root className={`${backgroundColor} ${textColor} iu-border-grey-300`}>
+    <Root className={`${backgroundColor} ${textColor} ${additionalStyles} iu-border-grey-300`}>
       <TextWrapper>{children}</TextWrapper>
     </Root>
   )

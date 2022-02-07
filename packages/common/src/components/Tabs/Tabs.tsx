@@ -22,9 +22,10 @@ interface Props {
   tabsContent: React.ReactNode[]
   setSelectedTabIndex: (index: number) => void
   selectedTabIndex: number
+  setHeaderHeight: (height: number) => void
 }
 
-export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex }) => {
+export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex, setHeaderHeight }) => {
   const tabbed = useRef<HTMLDivElement | null>(null)
   const tabList = useRef<HTMLUListElement | null>(null)
   const tabRefs = useRef<HTMLAnchorElement[]>([])
@@ -89,6 +90,12 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
   useEffect(() => {
     setTab(selectedTabIndex)
   }, [selectedTabIndex])
+
+  useEffect(() => {
+    if (tabList.current) {
+      setHeaderHeight(tabList.current?.clientHeight)
+    }
+  }, [tabList.current])
 
   // The tab switching function
   const switchTab = (oldTab: HTMLElement, newTab: HTMLElement) => {

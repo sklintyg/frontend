@@ -108,6 +108,10 @@ const FormattedTextStyles = css`
   white-space: pre-line;
 `
 
+const CheckboxStyles = css`
+  margin-left: auto;
+`
+
 export const COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE = 'Kompletteringsbegäran har besvarats med ett meddelande.'
 
 interface Props {
@@ -241,7 +245,8 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   modalTitle={'Markera som hanterad'}
                   confirmButtonText={'Markera som hanterad'}
                   name={'Hanterad'}
-                  onConfirm={handleSelect}>
+                  onConfirm={handleSelect}
+                  wrapperStyles={CheckboxStyles}>
                   <p>När ett intyg markeras som hanterad kan detta inte ångras senare.</p>
                 </CheckboxWithConfirmModal>
               ) : (
