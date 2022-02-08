@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { AnyAction, createSelector } from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
@@ -160,7 +160,11 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
   if (state.ui.uiCertificate.certificate) {
     const question = state.ui.uiCertificate.certificate.data[questionId]
     if (question && question.validationErrors) {
-      validationErrors = [...validationErrors, ...question.validationErrors]
+      let serverValidationErrors = question.validationErrors
+      if (clientValidationErrors.length > 0) {
+        serverValidationErrors = serverValidationErrors.filter((v) => v.type !== 'EMPTY')
+      }
+      validationErrors = [...validationErrors, ...serverValidationErrors]
     }
   }
 
@@ -169,6 +173,11 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
   } else {
     return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
   }
+}
+
+export const getChildClientValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
+  const validationErrors = [...state.ui.uiCertificate.clientValidationErrors]
+  return validationErrors.filter((v: ValidationError) => v.field && field && v.id === questionId && !v.field.includes(field))
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
