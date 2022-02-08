@@ -179,6 +179,17 @@ describe('Date range picker', () => {
       expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
     })
 
+    it('should not show not complete date message if invalid date is inserted in other field', () => {
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(showValidationErrors())
+
+      userEvent.type(screen.getByLabelText('Fr.o.m'), '20210202')
+      userEvent.type(screen.getByText('t.o.m'), 'yyyyyyyy')
+      userEvent.click(screen.getByText('Fr.o.m'))
+      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
+      expect(screen.getByText('Ange datum i formatet åååå-mm-dd.')).toBeInTheDocument()
+    })
+
     it('should not show complete date message when validation errors are hidden but from date is inserted', () => {
       renderDefaultComponent(null, null, '0')
       store.dispatch(hideValidationErrors())

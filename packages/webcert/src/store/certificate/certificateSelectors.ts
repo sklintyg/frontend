@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { AnyAction, createSelector } from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
@@ -160,7 +160,11 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
   if (state.ui.uiCertificate.certificate) {
     const question = state.ui.uiCertificate.certificate.data[questionId]
     if (question && question.validationErrors) {
-      validationErrors = [...validationErrors, ...question.validationErrors]
+      let serverValidationErrors = question.validationErrors
+      if (clientValidationErrors.length > 0) {
+        serverValidationErrors = serverValidationErrors.filter((v) => v.type !== 'EMPTY')
+      }
+      validationErrors = [...validationErrors, ...serverValidationErrors]
     }
   }
 

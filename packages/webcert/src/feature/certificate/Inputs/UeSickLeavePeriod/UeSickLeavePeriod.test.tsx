@@ -10,11 +10,12 @@ import {
   ConfigUeSickLeavePeriod,
   getValidDate,
 } from '@frontend/common'
-import * as redux from 'react-redux'
+import { Provider } from 'react-redux'
 import { addDays, isEqual } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
-import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { getCertificateWithQuestion } from '@frontend/common/src'
 
 const LABEL = '25 procent'
 const QUESTION_ID = 'Test'
@@ -252,5 +253,50 @@ describe('UeSickLeavePeriod', () => {
     renderDefaultComponent(question)
 
     expect(screen.queryByText(expectedPreviousSickLeavePeriod)).toBeInTheDocument()
+  })
+
+  it('does display validation error if child has no client validation errors', () => {
+    const expectedValidationMessage = 'Välj minst ett alternativ.'
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      id: 'questionId',
+      validationErrors: [
+        {
+          category: defaultQuestion.parent,
+          type: 'EMPTY',
+          id: 'questionId',
+          field: 'questionId',
+          text: expectedValidationMessage,
+        },
+      ],
+    }
+
+    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(showValidationErrors())
+    renderDefaultComponent(question)
+
+    expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
+  })
+
+  it('does not display validation error if child has client validation errors', () => {
+    const expectedValidationMessage = 'Välj minst ett alternativ.'
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      validationErrors: [
+        {
+          category: defaultQuestion.parent,
+          type: 'EMPTY',
+          id: defaultQuestion.id,
+          field: defaultQuestion.id,
+          text: expectedValidationMessage,
+        },
+      ],
+    }
+
+    renderDefaultComponent(question)
+
+    userEvent.click(screen.getAllByRole('checkbox')[0])
+
+    expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
 })

@@ -13,6 +13,14 @@
   width: 0;
 }
 
+.ic-forms__radio:checked:disabled + label:before {
+  background: #c3bbb4 !important;
+}
+
+.ic-forms__radio:disabled + label:before {
+  background: #f7f4f2 !important;
+}
+
 input:disabled + label, input:disabled::placeholder {
   font-style: italic;
 }

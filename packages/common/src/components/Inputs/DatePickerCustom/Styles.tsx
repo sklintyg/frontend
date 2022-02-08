@@ -15,7 +15,7 @@ export const StyledButton = styled.button<buttonProps>`
   width: 55px;
   height: 2.956rem;
   box-shadow: none;
-  background-color: #f7f4f2;
+  background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
   color: #000000;
 
   border-top-left-radius: 0;
@@ -26,7 +26,7 @@ export const StyledButton = styled.button<buttonProps>`
   border-bottom: ${(props) => (props.displayValidationError ? '2px solid rgb(193, 33, 67)' : '0.125rem solid #01a5a3')};
 
   &:hover {
-    background-color: #f7f4f2;
+    background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
     color: #000000;
   }
 
