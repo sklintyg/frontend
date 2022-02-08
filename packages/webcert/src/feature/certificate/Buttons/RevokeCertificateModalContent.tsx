@@ -6,7 +6,7 @@ import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
 import WCDynamicLink from '../../../components/utils/WCDynamicLink'
 
-const mandatoryIconAdditonalStyles = css`
+const mandatoryIconAdditionalStyles = css`
   top: -4px;
 `
 
@@ -27,7 +27,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea({ ...textArea, value: event.target.value })
-    onChange({ reason: textArea.name, message: event.target.value })
+    onChange({ reason: textArea.name, message: textLabel + ' ' + event.target.value })
   }
 
   const infoBoxText = locked
@@ -82,7 +82,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
         {textArea.display && textArea.name === 'ANNAT_ALLVARLIGT_FEL' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditonalStyles} display={textArea.value.length < 1} />
+              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
               Ange orsaken till felet.
             </p>
             <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} />
