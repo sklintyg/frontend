@@ -175,11 +175,6 @@ export const getVisibleValidationErrors = (questionId: string, field: string) =>
   }
 }
 
-export const getChildClientValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
-  const validationErrors = [...state.ui.uiCertificate.clientValidationErrors]
-  return validationErrors.filter((v: ValidationError) => v.field && field && v.id === questionId && !v.field.includes(field))
-}
-
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
 
 export const getResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiCertificate.certificate?.links ?? []
