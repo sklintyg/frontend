@@ -24,6 +24,13 @@ const StyledSummary = styled.summary`
   & ::after {
     top: 20px !important;
   }
+
+  :focus {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: #a1958a;
+    outline-offset: 3px;
+  }
 `
 
 const StyledDetails = styled.details`
@@ -64,7 +71,7 @@ const Accordion: React.FC<Props> = ({
   const getHeader = () => {
     if (!hasHeader) {
       return (
-        <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+        <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
           <MandatoryIcon display={displayMandatory as boolean} />{' '}
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
@@ -72,7 +79,7 @@ const Accordion: React.FC<Props> = ({
       )
     } else {
       return (
-        <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+        <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} size={iconSize} />
           <MandatoryIcon display={displayMandatory as boolean} /> <h5 className={`iu-fs-200 ${additionalStyles}`}>{title}</h5>
         </StyledSummary>
@@ -87,7 +94,7 @@ const Accordion: React.FC<Props> = ({
         {title ? (
           getHeader()
         ) : (
-          <StyledSummary className="ic-expandable-button ic-inner ic-expandable-button--chevron">
+          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron">
             {' '}
             <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
             {children}

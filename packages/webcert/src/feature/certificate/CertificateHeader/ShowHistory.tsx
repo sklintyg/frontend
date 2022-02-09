@@ -11,6 +11,13 @@ import {
   TextWithInfoModal,
 } from '@frontend/common'
 import { Spinner } from '@frontend/common/src'
+import styled from 'styled-components/macro'
+
+const Wrapper = styled.div`
+  a {
+    margin-left: 3px;
+  }
+`
 
 interface Props {
   historyEntries: CertificateEvent[]
@@ -218,7 +225,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
     <div>
       <TextWithInfoModal additionalStyles={'iu-fs-100'} text="Visa alla händelser" modalTitle="Alla händelser">
         {isEmpty && <Spinner text={'Laddar händelser'} size={'small'} />}
-        {[...historyEntries].reverse().map((entry, i) => getHistoryEntry(i, entry))}
+        <Wrapper>{[...historyEntries].reverse().map((entry, i) => getHistoryEntry(i, entry))}</Wrapper>
       </TextWithInfoModal>
     </div>
   )
