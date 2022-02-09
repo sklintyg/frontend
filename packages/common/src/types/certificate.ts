@@ -343,6 +343,7 @@ export interface Unit {
   city: string
   phoneNumber: string
   email: string
+  isInactive: boolean
 }
 
 export interface Patient {

@@ -71,6 +71,7 @@ export const getUnit = () => (state: RootState): Unit => {
       city: '',
       phoneNumber: '',
       email: '',
+      isInactive: false,
     }
   }
 
