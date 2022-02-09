@@ -25,7 +25,7 @@ const StyledSummary = styled.summary`
     top: 20px !important;
   }
 
-  :focus {
+  &:focus {
     outline-width: 2px;
     outline-style: solid;
     outline-color: #a1958a;
