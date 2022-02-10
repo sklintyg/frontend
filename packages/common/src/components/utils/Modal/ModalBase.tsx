@@ -26,7 +26,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
     <>
       <FocusTrap active={open}>
         <div tabIndex={0}>
-          <div className="ic-backdrop" onClick={handleClose} />
+          <div className="ic-backdrop iu-lh-body" onClick={handleClose} />
           <div role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
               <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">

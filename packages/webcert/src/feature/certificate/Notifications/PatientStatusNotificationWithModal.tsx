@@ -20,7 +20,7 @@ const PatientStatusNotificationWithModal: React.FC<Props> = ({ status, title, mo
 
   return (
     <Wrapper>
-      <InfoBox type={type} deactivateIconWrap={true}>
+      <InfoBox type={type}>
         <TextWithInfoModal text={title} modalTitle={modalTitle}>
           {children}
         </TextWithInfoModal>

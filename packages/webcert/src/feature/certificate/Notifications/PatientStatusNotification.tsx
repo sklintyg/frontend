@@ -18,7 +18,7 @@ const PatientStatusNotification: React.FC<Props> = ({ status, title, type }) => 
 
   return (
     <Wrapper>
-      <InfoBox type={type} deactivateIconWrap={true}>
+      <InfoBox type={type}>
         <p>{title}</p>
       </InfoBox>
     </Wrapper>
