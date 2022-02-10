@@ -33,6 +33,7 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
               name={diagnosisCode.originalIcd10Code}
               disabled={!diagnosisCode.diagnosTitle}
               onChange={onChange}
+              wrapperAdditionalStyles={'iu-mb-200'}
               data-tip={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}>
               {diagnosisCode.icd10Code && diagnosisCode.icd10Code !== diagnosisCode.originalIcd10Code && (
                 <FontAwesomeIcon

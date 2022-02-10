@@ -141,7 +141,7 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
 
   return (
     <Root ref={tabbed} className="ic-tabbed tabbed">
-      <Ul ref={tabList} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-no-padding">
+      <Ul ref={tabList} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-pt-200">
         {tabs.map((tab, i) => {
           return (
             <li key={i} className={`${i === 0 ? 'iu-pl-300' : ''}`}>
