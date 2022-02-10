@@ -102,9 +102,21 @@ describe('questionUtils', () => {
 
       const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
 
-      expect(actual[0].id).toBe('2')
-      expect(actual[1].id).toBe('1')
-      expect(actual[2].id).toBe('3')
+      expect(actual[0].id).toBe('3')
+      expect(actual[1].id).toBe('2')
+      expect(actual[2].id).toBe('1')
+    })
+
+    it('orders handled questions first when same last update is the same', () => {
+      const questions: Question[] = [
+        { lastUpdate: '2021-10-20T13:10:00.000', handled: true, id: '1' },
+        { lastUpdate: '2021-10-20T13:10:00.000', handled: false, id: '2' },
+      ]
+
+      const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
+
+      expect(actual[0].id).toBe('1')
+      expect(actual[1].id).toBe('2')
     })
   })
 })
