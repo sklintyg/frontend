@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
 import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
 import { Backdrop, Dropdown, RadioButton } from '@frontend/common'
+import styled from 'styled-components/macro'
 
 interface CreateCertificate {
   certificateType: string
@@ -13,6 +14,10 @@ interface CreateCertificate {
   status: string
   fillType: string
 }
+
+const PatientWrapper = styled.div`
+  max-width: 600px;
+`
 
 const WelcomeCertificateTypes: React.FC = () => {
   const certificateTypes = useSelector(getAvailableCertificateTypes())
@@ -106,19 +111,28 @@ const WelcomeCertificateTypes: React.FC = () => {
     <>
       <Backdrop open={!certificateTypes} spinnerText={'Hämtar intygstyper'}>
         {certificateTypes && (
-          <>
+          <PatientWrapper>
             <h3>Patient: </h3>
-            <Dropdown
-              options={patients.map((patient) => (
-                <option key={patient.personId.id} value={patient.personId.id}>
-                  {patient.fullName}
-                </option>
-              ))}
-              onChange={handlePatientChange}
-              id={'patient'}
-              value={createCertificate.patientId}
-            />
-          </>
+            <div className="iu-grid-cols iu-grid-cols-6">
+              <div className="iu-grid-span-3">
+                <label htmlFor="patient">Namn</label>
+                <Dropdown
+                  options={patients.map((patient) => (
+                    <option key={patient.personId.id} value={patient.personId.id}>
+                      {patient.fullName}
+                    </option>
+                  ))}
+                  onChange={handlePatientChange}
+                  id={'patient'}
+                  value={createCertificate.patientId}
+                />
+              </div>
+              <div className="iu-grid-span-3">
+                <label htmlFor="personNr">Personnummer</label>
+                {<input type="text" className="ic-textfield" id="personNr" value={createCertificate.patientId} />}
+              </div>
+            </div>
+          </PatientWrapper>
         )}
         <h3>Intyg: </h3>
         {certificateTypes &&
