@@ -43,8 +43,8 @@ const onlyAdministrativeQuestionsAreUnhandled = (administrativeQuestions: Questi
 export const getQuestionsOrderedByLastUpdatedAndHandled = (questions: Question[]): Question[] => {
   return questions.sort((questionA, questionB) => {
     return (
-      compare(convertBooleanToNumber(questionA.handled), convertBooleanToNumber(questionB.handled)) ||
-      compare(new Date(questionA.lastUpdate).getTime(), new Date(questionB.lastUpdate).getTime())
+      compare(new Date(questionA.lastUpdate).getTime(), new Date(questionB.lastUpdate).getTime()) ||
+      compare(convertBooleanToNumber(questionA.handled), convertBooleanToNumber(questionB.handled))
     )
   })
 }
