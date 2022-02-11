@@ -9,7 +9,7 @@ export const SickLeavePeriodWarning: React.FC = () => {
   if (warning === '' || warning == null) return null
 
   return (
-    <InfoBox type={'info'} additionalStyles="iu-mt-400">
+    <InfoBox type={'info'} additionalStyles="iu-mt-400" activateIconWrap>
       <p>{warning}</p>
     </InfoBox>
   )
