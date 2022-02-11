@@ -75,6 +75,15 @@ const WelcomeCertificateTypes: React.FC = () => {
     dispatch(updateCreateCertificate(updatedCreateCertificate))
   }
 
+  const handlePatientIdChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const updatedCreateCertificate = { ...createCertificate }
+    let value = event.currentTarget.value
+    value = value.replace('-', '')
+    value = value.substring(0, 12)
+    updatedCreateCertificate.patientId = value
+    dispatch(updateCreateCertificate(updatedCreateCertificate))
+  }
+
   const handleVersionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const updatedCreateCertificate = { ...createCertificate }
     updatedCreateCertificate.certificateTypeVersion = event.currentTarget.value
@@ -107,6 +116,16 @@ const WelcomeCertificateTypes: React.FC = () => {
     dispatch(updateCreateCertificate(updatedCreateCertificate))
   }
 
+  const modifiedPatientId = (patientId: string) => {
+    if (patientId.length <= 8) {
+      return patientId
+    } else if (patientId.includes('-')) {
+      return patientId.substring(0, 13)
+    } else {
+      return patientId.substring(0, 8) + '-' + patientId.substring(8, 12)
+    }
+  }
+
   return (
     <>
       <Backdrop open={!certificateTypes} spinnerText={'Hämtar intygstyper'}>
@@ -128,8 +147,17 @@ const WelcomeCertificateTypes: React.FC = () => {
                 />
               </div>
               <div className="iu-grid-span-3">
-                <label htmlFor="personNr">Personnummer</label>
-                {<input type="text" className="ic-textfield" id="personNr" value={createCertificate.patientId} />}
+                <label htmlFor="patientId">Personnummer</label>
+                {
+                  <input
+                    type="text"
+                    className="ic-textfield"
+                    id="patientId"
+                    value={modifiedPatientId(createCertificate.patientId)}
+                    onChange={handlePatientIdChange}
+                    maxLength={13}
+                  />
+                }
               </div>
             </div>
           </PatientWrapper>
