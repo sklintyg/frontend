@@ -334,6 +334,7 @@ export const getCertificate = (): Certificate => {
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       careUnit: {
         unitId: '',
@@ -343,6 +344,7 @@ export const getCertificate = (): Certificate => {
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       unit: {
         unitId: '',
@@ -352,6 +354,7 @@ export const getCertificate = (): Certificate => {
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       forwarded: false,
       name: '',
@@ -414,6 +417,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       careUnit: {
         unitId: '',
@@ -423,6 +427,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       unit: {
         unitId: '',
@@ -432,6 +437,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         phoneNumber: '',
         zipCode: '',
         unitName: '',
+        isInactive: false,
       },
       forwarded: false,
       name: '',

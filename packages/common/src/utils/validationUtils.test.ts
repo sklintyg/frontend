@@ -551,6 +551,7 @@ describe('Validate multiple show rules', () => {
         city: 'Testhult',
         phoneNumber: '0101112131416',
         email: 'enhet3@webcert.invalid.se',
+        isInactive: false,
       },
       careUnit: {
         unitId: 'TSTNMT2321000156-1077',
@@ -560,6 +561,7 @@ describe('Validate multiple show rules', () => {
         city: 'Testhult',
         phoneNumber: '0101112131416',
         email: 'enhet3@webcert.invalid.se',
+        isInactive: false,
       },
       careProvider: {
         unitId: 'TSTNMT2321000156-102Q',
@@ -569,6 +571,7 @@ describe('Validate multiple show rules', () => {
         city: 'Testhult',
         phoneNumber: '0101112131416',
         email: 'enhet3@webcert.invalid.se',
+        isInactive: false,
       },
       patient: {
         personId: {
