@@ -102,9 +102,9 @@ describe('questionUtils', () => {
 
       const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
 
-      expect(actual[0].id).toBe('2')
-      expect(actual[1].id).toBe('1')
-      expect(actual[2].id).toBe('3')
+      expect(actual[0].id).toBe('3')
+      expect(actual[1].id).toBe('2')
+      expect(actual[2].id).toBe('1')
     })
   })
 })

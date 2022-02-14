@@ -11,7 +11,7 @@ export const PreviousSickLeavePeriod: React.FC<Props> = ({ previousSickLeavePeri
   }
 
   return (
-    <InfoBox type={'observe'} additionalStyles="iu-mt-400">
+    <InfoBox type={'observe'} additionalStyles="iu-mt-400" activateIconWrap>
       <p>{previousSickLeavePeriod}</p>
     </InfoBox>
   )

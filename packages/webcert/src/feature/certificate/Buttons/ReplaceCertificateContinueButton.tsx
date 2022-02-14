@@ -30,7 +30,7 @@ const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, 
       confirmButtonText={'Fortsätt på utkast'}
       confirmButtonDisabled={functionDisabled}>
       <>
-        <InfoBox type="info">
+        <InfoBox type="info" activateIconWrap>
           <p>Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.</p>
         </InfoBox>
         <p>
