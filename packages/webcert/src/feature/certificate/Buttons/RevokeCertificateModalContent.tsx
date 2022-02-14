@@ -56,7 +56,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   return (
     <>
-      <InfoBox type="info">
+      <InfoBox type="info" activateIconWrap>
         <p>{infoBoxText}</p>
       </InfoBox>
       <p>{infoText}</p>

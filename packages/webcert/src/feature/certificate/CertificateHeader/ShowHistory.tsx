@@ -11,6 +11,11 @@ import {
   TextWithInfoModal,
 } from '@frontend/common'
 import { Spinner } from '@frontend/common/src'
+import styled from 'styled-components/macro'
+
+const LinkWithMargin = styled(Link)`
+  margin-left: 3px;
+`
 
 interface Props {
   historyEntries: CertificateEvent[]
@@ -47,26 +52,27 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
-                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</LinkWithMargin>
               </>
             )
           case CertificateStatus.SIGNED:
             return (
               <>
-                Intyget har ersatts av <Link to={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
+                Intyget har ersatts av <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>detta intyg</LinkWithMargin>
               </>
             )
           case CertificateStatus.REVOKED:
             return (
               <>
                 Intyget ersattes av ett intyg som nu är makulerat.{' '}
-                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
           case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
             return (
               <>
-                Intyget ersattes av ett utkast som nu är låst. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                Intyget ersattes av ett utkast som nu är låst.{' '}
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
         }
@@ -75,14 +81,14 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         return (
           <>
             Utkastet skapades för att ersätta ett tidigare intyg.{' '}
-            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
           </>
         )
       case CertificateEventType.EXTENDED:
         return (
           <>
             Utkastet skapades för att förnya ett tidigare intyg.{' '}
-            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
           </>
         )
       case CertificateEventType.RENEWAL_OF:
@@ -90,7 +96,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           return (
             <>
               Utkastet är skapat för att förnya ett tidigare intyg.{' '}
-              <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+              <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
             </>
           )
         }
@@ -110,14 +116,14 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
-                <Link to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</Link>
+                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
           } else {
             return (
               <>
                 Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-                <Link to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</Link>
+                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
           }
@@ -140,14 +146,15 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         return (
           <>
             Utkastet är skapat för att komplettera ett tidigare intyg.{' '}
-            <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+            <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
           </>
         )
       case CertificateEventType.COMPLEMENTED:
         if (event.relatedCertificateStatus === CertificateStatus.SIGNED) {
           return (
             <>
-              Intyget har kompletterats med ett annat intyg. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+              Intyget har kompletterats med ett annat intyg.{' '}
+              <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
             </>
           )
         } else if (
@@ -158,7 +165,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         } else {
           return (
             <>
-              Det finns redan en påbörjad komplettering. <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+              Det finns redan en påbörjad komplettering.{' '}
+              <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</LinkWithMargin>
             </>
           )
         }
@@ -167,7 +175,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
       case CertificateEventType.COPIED_FROM:
         return (
           <>
-            Utkastet är skapat som en kopia på ett låst utkast <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+            Utkastet är skapat som en kopia på ett låst utkast{' '}
+            <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</LinkWithMargin>
           </>
         )
       case CertificateEventType.COPIED_BY:
@@ -176,27 +185,27 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Det finns redan ett påbörjat utkast som ska ersätta detta låsta utkast.{' '}
-                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</LinkWithMargin>
               </>
             )
           case CertificateStatus.SIGNED:
             return (
               <>
-                Utkastet har ersatts av <Link to={`/certificate/${event.relatedCertificateId}`}>detta intyg</Link>
+                Utkastet har ersatts av <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>detta intyg</LinkWithMargin>
               </>
             )
           case CertificateStatus.REVOKED:
             return (
               <>
                 Utkastet ersattes av ett intyg som nu är makulerat.{' '}
-                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</Link>
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
           case CertificateStatus.LOCKED || CertificateStatus.LOCKED_REVOKED:
             return (
               <>
                 Utkastet ersattes av ett utkast som nu är låst.{' '}
-                <Link to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</Link>
+                <LinkWithMargin to={`/certificate/${event.relatedCertificateId}`}>Öppna utkastet</LinkWithMargin>
               </>
             )
         }
