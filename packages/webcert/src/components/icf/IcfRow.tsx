@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IcfCode } from '../../store/icf/icfReducer'
 import { Checkbox } from '@frontend/common'
 import styled from 'styled-components/macro'
+import { scroller } from 'react-scroll'
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -34,13 +35,30 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
     }
   }
 
+  const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
+    scroller.scrollTo(event.currentTarget.id, {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+      containerId: 'icfScrollContainer',
+      offset: -10,
+    })
+  }
+
   const handleShowMore = () => {
     setDisplayDescription(!displayDescription)
   }
   return (
     <div className={`${backgroundStyle} iu-pt-200 iu-pb-200 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
-        <Checkbox id={icfCode.title} onChange={handleCheckbox} label={icfCode.title} checked={checked} value={icfCode.title} />
+        <Checkbox
+          id={icfCode.title}
+          onChange={handleCheckbox}
+          label={icfCode.title}
+          checked={checked}
+          value={icfCode.title}
+          onFocus={handleCheckboxFocus}
+        />
         <ShowMoreText onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer
         </ShowMoreText>
