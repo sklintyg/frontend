@@ -10,11 +10,11 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
 `
 
 const Italic = styled.span`
   font-style: italic;
+  font-size: 12px;
 `
 
 const InactiveUnit = styled.span`

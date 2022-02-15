@@ -1,4 +1,8 @@
 
+body {
+  font-size: 14px !important;
+}
+
 /*This is a temporary fix to position inputs correctly in certificate*/
 .ic-forms__checkbox + label, .ic-forms__radio + label {
   align-items: unset !important;

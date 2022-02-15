@@ -61,7 +61,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div className="iu-pt-300">Välj kodverk:</div>
+      <p>Välj kodverk:</p>
       <RadioWrapper>
         {questionConfig.terminology.map((terminology) => {
           return (
@@ -78,7 +78,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </RadioWrapper>
-      <div className="iu-pt-300">Diagnoskod enligt ICD-10 SE</div>
+      <p>Diagnoskod enligt ICD-10 SE</p>
       <DiagnosesWrapper>
         {questionConfig.list.map((diagnosis) => {
           return (
