@@ -3,8 +3,10 @@ import { Question } from '@frontend/common'
 import {
   addAnswer,
   addQuestion,
+  clearErrorId,
   clearQuestionDraft,
   resetState,
+  setErrorId,
   toggleQuestionFunctionDisabler,
   updateAnswer,
   updateAnswerDraftSaved,
@@ -39,6 +41,7 @@ interface QuestionState {
   isDisplayingCertificateDraft: boolean
   isSendingQuestion: boolean
   functionDisablers: FunctionDisabler[]
+  errorId: string
 }
 
 const getInitialState = (): QuestionState => {
@@ -55,6 +58,7 @@ const getInitialState = (): QuestionState => {
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
     functionDisablers: [],
+    errorId: '',
   }
 }
 
@@ -133,6 +137,12 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(toggleQuestionFunctionDisabler, (state, action) => {
       state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
+    })
+    .addCase(setErrorId, (state, action) => {
+      state.errorId = action.payload
+    })
+    .addCase(clearErrorId, (state) => {
+      state.errorId = ''
     })
 )
 
