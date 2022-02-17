@@ -28,7 +28,7 @@ const FetchQuestionsProblem: React.FC<Props> = ({ errorId }) => {
       <CenteredImageWithContent imgSrc={errorImage}>
         <h4>{TITLE}</h4>
         <p>
-          {MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+          {MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.
         </p>
         <p>
           Ange fel-id för snabbare hantering. <ErrorCopyText errorId={errorId} />.
