@@ -61,7 +61,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
     // @ts-expect-error squared is giving error but it's working as intended
     <StyledWrapper squared={squared} className={`ic-alert ic-alert--status iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
       <Wrapper className={`${!activateIconWrap ? 'iu-flex' : ''} ${additionalWrapperStyles}`}>
-        <Icon activateIconWrap className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
+        <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
         {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <>{children}</>}
       </Wrapper>
     </StyledWrapper>
