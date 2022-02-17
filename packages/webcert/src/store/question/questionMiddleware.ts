@@ -59,8 +59,10 @@ import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
-import { createErrorRequestFromApiError } from '../error/errorCreator'
+import { createErrorRequest, createErrorRequestFromApiError } from '../error/errorCreator'
 import { throwError } from '../error/errorActions'
+
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -254,9 +256,9 @@ export const handleSendQuestionSuccess: Middleware<Dispatch> = ({ dispatch }) =>
   dispatch(updateQuestionDraftSaved(false))
 }
 
-export const handleSendQuestionError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+export const handleSendQuestionError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateSendingQuestion(false))
-  dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
+  dispatch(throwError(createErrorRequest(ErrorType.MODAL, ErrorCode.SEND_QUESTION_PROBLEM, 'Could not send question')))
 }
 
 export const handleCreateAnswer: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {

@@ -13,6 +13,7 @@ import ExternalSystemProblem from './modals/ExternalSystemProblem'
 import ModuleProblem from './modals/ModuleProblem'
 import CertificateRevoked from './modals/CertificateRevoked'
 import GeneralErrorReload from './modals/GeneralErrorReload'
+import SendQuestionProblem from './modals/SendQuestionProblem'
 
 export interface ErrorRoute {
   errorCode: string
@@ -47,7 +48,8 @@ const ErrorComponent: React.FC = () => {
         return <CertificateRevoked errorData={activeError} />
       case ErrorCode.MISSING_PARAMETER:
         return <GeneralErrorReload errorData={activeError} />
-
+      case ErrorCode.SEND_QUESTION_PROBLEM:
+        return <SendQuestionProblem errorData={activeError} />
       default:
         return <GeneralErrorReload errorData={activeError} />
     }

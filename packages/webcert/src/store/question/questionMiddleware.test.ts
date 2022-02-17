@@ -380,7 +380,6 @@ describe('Test question middleware', () => {
           },
         })
       )
-
       await flushPromises()
       expect(testStore.getState().ui.uiQuestion.isSendingQuestion).toEqual(false)
     })

@@ -141,6 +141,13 @@ describe('ErrorComponent', () => {
       expect(screen.getByText(GENERAL_ERROR_TITLE)).toBeInTheDocument()
       expect(screen.getByText(GENERAL_ERROR_MESSAGE, { exact: false })).toBeInTheDocument()
     })
+
+    it('shall display ErrorCode.SEND_QUESTIONS_PROBLEM information', () => {
+      setErrorState(ErrorType.MODAL, ErrorCode.SEND_QUESTION_PROBLEM)
+      renderComponent()
+
+      expect(screen.getByText('Meddelandet har inte skickats')).toBeInTheDocument()
+    })
   })
 
   describe('ErrorType.ROUTE', () => {
