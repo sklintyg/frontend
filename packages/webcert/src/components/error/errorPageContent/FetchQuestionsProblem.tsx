@@ -3,6 +3,7 @@ import WCDynamicLink from '../../utils/WCDynamicLink'
 import CenteredImageWithContent from '../../image/CenteredImageWithContent'
 import errorImage from '../../../images/fel-1.svg'
 import styled from 'styled-components/macro'
+import ErrorCopyText from '../ErrorCopyText'
 
 export const TITLE = 'Ärenden kunde inte visas'
 export const MESSAGE = 'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand'
@@ -30,7 +31,7 @@ const FetchQuestionsProblem: React.FC<Props> = ({ errorId }) => {
           {MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
         </p>
         <p>
-          Ange fel-id:<span>{errorId}</span> för snabbare hantering.
+          Ange fel-id för snabbare hantering. <ErrorCopyText errorId={errorId} />.
         </p>
       </CenteredImageWithContent>
     </Wrapper>
