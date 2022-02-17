@@ -40,7 +40,7 @@ export const TextInput = styled.input`
   border-bottom-right-radius: 0;
   max-width: 15ch;
   border-right: 0 !important;
-  min-width: 133px;
+  min-width: 134px;
 
   &:focus {
     box-shadow: none;
