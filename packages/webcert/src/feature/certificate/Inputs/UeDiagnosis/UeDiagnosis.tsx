@@ -135,9 +135,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
-      dispatchUpdateDiagnosis(question, '', '')
+      dispatchUpdateDiagnosis(question, '', '', selectedCodeSystem)
     } else {
-      dispatchUpdateDiagnosis(question, '', description)
+      dispatchUpdateDiagnosis(question, '', description, selectedCodeSystem)
     }
     updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
   }
@@ -149,9 +149,9 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
-      dispatchUpdateDiagnosis(question, '', newDescription)
+      dispatchUpdateDiagnosis(question, '', newDescription, selectedCodeSystem)
     } else {
-      dispatchUpdateDiagnosis(question, code, newDescription)
+      dispatchUpdateDiagnosis(question, code, newDescription, selectedCodeSystem)
     }
     dispatchTypeahead(newDescription, selectedCodeSystem)
   }
@@ -163,8 +163,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   ).current
 
   const dispatchUpdateDiagnosis = useRef(
-    _.debounce((question: CertificateDataElement, code: string, description: string) => {
-      updateSavedDiagnosis(question, code, description)
+    _.debounce((question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
+      updateSavedDiagnosis(question, code, description, selectedCodeSystem)
     }, 500)
   ).current
 
@@ -201,10 +201,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     setDescription(newDesc)
     setCodeChanged(false)
     handleClose(true)
-    dispatchUpdateDiagnosis(question, newCode, newDesc)
+    dispatchUpdateDiagnosis(question, newCode, newDesc, selectedCodeSystem)
   }
 
-  const updateSavedDiagnosis = (question: CertificateDataElement, code: string, description: string) => {
+  const updateSavedDiagnosis = (question: CertificateDataElement, code: string, description: string, selectedCodeSystem: string) => {
     const diagnosisValue: ValueDiagnosis = {
       type: CertificateDataValueType.DIAGNOSIS,
       id: id,
