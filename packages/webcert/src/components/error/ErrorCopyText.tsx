@@ -13,6 +13,11 @@ const Root = styled.div`
   text-align: center;
 `
 
+const SuccessMessage = styled.p`
+  font-style: italic;
+  font-size: 12px;
+`
+
 interface Props {
   errorId: string
 }
@@ -36,7 +41,7 @@ const ErrorCopyText: React.FC<Props> = ({ errorId }) => {
   return (
     <Root className={'iu-pt-400'}>
       <strong>Fel-id:</strong> {errorId} <StyledCopyIcon icon={faCopy} onClick={handleCopyClick} />
-      {displayCopyMessage && <p>Fel-id kopierat till urklipp.</p>}
+      {displayCopyMessage && <SuccessMessage>Fel-id kopierat till urklipp.</SuccessMessage>}
     </Root>
   )
 }

@@ -1,6 +1,7 @@
 import {
   addAnswer,
   addQuestion,
+  clearErrorId,
   clearQuestionDraft,
   createAnswer,
   createQuestion,
@@ -16,6 +17,7 @@ import {
   editQuestion,
   getComplementQuestions,
   getQuestions,
+  getQuestionsError,
   getQuestionsStarted,
   getQuestionsSuccess,
   handleQuestion,
@@ -36,6 +38,7 @@ import {
   sendQuestionError,
   sendQuestionStarted,
   sendQuestionSuccess,
+  setErrorId,
   toggleQuestionFunctionDisabler,
   updateAnswer,
   updateAnswerDraftSaved,
@@ -59,8 +62,9 @@ import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { getCertificate, updateCertificate } from '../certificate/certificateActions'
 import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
-import { createErrorRequestFromApiError } from '../error/errorCreator'
+import { createErrorRequestFromApiError, createErrorRequestWithErrorId } from '../error/errorCreator'
 import { throwError } from '../error/errorActions'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -69,7 +73,7 @@ export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: Middlewar
       method: 'GET',
       onStart: getQuestionsStarted.type,
       onSuccess: getQuestionsSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: getQuestionsError.type,
       functionDisablerType: toggleQuestionFunctionDisabler.type,
     })
   )
@@ -92,6 +96,8 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
   if (!getQuestionsSuccess.match(action)) {
     return
   }
+
+  dispatch(clearErrorId())
 
   dispatch(updateQuestions(action.payload.questions.filter((value) => value.sent)))
 
@@ -123,6 +129,21 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
     }, [] as Complement[])
 
   dispatch(updateComplements(totalComplements))
+}
+
+export const handleGetQuestionsError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  if (!getQuestionsError.match(action)) {
+    return
+  }
+
+  const errorRequest = createErrorRequestWithErrorId(
+    ErrorType.SILENT,
+    ErrorCode.FETCH_QUESTIONS_PROBLEM,
+    getState().ui.uiQuestion.certificateId
+  )
+
+  dispatch(throwError(errorRequest))
+  dispatch(setErrorId(errorRequest.errorId))
 }
 
 export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
@@ -361,6 +382,7 @@ const middlewareMethods = {
   [getQuestions.type]: handleGetQuestions,
   [getComplementQuestions.type]: handleGetComplementQuestions,
   [getQuestionsSuccess.type]: handleGetQuestionsSuccess,
+  [getQuestionsError.type]: handleGetQuestionsError,
   [updateCertificate.type]: handleUpdateCertificate,
   [deleteQuestion.type]: handleDeleteQuestion,
   [deleteQuestionSuccess.type]: handleDeleteQuestionSuccess,
