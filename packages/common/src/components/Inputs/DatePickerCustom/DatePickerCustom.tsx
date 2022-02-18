@@ -158,6 +158,7 @@ const DatePickerCustom: React.FC<Props> = ({
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}
+            autoComplete="off"
           />
           <DatePicker
             calendarStartDay={1}
