@@ -20,7 +20,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel />
+        <FMBPanel headerHeight={0} />
       </Router>
     </Provider>
   )
@@ -162,6 +162,13 @@ describe('FMBPanel', () => {
     testStore.dispatch(setDiagnosisListValue(diagnosisValue))
     renderDefaultComponentWithoutDiagnosisValue()
     expect(screen.queryByText('FMB-stödet finns enbart för koder som ingår i ICD-10-SE.'))
+  })
+
+  it('shall not select diagnosis without fmb support', async () => {
+    const fmbDiagnosisCodeInfoResult = getEmptyFMBDiagnosisCodeInfoResult('A01', 0)
+    testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
+    renderDefaultComponent()
+    expect(screen.getByLabelText(/Description for A01/i)).not.toBeChecked()
   })
 })
 
