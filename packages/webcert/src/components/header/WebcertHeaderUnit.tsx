@@ -22,6 +22,7 @@ const InactiveUnit = styled.span`
   display: flex;
   align-items: center;
   cursor: default;
+  font-size: 12px;
 `
 
 const WebcertHeaderUnit: React.FC = () => {
