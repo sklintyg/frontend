@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import {
+  getErrorId,
   getQuestionDraft,
   getQuestions,
   isCreateQuestionsAvailable,
@@ -16,6 +17,7 @@ import { getNumberOfUnhandledQuestions, getShouldComplementedBeActive } from './
 import usePrevious from '../../hooks/usePrevious'
 import { getIsSigned } from '../../store/certificate/certificateSelectors'
 import _ from 'lodash'
+import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -39,7 +41,7 @@ const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
   const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
   const isSigned = useSelector(getIsSigned())
   const [isComplementSelected, setIsComplementSelected] = useState(true)
-  const footerRef = useRef(null)
+  const errorId = useSelector(getErrorId)
 
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
@@ -80,24 +82,39 @@ const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
     )
   }
 
+  const getPanel = () => {
+    return (
+      <>
+        <PanelHeaderCustomized content={getHeaderButtons()} />
+        {isComplementSelected ? (
+          <ComplementQuestionPanel
+            complementQuestions={complementQuestions}
+            isDisplayingCertificateDraft={isCertificateDraft}
+            headerHeight={headerHeight}
+          />
+        ) : (
+          <AdministrativeQuestionPanel
+            administrativeQuestions={administrativeQuestions}
+            isQuestionFormVisible={isQuestionFormVisible}
+            administrativeQuestionDraft={questionDraft}
+            headerHeight={headerHeight}
+          />
+        )}
+        <QuestionPanelFooter questions={questions} />
+      </>
+    )
+  }
+
   return (
     <Wrapper className={'iu-bg-light-grey'}>
-      <PanelHeaderCustomized content={getHeaderButtons()} />
-      {isComplementSelected ? (
-        <ComplementQuestionPanel
-          complementQuestions={complementQuestions}
-          isDisplayingCertificateDraft={isCertificateDraft}
-          headerHeight={headerHeight}
-        />
+      {errorId ? (
+        <>
+          <PanelHeaderCustomized content={<></>} />
+          <FetchQuestionsProblem errorId={errorId} />
+        </>
       ) : (
-        <AdministrativeQuestionPanel
-          administrativeQuestions={administrativeQuestions}
-          isQuestionFormVisible={isQuestionFormVisible}
-          administrativeQuestionDraft={questionDraft}
-          headerHeight={headerHeight}
-        />
+        getPanel()
       )}
-      <QuestionPanelFooter questions={questions} />
     </Wrapper>
   )
 }

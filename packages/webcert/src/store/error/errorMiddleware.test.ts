@@ -159,6 +159,33 @@ describe('Test error middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiError.error).toBeFalsy()
     })
+
+    it('shall create error with specific id if sent with request', async () => {
+      const expectedErrorRequest: ErrorRequest = {
+        errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM,
+        type: ErrorType.MODAL,
+        stackTrace: new Error().stack,
+        errorId: 'errorId',
+      }
+      testStore.dispatch(throwError(expectedErrorRequest))
+
+      await flushPromises()
+      const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
+      expect(apiCallBeganAction?.payload.data.errorId).toEqual(expectedErrorRequest.errorId)
+    })
+
+    it('shall create error with generated id if not sent with request', async () => {
+      const expectedErrorRequest: ErrorRequest = {
+        errorCode: ErrorCode.UNKNOWN_INTERNAL_PROBLEM,
+        type: ErrorType.MODAL,
+        stackTrace: new Error().stack,
+      }
+      testStore.dispatch(throwError(expectedErrorRequest))
+
+      await flushPromises()
+      const apiCallBeganAction: AnyAction | undefined = dispatchedActions.find((action) => apiCallBegan.match(action))
+      expect((apiCallBeganAction?.payload.data.errorId).length > 0).toBeTruthy()
+    })
   })
 
   describe('Handle update certificate', () => {

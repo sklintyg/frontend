@@ -4,13 +4,16 @@ import { setActiveCertificateId, setError, throwError } from './errorActions'
 import { ErrorData, ErrorLogRequest, ErrorType } from './errorReducer'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
+import { uuidv4 } from '../../components/error/modals/errorUtils'
 
 const handleThrowError: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   if (!throwError.match(action)) {
     return
   }
 
-  const errorData: ErrorData = { ...action.payload, errorId: uuidv4() }
+  const errorData: ErrorData = !action.payload.errorId
+    ? { ...action.payload, errorId: uuidv4() }
+    : { ...action.payload, errorId: action.payload.errorId as string }
 
   if (!errorData.certificateId) {
     errorData.certificateId = getState().ui.uiError.activeCertificateId
@@ -38,15 +41,6 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (a
   }
 
   dispatch(setActiveCertificateId(action.payload.metadata.id))
-}
-
-// https://stackoverflow.com/questions/105034/how-to-create-guid-uuid
-function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
 }
 
 const middlewareMethods = {

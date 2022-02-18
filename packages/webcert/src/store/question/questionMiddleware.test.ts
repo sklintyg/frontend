@@ -28,6 +28,7 @@ import {
   sendAnswer,
   sendQuestion,
   sendQuestionError,
+  setErrorId,
   updateComplements,
   updateCreateQuestionsAvailable,
   updateQuestionDraft,
@@ -136,6 +137,25 @@ describe('Test question middleware', () => {
       const updateComplementsAction = dispatchedActions.find((action) => updateComplements.match(action))
       expect(updateComplementsAction?.payload).toEqual(expectedComplements)
       expect(testStore.getState().ui.uiQuestion.questions[0].complements).toEqual(expectedComplements)
+    })
+
+    it('shall save errorId if questions cannot be fetched', async () => {
+      fakeAxios.onGet('/api/question/certificateId').reply(500, null)
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.errorId.length > 0).toBeTruthy()
+    })
+
+    it('shall clear errorId if questions have been fetched', async () => {
+      fakeAxios.onGet('/api/question/certificateId').reply(200, { questions: [] })
+      testStore.dispatch(setErrorId('errorId'))
+
+      testStore.dispatch(getQuestions('certificateId'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiQuestion.errorId).toEqual('')
     })
   })
 
