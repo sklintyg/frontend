@@ -29,7 +29,7 @@ import UeDropdown from '../Inputs/UeDropdown'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import UeIcf from '../Inputs/UeIcf'
 import _ from 'lodash'
 import ReactTooltip from 'react-tooltip'
@@ -46,6 +46,10 @@ interface QuestionProps {
 interface HighlightedProps {
   highlight: boolean
 }
+
+const mandatoryIconAdditionalStyles = css`
+  top: -5px;
+`
 
 const Complement = styled.div`
   display: flex;
@@ -131,7 +135,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
     return (
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
-        <MandatoryIcon display={displayMandatory} />
+        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
         {getHeading()}
       </>
     )

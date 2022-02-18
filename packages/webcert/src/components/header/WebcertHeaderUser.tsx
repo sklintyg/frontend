@@ -9,7 +9,7 @@ import ProtectedUserApprovalModal from '../../feature/certificate/Modals/Protect
 
 const Italic = styled.span`
   font-style: italic;
-  font-size: 13px;
+  font-size: 12px;
 `
 
 const WebcertHeaderUser: React.FC = () => {
@@ -20,7 +20,7 @@ const WebcertHeaderUser: React.FC = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <div>
-        {user.name} <br /> <Italic>{user.role}</Italic>
+        <span>{user.name}</span> <br /> <Italic>{user.role}</Italic>
         {user.protectedPerson && <ProtectedPersonDoctorModal />}
       </div>
     )
