@@ -29,6 +29,7 @@ export enum ErrorCode {
   UNEXPECTED_ERROR = 'UNEXPECTED_ERROR',
   UNKNOWN_INTERNAL_PROBLEM = 'UNKNOWN_INTERNAL_PROBLEM',
   NOT_APPROVED_PROTECTED_PERSON_AGREEMENT = 'NOT_APPROVED_PROTECTED_PERSON_AGREEMENT',
+  FETCH_QUESTIONS_PROBLEM = 'FETCH_QUESTIONS_PROBLEM',
 }
 
 export interface ErrorData {
@@ -41,6 +42,7 @@ export interface ErrorData {
 export interface ErrorRequest {
   type: ErrorType
   errorCode: ErrorCode
+  errorId?: string
   message?: string
   certificateId?: string
   stackTrace?: string

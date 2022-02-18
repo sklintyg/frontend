@@ -17,6 +17,10 @@ export const getQuestionsSuccess = createAction<QuestionsResponse>(`${QUESTION} 
 
 export const getQuestionsError = createAction<string>(`${QUESTION} Get questions error`)
 
+export const setErrorId = createAction<string>(`${QUESTION} Set error id`)
+
+export const clearErrorId = createAction(`${QUESTION} Clear error id`)
+
 export const getComplementQuestions = createAction<string>(`${QUESTION} Get complement questions`)
 
 export const deleteQuestion = createAction<Question>(`${QUESTION} Delete question`)

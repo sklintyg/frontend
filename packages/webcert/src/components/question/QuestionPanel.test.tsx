@@ -7,7 +7,7 @@ import React from 'react'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
-import { updateQuestions } from '../../store/question/questionActions'
+import { setErrorId, updateQuestions } from '../../store/question/questionActions'
 import { Certificate, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 
@@ -19,7 +19,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <QuestionPanel tabIndex={0} selectedTabIndex={0} minimizeSidePanel={<></>} />
+        <QuestionPanel headerHeight={0} />
       </Router>
     </Provider>
   )
@@ -125,6 +125,12 @@ describe('QuestionPanel', () => {
     const component = screen.getByText('Administrativa frågor')
     const numberOfQuestions = within(component).queryByText('0')
     expect(numberOfQuestions).not.toBeInTheDocument()
+  })
+
+  it('should display error message if questions could not be fetched', () => {
+    testStore.dispatch(setErrorId('errorId'))
+    renderDefaultComponent()
+    expect(screen.getByText('Ärenden kunde inte visas')).toBeInTheDocument()
   })
 })
 
