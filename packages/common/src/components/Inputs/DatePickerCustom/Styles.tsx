@@ -40,7 +40,7 @@ export const TextInput = styled.input`
   border-bottom-right-radius: 0;
   max-width: 15ch;
   border-right: 0 !important;
-  min-width: 133px;
+  min-width: 134px;
 
   &:focus {
     box-shadow: none;
@@ -57,8 +57,11 @@ export const Wrapper = styled.div`
 `
 export const FocusWrapper = styled.div`
   display: flex;
+  height: 2.956rem;
 
   &:focus-within {
     box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
+    border-radius: 0.1875rem;
+    width: 99%;
   }
 `
