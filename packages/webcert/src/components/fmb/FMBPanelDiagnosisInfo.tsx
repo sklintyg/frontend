@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType, InfoBox } from '@frontend/common'
 import styled from 'styled-components/macro'
 import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
@@ -18,7 +18,7 @@ interface StyledProps {
 }
 
 const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   overflow-y: auto;
 `
 
@@ -38,12 +38,11 @@ interface Props {
 }
 
 const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses, headerHeight }) => {
-  const contentRef = useRef(null)
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
 
-  useEffect(() => {
-    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
-  }, [contentRef.current])
+  const contentRef = useCallback((node: HTMLDivElement) => {
+    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
+  }, [])
 
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (

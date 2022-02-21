@@ -5,10 +5,13 @@ import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
 import { Accordion, Expandable } from '@frontend/common'
 import _ from 'lodash'
+import { css } from 'styled-components'
 
 interface CategoryProps {
   id: string
 }
+
+const wrapperStyles = css``
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id), _.isEqual)
@@ -21,7 +24,13 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
         {category.config.description && isCertificateEditable && (
-          <Accordion titleId={category.id} title={category.config.text} description={category.config.description} isCategory={true} />
+          <Accordion
+            titleId={category.id}
+            title={category.config.text}
+            description={category.config.description}
+            isCategory={true}
+            wrapperStyles={wrapperStyles}
+          />
         )}
         {(!category.config.description || !isCertificateEditable) && (
           <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
