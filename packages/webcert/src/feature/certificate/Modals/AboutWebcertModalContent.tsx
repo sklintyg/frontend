@@ -2,13 +2,19 @@ import React from 'react'
 import { InfoBox } from '@frontend/common/src'
 import styled from 'styled-components'
 import WCDynamicLink from '../../../components/utils/WCDynamicLink'
+import { shallowEqual, useSelector } from 'react-redux'
+import { getConfig } from '../../../store/utils/utilsSelectors'
 
 const Wrapper = styled.div`
-  p, h4 {
-  padding-bottom: 10px;
+  p,
+  h4 {
+    padding-bottom: 10px;
+  }
 `
 
 const AboutWebcertModalContent: React.FC = () => {
+  const { version } = useSelector(getConfig, shallowEqual)
+
   return (
     <Wrapper>
       <InfoBox type={'observe'}>
@@ -16,7 +22,7 @@ const AboutWebcertModalContent: React.FC = () => {
       </InfoBox>
       <p className={'iu-pt-400'}>Webcert är en tjänst som drivs av Inera AB.</p>
 
-      <p>Nuvarande version är 6.10.0.64</p>
+      <p>Nuvarande version är {version}.</p>
 
       <p>
         Webcert är utvecklat för Inernet Explorer 11 och efterföljande versioner samt för Chrome. Andra webbläsare kan användas, men då

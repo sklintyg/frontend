@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { DynamicLinkMap } from './utilsReducer'
+import { Configuration, DynamicLinkMap } from './utilsReducer'
 import { DiagnosisTypeahead } from '@frontend/common'
 
 export interface GetDiagnosisTypeahead {
@@ -23,3 +23,9 @@ export const getDiagnosisTypeaheadError = createAction<string>('[Utils] Get diag
 export const resetDiagnosisTypeahead = createAction('[Utils] Resets diagnosis typeahead')
 
 export const updateDiagnosisTypeahead = createAction<DiagnosisTypeahead>('[Utils] Update diagnosis typeahead')
+
+export const getConfig = createAction('[Utils] Get module config')
+export const getConfigStarted = createAction('[Utils] Get module config started')
+export const getConfigSuccess = createAction<Configuration>('[Utils] Get module config success')
+
+export const updateConfig = createAction<Configuration>('[Utils] Update module config')
