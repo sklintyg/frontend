@@ -19,7 +19,6 @@ import {
   getIsEditable,
   getIsLocked,
   getQuestion,
-  getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
@@ -77,7 +76,6 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
-  const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -90,21 +88,21 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
     if (question.config.header) {
       return (
         <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
             {question.config.header}
           </h4>
-          <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.text}</h5>
-          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200 iu-mb-300`}>{question.config.label as string}</h5>}
+          <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.text}</h5>
+          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.label as string}</h5>}
         </>
       )
     } else {
       return (
         <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+          <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
             {question.config.text}
           </h4>
           {question.readOnly && (
-            <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-300`}>
+            <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
               {question.config.label as string}
             </h4>
           )}
@@ -128,7 +126,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           title={question.config.text}
           description={question.config.description}
           displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading iu-mb-300"
+          additionalStyles="iu-fw-heading"
         />
       )
     }
@@ -173,7 +171,9 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           additionalStyles={additionalWrapperStyles}
           highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-          {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
+          <div className={'iu-mt-300'}>
+            {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
+          </div>
           {complements.map((complement, index) => (
             <div key={index} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
               <Complement key={complement.valueId} className={'iu-fullwidth '}>

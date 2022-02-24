@@ -76,7 +76,7 @@ const Accordion: React.FC<Props> = ({
       return (
         <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
-          <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />{' '}
+          <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
         </StyledSummary>
       )
@@ -84,7 +84,8 @@ const Accordion: React.FC<Props> = ({
       return (
         <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} size={iconSize} />
-          <MandatoryIcon display={displayMandatory as boolean} /> <h5 className={`iu-fs-200 ${additionalStyles}`}>{title}</h5>
+          <MandatoryIcon display={displayMandatory as boolean} additionalStyles={mandatoryIconAdditionalStyles} />
+          <h5 className={`iu-fs-200 iu-lh-body ${additionalStyles}`}>{title}</h5>
         </StyledSummary>
       )
     }
@@ -92,7 +93,7 @@ const Accordion: React.FC<Props> = ({
 
   return (
     <div id={titleId} css={wrapperStyles}>
-      {hasHeader && <h4 className={`iu-fs-300 ${additionalStyles}`}>{header}</h4>}
+      {hasHeader && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
       <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
         {title ? (
           getHeader()
