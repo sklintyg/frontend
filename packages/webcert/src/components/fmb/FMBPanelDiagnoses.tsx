@@ -28,7 +28,7 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
               key={diagnosisCode.originalIcd10Code}
               label={diagnosisCode.originalIcd10Description ?? ''}
               value={diagnosisCode.originalIcd10Code}
-              checked={diagnosisCode.originalIcd10Code === selectedDiagnosisCode?.originalIcd10Code && diagnosisCode.diagnosTitle}
+              checked={diagnosisCode.originalIcd10Code === selectedDiagnosisCode?.originalIcd10Code && !!diagnosisCode.diagnosTitle}
               id={diagnosisCode.originalIcd10Code}
               name={diagnosisCode.originalIcd10Code}
               disabled={!diagnosisCode.diagnosTitle}
