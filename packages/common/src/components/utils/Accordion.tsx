@@ -76,7 +76,7 @@ const Accordion: React.FC<Props> = ({
       return (
         <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
-          <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />{' '}
+          <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />
           <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
         </StyledSummary>
       )

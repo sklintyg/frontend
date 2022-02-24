@@ -19,7 +19,6 @@ import {
   getIsEditable,
   getIsLocked,
   getQuestion,
-  getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
 import QuestionWrapper from './QuestionWrapper'
 import UeTextArea from '../Inputs/UeTextArea'
@@ -77,7 +76,6 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
-  const isShowValidationError = useSelector(getShowValidationErrors, _.isEqual)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -174,7 +172,6 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           highlighted={question.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
           <div className={'iu-mt-300'}>
-            {' '}
             {question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}
           </div>
           {complements.map((complement, index) => (
