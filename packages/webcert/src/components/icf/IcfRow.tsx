@@ -22,9 +22,10 @@ interface Props {
   backgroundStyle: string
   onCodeAdd: (icfCodeToAdd: string) => void
   onCodeRemove: (icfCodeToRemove: string) => void
+  parentId: string
 }
 
-const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove }) => {
+const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, parentId }) => {
   const [displayDescription, setDisplayDescription] = useState(false)
 
   const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -40,8 +41,8 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
       duration: 0,
       delay: 0,
       smooth: false,
-      containerId: 'icfScrollContainer',
-      offset: -10,
+      containerId: 'icfScrollContainer-' + parentId,
+      offset: -5,
     })
   }
 

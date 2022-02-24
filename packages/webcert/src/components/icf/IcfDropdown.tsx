@@ -20,6 +20,7 @@ interface Props {
   onAddCode: (icfCodeToAdd: string) => void
   onRemoveCode: (icfCodeToRemove: string) => void
   disabled: boolean
+  id: string
 }
 
 const IcfDropdown: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const IcfDropdown: React.FC<Props> = ({
   onRemoveCode,
   collectionsLabel,
   disabled,
+  id,
 }) => {
   const icd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
   const rootRef = useRef() as React.MutableRefObject<HTMLInputElement>
@@ -95,6 +97,7 @@ const IcfDropdown: React.FC<Props> = ({
       <CategoryWrapper className={'iu-bg-white'}>
         <p>ICF-kategorier gemensamma för:</p>
         <IcfCategory
+          parentId={id}
           icfCodeValues={chosenIcfCodeValues}
           icd10Codes={icfData.commonCodes.icd10Codes}
           icfCodes={icfData.commonCodes.icfCodes}
@@ -112,6 +115,7 @@ const IcfDropdown: React.FC<Props> = ({
       <CategoryWrapper className={'iu-bg-white'} key={i}>
         <p>ICF-kategorier för:</p>
         <IcfCategory
+          parentId={id}
           icfCodeValues={chosenIcfCodeValues}
           icd10Codes={icfUnique.icd10Codes}
           icfCodes={icfUnique.icfCodes}
@@ -143,7 +147,7 @@ const IcfDropdown: React.FC<Props> = ({
                 <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />
                 {modalLabel}
               </StyledTitle>
-              <ScrollDiv className={'iu-pb-300 iu-bg-white'} id={'icfScrollContainer'}>
+              <ScrollDiv className={'iu-pb-300 iu-bg-white'} id={'icfScrollContainer-' + id}>
                 {getCommonCodes()}
                 {getUniqueCodes()}
               </ScrollDiv>
