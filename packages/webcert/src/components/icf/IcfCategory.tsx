@@ -22,9 +22,10 @@ interface Props {
   icfCodeValues?: string[]
   onAddCode: (icfCodeToAdd: string) => void
   onRemoveCode: (icfCodeToRemove: string) => void
+  parentId: string
 }
 
-const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode }) => {
+const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onAddCode, onRemoveCode, parentId }) => {
   const originalIcd10Codes = useSelector(getOriginalIcd10Codes, _.isEqual)
 
   const getChecked = (icfCode: string, icfCodeValues?: string[]): boolean => {
@@ -68,6 +69,7 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
   const getIcfRows = () => {
     return icfCodes.map((icfCode, i) => (
       <IcfRow
+        parentId={parentId}
         checked={getChecked(icfCode.title, icfCodeValues)}
         key={i}
         icfCode={icfCode}
