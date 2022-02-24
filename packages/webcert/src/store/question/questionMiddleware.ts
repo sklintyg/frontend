@@ -143,7 +143,7 @@ export const handleGetQuestionsError: Middleware<Dispatch> = ({ dispatch, getSta
   )
 
   dispatch(throwError(errorRequest))
-  dispatch(setErrorId(errorRequest.errorId))
+  dispatch(setErrorId(errorRequest.errorId ?? ''))
 }
 
 export const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {

@@ -69,6 +69,8 @@ const Highlighted = styled.div<HighlightedProps>`
   margin-left: ${(props) => (props.highlight ? '1.5px' : '')};
 `
 
+const accordionWrapperStyles = css``
+
 const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disableHighlight }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const complements = useSelector(getComplements(id), _.isEqual)
@@ -127,6 +129,7 @@ const Question: React.FC<QuestionProps> = ({ id, additionalWrapperStyles, disabl
           description={question.config.description}
           displayMandatory={displayMandatory}
           additionalStyles="iu-fw-heading"
+          wrapperStyles={accordionWrapperStyles}
         />
       )
     }

@@ -52,7 +52,7 @@ interface Props {
   icon?: string
   includeIconTooltip?: boolean
   iconSize?: FontAwesomeIconProps['size']
-  wrapperStyles: FlattenSimpleInterpolation
+  wrapperStyles?: FlattenSimpleInterpolation
 }
 
 const Accordion: React.FC<Props> = ({

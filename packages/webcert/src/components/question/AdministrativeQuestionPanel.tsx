@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { ImageCentered, Question } from '@frontend/common'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
@@ -17,7 +17,7 @@ interface StyledProps {
 }
 
 const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   overflow-y: auto;
 `
 
@@ -34,12 +34,11 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
   administrativeQuestionDraft,
   headerHeight,
 }) => {
-  const contentRef = useRef(null)
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
 
-  useEffect(() => {
-    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
-  }, [contentRef.current])
+  const contentRef = useCallback((node: HTMLDivElement) => {
+    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
+  }, [])
 
   const getNoQuestionsMessage = () => {
     return (

@@ -7,7 +7,7 @@ import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
-import { getAllDynamicLinks } from './store/utils/utilsActions'
+import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
 import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
@@ -23,6 +23,7 @@ function App(): JSX.Element {
     dispatch(cancelLogout())
     dispatch(getUser())
     dispatch(getAllDynamicLinks())
+    dispatch(getConfig())
     return () => {
       window.removeEventListener('beforeunload', handleWindowBeforeUnload)
     }

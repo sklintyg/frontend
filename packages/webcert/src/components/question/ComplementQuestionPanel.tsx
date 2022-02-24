@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { CertificateStatus, ImageCentered, InfoBox, Question } from '@frontend/common'
 import QuestionItem from './QuestionItem'
 import noQuestionsImg from './fragor_svar_nodata.svg'
@@ -17,7 +17,7 @@ interface StyledProps {
 }
 
 const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   background-color: white;
   overflow-y: auto;
 
@@ -33,12 +33,11 @@ interface Props {
 }
 
 const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft, headerHeight }) => {
-  const contentRef = useRef(null)
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
 
-  useEffect(() => {
-    setShouldLimitHeight(contentRef.current ? contentRef.current.scrollHeight > contentRef.current.clientHeight : false)
-  }, [contentRef.current])
+  const contentRef = useCallback((node: HTMLDivElement) => {
+    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
+  }, [])
 
   const getNoQuestionsMessage = () => {
     return (

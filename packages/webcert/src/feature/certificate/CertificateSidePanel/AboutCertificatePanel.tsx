@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
@@ -18,7 +18,7 @@ interface StyledProps {
 
 const ContentWrapper = styled.div<StyledProps>`
   padding: 16px;
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')}
+  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   overflow-y: auto;
   margin-top: 0;
 
@@ -45,14 +45,11 @@ interface Props {
 
 const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
   const certMetaData = useSelector(getCertificateMetaData, _.isEqual)
-  const contentRef = useRef(null)
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
 
-  useEffect(() => {
-    if (contentRef.current !== null && contentRef.current.scrollHeight > 0) {
-      setShouldLimitHeight(contentRef.current.scrollHeight > contentRef.current.clientHeight)
-    }
-  }, [contentRef.current])
+  const contentRef = useCallback((node: HTMLDivElement) => {
+    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
+  }, [])
 
   return (
     <>
