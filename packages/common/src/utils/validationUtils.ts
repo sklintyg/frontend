@@ -24,6 +24,7 @@ import {
   ValueDiagnosisList,
   ValueIcf,
   ValueText,
+  ResourceLinkType,
 } from '..'
 import { ValueDateRange } from '@frontend/common'
 
@@ -230,7 +231,7 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
     if (shouldBeReadOnly(certificate.metadata)) {
       data[id].readOnly = true
       data[id].visible = true
-    } else if (shouldBeDisabled(certificate.metadata)) {
+    } else if (shouldBeDisabled(certificate)) {
       validate(data, id)
       data[id].disabled = true
     } else {
@@ -315,8 +316,13 @@ function shouldBeReadOnly(metadata: CertificateMetadata) {
   return metadata.status === CertificateStatus.SIGNED || metadata.status === CertificateStatus.REVOKED
 }
 
-function shouldBeDisabled(metadata: CertificateMetadata) {
-  return metadata.status === CertificateStatus.LOCKED || metadata.status === CertificateStatus.LOCKED_REVOKED
+function shouldBeDisabled(certificate: Certificate) {
+  const { metadata, links } = certificate
+  return (
+    metadata.status === CertificateStatus.LOCKED ||
+    metadata.status === CertificateStatus.LOCKED_REVOKED ||
+    links.every((link) => link.type !== ResourceLinkType.EDIT_CERTIFICATE)
+  )
 }
 
 export function setDisableForChildElement(data: CertificateData, validationResult: ValidationResult) {

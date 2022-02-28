@@ -9,6 +9,7 @@ import {
   ConfigTypes,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
+import { ResourceLink } from '../../types/resourceLink'
 
 export const getBooleanElement = (): CertificateDataElement => {
   return {
@@ -315,7 +316,7 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
   }
 }
 
-export const getCertificate = (): Certificate => {
+export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
       id: '',
@@ -394,7 +395,7 @@ export const getCertificate = (): Certificate => {
       funktionsnedsattning: getCategoryFunktionsnedsattning(),
       sysselsattning: getCategorySysselsattning(),
     },
-    links: [],
+    links,
   }
 }
 
