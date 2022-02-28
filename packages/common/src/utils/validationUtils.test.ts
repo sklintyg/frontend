@@ -1161,7 +1161,7 @@ describe('Set initial values to a certificate', () => {
     decorateCertificateWithInitialValues(certificate)
 
     Object.values(certificate.data).forEach((data) => {
-      expect(data.disabled).toBe(false)
+      expect(data.disabled).toBeFalsy()
     })
   })
 })
