@@ -15,15 +15,15 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
 
   if (!category) return null
 
-  const isCertificateEditable = !category.readOnly && !category.disabled
+  const isEditable = !category.readOnly && !category.disabled
+  const showTitleWithDescription = !!category.config.description && isEditable
 
   return (
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
-        {category.config.description && isCertificateEditable && (
+        {showTitleWithDescription ? (
           <Accordion titleId={category.id} title={category.config.text} description={category.config.description} isCategory={true} />
-        )}
-        {(!category.config.description || !isCertificateEditable) && (
+        ) : (
           <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
         )}
       </CategoryHeader>

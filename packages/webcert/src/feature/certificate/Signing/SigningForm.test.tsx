@@ -9,6 +9,8 @@ import { SigningData, updateCertificateSigningData } from '../../../store/certif
 
 let testStore: EnhancedStore
 
+const mockSubmit = jest.fn()
+
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
@@ -19,6 +21,7 @@ const renderDefaultComponent = () => {
 
 describe('SigningForm', () => {
   beforeEach(() => {
+    window.HTMLFormElement.prototype.submit = mockSubmit
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
