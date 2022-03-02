@@ -10,6 +10,8 @@ import {
   formatDateToString,
   getIcfElement,
   getSickLeavePeriodElement,
+  ResourceLink,
+  ResourceLinkType,
   ValidationError,
   ValueBoolean,
   ValueCode,
@@ -1135,5 +1137,31 @@ describe('Set initial values to a certificate', () => {
     const certificate = getCertificate()
     const result = getSortedValidationErrorSummary(certificate, [{ id: '1.2', category: '', field: '', type: '', text: '' }])
     expect(result.length).toBe(1)
+  })
+
+  it('should disable all categories if no edit link', () => {
+    const certificate = getCertificate()
+
+    decorateCertificateWithInitialValues(certificate)
+
+    Object.values(certificate.data).forEach((data) => {
+      expect(data.disabled).toBe(true)
+    })
+  })
+
+  it('should not disable all categories if there is an edit link', () => {
+    const editLink: ResourceLink = {
+      type: ResourceLinkType.EDIT_CERTIFICATE,
+      name: '',
+      description: '',
+      enabled: false,
+    }
+    const certificate = getCertificate({ links: [editLink] })
+
+    decorateCertificateWithInitialValues(certificate)
+
+    Object.values(certificate.data).forEach((data) => {
+      expect(data.disabled).toBeFalsy()
+    })
   })
 })
