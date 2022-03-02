@@ -10,9 +10,9 @@ const SystemBanner: React.FC = () => {
   if (banners.length === 0) return null
 
   const renderBanners = () => {
-    return banners.map((banner) => {
+    return banners.map((banner, index) => {
       return (
-        <NotificationBannerBase type={banner.priority === 'HOG' ? 'info' : 'observe'} isGlobal>
+        <NotificationBannerBase key={'system-banner-' + index} type={banner.priority === 'HOG' ? 'info' : 'observe'} isGlobal>
           <p>{banner.message}</p>
         </NotificationBannerBase>
       )
