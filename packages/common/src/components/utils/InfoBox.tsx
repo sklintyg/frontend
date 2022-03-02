@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `
 
 interface StyledWrapperProps {
-  squared: boolean
+  squared?: boolean
 }
 
 const StyledWrapper = styled.div<StyledWrapperProps>`
@@ -59,7 +59,6 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
   }
 
   return (
-    // @ts-expect-error squared is giving error but it's working as intended
     <StyledWrapper
       squared={squared}
       className={`${
