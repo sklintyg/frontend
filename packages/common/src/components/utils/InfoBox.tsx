@@ -28,9 +28,10 @@ interface Props {
   additionalWrapperStyles?: string
   squared?: boolean
   activateIconWrap?: boolean
+  isGlobal?: boolean
 }
 
-const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }) => {
+const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap, isGlobal }) => {
   const getIconClass = () => {
     switch (type) {
       case 'info':
@@ -59,7 +60,11 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
 
   return (
     // @ts-expect-error squared is giving error but it's working as intended
-    <StyledWrapper squared={squared} className={`ic-alert ic-alert--status iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
+    <StyledWrapper
+      squared={squared}
+      className={`${
+        isGlobal ? 'ic-alert-global iu-py-200' : 'ic-alert ic-alert--status'
+      } iu-fs-200 iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
       <Wrapper className={`${!activateIconWrap ? 'iu-flex' : ''} ${additionalWrapperStyles}`}>
         <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
         {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <>{children}</>}

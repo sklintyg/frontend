@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { resetDiagnosisTypeahead, updateDiagnosisTypeahead, updateDynamicLinks, updateConfig } from './utilsActions'
+import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks } from './utilsActions'
 import { DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
 export interface DynamicLinkMap {
@@ -8,6 +8,12 @@ export interface DynamicLinkMap {
 
 export interface Configuration {
   version: string
+  banners: Banner[]
+}
+
+export interface Banner {
+  message: string
+  priority: string
 }
 
 interface UtilsState {
@@ -19,7 +25,7 @@ interface UtilsState {
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
-  config: { version: '' },
+  config: { version: '', banners: [] },
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
