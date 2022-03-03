@@ -4,6 +4,8 @@ import {
   updateCertificateId,
   updateCertificateTypes,
   updateCreateCertificate,
+  updateIntegrationParameters,
+  updateIntegrationParametersDisablers,
   updateNavigateToCertificate,
   updatePatients,
 } from './welcomeActions'
@@ -17,6 +19,31 @@ export interface CertificateType {
   versions: string[]
   statuses: string[]
   fillType: string[]
+}
+
+export interface IntegrationParameters {
+  firstName: string
+  lastName: string
+  middleName: string
+  alternatePatientSSN: string
+  ref: string
+  coherentJournaling: boolean
+  inactiveUnit: boolean
+  unitId: string
+  address: string
+  city: string
+  zipcode: string
+  allowCopy: boolean
+  responsibleHospName: string
+}
+
+export interface IntegrationParametersDisablers {
+  firstName: boolean
+  lastName: boolean
+  middleName: boolean
+  address: boolean
+  city: boolean
+  zipcode: boolean
 }
 
 export interface CreateCertificate {
@@ -44,6 +71,8 @@ interface WelcomeState {
   createdCertificateId: string
   users: MockUser[]
   navigateToCertificate: boolean
+  integrationParameters: IntegrationParameters
+  integrationParametersDisablers: IntegrationParametersDisablers
 }
 
 const DEFAULT_CERTIFICATE_TYPE = 'lisjp'
@@ -63,6 +92,29 @@ const initialState: WelcomeState = {
   createdCertificateId: '',
   users: [...mockUserData],
   navigateToCertificate: false,
+  integrationParameters: {
+    firstName: 'Nils',
+    lastName: 'Nygren',
+    middleName: 'Nisse',
+    alternatePatientSSN: '',
+    ref: '',
+    coherentJournaling: true,
+    inactiveUnit: false,
+    unitId: '',
+    address: 'Nygatan 14',
+    city: 'Nyberga',
+    zipcode: '555 66',
+    allowCopy: true,
+    responsibleHospName: '',
+  },
+  integrationParametersDisablers: {
+    firstName: true,
+    lastName: true,
+    middleName: true,
+    address: true,
+    city: true,
+    zipcode: true,
+  },
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
@@ -94,6 +146,12 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateNavigateToCertificate, (state, action) => {
       state.navigateToCertificate = action.payload
+    })
+    .addCase(updateIntegrationParameters, (state, action) => {
+      state.integrationParameters = action.payload
+    })
+    .addCase(updateIntegrationParametersDisablers, (state, action) => {
+      state.integrationParametersDisablers = action.payload
     })
 )
 
