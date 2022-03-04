@@ -4,7 +4,7 @@ import NotificationBannerBase from './NotificationBannerBase'
 import { getBanners } from '../../../store/utils/utilsSelectors'
 import { Banner } from '../../../store/utils/utilsReducer'
 
-const SystemBanner: React.FC = () => {
+const SystemBanners: React.FC = () => {
   const banners: Banner[] = useSelector(getBanners)
 
   if (banners.length === 0) return null
@@ -22,4 +22,4 @@ const SystemBanner: React.FC = () => {
   return <>{renderBanners()}</>
 }
 
-export default SystemBanner
+export default SystemBanners

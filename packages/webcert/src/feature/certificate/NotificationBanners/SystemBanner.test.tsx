@@ -5,21 +5,21 @@ import { Provider } from 'react-redux'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../../store/reducers'
 import { updateConfig } from '../../../store/utils/utilsActions'
-import SystemBanner from './SystemBanner'
+import SystemBanners from './SystemBanners'
 
 let testStore: EnhancedStore
 
 const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
-      <SystemBanner />
+      <SystemBanners />
     </Provider>
   )
 }
 
 const INFO_TEXT = 'Detta är ett informationsmeddelande.'
 
-describe('SystemBanner', () => {
+describe('SystemBanners', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
