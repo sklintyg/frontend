@@ -59,11 +59,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
   }
 
   return (
-    <StyledWrapper
-      squared={squared}
-      className={`${
-        isGlobal ? 'ic-alert-global iu-py-200' : 'ic-alert ic-alert--status'
-      } iu-fs-200 iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
+    <StyledWrapper squared={squared} className={`ic-alert ic-alert--status iu-fs-200 iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
       <Wrapper className={`${!activateIconWrap ? 'iu-flex' : ''} ${additionalWrapperStyles}`}>
         <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
         {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <>{children}</>}

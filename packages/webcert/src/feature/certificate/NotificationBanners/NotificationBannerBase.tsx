@@ -3,12 +3,11 @@ import * as React from 'react'
 
 interface Props {
   type: 'info' | 'error' | 'success' | 'observe'
-  isGlobal?: boolean
 }
 
-const NotificationBannerBase: React.FC<Props> = ({ isGlobal, type, children }) => {
+const NotificationBannerBase: React.FC<Props> = ({ type, children }) => {
   return (
-    <InfoBox squared type={type} additionalWrapperStyles={'ic-container'} isGlobal={isGlobal}>
+    <InfoBox squared type={type} additionalWrapperStyles={'ic-container'}>
       {children}
     </InfoBox>
   )

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import NotificationBannerBase from './NotificationBannerBase'
 import { getBanners } from '../../../store/utils/utilsSelectors'
-import { Banner } from '../../../store/utils/utilsReducer'
+import { Banner } from '@frontend/common'
+import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
 
 const SystemBanners: React.FC = () => {
   const banners: Banner[] = useSelector(getBanners)
@@ -12,9 +12,9 @@ const SystemBanners: React.FC = () => {
   const renderBanners = () => {
     return banners.map((banner, index) => {
       return (
-        <NotificationBannerBase key={'system-banner-' + index} type={banner.priority === 'HOG' ? 'info' : 'observe'} isGlobal>
+        <SystemBanner key={'system-banner-' + index} banner={banner}>
           <p>{banner.message}</p>
-        </NotificationBannerBase>
+        </SystemBanner>
       )
     })
   }

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks } from './utilsActions'
-import { DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
+import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
 export interface DynamicLinkMap {
   [key: string]: DynamicLinkData
@@ -9,11 +9,6 @@ export interface DynamicLinkMap {
 export interface Configuration {
   version: string
   banners: Banner[]
-}
-
-export interface Banner {
-  message: string
-  priority: string
 }
 
 interface UtilsState {
