@@ -3,8 +3,8 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../../store/reducers'
-import { updateConfig } from '../../../store/utils/utilsActions'
+import reducer from '../../store/reducers'
+import { updateConfig } from '../../store/utils/utilsActions'
 import SystemBanners from './SystemBanners'
 
 let testStore: EnhancedStore

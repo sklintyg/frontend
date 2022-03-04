@@ -17,7 +17,7 @@ import { TextWithInfoModal } from '@frontend/common/src'
 import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import CertificateDeletedModal from '../feature/certificate/Modals/CertificateDeletedModal'
-import SystemBanners from '../feature/certificate/NotificationBanners/SystemBanners'
+import SystemBanners from '../components/notification/SystemBanners'
 
 const Root = styled.div`
   height: 100vh;

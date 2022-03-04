@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getBanners } from '../../../store/utils/utilsSelectors'
+import { getBanners } from '../../store/utils/utilsSelectors'
 import { Banner } from '@frontend/common'
 import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
 
