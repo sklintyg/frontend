@@ -42,7 +42,7 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
       delay: 0,
       smooth: false,
       containerId: 'icfScrollContainer-' + parentId,
-      offset: -5,
+      offset: 0,
     })
   }
 
