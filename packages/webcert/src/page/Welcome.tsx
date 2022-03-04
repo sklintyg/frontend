@@ -7,16 +7,17 @@ import {
   clearWelcome,
   createNewCertificate,
   loginUser,
+  populateFmb,
   updateCertificateId,
   updateCreateCertificate,
   updateNavigateToCertificate,
-  populateFmb,
 } from '../store/welcome/welcomeActions'
 import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
 import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
 import { triggerLogoutNow } from '../store/user/userActions'
 import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
 import { MockUser } from '../store/welcome/welcomeReducer'
+import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -225,6 +226,7 @@ const Welcome: React.FC = () => {
                     onChange={() => setFakeLogin(false)}
                   />
                 </div>
+                {isDeepIntegration && <WelcomeIntegrationParameters />}
                 <CustomButton
                   buttonStyle="primary"
                   type="submit"
