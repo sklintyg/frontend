@@ -22,6 +22,7 @@ import SigningForm from './Signing/SigningForm'
 import _ from 'lodash'
 import { CustomTooltip } from '@frontend/common/src'
 import ResponsibleHospName from './ResponsibleHospName'
+import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -78,11 +79,11 @@ const Certificate: React.FC = () => {
         {certificateStructure &&
           certificateStructure
             .filter((data) => filterHidden(data))
-            .map((data) => {
+            .map((data, index) => {
               if (data.component === ConfigTypes.CATEGORY) {
-                return <Category key={data.id} id={data.id} />
+                return <Category key={index} id={data.ids[0]} />
               } else {
-                return <Question key={data.id} id={data.id} />
+                return <QuestionWithSubQuestions key={index} questionIds={data.ids} />
               }
             })}
         <CareUnit />

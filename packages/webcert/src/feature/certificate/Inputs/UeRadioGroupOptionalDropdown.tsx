@@ -12,6 +12,7 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { useAppDispatch } from '../../../store/store'
 import Question from '../Question/Question'
 import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
+import QuestionWrapper from '../Question/QuestionWrapper'
 
 const dropDownStyles: FlattenSimpleInterpolation = css`
   padding: 0 !important;
@@ -72,12 +73,9 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
           }
         />
         {radio.dropdownQuestionId && (
-          <Question
-            additionalWrapperStyles={dropDownStyles}
-            key={radio.dropdownQuestionId}
-            id={radio.dropdownQuestionId}
-            disableHighlight={true}
-          />
+          <QuestionWrapper additionalStyles={dropDownStyles}>
+            <Question key={radio.dropdownQuestionId} id={radio.dropdownQuestionId} />
+          </QuestionWrapper>
         )}
       </React.Fragment>
     ))
