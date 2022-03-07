@@ -110,7 +110,8 @@ export const getCertificateMetaData = (state: RootState): CertificateMetadata | 
 }
 
 export interface CertificateStructure {
-  ids: string[]
+  id: string
+  subQuestionIds: string[]
   component: string
   index: number
   style?: CertificateDataElementStyleEnum
@@ -128,7 +129,7 @@ export const getCertificateDataElements = createSelector<RootState, Certificate 
     const elements = Object.values(certificate.data)
 
     certificateStructure = elements.reduce((structure: CertificateStructure[], element: CertificateDataElement) => {
-      if (structure.some((s) => s.ids.includes(element.id))) return structure
+      if (structure.some((s) => s.subQuestionIds.includes(element.id))) return structure
 
       const subQuestionIds = elements
         .filter(() => element.config.type !== ConfigTypes.CATEGORY)
@@ -138,7 +139,8 @@ export const getCertificateDataElements = createSelector<RootState, Certificate 
         .map((el) => el.id)
 
       structure.push({
-        ids: [element.id, ...subQuestionIds],
+        id: element.id,
+        subQuestionIds,
         component: element.config.type,
         index: element.index,
         style: element.style,

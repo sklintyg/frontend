@@ -79,11 +79,11 @@ const Certificate: React.FC = () => {
         {certificateStructure &&
           certificateStructure
             .filter((data) => filterHidden(data))
-            .map((data, index) => {
+            .map((data) => {
               if (data.component === ConfigTypes.CATEGORY) {
-                return <Category key={index} id={data.ids[0]} />
+                return <Category key={data.id} id={data.id} />
               } else {
-                return <QuestionWithSubQuestions key={index} questionIds={data.ids} />
+                return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
               }
             })}
         <CareUnit />
