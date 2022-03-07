@@ -9,7 +9,7 @@ import {
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
 } from './fmbActions'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
+import { FMBDiagnosisCodeInfo, sortByIndex } from '@frontend/common'
 import { ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src/types/certificate'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
 
@@ -37,7 +37,7 @@ const fmbReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateFMBDiagnosisCodeInfo, (state, action) => {
       state.fmbDiagnosisCodeInfo.push(action.payload)
-      state.fmbDiagnosisCodeInfo.sort((a, b) => a.index - b.index)
+      state.fmbDiagnosisCodeInfo.sort(sortByIndex)
     })
     .addCase(updateFMBPanelActive, (state, action) => {
       state.fmbPanelActive = action.payload

@@ -25,6 +25,7 @@ import {
   ValueIcf,
   ValueText,
   ResourceLinkType,
+  sortByIndex,
 } from '..'
 import { ValueDateRange } from '@frontend/common'
 
@@ -294,7 +295,7 @@ export const getSortedValidationErrorSummary = (
     }
   }
 
-  result.sort((a, b) => a.index - b.index)
+  result.sort(sortByIndex)
 
   result = addCareUnitValidationErrors(result, certificate.metadata.careUnitValidationErrors)
 
