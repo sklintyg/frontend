@@ -45,12 +45,12 @@ describe('certificateSelectors', () => {
     it('should not group categories with sub questions', () => {
       const elements = getCertificateDataElements(getState())
 
-      expect(elements[0].ids).toEqual(['sysselsattning'])
+      expect(elements[0].subQuestionIds).toEqual([])
     })
 
     it('should sort categories, questions and sub questions by index', () => {
       const elements = getCertificateDataElements(getState())
-      const ids = elements.map((el) => el.ids).reduce((acc, curr) => acc.concat(curr), [])
+      const ids = elements.map((el) => [el.id, ...el.subQuestionIds]).reduce((acc, curr) => acc.concat(curr), [])
 
       expect(ids).toEqual(['sysselsattning', '28', 'funktionsnedsattning', '1', '1.1', '1.2', '1.3'])
     })
