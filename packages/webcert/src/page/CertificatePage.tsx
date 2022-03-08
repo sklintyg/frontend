@@ -17,6 +17,7 @@ import { TextWithInfoModal } from '@frontend/common/src'
 import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import CertificateDeletedModal from '../feature/certificate/Modals/CertificateDeletedModal'
+import SystemBanners from '../components/notification/SystemBanners'
 
 const Root = styled.div`
   height: 100vh;
@@ -76,6 +77,7 @@ const CertificatePage: React.FC = () => {
           alt={'Logo Webcert'}
           primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
           secondaryItems={secondaryItems}
+          banners={[<SystemBanners />]}
         />
       </NoFlexGrow>
       {certificateIsDeleted ? (

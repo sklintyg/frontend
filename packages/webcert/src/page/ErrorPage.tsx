@@ -17,6 +17,7 @@ import AuthorizationUserSessionAlreadyActive from '../components/error/errorPage
 import UnknownInternalProblem from '../components/error/errorPageContent/UnknownInternalProblem'
 import InternalProblem from '../components/error/errorPageContent/InternalProblem'
 import ProtectedPersonAgreementError from '../components/error/errorPageContent/ProtectedPersonAgreementError'
+import SystemBanners from '../components/notification/SystemBanners'
 
 const Root = styled.div`
   height: 100vh;
@@ -62,7 +63,7 @@ const ErrorPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt={'Logo Webcert'} />
+      <AppHeader logo={logo} alt={'Logo Webcert'} banners={[<SystemBanners />]} />
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>

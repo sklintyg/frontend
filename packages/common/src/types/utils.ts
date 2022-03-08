@@ -16,3 +16,8 @@ export interface DiagnosisTypeahead {
   diagnoser: Diagnosis[]
   moreResults: boolean
 }
+
+export interface Banner {
+  message: string
+  priority: string
+}
