@@ -13,9 +13,10 @@ interface Props {
   secondaryItems?: React.ReactNode[]
   logo?: string
   alt?: string
+  banners?: React.ReactNode[]
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners }) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
@@ -25,16 +26,19 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
   }
 
   return (
-    <header className="ic-page-header">
-      <HeaderInner className="ic-page-header__inner">
-        {title && title}
-        {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
-        <div className="ic-page-header__item iu-mr-gutter">
-          {getPrimary()}
-          <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
-        </div>
-      </HeaderInner>
-    </header>
+    <>
+      {banners}
+      <header className="ic-page-header">
+        <HeaderInner className="ic-page-header__inner">
+          {title && title}
+          {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
+          <div className="ic-page-header__item iu-mr-gutter">
+            {getPrimary()}
+            <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
+          </div>
+        </HeaderInner>
+      </header>
+    </>
   )
 }
 

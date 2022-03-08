@@ -72,12 +72,12 @@ const CertificatePage: React.FC = () => {
     <Root>
       <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
       <NoFlexGrow>
-        <SystemBanners />
         <AppHeader
           logo={logo}
           alt={'Logo Webcert'}
           primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
           secondaryItems={secondaryItems}
+          banners={[<SystemBanners />]}
         />
       </NoFlexGrow>
       {certificateIsDeleted ? (
