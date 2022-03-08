@@ -13,6 +13,7 @@ import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
+import { StartPage } from './page/StartPage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -43,6 +44,7 @@ function App(): JSX.Element {
       <ErrorComponent />
       <Switch>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+          <Route path="/" render={() => <StartPage />} />
           <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
           <Route path="/welcome" render={() => <Welcome />} />
           <Route path={'/error'} render={() => <ErrorPage />} />
