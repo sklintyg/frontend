@@ -119,7 +119,7 @@ const Welcome: React.FC = () => {
   }, [navigateToCertificate])
 
   if (navigateToCertificate && isDeepIntegration) {
-    return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? selectedUser.enhetId : ''} sjf={true} />
+    return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? selectedUser.enhetId : ''} />
   }
 
   const handleChangeMultiple = (event: React.ChangeEvent<HTMLSelectElement>) => {
