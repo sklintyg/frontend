@@ -9,14 +9,17 @@ import {
   CertificateRelationType,
   CertificateStatus,
   Complement,
+  ConfigTypes,
   ResourceLink,
   ResourceLinkType,
   Unit,
   ValidationError,
   ValidationErrorSummary,
+  Patient,
+  PersonId,
 } from '@frontend/common'
-import { Patient, PersonId } from '@frontend/common/src'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
+import { sortByIndex } from '@frontend/common/src/utils/certificateUtils'
 import { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
@@ -48,6 +51,9 @@ export const getComplements = (questionId: string) => (state: RootState): Comple
 
 export const getComplementsIncludingSubQuestions = (questionId: string) => (state: RootState): Complement[] =>
   state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
+
+export const getComplementsForQuestions = (questionIds: string[]) => (state: RootState): Complement[] =>
+  state.ui.uiCertificate.complements.filter((complement) => questionIds.includes(complement.questionId))
 
 export const getGotoId = (state: RootState): string | undefined => state.ui.uiCertificate.gotoCertificateDataElement?.questionId
 
@@ -105,12 +111,13 @@ export const getCertificateMetaData = (state: RootState): CertificateMetadata | 
 
 export interface CertificateStructure {
   id: string
+  subQuestionIds: string[]
   component: string
   index: number
   style?: CertificateDataElementStyleEnum
 }
 
-const certificateStructure: CertificateStructure[] = []
+let certificateStructure: CertificateStructure[] = []
 export const getCertificateDataElements = createSelector<RootState, Certificate | undefined, CertificateStructure[]>(
   getCertificate,
   (certificate) => {
@@ -119,16 +126,30 @@ export const getCertificateDataElements = createSelector<RootState, Certificate 
       return []
     }
 
-    for (const questionId in certificate.data) {
-      certificateStructure.push({
-        id: certificate.data[questionId].id,
-        component: certificate.data[questionId].config.type,
-        index: certificate.data[questionId].index,
-        style: certificate.data[questionId].style,
-      })
-    }
+    const elements = Object.values(certificate.data)
 
-    certificateStructure.sort((a, b) => a.index - b.index)
+    certificateStructure = elements.reduce((structure: CertificateStructure[], element: CertificateDataElement) => {
+      if (structure.some((s) => s.subQuestionIds.includes(element.id))) return structure
+
+      const subQuestionIds = elements
+        .filter(() => element.config.type !== ConfigTypes.CATEGORY)
+        .filter((el) => el.config.type !== ConfigTypes.CATEGORY)
+        .filter((el) => el.parent === element.id)
+        .sort(sortByIndex)
+        .map((el) => el.id)
+
+      structure.push({
+        id: element.id,
+        subQuestionIds,
+        component: element.config.type,
+        index: element.index,
+        style: element.style,
+      })
+
+      return structure
+    }, [])
+
+    certificateStructure.sort(sortByIndex)
     return certificateStructure
   }
 )

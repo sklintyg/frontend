@@ -110,3 +110,8 @@ export const getComplementedByCertificateRelation = (certificateMetadata: Certif
     (r) => r.type === CertificateRelationType.COMPLEMENTED && r.status !== CertificateStatus.REVOKED
   )
 }
+
+interface Indexable {
+  index: number
+}
+export const sortByIndex = (a: Indexable, b: Indexable) => a.index - b.index

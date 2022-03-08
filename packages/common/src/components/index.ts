@@ -33,3 +33,4 @@ export { default as DatePickerCustom } from './Inputs/DatePickerCustom/DatePicke
 export { default as ExternalLinkIcon } from './image/ExternalLinkIcon'
 export { default as DynamicLink } from './utils/DynamicLink'
 export { default as ToastModal } from './utils/Modal/ToastModal'
+export { default as TextInput } from './Inputs/TextInput'
