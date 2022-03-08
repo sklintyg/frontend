@@ -36,6 +36,8 @@
 
 ## Run Webcert backend and frontend client
 
+Detailed instructions for building and running the backend apps can be found in https://github.com/sklintyg/devops and https://github.com/sklintyg/common.
+
 1. Build backend apps by opening a terminal i repo and running command `gradlew build install -x test` (or `./gradlew build install -x test` in Git Bash) in the follwing order
    - Refdata
    - Infra
