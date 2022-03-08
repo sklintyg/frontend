@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { CertificateType, CreateCertificate, MockUser } from './welcomeReducer'
+import { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers, MockUser } from './welcomeReducer'
 import { Patient } from '@frontend/common'
 
 export const getAvailableCertificateTypes = () => (state: RootState): CertificateType[] | null => state.ui.uiWelcome.types
@@ -13,3 +13,8 @@ export const getCertificateId = () => (state: RootState): string => state.ui.uiW
 export const getAvailableUsers = () => (state: RootState): MockUser[] => state.ui.uiWelcome.users
 
 export const getNavigateToCertificate = () => (state: RootState): boolean => state.ui.uiWelcome.navigateToCertificate
+
+export const getIntegrationParameters = () => (state: RootState): IntegrationParameters => state.ui.uiWelcome.integrationParameters
+
+export const getIntegrationParametersDisablers = () => (state: RootState): IntegrationParametersDisablers =>
+  state.ui.uiWelcome.integrationParametersDisablers

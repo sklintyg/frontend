@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import { Backdrop } from '@frontend/common'
+import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
+import { useSelector } from 'react-redux'
 
 interface Props {
   certificateId: string
   unitId: string
-  sjf: boolean
 }
 
-const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId, sjf }) => {
+const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
   const formRef = useRef(null)
+  const integrationParameters = useSelector(getIntegrationParameters())
+  const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
 
   useEffect(() => {
     if (formRef) {
@@ -23,8 +26,29 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId, sjf })
     <>
       <Backdrop open={true} spinnerText={'Hoppar till Webcert!'} />
       <form ref={formRef} action={url} method="POST">
-        <input hidden={true} type="text" name="enhet" value={unitId} />
-        <input hidden={true} type="text" name="sjf" value={String(sjf)} />
+        <input hidden={true} type="text" name="enhet" value={integrationParameters.unitId ? integrationParameters.unitId : unitId} />
+        {!integrationParametersDisablers.firstName && (
+          <input hidden={true} type="text" name="fornamn" value={integrationParameters.firstName} />
+        )}
+        {!integrationParametersDisablers.middleName && (
+          <input hidden={true} type="text" name="efternamn" value={integrationParameters.lastName} />
+        )}
+        {!integrationParametersDisablers.lastName && (
+          <input hidden={true} type="text" name="mellannamn" value={integrationParameters.middleName} />
+        )}
+        {!integrationParametersDisablers.address && (
+          <input hidden={true} type="text" name="postadress" value={integrationParameters.address} />
+        )}
+        {!integrationParametersDisablers.city && <input hidden={true} type="text" name="postort" value={integrationParameters.city} />}
+        {!integrationParametersDisablers.zipcode && (
+          <input hidden={true} type="text" name="postkod" value={integrationParameters.zipcode} />
+        )}
+        <input hidden={true} type="text" name="ref" value={integrationParameters.ref} />
+        <input hidden={true} type="text" name="responsibleHospName" value={integrationParameters.responsibleHospName} />
+        <input hidden={true} type="text" name="alternatePatientSSn" value={integrationParameters.alternatePatientSSN} />
+        <input hidden={true} type="text" name="sjf" value={String(integrationParameters.coherentJournaling)} />
+        <input hidden={true} type="text" name="kopieringOK" value={String(integrationParameters.allowCopy)} />
+        <input hidden={true} type="text" name="inaktivEnhet" value={String(integrationParameters.inactiveUnit)} />
         <input hidden={true} type="submit" />
       </form>
     </>

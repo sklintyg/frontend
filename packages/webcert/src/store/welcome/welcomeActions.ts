@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { CertificateType, CreateCertificate } from './welcomeReducer'
+import { CertificateType, CreateCertificate, IntegrationParameters, IntegrationParametersDisablers } from './welcomeReducer'
 import { Patient } from '@frontend/common'
 
 export const getCertificateTypes = createAction('[Welcome] Get certificate types')
@@ -47,6 +47,10 @@ export const loginUserCompleted = createAction('[Welcome] Login user completed')
 
 export const updateNavigateToCertificate = createAction<boolean>('[Welcome] NavigateToCertificate')
 export const clearWelcome = createAction('[Welcome] Clear Welcome')
+export const updateIntegrationParameters = createAction<IntegrationParameters>('[Welcome] Update integration parameters')
+export const updateIntegrationParametersDisablers = createAction<IntegrationParametersDisablers>(
+  '[Welcome] Update integration parameters disablers'
+)
 
 export const populateFmb = createAction('[Welcome] Populate FMB')
 export const populateFmbStarted = createAction('[Welcome] Populate FMB started')
