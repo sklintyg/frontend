@@ -3,6 +3,8 @@ import { AppHeader, CustomButton, Footer, InfoBox } from '@frontend/common'
 import logo from '../components/header/webcert_logo.png'
 import image from '../images/webcert_bild3_fmb@1x.jpg'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import { getConfig } from '../store/utils/utilsSelectors'
 
 const Root = styled.div`
   height: 100vh;
@@ -18,10 +20,16 @@ const AlignRight = styled.div`
   text-align: right;
 `
 
-const ButtonContent = styled.div`
+const LoginButton = styled.a`
   display: flex;
   width: 13em;
   justify-content: space-between;
+  border: 1px solid #01a5a3;
+  background-color: #fff;
+  color: #01a5a3;
+  border-radius: 0.1875rem;
+  padding: 0.45rem 1rem;
+  text-decoration: none;
 `
 
 const CreateAccount: React.FC = () => (
@@ -33,10 +41,14 @@ const CreateAccount: React.FC = () => (
 )
 
 export const StartPage: React.FC = () => {
+  const config = useSelector(getConfig)
+  const sithsUrl = '/saml/login/alias/defaultAlias?idp=' + config.sakerhetstjanstIdpUrl
+  const elegUrl = '/saml/login/alias/eleg?idp=' + config.cgiFunktionstjansterIdpUrl
+
   return (
     <Root>
       <AppHeader logo={logo} alt="Logo Webcert" secondaryItems={[<CreateAccount />]} />
-      <Content className="ic-container iu-mt-gutter">
+      <Content className="ic-container iu-mt-gutter iu-mb-gutter">
         <div className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-6">
             <img src={image} />
@@ -52,16 +64,12 @@ export const StartPage: React.FC = () => {
             <InfoBox type="info" additionalStyles="iu-mb-1em iu-mt-1em">
               Har du Telia e-legitimation rekommenderas webbläsaren Internet Explorer 11.
             </InfoBox>
-            <CustomButton className="iu-mb-200">
-              <ButtonContent>
-                <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
-              </ButtonContent>
-            </CustomButton>
-            <CustomButton>
-              <ButtonContent>
-                <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
-              </ButtonContent>
-            </CustomButton>
+            <LoginButton className="iu-mb-200" href={sithsUrl}>
+              <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
+            </LoginButton>
+            <LoginButton href={elegUrl}>
+              <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
+            </LoginButton>
           </div>
         </div>
       </Content>

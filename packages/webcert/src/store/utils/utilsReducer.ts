@@ -9,6 +9,8 @@ export interface DynamicLinkMap {
 export interface Configuration {
   version: string
   banners: Banner[]
+  cgiFunktionstjansterIdpUrl: string
+  sakerhetstjanstIdpUrl: string
 }
 
 interface UtilsState {
@@ -20,7 +22,7 @@ interface UtilsState {
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
-  config: { version: '', banners: [] },
+  config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
