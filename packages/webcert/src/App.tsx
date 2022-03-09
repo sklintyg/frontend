@@ -45,14 +45,21 @@ function App(): JSX.Element {
         <Route
           path="/certificate/:certificateId"
           render={() => (
-            <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: error.message</>} onError={onError}>
+            <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
               <CertificatePage />
             </ErrorBoundary>
           )}
         />
         <Route path="/welcome" render={() => <Welcome />} />
         <Route path={'/error'} render={() => <ErrorPage />} />
-        <Route path={'/create'} render={() => <CreateCertificatePage />} />
+        <Route
+          path={'/create'}
+          render={() => (
+            <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+              <CreateCertificatePage />
+            </ErrorBoundary>
+          )}
+        />
       </Switch>
     </BrowserRouter>
   )
