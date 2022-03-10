@@ -32,7 +32,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       alt={'Logo Webcert'}
       primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
       secondaryItems={getSecondaryItems()}
-      banners={[<SystemBanners />]}
+      banners={[<SystemBanners key={'system-banners'} />]}
     />
   )
 }

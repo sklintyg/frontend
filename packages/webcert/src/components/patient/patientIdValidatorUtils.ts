@@ -1,5 +1,6 @@
 export const isPatientIdValid = (patientId: string): boolean => {
-  const numbers = patientId.match(/^(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)-(\d)(\d)(\d)(\d)$/)
+  const cleanPatientId = patientId.replace('-', '')
+  const numbers = cleanPatientId.match(/^(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)$/)
   let checkSum = 0
 
   if (numbers == null) {

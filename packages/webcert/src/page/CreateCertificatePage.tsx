@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PatientSearch from '../components/patient/PatientSearch'
 import { useDispatch } from 'react-redux'
-import { searchPatient } from '../store/patient/patientActions'
+import { getPatient } from '../store/patient/patientActions'
 import WebcertHeader from '../components/header/WebcertHeader'
 
 const CreateCertificatePage: React.FC = () => {
@@ -13,7 +13,7 @@ const CreateCertificatePage: React.FC = () => {
   }
 
   const onSubmit = () => {
-    dispatch(searchPatient(patientId))
+    dispatch(getPatient(patientId))
   }
 
   return (

@@ -1,27 +1,29 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
-import { searchPatient, searchPatientError, searchPatientStarted, searchPatientSuccess, setPatient } from './patientActions'
+import { getPatient, getPatientError, getPatientStarted, getPatientSuccess, setPatient } from './patientActions'
 
-const handleSearchPatient: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+const handleGetPatient: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       method: 'GET',
-      url: '/api/person/' + action.payload,
-      onStart: searchPatientStarted.type,
-      onSuccess: searchPatientSuccess.type,
-      onError: searchPatientError.type,
+      url: '/api/patient/' + action.payload,
+      onStart: getPatientStarted.type,
+      onSuccess: getPatientSuccess.type,
+      onError: getPatientError.type,
     })
   )
 }
 
-const handleSearchPatientSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(setPatient(action.payload))
+const handleGetPatientSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(setPatient(action.payload.patient))
+  //handle status?
+  console.log(action.payload)
 }
 
 const middlewareMethods = {
-  [searchPatient.type]: handleSearchPatient,
-  [searchPatientSuccess.type]: handleSearchPatientSuccess,
+  [getPatient.type]: handleGetPatient,
+  [getPatientSuccess.type]: handleGetPatientSuccess,
 }
 
 export const patientMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

@@ -1,4 +1,5 @@
 import { ResourceLink } from './resourceLink'
+import { Patient } from './patient'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -344,25 +345,6 @@ export interface Unit {
   phoneNumber: string
   email: string
   isInactive: boolean
-}
-
-export interface Patient {
-  personId: PersonId
-  previousPersonId?: PersonId
-  firstName: string
-  lastName: string
-  fullName: string
-  coordinationNumber: boolean
-  testIndicated: boolean
-  protectedPerson: boolean
-  deceased: boolean
-  differentNameFromEHR: boolean
-  personIdUpdated: boolean
-}
-
-export interface PersonId {
-  type: string
-  id: string
 }
 
 export interface Staff {
