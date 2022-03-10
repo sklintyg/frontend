@@ -1,14 +1,10 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { CustomButton, TextInput } from '@frontend/common'
 import { isPatientIdValid } from './patientIdValidatorUtils'
 import PatientIdValidator from './PatientIdValidator'
 import styled, { css } from 'styled-components/macro'
-
-interface Props {
-  patientId: string
-  onChange: (patientId: string) => void
-  onSubmit: () => void
-}
+import { useDispatch } from 'react-redux'
+import { getPatient } from '../../store/patient/patientActions'
 
 const TextInputStyles = css`
   width: 10.05em;
@@ -20,12 +16,17 @@ const FormWrapper = styled.div`
   align-items: center;
 `
 
-const PatientSearch: React.FC<Props> = ({ patientId, onChange, onSubmit }) => {
-  const textInputRef = useRef(null)
+const PatientSearch: React.FC = () => {
   const [displayError, setDisplayError] = useState(false)
+  const [patientId, setPatientId] = useState('')
+  const dispatch = useDispatch()
 
-  const isTextInputOnFocus = () => {
-    return document.activeElement === textInputRef.current
+  const onChange = (patientId: string) => {
+    setPatientId(patientId)
+  }
+
+  const onSubmit = () => {
+    dispatch(getPatient(patientId))
   }
 
   const formatPatientId = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,14 +43,15 @@ const PatientSearch: React.FC<Props> = ({ patientId, onChange, onSubmit }) => {
       <h2>Patientens personnummer eller samordningsnummer</h2>
       <FormWrapper className={'iu-mt-300'}>
         <TextInput
+          ref={null}
           onChange={formatPatientId}
-          ref={textInputRef}
           placeholder={'åååmmdd-nnnn'}
           value={patientId}
           limit={13}
           onBlur={() => {
-            setDisplayError(patientId !== '' && !isPatientIdValid(patientId) && !isTextInputOnFocus())
+            setDisplayError(patientId !== '' && !isPatientIdValid(patientId))
           }}
+          onFocus={() => setDisplayError(false)}
           additionalStyles={TextInputStyles}
           hasValidationError={displayError}
         />
