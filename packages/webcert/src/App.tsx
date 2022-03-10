@@ -53,7 +53,7 @@ function App(): JSX.Element {
         <Route path="/welcome" render={() => <Welcome />} />
         <Route path={'/error'} render={() => <ErrorPage />} />
         <Route
-          path={'/create'}
+          path={'/create/:patientId?'}
           render={() => (
             <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
               <CreateCertificatePage />

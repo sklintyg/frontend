@@ -5,6 +5,7 @@ import PatientIdValidator from './PatientIdValidator'
 import styled, { css } from 'styled-components/macro'
 import { useDispatch } from 'react-redux'
 import { getPatient } from '../../store/patient/patientActions'
+import { useHistory } from 'react-router-dom'
 
 const TextInputStyles = css`
   width: 10.05em;
@@ -20,13 +21,14 @@ const PatientSearch: React.FC = () => {
   const [displayError, setDisplayError] = useState(false)
   const [patientId, setPatientId] = useState('')
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const onChange = (patientId: string) => {
     setPatientId(patientId)
   }
 
   const onSubmit = () => {
-    dispatch(getPatient(patientId))
+    dispatch(getPatient({ patientId: patientId.replace('-', ''), history: history }))
   }
 
   const formatPatientId = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ const PatientSearch: React.FC = () => {
   }
 
   return (
-    <div className={'iu-p-400'}>
+    <div className={'ic-container iu-p-400'}>
       <h2>Patientens personnummer eller samordningsnummer</h2>
       <FormWrapper className={'iu-mt-300'}>
         <TextInput
