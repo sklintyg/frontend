@@ -24,12 +24,6 @@ const LoginButton = styled.a`
   display: flex;
   width: 13em;
   justify-content: space-between;
-  border: 1px solid #01a5a3;
-  background-color: #fff;
-  color: #01a5a3;
-  border-radius: 0.1875rem;
-  padding: 0.45rem 1rem;
-  text-decoration: none;
 `
 
 const CreateAccount: React.FC = () => (
@@ -64,10 +58,10 @@ export const StartPage: React.FC = () => {
             <InfoBox type="info" additionalStyles="iu-mb-1em iu-mt-1em">
               Har du Telia e-legitimation rekommenderas webbläsaren Internet Explorer 11.
             </InfoBox>
-            <LoginButton className="iu-mb-200" href={sithsUrl}>
+            <LoginButton className="ic-button ic-button--secondary iu-mb-200" href={sithsUrl}>
               <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
             </LoginButton>
-            <LoginButton href={elegUrl}>
+            <LoginButton className="ic-button ic-button--secondary" href={elegUrl}>
               <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
             </LoginButton>
           </div>
