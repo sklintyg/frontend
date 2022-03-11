@@ -16,6 +16,10 @@ const renderComponent = () => {
 }
 
 describe('PatientSearch', () => {
+  it('should render component', () => {
+    renderComponent()
+  })
+
   describe('Input', () => {
     it('should allow user to type patient id', () => {
       renderComponent()

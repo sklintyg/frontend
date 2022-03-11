@@ -2,12 +2,12 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { patientMiddleware } from './patientMiddleware'
-import { getPatient, GetPatientSuccess } from './patientActions'
+import { getPatient } from './patientActions'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import { PatientStatus } from '@frontend/common/src/types/patient'
-import { Patient } from '@frontend/common'
 import apiMiddleware from '../api/apiMiddleware'
+import { createPatient } from '../../components/patient/patientTestUtils'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -48,21 +48,3 @@ describe('Test patient middleware', () => {
     })
   })
 })
-
-const createPatient = (patientId: string): Patient => {
-  return {
-    firstName: 'firstName',
-    lastName: 'lastName',
-    fullName: 'firstName middleName lastName',
-    deceased: false,
-    protectedPerson: false,
-    testIndicated: false,
-    coordinationNumber: false,
-    differentNameFromEHR: false,
-    personIdUpdated: false,
-    personId: {
-      type: '',
-      id: patientId,
-    },
-  }
-}

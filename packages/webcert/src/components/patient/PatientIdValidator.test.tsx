@@ -9,6 +9,10 @@ const renderComponent = (display: boolean) => {
 }
 
 describe('PatientIdValidator', () => {
+  it('should render component', () => {
+    renderComponent(false)
+  })
+
   it('should show error message if display is true', () => {
     renderComponent(true)
     expect(screen.getByText(EXPECTED_TEXT)).toBeInTheDocument()
