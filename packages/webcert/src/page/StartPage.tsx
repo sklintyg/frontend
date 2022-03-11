@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeader, CustomButton, Footer, InfoBox } from '@frontend/common'
+import { AppHeader, Footer, InfoBox } from '@frontend/common'
 import logo from '../components/header/webcert_logo.png'
 import image from '../images/webcert_bild3_fmb@1x.jpg'
 import styled from 'styled-components'
