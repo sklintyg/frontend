@@ -1,16 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { Patient, PatientStatus } from '@frontend/common'
-import { clearPatient, setPatient, setStatus } from './patientActions'
+import { clearPatient, clearPatientError, setPatient, setPatientError, setStatus } from './patientActions'
+import { ErrorRequest } from '../error/errorReducer'
 
 interface PatientState {
   patient: Patient | undefined
   status: PatientStatus | undefined
+  error: ErrorRequest | undefined
 }
 
 const getInitialState = (): PatientState => {
   return {
     patient: undefined,
     status: undefined,
+    error: undefined,
   }
 }
 
@@ -23,6 +26,12 @@ const errorReducer = createReducer(getInitialState(), (builder) => [
   }),
   builder.addCase(clearPatient, (state) => {
     state.patient = undefined
+  }),
+  builder.addCase(setPatientError, (state, action) => {
+    state.error = action.payload
+  }),
+  builder.addCase(clearPatientError, (state) => {
+    state.error = undefined
   }),
 ])
 

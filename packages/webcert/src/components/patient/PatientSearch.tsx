@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { CustomButton, TextInput } from '@frontend/common'
 import { isPatientIdValid } from './patientIdValidatorUtils'
 import PatientIdValidator from './PatientIdValidator'
@@ -6,6 +6,8 @@ import styled, { css } from 'styled-components/macro'
 import { useDispatch } from 'react-redux'
 import { getPatient } from '../../store/patient/patientActions'
 import { useHistory } from 'react-router-dom'
+import PatientSearchError from './PatientSearchError'
+import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 
 const TextInputStyles = css`
   width: 10.05em;
@@ -22,6 +24,11 @@ const PatientSearch: React.FC = () => {
   const [patientId, setPatientId] = useState('')
   const dispatch = useDispatch()
   const history = useHistory()
+  const enterPress = useKeyPress('Enter')
+
+  useEffect(() => {
+    onSubmit()
+  }, [enterPress])
 
   const onChange = (patientId: string) => {
     setPatientId(patientId)
@@ -60,6 +67,7 @@ const PatientSearch: React.FC = () => {
         <CustomButton text={'Fortsätt'} disabled={!isPatientIdValid(patientId)} buttonStyle={'primary'} onClick={onSubmit} />
       </FormWrapper>
       <PatientIdValidator display={displayError} />
+      <PatientSearchError />
     </div>
   )
 }

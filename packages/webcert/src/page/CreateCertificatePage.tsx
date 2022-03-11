@@ -7,6 +7,8 @@ import { getActivePatient } from '../store/patient/patientSelectors'
 import { useHistory, useParams } from 'react-router-dom'
 import { getPatient } from '../store/patient/patientActions'
 import { CustomTooltip } from '@frontend/common'
+import { getUser } from '../store/user/userSelectors'
+import ReactTooltip from 'react-tooltip'
 
 interface Params {
   patientId: string
@@ -17,10 +19,15 @@ const CreateCertificatePage: React.FC = () => {
   const dispatch = useDispatch()
   const patient = useSelector(getActivePatient)
   const history = useHistory()
+  const user = useSelector(getUser)
 
   const isPatientLoaded = () => {
     return !patientId || (patientId && patient)
   }
+
+  useEffect(() => {
+    ReactTooltip.hide()
+  }, [patient])
 
   useEffect(() => {
     if (patientId) {
@@ -30,9 +37,13 @@ const CreateCertificatePage: React.FC = () => {
 
   return (
     <>
-      <WebcertHeader />
-      <CustomTooltip />
-      {isPatientLoaded() && <>{patient ? <PatientInfoHeader patient={patient} /> : <PatientSearch />}</>}
+      {user && (
+        <>
+          <WebcertHeader />
+          <CustomTooltip />
+          {isPatientLoaded() && <>{patient ? <PatientInfoHeader patient={patient} /> : <PatientSearch />}</>}
+        </>
+      )}
     </>
   )
 }
