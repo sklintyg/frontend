@@ -8,6 +8,7 @@ import axios from 'axios'
 import { PatientStatus } from '@frontend/common/src/types/patient'
 import apiMiddleware from '../api/apiMiddleware'
 import { createPatient } from '../../components/patient/patientTestUtils'
+import { ErrorCode } from '../error/errorReducer'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -51,6 +52,38 @@ describe('Test patient middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiPatient.patient).toEqual(expectedPatient)
+    })
+
+    it('shall save error if response is NOT_FOUND', async () => {
+      const getPatientSuccess = { patient: null, status: PatientStatus.NOT_FOUND } as GetPatientResponse
+      fakeAxios.onGet('/api/patient/patientId').reply(200, getPatientSuccess)
+
+      // @ts-expect-error mocking history
+      testStore.dispatch(getPatient({ patientId: 'patientId', history: mockHistory }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiPatient.error.errorCode).toEqual(ErrorCode.PATIENT_NOT_FOUND)
+    })
+
+    it('shall save error if response is ERROR', async () => {
+      const getPatientSuccess = { patient: null, status: PatientStatus.ERROR } as GetPatientResponse
+      fakeAxios.onGet('/api/patient/patientId').reply(200, getPatientSuccess)
+
+      // @ts-expect-error mocking history
+      testStore.dispatch(getPatient({ patientId: 'patientId', history: mockHistory }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiPatient.error.errorCode).toEqual(ErrorCode.PU_PROBLEM)
+    })
+
+    it('shall save error if response is bad request', async () => {
+      fakeAxios.onGet('/api/patient/patientId').reply(500)
+
+      // @ts-expect-error mocking history
+      testStore.dispatch(getPatient({ patientId: 'patientId', history: mockHistory }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiPatient.error.errorCode).toEqual(ErrorCode.GETTING_PATIENT_ERROR)
     })
   })
 })

@@ -17,7 +17,7 @@ export const getPatient = createAction<GetPatient>(`${PATIENT} Get patient`)
 export const getPatientStarted = createAction(`${PATIENT} Get patient started`)
 
 export interface GetPatientResponse {
-  patient: Patient
+  patient: Patient | null
   status: PatientStatus
   history: History<LocationState>
 }
