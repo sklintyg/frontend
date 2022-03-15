@@ -4,6 +4,7 @@ import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { ResourceLink } from '@frontend/common/src'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   resourceLink: ResourceLink | undefined
@@ -43,7 +44,7 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) 
       open={open}
       handleClose={handleClose}
       title={resourceLink.name}
-      content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={{ __html: resourceLink.body as string }}></div>}
+      content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(resourceLink.body as string)}></div>}
       buttons={
         <>
           <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Kopiera'} />

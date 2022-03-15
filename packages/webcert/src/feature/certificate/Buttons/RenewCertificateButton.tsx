@@ -9,6 +9,7 @@ import { getUser } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
 import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { sanitizeText } from '@frontend/common'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -60,7 +61,7 @@ const RenewCertificateButton: React.FC<Props> = ({
           description={description}
           startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
           confirmButtonDisabled={functionDisabled}>
-          <div className={'iu-pb-400'} dangerouslySetInnerHTML={{ __html: body as string }} />
+          <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)} />
           <Checkbox id={'renew-modal-checkbox'} disabled={false} onChange={onCheckboxChange} label={'Visa inte igen.'} checked={checked} />
         </ButtonWithConfirmModal>
       )

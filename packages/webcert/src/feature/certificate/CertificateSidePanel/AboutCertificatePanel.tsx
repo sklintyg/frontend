@@ -5,6 +5,7 @@ import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 import styled from 'styled-components'
 import _ from 'lodash'
+import { sanitizeText } from '@frontend/common'
 
 const Root = styled.div`
   height: 100%;
@@ -66,7 +67,7 @@ const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
               </>
             )}
           </p>
-          {certMetaData && <Description dangerouslySetInnerHTML={{ __html: certMetaData.description }} />}
+          {certMetaData && <Description dangerouslySetInnerHTML={sanitizeText(certMetaData.description)} />}
         </ContentWrapper>
       </Root>
       <AboutCertificatePanelFooter />

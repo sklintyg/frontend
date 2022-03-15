@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   name: string
@@ -31,7 +32,7 @@ const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, descriptio
       name={name}
       description={description}
       startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg"></FontAwesomeIcon>}>
-      <div className={'iu-pb-400'} dangerouslySetInnerHTML={{ __html: body as string }}></div>
+      <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )
 }
