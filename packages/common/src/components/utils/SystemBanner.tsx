@@ -1,6 +1,7 @@
 import React from 'react'
 import { Banner } from '../../types/utils'
 import styled from 'styled-components'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   banner: Banner
@@ -11,7 +12,7 @@ const Icon = styled.i`
   margin-bottom: auto;
 `
 
-const SystemBanner: React.FC<Props> = ({ banner, children }) => {
+const SystemBanner: React.FC<Props> = ({ banner }) => {
   const getIconClass = () => {
     if (banner.priority === 'HOG') {
       return 'ic-error-icon'
@@ -34,7 +35,7 @@ const SystemBanner: React.FC<Props> = ({ banner, children }) => {
     <div className={`ic-alert-global iu-py-200 iu-fs-200 iu-lh-body ${getWrapperClass()}`}>
       <div className={'ic-global-alert__inner iu-flex iu-m-none'}>
         <Icon className={`ic-alert__icon ic-global-alert__icon ${getIconClass()}`} />
-        {children}
+        <div dangerouslySetInnerHTML={sanitizeText(banner.message)} />
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import { ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common/src'
 import styled from 'styled-components'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   name: string
@@ -35,7 +36,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
           startIcon={<FontAwesomeIcon icon={faPrint} size="lg"></FontAwesomeIcon>}
           onConfirm={() => dispatch(printCertificate(certificateMetadata))}
           confirmButtonText={'Skriv ut'}>
-          <div dangerouslySetInnerHTML={{ __html: body }}></div>
+          <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
         </ButtonWithConfirmModal>
       ) : (
         <CustomButton

@@ -4,6 +4,7 @@ import { MandatoryIcon } from '@frontend/common'
 import Icon from '../image/Icon'
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { sanitizeText } from '@frontend/common'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;
@@ -104,7 +105,7 @@ const Accordion: React.FC<Props> = ({
             {children}
           </StyledSummary>
         )}
-        <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={{ __html: description }}></Text>
+        <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={sanitizeText(description)}></Text>
       </StyledDetails>
     </div>
   )
