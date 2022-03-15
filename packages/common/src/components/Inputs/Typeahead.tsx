@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { Element, scroller } from 'react-scroll'
 import { useKeyPress } from '../../utils/userFunctionUtils'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   value?: string
@@ -189,10 +190,11 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
             onMouseLeave={() => setHovered(-1)}>
             <Element
               name={'typeahead-item-' + i}
-              dangerouslySetInnerHTML={{ __html: getItemText ? getItemText(item.label, value) : item.label }}
+              dangerouslySetInnerHTML={sanitizeText(getItemText ? getItemText(item.label, value) : item.label)}
             />
           </SuggestionsListItem>
         ))}
+        s
       </SuggestionsList>
     )
   }
