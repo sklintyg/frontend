@@ -49,7 +49,7 @@ const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   } else if (action.payload.status === PatientStatus.INVALID_PATIENT_ID) {
     error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.INVALID_PATIENT_ID, getState().ui.uiQuestion.certificateId)
   } else if (action.payload.status === PatientStatus.ERROR) {
-    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.PU_ERROR, getState().ui.uiQuestion.certificateId)
+    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.PU_PROBLEM, getState().ui.uiQuestion.certificateId)
   } else {
     error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.GETTING_PATIENT_ERROR, getState().ui.uiQuestion.certificateId)
   }

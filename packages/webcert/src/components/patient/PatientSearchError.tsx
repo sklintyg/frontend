@@ -35,7 +35,7 @@ const PatientSearchError: React.FC = () => {
       )
     } else if (error.errorCode === ErrorCode.INVALID_PATIENT_ID) {
       return <p>Ange ett giltigt person- eller samordningsnummer.</p>
-    } else if (error.errorCode === ErrorCode.PU_ERROR) {
+    } else if (error.errorCode === ErrorCode.PU_PROBLEM) {
       return (
         <>
           <p>
