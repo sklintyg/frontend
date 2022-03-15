@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export { default as AppHeader } from './AppHeader/AppHeader'
 export { default as AppHeaderUser } from './AppHeader/AppHeaderUser'
 export { default as AppHeaderItem } from './AppHeader/AppHeaderItem'
