@@ -1,3 +1,4 @@
+import * as types from 'styled-components/cssprop'
 export { default as AppHeader } from './AppHeader/AppHeader'
 export { default as AppHeaderUser } from './AppHeader/AppHeaderUser'
 export { default as AppHeaderItem } from './AppHeader/AppHeaderItem'
