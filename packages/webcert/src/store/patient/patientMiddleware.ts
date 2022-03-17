@@ -43,16 +43,15 @@ const handleGetPatientSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
 }
 
 const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  let error
+  let errorCode = ErrorCode.GETTING_PATIENT_ERROR
   if (action.payload.status === PatientStatus.NOT_FOUND) {
-    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.PATIENT_NOT_FOUND, getState().ui.uiQuestion.certificateId)
+    errorCode = ErrorCode.PATIENT_NOT_FOUND
   } else if (action.payload.status === PatientStatus.INVALID_PATIENT_ID) {
-    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.INVALID_PATIENT_ID, getState().ui.uiQuestion.certificateId)
+    errorCode = ErrorCode.INVALID_PATIENT_ID
   } else if (action.payload.status === PatientStatus.ERROR) {
-    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.PU_PROBLEM, getState().ui.uiQuestion.certificateId)
-  } else {
-    error = createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.GETTING_PATIENT_ERROR, getState().ui.uiQuestion.certificateId)
+    errorCode = ErrorCode.PU_PROBLEM
   }
+  let error  = createErrorRequestWithErrorId(ErrorType.SILENT, errorCode, getState().ui.uiQuestion.certificateId)
   dispatch(setPatientError(error))
   dispatch(throwError(error))
 }
