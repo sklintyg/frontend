@@ -32,7 +32,7 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
     return 'ic-alert--observe'
   }
 
-  const addExternalIcon = (content: string) => {
+  const modifyBannerContent = (content: string) => {
     let bannerContent = content
     bannerContent = bannerContent.replace(
       new RegExp('</a>', 'g'),
@@ -46,7 +46,7 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
     <div className={`ic-alert-global iu-py-200 iu-fs-200 iu-lh-body ${getWrapperClass()}`}>
       <div className={'ic-global-alert__inner iu-flex iu-m-none'}>
         <Icon className={`ic-alert__icon ic-global-alert__icon ${getIconClass()}`} />
-        <div dangerouslySetInnerHTML={addExternalIcon(banner.message)} />
+        <div dangerouslySetInnerHTML={modifyBannerContent(banner.message)} />
       </div>
     </div>
   )
