@@ -38,7 +38,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
         </div>
         <ButtonWrapper>
           <CustomButton
-            text={'Byt patient'}
+            text="Byt patient"
             buttonStyle={'primary'}
             onClick={switchPatient}
             className={'iu-ml-500'}
