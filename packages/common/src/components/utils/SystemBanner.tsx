@@ -2,6 +2,7 @@ import React from 'react'
 import { Banner } from '../../types/utils'
 import styled from 'styled-components'
 import { sanitizeText } from '@frontend/common'
+import externalLinkIcon from '../../images/external_link.svg'
 
 interface Props {
   banner: Banner
@@ -31,11 +32,21 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
     return 'ic-alert--observe'
   }
 
+  const addExternalIcon = (content: string) => {
+    let bannerContent = content
+    bannerContent = bannerContent.replace(
+      new RegExp('</a>', 'g'),
+      `<img src=${externalLinkIcon} alt="Länken öppnas i ny flik" style="display: inline; position: relative; top: 3px; left: 2px" /></a>`
+    )
+    bannerContent = bannerContent.replace(new RegExp('<a', 'g'), '<a target="_blank"')
+    return sanitizeText(bannerContent)
+  }
+
   return (
     <div className={`ic-alert-global iu-py-200 iu-fs-200 iu-lh-body ${getWrapperClass()}`}>
       <div className={'ic-global-alert__inner iu-flex iu-m-none'}>
         <Icon className={`ic-alert__icon ic-global-alert__icon ${getIconClass()}`} />
-        <div dangerouslySetInnerHTML={sanitizeText(banner.message)} />
+        <div dangerouslySetInnerHTML={addExternalIcon(banner.message)} />
       </div>
     </div>
   )
