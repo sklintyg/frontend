@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import PatientIdValidator from './PatientIdValidator'
+import InvalidPatientIdMessage from './InvalidPatientIdMessage'
 
 const EXPECTED_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
 const renderComponent = (display: boolean) => {
-  render(<PatientIdValidator display={display} />)
+  render(<InvalidPatientIdMessage display={display} />)
 }
 
-describe('PatientIdValidator', () => {
+describe('InvalidPatientIdMessage', () => {
   it('should render component', () => {
     renderComponent(false)
   })

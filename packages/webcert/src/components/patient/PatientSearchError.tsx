@@ -53,7 +53,7 @@ const PatientSearchError: React.FC = () => {
 
   return (
     <Wrapper>
-      <InfoBox type={'error'} additionalStyles={'iu-mt-300'} activateIconWrap>
+      <InfoBox type="error" additionalStyles="iu-mt-300" activateIconWrap>
         {getContent()}
       </InfoBox>
       {error.errorId && <ErrorCopyText errorId={error.errorId} />}

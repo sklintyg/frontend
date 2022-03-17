@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { CustomButton, TextInput } from '@frontend/common'
 import { isPatientIdValid } from './patientIdValidatorUtils'
-import PatientIdValidator from './PatientIdValidator'
+import InvalidPatientIdMessage from './InvalidPatientIdMessage'
 import styled, { css } from 'styled-components/macro'
 import { useDispatch } from 'react-redux'
 import { getPatient } from '../../store/patient/patientActions'
@@ -30,31 +30,29 @@ const PatientSearch: React.FC = () => {
     onSubmit()
   }, [enterPress])
 
-  const onChange = (patientId: string) => {
-    setPatientId(patientId)
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPatientId(formatPatientId(event.currentTarget.value))
   }
 
   const onSubmit = () => {
     dispatch(getPatient({ patientId: patientId.replace('-', ''), history: history }))
   }
 
-  const formatPatientId = (event: ChangeEvent<HTMLInputElement>) => {
-    const cleanPatientId = event.currentTarget.value.replace(/\D/g, '')
+  const formatPatientId = (patientId: string) => {
+    let cleanPatientId = patientId.replace(/\D/g, '')
     if (cleanPatientId.length > 8) {
-      onChange(cleanPatientId.slice(0, 8) + '-' + cleanPatientId.slice(8, cleanPatientId.length))
-    } else {
-      onChange(cleanPatientId)
+      cleanPatientId = cleanPatientId.slice(0, 8) + '-' + cleanPatientId.slice(8, cleanPatientId.length)
     }
+    return cleanPatientId
   }
 
   return (
-    <div className={'ic-container iu-p-400'}>
+    <div className="ic-container iu-p-400">
       <h2>Patientens personnummer eller samordningsnummer</h2>
-      <FormWrapper className={'iu-mt-300'}>
+      <FormWrapper className="iu-mt-300">
         <TextInput
-          ref={null}
-          onChange={formatPatientId}
-          placeholder={'åååmmdd-nnnn'}
+          onChange={onChange}
+          placeholder="ååååmmdd-nnnn"
           value={patientId}
           limit={13}
           onBlur={() => {
@@ -64,9 +62,9 @@ const PatientSearch: React.FC = () => {
           additionalStyles={TextInputStyles}
           hasValidationError={displayError}
         />
-        <CustomButton text={'Fortsätt'} disabled={!isPatientIdValid(patientId)} buttonStyle={'primary'} onClick={onSubmit} />
+        <CustomButton text="Fortsätt" disabled={!isPatientIdValid(patientId)} buttonStyle="primary" onClick={onSubmit} />
       </FormWrapper>
-      <PatientIdValidator display={displayError} />
+      <InvalidPatientIdMessage display={displayError} />
       <PatientSearchError />
     </div>
   )
