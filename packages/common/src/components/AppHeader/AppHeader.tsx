@@ -32,9 +32,11 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
         <HeaderInner className="ic-page-header__inner">
           {title && title}
           {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
-          <div className="ic-page-header__item iu-mr-gutter">
+          <div className="ic-page-header__item iu-mr-gutter iu-lh-narrow">
             {getPrimary()}
-            <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
+            <nav aria-label="Användarmeny">
+              <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
+            </nav>
           </div>
         </HeaderInner>
       </header>

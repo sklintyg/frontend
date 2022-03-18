@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { User } from '@frontend/common'
+import { ResourceLink, User } from '@frontend/common'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -10,3 +10,5 @@ export const isDoctor = (state: RootState): boolean | null =>
 
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
+
+export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
