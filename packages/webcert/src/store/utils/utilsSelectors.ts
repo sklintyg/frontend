@@ -1,6 +1,6 @@
 import { RootState } from '../store'
-import { DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
-import { Banner, Configuration } from './utilsReducer'
+import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
+import { Configuration } from './utilsReducer'
 
 export const getDynamicLink = (key: string) => (state: RootState): DynamicLinkData => state.ui.uiUtils.dynamicLinks[key]
 

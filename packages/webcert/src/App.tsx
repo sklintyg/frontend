@@ -12,6 +12,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
+import CreateCertificatePage from './page/CreateCertificatePage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -41,16 +42,12 @@ function App(): JSX.Element {
     <BrowserRouter>
       <ErrorComponent />
       <Switch>
-        <Route
-          path="/certificate/:certificateId"
-          render={() => (
-            <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: error.message</>} onError={onError}>
-              <CertificatePage />
-            </ErrorBoundary>
-          )}
-        />
-        <Route path="/welcome" render={() => <Welcome />} />
-        <Route path={'/error'} render={() => <ErrorPage />} />
+        <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+          <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+          <Route path="/welcome" render={() => <Welcome />} />
+          <Route path={'/error'} render={() => <ErrorPage />} />
+          <Route path={'/create/:patientId?'} render={() => <CreateCertificatePage />} />
+        </ErrorBoundary>
       </Switch>
     </BrowserRouter>
   )

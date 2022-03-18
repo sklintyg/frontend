@@ -7,7 +7,8 @@ interface Props {
   name?: string
   value?: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onBlur?: any
+  onBlur?: () => void
+  onFocus?: () => void
   hasValidationError?: boolean
   disabled?: boolean
   placeholder?: string
@@ -16,7 +17,7 @@ interface Props {
   limit?: number
 }
 
-const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
     expanded,
     label,
@@ -28,6 +29,7 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
     hasValidationError,
     placeholder,
     onBlur,
+    onFocus,
     activeDescendant,
     limit,
   } = props
@@ -45,6 +47,7 @@ const TextInput: React.FC<Props & { ref: React.Ref<HTMLInputElement> }> = React.
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
+        onFocus={onFocus}
         onChange={(e) => onChange(e)}
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}

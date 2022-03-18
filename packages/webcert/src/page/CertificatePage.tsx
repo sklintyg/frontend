@@ -76,7 +76,7 @@ const CertificatePage: React.FC = () => {
           logo={logo}
           alt={'Logo Webcert'}
           primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
-          secondaryItems={secondaryItems}
+          secondaryItems={[secondaryItems]}
           banners={[<SystemBanners />]}
         />
       </NoFlexGrow>
