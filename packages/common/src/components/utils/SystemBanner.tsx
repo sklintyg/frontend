@@ -13,6 +13,15 @@ const Icon = styled.i`
   margin-bottom: auto;
 `
 
+const Content = styled.div`
+  img {
+    display: inline;
+    position: relative;
+    top: 3px;
+    left: 2px;
+  }
+`
+
 const SystemBanner: React.FC<Props> = ({ banner }) => {
   const getIconClass = () => {
     if (banner.priority === 'HOG') {
@@ -34,11 +43,8 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
 
   const modifyBannerContent = (content: string) => {
     let bannerContent = content
-    bannerContent = bannerContent.replace(
-      new RegExp('</a>', 'g'),
-      `<img src=${externalLinkIcon} alt="Länken öppnas i ny flik" style="display: inline; position: relative; top: 3px; left: 2px" /></a>`
-    )
-    bannerContent = bannerContent.replace(new RegExp('<a', 'g'), '<a target="_blank"')
+    bannerContent = bannerContent.replace(/<\/a>/g, `<img src=${externalLinkIcon} alt="Länken öppnas i ny flik" /></a>`)
+    bannerContent = bannerContent.replace(/<a/g, '<a target="_blank"')
     return sanitizeText(bannerContent)
   }
 
@@ -46,7 +52,7 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
     <div className={`ic-alert-global iu-py-200 iu-fs-200 iu-lh-body ${getWrapperClass()}`}>
       <div className={'ic-global-alert__inner iu-flex iu-m-none'}>
         <Icon className={`ic-alert__icon ic-global-alert__icon ${getIconClass()}`} />
-        <div dangerouslySetInnerHTML={modifyBannerContent(banner.message)} />
+        <Content dangerouslySetInnerHTML={modifyBannerContent(banner.message)} />
       </div>
     </div>
   )
