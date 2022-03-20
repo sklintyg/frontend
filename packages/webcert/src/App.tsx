@@ -15,6 +15,7 @@ import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPage } from './page/StartPage'
+import { LoggedInUserRedirect } from './components/user/LoggedInUserRedirect'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -42,16 +43,18 @@ function App(): JSX.Element {
 
   return (
     <BrowserRouter>
-      <ErrorComponent />
-      <Switch>
-        <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
-          <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
-          <Route path="/welcome" render={() => <Welcome />} />
-          <Route path={'/error'} render={() => <ErrorPage />} />
-          <Route path={'/create/:patientId?'} render={() => <SearchAndCreatePageWithRedirect />} />
-          <Route path="/" render={() => <StartPage />} />
-        </ErrorBoundary>
-      </Switch>
+      <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+        <ErrorComponent />
+        <LoggedInUserRedirect>
+          <Switch>
+            <Route path="/" exact render={() => <StartPage />} />
+            <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+            <Route path="/welcome" render={() => <Welcome />} />
+            <Route path="/error" render={() => <ErrorPage />} />
+			<Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+          </Switch>
+        </LoggedInUserRedirect>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

@@ -25,6 +25,8 @@ import {
   updateUserResourceLinks,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
+import { throwError } from '../error/errorActions'
+import { createErrorRequestFromApiError } from '../error/errorCreator'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -40,6 +42,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
 
 const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingUser(false))
+  dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
 }
 
 const handleGetUserStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {

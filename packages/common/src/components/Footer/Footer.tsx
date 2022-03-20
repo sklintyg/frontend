@@ -1,4 +1,9 @@
 import React from 'react'
+import styled from 'styled-components'
+
+const LinkList = styled.ul`
+  columns: 2;
+`
 
 export const Footer: React.FC = () => (
     <footer className="ic-page-footer">
@@ -15,7 +20,7 @@ export const Footer: React.FC = () => (
             </p>
           </div>
           <nav className="iu-grid iu-grid-span-lg-7 iu-grid-cols-3 iu-pl-xxl iu-hide-sm iu-hide-md" aria-label="Sidfot meny">
-            <ul className="ic-link-list ic-link-list--nav">
+            <LinkList className="ic-link-list ic-link-list--nav">
               <li>
                 <a className="ic-link-chevron ic-link ic-link--external" target="_blank" href="https://www.inera.se/">
                   Inera AB<span aria-hidden="true" className="icon-link-ext"></span>
@@ -32,8 +37,7 @@ export const Footer: React.FC = () => (
                 Webcerts informationsyta<span aria-hidden="true" className="icon-link-ext"></span>
                 </a>
               </li>
-              <li>&nbsp;</li><li>&nbsp;</li>
-            </ul>
+            </LinkList>
           </nav>
         </div>
       </div>
