@@ -5,7 +5,13 @@ const USER = '[User]'
 
 export const getUser = createAction(`${USER} Get user`)
 export const getUserStarted = createAction(`${USER} Get user started`)
-export const getUserSuccess = createAction<User>(`${USER} Get user success`)
+
+interface GetUserResponse {
+  user: User
+  links: ResourceLink[]
+}
+
+export const getUserSuccess = createAction<GetUserResponse>(`${USER} Get user success`)
 export const getUserError = createAction<string>(`${USER} Get user error`)
 
 export const updateUser = createAction<User>(`${USER} Update user`)

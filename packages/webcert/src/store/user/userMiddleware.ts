@@ -20,6 +20,7 @@ import {
   updateInactivateAutomaticLogout,
   updateUser,
   updateUserPreference,
+  updateUserResourceLinks,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -36,8 +37,8 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateUser(action.payload))
-  //dispatch(updateUserResourceLinks(action.payload.links))
+  dispatch(updateUser(action.payload.user))
+  dispatch(updateUserResourceLinks(action.payload.links))
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

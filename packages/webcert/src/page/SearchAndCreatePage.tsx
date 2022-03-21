@@ -6,20 +6,21 @@ import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { useHistory, useParams } from 'react-router-dom'
 import { getPatient } from '../store/patient/patientActions'
-import { CustomTooltip } from '@frontend/common'
-import { getUser } from '../store/user/userSelectors'
+import { CustomTooltip, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
+import { getUser, getUserResourceLinks } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 
 interface Params {
   patientId: string
 }
 
-const CreateCertificatePage: React.FC = () => {
+const SearchAndCreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()
   const dispatch = useDispatch()
   const patient = useSelector(getActivePatient)
   const history = useHistory()
   const user = useSelector(getUser)
+  const userLinks = useSelector(getUserResourceLinks)
 
   const isPatientLoaded = () => {
     return !patientId || (patientId && patient)
@@ -28,6 +29,12 @@ const CreateCertificatePage: React.FC = () => {
   useEffect(() => {
     ReactTooltip.hide()
   }, [patient])
+
+  useEffect(() => {
+    if (!user || !userLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE))) {
+      history.push('#')
+    }
+  }, [user, userLinks])
 
   useEffect(() => {
     if (patientId) {
@@ -47,4 +54,4 @@ const CreateCertificatePage: React.FC = () => {
     </>
   )
 }
-export default CreateCertificatePage
+export default SearchAndCreatePage
