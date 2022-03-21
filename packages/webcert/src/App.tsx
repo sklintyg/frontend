@@ -12,7 +12,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import CreateCertificatePage from './page/CreateCertificatePage'
+import SearchAndCreatePage from './page/SearchAndCreatePage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -46,7 +46,7 @@ function App(): JSX.Element {
           <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
           <Route path="/welcome" render={() => <Welcome />} />
           <Route path={'/error'} render={() => <ErrorPage />} />
-          <Route path={'/create/:patientId?'} render={() => <CreateCertificatePage />} />
+          <Route path={'/create/:patientId?'} render={() => <SearchAndCreatePage />} />
         </ErrorBoundary>
       </Switch>
     </BrowserRouter>
