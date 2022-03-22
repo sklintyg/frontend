@@ -165,7 +165,7 @@ img {
 
 .iu-link-divider-left:before {
   content: "";
-  border-left: 1px solid currentColor;
+  border-left: 1px solid #01A5A3;
   margin-left: 0.5em;
   margin-right: 0.5em;
 }

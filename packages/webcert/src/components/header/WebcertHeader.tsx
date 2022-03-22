@@ -30,7 +30,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
 
     const logoutLink = userLinks.find((link) => resourceLinksAreEqual(link.type, ResourceLinkType.LOG_OUT))
     if (logoutLink) {
-      secondaryItems.push(<Logout link={logoutLink} className={secondaryItems.length > 1 ? 'iu-link-divider-left' : ''} />)
+      secondaryItems.push(<Logout link={logoutLink} className={secondaryItems.length > 0 ? 'iu-link-divider-left iu-pr-300' : ''} />)
     }
 
     return secondaryItems

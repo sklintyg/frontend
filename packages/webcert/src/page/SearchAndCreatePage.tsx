@@ -32,7 +32,7 @@ const SearchAndCreatePage: React.FC = () => {
 
   useEffect(() => {
     if (!user || !userLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE))) {
-      history.push('#')
+      history.push('/')
     }
   }, [user, userLinks])
 
