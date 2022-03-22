@@ -33,7 +33,7 @@ describe('WebcertHeader', () => {
       updateUserResourceLinks([
         {
           type: ResourceLinkType.LOG_OUT,
-          name: '',
+          name: 'Logga ut',
           body: '',
           description: '',
           enabled: true,
