@@ -9,6 +9,7 @@ import icfReducer from './icf/icfReducer'
 import sessionReducer from './session/sessionReducer'
 import errorReducer from './error/errorReducer'
 import patientReducer from './patient/patientReducer'
+import listReducer from './list/listReducer'
 
 export default combineReducers({
   uiCertificate: certificateReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   uiSession: sessionReducer,
   uiError: errorReducer,
   uiPatient: patientReducer,
+  uiList: listReducer,
 })
