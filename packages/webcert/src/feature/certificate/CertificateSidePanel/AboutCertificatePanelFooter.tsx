@@ -1,5 +1,5 @@
 import React from 'react'
-import WCDynamicLink from '../../../components/utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 import SidePanelFooter from './Footer/SidePanelFooter'
 
 const AboutCertificatePanelFooter: React.FC = () => {

@@ -5,6 +5,7 @@ import image from '../images/webcert_bild3_fmb@1x.jpg'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getConfig } from '../store/utils/utilsSelectors'
+import { withLoggedInUserRedirect } from '../utils/withLoggedInUserRedirect'
 
 const Root = styled.div`
   height: 100vh;
@@ -34,7 +35,7 @@ const CreateAccount: React.FC = () => (
   </AlignRight>
 )
 
-export const StartPage: React.FC = () => {
+const StartPage: React.FC = () => {
   const config = useSelector(getConfig)
   const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
   const elegUrl = '/saml/login/alias/eleg-wc2?idp=' + config.cgiFunktionstjansterIdpUrl
@@ -71,3 +72,5 @@ export const StartPage: React.FC = () => {
     </Root>
   )
 }
+
+export const StartPageWithRedirect = withLoggedInUserRedirect(StartPage)

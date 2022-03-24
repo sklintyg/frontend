@@ -1,7 +1,7 @@
 import { Answer, Complement, Question } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { ApiGenericError } from '../api/apiActions'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 const QUESTION = '[Question]'
 

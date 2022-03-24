@@ -1,5 +1,5 @@
 import React from 'react'
-import WCDynamicLink from '../../utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 export const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas.'
 export const AUTHORIZATION_PROBLEM_MESSAGE =

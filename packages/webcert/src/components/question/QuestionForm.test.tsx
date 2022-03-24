@@ -22,7 +22,7 @@ import axios from 'axios'
 import QuestionForm from './QuestionForm'
 import userEvent from '@testing-library/user-event'
 import { Question, QuestionType } from '@frontend/common/src'
-import { generateFunctionDisabler } from '../utils/functionDisablerUtils'
+import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter

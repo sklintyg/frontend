@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { AvailableIcfCodes } from './icfReducer'
-import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 export interface IcfRequest {
   icdCodes: string[]
