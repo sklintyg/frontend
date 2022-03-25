@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterValueText, PatientListInfo } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterType, PatientListInfo } from '@frontend/common/src/types/list'
 import ListFilterComponent from './ListFilterComponent'
 import Table from '@frontend/common/src/components/Table/Table'
 import PatientInfo from './PatientInfo'
@@ -7,16 +7,17 @@ import { CustomButton } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addValueToActiveListFilter } from '../../store/list/listActions'
 import { useDispatch } from 'react-redux'
+import ListFilterButtons from './ListFilterButtons'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
 
 interface Props {
   config: ListConfig | undefined
   list: CertificateListItem[]
-  filterValues: ListFilter
+  filter: ListFilter | undefined
 }
 
-const List: React.FC<Props> = ({ config, list, filterValues }) => {
+const List: React.FC<Props> = ({ config, list, filter }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -45,11 +46,7 @@ const List: React.FC<Props> = ({ config, list, filterValues }) => {
   }
 
   const updateSortingOfList = (id: string) => {
-    const orderBy: ListFilterValueText = {
-      id: 'orderBy',
-      value: id,
-    }
-    dispatch(addValueToActiveListFilter(orderBy))
+    dispatch(updateActiveListFilterValue({ filterValue: { type: ListFilterType.TEXT, value: id }, id: 'ORDER_BY' }))
   } //add ascending value update
 
   const getOpenCertificateButton = (listItem: CertificateListItem, key: string) => {
@@ -94,25 +91,22 @@ const List: React.FC<Props> = ({ config, list, filterValues }) => {
   }
 
   const getOrderBy = () => {
-    if (filterValues) {
-      const orderBy = filterValues.values.find((value) => value.id === 'orderBy')
-      return orderBy ? orderBy : config.defaultOrderBy
-    }
-    return config.defaultOrderBy
+    return filter && filter.values && filter.values['ORDER_BY'] ? filter.values['ORDER_BY'] : config.defaultOrderBy
   }
 
   const getAscending = () => {
-    return filterValues && filterValues.values.find((value) => value.id === 'ascending')
+    return filter && filter.values && filter.values['ASCENDING']
   }
 
   return (
     <>
       {getFilter()}
+      <ListFilterButtons searchTooltip={config.searchCertificateTooltip} />
       <Table
         caption={config.title}
         headings={config.tableHeadings}
-        orderBy={getOrderBy()}
-        ascending={getAscending()}
+        orderBy={getOrderBy() as string}
+        ascending={getAscending() as boolean}
         onTableHeadClick={updateSortingOfList}>
         {getTable()}
       </Table>

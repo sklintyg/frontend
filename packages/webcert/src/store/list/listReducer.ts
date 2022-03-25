@@ -1,49 +1,51 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  addValueToActiveListFilter,
   clearActiveListFilter,
-  updateActiveListFilter,
-  updateDraftList,
-  updateDraftListConfig,
+  clearActiveListType,
+  updateActiveList,
+  updateActiveListConfig,
+  updateActiveListFilterValue,
+  updateActiveListType,
 } from './listActions'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
 
 interface ListState {
   activeList: CertificateListItem[]
   activeListConfig: ListConfig | undefined
   activeListFilter: ListFilter
+  activeListType: ListType
 }
 
 const initialState: ListState = {
   activeListConfig: undefined,
   activeList: [],
-  activeListFilter: {
-    type: ListType.UNKOWN,
-    values: [],
-  },
+  activeListType: ListType.UNKOWN,
+  activeListFilter: {},
 }
 
 const listReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(updateDraftListConfig, (state, action) => {
+    .addCase(updateActiveListConfig, (state, action) => {
       state.activeListConfig = action.payload
     })
-    .addCase(updateDraftList, (state, action) => {
+    .addCase(updateActiveList, (state, action) => {
       state.activeList = action.payload
     })
-    .addCase(updateActiveListFilter, (state, action) => {
-      state.activeListFilter = action.payload
-    })
     .addCase(clearActiveListFilter, (state, action) => {
-      state.activeListFilter.values = []
-      state.activeListFilter.type = ListType.UNKOWN
+      //state.activeListFilter.values = []
     })
-    .addCase(addValueToActiveListFilter, (state, action) => {
-      const index = state.activeListFilter.values.findIndex((value: ListFilterValue) => value.id === action.payload.id)
-      if (index !== -1) {
-        state.activeListFilter.values[index] = action.payload
+    .addCase(updateActiveListFilterValue, (state, action) => {
+      if (!state.activeListFilter.values) {
+        state.activeListFilter.values = {}
       }
-      state.activeListFilter.values = [...state.activeListFilter.values, action.payload]
+
+      state.activeListFilter.values[action.payload.id] = action.payload.filterValue
+    })
+    .addCase(updateActiveListType, (state, action) => {
+      state.activeListType = action.payload
+    })
+    .addCase(clearActiveListType, (state, action) => {
+      state.activeListType = ListType.UNKOWN
     })
 )
 

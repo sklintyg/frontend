@@ -8,9 +8,31 @@ import {
   getDrafts,
   getDraftsStarted,
   getDraftsSuccess,
-  updateDraftList,
-  updateDraftListConfig,
+  performListSearch,
+  updateActiveList,
+  updateActiveListConfig,
+  updateActiveListFilterValue,
+  updateActiveListType,
 } from './listActions'
+import {
+  ListFilterConfig,
+  ListFilterOrderConfig,
+  ListFilterSelectConfig,
+  ListFilterType,
+  ListFilterValueDateRange,
+  ListFilterValuePersonId,
+  ListFilterValueSelect,
+  ListFilterValueText,
+  ListType,
+} from '@frontend/common/src/types/list'
+
+const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const listType = getState().ui.uiList.activeListType
+  const listFilter = getState().ui.uiList.activeListFilter
+  if (listType === ListType.DRAFTS) {
+    dispatch(getDrafts(listFilter))
+  }
+}
 
 const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -26,7 +48,8 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
 }
 
 const handleGetDraftsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateDraftList(Object.values(action.payload)))
+  dispatch(updateActiveList(Object.values(action.payload)))
+  dispatch(updateActiveListType(ListType.DRAFTS))
 }
 
 const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -42,10 +65,33 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
 }
 
 const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateDraftListConfig(action.payload))
+  dispatch(updateActiveListConfig(action.payload))
+  dispatch(updateActiveListType(ListType.DRAFTS))
+  updateDefaultFilterValues(action.payload.filters, dispatch)
+  dispatch(performListSearch)
+}
+
+const updateDefaultFilterValues = (filters: ListFilterConfig[], dispatch: Dispatch<AnyAction>) => {
+  filters.forEach((filter) => {
+    let defaultValue = { type: ListFilterType.UNKOWN }
+    if (filter.type === ListFilterType.TEXT) {
+      defaultValue = { type: filter.type, value: '' } as ListFilterValueText
+    } else if (filter.type === ListFilterType.PERSON_ID) {
+      defaultValue = { type: filter.type, value: '' } as ListFilterValuePersonId
+    } else if (filter.type === ListFilterType.SELECT) {
+      const defaultSelectValue = (filter as ListFilterSelectConfig).values.find((v) => v.defaultValue)
+      defaultValue = { type: filter.type, value: defaultSelectValue ? defaultSelectValue.id : '' } as ListFilterValueSelect
+    } else if (filter.type === ListFilterType.DATE_RANGE) {
+      defaultValue = { type: filter.type, to: null, from: null } as ListFilterValueDateRange
+    } else if (filter.type === ListFilterType.ORDER) {
+      defaultValue = { type: filter.type, value: (filter as ListFilterOrderConfig).defaultValue } as ListFilterValueText
+    }
+    dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
+  })
 }
 
 const middlewareMethods = {
+  [performListSearch.type]: handlePerformListSearch,
   [getDrafts.type]: handleGetDrafts,
   [getDraftsSuccess.type]: handleGetDraftsSuccess,
   [getDraftListConfig.type]: handleGetDraftListConfig,

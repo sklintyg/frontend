@@ -1,11 +1,5 @@
 import { TableHeading } from '../components/Table/Table'
 
-export interface PatientStatuses {
-  protectedPerson: boolean
-  deceased: boolean
-  testIndicated: boolean
-}
-
 export interface CertificateListItem {
   [key: string]: string | PatientListInfo | boolean
 }
@@ -23,24 +17,15 @@ export enum DraftStatus {
   LOCKED = 'LOCKED',
 }
 
-export interface ListDraftFilter {
-  forwarded: boolean
-  status: DraftStatus
-  savedFrom: Date
-  savedTo: Date
-  savedByHsaID: string
-  patientId: string
-  pageSize: number
-  startFrom: number
-  orderBy: string
-  ascending: boolean
-}
-
 export enum ListFilterType {
   TEXT = 'TEXT',
   SELECT = 'SELECT',
   DATE_RANGE = 'DATE_RANGE',
   PERSON_ID = 'PERSON_ID',
+  UNKOWN = 'UNKOWN',
+  BOOLEAN = 'BOOLEAN',
+  NUMBER = 'NUMBER',
+  ORDER = 'ORDER',
 }
 
 export interface ListFilterConfig {
@@ -57,6 +42,10 @@ export interface ListFilterConfigValue {
 
 export interface ListFilterTextConfig extends ListFilterConfig {
   placeholder: string
+}
+
+export interface ListFilterOrderConfig extends ListFilterConfig {
+  defaultValue: string
 }
 
 export interface ListFilterPersonIdConfig extends ListFilterConfig {
@@ -77,15 +66,21 @@ export interface ListConfig {
   title: string
   pageSizes: number[]
   openCertificateTooltip: string
+  searchCertificateTooltip: string
   tableHeadings: TableHeading[]
   defaultOrderBy: string
 }
 
 export interface ListFilterValue {
-  id: string
+  type: ListFilterType
+  [propName: string]: unknown
 }
 
 export interface ListFilterValueText extends ListFilterValue {
+  value: string
+}
+
+export interface ListFilterValuePersonId extends ListFilterValue {
   value: string
 }
 
@@ -106,6 +101,9 @@ export enum ListType {
 }
 
 export interface ListFilter {
-  type: ListType
-  values: ListFilterValue[]
+  values?: ListFilterValues
+}
+
+export interface ListFilterValues {
+  [propName: string]: ListFilterValue
 }

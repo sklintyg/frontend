@@ -1,9 +1,11 @@
 import { createAction } from '@reduxjs/toolkit'
-import { CertificateListItem, ListConfig, ListDraftFilter, ListFilter, ListFilterValue } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common/src/types/list'
 
 const LIST = '[List]'
 
-export const getDrafts = createAction<ListDraftFilter>(`${LIST} Get drafts`)
+export const performListSearch = createAction(`${LIST} Perform list search`)
+
+export const getDrafts = createAction<ListFilter>(`${LIST} Get drafts`)
 export const getDraftsStarted = createAction(`${LIST} Get drafts started`)
 export const getDraftsSuccess = createAction(`${LIST} Get drafts success`)
 export const getDraftsError = createAction(`${LIST} Get drafts error`)
@@ -13,9 +15,14 @@ export const getDraftListConfigStarted = createAction(`${LIST} Get draft list co
 export const getDraftListConfigSuccess = createAction(`${LIST} Get draft list config success`)
 export const getDraftListConfigError = createAction(`${LIST} Get draft list config error`)
 
-export const updateDraftListConfig = createAction<ListConfig>(`${LIST} Update draft config`)
-export const updateDraftList = createAction<CertificateListItem[]>(`${LIST} Update draft list`)
+export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
+export const updateActiveList = createAction<CertificateListItem[]>(`${LIST} Update active list`)
 
-export const updateActiveListFilter = createAction<ListFilter>(`${LIST} Update active list filter`)
+export interface UpdateListFilterValue {
+  id: string
+  filterValue: ListFilterValue
+}
+export const updateActiveListFilterValue = createAction<UpdateListFilterValue>(`${LIST} Update active list filter value`)
 export const clearActiveListFilter = createAction(`${LIST} Clear active list filter`)
-export const addValueToActiveListFilter = createAction<ListFilterValue>(`${LIST} Add value to active list filter`)
+export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)
+export const clearActiveListType = createAction(`${LIST} Clear active list type`)
