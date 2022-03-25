@@ -12,12 +12,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dropdown } from '@frontend/common/src/components'
 import { getActiveListFilterValue } from '../../store/list/listSelectors'
 import { addValueToActiveListFilter } from '../../store/list/listActions'
+import PersonIdInput from '@frontend/common/src/components/Inputs/PatientIdInput'
 
 interface Props {
   config: ListFilterConfig
 }
 
-const ListFilter: React.FC<Props> = ({ config }) => {
+const ListFilterComponent: React.FC<Props> = ({ config }) => {
   const dispatch = useDispatch()
   const value = useSelector(getActiveListFilterValue(config.id))
 
@@ -25,6 +26,14 @@ const ListFilter: React.FC<Props> = ({ config }) => {
     const value: ListFilterValueText = {
       id: config.id,
       value: event.target.value,
+    }
+    dispatch(addValueToActiveListFilter(value))
+  }
+
+  const onPersonIdFilterChange = (formattedId: string) => {
+    const value: ListFilterValueText = {
+      id: config.id,
+      value: formattedId,
     }
     dispatch(addValueToActiveListFilter(value))
   }
@@ -54,6 +63,14 @@ const ListFilter: React.FC<Props> = ({ config }) => {
       return (
         <TextInput onChange={(e) => onTextFilterChange(e)} value={value ? (value as ListFilterValueText).value : ''} label={config.title} />
       )
+    } else if (config.type === ListFilterType.PERSON_ID) {
+      return (
+        <PersonIdInput
+          onFormattedChange={(e) => onPersonIdFilterChange(e)}
+          value={value ? (value as ListFilterValueText).value : ''}
+          label={config.title}
+        />
+      )
     } else if (config.type === ListFilterType.SELECT) {
       return <Dropdown onChange={(e) => onSelectFilterChange(e)} label={config.title} id={config.id} options={getSelectOptions()} />
     }
@@ -62,4 +79,4 @@ const ListFilter: React.FC<Props> = ({ config }) => {
   return <>{getFilterComponent()}</>
 }
 
-export default ListFilter
+export default ListFilterComponent

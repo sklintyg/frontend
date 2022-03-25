@@ -1,4 +1,4 @@
-import { PersonId } from './patient'
+import { TableHeading } from '../components/Table/Table'
 
 export interface PatientStatuses {
   protectedPerson: boolean
@@ -7,15 +7,14 @@ export interface PatientStatuses {
 }
 
 export interface CertificateListItem {
-  certificateId: string
-  patientId: PersonId
-  certificateType: string
-  //status: CertificateStatus
-  savedBy: string
-  saved: Date
-  forwarded: boolean
-  patientStatuses: PatientStatuses
-  certificateTypeName: string
+  [key: string]: string | PatientListInfo | boolean
+}
+
+export interface PatientListInfo {
+  id: string
+  protectedPerson: boolean
+  deceased: boolean
+  testIndicated: boolean
 }
 
 export enum DraftStatus {
@@ -41,6 +40,7 @@ export enum ListFilterType {
   TEXT = 'TEXT',
   SELECT = 'SELECT',
   DATE_RANGE = 'DATE_RANGE',
+  PERSON_ID = 'PERSON_ID',
 }
 
 export interface ListFilterConfig {
@@ -59,6 +59,10 @@ export interface ListFilterTextConfig extends ListFilterConfig {
   placeholder: string
 }
 
+export interface ListFilterPersonIdConfig extends ListFilterConfig {
+  placeholder: string
+}
+
 export interface ListFilterSelectConfig extends ListFilterConfig {
   values: ListFilterConfigValue[]
 }
@@ -72,6 +76,9 @@ export interface ListConfig {
   filters: ListFilterConfig[]
   title: string
   pageSizes: number[]
+  openCertificateTooltip: string
+  tableHeadings: TableHeading[]
+  defaultOrderBy: string
 }
 
 export interface ListFilterValue {

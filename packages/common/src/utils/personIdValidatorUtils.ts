@@ -1,4 +1,4 @@
-export const isPatientIdValid = (patientId: string): boolean => {
+export const isPersonIdValid = (patientId: string): boolean => {
   const cleanPatientId = patientId.replace('-', '')
   const numbers = cleanPatientId.match(/^(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)$/)
   let checkSum = 0

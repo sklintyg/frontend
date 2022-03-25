@@ -26,7 +26,7 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
 }
 
 const handleGetDraftsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateDraftList(action.payload))
+  dispatch(updateDraftList(Object.values(action.payload)))
 }
 
 const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

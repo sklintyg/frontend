@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import InvalidPatientIdMessage from './InvalidPatientIdMessage'
+import InvalidPatientIdMessage from './InvalidPersonIdMessage'
 
 const EXPECTED_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
@@ -8,7 +8,7 @@ const renderComponent = (display: boolean) => {
   render(<InvalidPatientIdMessage display={display} />)
 }
 
-describe('InvalidPatientIdMessage', () => {
+describe('InvalidPersonIdMessage', () => {
   it('should render component', () => {
     renderComponent(false)
   })
