@@ -14,6 +14,8 @@ import {
   updateDiagnosisTypeahead,
   updateDynamicLinks,
   updateConfig,
+  updateIsLoadingConfig,
+  getConfigError,
 } from './utilsActions'
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -76,13 +78,22 @@ const handleGetConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
       method: 'GET',
       onStart: getConfigStarted.type,
       onSuccess: getConfigSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: getConfigError.type,
     })
   )
 }
 
 const handleGetConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   dispatch(updateConfig(action.payload))
+  dispatch(updateIsLoadingConfig(false))
+}
+
+const handleGetConfigError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(updateIsLoadingConfig(false))
+}
+
+const handleGetConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateIsLoadingConfig(true))
 }
 
 const middlewareMethods = {
@@ -92,6 +103,8 @@ const middlewareMethods = {
   [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
   [getConfig.type]: handleGetConfig,
   [getConfigSuccess.type]: handleGetConfigSuccess,
+  [getConfigError.type]: handleGetConfigError,
+  [getConfigStarted.type]: handleGetConfigStarted,
 }
 
 export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

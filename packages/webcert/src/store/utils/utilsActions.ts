@@ -27,5 +27,7 @@ export const updateDiagnosisTypeahead = createAction<DiagnosisTypeahead>('[Utils
 export const getConfig = createAction('[Utils] Get module config')
 export const getConfigStarted = createAction('[Utils] Get module config started')
 export const getConfigSuccess = createAction<Configuration>('[Utils] Get module config success')
+export const getConfigError = createAction<string>('[Utils] Get module config error')
 
 export const updateConfig = createAction<Configuration>('[Utils] Update module config')
+export const updateIsLoadingConfig = createAction<boolean>('[Utils] Update is loading config')

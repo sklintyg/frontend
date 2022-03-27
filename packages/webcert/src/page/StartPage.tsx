@@ -4,7 +4,7 @@ import logo from '../components/header/webcert_logo.png'
 import image from '../images/webcert_bild3_fmb@1x.jpg'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { getConfig } from '../store/utils/utilsSelectors'
+import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
 import { withLoggedInUserRedirect } from '../utils/withLoggedInUserRedirect'
 
 const Root = styled.div`
@@ -35,8 +35,9 @@ const CreateAccount: React.FC = () => (
   </AlignRight>
 )
 
-const StartPage: React.FC = () => {
+export const StartPage: React.FC = () => {
   const config = useSelector(getConfig)
+  const isLoadingConfig = useSelector(selectIsLoadingConfig)
   const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
   const elegUrl = '/saml/login/alias/eleg-wc2?idp=' + config.cgiFunktionstjansterIdpUrl
 
@@ -59,12 +60,18 @@ const StartPage: React.FC = () => {
             <InfoBox type="info" additionalStyles="iu-mb-1em iu-mt-1em">
               Har du Telia e-legitimation rekommenderas webbläsaren Internet Explorer 11.
             </InfoBox>
-            <LoginButton className="ic-button ic-button--secondary iu-mb-200" href={sithsUrl}>
-              <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
-            </LoginButton>
-            <LoginButton className="ic-button ic-button--secondary" href={elegUrl}>
-              <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
-            </LoginButton>
+            {isLoadingConfig ? (
+              <p>Laddar inloggningsalternativ...</p>
+            ) : (
+              <>
+                <LoginButton className="ic-button ic-button--secondary iu-mb-200" href={sithsUrl}>
+                  <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
+                </LoginButton>
+                <LoginButton className="ic-button ic-button--secondary" href={elegUrl}>
+                  <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
+                </LoginButton>
+              </>
+            )}
           </div>
         </div>
       </Content>

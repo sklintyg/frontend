@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks } from './utilsActions'
+import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks, updateIsLoadingConfig } from './utilsActions'
 import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
 export interface DynamicLinkMap {
@@ -17,12 +17,14 @@ interface UtilsState {
   dynamicLinks: DynamicLinkMap
   diagnosisTypeahead: DiagnosisTypeahead | null
   config: Configuration
+  isLoadingConfig: boolean
 }
 
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
   config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
+  isLoadingConfig: false,
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
@@ -38,6 +40,9 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateConfig, (state, action) => {
       state.config = action.payload
+    })
+    .addCase(updateIsLoadingConfig, (state, action) => {
+      state.isLoadingConfig = action.payload
     })
 )
 
