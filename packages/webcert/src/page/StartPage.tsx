@@ -47,7 +47,7 @@ export const StartPage: React.FC = () => {
       <Content className="ic-container iu-mt-gutter iu-mb-gutter">
         <div className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-6">
-            <img src={image} />
+            <img src={image} alt="Bärbar dator som är inloggad i Webcert" />
           </div>
           <div className="iu-grid-span-6">
             <h1 className="iu-mb-200">Välkommen till Webcert</h1>

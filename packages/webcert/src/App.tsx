@@ -48,7 +48,7 @@ function App(): JSX.Element {
           <Route path="/" exact render={() => <StartPageWithRedirect />} />
           <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
           <Route path="/welcome" render={() => <Welcome />} />
-          <Route path="/error" render={() => <ErrorPage />} />
+          <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
           <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
         </Switch>
       </ErrorBoundary>

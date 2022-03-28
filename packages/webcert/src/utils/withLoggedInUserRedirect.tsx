@@ -8,7 +8,7 @@ import {
   selectIsLoadingUser,
 } from '../store/user/userSelectors'
 
-export function withLoggedInUserRedirect<P>(WrappedComponent: React.FC) {
+export function withLoggedInUserRedirect<P>(WrappedComponent: React.FC): React.FC<P> {
   const WithRedirect: React.FC<P> = (props: P) => {
     const isLoadingUser = useSelector(selectIsLoadingUser)
     const isDoctor = useSelector(selectIsDoctor)
