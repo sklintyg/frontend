@@ -3,7 +3,7 @@ import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
 import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
-import { DatePickerWrapper, StyledButton, TextInput, Wrapper, FocusWrapper } from './Styles'
+import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ValidationError } from '../../..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -26,9 +26,9 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline: boolean
   additionalStyles?: string
-  componentField: string
-  questionId: string
-  onDispatchValidationError: (shouldBeRemoved: boolean, validationError: ValidationError) => void
+  componentField?: string
+  questionId?: string
+  onDispatchValidationError?: (shouldBeRemoved: boolean, validationError: ValidationError) => void
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -67,14 +67,16 @@ const DatePickerCustom: React.FC<Props> = ({
   }, [displayFormattingError])
 
   const toggleFormattingError = () => {
-    onDispatchValidationError(!displayFormattingError, {
-      category: '',
-      field: componentField,
-      id: questionId,
-      text: INVALID_DATE_FORMAT_ERROR,
-      type: 'INVALID_DATE_FORMAT',
-      showAlways: true,
-    })
+    if (onDispatchValidationError) {
+      onDispatchValidationError(!displayFormattingError, {
+        category: '',
+        field: componentField ? componentField : '',
+        id: questionId ? questionId : '',
+        text: INVALID_DATE_FORMAT_ERROR,
+        type: 'INVALID_DATE_FORMAT',
+        showAlways: true,
+      })
+    }
   }
 
   useEffect(() => {

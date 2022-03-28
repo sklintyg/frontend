@@ -11,3 +11,5 @@ export const getActiveListFilterValue = (id: string) => (state: RootState): unkn
   state.ui.uiList.activeListFilter?.values ? state.ui.uiList.activeListFilter?.values[id] : undefined
 
 export const getActiveListType = (state: RootState): ListType => state.ui.uiList.activeListType
+
+export const hasListError = (state: RootState): boolean => state.ui.uiList.listError

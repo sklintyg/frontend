@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   clearActiveListType,
+  clearListError,
+  setListError,
   updateActiveList,
   updateActiveListConfig,
   updateActiveListFilterValue,
@@ -13,6 +15,7 @@ interface ListState {
   activeListConfig: ListConfig | undefined
   activeListFilter: ListFilter
   activeListType: ListType
+  listError: boolean
 }
 
 const initialState: ListState = {
@@ -20,6 +23,7 @@ const initialState: ListState = {
   activeList: [],
   activeListType: ListType.UNKOWN,
   activeListFilter: {},
+  listError: false,
 }
 
 const listReducer = createReducer(initialState, (builder) =>
@@ -42,6 +46,12 @@ const listReducer = createReducer(initialState, (builder) =>
     })
     .addCase(clearActiveListType, (state) => {
       state.activeListType = ListType.UNKOWN
+    })
+    .addCase(setListError, (state, action) => {
+      state.listError = true
+    })
+    .addCase(clearListError, (state, action) => {
+      state.listError = false
     })
 )
 

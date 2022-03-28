@@ -93,8 +93,8 @@ export interface ListFilterValuePersonId extends ListFilterValue {
 }
 
 export interface ListFilterValueDateRange extends ListFilterValue {
-  to: Date
-  from: Date
+  to: string
+  from: string
 }
 
 export interface ListFilterValueSelect extends ListFilterValue {

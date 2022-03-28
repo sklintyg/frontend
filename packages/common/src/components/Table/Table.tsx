@@ -25,23 +25,37 @@ interface TableProps {
   highlighted: number
 }
 
-const StyledTable = styled.th<TableProps>`
+const StyledTable = styled.table<TableProps>`
   td:nth-child(${(props) => props.highlighted}) {
     background-color: ${(props) => (props.highlighted > 0 ? 'rgba(1, 165, 163, 0.08)' : '')} !important;
   }
 `
 
 const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, headings, onTableHeadClick }) => {
-  const getSortingArrow = (id: string) => {
+  const getSortingArrow = (id: string, title: string) => {
+    if (!title) {
+      return null
+    }
     if (id === orderBy) {
-      return ascending ? <FontAwesomeIcon icon={faAngleUp} /> : <FontAwesomeIcon icon={faAngleDown} />
+      return ascending ? (
+        <FontAwesomeIcon icon={faAngleUp} className={'iu-fr iu-color-main'} />
+      ) : (
+        <FontAwesomeIcon icon={faAngleDown} className={'iu-fr iu-color-main'} />
+      )
+    } else {
+      return (
+        <>
+          <FontAwesomeIcon icon={faAngleUp} className={'iu-fr'} />
+          <FontAwesomeIcon icon={faAngleDown} className={'iu-fr'} />
+        </>
+      )
     }
   }
 
   const getTableHeadings = () => {
     return headings.map((heading) => (
       <th scope="col" id={heading.id} onClick={onTableHeadClick}>
-        {getSortingArrow(heading.id)}
+        {getSortingArrow(heading.id, heading.title)}
         {heading.title}
       </th>
     ))

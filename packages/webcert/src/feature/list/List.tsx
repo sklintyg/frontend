@@ -17,12 +17,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
 import ListFilterButtons from './ListFilterButtons'
 import { updateActiveListFilterValue } from '../../store/list/listActions'
+import styled from 'styled-components/macro'
 
 interface Props {
   config: ListConfig | undefined
   list: CertificateListItem[]
   filter: ListFilter | undefined
 }
+
+const FilterWrapper = styled.div`
+  padding-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+`
 
 const List: React.FC<Props> = ({ config, list, filter }) => {
   const dispatch = useDispatch()
@@ -130,7 +138,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
 
   return (
     <>
-      {getFilter()}
+      <FilterWrapper>{getFilter()}</FilterWrapper>
       <ListFilterButtons
         searchTooltip={config.searchCertificateTooltip}
         filterConfig={config.filters}

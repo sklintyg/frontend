@@ -27,3 +27,6 @@ export const updateDefaultListFilterValues = createAction<ListFilterConfig[]>(`$
 export const clearActiveListFilter = createAction<ListFilterConfig[]>(`${LIST} Clear active list filter`)
 export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)
 export const clearActiveListType = createAction(`${LIST} Clear active list type`)
+
+export const setListError = createAction(`${LIST} Set list error`)
+export const clearListError = createAction(`${LIST} Clear list error`)

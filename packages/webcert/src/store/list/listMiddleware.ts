@@ -1,8 +1,9 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { apiCallBegan } from '../api/apiActions'
 import {
   clearActiveListFilter,
+  clearListError,
   getDraftListConfig,
   getDraftListConfigStarted,
   getDraftListConfigSuccess,
@@ -10,25 +11,15 @@ import {
   getDraftsStarted,
   getDraftsSuccess,
   performListSearch,
+  setListError,
   updateActiveList,
   updateActiveListConfig,
   updateActiveListFilterValue,
   updateActiveListType,
   updateDefaultListFilterValues,
 } from './listActions'
-import {
-  ListFilterBooleanConfig,
-  ListFilterConfig,
-  ListFilterOrderConfig,
-  ListFilterSelectConfig,
-  ListFilterType,
-  ListFilterValueBoolean,
-  ListFilterValueDateRange,
-  ListFilterValuePersonId,
-  ListFilterValueSelect,
-  ListFilterValueText,
-  ListType,
-} from '@frontend/common/src/types/list'
+import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
+import { getListFilterDefaultValue } from '../../feature/list/listUtils'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
@@ -46,7 +37,7 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
       data: { filter: action.payload },
       onStart: getDraftsStarted.type,
       onSuccess: getDraftsSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: setListError.type,
     })
   )
 }
@@ -54,6 +45,7 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
 const handleGetDraftsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveList(Object.values(action.payload)))
   dispatch(updateActiveListType(ListType.DRAFTS))
+  dispatch(clearListError)
 }
 
 const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -63,7 +55,7 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
       method: 'GET',
       onStart: getDraftListConfigStarted.type,
       onSuccess: getDraftListConfigSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: setListError.type,
     })
   )
 }
@@ -73,26 +65,13 @@ const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(updateDefaultListFilterValues(action.payload.filters))
   dispatch(performListSearch)
+  dispatch(clearListError)
 }
 
 const handleUpdateDefaultFilterValues = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const filters = action.payload
   filters.forEach((filter: ListFilterConfig) => {
-    let defaultValue = { type: ListFilterType.UNKOWN }
-    if (filter.type === ListFilterType.TEXT) {
-      defaultValue = { type: filter.type, value: '' } as ListFilterValueText
-    } else if (filter.type === ListFilterType.PERSON_ID) {
-      defaultValue = { type: filter.type, value: '' } as ListFilterValuePersonId
-    } else if (filter.type === ListFilterType.SELECT) {
-      const defaultSelectValue = (filter as ListFilterSelectConfig).values.find((v) => v.defaultValue)
-      defaultValue = { type: filter.type, value: defaultSelectValue ? defaultSelectValue.id : '' } as ListFilterValueSelect
-    } else if (filter.type === ListFilterType.DATE_RANGE) {
-      defaultValue = { type: filter.type, to: null, from: null } as ListFilterValueDateRange
-    } else if (filter.type === ListFilterType.ORDER) {
-      defaultValue = { type: filter.type, value: (filter as ListFilterOrderConfig).defaultValue } as ListFilterValueText
-    } else if (filter.type === ListFilterType.BOOLEAN) {
-      defaultValue = { type: filter.type, value: (filter as ListFilterBooleanConfig).defaultValue } as ListFilterValueBoolean
-    }
+    const defaultValue = getListFilterDefaultValue(filter)
     dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
   })
 }
