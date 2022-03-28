@@ -87,7 +87,7 @@ const ErrorPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt={'Logo Webcert'} banners={[<SystemBanners />]} />
+      <AppHeader logo={logo} alt={'Logo Webcert'} banners={[<SystemBanners key="system-banners" />]} />
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>
