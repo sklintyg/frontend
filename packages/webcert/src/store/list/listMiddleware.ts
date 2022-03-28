@@ -17,10 +17,12 @@ import {
   updateDefaultListFilterValues,
 } from './listActions'
 import {
+  ListFilterBooleanConfig,
   ListFilterConfig,
   ListFilterOrderConfig,
   ListFilterSelectConfig,
   ListFilterType,
+  ListFilterValueBoolean,
   ListFilterValueDateRange,
   ListFilterValuePersonId,
   ListFilterValueSelect,
@@ -89,7 +91,7 @@ const handleUpdateDefaultFilterValues = ({ dispatch }: MiddlewareAPI) => () => (
     } else if (filter.type === ListFilterType.ORDER) {
       defaultValue = { type: filter.type, value: (filter as ListFilterOrderConfig).defaultValue } as ListFilterValueText
     } else if (filter.type === ListFilterType.BOOLEAN) {
-      defaultValue = { type: filter.type, value: (filter as ListFilterBooleanConfig).defaultValue } as ListFilterValueText
+      defaultValue = { type: filter.type, value: (filter as ListFilterBooleanConfig).defaultValue } as ListFilterValueBoolean
     }
     dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
   })

@@ -84,6 +84,10 @@ export interface ListFilterValueText extends ListFilterValue {
   value: string
 }
 
+export interface ListFilterValueBoolean extends ListFilterValue {
+  value: boolean
+}
+
 export interface ListFilterValuePersonId extends ListFilterValue {
   value: string
 }

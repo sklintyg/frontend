@@ -131,7 +131,11 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   return (
     <>
       {getFilter()}
-      <ListFilterButtons searchTooltip={config.searchCertificateTooltip} filterConfig={config.filters} />
+      <ListFilterButtons
+        searchTooltip={config.searchCertificateTooltip}
+        filterConfig={config.filters}
+        listFilterValues={filter ? filter.values : undefined}
+      />
       <Table
         caption={config.title}
         headings={config.tableHeadings}
