@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterConfig, ListFilterValue, ListType } from '@frontend/common/src/types/list'
 
 const LIST = '[List]'
 
@@ -23,6 +23,7 @@ export interface UpdateListFilterValue {
   filterValue: ListFilterValue
 }
 export const updateActiveListFilterValue = createAction<UpdateListFilterValue>(`${LIST} Update active list filter value`)
-export const clearActiveListFilter = createAction(`${LIST} Clear active list filter`)
+export const updateDefaultListFilterValues = createAction<ListFilterConfig[]>(`${LIST} Update default list filter values`)
+export const clearActiveListFilter = createAction<ListFilterConfig[]>(`${LIST} Clear active list filter`)
 export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)
 export const clearActiveListType = createAction(`${LIST} Clear active list type`)

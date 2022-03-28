@@ -2,12 +2,14 @@ import * as React from 'react'
 import { CustomButton } from '@frontend/common/src/components'
 import { useDispatch } from 'react-redux'
 import { clearActiveListFilter, performListSearch } from '../../store/list/listActions'
+import { ListFilterConfig } from '@frontend/common/src/types/list'
 
 interface Props {
   searchTooltip: string
+  filterConfig: ListFilterConfig[]
 }
 
-const ListFilterButtons: React.FC<Props> = ({ searchTooltip }) => {
+const ListFilterButtons: React.FC<Props> = ({ searchTooltip, filterConfig }) => {
   const dispatch = useDispatch()
 
   const onSearch = () => {
@@ -15,7 +17,7 @@ const ListFilterButtons: React.FC<Props> = ({ searchTooltip }) => {
   }
 
   const onReset = () => {
-    dispatch(clearActiveListFilter) //should order be reset?
+    dispatch(clearActiveListFilter(filterConfig))
   }
 
   return (

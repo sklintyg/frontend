@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterType, PatientListInfo } from '@frontend/common/src/types/list'
+import {
+  CertificateListItem,
+  ListConfig,
+  ListFilter,
+  ListFilterOrderConfig,
+  ListFilterType,
+  PatientListInfo,
+} from '@frontend/common/src/types/list'
 import ListFilterComponent from './ListFilterComponent'
 import Table from '@frontend/common/src/components/Table/Table'
 import PatientInfo from './PatientInfo'
@@ -37,17 +44,12 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   }
 
   const getTableData = (listItem: CertificateListItem) => {
-    console.log(listItem)
     return Object.keys(listItem).map((key) => getListItemContent(key, listItem))
   }
 
   const openCertificate = (id: string) => {
     history.push('/certificate/' + id)
   }
-
-  const updateSortingOfList = (id: string) => {
-    dispatch(updateActiveListFilterValue({ filterValue: { type: ListFilterType.TEXT, value: id }, id: 'ORDER_BY' }))
-  } //add ascending value update
 
   const getOpenCertificateButton = (listItem: CertificateListItem, key: string) => {
     return (
@@ -91,17 +93,45 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   }
 
   const getOrderBy = () => {
-    return filter && filter.values && filter.values['ORDER_BY'] ? filter.values['ORDER_BY'] : config.defaultOrderBy
+    return filter && filter.values && filter.values['ORDER_BY'] ? filter.values['ORDER_BY'].value : ''
   }
 
   const getAscending = () => {
-    return filter && filter.values && filter.values['ASCENDING']
+    return filter && filter.values && filter.values['ASCENDING'] && filter.values['ASCENDING'].value
+  }
+
+  const getUpdatedAscendingValue = (updatedOrderBy: string) => {
+    const defaultOrderBy = config.filters.find((filter) => filter.type === ListFilterType.ORDER) as ListFilterOrderConfig
+    const isDefaultOrderBy = updatedOrderBy === defaultOrderBy.defaultValue
+    const shouldToggleAscending = updatedOrderBy === getOrderBy()
+    if (shouldToggleAscending) {
+      return !getAscending()
+    }
+    return !isDefaultOrderBy
+  }
+
+  const updateSortingOfList = (event: React.MouseEvent<HTMLTableHeaderCellElement>) => {
+    if (event.currentTarget.innerHTML) {
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: { type: ListFilterType.ORDER, value: event.currentTarget.id },
+          id: 'ORDER_BY',
+        })
+      )
+
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: { type: ListFilterType.BOOLEAN, value: getUpdatedAscendingValue(event.currentTarget.id) },
+          id: 'ASCENDING',
+        })
+      )
+    }
   }
 
   return (
     <>
       {getFilter()}
-      <ListFilterButtons searchTooltip={config.searchCertificateTooltip} />
+      <ListFilterButtons searchTooltip={config.searchCertificateTooltip} filterConfig={config.filters} />
       <Table
         caption={config.title}
         headings={config.tableHeadings}

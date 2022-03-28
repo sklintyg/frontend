@@ -21,6 +21,16 @@ const Caption = styled.caption`
   border-top: 0px !important;
 `
 
+interface TableProps {
+  highlighted: number
+}
+
+const StyledTable = styled.th<TableProps>`
+  td:nth-child(${(props) => props.highlighted}) {
+    background-color: ${(props) => (props.highlighted > 0 ? 'rgba(1, 165, 163, 0.08)' : '')} !important;
+  }
+`
+
 const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, headings, onTableHeadClick }) => {
   const getSortingArrow = (id: string) => {
     if (id === orderBy) {
@@ -37,14 +47,17 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, heading
     ))
   }
 
+  const getHighlighted = () => {
+    return 1 + headings.findIndex((heading) => orderBy === heading.id)
+  }
+
   return (
-    <>
-      <table className="ic-table ic-table--full">
-        <thead>{getTableHeadings()}</thead>
-        {caption && <Caption>{caption}</Caption>}
-        <tbody>{children}</tbody>
-      </table>
-    </>
+    <StyledTable className="ic-table ic-table--full" highlighted={getHighlighted()}>
+      {getTableHeadings()}
+      {caption && <Caption>{caption}</Caption>}
+      <tbody>{children}</tbody>
+      {!children && <p>Inga resultat att visa.</p>}
+    </StyledTable>
   )
 }
 

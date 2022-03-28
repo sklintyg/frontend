@@ -48,6 +48,10 @@ export interface ListFilterOrderConfig extends ListFilterConfig {
   defaultValue: string
 }
 
+export interface ListFilterBooleanConfig extends ListFilterConfig {
+  defaultValue: boolean
+}
+
 export interface ListFilterPersonIdConfig extends ListFilterConfig {
   placeholder: string
 }

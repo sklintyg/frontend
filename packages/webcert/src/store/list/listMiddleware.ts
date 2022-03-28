@@ -2,6 +2,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
+  clearActiveListFilter,
   getDraftListConfig,
   getDraftListConfigStarted,
   getDraftListConfigSuccess,
@@ -13,6 +14,7 @@ import {
   updateActiveListConfig,
   updateActiveListFilterValue,
   updateActiveListType,
+  updateDefaultListFilterValues,
 } from './listActions'
 import {
   ListFilterConfig,
@@ -67,12 +69,13 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
 const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveListConfig(action.payload))
   dispatch(updateActiveListType(ListType.DRAFTS))
-  updateDefaultFilterValues(action.payload.filters, dispatch)
+  dispatch(updateDefaultListFilterValues(action.payload.filters))
   dispatch(performListSearch)
 }
 
-const updateDefaultFilterValues = (filters: ListFilterConfig[], dispatch: Dispatch<AnyAction>) => {
-  filters.forEach((filter) => {
+const handleUpdateDefaultFilterValues = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const filters = action.payload
+  filters.forEach((filter: ListFilterConfig) => {
     let defaultValue = { type: ListFilterType.UNKOWN }
     if (filter.type === ListFilterType.TEXT) {
       defaultValue = { type: filter.type, value: '' } as ListFilterValueText
@@ -85,9 +88,16 @@ const updateDefaultFilterValues = (filters: ListFilterConfig[], dispatch: Dispat
       defaultValue = { type: filter.type, to: null, from: null } as ListFilterValueDateRange
     } else if (filter.type === ListFilterType.ORDER) {
       defaultValue = { type: filter.type, value: (filter as ListFilterOrderConfig).defaultValue } as ListFilterValueText
+    } else if (filter.type === ListFilterType.BOOLEAN) {
+      defaultValue = { type: filter.type, value: (filter as ListFilterBooleanConfig).defaultValue } as ListFilterValueText
     }
     dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
   })
+}
+
+const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateDefaultListFilterValues(action.payload))
+  dispatch(performListSearch)
 }
 
 const middlewareMethods = {
@@ -96,6 +106,8 @@ const middlewareMethods = {
   [getDraftsSuccess.type]: handleGetDraftsSuccess,
   [getDraftListConfig.type]: handleGetDraftListConfig,
   [getDraftListConfigSuccess.type]: handleGetDraftListConfigSuccess,
+  [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
+  [clearActiveListFilter.type]: handleClearActiveListFilter,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
