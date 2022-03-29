@@ -50,7 +50,7 @@ const SystemBanner: React.FC<Props> = ({ banner }) => {
 
   return (
     <div className={`ic-alert-global iu-py-200 iu-fs-200 iu-lh-body ${getWrapperClass()}`}>
-      <div className={'ic-global-alert__inner iu-flex iu-m-none'}>
+      <div className={'ic-global-alert__inner iu-flex iu-mt-none iu-mb-none'}>
         <Icon className={`ic-alert__icon ic-global-alert__icon ${getIconClass()}`} />
         <Content dangerouslySetInnerHTML={modifyBannerContent(banner.message)} />
       </div>
