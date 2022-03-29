@@ -9,15 +9,16 @@ import {
 } from '@frontend/common/src/types/list'
 import ListFilterComponent from './ListFilterComponent'
 import Table from '@frontend/common/src/components/Table/Table'
-import PatientInfo from './PatientInfo'
+import PatientListInfoContent from './PatientListInfoContent'
 import { CustomButton } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
 import ListFilterButtons from './ListFilterButtons'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
+import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import styled from 'styled-components/macro'
+import ListPageSizeFilter from './ListPageSizeFilter'
 
 interface Props {
   config: ListConfig | undefined
@@ -76,7 +77,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     if (key === 'patientListInfo') {
       return (
         <td>
-          <PatientInfo info={listItem[key] as PatientListInfo} />
+          <PatientListInfoContent info={listItem[key] as PatientListInfo} />
         </td>
       )
     } else if (key === 'certificateId') {
@@ -133,6 +134,8 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
           id: 'ASCENDING',
         })
       )
+
+      dispatch(performListSearch)
     }
   }
 
@@ -144,6 +147,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         filterConfig={config.filters}
         listFilterValues={filter ? filter.values : undefined}
       />
+      <ListPageSizeFilter filter={config.filters.find((filter) => filter.type === ListFilterType.PAGESIZE)} />
       <Table
         caption={config.title}
         headings={config.tableHeadings}

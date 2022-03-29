@@ -26,6 +26,8 @@ export enum ListFilterType {
   BOOLEAN = 'BOOLEAN',
   NUMBER = 'NUMBER',
   ORDER = 'ORDER',
+  PAGESIZE = 'PAGESIZE',
+  STARTFROM = 'STARTFROM',
 }
 
 export interface ListFilterConfig {
@@ -46,6 +48,10 @@ export interface ListFilterTextConfig extends ListFilterConfig {
 
 export interface ListFilterOrderConfig extends ListFilterConfig {
   defaultValue: string
+}
+
+export interface ListFilterPageSizeConfig extends ListFilterConfig {
+  pageSizes: number[]
 }
 
 export interface ListFilterBooleanConfig extends ListFilterConfig {
@@ -86,6 +92,10 @@ export interface ListFilterValueText extends ListFilterValue {
 
 export interface ListFilterValueBoolean extends ListFilterValue {
   value: boolean
+}
+
+export interface ListFilterValueNumber extends ListFilterValue {
+  value: number
 }
 
 export interface ListFilterValuePersonId extends ListFilterValue {

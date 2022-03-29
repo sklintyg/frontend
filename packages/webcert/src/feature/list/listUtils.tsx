@@ -2,10 +2,12 @@ import {
   ListFilterBooleanConfig,
   ListFilterConfig,
   ListFilterOrderConfig,
+  ListFilterPageSizeConfig,
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValueBoolean,
   ListFilterValueDateRange,
+  ListFilterValueNumber,
   ListFilterValuePersonId,
   ListFilterValueSelect,
   ListFilterValueText,
@@ -26,6 +28,12 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig) => {
     defaultValue = { type: filter.type, value: (filter as ListFilterOrderConfig).defaultValue } as ListFilterValueText
   } else if (filter.type === ListFilterType.BOOLEAN) {
     defaultValue = { type: filter.type, value: (filter as ListFilterBooleanConfig).defaultValue } as ListFilterValueBoolean
+  } else if (filter.type === ListFilterType.PAGESIZE) {
+    defaultValue = {
+      type: ListFilterType.NUMBER,
+      value: (filter as ListFilterPageSizeConfig).pageSizes[0],
+    } as ListFilterValueNumber
   }
+
   return defaultValue
 }
