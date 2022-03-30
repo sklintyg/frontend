@@ -3,7 +3,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
+import React, { createRef, useRef } from 'react'
 import reducer from '../../store/reducers'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -15,6 +15,7 @@ import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import userEvent from '@testing-library/user-event'
 import { getIcfData } from './icfTestUtils'
+import { CertificateContext } from '../../feature/certificate/CertificateContext'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -26,6 +27,8 @@ const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
 
+const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
+
 const renderComponent = (
   infoText = 'infoText test',
   icfData = getIcfData().activityLimitation,
@@ -35,15 +38,17 @@ const renderComponent = (
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <IcfDropdown
-          modalLabel={infoText}
-          icfData={icfData!}
-          chosenIcfCodeValues={icfValues}
-          collectionsLabel={COLLECTIONS_LABEL}
-          disabled={disabled}
-          onAddCode={() => {}}
-          onRemoveCode={() => {}}
-        />
+        <CertificateContext.Provider value={mockContext}>
+          <IcfDropdown
+            modalLabel={infoText}
+            icfData={icfData!}
+            chosenIcfCodeValues={icfValues}
+            collectionsLabel={COLLECTIONS_LABEL}
+            disabled={disabled}
+            onAddCode={() => {}}
+            onRemoveCode={() => {}}
+          />
+        </CertificateContext.Provider>
       </Router>
     </Provider>
   )
@@ -100,7 +105,7 @@ describe('IcfDropdown', () => {
     renderComponent(expected)
     setDefaultIcfState()
 
-    expect(screen.getByText(expected)).not.toBeVisible()
+    expect(screen.queryByText(expected)).not.toBeInTheDocument()
   })
 
   it('display infoText after ICF button is clicked', () => {
@@ -184,8 +189,10 @@ describe('IcfDropdown', () => {
     updateOriginalIcd10Codes()
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    const valueTitle = screen.getAllByText(icfValues![0])[1]
-    expect(valueTitle).toBeVisible()
+    icfValues?.forEach((value) => {
+      const valueTitle = screen.getByText(value)
+      expect(valueTitle).toBeVisible()
+    })
   })
 
   it('shall display collections label', () => {
@@ -202,23 +209,35 @@ describe('IcfDropdown', () => {
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
     renderComponent(undefined, icfData.activityLimitation, icfValues)
 
-    const valueTitle = screen.queryAllByText(icfValues![0])[1]
-    expect(valueTitle).toBeVisible()
+    icfValues?.forEach((value) => {
+      const valueTitle = screen.getByText(value)
+      expect(valueTitle).toBeVisible()
+    })
   })
 
   it('shall show info symbol that support is for another icd10 code', () => {
     const icfData = getIcfData()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
-    renderComponent(undefined, icfData.activityLimitation, icfValues)
-    expect(screen.queryAllByTestId('originalWarningIcf').length > 0).toBeTruthy()
+    renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
+    testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one original code
+    expect(screen.queryByTestId('originalWarningIcf')).toBeInTheDocument()
   })
 
   it('shall not show info symbol that support exists for another icd10 code', () => {
     const icfData = getIcfData()
     updateOriginalIcd10Codes()
     const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
-    renderComponent(undefined, icfData.activityLimitation, icfValues)
+    renderAndOpenDropdown(undefined, icfData.activityLimitation, icfValues)
     expect(screen.queryByTestId('originalWarningIcf')).not.toBeInTheDocument()
+  })
+
+  it('should close dropdown on escape press', () => {
+    const expectedText = 'Test'
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
+    userEvent.keyboard('{escape}')
+    expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
   })
 })
 
