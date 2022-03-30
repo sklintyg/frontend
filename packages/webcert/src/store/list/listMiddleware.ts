@@ -2,12 +2,16 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import {
+  clearActiveList,
+  clearActiveListConfig,
   clearActiveListFilter,
+  clearActiveListType,
   clearListError,
   getDraftListConfig,
   getDraftListConfigStarted,
   getDraftListConfigSuccess,
   getDrafts,
+  getDraftsError,
   getDraftsStarted,
   getDraftsSuccess,
   performListSearch,
@@ -17,6 +21,7 @@ import {
   updateActiveListFilterValue,
   updateActiveListType,
   updateDefaultListFilterValues,
+  updateTotalCount,
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
@@ -37,13 +42,14 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
       data: { filter: action.payload },
       onStart: getDraftsStarted.type,
       onSuccess: getDraftsSuccess.type,
-      onError: setListError.type,
+      onError: getDraftsError.type,
     })
   )
 }
 
 const handleGetDraftsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateActiveList(Object.values(action.payload)))
+  dispatch(updateActiveList(Object.values(action.payload.list)))
+  dispatch(updateTotalCount(action.payload.totalCount))
   dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(clearListError)
 }
@@ -68,6 +74,19 @@ const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   dispatch(clearListError)
 }
 
+const clearListState = (dispatch: Dispatch<AnyAction>) => {
+  dispatch(clearActiveListType)
+  dispatch(clearActiveListFilter)
+  dispatch(clearActiveList)
+  dispatch(clearActiveListConfig)
+  dispatch(updateTotalCount(0))
+}
+
+const handleGetDraftsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  clearListState(dispatch)
+  dispatch(setListError)
+}
+
 const handleUpdateDefaultFilterValues = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const filters = action.payload
   filters.forEach((filter: ListFilterConfig) => {
@@ -89,6 +108,7 @@ const middlewareMethods = {
   [getDraftListConfigSuccess.type]: handleGetDraftListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [clearActiveListFilter.type]: handleClearActiveListFilter,
+  [getDraftsError.type]: handleGetDraftsError,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

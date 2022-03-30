@@ -5,9 +5,14 @@ const LIST = '[List]'
 
 export const performListSearch = createAction(`${LIST} Perform list search`)
 
+interface ListResponse {
+  list: CertificateListItem[]
+  totalCount: number
+}
+
 export const getDrafts = createAction<ListFilter>(`${LIST} Get drafts`)
 export const getDraftsStarted = createAction(`${LIST} Get drafts started`)
-export const getDraftsSuccess = createAction(`${LIST} Get drafts success`)
+export const getDraftsSuccess = createAction<ListResponse>(`${LIST} Get drafts success`)
 export const getDraftsError = createAction(`${LIST} Get drafts error`)
 
 export const getDraftListConfig = createAction(`${LIST} Get draft list config`)
@@ -16,7 +21,11 @@ export const getDraftListConfigSuccess = createAction(`${LIST} Get draft list co
 export const getDraftListConfigError = createAction(`${LIST} Get draft list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
+export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)
 export const updateActiveList = createAction<CertificateListItem[]>(`${LIST} Update active list`)
+export const clearActiveList = createAction(`${LIST} Clear active list`)
+
+export const updateTotalCount = createAction<number>(`${LIST} Update total count for list`)
 
 export interface UpdateListFilterValue {
   id: string

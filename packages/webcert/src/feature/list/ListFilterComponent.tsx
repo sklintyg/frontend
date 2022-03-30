@@ -33,7 +33,7 @@ interface WrapperProps {
 //should not show highlight if validation error
 const Wrapper = styled.div<WrapperProps>`
   .dropdown {
-    min-width: 200px !important;
+    min-width: 30ch !important;
   }
 
   .dropdown,

@@ -19,6 +19,7 @@ import ListFilterButtons from './ListFilterButtons'
 import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from './ListPageSizeFilter'
+import ListPagination from './pagination/ListPagination'
 
 interface Props {
   config: ListConfig | undefined
@@ -156,6 +157,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         onTableHeadClick={updateSortingOfList}>
         {getTable()}
       </Table>
+      <ListPagination />
     </>
   )
 }

@@ -13,3 +13,7 @@ export const getActiveListFilterValue = (id: string) => (state: RootState): unkn
 export const getActiveListType = (state: RootState): ListType => state.ui.uiList.activeListType
 
 export const hasListError = (state: RootState): boolean => state.ui.uiList.listError
+
+export const getListTotalPages = (pageSize: number) => (state: RootState): number => Math.ceil(state.ui.uiList.totalCount / pageSize)
+
+export const getListTotalCount = (state: RootState): number => state.ui.uiList.totalCount

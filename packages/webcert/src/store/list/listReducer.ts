@@ -1,5 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
+  clearActiveList,
+  clearActiveListConfig,
+  clearActiveListFilter,
   clearActiveListType,
   clearListError,
   setListError,
@@ -7,6 +10,7 @@ import {
   updateActiveListConfig,
   updateActiveListFilterValue,
   updateActiveListType,
+  updateTotalCount,
 } from './listActions'
 import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
 
@@ -16,6 +20,7 @@ interface ListState {
   activeListFilter: ListFilter
   activeListType: ListType
   listError: boolean
+  totalCount: number
 }
 
 const initialState: ListState = {
@@ -24,6 +29,7 @@ const initialState: ListState = {
   activeListType: ListType.UNKOWN,
   activeListFilter: {},
   listError: false,
+  totalCount: 0,
 }
 
 const listReducer = createReducer(initialState, (builder) =>
@@ -31,8 +37,14 @@ const listReducer = createReducer(initialState, (builder) =>
     .addCase(updateActiveListConfig, (state, action) => {
       state.activeListConfig = action.payload
     })
+    .addCase(clearActiveListConfig, (state, action) => {
+      state.activeListConfig = undefined
+    })
     .addCase(updateActiveList, (state, action) => {
       state.activeList = action.payload
+    })
+    .addCase(clearActiveList, (state, action) => {
+      state.activeList = []
     })
     .addCase(updateActiveListFilterValue, (state, action) => {
       if (!state.activeListFilter.values) {
@@ -41,17 +53,23 @@ const listReducer = createReducer(initialState, (builder) =>
 
       state.activeListFilter.values[action.payload.id] = action.payload.filterValue
     })
+    .addCase(clearActiveListFilter, (state, action) => {
+      state.activeListFilter.values = {}
+    })
     .addCase(updateActiveListType, (state, action) => {
       state.activeListType = action.payload
     })
     .addCase(clearActiveListType, (state) => {
       state.activeListType = ListType.UNKOWN
     })
-    .addCase(setListError, (state, action) => {
+    .addCase(setListError, (state) => {
       state.listError = true
     })
-    .addCase(clearListError, (state, action) => {
+    .addCase(clearListError, (state) => {
       state.listError = false
+    })
+    .addCase(updateTotalCount, (state, action) => {
+      state.totalCount = action.payload
     })
 )
 
