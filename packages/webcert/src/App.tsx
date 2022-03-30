@@ -13,6 +13,8 @@ import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import SearchAndCreatePage from './page/SearchAndCreatePage'
+import PageWithRedirect from './page/PageWithRedirect'
+import { ResourceLinkType } from '@frontend/common'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -46,7 +48,10 @@ function App(): JSX.Element {
           <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
           <Route path="/welcome" render={() => <Welcome />} />
           <Route path={'/error'} render={() => <ErrorPage />} />
-          <Route path={'/create/:patientId?'} render={() => <SearchAndCreatePage />} />
+          <Route
+            path={'/create/:patientId?'}
+            render={() => <PageWithRedirect page={<SearchAndCreatePage />} linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE} />}
+          />
         </ErrorBoundary>
       </Switch>
     </BrowserRouter>

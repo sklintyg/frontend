@@ -1,27 +1,29 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { triggerLogoutNow } from '../../store/user/userActions'
 import { Link } from 'react-router-dom'
-import { ResourceLink } from '@frontend/common'
+import { ResourceLink, User } from '@frontend/common'
+import { LoginMethod } from '@frontend/common/src/types/user'
 
 interface Props {
   className: string
   link: ResourceLink
+  user: User | null
 }
 
-const Logout: React.FC<Props> = ({ className, link }) => {
-  const dispatch = useDispatch()
-
+const Logout: React.FC<Props> = ({ className, link, user }) => {
   if (!link) {
     return null
   }
 
-  const onClick = () => {
-    dispatch(triggerLogoutNow)
+  const getLogoutPath = () => {
+    if (!user || user.loginMethod === LoginMethod.FAKE) {
+      return '/logout'
+    } else {
+      return '/saml/logout'
+    }
   }
 
   return (
-    <Link to={{ pathname: '/' }} onClick={onClick} className={className}>
+    <Link to={{ pathname: getLogoutPath() }} className={className}>
       {link.name}
     </Link>
   )
