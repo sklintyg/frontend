@@ -13,15 +13,14 @@ interface Props {
 }
 
 const PaginationWrapper = styled.div`
-  .inactive {
-    cursor: auto;
+  button {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    color: #5f5f5f;
   }
 
-  a {
-    cursor: pointer;
-  }
-
-  a:hover {
+  button:hover {
     color: #01a5a3;
   }
 
@@ -49,13 +48,13 @@ const Pagination: React.FC<Props> = ({
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
 
   const handlePreviousClick = () => {
-    if (pageTuple !== 1) {
+    if (!isPreviousDisabled()) {
       return handlePageTupleChange(pageTuple - 1)
     }
   }
 
   const handleNextClick = () => {
-    if (pageTuple !== finalPageTuple) {
+    if (!isNextDisabled()) {
       return handlePageTupleChange(pageTuple + 1)
     }
   }
@@ -69,28 +68,59 @@ const Pagination: React.FC<Props> = ({
     const numberOfPages = pageTuple === finalPageTuple ? totalPages - (finalPageTuple - 1) * pagesPerTuple : pagesPerTuple
     return [...Array(numberOfPages)].map((element, index) => {
       return (
-        <a
+        <button
           onClick={() => handlePageChange(getPageIndex(index))}
           className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading' : ''}>
           {getPageIndex(index)}
-        </a>
+        </button>
       )
     })
   }
 
+  const getNumberOfHitsText = () => {
+    const isLastPage = totalPages === page
+    const start = startFrom + 1
+    const end = !isLastPage ? startFrom + pageSize : totalCount
+    return (
+      <>
+        {totalPages > 1 ? (
+          <p>
+            Visar {start} - {end} av {totalCount} träffar
+          </p>
+        ) : (
+          <p>
+            Visar {start} av {end} träffar
+          </p>
+        )}
+      </>
+    )
+  }
+
+  const isPreviousDisabled = () => {
+    return pageTuple === 1
+  }
+
+  const isNextDisabled = () => {
+    return pageTuple === finalPageTuple
+  }
+
   return (
     <Wrapper className="iu-py-500 iu-display-flex">
-      <p>
-        Visar {startFrom + 1} - {startFrom + pageSize} av {totalCount} träffar
-      </p>
+      {getNumberOfHitsText()}
       <PaginationWrapper>
-        <a className={pageTuple !== 1 ? '' : 'inactive iu-color-grey-400'} onClick={() => handlePreviousClick()}>
+        <button
+          disabled={isPreviousDisabled()}
+          className={!isPreviousDisabled() ? '' : 'iu-color-grey-400'}
+          onClick={() => handlePreviousClick()}>
           Föregående
-        </a>
+        </button>
         {getNumbers()}
-        <a className={pageTuple !== finalPageTuple ? '' : 'inactive iu-color-grey-400'} onClick={() => handleNextClick()}>
+        <button
+          disabled={isNextDisabled()}
+          className={!isNextDisabled() ? '' : 'inactive iu-color-grey-400'}
+          onClick={() => handleNextClick()}>
           Nästa
-        </a>
+        </button>
       </PaginationWrapper>
     </Wrapper>
   )

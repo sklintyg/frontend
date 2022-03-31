@@ -19,13 +19,28 @@ const PatientListInfoContent: React.FC<Props> = ({ info }) => {
       {info.id}
       <div>
         {info.protectedPerson && (
-          <FontAwesomeIcon icon={faUserShield} className={'iu-color-information'} data-tip="Patienten har skyddade personuppgifter." />
+          <FontAwesomeIcon
+            icon={faUserShield}
+            className={'iu-color-information'}
+            data-tip="Patienten har skyddade personuppgifter."
+            aria-label="Symbol för att visa att patienten har skyddade personuppgifter."
+          />
         )}
         {info.testIndicated && (
-          <FontAwesomeIcon icon={faInfoCircle} className={'iu-color-information'} data-tip="Patienten är en valideringsperson." />
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className={'iu-color-information'}
+            data-tip="Patienten är en valideringsperson."
+            aria-label="Symbol för att visa att patienten är en valideringsperson."
+          />
         )}
         {info.deceased && (
-          <FontAwesomeIcon icon={faExclamationTriangle} className={'iu-color-information'} data-tip="Patienten är avliden." />
+          <FontAwesomeIcon
+            icon={faExclamationTriangle}
+            className={'iu-color-information'}
+            data-tip="Patienten är avliden."
+            aria-label="Symbol för att visa att patienten är avliden"
+          />
         )}
       </div>
     </Wrapper>

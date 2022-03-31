@@ -31,6 +31,14 @@ const StyledTable = styled.table<TableProps>`
   }
 `
 
+const SortingButton = styled.button`
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #5f5f5f;
+  float: right;
+`
+
 const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, headings, onTableHeadClick }) => {
   const getSortingArrow = (id: string, title: string) => {
     if (!title) {
@@ -38,16 +46,20 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, heading
     }
     if (id === orderBy) {
       return ascending ? (
-        <FontAwesomeIcon icon={faAngleUp} className={'iu-fr iu-color-main'} />
+        <SortingButton>
+          <FontAwesomeIcon icon={faAngleUp} className={'iu-color-main'} />
+        </SortingButton>
       ) : (
-        <FontAwesomeIcon icon={faAngleDown} className={'iu-fr iu-color-main'} />
+        <SortingButton>
+          <FontAwesomeIcon icon={faAngleDown} className={'iu-color-main'} />
+        </SortingButton>
       )
     } else {
       return (
-        <>
-          <FontAwesomeIcon icon={faAngleUp} className={'iu-fr'} />
-          <FontAwesomeIcon icon={faAngleDown} className={'iu-fr'} />
-        </>
+        <SortingButton>
+          <FontAwesomeIcon icon={faAngleUp} />
+          <FontAwesomeIcon icon={faAngleDown} />
+        </SortingButton>
       )
     }
   }
