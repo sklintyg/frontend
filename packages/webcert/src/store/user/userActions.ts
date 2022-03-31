@@ -15,6 +15,7 @@ export const getUserSuccess = createAction<GetUserResponse>(`${USER} Get user su
 export const getUserError = createAction<string>(`${USER} Get user error`)
 
 export const updateUser = createAction<User>(`${USER} Update user`)
+export const updateIsLoadingUser = createAction<boolean>(`${USER} Update is loading user`)
 export const updateUserResourceLinks = createAction<ResourceLink[]>(`${USER} Update user resource links`)
 
 export const setUserPreference = createAction<UserProperty>(`${USER} Set user preference`)

@@ -1,17 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateInactivateAutomaticLogout, updateUser, updateUserPreference, updateUserResourceLinks } from './userActions'
+import {
+  updateInactivateAutomaticLogout,
+  updateIsLoadingUser,
+  updateUser,
+  updateUserPreference,
+  updateUserResourceLinks,
+} from './userActions'
 import { ResourceLink, User } from '@frontend/common'
 
 interface UserState {
   user: null | User
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean
+  isLoadingUser: boolean
 }
 
 const initialState: UserState = {
   user: null,
   links: [],
   inactiveAutomaticLogout: false,
+  isLoadingUser: true,
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -35,6 +43,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateInactivateAutomaticLogout, (state, action) => {
       state.inactiveAutomaticLogout = action.payload
+    })
+    .addCase(updateIsLoadingUser, (state, action) => {
+      state.isLoadingUser = action.payload
     })
 )
 

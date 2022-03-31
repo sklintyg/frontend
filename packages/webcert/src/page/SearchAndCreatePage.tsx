@@ -9,6 +9,7 @@ import { getPatient } from '../store/patient/patientActions'
 import { CustomTooltip } from '@frontend/common'
 import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
+import { withResourceAccess } from '../components/utils/withResourceAccess'
 
 interface Params {
   patientId: string
@@ -47,4 +48,4 @@ const SearchAndCreatePage: React.FC = () => {
     </>
   )
 }
-export default SearchAndCreatePage
+export const SearchAndCreatePageWithRedirect = withResourceAccess(SearchAndCreatePage)

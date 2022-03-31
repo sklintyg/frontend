@@ -19,9 +19,7 @@ export enum SigningMethod {
 }
 
 export enum LoginMethod {
-  NET_ID = 'NET_ID',
   BANK_ID = 'BANK_ID',
-  MOBILT_BANK_ID = 'MOBILT_BANK_ID',
   SITHS = 'SITHS',
   FAKE = 'FAKE',
 }

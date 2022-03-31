@@ -11,4 +11,6 @@ export const isDoctor = (state: RootState): boolean | null =>
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
 
+export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
+
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links

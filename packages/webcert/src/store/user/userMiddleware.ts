@@ -6,6 +6,7 @@ import {
   cancelLogoutStarted,
   cancelLogoutSuccess,
   getUser,
+  getUserError,
   getUserStarted,
   getUserSuccess,
   setUserPreference,
@@ -18,6 +19,7 @@ import {
   triggerLogoutStarted,
   triggerLogoutSuccess,
   updateInactivateAutomaticLogout,
+  updateIsLoadingUser,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
@@ -31,14 +33,23 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
       method: 'GET',
       onStart: getUserStarted.type,
       onSuccess: getUserSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: getUserError.type,
     })
   )
+}
+
+const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(updateIsLoadingUser(false))
+}
+
+const handleGetUserStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateIsLoadingUser(true))
 }
 
 const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload.user))
   dispatch(updateUserResourceLinks(action.payload.links))
+  dispatch(updateIsLoadingUser(false))
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -117,6 +128,8 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
+  [getUserError.type]: handleGetUserError,
+  [getUserStarted.type]: handleGetUserStarted,
   [setUserPreference.type]: handleSetUserPreference,
   [setUserPreferenceSuccess.type]: handleSetUserPreferenceSuccess,
   [cancelLogout.type]: handleCancelLogout,
