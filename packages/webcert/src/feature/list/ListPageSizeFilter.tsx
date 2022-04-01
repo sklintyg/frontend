@@ -1,44 +1,34 @@
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import {
-  ListFilterPageSizeConfig,
-  ListFilterType,
-  ListFilterValue,
-  ListFilterValueNumber,
-  ListFilterValueSelect,
-} from '@frontend/common/src/types/list'
-import { useDispatch, useSelector } from 'react-redux'
+import { ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common/src/types/list'
 import { Dropdown } from '@frontend/common/src/components'
-import { getActiveListFilterValue, getListTotalCount } from '../../store/list/listSelectors'
-import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 
 interface Props {
   filter: ListFilterPageSizeConfig | undefined
+  totalCount: number
+  onFilterChange: (value: ListFilterValue, id: string) => void
+  value: ListFilterValueNumber
 }
 
-const ListPageSizeFilter: React.FC<Props> = ({ filter }) => {
-  const dispatch = useDispatch()
-  const value = useSelector(getActiveListFilterValue(filter ? filter.id : '')) as ListFilterValue
+const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value }) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
-  const totalCount = useSelector(getListTotalCount)
 
-  if (!filter || pageSizes.length === 0 || totalCount < pageSizes[0]) {
+  if (!filter || pageSizes.length === 0 || totalCount <= pageSizes[0]) {
     return null
   }
 
-  const onFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value: ListFilterValueNumber = {
       type: ListFilterType.NUMBER,
       value: parseInt(event.target.value),
     }
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: filter.id }))
-    dispatch(performListSearch)
+    onFilterChange(value, filter.id)
   }
 
   const getSelectOptions = () => {
     return pageSizes.map((number) =>
       totalCount >= number ? (
-        <option id={filter.id + '-' + number} value={number}>
+        <option id={filter.id + '-' + number} value={number} key={filter.id + '-' + number}>
           {number}
         </option>
       ) : null
@@ -49,11 +39,11 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter }) => {
     return (
       <div className={'iu-pb-300'}>
         <Dropdown
-          onChange={(e) => onFilterChange(e)}
+          onChange={(e) => handleFilterChange(e)}
           label={filter.title}
           id={filter.id}
           options={getSelectOptions()}
-          value={value ? (value as ListFilterValueSelect).value : ''}
+          value={value ? value.value.toString() : ''}
         />
       </div>
     )

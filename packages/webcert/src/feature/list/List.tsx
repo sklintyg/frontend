@@ -4,7 +4,9 @@ import {
   ListConfig,
   ListFilter,
   ListFilterOrderConfig,
+  ListFilterPageSizeConfig,
   ListFilterType,
+  ListFilterValue,
   PatientListInfo,
 } from '@frontend/common/src/types/list'
 import ListFilterComponent from './ListFilterComponent'
@@ -14,13 +16,14 @@ import { CustomButton } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ListFilterButtons from './ListFilterButtons'
 import { clearActiveListFilter, performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from './ListPageSizeFilter'
 import ListPagination from './pagination/ListPagination'
 import { isFilterValuesValid } from './listUtils'
+import { getActiveListFilterValue, getListTotalCount } from '../../store/list/listSelectors'
 
 interface Props {
   config: ListConfig | undefined
@@ -38,6 +41,9 @@ const FilterWrapper = styled.div`
 const List: React.FC<Props> = ({ config, list, filter }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const totalCount = useSelector(getListTotalCount)
+  const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
+  const pageSizeValue = useSelector(getActiveListFilterValue(pageSizeFilter ? pageSizeFilter.id : '')) as ListFilterValue
 
   if (!config) {
     return null
@@ -149,6 +155,11 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     dispatch(clearActiveListFilter())
   }
 
+  const onUpdateList = (value: ListFilterValue, id: string) => {
+    dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
+    onSearch()
+  }
+
   return (
     <>
       <FilterWrapper>{getFilter()}</FilterWrapper>
@@ -158,7 +169,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         onReset={onReset}
         isSearchEnabled={filter ? isFilterValuesValid(filter.values) : true}
       />
-      <ListPageSizeFilter filter={config.filters.find((filter) => filter.type === ListFilterType.PAGESIZE)} />
+      <ListPageSizeFilter filter={pageSizeFilter} value={pageSizeValue} totalCount={totalCount} onFilterChange={onUpdateList} />
       <Table
         caption={config.title}
         headings={config.tableHeadings}

@@ -15,7 +15,7 @@ const Dropdown: React.FC<Props> = (props) => {
   const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
   return (
     <>
-      {label !== 'undefined' ? <label>{label}</label> : null}
+      {label !== 'undefined' ? <label htmlFor={id}>{label}</label> : null}
       <div
         className={`ic-forms__select ${hasValidationError ? 'iu-border-error dropdown' : 'dropdown'} ${
           disabled ? 'ic-forms__select--disabled' : ''
