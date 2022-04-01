@@ -55,4 +55,18 @@ describe('ListFilterButtons', () => {
     renderComponent(false)
     expect(screen.getByText('Sök')).toBeDisabled()
   })
+
+  it('should perform search when clicking on button', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Sök'))
+    expect(onSearch).toHaveBeenCalled()
+    expect(onReset).not.toHaveBeenCalled()
+  })
+
+  it('should perform reset when clicking on button', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByText('Återställ sökfiltret'))
+    expect(onReset).toHaveBeenCalled()
+    expect(onSearch).not.toHaveBeenCalled()
+  })
 })

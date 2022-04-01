@@ -14,6 +14,4 @@ export const getActiveListType = (state: RootState): ListType => state.ui.uiList
 
 export const hasListError = (state: RootState): boolean => state.ui.uiList.listError
 
-export const getListTotalPages = (pageSize: number) => (state: RootState): number => Math.ceil(state.ui.uiList.totalCount / pageSize)
-
 export const getListTotalCount = (state: RootState): number => state.ui.uiList.totalCount

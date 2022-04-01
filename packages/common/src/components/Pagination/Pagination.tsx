@@ -1,13 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
+import NumberOfHitsText from './NumberOfHitsText'
 
 interface Props {
   page: number
   pageTuple: number
-  totalPages: number
-  handlePageChange: (updatedPage: number) => void
+  handlePageChange: (updatedPage: number, startFrom: number) => void
   handlePageTupleChange: (updatedPageTuple: number) => void
-  startFrom: number
   pageSize: number
   totalCount: number
 }
@@ -34,18 +33,18 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 
-const Pagination: React.FC<Props> = ({
-  page,
-  totalPages,
-  handlePageChange,
-  handlePageTupleChange,
-  pageTuple,
-  startFrom,
-  pageSize,
-  totalCount,
-}) => {
+const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleChange, pageTuple, pageSize, totalCount }) => {
   const pagesPerTuple = 10
+  const totalPages = Math.ceil(totalCount / pageSize)
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
+
+  if (totalPages <= 1) {
+    return null
+  }
+
+  const getStartFrom = (updatedPage: number) => {
+    return (updatedPage - 1) * pageSize
+  }
 
   const handlePreviousClick = () => {
     if (!isPreviousDisabled()) {
@@ -69,31 +68,14 @@ const Pagination: React.FC<Props> = ({
     return [...Array(numberOfPages)].map((element, index) => {
       return (
         <button
-          onClick={() => handlePageChange(getPageIndex(index))}
-          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading' : ''}>
+          id={'page-button-' + index}
+          key={'page-button-' + index}
+          onClick={() => handlePageChange(getPageIndex(index), getStartFrom(getPageIndex(index)))}
+          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading active' : ''}>
           {getPageIndex(index)}
         </button>
       )
     })
-  }
-
-  const getNumberOfHitsText = () => {
-    const isLastPage = totalPages === page
-    const start = startFrom + 1
-    const end = !isLastPage ? startFrom + pageSize : totalCount
-    return (
-      <>
-        {totalPages > 1 ? (
-          <p>
-            Visar {start} - {end} av {totalCount} träffar
-          </p>
-        ) : (
-          <p>
-            Visar {start} av {end} träffar
-          </p>
-        )}
-      </>
-    )
   }
 
   const isPreviousDisabled = () => {
@@ -106,7 +88,13 @@ const Pagination: React.FC<Props> = ({
 
   return (
     <Wrapper className="iu-py-500 iu-display-flex">
-      {getNumberOfHitsText()}
+      <NumberOfHitsText
+        totalPages={totalPages}
+        page={page}
+        startFrom={getStartFrom(getPageIndex(page))}
+        totalCount={totalCount}
+        pageSize={pageSize}
+      />
       <PaginationWrapper>
         <button
           disabled={isPreviousDisabled()}
@@ -114,7 +102,7 @@ const Pagination: React.FC<Props> = ({
           onClick={() => handlePreviousClick()}>
           Föregående
         </button>
-        {getNumbers()}
+        <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
         <button
           disabled={isNextDisabled()}
           className={!isNextDisabled() ? '' : 'inactive iu-color-grey-400'}
