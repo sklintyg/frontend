@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Category from './Category/Category'
-import Question from './Question/Question'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import {
@@ -23,6 +22,7 @@ import _ from 'lodash'
 import { CustomTooltip } from '@frontend/common/src'
 import ResponsibleHospName from './ResponsibleHospName'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
+import { CertificateContext } from './CertificateContext'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -46,7 +46,7 @@ const Certificate: React.FC = () => {
   const gotoId = useSelector(getGotoId)
   const isComplementingCertificate = useSelector(getIsComplementingCertificate)
   const isSigned = useSelector(getIsSigned())
-
+  const certificateContainerRef = useRef<HTMLDivElement>(null)
   const certificateContainerId = 'questions-container'
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Certificate: React.FC = () => {
       })
       dispatch(clearGotoCertificateDataElement())
     }
-  }, [gotoId])
+  }, [gotoId, dispatch])
 
   const filterHidden = (data: CertificateStructure): boolean => {
     if (!data.style || isSigned) return true
@@ -69,23 +69,25 @@ const Certificate: React.FC = () => {
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
       <CustomTooltip />
-      <Wrapper id={certificateContainerId} className={`iu-bg-grey-300`}>
+      <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
-          <InfoBox type={'info'} additionalStyles={'iu-mt-400'}>
+          <InfoBox type="info" additionalStyles="iu-mt-400">
             <p> Försäkringskassan har begärt kompletteringar på intyget. </p>
           </InfoBox>
         )}
         <ResponsibleHospName />
-        {certificateStructure &&
-          certificateStructure
-            .filter((data) => filterHidden(data))
-            .map((data) => {
-              if (data.component === ConfigTypes.CATEGORY) {
-                return <Category key={data.id} id={data.id} />
-              } else {
-                return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
-              }
-            })}
+        <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>
+          {certificateStructure &&
+            certificateStructure
+              .filter((data) => filterHidden(data))
+              .map((data) => {
+                if (data.component === ConfigTypes.CATEGORY) {
+                  return <Category key={data.id} id={data.id} />
+                } else {
+                  return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                }
+              })}
+        </CertificateContext.Provider>
         <CareUnit />
         <CertificateValidation />
         <CertificateFooter />

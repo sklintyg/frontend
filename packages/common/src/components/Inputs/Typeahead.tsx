@@ -194,7 +194,6 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
             />
           </SuggestionsListItem>
         ))}
-        s
       </SuggestionsList>
     )
   }
