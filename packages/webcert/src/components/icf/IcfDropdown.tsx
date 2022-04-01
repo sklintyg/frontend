@@ -5,12 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import { CategoryWrapper, Root, ScrollDiv, StyledTitle } from './Styles'
+import { CategoryWrapper, Root, ScrollDiv } from './Styles'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfFooter from './IcfFooter'
 import IcfChosenValues from './IcfChosenValues'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import _ from 'lodash'
+import FocusTrap from 'focus-trap-react'
+import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 
 interface Props {
   modalLabel: string
@@ -38,6 +40,7 @@ const IcfDropdown: React.FC<Props> = ({
   const btnRef = useRef() as React.RefObject<HTMLButtonElement>
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const functionDisabled = useSelector(isIcfFunctionDisabled)
+  const escapePress = useKeyPress('Escape')
 
   useEffect(() => {
     if (functionDisabled) {
@@ -46,18 +49,23 @@ const IcfDropdown: React.FC<Props> = ({
   }, [functionDisabled])
 
   useEffect(() => {
+    const handleClick = (e: Event) => {
+      if (clickedOutsideDropdown(e)) {
+        setDisplayDropdown(false)
+      }
+    }
+
     document.addEventListener('mousedown', handleClick)
     return () => {
       document.removeEventListener('mousedown', handleClick)
     }
   }, [])
 
-  const handleClick = (e: Event) => {
-    if (clickedOutsideDropdown(e)) {
+  useEffect(() => {
+    if (displayDropdown && escapePress) {
       setDisplayDropdown(false)
     }
-    return
-  }
+  }, [escapePress, displayDropdown])
 
   const clickedOutsideDropdown = (e: Event) => {
     return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
@@ -71,12 +79,12 @@ const IcfDropdown: React.FC<Props> = ({
     setDisplayDropdown(!displayDropdown)
   }
 
-  const shouldRenderDropdown = () => {
-    return modalLabel && icfData
+  const shouldRenderDropdown = (): boolean => {
+    return !!modalLabel && !!icfData
   }
 
-  const shouldRenderValues = () => {
-    return chosenIcfCodeValues && chosenIcfCodeValues.length > 0
+  const shouldRenderValues = (): boolean => {
+    return !!chosenIcfCodeValues && chosenIcfCodeValues.length > 0
   }
 
   const shouldDropdownButtonBeDisabled = (): boolean => {
@@ -94,7 +102,7 @@ const IcfDropdown: React.FC<Props> = ({
     if (!icfData?.commonCodes.icfCodes) return null
 
     return (
-      <CategoryWrapper className={'iu-bg-white'}>
+      <CategoryWrapper className="iu-bg-white">
         <p>ICF-kategorier gemensamma för:</p>
         <IcfCategory
           parentId={id}
@@ -112,7 +120,7 @@ const IcfDropdown: React.FC<Props> = ({
     if (!icfData?.uniqueCodes.length) return null
 
     return icfData.uniqueCodes.map((icfUnique, i) => (
-      <CategoryWrapper className={'iu-bg-white'} key={i}>
+      <CategoryWrapper className="iu-bg-white" key={i}>
         <p>ICF-kategorier för:</p>
         <IcfCategory
           parentId={id}
@@ -130,32 +138,32 @@ const IcfDropdown: React.FC<Props> = ({
     <>
       <CustomButton
         ref={btnRef}
-        buttonClasses={'iu-mb-200'}
+        buttonClasses="iu-mb-200"
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
         onClick={handleToggleDropdownButtonClick}>
-        <FontAwesomeIcon size={'lg'} icon={faLightbulb} className={'iu-mr-300'} />
+        <FontAwesomeIcon size="lg" icon={faLightbulb} className="iu-mr-300" />
         Ta hjälp av ICF
-        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} size={'sm'} className={'iu-ml-200'} />
+        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} size="sm" className="iu-ml-200" />
       </CustomButton>
-
-      {shouldRenderDropdown() && (
-        <>
-          <Root ref={rootRef} id={'icfDropdown'}>
-            <div hidden={!displayDropdown} className={'iu-border-black iu-radius-sm'}>
-              <StyledTitle className={'iu-bg-main iu-color-white iu-p-300'}>
-                <FontAwesomeIcon icon={faInfoCircle} className={'iu-mr-200'} />
+      {shouldRenderDropdown() && displayDropdown && (
+        <FocusTrap focusTrapOptions={{ initialFocus: false }}>
+          <Root ref={rootRef} id={'icfDropdown-' + id}>
+            <div className="iu-border-black iu-radius-sm">
+              <p className="iu-bg-main iu-color-white iu-p-300">
+                <FontAwesomeIcon icon={faInfoCircle} className="iu-mr-200" />
                 {modalLabel}
-              </StyledTitle>
-              <ScrollDiv className={'iu-pb-300 iu-bg-white'} id={'icfScrollContainer-' + id}>
+              </p>
+              <ScrollDiv className="iu-pb-300 iu-bg-white" id={'icfScrollContainer-' + id}>
                 {getCommonCodes()}
                 {getUniqueCodes()}
               </ScrollDiv>
               <IcfFooter handleToggleDropdownButtonClick={handleToggleDropdownButtonClick} />
             </div>
           </Root>
-        </>
+        </FocusTrap>
       )}
+
       {shouldRenderValues() && <IcfChosenValues collectionsLabel={collectionsLabel} chosenIcfCodeValues={chosenIcfCodeValues} />}
     </>
   )

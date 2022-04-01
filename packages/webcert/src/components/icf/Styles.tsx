@@ -20,14 +20,6 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
-  bottom: 0;
-`
-
-export const StyledTitle = styled.p`
-  position: sticky;
-  top: 0;
-  z-index: 3;
 `
 
 export const ScrollDiv = styled.div`
