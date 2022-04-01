@@ -16,10 +16,11 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
 import ListFilterButtons from './ListFilterButtons'
-import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
+import { clearActiveListFilter, performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from './ListPageSizeFilter'
 import ListPagination from './pagination/ListPagination'
+import { isFilterValuesValid } from './listUtils'
 
 interface Props {
   config: ListConfig | undefined
@@ -140,13 +141,22 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     }
   }
 
+  const onSearch = () => {
+    dispatch(performListSearch())
+  }
+
+  const onReset = () => {
+    dispatch(clearActiveListFilter())
+  }
+
   return (
     <>
       <FilterWrapper>{getFilter()}</FilterWrapper>
       <ListFilterButtons
         searchTooltip={config.searchCertificateTooltip}
-        filterConfig={config.filters}
-        listFilterValues={filter ? filter.values : undefined}
+        onSearch={onSearch}
+        onReset={onReset}
+        isSearchEnabled={filter ? isFilterValuesValid(filter.values) : true}
       />
       <ListPageSizeFilter filter={config.filters.find((filter) => filter.type === ListFilterType.PAGESIZE)} />
       <Table

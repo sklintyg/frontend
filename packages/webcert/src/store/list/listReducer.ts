@@ -37,13 +37,13 @@ const listReducer = createReducer(initialState, (builder) =>
     .addCase(updateActiveListConfig, (state, action) => {
       state.activeListConfig = action.payload
     })
-    .addCase(clearActiveListConfig, (state, action) => {
+    .addCase(clearActiveListConfig, (state) => {
       state.activeListConfig = undefined
     })
     .addCase(updateActiveList, (state, action) => {
       state.activeList = action.payload
     })
-    .addCase(clearActiveList, (state, action) => {
+    .addCase(clearActiveList, (state) => {
       state.activeList = []
     })
     .addCase(updateActiveListFilterValue, (state, action) => {
@@ -53,7 +53,7 @@ const listReducer = createReducer(initialState, (builder) =>
 
       state.activeListFilter.values[action.payload.id] = action.payload.filterValue
     })
-    .addCase(clearActiveListFilter, (state, action) => {
+    .addCase(clearActiveListFilter, (state) => {
       state.activeListFilter.values = {}
     })
     .addCase(updateActiveListType, (state, action) => {

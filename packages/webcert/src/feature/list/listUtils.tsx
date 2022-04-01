@@ -5,16 +5,19 @@ import {
   ListFilterPageSizeConfig,
   ListFilterSelectConfig,
   ListFilterType,
+  ListFilterValue,
   ListFilterValueBoolean,
   ListFilterValueDateRange,
   ListFilterValueNumber,
   ListFilterValuePersonId,
+  ListFilterValues,
   ListFilterValueSelect,
   ListFilterValueText,
 } from '@frontend/common/src/types/list'
+import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 
-export const getListFilterDefaultValue = (filter: ListFilterConfig) => {
-  let defaultValue = { type: ListFilterType.UNKOWN }
+export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
+  let defaultValue: ListFilterValue = { type: ListFilterType.UNKOWN }
   if (filter.type === ListFilterType.TEXT) {
     defaultValue = { type: filter.type, value: '' } as ListFilterValueText
   } else if (filter.type === ListFilterType.PERSON_ID) {
@@ -36,4 +39,18 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig) => {
   }
 
   return defaultValue
+}
+
+export const isFilterValuesValid = (listFilterValues: ListFilterValues | undefined): boolean => {
+  let hasValidationErrors = false
+  if (!listFilterValues) {
+    return true
+  }
+  Object.keys(listFilterValues).forEach((key) => {
+    if (listFilterValues[key].type === ListFilterType.PERSON_ID) {
+      const personId = (listFilterValues[key] as ListFilterValuePersonId).value
+      hasValidationErrors = personId !== '' && !isPersonIdValid(personId)
+    }
+  })
+  return !hasValidationErrors
 }
