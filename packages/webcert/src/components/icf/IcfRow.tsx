@@ -10,11 +10,12 @@ const TitleWrapper = styled.div`
   justify-content: space-between;
 `
 
-const ShowMoreText = styled.p`
+const ShowMoreButton = styled.button`
   text-decoration: underline;
-  &:hover {
-    cursor: pointer;
-  }
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: inherit;
 `
 
 interface Props {
@@ -62,9 +63,9 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
           value={icfCode.title}
           onFocus={handleCheckboxFocus}
         />
-        <ShowMoreText onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
+        <ShowMoreButton onClick={handleShowMore} data-testid={`${icfCode.title}-showmore`}>
           visa mer
-        </ShowMoreText>
+        </ShowMoreButton>
       </TitleWrapper>
       {displayDescription && (
         <>
