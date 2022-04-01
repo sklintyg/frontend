@@ -3,23 +3,21 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
+import React, { createRef } from 'react'
 import reducer from '../../../../store/reducers'
 import { CertificateDataElement, ConfigUeIcf, FMBDiagnosisCodeInfo, ValueIcf } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import UeIcf from '../UeIcf'
 import { icfMiddleware } from '../../../../store/icf/icfMiddleware'
 import { CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import { updateIcfCodes } from '../../../../store/icf/icfActions'
+import { setOriginalIcd10Codes, updateIcfCodes } from '../../../../store/icf/icfActions'
 import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import apiMiddleware from '../../../../store/api/apiMiddleware'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getIcfData } from '../../../../components/icf/icfTestUtils'
+import { CertificateContext } from '../../CertificateContext'
 
-let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
@@ -27,11 +25,15 @@ const history = createMemoryHistory()
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
+const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
+
 const renderComponent = (question: CertificateDataElement, disabled = false) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <UeIcf question={question} disabled={disabled} />
+        <CertificateContext.Provider value={mockContext}>
+          <UeIcf question={question} disabled={disabled} />
+        </CertificateContext.Provider>
       </Router>
     </Provider>
   )
@@ -42,7 +44,6 @@ const PLACEHOLDER = 'placeholder'
 
 describe('UeIcf', () => {
   beforeEach(() => {
-    fakeAxios = new MockAdapter(axios)
     jest.useFakeTimers('modern')
     testStore = configureStore({
       reducer,
@@ -192,6 +193,7 @@ const renderAndOpenDropdown = (question: CertificateDataElement, disabled = fals
 const setDefaultIcfState = () => {
   const icfData = getIcfData()
   testStore.dispatch(updateIcfCodes(icfData))
+  updateOriginalIcd10Codes()
   setDefaultFmb()
 }
 
@@ -207,4 +209,10 @@ const setDefaultFmb = () => {
   }
 
   testStore.dispatch(updateFMBDiagnosisCodeInfo(codeInfo))
+}
+
+const updateOriginalIcd10Codes = () => {
+  const codeInfo: string[] = ['A02', 'U071']
+
+  testStore.dispatch(setOriginalIcd10Codes(codeInfo))
 }
