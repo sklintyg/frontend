@@ -9,11 +9,18 @@ export interface User {
   loggedInCareProvider: Unit
   preferences: { [key: string]: string } | null
   signingMethod: SigningMethod
+  loginMethod: LoginMethod
   protectedPerson: boolean
 }
 
 export enum SigningMethod {
   DSS = 'DSS',
+  FAKE = 'FAKE',
+}
+
+export enum LoginMethod {
+  BANK_ID = 'BANK_ID',
+  SITHS = 'SITHS',
   FAKE = 'FAKE',
 }
 

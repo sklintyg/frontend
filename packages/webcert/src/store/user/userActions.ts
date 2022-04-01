@@ -1,14 +1,22 @@
 import { createAction } from '@reduxjs/toolkit'
-import { User, UserProperty } from '@frontend/common'
+import { ResourceLink, User, UserProperty } from '@frontend/common'
 
 const USER = '[User]'
 
 export const getUser = createAction(`${USER} Get user`)
 export const getUserStarted = createAction(`${USER} Get user started`)
-export const getUserSuccess = createAction<User>(`${USER} Get user success`)
+
+interface GetUserResponse {
+  user: User
+  links: ResourceLink[]
+}
+
+export const getUserSuccess = createAction<GetUserResponse>(`${USER} Get user success`)
 export const getUserError = createAction<string>(`${USER} Get user error`)
 
 export const updateUser = createAction<User>(`${USER} Update user`)
+export const updateIsLoadingUser = createAction<boolean>(`${USER} Update is loading user`)
+export const updateUserResourceLinks = createAction<ResourceLink[]>(`${USER} Update user resource links`)
 
 export const setUserPreference = createAction<UserProperty>(`${USER} Set user preference`)
 export const setUserPreferenceStarted = createAction(`${USER} Set user preference started`)
