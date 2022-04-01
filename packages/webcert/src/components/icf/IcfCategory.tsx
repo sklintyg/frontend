@@ -55,6 +55,7 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
                     icon={faInfoCircle}
                     data-tip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`}
                     data-testid={'originalWarningIcf'}
+                    tabIndex={0}
                   />
                 )}
               </strong>
