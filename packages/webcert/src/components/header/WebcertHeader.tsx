@@ -1,11 +1,11 @@
 import React from 'react'
-import { AppHeader, resourceLinksAreEqual, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
+import { AppHeader, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
 import logo from './webcert_logo.png'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
-import { getUserResourceLinks } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import Logout from '../utils/Logout'
 
@@ -15,6 +15,7 @@ interface Props {
 
 const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const userLinks = useSelector(getUserResourceLinks)
+  const user = useSelector(getUser)
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -30,9 +31,11 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       </>
     )
 
-    const logoutLink = userLinks && userLinks.find((link) => resourceLinksAreEqual(link.type, ResourceLinkType.LOG_OUT))
+    const logoutLink = userLinks.find((link) => link.type === ResourceLinkType.LOG_OUT)
     if (logoutLink) {
-      secondaryItems.push(<Logout link={logoutLink} className={secondaryItems.length > 0 ? 'iu-link-divider-left iu-pr-300' : ''} />)
+      secondaryItems.push(
+        <Logout user={user} link={logoutLink} className={secondaryItems.length > 0 ? 'iu-link-divider-left iu-pr-300' : ''} />
+      )
     }
 
     return secondaryItems

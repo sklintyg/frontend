@@ -9,12 +9,13 @@ import { getPatient } from '../store/patient/patientActions'
 import { CustomTooltip } from '@frontend/common'
 import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
+import { withResourceAccess } from '../components/utils/withResourceAccess'
 
 interface Params {
   patientId: string
 }
 
-const CreateCertificatePage: React.FC = () => {
+const SearchAndCreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()
   const dispatch = useDispatch()
   const patient = useSelector(getActivePatient)
@@ -47,4 +48,4 @@ const CreateCertificatePage: React.FC = () => {
     </>
   )
 }
-export default CreateCertificatePage
+export const SearchAndCreatePageWithRedirect = withResourceAccess(SearchAndCreatePage)

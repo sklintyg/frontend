@@ -51,7 +51,7 @@ const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   } else if (action.payload.status === PatientStatus.ERROR) {
     errorCode = ErrorCode.PU_PROBLEM
   }
-  let error  = createErrorRequestWithErrorId(ErrorType.SILENT, errorCode, getState().ui.uiQuestion.certificateId)
+  const error = createErrorRequestWithErrorId(ErrorType.SILENT, errorCode, getState().ui.uiQuestion.certificateId)
   dispatch(setPatientError(error))
   dispatch(throwError(error))
 }

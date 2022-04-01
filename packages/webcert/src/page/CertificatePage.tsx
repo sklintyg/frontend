@@ -5,19 +5,13 @@ import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import { AppHeader } from '@frontend/common'
-import WebcertHeaderUser from '../components/header/WebcertHeaderUser'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
 import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
-import logo from '../components/header/webcert_logo.png'
-import WebcertHeaderUnit from '../components/header/WebcertHeaderUnit'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
-import { TextWithInfoModal } from '@frontend/common/src'
-import AboutWebcertModalContent from '../feature/certificate/Modals/AboutWebcertModalContent'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import CertificateDeletedModal from '../feature/certificate/Modals/CertificateDeletedModal'
-import SystemBanners from '../components/notification/SystemBanners'
+import WebcertHeader from '../components/header/WebcertHeader'
 
 const Root = styled.div`
   height: 100vh;
@@ -62,23 +56,11 @@ const CertificatePage: React.FC = () => {
     }
   }, [dispatch, certificateId])
 
-  const secondaryItems = [
-    <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
-      <AboutWebcertModalContent />
-    </TextWithInfoModal>,
-  ]
-
   return (
     <Root>
       <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
       <NoFlexGrow>
-        <AppHeader
-          logo={logo}
-          alt={'Logo Webcert'}
-          primaryItems={[<WebcertHeaderUser />, <WebcertHeaderUnit />]}
-          secondaryItems={[secondaryItems]}
-          banners={[<SystemBanners />]}
-        />
+        <WebcertHeader />
       </NoFlexGrow>
       {certificateIsDeleted ? (
         <RemovedCertificate />

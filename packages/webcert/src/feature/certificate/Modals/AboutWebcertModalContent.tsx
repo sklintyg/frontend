@@ -25,22 +25,16 @@ const AboutWebcertModalContent: React.FC = () => {
       <p>Nuvarande version är {version}.</p>
 
       <p>
-        Webcert är utvecklat för Inernet Explorer 11 och efterföljande versioner samt för Chrome. Andra webbläsare kan användas, men då
-        finns det risk att problem uppstår. För att kunna generera utskrifter av intygen använder sig Webcert av{' '}
-        <WCDynamicLink linkKey={'iText7'} />. För mer information under vilka villkor iText7 får användas läs mer om AGPL 3.0 på{' '}
-        <WCDynamicLink linkKey={'agpl3'} />. För Webcerts källkod besök <WCDynamicLink linkKey={'github'} />. För Webcerts
+        Webcert är utvecklat för senaste versionen av webbläsare Edge Chromium och Chrome. För att kunna generera utskrifter av intygen
+        använder sig Webcert av <WCDynamicLink linkKey={'iText7'} />. För mer information under vilka villkor iText7 får användas läs mer om
+        AGPL 3.0 på <WCDynamicLink linkKey={'agpl3'} />. För Webcerts källkod besök <WCDynamicLink linkKey={'github'} />. För Webcerts
         upphovsrättslicens besök {<WCDynamicLink linkKey={'github'} />}.
-      </p>
-
-      <p>
-        För att framställa grafer och diagram i Webcert använder Inera AB Highcharts som tillhandahålls av Highsoft AS. Inera AB använder
-        Highsofts mjukvaror under en Licens för icke-kommersiella utövare.
       </p>
 
       <p className={'iu-fw-bold'}>Behandling av personuppgifter</p>
       <p>
         Inera behandlar personuppgifter som personuppgiftsansvarig för det egna bolagets verksamhet och i sin roll som personuppgiftsbiträde
-        för landsting, regioner och kommuner. Inera värnar om den personliga integriteten och eftersträvar alltid en hög nivå av dataskydd.
+        för regioner och kommuner. Inera värnar om den personliga integriteten och eftersträvar alltid en hög nivå av dataskydd.
       </p>
 
       <p>
