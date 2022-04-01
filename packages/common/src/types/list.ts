@@ -28,6 +28,7 @@ export enum ListFilterType {
   ORDER = 'ORDER',
   PAGESIZE = 'PAGESIZE',
   STARTFROM = 'STARTFROM',
+  DATE = 'DATE',
 }
 
 export interface ListFilterConfig {
