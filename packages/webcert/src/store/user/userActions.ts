@@ -41,3 +41,8 @@ export const triggerLogoutNowSuccess = createAction(`${USER} Trigger logout now 
 export const triggerLogoutNowError = createAction<string>(`${USER} Trigger logout now error`)
 
 export const updateInactivateAutomaticLogout = createAction<boolean>(`${USER} Update inactivate automatic logout`)
+
+export const getCertificateTypes = createAction(`${USER} Get certificate types`)
+export const getCertificateTypesStarted = createAction(`${USER} Get certificate started`)
+export const getCertificateTypesSuccess = createAction(`${USER} Get certificate success`)
+export const getCertificateTypesError = createAction<string>(`${USER} Get certificate error`)
