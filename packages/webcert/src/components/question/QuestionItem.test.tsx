@@ -35,7 +35,6 @@ const renderComponent = (question: Question) => {
 
 describe('QuestionItem', () => {
   beforeEach(() => {
-    fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware),
@@ -253,7 +252,7 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).toBe(0)
     })
 
-    it('disable send and cancel while sending answer draft', async () => {
+    it('disable send and cancel while sending answer draft', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
@@ -263,11 +262,9 @@ describe('QuestionItem', () => {
 
       expect(sendButton).toBeDisabled()
       expect(cancelButton).toBeDisabled()
-
-      await flushPromises()
     })
 
-    it('disable send and cancel while deleting answer draft', async () => {
+    it('disable send and cancel while deleting answer draft', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
@@ -278,8 +275,6 @@ describe('QuestionItem', () => {
 
       expect(sendButton).toBeDisabled()
       expect(cancelButton).toBeDisabled()
-
-      await flushPromises()
     })
   })
 
