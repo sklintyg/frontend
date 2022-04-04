@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -190,6 +190,14 @@ describe('QuestionItem', () => {
   })
 
   describe('answering a question with user inputs', () => {
+    beforeEach(() => {
+      fakeAxios = new MockAdapter(axios)
+    })
+
+    afterEach(() => {
+      clearDispatchedActions()
+    })
+
     xit('writes a message', () => {
       jest.useFakeTimers('modern')
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
@@ -202,7 +210,7 @@ describe('QuestionItem', () => {
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 
-    it('enable send and cancel when answer has value', async () => {
+    it('enable send and cancel when answer has value', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       expect(screen.getByText(/Skicka/i)).toBeEnabled()
@@ -226,7 +234,6 @@ describe('QuestionItem', () => {
     })
 
     it('shall delete answer when delete is confirmed', async () => {
-      jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
@@ -236,18 +243,17 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.delete.length).not.toBe(0)
     })
 
-    it('shall not delete answer when delete is cancelled', () => {
+    it('shall not delete answer when delete is cancelled', async () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
 
-      flushPromises()
+      await flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
     })
 
     it('disable send and cancel while sending answer draft', async () => {
-      jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
@@ -262,7 +268,6 @@ describe('QuestionItem', () => {
     })
 
     it('disable send and cancel while deleting answer draft', async () => {
-      jest.useRealTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       const sendButton = screen.getByText('Skicka')
@@ -279,6 +284,10 @@ describe('QuestionItem', () => {
   })
 
   describe('question is handled or unhandled', () => {
+    beforeEach(() => {
+      fakeAxios = new MockAdapter(axios)
+    })
+
     afterEach(() => {
       clearDispatchedActions()
     })
@@ -330,8 +339,7 @@ describe('QuestionItem', () => {
       expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
     })
 
-    it('shall set as handle if checkbox selected', async () => {
-      jest.useRealTimers()
+    it('shall set as handled if checkbox selected', async () => {
       renderComponent(createQuestion())
 
       userEvent.click(screen.getByText('Hanterad'))
@@ -342,7 +350,6 @@ describe('QuestionItem', () => {
     })
 
     it('shall set as unhandled if checkbox deselected', async () => {
-      jest.useRealTimers()
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
@@ -355,7 +362,6 @@ describe('QuestionItem', () => {
     })
 
     it('shall set as handled when handle is confirmed', async () => {
-      jest.useRealTimers()
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -374,7 +380,7 @@ describe('QuestionItem', () => {
       expect(fakeAxios.history.post.length).not.toBe(0)
     })
 
-    it('shall not set as handled when handle is cancelled', () => {
+    it('shall not set as handled when handle is cancelled', async () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -389,7 +395,7 @@ describe('QuestionItem', () => {
       userEvent.click(screen.getByText('Hanterad'))
       userEvent.click(screen.getByText('Avbryt'))
 
-      flushPromises()
+      await flushPromises()
       expect(fakeAxios.history.post.length).toBe(0)
     })
   })
@@ -435,6 +441,9 @@ describe('QuestionItem', () => {
       )
     })
 
+    afterEach(() => {
+      clearDispatchedActions()
+    })
     it('display complement title', () => {
       expect(screen.getByText(/Visa kompletteringsbegäran för:/i)).toBeInTheDocument()
     })
@@ -446,7 +455,6 @@ describe('QuestionItem', () => {
     it('goto question if complement clicked', () => {
       userEvent.click(screen.getByText(/questionText/i))
 
-      flushPromises()
       const updateComplementsAction = dispatchedActions.find((action) => gotoComplement.match(action))
       expect(updateComplementsAction?.payload).toEqual({ questionId: 'questionId', valueId: 'valueId' })
     })

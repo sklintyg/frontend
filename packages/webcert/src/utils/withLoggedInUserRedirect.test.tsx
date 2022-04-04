@@ -58,6 +58,7 @@ describe('withLoggedInUserRedirect', () => {
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
     })
+    testStore.dispatch(updateIsLoadingUser(false))
   })
 
   afterEach(() => {
@@ -83,7 +84,7 @@ describe('withLoggedInUserRedirect', () => {
     )
   })
 
-  it('should redirect to /unhadled if logged in as care admin', () => {
+  it('should redirect to /unhandled if logged in as care admin', () => {
     renderComponent()
     const doctor = getDummyUser('Vårdadministratör')
     testStore.dispatch(updateUser(doctor))
