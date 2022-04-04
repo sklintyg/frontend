@@ -10,6 +10,7 @@ import { CustomTooltip } from '@frontend/common'
 import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
+import CertificateList from '../components/certificateList/CertificateList'
 
 interface Params {
   patientId: string
@@ -42,7 +43,18 @@ const SearchAndCreatePage: React.FC = () => {
         <>
           <WebcertHeader />
           <CustomTooltip />
-          {isPatientLoaded() && <>{patient ? <PatientInfoHeader patient={patient} /> : <PatientSearch />}</>}
+          {isPatientLoaded() && (
+            <>
+              {patient ? (
+                <>
+                  <PatientInfoHeader patient={patient} />
+                  <CertificateList />
+                </>
+              ) : (
+                <PatientSearch />
+              )}
+            </>
+          )}
         </>
       )}
     </>
