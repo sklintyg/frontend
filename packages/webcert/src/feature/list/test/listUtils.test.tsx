@@ -1,14 +1,14 @@
 import { getListFilterDefaultValue, isFilterValuesValid } from '../listUtils'
+import { ListFilterType } from '@frontend/common/src/types/list'
 import {
-  ListFilterBooleanConfig,
-  ListFilterDateRangeConfig,
-  ListFilterOrderConfig,
-  ListFilterPageSizeConfig,
-  ListFilterPersonIdConfig,
-  ListFilterSelectConfig,
-  ListFilterTextConfig,
-  ListFilterType,
-} from '@frontend/common/src/types/list'
+  getBooleanFilter,
+  getDateRangeFilter,
+  getOrderFilter,
+  getPageSizeFilter,
+  getPersonIdFilter,
+  getSelectFilter,
+  getTextFilter,
+} from './listTestUtils'
 
 describe('listUtils', () => {
   describe('isFilterValuesValid', () => {
@@ -82,78 +82,3 @@ describe('listUtils', () => {
     })
   })
 })
-
-export const getPageSizeFilter = (): ListFilterPageSizeConfig => {
-  return {
-    type: ListFilterType.PAGESIZE,
-    id: 'PAGE_SIZE_FILTER',
-    title: 'title',
-    pageSizes: [10, 20, 50, 100],
-  }
-}
-
-export const getTextFilter = (): ListFilterTextConfig => {
-  return {
-    type: ListFilterType.TEXT,
-    id: 'TEXT_FILTER',
-    title: 'title',
-    placeholder: 'test',
-  }
-}
-
-export const getBooleanFilter = (): ListFilterBooleanConfig => {
-  return {
-    type: ListFilterType.BOOLEAN,
-    id: 'TEXT_FILTER',
-    title: 'title',
-    defaultValue: true,
-  }
-}
-
-export const getPersonIdFilter = (): ListFilterPersonIdConfig => {
-  return {
-    type: ListFilterType.PERSON_ID,
-    id: 'PERSON_FILTER',
-    title: 'title',
-    placeholder: 'test',
-  }
-}
-
-export const getSelectFilter = (): ListFilterSelectConfig => {
-  return {
-    type: ListFilterType.SELECT,
-    id: 'PERSON_FILTER',
-    title: 'title',
-    values: [
-      { id: 'option1', name: 'option1', defaultValue: false },
-      { id: 'option2', name: 'option2', defaultValue: true },
-    ],
-  }
-}
-
-export const getDateRangeFilter = (): ListFilterDateRangeConfig => {
-  return {
-    type: ListFilterType.DATE_RANGE,
-    id: 'PERSON_FILTER',
-    title: 'title',
-    to: {
-      type: ListFilterType.DATE,
-      id: 'to',
-      title: 'to',
-    },
-    from: {
-      type: ListFilterType.DATE,
-      id: 'to',
-      title: 'to',
-    },
-  }
-}
-
-export const getOrderFilter = (): ListFilterOrderConfig => {
-  return {
-    type: ListFilterType.ORDER,
-    id: 'PERSON_FILTER',
-    title: 'title',
-    defaultValue: 'defaultOrder',
-  }
-}

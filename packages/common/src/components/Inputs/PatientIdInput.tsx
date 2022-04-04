@@ -9,6 +9,7 @@ interface Props {
   onFormattedChange: (id: string) => void
   onFocus?: React.FocusEventHandler<HTMLInputElement>
   value: string
+  id?: string
 }
 
 const TextInputStyles = css`
@@ -16,7 +17,7 @@ const TextInputStyles = css`
   margin-right: 0.5em;
 `
 
-const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value }) => {
+const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id }) => {
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +35,7 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value }) => 
   return (
     <>
       <TextInput
+        id={id}
         label={label}
         onChange={onChange}
         placeholder="ååååmmdd-nnnn"

@@ -21,7 +21,7 @@ const NumberOfHitsText: React.FC<Props> = ({ totalPages, page, startFrom, totalC
           </p>
         ) : (
           <p>
-            Visar {start} av {end} träffar
+            Visar {end} av {end} träffar
           </p>
         )}
       </>

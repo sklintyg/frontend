@@ -12,11 +12,10 @@ import {
   ListFilterValueText,
 } from '@frontend/common/src/types/list'
 import TextInput from '@frontend/common/src/components/Inputs/TextInput'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Dropdown } from '@frontend/common/src/components'
 import { getActiveListFilterValue } from '../../store/list/listSelectors'
 import PersonIdInput from '@frontend/common/src/components/Inputs/PatientIdInput'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
 import { getListFilterDefaultValue } from './listUtils'
 import styled from 'styled-components/macro'
 import _ from 'lodash'
@@ -24,6 +23,7 @@ import { DatePickerCustom } from '@frontend/common/src'
 
 interface Props {
   config: ListFilterConfig
+  onChange: (value: ListFilterValue, id: string) => void
 }
 
 interface WrapperProps {
@@ -49,8 +49,7 @@ const DateRangeWrapper = styled.div`
   gap: 12px;
 `
 
-const ListFilterComponent: React.FC<Props> = ({ config }) => {
-  const dispatch = useDispatch()
+const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const onTextFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +57,7 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
       type: ListFilterType.TEXT,
       value: event.target.value,
     }
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: config.id }))
+    onChange(value, config.id)
   }
 
   const onPersonIdFilterChange = (formattedId: string) => {
@@ -66,7 +65,7 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
       type: ListFilterType.PERSON_ID,
       value: formattedId,
     }
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: config.id }))
+    onChange(value, config.id)
   }
 
   const onSelectFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -74,12 +73,12 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
       type: ListFilterType.SELECT,
       value: event.target.value,
     }
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: config.id }))
+    onChange(value, config.id)
   }
 
   const getSelectOptions = () => {
     return (config as ListFilterSelectConfig).values.map((configValue) => (
-      <option id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
+      <option key={configValue.id} id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
         {configValue.name}
       </option>
     ))
@@ -88,13 +87,13 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
   const onFromDateFilterChange = (date: string) => {
     const updatedValue: ListFilterValue = { ...value }
     updatedValue.from = date
-    dispatch(updateActiveListFilterValue({ filterValue: updatedValue, id: config.id }))
+    onChange(value, config.id)
   }
 
   const onToDateFilterChange = (date: string) => {
     const updatedValue: ListFilterValue = { ...value }
     updatedValue.to = date
-    dispatch(updateActiveListFilterValue({ filterValue: updatedValue, id: config.id }))
+    onChange(value, config.id)
   }
 
   const isValueDefaultValue = () => {
@@ -105,7 +104,12 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
   const getFilterComponent = () => {
     if (config.type === ListFilterType.TEXT) {
       return (
-        <TextInput onChange={(e) => onTextFilterChange(e)} value={value ? (value as ListFilterValueText).value : ''} label={config.title} />
+        <TextInput
+          onChange={(e) => onTextFilterChange(e)}
+          value={value ? (value as ListFilterValueText).value : ''}
+          label={config.title}
+          id={config.id}
+        />
       )
     } else if (config.type === ListFilterType.PERSON_ID) {
       return (
@@ -113,6 +117,7 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
           onFormattedChange={(e) => onPersonIdFilterChange(e)}
           value={value ? (value as ListFilterValueText).value : ''}
           label={config.title}
+          id={config.id}
         />
       )
     } else if (config.type === ListFilterType.SELECT) {
@@ -138,6 +143,7 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
               inputString={value ? (value as ListFilterValueDateRange).from : ''}
               textInputOnChange={onFromDateFilterChange}
               displayValidationErrorOutline={false}
+              id={config.id}
             />
             <DatePickerCustom
               label={to.title}
@@ -145,6 +151,7 @@ const ListFilterComponent: React.FC<Props> = ({ config }) => {
               inputString={value ? (value as ListFilterValueDateRange).to : ''}
               textInputOnChange={onToDateFilterChange}
               displayValidationErrorOutline={false}
+              id={config.id}
             />
           </DateRangeWrapper>
         </div>

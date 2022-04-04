@@ -15,7 +15,6 @@ const PaginationWrapper = styled.div`
   button {
     background: none !important;
     border: none;
-    padding: 0 !important;
     color: #5f5f5f;
   }
 
@@ -38,7 +37,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
   const totalPages = Math.ceil(totalCount / pageSize)
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
 
-  if (totalPages <= 1) {
+  if (totalPages < 1) {
     return null
   }
 
@@ -71,7 +70,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
           id={'page-button-' + index}
           key={'page-button-' + index}
           onClick={() => handlePageChange(getPageIndex(index), getStartFrom(getPageIndex(index)))}
-          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading active' : ''}>
+          className={getPageIndex(index) === page ? 'iu-color-main iu-fw-heading active iu-px-200' : 'iu-px-200'}>
           {getPageIndex(index)}
         </button>
       )
@@ -88,13 +87,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
 
   return (
     <Wrapper className="iu-py-500 iu-display-flex">
-      <NumberOfHitsText
-        totalPages={totalPages}
-        page={page}
-        startFrom={getStartFrom(getPageIndex(page))}
-        totalCount={totalCount}
-        pageSize={pageSize}
-      />
+      <NumberOfHitsText totalPages={totalPages} page={page} startFrom={getStartFrom(page)} totalCount={totalCount} pageSize={pageSize} />
       <PaginationWrapper>
         <button
           disabled={isPreviousDisabled()}

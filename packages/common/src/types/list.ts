@@ -75,7 +75,6 @@ export interface ListFilterDateRangeConfig extends ListFilterConfig {
 export interface ListConfig {
   filters: ListFilterConfig[]
   title: string
-  pageSizes: number[]
   openCertificateTooltip: string
   searchCertificateTooltip: string
   tableHeadings: TableHeading[]

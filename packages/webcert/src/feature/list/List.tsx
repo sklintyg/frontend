@@ -53,7 +53,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     if (!config) {
       return null
     }
-    return config.filters.map((filterConfig) => <ListFilterComponent config={filterConfig} />)
+    return config.filters.map((filterConfig) => <ListFilterComponent config={filterConfig} onChange={onFilterChange} />)
   }
 
   const getTable = () => {
@@ -156,8 +156,12 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   }
 
   const onUpdateList = (value: ListFilterValue, id: string) => {
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
+    onFilterChange(value, id)
     onSearch()
+  }
+
+  const onFilterChange = (value: ListFilterValue, id: string) => {
+    dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
   }
 
   return (

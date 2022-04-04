@@ -87,5 +87,15 @@ describe('Pagination', () => {
       renderComponent()
       expect(screen.getByText('Visar 1 - 10 av 200 träffar')).toBeInTheDocument()
     })
+
+    it('should show hits 11 to 20 for first page', () => {
+      renderComponent(2)
+      expect(screen.getByText('Visar 11 - 20 av 200 träffar')).toBeInTheDocument()
+    })
+
+    it('should show specific text if only one page', () => {
+      renderComponent(1, 1, 10, 9)
+      expect(screen.getByText('Visar 9 av 9 träffar')).toBeInTheDocument()
+    })
   })
 })
