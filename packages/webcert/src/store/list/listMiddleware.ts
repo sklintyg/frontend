@@ -69,7 +69,7 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
 const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveListConfig(action.payload))
   dispatch(updateActiveListType(ListType.DRAFTS))
-  dispatch(updateDefaultListFilterValues(action.payload.filters))
+  dispatch(updateDefaultListFilterValues)
   dispatch(performListSearch)
   dispatch(clearListError)
 }
@@ -87,16 +87,18 @@ const handleGetDraftsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(setListError)
 }
 
-const handleUpdateDefaultFilterValues = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  const filters = action.payload
-  filters.forEach((filter: ListFilterConfig) => {
-    const defaultValue = getListFilterDefaultValue(filter)
-    dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
-  })
+const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const filters = getState().ui.uiList.activeListConfig?.filters
+  if (filters) {
+    filters.forEach((filter: ListFilterConfig) => {
+      const defaultValue = getListFilterDefaultValue(filter)
+      dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
+    })
+  }
 }
 
 const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateDefaultListFilterValues(action.payload))
+  dispatch(updateDefaultListFilterValues)
   dispatch(performListSearch)
 }
 

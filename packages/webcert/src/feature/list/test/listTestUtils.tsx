@@ -1,5 +1,6 @@
 import {
   ListConfig,
+  ListFilter,
   ListFilterBooleanConfig,
   ListFilterDateRangeConfig,
   ListFilterOrderConfig,
@@ -94,5 +95,11 @@ export const getConfig = (
     searchCertificateTooltip: searchCertificateTooltip,
     tableHeadings: tableHeadings,
     defaultOrderBy: defaultOrderBy,
+  }
+}
+
+export const getFilter = (values = {}): ListFilter => {
+  return {
+    values: values,
   }
 }
