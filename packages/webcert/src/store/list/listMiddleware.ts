@@ -71,6 +71,7 @@ const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(updateDefaultListFilterValues)
   dispatch(clearListError)
+  dispatch(performListSearch)
 }
 
 const clearListState = (dispatch: Dispatch<AnyAction>) => {

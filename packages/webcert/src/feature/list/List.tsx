@@ -1,12 +1,14 @@
 import * as React from 'react'
 import {
   CertificateListItem,
+  CertificateListItemValueType,
   ListConfig,
   ListFilter,
   ListFilterOrderConfig,
   ListFilterPageSizeConfig,
   ListFilterType,
   ListFilterValue,
+  ListFilterValueNumber,
   PatientListInfo,
 } from '@frontend/common/src/types/list'
 import ListFilterComponent from './ListFilterComponent'
@@ -61,52 +63,54 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   }
 
   const getTableData = (listItem: CertificateListItem) => {
-    return Object.keys(listItem).map((key) => getListItemContent(key, listItem))
+    return config.tableHeadings.map((heading) => {
+      return getListItemContent(heading.id, listItem.values[heading.id], heading.type)
+    })
   }
 
   const openCertificate = (id: string) => {
     history.push('/certificate/' + id)
   }
 
-  const getOpenCertificateButton = (listItem: CertificateListItem, key: string) => {
+  const getOpenCertificateButton = (certificateId: string) => {
     return (
       <td>
         <CustomButton
           tooltip={config ? config.openCertificateTooltip : ''}
           buttonStyle={'primary'}
-          onClick={() => openCertificate(listItem[key] as string)}>
+          onClick={() => openCertificate(certificateId)}>
           Öppna
         </CustomButton>
       </td>
     )
   }
 
-  // matcha TableHeading id med CertificateListItem key, hämta value type från TableHeading
-  const getListItemContent = (key: string, listItem: CertificateListItem) => {
-    if (key === 'patientListInfo') {
-      return (
-        <td>
-          <PatientListInfoContent info={listItem[key] as PatientListInfo} />
-        </td>
-      )
-    } else if (key === 'certificateId') {
-      return getOpenCertificateButton(listItem, key)
-    } else if (key === 'certificateType') {
-      return
-    } else if (typeof listItem[key] === 'boolean') {
-      return listItem[key] ? (
-        <td>
-          <FontAwesomeIcon icon={faCheck} className={`iu-color-main`} size="1x" />
-        </td>
-      ) : (
-        <td />
-      )
-    } else if (typeof listItem[key] === 'string') {
-      const textValue = listItem[key] as string
-      if (Date.parse(textValue)) {
-        return <td>{textValue.split('T')[0]}</td>
-      }
-      return <td>{textValue}</td>
+  const getListItemContent = (key: string, value: string | PatientListInfo | boolean, valueType: CertificateListItemValueType) => {
+    switch (valueType) {
+      case CertificateListItemValueType.TEXT:
+        return <td>{value}</td>
+      case CertificateListItemValueType.DATE:
+        console.log(value.toString().split('T')[0])
+        return <td>{value.toString().split('T')[0]}</td>
+      case CertificateListItemValueType.PATIENT_INFO:
+        return (
+          <td>
+            <PatientListInfoContent info={value as PatientListInfo} />
+          </td>
+        )
+      case CertificateListItemValueType.OPEN_BUTTON:
+        return getOpenCertificateButton(value as string)
+      case CertificateListItemValueType.FORWARD:
+        return value ? (
+          <td>
+            <FontAwesomeIcon icon={faCheck} className={`iu-color-main`} size="1x" />
+          </td>
+        ) : (
+          <td />
+        )
+      case CertificateListItemValueType.HIDDEN:
+      default:
+        return <></>
     }
   }
 
@@ -174,7 +178,12 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         onReset={onReset}
         isSearchEnabled={filter ? isFilterValuesValid(filter.values) : true}
       />
-      <ListPageSizeFilter filter={pageSizeFilter} value={pageSizeValue} totalCount={totalCount} onFilterChange={onUpdateList} />
+      <ListPageSizeFilter
+        filter={pageSizeFilter}
+        value={pageSizeValue as ListFilterValueNumber}
+        totalCount={totalCount}
+        onFilterChange={onUpdateList}
+      />
       <Table
         caption={config.title}
         headings={config.tableHeadings}

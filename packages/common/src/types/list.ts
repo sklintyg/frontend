@@ -1,7 +1,5 @@
-import { TableHeading } from '../components/Table/Table'
-
 export interface CertificateListItem {
-  [key: string]: string | PatientListInfo | boolean
+  values: { [key: string]: string | PatientListInfo | boolean }
 }
 
 export interface PatientListInfo {
@@ -9,6 +7,15 @@ export interface PatientListInfo {
   protectedPerson: boolean
   deceased: boolean
   testIndicated: boolean
+}
+
+export enum CertificateListItemValueType {
+  TEXT = 'TEXT',
+  DATE = 'DATE',
+  PATIENT_INFO = 'PATIENT_INFO',
+  FORWARD = 'FORWARD',
+  HIDDEN = 'HIDDEN',
+  OPEN_BUTTON = 'OPEN_BUTTON',
 }
 
 export enum DraftStatus {
@@ -70,6 +77,12 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
 export interface ListFilterDateRangeConfig extends ListFilterConfig {
   to: ListFilterConfig
   from: ListFilterConfig
+}
+
+export interface TableHeading {
+  id: string
+  title: string
+  type: CertificateListItemValueType
 }
 
 export interface ListConfig {
