@@ -103,3 +103,19 @@ export const getFilter = (values = {}): ListFilter => {
     values: values,
   }
 }
+
+export const getConfigWithTextFilter = (): ListConfig => {
+  return {
+    title: 'title',
+    filters: [getTextFilter()],
+    openCertificateTooltip: 'tooltip',
+    searchCertificateTooltip: 'tooltip',
+    tableHeadings: [
+      {
+        id: 'id',
+        title: 'title',
+      },
+    ],
+    defaultOrderBy: 'orderBy',
+  }
+}

@@ -4,7 +4,7 @@ import { ListType } from '@frontend/common/src/types/list'
 import { getActiveList, getActiveListConfig, getActiveListFilter, hasListError } from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getDraftListConfig } from '../store/list/listActions'
+import { getDraftListConfig, performListSearch } from '../store/list/listActions'
 import { CustomTooltip } from '@frontend/common/src'
 import { InfoBox } from '@frontend/common'
 
@@ -22,6 +22,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
   useEffect(() => {
     if (type === ListType.DRAFTS) {
       dispatch(getDraftListConfig())
+      dispatch(performListSearch)
     }
   }, [])
 

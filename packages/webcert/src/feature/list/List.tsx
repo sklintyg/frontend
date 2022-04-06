@@ -81,6 +81,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     )
   }
 
+  // matcha TableHeading id med CertificateListItem key, hämta value type från TableHeading
   const getListItemContent = (key: string, listItem: CertificateListItem) => {
     if (key === 'patientListInfo') {
       return (

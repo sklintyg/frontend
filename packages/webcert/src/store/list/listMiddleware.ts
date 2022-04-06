@@ -70,7 +70,6 @@ const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   dispatch(updateActiveListConfig(action.payload))
   dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(updateDefaultListFilterValues)
-  dispatch(performListSearch)
   dispatch(clearListError)
 }
 

@@ -6,8 +6,8 @@ import axios from 'axios'
 import apiMiddleware from '../api/apiMiddleware'
 import { listMiddleware } from './listMiddleware'
 import { getDraftListConfig, getDrafts, ListResponse } from './listActions'
-import { CertificateListItem, ListConfig, ListType } from '@frontend/common/src/types/list'
-import { getFilter, getTextFilter } from '../../feature/list/test/listTestUtils'
+import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
+import { getConfigWithTextFilter, getFilter } from '../../feature/list/test/listTestUtils'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -88,19 +88,7 @@ describe('Test list middleware', () => {
     })
 
     it('shall save config', async () => {
-      const expectedConfig: ListConfig = {
-        title: 'title',
-        filters: [getTextFilter()],
-        openCertificateTooltip: 'tooltip',
-        searchCertificateTooltip: 'tooltip',
-        tableHeadings: [
-          {
-            id: 'id',
-            title: 'title',
-          },
-        ],
-        defaultOrderBy: 'orderBy',
-      }
+      const expectedConfig = getConfigWithTextFilter()
 
       fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
 
@@ -108,6 +96,17 @@ describe('Test list middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
+    })
+
+    it('shall set list type', async () => {
+      const expectedConfig = getConfigWithTextFilter()
+
+      fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
+
+      testStore.dispatch(getDraftListConfig())
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiList.activeListType).toEqual(ListType.DRAFTS)
     })
   })
 })
