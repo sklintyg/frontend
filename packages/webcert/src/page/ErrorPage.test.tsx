@@ -7,21 +7,14 @@ import React from 'react'
 import reducer from '../store/reducers'
 import ErrorPage from './ErrorPage'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { errorMiddleware } from '../store/error/errorMiddleware'
 import { ErrorCode } from '../store/error/errorReducer'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
+import { LOGIN_FAILED_MESSAGE, LOGIN_FAILED_TITLE } from '../components/error/errorPageContent/LoginFailed'
 
 let testStore: EnhancedStore
-
 const history = createMemoryHistory()
-
-const location: Location = window.location
-delete window.location
-window.location = {
-  ...location,
-  reload: jest.fn(),
-}
+history.replace = jest.fn()
 
 const renderComponent = () => {
   render(
@@ -39,16 +32,12 @@ describe('ErrorPage', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
     })
   })
 
   afterEach(() => {
     clearDispatchedActions()
-  })
-
-  it('renders without crashing', () => {
-    renderComponent()
   })
 
   describe('TIMEOUT', () => {
@@ -68,6 +57,16 @@ describe('ErrorPage', () => {
 
       expect(screen.getByText(AUTHORIZATION_PROBLEM_TITLE)).toBeInTheDocument()
       expect(screen.getByText(AUTHORIZATION_PROBLEM_MESSAGE, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('LOGIN_FAILED', () => {
+    it('shall render login failed message', () => {
+      history.push({ pathname: '/error', search: '?reason=login.failed' })
+      renderComponent()
+
+      expect(screen.getByText(LOGIN_FAILED_TITLE)).toBeInTheDocument()
+      expect(screen.getByText(LOGIN_FAILED_MESSAGE, { exact: false })).toBeInTheDocument()
     })
   })
 })

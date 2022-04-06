@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import RenewCertificateButton from '../Buttons/RenewCertificateButton'
 import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateContinueButton'
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
 
 const Wrapper = styled.div`

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
-import WCDynamicLink from '../../../components/utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;

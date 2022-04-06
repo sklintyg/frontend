@@ -1,5 +1,5 @@
 import { InfoBox } from '@frontend/common'
-import WCDynamicLink from '../utils/WCDynamicLink'
+import WCDynamicLink from '../../utils/WCDynamicLink'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { ErrorCode } from '../../store/error/errorReducer'

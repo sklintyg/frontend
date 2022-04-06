@@ -11,7 +11,7 @@ import {
 } from './fmbActions'
 import { FMBDiagnosisCodeInfo, sortByIndex } from '@frontend/common'
 import { ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src/types/certificate'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]

@@ -7,7 +7,7 @@ import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
-import Logout from '../utils/Logout'
+import Logout from '../../utils/Logout'
 
 interface Props {
   isEmpty?: boolean

@@ -1,7 +1,7 @@
 import React from 'react'
 import { InfoBox } from '@frontend/common/src'
 import styled from 'styled-components'
-import WCDynamicLink from '../../../components/utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { shallowEqual, useSelector } from 'react-redux'
 import { getConfig } from '../../../store/utils/utilsSelectors'
 

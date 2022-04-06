@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { getUser } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { sanitizeText } from '@frontend/common'
 
 interface Props extends FunctionDisabled {

@@ -1,5 +1,5 @@
 import React from 'react'
-import WCDynamicLink from '../../utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 import ReloadModal from './ReloadModal'
 import { ModalProps } from './errorUtils'
 

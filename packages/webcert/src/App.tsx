@@ -3,6 +3,7 @@ import CertificatePage from './page/CertificatePage'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Welcome from './page/Welcome'
 import 'inera-core-css/src/themes/inera-master.scss'
+import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
@@ -13,6 +14,7 @@ import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
+import { StartPageWithRedirect } from './page/StartPage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -40,15 +42,16 @@ function App(): JSX.Element {
 
   return (
     <BrowserRouter>
-      <ErrorComponent />
-      <Switch>
-        <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+      <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+        <ErrorComponent />
+        <Switch>
+          <Route path="/" exact render={() => <StartPageWithRedirect />} />
           <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
           <Route path="/welcome" render={() => <Welcome />} />
-          <Route path={'/error'} render={() => <ErrorPage />} />
-          <Route path={'/create/:patientId?'} render={() => <SearchAndCreatePageWithRedirect />} />
-        </ErrorBoundary>
-      </Switch>
+          <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
+          <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+        </Switch>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

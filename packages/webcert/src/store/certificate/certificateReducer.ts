@@ -54,7 +54,7 @@ import {
 } from './certificateActions'
 import { setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataElementStyleEnum, ValidationError } from '@frontend/common/src'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface CertificateState {
   certificate?: Certificate

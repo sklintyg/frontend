@@ -1,5 +1,5 @@
 import React from 'react'
-import WCDynamicLink from '../../utils/WCDynamicLink'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 import CenteredImageWithContent from '../../image/CenteredImageWithContent'
 import errorImage from '../../../images/fel-1.svg'
 import styled from 'styled-components/macro'

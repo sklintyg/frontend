@@ -6,9 +6,9 @@ import { withResourceAccess } from './withResourceAccess'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
-import { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import reducer from '../../store/reducers'
-import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import reducer from '../store/reducers'
+import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 
 let testStore: EnhancedStore
 const history = createBrowserHistory()
