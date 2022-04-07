@@ -23,6 +23,7 @@ import HSAError from '../components/error/errorPageContent/HSAError'
 import MedarbetaruppdragSaknas from '../components/error/errorPageContent/MedarbetaruppdragSaknas'
 import { throwError } from '../store/error/errorActions'
 import { useDispatch } from 'react-redux'
+import AuthorizationProblemResource from '../components/error/errorPageContent/AuthorizationProblemResource'
 
 const Root = styled.div`
   height: 100vh;
@@ -69,6 +70,8 @@ const ErrorPage: React.FC = () => {
         return <DataNotFound />
       case ErrorCode.AUTHORIZATION_PROBLEM:
         return <AuthorizationProblem />
+      case ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE:
+        return <AuthorizationProblemResource />
       case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING:
         return <AuthorizationProblemConfidentialityMarking />
       case ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET:

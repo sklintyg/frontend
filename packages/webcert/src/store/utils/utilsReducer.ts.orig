@@ -5,8 +5,11 @@ import {
   updateDiagnosisTypeahead,
   updateDynamicLinks,
   updateIsLoadingConfig,
+<<<<<<< HEAD
   updateStatistics,
+=======
   updateIsLoadingDynamicLinks,
+>>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
 } from './utilsActions'
 import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
@@ -43,8 +46,11 @@ const initialState: UtilsState = {
   diagnosisTypeahead: null,
   config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
   isLoadingConfig: false,
+<<<<<<< HEAD
   unitStatistics: null,
+=======
   isLoadingDynamicLinks: false,
+>>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>

@@ -22,13 +22,10 @@ import {
   updateIsLoadingUser,
   updateUser,
   updateUserPreference,
-<<<<<<< HEAD
   updateUserResourceLinks,
-=======
   getCertificateTypes,
   getCertificateTypesStarted,
   getCertificateTypesSuccess,
->>>>>>> 63723c0 (WIP)
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 

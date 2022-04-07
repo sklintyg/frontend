@@ -2,7 +2,6 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import {
-  changePatient,
   clearPatient,
   clearPatientError,
   getPatient,
@@ -18,25 +17,21 @@ import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { createErrorRequestWithErrorId } from '../error/errorCreator'
 
 const handleGetPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  if (action.payload.patientId) {
-    dispatch(
-      apiCallBegan({
-        method: 'GET',
-        url: '/api/patient/' + action.payload.patientId,
-        onStart: getPatientStarted.type,
-        onSuccess: getPatientSuccess.type,
-        onError: getPatientError.type,
-        onArgs: { history: action.payload.history },
-      })
-    )
-  }
+  dispatch(
+    apiCallBegan({
+      method: 'GET',
+      url: '/api/patient/' + action.payload,
+      onStart: getPatientStarted.type,
+      onSuccess: getPatientSuccess.type,
+      onError: getPatientError.type,
+    })
+  )
 }
 
 const handleGetPatientSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   if (action.payload.status === PatientStatus.FOUND) {
     dispatch(clearPatientError())
     dispatch(setPatient(action.payload.patient))
-    action.payload.history.push(`/create/${action.payload.patient.personId.id}`)
   } else {
     dispatch(getPatientError(action.payload))
   }
@@ -56,15 +51,14 @@ const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   dispatch(throwError(error))
 }
 
-const handleChangePatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(clearPatient())
-  action.payload.push('/create')
+const handleClearPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(setPatient(undefined))
 }
 
 const middlewareMethods = {
   [getPatient.type]: handleGetPatient,
   [getPatientSuccess.type]: handleGetPatientSuccess,
-  [changePatient.type]: handleChangePatient,
+  [clearPatient.type]: handleClearPatient,
   [getPatientError.type]: handleGetPatientError,
 }
 

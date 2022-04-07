@@ -48,6 +48,22 @@ function App(): JSX.Element {
   }
 
   return (
+<<<<<<< HEAD
+    <BrowserRouter>
+      <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+        <ErrorComponent />
+        <Switch>
+          <Route path="/" exact render={() => <StartPageWithRedirect />} />
+          <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+          <Route path="/welcome" render={() => <Welcome />} />
+          <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
+          <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+          <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
+          <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
+        </Switch>
+      </ErrorBoundary>
+    </BrowserRouter>
+=======
     <Backdrop open={isLoadingInitialState} spinnerText="Laddar...">
       <BrowserRouter>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
@@ -58,12 +74,11 @@ function App(): JSX.Element {
             <Route path="/welcome" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
             <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
-            <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
-            <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
           </Switch>
         </ErrorBoundary>
       </BrowserRouter>
     </Backdrop>
+>>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
   )
 }
 

@@ -17,8 +17,12 @@ import {
   updateConfig,
   updateDiagnosisTypeahead,
   updateDynamicLinks,
+<<<<<<< HEAD
   updateStatistics,
+=======
   updateIsLoadingDynamicLinks,
+  updateConfig,
+>>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
   updateIsLoadingConfig,
   getConfigError,
   getAllDynamicLinksError,

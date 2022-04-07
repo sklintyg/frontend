@@ -36,9 +36,9 @@ const CreateCertificate: React.FC = () => {
     }
   }, [userPreferences])
 
-  // useEffect(() => {
-  //   dispatch(getCertificateTypes())
-  // })
+  useEffect(() => {
+    dispatch(getCertificateTypes())
+  })
 
   return (
     <div className="ic-container iu-mt-gutter">
