@@ -24,6 +24,7 @@ export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update a
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)
 export const updateActiveList = createAction<CertificateListItem[]>(`${LIST} Update active list`)
 export const clearActiveList = createAction(`${LIST} Clear active list`)
+export const updateIsLoadingList = createAction<boolean>(`${LIST} Update is loading list`)
 
 export const updateTotalCount = createAction<number>(`${LIST} Update total count for list`)
 
@@ -32,6 +33,7 @@ export interface UpdateListFilterValue {
   filterValue: ListFilterValue
 }
 export const updateActiveListFilterValue = createAction<UpdateListFilterValue>(`${LIST} Update active list filter value`)
+export const updateActiveListFilter = createAction<ListFilter>(`${LIST} Update active list filter`)
 export const updateDefaultListFilterValues = createAction(`${LIST} Update default list filter values`)
 export const clearActiveListFilter = createAction(`${LIST} Clear active list filter`)
 export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)

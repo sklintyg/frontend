@@ -24,7 +24,7 @@ describe('ListFilterButtons', () => {
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
-  it('should show search button', () => {
+  it('should show reset button', () => {
     renderComponent(true)
     expect(screen.getByText('Återställ sökfiltret', { exact: false })).toBeInTheDocument()
   })

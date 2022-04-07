@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { TableHeading } from '../../types/list'
+import { Spinner } from '../index'
 
 interface Props {
   caption?: string
@@ -11,6 +12,8 @@ interface Props {
   onTableHeadClick: (event: React.MouseEvent<HTMLTableHeaderCellElement>) => void
   orderBy: string
   ascending: boolean
+  isLoadingContent: boolean
+  isEmptyList: boolean
 }
 
 const Caption = styled.caption`
@@ -35,7 +38,7 @@ const SortingButton = styled.button`
   float: right;
 `
 
-const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, headings, onTableHeadClick }) => {
+const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent, isEmptyList, children, headings, onTableHeadClick }) => {
   const getSortingArrow = (id: string, title: string) => {
     if (!title) {
       return null
@@ -62,7 +65,7 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, heading
 
   const getTableHeadings = () => {
     return headings.map((heading) => (
-      <th scope="col" id={heading.id} onClick={onTableHeadClick}>
+      <th key={heading.id} scope="col" id={heading.id} onClick={onTableHeadClick}>
         {getSortingArrow(heading.id, heading.title)}
         {heading.title}
       </th>
@@ -75,10 +78,28 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, children, heading
 
   return (
     <StyledTable className="ic-table ic-table--full" highlighted={getHighlighted()}>
-      {getTableHeadings()}
+      <thead>
+        <tr>{getTableHeadings()}</tr>
+      </thead>
       {caption && <Caption>{caption}</Caption>}
-      <tbody>{children}</tbody>
-      {!children && <p>Inga resultat att visa.</p>}
+      <tbody>
+        {isLoadingContent ? (
+          <tr>
+            <td>
+              <Spinner className={'iu-mt-300'} />
+            </td>
+          </tr>
+        ) : (
+          <>{children}</>
+        )}
+        {isEmptyList && (
+          <tr>
+            <td>
+              <p>Inga resultat att visa.</p>
+            </td>
+          </tr>
+        )}
+      </tbody>
     </StyledTable>
   )
 }

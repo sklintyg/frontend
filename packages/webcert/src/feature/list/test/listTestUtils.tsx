@@ -1,4 +1,5 @@
 import {
+  CertificateListItemValueType,
   ListConfig,
   ListFilter,
   ListFilterBooleanConfig,
@@ -104,6 +105,17 @@ export const getFilter = (values = {}): ListFilter => {
   }
 }
 
+export const getFilterWithValues = (): ListFilter => {
+  return {
+    values: {
+      value: {
+        type: ListFilterType.TEXT,
+        FILTER_ID: 'test',
+      },
+    },
+  }
+}
+
 export const getConfigWithTextFilter = (): ListConfig => {
   return {
     title: 'title',
@@ -114,8 +126,19 @@ export const getConfigWithTextFilter = (): ListConfig => {
       {
         id: 'id',
         title: 'title',
+        type: CertificateListItemValueType.TEXT,
       },
     ],
     defaultOrderBy: 'orderBy',
   }
+}
+
+export const getDefaultList = () => {
+  return [
+    {
+      values: {
+        id: 'example',
+      },
+    },
+  ]
 }

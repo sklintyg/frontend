@@ -39,7 +39,9 @@ const Wrapper = styled.div<WrapperProps>`
   .dropdown,
   input,
   button {
-    background-color: ${(props) => (props.highlighted ? 'rgba(1, 165, 163, 0.08)' : '')};
+    :not(.error) {
+      background-color: ${(props) => (props.highlighted ? 'rgba(1, 165, 163, 0.08)' : '')};
+    }
   }
 `
 

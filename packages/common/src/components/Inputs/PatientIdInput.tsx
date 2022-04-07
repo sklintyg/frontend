@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TextInput } from '../index'
-import { css } from 'styled-components/macro'
 import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
 import { isPersonIdValid } from '../../utils/personIdValidatorUtils'
+import styled, { css } from 'styled-components'
 
 interface Props {
   label?: string
@@ -12,9 +12,13 @@ interface Props {
   id?: string
 }
 
-const TextInputStyles = css`
+const Wrapper = styled.div`
   width: 10.05em;
   margin-right: 0.5em;
+`
+
+const TextInputStyles = css`
+  height: 50px;
 `
 
 const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id }) => {
@@ -23,6 +27,12 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     onFormattedChange(formatPersonId(event.currentTarget.value))
   }
+
+  useEffect(() => {
+    if (value === '') {
+      setDisplayError(false)
+    }
+  }, [value])
 
   const formatPersonId = (id: string) => {
     let cleanId = id.replace(/\D/g, '')
@@ -34,20 +44,22 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
 
   return (
     <>
-      <TextInput
-        id={id}
-        label={label}
-        onChange={onChange}
-        placeholder="ååååmmdd-nnnn"
-        value={value}
-        limit={13}
-        onBlur={() => {
-          setDisplayError(value !== '' && !isPersonIdValid(value))
-        }}
-        onFocus={() => setDisplayError(false)}
-        additionalStyles={TextInputStyles}
-        hasValidationError={displayError}
-      />
+      <Wrapper>
+        <TextInput
+          id={id}
+          label={label}
+          onChange={onChange}
+          placeholder="ååååmmdd-nnnn"
+          value={value}
+          additionalStyles={TextInputStyles}
+          limit={13}
+          onBlur={() => {
+            setDisplayError(value !== '' && !isPersonIdValid(value))
+          }}
+          onFocus={() => setDisplayError(false)}
+          hasValidationError={displayError}
+        />
+      </Wrapper>
       <InvalidPersonIdMessage display={displayError} />
     </>
   )

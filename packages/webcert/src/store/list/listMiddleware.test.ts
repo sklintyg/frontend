@@ -5,9 +5,9 @@ import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import apiMiddleware from '../api/apiMiddleware'
 import { listMiddleware } from './listMiddleware'
-import { getDraftListConfig, getDrafts, ListResponse } from './listActions'
+import { getDraftListConfig, getDrafts, ListResponse, performListSearch, updateActiveListFilter, updateActiveListType } from './listActions'
 import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
-import { getConfigWithTextFilter, getFilter } from '../../feature/list/test/listTestUtils'
+import { getConfigWithTextFilter, getDefaultList, getFilter, getFilterWithValues } from '../../feature/list/test/listTestUtils'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -39,11 +39,7 @@ describe('Test list middleware', () => {
 
     it('shall save list', async () => {
       const expectedTotalCount = 10
-      const expectedList: CertificateListItem[] = [
-        {
-          id: 'example',
-        },
-      ]
+      const expectedList: CertificateListItem[] = getDefaultList()
       const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
       fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
@@ -55,7 +51,7 @@ describe('Test list middleware', () => {
 
     it('shall save total count', async () => {
       const expectedTotalCount = 10
-      const expectedList: CertificateListItem[] = [{}]
+      const expectedList: CertificateListItem[] = []
       const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
       fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
@@ -67,7 +63,7 @@ describe('Test list middleware', () => {
 
     it('shall set list type', async () => {
       const expectedTotalCount = 10
-      const expectedList: CertificateListItem[] = [{}]
+      const expectedList: CertificateListItem[] = []
       const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
       fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
@@ -107,6 +103,19 @@ describe('Test list middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiList.activeListType).toEqual(ListType.DRAFTS)
+    })
+  })
+
+  describe('Handle perform list search', () => {
+    it('shall get drafts if correct list type', async () => {
+      testStore.dispatch(updateActiveListFilter(getFilterWithValues()))
+      testStore.dispatch(updateActiveListType(ListType.DRAFTS))
+
+      testStore.dispatch(performListSearch)
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/list/draft')
     })
   })
 })

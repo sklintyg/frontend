@@ -25,7 +25,7 @@ import styled from 'styled-components/macro'
 import ListPageSizeFilter from './ListPageSizeFilter'
 import ListPagination from './pagination/ListPagination'
 import { isFilterValuesValid } from './listUtils'
-import { getActiveListFilterValue, getListTotalCount } from '../../store/list/listSelectors'
+import { getActiveListFilterValue, getIsLoadingList, getListTotalCount } from '../../store/list/listSelectors'
 
 interface Props {
   config: ListConfig | undefined
@@ -44,6 +44,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const totalCount = useSelector(getListTotalCount)
+  const isLoadingList = useSelector(getIsLoadingList)
   const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
   const pageSizeValue = useSelector(getActiveListFilterValue(pageSizeFilter ? pageSizeFilter.id : '')) as ListFilterValue
 
@@ -55,7 +56,9 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     if (!config) {
       return null
     }
-    return config.filters.map((filterConfig) => <ListFilterComponent config={filterConfig} onChange={onFilterChange} />)
+    return config.filters.map((filterConfig) => (
+      <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
+    ))
   }
 
   const getTable = () => {
@@ -169,6 +172,21 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
   }
 
+  const getListContent = () => {
+    return (
+      <Table
+        caption={config.title}
+        headings={config.tableHeadings}
+        orderBy={getOrderBy() as string}
+        ascending={getAscending() as boolean}
+        onTableHeadClick={updateSortingOfList}
+        isLoadingContent={isLoadingList}
+        isEmptyList={totalCount > 0 && list.length === 0}>
+        {getTable()}
+      </Table>
+    )
+  }
+
   return (
     <>
       <FilterWrapper>{getFilter()}</FilterWrapper>
@@ -184,14 +202,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         totalCount={totalCount}
         onFilterChange={onUpdateList}
       />
-      <Table
-        caption={config.title}
-        headings={config.tableHeadings}
-        orderBy={getOrderBy() as string}
-        ascending={getAscending() as boolean}
-        onTableHeadClick={updateSortingOfList}>
-        {getTable()}
-      </Table>
+      {getListContent()}
       <ListPagination />
     </>
   )

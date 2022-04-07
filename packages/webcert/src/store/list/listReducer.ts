@@ -8,8 +8,10 @@ import {
   setListError,
   updateActiveList,
   updateActiveListConfig,
+  updateActiveListFilter,
   updateActiveListFilterValue,
   updateActiveListType,
+  updateIsLoadingList,
   updateTotalCount,
 } from './listActions'
 import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
@@ -21,6 +23,7 @@ interface ListState {
   activeListType: ListType
   listError: boolean
   totalCount: number
+  isLoadingList: boolean
 }
 
 const initialState: ListState = {
@@ -30,6 +33,7 @@ const initialState: ListState = {
   activeListFilter: {},
   listError: false,
   totalCount: 0,
+  isLoadingList: true,
 }
 
 const listReducer = createReducer(initialState, (builder) =>
@@ -56,6 +60,9 @@ const listReducer = createReducer(initialState, (builder) =>
     .addCase(clearActiveListFilter, (state) => {
       state.activeListFilter.values = {}
     })
+    .addCase(updateActiveListFilter, (state, action) => {
+      state.activeListFilter = action.payload
+    })
     .addCase(updateActiveListType, (state, action) => {
       state.activeListType = action.payload
     })
@@ -70,6 +77,9 @@ const listReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateTotalCount, (state, action) => {
       state.totalCount = action.payload
+    })
+    .addCase(updateIsLoadingList, (state, action) => {
+      state.isLoadingList = action.payload
     })
 )
 
