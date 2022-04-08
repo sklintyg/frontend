@@ -7,6 +7,8 @@ import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@
 import * as redux from 'react-redux'
 import UeRadioGroupOptionalDropdown from '../UeRadioGroupOptionalDropdown'
 
+window.scrollTo = jest.fn()
+
 const CODES = [
   { label: 'Option1', id: 'Option_1' },
   { label: 'Option-2', id: 'Option_2' },
