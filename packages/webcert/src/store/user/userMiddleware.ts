@@ -24,8 +24,9 @@ import {
   updateUserPreference,
   updateUserResourceLinks,
   getCertificateTypes,
-  getCertificateTypesStarted,
   getCertificateTypesSuccess,
+  getCertificateTypesStarted,
+  updateCertificateTypes,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -131,7 +132,7 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
 const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
-      url: '/certificate/type/191212121212',
+      url: '/api/certificate/type/191212121212',
       method: 'GET',
       onStart: getCertificateTypesStarted.type,
       onSuccess: getCertificateTypesSuccess.type,
@@ -141,7 +142,7 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
 }
 
 const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateUser(action.payload))
+  dispatch(updateCertificateTypes(action.payload))
 }
 
 const middlewareMethods = {

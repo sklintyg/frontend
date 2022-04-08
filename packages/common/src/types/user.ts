@@ -32,3 +32,16 @@ export interface UserProperty {
 export interface FakeLogin {
   hsaId: string
 }
+
+export interface CertificateType {
+  description: string
+  detailedDescription: string
+  id: string
+  issuerTypeId: string
+  label: string
+  links: CertificateTypeLink[]
+}
+
+export interface CertificateTypeLink {
+  type: string
+}

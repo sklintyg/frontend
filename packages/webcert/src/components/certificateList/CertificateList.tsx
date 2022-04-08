@@ -1,14 +1,15 @@
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getCertificateTypes, setUserPreference } from '../../store/user/userActions'
-import { getUserPreference } from '../../store/user/userSelectors'
+import { getCertificateTypes as fetchCertificateTypes, setUserPreference } from '../../store/user/userActions'
+import { getUserPreference, getCertificateTypes } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
 
 const CreateCertificate: React.FC = () => {
   const [favorites, setFavorites] = useState<Array<string>>([])
   const dispatch = useDispatch()
   const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
+  const certificateTypes = useSelector(getCertificateTypes)
 
   const CertificateBox = styled.div`
     max-width: 75%;
@@ -21,71 +22,30 @@ const CreateCertificate: React.FC = () => {
     dispatch(setUserPreference({ key: 'wc.favoritIntyg', value: JSON.stringify(favorites) }))
   }
 
-  const convertStringToArray = (input: string) => {
-    const string = input
-    const cleanString = string.replace(/\[|\]|"/g, '')
-    const array = cleanString.split(',')
-    return array
-  }
+  // const convertStringToArray = (input: string) => {
+  //   const string = input
+  //   const cleanString = string.replace(/\[|\]|"/g, '')
+  //   const array = cleanString.split(',')
+  //   return array
+  // }
 
   useEffect(() => {
-    if (userPreferences) {
-      console.log(userPreferences)
-      convertStringToArray(userPreferences)
-      setFavorites(convertStringToArray(userPreferences))
-    }
-  }, [userPreferences])
-
-  useEffect(() => {
-    dispatch(getCertificateTypes())
-  })
+    dispatch(fetchCertificateTypes())
+  }, [dispatch])
 
   return (
     <div className="ic-container iu-mt-gutter">
       <h2 className="iu-mb-05rem">Skapa intyg</h2>
       <CertificateBox className="iu-shadow-sm iu-flex iu-flex-column">
-        <CertificateListRow
-          certificateName="Intygets namn"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00213"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 2"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00214"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 3"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00215"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 4"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00216"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 5"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00217"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 6"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00218"
-          favoriteClick={handleFavoriteClick}
-        />
-        <CertificateListRow
-          certificateName="Intyg 7"
-          certificateInfo="Här kommer en text om respektive intyg. hej!"
-          id="af00219"
-          favoriteClick={handleFavoriteClick}
-        />
+        {certificateTypes.map((certificateType, index) => (
+          <CertificateListRow
+            certificateName={certificateType.label}
+            certificateInfo={certificateType.detailedDescription}
+            id={certificateType.id}
+            favoriteClick={handleFavoriteClick}
+            key={index}
+          />
+        ))}
       </CertificateBox>
     </div>
   )
