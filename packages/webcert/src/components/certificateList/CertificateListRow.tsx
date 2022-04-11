@@ -16,6 +16,20 @@ interface Props {
   createCertificate: (...args: any[]) => void
 }
 
+const Row = styled.div`
+  border-bottom: #e0e0e0 1px solid;
+`
+
+const Star = styled.button`
+  border: none;
+  background: transparent;
+  color: inherit;
+`
+
+const CertificateName = styled.div`
+  flex: 1;
+`
+
 const CertificateListRow: React.FC<Props> = ({
   certificateName,
   certificateInfo,
@@ -25,20 +39,6 @@ const CertificateListRow: React.FC<Props> = ({
   favorite,
   createCertificate,
 }) => {
-  const Row = styled.div`
-    border-bottom: #e0e0e0 1px solid;
-  `
-
-  const Star = styled.button`
-    border: none;
-    background: transparent;
-    color: inherit;
-  `
-
-  const CertificateName = styled.div`
-    flex: 1;
-  `
-
   const onPreferenceClick = () => {
     preferenceClick(id)
   }

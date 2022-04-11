@@ -18,6 +18,16 @@ const byFavorite = (a: any, b: any): number => {
   }
 }
 
+const CertificateBox = styled.div`
+  max-width: 75%;
+  max-height: 32em;
+  overflow-y: auto;
+`
+
+const FlexWrapper = styled.div`
+  flex: 1;
+`
+
 const CreateCertificate: React.FC = () => {
   const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
   const certificateTypes = useSelector(selectCertificateTypes)
@@ -26,16 +36,6 @@ const CreateCertificate: React.FC = () => {
   const [redirectToCertificate, setRedirectToCertificate] = useState(false)
   // const [certificateId, setCertificateId] = useState('')
   const dispatch = useDispatch()
-
-  const CertificateBox = styled.div`
-    max-width: 75%;
-    max-height: 32em;
-    overflow-y: auto;
-  `
-
-  const FlexWrapper = styled.div`
-    flex: 1;
-  `
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []
