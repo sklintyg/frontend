@@ -20,6 +20,15 @@ const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 20
 }
 
 describe('Pagination', () => {
+  it('should not render pagination pages and buttons if only one page', () => {
+    renderComponent(1, 1, 10, 9)
+    expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
+    expect(screen.queryByText('Visa färre')).not.toBeInTheDocument()
+    expect(screen.queryByText('Nästa')).not.toBeInTheDocument()
+    expect(screen.queryByText('Föregående')).not.toBeInTheDocument()
+    expect(screen.queryByText('1')).not.toBeInTheDocument()
+  })
+
   describe('Next and previous buttons', () => {
     it('should display next button', () => {
       renderComponent()
@@ -31,25 +40,59 @@ describe('Pagination', () => {
       expect(screen.getByText('Föregående')).toBeInTheDocument()
     })
 
-    it('should disable previous button if on first page tuple', () => {
-      renderComponent()
+    it('should disable previous button if on first page', () => {
+      renderComponent(1, 2)
       expect(screen.getByText('Föregående')).toBeDisabled()
     })
 
-    it('should disabled next button if on last page tuple', () => {
-      renderComponent(1, 2, 10, 110)
+    it('should disabled next button if on last page', () => {
+      renderComponent(11, 1, 10, 110)
       expect(screen.getByText('Nästa')).toBeDisabled()
+    })
+
+    it('should run page change function with page and start from when clicking on next', () => {
+      renderComponent()
+      userEvent.click(screen.getByText('Nästa'))
+      expect(handlePageChange).toHaveBeenCalledWith(2, 10)
+    })
+
+    it('should run page change function with page and start from when clicking on previous', () => {
+      renderComponent(2, 2, 10, 110)
+      userEvent.click(screen.getByText('Föregående'))
+      expect(handlePageChange).toHaveBeenCalledWith(1, 0)
+    })
+  })
+
+  describe('Show more and show less buttons', () => {
+    it('should display show more button', () => {
+      renderComponent()
+      expect(screen.getByText('Visa mer')).toBeInTheDocument()
+    })
+
+    it('should display show less button', () => {
+      renderComponent()
+      expect(screen.getByText('Visa färre')).toBeInTheDocument()
+    })
+
+    it('should disable show less button if on first page tuple', () => {
+      renderComponent(1, 1)
+      expect(screen.getByText('Visa färre')).toBeDisabled()
+    })
+
+    it('should disabled show more button if on last page tuple', () => {
+      renderComponent(11, 2, 10, 110)
+      expect(screen.getByText('Visa mer')).toBeDisabled()
     })
 
     it('should run page tuple change function with page tuple + 1 when clicking on next', () => {
       renderComponent()
-      userEvent.click(screen.getByText('Nästa'))
+      userEvent.click(screen.getByText('Visa mer'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(2)
     })
 
     it('should run page tuple change function with page tuple - 1 when clicking on next', () => {
       renderComponent(1, 2, 10, 110)
-      userEvent.click(screen.getByText('Föregående'))
+      userEvent.click(screen.getByText('Visa färre'))
       expect(handlePageTupleChange).toHaveBeenCalledWith(1)
     })
   })

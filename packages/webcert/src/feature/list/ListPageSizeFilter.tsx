@@ -26,12 +26,19 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
   }
 
   const getSelectOptions = () => {
-    return pageSizes.map((number) =>
-      totalCount >= number ? (
-        <option id={filter.id + '-' + number} value={number} key={filter.id + '-' + number}>
-          {number}
+    return (
+      <>
+        {pageSizes.map((number) =>
+          totalCount >= number ? (
+            <option id={filter.id + '-' + number} value={number} key={filter.id + '-' + number}>
+              {number}
+            </option>
+          ) : null
+        )}
+        <option id="show-all" value={totalCount} key="show-all">
+          alla
         </option>
-      ) : null
+      </>
     )
   }
 

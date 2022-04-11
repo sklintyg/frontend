@@ -203,7 +203,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         onFilterChange={onUpdateList}
       />
       {getListContent()}
-      <ListPagination />
+      {!isLoadingList && <ListPagination />}
     </>
   )
 }

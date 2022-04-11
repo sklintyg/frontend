@@ -1,7 +1,15 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ListType } from '@frontend/common/src/types/list'
-import { getActiveList, getActiveListConfig, getActiveListFilter, hasListError } from '../store/list/listSelectors'
+import {
+  getActiveList,
+  getActiveListConfig,
+  getActiveListFilter,
+  getIsLoadingList,
+  getIsLoadingListConfig,
+  getListTotalCount,
+  hasListError,
+} from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
 import { getDraftListConfig, performListSearch } from '../store/list/listActions'
@@ -18,7 +26,9 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const list = useSelector(getActiveList)
   const filter = useSelector(getActiveListFilter)
   const error = useSelector(hasListError)
-  const [loadingPage, setLoadingPage] = useState(true)
+  const totalCount = useSelector(getListTotalCount)
+  const isLoadingListConfig = useSelector(getIsLoadingListConfig)
+  const isLoadingList = useSelector(getIsLoadingList)
 
   useEffect(() => {
     if (type === ListType.DRAFTS) {
@@ -27,20 +37,25 @@ const ListPage: React.FC<Props> = ({ type }) => {
   }, [])
 
   useEffect(() => {
-    if (config) {
-      setLoadingPage(false)
+    if (!isLoadingListConfig && config) {
       dispatch(performListSearch)
-    } else {
-      setLoadingPage(true)
     }
-  }, [config])
+  }, [config, isLoadingListConfig])
+
+  const getList = () => {
+    if (error) {
+      return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
+    } else if (totalCount === 0 && !isLoadingList) {
+      return <p>Det finns inga ej signerade utkast för den enhet du är inloggad på.</p>
+    } else {
+      return <List config={config} list={list} filter={filter} />
+    }
+  }
 
   return (
-    <Backdrop open={loadingPage}>
+    <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
       <CustomTooltip />
-      <div className={'ic-container'}>
-        {error ? <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox> : <List config={config} list={list} filter={filter} />}
-      </div>
+      <div className={'ic-container'}>{getList()}</div>
     </Backdrop>
   )
 }

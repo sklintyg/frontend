@@ -22,6 +22,7 @@ import {
   updateActiveListType,
   updateDefaultListFilterValues,
   updateIsLoadingList,
+  updateIsLoadingListConfig,
   updateTotalCount,
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
@@ -72,11 +73,16 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
+const handleGetDraftListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateIsLoadingListConfig(true))
+}
+
 const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveListConfig(action.payload))
   dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(updateDefaultListFilterValues)
   dispatch(clearListError)
+  dispatch(updateIsLoadingListConfig(false))
 }
 
 const clearListState = (dispatch: Dispatch<AnyAction>) => {
@@ -117,7 +123,7 @@ const middlewareMethods = {
   [clearActiveListFilter.type]: handleClearActiveListFilter,
   [getDraftsError.type]: handleGetDraftsError,
   [getDraftsStarted.type]: handleGetDraftsStarted,
-  [getDraftListConfigStarted.type]: handleGetDraftsStarted,
+  [getDraftListConfigStarted.type]: handleGetDraftListConfigStarted,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

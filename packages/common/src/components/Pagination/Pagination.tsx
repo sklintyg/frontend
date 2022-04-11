@@ -37,7 +37,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
   const totalPages = Math.ceil(totalCount / pageSize)
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
 
-  if (totalPages < 1) {
+  if (totalPages === 0) {
     return null
   }
 
@@ -47,13 +47,25 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
 
   const handlePreviousClick = () => {
     if (!isPreviousDisabled()) {
-      return handlePageTupleChange(pageTuple - 1)
+      return handlePageChange(page - 1, getStartFrom(page - 1))
     }
   }
 
   const handleNextClick = () => {
     if (!isNextDisabled()) {
+      return handlePageChange(page + 1, getStartFrom(page + 1))
+    }
+  }
+
+  const handleShowMoreClick = () => {
+    if (!isShowMoreDisabled()) {
       return handlePageTupleChange(pageTuple + 1)
+    }
+  }
+
+  const handleShowLessClick = () => {
+    if (!isShowLessDisabled()) {
+      return handlePageTupleChange(pageTuple - 1)
     }
   }
 
@@ -77,32 +89,54 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
     })
   }
 
-  const isPreviousDisabled = () => {
+  const isShowLessDisabled = () => {
     return pageTuple === 1
   }
 
-  const isNextDisabled = () => {
+  const isShowMoreDisabled = () => {
     return pageTuple === finalPageTuple
+  }
+
+  const isPreviousDisabled = () => {
+    return page === 1
+  }
+
+  const isNextDisabled = () => {
+    return page === totalPages
   }
 
   return (
     <Wrapper className="iu-py-500 iu-display-flex">
       <NumberOfHitsText totalPages={totalPages} page={page} startFrom={getStartFrom(page)} totalCount={totalCount} pageSize={pageSize} />
-      <PaginationWrapper>
-        <button
-          disabled={isPreviousDisabled()}
-          className={!isPreviousDisabled() ? '' : 'iu-color-grey-400'}
-          onClick={() => handlePreviousClick()}>
-          Föregående
-        </button>
-        <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
-        <button
-          disabled={isNextDisabled()}
-          className={!isNextDisabled() ? '' : 'inactive iu-color-grey-400'}
-          onClick={() => handleNextClick()}>
-          Nästa
-        </button>
-      </PaginationWrapper>
+      {totalPages > 1 && (
+        <PaginationWrapper>
+          <button
+            disabled={isShowLessDisabled()}
+            className={!isShowLessDisabled() ? '' : 'iu-color-grey-400'}
+            onClick={() => handleShowLessClick()}>
+            Visa färre
+          </button>
+          <button
+            disabled={isPreviousDisabled()}
+            className={!isPreviousDisabled() ? '' : 'iu-color-grey-400'}
+            onClick={() => handlePreviousClick()}>
+            Föregående
+          </button>
+          <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
+          <button
+            disabled={isNextDisabled()}
+            className={!isNextDisabled() ? '' : 'inactive iu-color-grey-400'}
+            onClick={() => handleNextClick()}>
+            Nästa
+          </button>
+          <button
+            disabled={isShowMoreDisabled()}
+            className={!isShowMoreDisabled() ? '' : 'inactive iu-color-grey-400'}
+            onClick={() => handleShowMoreClick()}>
+            Visa mer
+          </button>
+        </PaginationWrapper>
+      )}
     </Wrapper>
   )
 }

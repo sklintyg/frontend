@@ -25,6 +25,7 @@ export const clearActiveListConfig = createAction(`${LIST} Clear active list con
 export const updateActiveList = createAction<CertificateListItem[]>(`${LIST} Update active list`)
 export const clearActiveList = createAction(`${LIST} Clear active list`)
 export const updateIsLoadingList = createAction<boolean>(`${LIST} Update is loading list`)
+export const updateIsLoadingListConfig = createAction<boolean>(`${LIST} Update is loading list config`)
 
 export const updateTotalCount = createAction<number>(`${LIST} Update total count for list`)
 

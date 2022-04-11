@@ -64,22 +64,22 @@ describe('ListPageSizeFilter', () => {
     expect(screen.getByLabelText(TITLE)).toHaveValue(pageSizes[0].toString())
   })
 
-  it('should render all page sizes if total count is the same as highest', () => {
+  it('should render all page sizes and show all if total count is the same as highest', () => {
     renderComponent(100)
     const options = screen.queryAllByRole('option')
-    expect(options).toHaveLength(pageSizes.length)
+    expect(options).toHaveLength(pageSizes.length + 1)
   })
 
-  it('should render all page sizes if total count is the larger than highest', () => {
+  it('should render all page sizes and show all if total count is the larger than highest', () => {
     renderComponent(120)
     const options = screen.queryAllByRole('option')
-    expect(options).toHaveLength(pageSizes.length)
+    expect(options).toHaveLength(pageSizes.length + 1)
   })
 
   it('should not render page sizes larger than total count', () => {
     renderComponent(20)
     const options = screen.queryAllByRole('option')
-    expect(options).toHaveLength(2)
+    expect(options).toHaveLength(3)
     expect(options[0]).toHaveValue(pageSizes[0].toString())
     expect(options[1]).toHaveValue(pageSizes[1].toString())
   })
@@ -102,5 +102,11 @@ describe('ListPageSizeFilter', () => {
   it('should not render filter if config is undefined', () => {
     renderComponentWithUndefinedConfig(100)
     expect(screen.queryByLabelText(TITLE)).not.toBeInTheDocument()
+  })
+
+  it('should render all option', () => {
+    renderComponent(20)
+    const options = screen.queryAllByRole('option')
+    expect(options[1]).toHaveValue('20')
   })
 })
