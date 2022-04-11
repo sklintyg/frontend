@@ -1,20 +1,20 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { CustomButton } from '@frontend/common'
 import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import styled from 'styled-components/macro'
-=======
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { CustomButton, TextInput } from '@frontend/common'
-import { isPatientIdValid } from './patientIdValidatorUtils'
-import InvalidPatientIdMessage from './InvalidPatientIdMessage'
-import styled, { css } from 'styled-components/macro'
->>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
 import { useDispatch } from 'react-redux'
 import { getPatient } from '../../store/patient/patientActions'
 import PatientSearchError from './PatientSearchError'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
+<<<<<<< HEAD
 import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
+=======
+
+const TextInputStyles = css`
+  width: 10.5em;
+  margin-right: 0.5em;
+`
+>>>>>>> 12f796f (WIP)
 
 const FormWrapper = styled.div`
   display: flex;
@@ -38,19 +38,6 @@ const PatientSearch: React.FC = () => {
 
   const onChange = (formattedPatientId: string) => {
     setPatientId(formattedPatientId)
-  }
-
-<<<<<<< HEAD
-  const onSubmit = () => {
-    dispatch(getPatient({ patientId: patientId.replace('-', ''), history: history }))
-=======
-  const formatPatientId = (patientId: string) => {
-    let cleanPatientId = patientId.replace(/\D/g, '')
-    if (cleanPatientId.length > 8) {
-      cleanPatientId = cleanPatientId.slice(0, 8) + '-' + cleanPatientId.slice(8, cleanPatientId.length)
-    }
-    return cleanPatientId
->>>>>>> b9317b4 (WIP Redirect search and create page and add handling of initial state loading)
   }
 
   return (

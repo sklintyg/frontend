@@ -17,6 +17,20 @@ interface UserState {
   certificateTypes: CertificateType[]
 }
 
+export interface CreateCertificate {
+  certificateType: string
+  certificateTypeVersion: string
+  patientId: string
+  personId: string
+  unitId: string
+  status: string
+  fillType: string
+}
+
+export interface CreateCertificateResponse {
+  certificateId: string
+}
+
 const initialState: UserState = {
   user: null,
   links: [],

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { CertificateType, ResourceLink, User, UserProperty } from '@frontend/common'
+import { CreateCertificate, CreateCertificateResponse } from './userReducer'
 
 const USER = '[User]'
 
@@ -42,9 +43,15 @@ export const triggerLogoutNowError = createAction<string>(`${USER} Trigger logou
 
 export const updateInactivateAutomaticLogout = createAction<boolean>(`${USER} Update inactivate automatic logout`)
 
-export const getCertificateTypes = createAction(`${USER} Get certificate types`)
+export const getCertificateTypes = createAction<string>(`${USER} Get certificate types`)
 export const getCertificateTypesStarted = createAction(`${USER} Get certificate started`)
 export const getCertificateTypesSuccess = createAction(`${USER} Get certificate success`)
 export const getCertificateTypesError = createAction<string>(`${USER} Get certificate error`)
 
 export const updateCertificateTypes = createAction<CertificateType[]>(`${USER} Update certificate types`)
+
+export const createNewCertificate = createAction<CreateCertificate>(`${USER} Create certificate`)
+export const createNewCertificateStarted = createAction(`${USER} Create certificate started`)
+export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(`${USER} Create certificate success`)
+export const createNewCertificateError = createAction<string>(`${USER} Create certificate error`)
+export const updateCertificateId = createAction<string>(`${USER} Update certificate id`)

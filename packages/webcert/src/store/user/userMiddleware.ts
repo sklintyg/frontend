@@ -27,6 +27,9 @@ import {
   getCertificateTypesSuccess,
   getCertificateTypesStarted,
   updateCertificateTypes,
+  createNewCertificate,
+  createNewCertificateSuccess,
+  createNewCertificateStarted,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -129,10 +132,10 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   dispatch(updateInactivateAutomaticLogout(true))
 }
 
-const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/type/191212121212',
+      url: '/api/certificate/type/' + action.payload,
       method: 'GET',
       onStart: getCertificateTypesStarted.type,
       onSuccess: getCertificateTypesSuccess.type,
@@ -144,6 +147,23 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
 const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateCertificateTypes(action.payload))
 }
+
+// const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+//   dispatch(
+//     apiCallBegan({
+//       url: '/testability/certificate',
+//       method: 'POST',
+//       data: action.payload,
+//       onStart: createNewCertificateStarted.type,
+//       onSuccess: createNewCertificateSuccess.type,
+//       onError: apiGenericError.type,
+//     })
+//   )
+// }
+
+// const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+//   dispatch(updateCertificateId(action.payload.certificateId))
+// }
 
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
@@ -158,6 +178,8 @@ const middlewareMethods = {
   [startSignCertificate.type]: handleStartSignCertificate,
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
+  // [createNewCertificate.type]: handleCreateNewCertificate,
+  // [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

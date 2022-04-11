@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { CustomButton, TextWithInfoModal } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
+import classnames from 'classnames'
 
 interface Props {
   certificateName: string
   certificateInfo: string
   id: string
-  favoriteClick: (...args: any[]) => void
+  issuerTypeId: string
+  preferenceClick: (...args: any[]) => void
+  favorite: boolean
+  createCertificate: (...args: any[]) => void
 }
 
-const CertificateListRow: React.FC<Props> = ({ certificateName, certificateInfo, id, favoriteClick }) => {
-  // const [isFavorite, setIsFavorite] = useState(false)
-
+const CertificateListRow: React.FC<Props> = ({
+  certificateName,
+  certificateInfo,
+  id,
+  issuerTypeId,
+  preferenceClick,
+  favorite,
+  createCertificate,
+}) => {
   const Row = styled.div`
     border-bottom: #e0e0e0 1px solid;
   `
@@ -29,19 +39,29 @@ const CertificateListRow: React.FC<Props> = ({ certificateName, certificateInfo,
     flex: 1;
   `
 
+  const onPreferenceClick = () => {
+    preferenceClick(id)
+  }
+
+  const onCreateCertificateClick = () => {
+    createCertificate(id)
+  }
+
   return (
     <Row className="iu-flex iu-flex-center iu-p-400">
-      <Star className="iu-mr-1rem" onClick={favoriteClick} id={id}>
+      <Star className="iu-mr-1rem" onClick={onPreferenceClick}>
         <FontAwesomeIcon
-          icon={star /*isFavorite ? starChecked : star*/}
-          style={{ color: '#ccc' } /*isFavorite ? { color: '#f6bb42' } : { color: '#ccc' }*/}
+          icon={favorite ? starChecked : star}
+          className={classnames({ 'iu-color-information': favorite, 'iu-color-muted': !favorite })}
         />
       </Star>
-      <CertificateName>{certificateName}</CertificateName>
-      <TextWithInfoModal text="Om intyget" modalTitle="Om intyget" additionalStyles="iu-mr-1rem">
+      <CertificateName>
+        {certificateName} <span className="iu-color-muted">{issuerTypeId}</span>
+      </CertificateName>
+      <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
         {certificateInfo}
       </TextWithInfoModal>
-      <CustomButton buttonStyle="primary" type="button">
+      <CustomButton buttonStyle="primary" type="button" onClick={onCreateCertificateClick}>
         Skapa intyg
       </CustomButton>
     </Row>

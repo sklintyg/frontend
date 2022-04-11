@@ -15,4 +15,4 @@ export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUse
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
 
-export const getCertificateTypes = (state: RootState): CertificateType[] => state.ui.uiUser.certificateTypes
+export const selectCertificateTypes = (state: RootState): CertificateType[] => state.ui.uiUser.certificateTypes

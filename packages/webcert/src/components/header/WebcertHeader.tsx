@@ -8,6 +8,11 @@ import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebc
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import Logout from '../../utils/Logout'
+import styled from 'styled-components'
+
+const InfoModal = styled(TextWithInfoModal)`
+  text-decoration: none;
+`
 
 interface Props {
   isEmpty?: boolean
@@ -24,9 +29,9 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     }
 
     secondaryItems.push(
-      <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
+      <InfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
         <AboutWebcertModalContent />
-      </TextWithInfoModal>
+      </InfoModal>
     )
 
     const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
