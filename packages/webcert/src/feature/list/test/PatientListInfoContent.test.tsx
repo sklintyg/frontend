@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import PatientListInfoContent from '../PatientListInfoContent'
+import { PatientListInfoContent } from '@frontend/common'
 
 const PATIENT_ID = 'patientId'
 
