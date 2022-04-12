@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppHeader, Footer, InfoBox } from '@frontend/common'
 import logo from '../components/header/webcert_logo.png'
-import image from '../images/webcert_bild3_fmb@1x.jpg'
+import image from '../images/webcert_bild_react.png'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
@@ -62,10 +62,10 @@ export const StartPage: React.FC = () => {
               <p>Laddar inloggningsalternativ...</p>
             ) : (
               <>
-                <LoginButton className="ic-button ic-button--secondary iu-mb-200" href={sithsUrl}>
+                <LoginButton className="ic-button ic-button--primary iu-mb-200" href={sithsUrl}>
                   <span>SITHS-kort</span> <span aria-hidden="true" className="icon-angle-right"></span>
                 </LoginButton>
-                <LoginButton className="ic-button ic-button--secondary" href={elegUrl}>
+                <LoginButton className="ic-button ic-button--primary" href={elegUrl}>
                   <span>E-legitimation</span> <span aria-hidden="true" className="icon-angle-right"></span>
                 </LoginButton>
               </>
