@@ -82,12 +82,12 @@ const CreateCertificate: React.FC = () => {
   // }
 
   return (
-    <div className="ic-container iu-mt-gutter iu-flex">
-      <div className="iu-mr-05rem">
-        <img src={fileIcon} alt="Ikon för skapa intyg" className="iu-height-700" />
+    <div className="ic-container iu-mt-800 iu-flex">
+      <div className="iu-mr-gutter">
+        <img src={fileIcon} alt="Ikon för skapa intyg" className="iu-height-600" />
       </div>
       <FlexWrapper>
-        <h2 className="iu-mb-05rem">Skapa intyg</h2>
+        <h3 className="iu-mb-05rem">Skapa intyg</h3>
         <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
           {certificates.map((certificateType) => (
             <CertificateListRow
