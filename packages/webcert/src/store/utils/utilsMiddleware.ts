@@ -5,15 +5,19 @@ import {
   getAllDynamicLinks,
   getAllDynamicLinksStarted,
   getAllDynamicLinksSuccess,
-  getDiagnosisTypeahead,
-  getDiagnosisTypeaheadStarted,
-  getDiagnosisTypeaheadSuccess,
   getConfig,
   getConfigStarted,
   getConfigSuccess,
+  getDiagnosisTypeahead,
+  getDiagnosisTypeaheadStarted,
+  getDiagnosisTypeaheadSuccess,
+  getStatistics,
+  getStatisticsStarted,
+  getStatisticsSuccess,
+  updateConfig,
   updateDiagnosisTypeahead,
   updateDynamicLinks,
-  updateConfig,
+  updateStatistics,
 } from './utilsActions'
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
@@ -85,6 +89,22 @@ const handleGetConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
   dispatch(updateConfig(action.payload))
 }
 
+const handleGetStatistics: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/moduleapi/stat',
+      method: 'GET',
+      onStart: getStatisticsStarted.type,
+      onSuccess: getStatisticsSuccess.type,
+      onError: apiSilentGenericError.type,
+    })
+  )
+}
+
+const handleGetStatisticsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+  dispatch(updateStatistics(action.payload))
+}
+
 const middlewareMethods = {
   [getAllDynamicLinks.type]: handleGetAllDynamicLinks,
   [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
@@ -92,6 +112,8 @@ const middlewareMethods = {
   [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
   [getConfig.type]: handleGetConfig,
   [getConfigSuccess.type]: handleGetConfigSuccess,
+  [getStatistics.type]: handleGetStatistics,
+  [getStatisticsSuccess.type]: handleGetStatisticsSuccess,
 }
 
 export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

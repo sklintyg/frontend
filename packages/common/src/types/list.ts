@@ -42,6 +42,7 @@ export interface ListFilterConfig {
   type: ListFilterType
   id: string
   title: string
+  alwaysHighlighted: boolean
 }
 
 export interface ListFilterConfigValue {
@@ -77,6 +78,7 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
 export interface ListFilterDateRangeConfig extends ListFilterConfig {
   to: ListFilterConfig
   from: ListFilterConfig
+  forbidFutureDates: boolean
 }
 
 export interface TableHeading {
@@ -88,6 +90,9 @@ export interface TableHeading {
 export interface ListConfig {
   filters: ListFilterConfig[]
   title: string
+  secondaryTitle: string
+  description: string
+  emptyListText: string
   openCertificateTooltip: string
   searchCertificateTooltip: string
   tableHeadings: TableHeading[]

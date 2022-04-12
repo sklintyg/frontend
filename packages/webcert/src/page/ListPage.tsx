@@ -1,20 +1,15 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import { ListType } from '@frontend/common/src/types/list'
-import {
-  getActiveList,
-  getActiveListConfig,
-  getActiveListFilter,
-  getIsLoadingList,
-  getIsLoadingListConfig,
-  getListTotalCount,
-  hasListError,
-} from '../store/list/listSelectors'
+import { getActiveList, getActiveListConfig, getActiveListFilter, getIsLoadingListConfig, hasListError } from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
 import { getDraftListConfig, performListSearch } from '../store/list/listActions'
-import { CustomTooltip } from '@frontend/common/src'
-import { Backdrop, InfoBox } from '@frontend/common'
+import { CustomTooltip, ImageCentered } from '@frontend/common/src'
+import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
+import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
+import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
+import WebcertHeader from '../components/header/WebcertHeader'
 
 interface Props {
   type: ListType
@@ -26,9 +21,8 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const list = useSelector(getActiveList)
   const filter = useSelector(getActiveListFilter)
   const error = useSelector(hasListError)
-  const totalCount = useSelector(getListTotalCount)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
-  const isLoadingList = useSelector(getIsLoadingList)
+  const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
 
   useEffect(() => {
     if (type === ListType.DRAFTS) {
@@ -45,17 +39,28 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const getList = () => {
     if (error) {
       return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
-    } else if (totalCount === 0 && !isLoadingList) {
-      return <p>Det finns inga ej signerade utkast för den enhet du är inloggad på.</p>
+    } else if (nbrOfDraftsOnUnit === 0 && false) {
+      return (
+        <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
+          <p>{config?.emptyListText}</p>
+          <span aria-hidden="true" className="icon-arrow"></span>
+        </ImageCentered>
+      )
     } else {
-      return <List config={config} list={list} filter={filter} />
+      return <List config={config} list={list} filter={filter} title={config?.secondaryTitle} />
     }
   }
 
   return (
     <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
-      <CustomTooltip />
-      <div className={'ic-container'}>{getList()}</div>
+      {!isLoadingListConfig && (
+        <>
+          <WebcertHeader />
+          <CustomTooltip />
+          <ListHeader title={config?.title} description={config?.description} />
+          <div className={'ic-container'}>{getList()}</div>
+        </>
+      )}
     </Backdrop>
   )
 }

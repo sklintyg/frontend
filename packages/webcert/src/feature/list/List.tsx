@@ -5,59 +5,34 @@ import {
   ListConfig,
   ListFilter,
   ListFilterOrderConfig,
-  ListFilterPageSizeConfig,
   ListFilterType,
-  ListFilterValue,
-  ListFilterValueNumber,
   PatientListInfo,
 } from '@frontend/common/src/types/list'
-import ListFilterComponent from './ListFilterComponent'
 import Table from '@frontend/common/src/components/Table/Table'
 import { CustomButton, PatientListInfoContent } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch, useSelector } from 'react-redux'
-import ListFilterButtons from './ListFilterButtons'
-import { clearActiveListFilter, performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
-import styled from 'styled-components/macro'
-import ListPageSizeFilter from './ListPageSizeFilter'
+import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import ListPagination from './pagination/ListPagination'
-import { isFilterValuesValid } from './listUtils'
-import { getActiveListFilterValue, getIsLoadingList, getListTotalCount } from '../../store/list/listSelectors'
+import { getIsLoadingList } from '../../store/list/listSelectors'
+import ListFilterContainer from './filter/ListFilterContainer'
 
 interface Props {
   config: ListConfig | undefined
   list: CertificateListItem[]
   filter: ListFilter | undefined
+  title: string
 }
 
-const FilterWrapper = styled.div`
-  padding-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-`
-
-const List: React.FC<Props> = ({ config, list, filter }) => {
+const List: React.FC<Props> = ({ config, list, filter, title }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const totalCount = useSelector(getListTotalCount)
   const isLoadingList = useSelector(getIsLoadingList)
-  const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
-  const pageSizeValue = useSelector(getActiveListFilterValue(pageSizeFilter ? pageSizeFilter.id : '')) as ListFilterValue
 
   if (!config) {
     return null
-  }
-
-  const getFilter = () => {
-    if (!config) {
-      return null
-    }
-    return config.filters.map((filterConfig) => (
-      <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
-    ))
   }
 
   const getTable = () => {
@@ -92,7 +67,6 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
       case CertificateListItemValueType.TEXT:
         return <td>{value}</td>
       case CertificateListItemValueType.DATE:
-        console.log(value.toString().split('T')[0])
         return <td>{value.toString().split('T')[0]}</td>
       case CertificateListItemValueType.PATIENT_INFO:
         return (
@@ -154,23 +128,6 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
     }
   }
 
-  const onSearch = () => {
-    dispatch(performListSearch())
-  }
-
-  const onReset = () => {
-    dispatch(clearActiveListFilter())
-  }
-
-  const onUpdateList = (value: ListFilterValue, id: string) => {
-    onFilterChange(value, id)
-    onSearch()
-  }
-
-  const onFilterChange = (value: ListFilterValue, id: string) => {
-    dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
-  }
-
   const getListContent = () => {
     return (
       <Table
@@ -180,7 +137,7 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
         ascending={getAscending() as boolean}
         onTableHeadClick={updateSortingOfList}
         isLoadingContent={isLoadingList}
-        isEmptyList={totalCount > 0 && list.length === 0}>
+        isEmptyList={list.length === 0}>
         {getTable()}
       </Table>
     )
@@ -188,19 +145,8 @@ const List: React.FC<Props> = ({ config, list, filter }) => {
 
   return (
     <>
-      <FilterWrapper>{getFilter()}</FilterWrapper>
-      <ListFilterButtons
-        searchTooltip={config.searchCertificateTooltip}
-        onSearch={onSearch}
-        onReset={onReset}
-        isSearchEnabled={filter ? isFilterValuesValid(filter.values) : true}
-      />
-      <ListPageSizeFilter
-        filter={pageSizeFilter}
-        value={pageSizeValue as ListFilterValueNumber}
-        totalCount={totalCount}
-        onFilterChange={onUpdateList}
-      />
+      <h3 className="iu-pt-500">{title}</h3>
+      <ListFilterContainer config={config} filter={filter} />
       {getListContent()}
       {!isLoadingList && <ListPagination />}
     </>

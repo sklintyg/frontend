@@ -9,3 +9,5 @@ export const getDiagnosisTypeaheadResult = () => (state: RootState): DiagnosisTy
 export const getConfig = (state: RootState): Configuration => state.ui.uiUtils.config
 
 export const getBanners = (state: RootState): Banner[] => state.ui.uiUtils.config.banners
+
+export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined => state.ui.uiUtils.unitStatistics?.intygValdEnhet

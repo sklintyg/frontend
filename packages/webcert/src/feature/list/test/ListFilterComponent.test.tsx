@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import ListFilterComponent from '../ListFilterComponent'
+import ListFilterComponent from '../filter/ListFilterComponent'
 import { ListFilterConfig, ListFilterType } from '@frontend/common/src/types/list'
 import { getBooleanFilter, getDateRangeFilter, getOrderFilter, getPersonIdFilter, getSelectFilter, getTextFilter } from './listTestUtils'
 import { Provider } from 'react-redux'

@@ -9,6 +9,7 @@ interface Props {
   handlePageTupleChange: (updatedPageTuple: number) => void
   pageSize: number
   totalCount: number
+  pagesPerTuple: number
 }
 
 const PaginationWrapper = styled.div`
@@ -32,8 +33,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 
-const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleChange, pageTuple, pageSize, totalCount }) => {
-  const pagesPerTuple = 10
+const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleChange, pageTuple, pageSize, totalCount, pagesPerTuple }) => {
   const totalPages = Math.ceil(totalCount / pageSize)
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
 

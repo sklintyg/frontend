@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { faUserShield } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components/macro'
 import infoImage from '../../images/info-image.svg'
 import alertImage from '../../images/alert-image.svg'
+import lockClosed from '../../images/lock-closed.svg'
 import { PatientListInfo } from '../../types/list'
 
 const Icon = styled.img`
@@ -30,22 +29,21 @@ const PatientListInfoContent: React.FC<Props> = ({ info }) => {
       {info.id}
       <IconsWrapper>
         {info.protectedPerson && true && (
-          <FontAwesomeIcon
-            icon={faUserShield}
+          <Icon
+            src={lockClosed}
             data-tip="Patienten har skyddade personuppgifter."
-            aria-label="Symbol för att visa att patienten har skyddade personuppgifter."
+            alt="Symbol för att visa att patienten har skyddade personuppgifter."
           />
         )}
         {info.testIndicated && true && (
           <Icon
             src={infoImage}
-            alt="userImage"
             data-tip="Patienten är en valideringsperson."
-            aria-label="Symbol för att visa att patienten är en valideringsperson."
+            alt="Symbol för att visa att patienten är en valideringsperson."
           />
         )}
         {info.deceased && true && (
-          <Icon src={alertImage} data-tip="Patienten är avliden." aria-label="Symbol för att visa att patienten är avliden" />
+          <Icon src={alertImage} data-tip="Patienten är avliden." alt="Symbol för att visa att patienten är avliden" />
         )}
       </IconsWrapper>
     </Wrapper>

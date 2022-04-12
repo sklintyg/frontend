@@ -7,6 +7,7 @@ import PaginationContainer from '@frontend/common/src/components/Pagination/Pagi
 
 const ListPagination: React.FC = () => {
   const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber
+  const startFrom = useSelector(getActiveListFilterValue('START_FROM')) as ListFilterValueNumber
   const totalCount = useSelector(getListTotalCount)
   const dispatch = useDispatch()
 
@@ -15,7 +16,15 @@ const ListPagination: React.FC = () => {
     dispatch(performListSearch)
   }
 
-  return <PaginationContainer onPageChange={handlePageChange} pageSize={pageSize ? pageSize.value : 0} totalCount={totalCount} />
+  return (
+    <PaginationContainer
+      onPageChange={handlePageChange}
+      pageSize={pageSize ? pageSize.value : 0}
+      totalCount={totalCount}
+      startFrom={startFrom ? startFrom.value : 0}
+      pagesPerTuple={10}
+    />
+  )
 }
 
 export default ListPagination

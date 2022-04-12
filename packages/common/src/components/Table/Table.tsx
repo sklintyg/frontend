@@ -95,7 +95,7 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
       {!isLoadingContent && isEmptyList && (
         <tr>
           <td className="iu-border-white">
-            <p>Inga resultat att visa.</p>
+            <p className="iu-pt-200">Inga resultat att visa.</p>
           </td>
         </tr>
       )}

@@ -29,6 +29,7 @@ interface Props {
   componentField?: string
   questionId?: string
   onDispatchValidationError?: (shouldBeRemoved: boolean, validationError: ValidationError) => void
+  forbidFutureDates?: boolean
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -50,6 +51,7 @@ const DatePickerCustom: React.FC<Props> = ({
   componentField,
   questionId,
   onDispatchValidationError,
+  forbidFutureDates,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -188,6 +190,7 @@ const DatePickerCustom: React.FC<Props> = ({
             }}
             showWeekNumbers
             popperPlacement="bottom-end"
+            maxDate={forbidFutureDates ? new Date() : null}
           />
         </FocusWrapper>
       </DatePickerWrapper>
