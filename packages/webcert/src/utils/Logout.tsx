@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { ResourceLink, User } from '@frontend/common'
 import { LoginMethod } from '@frontend/common/src/types/user'
 
@@ -23,9 +22,9 @@ const Logout: React.FC<Props> = ({ className, link, user }) => {
   }
 
   return (
-    <Link to={{ pathname: getLogoutPath() }} className={className}>
+    <a target="_self" href={getLogoutPath()} className={className}>
       {link.name}
-    </Link>
+    </a>
   )
 }
 
