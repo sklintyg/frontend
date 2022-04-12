@@ -6,8 +6,8 @@ import { Router } from 'react-router-dom'
 import React from 'react'
 import reducer from '../store/reducers'
 import ErrorPage from './ErrorPage'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { ErrorCode } from '../store/error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 import { LOGIN_FAILED_MESSAGE, LOGIN_FAILED_TITLE } from '../components/error/errorPageContent/LoginFailed'
@@ -61,12 +61,17 @@ describe('ErrorPage', () => {
   })
 
   describe('LOGIN_FAILED', () => {
-    it('shall render login failed message', () => {
+    it('shall throw error when navigating to page with a reason query param', () => {
       history.push({ pathname: '/error', search: '?reason=login.failed' })
       renderComponent()
 
-      expect(screen.getByText(LOGIN_FAILED_TITLE)).toBeInTheDocument()
-      expect(screen.getByText(LOGIN_FAILED_MESSAGE, { exact: false })).toBeInTheDocument()
+      expect(dispatchedActions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            payload: { type: ErrorType.ROUTE, errorCode: 'LOGIN_FAILED' },
+          }),
+        ])
+      )
     })
   })
 })

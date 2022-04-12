@@ -8,6 +8,10 @@ const ModalContentWrapper = styled.div`
   }
 `
 
+const WrapText = styled.div`
+  white-space: normal;
+`
+
 interface Props {
   open: boolean
   handleClose: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -27,7 +31,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
       <FocusTrap active={open}>
         <div tabIndex={0}>
           <div className="ic-backdrop iu-lh-body" onClick={handleClose} />
-          <div role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
+          <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
               <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
                 <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -44,7 +48,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">{content}</ModalContentWrapper>
             <div className="ic-button-group ic-button-group--right">{buttons}</div>
-          </div>
+          </WrapText>
         </div>
       </FocusTrap>
     </>
