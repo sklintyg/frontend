@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
 import { withLoggedInUserRedirect } from '../utils/withLoggedInUserRedirect'
+import SystemBanners from '../components/notification/SystemBanners'
 
 const Root = styled.div`
   height: 100vh;
@@ -43,7 +44,7 @@ export const StartPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt="Logo Webcert" secondaryItems={[<CreateAccount />]} />
+      <AppHeader logo={logo} alt="Logo Webcert" secondaryItems={[<CreateAccount />]} banners={[<SystemBanners key="system-banners" />]} />
       <Content className="ic-container iu-mt-gutter iu-mb-gutter">
         <div className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-6">
@@ -56,10 +57,7 @@ export const StartPage: React.FC = () => {
               status, historik och händelser i intygen. Dessutom kan du hantera all ärendekommunikation med mottagaren, till exempel
               Försäkringskassan.
             </p>
-            <h2>Välj inloggning</h2>
-            <InfoBox type="info" additionalStyles="iu-mb-1em iu-mt-1em">
-              Har du Telia e-legitimation rekommenderas webbläsaren Internet Explorer 11.
-            </InfoBox>
+            <h2 className="iu-mb-1em">Välj inloggning</h2>
             {isLoadingConfig ? (
               <p>Laddar inloggningsalternativ...</p>
             ) : (

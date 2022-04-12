@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AppHeader } from '@frontend/common'
 import styled from 'styled-components/macro'
@@ -7,7 +7,7 @@ import CenteredImageWithContent from '../components/image/CenteredImageWithConte
 import errorImage from '../images/fel-1.svg'
 import { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
-import { ErrorCode } from '../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import AuthorizationProblem from '../components/error/errorPageContent/AuthorizationProblem'
 import Timeout from '../components/error/errorPageContent/Timeout'
 import DataNotFound from '../components/error/errorPageContent/DataNotFound'
@@ -21,6 +21,8 @@ import SystemBanners from '../components/notification/SystemBanners'
 import LoginFailed from '../components/error/errorPageContent/LoginFailed'
 import HSAError from '../components/error/errorPageContent/HSAError'
 import MedarbetaruppdragSaknas from '../components/error/errorPageContent/MedarbetaruppdragSaknas'
+import { throwError } from '../store/error/errorActions'
+import { useDispatch } from 'react-redux'
 
 const Root = styled.div`
   height: 100vh;
@@ -40,6 +42,7 @@ const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
 
 const ErrorPage: React.FC = () => {
   const location = useLocation()
+  const dispatch = useDispatch()
   let errorCode: string | undefined
   let errorId: string | undefined
 
@@ -49,11 +52,14 @@ const ErrorPage: React.FC = () => {
     errorId = state.errorId
   }
 
-  if (location.search) {
-    const params = new URLSearchParams(location.search)
-    const reason = params.get('reason') ?? ''
-    errorCode = ReasonParamErrorCodeMap.get(reason) as string
-  }
+  useEffect(() => {
+    if (location.search) {
+      const params = new URLSearchParams(location.search)
+      const reason = params.get('reason') ?? ''
+      errorCode = ReasonParamErrorCodeMap.get(reason) as string
+      dispatch(throwError({ type: ErrorType.ROUTE, errorCode: errorCode as ErrorCode }))
+    }
+  }, [location.search])
 
   const getContent = () => {
     switch (errorCode) {
