@@ -4,29 +4,12 @@ import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
 import { DatePickerCustom } from '@frontend/common'
+import { FilterWrapper } from './filterStyles'
 
 interface Props {
   config: ListFilterDateRangeConfig
   onChange: (value: ListFilterValue, id: string) => void
 }
-
-interface WrapperProps {
-  highlighted: boolean
-}
-
-const Wrapper = styled.div<WrapperProps>`
-  .dropdown {
-    min-width: 30ch !important;
-  }
-
-  .dropdown,
-  input,
-  button {
-    :not(.error) {
-      background-color: ${(props) => (props.highlighted ? 'rgba(1, 165, 163, 0.08)' : '')};
-    }
-  }
-`
 
 const DateRangeWrapper = styled.div`
   display: flex;
@@ -64,28 +47,28 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     <div>
       <label>{config.title}</label>
       <DateRangeWrapper>
-        <Wrapper highlighted={getFromValue() || config.alwaysHighlighted}>
+        <FilterWrapper highlighted={getFromValue() || config.alwaysHighlighted}>
           <DatePickerCustom
             label={from.title}
             setDate={onFromDateFilterChange}
             inputString={getFromValue()}
             textInputOnChange={onFromDateFilterChange}
             displayValidationErrorOutline={false}
-            id={config.id}
+            id={config.id + '-from'}
             forbidFutureDates={config.forbidFutureDates}
           />
-        </Wrapper>
-        <Wrapper highlighted={getToValue() || config.alwaysHighlighted}>
+        </FilterWrapper>
+        <FilterWrapper highlighted={getToValue() || config.alwaysHighlighted}>
           <DatePickerCustom
             label={to.title}
             setDate={onToDateFilterChange}
             inputString={getToValue()}
             textInputOnChange={onToDateFilterChange}
             displayValidationErrorOutline={false}
-            id={config.id}
+            id={config.id + '-to'}
             forbidFutureDates={config.forbidFutureDates}
           />
-        </Wrapper>
+        </FilterWrapper>
       </DateRangeWrapper>
     </div>
   )

@@ -98,10 +98,20 @@ describe('ListFilterComponent', () => {
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.SELECT, value: options[1].id }, select.id)
     })
 
-    it('should update date range filter value', () => {
-      renderComponent(getSelectFilter())
+    it('should update date range filter to value', () => {
+      const filter = getDateRangeFilter()
+      renderComponent(filter)
       const to = screen.getByLabelText('to')
-      const from = screen.getAllByRole('from')
+      userEvent.type(to, '1')
+      expect(onChange).toHaveBeenCalledWith({ to: '1' }, filter.id)
+    })
+
+    it('should update date range filter from value', () => {
+      const filter = getDateRangeFilter()
+      renderComponent(filter)
+      const from = screen.getByLabelText('from')
+      userEvent.type(from, '1')
+      expect(onChange).toHaveBeenCalledWith({ from: '1' }, filter.id)
     })
   })
 })

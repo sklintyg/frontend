@@ -58,7 +58,7 @@ export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
 export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 'from'): ListFilterDateRangeConfig => {
   return {
     type: ListFilterType.DATE_RANGE,
-    id: 'PERSON_FILTER',
+    id: 'DATE_RANGE_FILTER',
     title: title,
     to: {
       type: ListFilterType.DATE,
@@ -67,7 +67,7 @@ export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 
     },
     from: {
       type: ListFilterType.DATE,
-      id: 'to',
+      id: 'from',
       title: fromTitle,
     },
   }
