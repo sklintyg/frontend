@@ -10,7 +10,10 @@ export function withResourceAccess<P>(WrappedComponent: React.FC): React.FC<P> {
     const user = useSelector(getUser)
     const userLinks = useSelector(getUserResourceLinks)
     const location = useLocation()
-    const resourceAccessMap = new Map<string, ResourceLinkType>([['/create', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE]])
+    const resourceAccessMap = new Map<string, ResourceLinkType>([
+      ['/create', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
+      ['/list/draft', ResourceLinkType.ACCESS_DRAFT_LIST],
+    ])
     const linkType = resourceAccessMap.get(location.pathname)
 
     if (!isLoadingUser && (!user || !linkType || !userLinks.some((link) => link.type === linkType))) {

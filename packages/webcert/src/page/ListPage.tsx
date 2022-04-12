@@ -43,7 +43,6 @@ const ListPage: React.FC<Props> = ({ type }) => {
       return (
         <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
           <p>{config?.emptyListText}</p>
-          <span aria-hidden="true" className="icon-arrow"></span>
         </ImageCentered>
       )
     } else {
@@ -66,3 +65,5 @@ const ListPage: React.FC<Props> = ({ type }) => {
 }
 
 export default ListPage
+
+//export const ListPageWithRedirect = withResourceAccess(ListPage)
