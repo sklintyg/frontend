@@ -33,7 +33,7 @@ const CreateCertificate: React.FC = () => {
   const certificateTypes = useSelector(selectCertificateTypes)
   const patient = useSelector(getActivePatient)
   const [favorites, setFavorites] = useState<string[]>([])
-  const [redirectToCertificate, setRedirectToCertificate] = useState(false)
+  //const [redirectToCertificate, setRedirectToCertificate] = useState(false)
   // const [certificateId, setCertificateId] = useState('')
   const dispatch = useDispatch()
 
@@ -51,7 +51,7 @@ const CreateCertificate: React.FC = () => {
   }
 
   const handleCreateCertificate = (id: string) => {
-    // setCertificateId(id)
+    // setCertificateId(???)
     // setRedirectToCertificate(!redirectToCertificate)
   }
 
