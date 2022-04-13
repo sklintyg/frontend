@@ -23,6 +23,10 @@ const PaginationWrapper = styled.div`
     color: #01a5a3;
   }
 
+  button:disabled {
+    cursor: text;
+  }
+
   display: flex;
   gap: 12px;
   justify-content: end;

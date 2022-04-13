@@ -174,3 +174,15 @@ export const isDateRangeValid = (fromDateInput: string, toDateInput: string): bo
     !isBefore(getValidDate(toDateInput)!, getValidDate(fromDateInput)!)
   )
 }
+
+export const isDateRangeValidOrIncomplete = (fromDateInput: string, toDateInput: string): boolean => {
+  const areBothDatesValid = isValid(getValidDate(fromDateInput)) && isValid(getValidDate(toDateInput))
+  return !areBothDatesValid || !isBefore(getValidDate(toDateInput)!, getValidDate(fromDateInput)!)
+}
+
+export const isFutureDate = (date: string): boolean => {
+  if (!getValidDate(date)) {
+    return false
+  }
+  return getValidDate(date)! > new Date()
+}

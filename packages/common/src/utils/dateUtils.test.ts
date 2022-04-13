@@ -7,6 +7,8 @@ import {
   getPeriodWorkHours,
   getValidDate,
   isDateRangeValid,
+  isDateRangeValidOrIncomplete,
+  isFutureDate,
   ValueDateRange,
 } from '@frontend/common'
 import { filterDateRangeValueList, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
@@ -296,5 +298,79 @@ describe('isDateRangeValid', () => {
     const actual = isDateRangeValid(fromDate, toDate)
 
     expect(actual).toBe(false)
+  })
+})
+
+describe('isFutureDate', () => {
+  it('should return false if date is invalid', () => {
+    const date = '2021'
+
+    const actual = isFutureDate(date)
+
+    expect(actual).toBeFalsy()
+  })
+
+  it('should return true if date is in future', () => {
+    let date = new Date()
+    date.setDate(date.getDate() + 1)
+    date = date.toISOString().slice(0, 10)
+
+    const actual = isFutureDate(date)
+
+    expect(actual).toBeTruthy()
+  })
+
+  it('should return false if date is not in future', () => {
+    const date = '2020-02-02'
+
+    const actual = isFutureDate(date)
+
+    expect(actual).toBeFalsy()
+  })
+
+  it('should return false if date is today', () => {
+    const date = new Date().toISOString().slice(0, 10)
+
+    const actual = isFutureDate(date)
+
+    expect(actual).toBeFalsy()
+  })
+})
+
+describe('isDateRangeValidOrIncomplete', () => {
+  it('should return true if from date is invalid', () => {
+    const fromDate = '2021'
+    const toDate = '2021-02-02'
+
+    const actual = isDateRangeValidOrIncomplete(fromDate, toDate)
+
+    expect(actual).toBeTruthy()
+  })
+
+  it('should return true if to date is invalid', () => {
+    const toDate = '2021'
+    const fromDate = '2021-02-02'
+
+    const actual = isDateRangeValidOrIncomplete(fromDate, toDate)
+
+    expect(actual).toBeTruthy()
+  })
+
+  it('should return true if from is before to', () => {
+    const toDate = '2021-03-03'
+    const fromDate = '2021-02-02'
+
+    const actual = isDateRangeValidOrIncomplete(fromDate, toDate)
+
+    expect(actual).toBeTruthy()
+  })
+
+  it('should return false if from is after to', () => {
+    const toDate = '2021-01-01'
+    const fromDate = '2021-02-02'
+
+    const actual = isDateRangeValidOrIncomplete(fromDate, toDate)
+
+    expect(actual).toBeFalsy()
   })
 })

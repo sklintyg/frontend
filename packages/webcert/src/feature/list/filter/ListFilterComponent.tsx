@@ -1,14 +1,10 @@
 import * as React from 'react'
-import { ChangeEvent } from 'react'
 import {
   ListFilterConfig,
   ListFilterDateRangeConfig,
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValue,
-  ListFilterValuePersonId,
-  ListFilterValueSelect,
-  ListFilterValueText,
 } from '@frontend/common/src/types/list'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
@@ -22,42 +18,11 @@ import TextFilter from './TextFilter'
 interface Props {
   config: ListFilterConfig
   onChange: (value: ListFilterValue, id: string) => void
+  resetFilterError: boolean
 }
 
-const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
+const ListFilterComponent: React.FC<Props> = ({ config, onChange, resetFilterError }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
-
-  const onTextFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value: ListFilterValueText = {
-      type: ListFilterType.TEXT,
-      value: event.target.value,
-    }
-    onChange(value, config.id)
-  }
-
-  const onPersonIdFilterChange = (formattedId: string) => {
-    const value: ListFilterValuePersonId = {
-      type: ListFilterType.PERSON_ID,
-      value: formattedId,
-    }
-    onChange(value, config.id)
-  }
-
-  const onSelectFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const value: ListFilterValueSelect = {
-      type: ListFilterType.SELECT,
-      value: event.target.value,
-    }
-    onChange(value, config.id)
-  }
-
-  const getSelectOptions = () => {
-    return (config as ListFilterSelectConfig).values.map((configValue) => (
-      <option key={configValue.id} id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
-        {configValue.name}
-      </option>
-    ))
-  }
 
   const isValueDefaultValue = () => {
     const defaultValue = getListFilterDefaultValue(config)

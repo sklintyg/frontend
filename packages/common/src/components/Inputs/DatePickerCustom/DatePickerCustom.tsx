@@ -154,7 +154,7 @@ const DatePickerCustom: React.FC<Props> = ({
             name={textInputName}
             type="text"
             maxLength={10}
-            className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error' : ''}`}
+            className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error error' : ''}`}
             onChange={handleTextInputOnChange}
             onBlur={handleTextInputOnBlur}
             onKeyDown={textInputOnKeyDown}
@@ -176,7 +176,7 @@ const DatePickerCustom: React.FC<Props> = ({
               <StyledButton
                 displayValidationError={displayValidationErrorOutline}
                 onClick={() => setOpen(true)}
-                className={`ic-button `}
+                className={`ic-button ${displayValidationErrorOutline ? 'error' : ''}`}
                 onClickCapture={() => setOpen(!open)}>
                 <FontAwesomeIcon icon={faCalendar} />{' '}
               </StyledButton>

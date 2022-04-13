@@ -11,6 +11,6 @@ const Wrapper = styled.p`
 
 const InvalidPersonIdMessage: React.FC<Props> = ({ display }) => {
   if (!display) return null
-  return <Wrapper className={'iu-color-error'}>Ange ett giltigt person- eller samordningsnummer.</Wrapper>
+  return <Wrapper className="iu-color-error">Ange ett giltigt person- eller samordningsnummer.</Wrapper>
 }
 export default InvalidPersonIdMessage

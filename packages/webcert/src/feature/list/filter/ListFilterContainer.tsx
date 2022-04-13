@@ -35,7 +35,7 @@ interface Props {
   filter: ListFilter | undefined
 }
 
-const List: React.FC<Props> = ({ config, filter }) => {
+const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   const dispatch = useDispatch()
   const totalCount = useSelector(getListTotalCount)
   const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
@@ -110,4 +110,4 @@ const List: React.FC<Props> = ({ config, filter }) => {
   )
 }
 
-export default List
+export default ListFilterContainer

@@ -13,7 +13,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
   store.dispatch(updateIsLoadingListConfig(false))
   render(
     <Provider store={store}>
-      <List config={getConfigWithTextFilter()} list={list} filter={filter} />
+      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" />
     </Provider>
   )
 }
@@ -22,6 +22,11 @@ describe('List', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     store.dispatch(updateIsLoadingList(false))
+  })
+
+  it('should display title', () => {
+    renderComponent([], {}, 10)
+    expect(screen.getByText('TITLE')).toBeInTheDocument()
   })
 
   it('should no results if filter results in empty list', () => {
@@ -39,18 +44,7 @@ describe('List', () => {
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
-  it('should display list values', () => {
-    renderComponent(getDefaultList(), {})
-    //expect(screen.getByText('Återställ sökfiltret', { exact: false })).toBeInTheDocument()
-  })
-
   it('should not display pagination if filtered list is empty', () => {
-    renderComponent([], {})
-    expect(screen.queryByText('Föregående', { exact: false })).not.toBeInTheDocument()
-    expect(screen.queryByText('Visa antal träffar', { exact: false })).not.toBeInTheDocument()
-  })
-
-  it('should not display pagination if list is empty', () => {
     renderComponent([], {}, 0)
     expect(screen.queryByText('Föregående', { exact: false })).not.toBeInTheDocument()
     expect(screen.queryByText('Visa antal träffar', { exact: false })).not.toBeInTheDocument()
@@ -63,8 +57,7 @@ describe('List', () => {
   })
 
   it('should display pagination if list is done loading', () => {
-    renderComponent(getDefaultList(), {})
+    renderComponent(getDefaultList(), {}, 20)
     expect(screen.getByText('Föregående', { exact: false })).toBeInTheDocument()
-    expect(screen.getByText('Visa antal träffar', { exact: false })).toBeInTheDocument()
   })
 })
