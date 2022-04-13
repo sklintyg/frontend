@@ -37,9 +37,6 @@ describe('DateRangeFilter', () => {
     it('should display invalid date period validation error', () => {
       renderComponent()
 
-      const date = new Date()
-      date.setDate(date.getDate() + 1)
-      const dateString = date.toISOString().slice(0, 10)
       store.dispatch(
         updateActiveListFilterValue({
           id: config.id,
