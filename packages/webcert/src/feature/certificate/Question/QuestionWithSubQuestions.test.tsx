@@ -11,6 +11,7 @@ import { updateCertificate, updateCertificateComplements } from '../../../store/
 import { Complement, getCertificate } from '@frontend/common'
 
 let testStore: EnhancedStore
+window.scrollTo = jest.fn()
 
 const renderComponent = () => {
   render(
