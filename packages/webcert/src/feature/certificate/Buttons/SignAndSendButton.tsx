@@ -5,7 +5,7 @@ import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { CustomButton } from '@frontend/common'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

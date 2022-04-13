@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AppHeader } from '@frontend/common'
 import styled from 'styled-components/macro'
@@ -7,7 +7,7 @@ import CenteredImageWithContent from '../components/image/CenteredImageWithConte
 import errorImage from '../images/fel-1.svg'
 import { ErrorRoute } from '../components/error/ErrorComponent'
 import ErrorCopyText from '../components/error/ErrorCopyText'
-import { ErrorCode } from '../store/error/errorReducer'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import AuthorizationProblem from '../components/error/errorPageContent/AuthorizationProblem'
 import Timeout from '../components/error/errorPageContent/Timeout'
 import DataNotFound from '../components/error/errorPageContent/DataNotFound'
@@ -18,6 +18,11 @@ import UnknownInternalProblem from '../components/error/errorPageContent/Unknown
 import InternalProblem from '../components/error/errorPageContent/InternalProblem'
 import ProtectedPersonAgreementError from '../components/error/errorPageContent/ProtectedPersonAgreementError'
 import SystemBanners from '../components/notification/SystemBanners'
+import LoginFailed from '../components/error/errorPageContent/LoginFailed'
+import HSAError from '../components/error/errorPageContent/HSAError'
+import MedarbetaruppdragSaknas from '../components/error/errorPageContent/MedarbetaruppdragSaknas'
+import { throwError } from '../store/error/errorActions'
+import { useDispatch } from 'react-redux'
 
 const Root = styled.div`
   height: 100vh;
@@ -29,12 +34,32 @@ const TextWrapper = styled.div`
   margin: 0 auto;
 `
 
+const ReasonParamErrorCodeMap = new Map<string, ErrorCode>([
+  ['login.failed', ErrorCode.LOGIN_FAILED],
+  ['login.hsaerror', ErrorCode.LOGIN_HSA_ERROR],
+  ['login.medarbetaruppdrag', ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS],
+])
+
 const ErrorPage: React.FC = () => {
   const location = useLocation()
+  const dispatch = useDispatch()
+  let errorCode: string | undefined
+  let errorId: string | undefined
 
-  if (!location.state) return null
+  if (location.state) {
+    const state = location.state as ErrorRoute
+    errorCode = state.errorCode
+    errorId = state.errorId
+  }
 
-  const { errorCode, errorId } = location.state as ErrorRoute
+  useEffect(() => {
+    if (location.search) {
+      const params = new URLSearchParams(location.search)
+      const reason = params.get('reason') ?? ''
+      errorCode = ReasonParamErrorCodeMap.get(reason) as string
+      dispatch(throwError({ type: ErrorType.ROUTE, errorCode: errorCode as ErrorCode }))
+    }
+  }, [location.search])
 
   const getContent = () => {
     switch (errorCode) {
@@ -52,10 +77,15 @@ const ErrorPage: React.FC = () => {
         return <AuthorizationUserSessionAlreadyActive />
       case ErrorCode.INTERNAL_PROBLEM:
         return <InternalProblem />
-      case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
-        return <UnknownInternalProblem />
       case ErrorCode.NOT_APPROVED_PROTECTED_PERSON_AGREEMENT:
         return <ProtectedPersonAgreementError />
+      case ErrorCode.LOGIN_FAILED:
+        return <LoginFailed />
+      case ErrorCode.LOGIN_HSA_ERROR:
+        return <HSAError />
+      case ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS:
+        return <MedarbetaruppdragSaknas />
+      case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
       default:
         return <UnknownInternalProblem />
     }
@@ -63,11 +93,11 @@ const ErrorPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt={'Logo Webcert'} banners={[<SystemBanners />]} />
+      <AppHeader logo={logo} alt={'Logo Webcert'} banners={[<SystemBanners key="system-banners" />]} />
       <TextWrapper>
         <CenteredImageWithContent imgSrc={errorImage}>{getContent()}</CenteredImageWithContent>
       </TextWrapper>
-      <ErrorCopyText errorId={errorId} />
+      {errorId && <ErrorCopyText errorId={errorId} />}
     </Root>
   )
 }

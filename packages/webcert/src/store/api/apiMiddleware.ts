@@ -4,7 +4,7 @@ import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError,
 import { AnyAction } from '@reduxjs/toolkit'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { FunctionDisabler, generateFunctionDisabler } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {

@@ -29,6 +29,8 @@ const COLLECTIONS_LABEL = 'collectionsLabel'
 
 const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
 
+window.scrollTo = jest.fn()
+
 const renderComponent = (
   infoText = 'infoText test',
   icfData = getIcfData().activityLimitation,
@@ -47,6 +49,7 @@ const renderComponent = (
             disabled={disabled}
             onAddCode={() => {}}
             onRemoveCode={() => {}}
+            id="test"
           />
         </CertificateContext.Provider>
       </Router>
@@ -65,6 +68,10 @@ describe('IcfDropdown', () => {
 
   afterEach(() => {
     clearDispatchedActions()
+  })
+
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   it('renders without crashing', () => {
@@ -238,6 +245,25 @@ describe('IcfDropdown', () => {
     renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
     userEvent.keyboard('{escape}')
     expect(screen.queryByText(expectedText)).not.toBeInTheDocument()
+  })
+
+  it('should have correct tab order', () => {
+    const expectedText = 'Test'
+    const icfData = getIcfData()
+    const icfValues = icfData.activityLimitation?.commonCodes.icfCodes.map((code) => code.title)
+    renderAndOpenDropdown(expectedText, icfData.activityLimitation, icfValues)
+    testStore.dispatch(setOriginalIcd10Codes(['A02'])) // remove one code
+
+    const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
+
+    userEvent.tab({ focusTrap: container })
+    expect(screen.getByText('Covid-19, virus identifierat').querySelector('svg')).toHaveFocus()
+
+    userEvent.tab({ focusTrap: container })
+    expect(screen.getByLabelText('title 0')).toHaveFocus()
+
+    userEvent.tab({ focusTrap: container })
+    expect(screen.getByTestId('title 0-showmore')).toHaveFocus()
   })
 })
 

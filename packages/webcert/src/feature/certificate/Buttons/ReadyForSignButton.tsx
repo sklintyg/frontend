@@ -4,7 +4,7 @@ import { readyForSign } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

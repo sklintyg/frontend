@@ -1,6 +1,6 @@
 import React from 'react'
 import { Backdrop, ResourceLinkType } from '@frontend/common'
-import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import { Redirect, useLocation } from 'react-router-dom'
 

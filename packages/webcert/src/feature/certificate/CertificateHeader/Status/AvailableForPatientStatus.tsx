@@ -1,6 +1,6 @@
 import React from 'react'
 import { CertificateMetadata, isSigned, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
-import WCDynamicLink from '../../../../components/utils/WCDynamicLink'
+import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {
   certificateMetadata: CertificateMetadata

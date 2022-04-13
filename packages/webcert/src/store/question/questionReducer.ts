@@ -24,7 +24,7 @@ import {
   updateSendingQuestion,
 } from './questionActions'
 import { QuestionType } from '@frontend/common/src'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../components/utils/functionDisablerUtils'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface QuestionState {
   questions: Question[]

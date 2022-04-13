@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import { CertificateStatus } from '@frontend/common/src'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string

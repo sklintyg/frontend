@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal, InfoBox } from '@frontend/common'
 import { useDispatch } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { FunctionDisabled } from '../../../components/utils/functionDisablerUtils'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
