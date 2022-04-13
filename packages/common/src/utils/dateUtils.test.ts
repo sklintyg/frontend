@@ -311,11 +311,11 @@ describe('isFutureDate', () => {
   })
 
   it('should return true if date is in future', () => {
-    let date = new Date()
+    const date = new Date()
     date.setDate(date.getDate() + 1)
-    date = date.toISOString().slice(0, 10)
+    const dateString = date.toISOString().slice(0, 10)
 
-    const actual = isFutureDate(date)
+    const actual = isFutureDate(dateString)
 
     expect(actual).toBeTruthy()
   })

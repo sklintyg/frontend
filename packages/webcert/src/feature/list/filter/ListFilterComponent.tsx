@@ -18,10 +18,9 @@ import TextFilter from './TextFilter'
 interface Props {
   config: ListFilterConfig
   onChange: (value: ListFilterValue, id: string) => void
-  resetFilterError: boolean
 }
 
-const ListFilterComponent: React.FC<Props> = ({ config, onChange, resetFilterError }) => {
+const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
   const isValueDefaultValue = () => {

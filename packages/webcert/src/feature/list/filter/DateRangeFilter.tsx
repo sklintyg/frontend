@@ -13,7 +13,6 @@ const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resu
 interface Props {
   config: ListFilterDateRangeConfig
   onChange: (value: ListFilterValue, id: string) => void
-  resetFilterError: boolean
 }
 
 const DateRangeWrapper = styled.div`
@@ -23,7 +22,7 @@ const DateRangeWrapper = styled.div`
   z-index: 10000;
 `
 
-const DateRangeFilter: React.FC<Props> = ({ config, onChange, resetFilterError }) => {
+const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const from = (config as ListFilterDateRangeConfig).from
   const to = (config as ListFilterDateRangeConfig).to
@@ -32,7 +31,9 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange, resetFilterError }
   const [validationError, setValidationError] = useState<ValidationError | null>(null)
 
   useEffect(() => {
-    toggleValidationError(value.to, value.from)
+    if (value) {
+      toggleValidationError(value.to, value.from)
+    }
   }, [value])
 
   const onFromDateFilterChange = (date: string) => {
