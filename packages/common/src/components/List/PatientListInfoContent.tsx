@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import infoImage from '../../images/info-image.svg'
 import alertImage from '../../images/alert-image.svg'
 import lockClosed from '../../images/lock-closed.svg'
