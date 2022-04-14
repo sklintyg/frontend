@@ -43,7 +43,7 @@ const PatientListInfoContent: React.FC<Props> = ({ info }) => {
           />
         )}
         {info.deceased && true && (
-          <Icon src={alertImage} data-tip="Patienten är avliden." alt="Symbol för att visa att patienten är avliden" />
+          <Icon src={alertImage} data-tip="Patienten är avliden." alt="Symbol för att visa att patienten är avliden." />
         )}
       </IconsWrapper>
     </Wrapper>

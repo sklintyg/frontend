@@ -1,23 +1,12 @@
 import * as React from 'react'
-import {
-  CertificateListItem,
-  CertificateListItemValueType,
-  ListConfig,
-  ListFilter,
-  ListFilterOrderConfig,
-  ListFilterType,
-  PatientListInfo,
-} from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterOrderConfig, ListFilterType } from '@frontend/common/src/types/list'
 import Table from '@frontend/common/src/components/Table/Table'
-import { CustomButton, PatientListInfoContent } from '@frontend/common'
-import { useHistory } from 'react-router-dom'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch, useSelector } from 'react-redux'
 import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
 import ListPagination from './pagination/ListPagination'
 import { getIsLoadingList } from '../../store/list/listSelectors'
 import ListFilterContainer from './filter/ListFilterContainer'
+import ListItemContent from './ListItemContent'
 
 interface Props {
   config: ListConfig | undefined
@@ -28,7 +17,6 @@ interface Props {
 
 const List: React.FC<Props> = ({ config, list, filter, title }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const isLoadingList = useSelector(getIsLoadingList)
 
   if (!config) {
@@ -41,53 +29,15 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
 
   const getTableData = (listItem: CertificateListItem) => {
     return config.tableHeadings.map((heading) => {
-      return getListItemContent(heading.id, listItem.values[heading.id], heading.type)
+      return (
+        <ListItemContent
+          key={heading.id}
+          value={listItem.values[heading.id]}
+          valueType={heading.type}
+          openCertificateTooltip={config ? config.openCertificateTooltip : ''}
+        />
+      )
     })
-  }
-
-  const openCertificate = (id: string) => {
-    history.push('/certificate/' + id)
-  }
-
-  const getOpenCertificateButton = (certificateId: string) => {
-    return (
-      <td>
-        <CustomButton
-          tooltip={config ? config.openCertificateTooltip : ''}
-          buttonStyle={'primary'}
-          onClick={() => openCertificate(certificateId)}>
-          Öppna
-        </CustomButton>
-      </td>
-    )
-  }
-
-  const getListItemContent = (key: string, value: string | PatientListInfo | boolean, valueType: CertificateListItemValueType) => {
-    switch (valueType) {
-      case CertificateListItemValueType.TEXT:
-        return <td>{value}</td>
-      case CertificateListItemValueType.DATE:
-        return <td>{value.toString().split('T')[0]}</td>
-      case CertificateListItemValueType.PATIENT_INFO:
-        return (
-          <td>
-            <PatientListInfoContent info={value as PatientListInfo} />
-          </td>
-        )
-      case CertificateListItemValueType.OPEN_BUTTON:
-        return getOpenCertificateButton(value as string)
-      case CertificateListItemValueType.FORWARD:
-        return value ? (
-          <td>
-            <FontAwesomeIcon icon={faCheck} className={`iu-color-main`} size="1x" />
-          </td>
-        ) : (
-          <td />
-        )
-      case CertificateListItemValueType.HIDDEN:
-      default:
-        return <></>
-    }
   }
 
   const getOrderBy = () => {

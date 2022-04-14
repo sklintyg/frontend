@@ -15,6 +15,7 @@ const renderComponent = (page = 1, pageTuple = 1, pageSize = 10, totalCount = 20
       handlePageTupleChange={handlePageTupleChange}
       pageSize={pageSize}
       totalCount={totalCount}
+      pagesPerTuple={10}
     />
   )
 }
