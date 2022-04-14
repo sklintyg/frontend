@@ -30,9 +30,8 @@ const FetchQuestionsProblem: React.FC<Props> = ({ errorId }) => {
         <p>
           {MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.
         </p>
-        <p>
-          Ange fel-id för snabbare hantering. <ErrorCopyText errorId={errorId} />.
-        </p>
+        <p>Ange fel-id för snabbare hantering.</p>
+        <ErrorCopyText errorId={errorId} />
       </CenteredImageWithContent>
     </Wrapper>
   )

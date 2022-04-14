@@ -19,8 +19,8 @@ import { getIcfData } from '../../../../components/icf/icfTestUtils'
 import { CertificateContext } from '../../CertificateContext'
 
 let testStore: EnhancedStore
-
 const history = createMemoryHistory()
+window.scrollTo = jest.fn()
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

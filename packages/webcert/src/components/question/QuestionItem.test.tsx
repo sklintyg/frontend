@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import { AnyAction, configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
@@ -10,18 +10,20 @@ import QuestionItem from './QuestionItem'
 import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { apiCallBegan } from '../../store/api/apiActions'
+import { isEqual } from 'lodash'
 
-let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+const setupStore = () =>
+  configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware),
+  })
 
 const renderComponent = (question: Question) => {
   render(
@@ -35,10 +37,7 @@ const renderComponent = (question: Question) => {
 
 describe('QuestionItem', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware),
-    })
+    testStore = setupStore()
   })
 
   afterEach(() => {
@@ -190,7 +189,7 @@ describe('QuestionItem', () => {
 
   describe('answering a question with user inputs', () => {
     beforeEach(() => {
-      fakeAxios = new MockAdapter(axios)
+      testStore = setupStore()
     })
 
     afterEach(() => {
@@ -229,27 +228,33 @@ describe('QuestionItem', () => {
 
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, 'Nu ändrar jag mitt svar')
+
       expect(screen.queryByText('Utkast sparat')).not.toBeInTheDocument()
     })
 
-    it('shall delete answer when delete is confirmed', async () => {
+    it('shall delete answer when delete is confirmed', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getByText('Ja, radera'))
 
-      await flushPromises()
-      expect(fakeAxios.history.delete.length).not.toBe(0)
+      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+
+      expect(
+        actionHasSimilarPayload(action, {
+          url: '/api/question/id/answer',
+          method: 'DELETE',
+        })
+      ).toEqual(true)
     })
 
-    it('shall not delete answer when delete is cancelled', async () => {
+    it('shall not delete answer when delete is cancelled', () => {
       renderComponent(addAnswerDraftToQuestion(createQuestion(), 'Det här är mitt svar!'))
 
       userEvent.click(screen.getByText('Avbryt'))
       userEvent.click(screen.getAllByText('Avbryt')[1])
 
-      await flushPromises()
-      expect(fakeAxios.history.delete.length).toBe(0)
+      expect(dispatchedActions).toHaveLength(0)
     })
 
     it('disable send and cancel while sending answer draft', () => {
@@ -280,7 +285,7 @@ describe('QuestionItem', () => {
 
   describe('question is handled or unhandled', () => {
     beforeEach(() => {
-      fakeAxios = new MockAdapter(axios)
+      testStore = setupStore()
     })
 
     afterEach(() => {
@@ -334,29 +339,39 @@ describe('QuestionItem', () => {
       expect(screen.queryByText('Hanterad')).not.toBeInTheDocument()
     })
 
-    it('shall set as handled if checkbox selected', async () => {
+    it('shall set as handled if checkbox selected', () => {
       renderComponent(createQuestion())
 
       userEvent.click(screen.getByText('Hanterad'))
 
-      await flushPromises()
-      expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].data).toBe('{"handled":true}')
+      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+
+      expect(
+        actionHasSimilarPayload(action, {
+          url: '/api/question/id/handle',
+          data: { handled: true },
+        })
+      ).toEqual(true)
     })
 
-    it('shall set as unhandled if checkbox deselected', async () => {
+    it('shall set as unhandled if checkbox deselected', () => {
       const question = createQuestion()
       question.handled = true
       renderComponent(question)
 
       userEvent.click(screen.getByText('Hanterad'))
 
-      await flushPromises()
-      expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].data).toBe('{"handled":false}')
+      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+
+      expect(
+        actionHasSimilarPayload(action, {
+          url: '/api/question/id/handle',
+          data: { handled: false },
+        })
+      ).toEqual(true)
     })
 
-    it('shall set as handled when handle is confirmed', async () => {
+    it('shall set as handled when handle is confirmed', () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -371,11 +386,17 @@ describe('QuestionItem', () => {
       userEvent.click(screen.getByText('Hanterad'))
       userEvent.click(screen.getAllByText('Markera som hanterad')[1])
 
-      await flushPromises()
-      expect(fakeAxios.history.post.length).not.toBe(0)
+      const action = dispatchedActions.find((a) => a.type === apiCallBegan.type)
+
+      expect(
+        actionHasSimilarPayload(action, {
+          url: '/api/question/id/handle',
+          data: { handled: true },
+        })
+      ).toEqual(true)
     })
 
-    it('shall not set as handled when handle is cancelled', async () => {
+    it('shall not set as handled when handle is cancelled', () => {
       renderComponent(
         addComplementsToQuestion(createQuestion(), [
           {
@@ -390,8 +411,7 @@ describe('QuestionItem', () => {
       userEvent.click(screen.getByText('Hanterad'))
       userEvent.click(screen.getByText('Avbryt'))
 
-      await flushPromises()
-      expect(fakeAxios.history.post.length).toBe(0)
+      expect(dispatchedActions).toHaveLength(0)
     })
   })
 
@@ -610,4 +630,17 @@ const createQuestion = (): Question => {
       },
     ],
   }
+}
+
+const actionHasSimilarPayload = (action: AnyAction | undefined, payload: any) => {
+  if (!action || !action.payload) return false
+
+  let similar = true
+  for (const prop in payload) {
+    if (!(payload.hasOwnProperty(prop) && action.payload.hasOwnProperty(prop) && isEqual(action.payload[prop], payload[prop]))) {
+      similar = false
+      break
+    }
+  }
+  return similar
 }
