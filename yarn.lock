@@ -10374,7 +10374,7 @@ indexes-of@^1.0.1:
   integrity sha1-8w9xbI4r00bHtn0985FVZqfAVgc=
 
 "inera-core-css@git+https://bitbucket.org/ineraservices/inera-core-css.git#master":
-  version "0.17.0"
+  version "0.16.0"
   resolved "git+https://bitbucket.org/ineraservices/inera-core-css.git#97c06011b5453c826040b13bfc4257fdf889d61c"
 
 infer-owner@^1.0.3, infer-owner@^1.0.4:
