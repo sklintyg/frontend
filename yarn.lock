@@ -10375,7 +10375,7 @@ indexes-of@^1.0.1:
 
 "inera-core-css@git+https://bitbucket.org/ineraservices/inera-core-css.git#master":
   version "0.16.0"
-  resolved "git+https://bitbucket.org/ineraservices/inera-core-css.git#97c06011b5453c826040b13bfc4257fdf889d61c"
+  resolved "git+https://bitbucket.org/ineraservices/inera-core-css.git#75f597de378ebb76d95ed2d5b4ecd649d8e57bf2"
 
 infer-owner@^1.0.3, infer-owner@^1.0.4:
   version "1.0.4"

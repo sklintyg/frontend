@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
 import externalLinkIcon from '../../images/external_link.svg'
 import { FooterCookiesModal } from './FooterCookiesModal'
 
