@@ -24,11 +24,11 @@ const AboutWebcertModalContent: React.FC = () => {
 
       <p>Nuvarande version är {version}.</p>
 
+      <p>Webcert är utvecklat för senaste versionen av webbläsare Edge Chromium och Chrome. </p>
       <p>
-        Webcert är utvecklat för senaste versionen av webbläsare Edge Chromium och Chrome. För att kunna generera utskrifter av intygen
-        använder sig Webcert av <WCDynamicLink linkKey={'iText7'} />. För mer information under vilka villkor iText7 får användas läs mer om
-        AGPL 3.0 på <WCDynamicLink linkKey={'agpl3'} />. För Webcerts källkod besök <WCDynamicLink linkKey={'github'} />. För Webcerts
-        upphovsrättslicens besök {<WCDynamicLink linkKey={'github'} />}.
+        För att kunna generera utskrifter av intygen använder sig Webcert av <WCDynamicLink linkKey={'iText7'} />. För mer information under
+        vilka villkor iText7 får användas läs mer om AGPL 3.0 på <WCDynamicLink linkKey={'agpl3'} />. För Webcerts källkod besök{' '}
+        <WCDynamicLink linkKey={'github'} />. För Webcerts upphovsrättslicens besök {<WCDynamicLink linkKey={'github'} />}.
       </p>
 
       <p className={'iu-fw-bold'}>Behandling av personuppgifter</p>
