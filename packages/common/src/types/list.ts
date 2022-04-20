@@ -85,6 +85,7 @@ export interface TableHeading {
   id: string
   title: string
   type: CertificateListItemValueType
+  description: string
 }
 
 export interface ListConfig {

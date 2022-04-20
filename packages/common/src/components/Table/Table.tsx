@@ -65,7 +65,7 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
 
   const getTableHeadings = () => {
     return headings.map((heading) => (
-      <th key={heading.id} scope="col" id={heading.id} onClick={onTableHeadClick}>
+      <th key={heading.id} scope="col" id={heading.id} onClick={onTableHeadClick} data-html data-tip={heading.description}>
         {getSortingArrow(heading.id, heading.title)}
         {heading.title}
       </th>

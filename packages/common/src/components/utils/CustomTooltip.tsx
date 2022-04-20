@@ -12,7 +12,7 @@ const CustomTooltip: React.FC<Props> = ({ placement }) => {
       type={'light'}
       effect={'solid'}
       place={placement ? placement : 'bottom'}
-      className={'ic-popover iu-fw-body'}
+      className={'ic-popover iu-fw-body ic-text'}
     />
   )
 }
