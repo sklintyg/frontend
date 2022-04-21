@@ -1,16 +1,23 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import { ListType } from '@frontend/common/src/types/list'
-import { getActiveList, getActiveListConfig, getActiveListFilter, getIsLoadingListConfig, hasListError } from '../store/list/listSelectors'
+import {
+  getActiveList,
+  getActiveListConfig,
+  getActiveListFilter,
+  getIsLoadingListConfig,
+  getListTotalCount,
+  hasListError,
+} from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getDraftListConfig, performListSearch } from '../store/list/listActions'
+import { getCertificateListConfig, getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
-import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
+import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 
 interface Props {
   type: ListType
@@ -38,10 +45,18 @@ const ListPage: React.FC<Props> = ({ type }) => {
     }
   }, [config, isLoadingListConfig])
 
+  const isListCompletelyEmpty = () => {
+    if (type === ListType.DRAFTS) {
+      return nbrOfDraftsOnUnit === 0
+    } else {
+      return false
+    }
+  }
+
   const getList = () => {
     if (error) {
       return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
-    } else if (nbrOfDraftsOnUnit === 0 && false) {
+    } else if (isListCompletelyEmpty()) {
       return (
         <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
           {config && <p>{config.emptyListText}</p>}
