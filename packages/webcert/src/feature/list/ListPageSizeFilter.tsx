@@ -44,9 +44,9 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
 
   const getFilterComponent = () => {
     return (
-      <div className={'iu-pb-300'}>
+      <div className="iu-pb-300">
         <Dropdown
-          onChange={(e) => handleFilterChange(e)}
+          onChange={handleFilterChange}
           label={filter.title}
           id={filter.id}
           options={getSelectOptions()}
@@ -56,7 +56,7 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
     )
   }
 
-  return <>{getFilterComponent()}</>
+  return getFilterComponent()
 }
 
 export default ListPageSizeFilter

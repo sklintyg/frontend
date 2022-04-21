@@ -24,8 +24,8 @@ const DateRangeWrapper = styled.div`
 
 const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
-  const from = (config as ListFilterDateRangeConfig).from
-  const to = (config as ListFilterDateRangeConfig).to
+  const from = config.from
+  const to = config.to
   const [toValidationError, setToValidationError] = useState<ValidationError | null>(null)
   const [fromValidationError, setFromValidationError] = useState<ValidationError | null>(null)
   const [validationError, setValidationError] = useState<ValidationError | null>(null)
@@ -73,11 +73,11 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   }
 
   const getFromValue = () => {
-    return value ? (value as ListFilterValueDateRange).from : ''
+    return value ? value.from : ''
   }
 
   const getToValue = () => {
-    return value ? (value as ListFilterValueDateRange).to : ''
+    return value ? value.to : ''
   }
 
   const onValidationError = (isInactive: boolean, validationError: ValidationError) => {
@@ -104,7 +104,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             componentField={from.id}
             displayValidationErrorOutline={!!fromValidationError || !!validationError}
           />
-          {!!fromValidationError && <p className="iu-color-error">{fromValidationError.text}</p>}
+          {fromValidationError && <p className="iu-color-error">{fromValidationError.text}</p>}
         </FilterWrapper>
         <FilterWrapper highlighted={getToValue() || config.alwaysHighlighted}>
           <DatePickerCustom
@@ -118,10 +118,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             componentField={to.id}
             displayValidationErrorOutline={!!toValidationError || !!validationError}
           />
-          {!!toValidationError && <p className="iu-color-error">{toValidationError.text}</p>}
+          {toValidationError && <p className="iu-color-error">{toValidationError.text}</p>}
         </FilterWrapper>
       </DateRangeWrapper>
-      {!!validationError && <p className="iu-color-error">{validationError.text}</p>}
+      {validationError && <p className="iu-color-error">{validationError.text}</p>}
     </div>
   )
 }
