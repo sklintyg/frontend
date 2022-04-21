@@ -4,6 +4,7 @@ import alertImage from '../../images/alert-image.svg'
 import warningImage from '../../images/warning-image.svg'
 import lockClosed from '../../images/lock-closed.svg'
 import { PatientListInfo } from '../../types/list'
+import { formatPersonId } from '../../utils/personIdValidatorUtils'
 
 const Icon = styled.img`
   width: 14px;
@@ -26,7 +27,7 @@ interface Props {
 const PatientListInfoContent: React.FC<Props> = ({ info }) => {
   return (
     <Wrapper>
-      {info.id}
+      {formatPersonId(info.id)}
       <IconsWrapper>
         {info.protectedPerson && (
           <Icon

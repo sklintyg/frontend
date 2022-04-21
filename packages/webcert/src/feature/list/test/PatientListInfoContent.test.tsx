@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { PatientListInfoContent } from '@frontend/common'
 
-const PATIENT_ID = 'patientId'
+const PATIENT_ID = '191212121212'
+const FORMATTED_PATIENT_ID = '19121212-1212'
 
 const renderComponent = (protectedPerson: boolean, deceased: boolean, testIndicated: boolean) => {
   render(<PatientListInfoContent info={getInfo(protectedPerson, deceased, testIndicated)} />)
@@ -11,7 +12,7 @@ const renderComponent = (protectedPerson: boolean, deceased: boolean, testIndica
 describe('PatientListInfoContent', () => {
   it('should render person id', () => {
     renderComponent(false, false, false)
-    expect(screen.getByText(PATIENT_ID)).toBeInTheDocument()
+    expect(screen.getByText(FORMATTED_PATIENT_ID)).toBeInTheDocument()
   })
 
   it('should render protected person symbol', () => {
