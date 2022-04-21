@@ -19,3 +19,11 @@ export const isPersonIdValid = (patientId: string): boolean => {
 
   return checkSum % 10 === 0
 }
+
+export const formatPersonId = (id: string) => {
+  let cleanId = id.replace(/\D/g, '')
+  if (cleanId.length > 8) {
+    cleanId = cleanId.slice(0, 8) + '-' + cleanId.slice(8, cleanId.length)
+  }
+  return cleanId
+}

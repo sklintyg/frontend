@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TextInput } from '../index'
 import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
-import { isPersonIdValid } from '../../utils/personIdValidatorUtils'
+import { formatPersonId, isPersonIdValid } from '../../utils/personIdValidatorUtils'
 import styled, { css } from 'styled-components'
 
 interface Props {
@@ -33,14 +33,6 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
       setDisplayError(false)
     }
   }, [value])
-
-  const formatPersonId = (id: string) => {
-    let cleanId = id.replace(/\D/g, '')
-    if (cleanId.length > 8) {
-      cleanId = cleanId.slice(0, 8) + '-' + cleanId.slice(8, cleanId.length)
-    }
-    return cleanId
-  }
 
   return (
     <>
