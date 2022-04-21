@@ -110,7 +110,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
   }
 
   return (
-    <Wrapper className="iu-py-500 iu-display-flex">
+    <Wrapper className="iu-py-500">
       <NumberOfHitsText totalPages={totalPages} page={page} startFrom={getStartFrom(page)} totalCount={totalCount} pageSize={pageSize} />
       {totalPages > 1 && (
         <PaginationWrapper>
