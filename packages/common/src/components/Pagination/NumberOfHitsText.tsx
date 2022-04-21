@@ -13,18 +13,14 @@ const NumberOfHitsText: React.FC<Props> = ({ totalPages, page, startFrom, totalC
     const isLastPage = totalPages === page
     const start = startFrom + 1
     const end = !isLastPage ? startFrom + pageSize : totalCount
-    return (
-      <>
-        {totalPages > 1 ? (
-          <p>
-            Visar {start} - {end} av {totalCount} träffar
-          </p>
-        ) : (
-          <p>
-            Visar {end} av {end} träffar
-          </p>
-        )}
-      </>
+    return totalPages > 1 ? (
+      <p>
+        Visar {start} - {end} av {totalCount} träffar
+      </p>
+    ) : (
+      <p>
+        Visar {end} av {end} träffar
+      </p>
     )
   }
 
