@@ -9,11 +9,15 @@ export const FilterWrapper = styled.div<WrapperProps>`
     min-width: 30ch !important;
   }
 
-  .dropdown,
-  input,
-  button {
-    :not(.error) {
-      background-color: ${(props) => (props.highlighted ? 'rgba(1, 165, 163, 0.08)' : '')};
-    }
-  }
+  ${({ highlighted }) =>
+    highlighted &&
+    `
+      .dropdown,
+      input,
+      button {
+        :not(.error) {
+          background-color: rgba(1, 165, 163, 0.08);
+        }
+      }
+  `}
 `
