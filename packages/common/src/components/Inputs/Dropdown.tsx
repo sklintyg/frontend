@@ -17,9 +17,11 @@ const Dropdown: React.FC<Props> = (props) => {
     <>
       {label !== 'undefined' ? <label htmlFor={id}>{label}</label> : null}
       <div
-        className={`ic-forms__select ${hasValidationError ? 'iu-border-error dropdown' : 'dropdown'} ${
-          disabled ? 'ic-forms__select--disabled' : ''
-        }`}>
+        className={classNames('ic-forms__select', {
+          'iu-border-error dropdown': hasValidationError,
+          dropdown: !hasValidationError,
+          'ic-forms__select--disabled': disabled,
+        })}>
         <select value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
           {options}
         </select>

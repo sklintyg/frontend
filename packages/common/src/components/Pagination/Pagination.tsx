@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import NumberOfHitsText from './NumberOfHitsText'
+import classNames from 'classnames'
 
 interface Props {
   page: number
@@ -116,26 +117,26 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
         <PaginationWrapper>
           <button
             disabled={isShowLessDisabled()}
-            className={!isShowLessDisabled() ? '' : 'iu-color-grey-400'}
+            className={classNames({ 'iu-color-grey-400': isShowLessDisabled() })}
             onClick={() => handleShowLessClick()}>
             Visa färre
           </button>
           <button
             disabled={isPreviousDisabled()}
-            className={!isPreviousDisabled() ? '' : 'iu-color-grey-400'}
+            className={classNames({ 'iu-color-grey-400': isPreviousDisabled() })}
             onClick={() => handlePreviousClick()}>
             Föregående
           </button>
           <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
           <button
             disabled={isNextDisabled()}
-            className={!isNextDisabled() ? '' : 'inactive iu-color-grey-400'}
+            className={classNames({ 'inactive iu-color-grey-400': isNextDisabled() })}
             onClick={() => handleNextClick()}>
             Nästa
           </button>
           <button
             disabled={isShowMoreDisabled()}
-            className={!isShowMoreDisabled() ? '' : 'inactive iu-color-grey-400'}
+            className={classNames({ 'iu-color-grey-400': isShowMoreDisabled() })}
             onClick={() => handleShowMoreClick()}>
             Visa mer
           </button>

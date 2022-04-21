@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { ValidationError } from '../../..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
+import classNames from 'classnames'
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -154,7 +155,7 @@ const DatePickerCustom: React.FC<Props> = ({
             name={textInputName}
             type="text"
             maxLength={10}
-            className={` ic-textfield ${displayValidationErrorOutline ? 'ic-textfield--error error' : ''}`}
+            className={classNames('ic-textfield', { 'ic-textfield--error error': displayValidationErrorOutline })}
             onChange={handleTextInputOnChange}
             onBlur={handleTextInputOnBlur}
             onKeyDown={textInputOnKeyDown}
@@ -176,7 +177,7 @@ const DatePickerCustom: React.FC<Props> = ({
               <StyledButton
                 displayValidationError={displayValidationErrorOutline}
                 onClick={() => setOpen(true)}
-                className={`ic-button ${displayValidationErrorOutline ? 'error' : ''}`}
+                className={classNames('ic-button', { error: displayValidationErrorOutline })}
                 onClickCapture={() => setOpen(!open)}>
                 <FontAwesomeIcon icon={faCalendar} />{' '}
               </StyledButton>
