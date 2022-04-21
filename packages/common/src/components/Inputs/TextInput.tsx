@@ -50,7 +50,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         value={value}
         onBlur={onBlur}
         onFocus={onFocus}
-        onChange={(e) => onChange(e)}
+        onChange={onChange}
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}
         id={id ?? 'textinput'}
