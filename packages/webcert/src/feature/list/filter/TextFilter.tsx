@@ -26,7 +26,7 @@ const ListFilterComponent: React.FC<Props> = ({ config, onChange, isHighlighted 
   return (
     <FilterWrapper highlighted={isHighlighted}>
       <TextInput
-        onChange={(e) => onTextFilterChange(e)}
+        onChange={onTextFilterChange}
         value={value ? (value as ListFilterValueText).value : ''}
         label={config.title}
         id={config.id}

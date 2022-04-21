@@ -31,7 +31,7 @@ const PersonIdFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) =>
   return (
     <FilterWrapper highlighted={isHighlighted}>
       <PersonIdInput
-        onFormattedChange={(e) => onPersonIdFilterChange(e)}
+        onFormattedChange={onPersonIdFilterChange}
         value={value ? (value as ListFilterValueText).value : ''}
         label={config.title}
         id={config.id}

@@ -30,7 +30,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
       dispatch(getDraftListConfig())
     }
     dispatch(updateActiveListType(type))
-  }, [])
+  }, [dispatch, type])
 
   useEffect(() => {
     if (!isLoadingListConfig && config) {
@@ -44,7 +44,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
     } else if (nbrOfDraftsOnUnit === 0 && false) {
       return (
         <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
-          <p>{config?.emptyListText}</p>
+          {config && <p>{config.emptyListText}</p>}
         </ImageCentered>
       )
     } else {
@@ -57,7 +57,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
       {!isLoadingListConfig && (
         <>
           <WebcertHeader />
-          <CustomTooltip />
+          <CustomTooltip placement="top" />
           <ListHeader title={config?.title} description={config?.description} />
           <div className="ic-container">{getList()}</div>
         </>

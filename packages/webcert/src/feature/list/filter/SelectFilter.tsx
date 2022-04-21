@@ -24,7 +24,7 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   }
 
   const getSelectOptions = () => {
-    return (config as ListFilterSelectConfig).values.map((configValue) => (
+    return config.values.map((configValue) => (
       <option key={configValue.id} id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
         {configValue.name}
       </option>
@@ -34,7 +34,7 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   return (
     <FilterWrapper highlighted={isHighlighted}>
       <Dropdown
-        onChange={(e) => onSelectFilterChange(e)}
+        onChange={onSelectFilterChange}
         label={config.title}
         id={config.id}
         options={getSelectOptions()}
