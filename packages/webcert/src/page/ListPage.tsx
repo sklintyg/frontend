@@ -59,7 +59,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
           <WebcertHeader />
           <CustomTooltip />
           <ListHeader title={config?.title} description={config?.description} />
-          <div className={'ic-container'}>{getList()}</div>
+          <div className="ic-container">{getList()}</div>
         </>
       )}
     </Backdrop>
