@@ -39,8 +39,8 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   }, [value])
 
   useEffect(() => {
-    dispatch(updateHasValidationError(!!validationError))
-  }, [validationError])
+    dispatch(updateHasValidationError(!!validationError || !!toValidationError || !!fromValidationError))
+  }, [validationError, toValidationError, fromValidationError])
 
   const onFromDateFilterChange = (date: string) => {
     const updatedValue: ListFilterValue = { ...value }
