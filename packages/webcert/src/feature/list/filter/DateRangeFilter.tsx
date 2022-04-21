@@ -4,8 +4,9 @@ import { ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } 
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
-import { DatePickerCustom, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
+import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
 import { FilterWrapper } from './filterStyles'
+import { updateHasValidationError } from '../../../store/list/listActions'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resultat.'
