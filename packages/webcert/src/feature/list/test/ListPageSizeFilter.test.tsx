@@ -26,31 +26,23 @@ const getFilterConfig = (pageSizes: number[]) => {
 
 const renderComponent = (totalCount: number) => {
   render(
-    <>
-      <ListPageSizeFilter
-        filter={getFilterConfig(pageSizes)}
-        onFilterChange={onFilterChange}
-        value={getFilterValue()}
-        totalCount={totalCount}
-      />
-    </>
+    <ListPageSizeFilter
+      filter={getFilterConfig(pageSizes)}
+      onFilterChange={onFilterChange}
+      value={getFilterValue()}
+      totalCount={totalCount}
+    />
   )
 }
 
 const renderComponentWithNoPageSizes = (totalCount: number) => {
   render(
-    <>
-      <ListPageSizeFilter filter={getFilterConfig([])} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
-    </>
+    <ListPageSizeFilter filter={getFilterConfig([])} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
   )
 }
 
 const renderComponentWithUndefinedConfig = (totalCount: number) => {
-  render(
-    <>
-      <ListPageSizeFilter filter={undefined} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
-    </>
-  )
+  render(<ListPageSizeFilter filter={undefined} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />)
 }
 
 describe('ListPageSizeFilter', () => {
