@@ -8,7 +8,7 @@ import {
 } from '@frontend/common/src/types/list'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import PersonIdInput from '@frontend/common/src/components/Inputs/PatientIdInput'
+import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
 import { FilterWrapper } from './filterStyles'
 
 interface Props {

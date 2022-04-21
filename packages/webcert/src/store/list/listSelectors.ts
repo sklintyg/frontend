@@ -19,3 +19,5 @@ export const getListTotalCount = (state: RootState): number => state.ui.uiList.t
 export const getIsLoadingList = (state: RootState): boolean => state.ui.uiList.isLoadingList
 
 export const getIsLoadingListConfig = (state: RootState): boolean => state.ui.uiList.isLoadingListConfig
+
+export const getHasValidationErrors = (state: RootState): boolean => state.ui.uiList.hasValidationError

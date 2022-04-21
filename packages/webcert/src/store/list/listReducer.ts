@@ -11,6 +11,7 @@ import {
   updateActiveListFilter,
   updateActiveListFilterValue,
   updateActiveListType,
+  updateHasValidationError,
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateTotalCount,
@@ -26,6 +27,7 @@ interface ListState {
   totalCount: number
   isLoadingList: boolean
   isLoadingListConfig: boolean
+  hasValidationError: boolean
 }
 
 const initialState: ListState = {
@@ -37,6 +39,7 @@ const initialState: ListState = {
   totalCount: 0,
   isLoadingList: true,
   isLoadingListConfig: true,
+  hasValidationError: false,
 }
 
 const listReducer = createReducer(initialState, (builder) =>
@@ -86,6 +89,9 @@ const listReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsLoadingListConfig, (state, action) => {
       state.isLoadingListConfig = action.payload
+    })
+    .addCase(updateHasValidationError, (state, action) => {
+      state.hasValidationError = action.payload
     })
 )
 

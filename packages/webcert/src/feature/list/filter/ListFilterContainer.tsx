@@ -14,7 +14,7 @@ import { clearActiveListFilter, performListSearch, updateActiveListFilterValue }
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { isFilterValuesValid } from '../listUtils'
-import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
+import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
 
 const Root = styled.div`
   padding-top: 24px;
@@ -38,6 +38,7 @@ interface Props {
 const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   const dispatch = useDispatch()
   const totalCount = useSelector(getListTotalCount)
+  const hasValidationErrors = useSelector(getHasValidationErrors)
   const pageSizeFilter = config?.filters.find((filter) => filter.type === ListFilterType.PAGESIZE) as ListFilterPageSizeConfig
   const pageSizeValue = useSelector(getActiveListFilterValue(pageSizeFilter ? pageSizeFilter.id : '')) as ListFilterValue
 
@@ -90,7 +91,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
             searchTooltip={config.searchCertificateTooltip}
             onSearch={onSearch}
             onReset={onReset}
-            isSearchEnabled={filter ? isFilterValuesValid(filter.values) : true}
+            isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}
           />
         </FilterWrapper>
       </Root>

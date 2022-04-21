@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
 import { DatePickerCustom, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
@@ -23,6 +23,7 @@ const DateRangeWrapper = styled.div`
 `
 
 const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
+  const dispatch = useDispatch()
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const from = config.from
   const to = config.to
@@ -35,6 +36,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
       toggleValidationError(value.to, value.from)
     }
   }, [value])
+
+  useEffect(() => {
+    dispatch(updateHasValidationError(!!validationError))
+  }, [validationError])
 
   const onFromDateFilterChange = (date: string) => {
     const updatedValue: ListFilterValue = { ...value }

@@ -7,7 +7,7 @@ import { getPatient } from '../../store/patient/patientActions'
 import { useHistory } from 'react-router-dom'
 import PatientSearchError from './PatientSearchError'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
-import PatientIdInput from '@frontend/common/src/components/Inputs/PatientIdInput'
+import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
 
 const FormWrapper = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const PatientSearch: React.FC = () => {
     <div className="ic-container iu-p-400">
       <h2>Patientens personnummer eller samordningsnummer</h2>
       <FormWrapper className="iu-mt-300">
-        <PatientIdInput onFormattedChange={onChange} value={patientId} />
+        <PersonIdInput onFormattedChange={onChange} value={patientId} />
         <CustomButton text="Fortsätt" disabled={!isPersonIdValid(patientId)} buttonStyle="primary" onClick={onSubmit} />
       </FormWrapper>
       <PatientSearchError />
