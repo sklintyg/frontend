@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import InvalidPatientIdMessage from './InvalidPersonIdMessage'
+import InvalidPersonIdMessage from './InvalidPersonIdMessage'
 
 const EXPECTED_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
 const renderComponent = (display: boolean) => {
-  render(<InvalidPatientIdMessage display={display} />)
+  render(<InvalidPersonIdMessage display={display} />)
 }
 
 describe('InvalidPersonIdMessage', () => {
