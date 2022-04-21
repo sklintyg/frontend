@@ -24,11 +24,9 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     }
 
     secondaryItems.push(
-      <>
-        <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
-          <AboutWebcertModalContent />
-        </TextWithInfoModal>
-      </>
+      <TextWithInfoModal text={'Om Webcert'} modalTitle={'Om Webcert'}>
+        <AboutWebcertModalContent />
+      </TextWithInfoModal>
     )
 
     const logoutLink = userLinks?.find((link) => link.type === ResourceLinkType.LOG_OUT)
