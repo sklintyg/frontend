@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CertificateListItemValueType, PatientListInfo } from '@frontend/common/src/types/list'
-import { CustomButton, PatientListInfoContent } from '@frontend/common'
+import { PatientListInfoContent } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,9 +22,9 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
   const getOpenCertificateButton = (certificateId: string) => {
     return (
       <td>
-        <CustomButton tooltip={openCertificateTooltip} buttonStyle={'primary'} onClick={() => openCertificate(certificateId)}>
+        <a data-tip={openCertificateTooltip} className="ic-button ic-button--primary" onClick={() => openCertificate(certificateId)}>
           Öppna
-        </CustomButton>
+        </a>
       </td>
     )
   }
@@ -53,7 +53,7 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
         )
       case CertificateListItemValueType.HIDDEN:
       default:
-        return <></>
+        return <td />
     }
   }
 
