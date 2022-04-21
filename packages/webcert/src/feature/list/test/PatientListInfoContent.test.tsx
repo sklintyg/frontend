@@ -16,24 +16,24 @@ describe('PatientListInfoContent', () => {
 
   it('should render protected person symbol', () => {
     renderComponent(true, false, false)
-    expect(screen.getByLabelText('skyddade personuppgifter', { exact: false })).toBeInTheDocument()
+    expect(screen.getByAltText('skyddade personuppgifter', { exact: false })).toBeInTheDocument()
   })
 
   it('should render deceased symbol', () => {
     renderComponent(false, true, false)
-    expect(screen.getByLabelText('avliden', { exact: false })).toBeInTheDocument()
+    expect(screen.getByAltText('avliden', { exact: false })).toBeInTheDocument()
   })
 
   it('should render test indicated symbol', () => {
     renderComponent(false, false, true)
-    expect(screen.getByLabelText('valideringsperson', { exact: false })).toBeInTheDocument()
+    expect(screen.getByAltText('valideringsperson', { exact: false })).toBeInTheDocument()
   })
 
   it('should render no symbol if patient info has no flags', () => {
     renderComponent(false, false, false)
-    expect(screen.queryByLabelText('avliden', { exact: false })).not.toBeInTheDocument()
-    expect(screen.queryByLabelText('skyddade personuppgifter', { exact: false })).not.toBeInTheDocument()
-    expect(screen.queryByLabelText('valideringsperson', { exact: false })).not.toBeInTheDocument()
+    expect(screen.queryByAltText('avliden', { exact: false })).not.toBeInTheDocument()
+    expect(screen.queryByAltText('skyddade personuppgifter', { exact: false })).not.toBeInTheDocument()
+    expect(screen.queryByAltText('valideringsperson', { exact: false })).not.toBeInTheDocument()
   })
 })
 
