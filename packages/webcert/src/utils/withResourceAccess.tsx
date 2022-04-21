@@ -4,7 +4,7 @@ import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/use
 import { useSelector } from 'react-redux'
 import { Redirect, useLocation } from 'react-router-dom'
 
-export function withResourceAccess<P>(WrappedComponent: React.FC): React.FC<P> {
+export function withResourceAccess<P>(WrappedComponent: React.FC<P>): React.FC<P> {
   return (props: P) => {
     const isLoadingUser = useSelector(selectIsLoadingUser)
     const user = useSelector(getUser)

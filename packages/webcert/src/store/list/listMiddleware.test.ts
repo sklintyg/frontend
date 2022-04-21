@@ -60,18 +60,6 @@ describe('Test list middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiList.totalCount).toEqual(expectedTotalCount)
     })
-
-    it('shall set list type', async () => {
-      const expectedTotalCount = 10
-      const expectedList: CertificateListItem[] = []
-      const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
-      fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
-
-      testStore.dispatch(getDrafts(getFilter()))
-
-      await flushPromises()
-      expect(testStore.getState().ui.uiList.activeListType).toEqual(ListType.DRAFTS)
-    })
   })
 
   describe('Handle get draft list config', () => {
@@ -93,29 +81,22 @@ describe('Test list middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
     })
-
-    it('shall set list type', async () => {
-      const expectedConfig = getConfigWithTextFilter()
-
-      fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
-
-      testStore.dispatch(getDraftListConfig())
-
-      await flushPromises()
-      expect(testStore.getState().ui.uiList.activeListType).toEqual(ListType.DRAFTS)
-    })
   })
 
   describe('Handle perform list search', () => {
     it('shall get drafts if correct list type', async () => {
+      const expectedTotalCount = 10
+      const expectedList: CertificateListItem[] = []
+      const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
+      fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
       testStore.dispatch(updateActiveListFilter(getFilterWithValues()))
       testStore.dispatch(updateActiveListType(ListType.DRAFTS))
 
       testStore.dispatch(performListSearch)
 
       await flushPromises()
-      expect(fakeAxios.history.get.length).toBe(1)
-      expect(fakeAxios.history.get[0].url).toEqual('/api/list/draft')
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/list/draft')
     })
   })
 })

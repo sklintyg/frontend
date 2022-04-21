@@ -10,6 +10,7 @@ import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
+import { withResourceAccess } from '../utils/withResourceAccess'
 
 interface Props {
   type: ListType
@@ -28,6 +29,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
     if (type === ListType.DRAFTS) {
       dispatch(getDraftListConfig())
     }
+    dispatch(updateActiveListType(type))
   }, [])
 
   useEffect(() => {
@@ -64,6 +66,4 @@ const ListPage: React.FC<Props> = ({ type }) => {
   )
 }
 
-export default ListPage
-
-//export const ListPageWithRedirect = withResourceAccess(ListPage)
+export const ListPageWithRedirect = withResourceAccess<Props>(ListPage)

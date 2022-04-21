@@ -13,7 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import ListPage from './page/ListPage'
+import { ListPageWithRedirect } from './page/ListPage'
 import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
@@ -53,7 +53,7 @@ function App(): JSX.Element {
           <Route path="/welcome" render={() => <Welcome />} />
           <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
           <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
-          <Route path="/list/draft" render={() => <ListPage type={ListType.DRAFTS} />} />
+          <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
         </Switch>
       </ErrorBoundary>
     </BrowserRouter>
