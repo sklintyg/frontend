@@ -53,7 +53,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         onChange={(e) => onChange(e)}
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}
-        id={id}
+        id={id ?? 'textinput'}
       />
     </>
   )
