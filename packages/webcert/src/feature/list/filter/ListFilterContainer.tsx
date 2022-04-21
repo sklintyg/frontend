@@ -46,9 +46,6 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   }
 
   const getSelectFilter = () => {
-    if (!config) {
-      return null
-    }
     return config.filters.map(
       (filterConfig) =>
         filterConfig.type === ListFilterType.SELECT && (
@@ -58,11 +55,8 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   }
 
   const getOtherFilter = () => {
-    if (!config) {
-      return null
-    }
     return config.filters.map(
-      (filterConfig, index) =>
+      (filterConfig) =>
         filterConfig.type !== ListFilterType.SELECT && (
           <ListFilterComponent key={filterConfig.id} config={filterConfig} onChange={onFilterChange} />
         )
