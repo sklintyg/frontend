@@ -57,7 +57,7 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
     }
   }
 
-  return <>{getListItemContent()}</>
+  return getListItemContent()
 }
 
 export default ListItemContent
