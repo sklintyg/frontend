@@ -29,12 +29,17 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
     )
   }
 
+  function formatDate(value: string) {
+    const splitDate = value.toString().split('T')
+    return <>{`${splitDate[0]} ${splitDate[1].substring(0, 5)}`}</>
+  }
+
   const getListItemContent = () => {
     switch (valueType) {
       case CertificateListItemValueType.TEXT:
         return <td>{value}</td>
       case CertificateListItemValueType.DATE:
-        return <td>{value.toString().split('T')[0]}</td>
+        return <td>{formatDate(value as string)}</td>
       case CertificateListItemValueType.PATIENT_INFO:
         return (
           <td>
