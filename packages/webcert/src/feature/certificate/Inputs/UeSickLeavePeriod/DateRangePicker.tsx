@@ -245,8 +245,10 @@ const DateRangePicker: React.FC<Props> = ({
       tomTextInputRef.current?.focus()
       const fromDate = getPeriodStartingDate()
       setFromDateInput(fromDate)
+      toggleShowValidationError(fromDate, toDateInput)
     } else {
       reset()
+      toggleShowValidationError('', '')
     }
   }
 

@@ -264,4 +264,18 @@ describe('Date range picker', () => {
 
     expect(screen.queryByText('Arbetstid:', { exact: false })).not.toBeInTheDocument()
   })
+
+  it('should not complete date message if checkbox is clicked to remove date', () => {
+    renderDefaultComponent(null, null, '0')
+    store.dispatch(showValidationErrors())
+
+    const input = screen.getByLabelText('Fr.o.m')
+
+    userEvent.type(input, '20210202')
+    userEvent.click(screen.getByText('t.o.m'))
+    expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
+  })
 })
