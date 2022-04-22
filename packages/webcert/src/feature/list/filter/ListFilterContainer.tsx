@@ -55,6 +55,13 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
     )
   }
 
+  const hasSelectFilter = () => {
+    if (!config) {
+      return false
+    }
+    return config.filters.some((filterConfig) => filterConfig.type === ListFilterType.SELECT)
+  }
+
   const getOtherFilter = () => {
     return config.filters.map(
       (filterConfig) =>
@@ -84,7 +91,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   return (
     <>
       <Root>
-        <FilterWrapper>{getSelectFilter()}</FilterWrapper>
+        {hasSelectFilter() && <FilterWrapper>{getSelectFilter()}</FilterWrapper>}
         <FilterWrapper>
           {getOtherFilter()}
           <ListFilterButtons

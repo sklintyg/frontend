@@ -18,6 +18,8 @@ export const getPageSizeFilter = (): ListFilterPageSizeConfig => {
     id: 'PAGE_SIZE_FILTER',
     title: 'title',
     pageSizes: [10, 20, 50, 100],
+    description: 'description',
+    alwaysHighlighted: false,
   }
 }
 export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
@@ -26,6 +28,8 @@ export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
     id: 'TEXT_FILTER',
     title: title,
     placeholder: 'test',
+    description: 'description',
+    alwaysHighlighted: false,
   }
 }
 export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
@@ -34,6 +38,8 @@ export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
     id: 'TEXT_FILTER',
     title: title,
     defaultValue: true,
+    description: 'description',
+    alwaysHighlighted: false,
   }
 }
 export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => {
@@ -42,6 +48,8 @@ export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => 
     id: 'PERSON_FILTER',
     title: title,
     placeholder: 'test',
+    description: 'description',
+    alwaysHighlighted: false,
   }
 }
 export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
@@ -49,6 +57,8 @@ export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
     type: ListFilterType.SELECT,
     id: 'PERSON_FILTER',
     title: title,
+    description: 'description',
+    alwaysHighlighted: false,
     values: [
       { id: 'option1', name: 'option1', defaultValue: false },
       { id: 'option2', name: 'option2', defaultValue: true },
@@ -64,11 +74,13 @@ export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 
       type: ListFilterType.DATE,
       id: 'to',
       title: toTitle,
+      defaultValue: 'default1',
     },
     from: {
       type: ListFilterType.DATE,
       id: 'from',
       title: fromTitle,
+      defaultValue: 'default2',
     },
   }
 }
@@ -78,6 +90,8 @@ export const getOrderFilter = (title = 'title'): ListFilterOrderConfig => {
     id: 'PERSON_FILTER',
     title: title,
     defaultValue: 'defaultOrder',
+    description: 'description',
+    alwaysHighlighted: false,
   }
 }
 
@@ -96,6 +110,9 @@ export const getConfig = (
     searchCertificateTooltip: searchCertificateTooltip,
     tableHeadings: tableHeadings,
     defaultOrderBy: defaultOrderBy,
+    description: 'description',
+    secondaryTitle: 'secondaryTitle',
+    emptyListText: 'emptyListText',
   }
 }
 
@@ -122,11 +139,15 @@ export const getConfigWithTextFilter = (): ListConfig => {
     filters: [getTextFilter()],
     openCertificateTooltip: 'tooltip',
     searchCertificateTooltip: 'tooltip',
+    description: 'description',
+    secondaryTitle: 'secondaryTitle',
+    emptyListText: 'emptyListText',
     tableHeadings: [
       {
         id: 'id',
         title: 'title',
         type: CertificateListItemValueType.TEXT,
+        description: 'description',
       },
     ],
     defaultOrderBy: 'orderBy',

@@ -17,6 +17,7 @@ import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
+import { isFilterDefault } from '../feature/list/listUtils'
 import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 
 interface Props {
@@ -30,11 +31,14 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const filter = useSelector(getActiveListFilter)
   const error = useSelector(hasListError)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
+  const totalCount = useSelector(getListTotalCount)
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
 
   useEffect(() => {
     if (type === ListType.DRAFTS) {
       dispatch(getDraftListConfig())
+    } else if (type === ListType.CERTIFICATES) {
+      dispatch(getCertificateListConfig())
     }
     dispatch(updateActiveListType(type))
   }, [dispatch, type])
@@ -47,9 +51,10 @@ const ListPage: React.FC<Props> = ({ type }) => {
 
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {
-      return nbrOfDraftsOnUnit === 0
+      return nbrOfDraftsOnUnit === 0 && false
     } else {
-      return false
+      const isFirstSearch = isFilterDefault(config?.filters, filter?.values)
+      return isFirstSearch && totalCount === 0
     }
   }
 

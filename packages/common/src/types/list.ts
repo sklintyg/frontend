@@ -43,6 +43,7 @@ export interface ListFilterConfig {
   id: string
   title: string
   alwaysHighlighted: boolean
+  description: string
 }
 
 export interface ListFilterConfigValue {
@@ -75,9 +76,15 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
   values: ListFilterConfigValue[]
 }
 
+export interface ListFilterDateConfig extends ListFilterConfig {
+  max: string
+  min: string
+  defaultValue: string
+}
+
 export interface ListFilterDateRangeConfig extends ListFilterConfig {
-  to: ListFilterConfig
-  from: ListFilterConfig
+  to: ListFilterDateConfig
+  from: ListFilterDateConfig
   forbidFutureDates: boolean
 }
 
