@@ -127,6 +127,10 @@ img {
   overflow: hidden !important;
 }
 
+.react-datepicker-popper {
+  z-index: 100 !important;
+}
+
 .react-datepicker__navigation--next {
   right: 10px !important;
   border-left-color: #ccc !important;

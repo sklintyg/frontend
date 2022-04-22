@@ -3,12 +3,13 @@ import React from 'react'
 interface Props {
   text?: string
   size?: 'small' | 'large' | undefined
+  className?: string
 }
 
-const Spinner: React.FC<Props> = ({ text, size }) => {
+const Spinner: React.FC<Props> = ({ text, size, className }) => {
   return (
     <div>
-      <div className="ic-spinner">
+      <div className={`ic-spinner ${className}`}>
         <div className="ic-spinner__bounce1"></div>
         <div className="ic-spinner__bounce2"></div>
         <div className="ic-spinner__bounce3"></div>

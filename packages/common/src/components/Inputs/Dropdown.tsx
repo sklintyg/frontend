@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+import classNames from 'classnames'
 
 interface Props {
   label?: string
@@ -14,17 +15,20 @@ interface Props {
 const Dropdown: React.FC<Props> = (props) => {
   const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
   return (
-    <div
-      className={`ic-forms__select ${hasValidationError ? 'iu-border-error dropdown' : 'dropdown'} ${
-        disabled ? 'ic-forms__select--disabled' : ''
-      }`}>
-      {label !== 'undefined' ? <label>{label}</label> : null}
-      <select value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
-        {options}
-      </select>
-    </div>
+    <>
+      {label !== 'undefined' ? <label htmlFor={id}>{label}</label> : null}
+      <div
+        className={classNames('ic-forms__select', {
+          'iu-border-error dropdown': hasValidationError,
+          dropdown: !hasValidationError,
+          'ic-forms__select--disabled': disabled,
+        })}>
+        <select value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
+          {options}
+        </select>
+      </div>
+    </>
   )
 }
-
 
 export default Dropdown

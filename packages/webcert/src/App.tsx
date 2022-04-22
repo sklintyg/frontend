@@ -8,11 +8,13 @@ import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
-import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
+import { getAllDynamicLinks, getConfig, getStatistics } from './store/utils/utilsActions'
 import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
+import { ListPageWithRedirect } from './page/ListPage'
+import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
 
@@ -26,6 +28,7 @@ function App(): JSX.Element {
     dispatch(cancelLogout())
     dispatch(getUser())
     dispatch(getAllDynamicLinks())
+    dispatch(getStatistics())
     dispatch(getConfig())
     return () => {
       window.removeEventListener('beforeunload', handleWindowBeforeUnload)
@@ -50,6 +53,7 @@ function App(): JSX.Element {
           <Route path="/welcome" render={() => <Welcome />} />
           <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
           <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+          <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
         </Switch>
       </ErrorBoundary>
     </BrowserRouter>

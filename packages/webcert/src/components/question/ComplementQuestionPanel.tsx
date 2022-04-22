@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { CertificateStatus, ImageCentered, InfoBox, Question } from '@frontend/common'
 import QuestionItem from './QuestionItem'
-import noQuestionsImg from './fragor_svar_nodata.svg'
+import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'

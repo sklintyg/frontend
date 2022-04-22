@@ -12,6 +12,7 @@ import { icfMiddleware } from './icf/icfMiddleware'
 import { sessionMiddleware } from './session/sessionMiddleware'
 import { errorMiddleware } from './error/errorMiddleware'
 import { patientMiddleware } from './patient/patientMiddleware'
+import { listMiddleware } from './list/listMiddleware'
 
 const store = configureStore({
   reducer,
@@ -28,7 +29,8 @@ const store = configureStore({
       icfMiddleware,
       sessionMiddleware,
       errorMiddleware,
-      patientMiddleware
+      patientMiddleware,
+      listMiddleware
       // ,
       // you can also manually type middlewares manually
       // untypedMiddleware as Middleware<

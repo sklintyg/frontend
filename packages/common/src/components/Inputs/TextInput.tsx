@@ -15,6 +15,7 @@ interface Props {
   additionalStyles?: FlattenSimpleInterpolation
   activeDescendant?: string
   limit?: number
+  id?: string
 }
 
 const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -32,25 +33,27 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     onFocus,
     activeDescendant,
     limit,
+    id,
   } = props
   return (
     <>
-      {label ? <p>{label}</p> : ''}
+      {label ? <label htmlFor={id}>{label}</label> : ''}
       <input
         ref={ref}
         aria-expanded={expanded}
         css={additionalStyles}
         type="text"
         disabled={disabled}
-        className={`${hasValidationError ? 'ic-textfield--error' : ''} ic-textfield`}
+        className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield`}
         name={name ?? ''}
         placeholder={placeholder}
         value={value}
         onBlur={onBlur}
         onFocus={onFocus}
-        onChange={(e) => onChange(e)}
+        onChange={onChange}
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}
+        id={id ?? 'textinput'}
       />
     </>
   )

@@ -1,9 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks, updateIsLoadingConfig } from './utilsActions'
+import { resetDiagnosisTypeahead, updateConfig, updateDiagnosisTypeahead, updateDynamicLinks, updateStatistics, updateIsLoadingConfig } from './utilsActions'
 import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
 export interface DynamicLinkMap {
   [key: string]: DynamicLinkData
+}
+
+export interface UnitStatistics {
+  fragaSvarValdEnhet: number
+  fragaSvarAndraEnheter: number
+  intygAndraEnheter: number
+  intygValdEnhet: number
+  vardgivare: number
 }
 
 export interface Configuration {
@@ -17,6 +25,7 @@ interface UtilsState {
   dynamicLinks: DynamicLinkMap
   diagnosisTypeahead: DiagnosisTypeahead | null
   config: Configuration
+  unitStatistics: UnitStatistics | null
   isLoadingConfig: boolean
 }
 
@@ -25,6 +34,7 @@ const initialState: UtilsState = {
   diagnosisTypeahead: null,
   config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
   isLoadingConfig: false,
+  unitStatistics: null,
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
@@ -40,6 +50,9 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateConfig, (state, action) => {
       state.config = action.payload
+    })
+    .addCase(updateStatistics, (state, action) => {
+      state.unitStatistics = action.payload
     })
     .addCase(updateIsLoadingConfig, (state, action) => {
       state.isLoadingConfig = action.payload

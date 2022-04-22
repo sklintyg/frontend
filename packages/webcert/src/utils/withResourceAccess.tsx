@@ -4,13 +4,16 @@ import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/use
 import { useSelector } from 'react-redux'
 import { Redirect, useLocation } from 'react-router-dom'
 
-export function withResourceAccess<P>(WrappedComponent: React.FC): React.FC<P> {
+export function withResourceAccess<P>(WrappedComponent: React.FC<P>): React.FC<P> {
   return (props: P) => {
     const isLoadingUser = useSelector(selectIsLoadingUser)
     const user = useSelector(getUser)
     const userLinks = useSelector(getUserResourceLinks)
     const location = useLocation()
-    const resourceAccessMap = new Map<string, ResourceLinkType>([['/create', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE]])
+    const resourceAccessMap = new Map<string, ResourceLinkType>([
+      ['/create', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
+      ['/list/draft', ResourceLinkType.ACCESS_DRAFT_LIST],
+    ])
     const linkType = resourceAccessMap.get(location.pathname)
 
     if (!isLoadingUser && (!user || !linkType || !userLinks.some((link) => link.type === linkType))) {

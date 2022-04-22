@@ -10,4 +10,6 @@ export const getConfig = (state: RootState): Configuration => state.ui.uiUtils.c
 
 export const getBanners = (state: RootState): Banner[] => state.ui.uiUtils.config.banners
 
+export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined => state.ui.uiUtils.unitStatistics?.intygValdEnhet
+
 export const selectIsLoadingConfig = (state: RootState): boolean => state.ui.uiUtils.isLoadingConfig

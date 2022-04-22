@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react'
 import { ImageCentered, Question } from '@frontend/common'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
-import noQuestionsImg from './fragor_svar_nodata.svg'
 import styled from 'styled-components'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
+import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
 
 const Root = styled.div`
   overflow-y: auto;

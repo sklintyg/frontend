@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { Configuration, DynamicLinkMap } from './utilsReducer'
+import { Configuration, DynamicLinkMap, UnitStatistics } from './utilsReducer'
 import { DiagnosisTypeahead } from '@frontend/common'
 
 export interface GetDiagnosisTypeahead {
@@ -31,3 +31,8 @@ export const getConfigError = createAction<string>('[Utils] Get module config er
 
 export const updateConfig = createAction<Configuration>('[Utils] Update module config')
 export const updateIsLoadingConfig = createAction<boolean>('[Utils] Update is loading config')
+
+export const updateStatistics = createAction<UnitStatistics>('[Utils] Unit statistics')
+export const getStatistics = createAction('[Utils] Get statistics')
+export const getStatisticsStarted = createAction('[Utils] Get statistics started')
+export const getStatisticsSuccess = createAction('[Utils] Get statistics success')
