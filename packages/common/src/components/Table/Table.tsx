@@ -26,7 +26,7 @@ interface TableProps {
 
 const StyledTable = styled.table<TableProps>`
   td:nth-child(${(props) => props.highlighted}) {
-    background-color: ${(props) => (props.highlighted > 0 ? 'rgba(1, 165, 163, 0.08)' : '')} !important;
+    background-color: rgba(1, 165, 163, 0.08) !important;
   }
 `
 
