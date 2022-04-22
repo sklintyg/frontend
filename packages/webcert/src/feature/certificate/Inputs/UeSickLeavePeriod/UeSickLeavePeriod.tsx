@@ -172,7 +172,10 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             <DateRangePicker
               baseWorkHours={baseWorkHours}
               disabled={disabled}
-              hasValidationError={validationErrors.length > 0 || handleGetPeriodHaveOverlap(period.id)}
+              hasValidationError={
+                (validationErrors.length > 0 && validationErrors.some((v) => v.type !== 'OVERLAP_ERROR')) ||
+                handleGetPeriodHaveOverlap(period.id)
+              }
               getPeriodStartingDate={handleGetPeriodStartingDate}
               updateValue={handleUpdatedValue}
               key={period.id}
