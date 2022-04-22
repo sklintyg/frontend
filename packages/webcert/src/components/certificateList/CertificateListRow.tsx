@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { CustomButton, TextWithInfoModal } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

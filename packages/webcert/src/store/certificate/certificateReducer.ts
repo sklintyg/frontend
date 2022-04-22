@@ -43,9 +43,11 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
+  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
+  updateCreateCertificate,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -71,6 +73,8 @@ interface CertificateState {
   routedFromDeletedCertificate: boolean
   functionDisablers: FunctionDisabler[]
   clientValidationErrors: ValidationError[]
+  createdCertificateId: string
+  navigateToCertificate: boolean
 }
 
 const initialState: CertificateState = {
@@ -85,6 +89,8 @@ const initialState: CertificateState = {
   routedFromDeletedCertificate: false,
   functionDisablers: [],
   clientValidationErrors: [],
+  createdCertificateId: '',
+  navigateToCertificate: false,
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
@@ -315,6 +321,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
       const clientValidationErrors = [...state.clientValidationErrors]
       clientValidationErrors.splice(action.payload, 1)
       state.clientValidationErrors = clientValidationErrors
+    })
+    .addCase(updateCreatedCertificateId, (state, action) => {
+      state.createdCertificateId = action.payload
     })
 )
 

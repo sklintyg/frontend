@@ -16,6 +16,16 @@ import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/function
 
 const CERTIFICATE = '[CERTIFICATE]'
 
+const CREATE_NEW_CERTIFICATE = `${CERTIFICATE} Create certificate`
+const CREATE_NEW_CERTIFICATE_STARTED = `${CERTIFICATE} Create certificate started`
+const CREATE_NEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Create certificate success`
+const CREATE_NEW_CERTIFICATE_ERROR = `${CERTIFICATE} Create certificate started`
+const UPDATE_CERTIFICATE_ID = `${CERTIFICATE} Update certificate id`
+
+const UPDATE_CREATE_CERTIFICATE = `${CERTIFICATE} Update create certificate`
+
+const UPDATE_NAVIGATE_TO_CERTIFICATE = `${CERTIFICATE} Update navigate to certificate`
+
 const GET_CERTIFICATE = `${CERTIFICATE} Get certificate`
 const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
 const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
@@ -168,6 +178,25 @@ const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation 
 const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 const ADD_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Add client validation error`
 const REMOVE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Remove client validation error`
+
+export interface CreateCertificateResponse {
+  certificateId: string
+}
+
+export interface CreateCertificate {
+  certificateType: string
+  patientId: string
+}
+
+export const createNewCertificate = createAction<CreateCertificate>(CREATE_NEW_CERTIFICATE)
+export const createNewCertificateStarted = createAction(CREATE_NEW_CERTIFICATE_STARTED)
+export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(CREATE_NEW_CERTIFICATE_SUCCESS)
+export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
+export const updateCreatedCertificateId = createAction<string>(UPDATE_CERTIFICATE_ID)
+
+export const updateCreateCertificate = createAction<CreateCertificate>(UPDATE_CREATE_CERTIFICATE)
+
+export const updateNavigateToCertificate = createAction<boolean>(UPDATE_NAVIGATE_TO_CERTIFICATE)
 
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 

@@ -27,9 +27,6 @@ import {
   getCertificateTypesSuccess,
   getCertificateTypesStarted,
   updateCertificateTypes,
-  createNewCertificate,
-  createNewCertificateSuccess,
-  createNewCertificateStarted,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -148,23 +145,6 @@ const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(updateCertificateTypes(action.payload))
 }
 
-// const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-//   dispatch(
-//     apiCallBegan({
-//       url: '/testability/certificate',
-//       method: 'POST',
-//       data: action.payload,
-//       onStart: createNewCertificateStarted.type,
-//       onSuccess: createNewCertificateSuccess.type,
-//       onError: apiGenericError.type,
-//     })
-//   )
-// }
-
-// const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-//   dispatch(updateCertificateId(action.payload.certificateId))
-// }
-
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -178,8 +158,6 @@ const middlewareMethods = {
   [startSignCertificate.type]: handleStartSignCertificate,
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
-  // [createNewCertificate.type]: handleCreateNewCertificate,
-  // [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

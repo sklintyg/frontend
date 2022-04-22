@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import { CertificateType, ResourceLink, User, UserProperty } from '@frontend/common'
-import { CreateCertificate, CreateCertificateResponse } from './userReducer'
 
 const USER = '[User]'
 
@@ -49,9 +48,3 @@ export const getCertificateTypesSuccess = createAction(`${USER} Get certificate 
 export const getCertificateTypesError = createAction<string>(`${USER} Get certificate error`)
 
 export const updateCertificateTypes = createAction<CertificateType[]>(`${USER} Update certificate types`)
-
-export const createNewCertificate = createAction<CreateCertificate>(`${USER} Create certificate`)
-export const createNewCertificateStarted = createAction(`${USER} Create certificate started`)
-export const createNewCertificateSuccess = createAction<CreateCertificateResponse>(`${USER} Create certificate success`)
-export const createNewCertificateError = createAction<string>(`${USER} Create certificate error`)
-export const updateCertificateId = createAction<string>(`${USER} Update certificate id`)

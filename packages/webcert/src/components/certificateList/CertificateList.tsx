@@ -6,7 +6,9 @@ import { getCertificateTypes, setUserPreference } from '../../store/user/userAct
 import { getUserPreference, selectCertificateTypes } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
 import fileIcon from '../../images/fileIcon.svg'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
+import { getCertificateId } from '../../store/certificate/certificateSelectors'
 
 const byFavorite = (a: any, b: any): number => {
   if (a.favorite > b.favorite) {
@@ -29,13 +31,14 @@ const FlexWrapper = styled.div`
 `
 
 const CreateCertificate: React.FC = () => {
+  const certificateId = useSelector(getCertificateId())
   const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
   const certificateTypes = useSelector(selectCertificateTypes)
   const patient = useSelector(getActivePatient)
+
   const [favorites, setFavorites] = useState<string[]>([])
-  //const [redirectToCertificate, setRedirectToCertificate] = useState(false)
-  // const [certificateId, setCertificateId] = useState('')
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []
@@ -50,14 +53,15 @@ const CreateCertificate: React.FC = () => {
     dispatch(setUserPreference({ key: 'wc.favoritIntyg', value: JSON.stringify(updatedFavorites) }))
   }
 
-  const handleCreateCertificate = (id: string) => {
-    // setCertificateId(???)
-    // setRedirectToCertificate(!redirectToCertificate)
+  const handleCreateCertificate = (certificateType: string) => {
+    if (patient) {
+      dispatch(createNewCertificate({ certificateType, patientId: patient.personId.id }))
+    }
   }
 
   useEffect(() => {
     if (patient) {
-      dispatch(getCertificateTypes(patient?.personId.id))
+      dispatch(getCertificateTypes(patient.personId.id))
     }
   }, [dispatch, patient])
 
@@ -66,6 +70,13 @@ const CreateCertificate: React.FC = () => {
       setFavorites([...JSON.parse(userPreferences)])
     }
   }, [userPreferences])
+
+  useEffect(() => {
+    if (certificateId) {
+      dispatch(updateCreatedCertificateId(''))
+      history.push(`/certificate/${certificateId}`)
+    }
+  }, [certificateId, dispatch, history])
 
   const certificates = certificateTypes
     .map((t) => ({
@@ -76,10 +87,6 @@ const CreateCertificate: React.FC = () => {
       favorite: favorites.includes(t.id),
     }))
     .sort(byFavorite)
-
-  // if (redirectToCertificate) {
-  //   return <Redirect to={`/certificate/${certificateId}`} />
-  // }
 
   return (
     <div className="ic-container iu-mt-800 iu-flex">
