@@ -732,7 +732,7 @@ const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
       method: 'POST',
       onStart: createNewCertificateStarted.type,
       onSuccess: createNewCertificateSuccess.type,
-      onError: apiGenericError.type,
+      onError: certificateApiGenericError.type,
     })
   )
 }
