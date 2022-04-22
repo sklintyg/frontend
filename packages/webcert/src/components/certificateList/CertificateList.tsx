@@ -30,7 +30,7 @@ const FlexWrapper = styled.div`
   flex: 1;
 `
 
-const CreateCertificate: React.FC = () => {
+const CertificateList: React.FC = () => {
   const certificateId = useSelector(getCertificateId())
   const userPreferences = useSelector(getUserPreference('wc.favoritIntyg'))
   const certificateTypes = useSelector(selectCertificateTypes)
@@ -110,4 +110,4 @@ const CreateCertificate: React.FC = () => {
   )
 }
 
-export default CreateCertificate
+export default CertificateList
