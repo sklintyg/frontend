@@ -120,7 +120,7 @@ describe('listUtils', () => {
 
     it('should return false if date is not default value', () => {
       const result = isFilterValueDefault(getDateRangeFilter(), { type: ListFilterType.DATE_RANGE, to: '', from: '' })
-      expect(result).toBeTruthy()
+      expect(result).toBeFalsy()
     })
 
     it('should return true if default order value', () => {

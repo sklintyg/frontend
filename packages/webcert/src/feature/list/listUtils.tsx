@@ -16,7 +16,7 @@ import {
   ListFilterValueText,
 } from '@frontend/common/src/types/list'
 import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
-import _ from 'lodash'
+import { isEqual } from 'lodash'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
   switch (filter.type) {
@@ -79,7 +79,7 @@ export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values:
   Object.keys(values).forEach((key) => {
     const matchedConfig = configs.find((config) => config.id === key)
     const defaultValue = matchedConfig ? getListFilterDefaultValue(matchedConfig) : null
-    if (!_.isEqual(values[key], defaultValue)) {
+    if (!isEqual(values[key], defaultValue)) {
       isDefault = false
     }
   })
@@ -87,5 +87,5 @@ export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values:
 }
 
 export const isFilterValueDefault = (config: ListFilterConfig, value: ListFilterValue): boolean => {
-  return value === getListFilterDefaultValue(config)
+  return isEqual(value, getListFilterDefaultValue(config))
 }
