@@ -31,8 +31,8 @@ interface Props {
   questionId?: string
   onDispatchValidationError?: (shouldBeRemoved: boolean, validationError: ValidationError) => void
   forbidFutureDates?: boolean
-  max: string | undefined
-  min: string | undefined
+  max?: string
+  min?: string
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
