@@ -75,13 +75,17 @@ export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 
       id: 'to',
       title: toTitle,
       defaultValue: 'default1',
+      alwaysHighlighted: false,
     },
     from: {
       type: ListFilterType.DATE,
       id: 'from',
       title: fromTitle,
       defaultValue: 'default2',
+      alwaysHighlighted: false,
     },
+    alwaysHighlighted: false,
+    forbidFutureDates: false,
   }
 }
 export const getOrderFilter = (title = 'title'): ListFilterOrderConfig => {

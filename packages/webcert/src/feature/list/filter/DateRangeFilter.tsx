@@ -4,7 +4,7 @@ import { ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } 
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
-import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
+import { DatePickerCustom, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
 import { FilterWrapper } from './filterStyles'
 import questionImage from '@frontend/common/src/images/question-image.svg'
 import { updateHasValidationError } from '../../../store/list/listActions'
@@ -127,7 +127,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         {config.title} {config.description && <Icon src={questionImage} data-tip={config.description} alt={config.description} />}
       </Label>
       <DateRangeWrapper>
-        <FilterWrapper highlighted={getFromValue() || config.alwaysHighlighted}>
+        <FilterWrapper highlighted={!!getFromValue() || config.alwaysHighlighted}>
           <DatePickerCustom
             label={configFrom.title}
             setDate={onFromDateFilterChange}
@@ -143,7 +143,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
           />
           {fromValidationError && <p className="iu-color-error">{fromValidationError.text}</p>}
         </FilterWrapper>
-        <FilterWrapper highlighted={getToValue() || config.alwaysHighlighted}>
+        <FilterWrapper highlighted={!!getToValue() || config.alwaysHighlighted}>
           <DatePickerCustom
             label={configTo.title}
             setDate={onToDateFilterChange}

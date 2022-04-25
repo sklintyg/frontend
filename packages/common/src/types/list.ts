@@ -88,6 +88,10 @@ export interface ListFilterDateRangeConfig extends ListFilterConfig {
   forbidFutureDates: boolean
 }
 
+export interface ListFilterDateConfig extends ListFilterConfig {
+  defaultValue?: string
+}
+
 export interface TableHeading {
   id: string
   title: string
