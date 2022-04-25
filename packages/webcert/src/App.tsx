@@ -54,6 +54,7 @@ function App(): JSX.Element {
           <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
           <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
           <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
+          <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
         </Switch>
       </ErrorBoundary>
     </BrowserRouter>

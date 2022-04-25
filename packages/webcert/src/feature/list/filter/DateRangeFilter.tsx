@@ -4,7 +4,7 @@ import { ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } 
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
-import { DatePickerCustom, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
+import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
 import { FilterWrapper } from './filterStyles'
 import questionImage from '@frontend/common/src/images/question-image.svg'
 import { updateHasValidationError } from '../../../store/list/listActions'
@@ -68,7 +68,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const shouldShowDateTooFarBackError = (to: string, from: string) => {
     return (
       (configTo.min && isDateBehindLimit(to, configTo.min.split('T')[0])) ||
-      (configFrom && isDateBehindLimit(from, configFrom.min.split('T')[0]))
+      (configFrom.min && isDateBehindLimit(from, configFrom.min.split('T')[0]))
     )
   }
 

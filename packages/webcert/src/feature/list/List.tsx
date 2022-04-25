@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterOrderConfig, ListFilterType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterType } from '@frontend/common/src/types/list'
 import Table from '@frontend/common/src/components/Table/Table'
 import { useDispatch, useSelector } from 'react-redux'
 import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
@@ -49,13 +49,12 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
   }
 
   const getUpdatedAscendingValue = (updatedOrderBy: string) => {
-    const defaultOrderBy = config.filters.find((filter) => filter.type === ListFilterType.ORDER) as ListFilterOrderConfig
-    const isDefaultOrderBy = updatedOrderBy === defaultOrderBy.defaultValue
-    const shouldToggleAscending = updatedOrderBy === getOrderBy()
-    if (shouldToggleAscending) {
+    const isCurrentSorting = getOrderBy() === updatedOrderBy
+    const defaultSortOrder = config.tableHeadings.find((heading) => heading.id === updatedOrderBy)?.defaultAscending
+    if (isCurrentSorting) {
       return !getAscending()
     }
-    return !isDefaultOrderBy
+    return defaultSortOrder
   }
 
   const updateSortingOfList = (event: React.MouseEvent<HTMLTableHeaderCellElement>) => {

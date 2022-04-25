@@ -1,10 +1,17 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import { ListType } from '@frontend/common/src/types/list'
-import { getActiveList, getActiveListConfig, getActiveListFilter, getIsLoadingListConfig, hasListError } from '../store/list/listSelectors'
+import {
+  getActiveList,
+  getActiveListConfig,
+  getActiveListFilter,
+  getIsLoadingListConfig,
+  getListTotalCount,
+  hasListError,
+} from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
+import { getCertificateListConfig, getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -40,7 +47,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
     if (!isLoadingListConfig && config) {
       dispatch(performListSearch)
     }
-  }, [config, isLoadingListConfig])
+  }, [dispatch, config, isLoadingListConfig])
 
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {

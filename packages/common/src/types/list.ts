@@ -79,7 +79,7 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
 export interface ListFilterDateConfig extends ListFilterConfig {
   max: string
   min: string
-  defaultValue: string
+  defaultValue?: string
 }
 
 export interface ListFilterDateRangeConfig extends ListFilterConfig {
@@ -88,15 +88,12 @@ export interface ListFilterDateRangeConfig extends ListFilterConfig {
   forbidFutureDates: boolean
 }
 
-export interface ListFilterDateConfig extends ListFilterConfig {
-  defaultValue?: string
-}
-
 export interface TableHeading {
   id: string
   title: string
   type: CertificateListItemValueType
   description: string
+  defaultAscending: boolean
 }
 
 export interface ListConfig {
