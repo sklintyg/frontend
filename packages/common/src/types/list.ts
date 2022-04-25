@@ -76,9 +76,13 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
 }
 
 export interface ListFilterDateRangeConfig extends ListFilterConfig {
-  to: ListFilterConfig
-  from: ListFilterConfig
+  to: ListFilterDateConfig
+  from: ListFilterDateConfig
   forbidFutureDates: boolean
+}
+
+export interface ListFilterDateConfig extends ListFilterConfig {
+  defaultValue?: string
 }
 
 export interface TableHeading {

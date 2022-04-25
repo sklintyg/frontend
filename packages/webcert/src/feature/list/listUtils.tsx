@@ -1,6 +1,7 @@
 import {
   ListFilterBooleanConfig,
   ListFilterConfig,
+  ListFilterDateRangeConfig,
   ListFilterOrderConfig,
   ListFilterPageSizeConfig,
   ListFilterSelectConfig,
@@ -53,8 +54,6 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
     default:
       return { type: ListFilterType.UNKOWN }
   }
-
-  return defaultValue
 }
 
 export const isFilterValuesValid = (listFilterValues: ListFilterValues | undefined): boolean => {

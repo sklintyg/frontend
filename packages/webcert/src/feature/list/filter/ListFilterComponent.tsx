@@ -47,7 +47,7 @@ const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
     }
   }
 
-  return getFilterComponent()
+  return <>{getFilterComponent()}</>
 }
 
 export default ListFilterComponent

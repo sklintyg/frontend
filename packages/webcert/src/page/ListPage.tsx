@@ -1,17 +1,10 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import { ListType } from '@frontend/common/src/types/list'
-import {
-  getActiveList,
-  getActiveListConfig,
-  getActiveListFilter,
-  getIsLoadingListConfig,
-  getListTotalCount,
-  hasListError,
-} from '../store/list/listSelectors'
+import { getActiveList, getActiveListConfig, getActiveListFilter, getIsLoadingListConfig, hasListError } from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getCertificateListConfig, getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
+import { getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -63,7 +56,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
         </ImageCentered>
       )
     } else {
-      return <List config={config} list={list} filter={filter} title={config?.secondaryTitle} />
+      return <List config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
     }
   }
 
@@ -73,7 +66,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
         <>
           <WebcertHeader />
           <CustomTooltip placement="top" />
-          <ListHeader title={config?.title} description={config?.description} />
+          <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
           <div className="ic-container">{getList()}</div>
         </>
       )}

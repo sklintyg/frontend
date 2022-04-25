@@ -18,6 +18,7 @@ export const getPageSizeFilter = (): ListFilterPageSizeConfig => {
     id: 'PAGE_SIZE_FILTER',
     title: 'title',
     pageSizes: [10, 20, 50, 100],
+    alwaysHighlighted: false,
   }
 }
 export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
@@ -26,6 +27,7 @@ export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
     id: 'TEXT_FILTER',
     title: title,
     placeholder: 'test',
+    alwaysHighlighted: false,
   }
 }
 export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
@@ -34,6 +36,7 @@ export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
     id: 'TEXT_FILTER',
     title: title,
     defaultValue: true,
+    alwaysHighlighted: false,
   }
 }
 export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => {
@@ -42,6 +45,7 @@ export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => 
     id: 'PERSON_FILTER',
     title: title,
     placeholder: 'test',
+    alwaysHighlighted: false,
   }
 }
 export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
@@ -53,6 +57,7 @@ export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
       { id: 'option1', name: 'option1', defaultValue: false },
       { id: 'option2', name: 'option2', defaultValue: true },
     ],
+    alwaysHighlighted: false,
   }
 }
 export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 'from'): ListFilterDateRangeConfig => {
@@ -64,12 +69,16 @@ export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 
       type: ListFilterType.DATE,
       id: 'to',
       title: toTitle,
+      alwaysHighlighted: false,
     },
     from: {
       type: ListFilterType.DATE,
       id: 'from',
       title: fromTitle,
+      alwaysHighlighted: false,
     },
+    alwaysHighlighted: false,
+    forbidFutureDates: false,
   }
 }
 export const getOrderFilter = (title = 'title'): ListFilterOrderConfig => {
@@ -78,6 +87,7 @@ export const getOrderFilter = (title = 'title'): ListFilterOrderConfig => {
     id: 'PERSON_FILTER',
     title: title,
     defaultValue: 'defaultOrder',
+    alwaysHighlighted: false,
   }
 }
 
@@ -96,6 +106,9 @@ export const getConfig = (
     searchCertificateTooltip: searchCertificateTooltip,
     tableHeadings: tableHeadings,
     defaultOrderBy: defaultOrderBy,
+    secondaryTitle: 'secondaryTitle',
+    description: 'description',
+    emptyListText: 'emptyListText',
   }
 }
 
@@ -117,6 +130,8 @@ export const getFilterWithValues = (): ListFilter => {
 }
 
 export const getConfigWithTextFilter = (): ListConfig => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return {
     title: 'title',
     filters: [getTextFilter()],
@@ -127,6 +142,7 @@ export const getConfigWithTextFilter = (): ListConfig => {
         id: 'id',
         title: 'title',
         type: CertificateListItemValueType.TEXT,
+        description: '',
       },
     ],
     defaultOrderBy: 'orderBy',
