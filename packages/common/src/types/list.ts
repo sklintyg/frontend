@@ -43,7 +43,7 @@ export interface ListFilterConfig {
   id: string
   title: string
   alwaysHighlighted: boolean
-  description: string
+  description?: string
 }
 
 export interface ListFilterConfigValue {
@@ -77,8 +77,8 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
 }
 
 export interface ListFilterDateConfig extends ListFilterConfig {
-  max: string
-  min: string
+  max?: string
+  min?: string
   defaultValue?: string
 }
 

@@ -14,7 +14,7 @@ export const getActiveListType = (state: RootState): ListType => state.ui.uiList
 
 export const hasListError = (state: RootState): boolean => state.ui.uiList.listError
 
-export const getListTotalCount = (state: RootState): number => state.ui.uiList.totalCount
+export const getListTotalCount = (state: RootState): number | undefined => state.ui.uiList.totalCount
 
 export const getIsLoadingList = (state: RootState): boolean => state.ui.uiList.isLoadingList
 
