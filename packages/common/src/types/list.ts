@@ -2,6 +2,10 @@ export interface CertificateListItem {
   values: { [key: string]: string | PatientListInfo | boolean }
 }
 
+export interface ListButtonTooltips {
+  [key: string]: string
+}
+
 export interface PatientListInfo {
   id: string
   protectedPerson: boolean
@@ -16,12 +20,7 @@ export enum CertificateListItemValueType {
   FORWARD = 'FORWARD',
   HIDDEN = 'HIDDEN',
   OPEN_BUTTON = 'OPEN_BUTTON',
-}
-
-export enum DraftStatus {
-  COMPLETE = 'COMPLETE',
-  INCOMPLETE = 'INCOMPLETE',
-  LOCKED = 'LOCKED',
+  RENEW_BUTTON = 'RENEW_BUTTON',
 }
 
 export enum ListFilterType {
@@ -36,6 +35,7 @@ export enum ListFilterType {
   PAGESIZE = 'PAGESIZE',
   STARTFROM = 'STARTFROM',
   DATE = 'DATE',
+  RADIO = 'RADIO',
 }
 
 export interface ListFilterConfig {
@@ -76,6 +76,10 @@ export interface ListFilterSelectConfig extends ListFilterConfig {
   values: ListFilterConfigValue[]
 }
 
+export interface ListFilterRadioConfig extends ListFilterConfig {
+  values: ListFilterConfigValue[]
+}
+
 export interface ListFilterDateConfig extends ListFilterConfig {
   max?: string
   min?: string
@@ -106,6 +110,8 @@ export interface ListConfig {
   searchCertificateTooltip: string
   tableHeadings: TableHeading[]
   defaultOrderBy: string
+  excludeFilterButtons: boolean
+  buttonTooltips: ListButtonTooltips
 }
 
 export interface ListFilterValue {
@@ -138,10 +144,15 @@ export interface ListFilterValueSelect extends ListFilterValue {
   value: string
 }
 
+export interface ListFilterValueRadio extends ListFilterValue {
+  value: string
+}
+
 export enum ListType {
   DRAFTS = 'DRAFTS',
   QUESTIONS = 'QUESTIONS',
   CERTIFICATES = 'CERTIFICATES',
+  PREVIOUS_CERTIFICATES = 'PREVIOUS_CERTIFICATES',
   UNKOWN = 'UNKOWN',
 }
 
@@ -151,4 +162,13 @@ export interface ListFilter {
 
 export interface ListFilterValues {
   [propName: string]: ListFilterValue
+}
+
+export enum ListLinkTypes {
+  LASA_INTYG = 'LASA_INTYG',
+  FORNYA_INTYG = 'FORNYA_INTYG',
+}
+
+export interface ListResourceLink {
+  type: string
 }

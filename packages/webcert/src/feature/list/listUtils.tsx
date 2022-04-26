@@ -4,16 +4,13 @@ import {
   ListFilterDateRangeConfig,
   ListFilterOrderConfig,
   ListFilterPageSizeConfig,
+  ListFilterRadioConfig,
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValue,
-  ListFilterValueBoolean,
   ListFilterValueDateRange,
-  ListFilterValueNumber,
   ListFilterValuePersonId,
   ListFilterValues,
-  ListFilterValueSelect,
-  ListFilterValueText,
 } from '@frontend/common/src/types/list'
 import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import { isEqual } from 'lodash'
@@ -21,15 +18,21 @@ import { isEqual } from 'lodash'
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
   switch (filter.type) {
     case ListFilterType.TEXT:
-      return { type: filter.type, value: '' } as ListFilterValueText
+      return { type: filter.type, value: '' }
     case ListFilterType.PERSON_ID:
-      return { type: filter.type, value: '' } as ListFilterValuePersonId
+      return { type: filter.type, value: '' }
     case ListFilterType.SELECT:
       const defaultSelectValue = (filter as ListFilterSelectConfig).values.find((v) => v.defaultValue)
       return {
         type: filter.type,
         value: defaultSelectValue ? defaultSelectValue.id : '',
-      } as ListFilterValueSelect
+      }
+    case ListFilterType.RADIO:
+      const defaultValue = (filter as ListFilterRadioConfig).values.find((v) => v.defaultValue)
+      return {
+        type: filter.type,
+        value: defaultValue ? defaultValue.id : '',
+      }
     case ListFilterType.DATE_RANGE:
       const dateRangeFilter = filter as ListFilterDateRangeConfig
       return {
@@ -41,17 +44,17 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
       return {
         type: filter.type,
         value: (filter as ListFilterOrderConfig).defaultValue,
-      } as ListFilterValueText
+      }
     case ListFilterType.BOOLEAN:
       return {
         type: filter.type,
         value: (filter as ListFilterBooleanConfig).defaultValue,
-      } as ListFilterValueBoolean
+      }
     case ListFilterType.PAGESIZE:
       return {
         type: ListFilterType.NUMBER,
         value: (filter as ListFilterPageSizeConfig).pageSizes[0],
-      } as ListFilterValueNumber
+      }
     default:
       return { type: ListFilterType.UNKOWN }
   }

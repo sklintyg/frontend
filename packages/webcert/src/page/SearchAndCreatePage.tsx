@@ -10,6 +10,9 @@ import { CustomTooltip } from '@frontend/common'
 import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
+import ListPage from './ListPage'
+import { ListFilterType, ListType } from '@frontend/common/src/types/list'
+import { updateActiveListFilterValue } from '../store/list/listActions'
 
 interface Params {
   patientId: string
@@ -28,7 +31,18 @@ const SearchAndCreatePage: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.hide()
-  }, [patient])
+    if (patient) {
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: {
+            type: ListFilterType.PERSON_ID,
+            value: patient.personId.id,
+          },
+          id: 'PATIENT_ID',
+        })
+      )
+    }
+  }, [dispatch, patient])
 
   useEffect(() => {
     if (patientId) {
@@ -41,8 +55,9 @@ const SearchAndCreatePage: React.FC = () => {
       {user && (
         <>
           <WebcertHeader />
-          <CustomTooltip />
           {isPatientLoaded() && <>{patient ? <PatientInfoHeader patient={patient} /> : <PatientSearch />}</>}
+          {isPatientLoaded() && patient && <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />}
+          <CustomTooltip placement="top" />
         </>
       )}
     </>

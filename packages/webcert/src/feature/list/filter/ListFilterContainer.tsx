@@ -86,6 +86,9 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
 
   const onFilterChange = (value: ListFilterValue, id: string) => {
     dispatch(updateActiveListFilterValue({ filterValue: value, id: id }))
+    if (config.excludeFilterButtons) {
+      onSearch()
+    }
   }
 
   return (
@@ -94,12 +97,14 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
         {hasSelectFilter() && <FilterWrapper>{getSelectFilter()}</FilterWrapper>}
         <FilterWrapper>
           {getOtherFilter()}
-          <ListFilterButtons
-            searchTooltip={config.searchCertificateTooltip}
-            onSearch={onSearch}
-            onReset={onReset}
-            isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}
-          />
+          {!config?.excludeFilterButtons && (
+            <ListFilterButtons
+              searchTooltip={config.searchCertificateTooltip}
+              onSearch={onSearch}
+              onReset={onReset}
+              isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}
+            />
+          )}
         </FilterWrapper>
       </Root>
       <ListPageSizeFilter

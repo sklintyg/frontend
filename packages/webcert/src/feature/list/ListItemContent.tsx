@@ -1,18 +1,26 @@
 import * as React from 'react'
-import { CertificateListItemValueType, PatientListInfo } from '@frontend/common/src/types/list'
+import {
+  CertificateListItemValueType,
+  ListButtonTooltips,
+  ListLinkTypes,
+  ListResourceLink,
+  PatientListInfo,
+} from '@frontend/common/src/types/list'
 import { PatientListInfoContent } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 
 interface Props {
   key: string
   value: string | boolean | PatientListInfo
   valueType: CertificateListItemValueType
-  openCertificateTooltip: string
+  tooltips: ListButtonTooltips
+  links: ListResourceLink[]
 }
 
-const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertificateTooltip }) => {
+const ListItemContent: React.FC<Props> = ({ key, value, valueType, tooltips, links }) => {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
@@ -20,13 +28,37 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
   }
 
   const getOpenCertificateButton = (certificateId: string) => {
-    return (
-      <td>
-        <a data-tip={openCertificateTooltip} className="ic-button ic-button--primary" onClick={() => openCertificate(certificateId)}>
-          Öppna
-        </a>
-      </td>
-    )
+    if (links.some((link) => link.type === ListLinkTypes.LASA_INTYG)) {
+      return (
+        <td>
+          <a
+            data-tip={tooltips[CertificateListItemValueType.OPEN_BUTTON]}
+            className="ic-button ic-button--primary"
+            onClick={() => openCertificate(certificateId)}>
+            Öppna
+          </a>
+        </td>
+      )
+    } else {
+      return <td />
+    }
+  }
+
+  const getRenewCertificateButton = (certificateId: string) => {
+    if (links.some((link) => link.type === ListLinkTypes.FORNYA_INTYG)) {
+      return (
+        <td>
+          <RenewCertificateButton
+            name="Förnya"
+            description={tooltips[CertificateListItemValueType.RENEW_BUTTON]}
+            enabled={true}
+            functionDisabled={false}
+          />
+        </td>
+      )
+    } else {
+      return <td />
+    }
   }
 
   function formatDate(value: string) {
@@ -48,6 +80,8 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertifica
         )
       case CertificateListItemValueType.OPEN_BUTTON:
         return getOpenCertificateButton(value as string)
+      case CertificateListItemValueType.RENEW_BUTTON:
+        return getRenewCertificateButton(value as string)
       case CertificateListItemValueType.FORWARD:
         return value ? (
           <td>

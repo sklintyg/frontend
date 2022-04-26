@@ -13,10 +13,10 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import { ListPageWithRedirect } from './page/ListPage'
 import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
+import { ListPageWithRedirect } from './page/ListPage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()

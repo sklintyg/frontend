@@ -11,7 +11,13 @@ import {
 } from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getCertificateListConfig, getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
+import {
+  getCertificateListConfig,
+  getDraftListConfig,
+  getPreviousCertificatesListConfig,
+  performListSearch,
+  updateActiveListType,
+} from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -19,12 +25,14 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
+import ReactTooltip from 'react-tooltip'
 
 interface Props {
   type: ListType
+  excludePageSpecificElements: boolean
 }
 
-const ListPage: React.FC<Props> = ({ type }) => {
+const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig)
   const list = useSelector(getActiveList)
@@ -35,10 +43,16 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
 
   useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
+  useEffect(() => {
     if (type === ListType.DRAFTS) {
       dispatch(getDraftListConfig())
     } else if (type === ListType.CERTIFICATES) {
       dispatch(getCertificateListConfig())
+    } else if (type === ListType.PREVIOUS_CERTIFICATES) {
+      dispatch(getPreviousCertificatesListConfig())
     }
     dispatch(updateActiveListType(type))
   }, [dispatch, type])
@@ -76,9 +90,11 @@ const ListPage: React.FC<Props> = ({ type }) => {
     <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
       {!isLoadingListConfig && (
         <>
-          <WebcertHeader />
-          <CustomTooltip placement="top" />
-          <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+          {!excludePageSpecificElements && <WebcertHeader />}
+          {!excludePageSpecificElements && <CustomTooltip placement="top" />}
+          {!excludePageSpecificElements && (
+            <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+          )}
           <div className="ic-container">{getList()}</div>
         </>
       )}
@@ -87,3 +103,4 @@ const ListPage: React.FC<Props> = ({ type }) => {
 }
 
 export const ListPageWithRedirect = withResourceAccess<Props>(ListPage)
+export default ListPage

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata, Checkbox, CustomButton } from '@frontend/common'
+import { ButtonWithConfirmModal, Checkbox, CustomButton, sanitizeText } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { renewCertificate } from '../../../store/certificate/certificateActions'
@@ -9,24 +9,15 @@ import { getUser } from '../../../store/user/userSelectors'
 import { setUserPreference } from '../../../store/user/userActions'
 import _ from 'lodash'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import { sanitizeText } from '@frontend/common'
 
 interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
   body?: string
-  certificateMetadata: CertificateMetadata
 }
 
-const RenewCertificateButton: React.FC<Props> = ({
-  name,
-  description,
-  enabled,
-  body,
-  certificateMetadata: propMetaData,
-  functionDisabled,
-}) => {
+const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
