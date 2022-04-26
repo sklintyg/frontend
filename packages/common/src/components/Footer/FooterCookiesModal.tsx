@@ -15,7 +15,7 @@ const ExternalLinkIconImg = styled.img`
 `
 
 export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
-  <TextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor" additionalStyles={className}>
+  <TextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor (cookies)" additionalStyles={className}>
     <p>
       Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår
       användning av kakor.
