@@ -18,9 +18,13 @@ import {
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
+  CreateCertificate,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  CreateCertificateResponse,
+  createNewCertificate,
   deleteCertificate,
+  GetCertificateSuccess,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
@@ -474,6 +478,26 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: true }))
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors[0].type).toEqual('ERROR')
+    })
+  })
+
+  describe('Handle create certificate', () => {
+    it('should update certificate id after api call', async () => {
+      const data: CreateCertificate = {
+        certificateType: 'lisjp',
+        patientId: '191212121212',
+      }
+      const response: CreateCertificateResponse = {
+        certificateId: 'certificateId',
+      }
+
+      fakeAxios.onPost(`/api/certificate/${data.certificateType}/${data.patientId}`).reply(200, response)
+
+      testStore.dispatch(createNewCertificate(data))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiCertificate.createdCertificateId).toEqual(response.certificateId)
+      expect(fakeAxios.history.post.length).toBe(1)
     })
   })
 

@@ -9,6 +9,9 @@ import CertificateList from './CertificateList'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import { updateUser, updateCertificateTypes, updateUserPreference } from '../../store/user/userActions'
 import userEvent from '@testing-library/user-event'
+import { Router } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 
 const createType = ({
   description = '',
@@ -36,11 +39,15 @@ const createType = ({
 let testStore: EnhancedStore
 let types: CertificateType[]
 let container: HTMLElement
+const testHistory = createBrowserHistory()
+testHistory.push = jest.fn()
 
 const renderComponent = (): HTMLElement => {
   const { container } = render(
     <Provider store={testStore}>
-      <CertificateList />
+      <Router history={testHistory}>
+        <CertificateList />
+      </Router>
     </Provider>
   )
   return container
@@ -115,5 +122,30 @@ describe('StartPage', () => {
     userEvent.click(icon)
 
     expect(icon).toHaveAttribute('class', expect.stringContaining('iu-color-muted'))
+  })
+
+  it('should show modal when clicked', () => {
+    renderComponent()
+
+    const aboutLink = screen.getAllByText('Om intyget')[0] as HTMLElement
+    userEvent.click(aboutLink)
+
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('should redirect user when certificate id is set', () => {
+    testStore.dispatch(updateCreatedCertificateId('certificateId'))
+
+    renderComponent()
+
+    expect(testHistory.push).toHaveBeenCalledWith('/certificate/certificateId')
+  })
+
+  it('should clear certificate id after certificate id is set', () => {
+    testStore.dispatch(updateCreatedCertificateId('certificateId'))
+
+    renderComponent()
+
+    expect(testStore.getState().ui.uiCertificate.createdCertificateId).toEqual('')
   })
 })
