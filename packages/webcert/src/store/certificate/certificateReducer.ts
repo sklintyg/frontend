@@ -1,16 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   Certificate,
-  CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
   Complement,
   ConfigTypes,
-  ConfigUeCheckboxMultipleCodes,
   ValueBoolean,
   ValueCode,
-  ValueCodeList,
   ValueText,
 } from '@frontend/common'
 import {
@@ -29,7 +26,6 @@ import {
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -47,7 +43,6 @@ import {
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
-  updateCreateCertificate,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
