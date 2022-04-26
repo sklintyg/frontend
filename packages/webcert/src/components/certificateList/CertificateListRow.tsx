@@ -14,6 +14,7 @@ interface Props {
   preferenceClick: (...args: any[]) => void
   favorite: boolean
   createCertificate: (...args: any[]) => void
+  createDisabled: boolean
 }
 
 const Row = styled.div`
@@ -38,6 +39,7 @@ const CertificateListRow: React.FC<Props> = ({
   preferenceClick,
   favorite,
   createCertificate,
+  createDisabled,
 }) => {
   const onPreferenceClick = () => {
     preferenceClick(id)
@@ -64,7 +66,7 @@ const CertificateListRow: React.FC<Props> = ({
       <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
         {certificateInfo}
       </TextWithInfoModal>
-      <CustomButton buttonStyle="primary" type="button" onClick={onCreateCertificateClick}>
+      <CustomButton buttonStyle="primary" type="button" onClick={onCreateCertificateClick} disabled={createDisabled}>
         Skapa intyg
       </CustomButton>
     </Row>

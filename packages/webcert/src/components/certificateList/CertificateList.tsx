@@ -85,6 +85,7 @@ const CertificateList: React.FC = () => {
       id: t.id,
       issuerTypeId: t.issuerTypeId,
       favorite: favorites.includes(t.id),
+      createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
     }))
     .sort(byFavorite)
 
