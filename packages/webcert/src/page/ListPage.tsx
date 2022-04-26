@@ -51,7 +51,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
 
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {
-      return nbrOfDraftsOnUnit === 0 && false
+      return nbrOfDraftsOnUnit === 0
     } else {
       const isFirstSearch = isFilterDefault(config?.filters, filter?.values)
       return isFirstSearch && totalCount === 0
