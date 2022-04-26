@@ -15,10 +15,20 @@ export const getDraftsStarted = createAction(`${LIST} Get drafts started`)
 export const getDraftsSuccess = createAction<ListResponse>(`${LIST} Get drafts success`)
 export const getDraftsError = createAction(`${LIST} Get drafts error`)
 
+export const getCertificateList = createAction<ListFilter>(`${LIST} Get certificate list`)
+export const getCertificateListStarted = createAction(`${LIST} Get certificate list started`)
+export const getCertificateListSuccess = createAction<ListResponse>(`${LIST} Get drafts success`)
+export const getCertificateListError = createAction(`${LIST} Get certificate list error`)
+
 export const getDraftListConfig = createAction(`${LIST} Get draft list config`)
 export const getDraftListConfigStarted = createAction(`${LIST} Get draft list config started`)
 export const getDraftListConfigSuccess = createAction(`${LIST} Get draft list config success`)
 export const getDraftListConfigError = createAction(`${LIST} Get draft list config error`)
+
+export const getCertificateListConfig = createAction(`${LIST} Get certificate list config`)
+export const getCertificateListConfigStarted = createAction(`${LIST} Get certificate list config started`)
+export const getCertificateListConfigSuccess = createAction(`${LIST} Get certificate list config success`)
+export const getCertificateListConfigError = createAction(`${LIST} Get certificate list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)
@@ -27,7 +37,7 @@ export const clearActiveList = createAction(`${LIST} Clear active list`)
 export const updateIsLoadingList = createAction<boolean>(`${LIST} Update is loading list`)
 export const updateIsLoadingListConfig = createAction<boolean>(`${LIST} Update is loading list config`)
 
-export const updateTotalCount = createAction<number>(`${LIST} Update total count for list`)
+export const updateTotalCount = createAction<number | undefined>(`${LIST} Update total count for list`)
 
 export interface UpdateListFilterValue {
   id: string

@@ -13,6 +13,7 @@ export function withResourceAccess<P>(WrappedComponent: React.FC<P>): React.FC<P
     const resourceAccessMap = new Map<string, ResourceLinkType>([
       ['/create', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
       ['/list/draft', ResourceLinkType.ACCESS_DRAFT_LIST],
+      ['list/certificate', ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST],
     ])
     const linkType = resourceAccessMap.get(location.pathname)
 

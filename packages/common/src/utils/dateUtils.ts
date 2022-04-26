@@ -186,3 +186,7 @@ export const isFutureDate = (date: string): boolean => {
   }
   return getValidDate(date)! > new Date()
 }
+
+export const isDateBehindLimit = (date: string, limit: string): boolean => {
+  return isValid(getValidDate(date)) && date < limit
+}

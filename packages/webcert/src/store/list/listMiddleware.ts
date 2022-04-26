@@ -7,6 +7,12 @@ import {
   clearActiveListFilter,
   clearActiveListType,
   clearListError,
+  getCertificateList,
+  getCertificateListConfig,
+  getCertificateListConfigStarted,
+  getCertificateListConfigSuccess,
+  getCertificateListStarted,
+  getCertificateListSuccess,
   getDraftListConfig,
   getDraftListConfigStarted,
   getDraftListConfigSuccess,
@@ -19,7 +25,6 @@ import {
   updateActiveList,
   updateActiveListConfig,
   updateActiveListFilterValue,
-  updateActiveListType,
   updateDefaultListFilterValues,
   updateIsLoadingList,
   updateIsLoadingListConfig,
@@ -27,12 +32,15 @@ import {
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
+import { getCertificateError } from '../certificate/certificateActions'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
   const listFilter = getState().ui.uiList.activeListFilter
   if (listType === ListType.DRAFTS) {
     dispatch(getDrafts(listFilter))
+  } else if (listType === ListType.CERTIFICATES) {
+    dispatch(getCertificateList(listFilter))
   }
 }
 
@@ -49,14 +57,26 @@ const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
   )
 }
 
-const handleGetDraftsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetCertificateList: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/certificate',
+      method: 'POST',
+      data: { filter: action.payload },
+      onStart: getCertificateListStarted.type,
+      onSuccess: getCertificateListSuccess.type,
+      onError: getCertificateError.type,
+    })
+  )
+}
+
+const handleGetListStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingList(true))
 }
 
-const handleGetDraftsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveList(Object.values(action.payload.list)))
   dispatch(updateTotalCount(action.payload.totalCount))
-  dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(clearListError)
   dispatch(updateIsLoadingList(false))
 }
@@ -73,13 +93,24 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-const handleGetDraftListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetCertificateListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/config/certificate',
+      method: 'GET',
+      onStart: getCertificateListConfigStarted.type,
+      onSuccess: getCertificateListConfigSuccess.type,
+      onError: setListError.type,
+    })
+  )
+}
+
+const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingListConfig(true))
 }
 
-const handleGetDraftListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveListConfig(action.payload))
-  dispatch(updateActiveListType(ListType.DRAFTS))
   dispatch(updateDefaultListFilterValues)
   dispatch(clearListError)
   dispatch(updateIsLoadingListConfig(false))
@@ -90,7 +121,7 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(clearActiveListFilter)
   dispatch(clearActiveList)
   dispatch(clearActiveListConfig)
-  dispatch(updateTotalCount(0))
+  dispatch(updateTotalCount(undefined))
 }
 
 const handleGetDraftsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -116,14 +147,20 @@ const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: Middlew
 const middlewareMethods = {
   [performListSearch.type]: handlePerformListSearch,
   [getDrafts.type]: handleGetDrafts,
-  [getDraftsSuccess.type]: handleGetDraftsSuccess,
+  [getDraftsSuccess.type]: handleGetListSuccess,
   [getDraftListConfig.type]: handleGetDraftListConfig,
-  [getDraftListConfigSuccess.type]: handleGetDraftListConfigSuccess,
+  [getDraftListConfigSuccess.type]: handleGetListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [clearActiveListFilter.type]: handleClearActiveListFilter,
   [getDraftsError.type]: handleGetDraftsError,
-  [getDraftsStarted.type]: handleGetDraftsStarted,
-  [getDraftListConfigStarted.type]: handleGetDraftListConfigStarted,
+  [getDraftsStarted.type]: handleGetListStarted,
+  [getDraftListConfigStarted.type]: handleGetListConfigStarted,
+  [getCertificateList.type]: handleGetCertificateList,
+  [getCertificateListSuccess.type]: handleGetListSuccess,
+  [getCertificateListStarted.type]: handleGetListStarted,
+  [getCertificateListConfig.type]: handleGetCertificateListConfig,
+  [getCertificateListConfigStarted.type]: handleGetListConfigStarted,
+  [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

@@ -24,7 +24,7 @@ interface ListState {
   activeListFilter: ListFilter
   activeListType: ListType
   listError: boolean
-  totalCount: number
+  totalCount: number | undefined
   isLoadingList: boolean
   isLoadingListConfig: boolean
   hasValidationError: boolean
@@ -36,7 +36,7 @@ const initialState: ListState = {
   activeListType: ListType.UNKOWN,
   activeListFilter: {},
   listError: false,
-  totalCount: 0,
+  totalCount: undefined,
   isLoadingList: true,
   isLoadingListConfig: true,
   hasValidationError: false,
