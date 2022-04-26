@@ -20,4 +20,6 @@ export const getIsLoadingList = (state: RootState): boolean => state.ui.uiList.i
 
 export const getIsLoadingListConfig = (state: RootState): boolean => state.ui.uiList.isLoadingListConfig
 
+export const getIsSortingList = (state: RootState): boolean => state.ui.uiList.isSortingList
+
 export const getHasValidationErrors = (state: RootState): boolean => state.ui.uiList.hasValidationError

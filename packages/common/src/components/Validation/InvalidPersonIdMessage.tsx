@@ -6,11 +6,12 @@ interface Props {
 }
 
 const Wrapper = styled.p`
+  width: inherit;
   position: absolute;
 `
 
 const InvalidPersonIdMessage: React.FC<Props> = ({ display }) => {
   if (!display) return null
-  return <Wrapper className="iu-color-error">Ange ett giltigt person- eller samordningsnummer.</Wrapper>
+  return <Wrapper className="iu-color-error iu-lh-narrow">Ange ett giltigt person- eller samordningsnummer.</Wrapper>
 }
 export default InvalidPersonIdMessage
