@@ -152,6 +152,7 @@ export const getConfigWithTextFilter = (): ListConfig => {
         title: 'title',
         type: CertificateListItemValueType.TEXT,
         description: 'description',
+        defaultAscending: false,
       },
     ],
     defaultOrderBy: 'orderBy',

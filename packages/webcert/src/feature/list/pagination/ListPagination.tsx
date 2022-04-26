@@ -20,7 +20,7 @@ const ListPagination: React.FC = () => {
     <PaginationContainer
       onPageChange={handlePageChange}
       pageSize={pageSize ? pageSize.value : 0}
-      totalCount={totalCount}
+      totalCount={totalCount ? totalCount : 0}
       startFrom={startFrom ? startFrom.value : 0}
       pagesPerTuple={10}
     />

@@ -105,7 +105,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
       <ListPageSizeFilter
         filter={pageSizeFilter}
         value={pageSizeValue as ListFilterValueNumber}
-        totalCount={totalCount}
+        totalCount={totalCount ? totalCount : 0}
         onFilterChange={onUpdateList}
       />
     </>
