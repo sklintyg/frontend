@@ -2,7 +2,6 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
-  clearPatient,
   clearPatientError,
   getCertificateTypes,
   getCertificateTypesStarted,
@@ -55,10 +54,6 @@ const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   dispatch(throwError(error))
 }
 
-const handleClearPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(setPatient(undefined))
-}
-
 const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
@@ -78,7 +73,6 @@ const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
 const middlewareMethods = {
   [getPatient.type]: handleGetPatient,
   [getPatientSuccess.type]: handleGetPatientSuccess,
-  [clearPatient.type]: handleClearPatient,
   [getPatientError.type]: handleGetPatientError,
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
