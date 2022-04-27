@@ -79,16 +79,38 @@ const CertificateList: React.FC = () => {
     }
   }, [certificateId, dispatch, history])
 
-  const certificates = certificateTypes
-    .map((t) => ({
-      certificateName: t.label,
-      certificateInfo: t.detailedDescription,
-      id: t.id,
-      issuerTypeId: t.issuerTypeId,
-      favorite: favorites.includes(t.id),
-      createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
-    }))
-    .sort(byFavorite)
+  // const certificates = certificateTypes
+  //   .map((t) => ({
+  //     certificateName: t.label,
+  //     certificateInfo: t.detailedDescription,
+  //     id: t.id,
+  //     issuerTypeId: t.issuerTypeId,
+  //     favorite: favorites.includes(t.id),
+  //     createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
+  //   }))
+  //   .sort(byFavorite)
+
+  const getCertificateTypeContent = () => {
+    const certificates = certificateTypes
+      .map((t) => ({
+        certificateName: t.label,
+        certificateInfo: t.detailedDescription,
+        id: t.id,
+        issuerTypeId: t.issuerTypeId,
+        favorite: favorites.includes(t.id),
+        createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
+      }))
+      .sort(byFavorite)
+
+    return certificates.map((certificateType) => (
+      <CertificateListRow
+        {...certificateType}
+        preferenceClick={handlePreferenceClick}
+        createCertificate={handleCreateCertificate}
+        key={certificateType.id}
+      />
+    ))
+  }
 
   return (
     <div className="ic-container iu-mt-800 iu-flex">
@@ -98,14 +120,7 @@ const CertificateList: React.FC = () => {
       <FlexWrapper>
         <h3 className="iu-mb-05rem">Skapa intyg</h3>
         <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
-          {certificates.map((certificateType) => (
-            <CertificateListRow
-              {...certificateType}
-              preferenceClick={handlePreferenceClick}
-              createCertificate={handleCreateCertificate}
-              key={certificateType.id}
-            />
-          ))}
+          {getCertificateTypeContent()}
         </CertificateBox>
       </FlexWrapper>
     </div>
