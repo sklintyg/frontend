@@ -60,6 +60,8 @@ const ListItemContent: React.FC<Props> = ({ key, value, valueType, tooltips, lin
             enabled={link.enabled}
             functionDisabled={false}
             excludeIcon={true}
+            body={link.body}
+            certificateId={certificateId}
           />
         </td>
       )

@@ -338,16 +338,16 @@ export const answerComplementCertificateSuccess = createAction<ComplementCertifi
 
 export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
 
-export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
+export const renewCertificate = createAction<RenewCertificate>(RENEW_CERTIFICATE)
 
 export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
 
-export interface RenewCertificateSuccess {
+export interface RenewCertificate {
   certificateId: string
   history: History<LocationState>
 }
 
-export const renewCertificateSuccess = createAction<RenewCertificateSuccess>(RENEW_CERTIFICATE_SUCCESS)
+export const renewCertificateSuccess = createAction<RenewCertificate>(RENEW_CERTIFICATE_SUCCESS)
 
 export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
 

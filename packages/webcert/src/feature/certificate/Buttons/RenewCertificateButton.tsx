@@ -16,9 +16,10 @@ interface Props extends FunctionDisabled {
   enabled: boolean
   body?: string
   excludeIcon?: boolean
+  certificateId: string
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, excludeIcon }) => {
+const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, excludeIcon, certificateId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
@@ -30,11 +31,11 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
     if (checked) {
       dispatch(setUserPreference({ key: dontShowFornyaDialog, value: 'true' }))
     }
-    dispatch(renewCertificate(history))
+    dispatch(renewCertificate({ certificateId: certificateId, history: history }))
   }
 
   const handleClick = () => {
-    dispatch(renewCertificate(history))
+    dispatch(renewCertificate({ certificateId: certificateId, history: history }))
   }
 
   const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {

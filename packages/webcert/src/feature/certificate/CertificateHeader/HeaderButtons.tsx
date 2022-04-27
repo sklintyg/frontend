@@ -67,7 +67,7 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, fu
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.RENEW_CERTIFICATE)) && (
         <RenewCertificateButton
           {...getResourceLink(resourceLinks, ResourceLinkType.RENEW_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
+          certificateId={certificateMetadata.id}
           functionDisabled={functionDisabled}
         />
       )}

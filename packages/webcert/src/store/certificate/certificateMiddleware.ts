@@ -428,19 +428,17 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
-const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Förnyar...'))
-
-  const certificate: Certificate = getState().ui.uiCertificate.certificate
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/renew',
+      url: '/api/certificate/' + action.payload.certificateId + '/renew',
       method: 'POST',
       onStart: renewCertificateStarted.type,
       onSuccess: renewCertificateSuccess.type,
       onError: certificateApiGenericError.type,
-      onArgs: { history: action.payload },
+      onArgs: { history: action.payload.history },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
