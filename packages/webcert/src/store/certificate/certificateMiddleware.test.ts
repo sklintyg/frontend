@@ -482,6 +482,18 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle create certificate', () => {
+    it('should call api to create certificate', async () => {
+      testStore.dispatch(
+        createNewCertificate({
+          certificateType: 'lisjp',
+          patientId: '191212121212',
+        })
+      )
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+
     it('should update certificate id after api call', async () => {
       const data: CreateCertificate = {
         certificateType: 'lisjp',
@@ -496,8 +508,8 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(createNewCertificate(data))
 
       await flushPromises()
-      expect(testStore.getState().ui.uiCertificate.createdCertificateId).toEqual(response.certificateId)
-      expect(fakeAxios.history.post.length).toBe(1)
+      const createdCertificateId = testStore.getState().ui.uiCertificate.createdCertificateId
+      expect(createdCertificateId).toEqual(response.certificateId)
     })
   })
 
