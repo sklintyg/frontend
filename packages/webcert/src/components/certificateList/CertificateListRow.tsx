@@ -11,9 +11,9 @@ interface Props {
   certificateInfo: string
   id: string
   issuerTypeId: string
-  preferenceClick: (...args: any[]) => void
+  preferenceClick: (...args: string[]) => void
   favorite: boolean
-  createCertificate: (...args: any[]) => void
+  createCertificate: (...args: string[]) => void
   createDisabled: boolean
 }
 

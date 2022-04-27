@@ -11,7 +11,7 @@ import { createNewCertificate, updateCreatedCertificateId } from '../../store/ce
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 
-const byFavorite = (a: any, b: any): number => {
+const byFavorite = (a: { favorite: number }, b: { favorite: number }): number => {
   if (a.favorite > b.favorite) {
     return -1
   } else if (a.favorite < b.favorite) {
@@ -78,17 +78,6 @@ const CertificateList: React.FC = () => {
       history.push(`/certificate/${certificateId}`)
     }
   }, [certificateId, dispatch, history])
-
-  // const certificates = certificateTypes
-  //   .map((t) => ({
-  //     certificateName: t.label,
-  //     certificateInfo: t.detailedDescription,
-  //     id: t.id,
-  //     issuerTypeId: t.issuerTypeId,
-  //     favorite: favorites.includes(t.id),
-  //     createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
-  //   }))
-  //   .sort(byFavorite)
 
   const getCertificateTypeContent = () => {
     const certificates = certificateTypes
