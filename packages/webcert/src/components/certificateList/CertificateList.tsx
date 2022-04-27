@@ -11,7 +11,7 @@ import { createNewCertificate, updateCreatedCertificateId } from '../../store/ce
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 
-const byFavorite = (a: { favorite: number }, b: { favorite: number }): number => {
+const byFavorite = (a: any, b: any): number => {
   if (a.favorite > b.favorite) {
     return -1
   } else if (a.favorite < b.favorite) {
