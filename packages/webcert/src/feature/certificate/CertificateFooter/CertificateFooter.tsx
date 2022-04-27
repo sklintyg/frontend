@@ -55,6 +55,10 @@ export const CertificateFooter: React.FC = () => {
       {canForward && (
         <div className={'iu-flex'}>
           <ForwardCertificateButton
+            certificateId={certificateMetadata.id}
+            unitName={certificateMetadata.unit.unitName}
+            careProviderName={certificateMetadata.careProvider.unitName}
+            forwarded={certificateMetadata.forwarded}
             functionDisabled={functionDisabled}
             {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
           />

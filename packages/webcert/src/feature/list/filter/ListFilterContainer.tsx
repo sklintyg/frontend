@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  CertificateListItemValueType,
   ListConfig,
   ListFilter,
   ListFilterPageSizeConfig,
@@ -99,7 +100,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
           {getOtherFilter()}
           {!config?.excludeFilterButtons && (
             <ListFilterButtons
-              searchTooltip={config.searchCertificateTooltip}
+              searchTooltip={config.buttonTooltips[CertificateListItemValueType.SEARCH_BUTTON]}
               onSearch={onSearch}
               onReset={onReset}
               isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}

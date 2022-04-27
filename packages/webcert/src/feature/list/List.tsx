@@ -37,6 +37,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
           valueType={heading.type}
           tooltips={config.buttonTooltips}
           links={listItem.values['LINKS']}
+          certificateId={listItem.values['CERTIFICATE_ID']}
         />
       )
     })

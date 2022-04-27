@@ -1,5 +1,7 @@
+import { ResourceLink } from './resourceLink'
+
 export interface CertificateListItem {
-  values: { [key: string]: string | PatientListInfo | boolean }
+  values: { [key: string]: string | PatientListInfo | ForwardedListInfo | ResourceLink[] | boolean }
 }
 
 export interface ListButtonTooltips {
@@ -21,6 +23,7 @@ export enum CertificateListItemValueType {
   HIDDEN = 'HIDDEN',
   OPEN_BUTTON = 'OPEN_BUTTON',
   RENEW_BUTTON = 'RENEW_BUTTON',
+  SEARCH_BUTTON = 'SEARCH_BUTTON',
 }
 
 export enum ListFilterType {
@@ -164,11 +167,8 @@ export interface ListFilterValues {
   [propName: string]: ListFilterValue
 }
 
-export enum ListLinkTypes {
-  LASA_INTYG = 'LASA_INTYG',
-  FORNYA_INTYG = 'FORNYA_INTYG',
-}
-
-export interface ListResourceLink {
-  type: string
+export interface ForwardedListInfo {
+  forwarded: boolean
+  unitName: string
+  careProviderName: string
 }
