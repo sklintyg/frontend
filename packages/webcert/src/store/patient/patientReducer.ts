@@ -1,12 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Patient, PatientStatus } from '@frontend/common'
-import { clearPatientError, setPatient, setPatientError, setStatus } from './patientActions'
+import { CertificateType, Patient, PatientStatus } from '@frontend/common'
+import { clearPatientError, setPatient, setPatientError, setStatus, updateCertificateTypes } from './patientActions'
 import { ErrorRequest } from '../error/errorReducer'
 
 interface PatientState {
   patient: Patient | undefined
   status: PatientStatus | undefined
   error: ErrorRequest | undefined
+  certificateTypes: CertificateType[]
 }
 
 const getInitialState = (): PatientState => {
@@ -14,6 +15,7 @@ const getInitialState = (): PatientState => {
     patient: undefined,
     status: undefined,
     error: undefined,
+    certificateTypes: [],
   }
 }
 
@@ -29,6 +31,9 @@ const errorReducer = createReducer(getInitialState(), (builder) => [
   }),
   builder.addCase(clearPatientError, (state) => {
     state.error = undefined
+  }),
+  builder.addCase(updateCertificateTypes, (state, action) => {
+    state.certificateTypes = Object.values(action.payload)
   }),
 ])
 

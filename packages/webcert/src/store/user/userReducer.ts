@@ -1,20 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  updateCertificateTypes,
   updateInactivateAutomaticLogout,
   updateIsLoadingUser,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
 } from './userActions'
-import { CertificateType, ResourceLink, User } from '@frontend/common'
+import { ResourceLink, User } from '@frontend/common'
 
 interface UserState {
   user: null | User
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean
   isLoadingUser: boolean
-  certificateTypes: CertificateType[]
 }
 
 const initialState: UserState = {
@@ -22,7 +20,6 @@ const initialState: UserState = {
   links: [],
   inactiveAutomaticLogout: false,
   isLoadingUser: true,
-  certificateTypes: [],
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -49,9 +46,6 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsLoadingUser, (state, action) => {
       state.isLoadingUser = action.payload
-    })
-    .addCase(updateCertificateTypes, (state, action) => {
-      state.certificateTypes = Object.values(action.payload)
     })
 )
 

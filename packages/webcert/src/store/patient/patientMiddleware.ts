@@ -1,15 +1,19 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   clearPatient,
   clearPatientError,
+  getCertificateTypes,
+  getCertificateTypesStarted,
+  getCertificateTypesSuccess,
   getPatient,
   getPatientError,
   getPatientStarted,
   getPatientSuccess,
   setPatient,
   setPatientError,
+  updateCertificateTypes,
 } from './patientActions'
 import { PatientStatus } from '@frontend/common'
 import { throwError } from '../error/errorActions'
@@ -55,11 +59,29 @@ const handleClearPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
   dispatch(setPatient(undefined))
 }
 
+const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/type/' + action.payload,
+      method: 'GET',
+      onStart: getCertificateTypesStarted.type,
+      onSuccess: getCertificateTypesSuccess.type,
+      onError: apiSilentGenericError.type,
+    })
+  )
+}
+
+const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateCertificateTypes(action.payload))
+}
+
 const middlewareMethods = {
   [getPatient.type]: handleGetPatient,
   [getPatientSuccess.type]: handleGetPatientSuccess,
   [clearPatient.type]: handleClearPatient,
   [getPatientError.type]: handleGetPatientError,
+  [getCertificateTypes.type]: handleGetCertificateTypes,
+  [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
 }
 
 export const patientMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

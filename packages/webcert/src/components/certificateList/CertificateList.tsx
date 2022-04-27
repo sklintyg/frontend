@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getActivePatient } from '../../store/patient/patientSelectors'
-import { getCertificateTypes, setUserPreference } from '../../store/user/userActions'
-import { getUserPreference, selectCertificateTypes } from '../../store/user/userSelectors'
+import { getActivePatient, selectCertificateTypes } from '../../store/patient/patientSelectors'
+import { setUserPreference } from '../../store/user/userActions'
+import { getUserPreference } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
 import fileIcon from '../../images/fileIcon.svg'
 import { useHistory } from 'react-router-dom'
 import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
+import { getCertificateTypes } from '../../store/patient/patientActions'
 
 const byFavorite = (a: any, b: any): number => {
   if (a.favorite > b.favorite) {

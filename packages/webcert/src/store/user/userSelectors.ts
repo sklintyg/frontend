@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { CertificateType, ResourceLink, User } from '@frontend/common'
+import { ResourceLink, User } from '@frontend/common'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -14,5 +14,3 @@ export const isCareAdministrator = (state: RootState): boolean | undefined =>
 export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
-
-export const selectCertificateTypes = (state: RootState): CertificateType[] => state.ui.uiUser.certificateTypes

@@ -7,11 +7,12 @@ import reducer from '../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import CertificateList from './CertificateList'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import { updateUser, updateCertificateTypes, updateUserPreference } from '../../store/user/userActions'
+import { updateUser, updateUserPreference } from '../../store/user/userActions'
 import userEvent from '@testing-library/user-event'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
+import { updateCertificateTypes } from '../../store/patient/patientActions'
 
 const createType = ({
   description = '',

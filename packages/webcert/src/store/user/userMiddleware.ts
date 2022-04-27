@@ -23,10 +23,6 @@ import {
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
-  getCertificateTypes,
-  getCertificateTypesSuccess,
-  getCertificateTypesStarted,
-  updateCertificateTypes,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -129,22 +125,6 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   dispatch(updateInactivateAutomaticLogout(true))
 }
 
-const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/api/certificate/type/' + action.payload,
-      method: 'GET',
-      onStart: getCertificateTypesStarted.type,
-      onSuccess: getCertificateTypesSuccess.type,
-      onError: apiSilentGenericError.type,
-    })
-  )
-}
-
-const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateCertificateTypes(action.payload))
-}
-
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -156,8 +136,6 @@ const middlewareMethods = {
   [triggerLogout.type]: handleTriggerLogout,
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,
-  [getCertificateTypes.type]: handleGetCertificateTypes,
-  [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
