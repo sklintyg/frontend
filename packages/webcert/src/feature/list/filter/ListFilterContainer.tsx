@@ -18,7 +18,7 @@ import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } f
 
 const Root = styled.div`
   padding-top: 24px;
-  padding-bottom: 24px;
+  padding-bottom: 48px;
   display: flex;
   flex-wrap: wrap;
   gap: 24px;

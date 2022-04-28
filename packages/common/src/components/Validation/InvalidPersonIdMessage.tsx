@@ -8,6 +8,7 @@ interface Props {
 const Wrapper = styled.p`
   width: inherit;
   position: absolute;
+  padding-top: 3px;
 `
 
 const InvalidPersonIdMessage: React.FC<Props> = ({ display }) => {
