@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
+import { ResourceLinkType } from '@frontend/common'
 
 const byFavorite = (a: any, b: any): number => {
   if (a.favorite > b.favorite) {
@@ -87,7 +88,7 @@ const CertificateList: React.FC = () => {
         id: t.id,
         issuerTypeId: t.issuerTypeId,
         favorite: favorites.includes(t.id),
-        createDisabled: !t.links.find((link) => link.type === 'SKAPA_UTKAST'),
+        createDisabled: !t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
       }))
       .sort(byFavorite)
 
