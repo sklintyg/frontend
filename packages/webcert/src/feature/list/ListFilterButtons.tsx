@@ -12,8 +12,6 @@ interface Props {
 const Wrapper = styled.div`
   display: flex;
   gap: 12px;
-  padding-top: 24px;
-  padding-bottom: 24px;
 `
 
 const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, isSearchEnabled }) => {
