@@ -90,7 +90,7 @@ const CertificateList: React.FC = () => {
   }, [certificateId, dispatch, history])
 
   const getCertificateTypeContent = () => {
-    const certificates = certificateTypes
+    const certificates: CertificateTypeViewModel[] = certificateTypes
       .map((t) => ({
         certificateName: t.label,
         certificateInfo: t.detailedDescription,
