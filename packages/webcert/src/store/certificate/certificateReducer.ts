@@ -69,7 +69,6 @@ interface CertificateState {
   functionDisablers: FunctionDisabler[]
   clientValidationErrors: ValidationError[]
   createdCertificateId: string
-  navigateToCertificate: boolean
 }
 
 const initialState: CertificateState = {
@@ -85,7 +84,6 @@ const initialState: CertificateState = {
   functionDisablers: [],
   clientValidationErrors: [],
   createdCertificateId: '',
-  navigateToCertificate: false,
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'

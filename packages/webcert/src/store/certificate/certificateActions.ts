@@ -194,10 +194,6 @@ export const createNewCertificateSuccess = createAction<CreateCertificateRespons
 export const createNewCertificateError = createAction<string>(CREATE_NEW_CERTIFICATE_ERROR)
 export const updateCreatedCertificateId = createAction<string>(UPDATE_CERTIFICATE_ID)
 
-export const updateCreateCertificate = createAction<CreateCertificate>(UPDATE_CREATE_CERTIFICATE)
-
-export const updateNavigateToCertificate = createAction<boolean>(UPDATE_NAVIGATE_TO_CERTIFICATE)
-
 export const getCertificate = createAction<string>(GET_CERTIFICATE)
 
 export const getCertificateStarted = createAction(GET_CERTIFICATE_STARTED)
