@@ -110,13 +110,17 @@ export const getConfig = (
   return {
     title: title,
     filters: filters,
-    openCertificateTooltip: openCertificateTooltip,
-    searchCertificateTooltip: searchCertificateTooltip,
+    buttonTooltips: {
+      OPEN_BUTTON: 'OPEN_BUTTON',
+      SEARCH_BUTTON: 'SEARCH_BUTTON',
+      RENEW_BUTTON: 'RENEW_BUTTON',
+    },
     tableHeadings: tableHeadings,
     defaultOrderBy: defaultOrderBy,
     description: 'description',
     secondaryTitle: 'secondaryTitle',
     emptyListText: 'emptyListText',
+    excludeFilterButtons: false,
   }
 }
 
@@ -141,11 +145,14 @@ export const getConfigWithTextFilter = (): ListConfig => {
   return {
     title: 'title',
     filters: [getTextFilter()],
-    openCertificateTooltip: 'tooltip',
-    searchCertificateTooltip: 'tooltip',
     description: 'description',
     secondaryTitle: 'secondaryTitle',
     emptyListText: 'emptyListText',
+    buttonTooltips: {
+      OPEN_BUTTON: 'OPEN_BUTTON',
+      SEARCH_BUTTON: 'SEARCH_BUTTON',
+      RENEW_BUTTON: 'RENEW_BUTTON',
+    },
     tableHeadings: [
       {
         id: 'id',
@@ -156,6 +163,7 @@ export const getConfigWithTextFilter = (): ListConfig => {
       },
     ],
     defaultOrderBy: 'orderBy',
+    excludeFilterButtons: false,
   }
 }
 

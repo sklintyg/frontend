@@ -109,8 +109,6 @@ export interface ListConfig {
   secondaryTitle: string
   description: string
   emptyListText: string
-  openCertificateTooltip: string
-  searchCertificateTooltip: string
   tableHeadings: TableHeading[]
   defaultOrderBy: string
   excludeFilterButtons: boolean
