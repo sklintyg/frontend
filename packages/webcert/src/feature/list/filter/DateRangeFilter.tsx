@@ -25,6 +25,10 @@ const DateRangeWrapper = styled.div`
   z-index: 10000;
 `
 
+const ValidationErrorContainer = styled.div`
+  position: absolute;
+`
+
 const Icon = styled.img`
   width: 14px;
 `
@@ -141,7 +145,9 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             max={configFrom.max}
             min={configFrom.min}
           />
-          {fromValidationError && <p className="iu-color-error">{fromValidationError.text}</p>}
+          {fromValidationError && (
+            <ValidationErrorContainer className="iu-color-error">{fromValidationError.text}</ValidationErrorContainer>
+          )}
         </FilterWrapper>
         <FilterWrapper highlighted={!!getToValue() || config.alwaysHighlighted}>
           <DatePickerCustom
@@ -157,10 +163,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             max={configTo.max}
             min={configTo.min}
           />
-          {toValidationError && <p className="iu-color-error">{toValidationError.text}</p>}
+          {toValidationError && <ValidationErrorContainer className="iu-color-error">{toValidationError.text}</ValidationErrorContainer>}
         </FilterWrapper>
       </DateRangeWrapper>
-      {validationError && <p className="iu-color-error">{validationError.text}</p>}
+      {validationError && <ValidationErrorContainer className="iu-color-error">{validationError.text}</ValidationErrorContainer>}
     </div>
   )
 }

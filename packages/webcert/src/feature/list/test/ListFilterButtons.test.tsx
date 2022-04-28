@@ -26,7 +26,7 @@ describe('ListFilterButtons', () => {
 
   it('should show reset button', () => {
     renderComponent(true)
-    expect(screen.getByText('Återställ sökfiltret', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Återställ sökfilter', { exact: false })).toBeInTheDocument()
   })
 
   it('should show search tooltip', () => {
@@ -37,7 +37,7 @@ describe('ListFilterButtons', () => {
 
   it('should show reset tooltip', () => {
     renderComponent(true)
-    userEvent.hover(screen.getByText('Återställ sökfiltret'))
+    userEvent.hover(screen.getByText('Återställ sökfilter'))
     expect(screen.getByText(TOOLTIP_RESET)).toBeInTheDocument()
   })
 
@@ -65,7 +65,7 @@ describe('ListFilterButtons', () => {
 
   it('should perform reset when clicking on button', () => {
     renderComponent(true)
-    userEvent.click(screen.getByText('Återställ sökfiltret'))
+    userEvent.click(screen.getByText('Återställ sökfilter'))
     expect(onReset).toHaveBeenCalled()
     expect(onSearch).not.toHaveBeenCalled()
   })

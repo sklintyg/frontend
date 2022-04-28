@@ -28,6 +28,7 @@ import {
   updateDefaultListFilterValues,
   updateIsLoadingList,
   updateIsLoadingListConfig,
+  updateIsSortingList,
   updateTotalCount,
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
@@ -79,6 +80,7 @@ const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateTotalCount(action.payload.totalCount))
   dispatch(clearListError)
   dispatch(updateIsLoadingList(false))
+  dispatch(updateIsSortingList(false))
 }
 
 const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

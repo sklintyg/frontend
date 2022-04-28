@@ -13,12 +13,12 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  width: 11em;
+  width: 11.8em;
   margin-right: 0.5em;
 `
 
 const TextInputStyles = css`
-  height: 50px;
+  height: 2.956rem;
 `
 
 const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id }) => {
@@ -51,8 +51,8 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
           onFocus={() => setDisplayError(false)}
           hasValidationError={displayError}
         />
+        <InvalidPersonIdMessage display={displayError} />
       </Wrapper>
-      <InvalidPersonIdMessage display={displayError} />
     </>
   )
 }

@@ -36,6 +36,7 @@ export const updateActiveList = createAction<CertificateListItem[]>(`${LIST} Upd
 export const clearActiveList = createAction(`${LIST} Clear active list`)
 export const updateIsLoadingList = createAction<boolean>(`${LIST} Update is loading list`)
 export const updateIsLoadingListConfig = createAction<boolean>(`${LIST} Update is loading list config`)
+export const updateIsSortingList = createAction<boolean>(`${LIST} Update is sorting list`)
 
 export const updateTotalCount = createAction<number | undefined>(`${LIST} Update total count for list`)
 

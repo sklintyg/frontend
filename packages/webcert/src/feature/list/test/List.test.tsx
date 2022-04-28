@@ -36,7 +36,7 @@ describe('List', () => {
 
   it('should show reset button', () => {
     renderComponent(getDefaultList(), {})
-    expect(screen.getByText('Återställ sökfiltret', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Återställ sökfilter', { exact: false })).toBeInTheDocument()
   })
 
   it('should show search button', () => {

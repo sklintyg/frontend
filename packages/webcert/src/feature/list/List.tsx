@@ -2,9 +2,9 @@ import * as React from 'react'
 import { CertificateListItem, ListConfig, ListFilter, ListFilterType } from '@frontend/common/src/types/list'
 import Table from '@frontend/common/src/components/Table/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { performListSearch, updateActiveListFilterValue } from '../../store/list/listActions'
+import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
 import ListPagination from './pagination/ListPagination'
-import { getIsLoadingList } from '../../store/list/listSelectors'
+import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
 
@@ -18,6 +18,7 @@ interface Props {
 const List: React.FC<Props> = ({ config, list, filter, title }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)
+  const isSortingList = useSelector(getIsSortingList)
 
   if (!config) {
     return null
@@ -73,6 +74,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
         })
       )
 
+      dispatch(updateIsSortingList(true))
       dispatch(performListSearch)
     }
   }
@@ -85,7 +87,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
         orderBy={getOrderBy() as string}
         ascending={getAscending() as boolean}
         onTableHeadClick={updateSortingOfList}
-        isLoadingContent={isLoadingList}
+        isLoadingContent={isLoadingList && !isSortingList}
         isEmptyList={list.length === 0}>
         {getTable()}
       </Table>
