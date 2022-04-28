@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 `
 
 const TextInputStyles = css`
-  height: 50px;
+  height: 2.956rem;
 `
 
 const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id }) => {

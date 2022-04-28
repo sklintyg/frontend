@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { TableHeading } from '../../types/list'
 import { Spinner } from '../index'
+import ReactTooltip from 'react-tooltip'
 
 interface Props {
   caption?: string
@@ -39,6 +40,10 @@ const SortingButton = styled.button`
 `
 
 const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent, isEmptyList, children, headings, onTableHeadClick }) => {
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
   const getSortingArrow = (id: string, title: string) => {
     if (!title) {
       return null
