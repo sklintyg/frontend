@@ -12,7 +12,16 @@ import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 import { ResourceLinkType } from '@frontend/common'
 
-const byFavorite = (a: any, b: any): number => {
+interface CertificateTypeViewModel {
+  certificateName: string
+  certificateInfo: string
+  id: string
+  issuerTypeId: string
+  favorite: boolean
+  createDisabled: boolean
+}
+
+const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): number => {
   if (a.favorite > b.favorite) {
     return -1
   } else if (a.favorite < b.favorite) {
