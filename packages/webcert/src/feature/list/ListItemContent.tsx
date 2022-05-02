@@ -6,13 +6,12 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface Props {
-  key: string
   value: string | boolean | PatientListInfo
   valueType: CertificateListItemValueType
   openCertificateTooltip: string
 }
 
-const ListItemContent: React.FC<Props> = ({ key, value, valueType, openCertificateTooltip }) => {
+const ListItemContent: React.FC<Props> = ({ value, valueType, openCertificateTooltip }) => {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
