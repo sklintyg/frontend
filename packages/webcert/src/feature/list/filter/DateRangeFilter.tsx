@@ -25,8 +25,9 @@ const DateRangeWrapper = styled.div`
   z-index: 10000;
 `
 
-const ValidationErrorContainer = styled.div`
+const ValidationErrorContainer = styled.p`
   position: absolute;
+  width: 228px;
 `
 
 const Icon = styled.img`
