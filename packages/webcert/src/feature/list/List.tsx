@@ -99,7 +99,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
       <h3 className="iu-pt-500">{title}</h3>
       <ListFilterContainer config={config} filter={filter} />
       {getListContent()}
-      {!isLoadingList && <ListPagination />}
+      {(!isLoadingList || isSortingList) && <ListPagination />}
     </>
   )
 }

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import NumberOfHitsText from './NumberOfHitsText'
 import classNames from 'classnames'
@@ -42,12 +43,22 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
   const totalPages = Math.ceil(totalCount / pageSize)
   const finalPageTuple = Math.ceil(totalPages / pagesPerTuple)
 
-  if (totalPages === 0) {
-    return null
-  }
-
   const getStartFrom = (updatedPage: number) => {
     return (updatedPage - 1) * pageSize
+  }
+
+  useEffect(() => {
+    if (page > totalPages && totalPages > 0) {
+      handlePageChange(totalPages, getStartFrom(totalPages))
+    }
+
+    if (pageTuple > finalPageTuple && finalPageTuple > 0) {
+      handlePageTupleChange(finalPageTuple)
+    }
+  })
+
+  if (totalPages === 0) {
+    return null
   }
 
   const handlePreviousClick = () => {
