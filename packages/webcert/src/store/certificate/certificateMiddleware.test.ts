@@ -18,9 +18,13 @@ import {
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
+  CreateCertificate,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  CreateCertificateResponse,
+  createNewCertificate,
   deleteCertificate,
+  GetCertificateSuccess,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
@@ -474,6 +478,38 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: true }))
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors[0].type).toEqual('ERROR')
+    })
+  })
+
+  describe('Handle create certificate', () => {
+    it('should call api to create certificate', async () => {
+      testStore.dispatch(
+        createNewCertificate({
+          certificateType: 'lisjp',
+          patientId: '191212121212',
+        })
+      )
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+    })
+
+    it('should update certificate id after api call', async () => {
+      const data: CreateCertificate = {
+        certificateType: 'lisjp',
+        patientId: '191212121212',
+      }
+      const response: CreateCertificateResponse = {
+        certificateId: 'certificateId',
+      }
+
+      fakeAxios.onPost(`/api/certificate/${data.certificateType}/${data.patientId}`).reply(200, response)
+
+      testStore.dispatch(createNewCertificate(data))
+
+      await flushPromises()
+      const createdCertificateId = testStore.getState().ui.uiCertificate.createdCertificateId
+      expect(createdCertificateId).toEqual(response.certificateId)
     })
   })
 

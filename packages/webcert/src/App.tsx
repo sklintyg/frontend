@@ -17,13 +17,17 @@ import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
 import { ListPageWithRedirect } from './page/ListPage'
+import { Backdrop } from '@frontend/common'
+import { useSelector } from 'react-redux'
+import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-
-  const handleWindowBeforeUnload = () => dispatch(triggerLogout())
+  const isLoadingInitialState = useSelector(selectIsLoadingInitialState)
 
   useEffect(() => {
+    const handleWindowBeforeUnload = () => dispatch(triggerLogout())
+
     window.addEventListener('beforeunload', handleWindowBeforeUnload)
     dispatch(cancelLogout())
     dispatch(getUser())
@@ -33,7 +37,7 @@ function App(): JSX.Element {
     return () => {
       window.removeEventListener('beforeunload', handleWindowBeforeUnload)
     }
-  })
+  }, [dispatch])
 
   const onError = (error: Error) => {
     dispatch(
@@ -44,20 +48,22 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
-      <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
-        <ErrorComponent />
-        <Switch>
-          <Route path="/" exact render={() => <StartPageWithRedirect />} />
-          <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
-          <Route path="/welcome" render={() => <Welcome />} />
-          <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
-          <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
-          <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
-          <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
-        </Switch>
-      </ErrorBoundary>
-    </BrowserRouter>
+    <Backdrop open={isLoadingInitialState} spinnerText="Laddar...">
+      <BrowserRouter>
+        <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+          <ErrorComponent />
+          <Switch>
+            <Route path="/" exact render={() => <StartPageWithRedirect />} />
+            <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+            <Route path="/welcome" render={() => <Welcome />} />
+            <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
+            <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+            <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
+            <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
+          </Switch>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </Backdrop>
   )
 }
 

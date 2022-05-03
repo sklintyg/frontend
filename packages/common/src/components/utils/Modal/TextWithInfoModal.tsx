@@ -1,15 +1,23 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import { CustomButton, ModalBase } from '../..'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
+import classnames from 'classnames'
+
+const AboutButton = styled.button`
+  background: none;
+  border: none;
+  font-size: inherit;
+`
 
 interface Props {
   text: string
   modalTitle: string
+  className?: string
   additionalStyles?: string
-  additionalContentStyles?: string
 }
 
-const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles, additionalContentStyles, children }) => {
+const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, additionalStyles, className }) => {
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
 
@@ -29,9 +37,9 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, additionalStyles
 
   return (
     <>
-      <a href="#" className={`ic-link ${additionalStyles && additionalStyles}`} onClick={handleClickOpen}>
+      <AboutButton className={classnames('ic-link iu-color-cta-dark', className)} onClick={handleClickOpen}>
         {text}
-      </a>
+      </AboutButton>
       <ModalBase
         open={open}
         handleClose={handleClose}

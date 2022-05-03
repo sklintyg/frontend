@@ -239,3 +239,5 @@ export const getResponsibleHospName = (state: RootState): string => {
 }
 
 export const isCertificateFunctionDisabled = (state: RootState): boolean => state.ui.uiCertificate.functionDisablers.length > 0
+
+export const getCertificateId = () => (state: RootState): string => state.ui.uiCertificate.createdCertificateId

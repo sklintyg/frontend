@@ -24,6 +24,9 @@ import {
   createCertificateFromTemplate,
   createCertificateFromTemplateStarted,
   createCertificateFromTemplateSuccess,
+  createNewCertificate,
+  createNewCertificateStarted,
+  createNewCertificateSuccess,
   deleteCertificate,
   deleteCertificateCompleted,
   deleteCertificateStarted,
@@ -88,6 +91,7 @@ import {
   updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
+  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
@@ -719,7 +723,25 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   })
 }
 
+const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: `/api/certificate/${action.payload.certificateType}/${action.payload.patientId}`,
+      method: 'POST',
+      onStart: createNewCertificateStarted.type,
+      onSuccess: createNewCertificateSuccess.type,
+      onError: certificateApiGenericError.type,
+    })
+  )
+}
+
+const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateCreatedCertificateId(action.payload.certificateId))
+}
+
 const middlewareMethods = {
+  [createNewCertificate.type]: handleCreateNewCertificate,
+  [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
   [getCertificate.type]: handleGetCertificate,
   [getCertificateSuccess.type]: handleGetCertificateSuccess,
   [getCertificateEvents.type]: handleGetCertificateEvents,

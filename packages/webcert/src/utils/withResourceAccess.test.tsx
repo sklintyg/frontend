@@ -1,29 +1,28 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory, createMemoryHistory } from 'history'
 import { withResourceAccess } from './withResourceAccess'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { MemoryRouter, Route, Router } from 'react-router-dom'
 import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
-import { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import reducer from '../store/reducers'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
+import { throwError } from '../store/error/errorActions'
 
 let testStore: EnhancedStore
-const history = createBrowserHistory()
-history.replace = jest.fn()
 const Component: React.FC = () => <p>Component</p>
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const renderComponent = (history: History<unknown>) => {
+const renderComponent = () => {
   const ComponentWithRedirect = withResourceAccess(Component)
   render(
     <Provider store={testStore}>
-      <Router history={history}>
-        <ComponentWithRedirect />
-      </Router>
+      <MemoryRouter initialEntries={['/create']}>
+        <Route path="/create/:patientId?">
+          <ComponentWithRedirect />
+        </Route>
+      </MemoryRouter>
     </Provider>
   )
 }
@@ -57,7 +56,7 @@ describe('withAccessResource', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
     })
   })
 
@@ -66,33 +65,28 @@ describe('withAccessResource', () => {
   })
 
   it('should show spinner while loading user', () => {
-    renderComponent(history)
+    renderComponent()
     testStore.dispatch(updateIsLoadingUser(true))
 
     expect(screen.queryByText('Laddar...')).toBeInTheDocument()
   })
 
-  it('should redirect to start page if resource link does not exist', () => {
-    history.location.pathname = '/create'
+  it('should throw a not authorized error', () => {
     testStore.dispatch(updateIsLoadingUser(false))
     testStore.dispatch(updateUser(getUser()))
-    renderComponent(history)
+    renderComponent()
 
-    expect(history.replace).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/',
-      })
-    )
+    expect(dispatchedActions).toHaveLength(3)
+    expect(dispatchedActions.find((a) => a.type === throwError.type)).toBeDefined()
   })
 
   it('should render wrapped component if resource link exists', () => {
-    history.location.pathname = '/create'
     testStore.dispatch(updateIsLoadingUser(false))
     testStore.dispatch(updateUser(getUser()))
     testStore.dispatch(
       updateUserResourceLinks([{ type: ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, description: '', name: '', body: '', enabled: true }])
     )
-    renderComponent(history)
+    renderComponent()
 
     expect(screen.getByText('Component')).toBeInTheDocument()
   })

@@ -13,3 +13,6 @@ export const getBanners = (state: RootState): Banner[] => state.ui.uiUtils.confi
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined => state.ui.uiUtils.unitStatistics?.intygValdEnhet
 
 export const selectIsLoadingConfig = (state: RootState): boolean => state.ui.uiUtils.isLoadingConfig
+
+export const selectIsLoadingInitialState = (state: RootState): boolean =>
+  state.ui.uiUtils.isLoadingConfig && state.ui.uiUtils.isLoadingDynamicLinks
