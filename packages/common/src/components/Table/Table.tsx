@@ -50,17 +50,17 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
     }
     if (id === orderBy) {
       return ascending ? (
-        <SortingButton>
-          <FontAwesomeIcon icon={faAngleUp} className={'iu-color-main'} />
+        <SortingButton aria-label="Byt till att sortera fallande">
+          <FontAwesomeIcon icon={faAngleUp} className={'iu-color-main'} aria-label="Kolumnen sorteras stigande" />
         </SortingButton>
       ) : (
-        <SortingButton>
-          <FontAwesomeIcon icon={faAngleDown} className={'iu-color-main'} />
+        <SortingButton aria-label="Byt till att sortera stigande">
+          <FontAwesomeIcon icon={faAngleDown} className={'iu-color-main'} aria-label="Kolumnen sorteras fallande" />
         </SortingButton>
       )
     } else {
       return (
-        <SortingButton>
+        <SortingButton aria-label="Sortera på kolumn">
           <FontAwesomeIcon icon={faAngleUp} />
           <FontAwesomeIcon icon={faAngleDown} />
         </SortingButton>
@@ -70,7 +70,13 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
 
   const getTableHeadings = () => {
     return headings.map((heading) => (
-      <th key={heading.id} scope="col" id={heading.id} onClick={onTableHeadClick} data-html data-tip={heading.description}>
+      <th
+        key={heading.id + '-heading'}
+        id={heading.id + '-heading'}
+        scope="col"
+        onClick={onTableHeadClick}
+        data-html
+        data-tip={heading.description}>
         {getSortingArrow(heading.id, heading.title)}
         {heading.title}
       </th>

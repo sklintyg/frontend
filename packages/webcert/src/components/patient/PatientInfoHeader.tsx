@@ -27,7 +27,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
   return (
     <BoxShadowContainer>
       <div className={'ic-container iu-flex iu-py-400'}>
-        <img src={userImage} alt="userImage" className={'iu-mr-300'} />
+        <img src={userImage} alt="Logo patient" className={'iu-mr-300'} />
         <div>
           <h3 className={'iu-mb-200'}>Patientuppgifter</h3>
           <h2>

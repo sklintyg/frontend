@@ -27,7 +27,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   }
 
   const getOpenCertificateButton = () => {
-    const link = links.find((link) => link.type === ResourceLinkType.READ_CERTIFICATE)
+    const link = getLink(ResourceLinkType.READ_CERTIFICATE)
     if (link) {
       return (
         <td>
@@ -47,7 +47,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   }
 
   const getRenewCertificateButton = () => {
-    const link = links.find((link) => link.type === ResourceLinkType.RENEW_CERTIFICATE)
+    const link = getLink(ResourceLinkType.RENEW_CERTIFICATE)
     if (link) {
       return (
         <td>
@@ -69,13 +69,17 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     }
   }
 
-  function formatDate(value: string) {
+  const formatDate = (value: string) => {
     const splitDate = value.toString().split('T')
     return <>{`${splitDate[0]} ${splitDate[1].substring(0, 5)}`}</>
   }
 
+  const getLink = (type: ResourceLinkType): ResourceLink | undefined => {
+    return links ? links.find((link) => link.type === type) : undefined
+  }
+
   const getNotForwardedContent = (info: ForwardedListInfo) => {
-    const link = links.find((link) => link.type === ResourceLinkType.FORWARD_CERTIFICATE)
+    const link = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
     if (link) {
       return (
         <td>

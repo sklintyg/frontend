@@ -187,6 +187,7 @@ const DatePickerCustom: React.FC<Props> = ({
             dateFormat={_format}
             customInput={
               <StyledButton
+                aria-label="Öppna kalendern"
                 displayValidationError={displayValidationErrorOutline}
                 onClick={() => setOpen(true)}
                 className={classNames('ic-button', { error: displayValidationErrorOutline })}

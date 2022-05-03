@@ -25,7 +25,11 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
 
   const getSelectOptions = () => {
     return config.values.map((configValue) => (
-      <option key={configValue.id} id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
+      <option
+        key={configValue.id}
+        id={configValue.id + '-OPTION'}
+        value={configValue.id}
+        defaultValue={configValue.defaultValue ? configValue.id : ''}>
         {configValue.name}
       </option>
     ))

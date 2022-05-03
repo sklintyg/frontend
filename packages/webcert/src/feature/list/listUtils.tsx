@@ -1,4 +1,6 @@
 import {
+  CertificateListItemValueType,
+  ListConfig,
   ListFilterBooleanConfig,
   ListFilterConfig,
   ListFilterDateRangeConfig,
@@ -91,4 +93,8 @@ export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values:
 
 export const isFilterValueDefault = (config: ListFilterConfig, value: ListFilterValue): boolean => {
   return isEqual(value, getListFilterDefaultValue(config))
+}
+
+export const getTooltip = (config: ListConfig, id: CertificateListItemValueType) => {
+  return config && config.buttonTooltips ? config.buttonTooltips[id] : ''
 }

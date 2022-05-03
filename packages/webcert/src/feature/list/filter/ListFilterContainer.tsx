@@ -14,7 +14,7 @@ import ListFilterButtons from '../ListFilterButtons'
 import { clearActiveListFilter, performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from '../ListPageSizeFilter'
-import { isFilterValuesValid } from '../listUtils'
+import { getTooltip, isFilterValuesValid } from '../listUtils'
 import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
 
 const Root = styled.div`
@@ -101,7 +101,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
           {getOtherFilter()}
           {!config?.excludeFilterButtons && (
             <ListFilterButtons
-              searchTooltip={config.buttonTooltips[CertificateListItemValueType.SEARCH_BUTTON]}
+              searchTooltip={getTooltip(config, CertificateListItemValueType.SEARCH_BUTTON)}
               onSearch={onSearch}
               onReset={onReset}
               isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}

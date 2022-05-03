@@ -36,7 +36,7 @@ const RadioFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
         onChange={onFilterChange}
         id={configValue.id}
         value={configValue.id}
-        checked={(value as ListFilterValueRadio).value === configValue.id}
+        checked={value && (value as ListFilterValueRadio).value === configValue.id}
       />
     ))
   }
