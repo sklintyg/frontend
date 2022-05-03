@@ -25,7 +25,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
   }
 
   const getTable = () => {
-    return list.map((listItem) => <tr>{getTableData(listItem)}</tr>)
+    return list.map((listItem, count) => <tr key={'listItem-' + count}>{getTableData(listItem)}</tr>)
   }
 
   const getTableData = (listItem: CertificateListItem) => {
@@ -101,7 +101,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
       <h3 className="iu-pt-500">{title}</h3>
       <ListFilterContainer config={config} filter={filter} />
       {getListContent()}
-      {!isLoadingList && <ListPagination />}
+      {(!isLoadingList || isSortingList) && <ListPagination />}
     </>
   )
 }

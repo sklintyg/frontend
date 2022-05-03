@@ -142,5 +142,15 @@ describe('Pagination', () => {
       renderComponent(1, 1, 10, 9)
       expect(screen.getByText('Visar 9 av 9 träffar')).toBeInTheDocument()
     })
+
+    it('should reset page higher than last to last page', () => {
+      renderComponent(100, 1, 10, 20)
+      expect(handlePageChange).toHaveBeenCalledWith(2, 10)
+    })
+
+    it('should reset page tuple higher than last to last page tuple', () => {
+      renderComponent(1, 100, 10, 20)
+      expect(handlePageTupleChange).toHaveBeenCalledWith(1)
+    })
   })
 })

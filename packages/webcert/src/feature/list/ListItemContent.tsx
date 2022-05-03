@@ -12,7 +12,6 @@ export const StyledIcon = styled.img`
 `
 
 interface Props {
-  key: string
   value: string | boolean | PatientListInfo
   valueType: CertificateListItemValueType
   tooltips: ListButtonTooltips
@@ -20,7 +19,7 @@ interface Props {
   certificateId: string
 }
 
-const ListItemContent: React.FC<Props> = ({ key, value, valueType, tooltips, links, certificateId }) => {
+const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId }) => {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
