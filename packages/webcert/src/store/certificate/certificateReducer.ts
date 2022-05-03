@@ -1,16 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   Certificate,
-  CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
   Complement,
   ConfigTypes,
-  ConfigUeCheckboxMultipleCodes,
   ValueBoolean,
   ValueCode,
-  ValueCodeList,
   ValueText,
 } from '@frontend/common'
 import {
@@ -29,7 +26,6 @@ import {
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
-  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -43,6 +39,7 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
+  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
@@ -71,6 +68,7 @@ interface CertificateState {
   routedFromDeletedCertificate: boolean
   functionDisablers: FunctionDisabler[]
   clientValidationErrors: ValidationError[]
+  createdCertificateId: string
 }
 
 const initialState: CertificateState = {
@@ -85,6 +83,7 @@ const initialState: CertificateState = {
   routedFromDeletedCertificate: false,
   functionDisablers: [],
   clientValidationErrors: [],
+  createdCertificateId: '',
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
@@ -315,6 +314,9 @@ const certificateReducer = createReducer(initialState, (builder) =>
       const clientValidationErrors = [...state.clientValidationErrors]
       clientValidationErrors.splice(action.payload, 1)
       state.clientValidationErrors = clientValidationErrors
+    })
+    .addCase(updateCreatedCertificateId, (state, action) => {
+      state.createdCertificateId = action.payload
     })
 )
 

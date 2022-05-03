@@ -4,7 +4,7 @@ import userImage from '@frontend/common/src/images/user-image.svg'
 import { BoxShadowContainer } from '@frontend/common/src/styles/styledComponents'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { changePatient } from '../../store/patient/patientActions'
+import { clearPatient } from '../../store/patient/patientActions'
 import styled from 'styled-components/macro'
 
 interface Props {
@@ -19,8 +19,9 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const switchPatient = () => {
-    dispatch(changePatient(history))
+  const onSwitchPatient = () => {
+    dispatch(clearPatient())
+    history.push('/create')
   }
 
   return (
@@ -37,7 +38,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
           <CustomButton
             text="Byt patient"
             buttonStyle={'primary'}
-            onClick={switchPatient}
+            onClick={onSwitchPatient}
             className={'iu-ml-500'}
             tooltip={'Byt patient för att skriva och söka intyg för.'}
           />

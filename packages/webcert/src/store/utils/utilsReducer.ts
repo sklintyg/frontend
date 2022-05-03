@@ -6,6 +6,7 @@ import {
   updateDynamicLinks,
   updateIsLoadingConfig,
   updateStatistics,
+  updateIsLoadingDynamicLinks,
 } from './utilsActions'
 import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 
@@ -34,6 +35,7 @@ interface UtilsState {
   config: Configuration
   unitStatistics: UnitStatistics | null
   isLoadingConfig: boolean
+  isLoadingDynamicLinks: boolean
 }
 
 const initialState: UtilsState = {
@@ -42,6 +44,7 @@ const initialState: UtilsState = {
   config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
   isLoadingConfig: false,
   unitStatistics: null,
+  isLoadingDynamicLinks: false,
 }
 
 const utilsReducer = createReducer(initialState, (builder) =>
@@ -63,6 +66,9 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsLoadingConfig, (state, action) => {
       state.isLoadingConfig = action.payload
+    })
+    .addCase(updateIsLoadingDynamicLinks, (state, action) => {
+      state.isLoadingDynamicLinks = action.payload
     })
 )
 

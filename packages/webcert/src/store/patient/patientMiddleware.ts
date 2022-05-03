@@ -1,16 +1,18 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan } from '../api/apiActions'
+import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
-  changePatient,
-  clearPatient,
   clearPatientError,
+  getCertificateTypes,
+  getCertificateTypesStarted,
+  getCertificateTypesSuccess,
   getPatient,
   getPatientError,
   getPatientStarted,
   getPatientSuccess,
   setPatient,
   setPatientError,
+  updateCertificateTypes,
 } from './patientActions'
 import { PatientStatus } from '@frontend/common'
 import { throwError } from '../error/errorActions'
@@ -18,25 +20,21 @@ import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { createErrorRequestWithErrorId } from '../error/errorCreator'
 
 const handleGetPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  if (action.payload.patientId) {
-    dispatch(
-      apiCallBegan({
-        method: 'GET',
-        url: '/api/patient/' + action.payload.patientId,
-        onStart: getPatientStarted.type,
-        onSuccess: getPatientSuccess.type,
-        onError: getPatientError.type,
-        onArgs: { history: action.payload.history },
-      })
-    )
-  }
+  dispatch(
+    apiCallBegan({
+      method: 'GET',
+      url: '/api/patient/' + action.payload,
+      onStart: getPatientStarted.type,
+      onSuccess: getPatientSuccess.type,
+      onError: getPatientError.type,
+    })
+  )
 }
 
 const handleGetPatientSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   if (action.payload.status === PatientStatus.FOUND) {
     dispatch(clearPatientError())
     dispatch(setPatient(action.payload.patient))
-    action.payload.history.push(`/create/${action.payload.patient.personId.id}`)
   } else {
     dispatch(getPatientError(action.payload))
   }
@@ -56,16 +54,28 @@ const handleGetPatientError: Middleware<Dispatch> = ({ dispatch, getState }: Mid
   dispatch(throwError(error))
 }
 
-const handleChangePatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(clearPatient())
-  action.payload.push('/create')
+const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/type/' + action.payload,
+      method: 'GET',
+      onStart: getCertificateTypesStarted.type,
+      onSuccess: getCertificateTypesSuccess.type,
+      onError: apiSilentGenericError.type,
+    })
+  )
+}
+
+const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateCertificateTypes(action.payload))
 }
 
 const middlewareMethods = {
   [getPatient.type]: handleGetPatient,
   [getPatientSuccess.type]: handleGetPatientSuccess,
-  [changePatient.type]: handleChangePatient,
   [getPatientError.type]: handleGetPatientError,
+  [getCertificateTypes.type]: handleGetCertificateTypes,
+  [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
 }
 
 export const patientMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

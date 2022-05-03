@@ -18,30 +18,35 @@ import {
   updateDiagnosisTypeahead,
   updateDynamicLinks,
   updateStatistics,
+  updateIsLoadingDynamicLinks,
   updateIsLoadingConfig,
   getConfigError,
+  getAllDynamicLinksError,
 } from './utilsActions'
 
-const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/configuration/links',
       method: 'GET',
       onStart: getAllDynamicLinksStarted.type,
       onSuccess: getAllDynamicLinksSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: getAllDynamicLinksError.type,
     })
   )
 }
 
-const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  next(action)
-
-  if (!getAllDynamicLinksSuccess.match(action)) {
-    return
-  }
-
+const handleGetAllDynamicLinksSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateDynamicLinks(action.payload))
+  dispatch(updateIsLoadingDynamicLinks(false))
+}
+
+const handleGetAllDynamicLinksError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+  dispatch(updateIsLoadingDynamicLinks(false))
+}
+
+const handleGetAllDynamicLinksStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateIsLoadingDynamicLinks(true))
 }
 
 const handleGetDiagnosisTypeahead: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -119,6 +124,8 @@ const handleGetStatisticsSuccess: Middleware<Dispatch> = ({ dispatch }: Middlewa
 const middlewareMethods = {
   [getAllDynamicLinks.type]: handleGetAllDynamicLinks,
   [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
+  [getAllDynamicLinksError.type]: handleGetAllDynamicLinksError,
+  [getAllDynamicLinksStarted.type]: handleGetAllDynamicLinksStarted,
   [getDiagnosisTypeahead.type]: handleGetDiagnosisTypeahead,
   [getDiagnosisTypeaheadSuccess.type]: handleGetDiagnosisTypeaheadSuccess,
   [getConfig.type]: handleGetConfig,

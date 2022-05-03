@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { CustomButton } from '@frontend/common'
 import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import styled from 'styled-components/macro'
 import { useDispatch } from 'react-redux'
 import { getPatient } from '../../store/patient/patientActions'
-import { useHistory } from 'react-router-dom'
 import PatientSearchError from './PatientSearchError'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
@@ -17,19 +16,20 @@ const FormWrapper = styled.div`
 const PatientSearch: React.FC = () => {
   const [patientId, setPatientId] = useState('')
   const dispatch = useDispatch()
-  const history = useHistory()
   const enterPress = useKeyPress('Enter')
 
+  const onSubmit = useCallback(() => {
+    dispatch(getPatient(patientId.replace('-', '')))
+  }, [dispatch, patientId])
+
   useEffect(() => {
-    onSubmit()
-  }, [enterPress])
+    if (enterPress) {
+      onSubmit()
+    }
+  }, [enterPress, onSubmit])
 
   const onChange = (formattedPatientId: string) => {
     setPatientId(formattedPatientId)
-  }
-
-  const onSubmit = () => {
-    dispatch(getPatient({ patientId: patientId.replace('-', ''), history: history }))
   }
 
   return (
