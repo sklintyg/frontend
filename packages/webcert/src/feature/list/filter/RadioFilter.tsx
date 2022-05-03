@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ChangeEvent } from 'react'
 import {
-  ListFilterSelectConfig,
+  ListFilterRadioConfig,
   ListFilterType,
   ListFilterValue,
   ListFilterValueRadio,
@@ -13,7 +13,7 @@ import { FilterWrapper } from './filterStyles'
 import { RadioButton } from '@frontend/common'
 
 interface Props {
-  config: ListFilterSelectConfig
+  config: ListFilterRadioConfig
   onChange: (value: ListFilterValue, id: string) => void
   isHighlighted: boolean
 }

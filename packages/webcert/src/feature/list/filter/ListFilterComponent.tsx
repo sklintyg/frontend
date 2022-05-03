@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   ListFilterConfig,
   ListFilterDateRangeConfig,
+  ListFilterRadioConfig,
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValue,
@@ -44,7 +45,7 @@ const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
       case ListFilterType.DATE_RANGE:
         return <DateRangeFilter config={config as ListFilterDateRangeConfig} onChange={onChange} />
       case ListFilterType.RADIO:
-        return <RadioFilter config={config} onChange={onChange} isHighlighted={isHighlighted()} />
+        return <RadioFilter config={config as ListFilterRadioConfig} onChange={onChange} isHighlighted={isHighlighted()} />
       default:
         return null
     }

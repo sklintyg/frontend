@@ -29,7 +29,7 @@ import ReactTooltip from 'react-tooltip'
 
 interface Props {
   type: ListType
-  excludePageSpecificElements: boolean
+  excludePageSpecificElements?: boolean
 }
 
 const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {

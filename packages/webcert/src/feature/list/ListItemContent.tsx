@@ -12,7 +12,7 @@ export const StyledIcon = styled.img`
 `
 
 interface Props {
-  value: string | boolean | PatientListInfo
+  value: string | boolean | PatientListInfo | ForwardedListInfo | ResourceLink[]
   valueType: CertificateListItemValueType
   tooltips: ListButtonTooltips
   links: ResourceLink[]
@@ -86,7 +86,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             enabled={link.enabled}
             forwarded={info.forwarded}
             unitName={info.unitName}
-            careProviderName={info.careGiverName}
+            careProviderName={info.careProviderName}
             certificateId={certificateId}
             excludeIcon={true}
           />
@@ -123,7 +123,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             />
           </td>
         ) : (
-          getNotForwardedContent(value)
+          getNotForwardedContent(value as ForwardedListInfo)
         )
       case CertificateListItemValueType.HIDDEN:
       default:

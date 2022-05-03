@@ -7,6 +7,7 @@ import ListPagination from './pagination/ListPagination'
 import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
+import { ResourceLink } from '@frontend/common'
 
 interface Props {
   config: ListConfig | undefined
@@ -36,8 +37,8 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
           value={listItem.values[heading.id]}
           valueType={heading.type}
           tooltips={config.buttonTooltips}
-          links={listItem.values['LINKS']}
-          certificateId={listItem.values['CERTIFICATE_ID']}
+          links={listItem.values['LINKS'] as ResourceLink[]}
+          certificateId={listItem.values['CERTIFICATE_ID'] as string}
         />
       )
     })
