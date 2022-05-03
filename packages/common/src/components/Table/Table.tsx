@@ -82,29 +82,29 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
   }
 
   return (
-    <>
-      <StyledTable className="ic-table ic-table--full" highlighted={getHighlighted()}>
-        <thead>
-          <tr>{getTableHeadings()}</tr>
-        </thead>
-        {caption && <Caption>{caption}</Caption>}
-        <tbody>{!isLoadingContent && !isEmptyList && <>{children}</>}</tbody>
-      </StyledTable>
-      {isLoadingContent && (
-        <tr>
-          <td className="iu-border-white">
-            <Spinner className={'iu-mt-300'} />
-          </td>
-        </tr>
-      )}
-      {!isLoadingContent && isEmptyList && (
-        <tr>
-          <td className="iu-border-white">
-            <p className="iu-pt-200">Inga resultat att visa.</p>
-          </td>
-        </tr>
-      )}
-    </>
+    <StyledTable className="ic-table ic-table--full" highlighted={getHighlighted()}>
+      <thead>
+        <tr>{getTableHeadings()}</tr>
+      </thead>
+      {caption && <Caption>{caption}</Caption>}
+      <tbody>
+        {!isLoadingContent && !isEmptyList && <>{children}</>}
+        {isLoadingContent && (
+          <tr>
+            <td className="iu-border-white">
+              <Spinner className={'iu-mt-300'} />
+            </td>
+          </tr>
+        )}
+        {!isLoadingContent && isEmptyList && (
+          <tr>
+            <td className="iu-border-white">
+              <p className="iu-pt-200">Inga resultat att visa.</p>
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </StyledTable>
   )
 }
 
