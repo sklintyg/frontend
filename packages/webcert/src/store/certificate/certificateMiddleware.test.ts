@@ -1,10 +1,13 @@
 import MockAdapter from 'axios-mock-adapter'
 import {
   Certificate,
+  CertificateDataElement,
+  CertificateMetadata,
   CertificateRelation,
   CertificateRelations,
   CertificateRelationType,
   CertificateStatus,
+  ConfigTypes,
   SigningMethod,
 } from '@frontend/common'
 import axios from 'axios'
@@ -182,7 +185,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
 
       const expectedReadyForSign = new Date().toISOString()
-      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', '99', expectedReadyForSign)
+      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', 99, expectedReadyForSign)
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
       await flushPromises()
@@ -193,7 +196,7 @@ describe('Test certificate middleware', () => {
       const certificate = getCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
-      const expectedVersion = '99'
+      const expectedVersion = 99
       const readyForSignCertificate = getCertificate('certificateId', 'lisjp', expectedVersion, new Date().toISOString())
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
@@ -301,7 +304,7 @@ describe('Test certificate middleware', () => {
   describe('Handle startSigningCertificate', () => {
     it('shall update signing data when successfully starting the signing process', async () => {
       const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
-      const certificate = getCertificate('id', 'lisjp', '2')
+      const certificate = getCertificate('id', 'lisjp', 2)
       setDefaultUser()
       testStore.dispatch(updateCertificate(certificate))
 
@@ -318,7 +321,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall make a signing request to DSS when users signing method is DSS', async () => {
-      const certificate = getCertificate('id', 'lisjp', '2')
+      const certificate = getCertificate('id', 'lisjp', 2)
       setDefaultUser()
 
       testStore.dispatch(updateCertificate(certificate))
@@ -369,7 +372,7 @@ describe('Test certificate middleware', () => {
 
   describe('handleDeleteCertificate', () => {
     it('shall set isDeleted true on successful deletion', async () => {
-      const certificate = getCertificate('test', '', '0', '', undefined)
+      const certificate = getCertificate('test', '', 0, '', undefined)
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -382,7 +385,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall hide spinner on successful deletion', async () => {
-      const certificate = getCertificate('test', '', '0', '', undefined)
+      const certificate = getCertificate('test', '', 0, '', undefined)
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -402,7 +405,7 @@ describe('Test certificate middleware', () => {
         created: '',
         status: CertificateStatus.SIGNED,
       }
-      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      const certificate = getCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -422,7 +425,7 @@ describe('Test certificate middleware', () => {
         created: '',
         status: CertificateStatus.SIGNED,
       }
-      const certificate = getCertificate('test', '', '0', '', { parent: parentCertificate, children: [] })
+      const certificate = getCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -523,7 +526,7 @@ describe('Test certificate middleware', () => {
 const getCertificate = (
   id: string,
   type?: string,
-  version?: string,
+  version?: number,
   readyForSign?: string,
   relations?: CertificateRelations
 ): Certificate => {
@@ -537,11 +540,9 @@ const getCertificate = (
 
 const getCertificateWithHiglightValidation = (selected: boolean): Certificate => {
   return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: { id: 'id', type: 'type', version: 'version' },
-    data: [
-      {
+    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
+    data: {
+      '0': ({
         id: '0',
         readOnly: false,
         parent: '0',
@@ -551,7 +552,7 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
         config: {
           text: '',
           description: '',
-          type: null,
+          type: (null as unknown) as ConfigTypes,
         },
         value: {
           type: CertificateDataValueType.BOOLEAN,
@@ -564,8 +565,8 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
             expression: '$0',
           },
         ],
-      },
-    ],
+      } as unknown) as CertificateDataElement,
+    },
     links: [],
   }
 }

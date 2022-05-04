@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ListPageSizeFilter from '../ListPageSizeFilter'
-import { ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
+import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
 
 const onFilterChange = jest.fn()
 const TITLE = 'title for filter pagesize'
@@ -15,13 +15,13 @@ const getFilterValue = (): ListFilterValueNumber => {
   }
 }
 
-const getFilterConfig = (pageSizes: number[]) => {
+const getFilterConfig = (pageSizes: number[]): ListFilterPageSizeConfig => {
   return {
     type: ListFilterType.PAGESIZE,
     id: 'PAGESIZE',
     title: TITLE,
     pageSizes: pageSizes,
-  }
+  } as ListFilterPageSizeConfig
 }
 
 const renderComponent = (totalCount: number) => {

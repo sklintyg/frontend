@@ -22,6 +22,7 @@ const renderDefaultComponent = (questions: Question[], isQuestionFormVisible: bo
           administrativeQuestions={questions}
           isQuestionFormVisible={isQuestionFormVisible}
           administrativeQuestionDraft={questionDraft}
+          headerHeight={0}
         />
       </Router>
     </Provider>

@@ -10,7 +10,7 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 
-  const mockQuestion: CertificateDataElement = {
+  const mockQuestion = ({
     value: {
       type: CertificateDataValueType.BOOLEAN,
       selected: true,
@@ -21,7 +21,7 @@ it('displays two radio buttons that toggle checked mode correctly', async () => 
       selectedText: 'ja',
       unselectedText: 'nej',
     } as ConfigUeRadioBoolean,
-  }
+  } as unknown) as CertificateDataElement
 
   // TODO: The "checked" value on the input doesn't change until the updated value is dispatched and updated in the store.
   // When we implement a mocked store we can do this correctly

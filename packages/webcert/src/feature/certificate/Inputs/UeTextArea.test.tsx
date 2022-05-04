@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
 import UeTextArea from './UeTextArea'
-import { CertificateDataElement, CertificateDataValueType } from '@frontend/common'
+import { CertificateDataConfig, CertificateDataElement, CertificateDataValidation, CertificateDataValueType } from '@frontend/common'
 import { CertificateDataValidationType } from '@frontend/common/src'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')
@@ -13,27 +13,25 @@ const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 useSelectorSpy.mockReturnValue({})
 useDispatchSpy.mockReturnValue(jest.fn())
 
-const mockQuestionWithLimit: CertificateDataElement = {
+const mockQuestionWithLimit = {
   value: { type: CertificateDataValueType.TEXT },
-  // @ts-expect-error
-  config: { prop: '' },
+  config: ({ prop: '' } as unknown) as CertificateDataConfig,
   validation: [
-    {
+    ({
       type: CertificateDataValidationType.TEXT_VALIDATION,
       questionId: 'id',
       limit: 100,
-    },
+    } as unknown) as CertificateDataValidation,
   ],
-}
+} as CertificateDataElement
 
 it('renders a textarea which has correct value after typing in it', async () => {
-  const mockQuestion: CertificateDataElement = {
+  const mockQuestion = {
     value: { type: CertificateDataValueType.TEXT },
-    // @ts-expect-error
-    config: { prop: '' },
-  }
+    config: ({ prop: '' } as unknown) as CertificateDataConfig,
+  } as CertificateDataElement
 
-  render(<UeTextArea question={mockQuestion} />)
+  render(<UeTextArea question={mockQuestion} disabled={false} />)
 
   const input = screen.getByRole('textbox')
   userEvent.type(input, 'Hello, World!')

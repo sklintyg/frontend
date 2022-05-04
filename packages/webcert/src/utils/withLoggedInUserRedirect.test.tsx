@@ -49,7 +49,7 @@ const getDummyUser = (role: string): User => {
     preferences: null,
     signingMethod: SigningMethod.FAKE,
     protectedPerson: false,
-  }
+  } as User
 }
 
 describe('withLoggedInUserRedirect', () => {

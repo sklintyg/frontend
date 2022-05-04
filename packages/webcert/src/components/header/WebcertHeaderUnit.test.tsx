@@ -1,15 +1,16 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
-import { User } from '@frontend/common'
+import { Unit, User } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
-const createUserMock = ({ inactiveUnit = false } = {}): User => ({
-  name: 'Test Testsson',
-  role: 'Läkare',
-  loggedInUnit: { unitName: 'Unit', isInactive: inactiveUnit },
-  loggedInCareProvider: { unitName: 'Care provider' },
-})
+const createUserMock = ({ inactiveUnit = false } = {}): User =>
+  ({
+    name: 'Test Testsson',
+    role: 'Läkare',
+    loggedInUnit: { unitName: 'Unit', isInactive: inactiveUnit } as Unit,
+    loggedInCareProvider: { unitName: 'Care provider' } as Unit,
+  } as User)
 
 describe('Webcert header unit', () => {
   it('displays care provider and unit that user is logged into', (): void => {

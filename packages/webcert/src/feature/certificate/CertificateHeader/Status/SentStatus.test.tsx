@@ -7,7 +7,7 @@ import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
-import { QuestionType } from '@frontend/common/src'
+import { Question, QuestionType } from '@frontend/common/src'
 
 const EXPECTED_TEXT = 'Intyget är skickat till'
 
@@ -29,8 +29,8 @@ const renderComponent = (
           }
           questions={
             hasUndhandledComplementQuestions
-              ? [{ type: QuestionType.COMPLEMENT, handled: false }]
-              : [{ type: QuestionType.COMPLEMENT, handled: true }]
+              ? [{ type: QuestionType.COMPLEMENT, handled: false } as Question]
+              : [{ type: QuestionType.COMPLEMENT, handled: true } as Question]
           }
         />
       </BrowserRouter>

@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { Certificate, User } from '@frontend/common'
+import { Certificate, CertificateMetadata, Unit, User } from '@frontend/common'
 import ReadOnlyViewNotification from './ReadOnlyViewNotification'
 import { Provider } from 'react-redux'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
@@ -71,26 +71,24 @@ const createUser = (userCareUnitId: string, userCareProviderId: string): User =>
   return {
     loggedInCareUnit: {
       unitId: userCareUnitId,
-    },
+    } as Unit,
     loggedInCareProvider: {
       unitId: userCareProviderId,
-    },
-  }
+    } as Unit,
+  } as User
 }
 
 const createCertificate = (careUnitId: string, careProviderId: string): Certificate => {
   return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     metadata: {
       careUnit: {
         unitId: careUnitId,
         unitName: CARE_UNIT_NAME,
-      },
+      } as Unit,
       careProvider: {
         unitId: careProviderId,
         unitName: CARE_PROVIDER_NAME,
-      },
-    },
-  }
+      } as Unit,
+    } as CertificateMetadata,
+  } as Certificate
 }

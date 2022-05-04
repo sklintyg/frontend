@@ -18,7 +18,11 @@ const renderComponent = (questions: Question[], isDisplayingCertificateDraft: bo
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <ComplementQuestionPanel complementQuestions={questions} isDisplayingCertificateDraft={isDisplayingCertificateDraft} />
+        <ComplementQuestionPanel
+          complementQuestions={questions}
+          isDisplayingCertificateDraft={isDisplayingCertificateDraft}
+          headerHeight={0}
+        />
       </Router>
     </Provider>
   )

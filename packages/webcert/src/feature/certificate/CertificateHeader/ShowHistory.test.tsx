@@ -263,7 +263,7 @@ describe('Verify history events', () => {
 
     it('Display revoke event when parent was replaced but isnt revoked', async () => {
       certificateMetadata.relations.parent = {
-        type: CertificateRelationType.REPLACE,
+        type: CertificateRelationType.REPLACED,
         status: CertificateStatus.SIGNED,
         certificateId: 'relatedCertificateId',
         created: new Date().toISOString(),

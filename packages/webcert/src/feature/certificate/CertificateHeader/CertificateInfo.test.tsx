@@ -1,14 +1,18 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { CertificateMetadata } from '@frontend/common'
+import { CertificateMetadata, Patient, PersonId } from '@frontend/common'
 import CertificateInfo from './CertificateInfo'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
 
-const mockData: CertificateMetadata = {
+const mockData = {
   name: 'Test cert name',
-  patient: { fullName: 'Tolvan', personId: { id: '123' }, previousPersonId: { id: '345', type: 'TEST' } },
-}
+  patient: {
+    fullName: 'Tolvan',
+    personId: { id: '123' } as PersonId,
+    previousPersonId: { id: '345', type: 'TEST' },
+  } as Patient,
+} as CertificateMetadata
 
 function renderDefaultComponent() {
   render(

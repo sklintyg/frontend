@@ -11,7 +11,7 @@ import {
   createCertificateMetadataWithChildRelation,
   createCertificateMetadataWithParentRelation,
 } from './statusTestUtils'
-import { QuestionType } from '@frontend/common/src'
+import { Question, QuestionType } from '@frontend/common/src'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'
@@ -91,8 +91,8 @@ const renderComponent = (status: CertificateStatus, isSent: boolean, hasUndhandl
           certificateMetadata={createCertificateMetadata(status, isSent)}
           questions={
             hasUndhandledComplementQuestions
-              ? [{ type: QuestionType.COMPLEMENT, handled: false }]
-              : [{ type: QuestionType.COMPLEMENT, handled: true }]
+              ? ([{ type: QuestionType.COMPLEMENT, handled: false }] as Question[])
+              : ([{ type: QuestionType.COMPLEMENT, handled: true }] as Question[])
           }
           isValidating={isValidating}
         />
@@ -150,8 +150,8 @@ const renderComponentWithChildRelation = (
           isValidating={false}
           questions={
             hasUnhandledComplementQuestions
-              ? [{ type: QuestionType.COMPLEMENT, handled: false }]
-              : [{ type: QuestionType.COMPLEMENT, handled: true }]
+              ? ([{ type: QuestionType.COMPLEMENT, handled: false }] as Question[])
+              : ([{ type: QuestionType.COMPLEMENT, handled: true }] as Question[])
           }
         />
       </BrowserRouter>
