@@ -4,9 +4,7 @@ import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandl
 describe('questionUtils', () => {
   describe('getNumberOfUnhandledQuestions', () => {
     it('returns correct number of unhandled questions', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const questions: Question[] = [{ handled: true }, { handled: false }, { handled: false }]
+      const questions = [{ handled: true }, { handled: false }, { handled: false }] as Question[]
 
       const expected = 2
       const actual = getNumberOfUnhandledQuestions(questions)
@@ -15,9 +13,7 @@ describe('questionUtils', () => {
     })
 
     it('returns correct number of unhandled questions if no unhandled', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const questions: Question[] = [{ handled: true }, { handled: true }, { handled: true }]
+      const questions = [{ handled: true }, { handled: true }, { handled: true }] as Question[]
 
       const expected = undefined
       const actual = getNumberOfUnhandledQuestions(questions)
@@ -28,8 +24,8 @@ describe('questionUtils', () => {
 
   describe('getShouldComplementedBeActive', () => {
     it('shall return true if both administrative and complement are empty', () => {
-      const administrativeQuestions: Question[] = []
-      const complementQuestions: Question[] = []
+      const administrativeQuestions = [] as Question[]
+      const complementQuestions = [] as Question[]
 
       const expected = true
       const actual = getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
@@ -37,8 +33,8 @@ describe('questionUtils', () => {
     })
 
     it('shall return true if both administrative and complement have unhandled questions', () => {
-      const administrativeQuestions: Question[] = [{ handled: false }]
-      const complementQuestions: Question[] = [{ handled: false }]
+      const administrativeQuestions = [{ handled: false }] as Question[]
+      const complementQuestions = [{ handled: false }] as Question[]
 
       const expected = true
       const actual = getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
@@ -46,8 +42,8 @@ describe('questionUtils', () => {
     })
 
     it('shall return false if only administrative has unhandled questions', () => {
-      const administrativeQuestions: Question[] = [{ handled: false }]
-      const complementQuestions: Question[] = [{ handled: true }]
+      const administrativeQuestions = [{ handled: false }] as Question[]
+      const complementQuestions = [{ handled: true }] as Question[]
 
       const expected = false
       const actual = getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
@@ -55,8 +51,8 @@ describe('questionUtils', () => {
     })
 
     it('shall return false if there are only administrative questions', () => {
-      const administrativeQuestions: Question[] = [{ handled: false }]
-      const complementQuestions: Question[] = []
+      const administrativeQuestions = [{ handled: false }] as Question[]
+      const complementQuestions = [] as Question[]
 
       const expected = false
       const actual = getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
@@ -66,11 +62,11 @@ describe('questionUtils', () => {
 
   describe('getQuestionsOrderedByLastUpdatedAndHandled', () => {
     it('orders questions correctly after last update', () => {
-      const questions: Question[] = [
+      const questions = [
         { lastUpdate: '2021-10-20T13:01:00.000', id: '1' },
         { lastUpdate: '2021-10-20T13:05:00.000', id: '2' },
         { lastUpdate: '2021-10-20T13:10:00.000', id: '3' },
-      ]
+      ] as Question[]
 
       const expected = [...questions.reverse()]
       const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
@@ -81,11 +77,11 @@ describe('questionUtils', () => {
     })
 
     it('orders questions correctly after handled', () => {
-      const questions: Question[] = [
+      const questions = [
         { lastUpdate: '2021-10-20T13:10:00.000', handled: false, id: '1' },
         { lastUpdate: '2021-10-20T13:10:00.000', handled: false, id: '2' },
         { lastUpdate: '2021-10-20T13:10:00.000', handled: true, id: '3' },
-      ]
+      ] as Question[]
 
       const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
 
@@ -94,11 +90,11 @@ describe('questionUtils', () => {
     })
 
     it('orders questions correctly after last update and handled', () => {
-      const questions: Question[] = [
+      const questions = [
         { lastUpdate: '2021-10-20T13:10:00.000', handled: true, id: '1' },
         { lastUpdate: '2021-10-20T13:30:00.000', handled: true, id: '2' },
         { lastUpdate: '2021-10-20T13:50:00.000', handled: false, id: '3' },
-      ]
+      ] as Question[]
 
       const actual = getQuestionsOrderedByLastUpdatedAndHandled(questions)
 

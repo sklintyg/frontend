@@ -24,7 +24,7 @@ describe('Test utils middleware', () => {
   })
 
   it('should handle get config', async () => {
-    const config: Configuration = { version: '1.0' }
+    const config = { version: '1.0' } as Configuration
     fakeAxios.onGet('/api/configuration').reply(200, config)
     testStore.dispatch(getConfig())
 

@@ -8,7 +8,7 @@ import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
 import { CertificateRelationType, CertificateStatus } from '@frontend/common/src'
 
-const renderComponent = (childStatus: CertificateStatus) => {
+const renderComponent = (childStatus?: CertificateStatus) => {
   render(
     <Provider store={store}>
       <BrowserRouter>
@@ -39,7 +39,7 @@ describe('Replaced status', () => {
   })
 
   it('should not display status if not replaced', () => {
-    renderComponent(undefined)
+    renderComponent()
     expect(screen.queryByText('Intyget har ersatts av')).not.toBeInTheDocument()
     expect(screen.queryByText('Det finns redan ett påbörjat utkast som ska ersätta detta intyg.')).not.toBeInTheDocument()
   })

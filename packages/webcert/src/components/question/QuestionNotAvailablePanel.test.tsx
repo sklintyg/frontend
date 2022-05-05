@@ -16,7 +16,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <QuestionNotAvailablePanel tabIndex={0} selectedTabIndex={0} minimizeSidePanel={<></>} />
+        <QuestionNotAvailablePanel />
       </Router>
     </Provider>
   )

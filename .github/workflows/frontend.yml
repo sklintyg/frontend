@@ -19,6 +19,10 @@ jobs:
           node-version: '12.x'
       - name: Setup workspace
         run: yarn install
+      - name: Compile TypeScript Common
+        run: yarn workspace @frontend/common tsc
+      - name: Compile TypeScript Webcert
+        run: yarn workspace @frontend/webcert tsc
       - name: Test Common
         run: yarn workspace @frontend/common test:ci
       - name: Test webcert

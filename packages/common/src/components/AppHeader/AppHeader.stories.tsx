@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react'
-import AppHeader, { AppHeaderProps } from './AppHeader'
+import AppHeader, { Props } from './AppHeader'
 import AppHeaderTitle from './AppHeaderTitle'
 import webcertImg from '../../../../webcert/src/components/header/webcert_logo.png'
 import { Provider } from 'react-redux'
@@ -13,7 +13,7 @@ export default {
   component: AppHeader,
 }
 
-const Template: Story<AppHeaderProps> = (args: AppHeaderProps) => (
+const Template: Story<Props> = (args: Props) => (
   <Provider store={store}>
     <AppHeader {...args} />
   </Provider>
@@ -29,7 +29,7 @@ WebcertDefault.storyName = 'Webcert app header default'
 export const WebcertWithUser = Template.bind({})
 WebcertWithUser.args = {
   title: <AppHeaderTitle imgSrc={webcertImg} />,
-  primaryItems: <WebcertHeaderUser></WebcertHeaderUser>,
+  primaryItems: [<WebcertHeaderUser></WebcertHeaderUser>],
 }
 
 WebcertWithUser.storyName = 'Webcert app header with user'
@@ -37,7 +37,7 @@ WebcertWithUser.storyName = 'Webcert app header with user'
 export const WebcertWithUserAndAbout = Template.bind({})
 WebcertWithUserAndAbout.args = {
   title: <AppHeaderTitle imgSrc={webcertImg} />,
-  primaryItems: <WebcertHeaderUser></WebcertHeaderUser>,
+  primaryItems: [<WebcertHeaderUser></WebcertHeaderUser>],
   secondaryItems: [
     <AppHeaderLink text={'Om Webcert'} link={'#'}></AppHeaderLink>,
     <AppHeaderLink text={'Logga ut'} link={'#'} withoutDivider={true}></AppHeaderLink>,

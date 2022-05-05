@@ -6,6 +6,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import { updateConfig } from '../../store/utils/utilsActions'
 import SystemBanners from './SystemBanners'
+import { Configuration } from '../../store/utils/utilsReducer'
 
 let testStore: EnhancedStore
 
@@ -40,5 +41,5 @@ describe('SystemBanners', () => {
 })
 
 const setState = () => {
-  testStore.dispatch(updateConfig({ version: '1.0', banners: [{ message: INFO_TEXT, priority: 'HOG' }] }))
+  testStore.dispatch(updateConfig({ version: '1.0', banners: [{ message: INFO_TEXT, priority: 'HOG' }] } as Configuration))
 }

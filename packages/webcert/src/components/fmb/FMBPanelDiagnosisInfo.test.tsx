@@ -10,7 +10,7 @@ const history = createMemoryHistory()
 const renderDefaultComponent = (fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo, hasSeveralDiagnoses: boolean) => {
   render(
     <Router history={history}>
-      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasSeveralDiagnoses={hasSeveralDiagnoses} />
+      <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} hasSeveralDiagnoses={hasSeveralDiagnoses} headerHeight={0} />
     </Router>
   )
 }

@@ -20,7 +20,7 @@ const renderComponent = () => {
 }
 
 const setFakeVersion = () => {
-  const config: Configuration = { version: '1.0' }
+  const config = { version: '1.0' } as Configuration
   testStore.dispatch(updateConfig(config))
 }
 

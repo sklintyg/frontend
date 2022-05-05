@@ -8,7 +8,7 @@ import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
 import { setErrorId, updateQuestions } from '../../store/question/questionActions'
-import { Certificate, CertificateStatus, Question, QuestionType } from '@frontend/common'
+import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 
 let testStore: EnhancedStore
@@ -43,7 +43,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the complement questions header if signed certificate', () => {
-    const certificate: Certificate = { metadata: { status: CertificateStatus.SIGNED }, links: [] }
+    const certificate = createCertificate({ status: CertificateStatus.SIGNED } as CertificateMetadata)
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -55,7 +55,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the complement questions header if unsigned certificate', () => {
-    const certificate: Certificate = { metadata: { status: CertificateStatus.UNSIGNED }, links: [] }
+    const certificate = createCertificate({ status: CertificateStatus.UNSIGNED } as CertificateMetadata)
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([addComplementsToQuestion(createQuestion(false)), addComplementsToQuestion(createQuestion())]))
 
@@ -89,7 +89,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays number of unhandled questions in the administrative questions header if signed certificate', () => {
-    const certificate: Certificate = { metadata: { status: CertificateStatus.SIGNED }, links: [] }
+    const certificate = createCertificate({ status: CertificateStatus.SIGNED } as CertificateMetadata)
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
@@ -100,7 +100,7 @@ describe('QuestionPanel', () => {
   })
 
   it('displays no number of unhandled questions in the administrative questions header if unsigned certificate', () => {
-    const certificate: Certificate = { metadata: { status: CertificateStatus.UNSIGNED }, links: [] }
+    const certificate = createCertificate({ status: CertificateStatus.UNSIGNED } as CertificateMetadata)
     testStore.dispatch(updateCertificate(certificate))
     testStore.dispatch(updateQuestions([createQuestion(false), createQuestion()]))
     renderDefaultComponent()
@@ -133,6 +133,12 @@ describe('QuestionPanel', () => {
     expect(screen.getByText('Ärenden kunde inte visas')).toBeInTheDocument()
   })
 })
+
+const createCertificate = (metadata: CertificateMetadata): Certificate =>
+  (({
+    metadata,
+    links: [],
+  } as unknown) as Certificate)
 
 function createQuestion(handled = true): Question {
   return {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { ImageCentered } from '@frontend/common'
 import questionsAndAnswersImg from './fragor_svar_flik.svg'
