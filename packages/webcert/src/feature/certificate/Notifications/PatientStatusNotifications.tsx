@@ -13,7 +13,6 @@ import styled from 'styled-components'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
 import { PersonId } from '@frontend/common/src'
-import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import PatientDeceasedStatus from '../../../components/notification/PatientDeceasedStatus'
 import ProtectedPatientStatus from '../../../components/notification/ProtectedPatientStatus'
 import PatientTestIndicatedStatus from '../../../components/notification/PatientTestIndicatedStatus'
@@ -32,21 +31,16 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
   const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId, shallowEqual)
-  const isPreviousPatientIdValid = !!previousPatientId && isPersonIdValid(previousPatientId.id)
   const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
   const patient = useSelector(getPatient)
 
-  const showReserveIdStatus = !!previousPatientId && !isPreviousPatientIdValid
+  const showReserveIdStatus = (!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean
 
   return (
     <Wrapper>
       <PatientDeceasedStatus isPatientDeceased={isPatientDeceased} />
       <ProtectedPatientStatus isProtectedPatient={isPatientProtectedPerson} />
-      <PatientStatusNotification
-        type={'info'}
-        title={'Patientens personnummer har ändrats'}
-        status={isPatientIdUpdated && isPreviousPatientIdValid}
-      />
+      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
       <PatientTestIndicatedStatus isTestIndicated={isPatientTestIndicated} />
       <PatientStatusNotificationWithModal
         type={'info'}
