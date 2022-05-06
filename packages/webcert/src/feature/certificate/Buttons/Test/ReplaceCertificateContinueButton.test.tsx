@@ -19,7 +19,13 @@ const renderDefaultComponent = (enabled: boolean) => {
   render(
     <Router history={history}>
       <CustomTooltip />
-      <ReplaceCertificateContinueButton name={NAME} description={DESCRIPTION} enabled={enabled} certificateMetadata={getMetadata()} />
+      <ReplaceCertificateContinueButton
+        name={NAME}
+        description={DESCRIPTION}
+        enabled={enabled}
+        certificateMetadata={getMetadata()}
+        functionDisabled={false}
+      />
     </Router>
   )
 }
@@ -86,7 +92,7 @@ const getMetadata = () => {
       children: [
         {
           certificateId: CERTIFICATE_ID,
-          type: CertificateRelationType.REPLACE,
+          type: CertificateRelationType.REPLACED,
           status: CertificateStatus.UNSIGNED,
           created: new Date().toISOString(),
         },

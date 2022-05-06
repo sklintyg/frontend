@@ -13,7 +13,7 @@ const renderComponent = (isSigned: boolean, isValidating: boolean) => {
     <Provider store={store}>
       <BrowserRouter>
         <CertificateHeaderStatuses
-          certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, 'lisjp')}
+          certificateMetadata={createCertificateMetadata(isSigned ? CertificateStatus.SIGNED : CertificateStatus.UNSIGNED, false, 'lisjp')}
           questions={[]}
           isValidForSigning={false}
           isValidating={isValidating}

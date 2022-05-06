@@ -31,7 +31,7 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel />
+        <FMBPanel headerHeight={0} />
       </Router>
     </Provider>
   )

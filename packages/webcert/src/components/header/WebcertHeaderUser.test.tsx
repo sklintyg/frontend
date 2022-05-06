@@ -10,12 +10,12 @@ import store from '../../store/store'
 const setup = (protectedPerson: boolean, approvedTerms?: string) => {
   const spy = jest.spyOn(redux, 'useSelector')
 
-  const mockUser: User = {
+  const mockUser: User = ({
     name: 'Test Testsson',
     role: 'Läkare',
     protectedPerson: protectedPerson,
     preferences: { 'wc.vardperson.sekretess.approved': approvedTerms ? approvedTerms : '' },
-  }
+  } as unknown) as User
   spy.mockReturnValue(mockUser)
 }
 

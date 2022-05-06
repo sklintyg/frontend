@@ -15,7 +15,7 @@ const renderDefaultComponent = (enabled: boolean) => {
   render(
     <>
       <CustomTooltip />
-      <ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} />
+      <ReplaceCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
     </>
   )
 }
