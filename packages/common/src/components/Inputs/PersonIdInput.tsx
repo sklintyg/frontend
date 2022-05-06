@@ -57,7 +57,7 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           }}
           onFocus={handleFocus}
           hasValidationError={displayError}
-          autocomplete={false}
+          autoComplete={false}
         />
         <InvalidPersonIdMessage display={displayError} />
       </Wrapper>
