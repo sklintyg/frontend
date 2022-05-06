@@ -15,6 +15,7 @@ import {
   updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
   updateHandledQuestion,
+  updateIsLoadingQuestions,
   updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
@@ -42,6 +43,7 @@ interface QuestionState {
   isSendingQuestion: boolean
   functionDisablers: FunctionDisabler[]
   errorId: string
+  isLoadingQuestions: boolean
 }
 
 const getInitialState = (): QuestionState => {
@@ -59,6 +61,7 @@ const getInitialState = (): QuestionState => {
     isSendingQuestion: false,
     functionDisablers: [],
     errorId: '',
+    isLoadingQuestions: true,
   }
 }
 
@@ -143,6 +146,9 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(clearErrorId, (state) => {
       state.errorId = ''
+    })
+    .addCase(updateIsLoadingQuestions, (state, action) => {
+      state.isLoadingQuestions = action.payload
     })
 )
 

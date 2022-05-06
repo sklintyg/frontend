@@ -48,6 +48,7 @@ import {
   updateDisplayingCertificateDraft,
   updateDisplayValidationMessages,
   updateHandledQuestion,
+  updateIsLoadingQuestions,
   updateQuestion,
   updateQuestionDraft,
   updateQuestionDraftSaved,
@@ -92,13 +93,16 @@ export const handleGetComplementQuestions: Middleware<Dispatch> = ({ dispatch }:
   )
 }
 
+export const handleGetQuestionsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateIsLoadingQuestions(true))
+}
+
 export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   if (!getQuestionsSuccess.match(action)) {
     return
   }
 
   dispatch(clearErrorId())
-
   dispatch(updateQuestions(action.payload.questions.filter((value) => value.sent)))
 
   if (getState().ui.uiQuestion.isCreateQuestionsAvailable) {
@@ -129,6 +133,7 @@ export const handleGetQuestionsSuccess: Middleware<Dispatch> = ({ dispatch, getS
     }, [] as Complement[])
 
   dispatch(updateComplements(totalComplements))
+  dispatch(updateIsLoadingQuestions(false))
 }
 
 export const handleGetQuestionsError: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
