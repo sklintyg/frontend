@@ -3,7 +3,7 @@ import { CustomButton } from '@frontend/common'
 import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import styled from 'styled-components/macro'
 import { useDispatch } from 'react-redux'
-import { getPatient } from '../../store/patient/patientActions'
+import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import PatientSearchError from './PatientSearchError'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
@@ -19,7 +19,7 @@ const PatientSearch: React.FC = () => {
   const enterPress = useKeyPress('Enter')
 
   const onSubmit = useCallback(() => {
-    dispatch(getPatient(patientId.replace('-', '')))
+    dispatch(getPatient(patientId))
   }, [dispatch, patientId])
 
   useEffect(() => {
@@ -32,12 +32,22 @@ const PatientSearch: React.FC = () => {
     setPatientId(formattedPatientId)
   }
 
+  const onFocus = () => {
+    dispatch(clearPatientError())
+  }
+
   return (
     <div className="ic-container iu-p-400">
       <h2>Patientens personnummer eller samordningsnummer</h2>
       <FormWrapper className="iu-mt-300">
-        <PersonIdInput onFormattedChange={onChange} value={patientId} />
-        <CustomButton text="Fortsätt" disabled={!isPersonIdValid(patientId)} buttonStyle="primary" onClick={onSubmit} />
+        <PersonIdInput onFormattedChange={onChange} value={patientId} onFocus={onFocus} />
+        <CustomButton
+          text="Fortsätt"
+          disabled={!isPersonIdValid(patientId)}
+          buttonStyle="primary"
+          onClick={onSubmit}
+          tooltip="Gå vidare för att skapa eller söka efter intyg för patienten."
+        />
       </FormWrapper>
       <PatientSearchError />
     </div>

@@ -16,6 +16,7 @@ interface Props {
   activeDescendant?: string
   limit?: number
   id?: string
+  autocomplete?: boolean
 }
 
 const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -54,6 +55,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}
         id={id ?? 'textinput'}
+        autoComplete={props.autocomplete ? 'on' : 'off'}
       />
     </>
   )

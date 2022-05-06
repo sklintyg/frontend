@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components'
 interface Props {
   label?: string
   onFormattedChange: (id: string) => void
-  onFocus?: React.FocusEventHandler<HTMLInputElement>
+  onFocus?: () => void
   value: string
   id?: string
 }
@@ -21,7 +21,7 @@ const TextInputStyles = css`
   height: 2.956rem;
 `
 
-const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id }) => {
+const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, onFocus }) => {
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +33,13 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
       setDisplayError(false)
     }
   }, [value])
+
+  const handleFocus = () => {
+    if (onFocus) {
+      onFocus()
+    }
+    setDisplayError(false)
+  }
 
   return (
     <>
@@ -48,8 +55,9 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id })
           onBlur={() => {
             setDisplayError(value !== '' && !isPersonIdValid(value))
           }}
-          onFocus={() => setDisplayError(false)}
+          onFocus={handleFocus}
           hasValidationError={displayError}
+          autocomplete={false}
         />
         <InvalidPersonIdMessage display={displayError} />
       </Wrapper>
