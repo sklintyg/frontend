@@ -8,6 +8,7 @@ const AboutButton = styled.button`
   background: none;
   border: none;
   font-size: inherit;
+  line-height: inherit;
 `
 
 interface Props {

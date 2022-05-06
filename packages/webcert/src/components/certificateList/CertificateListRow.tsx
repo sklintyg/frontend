@@ -41,6 +41,7 @@ const CertificateListRow: React.FC<Props> = ({
   createCertificate,
   createDisabled,
 }) => {
+  const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {
     preferenceClick(id)
   }
@@ -51,17 +52,14 @@ const CertificateListRow: React.FC<Props> = ({
 
   return (
     <Row className="iu-flex iu-flex-center iu-p-400">
-      <Star
-        className="iu-mr-1rem"
-        onClick={onPreferenceClick}
-        data-tip={favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'}>
+      <Star className="iu-mr-1rem" onClick={onPreferenceClick} data-tip={favoriteText} aria-label={favoriteText}>
         <FontAwesomeIcon
           icon={favorite ? starChecked : star}
           className={classnames({ 'iu-color-information': favorite, 'iu-color-muted': !favorite })}
         />
       </Star>
       <CertificateName>
-        {certificateName} <span className="iu-color-muted">{issuerTypeId}</span>
+        <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
       </CertificateName>
       <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
         {certificateInfo}

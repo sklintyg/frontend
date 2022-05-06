@@ -54,7 +54,7 @@ const renderComponent = (): HTMLElement => {
   return container
 }
 
-describe('StartPage', () => {
+describe('CertificateList', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
@@ -109,20 +109,20 @@ describe('StartPage', () => {
   it('should add favorites', () => {
     container = renderComponent()
 
-    const icon = screen.getByText('Typ 1').previousSibling?.firstChild as HTMLElement
-    userEvent.click(icon)
+    const buttons = screen.getAllByLabelText('Markera intyget som favorit och fäst högst upp i listan.')
+    userEvent.click(buttons[1])
 
-    expect(icon).toHaveAttribute('class', expect.stringContaining('iu-color-information'))
+    expect(buttons[1].firstChild).toHaveAttribute('class', expect.stringContaining('iu-color-information'))
   })
 
   it('should remove favorites', () => {
-    dispatchFavorites(['typ1'])
     container = renderComponent()
 
-    const icon = screen.getByText('Typ 1').previousSibling?.firstChild as HTMLElement
-    userEvent.click(icon)
+    const buttons = screen.getAllByLabelText('Markera intyget som favorit och fäst högst upp i listan.')
+    userEvent.click(buttons[1])
+    userEvent.click(buttons[1])
 
-    expect(icon).toHaveAttribute('class', expect.stringContaining('iu-color-muted'))
+    expect(buttons[1].firstChild).toHaveAttribute('class', expect.stringContaining('iu-color-muted'))
   })
 
   it('should show modal when clicked', () => {
