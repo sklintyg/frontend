@@ -69,9 +69,9 @@ beforeEach(() => {
 const testClickOnCheckbox = (label?: string) => {
   let clickable
   if (label) {
-    clickable = screen.queryByText(label)
+    clickable = screen.getByText(label)
   } else {
-    clickable = screen.queryByRole('checkbox')
+    clickable = screen.getByRole('checkbox')
   }
   const checkbox = screen.queryByRole('checkbox')
   expect(checkbox).not.toBeNull()

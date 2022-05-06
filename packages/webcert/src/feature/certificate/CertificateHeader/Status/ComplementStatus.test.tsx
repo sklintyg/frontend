@@ -21,7 +21,7 @@ const EXPECTED_TEXT = 'Försäkringskassan har begärt komplettering'
 
 describe('Complement status', () => {
   it('displays that FK has requested complements', () => {
-    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
+    const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
     const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
     renderComponent(certificateMetadata, questions)
 
@@ -35,14 +35,14 @@ describe('Complement status', () => {
   })
 
   it('doesnt render anything if no unhandled questions', () => {
-    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: true }]
+    const questions = [{ type: QuestionType.COMPLEMENT, handled: true }] as Question[]
     const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
     renderComponent(certificateMetadata, questions)
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if wrong question types', () => {
-    const questions: Question[] = [
+    const questions = [
       { type: QuestionType.CONTACT, handled: false },
       {
         type: QuestionType.COORDINATION,
@@ -50,14 +50,14 @@ describe('Complement status', () => {
       },
       { type: QuestionType.OTHER, handled: false },
       { type: QuestionType.MISSING, handled: false },
-    ]
+    ] as Question[]
     const certificateMetadata = createCertificateMetadata(CertificateStatus.SIGNED, true)
     renderComponent(certificateMetadata, questions)
     expect(screen.queryByText(EXPECTED_TEXT)).not.toBeInTheDocument()
   })
 
   it('doesnt render anything if not signed', () => {
-    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
+    const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
     const certificateMetadata = createCertificateMetadata(CertificateStatus.UNSIGNED, true)
     renderComponent(certificateMetadata, questions)
 
@@ -65,7 +65,7 @@ describe('Complement status', () => {
   })
 
   it('should not render status if revoked', () => {
-    const questions: Question[] = [{ type: QuestionType.COMPLEMENT, handled: false }]
+    const questions = [{ type: QuestionType.COMPLEMENT, handled: false }] as Question[]
     const certificateMetadata = createCertificateMetadata(CertificateStatus.REVOKED, true)
     renderComponent(certificateMetadata, questions)
 

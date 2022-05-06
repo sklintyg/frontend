@@ -219,7 +219,7 @@ describe('Test session middleware', () => {
 
   describe('Handle Login', () => {
     it('shall start polling when logging in', async () => {
-      testStore.dispatch(getUserSuccess(getDummyUser()))
+      testStore.dispatch(getUserSuccess({ user: getDummyUser(), links: [] }))
 
       await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
@@ -259,7 +259,7 @@ function getDummyUser(): User {
     preferences: null,
     role: 'role',
     signingMethod: SigningMethod.FAKE,
-  }
+  } as User
 }
 
 function getDummyUnit(): Unit {
@@ -271,5 +271,5 @@ function getDummyUnit(): Unit {
     unitId: 'unitid',
     unitName: 'unitname',
     zipCode: 'zipcode',
-  }
+  } as Unit
 }

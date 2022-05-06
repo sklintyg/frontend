@@ -65,7 +65,7 @@ describe('Dropdown component', () => {
 
   it('sets label and id correctly for all options', () => {
     renderComponent()
-    const options = screen.queryAllByRole('option')
+    const options = screen.queryAllByRole('option') as HTMLOptionElement[]
     expect(options).toHaveLength(OPTIONS.length)
     options.forEach((option: HTMLOptionElement, key: number) => {
       expect(option.label === OPTIONS[key].label).toBeTruthy()
@@ -76,7 +76,7 @@ describe('Dropdown component', () => {
   it('lets user choose option', () => {
     renderComponent()
     const dropdown = screen.getByRole('combobox')
-    const options = screen.queryAllByRole('option')
+    const options = screen.queryAllByRole('option') as HTMLOptionElement[]
     expect(dropdown).toHaveValue(OPTIONS[0].id)
     expect(options[0].selected).toBeTruthy()
     expect(options[1].selected).toBeFalsy()

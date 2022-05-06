@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { CustomTooltip, User } from '@frontend/common/src'
+import { CustomTooltip, Unit, User } from '@frontend/common/src'
 import { CertificateMetadata } from '@frontend/common'
 
 const NAME = 'Renew button name'
@@ -12,17 +12,16 @@ const DESCRIPTION = 'Renew button description'
 const BODY = 'Renew button body'
 const DONT_SHOW_FORNYA_DIALOG = 'wc.dontShowFornyaDialog'
 const PREFERENCES = { [DONT_SHOW_FORNYA_DIALOG]: 'false' }
-const user: User = {
+const user = ({
   hsaId: '1234abc',
   name: 'Test Testtest',
-  loggedInUnit: { unitName: 'testUnit' },
-  loggedInCareProvider: { unitName: 'testProvider' },
+  loggedInUnit: { unitName: 'testUnit' } as Unit,
+  loggedInCareProvider: { unitName: 'testProvider' } as Unit,
   role: 'doctor',
   preferences: PREFERENCES,
-}
+} as unknown) as User
 
-//@ts-expect-error creating object so component renders
-const certificateMetadata: CertificateMetadata = {}
+const certificateMetadata = {} as CertificateMetadata
 
 const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(

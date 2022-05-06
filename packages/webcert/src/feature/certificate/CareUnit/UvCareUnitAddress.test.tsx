@@ -7,7 +7,7 @@ import { CertificateMetadata } from '@frontend/common'
 it('displays all care unit info', (): void => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
 
-  const mockData: CertificateMetadata = {
+  const mockData = {
     issuedBy: {
       fullName: 'Test Testsson',
     },
@@ -18,7 +18,7 @@ it('displays all care unit info', (): void => {
       zipCode: 'zipcode',
     },
     created: '2020-10-12',
-  }
+  } as CertificateMetadata
 
   useSelectorSpy.mockReturnValue(mockData)
 

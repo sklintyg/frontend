@@ -6,7 +6,7 @@ import PatientStatusNotificationWithModal from './PatientStatusNotificationWithM
 
 const renderDefaultComponent = (status: boolean) => {
   render(
-    <PatientStatusNotificationWithModal status={status} title={INFO_TEXT} modalTitle={MODAL_TITLE}>
+    <PatientStatusNotificationWithModal status={status} title={INFO_TEXT} modalTitle={MODAL_TITLE} type="info">
       {MODAL_BODY}
     </PatientStatusNotificationWithModal>
   )

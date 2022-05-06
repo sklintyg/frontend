@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import PatientStatusNotification from './PatientStatusNotification'
 
 const renderDefaultComponent = (status: boolean) => {
-  render(<PatientStatusNotification status={status} title={INFO_TEXT} />)
+  render(<PatientStatusNotification status={status} title={INFO_TEXT} type="info" />)
 }
 
 const INFO_TEXT = 'Patientstatus'

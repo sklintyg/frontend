@@ -16,7 +16,8 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "test:ci": "react-app-rewired test --ci --coverage --reporters=default --reporters=jest-junit --coverageReporters=cobertura",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "typescript": "tsc"
   },
   "peerDependencies": {
     "@types/jest": "24.0.19",

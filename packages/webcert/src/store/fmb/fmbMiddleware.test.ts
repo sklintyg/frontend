@@ -1,5 +1,13 @@
 import MockAdapter from 'axios-mock-adapter'
-import { Certificate, CertificateDataElement, ConfigTypes, ResourceLinkType } from '@frontend/common'
+import {
+  Certificate,
+  CertificateDataConfig,
+  CertificateDataElement,
+  CertificateMetadata,
+  ConfigTypes,
+  Patient,
+  ResourceLinkType,
+} from '@frontend/common'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
@@ -283,8 +291,6 @@ const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
 }
 
 export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     id: '6.1',
     parent: '6',
@@ -317,8 +323,6 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
 }
 
 export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     id: '6.1',
     parent: '6',
@@ -366,8 +370,6 @@ export const getDiagnosisListValue = (): ValueDiagnosisList => {
 }
 
 export const getDateRangeListElement = (): CertificateDataElement => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     id: '6.1',
     parent: '6',
@@ -375,7 +377,7 @@ export const getDateRangeListElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {},
+    config: {} as CertificateDataConfig,
     value: {
       type: CertificateDataValueType.DATE_RANGE_LIST,
       list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
@@ -386,8 +388,6 @@ export const getDateRangeListElement = (): CertificateDataElement => {
 }
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     links: [
       {
@@ -406,14 +406,12 @@ export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: str
           type: 'type',
           id: '1912121212',
         },
-      },
-    },
+      } as Patient,
+    } as CertificateMetadata,
   }
 }
 
 export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return {
     links:
       fmbActive === undefined
@@ -435,7 +433,7 @@ export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean)
           type: 'type',
           id: '1912121212',
         },
-      },
-    },
+      } as Patient,
+    } as CertificateMetadata,
   }
 }

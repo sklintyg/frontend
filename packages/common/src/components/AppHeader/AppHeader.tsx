@@ -7,7 +7,7 @@ const HeaderInner = styled.div`
   padding: 15px 0;
 `
 
-interface Props {
+export interface Props {
   title?: React.ReactNode
   primaryItems?: React.ReactNode[]
   secondaryItems?: React.ReactNode[]

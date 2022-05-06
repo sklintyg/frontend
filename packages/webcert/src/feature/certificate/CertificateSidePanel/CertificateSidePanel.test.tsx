@@ -3,7 +3,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
 import reducer from '../../../store/reducers'
-import { Certificate, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import CertificateSidePanel from './CertificateSidePanel'
@@ -132,7 +132,7 @@ describe('CertificateSidePanel', () => {
 
 //Each one of these opens the about tab to have a default starting point for the tests opening other tabs
 const renderFmbTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.FMB, name: tabText }]
+  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.FMB, name: tabText } as ResourceLink]
   const certificate = createCertificate(resourceLinks)
   testStore.dispatch(updateCertificate(certificate))
   renderComponent()
@@ -140,7 +140,7 @@ const renderFmbTab = (tabText: string) => {
 }
 
 const renderQuestionTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS, name: tabText }]
+  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS, name: tabText } as ResourceLink]
   const certificate = createCertificate(resourceLinks)
   testStore.dispatch(updateCertificate(certificate))
   renderComponent()
@@ -148,7 +148,7 @@ const renderQuestionTab = (tabText: string) => {
 }
 
 const renderQuestionNotAvailableTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS_NOT_AVAILABLE, name: tabText }]
+  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS_NOT_AVAILABLE, name: tabText } as ResourceLink]
   const certificate = createCertificate(resourceLinks)
   testStore.dispatch(updateCertificate(certificate))
   renderComponent()
@@ -162,6 +162,6 @@ const openAboutTab = () => {
 const createCertificate = (resourceLinks: ResourceLink[]): Certificate => {
   return {
     links: resourceLinks,
-    metadata: { status: CertificateStatus.SIGNED },
-  }
+    metadata: { status: CertificateStatus.SIGNED } as CertificateMetadata,
+  } as Certificate
 }

@@ -203,7 +203,6 @@ describe('QuestionItem', () => {
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
-      flushPromises()
       jest.advanceTimersByTime(10000)
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
