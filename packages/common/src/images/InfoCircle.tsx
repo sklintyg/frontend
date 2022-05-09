@@ -12,10 +12,11 @@ const Logo = styled.img`
 interface Props {
   className?: string
   tooltip?: string
+  tabIndex?: number
 }
 
-const InfoCircle: React.FC<Props> = ({ className, tooltip }) => {
-  return <Logo src={info} alt="Logo Informera" data-tip={tooltip} className={className} />
+const InfoCircle: React.FC<Props> = ({ className, tooltip, tabIndex }) => {
+  return <Logo src={info} alt="Logo Informera" data-tip={tooltip} className={className} tabIndex={tabIndex} />
 }
 
 export default InfoCircle
