@@ -80,6 +80,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
   return (
     <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
       <button
+        aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
