@@ -15,11 +15,10 @@ interface Props extends FunctionDisabled {
   description: string
   enabled: boolean
   body?: string
-  excludeIcon?: boolean
   certificateId: string
 }
 
-const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, excludeIcon, certificateId }) => {
+const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, body, functionDisabled, certificateId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [checked, setChecked] = React.useState(false)
@@ -52,7 +51,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
           confirmButtonText={'Förnya'}
           name={name}
           description={description}
-          startIcon={!excludeIcon && <FontAwesomeIcon icon={faSyncAlt} size="lg" />}
+          startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
           confirmButtonDisabled={functionDisabled}>
           <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)} />
           <Checkbox id={'renew-modal-checkbox'} disabled={false} onChange={onCheckboxChange} label={'Visa inte igen.'} checked={checked} />

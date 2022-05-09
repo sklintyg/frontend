@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { CertificateListItemValueType, ForwardedListInfo, ListButtonTooltips, PatientListInfo } from '@frontend/common/src/types/list'
-import { PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { CustomButton, PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
 import check from '@frontend/common/src/images/check.svg'
 import { useHistory } from 'react-router-dom'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
+import read from '@frontend/common/src/images/read.svg'
 
 export const StyledIcon = styled.img`
   width: 14px;
@@ -31,14 +32,15 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     if (link) {
       return (
         <td>
-          <a
-            data-tip={
+          <CustomButton
+            tooltip={
               tooltips[CertificateListItemValueType.OPEN_BUTTON] ? tooltips[CertificateListItemValueType.OPEN_BUTTON] : link.description
             }
-            className="ic-button ic-button--primary"
+            buttonStyle="primary"
+            startIcon={<img src={read} alt={'Logo Öppna intyg'} />}
             onClick={() => openCertificate(certificateId)}>
             {link.name}
-          </a>
+          </CustomButton>
         </td>
       )
     } else {
@@ -58,7 +60,6 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             }
             enabled={link.enabled}
             functionDisabled={false}
-            excludeIcon={true}
             body={link.body}
             certificateId={certificateId}
           />
@@ -92,7 +93,6 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             unitName={info.unitName}
             careProviderName={info.careProviderName}
             certificateId={certificateId}
-            excludeIcon={true}
           />
         </td>
       )
