@@ -38,3 +38,20 @@ export const ValuesWrapper = styled.div`
     margin: 0;
   }
 `
+
+export const getFilter = (type: string): string => {
+  if (type === 'grey') {
+    return 'brightness(0) saturate(100%) invert(65%) sepia(24%) saturate(183%) hue-rotate(347deg) brightness(89%) contrast(83%);'
+  } else if (type === 'primary') {
+    return 'brightness(0) saturate(100%) invert(25%) sepia(76%) saturate(1338%) hue-rotate(149deg) brightness(101%) contrast(101%)'
+  } else {
+    return 'brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(326deg) brightness(103%) contrast(101%)'
+  }
+}
+
+export const WhiteLogo = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  filter: ${getFilter('white')};
+`

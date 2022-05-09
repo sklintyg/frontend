@@ -1,11 +1,9 @@
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import { sanitizeText } from '@frontend/common'
+import letter from '@frontend/common/src/images/epost.svg'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -24,7 +22,7 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, bo
       description={description}
       name={name}
       modalTitle={name}
-      startIcon={<FontAwesomeIcon size="lg" icon={faEnvelope} />}
+      startIcon={<img src={letter} alt={'Logo Skicka intyget'} />}
       onConfirm={() => {
         dispatch(sendCertificate(certificateMetadata.id))
       }}

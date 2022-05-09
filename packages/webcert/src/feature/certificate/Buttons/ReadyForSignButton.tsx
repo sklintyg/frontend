@@ -1,10 +1,10 @@
 import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { readyForSign } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import check from '@frontend/common/src/images/check.svg'
+import ReactTooltip from 'react-tooltip'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -16,12 +16,16 @@ interface Props extends FunctionDisabled {
 const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled }) => {
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
   const getComponentWhenDraftInvalid = () => (
     <ButtonWithConfirmModal
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<FontAwesomeIcon size="lg" icon={faCheck} />}
+      startIcon={<img src={check} alt="Logo Check" />}
       modalTitle="Markera utkast klart för signering"
       onConfirm={() => dispatch(readyForSign())}
       confirmButtonText="Markera klart för signering"
@@ -40,7 +44,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isVal
       disabled={!enabled || functionDisabled}
       buttonStyle="primary"
       text={name}
-      startIcon={<FontAwesomeIcon icon={faCheck} size="lg" />}
+      startIcon={<img src={check} alt="Logo Check" />}
       onClick={() => dispatch(readyForSign())}
     />
   )

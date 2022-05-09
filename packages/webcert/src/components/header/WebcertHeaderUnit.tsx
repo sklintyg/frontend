@@ -4,8 +4,7 @@ import { getUser } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import AlertCircle from '@frontend/common/src/images/AlertCircle'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,7 +38,7 @@ const WebcertHeaderUnit: React.FC = () => {
           <InactiveUnit
             className="iu-ml-400"
             data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
-            <FontAwesomeIcon className="iu-fs-300 iu-mr-200" icon={faExclamationCircle} size="1x" />
+            <AlertCircle />
             <span>Inaktiv enhet</span>
           </InactiveUnit>
         ) : null}
