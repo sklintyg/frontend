@@ -27,7 +27,6 @@ const CareProviderModal: React.FC<Props> = ({ open, title }) => {
   const user = useSelector(getUser)
 
   const handleChooseCareProvider = (event: React.MouseEvent) => {
-    console.log(event.currentTarget.id)
     const unitId = event.currentTarget.id
 
     dispatch(setCareProvider(unitId))

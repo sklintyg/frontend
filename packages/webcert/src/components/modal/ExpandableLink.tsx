@@ -8,10 +8,6 @@ const StyledArrow = styled(FontAwesomeIcon)`
   cursor: pointer;
 `
 
-const StyledUnitLink = styled.button`
-  margin-left: 1em;
-`
-
 interface Props {
   link: string
   units: Unit[]
@@ -33,29 +29,28 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
   return (
     <>
       {expand && link ? (
-        <div>
-          <p>
-            <button className="ic-link" type="button" id={id} onClick={chooseCareProvider}>
-              {link}
-            </button>
-            <StyledArrow
-              icon={faAngleUp}
-              className={'iu-mt-200 iu-ml-200 iu-color-cta-dark'}
-              onClick={toggleOpen}
-              style={{ cursor: 'pointer' }}
-            />
-          </p>
+        <div className="iu-mb-300">
+          <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
+            {link}
+          </button>
+          <StyledArrow
+            icon={faAngleUp}
+            className={'iu-mt-200 iu-ml-200 iu-color-cta-dark'}
+            onClick={toggleOpen}
+            style={{ cursor: 'pointer' }}
+          />
+
           {units.map((unit) => (
             <p>
-              <StyledUnitLink className="ic-link" type="button" id={unit.unitId} key={unit.unitId} onClick={chooseCareProvider}>
+              <button className="ic-link iu-ml-300" type="button" id={unit.unitId} key={unit.unitId} onClick={chooseCareProvider}>
                 {unit.unitName}
-              </StyledUnitLink>
+              </button>
             </p>
           ))}
         </div>
       ) : (
-        <>
-          <button className="ic-link" type="button" id={id} onClick={chooseCareProvider}>
+        <div className="iu-mb-300">
+          <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
             {link}
           </button>
           <FontAwesomeIcon
@@ -64,7 +59,7 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
             onClick={toggleOpen}
             style={{ cursor: 'pointer' }}
           />
-        </>
+        </div>
       )}
     </>
   )
