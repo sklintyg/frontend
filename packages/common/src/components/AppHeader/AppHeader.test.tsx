@@ -9,6 +9,7 @@ import reducer from '@frontend/webcert/src/store/reducers'
 import dispatchHelperMiddleware from '@frontend/webcert/src/store/test/dispatchHelperMiddleware'
 import apiMiddleware from '@frontend/webcert/src/store/api/apiMiddleware'
 import { sessionMiddleware } from '@frontend/webcert/src/store/session/sessionMiddleware'
+import { userMiddleware } from '@frontend/webcert/src/store/user/userMiddleware'
 
 let testStore: EnhancedStore
 
@@ -40,7 +41,8 @@ describe('App header', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, sessionMiddleware),
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, sessionMiddleware, userMiddleware),
     })
   })
 
