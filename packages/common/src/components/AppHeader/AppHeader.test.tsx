@@ -7,6 +7,8 @@ import { MemoryRouter, Route } from 'react-router-dom'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '@frontend/webcert/src/store/reducers'
 import dispatchHelperMiddleware from '@frontend/webcert/src/store/test/dispatchHelperMiddleware'
+import apiMiddleware from '@frontend/webcert/src/store/api/apiMiddleware'
+import { sessionMiddleware } from '@frontend/webcert/src/store/session/sessionMiddleware'
 
 let testStore: EnhancedStore
 
@@ -38,7 +40,7 @@ describe('App header', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, sessionMiddleware),
     })
   })
 
