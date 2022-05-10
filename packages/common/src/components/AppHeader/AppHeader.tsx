@@ -43,7 +43,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           </div>
         </HeaderInner>
       </header>
-      <AppHeaderTabs tabs={tabs} />
+      <AppHeaderTabs tabs={tabs ? tabs : []} />
     </>
   )
 }
