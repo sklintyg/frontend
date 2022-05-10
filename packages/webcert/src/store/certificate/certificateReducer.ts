@@ -72,24 +72,26 @@ interface CertificateState {
   createdCertificateId: string
 }
 
-const initialState: CertificateState = {
-  certificateEvents: [],
-  spinner: false,
-  spinnerText: '',
-  validationInProgress: false,
-  showValidationErrors: false,
-  isValidForSigning: false,
-  isDeleted: false,
-  complements: [],
-  routedFromDeletedCertificate: false,
-  functionDisablers: [],
-  clientValidationErrors: [],
-  createdCertificateId: '',
+const getInitialState = (): CertificateState => {
+  return {
+    certificateEvents: [],
+    spinner: false,
+    spinnerText: '',
+    validationInProgress: false,
+    showValidationErrors: false,
+    isValidForSigning: false,
+    isDeleted: false,
+    complements: [],
+    routedFromDeletedCertificate: false,
+    functionDisablers: [],
+    clientValidationErrors: [],
+    createdCertificateId: '',
+  }
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
 
-const certificateReducer = createReducer(initialState, (builder) =>
+const certificateReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
@@ -319,10 +321,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
     })
-    .addCase(resetCertificateState, (state) => {
-      state.isDeleted = false
-      state.showValidationErrors = false
-    })
+    .addCase(resetCertificateState, () => getInitialState())
 )
 
 export default certificateReducer
