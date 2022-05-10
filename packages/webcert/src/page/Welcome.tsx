@@ -155,6 +155,14 @@ const Welcome: React.FC = () => {
     }
   }
 
+  const handleFreestandingOriginCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setJsonUser({ ...selectedUser, origin: 'NORMAL', authenticationMethod: 'FAKE' })
+    } else {
+      setJsonUser({ ...selectedUser, origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
+    }
+  }
+
   const dispatchPopulateFmb = () => {
     dispatch(populateFmb)
   }
@@ -202,8 +210,18 @@ const Welcome: React.FC = () => {
                   type="checkbox"
                   checked={isDeepIntegration}
                   id="isDeepIntegration"
+                  disabled={jsonUser.origin === 'NORMAL'}
                 />
-                <label htmlFor="isDeepIntegration">Djupintegrerat uthopp?</label>
+                <label htmlFor="isDeepIntegration">Aktivera djupintegrations parameterar</label>
+                <input
+                  onChange={handleFreestandingOriginCheckbox}
+                  className="ic-forms__checkbox"
+                  type="checkbox"
+                  checked={jsonUser.origin === 'NORMAL'}
+                  disabled={isDeepIntegration}
+                  id="isFreestanding"
+                />
+                <label htmlFor="isFreestanding">Logga in som fristående</label>
                 <div>
                   <RadioButton
                     key={'fake'}
