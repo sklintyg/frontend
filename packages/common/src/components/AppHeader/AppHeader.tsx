@@ -1,6 +1,8 @@
 import React from 'react'
 import AppHeaderTitle from './AppHeaderTitle'
 import styled from 'styled-components'
+import AppHeaderTabs from './AppHeaderTabs'
+import { UserTab } from '../../types/utils'
 
 const HeaderInner = styled.div`
   height: unset;
@@ -14,9 +16,10 @@ export interface Props {
   logo?: string
   alt?: string
   banners?: React.ReactNode[]
+  tabs?: UserTab[]
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs }) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
@@ -40,6 +43,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           </div>
         </HeaderInner>
       </header>
+      <AppHeaderTabs tabs={tabs} />
     </>
   )
 }

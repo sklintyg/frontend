@@ -5,14 +5,16 @@ import {
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
+  updateUserTabs,
 } from './userActions'
-import { ResourceLink, User } from '@frontend/common'
+import { ResourceLink, User, UserTab } from '@frontend/common'
 
 interface UserState {
   user: null | User
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean
   isLoadingUser: boolean
+  tabs: UserTab[]
 }
 
 const initialState: UserState = {
@@ -20,6 +22,7 @@ const initialState: UserState = {
   links: [],
   inactiveAutomaticLogout: false,
   isLoadingUser: true,
+  tabs: [],
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -46,6 +49,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsLoadingUser, (state, action) => {
       state.isLoadingUser = action.payload
+    })
+    .addCase(updateUserTabs, (state, action) => {
+      state.tabs = action.payload
     })
 )
 

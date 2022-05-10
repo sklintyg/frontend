@@ -5,7 +5,7 @@ import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
-import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks, getUserTabs } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import Logout from '../../utils/Logout'
 import styled from 'styled-components'
@@ -21,6 +21,7 @@ interface Props {
 const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const userLinks = useSelector(getUserResourceLinks)
   const user = useSelector(getUser)
+  const tabs = useSelector(getUserTabs)
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -45,13 +46,16 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   }
 
   return (
-    <AppHeader
-      logo={logo}
-      alt={'Logo Webcert'}
-      primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
-      secondaryItems={getSecondaryItems()}
-      banners={[<SystemBanners key={'system-banners'} />]}
-    />
+    <>
+      <AppHeader
+        logo={logo}
+        alt={'Logo Webcert'}
+        primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+        secondaryItems={getSecondaryItems()}
+        banners={[<SystemBanners key={'system-banners'} />]}
+        tabs={tabs}
+      />
+    </>
   )
 }
 

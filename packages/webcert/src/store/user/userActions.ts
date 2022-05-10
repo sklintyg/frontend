@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty } from '@frontend/common'
+import { ResourceLink, User, UserProperty, UserTab } from '@frontend/common'
 
 const USER = '[User]'
 
@@ -41,3 +41,9 @@ export const triggerLogoutNowSuccess = createAction(`${USER} Trigger logout now 
 export const triggerLogoutNowError = createAction<string>(`${USER} Trigger logout now error`)
 
 export const updateInactivateAutomaticLogout = createAction<boolean>(`${USER} Update inactivate automatic logout`)
+
+export const getUserTabs = createAction(`${USER} Get user tabs`)
+export const getUserTabsStarted = createAction(`${USER} Get user tabs started`)
+export const getUserTabsSuccess = createAction<GetUserResponse>(`${USER} Get user tabs success`)
+export const getUserTabsError = createAction<string>(`${USER} Get user tabs error`)
+export const updateUserTabs = createAction<UserTab[]>(`${USER} Get user tabs error`)

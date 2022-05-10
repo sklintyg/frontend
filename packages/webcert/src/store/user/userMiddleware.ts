@@ -9,6 +9,10 @@ import {
   getUserError,
   getUserStarted,
   getUserSuccess,
+  getUserTabs,
+  getUserTabsError,
+  getUserTabsStarted,
+  getUserTabsSuccess,
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
@@ -23,6 +27,7 @@ import {
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
+  updateUserTabs,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -125,6 +130,22 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   dispatch(updateInactivateAutomaticLogout(true))
 }
 
+const handleGetUserTabs: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/user/tabs',
+      method: 'GET',
+      onStart: getUserTabsStarted.type,
+      onSuccess: getUserTabsSuccess.type,
+      onError: getUserTabsError.type,
+    })
+  )
+}
+
+const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateUserTabs(Object.values(action.payload)))
+}
+
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -136,6 +157,8 @@ const middlewareMethods = {
   [triggerLogout.type]: handleTriggerLogout,
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,
+  [getUserTabs.type]: handleGetUserTabs,
+  [getUserTabsSuccess.type]: handleGetUserTabsSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

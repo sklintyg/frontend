@@ -3,9 +3,13 @@ import styled from 'styled-components'
 import ReactTooltip, { Place } from 'react-tooltip'
 
 const NumberCircle = styled.span`
-  width: 0px;
+  min-width: 10px;
   height: 0px;
   padding: 3px 7px;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 10px;
 `
 
 const Wrapper = styled.div`
@@ -67,7 +71,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         {props.children} {props.text}{' '}
         {props.number && (
           <NumberCircle
-            className={`ic-notification iu-ml-300 iu-fs-100 
+            className={`iu-fs-100 
             ${props.buttonStyle === 'secondary' ? 'iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}
             `}>
             {props.number}
