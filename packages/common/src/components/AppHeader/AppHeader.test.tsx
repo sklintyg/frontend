@@ -4,7 +4,9 @@ import { render, screen } from '@testing-library/react'
 import AppHeader from './AppHeader'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '@frontend/webcert/src/store/reducers'
+import dispatchHelperMiddleware from '@frontend/webcert/src/store/test/dispatchHelperMiddleware'
 
 let testStore: EnhancedStore
 
@@ -33,6 +35,13 @@ const renderComponentWithLogo = (logo: string, alt: string) => {
 }
 
 describe('App header', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
+    })
+  })
+
   it('displays primary items', (): void => {
     renderComponent([<p>Test</p>], [])
     expect(screen.getByText(/Test/i)).toBeInTheDocument()
