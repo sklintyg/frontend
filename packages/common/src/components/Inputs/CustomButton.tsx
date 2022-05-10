@@ -10,6 +10,7 @@ const NumberCircle = styled.span`
   white-space: nowrap;
   text-align: center;
   border-radius: 10px;
+  margin-left: 8px;
 `
 
 const Wrapper = styled.div`
