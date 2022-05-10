@@ -2,13 +2,15 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import AppHeader from './AppHeader'
-import store from '@frontend/webcert/src/store/store'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { EnhancedStore } from '@reduxjs/toolkit'
+
+let testStore: EnhancedStore
 
 const renderComponent = (primaryItems: React.ReactNode[], secondaryItems: React.ReactNode[]) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create">
           <AppHeader primaryItems={primaryItems} secondaryItems={secondaryItems} />
@@ -20,7 +22,7 @@ const renderComponent = (primaryItems: React.ReactNode[], secondaryItems: React.
 
 const renderComponentWithLogo = (logo: string, alt: string) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create">
           <AppHeader logo={logo} alt={alt} />
