@@ -25,7 +25,7 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   }
 
   const isSelectedTab = (tab: UserTab) => {
-    return tab.url === match.url
+    return match.url.includes(tab.url)
   }
 
   const handleClick = (tab: UserTab, index: number) => {
