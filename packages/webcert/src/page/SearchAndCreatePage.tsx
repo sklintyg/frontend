@@ -11,6 +11,7 @@ import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import CertificateList from '../components/certificateList/CertificateList'
+import { resetCertificateState } from '../store/certificate/certificateActions'
 
 interface Params {
   patientId: string
@@ -25,6 +26,10 @@ const SearchAndCreatePage: React.FC = () => {
   const isPatientLoaded = () => {
     return !patientId || (patientId && patient)
   }
+
+  useEffect(() => {
+    dispatch(resetCertificateState())
+  })
 
   useEffect(() => {
     ReactTooltip.hide()

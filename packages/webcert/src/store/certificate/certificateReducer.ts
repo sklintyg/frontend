@@ -22,6 +22,7 @@ import {
   hideValidationErrors,
   highlightCertificateDataElement,
   removeClientValidationError,
+  resetCertificateState,
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
@@ -39,10 +40,10 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
-  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
+  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -317,6 +318,10 @@ const certificateReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
+    })
+    .addCase(resetCertificateState, (state) => {
+      state.isDeleted = false
+      state.showValidationErrors = false
     })
 )
 

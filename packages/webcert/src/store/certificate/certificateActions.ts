@@ -550,3 +550,5 @@ export const setValidationErrorsForQuestion = createAction<ModifyValidationError
 
 export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
 export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)
+
+export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
