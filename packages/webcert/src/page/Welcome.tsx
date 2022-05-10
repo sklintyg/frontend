@@ -212,7 +212,7 @@ const Welcome: React.FC = () => {
                   id="isDeepIntegration"
                   disabled={jsonUser.origin === 'NORMAL'}
                 />
-                <label htmlFor="isDeepIntegration">Aktivera djupintegrations parameterar</label>
+                <label htmlFor="isDeepIntegration">Aktivera integrationsparametrar</label>
                 <input
                   onChange={handleFreestandingOriginCheckbox}
                   className="ic-forms__checkbox"
