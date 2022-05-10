@@ -16,6 +16,7 @@ import { apiCallBegan } from '../api/apiActions'
 import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
+import Timeout = NodeJS.Timeout
 
 const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
@@ -26,7 +27,7 @@ const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => 
     dispatch(getSessionStatus())
   }, 30000)
 
-  dispatch(setPollHandle(handlePoll))
+  dispatch(setPollHandle(handlePoll as Timeout))
 }
 
 const handleStopPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
