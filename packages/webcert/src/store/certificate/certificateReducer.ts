@@ -49,7 +49,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
+import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { CertificateDataElementStyleEnum, ValidationError } from '@frontend/common/src'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
@@ -183,6 +183,7 @@ const certificateReducer = createReducer(initialState, (builder) =>
         // TODO: Only update validationErrors for questions that have changed.
         question.validationErrors = []
         for (const validationError of action.payload) {
+          validationError.showAlways = isShowAlways(validationError)
           if (validationError.id === questionId) {
             question.validationErrors.push(validationError)
           }

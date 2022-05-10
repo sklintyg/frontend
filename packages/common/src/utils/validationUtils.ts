@@ -10,10 +10,12 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   CertificateStatus,
-  ConfigUeCheckboxMultipleCodes,
   ConfigTypes,
+  ConfigUeCheckboxMultipleCodes,
   getValidDate,
   MaxDateValidation,
+  ResourceLinkType,
+  sortByIndex,
   ValidationError,
   ValidationErrorSummary,
   ValueBoolean,
@@ -24,8 +26,6 @@ import {
   ValueDiagnosisList,
   ValueIcf,
   ValueText,
-  ResourceLinkType,
-  sortByIndex,
 } from '..'
 import { ValueDateRange } from '@frontend/common'
 
@@ -376,4 +376,14 @@ function validate(data: CertificateData, id: string) {
       setDisableForChildElement(data, validationResult)
     }
   })
+}
+
+export const isShowAlways = (validationError: ValidationError) => {
+  if (validationError.text === 'Ange ett giltigt datum. Framtida datum får inte anges.') {
+    return true
+  } else if (validationError.text === 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.') {
+    return true
+  } else {
+    return false
+  }
 }
