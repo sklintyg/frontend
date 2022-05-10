@@ -34,4 +34,24 @@ export const mockUserData: MockUser[] = [
     efterNamn: 'Vårdadministratör',
     enhetId: 'TSTNMT2321000156-BEMC',
   },
+  {
+    hsaId: 'TSTNMT2321000156-1079',
+    forNamn: 'Arnold',
+    efterNamn: 'Johansson',
+    enhetId: 'TSTNMT2321000156-1077',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
+  {
+    hsaId: 'TSTNMT2321000156-10CD',
+    forNamn: 'Annika',
+    efterNamn: 'Larsson',
+    enhetId: 'TSTNMT2321000156-1077',
+  },
+  {
+    hsaId: 'TSTNMT2321000156-105T',
+    forNamn: 'Ingrid',
+    efterNamn: 'Nilsson Olsson',
+    enhetId: 'TSTNMT2321000156-105P',
+    legitimeradeYrkesgrupper: ['Läkare'],
+  },
 ]
