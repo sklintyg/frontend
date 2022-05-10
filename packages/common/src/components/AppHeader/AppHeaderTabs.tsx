@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 
 const Wrapper = styled.nav`
-  border: 2px dotted rgba(1, 165, 163, 0.08);
+  border: 1.5px solid rgba(1, 165, 163, 0.08);
   button {
     display: inline;
     margin-right: 48px;
@@ -35,12 +35,12 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   const getTabs = () => {
     return tabs.map((tab, index) => {
       return (
-        <li className="ic-topnav__item">
+        <li className="ic-topnav__item" key={tab.title}>
           <CustomButton
             buttonStyle={isSelectedTab(tab) ? 'primary' : 'secondary'}
             rounded
             text={tab.title}
-            number={tab.number > 0 ? tab.number : undefined}
+            number={tab.number && tab.number > 0 ? tab.number : undefined}
             onClick={() => handleClick(tab, index)}
           />
         </li>
