@@ -7,7 +7,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 
-  .statusContent > a {
+  .statusContent > a,
+  .statusContent > button {
     font-size: 12px;
   }
 `
