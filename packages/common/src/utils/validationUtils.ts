@@ -379,9 +379,7 @@ function validate(data: CertificateData, id: string) {
 }
 
 export const isShowAlways = (validationError: ValidationError) => {
-  if (validationError.text === 'Ange ett giltigt datum. Framtida datum får inte anges.') {
-    return true
-  } else if (validationError.text === 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.') {
+  if (validationError.type === 'INVALID_FORMAT' || validationError.type === 'OTHER') {
     return true
   } else {
     return false
