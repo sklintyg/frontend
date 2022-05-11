@@ -22,7 +22,7 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, bo
       description={description}
       name={name}
       modalTitle={name}
-      startIcon={<img src={letter} alt={'Logo Skicka intyget'} />}
+      startIcon={<img src={letter} alt="Skicka intyget" />}
       onConfirm={() => {
         dispatch(sendCertificate(certificateMetadata.id))
       }}
