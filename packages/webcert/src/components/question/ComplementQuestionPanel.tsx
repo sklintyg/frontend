@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { CertificateStatus, ImageCentered, InfoBox, Question } from '@frontend/common'
+import { CertificateStatus, ImageCentered, InfoBox, Question, Spinner } from '@frontend/common'
 import QuestionItem from './QuestionItem'
 import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
 
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
+import { useSelector } from 'react-redux'
+import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 
 const Root = styled.div`
   height: 100%;
@@ -35,6 +37,7 @@ interface Props {
 
 const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft, headerHeight }) => {
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   const contentRef = useCallback((node: HTMLDivElement) => {
     setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
@@ -75,11 +78,17 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   return (
     <Root>
       <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
-        {!isDisplayingCertificateDraft && getContinueOnDraft()}
-        {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
-          <QuestionItem key={complementQuestion.id} question={complementQuestion} />
-        ))}
-        {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+        {isLoadingQuestions ? (
+          <Spinner className="iu-m-500" />
+        ) : (
+          <>
+            {!isDisplayingCertificateDraft && getContinueOnDraft()}
+            {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
+              <QuestionItem key={complementQuestion.id} question={complementQuestion} />
+            ))}
+            {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+          </>
+        )}
       </Wrapper>
     </Root>
   )

@@ -9,6 +9,7 @@ import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
+import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 
 let testStore: EnhancedStore
 
@@ -34,6 +35,8 @@ describe('ComplementQuestionPanel', () => {
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
     })
+
+    testStore.dispatch(updateIsLoadingQuestions(false))
   })
 
   it('renders without crashing', () => {

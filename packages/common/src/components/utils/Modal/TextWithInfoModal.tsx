@@ -9,6 +9,7 @@ const AboutButton = styled.button`
   border: none;
   font-size: inherit;
   line-height: inherit;
+  font-family: inherit;
 `
 
 interface Props {
