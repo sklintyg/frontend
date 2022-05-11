@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 
 const Wrapper = styled.nav`
-  border: 1.5px solid rgba(1, 165, 163, 0.08);
   button {
     display: inline;
     margin-right: 48px;
@@ -49,7 +48,7 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   }
 
   return (
-    <Wrapper className="ic-topnav iu-bg-muted-light">
+    <Wrapper className="ic-topnav iu-bg-muted-light iu-border-success-light">
       <ul className="ic-container iu-my-200">{getTabs()}</ul>
     </Wrapper>
   )
