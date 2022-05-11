@@ -1,4 +1,4 @@
-import { CustomButton, RadioButton } from '@frontend/common'
+import { CustomButton, RadioButton, TextArea } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -23,24 +23,6 @@ interface JsonUser extends MockUser {
   origin: string
   authenticationMethod: string
 }
-
-const JsonInfo = styled.pre`
-  display: inline-block;
-  width: 100%;
-  padding: 8px;
-  line-height: 20px;
-  font-size: 14px;
-  color: #555;
-  background-color: #f7f4f2;
-  border-bottom: 2px solid #01a5a3;
-  border-left: 0.0625rem solid #8d8d8d;
-  border-right: 0.0625rem solid #8d8d8d;
-  border-top: 0.0625rem solid #8d8d8d;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-`
 
 const StyledForm = styled.form`
   display: flex;
@@ -163,6 +145,10 @@ const Welcome: React.FC = () => {
     }
   }
 
+  const handleUserChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setJsonUser(JSON.parse(event.currentTarget.value))
+  }
+
   const dispatchPopulateFmb = () => {
     dispatch(populateFmb)
   }
@@ -256,7 +242,7 @@ const Welcome: React.FC = () => {
             </div>
             <div className="iu-grid-span-5">
               <h3>Inloggningsprofil</h3>
-              <JsonInfo>{JSON.stringify(jsonUser, undefined, 4)}</JsonInfo>
+              <TextArea value={JSON.stringify(jsonUser, undefined, 4)} rowsMin={11} onChange={handleUserChange} />
             </div>
           </div>
         </div>
