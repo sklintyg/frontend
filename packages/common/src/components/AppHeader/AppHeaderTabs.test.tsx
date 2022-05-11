@@ -5,8 +5,9 @@ import AppHeaderTabs from './AppHeaderTabs'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
+import { UserTab } from '../../types/utils'
 
-const getTabs = () => {
+const getTabs = (): UserTab[] => {
   return [
     {
       title: 'Tab1',
@@ -28,7 +29,7 @@ const renderComponent = () => {
   )
 }
 
-describe('App header tabs', () => {
+describe('AppHeaderTabs', () => {
   it('should show tab title', () => {
     renderComponent()
     expect(screen.getByText('Tab1')).toBeInTheDocument()
