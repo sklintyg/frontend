@@ -71,10 +71,8 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
       getFilter('grey')
     } else if (props.buttonStyle === 'success' || props.buttonStyle === 'primary') {
       return getFilter('white')
-    } else {
-      return getFilter('primary')
     }
-    return ''
+    return getFilter('primary')
   }
 
   return (
