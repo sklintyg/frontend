@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeader, Footer, InfoBox } from '@frontend/common'
+import { AppHeader, Footer } from '@frontend/common'
 import logo from '../components/header/webcert_logo.png'
 import image from '../images/webcert_bild_react.png'
 import styled from 'styled-components'
@@ -44,7 +44,7 @@ export const StartPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt="Logo Webcert" secondaryItems={[<CreateAccount />]} banners={[<SystemBanners key="system-banners" />]} />
+      <AppHeader logo={logo} alt="Webcert" secondaryItems={[<CreateAccount />]} banners={[<SystemBanners key="system-banners" />]} />
       <Content className="ic-container iu-mt-gutter iu-mb-gutter">
         <div className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-6">

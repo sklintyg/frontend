@@ -25,7 +25,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isVal
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<img src={check} alt="Logo Check" />}
+      startIcon={<img src={check} alt="Check" />}
       modalTitle="Markera utkast klart för signering"
       onConfirm={() => dispatch(readyForSign())}
       confirmButtonText="Markera klart för signering"
@@ -44,7 +44,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isVal
       disabled={!enabled || functionDisabled}
       buttonStyle="primary"
       text={name}
-      startIcon={<img src={check} alt="Logo Check" />}
+      startIcon={<img src={check} alt="Check" />}
       onClick={() => dispatch(readyForSign())}
     />
   )

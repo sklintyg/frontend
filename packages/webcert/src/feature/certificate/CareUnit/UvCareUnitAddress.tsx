@@ -53,7 +53,7 @@ const UvCareUnitAddress: React.FC = (props) => {
       <CategoryHeader additionalStyles={additionalHeaderStyles}>
         <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
         <div className={'iu-flex iu-flex-center'}>
-          <WhiteLogo src={calendar} alt="Logo Kalender" />
+          <WhiteLogo src={calendar} alt="Kalender" />
           <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
         </div>
       </CategoryHeader>

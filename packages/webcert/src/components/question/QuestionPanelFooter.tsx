@@ -57,7 +57,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         disabled={!complementResourceLink.enabled}
         buttonStyle="primary"
         text={complementResourceLink.name}
-        startIcon={<img src={edit} alt="Logo Komplettera" />}
+        startIcon={<img src={edit} alt="Komplettera" />}
         onClick={onComplementClick}
       />
     )
@@ -78,7 +78,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         confirmButtonText="Skicka svar"
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
-        startIcon={<img src={speechBubble} alt="Logo Kan ej komplettera" />}>
+        startIcon={<img src={speechBubble} alt="Kan ej komplettera" />}>
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
     )

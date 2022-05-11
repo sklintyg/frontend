@@ -21,7 +21,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functi
       tooltip={description}
       buttonStyle="primary"
       text={name}
-      startIcon={<img src={edit} alt="Logo Signera intyget" />}
+      startIcon={<img src={edit} alt="Signera intyget" />}
       disabled={isValidating || !enabled || functionDisabled}
       onClick={() => {
         dispatch(startSignCertificate())

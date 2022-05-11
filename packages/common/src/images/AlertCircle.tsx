@@ -9,7 +9,7 @@ const Logo = styled.img`
 `
 
 const AlertCircle: React.FC = () => {
-  return <Logo src={infoCircle} alt="Logo Uppmärksamma" />
+  return <Logo src={infoCircle} alt="Uppmärksamma" />
 }
 
 export default AlertCircle

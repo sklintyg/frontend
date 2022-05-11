@@ -212,7 +212,6 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       <AnsweredByCertificate
         key={question.id}
         className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}>
-        return 'brightness(0) saturate(100%) invert(25%) sepia(76%) saturate(1338%) hue-rotate(149deg) brightness(101%) contrast(101%)'
         <CheckIcon />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>

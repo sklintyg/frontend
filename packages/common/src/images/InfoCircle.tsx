@@ -17,7 +17,7 @@ interface Props {
 }
 
 const InfoCircle: React.FC<Props> = ({ className, tooltip, tabIndex, testId }) => {
-  return <Logo src={info} alt="Logo Informera" data-tip={tooltip} className={className} tabIndex={tabIndex} data-testid={testId} />
+  return <Logo src={info} alt="Informera" data-tip={tooltip} className={className} tabIndex={tabIndex} data-testid={testId} />
 }
 
 export default InfoCircle
