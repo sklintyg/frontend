@@ -19,7 +19,7 @@ export interface Props {
   tabs?: UserTab[]
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs = [] }) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
@@ -43,7 +43,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           </div>
         </HeaderInner>
       </header>
-      <AppHeaderTabs tabs={tabs ? tabs : []} />
+      <AppHeaderTabs tabs={tabs} />
     </>
   )
 }
