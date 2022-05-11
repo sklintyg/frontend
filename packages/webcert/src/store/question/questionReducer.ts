@@ -61,7 +61,7 @@ const getInitialState = (): QuestionState => {
     isSendingQuestion: false,
     functionDisablers: [],
     errorId: '',
-    isLoadingQuestions: true,
+    isLoadingQuestions: false,
   }
 }
 
