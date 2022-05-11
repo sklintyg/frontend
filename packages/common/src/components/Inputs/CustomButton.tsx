@@ -68,7 +68,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
 
   const getIconFilter = (): string => {
     if (props.disabled) {
-      getFilter('grey')
+      return getFilter('grey')
     } else if (props.buttonStyle === 'success' || props.buttonStyle === 'primary') {
       return getFilter('white')
     }
