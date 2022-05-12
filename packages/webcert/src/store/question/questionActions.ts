@@ -146,3 +146,5 @@ export const updateComplements = createAction<Complement[]>(`${QUESTION} Update 
 export const updateDisplayingCertificateDraft = createAction(`${QUESTION} Update displaying certificate draft`)
 
 export const toggleQuestionFunctionDisabler = createAction<FunctionDisabler>(`${QUESTION} ${TOGGLE_FUNCTION_DISABLER}`)
+
+export const updateIsLoadingQuestions = createAction<boolean>(`${QUESTION} Update is loading questions`)

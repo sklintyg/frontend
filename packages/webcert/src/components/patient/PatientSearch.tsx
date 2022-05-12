@@ -23,13 +23,16 @@ const PatientSearch: React.FC = () => {
   }, [dispatch, patientId])
 
   useEffect(() => {
-    if (enterPress) {
+    if (enterPress && isPersonIdValid(patientId)) {
       onSubmit()
     }
   }, [enterPress, onSubmit])
 
   const onChange = (formattedPatientId: string) => {
     setPatientId(formattedPatientId)
+    if (formattedPatientId.length === 0) {
+      onFocus()
+    }
   }
 
   const onFocus = () => {
