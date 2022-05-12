@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getActivePatient, selectCertificateTypes } from '../../store/patient/patientSelectors'
@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
-import { ResourceLinkType } from '@frontend/common'
+import { ResourceLink, ResourceLinkType } from '@frontend/common'
 
 interface CertificateTypeViewModel {
   certificateName: string
@@ -18,7 +18,7 @@ interface CertificateTypeViewModel {
   id: string
   issuerTypeId: string
   favorite: boolean
-  createDisabled: boolean
+  link?: ResourceLink
 }
 
 const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): number => {
@@ -97,7 +97,7 @@ const CertificateList: React.FC = () => {
         id: t.id,
         issuerTypeId: t.issuerTypeId,
         favorite: favorites.includes(t.id),
-        createDisabled: !t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
+        link: t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
       }))
       .sort(byFavorite)
 

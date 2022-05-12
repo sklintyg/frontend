@@ -1,3 +1,5 @@
+import { ResourceLink } from './resourceLink'
+
 export enum PatientStatus {
   FOUND = 'FOUND',
   NOT_FOUND = 'NOT_FOUND',
@@ -30,9 +32,5 @@ export interface CertificateType {
   id: string
   issuerTypeId: string
   label: string
-  links: CertificateTypeLink[]
-}
-
-export interface CertificateTypeLink {
-  type: string
+  links: ResourceLink[]
 }

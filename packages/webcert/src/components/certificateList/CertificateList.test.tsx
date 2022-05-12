@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
-import { CertificateType, CertificateTypeLink, User } from '@frontend/common'
+import { CertificateType, ResourceLink, User } from '@frontend/common'
 import reducer from '../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import CertificateList from './CertificateList'
@@ -27,7 +27,7 @@ const createType = ({
   id?: string
   issuerTypeId?: string
   label?: string
-  links?: CertificateTypeLink[]
+  links?: ResourceLink[]
 }): CertificateType => ({
   description,
   detailedDescription,
