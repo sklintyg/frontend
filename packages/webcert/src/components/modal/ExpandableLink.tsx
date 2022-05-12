@@ -29,7 +29,7 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
   return (
     <>
       {expand && link ? (
-        <div className="iu-mb-300">
+        <div className="iu-mb-300 iu-px-400">
           <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
             {link}
           </button>
@@ -49,7 +49,7 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
           ))}
         </div>
       ) : (
-        <div className="iu-mb-300">
+        <div className="iu-mb-300 iu-px-400">
           <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
             {link}
           </button>
