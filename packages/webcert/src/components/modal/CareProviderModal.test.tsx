@@ -18,7 +18,6 @@ describe('Care provider modal', () => {
     )
   }
 
-  //test will not work unless functionality to render CareProviderModal is extracted from App to another component. Either a wrapper or the CareProviderModal
   it('should show care provider modal if loggedInCareProvider is not set', () => {
     store.dispatch(updateUser(getUserWithEmptyUnit()))
     renderComponent()
@@ -44,7 +43,7 @@ const getUserWithEmptyUnit = (): User => {
     role: 'doctor',
     loggedInUnit: unit,
     loggedInCareUnit: unit,
-    loggedInCareProvider: unit,
+    loggedInCareProvider: {},
     preferences: null,
     loginMethod: LoginMethod.BANK_ID,
     signingMethod: SigningMethod.FAKE,
