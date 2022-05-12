@@ -8,15 +8,18 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import React from 'react'
 import { CertificateFooter } from './CertificateFooter'
+import userEvent from '@testing-library/user-event'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
   let certificate: Certificate
 
+  const onSaveModal = jest.fn()
+
   const renderComponent = () => {
     render(
       <Provider store={testStore}>
-        <CertificateFooter />
+        <CertificateFooter onSaveModal={onSaveModal} />
       </Provider>
     )
   }
@@ -74,6 +77,12 @@ describe('CertificateFooter', () => {
         testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
         const text = screen.queryByText('Visa vad som saknas')
         expect(text).toBeTruthy()
+      })
+
+      it('shall save modal to show on certificate page', () => {
+        const button = screen.getByText('Ready For sign')
+        userEvent.click(button)
+        expect(onSaveModal).toHaveBeenCalled()
       })
     })
 

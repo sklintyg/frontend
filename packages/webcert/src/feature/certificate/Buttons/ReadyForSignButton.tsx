@@ -1,5 +1,5 @@
 import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { readyForSign } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,7 +11,7 @@ interface Props extends FunctionDisabled {
   description: string
   enabled: boolean
   isValidForSigning: boolean
-  onSaveModal: (modal: string) => void
+  onSaveModal: (modal: ReactNode) => void
 }
 
 const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled, onSaveModal }) => {
