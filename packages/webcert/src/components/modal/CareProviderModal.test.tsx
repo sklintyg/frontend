@@ -37,13 +37,15 @@ const getUserWithEmptyUnit = (): User => {
     isInactive: false,
   }
 
+  const emptyUnit = {} as Unit
+
   return {
     hsaId: '',
     name: '',
     role: 'doctor',
     loggedInUnit: unit,
     loggedInCareUnit: unit,
-    loggedInCareProvider: {},
+    loggedInCareProvider: emptyUnit,
     preferences: null,
     loginMethod: LoginMethod.BANK_ID,
     signingMethod: SigningMethod.FAKE,
