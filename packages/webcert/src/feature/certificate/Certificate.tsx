@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Category from './Category/Category'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  onSaveModal: (modal: string) => void
+  onSaveModal: (modal: ReactNode) => void
 }
 
 const Certificate: React.FC<Props> = ({ onSaveModal }) => {

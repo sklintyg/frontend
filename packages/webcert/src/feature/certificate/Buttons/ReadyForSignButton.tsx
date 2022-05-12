@@ -11,7 +11,7 @@ interface Props extends FunctionDisabled {
   description: string
   enabled: boolean
   isValidForSigning: boolean
-  onSaveModal: (modal: ReactNode) => void
+  onSaveModal?: (modal: ReactNode) => void
 }
 
 const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled, onSaveModal }) => {
