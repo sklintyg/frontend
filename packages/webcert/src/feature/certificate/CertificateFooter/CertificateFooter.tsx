@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
 import {
@@ -28,7 +29,11 @@ const RightWrapper = styled.div`
   align-items: flex-end;
 `
 
-export const CertificateFooter: React.FC = () => {
+interface Props {
+  onSaveModal: (modal: ReactNode) => void
+}
+
+export const CertificateFooter: React.FC<Props> = ({ onSaveModal }) => {
   const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
@@ -57,6 +62,7 @@ export const CertificateFooter: React.FC = () => {
           <ForwardCertificateButton
             functionDisabled={functionDisabled}
             {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
+            onSaveModal={onSaveModal}
           />
           {certificateMetadata.forwarded && (
             <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
@@ -72,6 +78,7 @@ export const CertificateFooter: React.FC = () => {
             functionDisabled={functionDisabled}
             isValidForSigning={isValidForSigning}
             {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)}
+            onSaveModal={onSaveModal}
           />
         </div>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
@@ -6,7 +6,11 @@ import CertificateHeader from '../feature/certificate/CertificateHeader/Certific
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
+import {
+  getCertificatePageModal,
+  getIsCertificateDeleted,
+  getIsRoutedFromDeletedCertificate,
+} from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
@@ -49,6 +53,12 @@ const CertificatePage: React.FC = () => {
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+  const certificatePageModal = useSelector(getCertificatePageModal())
+  const [modal, setModal] = useState<ReactNode>(null)
+
+  const onSaveModal = (modal: ReactNode) => {
+    setModal(modal)
+  }
 
   useEffect(() => {
     if (certificateId) {
@@ -58,7 +68,9 @@ const CertificatePage: React.FC = () => {
 
   return (
     <Root>
+      {modal && modal}
       <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+      {certificatePageModal && <>{certificatePageModal}</>}
       <NoFlexGrow>
         <WebcertHeader />
       </NoFlexGrow>
@@ -74,7 +86,7 @@ const CertificatePage: React.FC = () => {
           <Content className={`ic-container`}>
             <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
               <OverflowScroll className="iu-grid-span-7">
-                <Certificate />
+                <Certificate onSaveModal={onSaveModal} />
               </OverflowScroll>
               <OverflowHidden className="iu-grid-span-5">
                 <CertificateSidePanel />

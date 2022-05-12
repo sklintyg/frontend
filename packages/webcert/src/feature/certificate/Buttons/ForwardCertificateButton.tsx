@@ -1,5 +1,5 @@
 import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,9 +12,10 @@ interface Props extends FunctionDisabled {
   name: string
   description: string
   enabled: boolean
+  onSaveModal?: (modal: ReactNode) => void
 }
 
-const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled, onSaveModal }) => {
   const dispatch = useDispatch()
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
 
@@ -44,7 +45,8 @@ const ForwardCertificateButton: React.FC<Props> = ({ name, description, enabled,
       onClick={handleEmailSend}
       confirmButtonText="Ja"
       declineButtonText="Nej"
-      confirmButtonDisabled={functionDisabled}>
+      confirmButtonDisabled={functionDisabled}
+      onSaveModal={onSaveModal}>
       <p>Vill du markera utkastet som vidarebefordrat?</p>
     </ButtonWithConfirmModal>
   )

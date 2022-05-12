@@ -38,7 +38,11 @@ const Wrapper = styled.div`
   }
 `
 
-const Certificate: React.FC = () => {
+interface Props {
+  onSaveModal: (modal: string) => void
+}
+
+const Certificate: React.FC<Props> = ({ onSaveModal }) => {
   const dispatch = useDispatch()
   const certificateStructure = useSelector(getCertificateDataElements, _.isEqual)
   const showSpinner = useSelector(getIsShowSpinner)
@@ -90,7 +94,7 @@ const Certificate: React.FC = () => {
         </CertificateContext.Provider>
         <CareUnit />
         <CertificateValidation />
-        <CertificateFooter />
+        <CertificateFooter onSaveModal={onSaveModal} />
         <SigningForm />
       </Wrapper>
     </Backdrop>

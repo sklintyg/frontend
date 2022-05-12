@@ -11,9 +11,10 @@ interface Props extends FunctionDisabled {
   description: string
   enabled: boolean
   isValidForSigning: boolean
+  onSaveModal: (modal: string) => void
 }
 
-const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled }) => {
+const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled, onSaveModal }) => {
   const dispatch = useDispatch()
 
   const getComponentWhenDraftInvalid = () => (
@@ -26,7 +27,8 @@ const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isVal
       onConfirm={() => dispatch(readyForSign())}
       confirmButtonText="Markera klart för signering"
       declineButtonText="Avbryt"
-      confirmButtonDisabled={functionDisabled}>
+      confirmButtonDisabled={functionDisabled}
+      onSaveModal={onSaveModal}>
       <p>
         Observera att utkastet saknar obligatoriska uppgifter. Om du inte kan fylla i mer information kan du ändå markera intyget som klart
         för signering. Läkaren kommer då behöva komplettera intyget med de saknade uppgifterna innan det går att signera.{' '}
