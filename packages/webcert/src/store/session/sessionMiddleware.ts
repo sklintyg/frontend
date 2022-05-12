@@ -22,7 +22,7 @@ const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => 
     return
   }
 
-  const handlePoll: NodeJS.Timeout = setInterval(() => {
+  const handlePoll = setInterval(() => {
     dispatch(getSessionStatus())
   }, 30000)
 
