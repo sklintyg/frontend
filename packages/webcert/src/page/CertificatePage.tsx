@@ -6,11 +6,7 @@ import CertificateHeader from '../feature/certificate/CertificateHeader/Certific
 import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
 import RemovedCertificate from '../feature/certificate/RemovedCertificate/RemovedCertificate'
-import {
-  getCertificatePageModal,
-  getIsCertificateDeleted,
-  getIsRoutedFromDeletedCertificate,
-} from '../store/certificate/certificateSelectors'
+import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import styled from 'styled-components/macro'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
@@ -53,7 +49,6 @@ const CertificatePage: React.FC = () => {
   const dispatch = useDispatch()
   const certificateIsDeleted = useSelector(getIsCertificateDeleted())
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
-  const certificatePageModal = useSelector(getCertificatePageModal())
   const [modal, setModal] = useState<ReactNode>(null)
 
   const onSaveModal = (modal: ReactNode) => {
@@ -70,7 +65,6 @@ const CertificatePage: React.FC = () => {
     <Root>
       {modal && modal}
       <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-      {certificatePageModal && <>{certificatePageModal}</>}
       <NoFlexGrow>
         <WebcertHeader />
       </NoFlexGrow>
