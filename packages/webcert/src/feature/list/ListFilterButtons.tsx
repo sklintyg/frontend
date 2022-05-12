@@ -18,7 +18,7 @@ const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, 
   return (
     <Wrapper>
       <CustomButton buttonStyle="primary" text="Sök" tooltip={searchTooltip} onClick={onSearch} disabled={!isSearchEnabled} />
-      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip="Rensa sökfiltret." onClick={onReset} />
+      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip="Återställ sökfiltret." onClick={onReset} />
     </Wrapper>
   )
 }
