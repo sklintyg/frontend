@@ -8,13 +8,18 @@ import { StartPage } from './StartPage'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
 import { updateConfig, updateIsLoadingConfig } from '../store/utils/utilsActions'
 import { Configuration } from '../store/utils/utilsReducer'
+import { MemoryRouter, Route } from 'react-router-dom'
 
 let testStore: EnhancedStore
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <StartPage />
+      <MemoryRouter initialEntries={['/']}>
+        <Route path="/">
+          <StartPage />
+        </Route>
+      </MemoryRouter>
     </Provider>
   )
 }
