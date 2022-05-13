@@ -1,11 +1,10 @@
 import React from 'react'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 import { CustomButton } from '@frontend/common'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import edit from '@frontend/common/src/images/edit.svg'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -22,7 +21,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functi
       tooltip={description}
       buttonStyle="primary"
       text={name}
-      startIcon={<FontAwesomeIcon size="lg" icon={faFileSignature} />}
+      startIcon={<img src={edit} alt="Signera intyget" />}
       disabled={isValidating || !enabled || functionDisabled}
       onClick={() => {
         dispatch(startSignCertificate())

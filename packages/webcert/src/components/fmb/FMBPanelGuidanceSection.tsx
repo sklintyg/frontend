@@ -1,8 +1,7 @@
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoForm, FMBDiagnosisCodeInfoFormType } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import { Italic } from './FMBPanel'
+import InfoCircle from '@frontend/common/src/images/InfoCircle'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
@@ -17,10 +16,9 @@ const FMBPanelGuidanceSection: React.FC<Props> = ({ fmbDiagnosisCodeInfo }) => {
     <div className="iu-p-500">
       <p className={'iu-fw-heading'}>
         Vägledning för sjukskrivning
-        <FontAwesomeIcon
-          icon={faInfoCircle}
+        <InfoCircle
           className="iu-ml-200 iu-mb-200"
-          data-tip={'Vägledning för sjukskrivning vid ' + fmbDiagnosisCodeInfo.originalIcd10Description + '.'}
+          tooltip={'Vägledning för sjukskrivning vid ' + fmbDiagnosisCodeInfo.originalIcd10Description + '.'}
         />
       </p>
       {!workCapacityList ||

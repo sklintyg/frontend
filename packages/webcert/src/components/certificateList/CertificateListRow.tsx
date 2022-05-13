@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
 import classnames from 'classnames'
+import file from '@frontend/common/src/images/file.svg'
 
 interface Props {
   certificateName: string
@@ -64,7 +65,12 @@ const CertificateListRow: React.FC<Props> = ({
       <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
         {certificateInfo}
       </TextWithInfoModal>
-      <CustomButton buttonStyle="primary" type="button" onClick={onCreateCertificateClick} disabled={createDisabled}>
+      <CustomButton
+        buttonStyle="primary"
+        type="button"
+        onClick={onCreateCertificateClick}
+        startIcon={<img src={file} alt="Skapa intyg" />}
+        disabled={createDisabled}>
         Skapa intyg
       </CustomButton>
     </Row>

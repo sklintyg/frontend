@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput'
-import styled from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 import { Element, scroller } from 'react-scroll'
 import { useKeyPress } from '../../utils/userFunctionUtils'
 import { sanitizeText } from '@frontend/common'
