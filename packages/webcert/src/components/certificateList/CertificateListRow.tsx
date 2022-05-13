@@ -69,7 +69,7 @@ const CertificateListRow: React.FC<Props> = ({
         buttonStyle="primary"
         type="button"
         onClick={onCreateCertificateClick}
-        startIcon={<img src={file} alt="Skapa utkast" />}
+        startIcon={<img src={file} alt="Skapa intyg" />}
         disabled={createDisabled}>
         Skapa intyg
       </CustomButton>
