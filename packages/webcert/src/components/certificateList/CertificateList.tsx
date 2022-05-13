@@ -11,6 +11,7 @@ import { createNewCertificate, updateCreatedCertificateId } from '../../store/ce
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 import { ResourceLink, ResourceLinkType } from '@frontend/common'
+import ReactTooltip from 'react-tooltip'
 
 interface CertificateTypeViewModel {
   certificateName: string
@@ -50,6 +51,10 @@ const CertificateList: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([])
   const dispatch = useDispatch()
   const history = useHistory()
+
+  useEffect(() => {
+    ReactTooltip.hide()
+  }, [favorites])
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []

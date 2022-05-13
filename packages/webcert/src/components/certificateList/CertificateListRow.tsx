@@ -31,6 +31,10 @@ const CertificateName = styled.div`
   flex: 1;
 `
 
+const ModalContent = styled.div`
+  white-space: pre-line;
+`
+
 const CertificateListRow: React.FC<Props> = ({
   certificateName,
   certificateInfo,
@@ -62,7 +66,7 @@ const CertificateListRow: React.FC<Props> = ({
         <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
       </CertificateName>
       <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
-        {certificateInfo}
+        <ModalContent>{certificateInfo}</ModalContent>
       </TextWithInfoModal>
       <CustomButton
         buttonStyle="primary"
