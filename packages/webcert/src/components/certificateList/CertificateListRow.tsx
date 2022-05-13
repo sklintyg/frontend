@@ -6,6 +6,7 @@ import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
 import classnames from 'classnames'
 import WCDynamicLink from '../../utils/WCDynamicLink'
+import file from '@frontend/common/src/images/file.svg'
 
 interface Props {
   certificateName: string
@@ -99,6 +100,7 @@ const CertificateListRow: React.FC<Props> = ({
       <CustomButton
         buttonStyle="primary"
         onClick={onCreateCertificateClick}
+         startIcon={<img src={file} alt={link?.description />}
         disabled={!link?.enabled}
         text={link?.name}
         tooltip={link?.description}

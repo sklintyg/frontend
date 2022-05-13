@@ -1,11 +1,10 @@
 import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import trash from '@frontend/common/src/images/trash.svg'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -24,7 +23,7 @@ const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<FontAwesomeIcon icon={faTrash} size={'lg'} />}
+      startIcon={<img src={trash} alt="Radera utkast" />}
       modalTitle="Radera utkast"
       onConfirm={() => {
         dispatch(deleteCertificate({ certificateId: certificateMetadata.id, history: history }))

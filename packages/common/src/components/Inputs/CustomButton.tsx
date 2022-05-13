@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ReactTooltip, { Place } from 'react-tooltip'
+import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
 
 const NumberCircle = styled.span`
   width: 0px;
@@ -8,8 +9,19 @@ const NumberCircle = styled.span`
   padding: 3px 7px;
 `
 
-const Wrapper = styled.div`
+interface WrapperProps {
+  filter: string
+}
+
+const Wrapper = styled.div<WrapperProps>`
   width: fit-content;
+
+  .buttonIcon {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px !important;
+    filter: ${(props) => props.filter};
+  }
 `
 
 interface Props {
@@ -54,16 +66,26 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
     }
   }
 
+  const getIconFilter = (): string => {
+    if (props.disabled) {
+      return getFilter('grey')
+    } else if (props.buttonStyle === 'success' || props.buttonStyle === 'primary') {
+      return getFilter('white')
+    }
+    return getFilter('primary')
+  }
+
   return (
-    <Wrapper data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
       <button
+        aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
         onSubmit={props.onSubmit}
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
         disabled={props.disabled}
         onClick={props.onClick}>
-        {props.startIcon ? <span className="iu-mr-200 iu-flex">{props.startIcon}</span> : null}
+        {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
         {props.number && (
           <NumberCircle

@@ -5,7 +5,7 @@ import { getActivePatient, selectCertificateTypes } from '../../store/patient/pa
 import { setUserPreference } from '../../store/user/userActions'
 import { getUserPreference } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
-import fileIcon from '../../images/fileIcon.svg'
+import fileIcon from '@frontend/common/src/images/file.svg'
 import { useHistory } from 'react-router-dom'
 import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
