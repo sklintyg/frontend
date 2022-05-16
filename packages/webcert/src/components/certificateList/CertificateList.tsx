@@ -10,7 +10,8 @@ import { useHistory } from 'react-router-dom'
 import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
-import { ResourceLinkType } from '@frontend/common'
+import { ResourceLink, ResourceLinkType } from '@frontend/common'
+import ReactTooltip from 'react-tooltip'
 
 interface CertificateTypeViewModel {
   certificateName: string
@@ -18,7 +19,7 @@ interface CertificateTypeViewModel {
   id: string
   issuerTypeId: string
   favorite: boolean
-  createDisabled: boolean
+  link?: ResourceLink
 }
 
 const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): number => {
@@ -50,6 +51,10 @@ const CertificateList: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([])
   const dispatch = useDispatch()
   const history = useHistory()
+
+  useEffect(() => {
+    ReactTooltip.hide()
+  }, [favorites])
 
   const handlePreferenceClick = (id: string) => {
     let updatedFavorites = []
@@ -97,7 +102,7 @@ const CertificateList: React.FC = () => {
         id: t.id,
         issuerTypeId: t.issuerTypeId,
         favorite: favorites.includes(t.id),
-        createDisabled: !t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
+        link: t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
       }))
       .sort(byFavorite)
 
