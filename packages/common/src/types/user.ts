@@ -32,3 +32,7 @@ export interface UserProperty {
 export interface FakeLogin {
   hsaId: string
 }
+
+export interface UserStatistics {
+  nbrOfDraftsOnLoggedInUnit: number
+}

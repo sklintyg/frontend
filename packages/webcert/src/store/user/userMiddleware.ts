@@ -8,11 +8,11 @@ import {
   getUser,
   getUserError,
   getUserStarted,
+  getUserStatistics,
+  getUserStatisticsError,
+  getUserStatisticsStarted,
+  getUserStatisticsSuccess,
   getUserSuccess,
-  getUserTabs,
-  getUserTabsError,
-  getUserTabsStarted,
-  getUserTabsSuccess,
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
@@ -27,7 +27,7 @@ import {
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
-  updateUserTabs,
+  updateUserStatistics,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 
@@ -130,20 +130,20 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch }: Middlewa
   dispatch(updateInactivateAutomaticLogout(true))
 }
 
-const handleGetUserTabs: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+const handleGetUserStatistics: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
-      url: '/api/user/tabs',
+      url: '/api/user/statistics',
       method: 'GET',
-      onStart: getUserTabsStarted.type,
-      onSuccess: getUserTabsSuccess.type,
-      onError: getUserTabsError.type,
+      onStart: getUserStatisticsStarted.type,
+      onSuccess: getUserStatisticsSuccess.type,
+      onError: getUserStatisticsError.type,
     })
   )
 }
 
 const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateUserTabs(Object.values(action.payload)))
+  dispatch(updateUserStatistics(action.payload))
 }
 
 const middlewareMethods = {
@@ -157,8 +157,8 @@ const middlewareMethods = {
   [triggerLogout.type]: handleTriggerLogout,
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,
-  [getUserTabs.type]: handleGetUserTabs,
-  [getUserTabsSuccess.type]: handleGetUserTabsSuccess,
+  [getUserStatistics.type]: handleGetUserStatistics,
+  [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

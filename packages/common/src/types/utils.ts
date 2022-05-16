@@ -26,4 +26,5 @@ export interface UserTab {
   title: string
   number?: number
   url: string
+  matchedUrls: string[]
 }

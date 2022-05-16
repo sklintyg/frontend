@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { ResourceLink, User, UserTab } from '@frontend/common'
+import { ResourceLink, User, UserStatistics } from '@frontend/common'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -15,4 +15,4 @@ export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUse
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
 
-export const getUserTabs = (state: RootState): UserTab[] => state.ui.uiUser.tabs
+export const getUserStatistics = (state: RootState): UserStatistics => state.ui.uiUser.userStatistics
