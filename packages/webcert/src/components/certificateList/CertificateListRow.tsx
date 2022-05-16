@@ -100,7 +100,7 @@ const CertificateListRow: React.FC<Props> = ({
       <CustomButton
         buttonStyle="primary"
         onClick={onCreateCertificateClick}
-         startIcon={<img src={file} alt={link?.description />}
+        startIcon={<img src={file} alt={link?.description} />}
         disabled={!link?.enabled}
         text={link?.name}
         tooltip={link?.description}
