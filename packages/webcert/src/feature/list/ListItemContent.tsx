@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CertificateListItemValueType, ForwardedListInfo, ListButtonTooltips, PatientListInfo } from '@frontend/common/src/types/list'
-import { CustomButton, PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { CustomButton, formatDate, PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
 import check from '@frontend/common/src/images/check.svg'
 import { useHistory } from 'react-router-dom'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
@@ -68,11 +68,6 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     } else {
       return <td />
     }
-  }
-
-  const formatDate = (value: string) => {
-    const splitDate = value.toString().split('T')
-    return <>{`${splitDate[0]} ${splitDate[1].substring(0, 5)}`}</>
   }
 
   const getLink = (type: ResourceLinkType): ResourceLink | undefined => {
