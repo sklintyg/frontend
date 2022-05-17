@@ -6,9 +6,14 @@ import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/c
 import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ValidationError } from '../../..'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 import classNames from 'classnames'
+import calendar from '../../../images/calendar.svg'
+import styled from 'styled-components'
+
+const Logo = styled.img`
+  width: 20px;
+  height: 20px;
+`
 
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -191,7 +196,7 @@ const DatePickerCustom: React.FC<Props> = ({
                 onClick={() => setOpen(true)}
                 className={classNames('ic-button', { error: displayValidationErrorOutline })}
                 onClickCapture={() => setOpen(!open)}>
-                <FontAwesomeIcon icon={faCalendar} />{' '}
+                <Logo src={calendar} alt="Kalender" />
               </StyledButton>
             }
             onClickOutside={() => setOpen(false)}

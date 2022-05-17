@@ -19,6 +19,9 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
+import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 
 interface Props {
   type: ListType
@@ -33,6 +36,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
+  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
 
   useEffect(() => {
     if (type === ListType.DRAFTS) {
@@ -48,6 +52,10 @@ const ListPage: React.FC<Props> = ({ type }) => {
       dispatch(performListSearch)
     }
   }, [dispatch, config, isLoadingListConfig])
+
+  useEffect(() => {
+    dispatch(updateShouldRouteAfterDelete(true))
+  })
 
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {
@@ -77,6 +85,7 @@ const ListPage: React.FC<Props> = ({ type }) => {
       {!isLoadingListConfig && (
         <>
           <WebcertHeader />
+          <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           <CustomTooltip placement="top" />
           <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
           <div className="ic-container">{getList()}</div>

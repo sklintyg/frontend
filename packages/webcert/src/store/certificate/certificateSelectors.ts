@@ -10,13 +10,13 @@ import {
   CertificateStatus,
   Complement,
   ConfigTypes,
+  Patient,
+  PersonId,
   ResourceLink,
   ResourceLinkType,
   Unit,
   ValidationError,
   ValidationErrorSummary,
-  Patient,
-  PersonId,
 } from '@frontend/common'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { sortByIndex } from '@frontend/common/src/utils/certificateUtils'
@@ -241,3 +241,5 @@ export const getResponsibleHospName = (state: RootState): string => {
 export const isCertificateFunctionDisabled = (state: RootState): boolean => state.ui.uiCertificate.functionDisablers.length > 0
 
 export const getCertificateId = () => (state: RootState): string => state.ui.uiCertificate.createdCertificateId
+
+export const getShouldRouteAfterDelete = () => (state: RootState): boolean => state.ui.uiCertificate.shouldRouteAfterDelete

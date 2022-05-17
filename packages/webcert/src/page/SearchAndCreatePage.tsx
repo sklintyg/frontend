@@ -11,6 +11,7 @@ import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import CertificateList from '../components/certificateList/CertificateList'
+import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 
 interface Params {
   patientId: string
@@ -21,6 +22,10 @@ const SearchAndCreatePage: React.FC = () => {
   const dispatch = useDispatch()
   const patient = useSelector(getActivePatient)
   const user = useSelector(getUser)
+
+  useEffect(() => {
+    dispatch(updateShouldRouteAfterDelete(true))
+  })
 
   const isPatientLoaded = () => {
     return !patientId || (patientId && patient)

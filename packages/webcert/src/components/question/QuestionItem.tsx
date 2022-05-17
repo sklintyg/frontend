@@ -32,8 +32,9 @@ import {
 import _ from 'lodash'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
 import { Link } from 'react-router-dom'
-import { faCalendarAlt, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CheckIcon from '@frontend/common/src/images/CheckIcon'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -189,7 +190,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       <AnsweredByCertificate
         key={question.id}
         className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200`}>
-        <FontAwesomeIcon icon={faCheck} className={`iu-color-main iu-ml-300`} size="1x" />
+        <CheckIcon />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
             <Wrapper>
@@ -211,7 +212,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       <AnsweredByCertificate
         key={question.id}
         className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}>
-        <FontAwesomeIcon icon={faCheck} className={`iu-color-main iu-ml-300`} size="1x" />
+        <CheckIcon />
         <Complement key={question.id} className={'iu-fullwidth'}>
           <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
             <Wrapper>

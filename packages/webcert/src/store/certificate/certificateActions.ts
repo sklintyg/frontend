@@ -550,3 +550,7 @@ export const setValidationErrorsForQuestion = createAction<ModifyValidationError
 
 export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
 export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)
+
+export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
+
+export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
