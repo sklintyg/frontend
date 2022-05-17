@@ -19,6 +19,8 @@ const PaginationWrapper = styled.div`
     background: none !important;
     border: none;
     color: #5f5f5f;
+    font-family: inherit;
+    line-height: inherit;
   }
 
   button:hover {
@@ -27,6 +29,11 @@ const PaginationWrapper = styled.div`
 
   button:disabled {
     cursor: text;
+    font-style: italic;
+  }
+
+  .active {
+    text-decoration: underline;
   }
 
   display: flex;
@@ -141,7 +148,7 @@ const Pagination: React.FC<Props> = ({ page, handlePageChange, handlePageTupleCh
           <div aria-activedescendant={'page-button-' + page}>{getNumbers()}</div>
           <button
             disabled={isNextDisabled()}
-            className={classNames({ 'inactive iu-color-grey-400': isNextDisabled() })}
+            className={classNames({ 'iu-color-grey-400': isNextDisabled() })}
             onClick={() => handleNextClick()}>
             Nästa
           </button>

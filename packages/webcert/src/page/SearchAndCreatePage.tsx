@@ -11,6 +11,9 @@ import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import CertificateList from '../components/certificateList/CertificateList'
+import ListPage from './ListPage'
+import { ListFilterType, ListType } from '@frontend/common/src/types/list'
+import { updateActiveListFilterValue } from '../store/list/listActions'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 
 interface Params {
@@ -33,7 +36,18 @@ const SearchAndCreatePage: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.hide()
-  }, [patient])
+    if (patient) {
+      dispatch(
+        updateActiveListFilterValue({
+          filterValue: {
+            type: ListFilterType.PERSON_ID,
+            value: patient.personId.id,
+          },
+          id: 'PATIENT_ID',
+        })
+      )
+    }
+  }, [dispatch, patient])
 
   useEffect(() => {
     if (patientId) {
@@ -50,19 +64,22 @@ const SearchAndCreatePage: React.FC = () => {
       {user && (
         <>
           <WebcertHeader />
-          <CustomTooltip />
           {isPatientLoaded() && (
             <>
               {patient ? (
                 <>
                   <PatientInfoHeader patient={patient} />
                   <CertificateList />
+                  <div className="iu-mt-800">
+                    <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
+                  </div>
                 </>
               ) : (
                 <PatientSearch />
               )}
             </>
           )}
+          <CustomTooltip placement="top" />
         </>
       )}
     </>

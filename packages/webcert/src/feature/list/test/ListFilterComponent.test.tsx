@@ -2,7 +2,15 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ListFilterComponent from '../filter/ListFilterComponent'
 import { ListFilterConfig, ListFilterType } from '@frontend/common/src/types/list'
-import { getBooleanFilter, getDateRangeFilter, getOrderFilter, getPersonIdFilter, getSelectFilter, getTextFilter } from './listTestUtils'
+import {
+  getBooleanFilter,
+  getDateRangeFilter,
+  getOrderFilter,
+  getPersonIdFilter,
+  getRadioFilter,
+  getSelectFilter,
+  getTextFilter,
+} from './listTestUtils'
 import { Provider } from 'react-redux'
 import userEvent from '@testing-library/user-event'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
@@ -37,6 +45,32 @@ describe('ListFilterComponent', () => {
     it('should display text filter title', () => {
       renderComponent(getTextFilter('Text title'))
       expect(screen.getByLabelText('Text title')).toBeInTheDocument()
+    })
+
+    it('should display select filter component', () => {
+      renderComponent(getSelectFilter('Select title'))
+      expect(screen.getByRole('combobox')).toBeInTheDocument()
+    })
+
+    it('should display text filter title', () => {
+      renderComponent(getTextFilter('Select title'))
+      expect(screen.getByLabelText('Select title')).toBeInTheDocument()
+    })
+
+    it('should display radio filter component', () => {
+      renderComponent(getRadioFilter('Radio title'))
+      expect(screen.getByRole('radiogroup')).toBeInTheDocument()
+    })
+
+    it('should display one radio button per value', () => {
+      const filter = getRadioFilter('Radio title')
+      renderComponent(filter)
+      expect(screen.getAllByRole('radio')).toHaveLength(filter.values.length)
+    })
+
+    it('should display radio filter title', () => {
+      renderComponent(getTextFilter('Radio title'))
+      expect(screen.getByLabelText('Radio title')).toBeInTheDocument()
     })
 
     it('should display person id filter component', () => {
@@ -112,6 +146,14 @@ describe('ListFilterComponent', () => {
       const from = screen.getByLabelText('from')
       userEvent.type(from, '1')
       expect(onChange).toHaveBeenCalledWith({ from: '1' }, filter.id)
+    })
+
+    it('should update radio filter value', () => {
+      const filter = getRadioFilter()
+      renderComponent(filter)
+      const radiobuttons = screen.getAllByRole('radio')
+      userEvent.click(radiobuttons[0])
+      expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.RADIO, value: radiobuttons[0].id }, filter.id)
     })
   })
 })

@@ -27,7 +27,7 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
   render(
     <>
       <RenewCertificateButton
-        certificateMetadata={certificateMetadata}
+        certificateId={certificateMetadata.id}
         name={NAME}
         description={DESCRIPTION}
         body={BODY}

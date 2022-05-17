@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AppHeaderUserUnit: React.FC<Props> = ({ items }) => {
-  return <AppHeaderImageWithText items={items} image={unitImage}></AppHeaderImageWithText>
+  return <AppHeaderImageWithText items={items} image={unitImage} alt="Vald enhet"></AppHeaderImageWithText>
 }
 
 export default AppHeaderUserUnit
