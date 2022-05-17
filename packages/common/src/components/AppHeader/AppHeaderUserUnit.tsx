@@ -1,6 +1,6 @@
 import React from 'react'
 import AppHeaderImageWithText from './AppHeaderImageWithText'
-import unitImage from '../../images/unit-image.svg'
+import unitImage from '../../images/house.svg'
 
 interface Props {
   items: React.ReactNode

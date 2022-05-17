@@ -91,11 +91,11 @@ import {
   updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
-  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateClientValidationError,
+  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -114,6 +114,7 @@ import { CertificateDataValidationType, ValidationError } from '@frontend/common
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import _ from 'lodash'
+
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

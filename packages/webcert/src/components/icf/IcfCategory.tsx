@@ -2,12 +2,11 @@ import React, { useEffect } from 'react'
 import { Icd10Code, IcfCode } from '../../store/icf/icfReducer'
 import styled from 'styled-components/macro'
 import IcfRow from './IcfRow'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip'
 import { useSelector } from 'react-redux'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
 import _ from 'lodash'
+import InfoCircle from '@frontend/common/src/images/InfoCircle'
 
 const IcdWrapper = styled.div`
   strong {
@@ -51,10 +50,9 @@ const IcfCategory: React.FC<Props> = ({ icd10Codes, icfCodes, icfCodeValues, onA
               <strong>
                 {code.title}{' '}
                 {!isOriginalIcd10Code(code.code) && (
-                  <FontAwesomeIcon
-                    icon={faInfoCircle}
-                    data-tip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`}
-                    data-testid={'originalWarningIcf'}
+                  <InfoCircle
+                    tooltip={`Det ICF-stöd som visas är för koden ${code.code} - ${code.title}`}
+                    testId={'originalWarningIcf'}
                     tabIndex={0}
                   />
                 )}

@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import list from '@frontend/common/src/images/list.svg'
 
-const StyledCopyIcon = styled(FontAwesomeIcon)`
+const StyledIcon = styled.img`
+  display: inline;
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+  vertical-align: middle;
+
   &:hover {
     opacity: 0.8;
   }
@@ -40,7 +45,9 @@ const ErrorCopyText: React.FC<Props> = ({ errorId }) => {
 
   return (
     <Root className={'iu-pt-400'}>
-      <strong>Fel-id:</strong> {errorId} <StyledCopyIcon icon={faCopy} onClick={handleCopyClick} />
+      <p>
+        <strong>Fel-id:</strong> {errorId} <StyledIcon src={list} alt="Kopiera text" onClick={handleCopyClick} />
+      </p>
       {displayCopyMessage && <SuccessMessage>Fel-id kopierat till urklipp.</SuccessMessage>}
     </Root>
   )

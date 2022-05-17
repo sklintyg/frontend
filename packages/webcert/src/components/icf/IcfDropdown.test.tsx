@@ -3,7 +3,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React, { createRef, useRef } from 'react'
+import React, { createRef } from 'react'
 import reducer from '../../store/reducers'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -257,7 +257,7 @@ describe('IcfDropdown', () => {
     const container = screen.getByText('ICF-kategorier gemensamma för:').closest('#icfDropdown-test') as Element
 
     userEvent.tab({ focusTrap: container })
-    expect(screen.getByText('Covid-19, virus identifierat').querySelector('svg')).toHaveFocus()
+    expect(screen.getByText('Covid-19, virus identifierat').querySelector('img')).toHaveFocus()
 
     userEvent.tab({ focusTrap: container })
     expect(screen.getByLabelText('title 0')).toHaveFocus()

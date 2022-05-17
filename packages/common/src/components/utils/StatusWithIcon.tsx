@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import AlertCircle from '../../images/AlertCircle'
+import CheckIcon from '../../images/CheckIcon'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,9 +24,9 @@ const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWr
   const getIcon = (icon: Props['icon']) => {
     switch (icon) {
       case 'CheckIcon':
-        return <FontAwesomeIcon icon={faCheck} className={`iu-color-success`} size="1x" />
+        return <CheckIcon />
       case 'ErrorOutlineIcon':
-        return <FontAwesomeIcon icon={faExclamationCircle} color="error" size="1x" />
+        return <AlertCircle />
       case undefined:
         return null
     }

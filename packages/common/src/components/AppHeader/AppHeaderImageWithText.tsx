@@ -12,11 +12,16 @@ const Wrapper = styled.div`
   padding-right: 15px;
 `
 
+const Logo = styled.img`
+  width: 30px;
+  height: 30px;
+`
+
 const AppHeaderImageWithText: React.FC<Props> = ({ image, items, alt }) => {
   return (
     <>
       <div role="presentation" className="iu-mr-300 iu-ml-400">
-        <img src={image} className={'iu-mr-200'} alt={alt} />
+        <Logo src={image} className={'iu-mr-200'} alt={alt} />
       </div>
       <Wrapper className="iu-lh-narrow">
         <div className="">{items}</div>
