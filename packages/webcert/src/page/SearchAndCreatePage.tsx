@@ -70,7 +70,9 @@ const SearchAndCreatePage: React.FC = () => {
                 <>
                   <PatientInfoHeader patient={patient} />
                   <CertificateList />
-                  <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
+                  <div className="iu-mt-800">
+                    <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
+                  </div>
                 </>
               ) : (
                 <PatientSearch />

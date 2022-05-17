@@ -20,7 +20,7 @@ const Logo = styled.img`
 const AppHeaderImageWithText: React.FC<Props> = ({ image, items, alt }) => {
   return (
     <>
-      <div role="presentation" className="iu-mr-300 iu-ml-400">
+      <div className="iu-mr-300 iu-ml-400">
         <Logo src={image} className={'iu-mr-200'} alt={alt} />
       </div>
       <Wrapper className="iu-lh-narrow">

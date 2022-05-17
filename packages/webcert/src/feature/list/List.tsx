@@ -8,6 +8,13 @@ import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelecto
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
 import { ResourceLink } from '@frontend/common'
+import listImage from '@frontend/common/src/images/list.svg'
+import styled from 'styled-components/macro'
+
+const ContentWrapper = styled.div`
+  flex: 0 0 100%;
+  padding-right: 30px;
+`
 
 interface Props {
   config: ListConfig | undefined
@@ -99,10 +106,15 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
 
   return (
     <>
-      <h3 className="iu-pt-500">{title}</h3>
-      <ListFilterContainer config={config} filter={filter} />
-      {getListContent()}
-      {(!isLoadingList || isSortingList) && <ListPagination />}
+      <div className="iu-flex iu-pt-500">
+        <img src={listImage} className="iu-mr-gutter iu-height-600" />
+        <ContentWrapper>
+          <h3>{title}</h3>
+          <ListFilterContainer config={config} filter={filter} />
+          {getListContent()}
+          {(!isLoadingList || isSortingList) && <ListPagination />}
+        </ContentWrapper>
+      </div>
     </>
   )
 }
