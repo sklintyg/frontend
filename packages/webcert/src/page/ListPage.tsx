@@ -11,7 +11,13 @@ import {
 } from '../store/list/listSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getCertificateListConfig, getDraftListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
+import {
+  getCertificateListConfig,
+  getDraftListConfig,
+  getPreviousCertificatesListConfig,
+  performListSearch,
+  updateActiveListType,
+} from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -22,12 +28,14 @@ import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
+import ReactTooltip from 'react-tooltip'
 
 interface Props {
   type: ListType
+  excludePageSpecificElements?: boolean
 }
 
-const ListPage: React.FC<Props> = ({ type }) => {
+const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig)
   const list = useSelector(getActiveList)
@@ -39,10 +47,16 @@ const ListPage: React.FC<Props> = ({ type }) => {
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
 
   useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
+  useEffect(() => {
     if (type === ListType.DRAFTS) {
       dispatch(getDraftListConfig())
     } else if (type === ListType.CERTIFICATES) {
       dispatch(getCertificateListConfig())
+    } else if (type === ListType.PREVIOUS_CERTIFICATES) {
+      dispatch(getPreviousCertificatesListConfig())
     }
     dispatch(updateActiveListType(type))
   }, [dispatch, type])
@@ -84,10 +98,14 @@ const ListPage: React.FC<Props> = ({ type }) => {
     <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
       {!isLoadingListConfig && (
         <>
-          <WebcertHeader />
-          <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-          <CustomTooltip placement="top" />
-          <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+          {!excludePageSpecificElements && (
+            <>
+              <WebcertHeader />
+              <CustomTooltip placement="top" />
+              <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+              <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+            </>
+          )}
           <div className="ic-container">{getList()}</div>
         </>
       )}
@@ -96,3 +114,4 @@ const ListPage: React.FC<Props> = ({ type }) => {
 }
 
 export const ListPageWithRedirect = withResourceAccess<Props>(ListPage)
+export default ListPage
