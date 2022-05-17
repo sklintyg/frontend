@@ -98,11 +98,13 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
       {!isLoadingListConfig && (
         <>
-          {!excludePageSpecificElements && <WebcertHeader />}
-          {!excludePageSpecificElements && <CustomTooltip placement="top" />}
           {!excludePageSpecificElements && (
-            <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-            <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+            <>
+              <WebcertHeader />
+              <CustomTooltip placement="top" />
+              <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+              <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+            </>
           )}
           <div className="ic-container">{getList()}</div>
         </>
