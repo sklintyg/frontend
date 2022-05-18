@@ -21,3 +21,10 @@ export interface Banner {
   message: string
   priority: string
 }
+
+export interface UserTab {
+  title: string
+  number?: number
+  url: string
+  matchedUrls: string[]
+}

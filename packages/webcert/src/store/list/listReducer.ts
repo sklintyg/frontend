@@ -5,6 +5,7 @@ import {
   clearActiveListFilter,
   clearActiveListType,
   clearListError,
+  resetState,
   setListError,
   updateActiveList,
   updateActiveListConfig,
@@ -32,20 +33,22 @@ interface ListState {
   hasValidationError: boolean
 }
 
-const initialState: ListState = {
-  activeListConfig: undefined,
-  activeList: [],
-  activeListType: ListType.UNKOWN,
-  activeListFilter: {},
-  listError: false,
-  totalCount: undefined,
-  isLoadingList: true,
-  isSortingList: false,
-  isLoadingListConfig: true,
-  hasValidationError: false,
+const getInitialState = (): ListState => {
+  return {
+    activeListConfig: undefined,
+    activeList: [],
+    activeListType: ListType.UNKOWN,
+    activeListFilter: {},
+    listError: false,
+    totalCount: undefined,
+    isLoadingList: true,
+    isSortingList: false,
+    isLoadingListConfig: true,
+    hasValidationError: false,
+  }
 }
 
-const listReducer = createReducer(initialState, (builder) =>
+const listReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(updateActiveListConfig, (state, action) => {
       state.activeListConfig = action.payload
@@ -99,6 +102,7 @@ const listReducer = createReducer(initialState, (builder) =>
     .addCase(updateHasValidationError, (state, action) => {
       state.hasValidationError = action.payload
     })
+    .addCase(resetState, () => getInitialState())
 )
 
 export default listReducer

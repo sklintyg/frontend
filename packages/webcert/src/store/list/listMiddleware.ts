@@ -143,6 +143,7 @@ const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatc
 
 const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingListConfig(true))
+  dispatch(updateIsLoadingList(true))
 }
 
 const handleGetListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
