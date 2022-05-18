@@ -20,7 +20,7 @@ const Wrapper = styled.div<WrapperProps>`
 `
 
 interface Props {
-  buttonStyle?: 'primary' | 'secondary' | 'success' | 'default' | 'text'
+  buttonStyle?: 'primary' | 'secondary' | 'success' | 'default'
   disabled?: boolean
   className?: string
   color?: 'inherit' | 'default' | 'primary' | 'secondary'
