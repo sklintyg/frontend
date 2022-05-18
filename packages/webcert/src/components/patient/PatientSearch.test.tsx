@@ -96,5 +96,12 @@ describe('PatientSearch', () => {
       userEvent.click(screen.getByRole('heading'))
       expect(screen.queryByText(EXPECTED_VALIDATION_TEXT)).not.toBeInTheDocument()
     })
+
+    it('should show validation error without blur if wrong id with 12 numbers', () => {
+      renderComponent()
+      const input = screen.getByRole('textbox')
+      userEvent.type(input, '191212121213')
+      expect(screen.queryByText(EXPECTED_VALIDATION_TEXT)).toBeInTheDocument()
+    })
   })
 })
