@@ -554,3 +554,5 @@ export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VA
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
 
 export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
+
+export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
