@@ -120,8 +120,8 @@ const CareProviderModal: React.FC = () => {
                   const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
 
                   return (
-                    <SimpleTable
-                      children={careProvider.careUnits.map((careUnit) => {
+                    <SimpleTable headings={headings}>
+                      {careProvider.careUnits.map((careUnit) => {
                         return (
                           <ExpandableTableRow
                             careUnit={careUnit.unitName}
@@ -131,8 +131,7 @@ const CareProviderModal: React.FC = () => {
                           />
                         )
                       })}
-                      headings={headings}
-                    />
+                    </SimpleTable>
                   )
                 })}
             </ModalContentWrapper>
