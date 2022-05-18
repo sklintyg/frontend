@@ -8,7 +8,7 @@ export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | 
   }
 }
 
-const getTabsForDoctor = (statistics: UserStatistics, links: ResourceLink[]) => {
+const getTabsForDoctor = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
   const tabs = []
   if (hasLink(links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE)) {
     tabs.push(getSearchCreateTab())
@@ -25,7 +25,7 @@ const getTabsForDoctor = (statistics: UserStatistics, links: ResourceLink[]) => 
   return tabs
 }
 
-const getTabsForAdministrator = (statistics: UserStatistics, links: ResourceLink[]) => {
+const getTabsForAdministrator = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
   const tabs = []
 
   if (hasLink(links, ResourceLinkType.ACCESS_DRAFT_LIST)) {
@@ -55,9 +55,9 @@ const getSearchCreateTab = (): UserTab => {
   }
 }
 
-const getDraftListTab = (statistics: UserStatistics): UserTab => {
+const getDraftListTab = (statistics: UserStatistics | undefined): UserTab => {
   return {
-    number: statistics ? statistics.nbrOfDraftsOnSelectedUnit : null,
+    number: statistics ? statistics.nbrOfDraftsOnSelectedUnit : undefined,
     title: 'Ej signerade utkast',
     url: '/list/draft',
     matchedUrls: [],
