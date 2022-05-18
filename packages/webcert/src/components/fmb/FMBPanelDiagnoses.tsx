@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useEffect } from 'react'
 import { FMBDiagnosisCodeInfo, RadioButton } from '@frontend/common'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactTooltip from 'react-tooltip'
+import InfoCircle from '@frontend/common/src/images/InfoCircle'
 
 interface Props {
   fmbDiagnosisCodes: FMBDiagnosisCodeInfo[]
@@ -35,11 +34,10 @@ const FMBPanelDiagnoses: React.FC<Props> = ({ fmbDiagnosisCodes, selectedDiagnos
             wrapperAdditionalStyles={'iu-mb-200'}
             data-tip={!diagnosisCode.diagnosTitle ? 'För den angivna diagnosen finns för tillfället inget FMB-stöd.' : ''}>
             {diagnosisCode.icd10Code && diagnosisCode.icd10Code !== diagnosisCode.originalIcd10Code && (
-              <FontAwesomeIcon
-                data-testid={'fmbInfoCircle'}
-                icon={faInfoCircle}
+              <InfoCircle
+                testId={'fmbInfoCircle'}
                 className="iu-ml-200 iu-mb-200"
-                data-tip={'Det FMB-stöd som visas är för koden ' + diagnosisCode.icd10Code + ' - ' + diagnosisCode.icd10Description + '.'}
+                tooltip={'Det FMB-stöd som visas är för koden ' + diagnosisCode.icd10Code + ' - ' + diagnosisCode.icd10Description + '.'}
               />
             )}
           </RadioButton>

@@ -45,7 +45,9 @@ import {
   updateCertificateVersion,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
+  updateIsDeleted,
   updateRoutedFromDeletedCertificate,
+  updateShouldRouteAfterDelete,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
@@ -70,6 +72,7 @@ interface CertificateState {
   functionDisablers: FunctionDisabler[]
   clientValidationErrors: ValidationError[]
   createdCertificateId: string
+  shouldRouteAfterDelete: boolean
 }
 
 const getInitialState = (): CertificateState => {
@@ -86,6 +89,7 @@ const getInitialState = (): CertificateState => {
     functionDisablers: [],
     clientValidationErrors: [],
     createdCertificateId: '',
+    shouldRouteAfterDelete: false,
   }
 }
 
@@ -320,6 +324,12 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
+    })
+    .addCase(updateIsDeleted, (state, action) => {
+      state.isDeleted = action.payload
+    })
+    .addCase(updateShouldRouteAfterDelete, (state, action) => {
+      state.shouldRouteAfterDelete = action.payload
     })
     .addCase(resetCertificateState, () => getInitialState())
 )

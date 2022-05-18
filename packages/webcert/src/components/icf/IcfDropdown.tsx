@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CustomButton } from '@frontend/common'
-import { faChevronDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IcfCategory from './IcfCategory'
 import { useSelector } from 'react-redux'
@@ -13,6 +13,7 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import _ from 'lodash'
 import FocusTrap from 'focus-trap-react'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
+import InfoCircle from '@frontend/common/src/images/InfoCircle'
 
 interface Props {
   modalLabel: string
@@ -151,7 +152,7 @@ const IcfDropdown: React.FC<Props> = ({
           <Root ref={rootRef} id={'icfDropdown-' + id}>
             <div className="iu-border-black iu-radius-sm">
               <p className="iu-bg-main iu-color-white iu-p-300">
-                <FontAwesomeIcon icon={faInfoCircle} className="iu-mr-200" />
+                <InfoCircle className="iu-mr-200" />
                 {modalLabel}
               </p>
               <ScrollDiv className="iu-pb-300 iu-bg-white" id={'icfScrollContainer-' + id}>

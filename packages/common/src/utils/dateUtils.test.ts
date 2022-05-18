@@ -11,7 +11,7 @@ import {
   isFutureDate,
   ValueDateRange,
 } from '@frontend/common'
-import { filterDateRangeValueList, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
+import { filterDateRangeValueList, formatDate, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
 
 const QUESTION_ID = 'Test'
 
@@ -372,5 +372,19 @@ describe('isDateRangeValidOrIncomplete', () => {
     const actual = isDateRangeValidOrIncomplete(fromDate, toDate)
 
     expect(actual).toBeFalsy()
+  })
+})
+
+describe('Format date', () => {
+  it('should return original date if it does not include time', () => {
+    const date = '2020-02-02'
+    const actual = formatDate(date)
+    expect(actual).toEqual(date)
+  })
+
+  it('should return date with formatted time', () => {
+    const date = '2020-02-02T00:00:00'
+    const actual = formatDate(date)
+    expect(actual).toEqual('2020-02-02 00:00')
   })
 })

@@ -11,6 +11,7 @@ interface Props {
 const Wrapper = styled.div`
   width: fit-content;
   margin-right: 10px;
+  text-align: center;
 `
 
 const PatientStatusNotification: React.FC<Props> = ({ status, title, type }) => {

@@ -6,7 +6,7 @@ import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
 import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
 import { FilterWrapper } from './filterStyles'
-import questionImage from '@frontend/common/src/images/question-image.svg'
+import questionImage from '@frontend/common/src/images/question.svg'
 import { updateHasValidationError } from '../../../store/list/listActions'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'

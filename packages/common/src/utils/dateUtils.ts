@@ -190,3 +190,11 @@ export const isFutureDate = (date: string): boolean => {
 export const isDateBehindLimit = (date: string, limit: string): boolean => {
   return isValid(getValidDate(date)) && date < limit
 }
+
+export const formatDate = (value: string) => {
+  const splitDate = value.toString().split('T')
+  if (splitDate.length > 1) {
+    return `${splitDate[0]} ${splitDate[1].substring(0, 5)}`
+  }
+  return value
+}

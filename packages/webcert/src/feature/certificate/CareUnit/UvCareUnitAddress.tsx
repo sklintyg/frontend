@@ -1,6 +1,4 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
@@ -8,6 +6,8 @@ import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 import { css } from 'styled-components'
 import _ from 'lodash'
+import calendar from '@frontend/common/src/images/calendar.svg'
+import { WhiteLogo } from '../../../components/icf/Styles'
 
 const additionalHeaderStyles = css`
   display: flex;
@@ -53,7 +53,7 @@ const UvCareUnitAddress: React.FC = (props) => {
       <CategoryHeader additionalStyles={additionalHeaderStyles}>
         <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
         <div className={'iu-flex iu-flex-center'}>
-          <FontAwesomeIcon icon={faCalendarWeek} />
+          <WhiteLogo src={calendar} alt="Kalender" />
           <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
         </div>
       </CategoryHeader>

@@ -1,14 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import alertImage from '../../images/alert-image.svg'
-import warningImage from '../../images/warning-image.svg'
+import alertImage from '../../images/alert.svg'
+import warningImage from '../../images/warning.svg'
 import lockClosed from '../../images/lock-closed.svg'
 import { PatientListInfo } from '../../types/list'
 import { formatPersonId } from '../../utils/personIdValidatorUtils'
-
-const Icon = styled.img`
-  width: 14px;
-`
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,6 +14,10 @@ const Wrapper = styled.div`
 const IconsWrapper = styled.div`
   display: flex;
   gap: 6px;
+`
+
+const Icon = styled.img`
+  width: 14px;
 `
 
 interface Props {

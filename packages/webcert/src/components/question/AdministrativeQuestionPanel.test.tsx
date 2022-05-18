@@ -9,6 +9,7 @@ import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionPanel from './QuestionPanel'
 import { Question, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
+import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 
 let testStore: EnhancedStore
 
@@ -35,6 +36,8 @@ describe('QuestionPanel', () => {
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
     })
+
+    testStore.dispatch(updateIsLoadingQuestions(false))
   })
 
   it('renders without crashing', () => {

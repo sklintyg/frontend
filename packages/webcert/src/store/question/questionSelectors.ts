@@ -22,3 +22,5 @@ export const isDisplayingCertificateDraft = (state: RootState): boolean => state
 export const isQuestionFunctionDisabled = (state: RootState): boolean => state.ui.uiQuestion.functionDisablers.length > 0
 
 export const getErrorId = (state: RootState): string => state.ui.uiQuestion.errorId
+
+export const getIsLoadingQuestions = (state: RootState): boolean => state.ui.uiQuestion.isLoadingQuestions
