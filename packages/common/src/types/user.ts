@@ -34,5 +34,5 @@ export interface FakeLogin {
 }
 
 export interface UserStatistics {
-  nbrOfDraftsOnLoggedInUnit: number
+  nbrOfDraftsOnSelectedUnit: number
 }

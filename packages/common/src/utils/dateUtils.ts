@@ -192,9 +192,11 @@ export const isDateBehindLimit = (date: string, limit: string): boolean => {
 }
 
 export const formatDate = (value: string) => {
-  const splitDate = value.toString().split('T')
-  if (splitDate.length > 1) {
-    return `${splitDate[0]} ${splitDate[1].substring(0, 5)}`
+  if (value) {
+    const splitDate = value.toString().split('T')
+    if (splitDate.length > 1) {
+      return `${splitDate[0]} ${splitDate[1].substring(0, 5)}`
+    }
+    return value
   }
-  return value
 }

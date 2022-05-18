@@ -15,7 +15,7 @@ const getTabsForDoctor = (statistics: UserStatistics, links: ResourceLink[]) => 
   }
 
   if (hasLink(links, ResourceLinkType.ACCESS_DRAFT_LIST)) {
-    tabs.push(getDraftListTab(statistics.nbrOfDraftsOnLoggedInUnit))
+    tabs.push(getDraftListTab(statistics))
   }
 
   if (hasLink(links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST)) {
@@ -55,9 +55,9 @@ const getSearchCreateTab = (): UserTab => {
   }
 }
 
-const getDraftListTab = (statistic: number): UserTab => {
+const getDraftListTab = (statistics: UserStatistics): UserTab => {
   return {
-    number: statistic,
+    number: statistics ? statistics.nbrOfDraftsOnSelectedUnit : null,
     title: 'Ej signerade utkast',
     url: '/list/draft',
     matchedUrls: [],

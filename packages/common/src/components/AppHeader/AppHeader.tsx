@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import AppHeaderTabs from './AppHeaderTabs'
 import { UserTab } from '../../types/utils'
 
+const Wrapper = styled.div`
+  flex: 0 0 100%;
+`
+
 const HeaderInner = styled.div`
   height: unset;
   padding: 15px 0;
@@ -42,8 +46,8 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
             </nav>
           </div>
         </HeaderInner>
+        <AppHeaderTabs tabs={tabs} />
       </header>
-      <AppHeaderTabs tabs={tabs} />
     </>
   )
 }
