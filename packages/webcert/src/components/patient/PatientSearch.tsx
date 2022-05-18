@@ -29,6 +29,7 @@ const PatientSearch: React.FC = () => {
   }, [enterPress, onSubmit])
 
   const onChange = (formattedPatientId: string) => {
+    dispatch(clearPatientError())
     setPatientId(formattedPatientId)
     if (formattedPatientId.length === 0) {
       onFocus()
