@@ -29,7 +29,9 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
   }
 
   useEffect(() => {
-    if (value === '') {
+    if (value.length === 13) {
+      setDisplayError(true)
+    } else {
       setDisplayError(false)
     }
   }, [value])
@@ -39,6 +41,10 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
       onFocus()
     }
     setDisplayError(false)
+  }
+
+  const hasValidationError = () => {
+    return value !== '' && !isPersonIdValid(value)
   }
 
   return (
@@ -53,13 +59,13 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           additionalStyles={TextInputStyles}
           limit={13}
           onBlur={() => {
-            setDisplayError(value !== '' && !isPersonIdValid(value))
+            setDisplayError(true)
           }}
           onFocus={handleFocus}
-          hasValidationError={displayError}
+          hasValidationError={displayError && hasValidationError()}
           autoComplete={false}
         />
-        <InvalidPersonIdMessage display={displayError} />
+        <InvalidPersonIdMessage display={displayError && hasValidationError()} />
       </Wrapper>
     </>
   )
