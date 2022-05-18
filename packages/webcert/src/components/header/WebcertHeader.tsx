@@ -50,16 +50,14 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   }
 
   return (
-    <>
-      <AppHeader
-        logo={logo}
-        alt={'Logo Webcert'}
-        primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
-        secondaryItems={getSecondaryItems()}
-        banners={[<SystemBanners key={'system-banners'} />]}
-        tabs={tabs}
-      />
-    </>
+    <AppHeader
+      logo={logo}
+      alt={'Logo Webcert'}
+      primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+      secondaryItems={getSecondaryItems()}
+      banners={[<SystemBanners key={'system-banners'} />]}
+      tabs={tabs}
+    />
   )
 }
 

@@ -198,5 +198,7 @@ export const formatDate = (value: string) => {
       return `${splitDate[0]} ${splitDate[1].substring(0, 5)}`
     }
     return value
+  } else {
+    return ''
   }
 }
