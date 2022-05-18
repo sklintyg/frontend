@@ -4,7 +4,7 @@ import FocusTrap from 'focus-trap-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
-import { Unit, User } from '@frontend/common'
+import { SimpleTable, Unit } from '@frontend/common'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -106,8 +106,6 @@ const CareProviderModal: React.FC = () => {
     return null
   }
 
-  const { careProviders } = user as User
-
   return (
     <FocusTrap active={isOpen}>
       <div tabIndex={0}>
@@ -117,18 +115,13 @@ const CareProviderModal: React.FC = () => {
               <h3 id="dialog-title">Välj vårdenhet</h3>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">
-              {careProviders.map((careProvider) => {
-                return (
-                  <table className="ic-table iu-fullwidth">
-                    <thead>
-                      <tr>
-                        <th>{careProvider.name}</th>
-                        <th>Ej hanterade ärenden</th>
-                        <th>Ej signerade utkast</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {careProvider.careUnits.map((careUnit) => {
+              {user &&
+                user.careProviders.map((careProvider) => {
+                  const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
+
+                  return (
+                    <SimpleTable
+                      children={careProvider.careUnits.map((careUnit) => {
                         return (
                           <ExpandableTableRow
                             careUnit={careUnit.unitName}
@@ -138,10 +131,10 @@ const CareProviderModal: React.FC = () => {
                           />
                         )
                       })}
-                    </tbody>
-                  </table>
-                )
-              })}
+                      headings={headings}
+                    />
+                  )
+                })}
             </ModalContentWrapper>
           </WrapText>
         </div>
