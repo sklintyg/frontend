@@ -1,6 +1,6 @@
 import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '@frontend/common'
 
-export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics, links: ResourceLink[]) => {
+export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]) => {
   if (isDoctor) {
     return getTabsForDoctor(userStatistics, links)
   } else {
@@ -29,7 +29,7 @@ const getTabsForAdministrator = (statistics: UserStatistics, links: ResourceLink
   const tabs = []
 
   if (hasLink(links, ResourceLinkType.ACCESS_DRAFT_LIST)) {
-    tabs.push(getDraftListTab(statistics.nbrOfDraftsOnLoggedInUnit))
+    tabs.push(getDraftListTab(statistics))
   }
 
   if (hasLink(links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST)) {
