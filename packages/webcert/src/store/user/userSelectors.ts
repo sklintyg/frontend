@@ -15,4 +15,4 @@ export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUse
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
 
-export const getUserStatistics = (state: RootState): UserStatistics => state.ui.uiUser.userStatistics
+export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics

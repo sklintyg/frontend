@@ -14,7 +14,7 @@ interface UserState {
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean
   isLoadingUser: boolean
-  userStatistics?: UserStatistics | undefined
+  userStatistics?: UserStatistics
 }
 
 const initialState: UserState = {
