@@ -43,30 +43,26 @@ describe('Test user middleware', () => {
     })
   })
 
-  describe('GetUserTabs', () => {
+  describe('GetUserStatistics', () => {
     it('shall make api call', async () => {
       testStore.dispatch(getUserStatistics)
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(1)
-      expect(fakeAxios.history.get[0].url).toEqual('/api/user/tabs')
+      expect(fakeAxios.history.get[0].url).toEqual('/api/user/statistics')
     })
 
-    it('shall set tabs if success', async () => {
-      const tabs = {
-        '0': {
-          title: 'TAB',
-          url: '/url',
-          number: 10,
-        },
+    it('shall set number of drafts on unit if success', async () => {
+      const statistics = {
+        nbrOfDraftsOnSelectedUnit: 10,
       }
 
-      fakeAxios.onGet('/api/user/tabs').reply(200, tabs)
+      fakeAxios.onGet('/api/user/statistics').reply(200, statistics)
 
       testStore.dispatch(getUserStatistics)
 
       await flushPromises()
-      expect(testStore.getState().ui.uiUser.tabs).toHaveLength(1)
+      expect(testStore.getState().ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit).toEqual(10)
     })
   })
 })
