@@ -8,12 +8,13 @@ interface Props {
 }
 
 export const CareProviders: React.FC<Props> = ({ chooseCareProvider, careProviders }) => {
+  console.log(careProviders)
   return (
     <>
       {careProviders.map((careProvider) => (
-        <details className="ic-expandable" key={careProvider.unitId} open>
-          <summary className="ic-expandable-button iu-focus">{careProvider.unitName}</summary>
-          <CareUnits careUnits={careProvider.careUnits} chooseCareProvider={chooseCareProvider} />
+        <details className="ic-expandable" key={careProvider.id} open>
+          <summary className="ic-expandable-button iu-focus">{careProvider.name}</summary>
+          {careProvider.careUnits && <CareUnits careUnits={careProvider.careUnits} chooseCareProvider={chooseCareProvider} />}
         </details>
       ))}
     </>

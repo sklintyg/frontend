@@ -13,6 +13,9 @@ import {
   getUserStatisticsStarted,
   getUserStatisticsSuccess,
   getUserSuccess,
+  setCareProvider,
+  setCareProviderStarted,
+  setCareProviderSuccess,
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
@@ -146,6 +149,18 @@ const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: Middleware
   dispatch(updateUserStatistics(action.payload))
 }
 
+const handleSetCareProvider: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: `/api/user/unit/${action.payload}`,
+      method: 'POST',
+      onStart: setCareProviderStarted.type,
+      onSuccess: setCareProviderSuccess.type,
+      onError: apiSilentGenericError.type,
+    })
+  )
+}
+
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -159,6 +174,7 @@ const middlewareMethods = {
   [startSignCertificate.type]: handleStartSignCertificate,
   [getUserStatistics.type]: handleGetUserStatistics,
   [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
+  [setCareProvider.type]: handleSetCareProvider,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

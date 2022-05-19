@@ -10,12 +10,12 @@ interface Props {
 export const CareUnits: React.FC<Props> = ({ chooseCareProvider, careUnits }) => {
   return (
     <>
-      {careUnits.map((careUnit: CareUnit) => (
+      {careUnits.map((careUnit) => (
         <p key={careUnit.unitId}>
           <button className="ic-link" type="button" id={careUnit.unitId} onClick={chooseCareProvider}>
             {careUnit.unitName}
           </button>
-          <Units units={careUnit.units} chooseCareProvider={chooseCareProvider} />
+          {careUnit.units && <Units units={careUnit.units} chooseCareProvider={chooseCareProvider} />}
         </p>
       ))}
     </>

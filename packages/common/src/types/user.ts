@@ -11,6 +11,7 @@ export interface User {
   signingMethod: SigningMethod
   loginMethod: LoginMethod
   protectedPerson: boolean
+  careProviders: CareProvider[]
 }
 
 export enum SigningMethod {
