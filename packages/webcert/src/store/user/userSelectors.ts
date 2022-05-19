@@ -15,7 +15,6 @@ export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUse
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
-
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
 
