@@ -17,11 +17,7 @@ const WrapText = styled.div`
   white-space: normal;
 `
 
-interface Props {
-  title: string
-}
-
-const CareProviderModal: React.FC<Props> = ({ title }) => {
+const CareProviderModal: React.FC = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser)
   const [isOpen, setIsOpen] = useState(false)
@@ -55,7 +51,7 @@ const CareProviderModal: React.FC<Props> = ({ title }) => {
         <div className="ic-backdrop iu-lh-body">
           <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             <div className="ic-modal__head" id="demo-modal-content">
-              <h3 id="dialog-title">{title}</h3>
+              <h3 id="dialog-title">Välj vårdenhet</h3>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">
               <CareProviders chooseUnit={handleChooseUnit} careProviders={careProviders} />

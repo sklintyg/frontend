@@ -6,13 +6,12 @@ import store from '../../store/store'
 import CareProviderModal from './CareProviderModal'
 import { updateUser } from '../../store/user/userActions'
 import { LoginMethod, SigningMethod, Unit, User } from '@frontend/common'
-import userEvent from '@testing-library/user-event'
 
 const renderComponent = () => {
   render(
     <Provider store={store}>
       <BrowserRouter>
-        <CareProviderModal title="Välj vårdenhet" />
+        <CareProviderModal />
       </BrowserRouter>
     </Provider>
   )
