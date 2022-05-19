@@ -11,7 +11,6 @@ export interface User {
   signingMethod: SigningMethod
   loginMethod: LoginMethod
   protectedPerson: boolean
-  careProvider: CareProvider | undefined
 }
 
 export enum SigningMethod {
@@ -31,7 +30,7 @@ export interface UserProperty {
 }
 
 export interface FakeLogin {
-  hsaId: string
+  unitId: string
 }
 
 export interface UserStatistics {
@@ -41,7 +40,7 @@ export interface UserStatistics {
 export interface CareProvider {
   id: string
   name: string
-  careUnits: CareUnit
+  careUnits: CareUnit[]
 }
 
 export interface CareUnit extends Unit {

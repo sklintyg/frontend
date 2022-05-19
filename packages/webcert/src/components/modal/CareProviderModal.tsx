@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectCareProviders } from '../../store/user/userSelectors'
+import { setCareProvider, updateIsModalOpen } from '../../store/user/userActions'
+import { CareProviders } from './CareProviders'
 
 const ModalContentWrapper = styled.div`
   p + p {
@@ -20,24 +22,17 @@ interface Props {
 }
 
 const CareProviderModal: React.FC<Props> = ({ open, title }) => {
-  //   const [careProvidersArray, setCareProvidersArray] = useState()
+  const dispatch = useDispatch()
   const careProviders = useSelector(selectCareProviders)
 
-  useEffect(() => {
-    if (open && careProviders) {
-      //  setCareProvidersArray(careProviders.careProviders)
-      //console.log(careProviders.careProviders[0].name)
-      //   careProviders.careProviders.map((object) => {
-      //     setCareProvidersArray(Object.values(object.name).join(''))
-      //   })
+  const handleChooseCareProvider = (event: React.MouseEvent) => {
+    const unitId = event.currentTarget.id
 
-      careProviders.careProviders.map((careProvider) => {
-        console.log('careProvider', careProvider)
-      })
-    }
-  }, [open, careProviders])
+    dispatch(setCareProvider(unitId))
+    dispatch(updateIsModalOpen(false))
+  }
 
-  if (!open) {
+  if (!open || careProviders.length === 0) {
     return null
   }
 
@@ -45,33 +40,16 @@ const CareProviderModal: React.FC<Props> = ({ open, title }) => {
     <>
       <FocusTrap active={open}>
         <div tabIndex={0}>
-          <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
-            <div className="ic-modal__head" id="demo-modal-content">
-              <h3 id="dialog-title">{title}</h3>
-            </div>
-            <ModalContentWrapper className="ic-modal__body ic-text">
-              <a href="#">.</a>
-              {careProviders &&
-                careProviders.careProviders.map((careProvider) => {
-                  console.log(careProvider)
-                  return (
-                    <details className="ic-expandable" open>
-                      <summary className="ic-expandable-button iu-focus">{careProvider.name}</summary>
-                      {careProvider.careUnits.map((careUnit) => {
-                        return (
-                          <p>
-                            <a href="">{careUnit.name}</a>
-                            {careUnit.units.map((unit) => {
-                              return <p>{unit.name}</p>
-                            })}
-                          </p>
-                        )
-                      })}
-                    </details>
-                  )
-                })}
-            </ModalContentWrapper>
-          </WrapText>
+          <div className="ic-backdrop iu-lh-body">
+            <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
+              <div className="ic-modal__head" id="demo-modal-content">
+                <h3 id="dialog-title">{title}</h3>
+              </div>
+              <ModalContentWrapper className="ic-modal__body ic-text">
+                <CareProviders chooseCareProvider={handleChooseCareProvider} careProviders={careProviders} />
+              </ModalContentWrapper>
+            </WrapText>
+          </div>
         </div>
       </FocusTrap>
     </>
