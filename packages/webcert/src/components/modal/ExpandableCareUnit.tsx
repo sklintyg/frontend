@@ -12,16 +12,16 @@ interface Props {
   careUnit: string
   units: Unit[]
   id: string
-  chooseCareProvider: (event: React.MouseEvent) => void
+  chooseUnit: (event: React.MouseEvent) => void
 }
 
-export const ExpandableCareUnit: React.FC<Props> = ({ careUnit, units, id, chooseCareProvider }) => {
+export const ExpandableCareUnit: React.FC<Props> = ({ careUnit, units, id, chooseUnit }) => {
   const [expand, setExpand] = useState(false)
 
   const CareUnit = () => {
     return (
       <>
-        <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
+        <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseUnit}>
           {careUnit}
         </button>
         <StyledArrow
@@ -49,7 +49,7 @@ export const ExpandableCareUnit: React.FC<Props> = ({ careUnit, units, id, choos
           <CareUnit />
           {units.map((unit) => (
             <p>
-              <button className="ic-link iu-ml-300" type="button" id={unit.unitId} key={unit.unitId} onClick={chooseCareProvider}>
+              <button className="ic-link iu-ml-300" type="button" id={unit.unitId} key={unit.unitId} onClick={chooseUnit}>
                 {unit.unitName}
               </button>
             </p>

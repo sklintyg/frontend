@@ -48,7 +48,7 @@ export const getUserStatisticsSuccess = createAction<UserStatistics>(`${USER} Ge
 export const getUserStatisticsError = createAction<string>(`${USER} Get user statistics error`)
 export const updateUserStatistics = createAction<UserStatistics>(`${USER} Get user statistics error`)
 
-export const setCareProvider = createAction<string>(`${USER} Set care provider`)
-export const setCareProviderStarted = createAction(`${USER} Set care provider started`)
-export const setCareProviderSuccess = createAction<Unit>(`${USER} Set care provider success`)
-export const setCareProviderError = createAction<string>(`${USER} Set care provider error`)
+export const setUnit = createAction<string>(`${USER} Set unit`)
+export const setUnitStarted = createAction(`${USER} Set unit started`)
+export const setUnitSuccess = createAction<Unit>(`${USER} Set unit success`)
+export const setUnitError = createAction<string>(`${USER} Set unit error`)

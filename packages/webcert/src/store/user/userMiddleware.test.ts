@@ -5,7 +5,7 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
-import { getUserStatistics, setCareProvider, triggerLogout, updateInactivateAutomaticLogout } from './userActions'
+import { getUserStatistics, setUnit, triggerLogout, updateInactivateAutomaticLogout } from './userActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -69,6 +69,12 @@ describe('Test user middleware', () => {
   describe('Handle set care provider', () => {
     it('should call api to set care provider', async () => {
       testStore.dispatch(setCareProvider('careProviderId'))
+    )}
+  )}
+
+  describe('Handle set unit', () => {
+    it('should call api to set unit', async () => {
+      testStore.dispatch(setUnit('unitId'))
 
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)

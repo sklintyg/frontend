@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../store/user/userSelectors'
-import { setCareProvider } from '../../store/user/userActions'
+import { setUnit } from '../../store/user/userActions'
 import { CareProviders } from './CareProviders'
 import { User } from '@frontend/common'
 
@@ -26,18 +26,16 @@ const CareProviderModal: React.FC<Props> = ({ title }) => {
   const user = useSelector(getUser)
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleChooseCareProvider = (event: React.MouseEvent) => {
+  const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
-    dispatch(setCareProvider(unitId))
+    dispatch(setUnit(unitId))
     setIsOpen(false)
   }
 
   useEffect(() => {
     if (user) {
-      const isLoggedInProviderSet = Object.keys(user.loggedInCareProvider).length !== 0
-
-      if (isLoggedInProviderSet) {
+      if (user.loggedInUnit.unitId) {
         return
       }
 
@@ -60,7 +58,7 @@ const CareProviderModal: React.FC<Props> = ({ title }) => {
               <h3 id="dialog-title">{title}</h3>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">
-              <CareProviders chooseCareProvider={handleChooseCareProvider} careProviders={careProviders} />
+              <CareProviders chooseUnit={handleChooseUnit} careProviders={careProviders} />
             </ModalContentWrapper>
           </WrapText>
         </div>

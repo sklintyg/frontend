@@ -13,9 +13,9 @@ import {
   getUserStatisticsStarted,
   getUserStatisticsSuccess,
   getUserSuccess,
-  setCareProvider,
-  setCareProviderStarted,
-  setCareProviderSuccess,
+  setUnit,
+  setUnitStarted,
+  setUnitSuccess,
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
@@ -149,19 +149,19 @@ const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: Middleware
   dispatch(updateUserStatistics(action.payload))
 }
 
-const handleSetCareProvider: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleSetUnit: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: `/api/user/unit/${action.payload}`,
       method: 'POST',
-      onStart: setCareProviderStarted.type,
-      onSuccess: setCareProviderSuccess.type,
+      onStart: setUnitStarted.type,
+      onSuccess: setUnitSuccess.type,
       onError: apiSilentGenericError.type,
     })
   )
 }
 
-const handleSetCareProviderSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload.user))
   dispatch(updateUserResourceLinks(action.payload.links))
 }
@@ -179,8 +179,8 @@ const middlewareMethods = {
   [startSignCertificate.type]: handleStartSignCertificate,
   [getUserStatistics.type]: handleGetUserStatistics,
   [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
-  [setCareProvider.type]: handleSetCareProvider,
-  [setCareProviderSuccess.type]: handleSetCareProviderSuccess,
+  [setUnit.type]: handleSetUnit,
+  [setUnitSuccess.type]: handleSetUnitSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

@@ -46,7 +46,7 @@ const WebcertHeaderUnit: React.FC = () => {
     )
   }
 
-  if (!user || Object.keys(user.loggedInCareProvider).length === 0) return null
+  if (!user || !user.loggedInUnit.unitId) return null
 
   return (
     <>

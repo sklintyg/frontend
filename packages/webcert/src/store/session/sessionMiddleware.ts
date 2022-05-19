@@ -13,7 +13,7 @@ import {
   stopPoll,
 } from './sessionActions'
 import { apiCallBegan } from '../api/apiActions'
-import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
+import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
 
@@ -71,7 +71,17 @@ const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }) => () =
   dispatch(throwError(createErrorRequestFromApiError(action.payload.error)))
 }
 
-const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  if (!getUserSuccess.match(action)) {
+    return
+  }
+
+  if (action.payload.user.loggedInUnit !== null && action.payload.user.loggedInUnit.unitId) {
+    dispatch(startPoll())
+  }
+}
+
+const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(startPoll())
 }
 
@@ -92,6 +102,7 @@ const middlewareMethods = {
   [getUserSuccess.type]: handleGetUserSuccess,
   [triggerLogoutStarted.type]: handleTriggerLogoutStarted,
   [triggerLogoutNowStarted.type]: handleTriggerLogoutNowStarted,
+  [setUnitSuccess.type]: handleSetUnitSuccess,
 }
 
 export const sessionMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
