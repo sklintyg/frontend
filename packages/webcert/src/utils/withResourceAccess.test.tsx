@@ -49,7 +49,7 @@ const getUser = (): User => {
     loginMethod: LoginMethod.BANK_ID,
     signingMethod: SigningMethod.FAKE,
     protectedPerson: false,
-  }
+  } as User
 }
 
 describe('withAccessResource', () => {

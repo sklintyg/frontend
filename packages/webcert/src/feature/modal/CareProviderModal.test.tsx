@@ -3,15 +3,17 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import store from '../../store/store'
-import CareProviderModal from './CareProviderModal'
 import { updateUser } from '../../store/user/userActions'
-import { LoginMethod, SigningMethod, Unit, User } from '@frontend/common'
+import { LoginMethod, PopUpModal, SigningMethod, Unit, User } from '@frontend/common'
+import { CareProviderModalContent } from './CareProviderModalContent'
 
-const renderComponent = () => {
+const renderComponent = (user: User) => {
   render(
     <Provider store={store}>
       <BrowserRouter>
-        <CareProviderModal />
+        <PopUpModal modalTitle="Välj vårdgivare" open={user && !user.loggedInUnit.unitId}>
+          <CareProviderModalContent />
+        </PopUpModal>
       </BrowserRouter>
     </Provider>
   )
@@ -20,19 +22,22 @@ const renderComponent = () => {
 describe('Care provider modal', () => {
   it('should show care provider modal if logged in unit is not set', () => {
     store.dispatch(updateUser(getUserWithEmptyUnit()))
-    renderComponent()
+
+    renderComponent(getUserWithEmptyUnit())
     expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
   })
 
   it('should not show modal if logged in unit is set', () => {
     store.dispatch(updateUser(getUser()))
-    renderComponent()
+
+    renderComponent(getUser())
     expect(screen.queryByText('Välj vårdenhet')).not.toBeInTheDocument()
   })
 
   it('should show care units when care provider modal is open', () => {
     store.dispatch(updateUser(getUserWithEmptyUnit()))
-    renderComponent()
+
+    renderComponent(getUserWithEmptyUnit())
     expect(screen.getByText('Care unit')).toBeInTheDocument()
   })
 })

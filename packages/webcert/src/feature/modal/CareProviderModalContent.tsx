@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import FocusTrap from 'focus-trap-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
@@ -10,19 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StyledArrow = styled(FontAwesomeIcon)`
   cursor: pointer;
-`
-
-const ModalContentWrapper = styled.div`
-  p + p {
-    margin-top: 0.25em !important;
-  }
-`
-
-const WrapText = styled.div`
-  white-space: normal;
-  transform: none;
-  margin-left: -19.375rem;
-  margin-top: -40vh;
 `
 
 interface ExpandableTableRowProps {
@@ -80,66 +66,36 @@ const ExpandedUnit: React.FC<ExpandedUnitProps> = ({ unit, isExpanded, handleCho
   )
 }
 
-const CareProviderModal: React.FC = () => {
+export const CareProviderModalContent: React.FC = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser)
-  const [isOpen, setIsOpen] = useState(false)
 
   const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
     dispatch(setUnit(unitId))
-    setIsOpen(false)
-  }
-
-  useEffect(() => {
-    if (user) {
-      if (user.loggedInUnit.unitId) {
-        return
-      }
-
-      setIsOpen(true)
-    }
-  }, [user, dispatch])
-
-  if (!isOpen || user?.careProviders.length === 0) {
-    return null
   }
 
   return (
-    <FocusTrap active={isOpen}>
-      <div tabIndex={0}>
-        <div className="ic-backdrop iu-lh-body">
-          <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
-            <div className="ic-modal__head" id="demo-modal-content">
-              <h3 id="dialog-title">Välj vårdenhet</h3>
-            </div>
-            <ModalContentWrapper className="ic-modal__body ic-text">
-              {user &&
-                user.careProviders.map((careProvider) => {
-                  const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
+    <>
+      {user?.careProviders.map((careProvider) => {
+        const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
 
-                  return (
-                    <SimpleTable headings={headings}>
-                      {careProvider.careUnits.map((careUnit) => {
-                        return (
-                          <ExpandableTableRow
-                            careUnit={careUnit.unitName}
-                            careUnitId={careUnit.unitId}
-                            units={careUnit.units}
-                            handleChooseUnit={handleChooseUnit}
-                          />
-                        )
-                      })}
-                    </SimpleTable>
-                  )
-                })}
-            </ModalContentWrapper>
-          </WrapText>
-        </div>
-      </div>
-    </FocusTrap>
+        return (
+          <SimpleTable headings={headings}>
+            {careProvider.careUnits.map((careUnit) => {
+              return (
+                <ExpandableTableRow
+                  careUnit={careUnit.unitName}
+                  careUnitId={careUnit.unitId}
+                  units={careUnit.units}
+                  handleChooseUnit={handleChooseUnit}
+                />
+              )
+            })}
+          </SimpleTable>
+        )
+      })}
+    </>
   )
 }
-
-export default CareProviderModal

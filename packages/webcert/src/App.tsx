@@ -17,13 +17,16 @@ import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
 import { ListPageWithRedirect } from './page/ListPage'
-import { Backdrop } from '@frontend/common'
+import { Backdrop, PopUpModal } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
+import { CareProviderModalContent } from './feature/modal/CareProviderModalContent'
+import { getUser as selectUser } from './store/user/userSelectors'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
   const isLoadingInitialState = useSelector(selectIsLoadingInitialState)
+  const user = useSelector(selectUser)
 
   useEffect(() => {
     const handleWindowBeforeUnload = () => dispatch(triggerLogout())
@@ -47,11 +50,16 @@ function App(): JSX.Element {
     )
   }
 
+  const showCareProviderModal = !!user && !user?.loggedInUnit.unitId
+
   return (
     <Backdrop open={isLoadingInitialState} spinnerText="Laddar...">
       <BrowserRouter>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
           <ErrorComponent />
+          <PopUpModal modalTitle="Välj vårdgivare" open={showCareProviderModal}>
+            <CareProviderModalContent />
+          </PopUpModal>
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
