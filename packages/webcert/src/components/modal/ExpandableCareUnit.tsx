@@ -9,18 +9,34 @@ const StyledArrow = styled(FontAwesomeIcon)`
 `
 
 interface Props {
-  link: string
+  careUnit: string
   units: Unit[]
   id: string
   chooseCareProvider: (event: React.MouseEvent) => void
 }
 
-export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCareProvider }) => {
+export const ExpandableCareUnit: React.FC<Props> = ({ careUnit, units, id, chooseCareProvider }) => {
   const [expand, setExpand] = useState(false)
+
+  const CareUnit = () => {
+    return (
+      <>
+        <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
+          {careUnit}
+        </button>
+        <StyledArrow
+          icon={expand ? faAngleUp : faAngleDown}
+          className={'iu-mt-200 iu-ml-200 iu-color-cta-dark'}
+          onClick={toggleOpen}
+          style={{ cursor: 'pointer' }}
+        />
+      </>
+    )
+  }
 
   useEffect(() => {
     setExpand(false)
-  }, [link])
+  }, [careUnit])
 
   const toggleOpen = () => {
     setExpand(!expand)
@@ -28,18 +44,9 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
 
   return (
     <>
-      {expand && link ? (
+      {expand && careUnit ? (
         <div className="iu-mb-300 iu-px-400">
-          <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
-            {link}
-          </button>
-          <StyledArrow
-            icon={faAngleUp}
-            className={'iu-mt-200 iu-ml-200 iu-color-cta-dark'}
-            onClick={toggleOpen}
-            style={{ cursor: 'pointer' }}
-          />
-
+          <CareUnit />
           {units.map((unit) => (
             <p>
               <button className="ic-link iu-ml-300" type="button" id={unit.unitId} key={unit.unitId} onClick={chooseCareProvider}>
@@ -50,15 +57,7 @@ export const ExpandableLink: React.FC<Props> = ({ link, units, id, chooseCarePro
         </div>
       ) : (
         <div className="iu-mb-300 iu-px-400">
-          <button className="ic-link iu-fw-heading" type="button" id={id} onClick={chooseCareProvider}>
-            {link}
-          </button>
-          <FontAwesomeIcon
-            icon={faAngleDown}
-            className={'iu-mt-200 iu-ml-200 iu-color-secondary-dark'}
-            onClick={toggleOpen}
-            style={{ cursor: 'pointer' }}
-          />
+          <CareUnit />
         </div>
       )}
     </>

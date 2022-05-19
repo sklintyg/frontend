@@ -14,7 +14,6 @@ export const isCareAdministrator = (state: RootState): boolean | undefined =>
 export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUser.isLoadingUser
 
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
-
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
 
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
