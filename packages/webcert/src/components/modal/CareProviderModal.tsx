@@ -27,6 +27,7 @@ const CareProviderModal: React.FC<Props> = ({ open, title }) => {
   const user = useSelector(getUser)
 
   const handleChooseCareProvider = (event: React.MouseEvent) => {
+    console.log(event.currentTarget.id)
     const unitId = event.currentTarget.id
 
     dispatch(setCareProvider(unitId))
@@ -45,7 +46,7 @@ const CareProviderModal: React.FC<Props> = ({ open, title }) => {
         <div className="ic-backdrop iu-lh-body">
           <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             <div className="ic-modal__head" id="demo-modal-content">
-              <h3 id="dialog-title">{title}</h3>
+              <h2 id="dialog-title">{title}</h2>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">
               <CareProviders chooseCareProvider={handleChooseCareProvider} careProviders={careProviders} />

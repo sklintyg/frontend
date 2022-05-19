@@ -1,6 +1,6 @@
 import { CareUnit } from '@frontend/common'
 import React from 'react'
-import { Units } from './Units'
+import { ExpandableLink } from './ExpandableLink'
 
 interface Props {
   careUnits: CareUnit[]
@@ -12,10 +12,7 @@ export const CareUnits: React.FC<Props> = ({ chooseCareProvider, careUnits }) =>
     <>
       {careUnits.map((careUnit) => (
         <p key={careUnit.unitId}>
-          <button className="ic-link" type="button" id={careUnit.unitId} onClick={chooseCareProvider}>
-            {careUnit.unitName}
-          </button>
-          {careUnit.units && <Units units={careUnit.units} chooseCareProvider={chooseCareProvider} />}
+          <ExpandableLink link={careUnit.unitName} units={careUnit.units} id={careUnit.unitId} chooseCareProvider={chooseCareProvider} />
         </p>
       ))}
     </>
