@@ -21,4 +21,3 @@ export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
 
 export const selectCareProviders = (state: RootState): CareProvider | undefined => state.ui.uiUser.user?.careProvider
-

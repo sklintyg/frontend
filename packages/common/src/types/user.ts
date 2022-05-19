@@ -39,13 +39,11 @@ export interface UserStatistics {
 }
 
 export interface CareProvider {
-  hsaId: string
+  id: string
   name: string
-  careUnit: CareUnit
+  careUnits: CareUnit
 }
 
-export interface CareUnit {
-  hsaId: string
-  name: string
-  unit: Unit
+export interface CareUnit extends Unit {
+  units: Unit[]
 }
