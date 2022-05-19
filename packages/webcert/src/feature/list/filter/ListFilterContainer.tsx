@@ -102,6 +102,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
           {!config?.excludeFilterButtons && (
             <ListFilterButtons
               searchTooltip={getTooltip(config, CertificateListItemValueType.SEARCH_BUTTON)}
+              resetTooltip={getTooltip(config, CertificateListItemValueType.RESET_BUTTON)}
               onSearch={onSearch}
               onReset={onReset}
               isSearchEnabled={filter ? isFilterValuesValid(filter.values) && !hasValidationErrors : true}
