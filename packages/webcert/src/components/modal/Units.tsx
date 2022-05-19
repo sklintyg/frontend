@@ -7,14 +7,16 @@ interface Props {
 }
 
 export const Units: React.FC<Props> = ({ units, chooseCareProvider }) => {
-  return units.map((unit: Unit) => {
-    return (
-      <p key={unit.unitId}>
-        -{' '}
-        <button className="ic-link" type="button" id={unit.unitId} onClick={chooseCareProvider}>
-          {unit.unitName}
-        </button>
-      </p>
-    )
-  })
+  return (
+    <>
+      {units.map((unit) => (
+        <p key={unit.unitId}>
+          -{' '}
+          <button className="ic-link" type="button" id={unit.unitId} onClick={chooseCareProvider}>
+            {unit.unitName}
+          </button>
+        </p>
+      ))}
+    </>
+  )
 }
