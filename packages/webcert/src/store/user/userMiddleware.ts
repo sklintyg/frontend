@@ -161,6 +161,11 @@ const handleSetCareProvider: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI
   )
 }
 
+const handleSetCareProviderSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateUser(action.payload.user))
+  dispatch(updateUserResourceLinks(action.payload.links))
+}
+
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -175,6 +180,7 @@ const middlewareMethods = {
   [getUserStatistics.type]: handleGetUserStatistics,
   [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
   [setCareProvider.type]: handleSetCareProvider,
+  [setCareProviderSuccess.type]: handleSetCareProviderSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
