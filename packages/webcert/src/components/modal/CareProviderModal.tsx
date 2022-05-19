@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '../../store/user/userSelectors'
-import { setCareProvider, updateIsCareProviderModalOpen } from '../../store/user/userActions'
+import { setCareProvider } from '../../store/user/userActions'
 import { CareProviders } from './CareProviders'
 import { User } from '@frontend/common'
 
@@ -18,29 +18,41 @@ const WrapText = styled.div`
 `
 
 interface Props {
-  open: boolean
   title: string
 }
 
-const CareProviderModal: React.FC<Props> = ({ open, title }) => {
+const CareProviderModal: React.FC<Props> = ({ title }) => {
   const dispatch = useDispatch()
   const user = useSelector(getUser)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleChooseCareProvider = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
     dispatch(setCareProvider(unitId))
-    dispatch(updateIsCareProviderModalOpen(false))
+    setIsOpen(false)
   }
 
-  if (!open || user?.careProviders.length === 0) {
+  useEffect(() => {
+    if (user) {
+      const isLoggedInProviderSet = Object.keys(user.loggedInCareProvider).length !== 0
+
+      if (isLoggedInProviderSet) {
+        return
+      }
+
+      setIsOpen(true)
+    }
+  }, [user, dispatch])
+
+  if (!isOpen || user?.careProviders.length === 0) {
     return null
   }
 
   const { careProviders } = user as User
 
   return (
-    <FocusTrap active={open}>
+    <FocusTrap active={isOpen}>
       <div tabIndex={0}>
         <div className="ic-backdrop iu-lh-body">
           <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">

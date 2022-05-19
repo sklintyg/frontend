@@ -12,7 +12,7 @@ describe('Care provider modal', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <CareProviderModal title="Välj vårdenhet" open={false} />
+          <CareProviderModal title="Välj vårdenhet" />
         </BrowserRouter>
       </Provider>
     )
@@ -37,6 +37,7 @@ const getUserWithEmptyUnit = (): User => {
     email: '',
     isInactive: false,
   }
+
   return {
     hsaId: '',
     name: '',
@@ -48,5 +49,35 @@ const getUserWithEmptyUnit = (): User => {
     loginMethod: LoginMethod.BANK_ID,
     signingMethod: SigningMethod.FAKE,
     protectedPerson: false,
+    careProviders: [
+      {
+        id: '',
+        name: '',
+        careUnits: [
+          {
+            unitId: '',
+            unitName: '',
+            address: '',
+            zipCode: '',
+            city: '',
+            phoneNumber: '',
+            email: '',
+            isInactive: false,
+            units: [
+              {
+                unitId: '',
+                unitName: '',
+                address: '',
+                zipCode: '',
+                city: '',
+                phoneNumber: '',
+                email: '',
+                isInactive: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   }
 }
