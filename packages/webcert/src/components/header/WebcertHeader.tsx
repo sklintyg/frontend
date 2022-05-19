@@ -5,10 +5,11 @@ import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
-import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks, getUserStatistics, isDoctor } from '../../store/user/userSelectors'
 import { useSelector } from 'react-redux'
 import Logout from '../../utils/Logout'
 import styled from 'styled-components'
+import { getUserTabs } from '../../utils/userTabsUtils'
 
 const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;
@@ -21,6 +22,10 @@ interface Props {
 const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const userLinks = useSelector(getUserResourceLinks)
   const user = useSelector(getUser)
+  const isUserDoctor = useSelector(isDoctor)
+  const links = useSelector(getUserResourceLinks)
+  const userStatistics = useSelector(getUserStatistics)
+  const tabs = getUserTabs(!!isUserDoctor, userStatistics, links)
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -51,6 +56,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
       secondaryItems={getSecondaryItems()}
       banners={[<SystemBanners key={'system-banners'} />]}
+      tabs={tabs}
     />
   )
 }

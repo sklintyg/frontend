@@ -2,12 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ReactTooltip, { Place } from 'react-tooltip'
 import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
-
-const NumberCircle = styled.span`
-  width: 0px;
-  height: 0px;
-  padding: 3px 7px;
-`
+import NumberCircle from '../utils/NumberCircle'
 
 interface WrapperProps {
   filter: string
@@ -87,14 +82,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         onClick={props.onClick}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
-        {props.number && (
-          <NumberCircle
-            className={`ic-notification iu-ml-300 iu-fs-100 
-            ${props.buttonStyle === 'secondary' ? 'iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}
-            `}>
-            {props.number}
-          </NumberCircle>
-        )}
+        {props.number && <NumberCircle style={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
       </button>
     </Wrapper>
   )

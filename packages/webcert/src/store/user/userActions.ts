@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty } from '@frontend/common'
+import { ResourceLink, User, UserProperty, UserStatistics } from '@frontend/common'
 
 const USER = '[User]'
 
@@ -41,3 +41,9 @@ export const triggerLogoutNowSuccess = createAction(`${USER} Trigger logout now 
 export const triggerLogoutNowError = createAction<string>(`${USER} Trigger logout now error`)
 
 export const updateInactivateAutomaticLogout = createAction<boolean>(`${USER} Update inactivate automatic logout`)
+
+export const getUserStatistics = createAction(`${USER} Get user statistics`)
+export const getUserStatisticsStarted = createAction(`${USER} Get user statistics started`)
+export const getUserStatisticsSuccess = createAction<UserStatistics>(`${USER} Get user statistics success`)
+export const getUserStatisticsError = createAction<string>(`${USER} Get user statistics error`)
+export const updateUserStatistics = createAction<UserStatistics>(`${USER} Get user statistics error`)
