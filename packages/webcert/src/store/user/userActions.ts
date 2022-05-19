@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty, UserStatistics } from '@frontend/common'
+import { ResourceLink, User, UserProperty, UserStatistics, CareProvider } from '@frontend/common'
 
 const USER = '[User]'
 
@@ -47,3 +47,11 @@ export const getUserStatisticsStarted = createAction(`${USER} Get user statistic
 export const getUserStatisticsSuccess = createAction<UserStatistics>(`${USER} Get user statistics success`)
 export const getUserStatisticsError = createAction<string>(`${USER} Get user statistics error`)
 export const updateUserStatistics = createAction<UserStatistics>(`${USER} Get user statistics error`)
+
+export const getCareProvider = createAction(`${USER} Get care provider`)
+export const getCareProviderStarted = createAction(`${USER} Get care provider started`)
+export const getCareProviderSuccess = createAction<CareProvider>(`${USER} Get care provider success`)
+
+export const updateCareProvider = createAction<CareProvider>(`${USER} Update care provider`)
+
+export const updateIsModalOpen = createAction<boolean>(`${USER} Update is care provider modal open`)

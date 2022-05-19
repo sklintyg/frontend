@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { ResourceLink, User, UserStatistics } from '@frontend/common'
+import { ResourceLink, User, UserStatistics, CareProvider } from '@frontend/common'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -19,3 +19,6 @@ export const getUserStatistics = (state: RootState): UserStatistics | undefined 
 
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
+
+export const selectCareProviders = (state: RootState): CareProvider | undefined => state.ui.uiUser.user?.careProvider
+
