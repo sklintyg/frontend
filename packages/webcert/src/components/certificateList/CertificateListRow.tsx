@@ -97,14 +97,16 @@ const CertificateListRow: React.FC<Props> = ({
           <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
         )}
       </TextWithInfoModal>
-      <CustomButton
-        buttonStyle="primary"
-        onClick={onCreateCertificateClick}
-        startIcon={<img src={file} alt={link?.description} />}
-        disabled={!link?.enabled}
-        text={link?.name}
-        tooltip={link?.description}
-      />
+      {link && (
+        <CustomButton
+          buttonStyle="primary"
+          onClick={onCreateCertificateClick}
+          startIcon={<img src={file} alt={link?.description} />}
+          disabled={!link?.enabled}
+          text={link?.name}
+          tooltip={link?.description}
+        />
+      )}
     </Row>
   )
 }

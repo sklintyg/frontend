@@ -13,7 +13,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
   store.dispatch(updateIsLoadingListConfig(false))
   render(
     <Provider store={store}>
-      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" />
+      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" icon="icon" />
     </Provider>
   )
 }

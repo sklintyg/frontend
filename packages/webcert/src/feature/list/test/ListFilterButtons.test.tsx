@@ -13,7 +13,13 @@ const renderComponent = (isSearchEnabled: boolean) => {
   render(
     <>
       <CustomTooltip />
-      <ListFilterButtons searchTooltip={TOOLTIP_SEARCH} isSearchEnabled={isSearchEnabled} onSearch={onSearch} onReset={onReset} />
+      <ListFilterButtons
+        searchTooltip={TOOLTIP_SEARCH}
+        resetTooltip={TOOLTIP_RESET}
+        isSearchEnabled={isSearchEnabled}
+        onSearch={onSearch}
+        onReset={onReset}
+      />
     </>
   )
 }

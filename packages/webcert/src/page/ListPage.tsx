@@ -29,6 +29,8 @@ import { updateShouldRouteAfterDelete } from '../store/certificate/certificateAc
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
+import listImage from '@frontend/common/src/images/list.svg'
+import letterImage from '@frontend/common/src/images/epost.svg'
 
 interface Props {
   type: ListType
@@ -80,9 +82,21 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     }
   }
 
+  const getIcon = () => {
+    if (type === ListType.PREVIOUS_CERTIFICATES) {
+      return listImage
+    } else {
+      return letterImage
+    }
+  }
+
   const getList = () => {
     if (error) {
-      return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
+      return (
+        <div className="iu-pt-300">
+          <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
+        </div>
+      )
     } else if (isListCompletelyEmpty()) {
       return (
         <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
@@ -90,7 +104,9 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
         </ImageCentered>
       )
     } else {
-      return <List config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
+      return (
+        <List icon={getIcon()} config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
+      )
     }
   }
 
