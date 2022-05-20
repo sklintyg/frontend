@@ -5,7 +5,7 @@ import Welcome from './page/Welcome'
 import 'inera-core-css/src/themes/inera-master.scss'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import { useAppDispatch } from './store/store'
-import { cancelLogout, getUser, triggerLogout } from './store/user/userActions'
+import { cancelLogout, getUser, getUserStatistics, triggerLogout } from './store/user/userActions'
 import ErrorComponent from './components/error/ErrorComponent'
 import ErrorPage from './page/ErrorPage'
 import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
@@ -31,6 +31,7 @@ function App(): JSX.Element {
     window.addEventListener('beforeunload', handleWindowBeforeUnload)
     dispatch(cancelLogout())
     dispatch(getUser())
+    dispatch(getUserStatistics())
     dispatch(getAllDynamicLinks())
     dispatch(getConfig())
     return () => {
