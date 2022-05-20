@@ -36,6 +36,20 @@ export interface FakeLogin {
 
 export interface UserStatistics {
   nbrOfDraftsOnSelectedUnit: number
+  nbrOfUnhandledQuestionsOnSelectedUnit: number
+  totalDraftsAndUnhandledQuestionsOnOtherUnits: number
+  unitStatistics: UnitStatistics
+}
+
+export interface UnitStatistics {
+   [key: string]: UnitStatistic 
+}
+
+export interface UnitStatistic {
+  draftsOnUnit: number
+  questionsOnUnit: number
+  draftsOnSubUnits: number
+  questionsOnSubUnits: number
 }
 
 export interface CareProvider {

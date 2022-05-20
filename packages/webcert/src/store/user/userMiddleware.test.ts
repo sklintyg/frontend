@@ -66,12 +66,6 @@ describe('Test user middleware', () => {
     })
   })
 
-  describe('Handle set care provider', () => {
-    it('should call api to set care provider', async () => {
-      testStore.dispatch(setCareProvider('careProviderId'))
-    )}
-  )}
-
   describe('Handle set unit', () => {
     it('should call api to set unit', async () => {
       testStore.dispatch(setUnit('unitId'))

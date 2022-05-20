@@ -27,6 +27,7 @@ import {
   triggerLogoutSuccess,
   updateInactivateAutomaticLogout,
   updateIsLoadingUser,
+  updateIsLoadingUserStatistics,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
@@ -145,8 +146,13 @@ const handleGetUserStatistics: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
   )
 }
 
-const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetUserStatisticsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateIsLoadingUserStatistics(true))
+}
+
+const handleGetUserStatisticsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUserStatistics(action.payload))
+  dispatch(updateIsLoadingUserStatistics(false))
 }
 
 const handleSetUnit: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -178,7 +184,8 @@ const middlewareMethods = {
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,
   [getUserStatistics.type]: handleGetUserStatistics,
-  [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
+  [getUserStatisticsStarted.type]: handleGetUserStatisticsStarted,
+  [getUserStatisticsSuccess.type]: handleGetUserStatisticsSuccess,
   [setUnit.type]: handleSetUnit,
   [setUnitSuccess.type]: handleSetUnitSuccess,
 }

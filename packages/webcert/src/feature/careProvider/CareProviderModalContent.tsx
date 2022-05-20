@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../../store/user/userSelectors'
+import { getUnitStatistics, getUser } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
-import { SimpleTable, Unit } from '@frontend/common'
+import { SimpleTable, Unit, UnitStatistic } from '@frontend/common'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -20,24 +20,45 @@ interface ExpandableTableRowProps {
 
 const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ careUnit, careUnitId, units, handleChooseUnit }) => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const unitStatistics = useSelector(getUnitStatistics)
 
   const toggleOpen = () => {
     setIsExpanded(!isExpanded)
   }
 
+  const questionsOnUnit = unitStatistics[careUnitId].questionsOnUnit
+  const questionsOnSubUnits = unitStatistics[careUnitId].questionsOnSubUnits
+  const draftsOnUnit = unitStatistics[careUnitId].draftsOnUnit
+  const draftsOnSubUnits = unitStatistics[careUnitId].draftsOnSubUnits
+
   return (
     <>
       <tr>
         <td>
-          <StyledArrow icon={isExpanded ? faAngleUp : faAngleDown} className="iu-color-cta-dark iu-mr-300" onClick={toggleOpen} />
+          {units.length > 0 && (
+            <StyledArrow icon={isExpanded ? faAngleUp : faAngleDown} className="iu-color-cta-dark iu-mr-300" onClick={toggleOpen} />
+          )}
           <button className="ic-link iu-text-left" type="button" id={careUnitId} onClick={handleChooseUnit}>
             {careUnit}
           </button>
         </td>
-        <td>0</td>
-        <td>0</td>
+        <td>
+          {questionsOnUnit} {units.length > 0 && `(total ${questionsOnUnit + questionsOnSubUnits})`}
+        </td>
+        <td>
+          {draftsOnUnit} {units.length > 0 && `(total ${draftsOnUnit + draftsOnSubUnits})`}
+        </td>
       </tr>
-      {units && units.map((unit) => <ExpandedUnit isExpanded={isExpanded} unit={unit} handleChooseUnit={handleChooseUnit} />)}
+      {units.length > 0 &&
+        units.map((unit) => (
+          <ExpandedUnit
+            key={unit.unitId}
+            isExpanded={isExpanded}
+            unit={unit}
+            handleChooseUnit={handleChooseUnit}
+            statistics={unitStatistics[unit.unitId]}
+          />
+        ))}
     </>
   )
 }
@@ -46,9 +67,10 @@ interface ExpandedUnitProps {
   isExpanded: boolean
   unit: Unit
   handleChooseUnit: (event: React.MouseEvent) => void
+  statistics: UnitStatistic
 }
 
-const ExpandedUnit: React.FC<ExpandedUnitProps> = ({ unit, isExpanded, handleChooseUnit }) => {
+const ExpandedUnit: React.FC<ExpandedUnitProps> = ({ unit, isExpanded, handleChooseUnit, statistics }) => {
   if (!isExpanded) {
     return null
   }
@@ -60,8 +82,8 @@ const ExpandedUnit: React.FC<ExpandedUnitProps> = ({ unit, isExpanded, handleCho
           {unit.unitName}
         </button>
       </td>
-      <td>0</td>
-      <td>0</td>
+      <td>{statistics.questionsOnUnit}</td>
+      <td>{statistics.draftsOnUnit}</td>
     </tr>
   )
 }
