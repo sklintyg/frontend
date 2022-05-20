@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import NumberCircle from '../utils/NumberCircle'
 import classNames from 'classnames'
+import { useKeyPress } from '../../utils/userFunctionUtils'
+import { resetPatientState } from '@frontend/webcert/src/store/patient/patientActions'
+import { useDispatch } from 'react-redux'
+import { resetListState } from '@frontend/webcert/src/store/list/listActions'
 
 const Wrapper = styled.nav`
   button {
     display: inline;
     margin-right: 48px;
+  }
+
+  .ic-topnav__link {
+    cursor: pointer;
   }
 `
 
@@ -19,6 +27,15 @@ export interface Props {
 const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   const history = useHistory()
   const match = useRouteMatch()
+  const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
+  const enterPress = useKeyPress('Enter')
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (focusedTab) {
+      handleClick(focusedTab)
+    }
+  }, [enterPress])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -29,7 +46,15 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   }
 
   const handleClick = (tab: UserTab) => {
-    history.push(tab.url)
+    if (match.url !== tab.url) {
+      dispatch(resetPatientState())
+      dispatch(resetListState())
+      history.push(tab.url)
+    }
+  }
+
+  const handleFocus = (tab: UserTab) => {
+    setFocusedTab(tab)
   }
 
   const getTabs = () => {
@@ -39,9 +64,10 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
           <a
             tabIndex={0}
             className={classNames('ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
+            onFocus={() => handleFocus(tab)}
             onClick={() => handleClick(tab)}>
             <span>{tab.title}</span>
-            {tab.number && <NumberCircle number={tab.number} style="secondary" />}
+            {!!tab.number && <NumberCircle number={tab.number} style="secondary" />}
           </a>
         </li>
       )

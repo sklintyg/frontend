@@ -14,8 +14,7 @@ import CertificateList from '../components/certificateList/CertificateList'
 import ListPage from './ListPage'
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
 import { updateActiveListFilterValue } from '../store/list/listActions'
-import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { resetCertificateState } from '../store/certificate/certificateActions'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 
 interface Params {
   patientId: string

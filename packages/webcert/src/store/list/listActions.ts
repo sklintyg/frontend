@@ -65,4 +65,4 @@ export const setListError = createAction(`${LIST} Set list error`)
 export const clearListError = createAction(`${LIST} Clear list error`)
 export const updateHasValidationError = createAction<boolean>(`${LIST} Update has validation error`)
 
-export const resetState = createAction(`${LIST} Reset state`)
+export const resetListState = createAction(`${LIST} Reset state`)

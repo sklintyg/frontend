@@ -19,16 +19,17 @@ import {
   updateActiveListType,
 } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
-import { Backdrop, InfoBox, ListHeader } from '@frontend/common'
+import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
-import { getNumberOfDraftsOnUnit } from '../store/utils/utilsSelectors'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
+import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
+import { getUserStatistics } from '../store/user/userActions'
 
 interface Props {
   type: ListType
@@ -48,6 +49,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
+    dispatch(getUserStatistics())
   })
 
   useEffect(() => {
@@ -90,26 +92,28 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
         </ImageCentered>
       )
     } else {
-      return <List config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
+      return isLoadingListConfig ? (
+        <></>
+      ) : (
+        <List config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
+      )
     }
   }
 
   return (
-    <Backdrop open={isLoadingListConfig} spinnerText="Laddar...">
-      {!isLoadingListConfig && (
+    <>
+      {!excludePageSpecificElements && (
         <>
-          {!excludePageSpecificElements && (
-            <>
-              <WebcertHeader />
-              <CustomTooltip placement="top" />
-              <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-              <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
-            </>
+          <WebcertHeader />
+          <CustomTooltip placement="top" />
+          <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+          {!isLoadingListConfig && (
+            <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
           )}
-          <div className="ic-container">{getList()}</div>
         </>
       )}
-    </Backdrop>
+      <div className="ic-container">{getList()}</div>
+    </>
   )
 }
 
