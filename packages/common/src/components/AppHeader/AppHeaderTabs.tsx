@@ -15,7 +15,7 @@ const Wrapper = styled.nav`
     margin-right: 48px;
   }
 
-  .ic-topnav__link {
+  .tab_link {
     cursor: pointer;
   }
 `
@@ -63,7 +63,7 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
         <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
           <a
             tabIndex={0}
-            className={classNames('ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
+            className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
             onFocus={() => handleFocus(tab)}
             onClick={() => handleClick(tab)}>
             <span>{tab.title}</span>
