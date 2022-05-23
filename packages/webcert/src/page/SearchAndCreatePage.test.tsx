@@ -73,5 +73,35 @@ const getUser = (): User => {
     loginMethod: LoginMethod.BANK_ID,
     signingMethod: SigningMethod.FAKE,
     protectedPerson: false,
+    careProviders: [
+      {
+        id: '',
+        name: 'Care Provider',
+        careUnits: [
+          {
+            unitId: '1234a',
+            unitName: 'Care unit',
+            address: '',
+            zipCode: '',
+            city: '',
+            phoneNumber: '',
+            email: '',
+            isInactive: false,
+            units: [
+              {
+                unitId: '1234b',
+                unitName: 'Unit',
+                address: '',
+                zipCode: '',
+                city: '',
+                phoneNumber: '',
+                email: '',
+                isInactive: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   }
 }
