@@ -12,12 +12,11 @@ import apiMiddleware from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const renderComponent = () => {

@@ -55,6 +55,10 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
   const draftsOnUnit = unitStatistics[careUnitId].draftsOnUnit
   const draftsOnSubUnits = unitStatistics[careUnitId].draftsOnSubUnits
 
+  const getSum = (x: number, y: number) => {
+    return x + y
+  }
+
   return (
     <Fragment key={careUnitId}>
       <tr>
@@ -67,10 +71,10 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
           </button>
         </td>
         <td>
-          {questionsOnUnit} {units.length > 0 && `(total ${questionsOnUnit + questionsOnSubUnits})`}
+          {questionsOnUnit} {units.length > 0 && `(total ${getSum(questionsOnUnit, questionsOnSubUnits)})`}
         </td>
         <td>
-          {draftsOnUnit} {units.length > 0 && `(total ${draftsOnUnit + draftsOnSubUnits})`}
+          {draftsOnUnit} {units.length > 0 && `(total ${getSum(draftsOnUnit, draftsOnSubUnits)})`}
         </td>
       </tr>
       {units.length > 0 &&
