@@ -24,6 +24,7 @@ export enum CertificateListItemValueType {
   OPEN_BUTTON = 'OPEN_BUTTON',
   RENEW_BUTTON = 'RENEW_BUTTON',
   SEARCH_BUTTON = 'SEARCH_BUTTON',
+  RESET_BUTTON = 'RESET_BUTTON',
 }
 
 export enum ListFilterType {

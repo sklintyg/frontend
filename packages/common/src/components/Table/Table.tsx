@@ -29,6 +29,10 @@ const StyledTable = styled.table<TableProps>`
   td:nth-child(${(props) => props.highlighted}) {
     background-color: rgba(1, 165, 163, 0.08) !important;
   }
+
+  th {
+    cursor: pointer;
+  }
 `
 
 const SortingButton = styled.button`

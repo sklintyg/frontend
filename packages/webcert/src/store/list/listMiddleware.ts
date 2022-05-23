@@ -161,9 +161,9 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(updateTotalCount(undefined))
 }
 
-const handleGetDraftsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   clearListState(dispatch)
-  dispatch(setListError)
+  dispatch(setListError())
 }
 
 const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -189,15 +189,17 @@ const middlewareMethods = {
   [getDraftListConfigSuccess.type]: handleGetListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [clearActiveListFilter.type]: handleClearActiveListFilter,
-  [getDraftsError.type]: handleGetDraftsError,
+  [getDraftsError.type]: handleGetListError,
   [getDraftsStarted.type]: handleGetListStarted,
   [getDraftListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateList.type]: handleGetCertificateList,
   [getCertificateListSuccess.type]: handleGetListSuccess,
   [getCertificateListStarted.type]: handleGetListStarted,
+  [getCertificateListError.type]: handleGetListError,
   [getPreviousCertificatesList.type]: handleGetPreviousCertificatesList,
   [getPreviousCertificatesListSuccess.type]: handleGetListSuccess,
   [getPreviousCertificatesListStarted.type]: handleGetListStarted,
+  [getPreviousCertificatesListError.type]: handleGetListError,
   [getCertificateListConfig.type]: handleGetCertificateListConfig,
   [getCertificateListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,

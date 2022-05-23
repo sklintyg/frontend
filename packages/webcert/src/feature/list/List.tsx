@@ -8,7 +8,6 @@ import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelecto
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
 import { ResourceLink } from '@frontend/common'
-import listImage from '@frontend/common/src/images/list.svg'
 import styled from 'styled-components/macro'
 
 const ContentWrapper = styled.div`
@@ -21,9 +20,10 @@ interface Props {
   list: CertificateListItem[]
   filter: ListFilter | undefined
   title: string
+  icon: string
 }
 
-const List: React.FC<Props> = ({ config, list, filter, title }) => {
+const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)
   const isSortingList = useSelector(getIsSortingList)
@@ -107,7 +107,7 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
   return (
     <>
       <div className="iu-flex iu-pt-500">
-        <img src={listImage} className="iu-mr-gutter iu-height-600" />
+        <img src={icon} className="iu-mr-gutter iu-height-600" />
         <ContentWrapper>
           <h3>{title}</h3>
           <ListFilterContainer config={config} filter={filter} />
