@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  width: 11.8em;
+  width: 13em;
   margin-right: 0.5em;
 `
 
