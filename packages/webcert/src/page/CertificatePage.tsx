@@ -12,6 +12,7 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
 import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import { getUserStatistics } from '../store/user/userActions'
 
 const Root = styled.div`
   height: 100vh;
@@ -53,6 +54,7 @@ const CertificatePage: React.FC = () => {
   useEffect(() => {
     if (certificateId) {
       dispatch(getCertificate(certificateId))
+      dispatch(getUserStatistics())
     }
   }, [dispatch, certificateId])
 

@@ -1,24 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import NumberCircle from '../utils/NumberCircle'
 import classNames from 'classnames'
+import { useKeyPress } from '../../utils/userFunctionUtils'
 
 const Wrapper = styled.nav`
   button {
     display: inline;
     margin-right: 48px;
   }
+
+  .tab_link {
+    cursor: pointer;
+  }
 `
 
 export interface Props {
   tabs: UserTab[]
+  onSwitchTab?: () => void
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
+const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
   const history = useHistory()
   const match = useRouteMatch()
+  const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
+  const enterPress = useKeyPress('Enter')
+
+  useEffect(() => {
+    if (focusedTab) {
+      handleClick(focusedTab)
+    }
+  }, [enterPress])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -29,7 +43,16 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
   }
 
   const handleClick = (tab: UserTab) => {
-    history.push(tab.url)
+    if (match.url !== tab.url) {
+      if (onSwitchTab) {
+        onSwitchTab()
+      }
+      history.push(tab.url)
+    }
+  }
+
+  const handleFocus = (tab: UserTab) => {
+    setFocusedTab(tab)
   }
 
   const getTabs = () => {
@@ -38,10 +61,11 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
         <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
           <a
             tabIndex={0}
-            className={classNames('ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
+            className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
+            onFocus={() => handleFocus(tab)}
             onClick={() => handleClick(tab)}>
             <span>{tab.title}</span>
-            {tab.number && <NumberCircle number={tab.number} style="secondary" />}
+            {!!tab.number && <NumberCircle number={tab.number} style="secondary" />}
           </a>
         </li>
       )

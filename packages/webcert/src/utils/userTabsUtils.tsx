@@ -9,64 +9,62 @@ export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | 
 }
 
 const getTabsForDoctor = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
-  const tabs = []
-  if (hasLink(links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE)) {
-    tabs.push(getSearchCreateTab())
-  }
+  const tabs: UserTab[] = []
 
-  if (hasLink(links, ResourceLinkType.ACCESS_DRAFT_LIST)) {
-    tabs.push(getDraftListTab(statistics))
-  }
-
-  if (hasLink(links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST)) {
-    tabs.push(getCertificateListTab())
-  }
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
 
   return tabs
+}
+
+const addTabIfAccessToPage = (
+  tabs: UserTab[],
+  statistics: UserStatistics | undefined,
+  links: ResourceLink[],
+  type: ResourceLinkType,
+  getTab: (link: ResourceLink, statistics?: UserStatistics) => UserTab
+) => {
+  const link = getLink(links, type)
+  if (link) {
+    tabs.push(getTab(link, statistics))
+  }
 }
 
 const getTabsForAdministrator = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
-  const tabs = []
+  const tabs: UserTab[] = []
 
-  if (hasLink(links, ResourceLinkType.ACCESS_DRAFT_LIST)) {
-    tabs.push(getDraftListTab(statistics))
-  }
-
-  if (hasLink(links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST)) {
-    tabs.push(getCertificateListTab())
-  }
-
-  if (hasLink(links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE)) {
-    tabs.push(getSearchCreateTab())
-  }
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
 
   return tabs
 }
 
-const hasLink = (links: ResourceLink[], linkType: ResourceLinkType) => {
-  return links.some((link) => link.type === linkType)
+const getLink = (links: ResourceLink[], linkType: ResourceLinkType) => {
+  return links.find((link) => link.type === linkType)
 }
 
-const getSearchCreateTab = (): UserTab => {
+const getSearchCreateTab = (link: ResourceLink): UserTab => {
   return {
-    title: 'Sök/Skriv intyg',
+    title: link.name,
     url: '/create',
     matchedUrls: ['/certificate'],
   }
 }
 
-const getDraftListTab = (statistics: UserStatistics | undefined): UserTab => {
+const getDraftListTab = (link: ResourceLink, statistics: UserStatistics | undefined): UserTab => {
   return {
     number: statistics ? statistics.nbrOfDraftsOnSelectedUnit : undefined,
-    title: 'Ej signerade utkast',
+    title: link.name,
     url: '/list/draft',
     matchedUrls: [],
   }
 }
 
-const getCertificateListTab = (): UserTab => {
+const getCertificateListTab = (link: ResourceLink): UserTab => {
   return {
-    title: 'Signerade intyg',
+    title: link.name,
     url: '/list/certificate',
     matchedUrls: [],
   }

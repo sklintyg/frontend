@@ -5,7 +5,7 @@ import {
   clearActiveListFilter,
   clearActiveListType,
   clearListError,
-  resetState,
+  resetListState,
   setListError,
   updateActiveList,
   updateActiveListConfig,
@@ -102,7 +102,7 @@ const listReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateHasValidationError, (state, action) => {
       state.hasValidationError = action.payload
     })
-    .addCase(resetState, () => getInitialState())
+    .addCase(resetListState, () => getInitialState())
 )
 
 export default listReducer

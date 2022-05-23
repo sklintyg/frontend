@@ -3,25 +3,21 @@ import { AnyAction } from '@reduxjs/toolkit'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
 import {
   getAllDynamicLinks,
+  getAllDynamicLinksError,
   getAllDynamicLinksStarted,
   getAllDynamicLinksSuccess,
   getConfig,
+  getConfigError,
   getConfigStarted,
   getConfigSuccess,
   getDiagnosisTypeahead,
   getDiagnosisTypeaheadStarted,
   getDiagnosisTypeaheadSuccess,
-  getStatistics,
-  getStatisticsStarted,
-  getStatisticsSuccess,
   updateConfig,
   updateDiagnosisTypeahead,
   updateDynamicLinks,
-  updateStatistics,
-  updateIsLoadingDynamicLinks,
   updateIsLoadingConfig,
-  getConfigError,
-  getAllDynamicLinksError,
+  updateIsLoadingDynamicLinks,
 } from './utilsActions'
 
 const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -105,22 +101,6 @@ const handleGetConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
   dispatch(updateIsLoadingConfig(true))
 }
 
-const handleGetStatistics: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  dispatch(
-    apiCallBegan({
-      url: '/moduleapi/stat',
-      method: 'GET',
-      onStart: getStatisticsStarted.type,
-      onSuccess: getStatisticsSuccess.type,
-      onError: apiSilentGenericError.type,
-    })
-  )
-}
-
-const handleGetStatisticsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
-  dispatch(updateStatistics(action.payload))
-}
-
 const middlewareMethods = {
   [getAllDynamicLinks.type]: handleGetAllDynamicLinks,
   [getAllDynamicLinksSuccess.type]: handleGetAllDynamicLinksSuccess,
@@ -132,8 +112,6 @@ const middlewareMethods = {
   [getConfigSuccess.type]: handleGetConfigSuccess,
   [getConfigError.type]: handleGetConfigError,
   [getConfigStarted.type]: handleGetConfigStarted,
-  [getStatistics.type]: handleGetStatistics,
-  [getStatisticsSuccess.type]: handleGetStatisticsSuccess,
 }
 
 export const utilsMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
