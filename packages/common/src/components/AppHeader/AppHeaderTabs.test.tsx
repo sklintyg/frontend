@@ -8,6 +8,7 @@ import { UserTab } from '../../types/utils'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '@frontend/webcert/src/store/reducers'
 import { userMiddleware } from '@frontend/webcert/src/store/user/userMiddleware'
+import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
 
@@ -25,12 +26,14 @@ const getTabs = (url: string, matchedUrl: string): UserTab[] => {
   ]
 }
 
+const onSwitchTab = jest.fn()
+
 const renderComponent = (url: string, matchedUrl: string) => {
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={[PAGE_URL]}>
         <Route path={PAGE_URL}>
-          <AppHeaderTabs tabs={getTabs(url, matchedUrl)} />{' '}
+          <AppHeaderTabs onSwitchTab={onSwitchTab} tabs={getTabs(url, matchedUrl)} />{' '}
         </Route>
       </MemoryRouter>
     </Provider>
@@ -68,5 +71,11 @@ describe('AppHeaderTabs', () => {
   it('should not set tab as selected if url is not matched', () => {
     renderComponent('notMatched', 'notMatched')
     expect(screen.getByRole('listitem').firstChild).not.toHaveClass('selected')
+  })
+
+  it('should call on switch tab when switching tab', () => {
+    renderComponent('', '')
+    userEvent.click(screen.getByText(TAB_TITLE))
+    expect(onSwitchTab).toHaveBeenCalled()
   })
 })

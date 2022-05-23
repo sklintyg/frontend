@@ -5,9 +5,6 @@ import { useHistory, useRouteMatch } from 'react-router-dom'
 import NumberCircle from '../utils/NumberCircle'
 import classNames from 'classnames'
 import { useKeyPress } from '../../utils/userFunctionUtils'
-import { resetPatientState } from '@frontend/webcert/src/store/patient/patientActions'
-import { useDispatch } from 'react-redux'
-import { resetListState } from '@frontend/webcert/src/store/list/listActions'
 
 const Wrapper = styled.nav`
   button {
@@ -22,14 +19,14 @@ const Wrapper = styled.nav`
 
 export interface Props {
   tabs: UserTab[]
+  onSwitchTab?: () => void
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
+const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
   const history = useHistory()
   const match = useRouteMatch()
   const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
   const enterPress = useKeyPress('Enter')
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (focusedTab) {
@@ -47,8 +44,9 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs }) => {
 
   const handleClick = (tab: UserTab) => {
     if (match.url !== tab.url) {
-      dispatch(resetPatientState())
-      dispatch(resetListState())
+      if (onSwitchTab) {
+        onSwitchTab()
+      }
       history.push(tab.url)
     }
   }
