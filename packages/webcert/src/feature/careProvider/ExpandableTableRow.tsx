@@ -55,8 +55,8 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
   const draftsOnUnit = unitStatistics[careUnitId].draftsOnUnit
   const draftsOnSubUnits = unitStatistics[careUnitId].draftsOnSubUnits
 
-  const getSum = (x: number, y: number) => {
-    return x + y
+  const getTotal = (x: number, y: number) => {
+    return units.length > 0 && `(total ${x + y})`
   }
 
   return (
@@ -71,10 +71,10 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
           </button>
         </td>
         <td>
-          {questionsOnUnit} {units.length > 0 && `(total ${getSum(questionsOnUnit, questionsOnSubUnits)})`}
+          {questionsOnUnit} {getTotal(questionsOnUnit, questionsOnSubUnits)}
         </td>
         <td>
-          {draftsOnUnit} {units.length > 0 && `(total ${getSum(draftsOnUnit, draftsOnSubUnits)})`}
+          {draftsOnUnit} {getTotal(draftsOnUnit, draftsOnSubUnits)}
         </td>
       </tr>
       {units.length > 0 &&
