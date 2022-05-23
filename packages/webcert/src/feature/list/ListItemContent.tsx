@@ -113,6 +113,9 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
       case CertificateListItemValueType.RENEW_BUTTON:
         return getRenewCertificateButton()
       case CertificateListItemValueType.FORWARD:
+        if (!value) {
+          return <td />
+        }
         return (value as ForwardedListInfo).forwarded ? (
           <td>
             <StyledIcon
