@@ -30,6 +30,12 @@ const StyledTable = styled.table<TableProps>`
     background-color: rgba(1, 165, 163, 0.08) !important;
   }
 
+  .empty-results {
+    td {
+      background-color: white !important;
+    }
+  }
+
   th {
     cursor: pointer;
   }
@@ -101,8 +107,8 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
           </tr>
         )}
         {!isLoadingContent && isEmptyList && (
-          <tr>
-            <td className="iu-border-white">
+          <tr className="empty-results">
+            <td className="iu-border-white iu-bg-white">
               <p className="iu-pt-200">Inga resultat att visa.</p>
             </td>
           </tr>
