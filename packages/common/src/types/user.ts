@@ -42,7 +42,7 @@ export interface UserStatistics {
 }
 
 export interface UnitStatistics {
-   [key: string]: UnitStatistic 
+  [key: string]: UnitStatistic
 }
 
 export interface UnitStatistic {

@@ -2,42 +2,70 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import store from '../../store/store'
-import { updateUser } from '../../store/user/userActions'
-import { LoginMethod, PopUpModal, SigningMethod, Unit, User } from '@frontend/common'
-import { CareProviderModalContent } from './CareProviderModalContent'
+import { updateUser, updateUserStatistics } from '../../store/user/userActions'
+import { LoginMethod, SigningMethod, Unit, User, UserStatistics, UnitStatistic, UnitStatistics } from '@frontend/common'
+import CareProviderModal from './CareProviderModal'
+import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '../../store/reducers'
+import apiMiddleware from '../../store/api/apiMiddleware'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import MockAdapter from 'axios-mock-adapter/types'
 
-const renderComponent = (user: User) => {
+let fakeAxios: MockAdapter
+let testStore: EnhancedStore
+
+const renderComponent = () => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <BrowserRouter>
-        <PopUpModal modalTitle="Välj vårdgivare" open={user && !user.loggedInUnit.unitId}>
-          <CareProviderModalContent />
-        </PopUpModal>
+        <CareProviderModal />
       </BrowserRouter>
     </Provider>
   )
 }
 
 describe('Care provider modal', () => {
-  it('should show care provider modal if logged in unit is not set', () => {
-    store.dispatch(updateUser(getUserWithEmptyUnit()))
+  beforeEach(() => {
+    fakeAxios = new MockAdapter(axios)
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, userMiddleware),
+    })
+  })
 
-    renderComponent(getUserWithEmptyUnit())
-    expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
+  it('should show care provider modal if logged in unit is not set', () => {
+    testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
+
+    renderComponent()
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
   })
 
   it('should not show modal if logged in unit is set', () => {
-    store.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUser(getUser()))
 
-    renderComponent(getUser())
-    expect(screen.queryByText('Välj vårdenhet')).not.toBeInTheDocument()
+    renderComponent()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('should close modal when unit is chosen', () => {
+    testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
+    fakeAxios.onPost('/api/user/unit/1234a').reply(200, getUser())
+
+    renderComponent()
+
+    userEvent.click(screen.getByText('Care unit'))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('should show care units when care provider modal is open', () => {
-    store.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUser(getUserWithEmptyUnit()))
 
-    renderComponent(getUserWithEmptyUnit())
+    renderComponent()
     expect(screen.getByText('Care unit')).toBeInTheDocument()
   })
 })
@@ -62,7 +90,7 @@ const getUserWithEmptyUnit = (): User => {
         name: 'Care Provider',
         careUnits: [
           {
-            unitId: '',
+            unitId: '1234a',
             unitName: 'Care unit',
             address: '',
             zipCode: '',
@@ -72,7 +100,7 @@ const getUserWithEmptyUnit = (): User => {
             isInactive: false,
             units: [
               {
-                unitId: '',
+                unitId: '1234b',
                 unitName: 'Unit',
                 address: '',
                 zipCode: '',
@@ -91,8 +119,8 @@ const getUserWithEmptyUnit = (): User => {
 
 const getUser = (): User => {
   const unit: Unit = {
-    unitId: 'unitId',
-    unitName: 'unit name',
+    unitId: '1234a',
+    unitName: 'Care unit',
     address: '',
     zipCode: '',
     city: '',
@@ -115,11 +143,11 @@ const getUser = (): User => {
     careProviders: [
       {
         id: '',
-        name: '',
+        name: 'Care Provider',
         careUnits: [
           {
-            unitId: '',
-            unitName: '',
+            unitId: '1234a',
+            unitName: 'Care unit',
             address: '',
             zipCode: '',
             city: '',
@@ -128,8 +156,8 @@ const getUser = (): User => {
             isInactive: false,
             units: [
               {
-                unitId: '',
-                unitName: '',
+                unitId: '1234b',
+                unitName: 'Unit',
                 address: '',
                 zipCode: '',
                 city: '',
@@ -142,5 +170,26 @@ const getUser = (): User => {
         ],
       },
     ],
+  }
+}
+
+const getUserStatistics = (): UserStatistics => {
+  const unitStatistic: UnitStatistic = {
+    draftsOnUnit: 3,
+    questionsOnUnit: 0,
+    draftsOnSubUnits: 1,
+    questionsOnSubUnits: 5,
+  }
+
+  const unitStatistics: UnitStatistics = {
+    '1234a': unitStatistic,
+    '1234b': unitStatistic,
+  }
+
+  return {
+    nbrOfDraftsOnSelectedUnit: 6,
+    nbrOfUnhandledQuestionsOnSelectedUnit: 10,
+    totalDraftsAndUnhandledQuestionsOnOtherUnits: 17,
+    unitStatistics: unitStatistics,
   }
 }
