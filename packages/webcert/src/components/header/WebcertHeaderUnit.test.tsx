@@ -8,7 +8,7 @@ const createUserMock = ({ inactiveUnit = false } = {}): User =>
   ({
     name: 'Test Testsson',
     role: 'Läkare',
-    loggedInUnit: { unitName: 'Unit', isInactive: inactiveUnit } as Unit,
+    loggedInUnit: { unitId: 'unit', unitName: 'Unit', isInactive: inactiveUnit } as Unit,
     loggedInCareProvider: { unitName: 'Care provider' } as Unit,
   } as User)
 
@@ -20,6 +20,7 @@ describe('Webcert header unit', () => {
     spy.mockReturnValue(mockUser)
 
     render(<WebcertHeaderUnit />)
+
     expect(screen.getByText(/Unit/i)).toBeInTheDocument()
     expect(screen.getByText(/Care provider/i)).toBeInTheDocument()
   })

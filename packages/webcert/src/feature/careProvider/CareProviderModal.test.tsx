@@ -6,15 +6,19 @@ import { updateUser, updateUserStatistics } from '../../store/user/userActions'
 import { LoginMethod, SigningMethod, Unit, User, UserStatistics, UnitStatistic, UnitStatistics } from '@frontend/common'
 import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
-import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import MockAdapter from 'axios-mock-adapter/types'
+import MockAdapter from 'axios-mock-adapter'
+import axios from 'axios'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
+
+// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
+const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const renderComponent = () => {
   render(
@@ -31,9 +35,11 @@ describe('Care provider modal', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, userMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
     })
   })
+
+  afterEach(() => clearDispatchedActions())
 
   it('should show care provider modal if logged in unit is not set', () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
@@ -50,20 +56,23 @@ describe('Care provider modal', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  it('should close modal when unit is chosen', () => {
+  it('should close modal when unit is chosen', async () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
     testStore.dispatch(updateUserStatistics(getUserStatistics()))
-    fakeAxios.onPost('/api/user/unit/1234a').reply(200, getUser())
+    fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
 
     renderComponent()
 
     userEvent.click(screen.getByText('Care unit'))
+
+    await flushPromises()
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('should show care units when care provider modal is open', () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
 
     renderComponent()
     expect(screen.getByText('Care unit')).toBeInTheDocument()

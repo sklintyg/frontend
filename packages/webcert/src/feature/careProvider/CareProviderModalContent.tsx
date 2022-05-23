@@ -17,11 +17,11 @@ export const CareProviderModalContent: React.FC = () => {
 
   return (
     <>
-      {user?.careProviders.map((careProvider) => {
+      {user?.careProviders.map((careProvider, idx) => {
         const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
 
         return (
-          <SimpleTable headings={headings}>
+          <SimpleTable headings={headings} key={idx}>
             {careProvider.careUnits.map((careUnit) => {
               return (
                 <ExpandableTableRow

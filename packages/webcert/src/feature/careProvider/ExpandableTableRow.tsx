@@ -1,7 +1,7 @@
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Unit, UnitStatistic } from '@frontend/common'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getUnitStatistics } from '../../store/user/userSelectors'
@@ -56,7 +56,7 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
   const draftsOnSubUnits = unitStatistics[careUnitId].draftsOnSubUnits
 
   return (
-    <>
+    <Fragment key={careUnitId}>
       <tr>
         <td>
           {units.length > 0 && (
@@ -74,9 +74,15 @@ export const ExpandableTableRow: React.FC<Props> = ({ careUnit, careUnitId, unit
         </td>
       </tr>
       {units.length > 0 &&
-        units.map((unit) => (
-          <ExpandedUnit isExpanded={isExpanded} unit={unit} handleChooseUnit={handleChooseUnit} statistics={unitStatistics[unit.unitId]} />
+        units.map((unit, idx) => (
+          <ExpandedUnit
+            isExpanded={isExpanded}
+            unit={unit}
+            handleChooseUnit={handleChooseUnit}
+            statistics={unitStatistics[unit.unitId]}
+            key={idx}
+          />
         ))}
-    </>
+    </Fragment>
   )
 }
