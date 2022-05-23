@@ -5,7 +5,6 @@ import ReactTooltip from 'react-tooltip'
 
 interface Props {
   caption?: string
-  children: React.ReactNode
   headings: string[]
   isLoadingContent?: boolean
 }
