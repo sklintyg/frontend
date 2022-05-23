@@ -20,7 +20,7 @@ export interface Props {
   onSwitchTab?: () => void
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs, onSwitchTab = [] }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs = [], onSwitchTab }) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
