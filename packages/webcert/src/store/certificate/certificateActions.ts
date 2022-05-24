@@ -304,6 +304,7 @@ export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
 export interface RevokeCertificateReason {
   reason: string
   message: string
+  title: string
 }
 
 export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CERTIFICATE)
