@@ -12,7 +12,7 @@ interface Props {
   additionalStyles?: string
   disabled?: boolean
   wrapperAdditionalStyles?: string
-  tooltip: string
+  tooltip?: string
 }
 
 interface LabelProps {
