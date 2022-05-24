@@ -13,6 +13,7 @@ interface Props {
   disabled?: boolean
   wrapperAdditionalStyles?: string
   tooltip?: string
+  tooltipPlacement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
 interface LabelProps {
@@ -38,10 +39,11 @@ const RadioButton: React.FC<Props> = (props) => {
     wrapperAdditionalStyles,
     children,
     tooltip,
+    tooltipPlacement,
   } = props
 
   return (
-    <div className={wrapperAdditionalStyles} data-tip={tooltip}>
+    <div className={wrapperAdditionalStyles} data-tip={tooltip} data-place={tooltipPlacement}>
       <input
         disabled={props.disabled}
         type="radio"
