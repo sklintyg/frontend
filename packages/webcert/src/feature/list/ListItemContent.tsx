@@ -74,7 +74,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     return links ? links.find((link) => link.type === type) : undefined
   }
 
-  const getNotForwardedContent = (info: ForwardedListInfo) => {
+  const getForwardedButton = (info: ForwardedListInfo) => {
     const link = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
     if (link) {
       return (
@@ -112,11 +112,10 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
         return getOpenCertificateButton()
       case CertificateListItemValueType.RENEW_BUTTON:
         return getRenewCertificateButton()
+      case CertificateListItemValueType.FORWARD_BUTTON:
+        return getForwardedButton(value as ForwardedListInfo)
       case CertificateListItemValueType.FORWARD:
-        if (!value) {
-          return <td />
-        }
-        return (value as ForwardedListInfo).forwarded ? (
+        return value ? (
           <td>
             <StyledIcon
               src={check}
@@ -125,7 +124,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             />
           </td>
         ) : (
-          getNotForwardedContent(value as ForwardedListInfo)
+          <td />
         )
       case CertificateListItemValueType.HIDDEN:
       default:
