@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import { User } from '@frontend/common/src'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
+import userImage from '@frontend/common/src/images/user-image.svg'
+import lock from '@frontend/common/src/images/lock-closed.svg'
 
 const Italic = styled.span`
   font-style: italic;
@@ -31,7 +33,7 @@ const WebcertHeaderUser: React.FC = () => {
   return (
     <>
       <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal as boolean} preferenceKey={protectedUserApprovalKey} />
-      <AppHeaderUser items={toString(user)} />
+      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lock : userImage} />
     </>
   )
 }
