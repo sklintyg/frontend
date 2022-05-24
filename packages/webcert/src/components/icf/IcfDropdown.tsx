@@ -73,7 +73,7 @@ const IcfDropdown: React.FC<Props> = ({
   }
 
   const getTooltip = () => {
-    return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd' : ''
+    return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd.' : ''
   }
 
   const handleToggleDropdownButtonClick = () => {
