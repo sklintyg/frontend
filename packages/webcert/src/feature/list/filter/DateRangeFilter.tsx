@@ -55,16 +55,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   useEffect(() => {
     if (value) {
       toggleValidationError(value.to, value.from)
+      toggleSpecificValidationError(value.to, configTo, setToValidationError)
+      toggleSpecificValidationError(value.from, configFrom, setFromValidationError)
     }
   }, [value])
-
-  useEffect(() => {
-    toggleSpecificValidationError(value.to, configTo, setToValidationError)
-  }, [value.to])
-
-  useEffect(() => {
-    toggleSpecificValidationError(value.from, configFrom, setFromValidationError)
-  }, [value.from])
 
   useEffect(() => {
     dispatch(updateHasValidationError(!!validationError || !!toValidationError || !!fromValidationError))
