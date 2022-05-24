@@ -22,12 +22,12 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
-    onChange({ reason: event.target.value, message: '' })
+    onChange({ reason: event.target.value, message: '', title: '' })
   }
 
-  const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>, title: string) => {
     setTextArea({ ...textArea, value: event.target.value })
-    onChange({ reason: textArea.name, message: textLabel + ' ' + event.target.value })
+    onChange({ reason: textArea.name, message: event.target.value, title: title })
   }
 
   const infoBoxText = locked
@@ -62,13 +62,17 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
       <p>{infoText}</p>
       <p className="iu-fw-bold iu-fs-200">{getRevokeReasonText()}</p>
       <div role="radiogroup" aria-label="Radiogrupp ge anledning för makulering" className="ic-radio-group-vertical">
-        {/* TODO: Add dynamic text below. "Utkastet har skapats på fel patient" || "Intyget har utfärdats på fel patient" */}
         <RadioButton id="FEL_PATIENT" onChange={handleRadioButtonChange} label={textLabel} value="FEL_PATIENT" name="radio_invoke_reason" />
-        {/*TODO: kolla om fel patient ska togglas om den är locked.  */}
         {textArea.display && textArea.name === 'FEL_PATIENT' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>
-            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={3500} />
+            <TextArea
+              rowsMin={3}
+              name={textArea.name}
+              value={textArea.value}
+              onChange={(e) => handleTextAreaChange(e, textLabel)}
+              limit={3500}
+            />
           </div>
         )}
         <RadioButton
@@ -85,7 +89,13 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
               <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
               Ange orsaken till felet.
             </p>
-            <TextArea rowsMin={3} name={textArea.name} value={textArea.value} onChange={handleTextAreaChange} limit={3500} />
+            <TextArea
+              rowsMin={3}
+              name={textArea.name}
+              value={textArea.value}
+              onChange={(e) => handleTextAreaChange(e, 'Annat allvarligt fel')}
+              limit={3500}
+            />
           </div>
         )}
       </div>
