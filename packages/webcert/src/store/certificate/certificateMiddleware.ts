@@ -333,7 +333,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/revoke',
       method: 'POST',
-      data: action.payload,
+      data: { reason: action.payload.reason, message: action.payload.title + ' ' + action.payload.message },
       onStart: revokeCertificateStarted.type,
       onSuccess: revokeCertificateSuccess.type,
       onError: certificateApiGenericError.type,
