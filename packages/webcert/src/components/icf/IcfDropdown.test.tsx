@@ -93,7 +93,7 @@ describe('IcfDropdown', () => {
 
   xit('display tooltip if no icd codes', () => {
     renderComponent()
-    const expected = 'Ange minst en diagnos för att få ICF-stöd'
+    const expected = 'Ange minst en diagnos för att få ICF-stöd.'
 
     userEvent.hover(screen.getByText('Ta hjälp av ICF'))
 
