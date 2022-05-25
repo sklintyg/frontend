@@ -29,6 +29,10 @@ describe('patientIdValidatorUtils', () => {
     it('should validate as false if person id is not correct and includes dash', () => {
       expect(isPersonIdValid('19121212-1213')).toBeFalsy()
     })
+
+    it('should validate all twos as false', () => {
+      expect(isPersonIdValid('222222222222')).toBeFalsy()
+    })
   })
 
   describe('Samordningsnummer', () => {
