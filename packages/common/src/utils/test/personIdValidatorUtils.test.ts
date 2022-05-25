@@ -1,4 +1,5 @@
-import { isPersonIdValid } from '../personIdValidatorUtils'
+import { add, formatISO, sub } from 'date-fns'
+import { calculateCheckDigit, isPersonIdValid } from '../personIdValidatorUtils'
 
 describe('patientIdValidatorUtils', () => {
   it('should validate as false if person id includes letters', () => {
@@ -11,6 +12,17 @@ describe('patientIdValidatorUtils', () => {
 
   it('should validate as false if person id is numbers mixed with letters', () => {
     expect(isPersonIdValid('19121212121n')).toBeFalsy()
+  })
+
+  it('should not validate person ids in future', () => {
+    const oldDate = add(new Date(), { years: 1 })
+    const dateStr = formatISO(oldDate, { format: 'basic', representation: 'date' })
+    const validCheckDigit = calculateCheckDigit(dateStr + '001x')
+    expect(isPersonIdValid(dateStr + '001' + validCheckDigit)).toBeFalsy()
+  })
+
+  it('should not validate person ids older than 125 years', () => {
+    expect(isPersonIdValid('189701250018')).toBeFalsy()
   })
 
   describe('Personnummer', () => {
