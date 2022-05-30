@@ -7,13 +7,14 @@ interface Props {
   caption?: string
   headings: string[]
   isLoadingContent?: boolean
+  className: string
 }
 
 const Caption = styled.caption`
   border-top: 0px !important;
 `
 
-const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings }) => {
+const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className }) => {
   useEffect(() => {
     ReactTooltip.rebuild()
   })
@@ -27,7 +28,7 @@ const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, hea
   }
 
   return (
-    <table className="ic-table ic-table--full">
+    <table className={`${className} ic-table ic-table--full`}>
       <thead>
         <tr>{getTableHeadings()}</tr>
       </thead>
