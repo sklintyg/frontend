@@ -109,7 +109,13 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       return isLoadingListConfig ? (
         <></>
       ) : (
-        <List icon={getIcon()} config={config} list={list} filter={filter} title={config?.secondaryTitle ? config.secondaryTitle : ''} />
+        <List
+          icon={excludePageSpecificElements ? getIcon() : undefined}
+          config={config}
+          list={list}
+          filter={filter}
+          title={config?.secondaryTitle ? config.secondaryTitle : ''}
+        />
       )
     }
   }
@@ -122,7 +128,11 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
           <CustomTooltip placement="top" />
           <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           {!isLoadingListConfig && (
-            <ListHeader title={config?.title ? config.title : ''} description={config?.description ? config.description : ''} />
+            <ListHeader
+              icon={getIcon()}
+              title={config?.title ? config.title : ''}
+              description={config?.description ? config.description : ''}
+            />
           )}
         </>
       )}

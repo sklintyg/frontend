@@ -6,7 +6,7 @@ import ListHeader from './ListHeader'
 const renderComponent = () => {
   render(
     <>
-      <ListHeader title="TITLE" description="DESCRIPTION" />
+      <ListHeader icon="icon" title="TITLE" description="DESCRIPTION" />
     </>
   )
 }

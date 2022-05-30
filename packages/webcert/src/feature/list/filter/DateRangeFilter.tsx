@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
+import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import styled from 'styled-components/macro'
@@ -30,6 +30,10 @@ const ValidationErrorContainer = styled.p`
   width: 228px;
 `
 
+const GlobalValidationErrorContainer = styled.p`
+  position: absolute;
+`
+
 const Icon = styled.img`
   width: 14px;
 `
@@ -51,6 +55,8 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   useEffect(() => {
     if (value) {
       toggleValidationError(value.to, value.from)
+      toggleSpecificValidationError(value.to, configTo, setToValidationError)
+      toggleSpecificValidationError(value.from, configFrom, setFromValidationError)
     }
   }, [value])
 
@@ -70,33 +76,12 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     onChange(updatedValue, config.id)
   }
 
-  const shouldShowDateTooFarBackError = (to: string, from: string) => {
-    return (
-      (configTo.min && isDateBehindLimit(to, configTo.min.split('T')[0])) ||
-      (configFrom.min && isDateBehindLimit(from, configFrom.min.split('T')[0]))
-    )
+  const shouldShowDateTooFarBackError = (value: string, limit: string | undefined) => {
+    return limit && isDateBehindLimit(value, limit.split('T')[0])
   }
 
   const toggleValidationError = (to: string, from: string) => {
-    if (shouldShowDateTooFarBackError(to, from)) {
-      setValidationError({
-        category: '',
-        field: '',
-        id: '',
-        text: DATE_BEFORE_MIN,
-        type: 'DATE_BEFORE_MIN',
-        showAlways: true,
-      })
-    } else if (isFutureDate(to) || isFutureDate(from)) {
-      setValidationError({
-        category: '',
-        field: '',
-        id: '',
-        text: FUTURE_DATES_ERROR,
-        type: 'FUTURE_DATES_ERROR',
-        showAlways: true,
-      })
-    } else if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
+    if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
       setValidationError({
         category: '',
         field: '',
@@ -107,6 +92,34 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
       })
     } else {
       setValidationError(null)
+    }
+  }
+
+  const toggleSpecificValidationError = (
+    value: string,
+    config: ListFilterDateConfig,
+    updateValidationError: (value: React.SetStateAction<ValidationError | null>) => void
+  ) => {
+    if (isFutureDate(value)) {
+      updateValidationError({
+        category: '',
+        field: '',
+        id: '',
+        text: FUTURE_DATES_ERROR,
+        type: 'FUTURE_DATES_ERROR',
+        showAlways: true,
+      })
+    } else if (shouldShowDateTooFarBackError(value, config.min)) {
+      setValidationError({
+        category: '',
+        field: '',
+        id: '',
+        text: DATE_BEFORE_MIN,
+        type: 'DATE_BEFORE_MIN',
+        showAlways: true,
+      })
+    } else {
+      updateValidationError(null)
     }
   }
 
@@ -146,7 +159,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             max={configFrom.max}
             min={configFrom.min}
           />
-          {fromValidationError && (
+          {!validationError && fromValidationError && (
             <ValidationErrorContainer className="iu-color-error">{fromValidationError.text}</ValidationErrorContainer>
           )}
         </FilterWrapper>
@@ -164,10 +177,14 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             max={configTo.max}
             min={configTo.min}
           />
-          {toValidationError && <ValidationErrorContainer className="iu-color-error">{toValidationError.text}</ValidationErrorContainer>}
+          {!validationError && toValidationError && (
+            <ValidationErrorContainer className="iu-color-error">{toValidationError.text}</ValidationErrorContainer>
+          )}
         </FilterWrapper>
       </DateRangeWrapper>
-      {validationError && <ValidationErrorContainer className="iu-color-error">{validationError.text}</ValidationErrorContainer>}
+      {validationError && (
+        <GlobalValidationErrorContainer className="iu-color-error">{validationError.text}</GlobalValidationErrorContainer>
+      )}
     </div>
   )
 }

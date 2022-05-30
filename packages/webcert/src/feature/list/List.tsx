@@ -20,7 +20,7 @@ interface Props {
   list: CertificateListItem[]
   filter: ListFilter | undefined
   title: string
-  icon: string
+  icon?: string
 }
 
 const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
@@ -107,7 +107,7 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
   return (
     <>
       <div className="iu-flex iu-pt-500">
-        <img src={icon} className="iu-mr-gutter iu-height-600" />
+        {icon && <img src={icon} className="iu-mr-gutter iu-height-600" />}
         <ContentWrapper>
           <h3>{title}</h3>
           <ListFilterContainer config={config} filter={filter} />

@@ -22,8 +22,6 @@ const renderComponent = () => {
 describe('DateRangeFilter', () => {
   describe('Validation', () => {
     it('should display future dates validation error', () => {
-      renderComponent()
-
       const date = new Date()
       date.setDate(date.getDate() + 1)
       const dateString = date.toISOString().slice(0, 10)
@@ -31,18 +29,20 @@ describe('DateRangeFilter', () => {
         updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: dateString } })
       )
 
+      renderComponent()
+
       expect(screen.getByText('Ange ett giltigt datum. Framtida datum ger inga resultat.')).toBeInTheDocument()
     })
 
     it('should display invalid date period validation error', () => {
-      renderComponent()
-
       store.dispatch(
         updateActiveListFilterValue({
           id: config.id,
           filterValue: { type: ListFilterType.DATE_RANGE, to: '2020-01-01', from: '2020-01-05' },
         })
       )
+
+      renderComponent()
 
       expect(screen.getByText('Ange ett slutdatum som infaller efter startdatumet.')).toBeInTheDocument()
     })
