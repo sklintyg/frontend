@@ -2,53 +2,34 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
-import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
+import { ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 
 export const CareProviderModalContent: React.FC = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser)
   const unitStatistics = useSelector(selectUnitStatistics)
 
-  const getUnitStatistics = (unit: CareUnit | Unit, typeOfStatistic: string) => {
-    if (unit.hasOwnProperty('units')) {
-      switch (typeOfStatistic) {
-        case 'questions':
-          return (
-            unitStatistics[unit.unitId].questionsOnUnit +
-            ` (total ${unitStatistics[unit.unitId].questionsOnUnit + unitStatistics[unit.unitId].questionsOnSubUnits})`
-          ).toString()
-        case 'drafts':
-          return (
-            unitStatistics[unit.unitId].draftsOnUnit +
-            ` (total ${unitStatistics[unit.unitId].draftsOnUnit + unitStatistics[unit.unitId].draftsOnSubUnits})`
-          ).toString()
-        default:
-          return ''
-      }
-    } else {
-      switch (typeOfStatistic) {
-        case 'questions':
-          return unitStatistics[unit.unitId].questionsOnUnit.toString()
-        case 'drafts':
-          return unitStatistics[unit.unitId].draftsOnUnit.toString()
-        default:
-          return ''
-      }
-    }
+  const getUnitStatistics = (amountOnUnit: number, amountOnOtherUnit?: number) => {
+    return (amountOnUnit + (amountOnOtherUnit !== undefined ? ` (total ${amountOnUnit + amountOnOtherUnit})` : '')).toString()
   }
 
   const getRows = (units: Unit[]) => {
-    return units.map((unit) => (
-      <tr key={unit.unitId}>
-        <td>
-          <button className="ic-link iu-ml-700 iu-text-left" type="button" id={unit.unitId} onClick={handleChooseUnit}>
-            {unit.unitName}
-          </button>
-        </td>
-        <td>{getUnitStatistics(unit, 'questions')}</td>
-        <td>{getUnitStatistics(unit, 'drafts')}</td>
-      </tr>
-    ))
+    return units.map((unit) => {
+      const questionsOnUnit = unitStatistics[unit.unitId].questionsOnUnit
+      const draftsOnUnit = unitStatistics[unit.unitId].draftsOnUnit
+
+      return (
+        <tr key={unit.unitId}>
+          <td>
+            <button className="ic-link iu-ml-700 iu-text-left" type="button" id={unit.unitId} onClick={handleChooseUnit}>
+              {unit.unitName}
+            </button>
+          </td>
+          <td>{getUnitStatistics(questionsOnUnit)}</td>
+          <td>{getUnitStatistics(draftsOnUnit)}</td>
+        </tr>
+      )
+    })
   }
 
   const handleChooseUnit = (event: React.MouseEvent) => {
@@ -64,10 +45,19 @@ export const CareProviderModalContent: React.FC = () => {
 
         return (
           <SimpleTable headings={headings} key={idx} className="iu-mb-800">
-            {careProvider.careUnits.map((careUnit) =>
-              careUnit.units.length > 0 ? (
+            {careProvider.careUnits.map((careUnit) => {
+              const questionsOnUnit = unitStatistics[careUnit.unitId].questionsOnUnit
+              const questionsOnSubUnits = unitStatistics[careUnit.unitId].questionsOnSubUnits
+              const draftsOnUnit = unitStatistics[careUnit.unitId].draftsOnUnit
+              const draftsOnSubUnits = unitStatistics[careUnit.unitId].draftsOnSubUnits
+
+              return careUnit.units.length > 0 ? (
                 <ExpandableTableRow
-                  rowContent={[careUnit.unitName, getUnitStatistics(careUnit, 'questions'), getUnitStatistics(careUnit, 'drafts')]}
+                  rowContent={[
+                    careUnit.unitName,
+                    getUnitStatistics(questionsOnUnit, questionsOnSubUnits),
+                    getUnitStatistics(draftsOnUnit, draftsOnSubUnits),
+                  ]}
                   id={careUnit.unitId}
                   handleClick={handleChooseUnit}
                   key={careUnit.unitId}>
@@ -80,11 +70,11 @@ export const CareProviderModalContent: React.FC = () => {
                       {careUnit.unitName}
                     </button>
                   </td>
-                  <td>{getUnitStatistics(careUnit, 'questions')}</td>
-                  <td>{getUnitStatistics(careUnit, 'drafts')}</td>
+                  <td>{getUnitStatistics(questionsOnUnit, questionsOnSubUnits)}</td>
+                  <td>{getUnitStatistics(draftsOnUnit, draftsOnSubUnits)}</td>
                 </tr>
               )
-            )}
+            })}
           </SimpleTable>
         )
       })}
