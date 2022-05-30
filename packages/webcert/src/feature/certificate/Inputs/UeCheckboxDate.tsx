@@ -101,7 +101,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   }
 
   return (
-    <Wrapper className="iu-pb-400">
+    <Wrapper>
       <Checkbox
         id={'checkbox_' + id}
         label={label}

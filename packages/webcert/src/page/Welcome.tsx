@@ -222,7 +222,6 @@ const Welcome: React.FC = () => {
                     checked={isFakeLogin}
                     id={'fake'}
                     name={'fake'}
-                    disabled={!isDeepIntegration}
                     onChange={() => setFakeLogin(true)}
                   />
                   <RadioButton
@@ -232,7 +231,6 @@ const Welcome: React.FC = () => {
                     checked={!isFakeLogin}
                     id={'siths'}
                     name={'siths'}
-                    disabled={!isDeepIntegration}
                     onChange={() => setFakeLogin(false)}
                   />
                 </div>
