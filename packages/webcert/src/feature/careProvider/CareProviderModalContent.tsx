@@ -16,7 +16,13 @@ export const CareProviderModalContent: React.FC = () => {
     ).toString()
   }
 
-  const getRows = (units: Unit[]) => {
+  const handleChooseUnit = (event: React.MouseEvent) => {
+    const unitId = event.currentTarget.id
+
+    dispatch(setUnit(unitId))
+  }
+
+  const getExpandedRows = (units: Unit[]) => {
     return units.map((unit) => {
       const questionsOnUnit = unitStatistics[unit.unitId].questionsOnUnit
       const draftsOnUnit = unitStatistics[unit.unitId].draftsOnUnit
@@ -35,49 +41,53 @@ export const CareProviderModalContent: React.FC = () => {
     })
   }
 
-  const handleChooseUnit = (event: React.MouseEvent) => {
-    const unitId = event.currentTarget.id
+  const statistics = (id: string) => {
+    return {
+      questionsOnUnit: unitStatistics[id].questionsOnUnit,
+      questionsOnSubUnits: unitStatistics[id].questionsOnSubUnits,
+      draftsOnUnit: unitStatistics[id].draftsOnUnit,
+      draftsOnSubUnits: unitStatistics[id].draftsOnSubUnits,
+    }
+  }
 
-    dispatch(setUnit(unitId))
+  const renderRows = (careUnit: CareUnit) => {
+    const getStatistics = statistics(careUnit.unitId)
+    const isRowExpandable = careUnit.units.length > 0
+
+    return isRowExpandable ? (
+      <ExpandableTableRow
+        rowContent={[
+          careUnit.unitName,
+          getUnitStatistics(getStatistics.questionsOnUnit, getStatistics.questionsOnSubUnits, careUnit),
+          getUnitStatistics(getStatistics.draftsOnUnit, getStatistics.draftsOnSubUnits, careUnit),
+        ]}
+        id={careUnit.unitId}
+        handleClick={handleChooseUnit}
+        key={careUnit.unitId}>
+        {getExpandedRows(careUnit.units)}
+      </ExpandableTableRow>
+    ) : (
+      <tr key={careUnit.unitId}>
+        <td>
+          <button className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
+            {careUnit.unitName}
+          </button>
+        </td>
+        <td>{getUnitStatistics(getStatistics.questionsOnUnit, getStatistics.questionsOnSubUnits, careUnit)}</td>
+        <td>{getUnitStatistics(getStatistics.draftsOnUnit, getStatistics.draftsOnSubUnits, careUnit)}</td>
+      </tr>
+    )
   }
 
   return (
     <>
       {user?.careProviders.map((careProvider) => {
-        const headings = [careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']
-
         return (
-          <SimpleTable headings={headings} key={careProvider.id} className="iu-mb-800">
-            {careProvider.careUnits.map((careUnit) => {
-              const questionsOnUnit = unitStatistics[careUnit.unitId].questionsOnUnit
-              const questionsOnSubUnits = unitStatistics[careUnit.unitId].questionsOnSubUnits
-              const draftsOnUnit = unitStatistics[careUnit.unitId].draftsOnUnit
-              const draftsOnSubUnits = unitStatistics[careUnit.unitId].draftsOnSubUnits
-
-              return careUnit.units.length > 0 ? (
-                <ExpandableTableRow
-                  rowContent={[
-                    careUnit.unitName,
-                    getUnitStatistics(questionsOnUnit, questionsOnSubUnits, careUnit),
-                    getUnitStatistics(draftsOnUnit, draftsOnSubUnits, careUnit),
-                  ]}
-                  id={careUnit.unitId}
-                  handleClick={handleChooseUnit}
-                  key={careUnit.unitId}>
-                  {getRows(careUnit.units)}
-                </ExpandableTableRow>
-              ) : (
-                <tr key={careUnit.unitId}>
-                  <td>
-                    <button className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
-                      {careUnit.unitName}
-                    </button>
-                  </td>
-                  <td>{getUnitStatistics(questionsOnUnit, questionsOnSubUnits, careUnit)}</td>
-                  <td>{getUnitStatistics(draftsOnUnit, draftsOnSubUnits, careUnit)}</td>
-                </tr>
-              )
-            })}
+          <SimpleTable
+            headings={[careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']}
+            key={careProvider.id}
+            className="iu-mb-800">
+            {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}
           </SimpleTable>
         )
       })}
