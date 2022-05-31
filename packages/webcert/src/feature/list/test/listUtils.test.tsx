@@ -1,4 +1,4 @@
-import { getListFilterDefaultValue, isFilterValueDefault, isFilterValuesValid } from '../listUtils'
+import { getListFilterDefaultValue, isFilterValueDefault } from '../listUtils'
 import { ListFilterType } from '@frontend/common/src/types/list'
 import {
   getBooleanFilter,
@@ -11,40 +11,6 @@ import {
 } from './listTestUtils'
 
 describe('listUtils', () => {
-  describe('isFilterValuesValid', () => {
-    it('should return true if filter values is undefined', () => {
-      const result = isFilterValuesValid(undefined)
-      expect(result).toBeTruthy()
-    })
-
-    it('should return true if filter values is empty', () => {
-      const result = isFilterValuesValid({})
-      expect(result).toBeTruthy()
-    })
-
-    it('should return true if filter values contains valid person id', () => {
-      const values = {
-        PERSON_ID: {
-          type: ListFilterType.PERSON_ID,
-          value: '191212121212',
-        },
-      }
-      const result = isFilterValuesValid(values)
-      expect(result).toBeTruthy()
-    })
-
-    it('should return false if filter values contains invalid person id', () => {
-      const values = {
-        PERSON_ID: {
-          type: ListFilterType.PERSON_ID,
-          value: '1912121212',
-        },
-      }
-      const result = isFilterValuesValid(values)
-      expect(result).toBeFalsy()
-    })
-  })
-
   describe('getListFilterDefaultValue', () => {
     it('should return empty string for text value', () => {
       const result = getListFilterDefaultValue(getTextFilter())

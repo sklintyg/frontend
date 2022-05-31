@@ -10,6 +10,7 @@ import read from '@frontend/common/src/images/read.svg'
 
 export const StyledIcon = styled.img`
   width: 14px;
+  margin: auto;
 `
 
 interface Props {

@@ -11,10 +11,8 @@ import {
   ListFilterType,
   ListFilterValue,
   ListFilterValueDateRange,
-  ListFilterValuePersonId,
   ListFilterValues,
 } from '@frontend/common/src/types/list'
-import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
 import { isEqual } from 'lodash'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {
@@ -60,20 +58,6 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
     default:
       return { type: ListFilterType.UNKOWN }
   }
-}
-
-export const isFilterValuesValid = (listFilterValues: ListFilterValues | undefined): boolean => {
-  let hasValidationErrors = false
-  if (!listFilterValues) {
-    return true
-  }
-  Object.keys(listFilterValues).forEach((key) => {
-    if (listFilterValues[key].type === ListFilterType.PERSON_ID) {
-      const personId = (listFilterValues[key] as ListFilterValuePersonId).value
-      hasValidationErrors = personId !== '' && !isPersonIdValid(personId)
-    }
-  })
-  return !hasValidationErrors
 }
 
 export const isFilterDefault = (configs: ListFilterConfig[] | undefined, values: ListFilterValues | undefined): boolean => {

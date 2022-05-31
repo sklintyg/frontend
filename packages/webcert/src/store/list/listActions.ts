@@ -63,6 +63,12 @@ export const clearActiveListType = createAction(`${LIST} Clear active list type`
 
 export const setListError = createAction(`${LIST} Set list error`)
 export const clearListError = createAction(`${LIST} Clear list error`)
-export const updateHasValidationError = createAction<boolean>(`${LIST} Update has validation error`)
+
+export interface ValidationErrorData {
+  id: string
+  value: boolean
+}
+
+export const updateValidationError = createAction<ValidationErrorData>(`${LIST} Update validation error`)
 
 export const resetListState = createAction(`${LIST} Reset state`)

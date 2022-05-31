@@ -117,10 +117,17 @@ describe('ListFilterComponent', () => {
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.TEXT, value: 't' }, component.id)
     })
 
-    it('should update person id filter value', () => {
+    it('should update person id filter value if person id is valid', () => {
       renderComponent(getPersonIdFilter())
       const component = screen.getByRole('textbox')
-      userEvent.type(component, '1')
+      userEvent.type(component, '19121212-1212')
+      expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.PERSON_ID, value: '1' }, component.id)
+    })
+
+    it('should not update person id filter value if person id is invalid', () => {
+      renderComponent(getPersonIdFilter())
+      const component = screen.getByRole('textbox')
+      userEvent.type(component, '19121212-1212')
       expect(onChange).toHaveBeenCalledWith({ type: ListFilterType.PERSON_ID, value: '1' }, component.id)
     })
 

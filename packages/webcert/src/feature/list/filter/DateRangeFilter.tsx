@@ -7,7 +7,7 @@ import styled from 'styled-components/macro'
 import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
 import { FilterWrapper } from './filterStyles'
 import questionImage from '@frontend/common/src/images/question.svg'
-import { updateHasValidationError } from '../../../store/list/listActions'
+import { updateValidationError } from '../../../store/list/listActions'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resultat.'
@@ -45,35 +45,44 @@ const Label = styled.label`
 
 const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const dispatch = useDispatch()
-  const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
+  const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
   const configFrom = config.from
   const configTo = config.to
+  const [savedValue, setSavedValue] = useState<ListFilterValueDateRange>(filterValue)
   const [toValidationError, setToValidationError] = useState<ValidationError | null>(null)
   const [fromValidationError, setFromValidationError] = useState<ValidationError | null>(null)
-  const [validationError, setValidationError] = useState<ValidationError | null>(null)
+  const [globalValidationError, setGlobalValidationError] = useState<ValidationError | null>(null)
 
   useEffect(() => {
-    if (value) {
-      toggleValidationError(value.to, value.from)
-      toggleSpecificValidationError(value.to, configTo, setToValidationError)
-      toggleSpecificValidationError(value.from, configFrom, setFromValidationError)
+    setSavedValue(filterValue)
+  }, [filterValue])
+
+  useEffect(() => {
+    if (savedValue) {
+      toggleValidationError(savedValue.to, savedValue.from)
+      toggleSpecificValidationError(savedValue.to, configTo, setToValidationError, toValidationError)
+      toggleSpecificValidationError(savedValue.from, configFrom, setFromValidationError, fromValidationError)
     }
-  }, [value])
+  }, [savedValue])
 
   useEffect(() => {
-    dispatch(updateHasValidationError(!!validationError || !!toValidationError || !!fromValidationError))
-  }, [dispatch, validationError, toValidationError, fromValidationError])
+    dispatch(updateValidationError({ id: config.id, value: !!globalValidationError || !!toValidationError || !!fromValidationError }))
+  }, [dispatch, globalValidationError, toValidationError, fromValidationError])
 
   const onFromDateFilterChange = (date: string) => {
-    const updatedValue: ListFilterValue = { ...value }
-    updatedValue.from = date
-    onChange(updatedValue, config.id)
+    const updatedValue: ListFilterValueDateRange = { ...savedValue, from: date }
+    if (!fromValidationError && !globalValidationError) {
+      onChange(updatedValue, config.id)
+    }
+    setSavedValue(updatedValue)
   }
 
   const onToDateFilterChange = (date: string) => {
-    const updatedValue: ListFilterValue = { ...value }
-    updatedValue.to = date
-    onChange(updatedValue, config.id)
+    const updatedValue: ListFilterValueDateRange = { ...savedValue, to: date }
+    if (!toValidationError && !globalValidationError) {
+      onChange(updatedValue, config.id)
+    }
+    setSavedValue(updatedValue)
   }
 
   const shouldShowDateTooFarBackError = (value: string, limit: string | undefined) => {
@@ -82,7 +91,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
 
   const toggleValidationError = (to: string, from: string) => {
     if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
-      setValidationError({
+      setGlobalValidationError({
         category: '',
         field: '',
         id: '',
@@ -90,18 +99,21 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         type: 'INVALID_DATE_PERIOD',
         showAlways: true,
       })
+      dispatch(updateValidationError({ id: config.id, value: true }))
     } else {
-      setValidationError(null)
+      setGlobalValidationError(null)
+      dispatch(updateValidationError({ id: config.id, value: false }))
     }
   }
 
   const toggleSpecificValidationError = (
     value: string,
     config: ListFilterDateConfig,
-    updateValidationError: (value: React.SetStateAction<ValidationError | null>) => void
+    saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void,
+    currentValidationError: ValidationError | null
   ) => {
     if (isFutureDate(value)) {
-      updateValidationError({
+      saveValidationError({
         category: '',
         field: '',
         id: '',
@@ -109,8 +121,9 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         type: 'FUTURE_DATES_ERROR',
         showAlways: true,
       })
+      dispatch(updateValidationError({ id: config.id, value: true }))
     } else if (shouldShowDateTooFarBackError(value, config.min)) {
-      setValidationError({
+      saveValidationError({
         category: '',
         field: '',
         id: '',
@@ -118,24 +131,28 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         type: 'DATE_BEFORE_MIN',
         showAlways: true,
       })
-    } else {
-      updateValidationError(null)
+      dispatch(updateValidationError({ id: config.id, value: true }))
+    } else if (currentValidationError && currentValidationError.type !== 'INVALID_DATE_FORMAT') {
+      saveValidationError(null)
+      dispatch(updateValidationError({ id: config.id, value: false }))
     }
   }
 
   const getFromValue = () => {
-    return value ? value.from : ''
+    return savedValue ? savedValue.from : ''
   }
 
   const getToValue = () => {
-    return value ? value.to : ''
+    return savedValue ? savedValue.to : ''
   }
 
   const onValidationError = (isInactive: boolean, validationError: ValidationError) => {
     if (validationError.field === configTo.id) {
       setToValidationError(isInactive ? null : validationError)
+      dispatch(updateValidationError({ id: configTo.id, value: isInactive }))
     } else {
       setFromValidationError(isInactive ? null : validationError)
+      dispatch(updateValidationError({ id: configFrom.id, value: isInactive }))
     }
   }
 
@@ -155,11 +172,11 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             forbidFutureDates={config.forbidFutureDates}
             onDispatchValidationError={onValidationError}
             componentField={configFrom.id}
-            displayValidationErrorOutline={!!fromValidationError || !!validationError}
+            displayValidationErrorOutline={!!fromValidationError || !!globalValidationError}
             max={configFrom.max}
             min={configFrom.min}
           />
-          {!validationError && fromValidationError && (
+          {!globalValidationError && fromValidationError && (
             <ValidationErrorContainer className="iu-color-error">{fromValidationError.text}</ValidationErrorContainer>
           )}
         </FilterWrapper>
@@ -173,17 +190,17 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             forbidFutureDates={config.forbidFutureDates}
             onDispatchValidationError={onValidationError}
             componentField={configTo.id}
-            displayValidationErrorOutline={!!toValidationError || !!validationError}
+            displayValidationErrorOutline={!!toValidationError || !!globalValidationError}
             max={configTo.max}
             min={configTo.min}
           />
-          {!validationError && toValidationError && (
+          {!globalValidationError && toValidationError && (
             <ValidationErrorContainer className="iu-color-error">{toValidationError.text}</ValidationErrorContainer>
           )}
         </FilterWrapper>
       </DateRangeWrapper>
-      {validationError && (
-        <GlobalValidationErrorContainer className="iu-color-error">{validationError.text}</GlobalValidationErrorContainer>
+      {globalValidationError && (
+        <GlobalValidationErrorContainer className="iu-color-error">{globalValidationError.text}</GlobalValidationErrorContainer>
       )}
     </div>
   )
