@@ -1,10 +1,15 @@
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
+import arrow from '../../images/arrow-down.svg'
 
-const StyledArrow = styled(FontAwesomeIcon)`
+const ArrowDown = styled.img`
   cursor: pointer;
+  width: 0.9em;
+  display: inline-block;
+`
+
+const ArrowUp = styled(ArrowDown)`
+  transform: rotate(180deg);
 `
 
 interface Props {
@@ -27,12 +32,11 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
           if (rowContent.indexOf(cell) === 0) {
             return (
               <td key={idx}>
-                <StyledArrow
-                  icon={isExpanded ? faAngleUp : faAngleDown}
-                  className="iu-color-cta-dark iu-mr-300"
-                  data-testid="expandArrow"
-                  onClick={toggleExpand}
-                />
+                {isExpanded ? (
+                  <ArrowUp src={arrow} alt="" onClick={toggleExpand} className="iu-mr-300" data-testid="expandArrow" />
+                ) : (
+                  <ArrowDown src={arrow} alt="" onClick={toggleExpand} className="iu-mr-300" data-testid="expandArrow" />
+                )}
                 <button className="ic-link iu-text-left" type="button" id={id} onClick={handleClick}>
                   {cell}
                 </button>
