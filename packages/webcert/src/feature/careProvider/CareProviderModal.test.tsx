@@ -3,7 +3,13 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { updateUser, updateUserStatistics } from '../../store/user/userActions'
-import { getUserWithEmptyUnit, getUserStatistics, getUser } from '@frontend/common'
+import {
+  getUserWithEmptyUnit,
+  getUserStatistics,
+  getUser,
+  getUserWithEmptyCareUnitWithoutUnits,
+  getUserStatisticsForOneCareUnit,
+} from '@frontend/common'
 import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
@@ -75,5 +81,23 @@ describe('Care provider modal', () => {
 
     renderComponent()
     expect(screen.getByText('Care unit')).toBeInTheDocument()
+  })
+
+  it('should show total amount of unhandled questions if user has units under the care unit', () => {
+    testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
+
+    renderComponent()
+    const text = screen.queryAllByText('total', { exact: false })
+    expect(text).toBeTruthy()
+  })
+
+  it('should show NOT total amount of unhandled questions if user has no units under the care unit', () => {
+    testStore.dispatch(updateUser(getUserWithEmptyCareUnitWithoutUnits()))
+    testStore.dispatch(updateUserStatistics(getUserStatisticsForOneCareUnit()))
+
+    renderComponent()
+    const text = screen.queryByText('total', { exact: false })
+    expect(text).not.toBeInTheDocument()
   })
 })
