@@ -19,8 +19,6 @@ export const getUserStatistics = (state: RootState): UserStatistics | undefined 
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
 
-export const selectCareProviders = (state: RootState): CareProvider | undefined => state.ui.uiUser.user?.careProvider
-
 export const getUnitStatistics = (state: RootState): UnitStatistics =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.unitStatistics : {}
 
