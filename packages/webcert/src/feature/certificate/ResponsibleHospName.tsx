@@ -25,7 +25,7 @@ const ResponsibleHospName: React.FC = () => {
         <p className="iu-fw-bold iu-fs-100">Ansvarig intygsutfärdare</p>
         <span className="iu-fs-200">{!responsibleHospName ? 'Ej angivet' : responsibleHospName}</span>
       </div>
-      <div role="presentation" className="iu-mr-300 iu-ml-300 iu-svg-icon">
+      <div className="iu-mr-300 iu-ml-300 iu-svg-icon">
         <img src={userImage} alt="userImage" className={'iu-mr-100'} />
       </div>
     </Wrapper>

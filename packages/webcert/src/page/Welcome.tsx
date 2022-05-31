@@ -70,8 +70,8 @@ const Welcome: React.FC = () => {
 
   useEffect(() => {
     const updatedCreateCertificate = { ...createCertificate }
-    updatedCreateCertificate.personId = selectedUser.hsaId
-    updatedCreateCertificate.unitId = selectedUser.enhetId
+    updatedCreateCertificate.personId = jsonUser.hsaId
+    updatedCreateCertificate.unitId = jsonUser.enhetId
     dispatch(updateCreateCertificate(updatedCreateCertificate))
     dispatch(triggerLogoutNow())
   }, [])
@@ -101,7 +101,7 @@ const Welcome: React.FC = () => {
   }, [navigateToCertificate])
 
   if (navigateToCertificate && isDeepIntegration) {
-    return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? selectedUser.enhetId : ''} />
+    return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
   }
 
   const handleChangeMultiple = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -111,9 +111,13 @@ const Welcome: React.FC = () => {
 
     setJsonUser({ ...selectedUser, origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' })
 
+    handleUpdateCreateCertificate(selectedUser.hsaId, selectedUser.enhetId)
+  }
+
+  const handleUpdateCreateCertificate = (hsaId: string, unitId: string) => {
     const updatedCreateCertificate = { ...createCertificate }
-    updatedCreateCertificate.personId = selectedUser.hsaId
-    updatedCreateCertificate.unitId = selectedUser.enhetId
+    updatedCreateCertificate.personId = hsaId
+    updatedCreateCertificate.unitId = unitId
     dispatch(updateCreateCertificate(updatedCreateCertificate))
   }
 
@@ -146,7 +150,9 @@ const Welcome: React.FC = () => {
   }
 
   const handleUserChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setJsonUser(JSON.parse(event.currentTarget.value))
+    const jsonUser = JSON.parse(event.currentTarget.value)
+    setJsonUser(jsonUser)
+    handleUpdateCreateCertificate(jsonUser.hsaId, jsonUser.enhetId)
   }
 
   const dispatchPopulateFmb = () => {
@@ -216,7 +222,6 @@ const Welcome: React.FC = () => {
                     checked={isFakeLogin}
                     id={'fake'}
                     name={'fake'}
-                    disabled={!isDeepIntegration}
                     onChange={() => setFakeLogin(true)}
                   />
                   <RadioButton
@@ -226,7 +231,6 @@ const Welcome: React.FC = () => {
                     checked={!isFakeLogin}
                     id={'siths'}
                     name={'siths'}
-                    disabled={!isDeepIntegration}
                     onChange={() => setFakeLogin(false)}
                   />
                 </div>

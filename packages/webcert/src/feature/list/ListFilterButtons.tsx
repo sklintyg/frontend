@@ -4,6 +4,7 @@ import styled from 'styled-components/macro'
 
 interface Props {
   searchTooltip: string
+  resetTooltip: string
   onSearch: () => void
   onReset: () => void
   isSearchEnabled: boolean
@@ -14,11 +15,11 @@ const Wrapper = styled.div`
   gap: 12px;
 `
 
-const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, isSearchEnabled }) => {
+const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, isSearchEnabled, resetTooltip }) => {
   return (
     <Wrapper>
       <CustomButton buttonStyle="primary" text="Sök" tooltip={searchTooltip} onClick={onSearch} disabled={!isSearchEnabled} />
-      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip="Rensa sökfiltret." onClick={onReset} />
+      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip={resetTooltip} onClick={onReset} />
     </Wrapper>
   )
 }

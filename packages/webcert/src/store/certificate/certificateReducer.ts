@@ -22,6 +22,7 @@ import {
   hideValidationErrors,
   highlightCertificateDataElement,
   removeClientValidationError,
+  resetCertificateState,
   setCertificateDataElement,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
@@ -39,12 +40,14 @@ import {
   updateCertificateAsReadOnly,
   updateCertificateComplements,
   updateCertificateEvents,
-  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateStatus,
   updateCertificateVersion,
+  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
+  updateIsDeleted,
   updateRoutedFromDeletedCertificate,
+  updateShouldRouteAfterDelete,
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
@@ -69,26 +72,30 @@ interface CertificateState {
   functionDisablers: FunctionDisabler[]
   clientValidationErrors: ValidationError[]
   createdCertificateId: string
+  shouldRouteAfterDelete: boolean
 }
 
-const initialState: CertificateState = {
-  certificateEvents: [],
-  spinner: false,
-  spinnerText: '',
-  validationInProgress: false,
-  showValidationErrors: false,
-  isValidForSigning: false,
-  isDeleted: false,
-  complements: [],
-  routedFromDeletedCertificate: false,
-  functionDisablers: [],
-  clientValidationErrors: [],
-  createdCertificateId: '',
+const getInitialState = (): CertificateState => {
+  return {
+    certificateEvents: [],
+    spinner: false,
+    spinnerText: '',
+    validationInProgress: false,
+    showValidationErrors: false,
+    isValidForSigning: false,
+    isDeleted: false,
+    complements: [],
+    routedFromDeletedCertificate: false,
+    functionDisablers: [],
+    clientValidationErrors: [],
+    createdCertificateId: '',
+    shouldRouteAfterDelete: false,
+  }
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
 
-const certificateReducer = createReducer(initialState, (builder) =>
+const certificateReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(updateCertificate, (state, action) => {
       state.certificate = action.payload
@@ -319,6 +326,13 @@ const certificateReducer = createReducer(initialState, (builder) =>
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
     })
+    .addCase(updateIsDeleted, (state, action) => {
+      state.isDeleted = action.payload
+    })
+    .addCase(updateShouldRouteAfterDelete, (state, action) => {
+      state.shouldRouteAfterDelete = action.payload
+    })
+    .addCase(resetCertificateState, () => getInitialState())
 )
 
 export default certificateReducer

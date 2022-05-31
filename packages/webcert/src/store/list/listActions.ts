@@ -17,8 +17,13 @@ export const getDraftsError = createAction(`${LIST} Get drafts error`)
 
 export const getCertificateList = createAction<ListFilter>(`${LIST} Get certificate list`)
 export const getCertificateListStarted = createAction(`${LIST} Get certificate list started`)
-export const getCertificateListSuccess = createAction<ListResponse>(`${LIST} Get drafts success`)
+export const getCertificateListSuccess = createAction<ListResponse>(`${LIST} Get certificate list success`)
 export const getCertificateListError = createAction(`${LIST} Get certificate list error`)
+
+export const getPreviousCertificatesList = createAction<ListFilter>(`${LIST} Get previous certificates list`)
+export const getPreviousCertificatesListStarted = createAction(`${LIST} Get previous certificates list started`)
+export const getPreviousCertificatesListSuccess = createAction<ListResponse>(`${LIST} Get previous certificates list success`)
+export const getPreviousCertificatesListError = createAction(`${LIST} Get  previous certificates list error`)
 
 export const getDraftListConfig = createAction(`${LIST} Get draft list config`)
 export const getDraftListConfigStarted = createAction(`${LIST} Get draft list config started`)
@@ -29,6 +34,11 @@ export const getCertificateListConfig = createAction(`${LIST} Get certificate li
 export const getCertificateListConfigStarted = createAction(`${LIST} Get certificate list config started`)
 export const getCertificateListConfigSuccess = createAction(`${LIST} Get certificate list config success`)
 export const getCertificateListConfigError = createAction(`${LIST} Get certificate list config error`)
+
+export const getPreviousCertificatesListConfig = createAction(`${LIST} Get previous certificates list config`)
+export const getPreviousCertificatesListConfigStarted = createAction(`${LIST} Get previous certificates list config started`)
+export const getPreviousCertificatesListConfigSuccess = createAction(`${LIST} Get previous certificates list config success`)
+export const getPreviousCertificatesListConfigError = createAction(`${LIST} Get previous certificates list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)
@@ -54,3 +64,5 @@ export const clearActiveListType = createAction(`${LIST} Clear active list type`
 export const setListError = createAction(`${LIST} Set list error`)
 export const clearListError = createAction(`${LIST} Clear list error`)
 export const updateHasValidationError = createAction<boolean>(`${LIST} Update has validation error`)
+
+export const resetListState = createAction(`${LIST} Reset state`)

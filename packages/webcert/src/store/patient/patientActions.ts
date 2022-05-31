@@ -30,3 +30,5 @@ export const getCertificateTypesSuccess = createAction(`${PATIENT} Get certifica
 export const getCertificateTypesError = createAction<string>(`${PATIENT} Get certificate error`)
 
 export const updateCertificateTypes = createAction<CertificateType[]>(`${PATIENT} Update certificate types`)
+
+export const resetPatientState = createAction(`${PATIENT} Reset patient state`)

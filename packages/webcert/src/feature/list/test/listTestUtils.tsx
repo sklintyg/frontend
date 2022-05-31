@@ -7,6 +7,7 @@ import {
   ListFilterOrderConfig,
   ListFilterPageSizeConfig,
   ListFilterPersonIdConfig,
+  ListFilterRadioConfig,
   ListFilterSelectConfig,
   ListFilterTextConfig,
   ListFilterType,
@@ -22,6 +23,7 @@ export const getPageSizeFilter = (): ListFilterPageSizeConfig => {
     alwaysHighlighted: false,
   }
 }
+
 export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
   return {
     type: ListFilterType.TEXT,
@@ -32,6 +34,7 @@ export const getTextFilter = (title = 'title'): ListFilterTextConfig => {
     alwaysHighlighted: false,
   }
 }
+
 export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
   return {
     type: ListFilterType.BOOLEAN,
@@ -42,6 +45,7 @@ export const getBooleanFilter = (title = 'title'): ListFilterBooleanConfig => {
     alwaysHighlighted: false,
   }
 }
+
 export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => {
   return {
     type: ListFilterType.PERSON_ID,
@@ -52,10 +56,11 @@ export const getPersonIdFilter = (title = 'title'): ListFilterPersonIdConfig => 
     alwaysHighlighted: false,
   }
 }
+
 export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
   return {
     type: ListFilterType.SELECT,
-    id: 'PERSON_FILTER',
+    id: 'SELECT_FILTER',
     title: title,
     description: 'description',
     alwaysHighlighted: false,
@@ -65,6 +70,21 @@ export const getSelectFilter = (title = 'title'): ListFilterSelectConfig => {
     ],
   }
 }
+
+export const getRadioFilter = (title = 'title'): ListFilterRadioConfig => {
+  return {
+    type: ListFilterType.RADIO,
+    id: 'RADIO_FILTER',
+    title: title,
+    description: 'description',
+    alwaysHighlighted: false,
+    values: [
+      { id: 'radio1', name: 'radio1', defaultValue: false },
+      { id: 'radio2', name: 'radio2', defaultValue: true },
+    ],
+  }
+}
+
 export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 'from'): ListFilterDateRangeConfig => {
   return {
     type: ListFilterType.DATE_RANGE,
@@ -88,6 +108,7 @@ export const getDateRangeFilter = (title = 'title', toTitle = 'to', fromTitle = 
     forbidFutureDates: false,
   }
 }
+
 export const getOrderFilter = (title = 'title'): ListFilterOrderConfig => {
   return {
     type: ListFilterType.ORDER,
@@ -110,13 +131,17 @@ export const getConfig = (
   return {
     title: title,
     filters: filters,
-    openCertificateTooltip: openCertificateTooltip,
-    searchCertificateTooltip: searchCertificateTooltip,
+    buttonTooltips: {
+      OPEN_BUTTON: 'OPEN_BUTTON',
+      SEARCH_BUTTON: 'SEARCH_BUTTON',
+      RENEW_BUTTON: 'RENEW_BUTTON',
+    },
     tableHeadings: tableHeadings,
     defaultOrderBy: defaultOrderBy,
     description: 'description',
     secondaryTitle: 'secondaryTitle',
     emptyListText: 'emptyListText',
+    excludeFilterButtons: false,
   }
 }
 
@@ -141,11 +166,14 @@ export const getConfigWithTextFilter = (): ListConfig => {
   return {
     title: 'title',
     filters: [getTextFilter()],
-    openCertificateTooltip: 'tooltip',
-    searchCertificateTooltip: 'tooltip',
     description: 'description',
     secondaryTitle: 'secondaryTitle',
     emptyListText: 'emptyListText',
+    buttonTooltips: {
+      OPEN_BUTTON: 'OPEN_BUTTON',
+      SEARCH_BUTTON: 'SEARCH_BUTTON',
+      RENEW_BUTTON: 'RENEW_BUTTON',
+    },
     tableHeadings: [
       {
         id: 'id',
@@ -156,6 +184,7 @@ export const getConfigWithTextFilter = (): ListConfig => {
       },
     ],
     defaultOrderBy: 'orderBy',
+    excludeFilterButtons: false,
   }
 }
 

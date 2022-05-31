@@ -91,11 +91,11 @@ import {
   updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
-  updateCreatedCertificateId,
   updateCertificateSigningData,
   updateCertificateUnit,
   updateCertificateVersion,
   updateClientValidationError,
+  updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
@@ -114,6 +114,7 @@ import { CertificateDataValidationType, ValidationError } from '@frontend/common
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import _ from 'lodash'
+
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -332,7 +333,7 @@ const handleRevokeCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/revoke',
       method: 'POST',
-      data: action.payload,
+      data: { reason: action.payload.reason, message: action.payload.title + ' ' + action.payload.message },
       onStart: revokeCertificateStarted.type,
       onSuccess: revokeCertificateSuccess.type,
       onError: certificateApiGenericError.type,
@@ -432,19 +433,17 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
-const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Förnyar...'))
-
-  const certificate: Certificate = getState().ui.uiCertificate.certificate
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/renew',
+      url: '/api/certificate/' + action.payload.certificateId + '/renew',
       method: 'POST',
       onStart: renewCertificateStarted.type,
       onSuccess: renewCertificateSuccess.type,
       onError: certificateApiGenericError.type,
-      onArgs: { history: action.payload },
+      onArgs: { history: action.payload.history },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )

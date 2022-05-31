@@ -11,6 +11,7 @@ import {
   getCertificateListConfig,
   getCertificateListConfigStarted,
   getCertificateListConfigSuccess,
+  getCertificateListError,
   getCertificateListStarted,
   getCertificateListSuccess,
   getDraftListConfig,
@@ -20,6 +21,13 @@ import {
   getDraftsError,
   getDraftsStarted,
   getDraftsSuccess,
+  getPreviousCertificatesList,
+  getPreviousCertificatesListConfig,
+  getPreviousCertificatesListConfigStarted,
+  getPreviousCertificatesListConfigSuccess,
+  getPreviousCertificatesListError,
+  getPreviousCertificatesListStarted,
+  getPreviousCertificatesListSuccess,
   performListSearch,
   setListError,
   updateActiveList,
@@ -33,7 +41,6 @@ import {
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
-import { getCertificateError } from '../certificate/certificateActions'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
@@ -42,6 +49,8 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
     dispatch(getDrafts(listFilter))
   } else if (listType === ListType.CERTIFICATES) {
     dispatch(getCertificateList(listFilter))
+  } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
+    dispatch(getPreviousCertificatesList(listFilter))
   }
 }
 
@@ -66,7 +75,20 @@ const handleGetCertificateList: Middleware<Dispatch> = ({ dispatch }: Middleware
       data: { filter: action.payload },
       onStart: getCertificateListStarted.type,
       onSuccess: getCertificateListSuccess.type,
-      onError: getCertificateError.type,
+      onError: getCertificateListError.type,
+    })
+  )
+}
+
+const handleGetPreviousCertificatesList: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/previous',
+      method: 'POST',
+      data: { filter: action.payload },
+      onStart: getPreviousCertificatesListStarted.type,
+      onSuccess: getPreviousCertificatesListSuccess.type,
+      onError: getPreviousCertificatesListError.type,
     })
   )
 }
@@ -107,8 +129,21 @@ const handleGetCertificateListConfig: Middleware<Dispatch> = ({ dispatch }: Midd
   )
 }
 
+const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/config/previous',
+      method: 'GET',
+      onStart: getPreviousCertificatesListConfigStarted.type,
+      onSuccess: getPreviousCertificatesListConfigSuccess.type,
+      onError: setListError.type,
+    })
+  )
+}
+
 const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingListConfig(true))
+  dispatch(updateIsLoadingList(true))
 }
 
 const handleGetListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -126,9 +161,9 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(updateTotalCount(undefined))
 }
 
-const handleGetDraftsError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   clearListState(dispatch)
-  dispatch(setListError)
+  dispatch(setListError())
 }
 
 const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -154,15 +189,22 @@ const middlewareMethods = {
   [getDraftListConfigSuccess.type]: handleGetListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [clearActiveListFilter.type]: handleClearActiveListFilter,
-  [getDraftsError.type]: handleGetDraftsError,
+  [getDraftsError.type]: handleGetListError,
   [getDraftsStarted.type]: handleGetListStarted,
   [getDraftListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateList.type]: handleGetCertificateList,
   [getCertificateListSuccess.type]: handleGetListSuccess,
   [getCertificateListStarted.type]: handleGetListStarted,
+  [getCertificateListError.type]: handleGetListError,
+  [getPreviousCertificatesList.type]: handleGetPreviousCertificatesList,
+  [getPreviousCertificatesListSuccess.type]: handleGetListSuccess,
+  [getPreviousCertificatesListStarted.type]: handleGetListStarted,
+  [getPreviousCertificatesListError.type]: handleGetListError,
   [getCertificateListConfig.type]: handleGetCertificateListConfig,
   [getCertificateListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,
+  [getPreviousCertificatesListConfig.type]: handleGetPreviousCertificatesListConfig,
+  [getPreviousCertificatesListConfigSuccess.type]: handleGetListConfigSuccess,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

@@ -12,6 +12,8 @@ interface Props {
   additionalStyles?: string
   disabled?: boolean
   wrapperAdditionalStyles?: string
+  tooltip?: string
+  tooltipPlacement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
 interface LabelProps {
@@ -25,10 +27,23 @@ const Label = styled.label<LabelProps>`
 `
 
 const RadioButton: React.FC<Props> = (props) => {
-  const { label, name, id, onChange, value, checked, additionalStyles, hasValidationError, wrapperAdditionalStyles, children } = props
+  const {
+    label,
+    name,
+    id,
+    onChange,
+    value,
+    checked,
+    additionalStyles,
+    hasValidationError,
+    wrapperAdditionalStyles,
+    children,
+    tooltip,
+    tooltipPlacement,
+  } = props
 
   return (
-    <div className={wrapperAdditionalStyles}>
+    <div className={wrapperAdditionalStyles} data-tip={tooltip} data-place={tooltipPlacement}>
       <input
         disabled={props.disabled}
         type="radio"

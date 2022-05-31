@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { ButtonWithConfirmModal, CustomButton, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCommentAlt, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { getResourceLink } from '@frontend/common/src'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 import { useHistory } from 'react-router-dom'
+import speechBubble from '@frontend/common/src/images/speech-bubble.svg'
+import edit from '@frontend/common/src/images/edit.svg'
 
 interface Props {
   questions: Question[]
@@ -57,7 +57,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         disabled={!complementResourceLink.enabled}
         buttonStyle="primary"
         text={complementResourceLink.name}
-        startIcon={<FontAwesomeIcon icon={faCopy} size="lg" />}
+        startIcon={<img src={edit} alt="Komplettera" />}
         onClick={onComplementClick}
       />
     )
@@ -74,11 +74,11 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         disabled={!cannotComplementResourceLink.enabled}
         confirmButtonDisabled={!(cannotComplement && cannotComplement.message)}
         onConfirm={onCannotComplementClick}
-        modalTitle={'Kan ej komplettera'}
-        confirmButtonText={'Skicka svar'}
+        modalTitle="Kan ej komplettera"
+        confirmButtonText="Skicka svar"
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
-        startIcon={<FontAwesomeIcon icon={faCommentAlt} size="lg" />}>
+        startIcon={<img src={speechBubble} alt="Kan ej komplettera" />}>
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
     )

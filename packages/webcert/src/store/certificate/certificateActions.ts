@@ -304,6 +304,7 @@ export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
 export interface RevokeCertificateReason {
   reason: string
   message: string
+  title: string
 }
 
 export const revokeCertificate = createAction<RevokeCertificateReason>(REVOKE_CERTIFICATE)
@@ -363,16 +364,16 @@ export const answerComplementCertificateSuccess = createAction<ComplementCertifi
 
 export const answerComplementCertificateError = createAction<string>(ANSWER_COMPLEMENT_CERTIFICATE_ERROR)
 
-export const renewCertificate = createAction<History<LocationState>>(RENEW_CERTIFICATE)
+export const renewCertificate = createAction<RenewCertificate>(RENEW_CERTIFICATE)
 
 export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
 
-export interface RenewCertificateSuccess {
+export interface RenewCertificate {
   certificateId: string
   history: History<LocationState>
 }
 
-export const renewCertificateSuccess = createAction<RenewCertificateSuccess>(RENEW_CERTIFICATE_SUCCESS)
+export const renewCertificateSuccess = createAction<RenewCertificate>(RENEW_CERTIFICATE_SUCCESS)
 
 export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
 
@@ -550,3 +551,9 @@ export const setValidationErrorsForQuestion = createAction<ModifyValidationError
 
 export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
 export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)
+
+export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
+
+export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
+
+export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)

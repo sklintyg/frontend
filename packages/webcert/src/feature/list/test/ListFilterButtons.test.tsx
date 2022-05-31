@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { CustomTooltip } from '@frontend/common/src'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
-const TOOLTIP_RESET = 'Rensa sökfiltret.'
+const TOOLTIP_RESET = 'Återställ sökfilter.'
 const onSearch = jest.fn()
 const onReset = jest.fn()
 
@@ -13,7 +13,13 @@ const renderComponent = (isSearchEnabled: boolean) => {
   render(
     <>
       <CustomTooltip />
-      <ListFilterButtons searchTooltip={TOOLTIP_SEARCH} isSearchEnabled={isSearchEnabled} onSearch={onSearch} onReset={onReset} />
+      <ListFilterButtons
+        searchTooltip={TOOLTIP_SEARCH}
+        resetTooltip={TOOLTIP_RESET}
+        isSearchEnabled={isSearchEnabled}
+        onSearch={onSearch}
+        onReset={onReset}
+      />
     </>
   )
 }

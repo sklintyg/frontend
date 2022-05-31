@@ -7,15 +7,23 @@ import ListPagination from './pagination/ListPagination'
 import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
+import { ResourceLink } from '@frontend/common'
+import styled from 'styled-components/macro'
+
+const ContentWrapper = styled.div`
+  flex: 0 0 100%;
+  padding-right: 30px;
+`
 
 interface Props {
   config: ListConfig | undefined
   list: CertificateListItem[]
   filter: ListFilter | undefined
   title: string
+  icon?: string
 }
 
-const List: React.FC<Props> = ({ config, list, filter, title }) => {
+const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)
   const isSortingList = useSelector(getIsSortingList)
@@ -35,7 +43,9 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
           key={heading.id}
           value={listItem.values[heading.id]}
           valueType={heading.type}
-          openCertificateTooltip={config ? config.openCertificateTooltip : ''}
+          tooltips={config.buttonTooltips}
+          links={listItem.values['LINKS'] as ResourceLink[]}
+          certificateId={listItem.values['CERTIFICATE_ID'] as string}
         />
       )
     })
@@ -96,10 +106,15 @@ const List: React.FC<Props> = ({ config, list, filter, title }) => {
 
   return (
     <>
-      <h3 className="iu-pt-500">{title}</h3>
-      <ListFilterContainer config={config} filter={filter} />
-      {getListContent()}
-      {(!isLoadingList || isSortingList) && <ListPagination />}
+      <div className="iu-flex iu-pt-500">
+        {icon && <img src={icon} className="iu-mr-gutter iu-height-600" />}
+        <ContentWrapper>
+          <h3>{title}</h3>
+          <ListFilterContainer config={config} filter={filter} />
+          {getListContent()}
+          {(!isLoadingList || isSortingList) && <ListPagination />}
+        </ContentWrapper>
+      </div>
     </>
   )
 }
