@@ -16,11 +16,11 @@ interface Props {
 
 const PersonIdFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValuePersonId
-  const [personId, setPersonId] = useState<string>(filterValue.value)
+  const [personId, setPersonId] = useState<string>(filterValue ? filterValue.value : '')
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setPersonId(filterValue.value)
+    setPersonId(filterValue ? filterValue.value : '')
   }, [filterValue])
 
   const onPersonIdFilterChange = (formattedId: string) => {
