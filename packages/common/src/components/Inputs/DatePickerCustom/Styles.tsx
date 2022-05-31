@@ -29,10 +29,6 @@ export const StyledButton = styled.button<buttonProps>`
     background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
     color: #000000;
   }
-
-  &:focus {
-    outline: 0;
-  }
 `
 
 export const TextInput = styled.input`
