@@ -27,7 +27,12 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
           if (rowContent.indexOf(cell) === 0) {
             return (
               <td key={idx}>
-                <StyledArrow icon={isExpanded ? faAngleUp : faAngleDown} className="iu-color-cta-dark iu-mr-300" onClick={toggleExpand} />
+                <StyledArrow
+                  icon={isExpanded ? faAngleUp : faAngleDown}
+                  className="iu-color-cta-dark iu-mr-300"
+                  data-testid="expandArrow"
+                  onClick={toggleExpand}
+                />
                 <button className="ic-link iu-text-left" type="button" id={id} onClick={handleClick}>
                   {cell}
                 </button>
