@@ -29,7 +29,7 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
     <Fragment key={id}>
       <tr>
         {rowContent.map((cell, idx) => {
-          if (rowContent.indexOf(cell) === 0) {
+          if (idx === 0) {
             return (
               <td key={idx}>
                 {isExpanded ? (
