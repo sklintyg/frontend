@@ -11,9 +11,7 @@ const PopUpModal: React.FC<Props> = ({ open, modalTitle, children }) => {
     return null
   }
 
-  const handleClose = () => {
-    return null
-  }
+  const handleClose = () => {}
 
   return <ModalBase open={open} handleClose={handleClose} title={modalTitle} content={children} buttons={undefined} />
 }
