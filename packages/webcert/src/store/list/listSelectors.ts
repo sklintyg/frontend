@@ -22,4 +22,5 @@ export const getIsLoadingListConfig = (state: RootState): boolean => state.ui.ui
 
 export const getIsSortingList = (state: RootState): boolean => state.ui.uiList.isSortingList
 
-export const getHasValidationErrors = (state: RootState): boolean => state.ui.uiList.hasValidationError
+export const getHasValidationErrors = (state: RootState): boolean =>
+  !!Object.values(state.ui.uiList.validationErrors).find((value) => value)
