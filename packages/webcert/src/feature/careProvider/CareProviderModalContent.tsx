@@ -10,10 +10,8 @@ export const CareProviderModalContent: React.FC = () => {
   const unitStatistics = useSelector(selectUnitStatistics)
 
   const getUnitStatistics = (amountOnUnit: number, amountOnOtherUnit?: number, careUnit?: CareUnit) => {
-    return (
-      amountOnUnit +
-      (careUnit && careUnit.units.length > 0 && amountOnOtherUnit !== undefined ? ` (total ${amountOnUnit + amountOnOtherUnit})` : '')
-    ).toString()
+    const showTotal = careUnit?.units.length > 0 && amountOnOtherUnit !== undefined
+    return `${amountOnUnit} ${showTotal ? `(total ${amountOnUnit + amountOnOtherUnit})` : ''}` 
   }
 
   const handleChooseUnit = (event: React.MouseEvent) => {
