@@ -9,9 +9,9 @@ export const CareProviderModalContent: React.FC = () => {
   const user = useSelector(getUser)
   const unitStatistics = useSelector(selectUnitStatistics)
 
-  const getUnitStatistics = (amountOnUnit: number, amountOnOtherUnit?: number, careUnit?: CareUnit) => {
-    const showTotal = careUnit?.units.length > 0 && amountOnOtherUnit !== undefined
-    return `${amountOnUnit} ${showTotal ? `(total ${amountOnUnit + amountOnOtherUnit})` : ''}` 
+  const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit?: number, careUnit?: CareUnit) => {
+    const showTotal = careUnit && careUnit.units.length > 0 && amountOnOtherUnit !== undefined
+    return `${amountOnUnit} ${showTotal ? `(total ${amountOnUnit + amountOnOtherUnit})` : ''}`
   }
 
   const handleChooseUnit = (event: React.MouseEvent) => {
@@ -32,14 +32,14 @@ export const CareProviderModalContent: React.FC = () => {
               {unit.unitName}
             </button>
           </td>
-          <td>{getUnitStatistics(questionsOnUnit)}</td>
-          <td>{getUnitStatistics(draftsOnUnit)}</td>
+          <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
+          <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
         </tr>
       )
     })
   }
 
-  const statistics = (id: string) => {
+  const getStatistics = (id: string) => {
     return {
       questionsOnUnit: unitStatistics[id].questionsOnUnit,
       questionsOnSubUnits: unitStatistics[id].questionsOnSubUnits,
@@ -49,15 +49,15 @@ export const CareProviderModalContent: React.FC = () => {
   }
 
   const renderRows = (careUnit: CareUnit) => {
-    const getStatistics = statistics(careUnit.unitId)
+    const statistics = getStatistics(careUnit.unitId)
     const isRowExpandable = careUnit.units.length > 0
 
     return isRowExpandable ? (
       <ExpandableTableRow
         rowContent={[
           careUnit.unitName,
-          getUnitStatistics(getStatistics.questionsOnUnit, getStatistics.questionsOnSubUnits, careUnit),
-          getUnitStatistics(getStatistics.draftsOnUnit, getStatistics.draftsOnSubUnits, careUnit),
+          getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit),
+          getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit),
         ]}
         id={careUnit.unitId}
         handleClick={handleChooseUnit}
@@ -71,8 +71,8 @@ export const CareProviderModalContent: React.FC = () => {
             {careUnit.unitName}
           </button>
         </td>
-        <td>{getUnitStatistics(getStatistics.questionsOnUnit, getStatistics.questionsOnSubUnits, careUnit)}</td>
-        <td>{getUnitStatistics(getStatistics.draftsOnUnit, getStatistics.draftsOnSubUnits, careUnit)}</td>
+        <td>{getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit)}</td>
+        <td>{getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit)}</td>
       </tr>
     )
   }
