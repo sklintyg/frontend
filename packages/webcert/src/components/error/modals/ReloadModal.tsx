@@ -3,7 +3,7 @@ import { ModalProps, reloadPage } from './errorUtils'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-export const RELOAD_CONFIRM_BUTTON_TEXT = 'Ladda om intyget'
+export const RELOAD_CONFIRM_BUTTON_TEXT = 'Ladda om sidan'
 export const RELOAD_CLOSE_BUTTON_TEXT = 'Stäng'
 
 const ReloadModal: React.FC<ModalProps> = ({ errorData, children }) => {

@@ -1,6 +1,6 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import {
   cancelLogout,
   cancelLogoutStarted,
@@ -47,7 +47,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
   )
 }
 
-const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateIsLoadingUser(false))
 }
 
@@ -162,7 +162,7 @@ const handleSetUnit: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
       method: 'POST',
       onStart: setUnitStarted.type,
       onSuccess: setUnitSuccess.type,
-      onError: apiSilentGenericError.type,
+      onError: apiGenericError.type,
     })
   )
 }
