@@ -170,6 +170,7 @@ const handleSetUnit: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
 const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUser(action.payload.user))
   dispatch(updateUserResourceLinks(action.payload.links))
+  dispatch(getUserStatistics())
 }
 
 const middlewareMethods = {

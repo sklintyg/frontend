@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AppHeaderUserUnit } from '@frontend/common'
-import { getUser } from '../../store/user/userSelectors'
+import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
 import AlertCircle from '@frontend/common/src/images/AlertCircle'
+import arrow from '@frontend/common/src/images/arrow-down.svg'
+
+const ArrowDown = styled.img`
+  cursor: pointer;
+  width: 0.9em;
+  display: inline-block;
+`
+
+const ArrowUp = styled(ArrowDown)`
+  transform: rotate(180deg);
+`
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,25 +35,86 @@ const InactiveUnit = styled.span`
   font-size: 12px;
 `
 
+const StyledButton = styled.button`
+  border: none;
+`
+
+const Link = styled.button`
+  text-decoration: none;
+`
+
+const ExpandedDiv = styled.div`
+  position: absolute;
+  background: #ffffff;
+  padding: 1.2em 2em;
+  box-shadow: 1px 1px 10px #ccc;
+  right: -11px;
+  margin-top: 0.5em;
+  border-radius: 3px;
+  z-index: 9999;
+
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+    transform: rotate(45deg);
+    position: absolute;
+    top: -5px;
+    right: 12px;
+  }
+`
+
+const RelativeDiv = styled.div`
+  position: relative;
+`
+
 const WebcertHeaderUnit: React.FC = () => {
   const user = useSelector(getUser, shallowEqual)
+  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleMenu = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const expandButton = () => {
+    return (
+      <StyledButton onClick={toggleMenu} tabIndex={0} className="iu-ml-300">
+        {isExpanded ? <ArrowUp src={arrow} alt="" data-testid="expandArrow" /> : <ArrowDown src={arrow} alt="" data-testid="expandArrow" />}
+      </StyledButton>
+    )
+  }
 
   const toString = (user: User): React.ReactNode => {
     return (
-      <Wrapper>
-        <span>
-          {user.loggedInCareProvider.unitName} <br />
-          <Italic>{user.loggedInUnit.unitName}</Italic>
-        </span>
-        {user.loggedInUnit.isInactive ? (
-          <InactiveUnit
-            className="iu-ml-400"
-            data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
-            <AlertCircle />
-            <span>Inaktiv enhet</span>
-          </InactiveUnit>
-        ) : null}
-      </Wrapper>
+      <RelativeDiv>
+        <Wrapper>
+          <span>
+            {user.loggedInCareProvider.unitName} - {user.loggedInUnit.unitName}
+            <br />
+            <Italic>
+              {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
+            </Italic>
+          </span>
+          {user.loggedInUnit.isInactive ? (
+            <InactiveUnit
+              className="iu-ml-400"
+              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
+              <AlertCircle />
+              <span>Inaktiv enhet</span>
+            </InactiveUnit>
+          ) : null}
+          {expandButton()}
+        </Wrapper>
+        {isExpanded && (
+          <ExpandedDiv>
+            <Link className="ic-link" type="button">
+              Byt vårdenhet
+            </Link>
+          </ExpandedDiv>
+        )}
+      </RelativeDiv>
     )
   }
 

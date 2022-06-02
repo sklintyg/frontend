@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
-import { Unit, User } from '@frontend/common'
+import { Unit, User, UserStatistics } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 const createUserMock = ({ inactiveUnit = false } = {}): User =>
@@ -12,12 +12,28 @@ const createUserMock = ({ inactiveUnit = false } = {}): User =>
     loggedInCareProvider: { unitName: 'Care provider' } as Unit,
   } as User)
 
+const createUserStatisticsMock = (): UserStatistics => ({
+  nbrOfDraftsOnSelectedUnit: 5,
+  nbrOfUnhandledQuestionsOnSelectedUnit: 12,
+  totalDraftsAndUnhandledQuestionsOnOtherUnits: 23,
+  unitStatistics: {
+    '1234a': {
+      draftsOnUnit: 3,
+      questionsOnUnit: 1,
+      draftsOnSubUnits: 0,
+      questionsOnSubUnits: 2,
+    },
+  },
+})
+
 describe('Webcert header unit', () => {
   it('displays care provider and unit that user is logged into', (): void => {
     const spy = jest.spyOn(redux, 'useSelector')
 
     const mockUser: User = createUserMock()
+    const mockSomething: UserStatistics = createUserStatisticsMock()
     spy.mockReturnValue(mockUser)
+    spy.mockReturnValue(mockSomething)
 
     render(<WebcertHeaderUnit />)
 
