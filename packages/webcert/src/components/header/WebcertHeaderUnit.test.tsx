@@ -1,65 +1,57 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
-import { Unit, User, UserStatistics } from '@frontend/common'
+import { Provider } from 'react-redux'
+import { getUser, getUserWithInactiveUnit } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import apiMiddleware from '../../store/api/apiMiddleware'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import reducer from '@frontend/webcert/src/store/reducers'
+import { updateUser } from '../../store/user/userActions'
 
-const createUserMock = ({ inactiveUnit = false } = {}): User =>
-  ({
-    name: 'Test Testsson',
-    role: 'Läkare',
-    loggedInUnit: { unitId: 'unit', unitName: 'Unit', isInactive: inactiveUnit } as Unit,
-    loggedInCareProvider: { unitName: 'Care provider' } as Unit,
-  } as User)
+let testStore: EnhancedStore
 
-const createUserStatisticsMock = (): UserStatistics => ({
-  nbrOfDraftsOnSelectedUnit: 5,
-  nbrOfUnhandledQuestionsOnSelectedUnit: 12,
-  totalDraftsAndUnhandledQuestionsOnOtherUnits: 23,
-  unitStatistics: {
-    '1234a': {
-      draftsOnUnit: 3,
-      questionsOnUnit: 1,
-      draftsOnSubUnits: 0,
-      questionsOnSubUnits: 2,
-    },
-  },
-})
+const renderComponent = () => {
+  render(
+    <Provider store={testStore}>
+      <WebcertHeaderUnit />
+    </Provider>
+  )
+}
 
 describe('Webcert header unit', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
+    })
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
+  })
+
   it('displays care provider and unit that user is logged into', (): void => {
-    const spy = jest.spyOn(redux, 'useSelector')
+    testStore.dispatch(updateUser(getUser()))
+    renderComponent()
 
-    const mockUser: User = createUserMock()
-    const mockSomething: UserStatistics = createUserStatisticsMock()
-    spy.mockReturnValue(mockUser)
-    spy.mockReturnValue(mockSomething)
-
-    render(<WebcertHeaderUnit />)
-
-    expect(screen.getByText(/Unit/i)).toBeInTheDocument()
-    expect(screen.getByText(/Care provider/i)).toBeInTheDocument()
+    expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
   describe('Inactive unit', () => {
     it('should not display inactive message for active unit', (): void => {
-      const spy = jest.spyOn(redux, 'useSelector')
+      testStore.dispatch(updateUser(getUser()))
+      renderComponent()
 
-      const mockUser: User = createUserMock()
-      spy.mockReturnValue(mockUser)
-
-      render(<WebcertHeaderUnit />)
       expect(screen.queryByText(/Inaktiv enhet/i)).not.toBeInTheDocument()
     })
 
     it('should display inactive message for inactive unit', (): void => {
-      const spy = jest.spyOn(redux, 'useSelector')
+      testStore.dispatch(updateUser(getUserWithInactiveUnit()))
+      renderComponent()
 
-      const mockUser: User = createUserMock({ inactiveUnit: true })
-      spy.mockReturnValue(mockUser)
-
-      render(<WebcertHeaderUnit />)
-      expect(screen.getByText(/Inaktiv enhet/i)).toBeInTheDocument()
+      expect(screen.getByText(/Inaktiv enhet/i, { exact: false })).toBeInTheDocument()
     })
   })
 })
