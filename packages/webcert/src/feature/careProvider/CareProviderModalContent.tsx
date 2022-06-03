@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
-import { getUserStatistics, setUnit, updateIsCareProviderModalOpen } from '../../store/user/userActions'
+import { setUnit } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 
 export const CareProviderModalContent: React.FC = () => {

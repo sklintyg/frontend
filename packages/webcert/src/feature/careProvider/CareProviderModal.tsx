@@ -9,7 +9,7 @@ const CareProviderModal: React.FC = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser)
   const isLoadingUserStatistics = useSelector(selectIsLoadingUserStatistics, _.isEqual)
-  const isCareProviderModal = useSelector(getIsCareProviderModalOpen)
+  const isCareProviderModalOpen = useSelector(getIsCareProviderModalOpen)
 
   useEffect(() => {
     if (!!user && !user?.loggedInUnit.unitId) {
@@ -17,12 +17,20 @@ const CareProviderModal: React.FC = () => {
     }
   })
 
+  const handleClose = () => {
+    dispatch(updateIsCareProviderModalOpen(false))
+  }
+
   if (isLoadingUserStatistics) {
     return null
   }
 
   return (
-    <PopUpModal modalTitle="Välj vårdgivare" open={isCareProviderModal}>
+    <PopUpModal
+      modalTitle="Välj vårdgivare"
+      open={isCareProviderModalOpen}
+      handleClose={handleClose}
+      showCloseButton={!!user?.loggedInUnit.unitId}>
       <CareProviderModalContent />
     </PopUpModal>
   )
