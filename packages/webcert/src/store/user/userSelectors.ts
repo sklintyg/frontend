@@ -27,3 +27,5 @@ export const selectIsLoadingUserStatistics = (state: RootState): boolean => stat
 
 export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics?.totalDraftsAndUnhandledQuestionsOnOtherUnits
+
+export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen

@@ -54,3 +54,5 @@ export const setUnitSuccess = createAction<Unit>(`${USER} Set unit success`)
 export const setUnitError = createAction<string>(`${USER} Set unit error`)
 
 export const updateIsLoadingUserStatistics = createAction<boolean>(`${USER} Update is loading user statistics`)
+
+export const updateIsCareProviderModalOpen = createAction<boolean>(`${USER} Update is care provider modal open`)

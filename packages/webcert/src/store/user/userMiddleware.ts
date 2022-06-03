@@ -26,6 +26,7 @@ import {
   triggerLogoutStarted,
   triggerLogoutSuccess,
   updateInactivateAutomaticLogout,
+  updateIsCareProviderModalOpen,
   updateIsLoadingUser,
   updateIsLoadingUserStatistics,
   updateUser,
@@ -171,6 +172,7 @@ const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateUser(action.payload.user))
   dispatch(updateUserResourceLinks(action.payload.links))
   dispatch(getUserStatistics())
+  dispatch(updateIsCareProviderModalOpen(false))
 }
 
 const middlewareMethods = {

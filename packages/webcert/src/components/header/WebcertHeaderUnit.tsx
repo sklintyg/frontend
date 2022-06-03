@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { AppHeaderUserUnit } from '@frontend/common'
 import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser } from '../../store/user/userSelectors'
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
 import AlertCircle from '@frontend/common/src/images/AlertCircle'
 import arrow from '@frontend/common/src/images/arrow-down.svg'
+import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 
 const ArrowDown = styled.img`
   cursor: pointer;
@@ -70,6 +71,7 @@ const RelativeDiv = styled.div`
 `
 
 const WebcertHeaderUnit: React.FC = () => {
+  const dispatch = useDispatch()
   const user = useSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -84,6 +86,11 @@ const WebcertHeaderUnit: React.FC = () => {
         {isExpanded ? <ArrowUp src={arrow} alt="" data-testid="expandArrow" /> : <ArrowDown src={arrow} alt="" data-testid="expandArrow" />}
       </StyledButton>
     )
+  }
+
+  const openModal = () => {
+    dispatch(updateIsCareProviderModalOpen(true))
+    setIsExpanded(false)
   }
 
   const toString = (user: User): React.ReactNode => {
@@ -109,7 +116,7 @@ const WebcertHeaderUnit: React.FC = () => {
         </Wrapper>
         {isExpanded && (
           <ExpandedDiv>
-            <Link className="ic-link" type="button">
+            <Link className="ic-link" type="button" onClick={openModal}>
               Byt vårdenhet
             </Link>
           </ExpandedDiv>

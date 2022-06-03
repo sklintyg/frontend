@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   updateInactivateAutomaticLogout,
+  updateIsCareProviderModalOpen,
   updateIsLoadingUser,
   updateIsLoadingUserStatistics,
   updateUser,
@@ -17,6 +18,7 @@ interface UserState {
   isLoadingUser: boolean
   userStatistics?: UserStatistics
   isLoadingUserStatistics: boolean
+  isCareProviderModalOpen: boolean
 }
 
 const initialState: UserState = {
@@ -26,6 +28,7 @@ const initialState: UserState = {
   isLoadingUser: true,
   userStatistics: undefined,
   isLoadingUserStatistics: false,
+  isCareProviderModalOpen: false,
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -58,6 +61,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsLoadingUserStatistics, (state, action) => {
       state.isLoadingUserStatistics = action.payload
+    })
+    .addCase(updateIsCareProviderModalOpen, (state, action) => {
+      state.isCareProviderModalOpen = action.payload
     })
 )
 
