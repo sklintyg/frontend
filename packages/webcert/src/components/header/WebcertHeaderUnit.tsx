@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { AppHeaderUserUnit } from '@frontend/common'
-import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser } from '../../store/user/userSelectors'
+import { AppHeaderUserUnit, ResourceLinkType } from '@frontend/common'
+import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
@@ -74,18 +74,27 @@ const WebcertHeaderUnit: React.FC = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
+  const userLinks = useSelector(getUserResourceLinks)
   const [isExpanded, setIsExpanded] = useState(false)
+
+  const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded)
   }
 
   const expandButton = () => {
-    return (
-      <StyledButton onClick={toggleMenu} tabIndex={0} className="iu-ml-300" data-testid="expandChangeUnit">
-        {isExpanded ? <ArrowUp src={arrow} alt="" data-testid="expandArrow" /> : <ArrowDown src={arrow} alt="" data-testid="expandArrow" />}
-      </StyledButton>
-    )
+    if (changeUnitLink) {
+      return (
+        <StyledButton onClick={toggleMenu} tabIndex={0} className="iu-ml-300" data-testid="expandChangeUnit">
+          {isExpanded ? (
+            <ArrowUp src={arrow} alt="" data-testid="expandArrow" />
+          ) : (
+            <ArrowDown src={arrow} alt="" data-testid="expandArrow" />
+          )}
+        </StyledButton>
+      )
+    }
   }
 
   const openModal = () => {
@@ -101,7 +110,8 @@ const WebcertHeaderUnit: React.FC = () => {
             {user.loggedInCareProvider.unitName} - {user.loggedInUnit.unitName}
             <br />
             <Italic>
-              {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
+              {changeUnitLink &&
+                `${totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.`}
             </Italic>
           </span>
           {user.loggedInUnit.isInactive ? (

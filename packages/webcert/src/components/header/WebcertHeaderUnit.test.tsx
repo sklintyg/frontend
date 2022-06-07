@@ -1,14 +1,14 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { getUser, getUserStatistics, getUserWithInactiveUnit } from '@frontend/common'
+import { getUser, getUserStatistics, getUserWithInactiveUnit, ResourceLinkType } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import reducer from '@frontend/webcert/src/store/reducers'
-import { updateUser, updateUserStatistics } from '../../store/user/userActions'
+import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
@@ -44,6 +44,18 @@ describe('Webcert header unit', () => {
     testStore.dispatch(updateUser(getUser()))
     renderComponent()
 
+    testStore.dispatch(
+      updateUserResourceLinks([
+        {
+          type: ResourceLinkType.CHANGE_UNIT,
+          name: 'Byta vårdenhet',
+          body: '',
+          description: '',
+          enabled: true,
+        },
+      ])
+    )
+
     userEvent.click(screen.getAllByTestId('expandChangeUnit')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
@@ -65,10 +77,23 @@ describe('Webcert header unit', () => {
   })
 
   describe('Statistics', () => {
-    it('should show statistics on other units', () => {
+    it('should show statistics on other units if resource link exists', () => {
       testStore.dispatch(updateUser(getUser()))
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
+
       renderComponent()
+
+      testStore.dispatch(
+        updateUserResourceLinks([
+          {
+            type: ResourceLinkType.CHANGE_UNIT,
+            name: 'Byta vårdenhet',
+            body: '',
+            description: '',
+            enabled: true,
+          },
+        ])
+      )
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
     })
