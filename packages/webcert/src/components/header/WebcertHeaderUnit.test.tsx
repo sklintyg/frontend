@@ -1,14 +1,15 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { getUser, getUserWithInactiveUnit } from '@frontend/common'
+import { getUser, getUserStatistics, getUserWithInactiveUnit } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import apiMiddleware from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import reducer from '@frontend/webcert/src/store/reducers'
-import { updateUser } from '../../store/user/userActions'
+import { updateUser, updateUserStatistics } from '../../store/user/userActions'
+import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
 
@@ -39,6 +40,14 @@ describe('Webcert header unit', () => {
     expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
+  it('should open the dropdpwn with the button for changing unit when clicking on expand button', () => {
+    testStore.dispatch(updateUser(getUser()))
+    renderComponent()
+
+    userEvent.click(screen.getAllByTestId('expandChangeUnit')[0])
+    expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
+  })
+
   describe('Inactive unit', () => {
     it('should not display inactive message for active unit', (): void => {
       testStore.dispatch(updateUser(getUser()))
@@ -52,6 +61,16 @@ describe('Webcert header unit', () => {
       renderComponent()
 
       expect(screen.getByText(/Inaktiv enhet/i, { exact: false })).toBeInTheDocument()
+    })
+  })
+
+  describe('Statistics', () => {
+    it('should show statistics on other units', () => {
+      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      renderComponent()
+
+      expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
     })
   })
 })

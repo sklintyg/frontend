@@ -82,7 +82,7 @@ const WebcertHeaderUnit: React.FC = () => {
 
   const expandButton = () => {
     return (
-      <StyledButton onClick={toggleMenu} tabIndex={0} className="iu-ml-300">
+      <StyledButton onClick={toggleMenu} tabIndex={0} className="iu-ml-300" data-testid="expandChangeUnit">
         {isExpanded ? <ArrowUp src={arrow} alt="" data-testid="expandArrow" /> : <ArrowDown src={arrow} alt="" data-testid="expandArrow" />}
       </StyledButton>
     )
