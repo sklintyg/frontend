@@ -15,7 +15,7 @@ import {
   startPoll,
   stopPoll,
 } from './sessionActions'
-import { getUserSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
+import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
@@ -224,6 +224,20 @@ describe('Test session middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
     })
+
+    it('shall not start polling when unit it not set', async () => {
+      testStore.dispatch(getUserSuccess({ user: getDummyUserWithoutLoggedInUnit(), links: [] }))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pollHandle).toBeFalsy()
+    })
+
+    it('shall start polling when user has logged in and chosen a unit', async () => {
+      testStore.dispatch(setUnitSuccess(getDummyUnit()))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiSession.pollHandle).toBeTruthy()
+    })
   })
 
   describe('Handle Logout', () => {
@@ -272,4 +286,17 @@ function getDummyUnit(): Unit {
     unitName: 'unitname',
     zipCode: 'zipcode',
   } as Unit
+}
+
+function getDummyUserWithoutLoggedInUnit(): User {
+  return {
+    protectedPerson: false,
+    hsaId: 'hsaid',
+    loggedInCareProvider: {},
+    loggedInUnit: {},
+    name: 'name',
+    preferences: null,
+    role: 'role',
+    signingMethod: SigningMethod.FAKE,
+  } as User
 }

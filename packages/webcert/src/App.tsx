@@ -20,6 +20,7 @@ import { ListPageWithRedirect } from './page/ListPage'
 import { Backdrop } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
+import CareProviderModal from './feature/careProvider/CareProviderModal'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -52,6 +53,7 @@ function App(): JSX.Element {
       <BrowserRouter>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
           <ErrorComponent />
+          <CareProviderModal />
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />

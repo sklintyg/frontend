@@ -46,7 +46,7 @@ const WebcertHeaderUnit: React.FC = () => {
     )
   }
 
-  if (!user) return null
+  if (!user || !user.loggedInUnit.unitId) return null
 
   return (
     <>

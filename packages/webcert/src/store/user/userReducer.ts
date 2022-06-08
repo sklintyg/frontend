@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import {
   updateInactivateAutomaticLogout,
   updateIsLoadingUser,
+  updateIsLoadingUserStatistics,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
@@ -15,6 +16,7 @@ interface UserState {
   inactiveAutomaticLogout: boolean
   isLoadingUser: boolean
   userStatistics?: UserStatistics
+  isLoadingUserStatistics: boolean
 }
 
 const initialState: UserState = {
@@ -23,6 +25,7 @@ const initialState: UserState = {
   inactiveAutomaticLogout: false,
   isLoadingUser: true,
   userStatistics: undefined,
+  isLoadingUserStatistics: false,
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -52,6 +55,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateUserStatistics, (state, action) => {
       state.userStatistics = action.payload
+    })
+    .addCase(updateIsLoadingUserStatistics, (state, action) => {
+      state.isLoadingUserStatistics = action.payload
     })
 )
 
