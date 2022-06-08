@@ -127,7 +127,7 @@ const WebcertHeaderUnit: React.FC = () => {
         {isExpanded && (
           <ExpandedDiv>
             <Link className="ic-link" type="button" onClick={openModal}>
-              Byt vårdenhet
+              {!!changeUnitLink && changeUnitLink.name}
             </Link>
           </ExpandedDiv>
         )}

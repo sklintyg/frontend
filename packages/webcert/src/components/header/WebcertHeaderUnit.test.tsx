@@ -48,7 +48,7 @@ describe('Webcert header unit', () => {
       updateUserResourceLinks([
         {
           type: ResourceLinkType.CHANGE_UNIT,
-          name: 'Byta vårdenhet',
+          name: 'Byt vårdenhet',
           body: '',
           description: '',
           enabled: true,
