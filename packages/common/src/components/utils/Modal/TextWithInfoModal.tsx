@@ -16,10 +16,9 @@ interface Props {
   text: string
   modalTitle: string
   className?: string
-  additionalStyles?: string
 }
 
-const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, additionalStyles, className }) => {
+const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, className }) => {
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
 
