@@ -56,6 +56,14 @@ describe('Care provider modal', () => {
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
   })
 
+  it('should NOT show care provider modal if resource link does not exist', () => {
+    testStore.dispatch(updateUser(getUserWithEmptyUnit()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
+
+    renderComponent()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
   it('should not show modal if logged in unit is set', () => {
     testStore.dispatch(updateUser(getUser()))
 
