@@ -23,7 +23,7 @@ interface Props {
   label?: string
   setDate: (date: string) => void
   inputString: string | null
-  textInputOnChange: (value: string) => void
+  textInputOnChange: (value: string, isValueValid?: boolean) => void
   textInputOnBlur?: React.FocusEventHandler<HTMLInputElement>
   textInputOnKeyDown?: (event: React.KeyboardEvent) => void
   id?: string
@@ -119,12 +119,13 @@ const DatePickerCustom: React.FC<Props> = ({
     let value = event.target.value
 
     const parsedDate = getValidDate(value)
+    const isValueValid = isValid(parsedDate)
 
-    if (isValid(parsedDate)) {
+    if (isValueValid) {
       value = formatDateToString(parsedDate!)
     }
 
-    textInputOnChange(value)
+    textInputOnChange(value, isValueValid)
   }
 
   const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {

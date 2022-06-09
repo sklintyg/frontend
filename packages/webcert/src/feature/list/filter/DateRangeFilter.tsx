@@ -69,17 +69,21 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     dispatch(updateValidationError({ id: config.id, value: !!globalValidationError || !!toValidationError || !!fromValidationError }))
   }, [dispatch, globalValidationError, toValidationError, fromValidationError])
 
-  const onFromDateFilterChange = (date: string) => {
+  const onFromDateFilterChange = (date: string, isValueValid?: boolean) => {
+    const hasGlobalValidationError = toggleValidationError(savedValue.to, date)
+    const hasSpecificValidationError = toggleSpecificValidationError(date, configFrom, setFromValidationError, fromValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, from: date }
-    if (!fromValidationError && !globalValidationError) {
+    if (isValueValid && !hasGlobalValidationError && !hasSpecificValidationError) {
       onChange(updatedValue, config.id)
     }
     setSavedValue(updatedValue)
   }
 
-  const onToDateFilterChange = (date: string) => {
+  const onToDateFilterChange = (date: string, isValueValid?: boolean) => {
+    const hasGlobalValidationError = toggleValidationError(date, savedValue.from)
+    const hasSpecificValidationError = toggleSpecificValidationError(date, configTo, setToValidationError, toValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, to: date }
-    if (!toValidationError && !globalValidationError) {
+    if (isValueValid !== false && !hasGlobalValidationError && !hasSpecificValidationError) {
       onChange(updatedValue, config.id)
     }
     setSavedValue(updatedValue)
@@ -89,7 +93,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     return limit && isDateBehindLimit(value, limit.split('T')[0])
   }
 
-  const toggleValidationError = (to: string, from: string) => {
+  const toggleValidationError = (to: string, from: string): boolean => {
     if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
       setGlobalValidationError({
         category: '',
@@ -100,9 +104,11 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         showAlways: true,
       })
       dispatch(updateValidationError({ id: config.id, value: true }))
+      return true
     } else {
       setGlobalValidationError(null)
       dispatch(updateValidationError({ id: config.id, value: false }))
+      return false
     }
   }
 
@@ -111,7 +117,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     config: ListFilterDateConfig,
     saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void,
     currentValidationError: ValidationError | null
-  ) => {
+  ): boolean => {
     if (isFutureDate(value)) {
       saveValidationError({
         category: '',
@@ -122,6 +128,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         showAlways: true,
       })
       dispatch(updateValidationError({ id: config.id, value: true }))
+      return true
     } else if (shouldShowDateTooFarBackError(value, config.min)) {
       saveValidationError({
         category: '',
@@ -132,10 +139,13 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         showAlways: true,
       })
       dispatch(updateValidationError({ id: config.id, value: true }))
+      return true
     } else if (currentValidationError && currentValidationError.type !== 'INVALID_DATE_FORMAT') {
       saveValidationError(null)
       dispatch(updateValidationError({ id: config.id, value: false }))
+      return false
     }
+    return false
   }
 
   const getFromValue = () => {
@@ -149,10 +159,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const onValidationError = (isInactive: boolean, validationError: ValidationError) => {
     if (validationError.field === configTo.id) {
       setToValidationError(isInactive ? null : validationError)
-      dispatch(updateValidationError({ id: configTo.id, value: isInactive }))
+      dispatch(updateValidationError({ id: configTo.id, value: !isInactive }))
     } else {
       setFromValidationError(isInactive ? null : validationError)
-      dispatch(updateValidationError({ id: configFrom.id, value: isInactive }))
+      dispatch(updateValidationError({ id: configFrom.id, value: !isInactive }))
     }
   }
 
