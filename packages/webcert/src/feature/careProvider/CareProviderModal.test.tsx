@@ -2,13 +2,14 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { updateUser, updateUserStatistics } from '../../store/user/userActions'
+import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import {
   getUserWithEmptyUnit,
   getUserStatistics,
   getUser,
   getUserWithEmptyCareUnitWithoutUnits,
   getUserStatisticsForOneCareUnit,
+  getChooseUnitResourceLink,
 } from '@frontend/common'
 import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
@@ -49,6 +50,7 @@ describe('Care provider modal', () => {
   it('should show care provider modal if logged in unit is not set', () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
     testStore.dispatch(updateUserStatistics(getUserStatistics()))
+    testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
     renderComponent()
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
@@ -64,6 +66,8 @@ describe('Care provider modal', () => {
   it('should close modal when unit is chosen', async () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
     testStore.dispatch(updateUserStatistics(getUserStatistics()))
+    testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+
     fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
 
     renderComponent()
@@ -78,6 +82,7 @@ describe('Care provider modal', () => {
   it('should show care units when care provider modal is open', () => {
     testStore.dispatch(updateUser(getUserWithEmptyUnit()))
     testStore.dispatch(updateUserStatistics(getUserStatistics()))
+    testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
     renderComponent()
     expect(screen.getByText('Care unit')).toBeInTheDocument()

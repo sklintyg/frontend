@@ -1,4 +1,5 @@
 import { Unit } from '../../types/certificate'
+import { ResourceLinkType } from '../../types/resourceLink'
 import { User, LoginMethod, SigningMethod, UserStatistics, UnitStatistic, UnitStatistics } from '../../types/user'
 
 export const getUser = (): User => {
@@ -179,4 +180,16 @@ export const getUserStatisticsForOneCareUnit = (): UserStatistics => {
     totalDraftsAndUnhandledQuestionsOnOtherUnits: 17,
     unitStatistics: unitStatistics,
   }
+}
+
+export const getChooseUnitResourceLink = () => {
+  return [
+    {
+      type: ResourceLinkType.CHOOSE_UNIT,
+      name: 'Välj vårdenhet',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
 }

@@ -1,15 +1,17 @@
-import { PopUpModal } from '@frontend/common'
+import { PopUpModal, ResourceLinkType } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getUser, selectIsLoadingUserStatistics } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks, selectIsLoadingUserStatistics } from '../../store/user/userSelectors'
 import { CareProviderModalContent } from './CareProviderModalContent'
 
 const CareProviderModal: React.FC = () => {
   const user = useSelector(getUser)
   const isLoadingUserStatistics = useSelector(selectIsLoadingUserStatistics, _.isEqual)
+  const userLinks = useSelector(getUserResourceLinks)
+  const chooseUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHOOSE_UNIT)
 
-  const showCareProviderModal = !!user && !user?.loggedInUnit.unitId
+  const showCareProviderModal = !user?.loggedInUnit.unitId && !!chooseUnitLink
 
   if (isLoadingUserStatistics) {
     return null
