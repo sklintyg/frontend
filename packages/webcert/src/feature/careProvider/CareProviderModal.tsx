@@ -10,14 +10,12 @@ const CareProviderModal: React.FC = () => {
   const userLinks = useSelector(getUserResourceLinks)
   const chooseUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHOOSE_UNIT)
 
-  const showCareProviderModal = !!chooseUnitLink
-
   if (isLoadingUserStatistics) {
     return null
   }
 
   return (
-    <PopUpModal modalTitle="Välj vårdgivare" open={showCareProviderModal}>
+    <PopUpModal modalTitle="Välj vårdgivare" open={!!chooseUnitLink}>
       <CareProviderModalContent />
     </PopUpModal>
   )
