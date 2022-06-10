@@ -14,7 +14,7 @@ const GeneralErrorReload: React.FC<ModalProps> = ({ errorData }) => {
         <strong>{GENERAL_ERROR_TITLE}</strong>
       </p>
       <p>
-        {GENERAL_ERROR_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+        {GENERAL_ERROR_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.
       </p>
     </ReloadModal>
   )
