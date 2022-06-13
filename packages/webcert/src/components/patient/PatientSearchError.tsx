@@ -48,6 +48,8 @@ const PatientSearchError: React.FC = () => {
           </p>
         </>
       )
+    } else if (error.errorCode === ErrorCode.PATIENT_NO_NAME) {
+      return <p>Förnamn eller efternamn för det personnummer du har angett kunde tyvärr inte hämtas från folkbokföringsregistret.</p>
     }
   }
 
