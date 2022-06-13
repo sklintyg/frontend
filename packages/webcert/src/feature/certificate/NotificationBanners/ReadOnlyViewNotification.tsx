@@ -10,9 +10,7 @@ const ReadOnlyViewNotification: React.FC = () => {
   const user = useSelector(getUser)
 
   const shouldRender = (): boolean => {
-    const isSameCareProvider = metadata?.careProvider.unitId === user?.loggedInCareProvider.unitId
-    const isDifferentCareUnit = metadata?.careUnit.unitId !== user?.loggedInCareUnit.unitId
-    return isSameCareProvider && isDifferentCareUnit
+    return metadata?.careUnit.unitId !== user?.loggedInCareUnit.unitId
   }
 
   if (!shouldRender()) return null
