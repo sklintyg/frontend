@@ -131,7 +131,13 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleWorkingHoursOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))
+    const inputNumber: number = +event.target.value.replace(/[^0-9]/g, '')
+
+    if (inputNumber >= 168) {
+      console.log('tooo many hours!')
+    } else {
+      setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))
+    }
   }
 
   if (!question) return null
@@ -159,7 +165,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                 className="ic-textfield iu-mx-200 iu-fs-200"
                 value={baseWorkHours}
                 type="text"
-                maxLength={2}
+                maxLength={3}
               />
               <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
             </Accordion>
