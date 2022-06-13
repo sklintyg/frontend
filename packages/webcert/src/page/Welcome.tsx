@@ -84,8 +84,7 @@ const Welcome: React.FC = () => {
     if (!isFakeLogin) {
       dispatch(updateNavigateToCertificate(true))
     } else {
-      const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-      dispatch(loginUser(jsonString))
+      performLogin()
     }
   }, [certificateId])
 
@@ -94,14 +93,27 @@ const Welcome: React.FC = () => {
       return
     }
 
-    if (!isDeepIntegration) {
-      history.push(`/certificate/${certificateId}`)
-      dispatch(clearWelcome())
+    if (certificateId.length === 0) {
+      if (jsonUser.legitimeradeYrkesgrupper?.some((s) => s.toLowerCase() === 'läkare')) {
+        history.push('/create')
+      } else {
+        history.push('/list/draft')
+      }
+    } else {
+      if (!isDeepIntegration) {
+        history.push(`/certificate/${certificateId}`)
+        dispatch(clearWelcome())
+      }
     }
   }, [navigateToCertificate])
 
   if (navigateToCertificate && isDeepIntegration) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
+  }
+
+  const performLogin = () => {
+    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
+    dispatch(loginUser(jsonString))
   }
 
   const handleChangeMultiple = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -125,8 +137,10 @@ const Welcome: React.FC = () => {
     event.preventDefault()
     if (isCreateNewCertificate) {
       dispatch(createNewCertificate(createCertificate))
-    } else {
+    } else if (existingCertificateId.length > 1) {
       dispatch(updateCertificateId(existingCertificateId))
+    } else if (jsonUser.origin === 'NORMAL') {
+      performLogin()
     }
   }
 
@@ -238,7 +252,7 @@ const Welcome: React.FC = () => {
                 <CustomButton
                   buttonStyle="primary"
                   type="submit"
-                  disabled={!isCreateNewCertificate && existingCertificateId.length < 1}
+                  disabled={jsonUser.origin !== 'NORMAL' && !isCreateNewCertificate && existingCertificateId.length < 1}
                   onSubmit={handleLogin}>
                   Logga in
                 </CustomButton>
