@@ -42,14 +42,20 @@ describe('ReadOnlyViewNotification', () => {
     expect(screen.getByText(INFO_TEXT)).toBeInTheDocument()
   })
 
-  it('shall not render a banner if unit id is same', () => {
+  it('shall not render a banner if care provider is same and unit id is same', () => {
     setState(CARE_UNIT_ID, CARE_PROVIDER_ID, CARE_UNIT_ID, CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
 
-  it('shall not render a banner if care provider id is not same', () => {
+  it('shall render a banner if care provider id and unit id is not same', () => {
     setState(CARE_UNIT_ID, CARE_PROVIDER_ID, USER_LOGGED_IN_CARE_UNIT_ID, USER_LOGGED_IN_CARE_PROVIDER_ID)
+    renderDefaultComponent()
+    expect(screen.queryByText(INFO_TEXT)).toBeInTheDocument()
+  })
+
+  it('shall not render a banner if care provider is different but unit id is same', () => {
+    setState(CARE_UNIT_ID, CARE_PROVIDER_ID, CARE_UNIT_ID, USER_LOGGED_IN_CARE_PROVIDER_ID)
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT)).not.toBeInTheDocument()
   })
