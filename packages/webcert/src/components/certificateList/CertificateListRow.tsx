@@ -57,6 +57,9 @@ const CertificateListRow: React.FC<Props> = ({
   }
 
   const formatText = (text: string) => {
+    if (!text) {
+      return ''
+    }
     const splitText = text.split('<LINK:')
     if (splitText.length > 1) {
       const dynamicLinkKey = splitText[1].split('>')[0]
@@ -75,6 +78,9 @@ const CertificateListRow: React.FC<Props> = ({
   }
 
   const hasDynamicLink = (text: string) => {
+    if (!text) {
+      return false
+    }
     const splitText = text.split('<LINK:')
     return splitText.length > 1
   }

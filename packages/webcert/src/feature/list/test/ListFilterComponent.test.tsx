@@ -16,6 +16,7 @@ import userEvent from '@testing-library/user-event'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../../store/reducers'
 import { listMiddleware } from '../../../store/list/listMiddleware'
+import { updateActiveListFilterValue } from '../../../store/list/listActions'
 
 let testStore: EnhancedStore
 const onChange = jest.fn()
@@ -140,19 +141,29 @@ describe('ListFilterComponent', () => {
     })
 
     it('should update date range filter to value', () => {
+      testStore.dispatch(
+        updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
+      )
       const filter = getDateRangeFilter()
       renderComponent(filter)
+
       const to = screen.getByLabelText('to')
-      userEvent.type(to, '1')
-      expect(onChange).toHaveBeenCalledWith({ to: '1' }, filter.id)
+      userEvent.type(to, '2020-01-01')
+
+      expect(onChange).toHaveBeenCalledWith({ from: '', to: '2020-01-01', type: 'DATE_RANGE' }, filter.id)
     })
 
     it('should update date range filter from value', () => {
+      testStore.dispatch(
+        updateActiveListFilterValue({ id: 'DATE_RANGE_FILTER', filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } })
+      )
       const filter = getDateRangeFilter()
+
       renderComponent(filter)
       const from = screen.getByLabelText('from')
-      userEvent.type(from, '1')
-      expect(onChange).toHaveBeenCalledWith({ from: '1' }, filter.id)
+
+      userEvent.type(from, '2020-01-01')
+      expect(onChange).toHaveBeenCalledWith({ from: '2020-01-01', to: '', type: 'DATE_RANGE' }, filter.id)
     })
 
     it('should update radio filter value', () => {
