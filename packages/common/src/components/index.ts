@@ -39,5 +39,4 @@ export { default as PatientListInfoContent } from './List/PatientListInfoContent
 export { default as ListHeader } from './List/ListHeader'
 export { default as SimpleTable } from './Table/SimpleTable'
 export { Footer } from './Footer/Footer'
-export { default as PopUpModal } from './utils/Modal/PopUpModal'
 export { default as ExpandableTableRow } from './Table/ExpandableTableRow'
