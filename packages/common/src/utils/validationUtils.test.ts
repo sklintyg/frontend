@@ -28,6 +28,7 @@ import {
   decorateCertificateWithInitialValues,
   getSortedValidationErrorSummary,
   getValidationErrors,
+  isShowAlways,
   parseExpression,
   validateExpressions,
 } from './validationUtils'
@@ -1165,3 +1166,30 @@ describe('Set initial values to a certificate', () => {
     })
   })
 })
+
+describe('isShowAlways', () => {
+  it('should return true if validation error is of type other', () => {
+    const result = isShowAlways(getValidationError('OTHER'))
+    expect(result).toBeTruthy()
+  })
+
+  it('should return true if validation error is of type other', () => {
+    const result = isShowAlways(getValidationError('INVALID_FORMAT'))
+    expect(result).toBeTruthy()
+  })
+
+  it('should return false if validation error is of other type than other or invalid format', () => {
+    const result = isShowAlways(getValidationError('TEST'))
+    expect(result).toBeFalsy()
+  })
+})
+
+const getValidationError = (type: string): ValidationError => {
+  return {
+    id: 'id',
+    type: type,
+    field: 'field',
+    category: 'category',
+    text: 'text',
+  }
+}
