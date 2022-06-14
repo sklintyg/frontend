@@ -38,6 +38,12 @@ describe('PatientSearchError', () => {
     renderComponent()
     expect(screen.getByText('Personuppgiftstjänsten svarar inte.', { exact: false })).toBeInTheDocument()
   })
+
+  it('should show no name error message', () => {
+    store.dispatch(setPatientError(getErrorRequest(ErrorCode.PATIENT_NO_NAME)))
+    renderComponent()
+    expect(screen.getByText('Förnamn eller efternamn', { exact: false })).toBeInTheDocument()
+  })
 })
 
 const getErrorRequest = (code: ErrorCode): ErrorRequest => {

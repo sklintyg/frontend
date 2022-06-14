@@ -5,6 +5,7 @@ export enum PatientStatus {
   NOT_FOUND = 'NOT_FOUND',
   ERROR = 'ERROR',
   INVALID_PATIENT_ID = 'INVALID_PATIENT_ID',
+  NO_NAME = 'NO_NAME',
 }
 
 export interface Patient {
