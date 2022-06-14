@@ -16,11 +16,17 @@ const CareProviderModal: React.FC = () => {
   const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
 
   const getModalTitle = () => {
-    return !!user?.loggedInUnit.unitId ? changeUnitLink?.name : chooseUnitLink?.name
+    if (chooseUnitLink) {
+      return chooseUnitLink.name
+    } else if (changeUnitLink) {
+      return changeUnitLink.name
+    } else {
+      return ''
+    }
   }
 
   useEffect(() => {
-    if (!!user && !user?.loggedInUnit.unitId) {
+    if (chooseUnitLink && !user?.loggedInUnit.unitId) {
       dispatch(updateIsCareProviderModalOpen(true))
     }
   })

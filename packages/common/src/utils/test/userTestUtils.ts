@@ -249,3 +249,15 @@ export const getChooseUnitResourceLink = () => {
     },
   ]
 }
+
+export const getChangeUnitResourceLink = () => {
+  return [
+    {
+      type: ResourceLinkType.CHANGE_UNIT,
+      name: 'Byt vårdenhet',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { getUser, getUserStatistics, getUserWithInactiveUnit, ResourceLinkType } from '@frontend/common'
+import { getChangeUnitResourceLink, getUser, getUserStatistics, getUserWithInactiveUnit } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
@@ -40,21 +40,11 @@ describe('Webcert header unit', () => {
     expect(screen.getByText(/Care unit/i)).toBeInTheDocument()
   })
 
-  it('should open the dropdpwn with the button for changing unit when clicking on expand button', () => {
+  it('should open the dropdown with the button for changing unit when clicking on expand button', () => {
     testStore.dispatch(updateUser(getUser()))
     renderComponent()
 
-    testStore.dispatch(
-      updateUserResourceLinks([
-        {
-          type: ResourceLinkType.CHANGE_UNIT,
-          name: 'Byt vårdenhet',
-          body: '',
-          description: '',
-          enabled: true,
-        },
-      ])
-    )
+    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
     userEvent.click(screen.getAllByTestId('expandChangeUnit')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
@@ -83,17 +73,7 @@ describe('Webcert header unit', () => {
 
       renderComponent()
 
-      testStore.dispatch(
-        updateUserResourceLinks([
-          {
-            type: ResourceLinkType.CHANGE_UNIT,
-            name: 'Byta vårdenhet',
-            body: '',
-            description: '',
-            enabled: true,
-          },
-        ])
-      )
+      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
     })

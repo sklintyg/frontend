@@ -63,13 +63,13 @@ describe('Care provider modal', () => {
     expect(text).not.toBeInTheDocument()
   })
 
-  describe('Tests with common setup', () => {
+  describe('Tests with no logged in unit', () => {
     beforeEach(() => {
       testStore.dispatch(updateUser(getUserWithEmptyUnit()))
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
     })
 
-    it('should show care provider modal if choose unit resource link exists', () => {
+    it('should show care provider modal if choose unit resource link exists and logged in unit is not set', () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
@@ -106,6 +106,13 @@ describe('Care provider modal', () => {
       renderComponent()
       const text = screen.queryAllByText('total', { exact: false })
       expect(text).toBeTruthy()
+    })
+
+    it('should show title for choosing unit', () => {
+      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+
+      renderComponent()
+      expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })
 })

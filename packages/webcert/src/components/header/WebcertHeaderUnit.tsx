@@ -98,8 +98,10 @@ const WebcertHeaderUnit: React.FC = () => {
   }
 
   const openModal = () => {
-    dispatch(updateIsCareProviderModalOpen(true))
-    setIsExpanded(false)
+    if (changeUnitLink) {
+      dispatch(updateIsCareProviderModalOpen(true))
+      setIsExpanded(false)
+    }
   }
 
   const toString = (user: User): React.ReactNode => {
