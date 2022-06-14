@@ -69,7 +69,7 @@ describe('Care provider modal', () => {
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
     })
 
-    it('should show care provider modal if choose unit resource link exists and logged in unit is not set', () => {
+    it('should show care provider modal if choose unit resource link exists', () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()

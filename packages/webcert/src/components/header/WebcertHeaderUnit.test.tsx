@@ -33,7 +33,7 @@ describe('Webcert header unit', () => {
     clearDispatchedActions()
   })
 
-  it('displays care provider and unit that user is logged into', (): void => {
+  it('should display what care unit the user is logged in to', (): void => {
     testStore.dispatch(updateUser(getUser()))
     renderComponent()
 

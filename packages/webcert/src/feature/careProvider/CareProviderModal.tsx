@@ -26,7 +26,7 @@ const CareProviderModal: React.FC = () => {
   }
 
   useEffect(() => {
-    if (chooseUnitLink && !user?.loggedInUnit.unitId) {
+    if (chooseUnitLink) {
       dispatch(updateIsCareProviderModalOpen(true))
     }
   })
@@ -40,11 +40,7 @@ const CareProviderModal: React.FC = () => {
   }
 
   return (
-    <PopUpModal
-      modalTitle={getModalTitle()}
-      open={isCareProviderModalOpen}
-      handleClose={handleClose}
-      showCloseButton={!!user?.loggedInUnit.unitId}>
+    <PopUpModal modalTitle={getModalTitle()} open={isCareProviderModalOpen} handleClose={handleClose} showCloseButton={!chooseUnitLink}>
       <CareProviderModalContent />
     </PopUpModal>
   )
