@@ -10,10 +10,12 @@ import {
   CertificateDataValueType,
   CertificateMetadata,
   CertificateStatus,
-  ConfigUeCheckboxMultipleCodes,
   ConfigTypes,
+  ConfigUeCheckboxMultipleCodes,
   getValidDate,
   MaxDateValidation,
+  ResourceLinkType,
+  sortByIndex,
   ValidationError,
   ValidationErrorSummary,
   ValueBoolean,
@@ -24,8 +26,6 @@ import {
   ValueDiagnosisList,
   ValueIcf,
   ValueText,
-  ResourceLinkType,
-  sortByIndex,
 } from '..'
 import { ValueDateRange } from '@frontend/common'
 
@@ -376,4 +376,12 @@ function validate(data: CertificateData, id: string) {
       setDisableForChildElement(data, validationResult)
     }
   })
+}
+
+export const isShowAlways = (validationError: ValidationError) => {
+  if (validationError.type === 'INVALID_FORMAT' || validationError.type === 'OTHER') {
+    return true
+  } else {
+    return false
+  }
 }
