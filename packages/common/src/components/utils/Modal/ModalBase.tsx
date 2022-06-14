@@ -10,6 +10,11 @@ const ModalContentWrapper = styled.div`
 
 const WrapText = styled.div`
   white-space: normal;
+  z-index: 10;
+`
+
+const Backdrop = styled.div`
+  z-index: 5;
 `
 
 interface Props {
@@ -30,7 +35,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
     <>
       <FocusTrap active={open}>
         <div tabIndex={0}>
-          <div className="ic-backdrop iu-lh-body" onClick={handleClose} />
+          <Backdrop className="ic-backdrop iu-lh-body" onClick={handleClose} />
           <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
               <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">

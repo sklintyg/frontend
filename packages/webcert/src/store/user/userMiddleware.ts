@@ -1,6 +1,6 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import {
   cancelLogout,
   cancelLogoutStarted,
@@ -13,6 +13,9 @@ import {
   getUserStatisticsStarted,
   getUserStatisticsSuccess,
   getUserSuccess,
+  setUnit,
+  setUnitStarted,
+  setUnitSuccess,
   setUserPreference,
   setUserPreferenceStarted,
   setUserPreferenceSuccess,
@@ -24,6 +27,7 @@ import {
   triggerLogoutSuccess,
   updateInactivateAutomaticLogout,
   updateIsLoadingUser,
+  updateIsLoadingUserStatistics,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
@@ -43,7 +47,7 @@ const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () 
   )
 }
 
-const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+const handleGetUserError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateIsLoadingUser(false))
 }
 
@@ -142,8 +146,30 @@ const handleGetUserStatistics: Middleware<Dispatch> = ({ dispatch }: MiddlewareA
   )
 }
 
-const handleGetUserTabsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetUserStatisticsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateIsLoadingUserStatistics(true))
+}
+
+const handleGetUserStatisticsSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateUserStatistics(action.payload))
+  dispatch(updateIsLoadingUserStatistics(false))
+}
+
+const handleSetUnit: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: `/api/user/unit/${action.payload}`,
+      method: 'POST',
+      onStart: setUnitStarted.type,
+      onSuccess: setUnitSuccess.type,
+      onError: apiGenericError.type,
+    })
+  )
+}
+
+const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateUser(action.payload.user))
+  dispatch(updateUserResourceLinks(action.payload.links))
 }
 
 const middlewareMethods = {
@@ -158,7 +184,10 @@ const middlewareMethods = {
   [triggerLogoutNow.type]: handleTriggerLogoutNow,
   [startSignCertificate.type]: handleStartSignCertificate,
   [getUserStatistics.type]: handleGetUserStatistics,
-  [getUserStatisticsSuccess.type]: handleGetUserTabsSuccess,
+  [getUserStatisticsStarted.type]: handleGetUserStatisticsStarted,
+  [getUserStatisticsSuccess.type]: handleGetUserStatisticsSuccess,
+  [setUnit.type]: handleSetUnit,
+  [setUnitSuccess.type]: handleSetUnitSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

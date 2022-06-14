@@ -3,7 +3,7 @@ import WCDynamicLink from '../../../utils/WCDynamicLink'
 import ReloadModal from './ReloadModal'
 import { ModalProps } from './errorUtils'
 
-export const GENERAL_ERROR_TITLE = 'Intyget kunde inte visas.'
+export const GENERAL_ERROR_TITLE = 'Tekniskt fel'
 export const GENERAL_ERROR_MESSAGE =
   'Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand'
 
@@ -14,7 +14,7 @@ const GeneralErrorReload: React.FC<ModalProps> = ({ errorData }) => {
         <strong>{GENERAL_ERROR_TITLE}</strong>
       </p>
       <p>
-        {GENERAL_ERROR_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+        {GENERAL_ERROR_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />.
       </p>
     </ReloadModal>
   )

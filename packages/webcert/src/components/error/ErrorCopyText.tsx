@@ -46,7 +46,9 @@ const ErrorCopyText: React.FC<Props> = ({ errorId }) => {
   return (
     <Root className={'iu-pt-400'}>
       <p>
-        <strong>Fel-id:</strong> {errorId} <StyledIcon src={list} alt="Kopiera text" onClick={handleCopyClick} />
+        Ange fel-ID för snabbare hantering:
+        <br />
+        {errorId} <StyledIcon src={list} alt="Kopiera text" onClick={handleCopyClick} />
       </p>
       {displayCopyMessage && <SuccessMessage>Fel-id kopierat till urklipp.</SuccessMessage>}
     </Root>

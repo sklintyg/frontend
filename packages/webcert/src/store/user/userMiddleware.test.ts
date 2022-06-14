@@ -5,7 +5,8 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
-import { getUserStatistics, triggerLogout, updateInactivateAutomaticLogout } from './userActions'
+import { getUserStatistics, setUnit, triggerLogout, updateInactivateAutomaticLogout } from './userActions'
+import { getUser, getUserStatistics as statistics, UnitStatistic, UnitStatistics, UserStatistics } from '@frontend/common'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -52,17 +53,49 @@ describe('Test user middleware', () => {
       expect(fakeAxios.history.get[0].url).toEqual('/api/user/statistics')
     })
 
-    it('shall set number of drafts on unit if success', async () => {
-      const statistics = {
-        nbrOfDraftsOnSelectedUnit: 10,
-      }
-
-      fakeAxios.onGet('/api/user/statistics').reply(200, statistics)
+    it('shall set number of drafts on selected unit if success', async () => {
+      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
 
       testStore.dispatch(getUserStatistics)
 
       await flushPromises()
-      expect(testStore.getState().ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit).toEqual(10)
+      expect(testStore.getState().ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit).toEqual(6)
+    })
+
+    it('should set number of drafts and unhandled questions on other units if success', async () => {
+      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+
+      testStore.dispatch(getUserStatistics)
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiUser.userStatistics.totalDraftsAndUnhandledQuestionsOnOtherUnits).toEqual(17)
+    })
+
+    it('should set number of drafts on unit if success', async () => {
+      fakeAxios.onGet('/api/user/statistics').reply(200, statistics())
+
+      testStore.dispatch(getUserStatistics)
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiUser.userStatistics.unitStatistics['1234a'].draftsOnUnit).toEqual(3)
+    })
+  })
+
+  describe('Handle set unit', () => {
+    it('should call api to set unit', async () => {
+      testStore.dispatch(setUnit('1234a'))
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/user/unit/1234a')
+    })
+
+    it('should set care unit on success', async () => {
+      fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
+      testStore.dispatch(setUnit('1234a'))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiUser.user.loggedInUnit.unitId).toEqual('1234a')
     })
   })
 })

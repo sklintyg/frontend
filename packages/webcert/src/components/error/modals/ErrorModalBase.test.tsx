@@ -76,7 +76,7 @@ describe('ErrorModalBase', () => {
     const expectedText = 'errorid'
     renderComponent(createError(expectedText))
 
-    expect(screen.getByText(expectedText)).toBeInTheDocument()
+    expect(screen.getByText(expectedText, { exact: false })).toBeInTheDocument()
   })
 
   it('shall call onConfirm function when clicking confirm button', () => {

@@ -35,7 +35,12 @@ const ForwardCertificateButton: React.FC<Props> = ({
 
   if (forwarded) {
     return (
-      <CustomButton disabled={!enabled} onClick={handleEmailSend} tooltip={description}>
+      <CustomButton
+        buttonStyle="primary"
+        disabled={!enabled}
+        onClick={handleEmailSend}
+        tooltip={description}
+        startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}>
         {name}
       </CustomButton>
     )

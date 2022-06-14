@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty, UserStatistics } from '@frontend/common'
+import { ResourceLink, User, UserProperty, UserStatistics, Unit } from '@frontend/common'
 
 const USER = '[User]'
 
@@ -47,3 +47,10 @@ export const getUserStatisticsStarted = createAction(`${USER} Get user statistic
 export const getUserStatisticsSuccess = createAction<UserStatistics>(`${USER} Get user statistics success`)
 export const getUserStatisticsError = createAction<string>(`${USER} Get user statistics error`)
 export const updateUserStatistics = createAction<UserStatistics>(`${USER} Get user statistics error`)
+
+export const setUnit = createAction<string>(`${USER} Set unit`)
+export const setUnitStarted = createAction(`${USER} Set unit started`)
+export const setUnitSuccess = createAction<Unit>(`${USER} Set unit success`)
+export const setUnitError = createAction<string>(`${USER} Set unit error`)
+
+export const updateIsLoadingUserStatistics = createAction<boolean>(`${USER} Update is loading user statistics`)

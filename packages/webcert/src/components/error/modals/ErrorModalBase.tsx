@@ -5,6 +5,11 @@ import { clearError } from '../../../store/error/errorActions'
 import { useDispatch } from 'react-redux'
 import { ErrorData } from '../../../store/error/errorReducer'
 import ErrorCopyText from '../ErrorCopyText'
+import styled from 'styled-components'
+
+const Modal = styled.div`
+  z-index: 9999;
+`
 
 interface ErrorModalProps {
   onConfirm?: () => void
@@ -40,11 +45,11 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
     <FocusTrap active={open}>
       <div>
         <div className="ic-backdrop" onClick={handleClose} />
-        <div role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
+        <Modal role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
           <div className="ic-modal__body">{children}</div>
           <div className="ic-button-group ic-button-group--center">{getButtons()}</div>
           <ErrorCopyText errorId={errorData.errorId} />
-        </div>
+        </Modal>
       </div>
     </FocusTrap>
   )
