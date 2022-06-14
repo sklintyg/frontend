@@ -14,8 +14,17 @@ const ExternalLinkIconImg = styled.img`
   position: relative;
 `
 
+const StyledTextWithInfoModal = styled(TextWithInfoModal)`
+  @media (max-width: 1024px) {
+    flex: 1 0 auto;
+    justify-content: flex-start;
+    padding: 0.875rem 1.25rem;
+    text-align: left;
+  }
+`
+
 export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
-  <TextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor (cookies)" additionalStyles={className}>
+  <StyledTextWithInfoModal modalTitle="Om kakor (cookies)" text="Om kakor (cookies)" className={className}>
     <p>
       Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår
       användning av kakor.
@@ -45,5 +54,5 @@ export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
       </a>
       .
     </p>
-  </TextWithInfoModal>
+  </StyledTextWithInfoModal>
 )
