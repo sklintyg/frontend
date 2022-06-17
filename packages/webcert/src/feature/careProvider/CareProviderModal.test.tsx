@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
+import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import {
   getUserWithEmptyUnit,
   getUserStatistics,
@@ -10,6 +10,7 @@ import {
   getUserWithEmptyCareUnitWithoutUnits,
   getUserStatisticsForOneCareUnit,
   getChooseUnitResourceLink,
+  getChangeUnitResourceLink,
 } from '@frontend/common'
 import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
@@ -47,7 +48,7 @@ describe('Care provider modal', () => {
 
   afterEach(() => clearDispatchedActions())
 
-  it('should not show modal if logged in unit is set', () => {
+  it('should NOT show modal if resource link for choose unit does not exist', () => {
     testStore.dispatch(updateUser(getUser()))
 
     renderComponent()
@@ -63,7 +64,17 @@ describe('Care provider modal', () => {
     expect(text).not.toBeInTheDocument()
   })
 
-  describe('Tests with common setup', () => {
+  it('should show button to close modal if resource link for change unit exists', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserStatistics(getUserStatistics()))
+    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+    testStore.dispatch(updateIsCareProviderModalOpen(true))
+
+    renderComponent()
+    expect(screen.getByText('Avbryt')).toBeInTheDocument()
+  })
+
+  describe('Tests with no logged in unit', () => {
     beforeEach(() => {
       testStore.dispatch(updateUser(getUserWithEmptyUnit()))
       testStore.dispatch(updateUserStatistics(getUserStatistics()))
@@ -106,6 +117,13 @@ describe('Care provider modal', () => {
       renderComponent()
       const text = screen.queryAllByText('total', { exact: false })
       expect(text).toBeTruthy()
+    })
+
+    it('should show title for choosing unit', () => {
+      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+
+      renderComponent()
+      expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })
 })

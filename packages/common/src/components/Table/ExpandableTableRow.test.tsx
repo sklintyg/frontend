@@ -30,12 +30,12 @@ describe('Expandable table row', () => {
 
   it('should expand rows when click on arrow', () => {
     renderComponent()
-    userEvent.click(screen.getByTestId('expandArrow'))
+    userEvent.click(screen.getByTestId('arrowToggle'))
     expect(screen.getByText('Expanded child 1')).toBeInTheDocument()
   })
 
   it('should make first cell in table row a button link', () => {
     renderComponent()
-    expect(screen.getByRole('button')).toBeInTheDocument()
+    expect(screen.getAllByRole('button')[1]).toBeInTheDocument()
   })
 })

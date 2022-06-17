@@ -16,6 +16,7 @@ export const selectIsLoadingUser = (state: RootState): boolean => state.ui.uiUse
 export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.ui.uiUser.links
 
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
+
 export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
 
@@ -23,3 +24,8 @@ export const getUnitStatistics = (state: RootState): UnitStatistics =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.unitStatistics : {}
 
 export const selectIsLoadingUserStatistics = (state: RootState): boolean => state.ui.uiUser.isLoadingUserStatistics
+
+export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState): number | undefined =>
+  state.ui.uiUser.userStatistics?.totalDraftsAndUnhandledQuestionsOnOtherUnits
+
+export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
