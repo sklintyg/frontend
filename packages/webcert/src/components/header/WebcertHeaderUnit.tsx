@@ -56,7 +56,7 @@ const WebcertHeaderUnit: React.FC = () => {
             <span>Inaktiv enhet</span>
           </InactiveUnit>
         ) : null}
-        {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClick={openModal} />}
+        {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}
       </Wrapper>
     )
   }

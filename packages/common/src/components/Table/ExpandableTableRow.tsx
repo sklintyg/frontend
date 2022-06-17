@@ -1,16 +1,5 @@
+import ArrowToggle from '@frontend/common/src/components/utils/ArrowToggle'
 import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
-import arrow from '../../images/arrow-down.svg'
-
-const ArrowDown = styled.img`
-  cursor: pointer;
-  width: 0.9em;
-  display: inline-block;
-`
-
-const ArrowUp = styled(ArrowDown)`
-  transform: rotate(180deg);
-`
 
 interface Props {
   rowContent: string[]
@@ -21,7 +10,7 @@ interface Props {
 const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, children }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const toggleExpand = () => {
+  const handleToggle = () => {
     setIsExpanded(!isExpanded)
   }
 
@@ -32,11 +21,7 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
           if (idx === 0) {
             return (
               <td key={idx}>
-                {isExpanded ? (
-                  <ArrowUp src={arrow} alt="" onClick={toggleExpand} className="iu-mr-300" data-testid="expandArrow" />
-                ) : (
-                  <ArrowDown src={arrow} alt="" onClick={toggleExpand} className="iu-mr-300" data-testid="expandArrow" />
-                )}
+                <ArrowToggle onClick={handleToggle} className="iu-mr-200" label="Fäll ut/in tabellrader" isUp={isExpanded} />
                 <button className="ic-link iu-text-left" type="button" id={id} onClick={handleClick}>
                   {cell}
                 </button>
