@@ -8,7 +8,6 @@ const StyledButton = styled.button`
 `
 
 const ArrowDown = styled.img`
-  cursor: pointer;
   width: 0.9em;
   display: inline-block;
 `
@@ -26,9 +25,11 @@ interface Props {
 
 const ArrowToggle: React.FC<Props> = ({ onClick, className, isUp, label }) => {
   return (
-    <StyledButton onClick={onClick} tabIndex={0} className={className} data-testid="arrowToggle">
+    <StyledButton onClick={onClick} tabIndex={0} className={className} data-testid="arrowToggle" aria-expanded={isUp} aria-label={label}>
       {isUp ? <ArrowUp src={arrow} alt="" /> : <ArrowDown src={arrow} alt="" />}
-      <span className="iu-sr-only">{label}</span>
+      <span className="iu-sr-only" aria-hidden="true">
+        {label}
+      </span>
     </StyledButton>
   )
 }
