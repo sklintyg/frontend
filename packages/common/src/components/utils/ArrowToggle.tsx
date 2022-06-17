@@ -20,10 +20,10 @@ interface Props {
   onClick: () => void
   className?: string
   isUp: boolean
-  label: string
+  label?: string
 }
 
-const ArrowToggle: React.FC<Props> = ({ onClick, className, isUp, label }) => {
+const ArrowToggle: React.FC<Props> = ({ onClick, className, isUp, label = 'Fäll ut/in innehåll' }) => {
   return (
     <StyledButton onClick={onClick} tabIndex={0} className={className} data-testid="arrowToggle" aria-expanded={isUp} aria-label={label}>
       {isUp ? <ArrowUp src={arrow} alt="" /> : <ArrowDown src={arrow} alt="" />}

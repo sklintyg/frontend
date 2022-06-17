@@ -51,7 +51,7 @@ const ExpandableBox: React.FC<Props> = ({ linkText, onClickLink }) => {
 
   return (
     <RelativeDiv>
-      <ArrowToggle onClick={handleToggle} className="iu-ml-300" isUp={isExpanded} label="Fäll ut/in" />
+      <ArrowToggle onClick={handleToggle} className="iu-ml-300" isUp={isExpanded} />
       {isExpanded && (
         <ExpandedDiv>
           <Link className="ic-link" type="button" onClick={handleClick}>

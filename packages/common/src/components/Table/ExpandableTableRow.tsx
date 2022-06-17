@@ -21,7 +21,7 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
           if (idx === 0) {
             return (
               <td key={idx}>
-                <ArrowToggle onClick={handleToggle} className="iu-mr-200" label="Fäll ut/in tabellrader" isUp={isExpanded} />
+                <ArrowToggle onClick={handleToggle} className="iu-mr-200" isUp={isExpanded} />
                 <button className="ic-link iu-text-left" type="button" id={id} onClick={handleClick}>
                   {cell}
                 </button>
