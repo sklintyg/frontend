@@ -28,6 +28,13 @@ import {
   getPreviousCertificatesListError,
   getPreviousCertificatesListStarted,
   getPreviousCertificatesListSuccess,
+  getQuestionListConfig,
+  getQuestionListConfigStarted,
+  getQuestionListConfigSuccess,
+  getQuestions,
+  getQuestionsError,
+  getQuestionsStarted,
+  getQuestionsSuccess,
   performListSearch,
   setListError,
   updateActiveList,
@@ -51,6 +58,8 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
     dispatch(getCertificateList(listFilter))
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesList(listFilter))
+  } else if (listType === ListType.QUESTIONS) {
+    dispatch(getQuestions(listFilter))
   }
 }
 
@@ -89,6 +98,19 @@ const handleGetPreviousCertificatesList: Middleware<Dispatch> = ({ dispatch }: M
       onStart: getPreviousCertificatesListStarted.type,
       onSuccess: getPreviousCertificatesListSuccess.type,
       onError: getPreviousCertificatesListError.type,
+    })
+  )
+}
+
+const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/question',
+      method: 'POST',
+      data: { filter: action.payload },
+      onStart: getQuestionsStarted.type,
+      onSuccess: getQuestionsSuccess.type,
+      onError: getQuestionsError.type,
     })
   )
 }
@@ -136,6 +158,19 @@ const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatc
       method: 'GET',
       onStart: getPreviousCertificatesListConfigStarted.type,
       onSuccess: getPreviousCertificatesListConfigSuccess.type,
+      onError: setListError.type,
+    })
+  )
+}
+
+const handleGetQuestionListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/config/question',
+      method: 'POST',
+      data: action.payload,
+      onStart: getQuestionListConfigStarted.type,
+      onSuccess: getQuestionListConfigSuccess.type,
       onError: setListError.type,
     })
   )
@@ -205,6 +240,14 @@ const middlewareMethods = {
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,
   [getPreviousCertificatesListConfig.type]: handleGetPreviousCertificatesListConfig,
   [getPreviousCertificatesListConfigSuccess.type]: handleGetListConfigSuccess,
+  [getPreviousCertificatesListConfigStarted.type]: handleGetListConfigStarted,
+  [getQuestions.type]: handleGetQuestions,
+  [getQuestionsSuccess.type]: handleGetListSuccess,
+  [getQuestionsError.type]: handleGetListError,
+  [getQuestionsStarted.type]: handleGetListStarted,
+  [getQuestionListConfig.type]: handleGetQuestionListConfig,
+  [getQuestionListConfigSuccess.type]: handleGetListConfigSuccess,
+  [getQuestionListConfigStarted.type]: handleGetListConfigStarted,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

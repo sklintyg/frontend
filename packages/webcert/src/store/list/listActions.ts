@@ -25,6 +25,11 @@ export const getPreviousCertificatesListStarted = createAction(`${LIST} Get prev
 export const getPreviousCertificatesListSuccess = createAction<ListResponse>(`${LIST} Get previous certificates list success`)
 export const getPreviousCertificatesListError = createAction(`${LIST} Get  previous certificates list error`)
 
+export const getQuestions = createAction<ListFilter>(`${LIST} Get questions`)
+export const getQuestionsStarted = createAction(`${LIST} Get questions started`)
+export const getQuestionsSuccess = createAction<ListResponse>(`${LIST} Get questions success`)
+export const getQuestionsError = createAction(`${LIST} Get questions error`)
+
 export const getDraftListConfig = createAction(`${LIST} Get draft list config`)
 export const getDraftListConfigStarted = createAction(`${LIST} Get draft list config started`)
 export const getDraftListConfigSuccess = createAction(`${LIST} Get draft list config success`)
@@ -39,6 +44,11 @@ export const getPreviousCertificatesListConfig = createAction(`${LIST} Get previ
 export const getPreviousCertificatesListConfigStarted = createAction(`${LIST} Get previous certificates list config started`)
 export const getPreviousCertificatesListConfigSuccess = createAction(`${LIST} Get previous certificates list config success`)
 export const getPreviousCertificatesListConfigError = createAction(`${LIST} Get previous certificates list config error`)
+
+export const getQuestionListConfig = createAction<string>(`${LIST} Get question list config`)
+export const getQuestionListConfigStarted = createAction(`${LIST} Get question list config started`)
+export const getQuestionListConfigSuccess = createAction(`${LIST} Get question list config success`)
+export const getQuestionListConfigError = createAction(`${LIST} Get question list config error`)
 
 export const updateActiveListConfig = createAction<ListConfig>(`${LIST} Update active list config`)
 export const clearActiveListConfig = createAction(`${LIST} Clear active list config`)

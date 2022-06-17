@@ -17,6 +17,7 @@ export function withResourceAccess<P>(WrappedComponent: React.FC<P>): React.FC<P
       ['/create/:patientId?', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
       ['/list/draft', ResourceLinkType.ACCESS_DRAFT_LIST],
       ['/list/certificate', ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST],
+      ['/list/question', ResourceLinkType.ACCESS_QUESTION_LIST],
     ])
     const linkType = resourceAccessMap.get(match.path)
 

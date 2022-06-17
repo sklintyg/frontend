@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { useEffect } from 'react'
-import { ListType } from '@frontend/common/src/types/list'
+import { ListFilterValueSelect, ListType } from '@frontend/common/src/types/list'
 import {
   getActiveList,
   getActiveListConfig,
   getActiveListFilter,
+  getActiveListFilterValue,
   getIsLoadingListConfig,
   getListTotalCount,
   hasListError,
@@ -15,6 +16,7 @@ import {
   getCertificateListConfig,
   getDraftListConfig,
   getPreviousCertificatesListConfig,
+  getQuestionListConfig,
   performListSearch,
   updateActiveListType,
 } from '../store/list/listActions'
@@ -28,7 +30,7 @@ import { updateShouldRouteAfterDelete } from '../store/certificate/certificateAc
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
-import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
+import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit, getUser } from '../store/user/userSelectors'
 import { getUserStatistics } from '../store/user/userActions'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
@@ -47,7 +49,10 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
+  const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+  const filteredUnitId = useSelector(getActiveListFilterValue('UNIT'))
+  const selectedUnit = useSelector(getUser)?.loggedInUnit.unitId
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -61,6 +66,8 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       dispatch(getCertificateListConfig())
     } else if (type === ListType.PREVIOUS_CERTIFICATES) {
       dispatch(getPreviousCertificatesListConfig())
+    } else if (type === ListType.QUESTIONS) {
+      dispatch(getQuestionListConfig(filteredUnitId ? (filteredUnitId as ListFilterValueSelect).value : selectedUnit))
     }
     dispatch(updateActiveListType(type))
   }, [dispatch, type])
@@ -78,6 +85,8 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {
       return nbrOfDraftsOnUnit === 0
+    } else if (type === ListType.QUESTIONS) {
+      return nbrOfQuestionsOnUnit === 0
     } else {
       const isFirstSearch = isFilterDefault(config?.filters, filter?.values)
       return isFirstSearch && totalCount === 0
