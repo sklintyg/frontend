@@ -15,11 +15,12 @@ import {
   ValidationError,
   ValueDateRange,
   ValueDateRangeList,
+  TextInput,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { addDays, isValid } from 'date-fns'
-import { DaysRangeWrapper, TextInput } from './Styles'
+import { DaysRangeWrapper } from './Styles'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
@@ -28,6 +29,13 @@ import { css } from 'styled-components/macro'
 
 const AccordionStyles = css`
   flex: 0 0 100%;
+`
+
+const TextInputStyles = css`
+  width: 40px;
+  padding: 4px 4px;
+  height: 35px;
+  text-align: center;
 `
 
 interface Props {
@@ -41,6 +49,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
+  const workingHoursErrors = useSelector(getVisibleValidationErrors(question.id, 'WORKING_HOURS'))
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
@@ -133,10 +142,25 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const handleWorkingHoursOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputNumber: number = +event.target.value.replace(/[^0-9]/g, '')
 
-    if (inputNumber >= 168) {
-      console.log('tooo many hours!')
+    isWorkingHoursValid(inputNumber)
+
+    setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))
+  }
+
+  const isWorkingHoursValid = (workingHours: number) => {
+    const error: ValidationError = {
+      category: question.parent,
+      id: question.id,
+      text: 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.',
+      type: 'WORKING_HOURS_ERROR',
+      field: 'WORKING_HOURS',
+      showAlways: true,
+    }
+
+    if (workingHours > 168) {
+      dispatch(updateClientValidationError({ shouldBeRemoved: false, validationError: error }))
     } else {
-      setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))
+      dispatch(updateClientValidationError({ shouldBeRemoved: true, validationError: error }))
     }
   }
 
@@ -149,27 +173,34 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <PreviousSickLeavePeriod previousSickLeavePeriod={config.previousSickLeavePeriod} />
       <div>
         {!disabled && (
-          <DaysRangeWrapper>
-            <Accordion
-              wrapperStyles={AccordionStyles}
-              titleId={'workHours'}
-              icon={'lightbulb_outline'}
-              iconSize={'sm'}
-              includeIconTooltip={true}
-              description={
-                'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
-              }>
-              <p className={'iu-fs-200 iu-fw-body'}>Patienten arbetar i snitt</p>
-              <TextInput
-                onChange={handleWorkingHoursOnChange}
-                className="ic-textfield iu-mx-200 iu-fs-200"
-                value={baseWorkHours}
-                type="text"
-                maxLength={3}
-              />
-              <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
-            </Accordion>
-          </DaysRangeWrapper>
+          <>
+            <DaysRangeWrapper>
+              <Accordion
+                wrapperStyles={AccordionStyles}
+                titleId={'workHours'}
+                icon={'lightbulb_outline'}
+                iconSize={'sm'}
+                includeIconTooltip={true}
+                description={
+                  'Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
+                }>
+                <p className={'iu-fs-200 iu-fw-body'}>Patienten arbetar i snitt</p>
+                <TextInput
+                  onChange={handleWorkingHoursOnChange}
+                  value={baseWorkHours}
+                  limit={3}
+                  hasValidationError={workingHoursErrors.length > 0}
+                  autoComplete={false}
+                  additionalStyles={TextInputStyles}
+                  className="iu-mx-200 iu-fs-200"
+                />
+                <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
+              </Accordion>
+            </DaysRangeWrapper>
+            <div className="iu-pb-500">
+              <QuestionValidationTexts validationErrors={workingHoursErrors} />
+            </div>
+          </>
         )}
       </div>
       <div className={'iu-pt-300'}>
