@@ -58,6 +58,62 @@ export const getUser = (): User => {
   }
 }
 
+export const getUserWithInactiveUnit = (): User => {
+  const unit: Unit = {
+    unitId: '1234a',
+    unitName: 'Care unit',
+    address: '',
+    zipCode: '',
+    city: '',
+    phoneNumber: '',
+    email: '',
+    isInactive: true,
+  }
+
+  return {
+    hsaId: '',
+    name: '',
+    role: 'doctor',
+    loggedInUnit: unit,
+    loggedInCareUnit: unit,
+    loggedInCareProvider: unit,
+    preferences: null,
+    loginMethod: LoginMethod.BANK_ID,
+    signingMethod: SigningMethod.FAKE,
+    protectedPerson: false,
+    careProviders: [
+      {
+        id: '',
+        name: 'Care Provider',
+        careUnits: [
+          {
+            unitId: '1234a',
+            unitName: 'Care unit',
+            address: '',
+            zipCode: '',
+            city: '',
+            phoneNumber: '',
+            email: '',
+            isInactive: false,
+            units: [
+              {
+                unitId: '1234b',
+                unitName: 'Unit',
+                address: '',
+                zipCode: '',
+                city: '',
+                phoneNumber: '',
+                email: '',
+                isInactive: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+}
+
 export const getUserWithEmptyUnit = (): User => {
   const emptyUnit = {} as Unit
 
@@ -187,6 +243,18 @@ export const getChooseUnitResourceLink = () => {
     {
       type: ResourceLinkType.CHOOSE_UNIT,
       name: 'Välj vårdenhet',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}
+
+export const getChangeUnitResourceLink = () => {
+  return [
+    {
+      type: ResourceLinkType.CHANGE_UNIT,
+      name: 'Byt vårdenhet',
       body: '',
       description: '',
       enabled: true,

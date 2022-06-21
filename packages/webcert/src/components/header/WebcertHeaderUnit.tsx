@@ -1,10 +1,11 @@
 import React from 'react'
-import { AppHeaderUserUnit } from '@frontend/common'
-import { getUser } from '../../store/user/userSelectors'
-import { shallowEqual, useSelector } from 'react-redux'
+import { AppHeaderUserUnit, ResourceLinkType, ExpandableBox } from '@frontend/common'
+import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { User } from '@frontend/common/src'
 import styled from 'styled-components'
 import AlertCircle from '@frontend/common/src/images/AlertCircle'
+import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,14 +26,27 @@ const InactiveUnit = styled.span`
 `
 
 const WebcertHeaderUnit: React.FC = () => {
+  const dispatch = useDispatch()
   const user = useSelector(getUser, shallowEqual)
+  const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
+  const userLinks = useSelector(getUserResourceLinks)
+
+  const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
+
+  const openModal = () => {
+    dispatch(updateIsCareProviderModalOpen(true))
+  }
 
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
         <span>
-          {user.loggedInCareProvider.unitName} <br />
-          <Italic>{user.loggedInUnit.unitName}</Italic>
+          {user.loggedInCareProvider.unitName} - {user.loggedInUnit.unitName}
+          <br />
+          <Italic>
+            {changeUnitLink &&
+              `${totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.`}
+          </Italic>
         </span>
         {user.loggedInUnit.isInactive ? (
           <InactiveUnit
@@ -42,6 +56,7 @@ const WebcertHeaderUnit: React.FC = () => {
             <span>Inaktiv enhet</span>
           </InactiveUnit>
         ) : null}
+        {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}
       </Wrapper>
     )
   }
