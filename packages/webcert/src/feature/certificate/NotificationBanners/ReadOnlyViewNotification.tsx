@@ -10,7 +10,10 @@ const ReadOnlyViewNotification: React.FC = () => {
   const user = useSelector(getUser)
 
   const shouldRender = (): boolean => {
-    return metadata?.careUnit.unitId !== user?.loggedInCareUnit.unitId
+    if (!metadata || !user) {
+      return false
+    }
+    return metadata.careUnit.unitId !== user.loggedInCareUnit.unitId
   }
 
   if (!shouldRender()) return null
