@@ -52,7 +52,7 @@ const CareProviderModal: React.FC = () => {
       content={<CareProviderModalContent />}
       buttons={!chooseUnitLink && <CustomButton onClick={handleClose} buttonStyle="secondary" text="Avbryt" />}
       enableCross={!chooseUnitLink}
-      additionalStyles={ModalStyle}
+      largeWidth={true}
     />
   )
 }
