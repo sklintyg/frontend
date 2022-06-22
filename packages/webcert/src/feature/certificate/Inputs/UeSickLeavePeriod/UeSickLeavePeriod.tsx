@@ -25,13 +25,13 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { Accordion } from '@frontend/common/src'
-import { css } from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 
 const AccordionStyles = css`
   flex: 0 0 100%;
 `
 
-const TextInputStyles = css`
+const StyledTextInput = styled(TextInput)`
   width: 40px;
   padding: 4px 4px;
   height: 35px;
@@ -157,11 +157,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       showAlways: true,
     }
 
-    if (workingHours > 168) {
-      dispatch(updateClientValidationError({ shouldBeRemoved: false, validationError: error }))
-    } else {
-      dispatch(updateClientValidationError({ shouldBeRemoved: true, validationError: error }))
-    }
+    const shouldBeRemoved = workingHours <= 168
+    dispatch(updateClientValidationError({ shouldBeRemoved, validationError: error }))
   }
 
   if (!question) return null
@@ -185,15 +182,14 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                   'Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
                 }>
                 <p className={'iu-fs-200 iu-fw-body'}>Patienten arbetar i snitt</p>
-                <TextInput
+                <StyledTextInput
                   onChange={handleWorkingHoursOnChange}
                   value={baseWorkHours}
                   limit={3}
                   hasValidationError={workingHoursErrors.length > 0}
                   autoComplete={false}
-                  additionalStyles={TextInputStyles}
                   className="iu-mx-200 iu-fs-200"
-                  dataTestid="workingHours"
+                  testId="workingHours"
                 />
                 <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
               </Accordion>
