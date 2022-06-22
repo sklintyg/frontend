@@ -13,10 +13,6 @@ const WrapText = styled.div`
   z-index: 10;
 `
 
-const WrapTextLarge = styled(WrapText)`
-  max-width: 55rem;
-`
-
 const Backdrop = styled.div`
   z-index: 5;
 `
@@ -28,42 +24,10 @@ interface Props {
   buttons: React.ReactNode
   content: React.ReactNode
   enableCross?: boolean
-  largeWidth?: boolean
+  className?: string
 }
 
-const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, largeWidth }) => {
-  const ModalContent = () => (
-    <>
-      {enableCross && (
-        <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
-          <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M12 10.733l5.07-5.07c.35-.35.917-.35 1.267 0 .35.35.35.917 0 1.267L13.267 12l5.07 5.07c.35.35.35.917 0 1.267-.35.35-.917.35-1.267 0L12 13.267l-5.07 5.07c-.35.35-.917.35-1.267 0-.35-.35-.35-.917 0-1.267l5.07-5.07-5.07-5.07c-.35-.35-.35-.917 0-1.267.35-.35.917-.35 1.267 0l5.07 5.07z"
-              transform="translate(-994 -650) translate(410 637) translate(584 13)"
-            />
-          </svg>
-        </button>
-      )}
-      <div className="ic-modal__head" id="demo-modal-content">
-        <h3 id="dialog-title">{title}</h3>
-      </div>
-      <ModalContentWrapper className="ic-modal__body ic-text">{content}</ModalContentWrapper>
-      <div className="ic-button-group ic-button-group--right">{buttons}</div>
-    </>
-  )
-
-  const getText = () =>
-    largeWidth ? (
-      <WrapTextLarge role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
-        {ModalContent()}
-      </WrapTextLarge>
-    ) : (
-      <WrapText role="dialog" className="ic-modal" aria-labelledby="dialog-title" aria-modal="true">
-        {ModalContent()}
-      </WrapText>
-    )
-
+const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className }) => {
   if (!open) {
     return null
   }
@@ -73,7 +37,24 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
       <FocusTrap active={open}>
         <div tabIndex={0}>
           <Backdrop className="ic-backdrop iu-lh-body" onClick={handleClose} />
-          {getText()}
+          <WrapText role="dialog" className={`ic-modal ${className}`} aria-labelledby="dialog-title" aria-modal="true">
+            {enableCross && (
+              <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
+                <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 10.733l5.07-5.07c.35-.35.917-.35 1.267 0 .35.35.35.917 0 1.267L13.267 12l5.07 5.07c.35.35.35.917 0 1.267-.35.35-.917.35-1.267 0L12 13.267l-5.07 5.07c-.35.35-.917.35-1.267 0-.35-.35-.35-.917 0-1.267l5.07-5.07-5.07-5.07c-.35-.35-.35-.917 0-1.267.35-.35.917-.35 1.267 0l5.07 5.07z"
+                    transform="translate(-994 -650) translate(410 637) translate(584 13)"
+                  />
+                </svg>
+              </button>
+            )}
+            <div className="ic-modal__head" id="demo-modal-content">
+              <h3 id="dialog-title">{title}</h3>
+            </div>
+            <ModalContentWrapper className="ic-modal__body ic-text">{content}</ModalContentWrapper>
+            <div className="ic-button-group ic-button-group--right">{buttons}</div>
+          </WrapText>
         </div>
       </FocusTrap>
     </>
