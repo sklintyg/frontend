@@ -18,6 +18,7 @@ interface Props {
   id?: string
   autoComplete?: boolean
   className?: string
+  dataTestid?: string
 }
 
 const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -37,6 +38,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     limit,
     id,
     className,
+    dataTestid,
   } = props
   return (
     <>
@@ -58,6 +60,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         maxLength={limit ? limit : 3500}
         id={id ?? 'textinput'}
         autoComplete={props.autoComplete ? 'on' : 'off'}
+        data-testid={dataTestid}
       />
     </>
   )

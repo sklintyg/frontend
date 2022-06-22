@@ -193,6 +193,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                   autoComplete={false}
                   additionalStyles={TextInputStyles}
                   className="iu-mx-200 iu-fs-200"
+                  dataTestid="workingHours"
                 />
                 <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
               </Accordion>

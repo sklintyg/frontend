@@ -299,4 +299,31 @@ describe('UeSickLeavePeriod', () => {
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
+
+  it('should show validation error if work hours is more than 168', () => {
+    renderDefaultComponent()
+
+    userEvent.type(screen.getByTestId('workingHours'), '170')
+
+    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
+    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument()
+  })
+
+  it('should not show validation error if work hours is less than 168', () => {
+    renderDefaultComponent()
+
+    userEvent.type(screen.getByTestId('workingHours'), '165')
+
+    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
+    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
+  })
+
+  it('should not show validation error if work hours is 168', () => {
+    renderDefaultComponent()
+
+    userEvent.type(screen.getByTestId('workingHours'), '168')
+
+    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
+    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
+  })
 })
