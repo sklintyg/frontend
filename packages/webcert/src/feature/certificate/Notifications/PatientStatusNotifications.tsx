@@ -2,10 +2,11 @@ import * as React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import {
   getIsPatientDeceased,
-  getIsPatientIdUpdated,
+  getIsPatientIdChanged,
   getIsPatientNameDifferentFromEHR,
   getIsPatientProtectedPerson,
   getIsPatientTestIndicated,
+  getIsReserveId,
   getPatient,
   getPreviousPatientId,
 } from '../../../store/certificate/certificateSelectors'
@@ -31,20 +32,19 @@ const PatientStatusNotifications: React.FC = () => {
   const isPatientTestIndicated = useSelector(getIsPatientTestIndicated)
   const isPatientNameDifferentFromEHR = useSelector(getIsPatientNameDifferentFromEHR)
   const previousPatientId: PersonId | undefined = useSelector(getPreviousPatientId, shallowEqual)
-  const isPatientIdUpdated = useSelector(getIsPatientIdUpdated)
+  const isPatientIdChanged = useSelector(getIsPatientIdChanged)
+  const isReserveId = useSelector(getIsReserveId)
   const patient = useSelector(getPatient)
-
-  const showReserveIdStatus = (!isPatientIdUpdated && previousPatientId && previousPatientId.id !== '') as boolean
 
   return (
     <Wrapper>
       <PatientDeceasedStatus isPatientDeceased={isPatientDeceased} />
       <ProtectedPatientStatus isProtectedPatient={isPatientProtectedPerson} />
-      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdUpdated} />
+      <PatientStatusNotification type={'info'} title={'Patientens personnummer har ändrats'} status={isPatientIdChanged} />
       <PatientTestIndicatedStatus isTestIndicated={isPatientTestIndicated} />
       <PatientStatusNotificationWithModal
         type={'info'}
-        status={showReserveIdStatus}
+        status={isReserveId}
         title={'Patienten har samordningsnummer kopplat till reservnummer: ' + (patient && previousPatientId ? patient.personId.id : '')}
         modalTitle={'Patientens samordningsnummer'}>
         <p>Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.</p>
