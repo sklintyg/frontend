@@ -10,7 +10,7 @@ import {
   getListTotalCount,
   hasListError,
 } from '../store/list/listSelectors'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
 import {
   getCertificateListConfig,
@@ -31,7 +31,6 @@ import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/C
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
 import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit, getUser } from '../store/user/userSelectors'
-import { getUserStatistics } from '../store/user/userActions'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
 
@@ -42,9 +41,9 @@ interface Props {
 
 const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const dispatch = useDispatch()
-  const config = useSelector(getActiveListConfig)
-  const list = useSelector(getActiveList)
-  const filter = useSelector(getActiveListFilter)
+  const config = useSelector(getActiveListConfig, shallowEqual)
+  const list = useSelector(getActiveList, shallowEqual)
+  const filter = useSelector(getActiveListFilter, shallowEqual)
   const error = useSelector(hasListError)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
@@ -52,11 +51,10 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const filteredUnitId = useSelector(getActiveListFilterValue('UNIT'))
-  const selectedUnit = useSelector(getUser)?.loggedInUnit.unitId
+  const selectedUnit = useSelector(getUser, shallowEqual)?.loggedInUnit.unitId
 
   useEffect(() => {
     ReactTooltip.rebuild()
-    dispatch(getUserStatistics())
   })
 
   useEffect(() => {
