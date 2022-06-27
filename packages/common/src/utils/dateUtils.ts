@@ -122,17 +122,13 @@ const getIsIntervalsCorrect = (leftStartTime: Date, leftEndTime: Date, rightStar
   return leftStartTime <= leftEndTime && rightStartTime <= rightEndTime
 }
 
-const replaceDecimalSeparator = (number: number) => {
-  return number.toString().replace(/\./gm, ',')
-}
-
 export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercentage: string) => {
   if (sickLeavePercentage === SickLeavePeriods.EN_FJARDEDEL) {
-    return replaceDecimalSeparator((hoursWorkingPerWeek *= 0.75))
+    return (hoursWorkingPerWeek *= 0.75).toLocaleString('sv-SE')
   } else if (sickLeavePercentage === SickLeavePeriods.HALFTEN) {
-    return replaceDecimalSeparator((hoursWorkingPerWeek *= 0.5))
+    return (hoursWorkingPerWeek *= 0.5).toLocaleString('sv-SE')
   } else if (sickLeavePercentage === SickLeavePeriods.TRE_FJARDEDEL) {
-    return replaceDecimalSeparator((hoursWorkingPerWeek *= 0.25))
+    return (hoursWorkingPerWeek *= 0.25).toLocaleString('sv-SE')
   } else if (sickLeavePercentage === SickLeavePeriods.HELT_NEDSATT) {
     return 0
   }
