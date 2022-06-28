@@ -2,9 +2,14 @@ import { CustomButton, ModalBase, ResourceLinkType } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import { selectIsLoadingUserStatistics, getIsCareProviderModalOpen, getUserResourceLinks } from '../../store/user/userSelectors'
 import { CareProviderModalContent } from './CareProviderModalContent'
+
+const ModalBaseLarge = styled(ModalBase)`
+  max-width: 55rem;
+`
 
 const CareProviderModal: React.FC = () => {
   const dispatch = useDispatch()
@@ -40,7 +45,7 @@ const CareProviderModal: React.FC = () => {
   }
 
   return (
-    <ModalBase
+    <ModalBaseLarge
       open={isCareProviderModalOpen}
       handleClose={handleClose}
       title={getModalTitle()}

@@ -139,7 +139,7 @@ it('returns false if dates are not overlapping', () => {
 
 it('Calculates 25% sick leave correctly', () => {
   const sickLeavePercentage = SickLeavePeriods.EN_FJARDEDEL
-  const expected = 30.0
+  const expected = '30'
 
   const actual = getPeriodWorkHours(40, sickLeavePercentage)
 
@@ -148,7 +148,7 @@ it('Calculates 25% sick leave correctly', () => {
 
 it('Calculates 50% sick leave correctly', () => {
   const sickLeavePercentage = SickLeavePeriods.HALFTEN
-  const expected = 20.0
+  const expected = '20'
 
   const actual = getPeriodWorkHours(40, sickLeavePercentage)
 
@@ -157,7 +157,7 @@ it('Calculates 50% sick leave correctly', () => {
 
 it('Calculates 75% sick leave correctly', () => {
   const sickLeavePercentage = SickLeavePeriods.TRE_FJARDEDEL
-  const expected = 10.0
+  const expected = '10'
 
   const actual = getPeriodWorkHours(40, sickLeavePercentage)
 
@@ -166,7 +166,7 @@ it('Calculates 75% sick leave correctly', () => {
 
 it('Calculates 100% sick leave correctly', () => {
   const sickLeavePercentage = SickLeavePeriods.HELT_NEDSATT
-  const expected = 0.0
+  const expected = 0
 
   const actual = getPeriodWorkHours(40, sickLeavePercentage)
 
@@ -175,7 +175,7 @@ it('Calculates 100% sick leave correctly', () => {
 
 it('Calculates uneven number sick leave correctly', () => {
   const sickLeavePercentage = SickLeavePeriods.EN_FJARDEDEL
-  const expected = 12.75
+  const expected = '12,75'
 
   const actual = getPeriodWorkHours(17, sickLeavePercentage)
 

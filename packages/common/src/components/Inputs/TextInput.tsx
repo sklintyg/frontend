@@ -17,6 +17,8 @@ interface Props {
   limit?: number
   id?: string
   autoComplete?: boolean
+  className?: string
+  testId?: string
 }
 
 const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -35,6 +37,8 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     activeDescendant,
     limit,
     id,
+    className,
+    testId,
   } = props
   return (
     <>
@@ -45,7 +49,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         css={additionalStyles}
         type="text"
         disabled={disabled}
-        className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield`}
+        className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
         name={name ?? ''}
         placeholder={placeholder}
         value={value}
@@ -56,6 +60,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         maxLength={limit ? limit : 3500}
         id={id ?? 'textinput'}
         autoComplete={props.autoComplete ? 'on' : 'off'}
+        data-testid={testId}
       />
     </>
   )
