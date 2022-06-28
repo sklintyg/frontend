@@ -11,7 +11,15 @@ import {
   isFutureDate,
   ValueDateRange,
 } from '@frontend/common'
-import { filterDateRangeValueList, formatDate, getNumberOfSickLeavePeriodDays, getPeriodWorkDays, SickLeavePeriods } from './dateUtils'
+import {
+  filterDateRangeValueList,
+  formatDate,
+  getMaxDate,
+  getNumberOfSickLeavePeriodDays,
+  getPeriodWorkDays,
+  SickLeavePeriods,
+} from './dateUtils'
+import { CertificateDataValidationType, MaxDateValidation } from '../types/certificate'
 
 const QUESTION_ID = 'Test'
 
@@ -386,5 +394,77 @@ describe('Format date', () => {
     const date = '2020-02-02T00:00:00'
     const actual = formatDate(date)
     expect(actual).toEqual('2020-02-02 00:00')
+  })
+})
+
+describe('GetMaxDate', () => {
+  it('should return todays date if number of days is set to 0', () => {
+    const validation: MaxDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: 0,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'id',
+        expression: '',
+      },
+    ]
+
+    const result = getMaxDate(validation, 'id')
+
+    expect(new Date().toString()).toContain(result)
+  })
+
+  it('should return empty string if id does not match', () => {
+    const validation: MaxDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: 0,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'id',
+        expression: '',
+      },
+    ]
+
+    const result = getMaxDate(validation, 'id1')
+
+    expect(result).toEqual('')
+  })
+
+  it('should return tomorrow if number of days is set to 1', () => {
+    const validation: MaxDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: 1,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'id',
+        expression: '',
+      },
+    ]
+
+    const tomorrow = new Date()
+    tomorrow.setDate(new Date().getDate() + 1)
+
+    const result = getMaxDate(validation, 'id')
+
+    expect(tomorrow.toDateString()).toContain(result)
+  })
+
+  it('should return yesterday if number of days is set to 1', () => {
+    const validation: MaxDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: -1,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'id',
+        expression: '',
+      },
+    ]
+
+    const yesterday = new Date()
+    yesterday.setDate(new Date().getDate() - 1)
+
+    const result = getMaxDate(validation, 'id')
+
+    expect(yesterday.toDateString()).toContain(result)
   })
 })
