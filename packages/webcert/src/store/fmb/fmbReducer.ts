@@ -36,14 +36,16 @@ const initialState: FMBState = {
 const fmbReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(updateFMBDiagnosisCodeInfo, (state, action) => {
-      state.fmbDiagnosisCodeInfo.push(action.payload)
-      state.fmbDiagnosisCodeInfo.sort(sortByIndex)
+      if (!state.fmbDiagnosisCodeInfo.some((codeInfo) => codeInfo.originalIcd10Code === action.payload.originalIcd10Code)) {
+        state.fmbDiagnosisCodeInfo.push(action.payload)
+        state.fmbDiagnosisCodeInfo.sort(sortByIndex)
+      }
     })
     .addCase(updateFMBPanelActive, (state, action) => {
       state.fmbPanelActive = action.payload
     })
     .addCase(removeFMBDiagnosisCodes, (state, action) => {
-      const index = state.fmbDiagnosisCodeInfo.findIndex((value) => value.icd10Code === action.payload.icd10Code)
+      const index = state.fmbDiagnosisCodeInfo.findIndex((value) => value.originalIcd10Code === action.payload.originalIcd10Code)
       if (index > -1) {
         state.fmbDiagnosisCodeInfo.splice(index, 1)
       }
