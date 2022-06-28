@@ -1,6 +1,6 @@
 import { ValueDateRange } from './../types/certificate'
 import { areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
-import { ConfigUeCheckboxDateRange } from '..'
+import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -122,13 +122,18 @@ const getIsIntervalsCorrect = (leftStartTime: Date, leftEndTime: Date, rightStar
   return leftStartTime <= leftEndTime && rightStartTime <= rightEndTime
 }
 
+const calculatePeriodWorkHours = (hoursWorkingPerWeek: number, percentage: number) => {
+  const periodWorkHoursToString = (hoursWorkingPerWeek *= percentage).toString()
+  return replaceDecimalSeparator(periodWorkHoursToString)
+}
+
 export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercentage: string) => {
   if (sickLeavePercentage === SickLeavePeriods.EN_FJARDEDEL) {
-    return (hoursWorkingPerWeek *= 0.75)
+    return calculatePeriodWorkHours(hoursWorkingPerWeek, 0.75)
   } else if (sickLeavePercentage === SickLeavePeriods.HALFTEN) {
-    return (hoursWorkingPerWeek *= 0.5)
+    return calculatePeriodWorkHours(hoursWorkingPerWeek, 0.5)
   } else if (sickLeavePercentage === SickLeavePeriods.TRE_FJARDEDEL) {
-    return (hoursWorkingPerWeek *= 0.25)
+    return calculatePeriodWorkHours(hoursWorkingPerWeek, 0.25)
   } else if (sickLeavePercentage === SickLeavePeriods.HELT_NEDSATT) {
     return 0
   }
