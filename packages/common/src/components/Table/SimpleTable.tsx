@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Spinner } from '../index'
-import ReactTooltip from 'react-tooltip'
 
 interface Props {
   caption?: string
@@ -15,13 +14,9 @@ const Caption = styled.caption`
 `
 
 const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className }) => {
-  useEffect(() => {
-    ReactTooltip.rebuild()
-  })
-
   const getTableHeadings = () => {
     return headings.map((heading) => (
-      <th key={heading} scope="col" data-html data-tip={heading}>
+      <th key={heading} scope="col" data-html>
         {heading}
       </th>
     ))

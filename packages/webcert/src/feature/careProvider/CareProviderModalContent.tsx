@@ -16,7 +16,7 @@ export const CareProviderModalContent: React.FC = () => {
 
   const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit = 0, careUnit?: CareUnit) => {
     const showTotal = careUnit && careUnit?.units.length > 0 && amountOnOtherUnit > 0
-    return `${amountOnUnit} ${showTotal ? `(total ${amountOnUnit + amountOnOtherUnit})` : ''}`
+    return `${amountOnUnit} ${showTotal ? `(totalt ${amountOnUnit + amountOnOtherUnit})` : ''}`
   }
 
   const handleChooseUnit = (event: React.MouseEvent) => {
