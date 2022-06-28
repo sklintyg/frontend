@@ -21,6 +21,7 @@ import {
   getDraftsError,
   getDraftsStarted,
   getDraftsSuccess,
+  getListConfig,
   getPreviousCertificatesList,
   getPreviousCertificatesListConfig,
   getPreviousCertificatesListConfigStarted,
@@ -60,6 +61,21 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
     dispatch(getPreviousCertificatesList(listFilter))
   } else if (listType === ListType.QUESTIONS) {
     dispatch(getQuestions(listFilter))
+  }
+}
+
+const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const listType = getState().ui.uiList.activeListType
+  const filter = getState().ui.uiList.activeListFilter
+  if (listType === ListType.DRAFTS) {
+    dispatch(getDraftListConfig())
+  } else if (listType === ListType.CERTIFICATES) {
+    dispatch(getCertificateListConfig())
+  } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
+    dispatch(getPreviousCertificatesListConfig())
+  } else if (listType === ListType.QUESTIONS) {
+    const chosenUnit = filter.values ? filter.values['UNIT'] : 'TSTNMT2321000156-ALMC'
+    dispatch(getQuestionListConfig(chosenUnit))
   }
 }
 
@@ -119,12 +135,18 @@ const handleGetListStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateIsLoadingList(true))
 }
 
-const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const config = getState().ui.uiList.activeListConfig
+
   dispatch(updateActiveList(Object.values(action.payload.list)))
   dispatch(updateTotalCount(action.payload.totalCount))
   dispatch(clearListError)
   dispatch(updateIsLoadingList(false))
   dispatch(updateIsSortingList(false))
+
+  if (config.shouldUpdateConfigAfterListSearch) {
+    dispatch(getListConfig())
+  }
 }
 
 const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -218,6 +240,7 @@ const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: Middlew
 
 const middlewareMethods = {
   [performListSearch.type]: handlePerformListSearch,
+  [getListConfig.type]: handleGetListConfig,
   [getDrafts.type]: handleGetDrafts,
   [getDraftsSuccess.type]: handleGetListSuccess,
   [getDraftListConfig.type]: handleGetDraftListConfig,

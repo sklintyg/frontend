@@ -1,25 +1,17 @@
 import * as React from 'react'
 import { useEffect } from 'react'
-import { ListFilterValueSelect, ListType } from '@frontend/common/src/types/list'
+import { ListType } from '@frontend/common/src/types/list'
 import {
   getActiveList,
   getActiveListConfig,
   getActiveListFilter,
-  getActiveListFilterValue,
   getIsLoadingListConfig,
   getListTotalCount,
   hasListError,
 } from '../store/list/listSelectors'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import {
-  getCertificateListConfig,
-  getDraftListConfig,
-  getPreviousCertificatesListConfig,
-  getQuestionListConfig,
-  performListSearch,
-  updateActiveListType,
-} from '../store/list/listActions'
+import { getListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -30,7 +22,7 @@ import { updateShouldRouteAfterDelete } from '../store/certificate/certificateAc
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
-import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit, getUser } from '../store/user/userSelectors'
+import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
 
@@ -50,24 +42,14 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
   const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
-  const filteredUnitId = useSelector(getActiveListFilterValue('UNIT'))
-  const selectedUnit = useSelector(getUser, shallowEqual)?.loggedInUnit.unitId
 
   useEffect(() => {
     ReactTooltip.rebuild()
   })
 
   useEffect(() => {
-    if (type === ListType.DRAFTS) {
-      dispatch(getDraftListConfig())
-    } else if (type === ListType.CERTIFICATES) {
-      dispatch(getCertificateListConfig())
-    } else if (type === ListType.PREVIOUS_CERTIFICATES) {
-      dispatch(getPreviousCertificatesListConfig())
-    } else if (type === ListType.QUESTIONS) {
-      dispatch(getQuestionListConfig(filteredUnitId ? (filteredUnitId as ListFilterValueSelect).value : selectedUnit))
-    }
     dispatch(updateActiveListType(type))
+    dispatch(getListConfig())
   }, [dispatch, type])
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType 
 const LIST = '[List]'
 
 export const performListSearch = createAction(`${LIST} Perform list search`)
+export const getListConfig = createAction(`${LIST} Get list config`)
 
 export interface ListResponse {
   list: CertificateListItem[]
