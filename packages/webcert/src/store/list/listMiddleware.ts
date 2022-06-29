@@ -74,7 +74,7 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesListConfig())
   } else if (listType === ListType.QUESTIONS) {
-    const chosenUnit = filter.values ? filter.values['UNIT'] : 'TSTNMT2321000156-ALMC'
+    const chosenUnit = filter.values ? filter.values['UNIT'].value : 'TSTNMT2321000156-ALMC'
     dispatch(getQuestionListConfig(chosenUnit))
   }
 }
