@@ -5,13 +5,14 @@ import {
   getActiveList,
   getActiveListConfig,
   getActiveListFilter,
+  getHasUpdatedConfig,
   getIsLoadingListConfig,
   getListTotalCount,
   hasListError,
 } from '../store/list/listSelectors'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import { getListConfig, performListSearch, updateActiveListType } from '../store/list/listActions'
+import { getListConfig, performListSearch, updateActiveListType, updateHasUpdatedConfig, updateListConfig } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
@@ -42,10 +43,17 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
   const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+  const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
 
   useEffect(() => {
     ReactTooltip.rebuild()
   })
+
+  useEffect(() => {
+    if (hasUpdatedConfig) {
+      dispatch(updateListConfig())
+    }
+  }, [hasUpdatedConfig])
 
   useEffect(() => {
     dispatch(updateActiveListType(type))
@@ -53,8 +61,9 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   }, [dispatch, type])
 
   useEffect(() => {
-    if (!isLoadingListConfig && config) {
+    if (!isLoadingListConfig && config && !hasUpdatedConfig) {
       dispatch(performListSearch)
+      dispatch(updateHasUpdatedConfig(false))
     }
   }, [dispatch, config, isLoadingListConfig])
 
@@ -95,7 +104,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
         </ImageCentered>
       )
     } else {
-      return isLoadingListConfig ? (
+      return isLoadingListConfig && !hasUpdatedConfig ? (
         <></>
       ) : (
         <List
@@ -116,7 +125,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
           <WebcertHeader />
           <CustomTooltip placement="top" />
           <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-          {!isLoadingListConfig && (
+          {(!isLoadingListConfig || hasUpdatedConfig) && (
             <ListHeader
               icon={getIcon()}
               title={config?.title ? config.title : ''}

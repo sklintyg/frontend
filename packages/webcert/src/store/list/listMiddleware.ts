@@ -42,9 +42,14 @@ import {
   updateActiveListConfig,
   updateActiveListFilterValue,
   updateDefaultListFilterValues,
+  updateHasUpdatedConfig,
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateIsSortingList,
+  updateListConfig,
+  updateListConfigStarted,
+  updateListConfigSuccess,
+  updateQuestionListConfig,
   updateTotalCount,
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
@@ -74,8 +79,18 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesListConfig())
   } else if (listType === ListType.QUESTIONS) {
-    const chosenUnit = filter.values ? filter.values['UNIT'].value : 'TSTNMT2321000156-ALMC'
+    const chosenUnit = filter.values ? filter.values['UNIT'].value : ''
     dispatch(getQuestionListConfig(chosenUnit))
+  }
+}
+
+const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const listType = getState().ui.uiList.activeListType
+  const filter = getState().ui.uiList.activeListFilter
+  const config = getState().ui.uiList.activeListConfig
+  if (listType === ListType.QUESTIONS) {
+    const chosenUnit = filter.values ? filter.values['UNIT'].value : ''
+    dispatch(updateQuestionListConfig({ config: config, unitId: chosenUnit }))
   }
 }
 
@@ -145,7 +160,7 @@ const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   dispatch(updateIsSortingList(false))
 
   if (config.shouldUpdateConfigAfterListSearch) {
-    dispatch(getListConfig())
+    dispatch(updateHasUpdatedConfig(true))
   }
 }
 
@@ -198,9 +213,25 @@ const handleGetQuestionListConfig: Middleware<Dispatch> = ({ dispatch }: Middlew
   )
 }
 
+const handleUpdateQuestionListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/list/config/question/update',
+      method: 'POST',
+      data: action.payload,
+      onStart: updateListConfigStarted.type,
+      onSuccess: updateListConfigSuccess.type,
+      onError: setListError.type,
+    })
+  )
+}
+
+const handleUpdateListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateActiveListConfig(action.payload))
+  dispatch(updateHasUpdatedConfig(false))
+}
 const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateIsLoadingListConfig(true))
-  dispatch(updateIsLoadingList(true))
 }
 
 const handleGetListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -271,6 +302,9 @@ const middlewareMethods = {
   [getQuestionListConfig.type]: handleGetQuestionListConfig,
   [getQuestionListConfigSuccess.type]: handleGetListConfigSuccess,
   [getQuestionListConfigStarted.type]: handleGetListConfigStarted,
+  [updateQuestionListConfig.type]: handleUpdateQuestionListConfig,
+  [updateListConfig.type]: handleUpdateListConfig,
+  [updateListConfigSuccess.type]: handleUpdateListConfigSuccess,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

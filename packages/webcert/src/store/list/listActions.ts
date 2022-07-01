@@ -5,10 +5,20 @@ const LIST = '[List]'
 
 export const performListSearch = createAction(`${LIST} Perform list search`)
 export const getListConfig = createAction(`${LIST} Get list config`)
+export const updateHasUpdatedConfig = createAction<boolean>(`${LIST} Update has updated config`)
+
+export const updateListConfig = createAction(`${LIST} Update list config`)
+export const updateListConfigStarted = createAction(`${LIST} Update list config started`)
+export const updateListConfigSuccess = createAction(`${LIST} Update list config success`)
 
 export interface ListResponse {
   list: CertificateListItem[]
   totalCount: number
+}
+
+export interface UpdateListConfigRequest {
+  config: ListConfig
+  unitId: string
 }
 
 export const getDrafts = createAction<ListFilter>(`${LIST} Get drafts`)
@@ -47,6 +57,7 @@ export const getPreviousCertificatesListConfigSuccess = createAction(`${LIST} Ge
 export const getPreviousCertificatesListConfigError = createAction(`${LIST} Get previous certificates list config error`)
 
 export const getQuestionListConfig = createAction<string>(`${LIST} Get question list config`)
+export const updateQuestionListConfig = createAction<UpdateListConfigRequest>(`${LIST} Update question list config`)
 export const getQuestionListConfigStarted = createAction(`${LIST} Get question list config started`)
 export const getQuestionListConfigSuccess = createAction(`${LIST} Get question list config success`)
 export const getQuestionListConfigError = createAction(`${LIST} Get question list config error`)
