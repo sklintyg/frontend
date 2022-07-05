@@ -1,5 +1,5 @@
 import React from 'react'
-import { CertificateDataValueType, Checkbox, getValidDate } from '@frontend/common'
+import { CertificateDataValueType, Checkbox, getMaxDate, getValidDate } from '@frontend/common'
 import {
   CertificateDataElement,
   ConfigTypes,
@@ -122,6 +122,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
         componentField={id}
         onDispatchValidationError={dispatchValidationError}
+        max={getMaxDate(question.validation, id)}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />

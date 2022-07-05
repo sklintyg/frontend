@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
+import styled from 'styled-components'
+
+const NoWrap = styled.td`
+  white-space: nowrap;
+`
 
 export const CareProviderModalContent: React.FC = () => {
   const dispatch = useDispatch()
@@ -27,11 +32,11 @@ export const CareProviderModalContent: React.FC = () => {
 
       return (
         <tr key={unit.unitId}>
-          <td>
+          <NoWrap>
             <button className="ic-link iu-ml-700 iu-text-left" type="button" id={unit.unitId} onClick={handleChooseUnit}>
               {unit.unitName}
             </button>
-          </td>
+          </NoWrap>
           <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
           <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
         </tr>
@@ -66,11 +71,11 @@ export const CareProviderModalContent: React.FC = () => {
       </ExpandableTableRow>
     ) : (
       <tr key={careUnit.unitId}>
-        <td>
+        <NoWrap>
           <button className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
             {careUnit.unitName}
           </button>
-        </td>
+        </NoWrap>
         <td>{getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit)}</td>
         <td>{getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit)}</td>
       </tr>
