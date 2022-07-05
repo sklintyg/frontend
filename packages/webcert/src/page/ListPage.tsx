@@ -16,6 +16,7 @@ import { getListConfig, performListSearch, updateActiveListType, updateHasUpdate
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
+import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
@@ -26,6 +27,7 @@ import ReactTooltip from 'react-tooltip'
 import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
+import questionImage from '@frontend/common/src/images/speech-bubble.svg'
 
 interface Props {
   type: ListType
@@ -85,8 +87,18 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const getIcon = () => {
     if (type === ListType.PREVIOUS_CERTIFICATES) {
       return listImage
+    } else if (type === ListType.QUESTIONS) {
+      return questionImage
     } else {
       return letterImage
+    }
+  }
+
+  const getEmptyListIcon = () => {
+    if (type === ListType.QUESTIONS) {
+      return noQuestionsImage
+    } else {
+      return noDraftsImage
     }
   }
 
@@ -99,7 +111,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       )
     } else if (isListCompletelyEmpty()) {
       return (
-        <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={getEmptyListIcon()} alt={'Det finns inga resultat i listan.'}>
           {config && <p>{config.emptyListText}</p>}
         </ImageCentered>
       )
