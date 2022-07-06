@@ -209,7 +209,18 @@ const DatePickerCustom: React.FC<Props> = ({
               handleDateOnSelect(date)
             }}
             showWeekNumbers
+            portalId="root"
             popperPlacement="bottom-end"
+            popperModifiers={[
+              {
+                name: "preventOverflow",
+                options: {
+                  rootBoundary: "viewport",
+                  tether: false,
+                  altAxis: true,
+                },
+              },
+            ]}
             maxDate={getMaxDate()}
             minDate={min ? new Date(min) : undefined}
           />
