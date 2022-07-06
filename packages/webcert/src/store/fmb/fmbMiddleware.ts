@@ -190,7 +190,7 @@ function retrieveFMBForAddedDiagnosisCodes(
     }
 
     const fmbDiagnoseRequest: FMBDiagnoseRequest = {
-      index: index,
+      index: Number(diagnosis.id),
       icd10Code: diagnosis.code,
       icd10Description: diagnosis.description,
     }
