@@ -5,7 +5,15 @@ import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import apiMiddleware from '../api/apiMiddleware'
 import { listMiddleware } from './listMiddleware'
-import { getDraftListConfig, getDrafts, ListResponse, performListSearch, updateActiveListFilter, updateActiveListType } from './listActions'
+import {
+  getDraftListConfig,
+  getDrafts,
+  ListResponse,
+  performListSearch,
+  updateActiveListConfig,
+  updateActiveListFilter,
+  updateActiveListType,
+} from './listActions'
 import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
 import { getConfigWithTextFilter, getDefaultList, getFilter, getFilterWithValues } from '../../feature/list/test/listTestUtils'
 
@@ -21,6 +29,8 @@ describe('Test list middleware', () => {
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, listMiddleware),
     })
+
+    testStore.dispatch(updateActiveListConfig(getConfigWithTextFilter()))
   })
 
   afterEach(() => {
