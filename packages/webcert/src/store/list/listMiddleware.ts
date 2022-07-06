@@ -37,10 +37,12 @@ import {
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateIsSortingList,
+  updateListItemAsForwarded,
   updateTotalCount,
 } from './listActions'
 import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
 import { getListFilterDefaultValue } from '../../feature/list/listUtils'
+import { forwardCertificateSuccess } from '../certificate/certificateActions'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
@@ -181,6 +183,11 @@ const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: Middlew
   dispatch(performListSearch)
 }
 
+const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(updateListItemAsForwarded(action.payload.certificate.metadata.id))
+  console.log(action.payload)
+}
+
 const middlewareMethods = {
   [performListSearch.type]: handlePerformListSearch,
   [getDrafts.type]: handleGetDrafts,
@@ -205,6 +212,7 @@ const middlewareMethods = {
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,
   [getPreviousCertificatesListConfig.type]: handleGetPreviousCertificatesListConfig,
   [getPreviousCertificatesListConfigSuccess.type]: handleGetListConfigSuccess,
+  [forwardCertificateSuccess.type]: handleForwardCertificateSuccess,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

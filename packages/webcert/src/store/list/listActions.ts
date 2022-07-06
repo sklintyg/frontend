@@ -72,3 +72,5 @@ export interface ValidationErrorData {
 export const updateValidationError = createAction<ValidationErrorData>(`${LIST} Update validation error`)
 
 export const resetListState = createAction(`${LIST} Reset state`)
+
+export const updateListItemAsForwarded = createAction<string>(`${LIST} Update list item as forwarded`)

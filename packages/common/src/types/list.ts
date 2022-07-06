@@ -171,4 +171,5 @@ export interface ForwardedListInfo {
   forwarded: boolean
   unitName: string
   careProviderName: string
+  version: number
 }

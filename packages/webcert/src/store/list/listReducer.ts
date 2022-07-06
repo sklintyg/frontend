@@ -15,6 +15,7 @@ import {
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateIsSortingList,
+  updateListItemAsForwarded,
   updateTotalCount,
   updateValidationError,
 } from './listActions'
@@ -101,6 +102,14 @@ const listReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateValidationError, (state, action) => {
       state.validationErrors[action.payload.id] = action.payload.value
+    })
+    .addCase(updateListItemAsForwarded, (state, action) => {
+      const index = state.activeList.findIndex((item) => item.values['CERTIFICATE_ID'] === action.payload)
+      if (index > -1) {
+        const updatedValue = state.activeList[index]
+        updatedValue.values['FORWARDED'] = true
+        state.activeList[index] = updatedValue
+      }
     })
     .addCase(resetListState, () => getInitialState())
 )

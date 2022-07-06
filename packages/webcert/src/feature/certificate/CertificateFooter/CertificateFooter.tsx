@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding: 16px 0;
   justify-content: space-between;
+  gap: 8px;
 `
 
 const RightWrapper = styled.div`
@@ -59,6 +60,7 @@ export const CertificateFooter: React.FC = () => {
             unitName={certificateMetadata.unit.unitName}
             careProviderName={certificateMetadata.careProvider.unitName}
             forwarded={certificateMetadata.forwarded}
+            version={certificateMetadata.version}
             functionDisabled={functionDisabled}
             {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
           />
