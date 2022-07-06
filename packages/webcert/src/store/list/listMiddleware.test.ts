@@ -15,13 +15,10 @@ import {
   getQuestionListConfig,
   getQuestions,
   ListResponse,
-  performListSearch,
   updateActiveListConfig,
-  updateActiveListFilter,
-  updateActiveListType,
 } from './listActions'
-import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
-import { getConfigWithTextFilter, getDefaultList, getFilter, getFilterWithValues } from '../../feature/list/test/listTestUtils'
+import { CertificateListItem } from '@frontend/common/src/types/list'
+import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -268,23 +265,6 @@ describe('Test list middleware', () => {
         await flushPromises()
         expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
       })
-    })
-  })
-
-  describe('Handle perform list search', () => {
-    it('shall get drafts if correct list type', async () => {
-      const expectedTotalCount = 10
-      const expectedList: CertificateListItem[] = []
-      const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
-      fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
-      testStore.dispatch(updateActiveListFilter(getFilterWithValues()))
-      testStore.dispatch(updateActiveListType(ListType.DRAFTS))
-
-      testStore.dispatch(performListSearch)
-
-      await flushPromises()
-      expect(fakeAxios.history.post.length).toBe(1)
-      expect(fakeAxios.history.post[0].url).toEqual('/api/list/draft')
     })
   })
 })
