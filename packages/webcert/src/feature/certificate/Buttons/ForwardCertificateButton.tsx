@@ -14,6 +14,7 @@ interface Props extends FunctionDisabled {
   careProviderName: string
   forwarded: boolean
   certificateId: string
+  version: number
 }
 
 const ForwardCertificateButton: React.FC<Props> = ({
@@ -25,12 +26,13 @@ const ForwardCertificateButton: React.FC<Props> = ({
   careProviderName,
   forwarded,
   certificateId,
+  version,
 }) => {
   const dispatch = useDispatch()
 
   const handleEmailSend = () => {
     const href = `mailto:?subject=Du%20har%20blivit%20tilldelad%20ett%20ej%20signerat%20utkast%20i%20Webcert%20p%C3%A5%20enhet%20${unitName}%20f%C3%B6r%20v%C3%A5rdgivare%20${careProviderName}&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20g%C3%A5%20till%20utkastet%3A%20http%3A%2F%2Flocalhost%3A3000%2Fcertificate%2F${certificateId}%0D%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du%20klickar%20p%C3%A5%20l%C3%A4nken.%20`
-    window.location.href = href
+    window.open(href, '_blank')
   }
 
   if (forwarded) {
@@ -53,7 +55,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       name={name}
       startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}
       modalTitle="Markera som vidarebefordrad?"
-      onConfirm={() => dispatch(forwardCertificate(true))}
+      onConfirm={() => dispatch(forwardCertificate({ certificateId: certificateId, version: version, forward: true }))}
       onClick={handleEmailSend}
       confirmButtonText="Ja"
       declineButtonText="Nej"
