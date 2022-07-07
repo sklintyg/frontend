@@ -244,9 +244,15 @@ export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLE
 
 export const updateRoutedFromDeletedCertificate = createAction<boolean>(UPDATE_ROUTED_FROM_DELETED_CERTIFICATE)
 
-export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
+export const forwardCertificate = createAction<ForwardCertificateRequest>(FORWARD_CERTIFICATE)
 
 export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
+
+export interface ForwardCertificateRequest {
+  certificateId: string
+  version: number
+  forward: boolean
+}
 
 export interface ForwardCertificateSuccess {
   certificate: Certificate
