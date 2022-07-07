@@ -28,6 +28,10 @@ export const Complement = styled.div`
   padding: 5px;
 `
 
+export const ComplementMessage = styled.div`
+  white-space: pre-line;
+`
+
 const QuestionWithMargin = styled(Question)`
   & + & {
     margin-top: 32px;
@@ -57,7 +61,7 @@ export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
                 <i className="ic-alert__icon ic-info-icon iu-m-none" />
                 <div className="iu-fullwidth iu-pl-300 iu-fs-200">
                   <p className="iu-fw-heading">Kompletteringsbegäran:</p>
-                  <div>{complement.message}</div>
+                  <ComplementMessage>{complement.message}</ComplementMessage>
                 </div>
               </Complement>
             </div>
