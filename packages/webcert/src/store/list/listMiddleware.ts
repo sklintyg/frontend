@@ -185,7 +185,6 @@ const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: Middlew
 
 const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateListItemAsForwarded(action.payload.certificate.metadata.id))
-  console.log(action.payload)
 }
 
 const middlewareMethods = {
