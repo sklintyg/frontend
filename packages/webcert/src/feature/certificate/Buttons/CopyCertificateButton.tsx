@@ -32,10 +32,14 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, fu
       onConfirm={handleConfirm()}
       confirmButtonText={'Kopiera'}
       confirmButtonDisabled={functionDisabled}>
-      <p>
-        Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
-        redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.{' '}
-      </p>
+      <div>
+        <p>
+          Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
+          redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.
+        </p>
+        <br />
+        <p>Det nya utkastet skapas på den enhet du är inloggad på.</p>
+      </div>
     </ButtonWithConfirmModal>
   )
 }
