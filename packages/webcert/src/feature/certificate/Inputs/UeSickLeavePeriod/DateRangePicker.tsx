@@ -164,7 +164,7 @@ const DateRangePicker: React.FC<Props> = ({
 
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
     const invalidDatePeriod = fromDate && toDate && isBefore(getValidDate(toDate)!, getValidDate(fromDate)!)
-    const notCompleteDatePeriod = (fromDate && !toDate) || (toDate && !fromDate && isDateFormatValid(toDate, fromDate))
+    const notCompleteDatePeriod = ((fromDate && !toDate) || (toDate && !fromDate)) && isDateFormatValid(toDate, fromDate)
 
     dispatchValidationError(!invalidDatePeriod, {
       category: '',
