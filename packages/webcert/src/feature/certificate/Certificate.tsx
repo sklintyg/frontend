@@ -68,7 +68,6 @@ const Certificate: React.FC = () => {
 
   return (
     <Backdrop open={showSpinner} spinnerText={spinnerText}>
-      <CustomTooltip />
       <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
           <InfoBox type="info" additionalStyles="iu-mt-400">
