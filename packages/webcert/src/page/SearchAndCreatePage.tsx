@@ -6,7 +6,7 @@ import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { Redirect, useParams } from 'react-router-dom'
 import { getPatient } from '../store/patient/patientActions'
-import { CustomTooltip } from '@frontend/common'
+
 import { getUser } from '../store/user/userSelectors'
 import ReactTooltip from 'react-tooltip'
 import { withResourceAccess } from '../utils/withResourceAccess'
@@ -15,6 +15,7 @@ import ListPage from './ListPage'
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
 import { updateActiveListFilterValue } from '../store/list/listActions'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import CommonLayout from '../components/commonLayout/CommonLayout'
 
 interface Params {
   patientId: string
@@ -63,25 +64,18 @@ const SearchAndCreatePage: React.FC = () => {
   return (
     <>
       {user && (
-        <>
-          <WebcertHeader />
-          {isPatientLoaded() && (
+        <CommonLayout header={<WebcertHeader />} subHeader={patient && <PatientInfoHeader patient={patient} />}>
+          {isPatientLoaded() && patient ? (
             <>
-              {patient ? (
-                <>
-                  <PatientInfoHeader patient={patient} />
-                  <CertificateList />
-                  <div className="iu-mt-800">
-                    <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
-                  </div>
-                </>
-              ) : (
-                <PatientSearch />
-              )}
+              <CertificateList />
+              <div className="iu-mt-800">
+                <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
+              </div>
             </>
+          ) : (
+            <PatientSearch />
           )}
-          <CustomTooltip placement="top" />
-        </>
+        </CommonLayout>
       )}
     </>
   )

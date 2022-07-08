@@ -32,6 +32,7 @@ import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
 import { getUserStatistics } from '../store/user/userActions'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
+import CommonLayout from '../components/commonLayout/CommonLayout'
 
 interface Props {
   type: ListType
@@ -120,13 +121,15 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     }
   }
 
+  if (excludePageSpecificElements) {
+    return <div className="ic-container">{getList()}</div>
+  }
+
   return (
-    <>
-      {!excludePageSpecificElements && (
+    <CommonLayout
+      header={
         <>
           <WebcertHeader />
-          <CustomTooltip placement="top" />
-          <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           {!isLoadingListConfig && (
             <ListHeader
               icon={getIcon()}
@@ -135,9 +138,10 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
             />
           )}
         </>
-      )}
+      }>
+      <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
       <div className="ic-container">{getList()}</div>
-    </>
+    </CommonLayout>
   )
 }
 
