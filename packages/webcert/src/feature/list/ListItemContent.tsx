@@ -89,7 +89,6 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             unitName={info.unitName}
             careProviderName={info.careProviderName}
             certificateId={certificateId}
-            version={info.version}
           />
         </td>
       )
