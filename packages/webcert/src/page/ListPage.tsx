@@ -18,7 +18,7 @@ import {
   performListSearch,
   updateActiveListType,
 } from '../store/list/listActions'
-import { CustomTooltip, ImageCentered } from '@frontend/common/src'
+import { ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
