@@ -14,7 +14,6 @@ interface Props extends FunctionDisabled {
   careProviderName: string
   forwarded: boolean
   certificateId: string
-  version: number
 }
 
 const ForwardCertificateButton: React.FC<Props> = ({
@@ -26,7 +25,6 @@ const ForwardCertificateButton: React.FC<Props> = ({
   careProviderName,
   forwarded,
   certificateId,
-  version,
 }) => {
   const dispatch = useDispatch()
 
@@ -55,7 +53,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       name={name}
       startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}
       modalTitle="Markera som vidarebefordrad?"
-      onConfirm={() => dispatch(forwardCertificate({ certificateId: certificateId, version: version, forward: true }))}
+      onConfirm={() => dispatch(forwardCertificate({ certificateId: certificateId, forward: true }))}
       onClick={handleEmailSend}
       confirmButtonText="Ja"
       declineButtonText="Nej"

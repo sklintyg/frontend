@@ -250,7 +250,6 @@ export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTE
 
 export interface ForwardCertificateRequest {
   certificateId: string
-  version: number
   forward: boolean
 }
 

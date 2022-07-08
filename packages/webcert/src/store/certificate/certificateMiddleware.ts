@@ -195,7 +195,7 @@ const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: 
 
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${action.payload.certificateId}/${action.payload.version}/forward`,
+      url: `/api/certificate/${action.payload.certificateId}/forward`,
       method: 'POST',
       data: {
         forward: action.payload.forward,
