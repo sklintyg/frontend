@@ -60,7 +60,6 @@ export const CertificateFooter: React.FC = () => {
             unitName={certificateMetadata.unit.unitName}
             careProviderName={certificateMetadata.careProvider.unitName}
             forwarded={certificateMetadata.forwarded}
-            version={certificateMetadata.version}
             functionDisabled={functionDisabled}
             {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
           />
