@@ -1,26 +1,44 @@
 import React from 'react'
-import { AppHeaderUser } from '@frontend/common'
-import { getUser } from '../../store/user/userSelectors'
+import { AppHeaderUser, ExpandableBox, ResourceLinkType } from '@frontend/common'
+import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import { User } from '@frontend/common/src'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
 import userImage from '@frontend/common/src/images/user-image.svg'
 import lock from '@frontend/common/src/images/lock-closed.svg'
+import styled from 'styled-components'
+import { getConfig } from '../../store/utils/utilsSelectors'
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 const WebcertHeaderUser: React.FC = () => {
   const user = useSelector(getUser, shallowEqual)
+  const userLinks = useSelector(getUserResourceLinks)
+  const { ppHost } = useSelector(getConfig)
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
 
+  const privatePractitionerPortal = userLinks?.find((link) => link.type === ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL)
+
+  const goToPrivatePractitionerPortal = () => {
+    window.open(`${ppHost}?from=${window.location.href}`, '_blank')
+  }
+
   const toString = (user: User): React.ReactNode => {
     return (
-      <div>
+      <Wrapper>
         <p>
           {user.name} - {user.role}{' '}
         </p>
         {user.protectedPerson && <ProtectedPersonDoctorModal />}
-      </div>
+        {privatePractitionerPortal && (
+          <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} />
+        )}
+      </Wrapper>
     )
   }
 
