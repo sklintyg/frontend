@@ -30,7 +30,7 @@ const StyledTable = styled.table<TableProps>`
     background-color: rgba(1, 165, 163, 0.08) !important;
   }
 
-  .empty-results {
+  .no-results {
     td {
       background-color: white !important;
     }
@@ -100,14 +100,14 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
       <tbody>
         {!isLoadingContent && !isEmptyList && <>{children}</>}
         {isLoadingContent && (
-          <tr>
+          <tr className="no-results">
             <td className="iu-border-white">
               <Spinner className={'iu-mt-300'} />
             </td>
           </tr>
         )}
         {!isLoadingContent && isEmptyList && (
-          <tr className="empty-results">
+          <tr className="no-results">
             <td className="iu-border-white iu-bg-white">
               <p className="iu-pt-200">Inga resultat att visa.</p>
             </td>

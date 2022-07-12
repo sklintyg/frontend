@@ -5,22 +5,18 @@ import {
   getActiveList,
   getActiveListConfig,
   getActiveListFilter,
+  getHasUpdatedConfig,
   getIsLoadingListConfig,
   getListTotalCount,
   hasListError,
 } from '../store/list/listSelectors'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
-import {
-  getCertificateListConfig,
-  getDraftListConfig,
-  getPreviousCertificatesListConfig,
-  performListSearch,
-  updateActiveListType,
-} from '../store/list/listActions'
+import { getListConfig, performListSearch, updateActiveListType, updateHasUpdatedConfig, updateListConfig } from '../store/list/listActions'
 import { CustomTooltip, ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
+import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
 import { withResourceAccess } from '../utils/withResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
@@ -28,10 +24,10 @@ import { updateShouldRouteAfterDelete } from '../store/certificate/certificateAc
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import ReactTooltip from 'react-tooltip'
-import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
-import { getUserStatistics } from '../store/user/userActions'
+import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
+import questionImage from '@frontend/common/src/images/speech-bubble.svg'
 
 interface Props {
   type: ListType
@@ -40,34 +36,36 @@ interface Props {
 
 const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const dispatch = useDispatch()
-  const config = useSelector(getActiveListConfig)
-  const list = useSelector(getActiveList)
-  const filter = useSelector(getActiveListFilter)
+  const config = useSelector(getActiveListConfig, shallowEqual)
+  const list = useSelector(getActiveList, shallowEqual)
+  const filter = useSelector(getActiveListFilter, shallowEqual)
   const error = useSelector(hasListError)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
+  const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+  const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
 
   useEffect(() => {
     ReactTooltip.rebuild()
-    dispatch(getUserStatistics())
   })
 
   useEffect(() => {
-    if (type === ListType.DRAFTS) {
-      dispatch(getDraftListConfig())
-    } else if (type === ListType.CERTIFICATES) {
-      dispatch(getCertificateListConfig())
-    } else if (type === ListType.PREVIOUS_CERTIFICATES) {
-      dispatch(getPreviousCertificatesListConfig())
+    if (hasUpdatedConfig) {
+      dispatch(updateListConfig())
     }
+  }, [hasUpdatedConfig])
+
+  useEffect(() => {
     dispatch(updateActiveListType(type))
+    dispatch(getListConfig())
   }, [dispatch, type])
 
   useEffect(() => {
-    if (!isLoadingListConfig && config) {
+    if (!isLoadingListConfig && config && !hasUpdatedConfig) {
       dispatch(performListSearch)
+      dispatch(updateHasUpdatedConfig(false))
     }
   }, [dispatch, config, isLoadingListConfig])
 
@@ -78,6 +76,8 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const isListCompletelyEmpty = () => {
     if (type === ListType.DRAFTS) {
       return nbrOfDraftsOnUnit === 0
+    } else if (type === ListType.QUESTIONS) {
+      return nbrOfQuestionsOnUnit === 0
     } else {
       const isFirstSearch = isFilterDefault(config?.filters, filter?.values)
       return isFirstSearch && totalCount === 0
@@ -87,8 +87,18 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const getIcon = () => {
     if (type === ListType.PREVIOUS_CERTIFICATES) {
       return listImage
+    } else if (type === ListType.QUESTIONS) {
+      return questionImage
     } else {
       return letterImage
+    }
+  }
+
+  const getEmptyListIcon = () => {
+    if (type === ListType.QUESTIONS) {
+      return noQuestionsImage
+    } else {
+      return noDraftsImage
     }
   }
 
@@ -101,12 +111,12 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       )
     } else if (isListCompletelyEmpty()) {
       return (
-        <ImageCentered imgSrc={noDraftsImage} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={getEmptyListIcon()} alt={'Det finns inga resultat i listan.'}>
           {config && <p>{config.emptyListText}</p>}
         </ImageCentered>
       )
     } else {
-      return isLoadingListConfig ? (
+      return isLoadingListConfig && !hasUpdatedConfig ? (
         <></>
       ) : (
         <List
@@ -127,7 +137,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
           <WebcertHeader />
           <CustomTooltip placement="top" />
           <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-          {!isLoadingListConfig && (
+          {(!isLoadingListConfig || hasUpdatedConfig) && (
             <ListHeader
               icon={getIcon()}
               title={config?.title ? config.title : ''}
