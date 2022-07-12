@@ -29,6 +29,12 @@ export const getValidDate = (dateString: string | undefined) => {
   }
 }
 
+export const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {
+  if (!dateString) return
+
+  return isValid(getValidDate(dateString)) || dayCodeReg.test(dateString) || weekCodeReg.test(dateString) || monthCodeReg.test(dateString)
+}
+
 export const formatDateToString = (date: Date) => {
   return format(date, _format)
 }
