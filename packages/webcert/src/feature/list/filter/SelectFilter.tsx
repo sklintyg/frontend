@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { Dropdown } from '@frontend/common/src/components'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'
+import { sanitizeText } from '@frontend/common'
 
 interface Props {
   config: ListFilterSelectConfig
@@ -25,9 +26,13 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
 
   const getSelectOptions = () => {
     return config.values.map((configValue) => (
-      <option key={configValue.id} id={configValue.id} value={configValue.id} defaultValue={configValue.defaultValue ? configValue.id : ''}>
-        {configValue.name}
-      </option>
+      <option
+        key={configValue.id}
+        id={configValue.id}
+        value={configValue.id}
+        defaultValue={configValue.defaultValue ? configValue.id : ''}
+        dangerouslySetInnerHTML={sanitizeText(configValue.name)}
+      />
     ))
   }
 

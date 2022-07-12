@@ -62,6 +62,7 @@ function App(): JSX.Element {
             <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
             <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
             <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
+            <Route path="/list/question" render={() => <ListPageWithRedirect type={ListType.QUESTIONS} />} />
           </Switch>
         </ErrorBoundary>
       </BrowserRouter>

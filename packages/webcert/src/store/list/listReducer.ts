@@ -12,6 +12,7 @@ import {
   updateActiveListFilter,
   updateActiveListFilterValue,
   updateActiveListType,
+  updateHasUpdatedConfig,
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateIsSortingList,
@@ -31,6 +32,7 @@ interface ListState {
   isSortingList: boolean
   isLoadingListConfig: boolean
   validationErrors: { [filterId: string]: boolean }
+  hasUpdatedConfig: boolean
 }
 
 const getInitialState = (): ListState => {
@@ -45,6 +47,7 @@ const getInitialState = (): ListState => {
     isSortingList: false,
     isLoadingListConfig: true,
     validationErrors: {},
+    hasUpdatedConfig: false,
   }
 }
 
@@ -101,6 +104,9 @@ const listReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateValidationError, (state, action) => {
       state.validationErrors[action.payload.id] = action.payload.value
+    })
+    .addCase(updateHasUpdatedConfig, (state, action) => {
+      state.hasUpdatedConfig = action.payload
     })
     .addCase(resetListState, () => getInitialState())
 )
