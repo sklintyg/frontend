@@ -193,14 +193,12 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
 const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Vidarebefodrar...'))
 
-  const certificate: Certificate = getState().ui.uiCertificate.certificate
-
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}/forward`,
+      url: `/api/certificate/${action.payload.certificateId}/forward`,
       method: 'POST',
       data: {
-        forward: action.payload,
+        forward: action.payload.forward,
       },
       onStart: forwardCertificateStarted.type,
       onSuccess: forwardCertificateSuccess.type,
