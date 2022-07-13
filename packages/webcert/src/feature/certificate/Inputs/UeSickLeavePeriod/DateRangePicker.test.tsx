@@ -179,6 +179,17 @@ describe('Date range picker', () => {
       expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
     })
 
+    it('shows not complete date message when tom date is inserted following fast input rules', () => {
+      renderDefaultComponent(null, null, '0')
+      store.dispatch(showValidationErrors())
+
+      const input = screen.getByLabelText('t.o.m')
+
+      userEvent.type(input, 'd12')
+      userEvent.click(screen.getByText('Fr.o.m'))
+      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
+    })
+
     it('should not show not complete date message if invalid date is inserted in other field', () => {
       renderDefaultComponent(null, null, '0')
       store.dispatch(showValidationErrors())

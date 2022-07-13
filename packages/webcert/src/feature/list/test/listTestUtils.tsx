@@ -131,6 +131,7 @@ export const getConfig = (
   return {
     title: title,
     filters: filters,
+    shouldUpdateConfigAfterListSearch: false,
     buttonTooltips: {
       OPEN_BUTTON: 'OPEN_BUTTON',
       SEARCH_BUTTON: 'SEARCH_BUTTON',
@@ -169,6 +170,7 @@ export const getConfigWithTextFilter = (): ListConfig => {
     description: 'description',
     secondaryTitle: 'secondaryTitle',
     emptyListText: 'emptyListText',
+    shouldUpdateConfigAfterListSearch: false,
     buttonTooltips: {
       OPEN_BUTTON: 'OPEN_BUTTON',
       SEARCH_BUTTON: 'SEARCH_BUTTON',

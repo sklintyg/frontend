@@ -10,6 +10,7 @@ import {
   getPeriodWorkHours,
   getValidDate,
   isDateRangeValid,
+  isValidDateIncludingSpecialDateCodes,
   monthCodeReg,
   parseDayCodes,
   QuestionValidationTexts,
@@ -158,7 +159,7 @@ const DateRangePicker: React.FC<Props> = ({
   }
 
   function isDateFormatValid(toDate: string | null, fromDate: string | null) {
-    return (toDate && isValid(getValidDate(toDate))) || (fromDate && isValid(getValidDate(fromDate)))
+    return (toDate && isValidDateIncludingSpecialDateCodes(toDate)) || (fromDate && isValid(getValidDate(fromDate)))
   }
 
   const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
