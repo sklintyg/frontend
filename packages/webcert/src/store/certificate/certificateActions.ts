@@ -13,6 +13,7 @@ import {
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 import { ApiError } from '../api/apiActions'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { RefObject } from 'react'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -508,7 +509,7 @@ export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
 
-export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
+export const printCertificate = createAction<CertificateMetadata & { iframe: HTMLIFrameElement }>(PRINT_CERTIFICATE)
 
 export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
 
