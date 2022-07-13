@@ -23,7 +23,7 @@ export function withLoggedInUserRedirect<P>(WrappedComponent: React.FC): React.F
     }
 
     if (isCareAdministrator) {
-      return <Redirect to="/unhandled" />
+      return <Redirect to="/list/question" />
     }
 
     return <WrappedComponent {...props} />
