@@ -60,10 +60,12 @@ describe('Verify header buttons', () => {
     expect(await screen.findByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include print certificate button with modal when its resource link type is available', () => {
+  it('shall include print certificate button with modal when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
+    jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
+    await screen.findByRole('button', { name: expectedButton })
     userEvent.click(screen.getByText(expectedButton))
     expect(screen.getByText('Skriv ut intyg')).toBeInTheDocument()
     expect(screen.getByText('Expected body')).toBeInTheDocument()
