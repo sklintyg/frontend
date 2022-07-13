@@ -20,7 +20,7 @@ const IFrame = styled.iframe`
 
 const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, body }) => {
   const dispatch = useDispatch()
-  const iframe = useRef<HTMLIFrameElement>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const getButton = (iframe: HTMLIFrameElement) => {
     return body ? (
@@ -48,8 +48,8 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
   }
   return (
     <>
-      <IFrame ref={iframe}></IFrame>
-      {iframe.current ? getButton(iframe.current) : <></>}
+      <IFrame ref={iframeRef}></IFrame>
+      {iframeRef.current ? getButton(iframeRef.current) : <></>}
     </>
   )
 }
