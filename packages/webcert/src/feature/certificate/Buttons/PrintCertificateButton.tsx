@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { printCertificate } from '../../../store/certificate/certificateActions'
 import { CertificateMetadata, CustomButton, sanitizeText } from '@frontend/common'
@@ -20,7 +20,7 @@ const IFrame = styled.iframe`
 
 const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, body }) => {
   const dispatch = useDispatch()
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
   const getButton = (iframe: HTMLIFrameElement) => {
     return body ? (
