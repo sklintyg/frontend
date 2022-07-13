@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding: 16px 0;
   justify-content: space-between;
+  gap: 8px;
 `
 
 const RightWrapper = styled.div`
