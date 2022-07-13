@@ -113,6 +113,7 @@ const listReducer = createReducer(getInitialState(), (builder) =>
         updatedValue.values['FORWARDED'] = true
         state.activeList[index] = updatedValue
       }
+    })
     .addCase(updateHasUpdatedConfig, (state, action) => {
       state.hasUpdatedConfig = action.payload
     })
