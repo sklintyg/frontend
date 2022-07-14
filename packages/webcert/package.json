@@ -16,6 +16,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "test:ci": "react-app-rewired test --ci --coverage --reporters=default --reporters=jest-junit --coverageReporters=cobertura",
+    "test:staged": "react-app-rewired test --bail --findRelatedTests",
     "eject": "react-scripts eject",
     "typescript": "tsc"
   },
