@@ -18,7 +18,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-      - run: yarn install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
       - uses: reviewdog/action-eslint@v1
         with:
           fail_on_error: true
@@ -33,7 +34,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-      - run: yarn install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
       - run: yarn workspace @frontend/${{ matrix.package }} tsc --noEmit
   jest:
     name: runner / jest
@@ -46,5 +48,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-      - run: yarn install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
       - run: yarn workspace @frontend/${{ matrix.package }} test:ci
