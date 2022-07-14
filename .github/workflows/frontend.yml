@@ -10,8 +10,33 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  eslint:
+    name: runner / eslint
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: reviewdog/action-eslint@v1
+  tsc:
+    name: runner / tsc
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [common, webcert]
+    setps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - name: Setup workspace
+        run: yarn install
+      - name: Typecheck ${{ matrix.package }}
+        run: yarn workspace @frontend/${{ matrix.package }} tsc --noEmit
+  jest:
+    name: runner / jest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [common, webcert]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -19,11 +44,5 @@ jobs:
           node-version: '12.x'
       - name: Setup workspace
         run: yarn install
-      - name: Compile TypeScript Common
-        run: yarn workspace @frontend/common tsc
-      - name: Compile TypeScript Webcert
-        run: yarn workspace @frontend/webcert tsc
-      - name: Test Common
-        run: yarn workspace @frontend/common test:ci
-      - name: Test webcert
-        run: yarn workspace @frontend/webcert test:ci
+      - name: Test ${{ matrix.package }}
+        run: yarn workspace @frontend/${{ matrix.package }} test:ci

@@ -12,8 +12,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start --stream",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx -f checkstyle > lint-result.xml",
-    "test": "jest",
+    "lint": "eslint . --fix",
     "merge-reports": "jrm combined.xml \"results/*.xml\""
   },
   "devDependencies": {
@@ -23,11 +22,13 @@
     "enzyme-to-json": "^3.4.3",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "lerna": "^3.18.1",
     "prettier": "^1.18.2",
     "react-addons-test-utils": "^15.6.2",
@@ -97,10 +98,39 @@
   "eslintConfig": {
     "extends": [
       "react-app",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
+      "plugin:import/recommended",
+      "plugin:import/typescript",
       "prettier/@typescript-eslint",
       "prettier/react",
       "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "unused-imports"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn"
+      ],
+      "import/no-relative-packages": "error"
+    },
+    "overrides": [
+      {
+        "files": [
+          "packages/webcert-e2e/**/*.js"
+        ],
+        "extends": [
+          "plugin:cypress/recommended"
+        ],
+        "rules": {
+          "no-undef": "off"
+        }
+      }
     ]
   },
   "browserslist": [
