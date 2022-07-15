@@ -193,14 +193,12 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
 const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Vidarebefodrar...'))
 
-  const certificate: Certificate = getState().ui.uiCertificate.certificate
-
   dispatch(
     apiCallBegan({
-      url: `/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}/forward`,
+      url: `/api/certificate/${action.payload.certificateId}/forward`,
       method: 'POST',
       data: {
-        forward: action.payload,
+        forward: action.payload.forward,
       },
       onStart: forwardCertificateStarted.type,
       onSuccess: forwardCertificateSuccess.type,
@@ -629,7 +627,15 @@ const handleGotoComplement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
 
 const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAction): void => {
   const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
-  window.open(printUrl, 'printTargetIFrame')
+  if (action.payload.iframe) {
+    action.payload.iframe.onload = function() {
+      setTimeout(function() {
+        action.payload.iframe.focus()
+        action.payload.iframe.contentWindow.print()
+      }, 1)
+    }
+    action.payload.iframe.src = printUrl
+  }
 }
 
 const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (

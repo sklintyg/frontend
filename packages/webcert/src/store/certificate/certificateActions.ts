@@ -244,9 +244,14 @@ export const deleteCertificateCompleted = createAction(DELETE_CERTIFICATE_COMPLE
 
 export const updateRoutedFromDeletedCertificate = createAction<boolean>(UPDATE_ROUTED_FROM_DELETED_CERTIFICATE)
 
-export const forwardCertificate = createAction<boolean>(FORWARD_CERTIFICATE)
+export const forwardCertificate = createAction<ForwardCertificateRequest>(FORWARD_CERTIFICATE)
 
 export const forwardCertificateStarted = createAction(FORWARD_CERTIFICATE_STARTED)
+
+export interface ForwardCertificateRequest {
+  certificateId: string
+  forward: boolean
+}
 
 export interface ForwardCertificateSuccess {
   certificate: Certificate
@@ -503,7 +508,7 @@ export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
 
-export const printCertificate = createAction<CertificateMetadata>(PRINT_CERTIFICATE)
+export const printCertificate = createAction<CertificateMetadata & { iframe: HTMLIFrameElement }>(PRINT_CERTIFICATE)
 
 export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
 

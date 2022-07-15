@@ -115,6 +115,7 @@ export interface ListConfig {
   defaultOrderBy: string
   excludeFilterButtons: boolean
   buttonTooltips: ListButtonTooltips
+  shouldUpdateConfigAfterListSearch: boolean
 }
 
 export interface ListFilterValue {

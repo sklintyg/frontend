@@ -73,7 +73,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     const hasGlobalValidationError = toggleValidationError(savedValue.to, date)
     const hasSpecificValidationError = toggleSpecificValidationError(date, configFrom, setFromValidationError, fromValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, from: date }
-    if (isValueValid && !hasGlobalValidationError && !hasSpecificValidationError) {
+    if (isValueValid !== false && !hasGlobalValidationError && !hasSpecificValidationError) {
       onChange(updatedValue, config.id)
     }
     setSavedValue(updatedValue)
