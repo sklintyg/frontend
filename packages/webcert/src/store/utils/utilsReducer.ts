@@ -18,6 +18,7 @@ export interface Configuration {
   banners: Banner[]
   cgiFunktionstjansterIdpUrl: string
   sakerhetstjanstIdpUrl: string
+  ppHost: string
 }
 
 interface UtilsState {
@@ -31,7 +32,7 @@ interface UtilsState {
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
-  config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '' },
+  config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '', ppHost: '' },
   isLoadingConfig: false,
   isLoadingDynamicLinks: false,
 }
@@ -44,7 +45,7 @@ const utilsReducer = createReducer(initialState, (builder) =>
     .addCase(updateDiagnosisTypeahead, (state, action) => {
       state.diagnosisTypeahead = action.payload
     })
-    .addCase(resetDiagnosisTypeahead, (state, action) => {
+    .addCase(resetDiagnosisTypeahead, (state) => {
       state.diagnosisTypeahead = null
     })
     .addCase(updateConfig, (state, action) => {
