@@ -20,32 +20,36 @@ const IFrame = styled.iframe`
 
 const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, body }) => {
   const dispatch = useDispatch()
+  const iframeRef = React.useRef<HTMLIFrameElement>(null)
 
+  const getButton = (iframe: HTMLIFrameElement) => {
+    return body ? (
+      <ButtonWithConfirmModal
+        description={description}
+        disabled={!enabled}
+        buttonStyle="primary"
+        name={name}
+        modalTitle={isDraft(certificateMetadata) || isLocked(certificateMetadata) ? 'Skriv ut utkast' : 'Skriv ut intyg'}
+        startIcon={<img src={print} alt="Skriva ut" />}
+        onConfirm={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
+        confirmButtonText={'Skriv ut'}>
+        <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
+      </ButtonWithConfirmModal>
+    ) : (
+      <CustomButton
+        tooltip={description}
+        disabled={!enabled}
+        buttonStyle="primary"
+        text={name}
+        startIcon={<img src={print} alt="Skriva ut" />}
+        onClick={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
+      />
+    )
+  }
   return (
     <>
-      <IFrame name="printTargetIFrame"></IFrame>
-      {body ? (
-        <ButtonWithConfirmModal
-          description={description}
-          disabled={!enabled}
-          buttonStyle="primary"
-          name={name}
-          modalTitle={isDraft(certificateMetadata) || isLocked(certificateMetadata) ? 'Skriv ut utkast' : 'Skriv ut intyg'}
-          startIcon={<img src={print} alt="Skriva ut" />}
-          onConfirm={() => dispatch(printCertificate(certificateMetadata))}
-          confirmButtonText={'Skriv ut'}>
-          <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
-        </ButtonWithConfirmModal>
-      ) : (
-        <CustomButton
-          tooltip={description}
-          disabled={!enabled}
-          buttonStyle="primary"
-          text={name}
-          startIcon={<img src={print} alt="Skriva ut" />}
-          onClick={() => dispatch(printCertificate(certificateMetadata))}
-        />
-      )}
+      <IFrame ref={iframeRef}></IFrame>
+      {iframeRef.current ? getButton(iframeRef.current) : <></>}
     </>
   )
 }
