@@ -1,61 +1,66 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import WebcertHeaderUser from './WebcertHeaderUser'
-import * as redux from 'react-redux'
-import { User } from '@frontend/common/src'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import store from '../../store/store'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import reducer from '../../store/reducers'
+import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
+import apiMiddleware from '../../store/api/apiMiddleware'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { getPrivatePractitionerPortalResourceLink, getUser } from '@frontend/common'
 
-const setup = (protectedPerson: boolean, approvedTerms?: string) => {
-  const spy = jest.spyOn(redux, 'useSelector')
+let testStore: EnhancedStore
 
-  const mockUser: User = ({
-    name: 'Test Testsson',
-    role: 'Läkare',
-    protectedPerson: protectedPerson,
-    preferences: { 'wc.vardperson.sekretess.approved': approvedTerms ? approvedTerms : '' },
-  } as unknown) as User
-  spy.mockReturnValue(mockUser)
+const getUserPreferences = (approvedTerms: string) => {
+  return { 'wc.vardperson.sekretess.approved': approvedTerms }
 }
 
 const renderComponent = () => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <WebcertHeaderUser />
     </Provider>
   )
 }
 
 describe('WebcertHeaderUser', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
+    })
+  })
+
   it('displays user role', () => {
-    setup(false)
+    testStore.dispatch(updateUser({ ...getUser(), role: 'Läkare' }))
     renderComponent()
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
   it('displays users name and role', (): void => {
-    setup(false)
+    testStore.dispatch(updateUser({ ...getUser(), role: 'Läkare', name: 'Test Testsson' }))
     renderComponent()
     expect(screen.getByText(/Test Testsson/i)).toBeInTheDocument()
     expect(screen.getByText(/Läkare/i)).toBeInTheDocument()
   })
 
   it('should not show protected person link', (): void => {
-    setup(false)
+    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: false }))
     renderComponent()
     expect(screen.queryByText(/Skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
   it('should show protected person modal if approval is not saved in preferences', (): void => {
-    setup(true)
+    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
     renderComponent()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
   it('should show protected person link when approval modal is closed', (): void => {
-    setup(true)
+    testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
     renderComponent()
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.click(screen.getByText('Till Webcert'))
@@ -64,22 +69,55 @@ describe('WebcertHeaderUser', () => {
   })
 
   it('should not show protected person modal if approval is saved in preferences', (): void => {
-    setup(true, 'true')
+    testStore.dispatch(
+      updateUser({
+        ...getUser(),
+        protectedPerson: true,
+        preferences: getUserPreferences('true'),
+      })
+    )
     renderComponent()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.queryByText(/Du har skyddade personuppgifter/i)).not.toBeInTheDocument()
   })
 
   it('should show protected person link when approval modal is closed', (): void => {
-    setup(true, 'true')
+    testStore.dispatch(
+      updateUser({
+        ...getUser(),
+        protectedPerson: true,
+        preferences: getUserPreferences('true'),
+      })
+    )
     renderComponent()
     expect(screen.getByText(/Skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
   it('should open protected person modal when clicking on link', (): void => {
-    setup(true, 'true')
+    testStore.dispatch(
+      updateUser({
+        ...getUser(),
+        protectedPerson: true,
+        preferences: getUserPreferences('true'),
+      })
+    )
     renderComponent()
     userEvent.click(screen.getByText(/Skyddade personuppgifter/i))
     expect(screen.getByText('Användning av Webcert med skyddade personuppgifter')).toBeInTheDocument()
+  })
+
+  it('should show private practitioner portal link dropdown', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    renderComponent()
+    expect(screen.getByTestId('arrowToggle')).toBeInTheDocument()
+  })
+
+  it('should show private practitioner portal link', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    renderComponent()
+    userEvent.click(screen.getByTestId('arrowToggle'))
+    expect(screen.getByText('Min sida')).toBeInTheDocument()
   })
 })

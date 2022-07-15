@@ -261,3 +261,15 @@ export const getChangeUnitResourceLink = () => {
     },
   ]
 }
+
+export const getPrivatePractitionerPortalResourceLink = () => {
+  return [
+    {
+      type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL,
+      name: 'Min sida',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}

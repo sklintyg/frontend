@@ -13,12 +13,7 @@ import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate
 import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getUserStatistics } from '../store/user/userActions'
-
-const Root = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`
+import CommonLayout from '../components/commonLayout/CommonLayout'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -26,15 +21,6 @@ const OverflowScroll = styled.div`
 
 const OverflowHidden = styled.div`
   overflow-y: hidden;
-`
-
-const NoFlexGrow = styled.div`
-  flex-grow: 0;
-`
-
-const Content = styled.div`
-  overflow: hidden;
-  flex-grow: 1;
 `
 
 const Columns = styled.div`
@@ -59,33 +45,31 @@ const CertificatePage: React.FC = () => {
   }, [dispatch, certificateId])
 
   return (
-    <Root>
-      <NoFlexGrow>
-        <WebcertHeader />
-      </NoFlexGrow>
-      {isCertificateDeleted ? (
-        <CertificateDeletedHandler />
-      ) : (
-        <>
-          <NoFlexGrow>
+    <CommonLayout
+      header={<WebcertHeader />}
+      subHeader={
+        !isCertificateDeleted && (
+          <>
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
             <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-          </NoFlexGrow>
-          <Content className={`ic-container`}>
-            <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
-              <OverflowScroll className="iu-grid-span-7">
-                <Certificate />
-              </OverflowScroll>
-              <OverflowHidden className="iu-grid-span-5">
-                <CertificateSidePanel />
-              </OverflowHidden>
-            </Columns>
-          </Content>
-        </>
+          </>
+        )
+      }>
+      {isCertificateDeleted ? (
+        <CertificateDeletedHandler />
+      ) : (
+        <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
+          <OverflowScroll className="iu-grid-span-7">
+            <Certificate />
+          </OverflowScroll>
+          <OverflowHidden className="iu-grid-span-5">
+            <CertificateSidePanel />
+          </OverflowHidden>
+        </Columns>
       )}
-    </Root>
+    </CommonLayout>
   )
 }
 

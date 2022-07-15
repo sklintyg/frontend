@@ -13,7 +13,7 @@ import {
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
 import { getListConfig, performListSearch, updateActiveListType, updateHasUpdatedConfig, updateListConfig } from '../store/list/listActions'
-import { CustomTooltip, ImageCentered } from '@frontend/common/src'
+import { ImageCentered } from '@frontend/common/src'
 import { InfoBox, ListHeader } from '@frontend/common'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
@@ -27,6 +27,7 @@ import ReactTooltip from 'react-tooltip'
 import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import listImage from '@frontend/common/src/images/list.svg'
 import letterImage from '@frontend/common/src/images/epost.svg'
+import CommonLayout from '../components/commonLayout/CommonLayout'
 import questionImage from '@frontend/common/src/images/speech-bubble.svg'
 
 interface Props {
@@ -130,13 +131,15 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     }
   }
 
+  if (excludePageSpecificElements) {
+    return <div className="ic-container">{getList()}</div>
+  }
+
   return (
-    <>
-      {!excludePageSpecificElements && (
+    <CommonLayout
+      header={
         <>
           <WebcertHeader />
-          <CustomTooltip placement="top" />
-          <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           {(!isLoadingListConfig || hasUpdatedConfig) && (
             <ListHeader
               icon={getIcon()}
@@ -145,9 +148,10 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
             />
           )}
         </>
-      )}
+      }>
+      <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
       <div className="ic-container">{getList()}</div>
-    </>
+    </CommonLayout>
   )
 }
 

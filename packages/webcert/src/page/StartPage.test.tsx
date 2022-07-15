@@ -50,6 +50,7 @@ describe('StartPage', () => {
       banners: [],
       cgiFunktionstjansterIdpUrl: '#elegIdp',
       sakerhetstjanstIdpUrl: '#sithsIdp',
+      ppHost: '',
     }
     testStore.dispatch(updateConfig(config))
 
