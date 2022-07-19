@@ -273,3 +273,15 @@ export const getPrivatePractitionerPortalResourceLink = () => {
     },
   ]
 }
+
+export const getNavigateBackButtonLink = () => {
+  return [
+    {
+      type: ResourceLinkType.NAVIGATE_BACK_BUTTON,
+      name: 'Tillbaka',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}
