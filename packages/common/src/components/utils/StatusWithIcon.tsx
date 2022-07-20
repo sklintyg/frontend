@@ -2,10 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import AlertCircle from '../../images/AlertCircle'
 import CheckIcon from '../../images/CheckIcon'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  color: #00706e;
 
   .statusContent > a,
   .statusContent > button {
@@ -14,7 +17,7 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  icon?: 'CheckIcon' | 'ErrorOutlineIcon'
+  icon?: 'CheckIcon' | 'ErrorOutlineIcon' | 'ArrowLeft'
   additionalWrapperStyles?: string
   additionalTextStyles?: string
   isModal?: boolean
@@ -27,6 +30,8 @@ const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWr
         return <CheckIcon />
       case 'ErrorOutlineIcon':
         return <AlertCircle />
+      case 'ArrowLeft':
+        return <FontAwesomeIcon icon={faArrowLeft} />
       case undefined:
         return null
     }

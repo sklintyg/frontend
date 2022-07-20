@@ -13,12 +13,13 @@ import ShowHistory from './ShowHistory'
 import CertificateInfo from './CertificateInfo'
 import HeaderButtons from './HeaderButtons'
 import styled from 'styled-components/macro'
-import { Divider } from '@frontend/common'
+import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
-import { resourceLinksAreEqual, ResourceLinkType } from '@frontend/common/src'
+
 import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import NavigateBackButton from './NavigateBackButton'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -63,6 +64,7 @@ const CertificateHeader: React.FC = () => {
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <StatusWrapper>
           <StatusLeftSide>
+            <NavigateBackButton />
             <CertificateHeaderStatuses
               certificateMetadata={certificateMetadata}
               questions={questions}

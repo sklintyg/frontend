@@ -1,5 +1,5 @@
 import { Unit } from '../../types/certificate'
-import { ResourceLinkType } from '../../types/resourceLink'
+import { ResourceLink, ResourceLinkType } from '../../types/resourceLink'
 import { User, LoginMethod, SigningMethod, UserStatistics, UnitStatistic, UnitStatistics } from '../../types/user'
 
 export const getUser = (): User => {
@@ -238,7 +238,7 @@ export const getUserStatisticsForOneCareUnit = (): UserStatistics => {
   }
 }
 
-export const getChooseUnitResourceLink = () => {
+export const getChooseUnitResourceLink = (): ResourceLink[] => {
   return [
     {
       type: ResourceLinkType.CHOOSE_UNIT,
@@ -250,7 +250,7 @@ export const getChooseUnitResourceLink = () => {
   ]
 }
 
-export const getChangeUnitResourceLink = () => {
+export const getChangeUnitResourceLink = (): ResourceLink[] => {
   return [
     {
       type: ResourceLinkType.CHANGE_UNIT,
@@ -262,11 +262,23 @@ export const getChangeUnitResourceLink = () => {
   ]
 }
 
-export const getPrivatePractitionerPortalResourceLink = () => {
+export const getPrivatePractitionerPortalResourceLink = (): ResourceLink[] => {
   return [
     {
       type: ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL,
       name: 'Min sida',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}
+
+export const getNavigateBackButtonLink = (): ResourceLink[] => {
+  return [
+    {
+      type: ResourceLinkType.NAVIGATE_BACK_BUTTON,
+      name: 'Tillbaka',
       body: '',
       description: '',
       enabled: true,
