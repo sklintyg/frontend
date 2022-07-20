@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CertificateDataElement, ConfigUeDropdown, Dropdown, QuestionValidationTexts, ValueCode } from '@frontend/common'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
@@ -18,12 +18,6 @@ const UeDropdown: React.FC<Props> = (props) => {
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
   const [selected, setSelected] = React.useState((question.value as ValueCode).code)
 
-  const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const updatedValue = getUpdatedValue(question, event.currentTarget.value)
-    setSelected(event.currentTarget.value)
-    dispatch(updateCertificateDataElement(updatedValue))
-  }
-
   const getUpdatedValue = (question: CertificateDataElement, selected: string) => {
     const updatedQuestion: CertificateDataElement = { ...question }
     const updatedQuestionValue = { ...(updatedQuestion.value as ValueCode) }
@@ -32,6 +26,12 @@ const UeDropdown: React.FC<Props> = (props) => {
     updatedQuestion.value = updatedQuestionValue
     return updatedQuestion
   }
+
+  useEffect(() => {
+    if (disabled === false && selected != null) {
+      dispatch(updateCertificateDataElement(getUpdatedValue(question, selected)))
+    }
+  }, [disabled, selected, question, dispatch])
 
   return (
     <>
@@ -44,7 +44,7 @@ const UeDropdown: React.FC<Props> = (props) => {
           </option>
         ))}
         disabled={disabled}
-        onChange={handleChange}
+        onChange={(event) => setSelected(event.currentTarget.value)}
         value={selected}
         hasValidationError={hasValidationError}
       />
