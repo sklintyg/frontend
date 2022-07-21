@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
+import { createPortal } from 'react-dom'
 
 const ModalContentWrapper = styled.div`
   p + p {
@@ -10,11 +11,6 @@ const ModalContentWrapper = styled.div`
 
 const WrapText = styled.div`
   white-space: normal;
-  z-index: 10;
-`
-
-const Backdrop = styled.div`
-  z-index: 5;
 `
 
 interface Props {
@@ -32,11 +28,16 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
     return null
   }
 
-  return (
-    <>
-      <FocusTrap active={open}>
-        <div tabIndex={0}>
-          <Backdrop className="ic-backdrop iu-lh-body" onClick={handleClose} />
+  const rootElement = document.getElementById('modalRoot')
+
+  if (!rootElement) {
+    return <></>
+  }
+
+  return createPortal(
+    <FocusTrap active={open}>
+      <div tabIndex={0}>
+        <div className="ic-backdrop iu-lh-body" onClick={handleClose}>
           <WrapText role="dialog" className={`ic-modal ${className}`} aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
               <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
@@ -56,8 +57,9 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
             <div className="ic-button-group ic-button-group--right">{buttons}</div>
           </WrapText>
         </div>
-      </FocusTrap>
-    </>
+      </div>
+    </FocusTrap>,
+    rootElement
   )
 }
 
