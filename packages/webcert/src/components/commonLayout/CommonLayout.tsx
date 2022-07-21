@@ -20,15 +20,18 @@ const NoFlexGrow = styled.div`
 interface Props {
   header?: React.ReactNode
   subHeader?: React.ReactNode
+  noPadding?: boolean
 }
 
-const CommonLayout: React.FC<Props> = ({ header, subHeader, children }) => {
+const CommonLayout: React.FC<Props> = ({ header, subHeader, children, noPadding = false }) => {
   return (
     <Root>
       <CustomTooltip placement="top" />
       {header && <NoFlexGrow>{header}</NoFlexGrow>}
       {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
-      <Content>{children}</Content>
+      <Content>
+        <div className={`ic-container ${noPadding === false && 'iu-pt-500'}`}>{children}</div>
+      </Content>
     </Root>
   )
 }
