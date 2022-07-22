@@ -33,7 +33,6 @@ const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): n
 }
 
 const CertificateBox = styled.div`
-  max-width: 75%;
   max-height: 32em;
   overflow-y: auto;
 `
@@ -117,7 +116,7 @@ const CertificateList: React.FC = () => {
   }
 
   return (
-    <div className="ic-container iu-mt-800 iu-flex">
+    <div className="iu-flex">
       <div className="iu-mr-gutter">
         <img src={fileIcon} alt="Ikon för skapa intyg" className="iu-height-600" />
       </div>

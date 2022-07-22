@@ -56,7 +56,8 @@ const CertificatePage: React.FC = () => {
             <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )
-      }>
+      }
+      noPadding={true}>
       {isCertificateDeleted ? (
         <CertificateDeletedHandler />
       ) : (

@@ -26,7 +26,7 @@ const PatientSearch: React.FC = () => {
     if (enterPress && isPersonIdValid(patientId)) {
       onSubmit()
     }
-  }, [enterPress, onSubmit])
+  }, [enterPress, onSubmit, patientId])
 
   const onChange = (formattedPatientId: string) => {
     dispatch(clearPatientError())
@@ -41,7 +41,7 @@ const PatientSearch: React.FC = () => {
   }
 
   return (
-    <div className="ic-container iu-p-400">
+    <>
       <h2>Patientens personnummer eller samordningsnummer</h2>
       <FormWrapper className="iu-mt-300">
         <PersonIdInput onFormattedChange={onChange} value={patientId} onFocus={onFocus} />
@@ -54,7 +54,7 @@ const PatientSearch: React.FC = () => {
         />
       </FormWrapper>
       <PatientSearchError />
-    </div>
+    </>
   )
 }
 export default PatientSearch
