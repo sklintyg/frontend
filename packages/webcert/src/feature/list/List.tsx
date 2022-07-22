@@ -11,8 +11,7 @@ import { ResourceLink } from '@frontend/common'
 import styled from 'styled-components/macro'
 
 const ContentWrapper = styled.div`
-  flex: 0 0 100%;
-  padding-right: 30px;
+  width: 100%;
 `
 
 interface Props {
@@ -106,8 +105,8 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
 
   return (
     <>
-      <div className="iu-flex iu-pt-500">
-        {icon && <img src={icon} className="iu-mr-gutter iu-height-600" />}
+      <div className="iu-flex">
+        {icon && <img src={icon} alt="" className="iu-mr-gutter iu-height-600" />}
         <ContentWrapper>
           <h3>{title}</h3>
           <ListFilterContainer config={config} filter={filter} />
