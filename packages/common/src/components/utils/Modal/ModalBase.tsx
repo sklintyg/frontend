@@ -25,15 +25,10 @@ interface Props {
 
 const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className }) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
-
-  if (!open) {
-    return null
-  }
-
   const rootElement = document.getElementById('modalRoot')
 
-  if (!rootElement) {
-    return <></>
+  if (!open || !rootElement) {
+    return null
   }
 
   return createPortal(
