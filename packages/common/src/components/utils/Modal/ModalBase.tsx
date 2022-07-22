@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
+import { createPortal } from 'react-dom'
 
 const ModalContentWrapper = styled.div`
   p + p {
@@ -10,11 +11,6 @@ const ModalContentWrapper = styled.div`
 
 const WrapText = styled.div`
   white-space: normal;
-  z-index: 10;
-`
-
-const Backdrop = styled.div`
-  z-index: 5;
 `
 
 interface Props {
@@ -28,15 +24,24 @@ interface Props {
 }
 
 const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className }) => {
-  if (!open) {
+  const backdropRef = useRef<HTMLDivElement | null>(null)
+  const rootElement = document.getElementById('modalRoot')
+
+  if (!open || !rootElement) {
     return null
   }
 
-  return (
-    <>
-      <FocusTrap active={open}>
-        <div tabIndex={0}>
-          <Backdrop className="ic-backdrop iu-lh-body" onClick={handleClose} />
+  return createPortal(
+    <FocusTrap active={open}>
+      <div tabIndex={0}>
+        <div
+          className="ic-backdrop iu-lh-body"
+          ref={backdropRef}
+          onClick={(event) => {
+            if (backdropRef.current === event.target) {
+              handleClose(event)
+            }
+          }}>
           <WrapText role="dialog" className={`ic-modal ${className}`} aria-labelledby="dialog-title" aria-modal="true">
             {enableCross && (
               <button type="button" aria-label="Close modal" onClick={handleClose} className="ic-modal__close ic-svg-icon">
@@ -56,8 +61,9 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
             <div className="ic-button-group ic-button-group--right">{buttons}</div>
           </WrapText>
         </div>
-      </FocusTrap>
-    </>
+      </div>
+    </FocusTrap>,
+    rootElement
   )
 }
 
