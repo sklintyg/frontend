@@ -7,19 +7,35 @@ interface Props {
   headings: string[]
   isLoadingContent?: boolean
   className: string
+  adjustColumnsToText?: boolean
 }
 
 const Caption = styled.caption`
   border-top: 0px !important;
 `
 
-const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className }) => {
+const NoWrap = styled.th`
+  width: 1%;
+  white-space: nowrap;
+`
+
+const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className, adjustColumnsToText }) => {
   const getTableHeadings = () => {
-    return headings.map((heading) => (
-      <th key={heading} scope="col" data-html>
-        {heading}
-      </th>
-    ))
+    return headings.map((heading, idx) => {
+      if (adjustColumnsToText && idx !== 0) {
+        return (
+          <NoWrap key={heading} scope="col" data-html>
+            {heading}
+          </NoWrap>
+        )
+      }
+
+      return (
+        <th key={heading} scope="col" data-html>
+          {heading}
+        </th>
+      )
+    })
   }
 
   return (
