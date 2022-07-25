@@ -13,8 +13,8 @@ import {
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import List from '../feature/list/List'
 import { getListConfig, performListSearch, updateActiveListType, updateHasUpdatedConfig, updateListConfig } from '../store/list/listActions'
-import { ImageCentered } from '@frontend/common/src'
-import { InfoBox, ListHeader } from '@frontend/common'
+import { ImageCentered, InfoBox, ListHeader } from '@frontend/common/src'
+
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -56,7 +56,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     if (hasUpdatedConfig) {
       dispatch(updateListConfig())
     }
-  }, [hasUpdatedConfig])
+  }, [dispatch, hasUpdatedConfig])
 
   useEffect(() => {
     dispatch(updateActiveListType(type))
@@ -68,7 +68,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       dispatch(performListSearch)
       dispatch(updateHasUpdatedConfig(false))
     }
-  }, [dispatch, config, isLoadingListConfig])
+  }, [dispatch, config, isLoadingListConfig, hasUpdatedConfig])
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
@@ -105,11 +105,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
 
   const getList = () => {
     if (error) {
-      return (
-        <div className="iu-pt-300">
-          <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
-        </div>
-      )
+      return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
     } else if (isListCompletelyEmpty()) {
       return (
         <ImageCentered imgSrc={getEmptyListIcon()} alt={'Det finns inga resultat i listan.'}>
@@ -132,7 +128,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   }
 
   if (excludePageSpecificElements) {
-    return <div className="ic-container">{getList()}</div>
+    return getList()
   }
 
   return (
@@ -150,7 +146,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
         </>
       }>
       <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-      <div className="ic-container">{getList()}</div>
+      {getList()}
     </CommonLayout>
   )
 }
