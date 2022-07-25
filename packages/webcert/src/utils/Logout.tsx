@@ -3,12 +3,11 @@ import { ResourceLink, User } from '@frontend/common'
 import { LoginMethod } from '@frontend/common/src/types/user'
 
 interface Props {
-  className: string
   link: ResourceLink
   user: User | null
 }
 
-const Logout: React.FC<Props> = ({ className, link, user }) => {
+const Logout: React.FC<Props> = ({ link, user }) => {
   if (!link) {
     return null
   }
@@ -22,7 +21,7 @@ const Logout: React.FC<Props> = ({ className, link, user }) => {
   }
 
   return (
-    <a target="_self" href={getLogoutPath()} className={className}>
+    <a target="_self" href={getLogoutPath()}>
       {link.name}
     </a>
   )
