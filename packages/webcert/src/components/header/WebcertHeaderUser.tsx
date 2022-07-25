@@ -1,9 +1,8 @@
 import React from 'react'
-import { AppHeaderUser, ExpandableBox, ResourceLinkType } from '@frontend/common'
+import { AppHeaderUser, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
-import { User } from '@frontend/common/src'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
 import userImage from '@frontend/common/src/images/user-image.svg'
 import lock from '@frontend/common/src/images/lock-closed.svg'
@@ -15,13 +14,22 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
+const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const UserRole = styled.span`
+  font-style: italic;
+  white-space: nowrap;
+`
+
 const WebcertHeaderUser: React.FC = () => {
   const user = useSelector(getUser, shallowEqual)
   const userLinks = useSelector(getUserResourceLinks)
   const { ppHost } = useSelector(getConfig)
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
-
   const privatePractitionerPortal = userLinks?.find((link) => link.type === ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL)
 
   const goToPrivatePractitionerPortal = () => {
@@ -31,10 +39,18 @@ const WebcertHeaderUser: React.FC = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <p>
-          {user.name} - {user.role}{' '}
-        </p>
-        {user.protectedPerson && <ProtectedPersonDoctorModal />}
+        <UserWrapper>
+          <span>{user.name}</span>
+          <UserRole>
+            {user.role}
+            {user.protectedPerson && (
+              <>
+                {' - '} <ProtectedPersonDoctorModal />
+              </>
+            )}
+          </UserRole>
+        </UserWrapper>
+
         {privatePractitionerPortal && (
           <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} />
         )}

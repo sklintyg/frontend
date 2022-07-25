@@ -9,6 +9,17 @@ const HeaderInner = styled.div`
   padding: 15px 0;
 `
 
+const SecondaryList = styled.ul`
+  gap: 0.625rem;
+`
+
+const SecondaryListItem = styled.li`
+  :not(:last-child) {
+    border-right: 1px solid #01a5a3;
+    padding-right: 0.625rem;
+  }
+`
+
 export interface Props {
   title?: React.ReactNode
   primaryItems?: React.ReactNode[]
@@ -26,7 +37,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
   }
 
   const getSecondary = () => {
-    return secondaryItems?.map((item, index) => <li key={index}>{item}</li>)
+    return secondaryItems?.map((item, index) => <SecondaryListItem key={index}>{item}</SecondaryListItem>)
   }
 
   return (
@@ -39,7 +50,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           <div className="ic-page-header__item iu-mr-900 iu-lh-narrow">
             {getPrimary()}
             <nav aria-label="Användarmeny">
-              <ul className="ic-link-list--nav iu-mx-400">{getSecondary()}</ul>
+              <SecondaryList className="ic-link-list--nav iu-ml-400">{getSecondary()}</SecondaryList>
             </nav>
           </div>
         </HeaderInner>
