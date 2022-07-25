@@ -20,9 +20,10 @@ const Wrapper = styled.nav`
 export interface Props {
   tabs: UserTab[]
   onSwitchTab?: () => void
+  switchTab?: number
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
+const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, switchTab }) => {
   const history = useHistory()
   const match = useRouteMatch()
   const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
@@ -33,6 +34,12 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
       handleClick(focusedTab)
     }
   }, [enterPress])
+
+  useEffect(() => {
+    if (switchTab !== undefined && switchTab >= 0) {
+      handleClick(tabs[switchTab])
+    }
+  }, [switchTab])
 
   if (!tabs || tabs.length === 0) {
     return null

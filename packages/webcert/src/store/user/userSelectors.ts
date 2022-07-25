@@ -32,3 +32,5 @@ export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState
   state.ui.uiUser.userStatistics?.totalDraftsAndUnhandledQuestionsOnOtherUnits
 
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
+
+export const getSwitchTab = (state: RootState): number => state.ui.uiUser.switchTab
