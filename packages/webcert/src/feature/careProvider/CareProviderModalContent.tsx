@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUnitStatistics as selectUnitStatistics, getUser, isCareAdministrator, isDoctor } from '../../store/user/userSelectors'
-import { setUnit, updateSwitchTab } from '../../store/user/userActions'
+import { setUnit, setActiveTab } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import styled from 'styled-components'
 
@@ -22,7 +22,7 @@ export const CareProviderModalContent: React.FC = () => {
   const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
-    dispatch(updateSwitchTab(0))
+    dispatch(setActiveTab(0))
     dispatch(setUnit(unitId))
   }
 

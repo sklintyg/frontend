@@ -28,11 +28,11 @@ export interface Props {
   alt?: string
   banners?: React.ReactNode[]
   tabs?: UserTab[]
-  onSwitchTab?: () => void
-  switchTab?: number
+  onSwitchTab?: (tab: number) => void
+  activeTab?: number
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs = [], onSwitchTab, switchTab }) => {
+const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs = [], onSwitchTab, activeTab }) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
@@ -55,7 +55,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
             </nav>
           </div>
         </HeaderInner>
-        <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} switchTab={switchTab} />
+        <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} activeTab={activeTab} />
       </header>
     </>
   )

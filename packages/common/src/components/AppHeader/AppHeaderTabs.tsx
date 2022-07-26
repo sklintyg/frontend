@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import NumberCircle from '../utils/NumberCircle'
 import classNames from 'classnames'
-import { useKeyPress } from '../../utils/userFunctionUtils'
 
 const Wrapper = styled.nav`
   button {
@@ -19,27 +18,19 @@ const Wrapper = styled.nav`
 
 export interface Props {
   tabs: UserTab[]
-  onSwitchTab?: () => void
-  switchTab?: number
+  onSwitchTab?: (tab: number) => void
+  activeTab?: number
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, switchTab }) => {
+const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
   const history = useHistory()
   const match = useRouteMatch()
-  const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
-  const enterPress = useKeyPress('Enter')
 
   useEffect(() => {
-    if (focusedTab) {
-      handleClick(focusedTab)
+    if (activeTab !== undefined && activeTab >= 0) {
+      switchTab(tabs[activeTab])
     }
-  }, [enterPress])
-
-  useEffect(() => {
-    if (switchTab !== undefined && switchTab >= 0) {
-      handleClick(tabs[switchTab])
-    }
-  }, [switchTab])
+  }, [activeTab])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -49,17 +40,18 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, switchTab }) => {
     return match.url.includes(tab.url) || tab.matchedUrls.some((url) => match.url.startsWith(url))
   }
 
-  const handleClick = (tab: UserTab) => {
+  const switchTab = (tab: UserTab) => {
     if (match.url !== tab.url) {
       if (onSwitchTab) {
-        onSwitchTab()
+        onSwitchTab(tabs.findIndex((t) => t === tab))
       }
       history.push(tab.url)
     }
   }
 
-  const handleFocus = (tab: UserTab) => {
-    setFocusedTab(tab)
+  const clickHandler = (event: React.MouseEvent, tab: UserTab) => {
+    event.preventDefault()
+    switchTab(tab)
   }
 
   const getTabs = () => {
@@ -67,10 +59,9 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, switchTab }) => {
       return (
         <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
           <a
-            tabIndex={0}
             className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
-            onFocus={() => handleFocus(tab)}
-            onClick={() => handleClick(tab)}>
+            onClick={(event) => clickHandler(event, tab)}
+            href="#">
             <span>{tab.title}</span>
             {!!tab.number && <NumberCircle number={tab.number} style="secondary" />}
           </a>

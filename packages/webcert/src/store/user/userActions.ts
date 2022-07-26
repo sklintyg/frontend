@@ -57,4 +57,4 @@ export const updateIsLoadingUserStatistics = createAction<boolean>(`${USER} Upda
 
 export const updateIsCareProviderModalOpen = createAction<boolean>(`${USER} Update is care provider modal open`)
 
-export const updateSwitchTab = createAction<number>(`${USER} Update switch tab`)
+export const setActiveTab = createAction<number>(`${USER} Set active tab`)
