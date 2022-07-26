@@ -30,7 +30,7 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
     if (activeTab !== undefined && activeTab >= 0) {
       switchTab(tabs[activeTab])
     }
-  }, [activeTab])
+  })
 
   if (!tabs || tabs.length === 0) {
     return null
