@@ -2,12 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Spinner } from '../index'
 
+interface Headings {
+  title: string
+  adjustCellToText: boolean
+}
+
 interface Props {
   caption?: string
-  headings: string[]
+  headings: Headings[]
   isLoadingContent?: boolean
   className: string
-  adjustColumnsToText?: boolean
 }
 
 const Caption = styled.caption`
@@ -19,20 +23,20 @@ const NoWrap = styled.th`
   white-space: nowrap;
 `
 
-const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className, adjustColumnsToText }) => {
+const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className }) => {
   const getTableHeadings = () => {
-    return headings.map((heading, idx) => {
-      if (adjustColumnsToText && idx !== 0) {
+    return headings.map((heading) => {
+      if (heading.adjustCellToText) {
         return (
-          <NoWrap key={heading} scope="col" data-html>
-            {heading}
+          <NoWrap key={heading.title} scope="col" data-html>
+            {heading.title}
           </NoWrap>
         )
       }
 
       return (
-        <th key={heading} scope="col" data-html>
-          {heading}
+        <th key={heading.title} scope="col" data-html>
+          {heading.title}
         </th>
       )
     })

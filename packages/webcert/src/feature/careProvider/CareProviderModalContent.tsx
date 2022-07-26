@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUnitStatistics as selectUnitStatistics, getUser, isCareAdministrator, isDoctor } from '../../store/user/userSelectors'
+import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
 import { setUnit, setActiveTab } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import styled from 'styled-components'
@@ -93,10 +93,13 @@ export const CareProviderModalContent: React.FC = () => {
       {user?.careProviders.map((careProvider) => {
         return (
           <SimpleTable
-            headings={[careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']}
+            headings={[
+              { title: careProvider.name, adjustCellToText: false },
+              { title: 'Ej hanterade ärenden', adjustCellToText: true },
+              { title: 'Ej signerade utkast', adjustCellToText: true },
+            ]}
             key={careProvider.id}
-            className="iu-mb-800"
-            adjustColumnsToText>
+            className="iu-mb-800">
             {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}
           </SimpleTable>
         )
