@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
-import { useHistory, useRouteMatch } from 'react-router-dom'
-import NumberCircle from '../utils/NumberCircle'
+import { Link, useRouteMatch } from 'react-router-dom'
+import { NumberCircle } from '../utils/NumberCircle'
 import classNames from 'classnames'
 
 const Wrapper = styled.nav`
@@ -23,14 +23,24 @@ export interface Props {
 }
 
 const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
-  const history = useHistory()
   const match = useRouteMatch()
+
+  const switchTab = useCallback(
+    (tab: UserTab) => {
+      if (match.url !== tab.url) {
+        if (onSwitchTab) {
+          onSwitchTab(tabs.findIndex((t) => t === tab))
+        }
+      }
+    },
+    [match.url, onSwitchTab, tabs]
+  )
 
   useEffect(() => {
     if (activeTab !== undefined && activeTab >= 0) {
       switchTab(tabs[activeTab])
     }
-  })
+  }, [activeTab, tabs, switchTab])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -40,31 +50,17 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
     return match.url.includes(tab.url) || tab.matchedUrls.some((url) => match.url.startsWith(url))
   }
 
-  const switchTab = (tab: UserTab) => {
-    if (match.url !== tab.url) {
-      if (onSwitchTab) {
-        onSwitchTab(tabs.findIndex((t) => t === tab))
-      }
-      history.push(tab.url)
-    }
-  }
-
-  const clickHandler = (event: React.MouseEvent, tab: UserTab) => {
-    event.preventDefault()
-    switchTab(tab)
-  }
-
   const getTabs = () => {
     return tabs.map((tab, index) => {
       return (
         <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
-          <a
+          <Link
+            to={tab.url}
             className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
-            onClick={(event) => clickHandler(event, tab)}
-            href="#">
+            onClick={() => switchTab(tab)}>
             <span>{tab.title}</span>
-            {!!tab.number && <NumberCircle number={tab.number} style="secondary" />}
-          </a>
+            {!!tab.number && <NumberCircle number={tab.number} type="secondary" />}
+          </Link>
         </li>
       )
     })
