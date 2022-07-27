@@ -30,6 +30,7 @@ const ExpandedDiv = styled.div`
 `
 const RelativeDiv = styled.div`
   position: relative;
+  flex-shrink: 0;
 `
 
 interface Props {
