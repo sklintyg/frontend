@@ -17,12 +17,16 @@ const Logo = styled.img`
   height: 30px;
 `
 
+const LogoWrapper = styled.div`
+  flex-shrink: 0;
+`
+
 const AppHeaderImageWithText: React.FC<Props> = ({ image, items, alt }) => {
   return (
     <>
-      <div className="iu-mr-300 iu-ml-400">
+      <LogoWrapper className="iu-mr-300 iu-ml-400">
         <Logo src={image} className={'iu-mr-200'} alt={alt} />
-      </div>
+      </LogoWrapper>
       <Wrapper className="iu-lh-narrow">
         <div className="">{items}</div>
       </Wrapper>
