@@ -24,7 +24,7 @@ const SecondaryListItem = styled.li`
   }
 `
 
-const Wrapper = styled.div`
+const UserMenu = styled.div`
   align-items: stretch;
 `
 
@@ -56,12 +56,12 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
         <HeaderInner className="ic-page-header__inner">
           {title && title}
           {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
-          <Wrapper className="ic-page-header__item iu-mr-900 iu-lh-narrow">
+          <UserMenu className="ic-page-header__item iu-mr-900 iu-lh-narrow">
             {getPrimary()}
             <nav aria-label="Användarmeny">
               <SecondaryList className="ic-link-list--nav iu-ml-400">{getSecondary()}</SecondaryList>
             </nav>
-          </Wrapper>
+          </UserMenu>
         </HeaderInner>
         <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} activeTab={activeTab} />
       </header>
