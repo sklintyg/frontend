@@ -5,8 +5,9 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
-import { getUserStatistics, setUnit, triggerLogout, updateInactivateAutomaticLogout } from './userActions'
-import { getUser, getUserStatistics as statistics, UnitStatistic, UnitStatistics, UserStatistics } from '@frontend/common'
+import { getUserStatistics, setUnit, triggerLogout, updateInactivateAutomaticLogout, updateIsCareProviderModalOpen } from './userActions'
+import { getUser, getUserStatistics as statistics } from '@frontend/common'
+import { stopPoll } from '../session/sessionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -25,6 +26,13 @@ describe('Test user middleware', () => {
 
   afterEach(() => {
     clearDispatchedActions()
+  })
+
+  it('should close care provider modal when user is logged ut because of inactivity', () => {
+    testStore.dispatch(updateIsCareProviderModalOpen(true))
+    testStore.dispatch(stopPoll())
+
+    expect(testStore.getState().ui.uiUser.isCareProviderModalOpen).toBeFalsy()
   })
 
   describe('Handle TriggerLogout', () => {

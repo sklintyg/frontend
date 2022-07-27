@@ -12,13 +12,13 @@ const Wrapper = styled.span`
 
 interface Props {
   number: number | string
-  style: 'primary' | 'secondary'
+  type: 'primary' | 'secondary'
   className?: string
 }
 
-export const NumberCircle: React.FC<Props> = ({ number, style, className }) => {
+export const NumberCircle: React.FC<Props> = ({ number, type, className }) => {
   return (
-    <Wrapper className={`${className} ${style === 'secondary' ? 'ic-button iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}`}>
+    <Wrapper className={`${className} ${type === 'secondary' ? 'ic-button iu-bg-main iu-color-white' : 'iu-bg-white iu-color-main'}`}>
       {number}
     </Wrapper>
   )

@@ -35,6 +35,7 @@ import {
   updateUserStatistics,
 } from './userActions'
 import { startSignCertificate } from '../certificate/certificateActions'
+import { stopPoll } from '../session/sessionActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -175,6 +176,10 @@ const handleSetUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateIsCareProviderModalOpen(false))
 }
 
+const handleStopPoll: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+  dispatch(updateIsCareProviderModalOpen(false))
+}
+
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -191,6 +196,7 @@ const middlewareMethods = {
   [getUserStatisticsSuccess.type]: handleGetUserStatisticsSuccess,
   [setUnit.type]: handleSetUnit,
   [setUnitSuccess.type]: handleSetUnitSuccess,
+  [stopPoll.type]: handleStopPoll,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

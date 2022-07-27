@@ -1,12 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
-import { setUnit } from '../../store/user/userActions'
+import { setUnit, setActiveTab } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import styled from 'styled-components'
 
-const NoWrap = styled.td`
-  white-space: nowrap;
+const StyledButton = styled.button<{ careUnitHasUnits: boolean }>`
+  text-indent: ${(props) => (props.careUnitHasUnits ? '18px' : '0px')};
 `
 
 export const CareProviderModalContent: React.FC = () => {
@@ -16,12 +16,13 @@ export const CareProviderModalContent: React.FC = () => {
 
   const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit = 0, careUnit?: CareUnit) => {
     const showTotal = careUnit && careUnit?.units.length > 0 && amountOnOtherUnit > 0
-    return `${amountOnUnit} ${showTotal ? `(total ${amountOnUnit + amountOnOtherUnit})` : ''}`
+    return `${amountOnUnit} ${showTotal ? `(totalt ${amountOnUnit + amountOnOtherUnit})` : ''}`
   }
 
   const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
+    dispatch(setActiveTab(0))
     dispatch(setUnit(unitId))
   }
 
@@ -32,11 +33,11 @@ export const CareProviderModalContent: React.FC = () => {
 
       return (
         <tr key={unit.unitId}>
-          <NoWrap>
+          <td>
             <button className="ic-link iu-ml-700 iu-text-left" type="button" id={unit.unitId} onClick={handleChooseUnit}>
               {unit.unitName}
             </button>
-          </NoWrap>
+          </td>
           <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
           <td>{getUnitStatisticsLiteral(draftsOnUnit)}</td>
         </tr>
@@ -55,9 +56,9 @@ export const CareProviderModalContent: React.FC = () => {
 
   const renderRows = (careUnit: CareUnit) => {
     const statistics = getStatistics(careUnit.unitId)
-    const isRowExpandable = careUnit.units.length > 0
+    const careUnitHasUnits = careUnit.units.length > 0
 
-    return isRowExpandable ? (
+    return careUnitHasUnits ? (
       <ExpandableTableRow
         rowContent={[
           careUnit.unitName,
@@ -71,11 +72,16 @@ export const CareProviderModalContent: React.FC = () => {
       </ExpandableTableRow>
     ) : (
       <tr key={careUnit.unitId}>
-        <NoWrap>
-          <button className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
+        <td>
+          <StyledButton
+            careUnitHasUnits={careUnitHasUnits}
+            className="ic-link iu-text-left"
+            type="button"
+            id={careUnit.unitId}
+            onClick={handleChooseUnit}>
             {careUnit.unitName}
-          </button>
-        </NoWrap>
+          </StyledButton>
+        </td>
         <td>{getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit)}</td>
         <td>{getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit)}</td>
       </tr>
@@ -87,7 +93,11 @@ export const CareProviderModalContent: React.FC = () => {
       {user?.careProviders.map((careProvider) => {
         return (
           <SimpleTable
-            headings={[careProvider.name, 'Ej hanterade ärenden', 'Ej signerade utkast']}
+            headings={[
+              { title: careProvider.name, adjustCellToText: false },
+              { title: 'Ej hanterade ärenden', adjustCellToText: true },
+              { title: 'Ej signerade utkast', adjustCellToText: true },
+            ]}
             key={careProvider.id}
             className="iu-mb-800">
             {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}

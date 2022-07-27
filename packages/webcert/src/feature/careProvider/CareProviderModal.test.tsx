@@ -64,14 +64,25 @@ describe('Care provider modal', () => {
     expect(text).not.toBeInTheDocument()
   })
 
-  it('should show button to close modal if resource link for change unit exists', () => {
-    testStore.dispatch(updateUser(getUser()))
-    testStore.dispatch(updateUserStatistics(getUserStatistics()))
-    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
-    testStore.dispatch(updateIsCareProviderModalOpen(true))
+  describe('Tests with user and open care provider modal', () => {
+    beforeEach(() => {
+      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUserStatistics(getUserStatistics()))
+      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+      testStore.dispatch(updateIsCareProviderModalOpen(true))
+    })
 
-    renderComponent()
-    expect(screen.getByText('Avbryt')).toBeInTheDocument()
+    it('should show button to close modal if resource link for change unit exists', () => {
+      renderComponent()
+      expect(screen.getByText('Avbryt')).toBeInTheDocument()
+    })
+
+    it('should set active tab to 0 when choosing unit', () => {
+      renderComponent()
+
+      userEvent.click(screen.getByText('Care unit'))
+      expect(testStore.getState().ui.uiUser.activeTab).toBe(0)
+    })
   })
 
   describe('Tests with no logged in unit', () => {
