@@ -1,15 +1,18 @@
-import { createReducer } from '@reduxjs/toolkit'
 import {
   Certificate,
+  CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
   Complement,
   ConfigTypes,
+  ValidationError,
   ValueBoolean,
   ValueCode,
   ValueText,
 } from '@frontend/common'
+import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
+import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
   clearGotoCertificateDataElement,
@@ -52,8 +55,7 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataElementStyleEnum, ValidationError } from '@frontend/common/src'
+
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface CertificateState {
@@ -110,17 +112,19 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
 
         if (question.value) {
           switch (question.value.type) {
-            case CertificateDataValueType.TEXT:
+            case CertificateDataValueType.TEXT: {
               const textValue = question.value as ValueText
               if (textValue.text === undefined) {
                 textValue['text'] = ''
               }
               break
-            case CertificateDataValueType.BOOLEAN:
+            }
+            case CertificateDataValueType.BOOLEAN: {
               const booleanValue = question.value as ValueBoolean
               if (booleanValue.selected === undefined) {
                 booleanValue['selected'] = null
               }
+            }
           }
         }
       }

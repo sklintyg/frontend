@@ -1,5 +1,16 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateDataValidationType,
+  CertificateStatus,
+  getCertificateToSave,
+  SigningMethod,
+  ValidationError,
+} from '@frontend/common'
+import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { apiCallBegan, apiGenericError } from '../api/apiActions'
 import {
   addClientValidationError,
   answerComplementCertificate,
@@ -107,13 +118,10 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
-import { apiCallBegan, apiGenericError } from '../api/apiActions'
-import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
-import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataValidationType, ValidationError } from '@frontend/common/src'
-import { gotoComplement, updateComplements } from '../question/questionActions'
-import { throwError } from '../error/errorActions'
+
 import _ from 'lodash'
+import { throwError } from '../error/errorActions'
+import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 
@@ -190,7 +198,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
   dispatch(deleteCertificateCompleted())
 }
 
-const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Vidarebefodrar...'))
 
   dispatch(
@@ -263,7 +271,8 @@ const handleSendCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
 
 const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const certificate: Certificate = getState().ui.uiCertificate.certificate
-  for (const questionId in certificate.data) {
+
+  for (const questionId in certificate?.data) {
     if (
       (certificate.data[questionId].visible &&
         certificate.data[questionId].validationErrors &&
@@ -273,6 +282,11 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
       dispatch(showValidationErrors())
       return
     }
+  }
+
+  if (certificate?.metadata?.careUnitValidationErrors != null && certificate.metadata.careUnitValidationErrors.length > 0) {
+    dispatch(showValidationErrors())
+    return
   }
 
   const signingMethod = getState().ui.uiUser.user.signingMethod
@@ -798,8 +812,7 @@ const middlewareMethods = {
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
-
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (middlewareMethods != null && Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }
