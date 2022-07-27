@@ -55,7 +55,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const onSwitchTab = (tab: number) => {
     dispatch(resetPatientState())
     dispatch(resetListState())
-    dispatch(setActiveTab(tab))
+    dispatch(setActiveTab(-1))
   }
 
   return (

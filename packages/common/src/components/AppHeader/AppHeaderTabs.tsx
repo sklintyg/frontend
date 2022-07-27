@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { NumberCircle } from '../utils/NumberCircle'
 import classNames from 'classnames'
 
@@ -23,6 +23,7 @@ export interface Props {
 }
 
 const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
+  const history = useHistory()
   const match = useRouteMatch()
 
   const switchTab = useCallback(
@@ -38,9 +39,14 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
 
   useEffect(() => {
     if (activeTab !== undefined && activeTab >= 0) {
-      switchTab(tabs[activeTab])
+      const tab = tabs[activeTab]
+
+      switchTab(tab)
+      if (match.url !== tab.url) {
+        history.push(tab.url)
+      }
     }
-  }, [activeTab, tabs, switchTab])
+  }, [activeTab, tabs, switchTab, history, match.url])
 
   if (!tabs || tabs.length === 0) {
     return null
