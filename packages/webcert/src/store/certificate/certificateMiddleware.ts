@@ -108,9 +108,17 @@ import {
   validateCertificateSuccess,
 } from './certificateActions'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
-import { Certificate, CertificateDataElement, CertificateStatus, getCertificateToSave, SigningMethod } from '@frontend/common'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateStatus,
+  getCertificateToSave,
+  SigningMethod,
+  CertificateDataValidationType,
+  ValidationError,
+} from '@frontend/common'
 import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import { CertificateDataValidationType, ValidationError } from '@frontend/common/src'
+
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { throwError } from '../error/errorActions'
 import _ from 'lodash'
@@ -273,6 +281,11 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
       dispatch(showValidationErrors())
       return
     }
+  }
+
+  if (certificate?.metadata?.careUnitValidationErrors != null && certificate.metadata.careUnitValidationErrors.length > 0) {
+    dispatch(showValidationErrors())
+    return
   }
 
   const signingMethod = getState().ui.uiUser.user.signingMethod
@@ -798,8 +811,7 @@ const middlewareMethods = {
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
-
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }
