@@ -1,7 +1,9 @@
-import MockAdapter from 'axios-mock-adapter'
 import {
   Certificate,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
+  CertificateDataValidationType,
+  CertificateDataValueType,
   CertificateMetadata,
   CertificateRelation,
   CertificateRelations,
@@ -9,11 +11,15 @@ import {
   CertificateStatus,
   ConfigTypes,
   SigningMethod,
+  ValidationError,
 } from '@frontend/common'
-import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { apiMiddleware } from '../api/apiMiddleware'
 import reducer from '../reducers'
-import apiMiddleware from '../api/apiMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { updateUser } from '../user/userActions'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
@@ -27,7 +33,6 @@ import {
   CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
-  GetCertificateSuccess,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
@@ -35,18 +40,12 @@ import {
   startSignCertificate,
   updateCertificate,
   updateClientValidationError,
+  updateValidationErrors,
   validateCertificate,
   validateCertificateInFrontEnd,
 } from './certificateActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { certificateMiddleware } from './certificateMiddleware'
-import { updateUser } from '../user/userActions'
-import {
-  CertificateDataElementStyleEnum,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ValidationError,
-} from '@frontend/common/src'
+
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 
@@ -481,6 +480,35 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: true }))
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
       expect(testStore.getState().ui.uiCertificate.clientValidationErrors[0].type).toEqual('ERROR')
+    })
+  })
+
+  describe('Handle sign certificate', () => {
+    const validationError: ValidationError = {
+      type: 'ERROR',
+      text: 'test',
+      field: 'field',
+      id: '0',
+      category: 'category',
+    }
+
+    it('should halt and display validation errors', () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
+
+      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(false)
+      testStore.dispatch(startSignCertificate())
+      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
+    })
+
+    it('should halt and display careUnitValidationErrors', () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(updateValidationErrors([{ category: 'vardenhet', field: 'field', text: 'text', type: 'EMPTY', id: '1' }]))
+
+      testStore.dispatch(startSignCertificate())
+      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
     })
   })
 

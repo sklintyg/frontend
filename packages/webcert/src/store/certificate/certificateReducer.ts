@@ -1,17 +1,18 @@
-import { createReducer } from '@reduxjs/toolkit'
 import {
   Certificate,
+  CertificateDataElementStyleEnum,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
   Complement,
   ConfigTypes,
+  ValidationError,
   ValueBoolean,
   ValueCode,
   ValueText,
-  CertificateDataElementStyleEnum,
-  ValidationError,
 } from '@frontend/common'
+import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
+import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
   clearGotoCertificateDataElement,
@@ -54,7 +55,6 @@ import {
   validateCertificateCompleted,
   validateCertificateStarted,
 } from './certificateActions'
-import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
