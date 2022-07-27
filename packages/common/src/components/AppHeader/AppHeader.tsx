@@ -10,14 +10,22 @@ const HeaderInner = styled.div`
 `
 
 const SecondaryList = styled.ul`
+  height: 100%;
   gap: 0.625rem;
 `
 
 const SecondaryListItem = styled.li`
+  display: flex;
+  align-items: center;
+
   :not(:last-child) {
     border-right: 1px solid #01a5a3;
     padding-right: 0.625rem;
   }
+`
+
+const Wrapper = styled.div`
+  align-items: stretch;
 `
 
 export interface Props {
@@ -48,12 +56,12 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
         <HeaderInner className="ic-page-header__inner">
           {title && title}
           {logo && <AppHeaderTitle imgSrc={logo} alt={alt} />}
-          <div className="ic-page-header__item iu-mr-900 iu-lh-narrow">
+          <Wrapper className="ic-page-header__item iu-mr-900 iu-lh-narrow">
             {getPrimary()}
             <nav aria-label="Användarmeny">
               <SecondaryList className="ic-link-list--nav iu-ml-400">{getSecondary()}</SecondaryList>
             </nav>
-          </div>
+          </Wrapper>
         </HeaderInner>
         <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} activeTab={activeTab} />
       </header>
