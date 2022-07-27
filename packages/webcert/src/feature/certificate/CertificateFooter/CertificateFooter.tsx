@@ -8,7 +8,7 @@ import {
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
-import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
+import ForwardCertificateButton, { ForwardType } from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
 import styled from 'styled-components/macro'
 import _ from 'lodash'
@@ -62,6 +62,7 @@ export const CertificateFooter: React.FC = () => {
             forwarded={certificateMetadata.forwarded}
             functionDisabled={functionDisabled}
             {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
+            type={ForwardType.DRAFT}
           />
           {certificateMetadata.forwarded && (
             <StatusWithIcon icon="CheckIcon" additionalWrapperStyles={'iu-ml-400'}>
