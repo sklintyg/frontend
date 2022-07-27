@@ -4,6 +4,7 @@ import {
   updateIsCareProviderModalOpen,
   updateIsLoadingUser,
   updateIsLoadingUserStatistics,
+  setActiveTab,
   updateUser,
   updateUserPreference,
   updateUserResourceLinks,
@@ -19,6 +20,7 @@ interface UserState {
   userStatistics?: UserStatistics
   isLoadingUserStatistics: boolean
   isCareProviderModalOpen: boolean
+  activeTab: number
 }
 
 const initialState: UserState = {
@@ -29,6 +31,7 @@ const initialState: UserState = {
   userStatistics: undefined,
   isLoadingUserStatistics: false,
   isCareProviderModalOpen: false,
+  activeTab: -1,
 }
 
 const userReducer = createReducer(initialState, (builder) =>
@@ -64,6 +67,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsCareProviderModalOpen, (state, action) => {
       state.isCareProviderModalOpen = action.payload
+    })
+    .addCase(setActiveTab, (state, action) => {
+      state.activeTab = action.payload
     })
 )
 

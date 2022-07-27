@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
-import { useHistory, useRouteMatch } from 'react-router-dom'
-import NumberCircle from '../utils/NumberCircle'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
+import { NumberCircle } from '../utils/NumberCircle'
 import classNames from 'classnames'
-import { useKeyPress } from '../../utils/userFunctionUtils'
 
 const Wrapper = styled.nav`
   button {
@@ -19,20 +18,35 @@ const Wrapper = styled.nav`
 
 export interface Props {
   tabs: UserTab[]
-  onSwitchTab?: () => void
+  onSwitchTab?: (tab: number) => void
+  activeTab?: number
 }
 
-const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
+const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab, activeTab }) => {
   const history = useHistory()
   const match = useRouteMatch()
-  const [focusedTab, setFocusedTab] = useState<UserTab | null>(null)
-  const enterPress = useKeyPress('Enter')
+
+  const switchTab = useCallback(
+    (tab: UserTab) => {
+      if (match.url !== tab.url) {
+        if (onSwitchTab) {
+          onSwitchTab(tabs.findIndex((t) => t === tab))
+        }
+      }
+    },
+    [match.url, onSwitchTab, tabs]
+  )
 
   useEffect(() => {
-    if (focusedTab) {
-      handleClick(focusedTab)
+    if (activeTab !== undefined && activeTab >= 0) {
+      const tab = tabs[activeTab]
+
+      switchTab(tab)
+      if (match.url !== tab.url) {
+        history.push(tab.url)
+      }
     }
-  }, [enterPress])
+  }, [activeTab, tabs, switchTab, history, match.url])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -42,31 +56,17 @@ const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
     return match.url.includes(tab.url) || tab.matchedUrls.some((url) => match.url.startsWith(url))
   }
 
-  const handleClick = (tab: UserTab) => {
-    if (match.url !== tab.url) {
-      if (onSwitchTab) {
-        onSwitchTab()
-      }
-      history.push(tab.url)
-    }
-  }
-
-  const handleFocus = (tab: UserTab) => {
-    setFocusedTab(tab)
-  }
-
   const getTabs = () => {
     return tabs.map((tab, index) => {
       return (
         <li className="ic-topnav__item iu-display-flex" key={'tab-' + index}>
-          <a
-            tabIndex={0}
+          <Link
+            to={tab.url}
             className={classNames('tab_link ic-topnav__link iu-fs-400 iu-py-100 iu-mb-200', { selected: isSelectedTab(tab) })}
-            onFocus={() => handleFocus(tab)}
-            onClick={() => handleClick(tab)}>
+            onClick={() => switchTab(tab)}>
             <span>{tab.title}</span>
-            {!!tab.number && <NumberCircle number={tab.number} style="secondary" />}
-          </a>
+            {!!tab.number && <NumberCircle number={tab.number} type="secondary" />}
+          </Link>
         </li>
       )
     })
