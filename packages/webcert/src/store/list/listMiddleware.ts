@@ -1,6 +1,9 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { getListFilterDefaultValue } from '../../feature/list/listUtils'
 import { apiCallBegan } from '../api/apiActions'
+import { forwardCertificateSuccess } from '../certificate/certificateActions'
 import {
   clearActiveList,
   clearActiveListConfig,
@@ -46,16 +49,13 @@ import {
   updateIsLoadingList,
   updateIsLoadingListConfig,
   updateIsSortingList,
-  updateListItemAsForwarded,
   updateListConfig,
   updateListConfigStarted,
   updateListConfigSuccess,
+  updateListItemAsForwarded,
   updateQuestionListConfig,
   updateTotalCount,
 } from './listActions'
-import { ListFilterConfig, ListType } from '@frontend/common/src/types/list'
-import { getListFilterDefaultValue } from '../../feature/list/listUtils'
-import { forwardCertificateSuccess } from '../certificate/certificateActions'
 
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
@@ -317,7 +317,7 @@ const middlewareMethods = {
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

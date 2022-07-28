@@ -1,10 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import UeDiagnoses from './UeDiagnoses'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import * as redux from 'react-redux'
 import DiagnosisValidation from './DiagnosisValidation'
 import { ValidationError } from '@frontend/common/src'
 

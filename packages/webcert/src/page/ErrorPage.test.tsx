@@ -10,7 +10,6 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
-import { LOGIN_FAILED_MESSAGE, LOGIN_FAILED_TITLE } from '../components/error/errorPageContent/LoginFailed'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()

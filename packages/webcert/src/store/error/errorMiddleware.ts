@@ -1,10 +1,10 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { setActiveCertificateId, setError, throwError } from './errorActions'
-import { ErrorData, ErrorLogRequest, ErrorType } from './errorReducer'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { uuidv4 } from '../../components/error/modals/errorUtils'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
-import { uuidv4 } from '../../components/error/modals/errorUtils'
+import { setActiveCertificateId, setError, throwError } from './errorActions'
+import { ErrorData, ErrorLogRequest, ErrorType } from './errorReducer'
 
 const handleThrowError: Middleware<Dispatch> = ({ dispatch, getState }) => () => (action: AnyAction): void => {
   if (!throwError.match(action)) {
@@ -51,7 +51,7 @@ const middlewareMethods = {
 export const errorMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

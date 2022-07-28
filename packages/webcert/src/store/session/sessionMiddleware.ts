@@ -1,5 +1,9 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { apiCallBegan } from '../api/apiActions'
+import { throwError } from '../error/errorActions'
+import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
+import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import {
   clearPollHandle,
   getSessionStatus,
@@ -12,10 +16,6 @@ import {
   startPoll,
   stopPoll,
 } from './sessionActions'
-import { apiCallBegan } from '../api/apiActions'
-import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
-import { throwError } from '../error/errorActions'
-import { createErrorRequestFromApiError, createErrorRequestTimeout } from '../error/errorCreator'
 
 const handleStartPoll: Middleware<Dispatch> = ({ dispatch, getState }) => () => (): void => {
   if (getState().ui.uiSession.pollHandle) {
@@ -108,7 +108,7 @@ const middlewareMethods = {
 export const sessionMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

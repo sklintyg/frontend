@@ -1,6 +1,10 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { CertificateDataValueType, Value, ValueDiagnosisList } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { throwError } from '../error/errorActions'
+import { createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import {
   getIcfCodes,
   getIcfCodesError,
@@ -10,10 +14,6 @@ import {
   toggleIcfFunctionDisabler,
   updateIcfCodes,
 } from './icfActions'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, Value, ValueDiagnosisList } from '@frontend/common'
-import { throwError } from '../error/errorActions'
-import { createSilentErrorRequestFromApiError } from '../error/errorCreator'
 
 export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -52,7 +52,7 @@ function handleUpdateIcfState(value: Value, dispatch: Dispatch<AnyAction>) {
 
 const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   for (const questionId in action.payload.data) {
-    if (action.payload.data.hasOwnProperty(questionId)) {
+    if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
       const question = action.payload.data[questionId]
       handleUpdateIcfState(question.value, dispatch)
     }
@@ -83,7 +83,7 @@ const middlewareMethods = {
 export const icfMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

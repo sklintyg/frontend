@@ -9,7 +9,6 @@ import {
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import * as redux from 'react-redux'
 import UeCheckboxDateGroup from '../UeCheckboxDateGroup'
 import store from '../../../../store/store'
 import { Provider } from 'react-redux'

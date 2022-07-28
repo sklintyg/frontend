@@ -1,6 +1,8 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
+import { startSignCertificate } from '../certificate/certificateActions'
+import { stopPoll } from '../session/sessionActions'
 import {
   cancelLogout,
   cancelLogoutStarted,
@@ -34,8 +36,6 @@ import {
   updateUserResourceLinks,
   updateUserStatistics,
 } from './userActions'
-import { startSignCertificate } from '../certificate/certificateActions'
-import { stopPoll } from '../session/sessionActions'
 
 const handleGetUser: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -202,7 +202,7 @@ const middlewareMethods = {
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

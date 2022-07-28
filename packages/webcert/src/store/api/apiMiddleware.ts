@@ -1,10 +1,10 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import axios from 'axios'
-import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
 import { AnyAction } from '@reduxjs/toolkit'
+import axios from 'axios'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
-import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
 
 const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {
@@ -90,7 +90,7 @@ const middlewareMethods = {
 export const apiMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

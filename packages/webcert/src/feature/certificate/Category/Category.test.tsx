@@ -7,7 +7,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateWithQuestion, CertificateDataElement, getCertificate, getCategoryFunktionsnedsattning } from '@frontend/common'
+import { getCertificateWithQuestion, getCategoryFunktionsnedsattning } from '@frontend/common'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 
 let testStore: EnhancedStore

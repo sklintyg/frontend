@@ -1,6 +1,10 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { PatientStatus } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { throwError } from '../error/errorActions'
+import { createErrorRequestWithErrorId } from '../error/errorCreator'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 import {
   clearPatientError,
   getCertificateTypes,
@@ -14,10 +18,6 @@ import {
   setPatientError,
   updateCertificateTypes,
 } from './patientActions'
-import { PatientStatus } from '@frontend/common'
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
-import { createErrorRequestWithErrorId } from '../error/errorCreator'
 
 const handleGetPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -83,7 +83,7 @@ const middlewareMethods = {
 export const patientMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

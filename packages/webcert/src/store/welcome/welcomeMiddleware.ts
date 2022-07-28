@@ -1,6 +1,7 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
+import { getUser } from '../user/userActions'
 import {
   createNewCertificate,
   createNewCertificateStarted,
@@ -14,15 +15,14 @@ import {
   loginUser,
   loginUserStarted,
   loginUserSuccess,
+  populateFmb,
+  populateFmbStarted,
+  populateFmbSuccess,
   updateCertificateId,
   updateCertificateTypes,
   updateNavigateToCertificate,
   updatePatients,
-  populateFmb,
-  populateFmbStarted,
-  populateFmbSuccess,
 } from './welcomeActions'
-import { getUser } from '../user/userActions'
 
 const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -119,7 +119,7 @@ const middlewareMethods = {
 export const welcomeMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }
