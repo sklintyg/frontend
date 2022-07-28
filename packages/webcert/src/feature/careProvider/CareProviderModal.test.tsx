@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import {
   getUserWithEmptyUnit,
@@ -21,18 +21,22 @@ import { userMiddleware } from '../../store/user/userMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { createMemoryHistory } from 'history'
+import { START_URL_FOR_DOCTORS } from '../../constants'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
+const history = createMemoryHistory()
+history.push = jest.fn()
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <BrowserRouter>
+      <Router history={history}>
         <CareProviderModal />
-      </BrowserRouter>
+      </Router>
     </Provider>
   )
 }
@@ -77,11 +81,11 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Avbryt')).toBeInTheDocument()
     })
 
-    it('should set active tab to 0 when choosing unit', () => {
+    it('should set navigate to start page when choosing unit', () => {
       renderComponent()
 
       userEvent.click(screen.getByText('Care unit'))
-      expect(testStore.getState().ui.uiUser.activeTab).toBe(0)
+      expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
   })
 
