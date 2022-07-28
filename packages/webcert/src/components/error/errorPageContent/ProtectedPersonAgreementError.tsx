@@ -1,5 +1,4 @@
 import React from 'react'
-import { InfoBox } from '@frontend/common/src'
 
 const ProtectedPersonAgreementError: React.FC = () => {
   return (

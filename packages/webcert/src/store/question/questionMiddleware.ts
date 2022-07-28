@@ -1,3 +1,11 @@
+import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
+import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
+import { getCertificate, updateCertificate } from '../certificate/certificateActions'
+import { throwError } from '../error/errorActions'
+import { createErrorRequestFromApiError, createErrorRequestWithErrorId } from '../error/errorCreator'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 import {
   addAnswer,
   addQuestion,
@@ -58,14 +66,6 @@ import {
   updateSendingQuestion,
   validateQuestion,
 } from './questionActions'
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { AnyAction } from '@reduxjs/toolkit'
-import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
-import { getCertificate, updateCertificate } from '../certificate/certificateActions'
-import { Answer, CertificateStatus, Complement, getResourceLink, QuestionType, ResourceLinkType } from '@frontend/common'
-import { createErrorRequestFromApiError, createErrorRequestWithErrorId } from '../error/errorCreator'
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -418,7 +418,7 @@ const middlewareMethods = {
 export const questionMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

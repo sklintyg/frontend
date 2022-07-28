@@ -1,5 +1,3 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
 import {
   CertificateEvent,
   CertificateEventType,
@@ -8,9 +6,12 @@ import {
   CertificateStatus,
   isHasParent,
   isParentRevoked,
+  Spinner,
   TextWithInfoModal,
 } from '@frontend/common'
-import { Spinner } from '@frontend/common/src'
+import React from 'react'
+import { Link } from 'react-router-dom'
+
 import styled from 'styled-components/macro'
 
 const LinkWithMargin = styled(Link)`
@@ -107,7 +108,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         } else {
           return 'Intyget är skickat till Arbetsförmedlingen'
         }
-      case CertificateEventType.REVOKED:
+      case CertificateEventType.REVOKED: {
         const hasParent = isHasParent(certificateMetadata)
         const parentRevoked = isParentRevoked(certificateMetadata)
 
@@ -130,6 +131,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         } else {
           return 'Intyget är makulerat'
         }
+      }
       case CertificateEventType.INCOMING_MESSAGE:
         return 'Försäkringskassan har ställt en fråga'
       case CertificateEventType.OUTGOING_MESSAGE:

@@ -1,6 +1,16 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import {
+  CertificateDataValueType,
+  FMBDiagnosisCodeInfo,
+  getResourceLink,
+  ResourceLinkType,
+  Value,
+  ValueDateRangeList,
+  ValueDiagnosisList,
+} from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiSilentGenericError } from '../api/apiActions'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
@@ -17,16 +27,6 @@ import {
   validateSickLeavePeriodStarted,
   validateSickLeavePeriodSuccess,
 } from './fmbActions'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import {
-  CertificateDataValueType,
-  FMBDiagnosisCodeInfo,
-  getResourceLink,
-  ResourceLinkType,
-  Value,
-  ValueDateRangeList,
-  ValueDiagnosisList,
-} from '@frontend/common'
 
 export const handleGetFMBDiagnosisCodeInfo: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -67,7 +67,7 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   dispatch(setPatientId(action.payload.metadata.patient.personId.id))
 
   for (const questionId in action.payload.data) {
-    if (action.payload.data.hasOwnProperty(questionId)) {
+    if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
       const question = action.payload.data[questionId]
       if (isValueDateRangeList(question.value)) {
         dispatch(setSickLeavePeriodValue(question.value as ValueDateRangeList))
@@ -230,7 +230,7 @@ const middlewareMethods = {
 export const fmbMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
 
-  if (middlewareMethods.hasOwnProperty(action.type)) {
+  if (Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

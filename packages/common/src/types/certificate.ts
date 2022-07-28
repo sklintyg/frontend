@@ -95,7 +95,7 @@ export interface CertificateDataConfig {
   [propName: string]: unknown
 }
 
-export interface ConfigCategory extends CertificateDataConfig {}
+export type ConfigCategory = CertificateDataConfig
 
 export interface ConfigUeTextArea extends CertificateDataConfig {
   id: string
@@ -300,19 +300,19 @@ export interface TextValidation extends CertificateDataValidation {
   // expression: string // '$6.1 > 5000' // Kan allt beskrivas med expression?
 }
 
-export interface ShowValidation extends CertificateDataValidation {}
+export type ShowValidation = CertificateDataValidation
 
-export interface HideValidation extends CertificateDataValidation {}
+export type HideValidation = CertificateDataValidation
 
 export interface DisableValidation extends CertificateDataValidation {
   id: string[] // 'KV_FKMU_0004.ARBETSTRANING, KV_FKMU_0004.ERGONOMISK,'
 }
 
-export interface EnableValidation extends CertificateDataValidation {}
+export type EnableValidation = CertificateDataValidation
 
-export interface MandatoryValidation extends CertificateDataValidation {}
+export type MandatoryValidation = CertificateDataValidation
 
-export interface HighlightValidation extends CertificateDataValidation {}
+export type HighlightValidation = CertificateDataValidation
 
 // How to handle date ranges i.e. min & max
 export interface MaxDateValidation extends CertificateDataValidation {

@@ -1,4 +1,4 @@
-import { add, formatISO, sub } from 'date-fns'
+import { add, formatISO } from 'date-fns'
 import { calculateCheckDigit, isPersonIdValid } from '../personIdValidatorUtils'
 
 describe('patientIdValidatorUtils', () => {
