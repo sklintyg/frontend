@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import List from '../List'
 import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
-import { CertificateListItem, ListFilter } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListFilter, ListType } from '@frontend/common/src/types/list'
 import store from '../../../store/store'
 import { Provider } from 'react-redux'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../../store/list/listActions'
@@ -13,7 +13,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
   store.dispatch(updateIsLoadingListConfig(false))
   render(
     <Provider store={store}>
-      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" icon="icon" />
+      <List config={getConfigWithTextFilter()} list={list} filter={filter} title="TITLE" icon="icon" type={ListType.DRAFTS} />
     </Provider>
   )
 }

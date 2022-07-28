@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReply } from '@fortawesome/free-solid-svg-icons'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
+export enum ForwardType {
+  DRAFT = 'DRAFT',
+  QUESTION = 'QUESTION',
+}
+
 interface Props extends FunctionDisabled {
   name: string
   description: string
@@ -14,6 +19,7 @@ interface Props extends FunctionDisabled {
   careProviderName: string
   forwarded: boolean
   certificateId: string
+  type: ForwardType
 }
 
 const ForwardCertificateButton: React.FC<Props> = ({
@@ -25,11 +31,29 @@ const ForwardCertificateButton: React.FC<Props> = ({
   careProviderName,
   forwarded,
   certificateId,
+  type,
 }) => {
   const dispatch = useDispatch()
 
+  const getSubject = (unitName: string, careProviderName: string) =>
+    encodeURIComponent(
+      type === ForwardType.DRAFT
+        ? `Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
+        : `Ett ärende ska hanteras i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
+    )
+
+  const getBody = (certificateUrl: string) =>
+    encodeURIComponent(
+      `Klicka på länken för att ${
+        type === ForwardType.DRAFT ? 'gå till utkastet' : 'hantera ärendet'
+      }: ${certificateUrl}\r\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.`
+    )
+
   const handleEmailSend = () => {
-    const href = `mailto:?subject=Du%20har%20blivit%20tilldelad%20ett%20ej%20signerat%20utkast%20i%20Webcert%20p%C3%A5%20enhet%20${unitName}%20f%C3%B6r%20v%C3%A5rdgivare%20${careProviderName}&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20g%C3%A5%20till%20utkastet%3A%20http%3A%2F%2Flocalhost%3A3000%2Fcertificate%2F${certificateId}%0D%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du%20klickar%20p%C3%A5%20l%C3%A4nken.%20`
+    const certificateUrl = `${window.location.protocol}//${window.location.host}/certificate/${certificateId}`
+    const subject = getSubject(unitName, careProviderName)
+    const body = getBody(certificateUrl)
+    const href = `mailto:?subject=${subject}&body=${body}`
     window.open(href, '_blank')
   }
 
@@ -58,7 +82,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       confirmButtonText="Ja"
       declineButtonText="Nej"
       confirmButtonDisabled={functionDisabled}>
-      <p>Vill du markera utkastet som vidarebefordrat?</p>
+      <p>Vill du markera {type === ForwardType.DRAFT ? 'utkastet' : 'ärendet'} som vidarebefordrat?</p>
     </ButtonWithConfirmModal>
   )
 }

@@ -1,11 +1,17 @@
 import * as React from 'react'
-import { CertificateListItemValueType, ForwardedListInfo, ListButtonTooltips, PatientListInfo } from '@frontend/common/src/types/list'
+import {
+  CertificateListItemValueType,
+  ForwardedListInfo,
+  ListButtonTooltips,
+  ListType,
+  PatientListInfo,
+} from '@frontend/common/src/types/list'
 import { CustomButton, formatDate, PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
 import check from '@frontend/common/src/images/check.svg'
 import { useHistory } from 'react-router-dom'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 import styled from 'styled-components'
-import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
+import ForwardCertificateButton, { ForwardType } from '../certificate/Buttons/ForwardCertificateButton'
 import read from '@frontend/common/src/images/read.svg'
 
 export const StyledIcon = styled.img`
@@ -19,9 +25,10 @@ interface Props {
   tooltips: ListButtonTooltips
   links: ResourceLink[]
   certificateId: string
+  listType: ListType
 }
 
-const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId }) => {
+const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId, listType }) => {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
@@ -89,6 +96,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             unitName={info.unitName}
             careProviderName={info.careProviderName}
             certificateId={certificateId}
+            type={listType === ListType.DRAFTS ? ForwardType.DRAFT : ForwardType.QUESTION}
           />
         </td>
       )
