@@ -1,17 +1,24 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUnitStatistics as selectUnitStatistics, getUser } from '../../store/user/userSelectors'
-import { setUnit, setActiveTab } from '../../store/user/userActions'
+import {
+  getUnitStatistics as selectUnitStatistics,
+  getUser,
+  isCareAdministrator as selectIsCareAdministrator,
+} from '../../store/user/userSelectors'
+import { setUnit } from '../../store/user/userActions'
 import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import styled from 'styled-components'
-
+import { useHistory } from 'react-router-dom'
+import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
 const StyledButton = styled.button<{ careUnitHasUnits: boolean }>`
   text-indent: ${(props) => (props.careUnitHasUnits ? '18px' : '0px')};
 `
 
 export const CareProviderModalContent: React.FC = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const user = useSelector(getUser)
+  const isCareAdministrator = useSelector(selectIsCareAdministrator)
   const unitStatistics = useSelector(selectUnitStatistics)
 
   const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit = 0, careUnit?: CareUnit) => {
@@ -22,8 +29,9 @@ export const CareProviderModalContent: React.FC = () => {
   const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
 
-    dispatch(setActiveTab(0))
     dispatch(setUnit(unitId))
+
+    history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS)
   }
 
   const getExpandedRows = (units: Unit[]) => {

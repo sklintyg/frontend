@@ -5,14 +5,13 @@ import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
-import { getActiveTab, getUser, getUserResourceLinks, getUserStatistics, isDoctor } from '../../store/user/userSelectors'
+import { getUser, getUserResourceLinks, getUserStatistics, isDoctor } from '../../store/user/userSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import Logout from '../../utils/Logout'
 import styled from 'styled-components'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import { resetPatientState } from '../../store/patient/patientActions'
 import { resetListState } from '../../store/list/listActions'
-import { setActiveTab } from '../../store/user/userActions'
 
 const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;
@@ -30,7 +29,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const userStatistics = useSelector(getUserStatistics)
   const tabs = getUserTabs(!!isUserDoctor, userStatistics, links)
   const dispatch = useDispatch()
-  const activeTab = useSelector(getActiveTab)
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -55,7 +53,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const onSwitchTab = (tab: number) => {
     dispatch(resetPatientState())
     dispatch(resetListState())
-    dispatch(setActiveTab(tab))
   }
 
   return (
@@ -67,7 +64,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       banners={[<SystemBanners key={'system-banners'} />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}
-      activeTab={activeTab}
     />
   )
 }
