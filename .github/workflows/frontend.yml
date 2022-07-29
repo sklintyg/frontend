@@ -21,8 +21,6 @@ jobs:
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - uses: reviewdog/action-eslint@v1
-        with:
-          fail_on_error: true
   tsc:
     name: runner / tsc
     runs-on: ubuntu-latest
