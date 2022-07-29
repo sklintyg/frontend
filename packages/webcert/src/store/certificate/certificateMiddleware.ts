@@ -199,7 +199,7 @@ const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => (
 }
 
 const handleForwardCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(showSpinner('Vidarebefodrar...'))
+  dispatch(showSpinner('Vidarebefordrar...'))
 
   dispatch(
     apiCallBegan({
@@ -812,7 +812,7 @@ const middlewareMethods = {
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
   next(action)
-  if (middlewareMethods != null && Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
+  if (middlewareMethods !== null && Object.prototype.hasOwnProperty.call(middlewareMethods, action.type)) {
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListType } from '@frontend/common/src/types/list'
 import Table from '@frontend/common/src/components/Table/Table'
 import { useDispatch, useSelector } from 'react-redux'
 import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
@@ -20,9 +20,10 @@ interface Props {
   filter: ListFilter | undefined
   title: string
   icon?: string
+  type: ListType
 }
 
-const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
+const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)
   const isSortingList = useSelector(getIsSortingList)
@@ -45,6 +46,7 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
           tooltips={config.buttonTooltips}
           links={listItem.values['LINKS'] as ResourceLink[]}
           certificateId={listItem.values['CERTIFICATE_ID'] as string}
+          listType={type}
         />
       )
     })

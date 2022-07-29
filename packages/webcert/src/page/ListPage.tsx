@@ -124,6 +124,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
           list={list}
           filter={filter}
           title={config?.secondaryTitle ? config.secondaryTitle : ''}
+          type={type}
         />
       )
     }
