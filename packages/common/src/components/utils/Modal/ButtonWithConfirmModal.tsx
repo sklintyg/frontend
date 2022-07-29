@@ -49,6 +49,8 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
     }
   }, [escPress, handleClose])
 
+  props.hasOwnProperty('something')
+
   return (
     <>
       <CustomButton
