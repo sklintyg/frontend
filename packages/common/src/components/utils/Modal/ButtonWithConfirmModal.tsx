@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
@@ -36,7 +36,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
     setOpen(false)
 
     props.onClose?.()
-  })
+  }, [setOpen, props])
 
   const handleConfirm = () => {
     setOpen(false)
