@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
 import { Link, useRouteMatch } from 'react-router-dom'
@@ -24,16 +24,13 @@ export interface Props {
 const AppHeaderTabs: React.FC<Props> = ({ tabs, onSwitchTab }) => {
   const match = useRouteMatch()
 
-  const switchTab = useCallback(
-    (tab: UserTab) => {
-      if (match.url !== tab.url) {
-        if (onSwitchTab) {
-          onSwitchTab(tabs.findIndex((t) => t === tab))
-        }
+  const switchTab = (tab: UserTab) => {
+    if (match.url !== tab.url) {
+      if (onSwitchTab) {
+        onSwitchTab(tabs.findIndex((t) => t === tab))
       }
-    },
-    [match.url, onSwitchTab, tabs]
-  )
+    }
+  }
 
   if (!tabs || tabs.length === 0) {
     return null

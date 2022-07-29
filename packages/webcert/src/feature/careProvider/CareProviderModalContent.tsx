@@ -10,6 +10,7 @@ import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/commo
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
+
 const StyledButton = styled.button<{ careUnitHasUnits: boolean }>`
   text-indent: ${(props) => (props.careUnitHasUnits ? '18px' : '0px')};
 `
