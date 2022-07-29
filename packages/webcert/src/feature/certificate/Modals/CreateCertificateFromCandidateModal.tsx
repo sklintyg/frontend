@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
-import { CustomButton, ModalBase } from '@frontend/common'
+import { CustomButton, ModalBase, ResourceLink, sanitizeText } from '@frontend/common'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
-import { ResourceLink } from '@frontend/common/src'
-import { sanitizeText } from '@frontend/common'
 
 interface Props {
   resourceLink: ResourceLink | undefined
@@ -47,8 +45,8 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) 
       content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(resourceLink.body as string)}></div>}
       buttons={
         <>
-          <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Kopiera'} />
           <CustomButton onClick={handleClose} buttonStyle="default" text="Avbryt" />
+          <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Kopiera'} />
         </>
       }
     />
