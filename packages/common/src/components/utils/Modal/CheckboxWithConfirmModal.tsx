@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Checkbox, CustomButton } from '@frontend/common'
 import ModalBase from './ModalBase'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
@@ -35,11 +35,11 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
     props.onClick?.()
   }
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false)
 
     props.onClose?.()
-  }
+  }, [setOpen, props])
 
   const handleConfirm = () => {
     setOpen(false)
@@ -50,7 +50,7 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
     if (escPress) {
       handleClose()
     }
-  }, [escPress])
+  }, [escPress, handleClose])
 
   return (
     <div css={props.wrapperStyles}>
@@ -70,6 +70,7 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
         content={props.children}
         buttons={
           <>
+            <CustomButton onClick={handleClose} buttonStyle="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
             <CustomButton
               buttonStyle={props.confirmButtonStyle ? props.confirmButtonStyle : 'primary'}
               className={props.additionalConfirmButtonStyles}
@@ -77,7 +78,6 @@ const CheckboxWithConfirmModal: React.FC<Props> = (props) => {
               onClick={handleConfirm}
               text={props.confirmButtonText}
             />
-            <CustomButton onClick={handleClose} buttonStyle="default" text={props.declineButtonText ? props.declineButtonText : 'Avbryt'} />
           </>
         }
       />
