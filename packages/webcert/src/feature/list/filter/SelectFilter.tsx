@@ -36,6 +36,10 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
     ))
   }
 
+  if (config.values.length == 0) {
+    return null
+  }
+
   return (
     <FilterWrapper highlighted={isHighlighted}>
       <Dropdown
