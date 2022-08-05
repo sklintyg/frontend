@@ -36,7 +36,7 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
     ))
   }
 
-  if (config.values.length == 0) {
+  if (config.values.length === 0) {
     return null
   }
 
