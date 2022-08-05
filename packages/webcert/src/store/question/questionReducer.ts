@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { Question } from '@frontend/common'
+import { Question, QuestionType } from '@frontend/common'
 import {
   addAnswer,
   addQuestion,
@@ -24,7 +24,6 @@ import {
   updateQuestions,
   updateSendingQuestion,
 } from './questionActions'
-import { QuestionType } from '@frontend/common/src'
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface QuestionState {

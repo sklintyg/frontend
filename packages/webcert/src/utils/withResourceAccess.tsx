@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Backdrop, ResourceLinkType } from '@frontend/common'
 import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,12 +21,13 @@ export function withResourceAccess<P>(WrappedComponent: React.FC<P>): React.FC<P
     ])
     const linkType = resourceAccessMap.get(match.path)
 
-    let showSpinner = isLoadingUser
+    const showSpinner = isLoadingUser
 
-    if (!isLoadingUser && (!user || !linkType || !userLinks.some((link) => link.type === linkType))) {
-      dispatch(throwError({ type: ErrorType.ROUTE, errorCode: ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE }))
-      showSpinner = true
-    }
+    useEffect(() => {
+      if (!isLoadingUser && (!user || !linkType || !userLinks.some((link) => link.type === linkType))) {
+        dispatch(throwError({ type: ErrorType.ROUTE, errorCode: ErrorCode.AUTHORIZATION_PROBLEM_RESOURCE }))
+      }
+    }, [isLoadingUser, user, linkType, userLinks, dispatch])
 
     return (
       <Backdrop open={showSpinner} spinnerText="Laddar...">

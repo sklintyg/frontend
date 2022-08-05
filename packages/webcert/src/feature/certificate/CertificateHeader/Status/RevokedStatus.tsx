@@ -1,7 +1,6 @@
 import React from 'react'
-import { CertificateMetadata, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
+import { CertificateMetadata, StatusWithIcon, TextWithInfoModal, CertificateRelationType } from '@frontend/common'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
-import { CertificateRelationType } from '@frontend/common/src'
 import { Link } from 'react-router-dom'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
 import { useSelector } from 'react-redux'
@@ -18,12 +17,12 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     if (!parent) {
       return null
     }
-    switch (parent!.type) {
+    switch (parent.type) {
       case CertificateRelationType.COMPLEMENTED:
         return (
           <>
             Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent!.certificateId}`}>Öppna intyget</Link>
+            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
           </>
         )
       case CertificateRelationType.RENEW:
@@ -31,14 +30,14 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
         return (
           <>
             Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent!.certificateId}`}>Öppna intyget</Link>
+            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
           </>
         )
       case CertificateRelationType.REPLACED:
         return (
           <>
             Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-            <Link to={`/certificate/${parent!.certificateId}`}>Öppna intyget</Link>
+            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
           </>
         )
       default:

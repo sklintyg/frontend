@@ -1,6 +1,9 @@
 import React from 'react'
-import { CertificateDataValueType, Checkbox, getMaxDate, getValidDate } from '@frontend/common'
 import {
+  CertificateDataValueType,
+  Checkbox,
+  getMaxDate,
+  getValidDate,
   CertificateDataElement,
   ConfigTypes,
   DatePickerCustom,
@@ -8,7 +11,7 @@ import {
   ValidationError,
   ValueDate,
   ValueDateList,
-} from '@frontend/common/src'
+} from '@frontend/common'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'

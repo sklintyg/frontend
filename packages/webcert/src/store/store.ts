@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import reducer from './reducers'
 import { useDispatch } from 'react-redux'
-import apiMiddleware from './api/apiMiddleware'
+import { apiMiddleware } from './api/apiMiddleware'
 import { certificateMiddleware } from './certificate/certificateMiddleware'
 import { userMiddleware } from './user/userMiddleware'
 import { fmbMiddleware } from './fmb/fmbMiddleware'
@@ -44,6 +44,6 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>()
 
 export default store

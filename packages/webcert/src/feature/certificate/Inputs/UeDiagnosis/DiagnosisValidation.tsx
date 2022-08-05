@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { QuestionValidationTexts } from '@frontend/common'
-import { ValidationError } from '@frontend/common/src'
+import { QuestionValidationTexts, ValidationError } from '@frontend/common'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 
 interface QuestionValidationTextsProps {
@@ -61,7 +60,7 @@ const DiagnosisValidation: React.FC<QuestionValidationTextsProps> = ({
 
   useEffect(() => {
     handleErrorStyling(shouldShowErrorStyling(), id)
-  }, [handleErrorStyling, validationErrors, id, disabled])
+  }, [handleErrorStyling, validationErrors, id, disabled, shouldShowErrorStyling])
 
   if (!isVisible()) {
     return null

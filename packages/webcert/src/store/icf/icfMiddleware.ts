@@ -29,7 +29,7 @@ export const handleGetIcfCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-const handleGetIcfCodesStarted: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+const handleGetIcfCodesStarted: Middleware<Dispatch> = () => () => (): void => {
   return
 }
 

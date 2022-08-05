@@ -57,7 +57,7 @@ import {
   updateTotalCount,
 } from './listActions'
 
-const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
   const listFilter = getState().ui.uiList.activeListFilter
   if (listType === ListType.DRAFTS) {
@@ -71,7 +71,7 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
   }
 }
 
-const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   if (listType === ListType.DRAFTS) {
@@ -86,7 +86,7 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   }
 }
 
-const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   const config = getState().ui.uiList.activeListConfig
@@ -148,7 +148,7 @@ const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
   )
 }
 
-const handleGetListStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateIsLoadingList(true))
 }
 
@@ -166,7 +166,7 @@ const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
   }
 }
 
-const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/config/draft',
@@ -178,7 +178,7 @@ const handleGetDraftListConfig: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-const handleGetCertificateListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetCertificateListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/config/certificate',
@@ -190,7 +190,7 @@ const handleGetCertificateListConfig: Middleware<Dispatch> = ({ dispatch }: Midd
   )
 }
 
-const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/config/previous',
@@ -232,7 +232,7 @@ const handleUpdateListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
   dispatch(updateActiveListConfig(action.payload))
   dispatch(updateHasUpdatedConfig(false))
 }
-const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateIsLoadingListConfig(true))
 }
 
@@ -251,12 +251,12 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(updateTotalCount(undefined))
 }
 
-const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   clearListState(dispatch)
   dispatch(setListError())
 }
 
-const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const filters = getState().ui.uiList.activeListConfig?.filters
   if (filters) {
     filters.forEach((filter: ListFilterConfig) => {
@@ -266,7 +266,7 @@ const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) 
   }
 }
 
-const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateDefaultListFilterValues)
   dispatch(performListSearch)
 }
