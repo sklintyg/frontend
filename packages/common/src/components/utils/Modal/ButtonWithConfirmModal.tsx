@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { CustomButton } from '@frontend/common'
-import ModalBase from './ModalBase'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
+import ModalBase from './ModalBase'
 
 interface Props {
   disabled: boolean
