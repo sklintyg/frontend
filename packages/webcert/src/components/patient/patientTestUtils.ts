@@ -10,7 +10,8 @@ export const createPatient = (patientId: string): Patient => {
     testIndicated: false,
     coordinationNumber: false,
     differentNameFromEHR: false,
-    personIdUpdated: false,
+    personIdChanged: false,
+    reserveId: false,
     personId: {
       type: '',
       id: patientId,
