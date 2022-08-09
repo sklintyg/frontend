@@ -19,7 +19,8 @@ export interface Patient {
   protectedPerson: boolean
   deceased: boolean
   differentNameFromEHR: boolean
-  personIdUpdated: boolean
+  personIdChanged: boolean
+  reserveId: boolean
 }
 
 export interface PersonId {

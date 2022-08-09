@@ -245,7 +245,6 @@ describe('Validate mandatory rule for date list', () => {
   }
 
   it('it should validate as false when list is empty', () => {
-    const value = dateListElement.value as ValueDateList
     const result = parseExpression(
       '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
       dateListElement,
@@ -526,7 +525,6 @@ describe('Validate multiple show rules', () => {
     validationErrors: [],
   }
 
-  // @ts-ignore
   const certificate: Certificate = {
     metadata: {
       id: 'bed26d3e-7112-4f08-98bf-01be40e26c80',
@@ -582,7 +580,7 @@ describe('Validate multiple show rules', () => {
           type: 'Personnummer',
         },
         differentNameFromEHR: false,
-        personIdUpdated: false,
+        personIdChanged: false,
         firstName: 'Tolvan',
         lastName: 'Tolvansson',
         fullName: 'Tolvan Tolvansson',
@@ -590,6 +588,7 @@ describe('Validate multiple show rules', () => {
         testIndicated: false,
         protectedPerson: false,
         deceased: false,
+        reserveId: false,
       },
       issuedBy: {
         personId: 'TSTNMT2321000156-1079',
@@ -891,7 +890,7 @@ describe('Set initial values to a certificate', () => {
   it('Shall set mandatory to true on boolean element if undefined', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     // Test when selected is undefined when arriving from backend.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     booleanValue.selected = undefined
 
@@ -927,7 +926,7 @@ describe('Set initial values to a certificate', () => {
   it('Shall set visible to false on boolean element if undefined', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     // Test when selected is undefined when arriving from backend.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     booleanValue.selected = undefined
 

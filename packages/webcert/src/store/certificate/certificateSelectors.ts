@@ -228,9 +228,6 @@ export const getIsPatientNameDifferentFromEHR = (state: RootState): boolean =>
 export const getPreviousPatientId = (state: RootState): PersonId | undefined =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.previousPersonId : undefined
 
-export const getIsPatientIdUpdated = (state: RootState): boolean =>
-  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdUpdated : false
-
 export const getPatient = (state: RootState): Patient | undefined =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient : undefined
 
@@ -243,3 +240,9 @@ export const isCertificateFunctionDisabled = (state: RootState): boolean => stat
 export const getCertificateId = () => (state: RootState): string => state.ui.uiCertificate.createdCertificateId
 
 export const getShouldRouteAfterDelete = () => (state: RootState): boolean => state.ui.uiCertificate.shouldRouteAfterDelete
+
+export const getIsPatientIdChanged = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.personIdChanged : false
+
+export const getIsReserveId = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false

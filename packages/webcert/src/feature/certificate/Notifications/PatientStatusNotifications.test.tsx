@@ -1,13 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { Certificate, CertificateMetadata, Patient } from '@frontend/common'
+import { Certificate, CertificateMetadata, Patient, PersonId } from '@frontend/common'
 import { Provider } from 'react-redux'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import reducer from '../../../store/reducers'
 import PatientStatusNotifications from './PatientStatusNotifications'
-import { PersonId } from '@frontend/common/src'
 
 let testStore: EnhancedStore
 
@@ -36,67 +35,134 @@ describe('PatientStatusNotifications', () => {
   })
 
   it('shall render deceased status if set', () => {
-    setState(true, false, false, undefined, false)
+    setState({
+      isDeceased: true,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_DECEASED)).toBeInTheDocument()
   })
 
   it('shall not render deceased status if not set', () => {
-    setState(false, false, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_DECEASED)).not.toBeInTheDocument()
   })
 
   it('shall render protected person status if set', () => {
-    setState(false, true, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: true,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_PROTECTED)).toBeInTheDocument()
   })
 
   it('shall not render protected status if not set', () => {
-    setState(false, false, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_PROTECTED)).not.toBeInTheDocument()
   })
 
   it('shall render different name status if set', () => {
-    setState(false, false, true, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: true,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_DIFFERENT_NAME)).toBeInTheDocument()
   })
 
   it('shall not render different name status if not set', () => {
-    setState(false, false, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_DIFFERENT_NAME)).not.toBeInTheDocument()
   })
 
   it('shall render different id status if set', () => {
-    setState(false, false, false, { id: ALTERNATE_ID, type: 'PERSON_NUMMER' }, true)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: { id: ALTERNATE_ID, type: 'PERSON_NUMMER' },
+      personIdChanged: true,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_DIFFERENT_ID)).toBeInTheDocument()
   })
 
   it('shall not render different id status if not set', () => {
-    setState(false, false, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_DIFFERENT_ID)).not.toBeInTheDocument()
   })
 
   it('shall render reserve id status if alternate person id but it is not replaced', () => {
-    setState(true, true, false, { id: ALTERNATE_ID, type: 'PERSON_NUMMER' }, false)
+    setState({
+      isDeceased: true,
+      isProtectedPerson: true,
+      isNameDifferentFromEHR: false,
+      previousPersonId: { id: ALTERNATE_ID, type: 'PERSON_NUMMER' },
+      personIdChanged: false,
+      reserveId: true,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_RESERVE_ID)).toBeInTheDocument()
   })
 
   it('shall not render reserve id status if not set', () => {
-    setState(false, false, false, undefined, false)
+    setState({
+      isDeceased: false,
+      isProtectedPerson: false,
+      isNameDifferentFromEHR: false,
+      previousPersonId: undefined,
+      personIdChanged: false,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_RESERVE_ID)).not.toBeInTheDocument()
   })
 
   it('shall render all statuses except reserve id', () => {
-    setState(true, true, true, { id: ALTERNATE_ID, type: 'PERSON_NUMMER' }, true)
+    setState({
+      isDeceased: true,
+      isProtectedPerson: true,
+      isNameDifferentFromEHR: true,
+      previousPersonId: { id: ALTERNATE_ID, type: 'PERSON_NUMMER' },
+      personIdChanged: true,
+    })
     renderDefaultComponent()
     expect(screen.queryByText(INFO_TEXT_RESERVE_ID)).not.toBeInTheDocument()
     expect(screen.getByText(INFO_TEXT_DIFFERENT_NAME)).toBeInTheDocument()
@@ -106,7 +172,14 @@ describe('PatientStatusNotifications', () => {
   })
 
   it('shall render all statuses except different id', () => {
-    setState(true, true, true, { id: ALTERNATE_ID, type: 'PERSON_NUMMER' }, false)
+    setState({
+      isDeceased: true,
+      isProtectedPerson: true,
+      isNameDifferentFromEHR: true,
+      previousPersonId: { id: ALTERNATE_ID, type: 'PERSON_NUMMER' },
+      personIdChanged: false,
+      reserveId: true,
+    })
     renderDefaultComponent()
     expect(screen.getByText(INFO_TEXT_RESERVE_ID)).toBeInTheDocument()
     expect(screen.getByText(INFO_TEXT_DIFFERENT_NAME)).toBeInTheDocument()
@@ -116,33 +189,45 @@ describe('PatientStatusNotifications', () => {
   })
 })
 
-const setState = (
-  isDeceased: boolean,
-  isProtectedPerson: boolean,
-  isNameDifferentFromEHR: boolean,
-  previousPersonId: PersonId | undefined,
-  personIdUpdated: boolean
-) => {
+const setState = ({
+  isDeceased,
+  isProtectedPerson,
+  isNameDifferentFromEHR,
+  previousPersonId,
+  personIdChanged,
+  reserveId = false,
+}: {
+  isDeceased: boolean
+  isProtectedPerson: boolean
+  isNameDifferentFromEHR: boolean
+  previousPersonId: PersonId | undefined
+  personIdChanged: boolean
+  reserveId?: boolean
+}) => {
   testStore.dispatch(
-    updateCertificate(createCertificate(isDeceased, isProtectedPerson, isNameDifferentFromEHR, previousPersonId, personIdUpdated))
+    updateCertificate(
+      createCertificate(isDeceased, isProtectedPerson, isNameDifferentFromEHR, previousPersonId, personIdChanged, reserveId)
+    )
   )
 }
 
 const createCertificate = (
-  isDeceased: boolean,
-  isProtectedPerson: boolean,
-  isNameDifferentFromEHR: boolean,
+  deceased: boolean,
+  protectedPerson: boolean,
+  differentNameFromEHR: boolean,
   previousPersonId: PersonId | undefined,
-  personIdUpdated: boolean
+  personIdChanged: boolean,
+  reserveId: boolean
 ): Certificate => {
   return {
     metadata: {
       patient: {
-        deceased: isDeceased,
-        protectedPerson: isProtectedPerson,
-        differentNameFromEHR: isNameDifferentFromEHR,
-        previousPersonId: previousPersonId,
-        personIdUpdated: personIdUpdated,
+        deceased,
+        protectedPerson,
+        differentNameFromEHR,
+        previousPersonId,
+        personIdChanged,
+        reserveId,
         personId: {
           id: PERSON_ID,
         } as PersonId,
