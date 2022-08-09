@@ -14,7 +14,8 @@
     "start": "lerna run start --stream",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx -f checkstyle > lint-result.xml",
     "merge-reports": "jrm combined.xml \"results/*.xml\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "startwc": "yarn workspace @frontend/webcert start"
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
