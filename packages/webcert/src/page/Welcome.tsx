@@ -97,7 +97,7 @@ const Welcome: React.FC = () => {
       if (jsonUser.legitimeradeYrkesgrupper?.some((s) => s.toLowerCase() === 'läkare')) {
         history.push('/create')
       } else {
-        history.push('/list/draft')
+        history.push('/list/question')
       }
     } else {
       if (!isDeepIntegration) {

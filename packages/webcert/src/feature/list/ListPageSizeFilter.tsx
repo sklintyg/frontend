@@ -2,6 +2,8 @@ import * as React from 'react'
 import { ChangeEvent } from 'react'
 import { ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common/src/types/list'
 import { Dropdown } from '@frontend/common/src/components'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
+import { useDispatch } from 'react-redux'
 
 interface Props {
   filter: ListFilterPageSizeConfig | undefined
@@ -12,16 +14,35 @@ interface Props {
 
 const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value }) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
+  const SHOW_ALL = 'show-all'
+  const dispatch = useDispatch()
 
   if (!filter || pageSizes.length === 0 || totalCount <= pageSizes[0]) {
     return null
   }
 
+  const resetStartFrom = () => {
+    const startFrom: ListFilterValueNumber = {
+      type: ListFilterType.NUMBER,
+      value: 0,
+    }
+
+    dispatch(updateActiveListFilterValue({ filterValue: startFrom, id: 'START_FROM' }))
+  }
+
   const handleFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedIndex = event.target.options.selectedIndex
+    const selectedId = event.target.options[selectedIndex ? selectedIndex : 0].id
+
     const value: ListFilterValueNumber = {
       type: ListFilterType.NUMBER,
       value: parseInt(event.target.value),
     }
+
+    if (selectedId === SHOW_ALL) {
+      resetStartFrom()
+    }
+
     onFilterChange(value, filter.id)
   }
 
@@ -35,7 +56,7 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
             </option>
           ) : null
         )}
-        <option id="show-all" value={totalCount} key="show-all">
+        <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
           alla
         </option>
       </>
