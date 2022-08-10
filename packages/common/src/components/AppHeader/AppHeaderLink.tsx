@@ -9,11 +9,8 @@ interface Props {
 }
 
 const AppHeaderLink: React.FC<Props> = (props) => {
-  if (!props.withoutDivider) {
-    props.addedClass += ' iu-link-divider-right'
-  }
   return (
-    <Link to={props.link} className={`${props.addedClass} iu-color-main`}>
+    <Link to={props.link} className={`${props.addedClass} ${!props.withoutDivider && 'iu-link-divider-right'} iu-color-main`}>
       {props.text}
     </Link>
   )

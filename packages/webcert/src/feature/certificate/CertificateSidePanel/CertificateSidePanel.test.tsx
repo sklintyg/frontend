@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
@@ -102,29 +102,29 @@ describe('CertificateSidePanel', () => {
   })
 
   describe('opening tabs', () => {
-    it('shall show FMB content when clicking FMB tab', () => {
+    it('shall show FMB content when clicking FMB tab', async () => {
       const tabText = 'FMB'
       const expectedContent = 'Ange minst en diagnos för att få FMB-stöd.'
       renderFmbTab(tabText)
-      userEvent.click(screen.getByText(tabText))
+      await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
 
-    it('shall show Question content when clicking Question tab', () => {
+    it('shall show Question content when clicking Question tab', async () => {
       const tabText = 'Question'
       const expectedComplementText = 'Kompletteringsbegäran'
       const expectedAdministrativeText = 'Administrativa frågor'
       renderQuestionTab(tabText)
-      userEvent.click(screen.getByText(tabText))
+      await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedComplementText)).toBeVisible()
       expect(screen.getByText(expectedAdministrativeText)).toBeVisible()
     })
 
-    it('shall show Question not available content when clicking Question not available tab', () => {
+    it('shall show Question not available content when clicking Question not available tab', async () => {
       const tabText = 'Question not available'
       const expectedContent = 'Intyget är inte skickat till Försäkringskassan.'
       renderQuestionNotAvailableTab(tabText)
-      userEvent.click(screen.getByText(tabText))
+      await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
   })
