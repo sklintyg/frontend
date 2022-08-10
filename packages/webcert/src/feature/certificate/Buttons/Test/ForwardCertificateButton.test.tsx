@@ -1,11 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import ForwardCertificateButton, { ForwardType } from '../ForwardCertificateButton'
+import ForwardCertificateButton from '../ForwardCertificateButton'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import dispatchHelperMiddleware from '../../../../store/test/dispatchHelperMiddleware'
 import reducer from '../../../../store/reducers'
+import { ResourceLinkType } from '@frontend/common'
 
 const NAME = 'Forward button name'
 const DESCRIPTION = 'Forward button description'
@@ -15,7 +16,7 @@ const CERTIFICATE_ID = 'xxx'
 
 let testStore: EnhancedStore
 
-const renderDefaultComponent = (type: ForwardType = ForwardType.DRAFT) =>
+const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWARD_CERTIFICATE) =>
   render(
     <Provider store={testStore}>
       <ForwardCertificateButton
@@ -51,13 +52,13 @@ describe('Forward certificate button', () => {
   })
 
   it('opens email with text about draft', () => {
-    renderDefaultComponent(ForwardType.DRAFT)
+    renderDefaultComponent()
     screen.getByText(NAME).click()
     expect(window.open).toHaveBeenCalledWith(expect.stringContaining('utkast'), '_blank')
   })
 
   it('opens email with text about question', () => {
-    renderDefaultComponent(ForwardType.QUESTION)
+    renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
     expect(window.open).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
   })

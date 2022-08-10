@@ -1,15 +1,10 @@
-import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
+import { ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
 import React from 'react'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
 import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReply } from '@fortawesome/free-solid-svg-icons'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-
-export enum ForwardType {
-  DRAFT = 'DRAFT',
-  QUESTION = 'QUESTION',
-}
 
 interface Props extends FunctionDisabled {
   name: string
@@ -19,7 +14,7 @@ interface Props extends FunctionDisabled {
   careProviderName: string
   forwarded: boolean
   certificateId: string
-  type: ForwardType
+  type: ResourceLinkType
 }
 
 const ForwardCertificateButton: React.FC<Props> = ({
@@ -37,7 +32,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
 
   const getSubject = (unitName: string, careProviderName: string) =>
     encodeURIComponent(
-      type === ForwardType.DRAFT
+      type === ResourceLinkType.FORWARD_CERTIFICATE
         ? `Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
         : `Ett ärende ska hanteras i Webcert på enhet ${unitName} för vårdgivare ${careProviderName}`
     )
@@ -45,7 +40,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
   const getBody = (certificateUrl: string) =>
     encodeURIComponent(
       `Klicka på länken för att ${
-        type === ForwardType.DRAFT ? 'gå till utkastet' : 'hantera ärendet'
+        type === ResourceLinkType.FORWARD_CERTIFICATE ? 'gå till utkastet' : 'hantera ärendet'
       }: ${certificateUrl}\r\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.`
     )
 
@@ -82,7 +77,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       confirmButtonText="Ja"
       declineButtonText="Nej"
       confirmButtonDisabled={functionDisabled}>
-      <p>Vill du markera {type === ForwardType.DRAFT ? 'utkastet' : 'ärendet'} som vidarebefordrat?</p>
+      <p>Vill du markera {type === ResourceLinkType.FORWARD_CERTIFICATE ? 'utkastet' : 'ärendet'} som vidarebefordrat?</p>
     </ButtonWithConfirmModal>
   )
 }

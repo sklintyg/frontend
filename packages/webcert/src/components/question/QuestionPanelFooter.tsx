@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { ButtonWithConfirmModal, CustomButton, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { getResourceLink } from '@frontend/common/src'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 import { useHistory } from 'react-router-dom'
 import speechBubble from '@frontend/common/src/images/speech-bubble.svg'
 import edit from '@frontend/common/src/images/edit.svg'
+import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
+import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
 
 interface Props {
   questions: Question[]
@@ -17,6 +19,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
+  const certificateMetadata = useSelector(getCertificateMetaData)
 
   const onComplementClick = () => dispatch(complementCertificate({ message: '', history: history }))
 
@@ -84,6 +87,27 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
     )
   }
 
+  const getForwardButton = () => {
+    const link = getResourceLinkIfExists(ResourceLinkType.FORWARD_QUESTION)
+    if (!link || !certificateMetadata) {
+      return null
+    }
+
+    return (
+      <ForwardCertificateButton
+        name={link.name}
+        description={link.description}
+        functionDisabled={false}
+        enabled={link.enabled}
+        forwarded={certificateMetadata.forwarded}
+        unitName={certificateMetadata.unit.unitName}
+        careProviderName={certificateMetadata.careProvider.unitName}
+        certificateId={certificateMetadata.id}
+        type={link.type}
+      />
+    )
+  }
+
   if (!showQuestionPanelFooter()) {
     return null
   }
@@ -92,6 +116,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
     <SidePanelFooter backgroundColor="iu-bg-grey-300" textColor="iu-color-white" additionalStyles={'iu-m-none'}>
       {getComplementButton()}
       {getCannotComplementButton()}
+      {getForwardButton()}
     </SidePanelFooter>
   )
 }
