@@ -1,11 +1,10 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
-import { sanitizeText } from '@frontend/common'
 
 interface Props {
   name: string
@@ -15,7 +14,7 @@ interface Props {
   certificateMetadata: CertificateMetadata
 }
 
-const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, description, enabled, body, certificateMetadata: propMetaData }) => {
+const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, description, enabled, body }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 

@@ -5,16 +5,6 @@ import { getCertificateTypes, getPatients, updateCreateCertificate } from '../..
 import { Backdrop, Dropdown, RadioButton } from '@frontend/common'
 import styled from 'styled-components/macro'
 
-interface CreateCertificate {
-  certificateType: string
-  certificateTypeVersion: string
-  patientId: string
-  personId: string
-  unitId: string
-  status: string
-  fillType: string
-}
-
 const PatientWrapper = styled.div`
   max-width: 600px;
 `
@@ -28,7 +18,7 @@ const WelcomeCertificateTypes: React.FC = () => {
   useEffect(() => {
     dispatch(getPatients())
     dispatch(getCertificateTypes())
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (!certificateTypes) {
@@ -44,7 +34,7 @@ const WelcomeCertificateTypes: React.FC = () => {
         dispatch(updateCreateCertificate(updatedCreateCertificate))
       }
     })
-  }, [certificateTypes])
+  }, [certificateTypes, createCertificate, dispatch])
 
   useEffect(() => {
     if (!patients || patients.length === 0) {
@@ -54,7 +44,7 @@ const WelcomeCertificateTypes: React.FC = () => {
     const updatedCreateCertificate = { ...createCertificate }
     updatedCreateCertificate.patientId = patients[0].personId.id
     dispatch(updateCreateCertificate(updatedCreateCertificate))
-  }, [patients])
+  }, [createCertificate, dispatch, patients])
 
   const handleTypeChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const updatedCreateCertificate = { ...createCertificate }

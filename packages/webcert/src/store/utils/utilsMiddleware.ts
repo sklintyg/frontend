@@ -20,7 +20,7 @@ import {
   updateIsLoadingDynamicLinks,
 } from './utilsActions'
 
-const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetAllDynamicLinks: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/configuration/links',
@@ -76,7 +76,7 @@ const handleGetDiagnosisTypeaheadSuccess: Middleware<Dispatch> = ({ dispatch }: 
   dispatch(updateDiagnosisTypeahead(action.payload))
 }
 
-const handleGetConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleGetConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/configuration',
@@ -88,12 +88,12 @@ const handleGetConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (
   )
 }
 
-const handleGetConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => (next) => (action: AnyAction): void => {
+const handleGetConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateConfig(action.payload))
   dispatch(updateIsLoadingConfig(false))
 }
 
-const handleGetConfigError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+const handleGetConfigError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
   dispatch(updateIsLoadingConfig(false))
 }
 

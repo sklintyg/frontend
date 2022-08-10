@@ -31,7 +31,7 @@ const additionalContentStyles = css`
   }
 `
 
-const UvCareUnitAddress: React.FC = (props) => {
+const UvCareUnitAddress: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
 
   if (!metadata) return null

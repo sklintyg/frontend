@@ -1,5 +1,5 @@
 import { CustomButton, RadioButton, TextArea } from '@frontend/common'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
@@ -18,6 +18,7 @@ import { triggerLogoutNow } from '../store/user/userActions'
 import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
 import { MockUser } from '../store/welcome/welcomeReducer'
 import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
+import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -41,10 +42,7 @@ const StyledSelect = styled.select`
   max-width: 600px;
 `
 
-const StyledInput = styled.input.attrs(() => ({
-  type: 'text',
-  placeholder: 'intygsid',
-}))`
+const StyledInput = styled.input`
   max-width: 600px;
 `
 
@@ -68,13 +66,20 @@ const Welcome: React.FC = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  useEffect(() => {
-    const updatedCreateCertificate = { ...createCertificate }
-    updatedCreateCertificate.personId = jsonUser.hsaId
-    updatedCreateCertificate.unitId = jsonUser.enhetId
+  const performLogin = useCallback(() => {
+    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
+    dispatch(loginUser(jsonString))
+  }, [dispatch, jsonUser])
+
+  useDeepCompareEffect(() => {
+    const updatedCreateCertificate = {
+      ...createCertificate,
+      personId: jsonUser.hsaId,
+      unitId: jsonUser.enhetId,
+    }
     dispatch(updateCreateCertificate(updatedCreateCertificate))
     dispatch(triggerLogoutNow())
-  }, [])
+  }, [createCertificate, dispatch, jsonUser.enhetId, jsonUser.hsaId])
 
   useEffect(() => {
     if (!certificateId) {
@@ -86,7 +91,7 @@ const Welcome: React.FC = () => {
     } else {
       performLogin()
     }
-  }, [certificateId])
+  }, [certificateId, dispatch, isFakeLogin, performLogin])
 
   useEffect(() => {
     if (!navigateToCertificate) {
@@ -105,19 +110,14 @@ const Welcome: React.FC = () => {
         dispatch(clearWelcome())
       }
     }
-  }, [navigateToCertificate])
+  }, [certificateId, dispatch, history, isDeepIntegration, jsonUser.legitimeradeYrkesgrupper, navigateToCertificate])
 
   if (navigateToCertificate && isDeepIntegration) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
   }
 
-  const performLogin = () => {
-    const jsonString = `userJsonDisplay= ${JSON.stringify(jsonUser)}`
-    dispatch(loginUser(jsonString))
-  }
-
   const handleChangeMultiple = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedUser = availableUsers.find((user) => user.hsaId === event.target.value)!
+    const selectedUser = availableUsers.find((user) => user.hsaId === event.target.value) as MockUser
 
     setSelectedUser(selectedUser)
 
@@ -277,17 +277,17 @@ const Welcome: React.FC = () => {
                 <summary className="ic-expandable-button ic-inner ic-expandable-button--chevron">Hjälplänkar</summary>
                 <p>Nedan finns ett antal snabblänkar till hjälpfunktioner för utvecklings- och teständamål.</p>
                 <p>
-                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/version.jsp" target="_blank">
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/version.jsp" target="_blank" rel="noreferrer">
                     Versions- och bygginformation
                   </a>
                 </p>
                 <p>
-                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/apis/index.html" target="_blank">
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/apis/index.html" target="_blank" rel="noreferrer">
                     REST-endpoints
                   </a>
                 </p>
                 <p>
-                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/simulator/index.html" target="_blank">
+                  <a href="https://webcert-devtest.intyg.nordicmedtest.se/pubapp/simulator/index.html" target="_blank" rel="noreferrer">
                     Ärendeverktyget
                   </a>
                 </p>

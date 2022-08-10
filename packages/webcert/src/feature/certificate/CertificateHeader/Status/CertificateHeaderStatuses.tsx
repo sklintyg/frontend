@@ -1,4 +1,15 @@
-import { CertificateMetadata, StatusWithIcon } from '@frontend/common'
+import {
+  CertificateMetadata,
+  StatusWithIcon,
+  getComplementedByCertificateRelation,
+  hasUnhandledComplementQuestions,
+  isDraft,
+  isLocked,
+  isReplacedByActiveChild,
+  isRevoked,
+  isSigned,
+  Question,
+} from '@frontend/common'
 import React from 'react'
 import RevokedStatus from './RevokedStatus'
 import SignableStatus from './SignableStatus'
@@ -9,16 +20,6 @@ import HasBeenComplementedStatus from './HasBeenComplementedStatus'
 import ReplacedStatus from './ReplacedStatus'
 import AvailableForPatientStatus from './AvailableForPatientStatus'
 import LockedStatus from './LockedStatus'
-import {
-  getComplementedByCertificateRelation,
-  hasUnhandledComplementQuestions,
-  isDraft,
-  isLocked,
-  isReplacedByActiveChild,
-  isRevoked,
-  isSigned,
-  Question,
-} from '@frontend/common/src'
 
 interface Props {
   certificateMetadata: CertificateMetadata
