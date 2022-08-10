@@ -15,7 +15,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx -f checkstyle > lint-result.xml",
     "merge-reports": "jrm combined.xml \"results/*.xml\"",
     "prepare": "husky install",
-    "startwc": "yarn workspace @frontend/webcert start"
+    "startwc": "yarn workspace @frontend/webcert start",
+    "testwc": "yarn workspace @frontend/webcert test",
+    "testcm": "yarn workspace @frontend/common test"
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
@@ -30,6 +32,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "eslint-plugin-storybook": "^0.6.1",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.4",
     "lerna": "^3.18.1",
@@ -109,7 +112,8 @@
       "plugin:import/typescript",
       "prettier/@typescript-eslint",
       "prettier/react",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "plugin:storybook/recommended"
     ],
     "plugins": [
       "unused-imports"
@@ -133,6 +137,14 @@
         ],
         "rules": {
           "no-undef": "off"
+        }
+      },
+      {
+        "files": [
+          "*.stories.@(ts|tsx|js|jsx|mjs|cjs)"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
         }
       }
     ]
