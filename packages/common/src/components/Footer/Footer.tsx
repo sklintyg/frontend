@@ -1,17 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import externalLinkIcon from '../../images/external_link.svg'
+import ExternalLinkIcon from '../image/ExternalLinkIcon'
 import { FooterCookiesModal } from './FooterCookiesModal'
 
 const LinkList = styled.ul`
   columns: 2;
-`
-
-const ExternalLinkIconImg = styled.img`
-  display: inline;
-  top: 2px;
-  left: 3px;
-  position: relative;
 `
 
 export const Footer: React.FC = () => (
@@ -29,18 +22,19 @@ export const Footer: React.FC = () => (
         <nav className="iu-grid iu-grid-span-lg-7 iu-grid-cols-3 iu-pl-xxl iu-hide-sm iu-hide-md" aria-label="Sidfot meny">
           <LinkList className="ic-link-list ic-link-list--nav">
             <li>
-              <a className="ic-link-chevron ic-link ic-link--external" target="_blank" href="https://www.inera.se/">
+              <a className="ic-link-chevron ic-link ic-link--external" target="_blank" href="https://www.inera.se/" rel="noreferrer">
                 Inera AB
-                <ExternalLinkIconImg src={externalLinkIcon} />
+                <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </li>
             <li>
               <a
                 className="ic-link-chevron ic-link ic-link--external"
                 target="_blank"
-                href="https://www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/">
+                href="https://www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/"
+                rel="noreferrer">
                 Inera Support
-                <ExternalLinkIconImg src={externalLinkIcon} />
+                <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </li>
             <li>
@@ -50,9 +44,13 @@ export const Footer: React.FC = () => (
               <strong>Problem med inloggning?</strong>
             </li>
             <li>
-              <a className="ic-link-chevron ic-link ic-link--external" target="_blank" href="https://inera.atlassian.net/wiki/x/SwhmFQ">
+              <a
+                className="ic-link-chevron ic-link ic-link--external"
+                target="_blank"
+                href="https://inera.atlassian.net/wiki/x/SwhmFQ"
+                rel="noreferrer">
                 Webcerts informationsyta
-                <ExternalLinkIconImg src={externalLinkIcon} />
+                <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </li>
           </LinkList>
@@ -64,8 +62,8 @@ export const Footer: React.FC = () => (
         <ul className="ic-nav-list__list">
           <li>
             <div className="ic-container--narrow-md iu-px-none">
-              <a className="ic-link ic-link--external" target="_blank" href="https://www.inera.se/">
-                Inera AB <ExternalLinkIconImg src={externalLinkIcon} />
+              <a className="ic-link ic-link--external" target="_blank" href="https://www.inera.se/" rel="noreferrer">
+                Inera AB <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </div>
           </li>
@@ -74,15 +72,16 @@ export const Footer: React.FC = () => (
               <a
                 className="ic-link ic-link--external"
                 target="_blank"
-                href="https://www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/">
-                Inera Support <ExternalLinkIconImg src={externalLinkIcon} />
+                href="https://www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/"
+                rel="noreferrer">
+                Inera Support <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </div>
           </li>
           <li>
             <div className="ic-container--narrow-md iu-px-none">
-              <a className="ic-link ic-link--external" target="_blank" href="https://inera.atlassian.net/wiki/x/SwhmFQ">
-                Webcerts informationsyta <ExternalLinkIconImg src={externalLinkIcon} />
+              <a className="ic-link ic-link--external" target="_blank" href="https://inera.atlassian.net/wiki/x/SwhmFQ" rel="noreferrer">
+                Webcerts informationsyta <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
               </a>
             </div>
           </li>

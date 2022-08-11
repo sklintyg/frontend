@@ -273,6 +273,18 @@ export const getPrivatePractitionerPortalResourceLink = (): ResourceLink[] => {
   ]
 }
 
+export const getSubscriptionWarningResourceLink = (): ResourceLink[] => {
+  return [
+    {
+      type: ResourceLinkType.SUBSCRIPTION_WARNING,
+      name: 'Saknar avtal',
+      body: '',
+      description: '',
+      enabled: true,
+    },
+  ]
+}
+
 export const getNavigateBackButtonLink = (): ResourceLink[] => {
   return [
     {
