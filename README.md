@@ -77,6 +77,12 @@ To create a frontend-pipeline using the template, you make sure to first login t
 `oc process -f pipelinetemplate-build-frontend.yaml -p APP_NAME=webcert-frontend -p RELEASE_VERSION=2021-2 -p GIT_URL=https://github.com/sklintyg/frontend.git -p GIT_CI_BRANCH=master | oc apply  -f -`
 ```
 
+## Running storybook
+
+Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common.
+
+- Start storybook: `yarn workspace @frontend/common storybook`
+
 ## Running tests
 
 Jest is used for executing tests.

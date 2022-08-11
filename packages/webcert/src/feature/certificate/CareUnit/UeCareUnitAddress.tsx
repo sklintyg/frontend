@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { MandatoryIcon, QuestionValidationTexts, Unit } from '@frontend/common'
+import { MandatoryIcon, QuestionValidationTexts, Unit, TextArea } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,33 +23,32 @@ import {
   CARE_UNIT_ZIP_CODE_FIELD,
   getValidationErrors,
 } from '@frontend/common/src/utils/validationUtils'
-import { TextArea } from '@frontend/common/src'
 
 const Wrapper = styled.div`
   align-items: center;
 `
 
-const ZipCodeInput = styled.input.attrs((props) => ({
+const ZipCodeInput = styled.input.attrs({
   type: 'text',
   size: 6,
   maxLength: 6,
-}))`
+})`
   max-width: 6em;
 `
 
-const CityInput = styled.input.attrs((props) => ({
+const CityInput = styled.input.attrs({
   type: 'text',
   size: 30,
   maxLength: 30,
-}))`
+})`
   max-width: 20em;
 `
 
-const PhoneNumberInput = styled.input.attrs((props) => ({
+const PhoneNumberInput = styled.input.attrs({
   type: 'text',
   size: 20,
   maxLength: 20,
-}))`
+})`
   max-width: 15em;
 `
 

@@ -371,7 +371,7 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
           type: '',
         },
         differentNameFromEHR: false,
-        personIdUpdated: false,
+        personIdChanged: false,
         coordinationNumber: false,
         deceased: false,
         firstName: '',
@@ -379,6 +379,7 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
         lastName: '',
         protectedPerson: false,
         testIndicated: false,
+        reserveId: false,
       },
       relations: {
         children: [],
@@ -454,7 +455,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
           type: '',
         },
         differentNameFromEHR: false,
-        personIdUpdated: false,
+        personIdChanged: false,
         coordinationNumber: false,
         deceased: false,
         firstName: '',
@@ -462,6 +463,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         lastName: '',
         protectedPerson: false,
         testIndicated: false,
+        reserveId: false,
       },
       relations: {
         children: [],
@@ -478,9 +480,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
 }
 
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return [{ type: type, handled: handled }]
+  return [{ type: type, handled: handled } as Question]
 }
 
 export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {

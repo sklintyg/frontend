@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { printCertificate } from '../../../store/certificate/certificateActions'
-import { CertificateMetadata, CustomButton, sanitizeText } from '@frontend/common'
-import { ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common/src'
+import { CertificateMetadata, CustomButton, sanitizeText, ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common'
 import styled from 'styled-components'
 import print from '@frontend/common/src/images/print.svg'
 

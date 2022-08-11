@@ -93,7 +93,7 @@ export const handleGetComplementQuestions: Middleware<Dispatch> = ({ dispatch }:
   )
 }
 
-export const handleGetQuestionsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+export const handleGetQuestionsStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateIsLoadingQuestions(true))
 }
 

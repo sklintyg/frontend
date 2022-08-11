@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getActiveError } from '../../store/error/errorSelectors'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import ConcurrentModification from './modals/ConcurrentModification'
 import InvalidState from './modals/InvalidState'
@@ -21,7 +21,6 @@ export interface ErrorRoute {
 
 const ErrorComponent: React.FC = () => {
   const activeError = useSelector(getActiveError)
-  const history = useHistory()
 
   if (!activeError) return null
 
@@ -58,11 +57,15 @@ const ErrorComponent: React.FC = () => {
       case ErrorType.MODAL:
         return getModal()
       case ErrorType.ROUTE:
-        history.push({
-          pathname: '/error',
-          state: { errorCode: activeError.errorCode, errorId: activeError.errorId },
-        })
-        return null
+        return (
+          <Redirect
+            push
+            to={{
+              pathname: '/error',
+              state: { errorCode: activeError.errorCode, errorId: activeError.errorId },
+            }}
+          />
+        )
       default:
         return null
     }

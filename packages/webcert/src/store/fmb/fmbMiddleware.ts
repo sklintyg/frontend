@@ -183,7 +183,7 @@ function retrieveFMBForAddedDiagnosisCodes(
   valueDiagnosisList: ValueDiagnosisList,
   dispatch: Dispatch
 ) {
-  valueDiagnosisList.list.forEach((diagnosis, index) => {
+  valueDiagnosisList.list.forEach((diagnosis) => {
     const exists = existingFMBDiagnosisCodeInfo.findIndex((existing) => existing.originalIcd10Code === diagnosis.code) > -1
     if (exists || !diagnosis.code) {
       return

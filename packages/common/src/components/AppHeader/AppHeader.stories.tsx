@@ -1,12 +1,13 @@
-import React from 'react'
-import { Story } from '@storybook/react'
-import AppHeader, { Props } from './AppHeader'
-import AppHeaderTitle from './AppHeaderTitle'
-import webcertImg from '../../../../webcert/src/components/header/webcert_logo.png'
-import { Provider } from 'react-redux'
-import store from '@frontend/webcert/src/store/store'
 import WebcertHeaderUser from '@frontend/webcert/src/components/header/WebcertHeaderUser'
+import webcertImg from '@frontend/webcert/src/components/header/webcert_logo.png'
+import store from '@frontend/webcert/src/store/store'
+import { Story } from '@storybook/react'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route } from 'react-router-dom'
+import AppHeader, { Props } from './AppHeader'
 import AppHeaderLink from './AppHeaderLink'
+import AppHeaderTitle from './AppHeaderTitle'
 
 export default {
   title: 'Components/AppHeader',
@@ -15,7 +16,11 @@ export default {
 
 const Template: Story<Props> = (args: Props) => (
   <Provider store={store}>
-    <AppHeader {...args} />
+    <BrowserRouter>
+      <Route>
+        <AppHeader {...args} />
+      </Route>
+    </BrowserRouter>
   </Provider>
 )
 
