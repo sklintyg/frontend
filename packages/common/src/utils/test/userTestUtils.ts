@@ -197,45 +197,44 @@ export const getUserWithEmptyCareUnitWithoutUnits = (): User => {
   }
 }
 
+const createUnitStatistic = (): UnitStatistic => ({
+  draftsOnUnit: 3,
+  questionsOnUnit: 0,
+  draftsOnSubUnits: 1,
+  questionsOnSubUnits: 5,
+})
+
+const createUserStatistics = (statistics: UnitStatistics, totalDraftsAndUnhandledQuestionsOnOtherUnits = 17): UserStatistics => ({
+  nbrOfDraftsOnSelectedUnit: 6,
+  nbrOfUnhandledQuestionsOnSelectedUnit: 10,
+  totalDraftsAndUnhandledQuestionsOnOtherUnits,
+  unitStatistics: statistics,
+})
+
 export const getUserStatistics = (): UserStatistics => {
-  const unitStatistic: UnitStatistic = {
-    draftsOnUnit: 3,
-    questionsOnUnit: 0,
-    draftsOnSubUnits: 1,
-    questionsOnSubUnits: 5,
-  }
-
   const unitStatistics: UnitStatistics = {
-    '1234a': unitStatistic,
-    '1234b': unitStatistic,
+    '1234a': createUnitStatistic(),
+    '1234b': createUnitStatistic(),
   }
 
-  return {
-    nbrOfDraftsOnSelectedUnit: 6,
-    nbrOfUnhandledQuestionsOnSelectedUnit: 10,
-    totalDraftsAndUnhandledQuestionsOnOtherUnits: 17,
-    unitStatistics: unitStatistics,
+  return createUserStatistics(unitStatistics)
+}
+
+export const getUserStatisticsWithNoDraftsOnOtherUnits = (): UserStatistics => {
+  const unitStatistics: UnitStatistics = {
+    '1234a': createUnitStatistic(),
+    '1234b': createUnitStatistic(),
   }
+
+  return createUserStatistics(unitStatistics, 0)
 }
 
 export const getUserStatisticsForOneCareUnit = (): UserStatistics => {
-  const unitStatistic: UnitStatistic = {
-    draftsOnUnit: 3,
-    questionsOnUnit: 2,
-    draftsOnSubUnits: 0,
-    questionsOnSubUnits: 0,
-  }
-
   const unitStatistics: UnitStatistics = {
-    '1234a': unitStatistic,
+    '1234a': createUnitStatistic(),
   }
 
-  return {
-    nbrOfDraftsOnSelectedUnit: 6,
-    nbrOfUnhandledQuestionsOnSelectedUnit: 10,
-    totalDraftsAndUnhandledQuestionsOnOtherUnits: 17,
-    unitStatistics: unitStatistics,
-  }
+  return createUserStatistics(unitStatistics)
 }
 
 export const getChooseUnitResourceLink = (): ResourceLink[] => {
