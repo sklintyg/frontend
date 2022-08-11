@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../store/store'
 import {
@@ -9,14 +9,17 @@ import {
   QuestionValidationTexts,
   TextArea,
   ValueIcf,
+  CertificateDataValidationType,
+  TextValidation,
 } from '@frontend/common'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import IcfDropdown from '../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../store/icf/icfSelectors'
-import { getFilteredIcfValues, getIcfValueList, isOldListIncludedInNewList } from '../../../components/icf/IcfUtils'
-import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
+import { getFilteredIcfValues, getIcfValueList } from '../../../components/icf/IcfUtils'
+import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
+import usePrevious from '../../../hooks/usePrevious'
 
 interface Props {
   question: CertificateDataElement
@@ -31,9 +34,9 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')
   const [chosenIcfValues, setChosenIcfValues] = useState<string[] | undefined>(getIcdCodesValue(question))
-  const [icfValues, setIcfValues] = useState<string[]>([])
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
+  const previousIcfValues = usePrevious(getIcfValueList(icfData))
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, textValue: string, icfCodeValues?: string[]) => {
@@ -42,27 +45,14 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
     }, 1000)
   ).current
 
-  function hasNewIcfValues(oldIcfValues: string[], newIcfValues: string[]) {
-    return isOldListIncludedInNewList(oldIcfValues, newIcfValues)
-  }
+  useDeepCompareEffect(() => {
+    if (!icfData && previousIcfValues.length === 0) return
 
-  function shouldUpdateChosenValues(updatedChosenIcfValues: string[] | undefined) {
-    return isOldListIncludedInNewList(chosenIcfValues, updatedChosenIcfValues)
-  }
-
-  useEffect(() => {
     const newIcfValues = getIcfValueList(icfData)
-    const oldIcfValues = [...icfValues]
-    setIcfValues(newIcfValues)
-
-    if (hasNewIcfValues(oldIcfValues, newIcfValues)) {
-      const updatedChosenIcfValues = getFilteredIcfValues(chosenIcfValues, oldIcfValues, newIcfValues)
-      if (shouldUpdateChosenValues(updatedChosenIcfValues)) {
-        setChosenIcfValues(updatedChosenIcfValues)
-        dispatchEditDraft(question, text, updatedChosenIcfValues)
-      }
-    }
-  }, [icfData])
+    const updatedChosenIcfValues = getFilteredIcfValues(chosenIcfValues, previousIcfValues, newIcfValues)
+    setChosenIcfValues(updatedChosenIcfValues)
+    dispatchEditDraft(question, text, updatedChosenIcfValues)
+  }, [icfData, dispatchEditDraft, previousIcfValues, question, text])
 
   const handleTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setText(event.currentTarget.value)

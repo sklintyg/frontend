@@ -17,10 +17,10 @@ export const getUserResourceLinks = (state: RootState): ResourceLink[] => state.
 
 export const getUserStatistics = (state: RootState): UserStatistics | undefined => state.ui.uiUser.userStatistics
 
-export const getNumberOfDraftsOnUnit = (state: RootState): number | undefined =>
+export const getNumberOfDraftsOnUnit = (state: RootState): number =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfDraftsOnSelectedUnit : 0
 
-export const getNumberOfQuestionsOnUnit = (state: RootState): number | undefined =>
+export const getNumberOfQuestionsOnUnit = (state: RootState): number =>
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.nbrOfUnhandledQuestionsOnSelectedUnit : 0
 
 export const getUnitStatistics = (state: RootState): UnitStatistics =>
@@ -28,7 +28,7 @@ export const getUnitStatistics = (state: RootState): UnitStatistics =>
 
 export const selectIsLoadingUserStatistics = (state: RootState): boolean => state.ui.uiUser.isLoadingUserStatistics
 
-export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState): number | undefined =>
-  state.ui.uiUser.userStatistics?.totalDraftsAndUnhandledQuestionsOnOtherUnits
+export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState): number =>
+  state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.totalDraftsAndUnhandledQuestionsOnOtherUnits : 0
 
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen

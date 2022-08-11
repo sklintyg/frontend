@@ -7,7 +7,7 @@ export interface ModalProps {
 }
 
 export const reloadPage = (activeError: ErrorData, dispatch: Dispatch<any>) => {
-  return () => {
+  return (): void => {
     dispatch(clearError({ errorId: activeError.errorId }))
     window.location.reload()
   }

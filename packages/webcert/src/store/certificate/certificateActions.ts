@@ -22,10 +22,6 @@ const CREATE_NEW_CERTIFICATE_SUCCESS = `${CERTIFICATE} Create certificate succes
 const CREATE_NEW_CERTIFICATE_ERROR = `${CERTIFICATE} Create certificate started`
 const UPDATE_CERTIFICATE_ID = `${CERTIFICATE} Update certificate id`
 
-const UPDATE_CREATE_CERTIFICATE = `${CERTIFICATE} Update create certificate`
-
-const UPDATE_NAVIGATE_TO_CERTIFICATE = `${CERTIFICATE} Update navigate to certificate`
-
 const GET_CERTIFICATE = `${CERTIFICATE} Get certificate`
 const GET_CERTIFICATE_STARTED = `${CERTIFICATE} Get certificate started`
 const GET_CERTIFICATE_SUCCESS = `${CERTIFICATE} Get certificate success`
@@ -204,7 +200,7 @@ export interface GetCertificateSuccess {
 
 export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
-export const getCertificateError = createAction<any>(GET_CERTIFICATE_ERROR)
+export const getCertificateError = createAction(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 

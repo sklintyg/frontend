@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { InfoBox } from '@frontend/common'
-import { TextWithInfoModal } from '@frontend/common/src'
+import { InfoBox, TextWithInfoModal } from '@frontend/common'
 import styled from 'styled-components'
 
 interface Props {

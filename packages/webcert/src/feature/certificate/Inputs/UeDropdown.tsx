@@ -38,7 +38,7 @@ const UeDropdown: React.FC<Props> = (props) => {
       <Dropdown
         id={question.id}
         label={question.config.label + ''}
-        options={config.list.map((item, i) => (
+        options={config.list.map((item) => (
           <option key={item.id} value={item.id}>
             {item.label}
           </option>

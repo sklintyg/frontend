@@ -21,25 +21,28 @@ export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterV
       return { type: filter.type, value: '' }
     case ListFilterType.PERSON_ID:
       return { type: filter.type, value: '' }
-    case ListFilterType.SELECT:
+    case ListFilterType.SELECT: {
       const defaultSelectValue = (filter as ListFilterSelectConfig).values.find((v) => v.defaultValue)
       return {
         type: filter.type,
         value: defaultSelectValue ? defaultSelectValue.id : '',
       }
-    case ListFilterType.RADIO:
+    }
+    case ListFilterType.RADIO: {
       const defaultValue = (filter as ListFilterRadioConfig).values.find((v) => v.defaultValue)
       return {
         type: filter.type,
         value: defaultValue ? defaultValue.id : '',
       }
-    case ListFilterType.DATE_RANGE:
+    }
+    case ListFilterType.DATE_RANGE: {
       const dateRangeFilter = filter as ListFilterDateRangeConfig
       return {
         type: dateRangeFilter.type,
         to: dateRangeFilter.to.defaultValue ? dateRangeFilter.to.defaultValue.split('T')[0] : '',
         from: dateRangeFilter.from.defaultValue ? dateRangeFilter.from.defaultValue.split('T')[0] : '',
       } as ListFilterValueDateRange
+    }
     case ListFilterType.ORDER:
       return {
         type: filter.type,
@@ -79,6 +82,6 @@ export const isFilterValueDefault = (config: ListFilterConfig, value: ListFilter
   return isEqual(value, getListFilterDefaultValue(config))
 }
 
-export const getTooltip = (config: ListConfig, id: CertificateListItemValueType) => {
-  return config && config.buttonTooltips ? config.buttonTooltips[id] : ''
+export const getTooltip = (config: ListConfig, id: CertificateListItemValueType): string => {
+  return config?.buttonTooltips[id] ?? ''
 }

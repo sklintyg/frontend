@@ -1,30 +1,25 @@
 import { AnyAction } from '@reduxjs/toolkit'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { FunctionDisabler, generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
 
-const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: Dispatch) => async (action: AnyAction) => {
+const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {
     return
   }
 
   const { url, method, data, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
-  let functionDisabler: FunctionDisabler
+  const functionDisabler: FunctionDisabler = generateFunctionDisabler()
 
   if (onStart) {
     dispatch({ type: onStart, payload: { ...onArgs } })
   }
 
-  if (functionDisablerType) {
-    functionDisabler = generateFunctionDisabler()
-  }
-
   try {
     if (functionDisablerType) {
-      // @ts-expect-error functionDisabler wont be undefined if type has a value
       dispatch({ type: functionDisablerType, payload: functionDisabler })
     }
 
@@ -41,20 +36,22 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => (next: D
       dispatch({ type: onSuccess, payload: { ...response.data, ...onArgs } })
     }
   } catch (error) {
-    dispatch(apiCallFailed(error.message))
+    const message = (error as Error)?.message ?? ''
+    const response = (error as AxiosError)?.response ?? undefined
+
+    dispatch(apiCallFailed(message))
 
     if (onError) {
       dispatch({
         type: onError,
         payload: {
-          error: createApiError(method + ' ' + url, error.response, error.message),
+          error: createApiError(method + ' ' + url, response, message),
           ...onArgs,
         },
       })
     }
   } finally {
     if (functionDisablerType) {
-      // @ts-expect-error functionDisabler wont be undefined if type has a value
       dispatch({ type: functionDisablerType, payload: functionDisabler })
     }
   }
@@ -68,7 +65,7 @@ const handleApiSilentGenericError: Middleware<Dispatch> = ({ dispatch }: Middlew
   dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
-function createApiError(api: string, response: any, altMessage: string): ApiError {
+function createApiError(api: string, response: AxiosResponse | undefined, altMessage: string): ApiError {
   if (!response) {
     return { api, errorCode: 'UNKNOWN_INTERNAL_PROBLEM', message: altMessage }
   }
