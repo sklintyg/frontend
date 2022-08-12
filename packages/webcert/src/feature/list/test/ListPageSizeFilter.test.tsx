@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
+import { Provider } from 'react-redux'
+import store from '../../../store/store'
 
 const onFilterChange = jest.fn()
 const TITLE = 'title for filter pagesize'
@@ -26,23 +28,31 @@ const getFilterConfig = (pageSizes: number[]): ListFilterPageSizeConfig => {
 
 const renderComponent = (totalCount: number) => {
   render(
-    <ListPageSizeFilter
-      filter={getFilterConfig(pageSizes)}
-      onFilterChange={onFilterChange}
-      value={getFilterValue()}
-      totalCount={totalCount}
-    />
+    <Provider store={store}>
+      <ListPageSizeFilter
+        filter={getFilterConfig(pageSizes)}
+        onFilterChange={onFilterChange}
+        value={getFilterValue()}
+        totalCount={totalCount}
+      />
+    </Provider>
   )
 }
 
 const renderComponentWithNoPageSizes = (totalCount: number) => {
   render(
-    <ListPageSizeFilter filter={getFilterConfig([])} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
+    <Provider store={store}>
+      <ListPageSizeFilter filter={getFilterConfig([])} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
+    </Provider>
   )
 }
 
 const renderComponentWithUndefinedConfig = (totalCount: number) => {
-  render(<ListPageSizeFilter filter={undefined} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />)
+  render(
+    <Provider store={store}>
+      <ListPageSizeFilter filter={undefined} onFilterChange={onFilterChange} value={getFilterValue()} totalCount={totalCount} />
+    </Provider>
+  )
 }
 
 describe('ListPageSizeFilter', () => {
