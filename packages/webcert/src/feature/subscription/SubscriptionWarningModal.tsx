@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomButton, ModalBase, ResourceLinkType } from '@frontend/common'
+import { CustomButton, ExternalLinkIcon, ModalBase, ResourceLinkType } from '@frontend/common'
 import { getUserResourceLinks } from '../../store/user/userSelectors'
 import { acknowledgeSubscription } from '../../store/user/userActions'
 import WCDynamicLink from '../../utils/WCDynamicLink'
@@ -8,25 +8,29 @@ import WCDynamicLink from '../../utils/WCDynamicLink'
 const ModalContent = () => {
   return (
     <div>
-      <p className="iu-mb-1rem">Du ser detta meddelande för att din verksamhet saknar abonnemang för Webcert.</p>
+      <p className="iu-mb-1rem">Du ser detta meddelande för att du eller din verksamhet saknar abonnemang.</p>
 
       <p className="iu-mb-1rem">
-        För att er verksamhet fortsatt ska kunna utfärda intyg efter <span className="iu-color-error">2022-05-10</span> kräver Inera att ni
-        tecknar kundavtal samt beställer abonnemang för tjänsten Webcert.
+        För att kunna skriva intyg i Webcert behöver du eller din verksamhet teckna kundavtal med Inera samt beställa abonnemang för
+        tjänsten.
       </p>
 
-      <p className="iu-mb-1rem">
-        Om abonnemang saknas efter <span className="iu-color-error">2022-05-10</span> kommer inga nya intyg att kunna utfärdas. Er
-        verksamhet får då endast tillgång till Webcert för att läsa tidigare utfärdade intyg.
-      </p>
+      <p className="iu-mb-1rem">Utan abonnemang kan du endast läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.</p>
 
       <p className="iu-mb-1rem">
-        Tidigare kommunicerat beslut att e-legitimationsinloggning endast är förbehållen enskild firma är omprövat. Ytterligare information
-        finns på nedanstående länk.
+        Läs mer om Webcert och hur du beställer <WCDynamicLink linkKey="ineraIntygstjansterWebcert" />
       </p>
 
       <p>
-        Läs mer om Webcert och hur du beställer tjänsten <WCDynamicLink linkKey="ineraIntygstjansterWebcert" />
+        Om du tidigare använt Webcert och inte längre vill nyttja tjänsten måste du eller din verksamhet inkomma med avslutsbegäran. Den
+        reglerar din verksamhets skyldighet att omhänderta intygsinformation{' '}
+        <a
+          className="ic-link ic-link--external"
+          target="_blank"
+          href="https://www.inera.se/kontakta-oss/fragor-om-bestallning-och-tjanster/"
+          rel="noreferrer">
+          Avsluta tjänsten <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
+        </a>
       </p>
     </div>
   )

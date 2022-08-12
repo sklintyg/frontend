@@ -67,7 +67,7 @@ const userReducer = createReducer(initialState, (builder) =>
       state.isCareProviderModalOpen = action.payload
     })
     .addCase(removeResourceLink, (state, action) => {
-      state.links = state.links.filter((l) => l.type !== action.payload)
+      state.links = state.links.filter((link) => link.type !== action.payload)
     })
 )
 

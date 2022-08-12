@@ -6,15 +6,12 @@ import reducer from '../../store/reducers'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { createMemoryHistory } from 'history'
 import SubscriptionWarningModal from './SubscriptionWarningModal'
 import { updateUserResourceLinks } from '../../store/user/userActions'
 import { getSubscriptionWarningResourceLink } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
-const history = createMemoryHistory()
-history.push = jest.fn()
 
 const renderComponent = () => {
   render(

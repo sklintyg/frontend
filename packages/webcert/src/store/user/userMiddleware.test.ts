@@ -136,7 +136,9 @@ describe('Test user middleware', () => {
 
       await flushPromises()
 
-      expect(testStore.getState().ui.uiUser.links.map((l: ResourceLink) => l.type)).not.toContain(ResourceLinkType.SUBSCRIPTION_WARNING)
+      const resourceLink = testStore.getState().ui.uiUser.links.map((link: ResourceLink) => link.type)
+
+      expect(resourceLink).not.toContain(ResourceLinkType.SUBSCRIPTION_WARNING)
     })
   })
 })
