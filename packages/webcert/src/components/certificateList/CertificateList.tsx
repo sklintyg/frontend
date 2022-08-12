@@ -33,7 +33,7 @@ const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): n
 }
 
 const CertificateBox = styled.div`
-  max-height: 32em;
+  max-height: 30.2em;
   overflow-y: auto;
 `
 

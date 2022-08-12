@@ -57,10 +57,10 @@ const ErrorPage: React.FC = () => {
     if (location.search) {
       const params = new URLSearchParams(location.search)
       const reason = params.get('reason') ?? ''
-      errorCode = ReasonParamErrorCodeMap.get(reason) as string
-      dispatch(throwError({ type: ErrorType.ROUTE, errorCode: errorCode as ErrorCode }))
+      const errorCode = ReasonParamErrorCodeMap.get(reason) as ErrorCode
+      dispatch(throwError({ type: ErrorType.ROUTE, errorCode }))
     }
-  }, [location.search])
+  }, [dispatch, location.search])
 
   const getContent = () => {
     switch (errorCode) {

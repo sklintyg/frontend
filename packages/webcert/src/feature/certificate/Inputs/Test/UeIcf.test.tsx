@@ -72,7 +72,8 @@ describe('UeIcf', () => {
     jest.advanceTimersByTime(2000)
 
     flushPromises()
-    const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
+    const actions = dispatchedActions.filter((action) => updateCertificateDataElement.match(action))
+    const updateCertificateDataElementAction = actions[actions.length - 1]
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValue.icfCodes)
   })
 
@@ -135,7 +136,6 @@ describe('UeIcf', () => {
   it('shall display placeholder if chosen icf values', () => {
     const question = createQuestion(['test'])
     renderComponent(question)
-
     expect(screen.getByPlaceholderText(PLACEHOLDER)).toBeInTheDocument()
   })
 

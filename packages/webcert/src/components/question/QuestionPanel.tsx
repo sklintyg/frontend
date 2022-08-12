@@ -49,10 +49,9 @@ const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
   const previousQuestionsLength = usePrevious(administrativeQuestions.length)
 
   useEffect(() => {
-    if (previousQuestionsLength !== 0 || (previousQuestionsLength.length > 0 && administrativeQuestions.length > previousQuestionsLength))
-      return
+    if (previousQuestionsLength !== 0 || (previousQuestionsLength > 0 && administrativeQuestions.length > previousQuestionsLength)) return
     setIsComplementSelected(getShouldComplementedBeActive(administrativeQuestions, complementQuestions))
-  }, [administrativeQuestions.length, previousQuestionsLength])
+  }, [administrativeQuestions, administrativeQuestions.length, complementQuestions, previousQuestionsLength])
 
   const getButtonNumber = (questions: Question[]) => {
     if (!isSigned) return undefined

@@ -1,14 +1,21 @@
 import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { CertificateDataElement, CertificateDataValueType, Diagnosis, ValueDiagnosis, ValueDiagnosisList } from '@frontend/common'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  Diagnosis,
+  ValueDiagnosis,
+  ValueDiagnosisList,
+  CertificateDataValidationType,
+  TextValidation,
+} from '@frontend/common'
 import { shallowEqual, useSelector } from 'react-redux'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { useAppDispatch } from '../../../../store/store'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import _ from 'lodash'
-import { CertificateDataValidationType, TextValidation } from '@frontend/common/src'
 import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {

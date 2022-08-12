@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
@@ -8,6 +7,7 @@ import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFu
 import { FilterWrapper } from './filterStyles'
 import questionImage from '@frontend/common/src/images/question.svg'
 import { updateValidationError } from '../../../store/list/listActions'
+import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resultat.'
@@ -53,21 +53,86 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const [fromValidationError, setFromValidationError] = useState<ValidationError | null>(null)
   const [globalValidationError, setGlobalValidationError] = useState<ValidationError | null>(null)
 
+  const shouldShowDateTooFarBackError = (value: string, limit: string | undefined) => {
+    return limit && isDateBehindLimit(value, limit.split('T')[0])
+  }
+
+  const toggleValidationError = useCallback(
+    (to: string, from: string): boolean => {
+      if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
+        setGlobalValidationError({
+          category: '',
+          field: '',
+          id: '',
+          text: INVALID_DATE_PERIOD_ERROR,
+          type: 'INVALID_DATE_PERIOD',
+          showAlways: true,
+        })
+        dispatch(updateValidationError({ id: config.id, value: true }))
+        return true
+      } else {
+        setGlobalValidationError(null)
+        dispatch(updateValidationError({ id: config.id, value: false }))
+        return false
+      }
+    },
+    [config.id, dispatch]
+  )
+
+  const toggleSpecificValidationError = useCallback(
+    (
+      value: string,
+      config: ListFilterDateConfig,
+      saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void,
+      currentValidationError: ValidationError | null
+    ): boolean => {
+      if (isFutureDate(value)) {
+        saveValidationError({
+          category: '',
+          field: '',
+          id: '',
+          text: FUTURE_DATES_ERROR,
+          type: 'FUTURE_DATES_ERROR',
+          showAlways: true,
+        })
+        dispatch(updateValidationError({ id: config.id, value: true }))
+        return true
+      } else if (shouldShowDateTooFarBackError(value, config.min)) {
+        saveValidationError({
+          category: '',
+          field: '',
+          id: '',
+          text: DATE_BEFORE_MIN,
+          type: 'DATE_BEFORE_MIN',
+          showAlways: true,
+        })
+        dispatch(updateValidationError({ id: config.id, value: true }))
+        return true
+      } else if (currentValidationError && currentValidationError.type !== 'INVALID_DATE_FORMAT') {
+        saveValidationError(null)
+        dispatch(updateValidationError({ id: config.id, value: false }))
+        return false
+      }
+      return false
+    },
+    [dispatch]
+  )
+
   useEffect(() => {
     setSavedValue(filterValue)
   }, [filterValue])
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (savedValue) {
       toggleValidationError(savedValue.to, savedValue.from)
       toggleSpecificValidationError(savedValue.to, configTo, setToValidationError, toValidationError)
       toggleSpecificValidationError(savedValue.from, configFrom, setFromValidationError, fromValidationError)
     }
-  }, [savedValue])
+  }, [configFrom, configTo, fromValidationError, savedValue, toValidationError, toggleSpecificValidationError, toggleValidationError])
 
   useEffect(() => {
     dispatch(updateValidationError({ id: config.id, value: !!globalValidationError || !!toValidationError || !!fromValidationError }))
-  }, [dispatch, globalValidationError, toValidationError, fromValidationError])
+  }, [dispatch, globalValidationError, toValidationError, fromValidationError, config.id])
 
   const onFromDateFilterChange = (date: string, isValueValid?: boolean) => {
     const hasGlobalValidationError = toggleValidationError(savedValue.to, date)
@@ -87,65 +152,6 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
       onChange(updatedValue, config.id)
     }
     setSavedValue(updatedValue)
-  }
-
-  const shouldShowDateTooFarBackError = (value: string, limit: string | undefined) => {
-    return limit && isDateBehindLimit(value, limit.split('T')[0])
-  }
-
-  const toggleValidationError = (to: string, from: string): boolean => {
-    if (from && to && !isDateRangeValidOrIncomplete(from, to)) {
-      setGlobalValidationError({
-        category: '',
-        field: '',
-        id: '',
-        text: INVALID_DATE_PERIOD_ERROR,
-        type: 'INVALID_DATE_PERIOD',
-        showAlways: true,
-      })
-      dispatch(updateValidationError({ id: config.id, value: true }))
-      return true
-    } else {
-      setGlobalValidationError(null)
-      dispatch(updateValidationError({ id: config.id, value: false }))
-      return false
-    }
-  }
-
-  const toggleSpecificValidationError = (
-    value: string,
-    config: ListFilterDateConfig,
-    saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void,
-    currentValidationError: ValidationError | null
-  ): boolean => {
-    if (isFutureDate(value)) {
-      saveValidationError({
-        category: '',
-        field: '',
-        id: '',
-        text: FUTURE_DATES_ERROR,
-        type: 'FUTURE_DATES_ERROR',
-        showAlways: true,
-      })
-      dispatch(updateValidationError({ id: config.id, value: true }))
-      return true
-    } else if (shouldShowDateTooFarBackError(value, config.min)) {
-      saveValidationError({
-        category: '',
-        field: '',
-        id: '',
-        text: DATE_BEFORE_MIN,
-        type: 'DATE_BEFORE_MIN',
-        showAlways: true,
-      })
-      dispatch(updateValidationError({ id: config.id, value: true }))
-      return true
-    } else if (currentValidationError && currentValidationError.type !== 'INVALID_DATE_FORMAT') {
-      saveValidationError(null)
-      dispatch(updateValidationError({ id: config.id, value: false }))
-      return false
-    }
-    return false
   }
 
   const getFromValue = () => {

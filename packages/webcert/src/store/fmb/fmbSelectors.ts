@@ -1,6 +1,5 @@
 import { RootState } from '../store'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
-import { ValueDiagnosisList } from '@frontend/common/src'
+import { FMBDiagnosisCodeInfo, ValueDiagnosisList } from '@frontend/common'
 
 export const getFMBDiagnosisCodes = (state: RootState): FMBDiagnosisCodeInfo[] => state.ui.uiFMB.fmbDiagnosisCodeInfo
 

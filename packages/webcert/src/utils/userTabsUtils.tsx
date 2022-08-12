@@ -1,6 +1,6 @@
 import { ResourceLink, ResourceLinkType, UserStatistics, UserTab } from '@frontend/common'
 
-export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]) => {
+export const getUserTabs = (isDoctor: boolean, userStatistics: UserStatistics | undefined, links: ResourceLink[]): UserTab[] => {
   if (isDoctor) {
     return getTabsForDoctor(userStatistics, links)
   } else {

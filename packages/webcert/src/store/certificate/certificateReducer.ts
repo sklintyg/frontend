@@ -278,7 +278,7 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       if (!state.certificate || !action.payload.affectedIds) {
         return
       }
-      setDisableForChildElement(state.certificate!.data, action.payload)
+      setDisableForChildElement(state.certificate.data, action.payload)
     })
     .addCase(updateCertificateComplements, (state, action) => {
       state.complements = action.payload

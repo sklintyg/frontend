@@ -16,6 +16,7 @@ import {
   ValueDateRange,
   ValueDateRangeList,
   TextInput,
+  Accordion,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
@@ -24,7 +25,6 @@ import { DaysRangeWrapper } from './Styles'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
-import { Accordion } from '@frontend/common/src'
 import styled, { css } from 'styled-components/macro'
 
 const AccordionStyles = css`
@@ -53,11 +53,24 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
-  }, [])
+  }, [question.value])
 
   useEffect(() => {
+    const hasAnyOverlap = () => valueList.some((val) => getPeriodHasOverlap(valueList, val.id))
+    const toggleOverlapError = (shouldAddError: boolean) => {
+      const overlapError: ValidationError = {
+        category: question.parent,
+        id: question.id,
+        text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
+        type: 'OVERLAP_ERROR',
+        field: question.id,
+        showAlways: true,
+      }
+      dispatch(updateClientValidationError({ shouldBeRemoved: !shouldAddError, validationError: overlapError }))
+    }
+
     toggleOverlapError(hasAnyOverlap())
-  }, [valueList])
+  }, [dispatch, question.id, question.parent, valueList])
 
   const handleUpdatedValue = (valueId: string, fromDate: string | null, toDate: string | null) => {
     const updatedValueList = getUpdatedValueList(valueId, fromDate, toDate)
@@ -113,26 +126,10 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     const nextPeriodStart = getLatestPeriodEndDate((question.config as ConfigUeSickLeavePeriod).list, valueList)
 
     if (isValid(nextPeriodStart)) {
-      return formatDateToString(addDays(nextPeriodStart!, 1))
+      return formatDateToString(addDays(nextPeriodStart as Date, 1))
     }
 
     return formatDateToString(new Date())
-  }
-
-  const hasAnyOverlap = () => {
-    return valueList.some((val) => getPeriodHasOverlap(valueList, val.id))
-  }
-
-  const toggleOverlapError = (shouldAddError: boolean) => {
-    const overlapError: ValidationError = {
-      category: question.parent,
-      id: question.id,
-      text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
-      type: 'OVERLAP_ERROR',
-      field: question.id,
-      showAlways: true,
-    }
-    dispatch(updateClientValidationError({ shouldBeRemoved: !shouldAddError, validationError: overlapError }))
   }
 
   const handleGetPeriodHaveOverlap = (periodId: string) => {
@@ -201,7 +198,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         )}
       </div>
       <div className={'iu-pt-300'}>
-        {config.list.map((period: ConfigUeCheckboxDateRange, i) => {
+        {config.list.map((period: ConfigUeCheckboxDateRange) => {
           return (
             <DateRangePicker
               baseWorkHours={baseWorkHours}
