@@ -29,8 +29,8 @@ const WebcertHeaderUnit: React.FC = () => {
   const user = useSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
   const userLinks = useSelector(getUserResourceLinks)
-
   const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
+  const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
 
   const openModal = () => {
     dispatch(updateIsCareProviderModalOpen(true))
@@ -42,19 +42,20 @@ const WebcertHeaderUnit: React.FC = () => {
         <span>
           {user.loggedInCareProvider.unitName} - {user.loggedInUnit.unitName}
           <br />
-          <Italic>
-            {changeUnitLink &&
-              `${totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.`}
-          </Italic>
+          {showUnhandledQuestionsInfo && (
+            <Italic>
+              {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
+            </Italic>
+          )}
         </span>
-        {user.loggedInUnit.isInactive ? (
+        {user.loggedInUnit.isInactive && (
           <InactiveUnit
             className="iu-ml-400"
             data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
             <AlertCircle />
             <span>Inaktiv enhet</span>
           </InactiveUnit>
-        ) : null}
+        )}
         {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}
       </Wrapper>
     )

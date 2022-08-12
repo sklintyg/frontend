@@ -1,11 +1,17 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { getChangeUnitResourceLink, getUser, getUserStatistics, getUserWithInactiveUnit } from '@frontend/common'
+import {
+  getChangeUnitResourceLink,
+  getUser,
+  getUserStatistics,
+  getUserStatisticsWithNoDraftsOnOtherUnits,
+  getUserWithInactiveUnit,
+} from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import reducer from '@frontend/webcert/src/store/reducers'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
@@ -76,6 +82,16 @@ describe('Webcert header unit', () => {
       testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
       expect(screen.getByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).toBeInTheDocument()
+    })
+
+    it('should not show statistics on other units if there are none', () => {
+      testStore.dispatch(updateUser(getUser()))
+      testStore.dispatch(updateUserStatistics(getUserStatisticsWithNoDraftsOnOtherUnits()))
+      testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+
+      renderComponent()
+
+      expect(screen.queryByText('17 ej hanterade ärenden och ej signerade utkast på andra vårdenheter.')).not.toBeInTheDocument()
     })
   })
 })
