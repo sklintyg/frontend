@@ -86,7 +86,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
     const forwardDraft = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
     const forwardQuestion = getLink(ResourceLinkType.FORWARD_QUESTION)
     const link = forwardDraft ? forwardDraft : forwardQuestion
-    if (link) {
+    if (link && info) {
       return (
         <td>
           <ForwardCertificateButton

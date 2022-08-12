@@ -8,7 +8,8 @@ import { useHistory } from 'react-router-dom'
 import speechBubble from '@frontend/common/src/images/speech-bubble.svg'
 import edit from '@frontend/common/src/images/edit.svg'
 import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
-import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
+import { getCertificateMetaData, getResourceLinks } from '../../store/certificate/certificateSelectors'
+import _ from 'lodash'
 
 interface Props {
   questions: Question[]
@@ -19,6 +20,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const history = useHistory()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
   const certificateMetadata = useSelector(getCertificateMetaData)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
 
   const onComplementClick = () => dispatch(complementCertificate({ message: '', history: history }))
 
@@ -44,7 +46,8 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
 
   const showQuestionPanelFooter = () =>
     getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE) ||
-    getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE)
+    getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE) ||
+    resourceLinks.find((resourceLink) => resourceLink.type === ResourceLinkType.FORWARD_QUESTION)
 
   const getComplementButton = () => {
     const complementResourceLink = getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE)
@@ -87,7 +90,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   }
 
   const getForwardButton = () => {
-    const link = getResourceLinkIfExists(ResourceLinkType.FORWARD_QUESTION)
+    const link = resourceLinks.find((resourceLink) => resourceLink.type === ResourceLinkType.FORWARD_QUESTION)
     if (!link || !certificateMetadata) {
       return null
     }
