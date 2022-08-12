@@ -32,18 +32,15 @@ const WelcomeCertificateTypes: React.FC = () => {
       return
     }
 
-    const newCreateCertificate = { ...createCertificate }
-    newCreateCertificate.certificateTypeVersion =
-      newCreateCertificate.certificateTypeVersion !== ''
-        ? newCreateCertificate.certificateTypeVersion
-        : currentType.versions[currentType.versions.length - 1]
-    newCreateCertificate.fillType = newCreateCertificate.fillType !== '' ? newCreateCertificate.fillType : currentType.fillType[0]
-    newCreateCertificate.status = newCreateCertificate.status !== '' ? newCreateCertificate.status : currentType.statuses[0]
-    newCreateCertificate.patientId =
-      newCreateCertificate.patientId !== '' && patients?.length > 0 ? newCreateCertificate.patientId : patients[0].personId.id
+    const model = { ...createCertificate }
 
-    if (!isEqual(newCreateCertificate, createCertificate)) {
-      dispatch(updateCreateCertificate(newCreateCertificate))
+    if (model.certificateTypeVersion === '') model.certificateTypeVersion = currentType.versions[currentType.versions.length - 1]
+    if (model.fillType === '') model.fillType = currentType.fillType[0]
+    if (model.status === '') model.status = currentType.statuses[0]
+    if (model.patientId === '' && patients?.length > 0) model.patientId = patients[0].personId.id
+
+    if (!isEqual(model, createCertificate)) {
+      dispatch(updateCreateCertificate(model))
     }
   }, [certificateTypes, createCertificate, dispatch, patients])
 
