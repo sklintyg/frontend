@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { Question, QuestionType, ResourceLinkType } from '@frontend/common'
+import { Question, QuestionType, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
@@ -10,7 +10,8 @@ import { Router } from 'react-router-dom'
 import QuestionPanelFooter from './QuestionPanelFooter'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import userEvent from '@testing-library/user-event'
-import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
+import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
+import { getCertificate } from '../../store/certificate/certificateMiddleware.test'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -88,6 +89,41 @@ describe('', () => {
       flushPromises()
       const answerComplementCertificateAction = dispatchedActions.find((action) => answerComplementCertificate.match(action))
       expect(answerComplementCertificateAction?.payload).toEqual(newMessage)
+    })
+
+    it('display forward button if resource link is available', () => {
+      const resourceLinks: ResourceLink[] = [
+        {
+          type: ResourceLinkType.FORWARD_QUESTION,
+          name: 'Vidarebefordra',
+          description: '',
+          enabled: true,
+        },
+      ]
+
+      const unit = {
+        unitName: 'unitName',
+        unitId: 'unitId',
+        zipCode: 'zipCode',
+        address: 'address',
+        phoneNumber: 'phoneNumber',
+        city: 'city',
+        email: 'email',
+        isInactive: false,
+      }
+
+      const certificate = getCertificate('certificateId')
+      certificate.links = resourceLinks
+      certificate.metadata.unit = unit
+      certificate.metadata.careProvider = unit
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(screen.getByText('Vidarebefordra')).toBeInTheDocument()
+    })
+
+    it('does not display forward button if resource link is not available', () => {
+      expect(screen.queryByText('Vidarebefordra')).not.toBeInTheDocument()
     })
   })
 })

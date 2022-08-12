@@ -551,7 +551,7 @@ describe('Test certificate middleware', () => {
   }
 })
 
-const getCertificate = (
+export const getCertificate = (
   id: string,
   type?: string,
   version?: number,
