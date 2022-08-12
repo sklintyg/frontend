@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
 import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
+import { useDeepCompareEffect } from '../../hooks/useDeepCompareEffect'
 import { Backdrop, Dropdown, RadioButton } from '@frontend/common'
 import styled from 'styled-components/macro'
+import { isEqual } from 'lodash'
 
 const PatientWrapper = styled.div`
   max-width: 600px;
@@ -20,31 +22,27 @@ const WelcomeCertificateTypes: React.FC = () => {
     dispatch(getCertificateTypes())
   }, [dispatch])
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (!certificateTypes) {
       return
     }
 
-    certificateTypes.forEach((value) => {
-      if (createCertificate.certificateType === value.internalType) {
-        const updatedCreateCertificate = { ...createCertificate }
-        updatedCreateCertificate.certificateTypeVersion = value.versions[value.versions.length - 1]
-        updatedCreateCertificate.fillType = value.fillType[0]
-        updatedCreateCertificate.status = value.statuses[0]
-        dispatch(updateCreateCertificate(updatedCreateCertificate))
-      }
-    })
-  }, [certificateTypes, createCertificate, dispatch])
-
-  useEffect(() => {
-    if (!patients || patients.length === 0) {
+    const currentType = certificateTypes.find((t) => t.internalType === createCertificate.certificateType)
+    if (!currentType) {
       return
     }
 
-    const updatedCreateCertificate = { ...createCertificate }
-    updatedCreateCertificate.patientId = patients[0].personId.id
-    dispatch(updateCreateCertificate(updatedCreateCertificate))
-  }, [createCertificate, dispatch, patients])
+    const model = { ...createCertificate }
+
+    if (model.certificateTypeVersion === '') model.certificateTypeVersion = currentType.versions[currentType.versions.length - 1]
+    if (model.fillType === '') model.fillType = currentType.fillType[0]
+    if (model.status === '') model.status = currentType.statuses[0]
+    if (model.patientId === '' && patients?.length > 0) model.patientId = patients[0].personId.id
+
+    if (!isEqual(model, createCertificate)) {
+      dispatch(updateCreateCertificate(model))
+    }
+  }, [certificateTypes, createCertificate, dispatch, patients])
 
   const handleTypeChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const updatedCreateCertificate = { ...createCertificate }
