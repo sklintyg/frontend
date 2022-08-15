@@ -9,7 +9,9 @@ const LinkList = styled.ul`
 `
 
 const getFooterMenu = () => {
-  return (
+  const footerMenu: React.ReactNode[] = []
+
+  footerMenu.push(
     <LinkList className="ic-link-list ic-link-list--nav">
       <li className="ic-link-chevron iu-color-cta-dark">
         <WCDynamicLink linkKey="ineraStartsida" />
@@ -28,10 +30,14 @@ const getFooterMenu = () => {
       </li>
     </LinkList>
   )
+
+  return footerMenu
 }
 
 const getMobileFooterMenu = () => {
-  return (
+  const mobileFooterMenu: React.ReactNode[] = []
+
+  mobileFooterMenu.push(
     <ul>
       <li>
         <div className="ic-container--narrow-md iu-px-none">
@@ -55,6 +61,8 @@ const getMobileFooterMenu = () => {
       </li>
     </ul>
   )
+
+  return mobileFooterMenu
 }
 
 export const WebcertFooter: React.FC = () => (

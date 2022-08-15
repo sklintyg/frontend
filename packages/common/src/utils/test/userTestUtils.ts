@@ -29,6 +29,7 @@ export const getUser = (): User => {
       {
         id: '',
         name: 'Care Provider',
+        missingSubscription: false,
         careUnits: [
           {
             unitId: '1234a',
@@ -85,6 +86,7 @@ export const getUserWithInactiveUnit = (): User => {
       {
         id: '',
         name: 'Care Provider',
+        missingSubscription: false,
         careUnits: [
           {
             unitId: '1234a',
@@ -132,6 +134,7 @@ export const getUserWithEmptyUnit = (): User => {
       {
         id: '',
         name: 'Care Provider',
+        missingSubscription: false,
         careUnits: [
           {
             unitId: '1234a',
@@ -179,6 +182,7 @@ export const getUserWithEmptyCareUnitWithoutUnits = (): User => {
       {
         id: '',
         name: 'Care Provider',
+        missingSubscription: false,
         careUnits: [
           {
             unitId: '1234a',
