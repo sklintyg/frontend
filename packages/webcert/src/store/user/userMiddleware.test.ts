@@ -2,11 +2,25 @@ import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
-import { getUserStatistics, setUnit, triggerLogout, updateInactivateAutomaticLogout, updateIsCareProviderModalOpen } from './userActions'
-import { getUser, getUserStatistics as statistics } from '@frontend/common'
+import {
+  acknowledgeSubscription,
+  getUserStatistics,
+  setUnit,
+  triggerLogout,
+  updateInactivateAutomaticLogout,
+  updateIsCareProviderModalOpen,
+  updateUserResourceLinks,
+} from './userActions'
+import {
+  getSubscriptionWarningResourceLink,
+  getUser,
+  getUserStatistics as statistics,
+  ResourceLink,
+  ResourceLinkType,
+} from '@frontend/common'
 import { stopPoll } from '../session/sessionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
@@ -104,6 +118,27 @@ describe('Test user middleware', () => {
 
       await flushPromises()
       expect(testStore.getState().ui.uiUser.user.loggedInUnit.unitId).toEqual('1234a')
+    })
+  })
+
+  describe('Handle subscription', () => {
+    it('should call api to acknowledge subscription', async () => {
+      testStore.dispatch(acknowledgeSubscription())
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(1)
+    })
+
+    it('should remove SUBSCRIPTION_WARNING resource link on success', async () => {
+      testStore.dispatch(updateUserResourceLinks(getSubscriptionWarningResourceLink()))
+      fakeAxios.onGet('/api/subscription/acknowledgeSubscriptionModal').reply(200)
+      testStore.dispatch(acknowledgeSubscription())
+
+      await flushPromises()
+
+      const resourceLink = testStore.getState().ui.uiUser.links.map((link: ResourceLink) => link.type)
+
+      expect(resourceLink).not.toContain(ResourceLinkType.SUBSCRIPTION_WARNING)
     })
   })
 })

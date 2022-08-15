@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeader, Footer } from '@frontend/common'
+import { AppHeader } from '@frontend/common'
 import logo from '../components/header/webcert_logo.png'
 import image from '../images/webcert_bild_react.png'
 import styled from 'styled-components'
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
 import { withLoggedInUserRedirect } from '../utils/withLoggedInUserRedirect'
 import SystemBanners from '../components/notification/SystemBanners'
+import { WebcertFooter } from '../components/footer/WebcertFooter'
 
 const Root = styled.div`
   height: 100vh;
@@ -18,10 +19,6 @@ const Content = styled.div`
   flex-grow: 1;
 `
 
-const AlignRight = styled.div`
-  text-align: right;
-`
-
 const LoginButton = styled.a`
   display: flex;
   width: 13em;
@@ -29,11 +26,11 @@ const LoginButton = styled.a`
 `
 
 const CreateAccount: React.FC = () => (
-  <AlignRight>
+  <div className="iu-text-right">
     Är du privatläkare och vill använda Webcert?
     <br />
     <a href="#">Skapa konto</a>
-  </AlignRight>
+  </div>
 )
 
 export const StartPage: React.FC = () => {
@@ -73,7 +70,7 @@ export const StartPage: React.FC = () => {
           </div>
         </div>
       </Content>
-      <Footer />
+      <WebcertFooter />
     </Root>
   )
 }

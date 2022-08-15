@@ -6,7 +6,7 @@ import {
   isCareAdministrator as selectIsCareAdministrator,
 } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
-import { CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
+import { CareProvider, CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
@@ -97,13 +97,17 @@ export const CareProviderModalContent: React.FC = () => {
     )
   }
 
+  const checkSubscription = (careProvider: CareProvider) => {
+    return careProvider.missingSubscription ? careProvider.name + ' (Abonnemang saknas)' : careProvider.name
+  }
+
   return (
     <>
       {user?.careProviders.map((careProvider) => {
         return (
           <SimpleTable
             headings={[
-              { title: careProvider.name, adjustCellToText: false },
+              { title: checkSubscription(careProvider), adjustCellToText: false },
               { title: 'Ej hanterade ärenden', adjustCellToText: true },
               { title: 'Ej signerade utkast', adjustCellToText: true },
             ]}

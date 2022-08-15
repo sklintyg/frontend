@@ -1,18 +1,10 @@
+import { ExternalLinkIcon, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
 import styled from 'styled-components'
-import TextWithInfoModal from '../utils/Modal/TextWithInfoModal'
-import externalLinkIcon from '../../images/external_link.svg'
 
 interface Props {
   className?: string
 }
-
-const ExternalLinkIconImg = styled.img`
-  display: inline;
-  top: 2px;
-  left: 3px;
-  position: relative;
-`
 
 const StyledTextWithInfoModal = styled(TextWithInfoModal)`
   @media (max-width: 1024px) {
@@ -48,9 +40,9 @@ export const FooterCookiesModal: React.FC<Props> = ({ className }) => (
     <p>Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna e-tjänst.</p>
     <p>
       Mer information om kakor kan du finna på{' '}
-      <a href="https://pts.se/sv/privat/internet/integritet/kakor-cookies/" target="_blank">
+      <a href="https://pts.se/sv/privat/internet/integritet/kakor-cookies/" target="_blank" rel="noreferrer">
         Kommunikationsmyndigheten PTS sida om kakor launch
-        <ExternalLinkIconImg src={externalLinkIcon} />
+        <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
       </a>
       .
     </p>

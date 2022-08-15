@@ -8,6 +8,7 @@ import {
   updateUserPreference,
   updateUserResourceLinks,
   updateUserStatistics,
+  removeResourceLink,
 } from './userActions'
 import { ResourceLink, User, UserStatistics } from '@frontend/common'
 
@@ -64,6 +65,9 @@ const userReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateIsCareProviderModalOpen, (state, action) => {
       state.isCareProviderModalOpen = action.payload
+    })
+    .addCase(removeResourceLink, (state, action) => {
+      state.links = state.links.filter((link) => link.type !== action.payload)
     })
 )
 

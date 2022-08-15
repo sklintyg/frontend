@@ -1,9 +1,12 @@
+import { ResourceLinkType } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from '../api/apiActions'
 import { startSignCertificate } from '../certificate/certificateActions'
 import { stopPoll } from '../session/sessionActions'
 import {
+  acknowledgeSubscription,
+  acknowledgeSubscriptionSuccess,
   cancelLogout,
   cancelLogoutStarted,
   cancelLogoutSuccess,
@@ -15,6 +18,7 @@ import {
   getUserStatisticsStarted,
   getUserStatisticsSuccess,
   getUserSuccess,
+  removeResourceLink,
   setUnit,
   setUnitStarted,
   setUnitSuccess,
@@ -180,6 +184,21 @@ const handleStopPoll: Middleware<Dispatch> = ({ dispatch }) => () => (): void =>
   dispatch(updateIsCareProviderModalOpen(false))
 }
 
+const handleAcknowledgeSubscription: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(
+    apiCallBegan({
+      url: '/api/subscription/acknowledgeSubscriptionModal',
+      method: 'GET',
+      onSuccess: acknowledgeSubscriptionSuccess.type,
+      onError: apiGenericError.type,
+    })
+  )
+}
+
+const handleAcknowledgeSubscriptionSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(removeResourceLink(ResourceLinkType.SUBSCRIPTION_WARNING))
+}
+
 const middlewareMethods = {
   [getUser.type]: handleGetUser,
   [getUserSuccess.type]: handleGetUserSuccess,
@@ -197,6 +216,8 @@ const middlewareMethods = {
   [setUnit.type]: handleSetUnit,
   [setUnitSuccess.type]: handleSetUnitSuccess,
   [stopPoll.type]: handleStopPoll,
+  [acknowledgeSubscription.type]: handleAcknowledgeSubscription,
+  [acknowledgeSubscriptionSuccess.type]: handleAcknowledgeSubscriptionSuccess,
 }
 
 export const userMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

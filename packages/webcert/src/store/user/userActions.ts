@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ResourceLink, User, UserProperty, UserStatistics, Unit } from '@frontend/common'
+import { ResourceLink, User, UserProperty, UserStatistics, Unit, ResourceLinkType } from '@frontend/common'
 
 const USER = '[User]'
 
@@ -56,3 +56,8 @@ export const setUnitError = createAction<string>(`${USER} Set unit error`)
 export const updateIsLoadingUserStatistics = createAction<boolean>(`${USER} Update is loading user statistics`)
 
 export const updateIsCareProviderModalOpen = createAction<boolean>(`${USER} Update is care provider modal open`)
+
+export const acknowledgeSubscription = createAction(`${USER} Acknowledge subscription`)
+export const acknowledgeSubscriptionSuccess = createAction(`${USER} Acknowledge subscription success`)
+
+export const removeResourceLink = createAction<ResourceLinkType>(`${USER} Remove resource link`)

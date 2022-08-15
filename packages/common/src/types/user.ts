@@ -55,6 +55,7 @@ export interface UnitStatistic {
 export interface CareProvider {
   id: string
   name: string
+  missingSubscription: boolean
   careUnits: CareUnit[]
 }
 
