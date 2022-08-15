@@ -3,8 +3,8 @@ import React from 'react'
 export interface Props {
   title: string
   description?: string
-  footerMenu?: React.ReactNode[]
-  mobileFooterMenu?: React.ReactNode[]
+  footerMenu?: React.ReactNode
+  mobileFooterMenu?: React.ReactNode
 }
 
 export const Footer: React.FC<Props> = ({ title, description, footerMenu, mobileFooterMenu }) => (
