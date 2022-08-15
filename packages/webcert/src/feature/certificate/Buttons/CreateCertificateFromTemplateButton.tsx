@@ -1,10 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
+import fileIcon from '@frontend/common/src/images/file.svg'
 
 interface Props {
   name: string
@@ -30,7 +29,7 @@ const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, descriptio
       confirmButtonText={name}
       name={name}
       description={description}
-      startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg"></FontAwesomeIcon>}>
+      startIcon={<img src={fileIcon} alt="Skapa utkast" />}>
       <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )
