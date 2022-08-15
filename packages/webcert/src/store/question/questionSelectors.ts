@@ -24,3 +24,5 @@ export const isQuestionFunctionDisabled = (state: RootState): boolean => state.u
 export const getErrorId = (state: RootState): string => state.ui.uiQuestion.errorId
 
 export const getIsLoadingQuestions = (state: RootState): boolean => state.ui.uiQuestion.isLoadingQuestions
+
+export const getCertificateId = (state: RootState): string => state.ui.uiQuestion.certificateId

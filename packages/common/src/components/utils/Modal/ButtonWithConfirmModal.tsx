@@ -20,6 +20,7 @@ interface Props {
   onClick?: () => void
   onClose?: () => void
   hideDeclineButton?: boolean
+  buttonClasses?: string
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
@@ -59,6 +60,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         onClick={handleClickOpen}
         startIcon={props.startIcon ? props.startIcon : null}
         text={props.name}
+        buttonClasses={props.buttonClasses}
       />
       <ModalBase
         open={open}
