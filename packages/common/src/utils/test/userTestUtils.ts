@@ -1,6 +1,6 @@
 import { Unit } from '../../types/certificate'
 import { ResourceLink, ResourceLinkType } from '../../types/resourceLink'
-import { User, LoginMethod, SigningMethod, UserStatistics, UnitStatistic, UnitStatistics } from '../../types/user'
+import { LoginMethod, SigningMethod, UnitStatistic, UnitStatistics, User, UserStatistics } from '../../types/user'
 
 export const getUser = (): User => {
   const unit: Unit = {
@@ -283,4 +283,26 @@ export const getNavigateBackButtonLink = (): ResourceLink[] => {
       enabled: true,
     },
   ]
+}
+
+export const getUnit = (): Unit => {
+  return {
+    unitName: 'unitName',
+    unitId: 'unitId',
+    zipCode: 'zipCode',
+    address: 'address',
+    phoneNumber: 'phoneNumber',
+    city: 'city',
+    email: 'email',
+    isInactive: false,
+  }
+}
+
+export const getForwardResourceLink = (): ResourceLink => {
+  return {
+    type: ResourceLinkType.FORWARD_QUESTION,
+    name: 'Vidarebefordra',
+    description: '',
+    enabled: true,
+  }
 }

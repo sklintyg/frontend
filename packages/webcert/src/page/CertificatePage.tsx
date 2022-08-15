@@ -57,7 +57,8 @@ const CertificatePage: React.FC = () => {
           </>
         )
       }
-      noPadding={true}>
+      noPadding={true}
+      hasSidePanel={true}>
       {isCertificateDeleted ? (
         <CertificateDeletedHandler />
       ) : (

@@ -11,7 +11,7 @@ import check from '@frontend/common/src/images/check.svg'
 import { useHistory } from 'react-router-dom'
 import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 import styled from 'styled-components'
-import ForwardCertificateButton, { ForwardType } from '../certificate/Buttons/ForwardCertificateButton'
+import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
 import read from '@frontend/common/src/images/read.svg'
 
 export const StyledIcon = styled.img`
@@ -83,8 +83,10 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
   }
 
   const getForwardedButton = (info: ForwardedListInfo) => {
-    const link = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
-    if (link) {
+    const forwardDraft = getLink(ResourceLinkType.FORWARD_CERTIFICATE)
+    const forwardQuestion = getLink(ResourceLinkType.FORWARD_QUESTION)
+    const link = forwardDraft ? forwardDraft : forwardQuestion
+    if (link && info) {
       return (
         <td>
           <ForwardCertificateButton
@@ -96,7 +98,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             unitName={info.unitName}
             careProviderName={info.careProviderName}
             certificateId={certificateId}
-            type={listType === ListType.DRAFTS ? ForwardType.DRAFT : ForwardType.QUESTION}
+            type={link.type}
           />
         </td>
       )
