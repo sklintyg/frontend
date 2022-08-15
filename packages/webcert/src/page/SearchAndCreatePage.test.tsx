@@ -77,6 +77,7 @@ const getUser = (): User => {
       {
         id: '',
         name: 'Care Provider',
+        missingSubscription: false,
         careUnits: [
           {
             unitId: '1234a',
