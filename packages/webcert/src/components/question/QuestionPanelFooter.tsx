@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
-import { ButtonWithConfirmModal, CustomButton, Question, ResourceLink, ResourceLinkType, getResourceLink } from '@frontend/common'
+import { ButtonWithConfirmModal, CustomButton, getResourceLink, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
@@ -57,7 +57,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
 
     return (
       <CustomButton
-        buttonClasses={'iu-mr-300'}
+        buttonClasses={'iu-mr-200'}
         tooltip={complementResourceLink.description}
         disabled={!complementResourceLink.enabled}
         buttonStyle="primary"
@@ -83,6 +83,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         confirmButtonText="Skicka svar"
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
+        buttonClasses="iu-mr-200"
         startIcon={<img src={speechBubble} alt="Kan ej komplettera" />}>
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
