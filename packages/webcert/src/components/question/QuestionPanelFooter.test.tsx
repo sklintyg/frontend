@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { Question, QuestionType, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { getForwardResourceLink, getUnit, Question, QuestionType, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
@@ -92,26 +92,8 @@ describe('', () => {
     })
 
     it('display forward button if resource link is available', () => {
-      const resourceLinks: ResourceLink[] = [
-        {
-          type: ResourceLinkType.FORWARD_QUESTION,
-          name: 'Vidarebefordra',
-          description: '',
-          enabled: true,
-        },
-      ]
-
-      const unit = {
-        unitName: 'unitName',
-        unitId: 'unitId',
-        zipCode: 'zipCode',
-        address: 'address',
-        phoneNumber: 'phoneNumber',
-        city: 'city',
-        email: 'email',
-        isInactive: false,
-      }
-
+      const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
+      const unit = getUnit()
       const certificate = getCertificate('certificateId')
       certificate.links = resourceLinks
       certificate.metadata.unit = unit

@@ -32,7 +32,7 @@ const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePan
       {header && <NoFlexGrow>{header}</NoFlexGrow>}
       {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
       <Content className={classnames({ 'ic-container': hasSidePanel })}>
-        {!hasSidePanel ? <div className={`ic-container ${noPadding === false && 'iu-pt-500'}`}>{children}</div> : children}
+        {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500'}`}>{children}</div>}
       </Content>
     </Root>
   )
