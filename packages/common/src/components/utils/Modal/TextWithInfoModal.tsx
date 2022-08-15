@@ -1,16 +1,8 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { CustomButton, ModalBase } from '../..'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
 import classnames from 'classnames'
-
-const AboutButton = styled.button`
-  background: none;
-  border: none;
-  font-size: inherit;
-  line-height: inherit;
-  font-family: inherit;
-`
+import { LinkButton } from '../../..'
 
 interface Props {
   text: string
@@ -38,9 +30,9 @@ const TextWithInfoModal: React.FC<Props> = ({ text, modalTitle, children, classN
 
   return (
     <>
-      <AboutButton className={classnames('ic-link iu-color-cta-dark', className)} onClick={handleClickOpen}>
+      <LinkButton className={classnames('ic-link iu-color-cta-dark', className)} onClick={handleClickOpen}>
         {text}
-      </AboutButton>
+      </LinkButton>
       <ModalBase
         open={open}
         handleClose={handleClose}

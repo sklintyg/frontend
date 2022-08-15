@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/no-unresolved, unused-imports/no-unused-imports
-import * as types from 'styled-components/cssprop'
 export * from './components'
 export * from './types/certificate'
 export * from './utils/certificateUtils'
@@ -15,3 +14,4 @@ export * from './utils/sanitizeText'
 export * from './styles/styledComponents'
 export * from './utils/test/userTestUtils'
 export * from './utils/textUtils'
+export * from './styles/styledComponents'
