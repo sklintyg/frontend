@@ -2,7 +2,7 @@ import React from 'react'
 import AppHeaderTitle from './AppHeaderTitle'
 import styled from 'styled-components'
 import AppHeaderTabs from './AppHeaderTabs'
-import { UserTab } from '../../types/utils'
+import { Banners, UserTab } from '../../types/utils'
 
 const HeaderInner = styled.div`
   height: unset;
@@ -34,7 +34,7 @@ export interface Props {
   secondaryItems?: React.ReactNode[]
   logo?: string
   alt?: string
-  banners?: React.ReactNode[]
+  banners?: Banners
   tabs?: UserTab[]
   onSwitchTab?: (tab: number) => void
 }
@@ -50,7 +50,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
 
   return (
     <>
-      {banners}
+      {banners && banners.systemBanners}
       <header className="ic-page-header">
         <HeaderInner className="ic-page-header__inner">
           {title && title}
@@ -63,6 +63,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           </UserMenu>
         </HeaderInner>
         <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} />
+        {banners && banners.subscriptionWarningBanner}
       </header>
     </>
   )
