@@ -201,6 +201,52 @@ export const getUserWithEmptyCareUnitWithoutUnits = (): User => {
   }
 }
 
+export const getUserWithMissingSubscription = (): User => {
+  const unit: Unit = {
+    unitId: '1234',
+    unitName: 'Care Provider',
+    address: '',
+    zipCode: '',
+    city: '',
+    phoneNumber: '',
+    email: '',
+    isInactive: true,
+  }
+
+  return {
+    hsaId: '',
+    name: '',
+    role: 'doctor',
+    loggedInUnit: unit,
+    loggedInCareUnit: unit,
+    loggedInCareProvider: unit,
+    preferences: null,
+    loginMethod: LoginMethod.BANK_ID,
+    signingMethod: SigningMethod.FAKE,
+    protectedPerson: false,
+    careProviders: [
+      {
+        id: '1234',
+        name: 'Care Provider',
+        missingSubscription: true,
+        careUnits: [
+          {
+            unitId: '1234a',
+            unitName: 'Care unit',
+            address: '',
+            zipCode: '',
+            city: '',
+            phoneNumber: '',
+            email: '',
+            isInactive: false,
+            units: [],
+          },
+        ],
+      },
+    ],
+  }
+}
+
 const createUnitStatistic = (): UnitStatistic => ({
   draftsOnUnit: 3,
   questionsOnUnit: 0,

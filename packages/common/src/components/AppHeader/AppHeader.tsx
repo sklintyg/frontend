@@ -2,7 +2,7 @@ import React from 'react'
 import AppHeaderTitle from './AppHeaderTitle'
 import styled from 'styled-components'
 import AppHeaderTabs from './AppHeaderTabs'
-import { Banners, UserTab } from '../../types/utils'
+import { UserTab } from '../../types/utils'
 
 const HeaderInner = styled.div`
   height: unset;
@@ -34,12 +34,23 @@ export interface Props {
   secondaryItems?: React.ReactNode[]
   logo?: string
   alt?: string
-  banners?: Banners
+  banners?: React.ReactNode[]
   tabs?: UserTab[]
   onSwitchTab?: (tab: number) => void
+  subMenuBanners?: React.ReactNode[]
 }
 
-const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo, alt, banners, tabs = [], onSwitchTab }) => {
+const AppHeader: React.FC<Props> = ({
+  title,
+  primaryItems,
+  secondaryItems,
+  logo,
+  alt,
+  banners,
+  tabs = [],
+  onSwitchTab,
+  subMenuBanners,
+}) => {
   const getPrimary = () => {
     return primaryItems?.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
   }
@@ -50,7 +61,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
 
   return (
     <>
-      {banners && banners.systemBanners}
+      {banners && banners}
       <header className="ic-page-header">
         <HeaderInner className="ic-page-header__inner">
           {title && title}
@@ -63,7 +74,7 @@ const AppHeader: React.FC<Props> = ({ title, primaryItems, secondaryItems, logo,
           </UserMenu>
         </HeaderInner>
         <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} />
-        {banners && banners.subscriptionWarningBanner}
+        {subMenuBanners && subMenuBanners}
       </header>
     </>
   )
