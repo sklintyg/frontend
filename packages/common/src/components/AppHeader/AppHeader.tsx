@@ -61,7 +61,7 @@ const AppHeader: React.FC<Props> = ({
 
   return (
     <>
-      {banners && banners}
+      {banners}
       <header className="ic-page-header">
         <HeaderInner className="ic-page-header__inner">
           {title && title}
@@ -74,7 +74,7 @@ const AppHeader: React.FC<Props> = ({
           </UserMenu>
         </HeaderInner>
         <AppHeaderTabs tabs={tabs} onSwitchTab={onSwitchTab} />
-        {subMenuBanners && subMenuBanners}
+        {subMenuBanners}
       </header>
     </>
   )
