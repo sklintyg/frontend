@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
 import CareProviderModal from './feature/careProvider/CareProviderModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
+import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -56,6 +57,7 @@ function App(): JSX.Element {
           <ErrorComponent />
           <CareProviderModal />
           <SubscriptionWarningModal />
+          <WarningNormalOriginModal />
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
