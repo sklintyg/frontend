@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import { CustomButton, InfoBox, ResourceLinkType } from '@frontend/common/src'
+import { CustomButton, InfoBox, ResourceLinkType, ModalBase } from '@frontend/common/src'
 import { useSelector } from 'react-redux'
-import { getUser, getUserResourceLinks } from '../../../store/user/userSelectors'
-import { ModalBase } from '@frontend/common'
+import { getUser, getUserResourceLink } from '../../../store/user/userSelectors'
 
 const WarningNormalOriginModal: React.FC = () => {
   const user = useSelector(getUser)
-  const resourceLinks = useSelector(getUserResourceLinks)
-  const resourceLinkIndex = resourceLinks.findIndex((link) => link.type === ResourceLinkType.WARNING_NORMAL_ORIGIN)
-  const resourceLink = resourceLinkIndex > -1 ? resourceLinks[resourceLinkIndex] : undefined
+  const resourceLink = useSelector(getUserResourceLink(ResourceLinkType.WARNING_NORMAL_ORIGIN))
   const [open, setOpen] = useState(true)
 
   const handleClose = () => {
