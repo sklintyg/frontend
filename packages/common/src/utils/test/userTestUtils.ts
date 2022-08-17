@@ -322,3 +322,12 @@ export const getForwardResourceLink = (): ResourceLink => {
     enabled: true,
   }
 }
+
+export const getResourceLinkWithType = (type: ResourceLinkType): ResourceLink => {
+  return {
+    type: type,
+    name: 'TITLE',
+    description: '',
+    enabled: true,
+  }
+}
