@@ -1,23 +1,23 @@
 import React, { useRef, useState } from 'react'
-import { MandatoryIcon, QuestionValidationTexts, Unit, TextArea } from '@frontend/common'
+import { MandatoryIcon, QuestionValidationTexts, TextArea, Unit } from '@frontend/common'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  getCareUnitValidationErrors,
   getIsEditable,
   getIsLocked,
   getShowValidationErrors,
   getUnit,
-  getCareUnitValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 import styled from 'styled-components/macro'
 import {
-  CARE_UNIT_ADDRESS_FIELD,
-  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
   CARE_UNIT_ADDRESS_CATEGORY_TITLE,
+  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
+  CARE_UNIT_ADDRESS_FIELD,
   CARE_UNIT_CITY_FIELD,
   CARE_UNIT_PHONE_NUMBER_FIELD,
   CARE_UNIT_ZIP_CODE_FIELD,
@@ -75,6 +75,15 @@ const UeCareUnitAddress: React.FC = () => {
     dispatchEditDraft(updatedUnit)
   }
 
+  const handleNumericChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+
+    const updatedUnit = { ...careUnitInfo, [event.target.name]: value } as Unit
+
+    setCareUnitInfo(updatedUnit)
+    dispatchEditDraft(updatedUnit)
+  }
+
   return (
     <>
       <CategoryHeader>
@@ -111,7 +120,7 @@ const UeCareUnitAddress: React.FC = () => {
             <ZipCodeInput
               disabled={disabled || !editable}
               className={`ic-textfield ${isShowValidationError && !careUnitInfo.zipCode ? 'ic-textfield--error' : ''}`}
-              onChange={handleChange}
+              onChange={handleNumericChange}
               name={'zipCode'}
               id={'zipCode'}
               value={careUnitInfo.zipCode}
@@ -147,7 +156,7 @@ const UeCareUnitAddress: React.FC = () => {
             <PhoneNumberInput
               disabled={disabled || !editable}
               className={`ic-textfield ${isShowValidationError && !careUnitInfo.phoneNumber ? 'ic-textfield--error' : ''}`}
-              onChange={handleChange}
+              onChange={handleNumericChange}
               name={'phoneNumber'}
               id={'phoneNumber'}
               value={careUnitInfo.phoneNumber}
