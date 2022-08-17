@@ -10,7 +10,7 @@ interface Props {
   rowContent: string[]
   id: string
   handleClick: (event: React.MouseEvent) => void
-  disabled: boolean
+  disabled?: boolean
 }
 
 const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, children, disabled }) => {
@@ -33,7 +33,7 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
                   type="button"
                   id={id}
                   onClick={handleClick}
-                  disabled={disabled}>
+                  disabled={!!disabled}>
                   {cell}
                 </StyledButton>
               </td>
