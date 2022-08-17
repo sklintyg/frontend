@@ -21,8 +21,6 @@ import {
 } from './dateUtils'
 import { CertificateDataValidationType, MaxDateValidation } from '../types/certificate'
 
-const QUESTION_ID = 'Test'
-
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'
 
@@ -36,21 +34,25 @@ const HELT_NEDSATT_ID = 'HELT_NEDSATT'
 const HELT_NEDSATT_LABEL = '100 procent'
 
 const configList: ConfigUeCheckboxDateRange[] = [
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore Skipping additional data for tests
   {
     id: EN_FJARDEDEL_ID,
     label: EN_FJARDEDEL_LABEL,
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore Skipping additional data for tests
   {
     id: HALFTEN_ID,
     label: HALFTEN_LABEL,
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore Skipping additional data for tests
   {
     id: TRE_FJARDEDEL_ID,
     label: TRE_FJARDEDEL_LABEL,
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore Skipping additional data for tests
   {
     id: HELT_NEDSATT_ID,
@@ -466,5 +468,28 @@ describe('GetMaxDate', () => {
     const result = getMaxDate(validation, 'id')
 
     expect(yesterday.toDateString()).toContain(result)
+  })
+
+  it('should validate if more than one max validation in same array', () => {
+    const validation: MaxDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: 0,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'id',
+        expression: '',
+      },
+      {
+        questionId: 'VALIDATION',
+        numberOfDays: 0,
+        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+        id: 'second_id',
+        expression: '',
+      },
+    ]
+
+    const result = getMaxDate(validation, 'second_id')
+
+    expect(new Date().toString()).toContain(result)
   })
 })
