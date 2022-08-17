@@ -56,7 +56,7 @@ describe('WarningNormalOriginModal', () => {
     setupResourceLinks()
     renderComponent()
 
-    userEvent.click(screen.queryByRole('button'))
+    userEvent.click(screen.getByRole('button'))
 
     expect(screen.queryByText(INFO_BOX)).not.toBeInTheDocument()
   })
