@@ -216,15 +216,9 @@ export const formatDate = (value: string) => {
 
 export const getMaxDate = (validation: CertificateDataValidation[], id: string) => {
   const today = new Date()
-  const maxDateValidation = validation.find((v) => v.type === CertificateDataValidationType.MAX_DATE_VALIDATION)
+  const maxDateValidation = validation.find(
+    (v) => v.type === CertificateDataValidationType.MAX_DATE_VALIDATION && id === (v as MaxDateValidation).id
+  )
 
-  if (maxDateValidation) {
-    if (id !== (maxDateValidation as MaxDateValidation).id) {
-      return ''
-    }
-
-    return addDays(today, (maxDateValidation as MaxDateValidation).numberOfDays).toDateString()
-  }
-
-  return ''
+  return maxDateValidation ? addDays(today, (maxDateValidation as MaxDateValidation).numberOfDays).toDateString() : ''
 }
