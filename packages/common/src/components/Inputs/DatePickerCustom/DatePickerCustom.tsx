@@ -130,11 +130,6 @@ const DatePickerCustom: React.FC<Props> = ({
     textInputOnBlur?.(event)
   }
 
-  const handleDateOnSelect = (date: Date) => {
-    const dateString = formatDateToString(date)
-    setDate(dateString)
-  }
-
   const updateFormattingValidation = (value: string | null) => {
     if (isValueFormatIncorrect(value)) {
       setDisplayFormattingError(true)
@@ -199,7 +194,7 @@ const DatePickerCustom: React.FC<Props> = ({
             selected={date}
             onSelect={(date: Date) => {
               setOpen(false)
-              handleDateOnSelect(date)
+              setDate(formatDateToString(date))
             }}
             showWeekNumbers
             portalId="root"

@@ -267,9 +267,12 @@ const DateRangePicker: React.FC<Props> = ({
     return validationErrors.length > 0
   }
 
-  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
-    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
-  }
+  const dispatchValidationError = useCallback(
+    (shouldBeRemoved: boolean, validationError: ValidationError) => {
+      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+    },
+    [dispatch]
+  )
 
   return (
     <>
