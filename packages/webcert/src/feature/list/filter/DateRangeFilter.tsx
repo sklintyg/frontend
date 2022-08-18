@@ -138,8 +138,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     const hasGlobalValidationError = toggleValidationError(savedValue.to, date)
     const hasSpecificValidationError = toggleSpecificValidationError(date, configFrom, setFromValidationError, fromValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, from: date }
-    if (isValueValid !== false && !hasGlobalValidationError && !hasSpecificValidationError) {
-      onChange(updatedValue, config.id)
+    if (isValueValid !== false || date === '') {
+      if (!hasGlobalValidationError && !hasSpecificValidationError) {
+        onChange(updatedValue, config.id)
+      }
     }
     setSavedValue(updatedValue)
   }
@@ -148,8 +150,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     const hasGlobalValidationError = toggleValidationError(date, savedValue.from)
     const hasSpecificValidationError = toggleSpecificValidationError(date, configTo, setToValidationError, toValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, to: date }
-    if (isValueValid !== false && !hasGlobalValidationError && !hasSpecificValidationError) {
-      onChange(updatedValue, config.id)
+    if (isValueValid !== false || date === '') {
+      if (!hasGlobalValidationError && !hasSpecificValidationError) {
+        onChange(updatedValue, config.id)
+      }
     }
     setSavedValue(updatedValue)
   }

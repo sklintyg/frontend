@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import sv from 'date-fns/locale/sv'
 import { isValid, parse } from 'date-fns'
@@ -18,7 +18,7 @@ const Logo = styled.img`
 registerLocale('sv', sv)
 setDefaultLocale('sv')
 
-interface Props {
+export interface Props {
   disabled?: boolean
   label?: string
   setDate: (date: string) => void
@@ -41,6 +41,10 @@ interface Props {
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
+
+const isValueFormatIncorrect = (value: string | null) => {
+  return value && value.length > 0 && !isValid(getValidDate(value))
+}
 
 const DatePickerCustom: React.FC<Props> = ({
   label,
@@ -65,20 +69,7 @@ const DatePickerCustom: React.FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
-
-  let date: Date
-
-  useEffect(() => {
-    if (isValueFormatIncorrect(inputString)) {
-      updateFormattingValidation(inputString)
-    }
-  }, [])
-
-  useEffect(() => {
-    toggleFormattingError()
-  }, [displayFormattingError])
-
-  const toggleFormattingError = () => {
+  const toggleFormattingError = useCallback(() => {
     if (onDispatchValidationError) {
       onDispatchValidationError(!displayFormattingError, {
         category: '',
@@ -89,13 +80,7 @@ const DatePickerCustom: React.FC<Props> = ({
         showAlways: true,
       })
     }
-  }
-
-  useEffect(() => {
-    if (displayFormattingError) {
-      updateFormattingValidation(inputString)
-    }
-  }, [inputString])
+  }, [displayFormattingError, onDispatchValidationError, componentField, questionId])
 
   const getValidDateForPicker = (dateString: string) => {
     if (_dateReg.test(dateString)) {
@@ -109,6 +94,18 @@ const DatePickerCustom: React.FC<Props> = ({
     return new Date()
   }
 
+  let date: Date
+
+  useEffect(() => {
+    toggleFormattingError()
+  }, [displayFormattingError, toggleFormattingError])
+
+  useEffect(() => {
+    if (displayFormattingError) {
+      updateFormattingValidation(inputString)
+    }
+  }, [inputString, displayFormattingError])
+
   if (inputString) {
     date = getValidDateForPicker(inputString)
   } else {
@@ -121,8 +118,8 @@ const DatePickerCustom: React.FC<Props> = ({
     const parsedDate = getValidDate(value)
     const isValueValid = isValid(parsedDate)
 
-    if (isValueValid) {
-      value = formatDateToString(parsedDate!)
+    if (parsedDate && isValueValid) {
+      value = formatDateToString(parsedDate)
     }
 
     textInputOnChange(value, isValueValid)
@@ -144,10 +141,6 @@ const DatePickerCustom: React.FC<Props> = ({
     } else {
       setDisplayFormattingError(false)
     }
-  }
-
-  const isValueFormatIncorrect = (value: string | null) => {
-    return value && value.length > 0 && !isValid(getValidDate(value!))
   }
 
   const getMaxDate = () => {
@@ -204,7 +197,7 @@ const DatePickerCustom: React.FC<Props> = ({
             onClickOutside={() => setOpen(false)}
             open={open}
             selected={date}
-            onSelect={(date: any, event: any) => {
+            onSelect={(date: Date) => {
               setOpen(false)
               handleDateOnSelect(date)
             }}
@@ -213,9 +206,9 @@ const DatePickerCustom: React.FC<Props> = ({
             popperPlacement="bottom-end"
             popperModifiers={[
               {
-                name: "preventOverflow",
+                name: 'preventOverflow',
                 options: {
-                  rootBoundary: "viewport",
+                  rootBoundary: 'viewport',
                   tether: false,
                   altAxis: true,
                 },
