@@ -40,15 +40,8 @@ const WebcertHeaderUser: React.FC = () => {
     return (
       <Wrapper>
         <UserWrapper>
-          <span>{user.name}</span>
-          <UserRole>
-            {user.role}
-            {user.protectedPerson && (
-              <>
-                {' - '} <ProtectedPersonDoctorModal />
-              </>
-            )}
-          </UserRole>
+          <span>{`${user.name} - ${user.role}`}</span>
+          <UserRole>{user.protectedPerson && <ProtectedPersonDoctorModal />}</UserRole>
         </UserWrapper>
 
         {privatePractitionerPortal && (
