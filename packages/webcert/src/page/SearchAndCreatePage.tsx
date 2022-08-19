@@ -38,17 +38,6 @@ const SearchAndCreatePage: React.FC = () => {
     return !patientId || (patientId && patient)
   }
 
-  useEffect(() => {
-    ReactTooltip.hide()
-    updatePatientFilter()
-  }, [dispatch, patient, updatePatientFilter])
-
-  useEffect(() => {
-    if (!patientFilter) {
-      updatePatientFilter()
-    }
-  }, [patientFilter, updatePatientFilter])
-
   const updatePatientFilter = useCallback(() => {
     if (patient) {
       dispatch(
@@ -62,6 +51,17 @@ const SearchAndCreatePage: React.FC = () => {
       )
     }
   })
+
+  useEffect(() => {
+    ReactTooltip.hide()
+    updatePatientFilter()
+  }, [dispatch, patient, updatePatientFilter])
+
+  useEffect(() => {
+    if (!patientFilter) {
+      updatePatientFilter()
+    }
+  }, [patientFilter, updatePatientFilter])
 
   useEffect(() => {
     if (patientId) {
