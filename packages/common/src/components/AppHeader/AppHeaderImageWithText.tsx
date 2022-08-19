@@ -8,7 +8,9 @@ interface Props {
 }
 
 const Wrapper = styled.div`
+  display: flex;
   border-right: solid 1px #01a5a3;
+  align-items: center;
   padding-right: 15px;
 `
 
@@ -23,14 +25,14 @@ const LogoWrapper = styled.div`
 
 const AppHeaderImageWithText: React.FC<Props> = ({ image, items, alt }) => {
   return (
-    <>
+    <Wrapper>
       <LogoWrapper className="iu-mr-300 iu-ml-400">
         <Logo src={image} className={'iu-mr-200'} alt={alt} />
       </LogoWrapper>
-      <Wrapper className="iu-lh-narrow">
+      <div className="iu-lh-narrow">
         <div className="">{items}</div>
-      </Wrapper>
-    </>
+      </div>
+    </Wrapper>
   )
 }
 
