@@ -162,6 +162,7 @@ export enum ListType {
 
 export interface ListFilter {
   values?: ListFilterValues
+  type: ListType
 }
 
 export interface ListFilterValues {

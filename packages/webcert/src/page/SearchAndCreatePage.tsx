@@ -16,6 +16,7 @@ import { ListFilterType, ListType } from '@frontend/common/src/types/list'
 import { updateActiveListFilterValue } from '../store/list/listActions'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import CommonLayout from '../components/commonLayout/CommonLayout'
+import { getActiveListFilterValue } from '../store/list/listSelectors'
 
 interface Params {
   patientId: string
@@ -26,6 +27,7 @@ const SearchAndCreatePage: React.FC = () => {
   const dispatch = useDispatch()
   const patient = useSelector(getActivePatient)
   const user = useSelector(getUser)
+  const patientFilter = useSelector(getActiveListFilterValue('PATIENT_ID'))
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
@@ -38,6 +40,16 @@ const SearchAndCreatePage: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.hide()
+    updatePatientFilter()
+  }, [dispatch, patient, updatePatientFilter])
+
+  useEffect(() => {
+    if (!patientFilter) {
+      updatePatientFilter()
+    }
+  }, [patientFilter, updatePatientFilter])
+
+  const updatePatientFilter = useCallback(() => {
     if (patient) {
       dispatch(
         updateActiveListFilterValue({
@@ -49,7 +61,7 @@ const SearchAndCreatePage: React.FC = () => {
         })
       )
     }
-  }, [dispatch, patient])
+  })
 
   useEffect(() => {
     if (patientId) {
