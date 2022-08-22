@@ -24,9 +24,7 @@ describe('CareUnitAddress component', () => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockReturnValueOnce(false)
-    useSelectorSpy.mockReturnValueOnce([])
-    useSelectorSpy.mockReturnValue({})
+    useSelectorSpy.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
 
     const { container } = render(<UeCareUnitAddress />)
 
@@ -47,9 +45,21 @@ describe('CareUnitAddress component', () => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockReturnValueOnce(true)
-    useSelectorSpy.mockReturnValueOnce(getValidationErrors())
-    useSelectorSpy.mockReturnValue({})
+    useSelectorSpy.mockImplementation((callback) =>
+      callback({
+        ui: {
+          uiCertificate: {
+            showValidationErrors: true,
+            certificate: {
+              metadata: {
+                careUnitValidationErrors: getValidationErrors(),
+              },
+              links: [],
+            },
+          },
+        },
+      })
+    )
 
     const { container } = render(<UeCareUnitAddress />)
 
@@ -65,9 +75,7 @@ describe('CareUnitAddress component', () => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockReturnValueOnce(true)
-    useSelectorSpy.mockReturnValueOnce([])
-    useSelectorSpy.mockReturnValue({})
+    useSelectorSpy.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
 
     const { container } = render(<UeCareUnitAddress />)
 
@@ -78,18 +86,28 @@ describe('CareUnitAddress component', () => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockReturnValueOnce(false)
-    useSelectorSpy.mockReturnValueOnce([])
-    useSelectorSpy.mockReturnValueOnce({
-      unitId: 'unitId',
-      unitName: 'unitName',
-      address: 'address',
-      zipCode: 'zipCode',
-      city: 'city',
-      phoneNumber: 'phoneNumber',
-      email: 'email',
-    })
-    useSelectorSpy.mockReturnValue({})
+    useSelectorSpy.mockImplementation((callback) =>
+      callback({
+        ui: {
+          uiCertificate: {
+            certificate: {
+              metadata: {
+                unit: {
+                  unitId: 'unitId',
+                  unitName: 'unitName',
+                  address: 'address',
+                  zipCode: '12345',
+                  city: 'city',
+                  phoneNumber: '123456789',
+                  email: 'email',
+                },
+              },
+              links: [],
+            },
+          },
+        },
+      })
+    )
 
     render(<UeCareUnitAddress />)
 
