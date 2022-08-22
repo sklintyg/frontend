@@ -96,7 +96,7 @@ describe('CareUnitAddress component', () => {
     expect(screen.queryAllByText(/\*/i)).toHaveLength(0)
   })
 
-  it('numeric inputs should only allow numbers', async () => {
+  it('numeric inputs should only allow numbers', () => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(jest.fn())
@@ -118,10 +118,10 @@ describe('CareUnitAddress component', () => {
     const zipcodeInput = screen.getByRole('textbox', { name: /postnummer/i })
     const phoneNumberInput = screen.getByRole('textbox', { name: /telefonnummer/i })
 
-    await userEvent.type(zipcodeInput, '1a2b3c4d5e6f')
+    userEvent.type(zipcodeInput, '1a2b3c4d5e6f')
     expect(zipcodeInput).toHaveValue('123 45')
 
-    await userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
+    userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
     expect(phoneNumberInput).toHaveValue('262662286')
   })
 })
