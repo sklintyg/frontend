@@ -1,7 +1,7 @@
 import React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
-export const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas.'
+export const AUTHORIZATION_PROBLEM_TITLE = 'Behörighet saknas'
 export const AUTHORIZATION_PROBLEM_MESSAGE =
   'Du saknar behörighet för att komma åt utkastet. För att få hjälp, kontakta i första hand din lokala IT-avdelning och i andra hand '
 
