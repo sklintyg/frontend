@@ -38,7 +38,7 @@ const SearchAndCreatePage: React.FC = () => {
     return !patientId || (patientId && patient)
   }
 
-  const updatePatientFilter = useCallback(() => {
+  const updatePatientFilter = () => {
     if (patient) {
       dispatch(
         updateActiveListFilterValue({
@@ -50,7 +50,7 @@ const SearchAndCreatePage: React.FC = () => {
         })
       )
     }
-  })
+  }
 
   useEffect(() => {
     ReactTooltip.hide()
