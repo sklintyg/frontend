@@ -60,7 +60,7 @@ const SubscriptionWarningModal: React.FC = () => {
       handleClose={() => {
         return
       }}
-      title="Automatisk avtalskontroll sker för samtliga användare"
+      title="Abonnemang för Webcert saknas"
       content={<ModalContent />}
       buttons={<CustomButton onClick={handleClose} buttonStyle="secondary" text="Stäng" />}
       enableCross={false}
