@@ -55,13 +55,13 @@ const SearchAndCreatePage: React.FC = () => {
   useEffect(() => {
     ReactTooltip.hide()
     updatePatientFilter()
-  }, [dispatch, patient, updatePatientFilter])
+  }, [dispatch, patient])
 
   useEffect(() => {
     if (!patientFilter) {
       updatePatientFilter()
     }
-  }, [patientFilter, updatePatientFilter])
+  }, [patientFilter])
 
   useEffect(() => {
     if (patientId) {
