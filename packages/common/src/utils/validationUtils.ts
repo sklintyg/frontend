@@ -1,3 +1,4 @@
+import { ValueDateRange } from '@frontend/common'
 import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
@@ -27,7 +28,6 @@ import {
   ValueIcf,
   ValueText,
 } from '..'
-import { ValueDateRange } from '@frontend/common'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -46,12 +46,12 @@ export const parseExpression = (
   function convertToValue(id: string, type: CertificateDataValidationType): number {
     const adjustedId = id.replace(/\$/g, '')
 
-    switch (element.value!.type) {
-      case CertificateDataValueType.TEXT:
+    switch (element.value?.type) {
+      case CertificateDataValueType.TEXT: {
         const valueText = element.value as ValueText
         return valueText.id === adjustedId && valueText.text ? 1 : 0
-
-      case CertificateDataValueType.BOOLEAN:
+      }
+      case CertificateDataValueType.BOOLEAN: {
         const valueBoolean = element.value as ValueBoolean
         return type === CertificateDataValidationType.MANDATORY_VALIDATION
           ? valueBoolean.selected !== null && valueBoolean.selected !== undefined
@@ -60,13 +60,13 @@ export const parseExpression = (
           : valueBoolean.selected
           ? 1
           : 0
-
-      case CertificateDataValueType.CODE_LIST:
+      }
+      case CertificateDataValueType.CODE_LIST: {
         const valueCodeList = element.value as ValueCodeList
         const code = valueCodeList.list.find((code) => code.id === adjustedId)
         return code ? 1 : 0
-
-      case CertificateDataValueType.DATE_RANGE_LIST:
+      }
+      case CertificateDataValueType.DATE_RANGE_LIST: {
         const dateRangeList = (element.value as ValueDateRangeList).list
 
         if (shouldValidateDayDifference(adjustedId)) {
@@ -82,34 +82,35 @@ export const parseExpression = (
           const toDate = getValidDate(dateRange.to)
           return isValid(fromDate) && isValid(toDate) ? 1 : 0
         }
-
-      case CertificateDataValueType.DATE_LIST:
+      }
+      case CertificateDataValueType.DATE_LIST: {
         const valueDateList = element.value as ValueDateList
         const date = valueDateList.list.find((date) => date.id === adjustedId)
         return date ? 1 : 0
-
-      case CertificateDataValueType.CODE:
+      }
+      case CertificateDataValueType.CODE: {
         const valueCode = element.value as ValueCode
         return valueCode.id === adjustedId ? 1 : 0
-
-      case CertificateDataValueType.DIAGNOSIS_LIST:
+      }
+      case CertificateDataValueType.DIAGNOSIS_LIST: {
         const valueDiagnosisList = element.value as ValueDiagnosisList
         const diagnosis = valueDiagnosisList.list.find(
           (d) => d.id === adjustedId && d.code !== undefined && d.code.length > 0 && d.description !== undefined && d.description.length > 0
         )
         return diagnosis ? 1 : 0
-
-      case CertificateDataValueType.ICF:
+      }
+      case CertificateDataValueType.ICF: {
         const valueIcf = element.value as ValueIcf
         return valueIcf.id === adjustedId && valueIcf.text ? 1 : 0
-
-      default:
+      }
+      default: {
         return 0
+      }
     }
   }
 
   const options: Options = {
-    customProp: (id: string, _: any, type: CertificateDataValidationType): number => convertToValue(id, type),
+    customProp: (id: string, _: unknown, type: CertificateDataValidationType): number => convertToValue(id, type),
   }
 
   const executeExpression = compileExpression(adjustedExpression, options)
@@ -242,19 +243,14 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
 }
 
 export const getValidationErrors = (validationErrors: ValidationError[], field: string): ValidationError[] => {
-  const result = []
-  for (const validationError of validationErrors) {
-    if (validationError.field === field) {
-      result.push(validationError)
-    }
-  }
-  return result
+  return validationErrors.filter((error) => error.field === field)
 }
 
 export const getSortedValidationErrorSummary = (
   certificate: Certificate,
   clientValidationErrors: ValidationError[]
 ): ValidationErrorSummary[] => {
+  const validationFilter = (parent: string) => (validation: ValidationErrorSummary) => validation.id === certificateData[parent].id
   let result: ValidationErrorSummary[] = []
 
   //Perhaps this could be simplified
@@ -265,7 +261,7 @@ export const getSortedValidationErrorSummary = (
       clientValidationErrors.some((v) => v.id === questionId)
     ) {
       if (certificateData[questionId].parent && certificateData[certificateData[questionId].parent].config.type === ConfigTypes.CATEGORY) {
-        if (result.findIndex((validation) => validation.id == certificateData[certificateData[questionId].parent].id) === -1) {
+        if (result.findIndex((validation) => validation.id === certificateData[certificateData[questionId].parent].id) === -1) {
           result = result.concat({
             id: certificateData[certificateData[questionId].parent].id,
             text: certificateData[certificateData[questionId].parent].config.text,
@@ -274,18 +270,15 @@ export const getSortedValidationErrorSummary = (
         }
       } else {
         let parent = certificateData[questionId].parent
-        while (true) {
+        while (parent != null) {
           if (certificateData[parent].config.type === ConfigTypes.CATEGORY) {
-            if (result.findIndex((validation) => validation.id == certificateData[parent].id) === -1) {
+            if (!result.find(validationFilter(parent))) {
               result = result.concat({
                 id: certificateData[parent].id,
                 text: certificateData[parent].config.text,
                 index: certificateData[parent].index,
               } as ValidationErrorSummary)
             }
-            break
-          } else if (!certificateData[parent].parent) {
-            // if parents parent is not a category and it's null, break to avoid endless loop
             break
           } else {
             parent = certificateData[parent].parent
@@ -326,10 +319,10 @@ function shouldBeDisabled(certificate: Certificate) {
   )
 }
 
-export function setDisableForChildElement(data: CertificateData, validationResult: ValidationResult) {
+export function setDisableForChildElement(data: CertificateData, validationResult: ValidationResult): void {
   const question = data[validationResult.id] as CertificateDataElement
-  const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item, i) => {
-    const isAffected = validationResult.affectedIds!.some((id: string) => item.id === id)
+  const updatedList = (question.config as ConfigUeCheckboxMultipleCodes).list.map((item) => {
+    const isAffected = validationResult.affectedIds?.some((id: string) => item.id === id)
     if (isAffected) {
       item.disabled = validationResult.result
       if (item.disabled) {
@@ -378,7 +371,7 @@ function validate(data: CertificateData, id: string) {
   })
 }
 
-export const isShowAlways = (validationError: ValidationError) => {
+export const isShowAlways = (validationError: ValidationError): boolean => {
   if (validationError.type === 'INVALID_FORMAT' || validationError.type === 'OTHER') {
     return true
   } else {
