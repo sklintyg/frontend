@@ -7,6 +7,7 @@ import { MemoryRouter, Route } from 'react-router-dom'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '@frontend/webcert/src/store/reducers'
 import { userMiddleware } from '@frontend/webcert/src/store/user/userMiddleware'
+import SystemBanner from '../utils/SystemBanner'
 
 let testStore: EnhancedStore
 
@@ -28,6 +29,18 @@ const renderComponentWithLogo = (logo: string, alt: string) => {
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create">
           <AppHeader logo={logo} alt={alt} />
+        </Route>
+      </MemoryRouter>
+    </Provider>
+  )
+}
+
+const renderComponentWithSubMenuBanners = (subMenuBanners: React.ReactNode[]) => {
+  render(
+    <Provider store={testStore}>
+      <MemoryRouter initialEntries={['/create']}>
+        <Route path="/create">
+          <AppHeader subMenuBanners={subMenuBanners} />
         </Route>
       </MemoryRouter>
     </Provider>
@@ -92,5 +105,20 @@ describe('App header', () => {
   it('displays logo', (): void => {
     renderComponentWithLogo('src', 'alt text')
     expect(screen.getByAltText(/alt text/i)).toBeInTheDocument()
+  })
+
+  it('displays submenu banners', (): void => {
+    const BANNER_TEXT =
+      'Abonnemang för Webcert saknas. Du har endast tillgång till Webcert för att läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.'
+
+    renderComponentWithSubMenuBanners([
+      <SystemBanner
+        banner={{
+          message: BANNER_TEXT,
+          priority: 'MEDEL',
+        }}
+      />,
+    ])
+    expect(screen.getByText(BANNER_TEXT)).toBeInTheDocument()
   })
 })

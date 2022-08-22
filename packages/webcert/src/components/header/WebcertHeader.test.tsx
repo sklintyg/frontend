@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import store from '../../store/store'
 import WebcertHeader from './WebcertHeader'
-import { updateUserResourceLinks } from '../../store/user/userActions'
-import { ResourceLinkType } from '@frontend/common'
+import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { getUserWithMissingSubscription, ResourceLinkType } from '@frontend/common'
 import { BrowserRouter } from 'react-router-dom'
 
 const renderComponent = () => {
@@ -42,5 +42,16 @@ describe('WebcertHeader', () => {
     )
 
     expect(screen.getByText('Logga ut')).toBeInTheDocument()
+  })
+
+  it('should display subscription warning banner when care provider has no subscription', () => {
+    store.dispatch(updateUser(getUserWithMissingSubscription()))
+    renderComponent()
+
+    expect(
+      screen.getByText(
+        'Abonnemang för Webcert saknas. Du har endast tillgång till Webcert för att läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.'
+      )
+    ).toBeInTheDocument()
   })
 })

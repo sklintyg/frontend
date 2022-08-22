@@ -1,5 +1,5 @@
 import { RootState } from '../store'
-import { ResourceLink, ResourceLinkType, UnitStatistics, User, UserStatistics } from '@frontend/common'
+import { ResourceLink, ResourceLinkType, Unit, UnitStatistics, User, UserStatistics } from '@frontend/common'
 
 export const getUser = (state: RootState): User | null => state.ui.uiUser.user
 
@@ -35,3 +35,5 @@ export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState
   state.ui.uiUser.userStatistics ? state.ui.uiUser.userStatistics.totalDraftsAndUnhandledQuestionsOnOtherUnits : 0
 
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
+
+export const getLoggedInCareProvider = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInCareProvider

@@ -1,17 +1,18 @@
 import React from 'react'
-import { AppHeader, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
+import { AppHeader, Banner, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
 import logo from './webcert_logo.png'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
 import SystemBanners from '../notification/SystemBanners'
 import AboutWebcertModalContent from '../../feature/certificate/Modals/AboutWebcertModalContent'
-import { getUser, getUserResourceLinks, getUserStatistics, isDoctor } from '../../store/user/userSelectors'
+import { getLoggedInCareProvider, getUser, getUserResourceLinks, getUserStatistics, isDoctor } from '../../store/user/userSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import Logout from '../../utils/Logout'
 import styled from 'styled-components'
 import { getUserTabs } from '../../utils/userTabsUtils'
 import { resetPatientState } from '../../store/patient/patientActions'
 import { resetListState } from '../../store/list/listActions'
+import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
 
 const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;
@@ -29,6 +30,8 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const userStatistics = useSelector(getUserStatistics)
   const tabs = getUserTabs(!!isUserDoctor, userStatistics, links)
   const dispatch = useDispatch()
+  const loggedInCareProvider = useSelector(getLoggedInCareProvider)
+  const careProviders = user && user?.careProviders
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -55,15 +58,30 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     dispatch(resetListState())
   }
 
+  const missingSubscription = () => {
+    if (loggedInCareProvider?.unitId == null) {
+      return false
+    } else {
+      return careProviders?.filter((careProvider) => loggedInCareProvider?.unitId === careProvider.id)[0].missingSubscription
+    }
+  }
+
+  const subscriptionWarning: Banner = {
+    message:
+      'Abonnemang för Webcert saknas. Du har endast tillgång till Webcert för att läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.',
+    priority: 'MEDEL',
+  }
+
   return (
     <AppHeader
       logo={logo}
       alt={'Logo Webcert'}
       primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
       secondaryItems={getSecondaryItems()}
-      banners={[<SystemBanners key={'system-banners'} />]}
+      banners={[<SystemBanners key="system-banners" />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}
+      subMenuBanners={missingSubscription() ? [<SystemBanner banner={subscriptionWarning} />] : []}
     />
   )
 }

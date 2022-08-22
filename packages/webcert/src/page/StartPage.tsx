@@ -26,7 +26,7 @@ const LoginButton = styled.a`
 `
 
 const CreateAccount: React.FC = () => (
-  <div className="iu-text-right">
+  <div className="iu-text-right iu-mr-500">
     Är du privatläkare och vill använda Webcert?
     <br />
     <a href="#">Skapa konto</a>
