@@ -19,9 +19,11 @@ const UserWrapper = styled.div`
   flex-direction: column;
 `
 
-const UserRole = styled.span`
-  font-style: italic;
+const StyledSpan = styled.span`
   white-space: nowrap;
+  button {
+    font-style: italic;
+  }
 `
 
 const WebcertHeaderUser: React.FC = () => {
@@ -41,7 +43,11 @@ const WebcertHeaderUser: React.FC = () => {
       <Wrapper>
         <UserWrapper>
           <span>{`${user.name} - ${user.role}`}</span>
-          <UserRole>{user.protectedPerson && <ProtectedPersonDoctorModal />}</UserRole>
+          {user.protectedPerson && (
+            <StyledSpan>
+              <ProtectedPersonDoctorModal />
+            </StyledSpan>
+          )}
         </UserWrapper>
 
         {privatePractitionerPortal && (
