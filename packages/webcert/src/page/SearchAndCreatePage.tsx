@@ -61,7 +61,7 @@ const SearchAndCreatePage: React.FC = () => {
     if (!patientFilter) {
       updatePatientFilter()
     }
-  }, [patientFilter])
+  }, [patientFilter, updatePatientFilter])
 
   useEffect(() => {
     if (patientId) {
