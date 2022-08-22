@@ -89,5 +89,29 @@ describe('DateRangeFilter', () => {
 
       expect(onChange).toHaveBeenCalled()
     })
+
+    it('should call onChange if date returns to empty', () => {
+      renderComponent()
+
+      const [from, to] = screen.getAllByRole('textbox')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      userEvent.type(from, '2022-08-18')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith({ from: '2022-08-18', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
+
+      userEvent.clear(from)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
+
+      userEvent.type(to, '2022-08-18')
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '2022-08-18', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
+
+      userEvent.clear(to)
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenLastCalledWith({ from: '', to: '', type: 'DATE_RANGE' }, 'DATE_RANGE_FILTER')
+    })
   })
 })

@@ -21,7 +21,7 @@ const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = 
         baseWorkHours={baseWorkHours}
         disabled={false}
         hasValidationError={false}
-        updateValue={() => {}}
+        updateValue={jest.fn()}
         getPeriodStartingDate={() => formatDateToString(new Date())}
         label={CHECKBOX_LABEL}
         fromDate={fromDate}

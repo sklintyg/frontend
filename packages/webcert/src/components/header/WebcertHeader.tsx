@@ -32,8 +32,6 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
   const dispatch = useDispatch()
   const loggedInCareProvider = useSelector(getLoggedInCareProvider)
   const careProviders = user && user?.careProviders
-  const missingSubscription = careProviders?.filter((careProvider) => loggedInCareProvider?.unitId === careProvider.id)[0]
-    .missingSubscription
 
   const getSecondaryItems = (): React.ReactNode[] => {
     const secondaryItems: React.ReactNode[] = []
@@ -60,6 +58,14 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     dispatch(resetListState())
   }
 
+  const missingSubscription = () => {
+    if (loggedInCareProvider?.unitId == null) {
+      return false
+    } else {
+      return careProviders?.filter((careProvider) => loggedInCareProvider?.unitId === careProvider.id)[0].missingSubscription
+    }
+  }
+
   const subscriptionWarning: Banner = {
     message:
       'Abonnemang för Webcert saknas. Du har endast tillgång till Webcert för att läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.',
@@ -75,7 +81,7 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
       banners={[<SystemBanners key="system-banners" />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}
-      subMenuBanners={missingSubscription ? [<SystemBanner banner={subscriptionWarning} />] : []}
+      subMenuBanners={missingSubscription() ? [<SystemBanner banner={subscriptionWarning} />] : []}
     />
   )
 }
