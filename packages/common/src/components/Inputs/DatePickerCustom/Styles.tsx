@@ -37,6 +37,7 @@ export const TextInput = styled.input`
   max-width: 15ch;
   border-right: 0 !important;
   min-width: 134px;
+  min-height: unset !important;
 
   &:focus {
     box-shadow: none;
@@ -48,8 +49,7 @@ export const ValidationWrapper = styled.div`
 `
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
 `
 export const FocusWrapper = styled.div`
   display: flex;
