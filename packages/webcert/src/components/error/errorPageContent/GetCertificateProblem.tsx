@@ -1,17 +1,17 @@
 import React from 'react'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 
-export const INTERNAL_PROBLEM_TITLE = 'Intyget kunde inte visas'
-export const INTERNAL_PROBLEM_MESSAGE = 'Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand '
+export const GET_CERTIFICATE_PROBLEM_TITLE = 'Intyget kunde inte visas'
+export const GET_CERTIFICATE_PROBLEM_TEXT = 'Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand '
 
 const InternalProblem: React.FC = () => {
   return (
     <>
       <p>
-        <strong>{INTERNAL_PROBLEM_TITLE}</strong>
+        <strong>{GET_CERTIFICATE_PROBLEM_TITLE}</strong>
       </p>
       <p>
-        {INTERNAL_PROBLEM_MESSAGE} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
+        {GET_CERTIFICATE_PROBLEM_TEXT} <WCDynamicLink linkKey={'ineraKundserviceAnmalFel'} />
       </p>
     </>
   )
