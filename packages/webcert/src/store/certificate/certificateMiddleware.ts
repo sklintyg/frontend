@@ -52,6 +52,7 @@ import {
   forwardCertificateSuccess,
   getCertificate,
   getCertificateCompleted,
+  getCertificateError,
   getCertificateEvents,
   getCertificateEventsCompleted,
   getCertificateEventsStarted,
@@ -124,6 +125,7 @@ import { throwError } from '../error/errorActions'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -134,7 +136,7 @@ const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
       method: 'GET',
       onStart: getCertificateStarted.type,
       onSuccess: getCertificateSuccess.type,
-      onError: certificateApiGenericError.type,
+      onError: getCertificateError.type,
       onArgs: { certificateId: action.payload },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
@@ -150,6 +152,10 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
     dispatch(validateCertificate(action.payload.certificate))
   }
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+}
+
+const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
+  dispatch(throwError({ type: ErrorType.ROUTE, errorCode: ErrorCode.GET_CERTIFICATE_PROBLEM }))
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -808,6 +814,7 @@ const middlewareMethods = {
   [fakeSignCertificateSuccess.type]: handleFakeSignCertificateSuccess,
   [certificateApiGenericError.type]: handleGenericCertificateApiError,
   [updateClientValidationError.type]: handleUpdateClientValidationError,
+  [getCertificateError.type]: handleGetCertificateError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
