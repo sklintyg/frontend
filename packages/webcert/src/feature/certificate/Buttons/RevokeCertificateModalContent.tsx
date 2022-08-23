@@ -5,6 +5,7 @@ import { RevokeCertificateReason } from '../../../store/certificate/certificateA
 import { getIsLocked } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
+import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;
@@ -19,6 +20,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
   const recipient = type ? (type === 'lisjp' ? 'för Försäkringskassan' : '') : ''
+  const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -30,6 +32,8 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
     onChange({ reason: textArea.name, message: event.target.value, title: title })
   }
 
+  const unhandledQuestionsText = 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.'
+
   const infoBoxText = locked
     ? 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i utkastet, bör du istället kopiera utkastet och skapa ett nytt intyg'
     : 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg.'
@@ -40,7 +44,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
     <>
       Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
       intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
-      intyg på <WCDynamicLink linkKey={'minaintyg'} />.
+      intyg på <WCDynamicLink linkKey={'minaintyg'} />. {hasUnhandledQuestions && unhandledQuestionsText}
     </>
   )
 
