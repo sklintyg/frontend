@@ -3,15 +3,17 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { CustomTooltip } from '@frontend/common/src'
+import { CustomTooltip, QuestionType } from '@frontend/common/src'
 import RevokeCertificateButton from '../RevokeCertificateButton'
 import store from '../../../../store/store'
+import { updateQuestions } from '../../../../store/question/questionActions'
 
 const NAME = 'Revoke button name'
 const DESCRIPTION = 'Revoke button description'
 const REVOKE_BUTTON_TEXT = 'Makulera'
 const OTHER_REASON_LABEL = 'Annat allvarligt fel'
 const WRONG_PATIENT_LABEL = 'Intyget har utfärdats på fel patient'
+const UNHANDLED_QUESTIONS_TEXT = 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.'
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
@@ -26,6 +28,41 @@ const openModal = () => {
   const button = screen.getByRole('button')
   userEvent.click(button)
 }
+
+describe('Revoke certificate with unhandled questions', () => {
+  it('shall not show unhandled questions text if no unhandled questions', () => {
+    renderDefaultComponent(true)
+    openModal()
+
+    expect(screen.queryByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('shall show unhandled questions text if unhandled questions', () => {
+    store.dispatch(
+      updateQuestions([
+        {
+          id: 'id',
+          type: QuestionType.CONTACT,
+          handled: false,
+          message: '',
+          subject: '',
+          author: '',
+          sent: '',
+          forwarded: false,
+          complements: [],
+          lastUpdate: '',
+          links: [],
+          reminders: [],
+        },
+      ])
+    )
+
+    renderDefaultComponent(true)
+    openModal()
+
+    expect(screen.queryByText(UNHANDLED_QUESTIONS_TEXT, { exact: false })).toBeInTheDocument()
+  })
+})
 
 describe('Revoke continue button', () => {
   beforeEach(() => {
