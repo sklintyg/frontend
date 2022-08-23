@@ -154,8 +154,15 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
 }
 
-const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (): void => {
-  dispatch(throwError({ type: ErrorType.ROUTE, errorCode: ErrorCode.GET_CERTIFICATE_PROBLEM }))
+const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+  dispatch(
+    throwError({
+      type: ErrorType.ROUTE,
+      errorCode: ErrorCode.GET_CERTIFICATE_PROBLEM,
+      message: action.payload.error.message,
+      certificateId: action.payload.certificateId,
+    })
+  )
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
