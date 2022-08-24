@@ -78,7 +78,7 @@ export interface UpdateListFilterValue {
 }
 export const updateActiveListFilterValue = createAction<UpdateListFilterValue>(`${LIST} Update active list filter value`)
 export const updateActiveListFilter = createAction<ListFilter>(`${LIST} Update active list filter`)
-export const updateDefaultListFilterValues = createAction(`${LIST} Update default list filter values`)
+export const updateDefaultListFilterValues = createAction<ListConfig>(`${LIST} Update default list filter values`)
 export const clearActiveListFilter = createAction(`${LIST} Clear active list filter`)
 export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)
 export const clearActiveListType = createAction(`${LIST} Clear active list type`)
