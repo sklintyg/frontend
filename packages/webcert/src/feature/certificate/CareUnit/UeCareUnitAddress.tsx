@@ -64,7 +64,7 @@ const UeCareUnitAddress: React.FC = () => {
   const addressValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
   const zipCodeValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ZIP_CODE_FIELD)
   const cityValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_CITY_FIELD)
-  const phoneNumberrValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_PHONE_NUMBER_FIELD)
+  const phoneNumberValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_PHONE_NUMBER_FIELD)
 
   const dispatchEditDraft = useRef(
     _.debounce((state: Unit) => {
@@ -169,15 +169,15 @@ const UeCareUnitAddress: React.FC = () => {
             <PhoneNumberInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
-                isShowValidationError && (!careUnitInfo.phoneNumber || phoneNumberrValidationErrors.length > 0) ? 'ic-textfield--error' : ''
+                isShowValidationError && (!careUnitInfo.phoneNumber || phoneNumberValidationErrors.length > 0) ? 'ic-textfield--error' : ''
               }`}
               onChange={handleNumericChange}
               name="phoneNumber"
               id="phoneNumber"
               value={careUnitInfo.phoneNumber}
             />
-            {isShowValidationError && phoneNumberrValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={phoneNumberrValidationErrors} />
+            {isShowValidationError && phoneNumberValidationErrors.length > 0 && (
+              <QuestionValidationTexts validationErrors={phoneNumberValidationErrors} />
             )}
           </div>
         </Wrapper>
