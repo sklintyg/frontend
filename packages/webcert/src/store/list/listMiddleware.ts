@@ -152,17 +152,21 @@ const handleGetListStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateIsLoadingList(true))
 }
 
-const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  const config = getState().ui.uiList.activeListConfig
+const handleGetListSuccess = (listType: ListType): Middleware<Dispatch> => ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  if (getState().ui.uiList.activeListType === listType) {
+    const config = getState().ui.uiList.activeListConfig
 
-  dispatch(updateActiveList(Object.values(action.payload.list)))
-  dispatch(updateTotalCount(action.payload.totalCount))
-  dispatch(clearListError)
-  dispatch(updateIsLoadingList(false))
-  dispatch(updateIsSortingList(false))
+    dispatch(updateActiveList(Object.values(action.payload.list)))
+    dispatch(updateTotalCount(action.payload.totalCount))
+    dispatch(clearListError)
+    dispatch(updateIsLoadingList(false))
+    dispatch(updateIsSortingList(false))
 
-  if (config.shouldUpdateConfigAfterListSearch) {
-    dispatch(updateHasUpdatedConfig(true))
+    if (config.shouldUpdateConfigAfterListSearch) {
+      dispatch(updateHasUpdatedConfig(true))
+    }
   }
 }
 
@@ -251,9 +255,11 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(updateTotalCount(undefined))
 }
 
-const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  clearListState(dispatch)
-  dispatch(setListError())
+const handleGetListError = (listType: ListType): Middleware<Dispatch> => ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+  if (getState().ui.uiList.activeListType === listType) {
+    clearListState(dispatch)
+    dispatch(setListError())
+  }
 }
 
 const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
@@ -279,22 +285,22 @@ const middlewareMethods = {
   [performListSearch.type]: handlePerformListSearch,
   [getListConfig.type]: handleGetListConfig,
   [getDrafts.type]: handleGetDrafts,
-  [getDraftsSuccess.type]: handleGetListSuccess,
+  [getDraftsSuccess.type]: handleGetListSuccess(ListType.DRAFTS),
   [getDraftListConfig.type]: handleGetDraftListConfig,
   [getDraftListConfigSuccess.type]: handleGetListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [clearActiveListFilter.type]: handleClearActiveListFilter,
-  [getDraftsError.type]: handleGetListError,
+  [getDraftsError.type]: handleGetListError(ListType.DRAFTS),
   [getDraftsStarted.type]: handleGetListStarted,
   [getDraftListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateList.type]: handleGetCertificateList,
-  [getCertificateListSuccess.type]: handleGetListSuccess,
+  [getCertificateListSuccess.type]: handleGetListSuccess(ListType.CERTIFICATES),
   [getCertificateListStarted.type]: handleGetListStarted,
-  [getCertificateListError.type]: handleGetListError,
+  [getCertificateListError.type]: handleGetListError(ListType.CERTIFICATES),
   [getPreviousCertificatesList.type]: handleGetPreviousCertificatesList,
-  [getPreviousCertificatesListSuccess.type]: handleGetListSuccess,
+  [getPreviousCertificatesListSuccess.type]: handleGetListSuccess(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListStarted.type]: handleGetListStarted,
-  [getPreviousCertificatesListError.type]: handleGetListError,
+  [getPreviousCertificatesListError.type]: handleGetListError(ListType.PREVIOUS_CERTIFICATES),
   [getCertificateListConfig.type]: handleGetCertificateListConfig,
   [getCertificateListConfigStarted.type]: handleGetListConfigStarted,
   [getCertificateListConfigSuccess.type]: handleGetListConfigSuccess,
@@ -303,8 +309,8 @@ const middlewareMethods = {
   [forwardCertificateSuccess.type]: handleForwardCertificateSuccess,
   [getPreviousCertificatesListConfigStarted.type]: handleGetListConfigStarted,
   [getQuestions.type]: handleGetQuestions,
-  [getQuestionsSuccess.type]: handleGetListSuccess,
-  [getQuestionsError.type]: handleGetListError,
+  [getQuestionsSuccess.type]: handleGetListSuccess(ListType.QUESTIONS),
+  [getQuestionsError.type]: handleGetListError(ListType.QUESTIONS),
   [getQuestionsStarted.type]: handleGetListStarted,
   [getQuestionListConfig.type]: handleGetQuestionListConfig,
   [getQuestionListConfigSuccess.type]: handleGetListConfigSuccess,
