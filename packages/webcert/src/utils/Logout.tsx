@@ -1,6 +1,11 @@
 import React from 'react'
 import { ResourceLink, User } from '@frontend/common'
 import { LoginMethod } from '@frontend/common/src/types/user'
+import styled from 'styled-components'
+
+const StyledLink = styled.a`
+  text-align: center;
+`
 
 interface Props {
   link: ResourceLink
@@ -21,9 +26,9 @@ const Logout: React.FC<Props> = ({ link, user }) => {
   }
 
   return (
-    <a target="_self" href={getLogoutPath()}>
+    <StyledLink target="_self" href={getLogoutPath()}>
       {link.name}
-    </a>
+    </StyledLink>
   )
 }
 
