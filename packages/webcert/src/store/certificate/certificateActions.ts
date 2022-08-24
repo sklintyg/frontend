@@ -11,7 +11,7 @@ import {
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
-import { ApiError } from '../api/apiActions'
+import { ApiError, ApiGenericError } from '../api/apiActions'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -200,7 +200,7 @@ export interface GetCertificateSuccess {
 
 export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
-export const getCertificateError = createAction(GET_CERTIFICATE_ERROR)
+export const getCertificateError = createAction<ApiGenericError>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 
