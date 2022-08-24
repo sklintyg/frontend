@@ -40,7 +40,7 @@ describe('List', () => {
   })
 
   it('should show search button', () => {
-    renderComponent(getDefaultList(), {})
+    renderComponent(getDefaultList(), { type: ListType.UNKOWN })
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
