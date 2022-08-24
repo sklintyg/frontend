@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import {
@@ -18,6 +18,7 @@ import usePrevious from '../../hooks/usePrevious'
 import { getIsSigned } from '../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
+import { useDeepCompareEffect } from '../../hooks/useDeepCompareEffect'
 
 const HeaderButtons = styled.div`
   display: flex;
@@ -48,7 +49,7 @@ const QuestionPanel: React.FC<Props> = ({ headerHeight }) => {
 
   const previousQuestionsLength = usePrevious(administrativeQuestions.length)
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (previousQuestionsLength !== 0 || (previousQuestionsLength > 0 && administrativeQuestions.length > previousQuestionsLength)) return
     setIsComplementSelected(getShouldComplementedBeActive(administrativeQuestions, complementQuestions))
   }, [administrativeQuestions, administrativeQuestions.length, complementQuestions, previousQuestionsLength])
