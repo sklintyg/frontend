@@ -27,8 +27,7 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
                   className={`ic-link iu-text-left iu-border-white ${disabled && 'ic-button--disabled'}`}
                   type="button"
                   id={id}
-                  onClick={handleClick}
-                  disabled={!!disabled}>
+                  onClick={handleClick}>
                   {cell}
                 </button>
               </td>
