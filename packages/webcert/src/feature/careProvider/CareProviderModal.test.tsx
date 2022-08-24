@@ -87,6 +87,12 @@ describe('Care provider modal', () => {
       userEvent.click(screen.getByText('Care unit'))
       expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
+
+    it('should close modal when clicking outside the modal', () => {
+      renderComponent()
+      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      expect(screen.queryByText('Byt vårdenhet')).not.toBeInTheDocument()
+    })
   })
 
   describe('Tests with no logged in unit', () => {
@@ -141,12 +147,12 @@ describe('Care provider modal', () => {
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
 
-    it('should not allow closing the modal if choose unit resource link exists', () => {
+    it('should not close the modal if choose unit resource link exists', () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
-      userEvent.click(document.body)
-      expect(testStore.getState().ui.uiUser.isCareProviderModalOpen).toEqual(true)
+      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })
 })
