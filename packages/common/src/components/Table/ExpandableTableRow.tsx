@@ -1,10 +1,5 @@
 import ArrowToggle from '@frontend/common/src/components/utils/ArrowToggle'
 import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
-
-const StyledButton = styled.button<{ disabled: boolean }>`
-  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
-`
 
 interface Props {
   rowContent: string[]
@@ -28,14 +23,14 @@ const ExpandableTableRow: React.FC<Props> = ({ rowContent, id, handleClick, chil
             return (
               <td key={idx}>
                 <ArrowToggle onClick={handleToggle} className="iu-mr-200" isUp={isExpanded} />
-                <StyledButton
-                  className={`ic-link iu-text-left ${disabled && 'iu-color-muted'}`}
+                <button
+                  className={`ic-link iu-text-left iu-border-white ${disabled && 'ic-button--disabled'}`}
                   type="button"
                   id={id}
                   onClick={handleClick}
                   disabled={!!disabled}>
                   {cell}
-                </StyledButton>
+                </button>
               </td>
             )
           }
