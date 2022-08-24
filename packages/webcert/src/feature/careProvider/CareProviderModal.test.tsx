@@ -16,7 +16,7 @@ import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -139,6 +139,14 @@ describe('Care provider modal', () => {
 
       renderComponent()
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
+    })
+
+    it('should not allow closing the modal if choose unit resource link exists', () => {
+      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+
+      renderComponent()
+      userEvent.click(document.body)
+      expect(testStore.getState().ui.uiUser.isCareProviderModalOpen).toEqual(true)
     })
   })
 })
