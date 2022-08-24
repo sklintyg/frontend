@@ -82,6 +82,7 @@ describe('ErrorComponent', () => {
       setErrorState(ErrorType.MODAL, ErrorCode.INVALID_STATE_REPLACED)
       renderComponent()
 
+      expect(screen.getByText(INVALID_STATE_TITLE)).toBeInTheDocument()
       expect(screen.getByText(INVALID_STATE_REPLACED_MESSAGE)).toBeInTheDocument()
     })
 
@@ -89,6 +90,7 @@ describe('ErrorComponent', () => {
       setErrorState(ErrorType.MODAL, ErrorCode.COMPLEMENT_INTYG_EXISTS)
       renderComponent()
 
+      expect(screen.getByText(INVALID_STATE_TITLE)).toBeInTheDocument()
       expect(screen.getByText(COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE)).toBeInTheDocument()
     })
 
