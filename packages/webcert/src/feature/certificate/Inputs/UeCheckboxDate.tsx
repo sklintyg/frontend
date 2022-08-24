@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   CertificateDataValueType,
   Checkbox,
@@ -99,9 +99,12 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     handleChange(true, value)
   }
 
-  const dispatchValidationError = (shouldBeRemoved: boolean, validationError: ValidationError) => {
-    dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
-  }
+  const dispatchValidationError = useCallback(
+    (shouldBeRemoved: boolean, validationError: ValidationError) => {
+      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+    },
+    [dispatch]
+  )
 
   return (
     <Wrapper>

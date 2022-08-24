@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomButton, ExternalLinkIcon, ModalBase, ResourceLinkType } from '@frontend/common'
+import { CustomButton, ModalBase, ResourceLinkType } from '@frontend/common'
 import { getUserResourceLinks } from '../../store/user/userSelectors'
 import { acknowledgeSubscription } from '../../store/user/userActions'
 import WCDynamicLink from '../../utils/WCDynamicLink'
@@ -18,19 +18,12 @@ const ModalContent = () => {
       <p className="iu-mb-1rem">Utan abonnemang kan du endast läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.</p>
 
       <p className="iu-mb-1rem">
-        Läs mer om Webcert och hur du beställer <WCDynamicLink linkKey="ineraIntygstjansterWebcert" />
+        Läs mer om Webcert och hur du beställer <WCDynamicLink linkKey="ineraIntygstjansterWebcert" />.
       </p>
 
       <p>
         Om du tidigare använt Webcert och inte längre vill nyttja tjänsten måste du eller din verksamhet inkomma med avslutsbegäran. Den
-        reglerar din verksamhets skyldighet att omhänderta intygsinformation{' '}
-        <a
-          className="ic-link ic-link--external"
-          target="_blank"
-          href="https://www.inera.se/kontakta-oss/fragor-om-bestallning-och-tjanster/"
-          rel="noreferrer">
-          Avsluta tjänsten <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
-        </a>
+        reglerar din verksamhets skyldighet att omhänderta intygsinformation <WCDynamicLink linkKey="ineraAvslutaTjansten" />.
       </p>
     </div>
   )

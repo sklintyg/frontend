@@ -26,3 +26,6 @@ export const getErrorId = (state: RootState): string => state.ui.uiQuestion.erro
 export const getIsLoadingQuestions = (state: RootState): boolean => state.ui.uiQuestion.isLoadingQuestions
 
 export const getCertificateId = (state: RootState): string => state.ui.uiQuestion.certificateId
+
+export const getHasUnhandledQuestions = (state: RootState): boolean =>
+  state.ui.uiQuestion.questions.filter((question) => !question.handled).length > 0
