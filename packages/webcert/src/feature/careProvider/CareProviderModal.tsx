@@ -37,7 +37,7 @@ const CareProviderModal: React.FC = () => {
   })
 
   const handleClose = () => {
-    dispatch(updateIsCareProviderModalOpen(false))
+    !chooseUnitLink && dispatch(updateIsCareProviderModalOpen(false))
   }
 
   if (isLoadingUserStatistics) {

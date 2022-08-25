@@ -11,8 +11,8 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
 
-const StyledButton = styled.button<{ careUnitHasUnits: boolean }>`
-  text-indent: ${(props) => (props.careUnitHasUnits ? '18px' : '0px')};
+const StyledButton = styled.button`
+  text-indent: 1.2em;
 `
 
 export const CareProviderModalContent: React.FC = () => {
@@ -82,12 +82,7 @@ export const CareProviderModalContent: React.FC = () => {
     ) : (
       <tr key={careUnit.unitId}>
         <td>
-          <StyledButton
-            careUnitHasUnits={careUnitHasUnits}
-            className="ic-link iu-text-left"
-            type="button"
-            id={careUnit.unitId}
-            onClick={handleChooseUnit}>
+          <StyledButton className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
             {careUnit.unitName}
           </StyledButton>
         </td>
