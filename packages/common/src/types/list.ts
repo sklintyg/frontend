@@ -119,7 +119,7 @@ export interface ListConfig {
 }
 
 export interface ListFilterValue {
-  type: ListFilterType
+  type?: ListFilterType
   [propName: string]: unknown
 }
 
@@ -162,6 +162,7 @@ export enum ListType {
 
 export interface ListFilter {
   values?: ListFilterValues
+  type: ListType
 }
 
 export interface ListFilterValues {

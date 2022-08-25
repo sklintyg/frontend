@@ -10,6 +10,7 @@ import QuestionPanel from './QuestionPanel'
 import { setErrorId, updateQuestions } from '../../store/question/questionActions'
 import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { updateCertificate } from '../../store/certificate/certificateActions'
+import userEvent from '@testing-library/user-event'
 
 let testStore: EnhancedStore
 
@@ -131,6 +132,27 @@ describe('QuestionPanel', () => {
     testStore.dispatch(setErrorId('errorId'))
     renderDefaultComponent()
     expect(screen.getByText('Ärenden kunde inte visas')).toBeInTheDocument()
+  })
+
+  it('should render complement tab', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
+  })
+
+  it('should render questions tab', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Administrativa frågor')).toBeInTheDocument()
+  })
+
+  it('should show complement tab as default', () => {
+    renderDefaultComponent()
+    expect(screen.getByText('Det finns ingen kompletteringsbegäran på detta intyg.')).toBeInTheDocument()
+  })
+
+  it('should allow user to switch tab', () => {
+    renderDefaultComponent()
+    userEvent.click(screen.getByText('Administrativa frågor'))
+    expect(screen.getByText('Det finns inga administrativa frågor för detta intyg.')).toBeInTheDocument()
   })
 })
 

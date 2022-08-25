@@ -24,6 +24,7 @@ import MedarbetaruppdragSaknas from '../components/error/errorPageContent/Medarb
 import { throwError } from '../store/error/errorActions'
 import { useDispatch } from 'react-redux'
 import AuthorizationProblemResource from '../components/error/errorPageContent/AuthorizationProblemResource'
+import GetCertificateProblem from '../components/error/errorPageContent/GetCertificateProblem'
 
 const Root = styled.div`
   height: 100vh;
@@ -88,6 +89,8 @@ const ErrorPage: React.FC = () => {
         return <HSAError />
       case ErrorCode.LOGIN_MEDARBETARUPPDRAG_SAKNAS:
         return <MedarbetaruppdragSaknas />
+      case ErrorCode.GET_CERTIFICATE_PROBLEM:
+        return <GetCertificateProblem />
       case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
       default:
         return <UnknownInternalProblem />
