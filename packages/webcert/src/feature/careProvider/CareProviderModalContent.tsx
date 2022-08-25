@@ -10,6 +10,11 @@ import { setUnit } from '../../store/user/userActions'
 import { CareProvider, CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
 import { useHistory } from 'react-router-dom'
 import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
+import styled from 'styled-components'
+
+const StyledButton = styled.button`
+  text-indent: 1.2em;
+`
 
 export const CareProviderModalContent: React.FC = () => {
   const dispatch = useDispatch()
@@ -98,14 +103,14 @@ export const CareProviderModalContent: React.FC = () => {
     ) : (
       <tr key={careUnit.unitId}>
         <td>
-          <button
+          <StyledButton
             className={`ic-link iu-text-left iu-border-white ${isLoggedInUnit(careUnit) && 'iu-color-muted ic-button--disabled'}`}
             type="button"
             id={careUnit.unitId}
             onClick={handleChooseUnit}
             disabled={isLoggedInUnit(careUnit)}>
             {getUnitName(careUnit)}
-          </button>
+          </StyledButton>
         </td>
         <td>{getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit)}</td>
         <td>{getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit)}</td>
