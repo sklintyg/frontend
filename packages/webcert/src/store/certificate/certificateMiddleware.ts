@@ -155,17 +155,6 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
 }
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  dispatch(
-    throwError({
-      type: ErrorType.ROUTE,
-      errorCode: ErrorCode.GET_CERTIFICATE_PROBLEM,
-      message: action.payload.error.message,
-      certificateId: action.payload.certificateId,
-    })
-  )
-}
-
-const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   if (action.payload.error.errorCode === ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString()) {
     dispatch(
       throwError({
