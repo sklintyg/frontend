@@ -1,6 +1,10 @@
+import { ImageCentered, InfoBox, ListHeader } from '@frontend/common/src'
+import { ListType } from '@frontend/common/src/types/list'
 import * as React from 'react'
 import { useEffect } from 'react'
-import { ListType } from '@frontend/common/src/types/list'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import List from '../feature/list/List'
+import { getListConfig, performListSearch, updateActiveListType, updateListConfig } from '../store/list/listActions'
 import {
   getActiveList,
   getActiveListConfig,
@@ -10,25 +14,21 @@ import {
   getListTotalCount,
   hasListError,
 } from '../store/list/listSelectors'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import List from '../feature/list/List'
-import { getListConfig, performListSearch, updateActiveListType, updateHasUpdatedConfig, updateListConfig } from '../store/list/listActions'
-import { ImageCentered, InfoBox, ListHeader } from '@frontend/common/src'
 
+import letterImage from '@frontend/common/src/images/epost.svg'
+import listImage from '@frontend/common/src/images/list.svg'
 import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
+import questionImage from '@frontend/common/src/images/speech-bubble.svg'
+import ReactTooltip from 'react-tooltip'
+import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
-import { withResourceAccess } from '../utils/withResourceAccess'
+import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { isFilterDefault } from '../feature/list/listUtils'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
-import ReactTooltip from 'react-tooltip'
 import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
-import listImage from '@frontend/common/src/images/list.svg'
-import letterImage from '@frontend/common/src/images/epost.svg'
-import CommonLayout from '../components/commonLayout/CommonLayout'
-import questionImage from '@frontend/common/src/images/speech-bubble.svg'
+import { withResourceAccess } from '../utils/withResourceAccess'
 
 interface Props {
   type: ListType
@@ -66,11 +66,8 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   useEffect(() => {
     if (!isLoadingListConfig && config && !hasUpdatedConfig) {
       dispatch(performListSearch)
-      dispatch(updateHasUpdatedConfig(false))
     }
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [dispatch, config, isLoadingListConfig]) // effect needs to be run whenever hasUpdatedConfig updates
-  /* eslint-enable react-hooks/exhaustive-deps */
+  }, [dispatch, config, isLoadingListConfig, hasUpdatedConfig])
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
@@ -110,14 +107,12 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
     } else if (isListCompletelyEmpty()) {
       return (
-        <ImageCentered imgSrc={getEmptyListIcon()} alt={'Det finns inga resultat i listan.'}>
+        <ImageCentered imgSrc={getEmptyListIcon()} alt="Det finns inga resultat i listan.">
           {config && <p>{config.emptyListText}</p>}
         </ImageCentered>
       )
     } else {
-      return isLoadingListConfig && !hasUpdatedConfig ? (
-        <></>
-      ) : (
+      return isLoadingListConfig && !hasUpdatedConfig ? null : (
         <List
           icon={excludePageSpecificElements ? getIcon() : undefined}
           config={config}
