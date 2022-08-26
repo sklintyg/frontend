@@ -8,7 +8,7 @@ import {
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import * as redux from 'react-redux'
+import { useSelector } from 'react-redux'
 import UeCareUnitAddress from './UeCareUnitAddress'
 
 const getValidationErrors = (): ValidationError[] => {
@@ -19,13 +19,25 @@ const getValidationErrors = (): ValidationError[] => {
   return [address, zipCode, city, phoneNumber]
 }
 
-describe('CareUnitAddress component', () => {
-  it('display all input fields with labels, mandatory and no validation errors', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}))
 
+const mockedUseSelector = useSelector as jest.Mock
+
+describe('CareUnitAddress component', () => {
+  beforeEach(() => {
+    mockedUseSelector.mockImplementation((callback) => {
+      return callback({ ui: { uiCertificate: {} } })
+    })
+  })
+
+  afterEach(() => {
+    mockedUseSelector.mockClear()
+  })
+
+  it('display all input fields with labels, mandatory and no validation errors', (): void => {
     const { container } = render(<UeCareUnitAddress />)
 
     expect(screen.getByRole('heading', { name: /vårdenhetens adress/i })).toBeInTheDocument()
@@ -42,10 +54,7 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display all validation errors', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockImplementation((callback) =>
+    mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {
           uiCertificate: {
@@ -72,21 +81,13 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display no validation errors', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockImplementation((callback) => callback({ ui: { uiCertificate: {} } }))
-
     const { container } = render(<UeCareUnitAddress />)
 
     expect(container.getElementsByClassName('ic-forms__error-message').length).toBe(0)
   })
 
   it('do not display mandatory', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockImplementation((callback) =>
+    mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {
           uiCertificate: {
@@ -115,10 +116,7 @@ describe('CareUnitAddress component', () => {
   })
 
   it('numeric inputs should only allow numbers', () => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(jest.fn())
-    useSelectorSpy.mockImplementation((callback) =>
+    mockedUseSelector.mockImplementation((callback) =>
       callback({
         ui: {
           uiCertificate: {
