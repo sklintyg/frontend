@@ -74,10 +74,8 @@ export const CareProviderModalContent: React.FC = () => {
   }
 
   const getUnitName = (unit: Unit) => {
-    const chosenUnitInfoText = isLoggedInUnit(unit) && ' (vald enhet)'
-
     if (isLoggedInUnit(unit)) {
-      return unit.unitName + chosenUnitInfoText
+      return `${unit.unitName} (vald enhet)`
     }
 
     return unit.unitName
