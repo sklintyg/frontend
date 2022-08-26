@@ -84,7 +84,7 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesListConfig())
   } else if (listType === ListType.QUESTIONS) {
-    const chosenUnit = filter.values && filter.values['UNIT'] ? filter.values['UNIT'].value : ''
+    const chosenUnit = filter.values?.UNIT?.value ?? ''
     dispatch(getQuestionListConfig(chosenUnit))
   }
 }
@@ -94,7 +94,7 @@ const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Mi
   const filter = getState().ui.uiList.activeListFilter
   const config = getState().ui.uiList.activeListConfig
   if (listType === ListType.QUESTIONS) {
-    const chosenUnit = filter.values ? filter.values['UNIT'].value : ''
+    const chosenUnit = filter.values?.UNIT?.value ?? ''
     dispatch(updateQuestionListConfig({ config: config, unitId: chosenUnit }))
   }
 }
