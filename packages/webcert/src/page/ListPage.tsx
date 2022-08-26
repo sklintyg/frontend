@@ -67,7 +67,8 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     if (!isLoadingListConfig && config && !hasUpdatedConfig) {
       dispatch(performListSearch)
     }
-  }, [dispatch, config, isLoadingListConfig, hasUpdatedConfig])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, config, isLoadingListConfig])
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))

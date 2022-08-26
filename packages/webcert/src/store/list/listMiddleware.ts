@@ -84,7 +84,8 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesListConfig())
   } else if (listType === ListType.QUESTIONS) {
-    const chosenUnit = filter.values && filter.values['UNIT'] ? filter.values['UNIT'].value : ''
+    const chosenUnit = filter.values?.['UNIT']?.value ?? ''
+    // const chosenUnit = filter.values && filter.values['UNIT'] ? filter.values['UNIT'].value : ''
     dispatch(getQuestionListConfig(chosenUnit))
   }
 }
@@ -160,12 +161,18 @@ const handleGetListStarted = (listType: ListType): Middleware<Dispatch> => ({ di
 const handleGetListSuccess = (listType: ListType): Middleware<Dispatch> => ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
+  const config = getState().ui.uiList.activeListConfig
+
   if (getState().ui.uiList.activeListType === listType) {
     dispatch(updateActiveList(Object.values(action.payload.list)))
     dispatch(updateTotalCount(action.payload.totalCount))
     dispatch(clearListError())
     dispatch(updateIsLoadingList(false))
     dispatch(updateIsSortingList(false))
+
+    if (config.shouldUpdateConfigAfterListSearch) {
+      dispatch(updateHasUpdatedConfig(true))
+    }
   }
 }
 
