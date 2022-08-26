@@ -16,8 +16,9 @@ import {
   getQuestions,
   ListResponse,
   updateActiveListConfig,
+  updateActiveListType,
 } from './listActions'
-import { CertificateListItem } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
 import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -201,6 +202,18 @@ describe('Test list middleware', () => {
 
         await flushPromises()
         expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
+      })
+
+      it('shall set list type to filter', async () => {
+        const expectedConfig = getConfigWithTextFilter()
+
+        fakeAxios.onGet('/api/list/config/draft').reply(200, expectedConfig)
+
+        testStore.dispatch(updateActiveListType(ListType.DRAFTS))
+        testStore.dispatch(getDraftListConfig())
+
+        await flushPromises()
+        expect(testStore.getState().ui.uiList.activeListFilter.type).toEqual(ListType.DRAFTS)
       })
     })
 

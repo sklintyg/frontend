@@ -43,6 +43,7 @@ import {
   setListError,
   updateActiveList,
   updateActiveListConfig,
+  updateActiveListFilter,
   updateActiveListFilterValue,
   updateDefaultListFilterValues,
   updateHasUpdatedConfig,
@@ -60,14 +61,16 @@ import {
 const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
   const listFilter = getState().ui.uiList.activeListFilter
-  if (listType === ListType.DRAFTS) {
-    dispatch(getDrafts(listFilter))
-  } else if (listType === ListType.CERTIFICATES) {
-    dispatch(getCertificateList(listFilter))
-  } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
-    dispatch(getPreviousCertificatesList(listFilter))
-  } else if (listType === ListType.QUESTIONS) {
-    dispatch(getQuestions(listFilter))
+  if (listType === listFilter.type) {
+    if (listType === ListType.DRAFTS) {
+      dispatch(getDrafts(listFilter))
+    } else if (listType === ListType.CERTIFICATES) {
+      dispatch(getCertificateList(listFilter))
+    } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
+      dispatch(getPreviousCertificatesList(listFilter))
+    } else if (listType === ListType.QUESTIONS) {
+      dispatch(getQuestions(listFilter))
+    }
   }
 }
 
@@ -157,7 +160,7 @@ const handleGetListSuccess: Middleware<Dispatch> = ({ dispatch, getState }: Midd
 
   dispatch(updateActiveList(Object.values(action.payload.list)))
   dispatch(updateTotalCount(action.payload.totalCount))
-  dispatch(clearListError)
+  dispatch(clearListError())
   dispatch(updateIsLoadingList(false))
   dispatch(updateIsSortingList(false))
 
@@ -238,16 +241,16 @@ const handleGetListConfigStarted: Middleware<Dispatch> = ({ dispatch }: Middlewa
 
 const handleGetListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateActiveListConfig(action.payload))
-  dispatch(updateDefaultListFilterValues)
-  dispatch(clearListError)
+  dispatch(updateDefaultListFilterValues(action.payload))
+  dispatch(clearListError())
   dispatch(updateIsLoadingListConfig(false))
 }
 
 const clearListState = (dispatch: Dispatch<AnyAction>) => {
-  dispatch(clearActiveListType)
-  dispatch(clearActiveListFilter)
-  dispatch(clearActiveList)
-  dispatch(clearActiveListConfig)
+  dispatch(clearActiveListType())
+  dispatch(clearActiveListConfig())
+  dispatch(clearActiveListFilter())
+  dispatch(clearActiveList())
   dispatch(updateTotalCount(undefined))
 }
 
@@ -256,19 +259,15 @@ const handleGetListError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) =
   dispatch(setListError())
 }
 
-const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
-  const filters = getState().ui.uiList.activeListConfig?.filters
+const handleUpdateDefaultFilterValues = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  const filters = action.payload.filters
+  dispatch(updateActiveListFilter({ type: getState().ui.uiList.activeListType }))
   if (filters) {
     filters.forEach((filter: ListFilterConfig) => {
       const defaultValue = getListFilterDefaultValue(filter)
       dispatch(updateActiveListFilterValue({ filterValue: defaultValue, id: filter.id }))
     })
   }
-}
-
-const handleClearActiveListFilter: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
-  dispatch(updateDefaultListFilterValues)
-  dispatch(performListSearch)
 }
 
 const handleForwardCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -283,7 +282,6 @@ const middlewareMethods = {
   [getDraftListConfig.type]: handleGetDraftListConfig,
   [getDraftListConfigSuccess.type]: handleGetListConfigSuccess,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
-  [clearActiveListFilter.type]: handleClearActiveListFilter,
   [getDraftsError.type]: handleGetListError,
   [getDraftsStarted.type]: handleGetListStarted,
   [getDraftListConfigStarted.type]: handleGetListConfigStarted,

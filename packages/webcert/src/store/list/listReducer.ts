@@ -41,7 +41,7 @@ const getInitialState = (): ListState => {
     activeListConfig: undefined,
     activeList: [],
     activeListType: ListType.UNKOWN,
-    activeListFilter: {},
+    activeListFilter: { type: ListType.UNKOWN },
     listError: false,
     totalCount: undefined,
     isLoadingList: true,
