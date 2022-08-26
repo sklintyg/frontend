@@ -16,7 +16,7 @@ import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../../store/reducers'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -87,6 +87,12 @@ describe('Care provider modal', () => {
       userEvent.click(screen.getByText('Care unit'))
       expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
+
+    it('should close modal when clicking outside the modal', () => {
+      renderComponent()
+      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+      expect(screen.queryByText('Byt vårdenhet')).not.toBeInTheDocument()
+    })
   })
 
   describe('Tests with no logged in unit', () => {
@@ -138,6 +144,14 @@ describe('Care provider modal', () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
 
       renderComponent()
+      expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
+    })
+
+    it('should not close the modal if choose unit resource link exists', () => {
+      testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
+
+      renderComponent()
+      userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
       expect(screen.getByText('Välj vårdenhet')).toBeInTheDocument()
     })
   })
