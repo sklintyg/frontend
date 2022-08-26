@@ -19,6 +19,7 @@ import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration
 import { MockUser } from '../store/welcome/welcomeReducer'
 import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
 import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
+import { getConfig } from '../store/utils/utilsSelectors'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -55,13 +56,17 @@ const Welcome: React.FC = () => {
   const createCertificate = useSelector(getCreateCertificate())
   const availableUsers = useSelector(getAvailableUsers())
   const navigateToCertificate = useSelector(getNavigateToCertificate())
+  const config = useSelector(getConfig)
 
   const [selectedUser, setSelectedUser] = useState(availableUsers[0])
   const [jsonUser, setJsonUser] = useState({ ...availableUsers[0], origin: 'DJUPINTEGRATION', authenticationMethod: 'FAKE' } as JsonUser)
   const [existingCertificateId, setExistingCertificateId] = useState('')
   const [isCreateNewCertificate, setIsCreateNewCertificate] = useState(false)
-  const [isDeepIntegration, setIsDeepIntegration] = useState(false)
+  const [isFreestanding, setIsFreestanding] = useState(false)
   const [isFakeLogin, setFakeLogin] = useState(true)
+  const [showDeepIntegrationParameters, setShowDeepIntegrationParameters] = useState(false)
+
+  const sithsUrl = '/saml/login/alias/siths-wc2?idp=' + config.sakerhetstjanstIdpUrl
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -105,14 +110,14 @@ const Welcome: React.FC = () => {
         history.push('/list/question')
       }
     } else {
-      if (!isDeepIntegration) {
+      if (isFreestanding) {
         history.push(`/certificate/${certificateId}`)
         dispatch(clearWelcome())
       }
     }
-  }, [certificateId, dispatch, history, isDeepIntegration, jsonUser.legitimeradeYrkesgrupper, navigateToCertificate])
+  }, [certificateId, dispatch, history, isFreestanding, jsonUser.legitimeradeYrkesgrupper, navigateToCertificate])
 
-  if (navigateToCertificate && isDeepIntegration) {
+  if (navigateToCertificate && !isFreestanding) {
     return <WelcomeDeepIntegration certificateId={certificateId} unitId={isFakeLogin ? jsonUser.enhetId : ''} />
   }
 
@@ -135,7 +140,9 @@ const Welcome: React.FC = () => {
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault()
-    if (isCreateNewCertificate) {
+    if (isCreateNewCertificate && !isFakeLogin) {
+      window.open(sithsUrl, '_self')
+    } else if (isCreateNewCertificate) {
       dispatch(createNewCertificate(createCertificate))
     } else if (existingCertificateId.length > 1) {
       dispatch(updateCertificateId(existingCertificateId))
@@ -148,14 +155,16 @@ const Welcome: React.FC = () => {
     setIsCreateNewCertificate(event.target.checked)
   }
 
-  const handleDeepIntegrationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsDeepIntegration(event.target.checked)
+  const handleDeepIntegrationParametersCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowDeepIntegrationParameters(event.target.checked)
     if (!event.target.checked) {
       setFakeLogin(true)
     }
   }
 
   const handleFreestandingOriginCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsFreestanding(event.target.checked)
+
     if (event.target.checked) {
       setJsonUser({ ...selectedUser, origin: 'NORMAL', authenticationMethod: 'FAKE' })
     } else {
@@ -211,10 +220,10 @@ const Welcome: React.FC = () => {
                   />
                 )}
                 <input
-                  onChange={handleDeepIntegrationCheckbox}
+                  onChange={handleDeepIntegrationParametersCheckbox}
                   className="ic-forms__checkbox"
                   type="checkbox"
-                  checked={isDeepIntegration}
+                  checked={showDeepIntegrationParameters}
                   id="isDeepIntegration"
                   disabled={jsonUser.origin === 'NORMAL'}
                 />
@@ -224,7 +233,7 @@ const Welcome: React.FC = () => {
                   className="ic-forms__checkbox"
                   type="checkbox"
                   checked={jsonUser.origin === 'NORMAL'}
-                  disabled={isDeepIntegration}
+                  disabled={showDeepIntegrationParameters}
                   id="isFreestanding"
                 />
                 <label htmlFor="isFreestanding">Logga in som fristående</label>
@@ -248,7 +257,7 @@ const Welcome: React.FC = () => {
                     onChange={() => setFakeLogin(false)}
                   />
                 </div>
-                {isDeepIntegration && <WelcomeIntegrationParameters />}
+                {showDeepIntegrationParameters && <WelcomeIntegrationParameters />}
                 <CustomButton
                   buttonStyle="primary"
                   type="submit"
