@@ -84,7 +84,7 @@ describe('Care provider modal', () => {
     it('should set navigate to start page when choosing unit', () => {
       renderComponent()
 
-      userEvent.click(screen.getByText('Care unit'))
+      userEvent.click(screen.getByText('Care unit 2'))
       expect(history.push).toHaveBeenCalledWith(START_URL_FOR_DOCTORS)
     })
 

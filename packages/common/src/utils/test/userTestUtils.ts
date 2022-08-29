@@ -33,7 +33,7 @@ export const getUser = (): User => {
         careUnits: [
           {
             unitId: '1234a',
-            unitName: 'Care unit',
+            unitName: 'Care unit 1',
             address: '',
             zipCode: '',
             city: '',
@@ -52,6 +52,17 @@ export const getUser = (): User => {
                 isInactive: false,
               },
             ],
+          },
+          {
+            unitId: '1234c',
+            unitName: 'Care unit 2',
+            address: '',
+            zipCode: '',
+            city: '',
+            phoneNumber: '',
+            email: '',
+            isInactive: false,
+            units: [],
           },
         ],
       },
@@ -265,6 +276,7 @@ export const getUserStatistics = (): UserStatistics => {
   const unitStatistics: UnitStatistics = {
     '1234a': createUnitStatistic(),
     '1234b': createUnitStatistic(),
+    '1234c': createUnitStatistic(),
   }
 
   return createUserStatistics(unitStatistics)

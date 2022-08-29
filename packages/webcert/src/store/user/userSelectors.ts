@@ -37,3 +37,5 @@ export const getTotalDraftsAndUnhandledQuestionsOnOtherUnits = (state: RootState
 export const getIsCareProviderModalOpen = (state: RootState): boolean => state.ui.uiUser.isCareProviderModalOpen
 
 export const getLoggedInCareProvider = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInCareProvider
+
+export const getLoggedInUnit = (state: RootState): Unit | undefined => state.ui.uiUser.user?.loggedInUnit
