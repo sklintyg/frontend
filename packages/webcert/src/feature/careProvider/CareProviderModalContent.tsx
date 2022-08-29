@@ -1,15 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  getLoggedInUnit,
   getUnitStatistics as selectUnitStatistics,
   getUser,
   isCareAdministrator as selectIsCareAdministrator,
 } from '../../store/user/userSelectors'
 import { setUnit } from '../../store/user/userActions'
 import { CareProvider, CareUnit, ExpandableTableRow, SimpleTable, Unit } from '@frontend/common'
-import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { START_URL_FOR_ADMINISTRATORS, START_URL_FOR_DOCTORS } from '../../constants'
+import styled from 'styled-components'
 
 const StyledButton = styled.button`
   text-indent: 1.2em;
@@ -21,6 +22,7 @@ export const CareProviderModalContent: React.FC = () => {
   const user = useSelector(getUser)
   const isCareAdministrator = useSelector(selectIsCareAdministrator)
   const unitStatistics = useSelector(selectUnitStatistics)
+  const loggedInUnit = useSelector(getLoggedInUnit)
 
   const getUnitStatisticsLiteral = (amountOnUnit: number, amountOnOtherUnit = 0, careUnit?: CareUnit) => {
     const showTotal = careUnit && careUnit?.units.length > 0 && amountOnOtherUnit > 0
@@ -29,10 +31,13 @@ export const CareProviderModalContent: React.FC = () => {
 
   const handleChooseUnit = (event: React.MouseEvent) => {
     const unitId = event.currentTarget.id
-
     dispatch(setUnit(unitId))
 
     history.push(isCareAdministrator ? START_URL_FOR_ADMINISTRATORS : START_URL_FOR_DOCTORS)
+  }
+
+  const isLoggedInUnit = (unit: Unit) => {
+    return unit.unitId === loggedInUnit?.unitId
   }
 
   const getExpandedRows = (units: Unit[]) => {
@@ -43,8 +48,13 @@ export const CareProviderModalContent: React.FC = () => {
       return (
         <tr key={unit.unitId}>
           <td>
-            <button className="ic-link iu-ml-700 iu-text-left" type="button" id={unit.unitId} onClick={handleChooseUnit}>
-              {unit.unitName}
+            <button
+              className={`ic-link iu-ml-700 iu-text-left iu-border-white ${isLoggedInUnit(unit) && 'iu-color-muted ic-button--disabled'}`}
+              type="button"
+              id={unit.unitId}
+              onClick={handleChooseUnit}
+              disabled={isLoggedInUnit(unit)}>
+              {getUnitName(unit)}
             </button>
           </td>
           <td>{getUnitStatisticsLiteral(questionsOnUnit)}</td>
@@ -63,6 +73,14 @@ export const CareProviderModalContent: React.FC = () => {
     }
   }
 
+  const getUnitName = (unit: Unit) => {
+    if (isLoggedInUnit(unit)) {
+      return `${unit.unitName} (vald enhet)`
+    }
+
+    return unit.unitName
+  }
+
   const renderRows = (careUnit: CareUnit) => {
     const statistics = getStatistics(careUnit.unitId)
     const careUnitHasUnits = careUnit.units.length > 0
@@ -70,20 +88,26 @@ export const CareProviderModalContent: React.FC = () => {
     return careUnitHasUnits ? (
       <ExpandableTableRow
         rowContent={[
-          careUnit.unitName,
+          getUnitName(careUnit),
           getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit),
           getUnitStatisticsLiteral(statistics.draftsOnUnit, statistics.draftsOnSubUnits, careUnit),
         ]}
         id={careUnit.unitId}
         handleClick={handleChooseUnit}
-        key={careUnit.unitId}>
+        key={careUnit.unitId}
+        disabled={isLoggedInUnit(careUnit)}>
         {getExpandedRows(careUnit.units)}
       </ExpandableTableRow>
     ) : (
       <tr key={careUnit.unitId}>
         <td>
-          <StyledButton className="ic-link iu-text-left" type="button" id={careUnit.unitId} onClick={handleChooseUnit}>
-            {careUnit.unitName}
+          <StyledButton
+            className={`ic-link iu-text-left iu-border-white ${isLoggedInUnit(careUnit) && 'iu-color-muted ic-button--disabled'}`}
+            type="button"
+            id={careUnit.unitId}
+            onClick={handleChooseUnit}
+            disabled={isLoggedInUnit(careUnit)}>
+            {getUnitName(careUnit)}
           </StyledButton>
         </td>
         <td>{getUnitStatisticsLiteral(statistics.questionsOnUnit, statistics.questionsOnSubUnits, careUnit)}</td>
