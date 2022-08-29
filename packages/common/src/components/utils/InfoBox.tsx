@@ -1,9 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
+import protectedPersonIcon from '@frontend/common/src/images/lock-closed.svg'
+import deceasedIcon from '@frontend/common/src/images/warning.svg'
 
 interface StyledIcon {
   activateIconWrap: boolean
 }
+
+const Img = styled.img<{ filter: string }>`
+  filter: ${(props) => props.filter};
+`
 
 const Icon = styled.i<StyledIcon>`
   margin-top: ${(props) => (props.activateIconWrap ? '3px' : '')};
@@ -23,14 +30,14 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
 `
 
 interface Props {
-  type: 'info' | 'error' | 'success' | 'observe'
+  type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
   additionalStyles?: string
   additionalWrapperStyles?: string
   squared?: boolean
   activateIconWrap?: boolean
 }
 
-const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }) => {
+const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap, icon }) => {
   const getIconClass = () => {
     switch (type) {
       case 'info':
@@ -44,9 +51,20 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
     }
   }
 
+  const getIcon = () => {
+    if (type === 'protected_person') {
+      return protectedPersonIcon
+    } else if (type === 'deceased') {
+      return deceasedIcon
+    }
+    return undefined
+  }
+
   const getWrapperClass = () => {
     switch (type) {
       case 'info':
+      case 'deceased':
+      case 'protected_person':
         return 'ic-alert--info'
       case 'error':
         return 'ic-alert--error'
@@ -60,7 +78,11 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
   return (
     <StyledWrapper squared={squared} className={`ic-alert ic-alert--status iu-fs-200 iu-lh-body ${getWrapperClass()} ${additionalStyles}`}>
       <Wrapper className={`${!activateIconWrap ? 'iu-flex' : ''} ${additionalWrapperStyles}`}>
-        <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
+        {getIcon() ? (
+          <Img src={getIcon()} className="ic-alert__icon" filter={getFilter('grey-500')} />
+        ) : (
+          <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
+        )}
         {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <>{children}</>}
       </Wrapper>
     </StyledWrapper>
