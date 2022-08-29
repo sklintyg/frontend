@@ -37,7 +37,7 @@ interface Props {
   activateIconWrap?: boolean
 }
 
-const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap, icon }) => {
+const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, additionalWrapperStyles, activateIconWrap }) => {
   const getIconClass = () => {
     switch (type) {
       case 'info':
