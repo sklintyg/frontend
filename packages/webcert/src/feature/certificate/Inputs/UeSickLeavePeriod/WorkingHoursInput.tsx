@@ -17,7 +17,9 @@ interface Props {
 
 export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidationError }) => {
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    event.preventDefault()
+    if (event.key === ' ') {
+      event.preventDefault()
+    }
   }
 
   return (
