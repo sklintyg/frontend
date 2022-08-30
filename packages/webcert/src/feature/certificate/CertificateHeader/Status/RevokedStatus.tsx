@@ -1,5 +1,5 @@
 import React from 'react'
-import { CertificateMetadata, StatusWithIcon, TextWithInfoModal, CertificateRelationType } from '@frontend/common'
+import { CertificateMetadata, CertificateRelationType, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
 import { Link } from 'react-router-dom'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
@@ -56,7 +56,7 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
         <StatusWithIcon icon={'ErrorOutlineIcon'} isModal={true}>
           <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat">
             <p>
-              Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <WCDynamicLink linkKey="minaintyg" />
+              Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <WCDynamicLink linkKey="minaintyg" />.
             </p>
           </TextWithInfoModal>
         </StatusWithIcon>
