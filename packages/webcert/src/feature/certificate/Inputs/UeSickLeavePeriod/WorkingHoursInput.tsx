@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components/macro'
 import { TextInput } from '@frontend/common'
-import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 
 const StyledTextInput = styled(TextInput)`
   width: 40px;
@@ -17,8 +16,6 @@ interface Props {
 }
 
 export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidationError }) => {
-  const spacePress = useKeyPress('Space')
-
   const onKeyDown = (event: KeyboardEvent) => {
     event.preventDefault()
   }
