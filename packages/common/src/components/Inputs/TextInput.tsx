@@ -9,7 +9,7 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   onFocus?: () => void
-  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
   hasValidationError?: boolean
   disabled?: boolean
   placeholder?: string
