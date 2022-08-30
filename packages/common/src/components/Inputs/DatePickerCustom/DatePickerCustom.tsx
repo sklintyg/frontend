@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
-import sv from 'date-fns/locale/sv'
-import { isValid, parse } from 'date-fns'
-import { _dateReg, _format, formatDateToString, getValidDate } from '@frontend/common'
-import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
-import 'react-datepicker/dist/react-datepicker.css'
-import { ValidationError } from '../../..'
+import { formatDateToString, getValidDate, _dateReg, _format } from '@frontend/common'
 import classNames from 'classnames'
-import calendar from '../../../images/calendar.svg'
+import { isValid, parse } from 'date-fns'
+import sv from 'date-fns/locale/sv'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import styled from 'styled-components'
+import { ValidationError } from '../../..'
+import calendar from '../../../images/calendar.svg'
+import { DatePickerBoundryContext } from './DatePickerBoundryContext'
+import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
 
 const Logo = styled.img`
   width: 20px;
@@ -81,6 +82,7 @@ const DatePickerCustom: React.FC<Props> = ({
       })
     }
   }, [displayFormattingError, onDispatchValidationError, componentField, questionId])
+  const boundryRef = useContext(DatePickerBoundryContext)
 
   const getValidDateForPicker = (dateString: string) => {
     if (_dateReg.test(dateString)) {
@@ -204,6 +206,7 @@ const DatePickerCustom: React.FC<Props> = ({
                 name: 'preventOverflow',
                 options: {
                   rootBoundary: 'viewport',
+                  boundary: boundryRef?.current ?? 'clippingParents',
                   tether: false,
                   altAxis: true,
                 },
