@@ -11,7 +11,7 @@ import {
 import ListFilterComponent from './ListFilterComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import ListFilterButtons from '../ListFilterButtons'
-import { clearActiveListFilter, performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
+import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
 import styled from 'styled-components/macro'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { getTooltip } from '../listUtils'
@@ -78,7 +78,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   }
 
   const onReset = () => {
-    dispatch(clearActiveListFilter())
+    dispatch(updateDefaultListFilterValues(config))
   }
 
   const onUpdateList = (value: ListFilterValue, id: string) => {

@@ -58,7 +58,9 @@ const PatientSearchError: React.FC = () => {
       <InfoBox type="error" additionalStyles="iu-mt-300" activateIconWrap>
         {getContent()}
       </InfoBox>
-      {error.errorId && <ErrorCopyText errorId={error.errorId} />}
+      {error.errorId && (error.errorCode === ErrorCode.GETTING_PATIENT_ERROR || error.errorCode === ErrorCode.PU_PROBLEM) && (
+        <ErrorCopyText errorId={error.errorId} />
+      )}
     </Wrapper>
   )
 }

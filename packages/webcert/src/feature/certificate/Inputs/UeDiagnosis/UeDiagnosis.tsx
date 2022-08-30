@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   padding-top: 15px;
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 175px repeat(3, 1fr);
+  grid-template-columns: 120px repeat(3, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 10px;
   grid-template-areas:
