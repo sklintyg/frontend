@@ -116,6 +116,11 @@ img {
   z-index: 100 !important;
 }
 
+.react-datepicker-popper[data-popper-reference-hidden] {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .react-datepicker__navigation-icon {
   top: 6px !important;
 }

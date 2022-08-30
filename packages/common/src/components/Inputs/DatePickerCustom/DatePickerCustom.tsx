@@ -211,6 +211,21 @@ const DatePickerCustom: React.FC<Props> = ({
                   altAxis: true,
                 },
               },
+              {
+                name: 'updateReferenceHiddenAttribute',
+                enabled: true,
+                phase: 'main',
+                requiresIfExists: ['offset'],
+                fn({ state }) {
+                  const isReferenceHidden = state.attributes.popper['data-popper-reference-hidden']
+                  if (typeof isReferenceHidden !== 'string' && isReferenceHidden) {
+                    state.elements.popper.dataset.popperReferenceHidden = ''
+                  } else {
+                    delete state.elements.popper.dataset.popperReferenceHidden
+                  }
+                  return state
+                },
+              },
             ]}
             maxDate={getMaxDate()}
             minDate={min ? new Date(min) : undefined}
