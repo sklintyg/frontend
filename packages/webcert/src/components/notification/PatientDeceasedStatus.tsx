@@ -6,7 +6,7 @@ interface Props {
 }
 
 const PatientDeceasedStatus: React.FC<Props> = ({ isPatientDeceased }) => {
-  return <PatientStatusNotification type="info" title="Patienten är avliden" status={isPatientDeceased} />
+  return <PatientStatusNotification type="deceased" title="Patienten är avliden" status={isPatientDeceased} />
 }
 
 export default PatientDeceasedStatus

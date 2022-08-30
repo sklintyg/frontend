@@ -10,7 +10,7 @@ const protectedPersonTitle = 'Patienten har skyddade personuppgifter'
 const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
   return (
     <PatientStatusNotificationWithModal
-      type="info"
+      type="protected_person"
       status={isProtectedPatient}
       title={protectedPersonTitle}
       modalTitle={protectedPersonTitle}>
