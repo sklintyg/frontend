@@ -5,7 +5,7 @@ import styled from 'styled-components'
 interface Props {
   status: boolean
   title: string
-  type: 'info' | 'error' | 'success' | 'observe'
+  type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
 }
 
 const Wrapper = styled.div`
