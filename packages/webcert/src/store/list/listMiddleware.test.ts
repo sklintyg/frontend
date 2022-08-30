@@ -1,10 +1,11 @@
+import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
+import { apiMiddleware } from '../api/apiMiddleware'
 import reducer from '../reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
-import apiMiddleware from '../api/apiMiddleware'
-import { listMiddleware } from './listMiddleware'
 import {
   getCertificateList,
   getCertificateListConfig,
@@ -18,8 +19,7 @@ import {
   updateActiveListConfig,
   updateActiveListType,
 } from './listActions'
-import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
-import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
+import { listMiddleware } from './listMiddleware'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -58,6 +58,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.DRAFTS))
         testStore.dispatch(getDrafts(getFilter()))
 
         await flushPromises()
@@ -70,6 +71,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/draft').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.DRAFTS))
         testStore.dispatch(getDrafts(getFilter()))
 
         await flushPromises()
@@ -93,6 +95,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/certificate').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.CERTIFICATES))
         testStore.dispatch(getCertificateList(getFilter()))
 
         await flushPromises()
@@ -105,6 +108,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/certificate').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.CERTIFICATES))
         testStore.dispatch(getCertificateList(getFilter()))
 
         await flushPromises()
@@ -128,6 +132,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/previous').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.PREVIOUS_CERTIFICATES))
         testStore.dispatch(getPreviousCertificatesList(getFilter()))
 
         await flushPromises()
@@ -140,6 +145,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/previous').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.PREVIOUS_CERTIFICATES))
         testStore.dispatch(getPreviousCertificatesList(getFilter()))
 
         await flushPromises()
@@ -163,6 +169,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/question').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.QUESTIONS))
         testStore.dispatch(getQuestions(getFilter()))
 
         await flushPromises()
@@ -175,6 +182,7 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/question').reply(200, getListSuccess)
 
+        testStore.dispatch(updateActiveListType(ListType.QUESTIONS))
         testStore.dispatch(getQuestions(getFilter()))
 
         await flushPromises()
