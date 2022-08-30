@@ -1,10 +1,11 @@
 import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
 import React from 'react'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import trash from '@frontend/common/src/images/trash.svg'
+import { getIsValidating } from '../../../store/certificate/certificateSelectors'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -16,11 +17,12 @@ interface Props extends FunctionDisabled {
 const RemoveCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata, functionDisabled }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const isValidating = useSelector(getIsValidating)
 
   return (
     <ButtonWithConfirmModal
       buttonStyle="secondary"
-      disabled={!enabled}
+      disabled={!enabled || isValidating}
       description={description}
       name={name}
       startIcon={<img src={trash} alt="Radera utkast" />}
