@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react'
-import PatientSearch from '../components/patient/PatientSearch'
-import WebcertHeader from '../components/header/WebcertHeader'
-import { useDispatch, useSelector } from 'react-redux'
-import PatientInfoHeader from '../components/patient/PatientInfoHeader'
-import { getActivePatient } from '../store/patient/patientSelectors'
-import { Redirect, useParams } from 'react-router-dom'
-import { getPatient } from '../store/patient/patientActions'
-
-import { getUser } from '../store/user/userSelectors'
-import ReactTooltip from 'react-tooltip'
-import { withResourceAccess } from '../utils/withResourceAccess'
-import CertificateList from '../components/certificateList/CertificateList'
-import ListPage from './ListPage'
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
-import { updateActiveListFilterValue } from '../store/list/listActions'
-import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import React, { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect, useParams } from 'react-router-dom'
+import ReactTooltip from 'react-tooltip'
+import CertificateList from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
+import WebcertHeader from '../components/header/WebcertHeader'
+import PatientInfoHeader from '../components/patient/PatientInfoHeader'
+import PatientSearch from '../components/patient/PatientSearch'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import { updateActiveListFilterValue } from '../store/list/listActions'
 import { getActiveListFilterValue } from '../store/list/listSelectors'
+import { getPatient } from '../store/patient/patientActions'
+import { getActivePatient } from '../store/patient/patientSelectors'
+import { getUser } from '../store/user/userSelectors'
+import { withResourceAccess } from '../utils/withResourceAccess'
+import ListPage from './ListPage'
 
 interface Params {
   patientId: string
@@ -38,7 +37,7 @@ const SearchAndCreatePage: React.FC = () => {
     return !patientId || (patientId && patient)
   }
 
-  const updatePatientFilter = () => {
+  const updatePatientFilter = useCallback(() => {
     if (patient) {
       dispatch(
         updateActiveListFilterValue({
@@ -50,12 +49,12 @@ const SearchAndCreatePage: React.FC = () => {
         })
       )
     }
-  }
+  }, [dispatch, patient])
 
   useEffect(() => {
     ReactTooltip.hide()
     updatePatientFilter()
-  }, [dispatch, patient])
+  }, [updatePatientFilter])
 
   useEffect(() => {
     if (!patientFilter) {
