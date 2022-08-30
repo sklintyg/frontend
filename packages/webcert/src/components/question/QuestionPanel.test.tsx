@@ -1,16 +1,16 @@
-import { render, screen, within } from '@testing-library/react'
+import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import reducer from '../../store/reducers'
-import { questionMiddleware } from '../../store/question/questionMiddleware'
-import QuestionPanel from './QuestionPanel'
-import { setErrorId, updateQuestions } from '../../store/question/questionActions'
-import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { updateCertificate } from '../../store/certificate/certificateActions'
-import userEvent from '@testing-library/user-event'
+import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
+import { questionMiddleware } from '../../store/question/questionMiddleware'
+import reducer from '../../store/reducers'
+import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
 
@@ -40,7 +40,13 @@ describe('QuestionPanel', () => {
 
   it('displays header for complement questions', () => {
     renderDefaultComponent()
-    expect(screen.getByText('Kompletteringsbegäran')).toBeInTheDocument()
+    expect(screen.queryByText('Kompletteringsbegäran')).toBeInTheDocument()
+  })
+
+  it('should not display header while questions are loading', () => {
+    testStore.dispatch(updateIsLoadingQuestions(true))
+    renderDefaultComponent()
+    expect(screen.queryByText('Kompletteringsbegäran')).not.toBeInTheDocument()
   })
 
   it('displays number of unhandled questions in the complement questions header if signed certificate', () => {
