@@ -5,6 +5,7 @@ import HeaderButtons from './HeaderButtons'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
 import userEvent from '@testing-library/user-event'
+import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
 
 describe('Verify header buttons', () => {
   const resourceLinks: ResourceLink[] = []
@@ -83,6 +84,21 @@ describe('Verify header buttons', () => {
     resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
     renderComponent()
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
+  })
+
+  it('shall enable remove certificate button when not validating certificate', () => {
+    const expectedButton = 'Radera'
+    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
+    renderComponent()
+    expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
+  })
+
+  it('shall disable remove certificate button when validating certificate', () => {
+    const expectedButton = 'Radera'
+    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
+    store.dispatch(validateCertificateStarted())
+    renderComponent()
+    expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
   })
 
   it('shall include revoke certificate button when its resource link type is available', () => {
