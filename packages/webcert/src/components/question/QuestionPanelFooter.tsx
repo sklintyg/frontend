@@ -116,7 +116,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   }
 
   return (
-    <SidePanelFooter additionalStyles={'iu-m-none'}>
+    <SidePanelFooter additionalStyles="iu-m-none">
       {getComplementButton()}
       {getCannotComplementButton()}
       {getForwardButton()}
