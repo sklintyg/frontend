@@ -8,6 +8,9 @@ export const getUserPreference = (key: string) => (state: RootState): string | u
 export const isDoctor = (state: RootState): boolean | null =>
   state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('läkare')
 
+export const isPrivatePractitioner = (state: RootState): boolean | null =>
+  state.ui.uiUser.user && state.ui.uiUser.user.role.toLowerCase().includes('privatläkare')
+
 export const isCareAdministrator = (state: RootState): boolean | undefined =>
   state.ui.uiUser.user?.role.toLowerCase().includes('vårdadministratör')
 
