@@ -4,8 +4,8 @@ import SidePanelFooter from './Footer/SidePanelFooter'
 
 const AboutCertificatePanelFooter: React.FC = () => {
   return (
-    <SidePanelFooter backgroundColor="iu-bg-white" textColor="iu-color-main" additionalStyles={'iu-m-none'}>
-      <WCDynamicLink linkKey={'ineraIntygsskola'} />
+    <SidePanelFooter additionalStyles="iu-m-none">
+      <WCDynamicLink linkKey="ineraIntygsskola" />
     </SidePanelFooter>
   )
 }
