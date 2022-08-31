@@ -1,6 +1,11 @@
 import React from 'react'
-import { AppHeaderUserUnit, ResourceLinkType, ExpandableBox, User } from '@frontend/common'
-import { getTotalDraftsAndUnhandledQuestionsOnOtherUnits, getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { AppHeaderUserUnit, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
+import {
+  getTotalDraftsAndUnhandledQuestionsOnOtherUnits,
+  getUser,
+  getUserResourceLinks,
+  isPrivatePractitioner,
+} from '../../store/user/userSelectors'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AlertCircle from '@frontend/common/src/images/AlertCircle'
@@ -31,6 +36,7 @@ const WebcertHeaderUnit: React.FC = () => {
   const userLinks = useSelector(getUserResourceLinks)
   const changeUnitLink = userLinks?.find((link) => link.type === ResourceLinkType.CHANGE_UNIT)
   const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
+  const privatePractitioner = useSelector(isPrivatePractitioner)
 
   const openModal = () => {
     dispatch(updateIsCareProviderModalOpen(true))
@@ -40,7 +46,7 @@ const WebcertHeaderUnit: React.FC = () => {
     return (
       <Wrapper>
         <span>
-          {user.loggedInCareProvider.unitName} - {user.loggedInUnit.unitName}
+          {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
           <br />
           {showUnhandledQuestionsInfo && (
             <Italic>
