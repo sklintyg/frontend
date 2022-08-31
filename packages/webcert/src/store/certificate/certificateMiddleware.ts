@@ -155,7 +155,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
 }
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  if (action.payload.error.errorCode === ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString()) {
+  if (action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()) {
     dispatch(
       throwError({
         type: ErrorType.ROUTE,
