@@ -164,6 +164,15 @@ const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => 
         certificateId: action.payload.certificateId,
       })
     )
+  } else if (action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()) {
+    dispatch(
+      throwError({
+        type: ErrorType.ROUTE,
+        errorCode: ErrorCode.DATA_NOT_FOUND,
+        message: action.payload.error.message,
+        certificateId: action.payload.certificateId,
+      })
+    )
   } else {
     dispatch(apiGenericError(action.payload))
   }
