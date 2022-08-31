@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DateRangePicker from './DateRangePicker'
 import {
+  Accordion,
   CertificateDataElement,
   CertificateDataValueType,
   ConfigUeCheckboxDateRange,
@@ -15,8 +16,6 @@ import {
   ValidationError,
   ValueDateRange,
   ValueDateRangeList,
-  TextInput,
-  Accordion,
 } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
@@ -25,17 +24,11 @@ import { DaysRangeWrapper } from './Styles'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
-import styled, { css } from 'styled-components/macro'
+import { css } from 'styled-components/macro'
+import { WorkingHoursInput } from './WorkingHoursInput'
 
 const AccordionStyles = css`
   flex: 0 0 100%;
-`
-
-const StyledTextInput = styled(TextInput)`
-  width: 40px;
-  padding: 4px 4px;
-  height: 35px;
-  text-align: center;
 `
 
 interface Props {
@@ -178,17 +171,11 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                 description={
                   'Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
                 }>
-                <p className={'iu-fs-200 iu-fw-body'}>Patienten arbetar i snitt</p>
-                <StyledTextInput
+                <WorkingHoursInput
                   onChange={handleWorkingHoursOnChange}
                   value={baseWorkHours}
-                  limit={3}
                   hasValidationError={workingHoursErrors.length > 0}
-                  autoComplete={false}
-                  className="iu-mx-200 iu-fs-200"
-                  testId="workingHours"
                 />
-                <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>
               </Accordion>
             </DaysRangeWrapper>
             <div className="iu-pb-500">
