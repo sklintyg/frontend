@@ -9,6 +9,7 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   onFocus?: () => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
   hasValidationError?: boolean
   disabled?: boolean
   placeholder?: string
@@ -34,6 +35,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     placeholder,
     onBlur,
     onFocus,
+    onKeyDown,
     activeDescendant,
     limit,
     id,
@@ -56,6 +58,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         onBlur={onBlur}
         onFocus={onFocus}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         aria-activedescendant={activeDescendant}
         maxLength={limit ? limit : 3500}
         id={id ?? 'textinput'}
