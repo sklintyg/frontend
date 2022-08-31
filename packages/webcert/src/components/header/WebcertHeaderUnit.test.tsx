@@ -56,6 +56,32 @@ describe('Webcert header unit', () => {
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
 
+  it('should not display care provider name for private practitioner', (): void => {
+    const user = getUser()
+    const careProvider = { ...user.loggedInCareProvider }
+    user.role = 'Privatläkare'
+    careProvider.unitName = 'Care provider unit'
+    user.loggedInCareProvider = careProvider
+
+    testStore.dispatch(updateUser(user))
+    renderComponent()
+
+    expect(screen.queryByText(user.loggedInCareProvider.unitName, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('should display care provider name for normal doctor', (): void => {
+    const user = getUser()
+    const careProvider = { ...user.loggedInCareProvider }
+    user.role = 'Läkare'
+    careProvider.unitName = 'Care provider unit'
+    user.loggedInCareProvider = careProvider
+
+    testStore.dispatch(updateUser(user))
+    renderComponent()
+
+    expect(screen.getByText(user.loggedInCareProvider.unitName, { exact: false })).toBeInTheDocument()
+  })
+
   describe('Inactive unit', () => {
     it('should not display inactive message for active unit', (): void => {
       testStore.dispatch(updateUser(getUser()))
