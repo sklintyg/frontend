@@ -11,8 +11,8 @@ const LogoWrapper = styled.div`
 
 const FMBPanelFooter: React.FC = () => {
   return (
-    <SidePanelFooter backgroundColor="iu-bg-main" textColor="iu-color-white" additionalStyles={'iu-m-none'}>
-      <WCDynamicLink linkKey={'fmbSoc'} light />
+    <SidePanelFooter additionalStyles="iu-m-none">
+      <WCDynamicLink linkKey="fmbSoc" />
       <LogoWrapper>
         <img alt="" src={sosLogo} />
       </LogoWrapper>
