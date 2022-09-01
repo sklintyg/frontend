@@ -27,7 +27,7 @@ import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/C
 import { isFilterDefault } from '../feature/list/listUtils'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
-import { getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
+import { getLoggedInUnit, getNumberOfDraftsOnUnit, getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 import { withResourceAccess } from '../utils/withResourceAccess'
 
 interface Props {
@@ -47,6 +47,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const nbrOfQuestionsOnUnit = useSelector(getNumberOfQuestionsOnUnit)
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
   const hasUpdatedConfig = useSelector(getHasUpdatedConfig)
+  const loggedInUnit = useSelector(getLoggedInUnit)
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -60,8 +61,10 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
 
   useEffect(() => {
     dispatch(updateActiveListType(type))
-    dispatch(getListConfig())
-  }, [dispatch, type])
+    if (loggedInUnit?.unitId) {
+      dispatch(getListConfig())
+    }
+  }, [dispatch, type, loggedInUnit])
 
   useEffect(() => {
     if (!isLoadingListConfig && config && !hasUpdatedConfig) {
