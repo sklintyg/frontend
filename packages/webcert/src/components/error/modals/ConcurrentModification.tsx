@@ -6,7 +6,7 @@ export const CONCURRENT_MODIFICATION_ERROR_TITLE = 'Utkastet har ändrats av en 
 export const CONCURRENT_MODIFICATION_ERROR_MESSAGE = 'Öppna intyget på nytt och försök igen. Utkastet ändrades av: '
 
 const ConcurrentModification: React.FC<ModalProps> = ({ errorData }) => {
-  const NAME = errorData.message.substring(0, errorData.message.indexOf(' -'))
+  const NAME = errorData.message?.substring(0, errorData.message.indexOf(' -'))
 
   return (
     <ReloadModal errorData={errorData}>

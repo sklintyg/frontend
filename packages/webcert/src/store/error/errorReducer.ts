@@ -46,7 +46,7 @@ export interface ErrorData {
   errorCode: ErrorCode
   errorId: string
   certificateId?: string
-  message: string
+  message?: string
 }
 
 export interface ErrorRequest {
