@@ -1,5 +1,6 @@
-import { RootState } from '../store'
 import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
+import { ApiError } from '../api/apiActions'
+import { RootState } from '../store'
 
 export const getActiveListFilter = (state: RootState): ListFilter | undefined => state.ui.uiList.activeListFilter
 
@@ -12,7 +13,7 @@ export const getActiveListFilterValue = (id: string) => (state: RootState): unkn
 
 export const getActiveListType = (state: RootState): ListType => state.ui.uiList.activeListType
 
-export const hasListError = (state: RootState): boolean => state.ui.uiList.listError
+export const getListError = (state: RootState): ApiError | undefined => state.ui.uiList.listError
 
 export const getListTotalCount = (state: RootState): number | undefined => state.ui.uiList.totalCount
 

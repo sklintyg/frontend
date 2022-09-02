@@ -11,8 +11,8 @@ import {
   getActiveListFilter,
   getHasUpdatedConfig,
   getIsLoadingListConfig,
+  getListError,
   getListTotalCount,
-  hasListError,
 } from '../store/list/listSelectors'
 
 import letterImage from '@frontend/common/src/images/epost.svg'
@@ -22,6 +22,7 @@ import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg
 import questionImage from '@frontend/common/src/images/speech-bubble.svg'
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
+import DisplayError from '../components/error/DisplayError'
 import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { isFilterDefault } from '../feature/list/listUtils'
@@ -40,7 +41,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const config = useSelector(getActiveListConfig, shallowEqual)
   const list = useSelector(getActiveList, shallowEqual)
   const filter = useSelector(getActiveListFilter, shallowEqual)
-  const error = useSelector(hasListError)
+  const listError = useSelector(getListError)
   const isLoadingListConfig = useSelector(getIsLoadingListConfig)
   const totalCount = useSelector(getListTotalCount)
   const nbrOfDraftsOnUnit = useSelector(getNumberOfDraftsOnUnit)
@@ -102,10 +103,17 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       return noDraftsImage
     }
   }
+  console.log(listError)
 
   const getList = () => {
-    if (error) {
-      return <InfoBox type="error">Sökningen kunde inte utföras.</InfoBox>
+    if (listError) {
+      return (
+        <InfoBox type="error">
+          <div>
+            <DisplayError errorCode={listError?.errorCode} fallback="Sökningen kunde inte utföras." />
+          </div>
+        </InfoBox>
+      )
     } else if (isListCompletelyEmpty()) {
       return (
         <ImageCentered imgSrc={getEmptyListIcon()} alt="Det finns inga resultat i listan.">

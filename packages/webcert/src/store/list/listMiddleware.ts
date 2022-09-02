@@ -269,10 +269,12 @@ const clearListState = (dispatch: Dispatch<AnyAction>) => {
   dispatch(updateTotalCount(undefined))
 }
 
-const handleGetListError = (listType: ListType): Middleware<Dispatch> => ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+const handleGetListError = (listType: ListType): Middleware<Dispatch> => ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
   if (getState().ui.uiList.activeListType === listType) {
     clearListState(dispatch)
-    dispatch(setListError())
+    dispatch(setListError(action.payload.error))
   }
 }
 
