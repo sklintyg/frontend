@@ -1,6 +1,6 @@
 import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
 import { createReducer } from '@reduxjs/toolkit'
-import { ApiError } from '../api/apiActions'
+import { ErrorData } from '../error/errorReducer'
 import {
   clearActiveList,
   clearActiveListConfig,
@@ -28,7 +28,7 @@ interface ListState {
   activeListConfig: ListConfig | undefined
   activeListFilter: ListFilter
   activeListType: ListType
-  listError: ApiError | undefined
+  listError: ErrorData | undefined
   totalCount: number | undefined
   isLoadingList: boolean
   isSortingList: boolean

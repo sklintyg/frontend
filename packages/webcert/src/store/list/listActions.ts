@@ -1,6 +1,6 @@
 import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common/src/types/list'
 import { createAction } from '@reduxjs/toolkit'
-import { ApiError } from '../api/apiActions'
+import { ErrorData } from '../error/errorReducer'
 
 const LIST = '[List]'
 
@@ -84,7 +84,7 @@ export const clearActiveListFilter = createAction(`${LIST} Clear active list fil
 export const updateActiveListType = createAction<ListType>(`${LIST} Update active list type`)
 export const clearActiveListType = createAction(`${LIST} Clear active list type`)
 
-export const setListError = createAction<ApiError | undefined>(`${LIST} Set list error`)
+export const setListError = createAction<ErrorData | undefined>(`${LIST} Set list error`)
 export const clearListError = createAction(`${LIST} Clear list error`)
 
 export interface ValidationErrorData {
