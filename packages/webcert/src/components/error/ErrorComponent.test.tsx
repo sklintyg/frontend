@@ -10,7 +10,7 @@ import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReduc
 import { throwError } from '../../store/error/errorActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
-import { CONCURRENT_MODIFICATION_ERROR_MESSAGE } from './modals/ConcurrentModification'
+import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
 import { INVALID_STATE_MESSAGE, INVALID_STATE_TITLE } from './modals/InvalidState'
 import { INVALID_STATE_REPLACED_MESSAGE } from './modals/InvalidStateReplaced'
 import { COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE } from './modals/ComplementaryCertificateExists'
@@ -67,6 +67,7 @@ describe('ErrorComponent', () => {
       setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
 
+      expect(screen.getByText(CONCURRENT_MODIFICATION_ERROR_TITLE)).toBeInTheDocument()
       expect(screen.getByText(CONCURRENT_MODIFICATION_ERROR_MESSAGE)).toBeInTheDocument()
     })
 
