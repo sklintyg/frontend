@@ -106,7 +106,6 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
       return noDraftsImage
     }
   }
-  console.log(listError)
 
   const getList = () => {
     if (listError) {
