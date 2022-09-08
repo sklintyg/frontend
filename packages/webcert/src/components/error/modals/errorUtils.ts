@@ -21,3 +21,9 @@ export const uuidv4 = (): string => {
     return v.toString(16)
   })
 }
+
+export const messageSubstring = (activeError: ErrorData): string | undefined => {
+  return activeError?.message?.substring(0, activeError.message?.indexOf(' -'))
+}
+
+export const NETWORK_ERROR = 'Network Error'
