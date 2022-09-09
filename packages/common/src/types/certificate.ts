@@ -1,5 +1,5 @@
-import { ResourceLink } from './resourceLink'
 import { Patient } from './patient'
+import { ResourceLink } from './resourceLink'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -39,10 +39,7 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
 }
-
-export interface CertificateData {
-  [propName: string]: CertificateDataElement
-}
+export type CertificateData = Record<string, CertificateDataElement>
 
 export interface CertificateDataElement {
   id: string

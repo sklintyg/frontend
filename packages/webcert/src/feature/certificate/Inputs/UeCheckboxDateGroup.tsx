@@ -1,10 +1,10 @@
-import React from 'react'
 import { CertificateDataElement, ConfigUeCheckboxMultipleDate, QuestionValidationTexts, ValueDate, ValueDateList } from '@frontend/common'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import UeCheckboxDate from './UeCheckboxDate'
 
-interface Props {
+export interface Props {
   disabled: boolean
   question: CertificateDataElement
 }

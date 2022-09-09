@@ -1,12 +1,12 @@
+import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
-import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import styled from 'styled-components'
-import UeDiagnosis from './UeDiagnosis'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import UeDiagnosis from './UeDiagnosis'
 
 const RadioWrapper = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const DiagnosesWrapper = styled.div`
   }
 `
 
-interface Props {
+export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

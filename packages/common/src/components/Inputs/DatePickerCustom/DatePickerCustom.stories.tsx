@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import DatePickerCustom, { Props } from './DatePickerCustom'
 
 export default {
-  title: 'DatePickerCustom',
+  title: 'Components/DatePickerCustom',
   component: DatePickerCustom,
 }
 

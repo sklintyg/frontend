@@ -1,23 +1,23 @@
-import React, { useCallback } from 'react'
 import {
+  CertificateDataElement,
   CertificateDataValueType,
   Checkbox,
-  getMaxDate,
-  getValidDate,
-  CertificateDataElement,
   ConfigTypes,
   DatePickerCustom,
+  getMaxDate,
+  getValidDate,
   QuestionValidationTexts,
   ValidationError,
   ValueDate,
   ValueDateList,
 } from '@frontend/common'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'
-import styled from 'styled-components/macro'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 
-interface Props {
+export interface Props {
   label?: string
   id: string
   hasValidationError?: boolean
