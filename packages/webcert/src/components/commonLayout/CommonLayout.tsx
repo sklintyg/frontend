@@ -40,7 +40,7 @@ const CommonLayout: React.FC<Props> = ({ header, subHeader, children, hasSidePan
         {header && <NoFlexGrow>{header}</NoFlexGrow>}
         {subHeader && <NoFlexGrow>{subHeader}</NoFlexGrow>}
         <Content ref={contentRef} className={classnames({ 'ic-container': hasSidePanel, 'popper-boundry': true })}>
-          {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500'}`}>{children}</div>}
+          {hasSidePanel ? children : <div className={`ic-container ${noPadding === false && 'iu-pt-500 iu-pb-500'}`}>{children}</div>}
         </Content>
       </Root>
     </DatePickerBoundryContext.Provider>

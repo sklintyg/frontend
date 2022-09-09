@@ -13,6 +13,7 @@ import ExternalSystemProblem from './modals/ExternalSystemProblem'
 import ModuleProblem from './modals/ModuleProblem'
 import CertificateRevoked from './modals/CertificateRevoked'
 import GeneralErrorReload from './modals/GeneralErrorReload'
+import { NETWORK_ERROR, messageSubstring } from './modals/errorUtils'
 
 export interface ErrorRoute {
   errorCode: string
@@ -25,6 +26,10 @@ const ErrorComponent: React.FC = () => {
   if (!activeError) return null
 
   const getModal = () => {
+    if (messageSubstring(activeError) === NETWORK_ERROR) {
+      return <GeneralErrorReload errorData={activeError} />
+    }
+
     switch (activeError.errorCode) {
       case ErrorCode.CONCURRENT_MODIFICATION:
         return <ConcurrentModification errorData={activeError} />
