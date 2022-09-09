@@ -18,13 +18,26 @@ interface CertificateDataList {
   label: string
 }
 
+export const fakeCertificateData = (children: CertificateData[]): CertificateData => {
+  return children.reduce(
+    (product: CertificateData, elements) =>
+      Object.values(elements).reduce((result, element) => {
+        return {
+          ...result,
+          ...fakeDataElement({ ...element, index: Object.keys(result).length + 1 }),
+        }
+      }, product),
+    {}
+  )
+}
+
 const fakeList = (length = 5): CertificateDataList[] =>
   new Array(length).fill(0).map(() => ({
     id: faker.random.alpha(10),
     label: faker.lorem.sentence(5),
   }))
 
-const fakeDataElement = (data?: PartialCertificateDataElement, children: CertificateData[] = []): CertificateData => {
+export const fakeDataElement = (data?: PartialCertificateDataElement, children: CertificateData[] = []): CertificateData => {
   const id = data?.id ?? faker.random.alpha(5)
   let certificateData: CertificateData = {}
   certificateData[id] = {
@@ -60,19 +73,6 @@ const fakeDataElement = (data?: PartialCertificateDataElement, children: Certifi
   })
 
   return certificateData
-}
-
-export const fakeCertificateData = (children: CertificateData[]): CertificateData => {
-  return children.reduce(
-    (product: CertificateData, elements) =>
-      Object.values(elements).reduce((result, element) => {
-        return {
-          ...result,
-          ...fakeDataElement({ ...element, index: Object.keys(result).length + 1 }),
-        }
-      }, product),
-    {}
-  )
 }
 
 export const fakeCategoryElement = fakeDataElement

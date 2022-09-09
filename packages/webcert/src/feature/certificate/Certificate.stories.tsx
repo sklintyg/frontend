@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { CertificateData, CertificateStatus, Patient, ResourceLink, Staff, Unit } from '@frontend/common'
+import { CertificateData, CertificateMetadata, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -15,7 +15,9 @@ import {
   fakeDiagnosesElement,
   fakeICFDataElement,
   fakeRadioMultipleCodeElement,
-} from '../../utils/fakeCertificateData'
+} from '../../utils/faker/fakeCertificateData'
+import { fakeCertificateMetaData } from '../../utils/faker/fakeCertificateMetaData'
+import { fakeResourceLink } from '../../utils/faker/fakeResourceLink'
 import Certificate from './Certificate'
 
 export default {
@@ -25,82 +27,26 @@ export default {
 
 faker.seed(10)
 
-const fakeUnit = (): Unit => {
-  return {
-    unitId: faker.random.alpha(5),
-    unitName: faker.lorem.words(),
-    address: faker.address.streetAddress(),
-    zipCode: faker.random.numeric(5),
-    city: faker.address.city(),
-    phoneNumber: faker.random.numeric(10),
-    email: faker.internet.email(),
-    isInactive: false,
-  }
-}
-
-const fakePatient = (): Patient => {
-  const firstName = faker.name.firstName()
-  const lastName = faker.name.lastName()
-  return {
-    personId: { type: faker.random.alpha(), id: faker.random.alpha() },
-    previousPersonId: { type: faker.random.alpha(), id: faker.random.alpha() },
-    firstName,
-    lastName,
-    fullName: `${firstName} ${lastName}`,
-    coordinationNumber: false,
-    testIndicated: false,
-    protectedPerson: false,
-    deceased: false,
-    differentNameFromEHR: false,
-    personIdChanged: false,
-    reserveId: false,
-  }
-}
-
-const fakeStaff = (): Staff => {
-  return {
-    personId: faker.random.alpha(10),
-    fullName: faker.name.fullName(),
-    prescriptionCode: faker.random.alpha(),
-  }
-}
-
 interface Props {
+  metadata: CertificateMetadata
   data: CertificateData
   links: ResourceLink[]
 }
 
-const Template: Story<Props> = ({ data, links = [] }) => {
-  store.dispatch(
-    updateCertificate({
-      metadata: {
-        id: '1',
-        description: faker.lorem.sentence(),
-        type: faker.random.alpha(6),
-        name: faker.lorem.words(),
-        typeVersion: faker.random.numeric(),
-        status: CertificateStatus.UNSIGNED,
-        sent: false,
-        created: faker.date.recent().toString(),
-        testCertificate: true,
-        forwarded: false,
-        relations: {
-          parent: null,
-          children: [],
-        },
-        unit: fakeUnit(),
-        careUnit: fakeUnit(),
-        careProvider: fakeUnit(),
-        patient: fakePatient(),
-        issuedBy: fakeStaff(),
-        version: faker.mersenne.rand(1, 10),
-        latestMajorVersion: true,
-        responsibleHospName: faker.random.alpha(6),
-      },
-      data: data,
-      links: links,
-    })
-  )
+const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
+  if (links.length === 0) {
+    links = [
+      fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.PRINT_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.COPY_CERTIFICATE }),
+    ]
+  }
+
+  if (metadata == null) {
+    metadata = fakeCertificateMetaData()
+  }
+
+  store.dispatch(updateCertificate({ metadata, data, links }))
 
   return <Provider store={store}>{getCertificate(store.getState()) && <Certificate />}</Provider>
 }
@@ -108,8 +54,19 @@ const Template: Story<Props> = ({ data, links = [] }) => {
 export const Default = Template.bind({})
 Default.args = {
   data: fakeCertificateData([
-    fakeCategoryElement({ id: 'kategori 1' }, [fakeICFDataElement(), fakeCheckboxBooleanElement(), fakeRadioMultipleCodeElement()]),
+    fakeCategoryElement({ id: 'kategori 1' }, [fakeCheckboxBooleanElement(), fakeRadioMultipleCodeElement()]),
     fakeCategoryElement({ id: 'kategori 2' }, [fakeCheckboxMultipleCodeElement(), fakeICFDataElement()]),
-    fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement(), fakeCheckboxMultipleDate()]),
+    fakeCategoryElement({ id: 'kategori 3' }, [fakeCheckboxMultipleDate()]),
+    fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement()]),
   ]),
+}
+
+export const FK7804 = Template.bind({})
+FK7804.args = {
+  metadata: fakeCertificateMetaData({
+    type: 'lisjp',
+    typeVersion: '1.3',
+    typeName: 'FK 7804',
+  }),
+  data: fakeCertificateData([]),
 }
