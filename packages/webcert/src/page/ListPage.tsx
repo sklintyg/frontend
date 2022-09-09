@@ -111,9 +111,7 @@ const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
     if (listError) {
       return (
         <InfoBox type="error">
-          <div>
-            <DisplayError errorCode={listError?.errorCode} fallback="Sökningen kunde inte utföras." />
-          </div>
+          <DisplayError errorCode={listError?.errorCode} fallback="Sökningen kunde inte utföras." />
         </InfoBox>
       )
     } else if (isListCompletelyEmpty()) {
