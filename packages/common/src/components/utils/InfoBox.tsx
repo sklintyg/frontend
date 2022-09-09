@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
 import protectedPersonIcon from '@frontend/common/src/images/lock-closed.svg'
 import deceasedIcon from '@frontend/common/src/images/warning.svg'
+import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
+import React from 'react'
+import styled from 'styled-components'
 
 interface StyledIcon {
   activateIconWrap: boolean
@@ -29,7 +29,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   border-radius: ${(props) => (props.squared ? '0' : '')};
 `
 
-interface Props {
+export interface Props {
   type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
   additionalStyles?: string
   additionalWrapperStyles?: string
@@ -83,7 +83,7 @@ const InfoBox: React.FC<Props> = ({ type, children, additionalStyles, squared, a
         ) : (
           <Icon activateIconWrap={!!activateIconWrap} className={`${!activateIconWrap ? '' : 'iu-fl'} ic-alert__icon ${getIconClass()}`} />
         )}
-        {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <>{children}</>}
+        {activateIconWrap ? <div className={'iu-ml-300'}>{children}</div> : <div>{children}</div>}
       </Wrapper>
     </StyledWrapper>
   )

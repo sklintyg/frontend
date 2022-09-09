@@ -1,4 +1,6 @@
+import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
 import { createReducer } from '@reduxjs/toolkit'
+import { ErrorData } from '../error/errorReducer'
 import {
   clearActiveList,
   clearActiveListConfig,
@@ -20,14 +22,13 @@ import {
   updateTotalCount,
   updateValidationError,
 } from './listActions'
-import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
 
 interface ListState {
   activeList: CertificateListItem[]
   activeListConfig: ListConfig | undefined
   activeListFilter: ListFilter
   activeListType: ListType
-  listError: boolean
+  listError: ErrorData | undefined
   totalCount: number | undefined
   isLoadingList: boolean
   isSortingList: boolean
@@ -42,7 +43,7 @@ const getInitialState = (): ListState => {
     activeList: [],
     activeListType: ListType.UNKOWN,
     activeListFilter: { type: ListType.UNKOWN },
-    listError: false,
+    listError: undefined,
     totalCount: undefined,
     isLoadingList: true,
     isSortingList: false,
@@ -85,11 +86,11 @@ const listReducer = createReducer(getInitialState(), (builder) =>
     .addCase(clearActiveListType, (state) => {
       state.activeListType = ListType.UNKOWN
     })
-    .addCase(setListError, (state) => {
-      state.listError = true
+    .addCase(setListError, (state, action) => {
+      state.listError = action.payload
     })
     .addCase(clearListError, (state) => {
-      state.listError = false
+      state.listError = undefined
     })
     .addCase(updateTotalCount, (state, action) => {
       state.totalCount = action.payload
