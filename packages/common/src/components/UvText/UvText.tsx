@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   CertificateDataConfig,
   CertificateDataElement,
@@ -18,17 +17,18 @@ import {
   ValueDiagnosisList,
   ValueText,
 } from '@frontend/common'
+import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
+import _ from 'lodash'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import Badge from './Badge'
 import {
   CertificateDataElementStyleEnum,
   ConfigTypes,
   ConfigUeCheckboxBoolean,
   ConfigUeRadioMultipleCodesOptionalDropdown,
 } from '../../types/certificate'
-import { useSelector } from 'react-redux'
-import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
-import _ from 'lodash'
+import Badge from './Badge'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -38,11 +38,11 @@ const IcfCodeWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-interface UvTextProps {
+export interface Props {
   question: CertificateDataElement
 }
 
-const UvText: React.FC<UvTextProps> = ({ question }) => {
+const UvText: React.FC<Props> = ({ question }) => {
   const getOptionalDropdown = () => {
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN) {
       return (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list.find(
@@ -186,17 +186,19 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
     let displayText = 'Ej angivet'
 
     switch (question.value.type) {
-      case CertificateDataValueType.BOOLEAN:
+      case CertificateDataValueType.BOOLEAN: {
         const booleanConfig = question.config as ConfigUeCheckboxBoolean
         const booleanValue = question.value as ValueBoolean
         return getCheckboxBooleanText(booleanValue, booleanConfig)
-      case CertificateDataValueType.TEXT:
+      }
+      case CertificateDataValueType.TEXT: {
         const textValue = question.value as ValueText
         if (textValue.text != null && textValue.text.length > 0) {
           displayText = textValue.text
         }
         break
-      case CertificateDataValueType.CODE_LIST:
+      }
+      case CertificateDataValueType.CODE_LIST: {
         const codeListValue = question.value as ValueCodeList
         const codeListConfig = question.config
         if (codeListValue.list.length > 0 && question.visible) {
@@ -214,34 +216,39 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           )
         }
         break
-      case CertificateDataValueType.DIAGNOSIS_LIST:
+      }
+      case CertificateDataValueType.DIAGNOSIS_LIST: {
         const diagnosisListValue = question.value as ValueDiagnosisList
         const diagnosisListConfig = question.config as ConfigUeDiagnoses
         if (diagnosisListValue.list.length > 0 && question.visible) {
           return <div className={'iu-p-none'}>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
         }
         break
-      case CertificateDataValueType.CODE:
+      }
+      case CertificateDataValueType.CODE: {
         displayText = getCodeValue(question)
         if (questionWithOptionalDropdown) {
           displayText += ` ${getCodeValue(questionWithOptionalDropdown)}`
         }
         break
-      case CertificateDataValueType.DATE_LIST:
+      }
+      case CertificateDataValueType.DATE_LIST: {
         const dateListValue = question.value as ValueDateList
         const dateListConfig = question.config as ConfigUeCheckboxMultipleDate
         if (question.visible) {
           return getDateListDisplayValue(dateListValue, dateListConfig)
         }
         break
-      case CertificateDataValueType.DATE_RANGE_LIST:
+      }
+      case CertificateDataValueType.DATE_RANGE_LIST: {
         const dateRangeListValue = question.value.list as ValueDateRange[]
         const dateRangeListConfig = (question.config as ConfigUeSickLeavePeriod).list
         if (dateRangeListValue.length > 0 && dateRangeListValue.some((val) => val.from && val.to)) {
           return getDateRangeListDisplayValue(dateRangeListValue, dateRangeListConfig)
         }
         break
-      case CertificateDataValueType.ICF:
+      }
+      case CertificateDataValueType.ICF: {
         const icfCodes = question.value.icfCodes as string[]
         const icfTextValue = question.value.text as string
         const collectionsLabel = (question.config as ConfigUeIcf).collectionsLabel
@@ -250,9 +257,11 @@ const UvText: React.FC<UvTextProps> = ({ question }) => {
           return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
         }
         break
-      default:
+      }
+      default: {
         displayText = 'Okänd datatyp'
         break
+      }
     }
     if (displayText && displayText.length > 0 && question.style !== CertificateDataElementStyleEnum.HIDDEN) {
       return <Badge>{displayText}</Badge>
