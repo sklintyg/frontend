@@ -184,3 +184,29 @@ export const fakeRadioMultipleCodeElement = (data?: PartialCertificateDataElemen
     },
     children
   )
+
+export const fakeBooleanElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+  fakeDataElement(
+    {
+      config: {
+        type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
+        selectedText: 'Boolean value = true',
+        unselectedText: 'Boolean value = false',
+      },
+      value: { type: CertificateDataValueType.BOOLEAN, selected: true },
+      ...data,
+    },
+    children
+  )
+
+export const fakeTextElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+  fakeDataElement(
+    {
+      config: {
+        type: ConfigTypes.UE_TEXTAREA,
+      },
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50 },
+      ...data,
+    },
+    children
+  )

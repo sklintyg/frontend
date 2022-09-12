@@ -1,23 +1,27 @@
 import { faker } from '@faker-js/faker'
-import { CertificateData, CertificateMetadata, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { Story } from '@storybook/react'
-import React from 'react'
-import { Provider } from 'react-redux'
-import { updateCertificate } from '../../store/certificate/certificateActions'
-import { getCertificate } from '../../store/certificate/certificateSelectors'
-import store from '../../store/store'
 import {
+  CertificateData,
+  CertificateMetadata,
   fakeCategoryElement,
   fakeCertificateData,
+  fakeCertificateMetaData,
   fakeCheckboxBooleanElement,
   fakeCheckboxMultipleCodeElement,
   fakeCheckboxMultipleDate,
   fakeDiagnosesElement,
   fakeICFDataElement,
   fakeRadioMultipleCodeElement,
-} from '../../utils/faker/fakeCertificateData'
-import { fakeCertificateMetaData } from '../../utils/faker/fakeCertificateMetaData'
-import { fakeResourceLink } from '../../utils/faker/fakeResourceLink'
+  fakeResourceLink,
+  ResourceLink,
+  ResourceLinkType,
+} from '@frontend/common'
+import { Story } from '@storybook/react'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { updateCertificate } from '../../store/certificate/certificateActions'
+import { getCertificate } from '../../store/certificate/certificateSelectors'
+import store from '../../store/store'
+
 import Certificate from './Certificate'
 
 export default {
