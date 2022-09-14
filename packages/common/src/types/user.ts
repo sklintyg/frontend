@@ -17,6 +17,9 @@ export interface User {
 export enum SigningMethod {
   DSS = 'DSS',
   FAKE = 'FAKE',
+  BANK_ID = 'BANK_ID',
+  BANK_ID_MOBILE = 'BANK_ID_MOBILE',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export enum LoginMethod {

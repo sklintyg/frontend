@@ -1,5 +1,3 @@
-import { RootState } from '../store'
-import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
@@ -18,9 +16,12 @@ import {
   ValidationError,
   ValidationErrorSummary,
 } from '@frontend/common'
-import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { sortByIndex } from '@frontend/common/src/utils/certificateUtils'
-import { SigningData } from './certificateActions'
+import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
+import { createSelector } from '@reduxjs/toolkit'
+import { ErrorData } from '../error/errorReducer'
+import { RootState } from '../store'
+import { CertificateSignStatus, SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -209,6 +210,7 @@ export const getIsEditable = (state: RootState): boolean | undefined =>
   state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
 
 export const getSigningData = (state: RootState): SigningData | undefined => state.ui.uiCertificate.signingData
+export const getSigningError = (state: RootState): ErrorData | undefined => state.ui.uiCertificate.signingError
 
 export const getIsLatestMajorVersion = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.latestMajorVersion : true
@@ -246,3 +248,5 @@ export const getIsPatientIdChanged = (state: RootState): boolean =>
 
 export const getIsReserveId = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false
+
+export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus

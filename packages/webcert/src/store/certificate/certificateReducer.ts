@@ -15,6 +15,7 @@ import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/ut
 import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
+  CertificateSignStatus,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -27,6 +28,7 @@ import {
   removeClientValidationError,
   resetCertificateState,
   setCertificateDataElement,
+  setCertificateSigningErrorData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
@@ -44,6 +46,7 @@ import {
   updateCertificateComplements,
   updateCertificateEvents,
   updateCertificateSigningData,
+  updateCertificateSignStatus,
   updateCertificateStatus,
   updateCertificateVersion,
   updateCreatedCertificateId,
@@ -57,6 +60,7 @@ import {
 } from './certificateActions'
 
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { ErrorData } from '../error/errorReducer'
 
 interface CertificateState {
   certificate?: Certificate
@@ -75,6 +79,8 @@ interface CertificateState {
   clientValidationErrors: ValidationError[]
   createdCertificateId: string
   shouldRouteAfterDelete: boolean
+  signingStatus: CertificateSignStatus
+  signingError?: ErrorData
 }
 
 const getInitialState = (): CertificateState => {
@@ -92,6 +98,7 @@ const getInitialState = (): CertificateState => {
     clientValidationErrors: [],
     createdCertificateId: '',
     shouldRouteAfterDelete: false,
+    signingStatus: CertificateSignStatus.INITIAL,
   }
 }
 
@@ -291,6 +298,12 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateCertificateSigningData, (state, action) => {
       state.signingData = action.payload
+    })
+    .addCase(setCertificateSigningErrorData, (state, action) => {
+      state.signingError = action.payload
+    })
+    .addCase(updateCertificateSignStatus, (state, action) => {
+      state.signingStatus = action.payload
     })
     .addCase(highlightCertificateDataElement, (state, action) => {
       if (!state.certificate) {
