@@ -3,6 +3,7 @@ import {
   CertificateDataElement,
   CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
   CertificateStatus,
   Complement,
   Unit,
@@ -67,7 +68,6 @@ const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
 const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
 const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
-const SIGN_WITH_BANK_ID = `${CERTIFICATE} Sign certificate using BankID`
 const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
 const SIGN_CERTIFICATE_STATUS_SUCCESS = `${CERTIFICATE} Get certificate sign status success`
 const SIGN_CERTIFICATE_STATUS_ERROR = `${CERTIFICATE} Get certificate sign status error`
@@ -307,15 +307,6 @@ export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
 export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
-
-export enum CertificateSignStatus {
-  INITIAL = '',
-  UNKNOWN = 'OKAND',
-  PROCESSING = 'BEARBETAR',
-  NO_CLIENT = 'NO_CLIENT',
-  SIGNED = 'SIGNERAD',
-  FAILED = 'FAILED',
-}
 
 export const updateCertificateSignStatus = createAction<CertificateSignStatus>(UPDATE_SIGN_CERTIFICATE_STATUS)
 

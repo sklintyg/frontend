@@ -4,6 +4,7 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
+  CertificateSignStatus,
   Complement,
   ConfigTypes,
   ValidationError,
@@ -15,7 +16,6 @@ import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/ut
 import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
-  CertificateSignStatus,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,

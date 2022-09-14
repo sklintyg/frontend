@@ -1,5 +1,5 @@
-import { ResourceLink } from './resourceLink'
 import { Patient } from './patient'
+import { ResourceLink } from './resourceLink'
 
 export interface Certificate {
   metadata: CertificateMetadata
@@ -419,4 +419,13 @@ export interface IcfTitles {
     unique: string[]
     common: string[]
   }
+}
+
+export enum CertificateSignStatus {
+  INITIAL = '',
+  UNKNOWN = 'OKAND',
+  PROCESSING = 'BEARBETAR',
+  NO_CLIENT = 'NO_CLIENT',
+  SIGNED = 'SIGNERAD',
+  FAILED = 'FAILED',
 }

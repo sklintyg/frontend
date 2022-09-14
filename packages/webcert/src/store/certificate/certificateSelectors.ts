@@ -5,6 +5,7 @@ import {
   CertificateEvent,
   CertificateMetadata,
   CertificateRelationType,
+  CertificateSignStatus,
   CertificateStatus,
   Complement,
   ConfigTypes,
@@ -12,16 +13,16 @@ import {
   PersonId,
   ResourceLink,
   ResourceLinkType,
+  sortByIndex,
   Unit,
   ValidationError,
   ValidationErrorSummary,
 } from '@frontend/common'
-import { sortByIndex } from '@frontend/common/src/utils/certificateUtils'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
-import { CertificateSignStatus, SigningData } from './certificateActions'
+import { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
