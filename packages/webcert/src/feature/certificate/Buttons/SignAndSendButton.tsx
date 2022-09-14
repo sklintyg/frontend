@@ -1,8 +1,8 @@
-import { CustomButton } from '@frontend/common'
+import { CertificateSignStatus, CustomButton } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CertificateSignStatus, startSignCertificate } from '../../../store/certificate/certificateActions'
+import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
