@@ -80,6 +80,9 @@ export enum ConfigTypes {
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
+  UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
+  UE_TEXTFIELD = 'UE_TEXTFIELD',
+  UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
 }
 
 export interface CertificateDataConfig {

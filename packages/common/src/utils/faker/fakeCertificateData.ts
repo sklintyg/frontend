@@ -39,6 +39,7 @@ const fakeList = (length = 5): CertificateDataList[] =>
 
 export const fakeDataElement = (data?: PartialCertificateDataElement, children: CertificateData[] = []): CertificateData => {
   const id = data?.id ?? faker.random.alpha(5)
+  const type = data?.config?.type ?? ConfigTypes.CATEGORY
   let certificateData: CertificateData = {}
   certificateData[id] = {
     parent: '',
@@ -53,7 +54,7 @@ export const fakeDataElement = (data?: PartialCertificateDataElement, children: 
     config: {
       type: ConfigTypes.CATEGORY,
       text: `${id} - ${faker.lorem.words()}`,
-      description: `description: ${faker.lorem.sentence()}`,
+      description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
       ...data?.config,
       id,
     },
@@ -162,12 +163,13 @@ export const fakeICFDataElement = (data?: PartialCertificateDataElement, childre
 export const fakeCheckboxMultipleDate = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
         list: fakeList(5),
+        ...data?.config,
       },
-      value: { type: CertificateDataValueType.DATE_LIST, list: [] },
-      ...data,
+      value: { type: CertificateDataValueType.DATE_LIST, list: [], ...data?.value },
     },
     children
   )
@@ -175,12 +177,13 @@ export const fakeCheckboxMultipleDate = (data?: PartialCertificateDataElement, c
 export const fakeRadioMultipleCodeElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
         list: fakeList(5),
+        ...data?.config,
       },
-      value: { type: CertificateDataValueType.CODE, list: [] },
-      ...data,
+      value: { type: CertificateDataValueType.CODE, list: [], ...data?.value },
     },
     children
   )
@@ -188,13 +191,14 @@ export const fakeRadioMultipleCodeElement = (data?: PartialCertificateDataElemen
 export const fakeBooleanElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
         selectedText: 'Boolean value = true',
         unselectedText: 'Boolean value = false',
+        ...data?.config,
       },
-      value: { type: CertificateDataValueType.BOOLEAN, selected: true },
-      ...data,
+      value: { type: CertificateDataValueType.BOOLEAN, selected: true, ...data?.value },
     },
     children
   )
@@ -202,11 +206,12 @@ export const fakeBooleanElement = (data?: PartialCertificateDataElement, childre
 export const fakeTextElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_TEXTAREA,
+        ...data?.config,
       },
-      value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50 },
-      ...data,
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50, ...data?.value },
     },
     children
   )
