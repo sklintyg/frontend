@@ -18,7 +18,6 @@ export enum SigningMethod {
   BANK_ID = 'BANK_ID',
   DSS = 'DSS',
   FAKE = 'FAKE',
-  UNKNOWN = 'UNKNOWN',
 }
 
 export enum LoginMethod {

@@ -181,7 +181,7 @@ export const SignCertificateModal: React.FC = () => {
   const user = useSelector(getUser)
   const hasFailed = signStatus === CertificateSignStatus.FAILED
   const open = signStatus !== CertificateSignStatus.INITIAL
-  const signingMethod = user?.signingMethod ?? SigningMethod.UNKNOWN
+  const signingMethod = user?.signingMethod
   const isMobile = user?.loginMethod === LoginMethod.BANK_ID_MOBILE
 
   const handleClose = () => {
