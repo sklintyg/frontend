@@ -1,23 +1,23 @@
-import React, { useCallback } from 'react'
 import {
+  CertificateDataElement,
   CertificateDataValueType,
   Checkbox,
-  getMaxDate,
-  getValidDate,
-  CertificateDataElement,
   ConfigTypes,
   DatePickerCustom,
+  getMaxDate,
+  getValidDate,
   QuestionValidationTexts,
   ValidationError,
   ValueDate,
   ValueDateList,
 } from '@frontend/common'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
 import { format, isValid } from 'date-fns'
-import styled from 'styled-components/macro'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,14 +56,16 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   const [dateString, setDateString] = React.useState(date ? date : null)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, id))
 
-  const deleteDateFromSavedValue = () => {
-    let updatedValue
-    if (!isSingleCheckboxDate) {
-      updatedValue = getUpdatedDateListValue(question, false, id, '')
+  const getUpdatedValue = (question: CertificateDataElement, checked: boolean, id: string, date: string) => {
+    if (isSingleCheckboxDate) {
+      return getUpdatedDateValue(question, checked, id, date)
     } else {
-      updatedValue = getUpdatedDateValue(question, false, id, '')
+      return getUpdatedDateListValue(question, checked, id, date)
     }
-    dispatch(updateCertificateDataElement(updatedValue))
+  }
+
+  const deleteDateFromSavedValue = () => {
+    dispatch(updateCertificateDataElement(getUpdatedValue(question, false, id, '')))
   }
 
   const handleChange = (checked: boolean, date: string) => {
@@ -77,26 +79,8 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
     const parsedDate = getValidDate(date)
 
     if (isValid(parsedDate)) {
-      let updatedValue
-      if (isSingleCheckboxDate) {
-        updatedValue = getUpdatedDateValue(question, checked, id, date)
-      } else {
-        updatedValue = getUpdatedDateListValue(question, checked, id, date)
-      }
-      dispatch(updateCertificateDataElement(updatedValue))
+      dispatch(updateCertificateDataElement(getUpdatedValue(question, checked, id, date)))
     }
-  }
-
-  const handleCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    handleChange(event.target.checked, format(new Date(), _format))
-  }
-
-  const handleDateChange = (date: string) => {
-    handleChange(true, date)
-  }
-
-  const handleTextChange = (value: string) => {
-    handleChange(true, value)
   }
 
   const dispatchValidationError = useCallback(
@@ -114,14 +98,20 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         checked={checked}
         vertical={true}
         disabled={disabled}
-        onChange={handleCheckboxChange}
+        onChange={(event) => {
+          handleChange(event.target.checked, format(new Date(), _format))
+        }}
         hasValidationError={hasValidationError}
         checkboxAdditionalStyles={props.checkboxAdditionalStyles}
       />
       <DatePickerCustom
         disabled={disabled}
-        textInputOnChange={handleTextChange}
-        setDate={handleDateChange}
+        textInputOnChange={(value: string) => {
+          handleChange(true, value)
+        }}
+        setDate={(date: string) => {
+          handleChange(true, date)
+        }}
         inputString={dateString}
         additionalStyles={props.datePickerAdditionalStyles}
         questionId={question.id}
@@ -137,22 +127,14 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
   )
 }
 
-const getUpdatedDateListValue = (question: CertificateDataElement, checked: boolean, id: string, date: string) => {
+const getUpdatedDateListValue = (question: CertificateDataElement, checked: boolean, id: string, date: string): CertificateDataElement => {
   const updatedQuestion: CertificateDataElement = { ...question }
-
   const updatedQuestionValue = { ...(updatedQuestion.value as ValueDateList) }
-  let updatedValueList = [...updatedQuestionValue.list]
 
-  const updatedValueIndex = updatedValueList.findIndex((val) => val.id === id)
-  if (updatedValueIndex === -1 && checked) {
-    updatedValueList = [...updatedValueList, { id: id, date: date, type: CertificateDataValueType.DATE } as ValueDate]
-  } else {
-    updatedValueList.splice(updatedValueIndex, 1)
-    if (checked) {
-      updatedValueList = [...updatedValueList, { id: id, date: date, type: CertificateDataValueType.DATE } as ValueDate]
-    }
-  }
-  updatedQuestionValue.list = updatedValueList
+  updatedQuestionValue.list = (updatedQuestionValue.list ?? [])
+    .filter((item) => item.id !== id)
+    .concat(checked ? { id: id, date: date, type: CertificateDataValueType.DATE } : [])
+
   updatedQuestion.value = updatedQuestionValue
 
   return updatedQuestion

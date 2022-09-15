@@ -473,7 +473,7 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
       typeVersion: '1.0',
     },
     data: {
-      questionId: question,
+      [question.id]: question,
     },
     links: [],
   }

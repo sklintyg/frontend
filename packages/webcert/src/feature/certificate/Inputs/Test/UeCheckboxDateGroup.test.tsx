@@ -1,19 +1,20 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { format } from 'date-fns'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { getCertificateWithQuestion } from '@frontend/common/src'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import UeCheckboxDateGroup from '../UeCheckboxDateGroup'
-import store from '../../../../store/store'
-import { Provider } from 'react-redux'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { format } from 'date-fns'
+import React from 'react'
+import { Provider, useSelector } from 'react-redux'
 import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { getCertificateWithQuestion } from '@frontend/common/src'
+import { getQuestion } from '../../../../store/certificate/certificateSelectors'
+import store from '../../../../store/store'
+import UeCheckboxDateGroup from '../UeCheckboxDateGroup'
 
 const _format = 'yyyy-MM-dd'
 const DATE_CHECKBOXES = [
@@ -64,16 +65,23 @@ const question: CertificateDataElement = {
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
+const ComponentTestWrapper: React.FC<{ disabled: boolean }> = ({ disabled }) => {
+  const question = useSelector(getQuestion(QUESTION_ID))
+  return question ? <UeCheckboxDateGroup question={question} disabled={disabled} /> : null
+}
+
 const renderComponent = (disabled: boolean) => {
   render(
     <Provider store={store}>
-      <UeCheckboxDateGroup question={question} disabled={disabled} />
+      <ComponentTestWrapper disabled={disabled} />
     </Provider>
   )
 }
 
 describe('CheckboxDateGroup component', () => {
-  store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+  beforeEach(() => {
+    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+  })
 
   it('renders without crashing', () => {
     renderComponent(false)
@@ -279,6 +287,29 @@ describe('CheckboxDateGroup component', () => {
       userEvent.click(checkbox[0])
       userEvent.tab()
       expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+    })
+
+    it('should update question values as expected', () => {
+      renderComponent(false)
+
+      userEvent.click(screen.getByText(DATE_CHECKBOXES[0].label))
+
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
+        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
+      ])
+
+      userEvent.click(screen.getByText(DATE_CHECKBOXES[1].label))
+
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
+        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
+        { date: '2022-09-15', id: 'telefonkontaktMedPatienten', type: 'DATE' },
+      ])
+
+      userEvent.click(screen.getByText(DATE_CHECKBOXES[1].label))
+
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
+        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
+      ])
     })
   })
 
