@@ -1,4 +1,4 @@
-import { CertificateSignStatus, CustomButton, ModalBase, SigningMethod, Spinner } from '@frontend/common'
+import { CertificateSignStatus, CustomButton, LoginMethod, ModalBase, SigningMethod, Spinner } from '@frontend/common'
 import bankIDLogo from '@frontend/common/src/images/BankID_logo.svg'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -182,7 +182,7 @@ export const SignCertificateModal: React.FC = () => {
   const hasFailed = signStatus === CertificateSignStatus.FAILED
   const open = signStatus !== CertificateSignStatus.INITIAL
   const signingMethod = user?.signingMethod ?? SigningMethod.UNKNOWN
-  const isMobile = signingMethod === SigningMethod.BANK_ID_MOBILE
+  const isMobile = user?.loginMethod === LoginMethod.BANK_ID_MOBILE
 
   const handleClose = () => {
     if (hasFailed) {
@@ -199,7 +199,7 @@ export const SignCertificateModal: React.FC = () => {
       buttons={hasFailed ? <CustomButton onClick={handleClose}>Stäng</CustomButton> : null}
       content={
         <>
-          {[SigningMethod.BANK_ID, SigningMethod.BANK_ID_MOBILE].includes(signingMethod) && (
+          {signingMethod === SigningMethod.BANK_ID && (
             <div className="iu-flex-center">
               <BankIDLogo src={bankIDLogo} alt="BankID Logo" />
             </div>

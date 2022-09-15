@@ -337,7 +337,6 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
         })
       )
       break
-    case SigningMethod.BANK_ID_MOBILE:
     case SigningMethod.BANK_ID:
       dispatch(
         apiCallBegan({
