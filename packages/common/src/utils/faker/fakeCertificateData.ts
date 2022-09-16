@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import {
   CertificateData,
   CertificateDataConfig,
@@ -7,6 +6,7 @@ import {
   ConfigTypes,
   Value,
 } from '@frontend/common'
+import faker from 'faker'
 
 interface PartialCertificateDataElement extends Partial<Omit<CertificateDataElement, 'config' | 'value'>> {
   config?: Partial<CertificateDataConfig>
@@ -33,12 +33,12 @@ export const fakeCertificateData = (children: CertificateData[]): CertificateDat
 
 const fakeList = (length = 5): CertificateDataList[] =>
   new Array(length).fill(0).map(() => ({
-    id: faker.random.alpha(10),
+    id: faker.random.alpha({ count: 10 }),
     label: faker.lorem.sentence(5),
   }))
 
 export const fakeDataElement = (data?: PartialCertificateDataElement, children: CertificateData[] = []): CertificateData => {
-  const id = data?.id ?? faker.random.alpha(5)
+  const id = data?.id ?? faker.random.alpha({ count: 5 })
   const type = data?.config?.type ?? ConfigTypes.CATEGORY
   let certificateData: CertificateData = {}
   certificateData[id] = {
@@ -81,6 +81,7 @@ export const fakeCategoryElement = fakeDataElement
 export const fakeCheckboxBooleanElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
         label: faker.lorem.sentence(),
@@ -88,12 +89,13 @@ export const fakeCheckboxBooleanElement = (data?: PartialCertificateDataElement,
         description: 'description',
         selectedText: 'Ja',
         unselectedText: 'Nej',
+        ...data?.config,
       },
       value: {
         type: CertificateDataValueType.BOOLEAN,
-        id: faker.random.alpha(10),
+        id: faker.random.alpha({ count: 10 }),
+        ...data?.value,
       },
-      ...data,
     },
     children
   )
@@ -101,6 +103,7 @@ export const fakeCheckboxBooleanElement = (data?: PartialCertificateDataElement,
 export const fakeCheckboxMultipleCodeElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
         label: faker.lorem.sentence(),
@@ -108,13 +111,14 @@ export const fakeCheckboxMultipleCodeElement = (data?: PartialCertificateDataEle
         selectedText: 'Ja',
         unselectedText: 'Nej',
         list: fakeList(5),
+        ...data?.config,
       },
       value: {
         type: CertificateDataValueType.CODE,
-        id: faker.random.alpha(10),
+        id: faker.random.alpha({ count: 10 }),
         list: [],
+        ...data?.value,
       },
-      ...data,
     },
     children
   )
@@ -122,6 +126,7 @@ export const fakeCheckboxMultipleCodeElement = (data?: PartialCertificateDataEle
 export const fakeDiagnosesElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_DIAGNOSES,
         text: faker.lorem.sentence(),
@@ -137,9 +142,9 @@ export const fakeDiagnosesElement = (data?: PartialCertificateDataElement, child
           },
         ],
         list: fakeList(3),
+        ...data?.config,
       },
-      value: { type: CertificateDataValueType.DIAGNOSIS_LIST, list: [] },
-      ...data,
+      value: { type: CertificateDataValueType.DIAGNOSIS_LIST, list: [], ...data?.value },
     },
     children
   )
@@ -147,15 +152,16 @@ export const fakeDiagnosesElement = (data?: PartialCertificateDataElement, child
 export const fakeICFDataElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
+      ...data,
       config: {
         type: ConfigTypes.UE_ICF,
         header: `header: ${faker.lorem.sentence()}`,
         modalLabel: `modalLabel: ${faker.lorem.sentence()}`,
         collectionsLabel: `collectionsLabel: ${faker.lorem.sentence()}`,
         placeholder: `placeholder: ${faker.lorem.sentence()}`,
+        ...data?.config,
       },
-      value: { id: faker.random.alpha(), type: CertificateDataValueType.ICF, icfCodes: [] },
-      ...data,
+      value: { id: faker.random.alpha(), type: CertificateDataValueType.ICF, icfCodes: [], ...data?.value },
     },
     children
   )

@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
 import { CertificateMetadata, CertificateStatus } from '@frontend/common'
+import faker from 'faker'
 import { fakePatient } from './fakePatient'
 import { fakeStaff } from './fakeStaff'
 import { fakeUnit } from './fakeUnit'
@@ -8,9 +8,9 @@ export const fakeCertificateMetaData = (data?: Partial<CertificateMetadata>): Ce
   return {
     id: '1',
     description: faker.lorem.sentence(),
-    type: faker.random.alpha(6),
+    type: faker.random.alpha({ count: 6 }),
     name: faker.lorem.words(),
-    typeVersion: faker.random.numeric(),
+    typeVersion: faker.random.alphaNumeric(),
     status: CertificateStatus.UNSIGNED,
     sent: false,
     created: faker.date.recent().toString(),
@@ -25,9 +25,9 @@ export const fakeCertificateMetaData = (data?: Partial<CertificateMetadata>): Ce
     careProvider: fakeUnit(),
     patient: fakePatient(),
     issuedBy: fakeStaff(),
-    version: faker.mersenne.rand(1, 10),
+    version: Math.random() * 9 + 1,
     latestMajorVersion: true,
-    responsibleHospName: faker.random.alpha(6),
+    responsibleHospName: faker.random.alpha({ count: 6 }),
     ...data,
   }
 }

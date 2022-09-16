@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import {
   CertificateData,
   CertificateMetadata,
@@ -19,6 +18,7 @@ import {
 } from '@frontend/common'
 import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
+import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../store/certificate/certificateActions'

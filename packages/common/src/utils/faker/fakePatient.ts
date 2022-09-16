@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
 import { Patient } from '@frontend/common'
+import faker from 'faker'
 
 export const fakePatient = (): Patient => {
   const firstName = faker.name.firstName()
