@@ -1,21 +1,21 @@
-import React from 'react'
+import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '@frontend/common'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import reducer from '../../../store/reducers'
-import Category from './Category'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import React from 'react'
 import { Provider } from 'react-redux'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { getCertificateWithQuestion, getCategoryFunktionsnedsattning } from '@frontend/common'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import reducer from '../../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import Category from './Category'
 
 let testStore: EnhancedStore
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Category id="questionId" />
+      <Category id="funktionsnedsattning" />
     </Provider>
   )
 }
