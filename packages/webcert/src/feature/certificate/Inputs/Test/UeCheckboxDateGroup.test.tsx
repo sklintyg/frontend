@@ -290,6 +290,8 @@ describe('CheckboxDateGroup component', () => {
     })
 
     it('should update question values as expected', () => {
+      jest.useFakeTimers('modern').setSystemTime(new Date('2022-09-15'))
+
       renderComponent(false)
 
       userEvent.click(screen.getByText(DATE_CHECKBOXES[0].label))
