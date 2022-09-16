@@ -17,13 +17,14 @@ import {
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
+import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { getCertificate } from '../../store/certificate/certificateSelectors'
-import store from '../../store/store'
-
+import reducer from '../../store/reducers'
 import Certificate from './Certificate'
 
 export default {
@@ -40,6 +41,11 @@ interface Props {
 }
 
 const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
+  const store = configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+  })
+
   if (links.length === 0) {
     links = [
       fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
@@ -108,7 +114,7 @@ DB.args = {
       }),
       fakeDataElement({ config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE } }),
       fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPE_AHEAD },
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({

@@ -82,7 +82,7 @@ export enum ConfigTypes {
   UE_ICF = 'UE_ICF',
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
   UE_TEXTFIELD = 'UE_TEXTFIELD',
-  UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
+  UE_TYPEAHEAD = 'UE_TYPEAHEAD',
 }
 
 export interface CertificateDataConfig {
