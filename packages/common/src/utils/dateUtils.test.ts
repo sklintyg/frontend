@@ -74,6 +74,57 @@ describe('Date utils tests', () => {
     expect(date).toBeTruthy()
   })
 
+  it('get valid 2099-12-12 date with valid dashes string', () => {
+    const validDateStringDashes = '2099-12-12'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeTruthy()
+  })
+
+  it('get valid 1900 date with valid dashes string', () => {
+    const validDateStringDashes = '1901-04-08'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeTruthy()
+  })
+
+  it('get valid 1900 date without dashes string', () => {
+    const validDateString = '19010408'
+    const date = getValidDate(validDateString)
+    // console.log(date)
+    expect(date).toBeTruthy()
+  })
+
+  it('get invalid 2100 date with valid dashes string', () => {
+    const validDateStringDashes = '2121-04-08'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  })
+
+  it('get invalid 2099-12-13 date with valid dashes string', () => {
+    const validDateStringDashes = '2099-12-13'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  })
+
+  it('get invalid 2100 date without dashes string', () => {
+    const validDateString = '21210408'
+    const date = getValidDate(validDateString)
+    // console.log(date)
+    expect(date).toBeFalsy()
+  })
+
+  it('get invalid 1800 date with valid dashes string', () => {
+    const validDateStringDashes = '1821-04-08'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  })
+
+  it('get invalid 1800  date without dashes string', () => {
+    const validDateString = '18210408'
+    const date = getValidDate(validDateString)
+    // console.log(date)
+    expect(date).toBeFalsy()
+  })
+
   it('gets correct period end date with one prior period', () => {
     const toDate = '2021-04-20'
     const valueList: ValueDateRange[] = [{ id: EN_FJARDEDEL_ID, from: '2021-04-20', to: toDate, type: CertificateDataValueType.DATE_RANGE }]
