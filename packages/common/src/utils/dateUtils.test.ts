@@ -118,6 +118,26 @@ describe('Date utils tests', () => {
     expect(date).toBeFalsy()
   })
 
+  it('get invalid 1200 date with valid dashes string', () => {
+    const validDateStringDashes = '1212-12-12'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  }) 
+  it('get invalid 2990 date with valid dashes string', () => {
+    const validDateStringDashes = '2990-12-12'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  })
+  it('get invalid 1200 date without valid dashes string', () => {
+    const validDateStringDashes = '12121212'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  }) 
+  it('get invalid 2990 date without valid dashes string', () => {
+    const validDateStringDashes = '29901212'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeFalsy()
+  })
   it('get invalid 1800  date without dashes string', () => {
     const validDateString = '18210408'
     const date = getValidDate(validDateString)
