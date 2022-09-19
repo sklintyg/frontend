@@ -1,0 +1,15 @@
+import { Unit } from '@frontend/common'
+import faker from 'faker'
+
+export const fakeUnit = (): Unit => {
+  return {
+    unitId: faker.random.alpha({ count: 5 }),
+    unitName: faker.lorem.words(),
+    address: faker.address.streetAddress(),
+    zipCode: faker.random.alphaNumeric(5),
+    city: faker.address.city(),
+    phoneNumber: faker.random.alphaNumeric(10),
+    email: faker.internet.email(),
+    isInactive: false,
+  }
+}
