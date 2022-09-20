@@ -5,8 +5,8 @@ import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 
-export const _minAllowedDate = new Date(1900,0,1)
-export const _maxAllowedDate = new Date(2099,11,12)
+export const _minAllowedDate = new Date(1900, 0, 1)
+export const _maxAllowedDate = new Date(2099, 11, 12)
 
 export const _format = 'yyyy-MM-dd'
 export const _parseformat = 'yyyyMMdd'
@@ -37,10 +37,9 @@ export const getReasonableDate = (dateString: string | undefined) => {
   if (!dateString) return
   
   let dateValue = getValidDate(dateString)
-  if(dateValue){
-    if(!isBefore(dateValue!,_minAllowedDate) && !isAfter(dateValue!,_maxAllowedDate))
-      return dateValue
-    }  
+  if (dateValue) {
+    if(!isBefore(dateValue!,_minAllowedDate) && !isAfter(dateValue!,_maxAllowedDate)) return dateValue
+  }
 }
 
 export const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {

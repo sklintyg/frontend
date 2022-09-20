@@ -45,7 +45,6 @@ const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
 
 const UNREASONABLE_DATE = 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.'
 
-
 const isValueFormatIncorrect = (value: string | null) => {
   return value && value.length > 0 && !isValid(getValidDate(value))
 }
@@ -85,7 +84,7 @@ const DatePickerCustom: React.FC<Props> = ({
         field: componentField ? componentField : '',
         id: questionId ? questionId : '',
         text: INVALID_DATE_FORMAT_ERROR,
-        type: 'INVALID_DATE_FORMAT', 
+        type: 'INVALID_DATE_FORMAT',
         showAlways: true,
       })
     }
@@ -98,7 +97,7 @@ const DatePickerCustom: React.FC<Props> = ({
         field: componentField ? componentField : '',
         id: questionId ? questionId : '',
         text: UNREASONABLE_DATE,
-        type: 'UNREASONABLE_DATE', 
+        type: 'UNREASONABLE_DATE',
         showAlways: true,
       })
     }
@@ -132,7 +131,7 @@ const DatePickerCustom: React.FC<Props> = ({
     if (displayFormattingError) {
       updateFormattingValidation(inputString)
     }
-    if(displayUnreasonableDateError) {
+    if (displayUnreasonableDateError) {
       updateUnreasonableValidation(inputString)
     }
   }, [inputString, displayFormattingError])
