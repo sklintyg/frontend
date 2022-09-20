@@ -38,7 +38,7 @@ export const getReasonableDate = (dateString: string | undefined) => {
   
   let dateValue = getValidDate(dateString)
   if (dateValue) {
-    if(!isBefore(dateValue!,_minAllowedDate) && !isAfter(dateValue!,_maxAllowedDate)) return dateValue
+    if (!isBefore(dateValue!, _minAllowedDate) && !isAfter(dateValue!, _maxAllowedDate)) return dateValue
   }
 }
 
