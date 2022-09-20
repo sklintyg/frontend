@@ -6,6 +6,7 @@ import {
   getPeriodHasOverlap,
   getPeriodWorkHours,
   getValidDate,
+  getReasonableDate,
   isDateRangeValid,
   isDateRangeValidOrIncomplete,
   isFutureDate,
@@ -74,73 +75,73 @@ describe('Date utils tests', () => {
     expect(date).toBeTruthy()
   })
 
-  it('get valid 2099-12-12 date with valid dashes string', () => {
+  it('get reasonable 2099-12-12 date with valid dashes string', () => {
     const validDateStringDashes = '2099-12-12'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeTruthy()
   })
 
-  it('get valid 1900 date with valid dashes string', () => {
+  it('get reasonable 1900 date with valid dashes string', () => {
     const validDateStringDashes = '1901-04-08'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeTruthy()
   })
 
-  it('get valid 1900 date without dashes string', () => {
+  it('get reasonable 1900 date without dashes string', () => {
     const validDateString = '19010408'
-    const date = getValidDate(validDateString)
+    const date = getReasonableDate(validDateString)
     // console.log(date)
     expect(date).toBeTruthy()
   })
 
-  it('get invalid 2100 date with valid dashes string', () => {
+  it('get unreasonable 2100 date with valid dashes string', () => {
     const validDateStringDashes = '2121-04-08'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   })
 
-  it('get invalid 2099-12-13 date with valid dashes string', () => {
+  it('get unreasonable 2099-12-13 date with valid dashes string', () => {
     const validDateStringDashes = '2099-12-13'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   })
 
-  it('get invalid 2100 date without dashes string', () => {
+  it('get unreasonable 2100 date without dashes string', () => {
     const validDateString = '21210408'
-    const date = getValidDate(validDateString)
+    const date = getReasonableDate(validDateString)
     // console.log(date)
     expect(date).toBeFalsy()
   })
 
-  it('get invalid 1800 date with valid dashes string', () => {
+  it('get unreasonable 1800 date with valid dashes string', () => {
     const validDateStringDashes = '1821-04-08'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   })
 
-  it('get invalid 1200 date with valid dashes string', () => {
+  it('get unreasonable 1200 date with valid dashes string', () => {
     const validDateStringDashes = '1212-12-12'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   }) 
-  it('get invalid 2990 date with valid dashes string', () => {
+  it('get unreasonable 2990 date with valid dashes string', () => {
     const validDateStringDashes = '2990-12-12'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   })
-  it('get invalid 1200 date without valid dashes string', () => {
+  it('get unreasonable 1200 date without valid dashes string', () => {
     const validDateStringDashes = '12121212'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   }) 
-  it('get invalid 2990 date without valid dashes string', () => {
+  it('get unreasonable 2990 date without valid dashes string', () => {
     const validDateStringDashes = '29901212'
-    const date = getValidDate(validDateStringDashes)
+    const date = getReasonableDate(validDateStringDashes)
     expect(date).toBeFalsy()
   })
-  it('get invalid 1800  date without dashes string', () => {
+  it('get unreasonable 1800  date without dashes string', () => {
     const validDateString = '18210408'
-    const date = getValidDate(validDateString)
+    const date = getReasonableDate(validDateString)
     // console.log(date)
     expect(date).toBeFalsy()
   })
