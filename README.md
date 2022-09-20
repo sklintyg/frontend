@@ -12,6 +12,7 @@
 - Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
 - Install [Node v14](https://nodejs.org/en/download/releases/) (via [nvm](https://github.com/nvm-sh/nvm) as a suggestion)
   - Node v14 is needed as it's the version that supports `node-sass` v4, using a newer version will generate error relating to missing python package when running `npm install`
+- Make sure you have the VPN client Cisco AnyConnect installed
 
 ## Setup
 
