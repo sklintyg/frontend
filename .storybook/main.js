@@ -1,12 +1,6 @@
 module.exports = {
   stories: ['../packages/*/src/**/*.stories.mdx', '../packages/*/src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    // '@storybook/preset-create-react-app',
-    '@storybook/preset-scss',
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions', '@storybook/preset-scss'],
   framework: '@storybook/react',
   webpackFinal: async (config, { configType }) => {
     config.node = {
