@@ -13,6 +13,7 @@ import {
   fakeICFDataElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
+  MessageLevel,
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
@@ -181,6 +182,23 @@ DB.args = {
           ],
         },
         mandatory: true,
+      }),
+      fakeDataElement({
+        config: {
+          text: '',
+          type: ConfigTypes.UE_MESSAGE,
+          level: MessageLevel.INFO,
+          message:
+            'Du har angivit att en rättsmedicinsk undersökning ska göras. Detta kräver att en polisanmälan görs och fältet har därför förifyllts.',
+        },
+      }),
+      fakeDataElement({
+        config: {
+          text: '',
+          type: ConfigTypes.UE_MESSAGE,
+          level: MessageLevel.WARNING,
+          message: 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
+        },
       }),
     ]),
   ]),

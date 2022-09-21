@@ -83,6 +83,13 @@ export enum ConfigTypes {
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
   UE_TEXTFIELD = 'UE_TEXTFIELD',
   UE_TYPEAHEAD = 'UE_TYPEAHEAD',
+  UE_MESSAGE = 'UE_MESSAGE',
+}
+
+export enum MessageLevel {
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
 }
 
 export interface CertificateDataConfig {
