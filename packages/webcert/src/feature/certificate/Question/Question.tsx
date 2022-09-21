@@ -1,4 +1,13 @@
-import { Accordion, CertificateDataConfig, CertificateDataElement, ConfigTypes, Icon, MandatoryIcon, UvText } from '@frontend/common'
+import {
+  Accordion,
+  CertificateDataConfig,
+  CertificateDataElement,
+  ConfigTypes,
+  Icon,
+  InfoBox,
+  MandatoryIcon,
+  UvText,
+} from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -96,24 +105,34 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   }
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
-    if (question.config.type === ConfigTypes.UE_RADIO_BOOLEAN) return <UeRadio disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_ICF) return <UeIcf question={question} key={question.id} disabled={disabled} />
-    if (question.config.type === ConfigTypes.UE_TEXTAREA) return <UeTextArea disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN)
-      return <UeCheckbox disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE)
-      return <UeCheckboxGroup question={question} disabled={disabled} key={question.id} />
-    if (question.config.type === ConfigTypes.UE_DROPDOWN) return <UeDropdown disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE)
-      return <UeRadioGroup disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE)
-      return <UeCheckboxDateGroup disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_SICK_LEAVE_PERIOD)
-      return <UeSickLeavePeriod disabled={disabled} question={question} key={question.id} />
-    if (question.config.type === ConfigTypes.UE_DIAGNOSES) return <UeDiagnoses disabled={disabled} key={question.id} question={question} />
-    if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN)
-      return <UeRadioGroupOptionalDropdown disabled={disabled} key={question.id} question={question} />
-    return <div>Cannot find a component for: {question.config.type}</div>
+    const commonProps = { key: question.id, disabled, question }
+
+    switch (question.config.type) {
+      case ConfigTypes.UE_RADIO_BOOLEAN:
+        return <UeRadio {...commonProps} />
+      case ConfigTypes.UE_ICF:
+        return <UeIcf {...commonProps} />
+      case ConfigTypes.UE_TEXTAREA:
+        return <UeTextArea {...commonProps} />
+      case ConfigTypes.UE_CHECKBOX_BOOLEAN:
+        return <UeCheckbox {...commonProps} />
+      case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:
+        return <UeCheckboxGroup {...commonProps} />
+      case ConfigTypes.UE_DROPDOWN:
+        return <UeDropdown {...commonProps} />
+      case ConfigTypes.UE_RADIO_MULTIPLE_CODE:
+        return <UeRadioGroup {...commonProps} />
+      case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
+        return <UeCheckboxDateGroup {...commonProps} />
+      case ConfigTypes.UE_SICK_LEAVE_PERIOD:
+        return <UeSickLeavePeriod {...commonProps} />
+      case ConfigTypes.UE_DIAGNOSES:
+        return <UeDiagnoses {...commonProps} />
+      case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
+        return <UeRadioGroupOptionalDropdown {...commonProps} />
+      default:
+        return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
+    }
   }
 
   function getUnifiedViewComponent(question: CertificateDataElement) {
