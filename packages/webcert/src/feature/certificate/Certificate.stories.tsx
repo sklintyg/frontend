@@ -6,14 +6,15 @@ import {
   fakeCertificateData,
   fakeCertificateMetaData,
   fakeCheckboxBooleanElement,
-  fakeCheckboxMultipleCodeElement,
   fakeCheckboxMultipleDate,
   fakeDataElement,
   fakeDiagnosesElement,
   fakeICFDataElement,
   fakeListItem,
+  fakeRadioBooleanElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
+  fakeTextAreaElement,
   MessageLevel,
   ResourceLink,
   ResourceLinkType,
@@ -69,9 +70,9 @@ export const Default = Template.bind({})
 Default.args = {
   data: fakeCertificateData([
     fakeCategoryElement({ id: 'kategori 1' }, [fakeCheckboxBooleanElement(), fakeRadioMultipleCodeElement()]),
-    fakeCategoryElement({ id: 'kategori 2' }, [fakeCheckboxMultipleCodeElement(), fakeICFDataElement()]),
+    fakeCategoryElement({ id: 'kategori 2' }, [fakeRadioBooleanElement(), fakeICFDataElement()]),
     fakeCategoryElement({ id: 'kategori 3' }, [fakeCheckboxMultipleDate()]),
-    fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement()]),
+    fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement(), fakeTextAreaElement()]),
   ]),
 }
 

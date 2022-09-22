@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
 import { CertificateDataElement, ConfigUeDropdown, Dropdown, QuestionValidationTexts, ValueCode } from '@frontend/common'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
-interface Props {
+export interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }

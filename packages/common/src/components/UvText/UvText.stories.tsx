@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Story } from '@storybook/react'
-import { fakeBooleanElement, fakeTextElement } from '../../utils/faker/fakeCertificateData'
+import { fakeRadioBooleanElement, fakeTextAreaElement } from '../../utils/faker/fakeCertificateData'
 import UvText, { Props } from './UvText'
 
 export default {
@@ -13,10 +13,10 @@ const Template: Story<Props> = (args) => <UvText {...args} />
 
 export const BooleanValue = Template.bind({})
 BooleanValue.args = {
-  question: fakeBooleanElement({ id: '1' })['1'],
+  question: fakeRadioBooleanElement({ id: '1' })['1'],
 }
 
 export const TextValue = Template.bind({})
 TextValue.args = {
-  question: fakeTextElement({ id: '1' })['1'],
+  question: fakeTextAreaElement({ id: '1' })['1'],
 }

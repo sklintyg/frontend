@@ -1,4 +1,4 @@
-import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes } from '@frontend/common'
+import { fakeTextAreaElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -20,32 +20,5 @@ const Template: Story<Props> = ({ ...args }) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  question: {
-    id: '19',
-    parent: 'medicinskabehandlingar',
-    index: 15,
-    config: {
-      type: ConfigTypes.UE_TEXTAREA,
-      header: 'Pågående medicinska behandlingar/åtgärder.',
-      text: 'Ange vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.',
-      description: '',
-      id: 'pagaendeBehandling',
-    },
-    value: {
-      type: CertificateDataValueType.TEXT,
-      id: 'pagaendeBehandling',
-      text: '',
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.HIDE_VALIDATION,
-        questionId: '27',
-        expression: '$avstangningSmittskydd',
-      },
-    ],
-    visible: true,
-    readOnly: false,
-    mandatory: true,
-    validationErrors: [],
-  },
+  question: fakeTextAreaElement({ id: '1' })['1'],
 }
