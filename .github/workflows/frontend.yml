@@ -5,9 +5,9 @@ name: Frontend CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, 'project/**']
   pull_request:
-    branches: [master]
+    branches: [master, 'project/**']
 
 jobs:
   eslint:

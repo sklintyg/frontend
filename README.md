@@ -82,7 +82,7 @@ To create a frontend-pipeline using the template, you make sure to first login t
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common.
 
-- Start storybook: `yarn workspace @frontend/common storybook`
+- Start storybook: `yarn storybook`
 
 ## Running tests
 

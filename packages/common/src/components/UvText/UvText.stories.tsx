@@ -1,18 +1,22 @@
 import React from 'react'
 
 import { Story } from '@storybook/react'
-import { CertificateDataElement, UvText } from '../..'
-import { createQuestionWithBooleanValue, createQuestionWithTextValue } from './UvText.test'
+import { fakeBooleanElement, fakeTextElement } from '../../utils/faker/fakeCertificateData'
+import UvText, { Props } from './UvText'
 
 export default {
   title: 'Components/UvText',
   component: UvText,
 }
 
-const Template: Story<CertificateDataElement> = (args: CertificateDataElement) => <UvText question={args} />
+const Template: Story<Props> = (args) => <UvText {...args} />
 
 export const BooleanValue = Template.bind({})
-BooleanValue.args = createQuestionWithBooleanValue()
+BooleanValue.args = {
+  question: fakeBooleanElement({ id: '1' })['1'],
+}
 
 export const TextValue = Template.bind({})
-TextValue.args = createQuestionWithTextValue()
+TextValue.args = {
+  question: fakeTextElement({ id: '1' })['1'],
+}

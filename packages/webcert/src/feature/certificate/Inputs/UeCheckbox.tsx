@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import {
   CertificateDataElement,
   CertificateDataValueType,
@@ -9,12 +8,13 @@ import {
   ValueCode,
   ValueCodeList,
 } from '@frontend/common'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
-interface Props {
+export interface Props {
   label?: string
   name?: string
   id?: string
