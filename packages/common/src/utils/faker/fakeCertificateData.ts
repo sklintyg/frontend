@@ -1,17 +1,7 @@
-import {
-  CertificateData,
-  CertificateDataConfig,
-  CertificateDataElement,
-  CertificateDataValueType,
-  ConfigTypes,
-  Value,
-} from '@frontend/common'
+import { CertificateData, CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
 import faker from 'faker'
-
-interface PartialCertificateDataElement extends Partial<Omit<CertificateDataElement, 'config' | 'value'>> {
-  config?: Partial<CertificateDataConfig>
-  value?: Partial<Value> | null
-}
+import { PartialDeep } from 'type-fest'
+import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 
 interface CertificateDataList {
   id: string
@@ -37,7 +27,7 @@ const fakeList = (length = 5): CertificateDataList[] =>
     label: faker.lorem.sentence(5),
   }))
 
-export const fakeDataElement = (data?: PartialCertificateDataElement, children: CertificateData[] = []): CertificateData => {
+export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, children: CertificateData[] = []): CertificateData => {
   const id = data?.id ?? faker.random.alpha({ count: 5 })
   const type = data?.config?.type ?? ConfigTypes.CATEGORY
   let certificateData: CertificateData = {}
@@ -47,9 +37,9 @@ export const fakeDataElement = (data?: PartialCertificateDataElement, children: 
     visible: true,
     readOnly: false,
     mandatory: false,
-    validation: [],
-    validationErrors: [],
     ...data,
+    validation: data?.validation instanceof Array ? data?.validation.map(fakeCertificateDataValidation) : [],
+    validationErrors: data?.validationErrors instanceof Array ? data.validationErrors.map(fakeCertificateValidationError) : [],
     id,
     config: {
       type: ConfigTypes.CATEGORY,
@@ -78,7 +68,7 @@ export const fakeDataElement = (data?: PartialCertificateDataElement, children: 
 
 export const fakeCategoryElement = fakeDataElement
 
-export const fakeCheckboxBooleanElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeCheckboxBooleanElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -100,7 +90,10 @@ export const fakeCheckboxBooleanElement = (data?: PartialCertificateDataElement,
     children
   )
 
-export const fakeCheckboxMultipleCodeElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeCheckboxMultipleCodeElement = (
+  data?: PartialDeep<CertificateDataElement>,
+  children?: CertificateData[]
+): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -123,7 +116,7 @@ export const fakeCheckboxMultipleCodeElement = (data?: PartialCertificateDataEle
     children
   )
 
-export const fakeDiagnosesElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeDiagnosesElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -149,7 +142,7 @@ export const fakeDiagnosesElement = (data?: PartialCertificateDataElement, child
     children
   )
 
-export const fakeICFDataElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeICFDataElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -166,7 +159,7 @@ export const fakeICFDataElement = (data?: PartialCertificateDataElement, childre
     children
   )
 
-export const fakeCheckboxMultipleDate = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeCheckboxMultipleDate = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -180,7 +173,7 @@ export const fakeCheckboxMultipleDate = (data?: PartialCertificateDataElement, c
     children
   )
 
-export const fakeRadioMultipleCodeElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeRadioMultipleCodeElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -194,7 +187,7 @@ export const fakeRadioMultipleCodeElement = (data?: PartialCertificateDataElemen
     children
   )
 
-export const fakeBooleanElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeBooleanElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,
@@ -209,7 +202,7 @@ export const fakeBooleanElement = (data?: PartialCertificateDataElement, childre
     children
   )
 
-export const fakeTextElement = (data?: PartialCertificateDataElement, children?: CertificateData[]): CertificateData =>
+export const fakeTextElement = (data?: PartialDeep<CertificateDataElement>, children?: CertificateData[]): CertificateData =>
   fakeDataElement(
     {
       ...data,

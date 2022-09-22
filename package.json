@@ -105,6 +105,7 @@
     "react-tooltip": "^4.2.21",
     "styled-components": "^5.2.1",
     "ts-jest": "^26.5.4",
+    "type-fest": "^1.4.0",
     "typescript": "^3"
   },
   "jest": {
