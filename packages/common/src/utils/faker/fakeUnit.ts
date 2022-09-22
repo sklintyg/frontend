@@ -1,7 +1,7 @@
 import { Unit } from '@frontend/common'
 import faker from 'faker'
 
-export const fakeUnit = (): Unit => {
+export const fakeUnit = (data?: Partial<Unit>): Unit => {
   return {
     unitId: faker.random.alpha({ count: 5 }),
     unitName: faker.lorem.words(),
@@ -11,5 +11,6 @@ export const fakeUnit = (): Unit => {
     phoneNumber: faker.random.alphaNumeric(10),
     email: faker.internet.email(),
     isInactive: false,
+    ...data,
   }
 }
