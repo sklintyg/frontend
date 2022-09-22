@@ -2,11 +2,7 @@ import { CertificateData, CertificateDataElement, CertificateDataValueType, Conf
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
-
-interface CertificateDataList {
-  id: string
-  label: string
-}
+import { fakeList } from './fakeList'
 
 export const fakeCertificateData = (children: CertificateData[]): CertificateData => {
   return children.reduce(
@@ -20,12 +16,6 @@ export const fakeCertificateData = (children: CertificateData[]): CertificateDat
     {}
   )
 }
-
-const fakeList = (length = 5): CertificateDataList[] =>
-  new Array(length).fill(0).map(() => ({
-    id: faker.random.alpha({ count: 10 }),
-    label: faker.lorem.sentence(5),
-  }))
 
 export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, children: CertificateData[] = []): CertificateData => {
   const id = data?.id ?? faker.random.alpha({ count: 5 })

@@ -11,6 +11,7 @@ import {
   fakeDataElement,
   fakeDiagnosesElement,
   fakeICFDataElement,
+  fakeListItem,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
   MessageLevel,
@@ -106,10 +107,7 @@ DB.args = {
       fakeRadioMultipleCodeElement({
         config: {
           text: 'Dödsdatum',
-          list: [
-            { id: '1', label: 'Säkert' },
-            { id: '2', label: 'Ej säkert' },
-          ],
+          list: [fakeListItem({ label: 'Säkert' }), fakeListItem({ label: 'Ej säkert' })],
         },
         mandatory: true,
       }),
@@ -122,10 +120,10 @@ DB.args = {
         config: {
           text: 'Boende där kroppen påträffades ',
           list: [
-            { id: '1', label: 'Sjukhus' },
-            { id: '2', label: 'Ordinärt boende' },
-            { id: '3', label: 'Särskilt boende' },
-            { id: '4', label: 'Annan/okänd' },
+            fakeListItem({ label: 'Sjukhus' }),
+            fakeListItem({ label: 'Ordinärt boende' }),
+            fakeListItem({ label: 'Särskilt boende' }),
+            fakeListItem({ label: 'Annan/okänd' }),
           ],
         },
         mandatory: true,
@@ -135,10 +133,7 @@ DB.args = {
       fakeRadioMultipleCodeElement({
         config: {
           text: 'Avlidet inom 28 dygn efter födelsen',
-          list: [
-            { id: '1', label: 'Ja' },
-            { id: '2', label: 'Nej' },
-          ],
+          list: [fakeListItem({ label: 'Ja' }), fakeListItem({ label: 'Nej' })],
         },
         mandatory: true,
       }),
@@ -147,10 +142,7 @@ DB.args = {
       fakeRadioMultipleCodeElement({
         config: {
           text: 'Har den avlidne haft ett implantat som kan explodera vid kremering?',
-          list: [
-            { id: '1', label: 'Ja' },
-            { id: '2', label: 'Nej' },
-          ],
+          list: [fakeListItem({ label: 'Ja' }), fakeListItem({ label: 'Nej' })],
         },
         mandatory: true,
       }),
@@ -160,9 +152,9 @@ DB.args = {
         config: {
           text: 'Har yttre undersökning av kroppen genomförts?',
           list: [
-            { id: '1', label: 'Ja' },
-            { id: '2', label: 'Nej, rättsmedicinsk undersökning ska göras' },
-            { id: '3', label: 'Nej, den avlidne undersökt kort före döden' },
+            fakeListItem({ label: 'Ja' }),
+            fakeListItem({ label: 'Nej, rättsmedicinsk undersökning ska göras' }),
+            fakeListItem({ label: 'Nej, den avlidne undersökt kort före döden' }),
           ],
         },
         mandatory: true,
@@ -173,12 +165,11 @@ DB.args = {
         config: {
           text: 'Finns skäl för polisanmälan?',
           list: [
-            {
-              id: 'ja',
+            fakeListItem({
               label:
                 'Ja, om dödsfallet har eller kan ha orsakats av yttre påverkan (skada/förgiftning) eller fel/försummelse i vården eller den dödes identitet är okänd, ska polisanmälan göras och dödsbeviset lämnas till Polismyndigheten',
-            },
-            { id: 'nej', label: 'Nej' },
+            }),
+            fakeListItem({ label: 'Nej' }),
           ],
         },
         mandatory: true,
