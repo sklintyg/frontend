@@ -26,6 +26,7 @@ import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
+import UeTextField from '../Inputs/UeTextField'
 
 export interface QuestionProps {
   id: string
@@ -114,6 +115,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeIcf {...commonProps} />
       case ConfigTypes.UE_TEXTAREA:
         return <UeTextArea {...commonProps} />
+      case ConfigTypes.UE_TEXTFIELD:
+        return <UeTextField {...commonProps} />
       case ConfigTypes.UE_CHECKBOX_BOOLEAN:
         return <UeCheckbox {...commonProps} />
       case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:

@@ -11,6 +11,7 @@ import {
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
+  ConfigUeTextField,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -240,6 +241,22 @@ export const fakeTextAreaElement = (
         ...data?.config,
       },
       value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50, ...data?.value },
+    },
+    children
+  )
+
+export const fakeTextFieldElement = (
+  data?: PartialCertificateDataElement<ConfigUeTextField, ValueText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_TEXTFIELD,
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', ...data?.value },
     },
     children
   )
