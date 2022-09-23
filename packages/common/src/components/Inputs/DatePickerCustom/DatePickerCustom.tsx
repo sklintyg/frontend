@@ -128,12 +128,12 @@ const DatePickerCustom: React.FC<Props> = ({
   }, [displayUnreasonableDateError, toggleUnreasonableDateError])
 
   useEffect(() => {
-    if (displayFormattingError) {
+    if (displayFormattingError || displayUnreasonableDateError) {
       updateFormattingValidation(inputString)
     }
-    if (displayUnreasonableDateError) {
-      updateUnreasonableValidation(inputString)
-    }
+    // if (displayUnreasonableDateError) {
+    //   updateUnreasonableValidation(inputString)
+    // }
   }, [inputString, displayFormattingError])
 
   if (inputString) {
@@ -161,6 +161,7 @@ const DatePickerCustom: React.FC<Props> = ({
   }
 
   const updateFormattingValidation = (value: string | null) => {
+    setDisplayUnreasonableDateError(false)
     if (isValueFormatIncorrect(value)) {
       setDisplayFormattingError(true)
     } else {
