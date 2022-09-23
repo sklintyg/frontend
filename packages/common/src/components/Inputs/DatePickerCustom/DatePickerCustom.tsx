@@ -157,9 +157,6 @@ const DatePickerCustom: React.FC<Props> = ({
 
   const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     updateFormattingValidation(inputString)
-    // if (!displayFormattingError) {
-    //   updateUnreasonableValidation(inputString)
-    // }
     textInputOnBlur?.(event)
   }
 
