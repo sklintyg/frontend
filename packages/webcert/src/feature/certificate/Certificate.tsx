@@ -1,8 +1,10 @@
+import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox } from '@frontend/common'
+import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Category from './Category/Category'
-import { CertificateFooter } from './CertificateFooter/CertificateFooter'
-import CertificateValidation from './CertificateValidation'
+import { scroller } from 'react-scroll'
+import styled from 'styled-components/macro'
+import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
   getCertificateDataElements,
@@ -12,16 +14,14 @@ import {
   getIsSigned,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
-import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox } from '@frontend/common'
 import CareUnit from './CareUnit/CareUnit'
-import styled from 'styled-components/macro'
-import { scroller } from 'react-scroll'
-import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
-import SigningForm from './Signing/SigningForm'
-import _ from 'lodash'
-import ResponsibleHospName from './ResponsibleHospName'
-import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
+import Category from './Category/Category'
 import { CertificateContext } from './CertificateContext'
+import { CertificateFooter } from './CertificateFooter/CertificateFooter'
+import CertificateValidation from './CertificateValidation'
+import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
+import ResponsibleHospName from './ResponsibleHospName'
+import SigningForm from './Signing/SigningForm'
 
 const Wrapper = styled.div`
   overflow-y: auto;

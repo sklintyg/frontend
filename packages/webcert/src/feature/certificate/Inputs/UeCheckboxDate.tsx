@@ -33,7 +33,7 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 
-interface Props {
+export interface Props {
   label?: string
   id: string
   hasValidationError?: boolean

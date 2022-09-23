@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import DateRangePicker from './DateRangePicker'
 import {
   Accordion,
   CertificateDataElement,
@@ -17,21 +15,23 @@ import {
   ValueDateRange,
   ValueDateRangeList,
 } from '@frontend/common'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { addDays, isValid } from 'date-fns'
-import { DaysRangeWrapper } from './Styles'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
-import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { css } from 'styled-components/macro'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import DateRangePicker from './DateRangePicker'
+import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
+import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
+import { DaysRangeWrapper } from './Styles'
 import { WorkingHoursInput } from './WorkingHoursInput'
 
 const AccordionStyles = css`
   flex: 0 0 100%;
 `
 
-interface Props {
+export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

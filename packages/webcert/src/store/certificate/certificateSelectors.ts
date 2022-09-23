@@ -1,5 +1,3 @@
-import { RootState } from '../store'
-import { createSelector } from '@reduxjs/toolkit'
 import {
   Certificate,
   CertificateDataElement,
@@ -9,7 +7,6 @@ import {
   CertificateRelationType,
   CertificateStatus,
   Complement,
-  ConfigTypes,
   Patient,
   PersonId,
   ResourceLink,
@@ -19,7 +16,9 @@ import {
   ValidationErrorSummary,
 } from '@frontend/common'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
-import { sortByIndex } from '@frontend/common/src/utils/certificateUtils'
+import { createSelector } from '@reduxjs/toolkit'
+import { structureCertificate } from '../../utils/structureCertificate'
+import { RootState } from '../store'
 import { SigningData } from './certificateActions'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
@@ -117,41 +116,9 @@ export interface CertificateStructure {
   style?: CertificateDataElementStyleEnum
 }
 
-let certificateStructure: CertificateStructure[] = []
 export const getCertificateDataElements = createSelector<RootState, Certificate | undefined, CertificateStructure[]>(
   getCertificate,
-  (certificate) => {
-    certificateStructure.length = 0
-    if (!certificate) {
-      return []
-    }
-
-    const elements = Object.values(certificate.data)
-
-    certificateStructure = elements.reduce((structure: CertificateStructure[], element: CertificateDataElement) => {
-      if (structure.some((s) => s.subQuestionIds.includes(element.id))) return structure
-
-      const subQuestionIds = elements
-        .filter(() => element.config.type !== ConfigTypes.CATEGORY)
-        .filter((el) => el.config.type !== ConfigTypes.CATEGORY)
-        .filter((el) => el.parent === element.id)
-        .sort(sortByIndex)
-        .map((el) => el.id)
-
-      structure.push({
-        id: element.id,
-        subQuestionIds,
-        component: element.config.type,
-        index: element.index,
-        style: element.style,
-      })
-
-      return structure
-    }, [])
-
-    certificateStructure.sort(sortByIndex)
-    return certificateStructure
-  }
+  (certificate) => structureCertificate(certificate)
 )
 
 export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
