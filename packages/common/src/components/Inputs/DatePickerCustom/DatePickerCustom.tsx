@@ -131,9 +131,6 @@ const DatePickerCustom: React.FC<Props> = ({
     if (displayFormattingError || displayUnreasonableDateError) {
       updateFormattingValidation(inputString)
     }
-    // if (displayUnreasonableDateError) {
-    //   updateUnreasonableValidation(inputString)
-    // }
   }, [inputString, displayFormattingError])
 
   if (inputString) {
