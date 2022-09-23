@@ -18,7 +18,7 @@ const messageLevelToInfoBoxLevel = (level: MessageLevel): 'info' | 'error' | 'ob
   }
 }
 
-const AlertMessage: React.FC<Props> = ({ question }) => {
+const UeMessage: React.FC<Props> = ({ question }) => {
   const questionConfig = question.config as ConfigUeMessage
 
   return (
@@ -28,4 +28,4 @@ const AlertMessage: React.FC<Props> = ({ question }) => {
   )
 }
 
-export default AlertMessage
+export default UeMessage
