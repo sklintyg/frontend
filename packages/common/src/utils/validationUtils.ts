@@ -1,7 +1,8 @@
-import { ValueDateRange } from '@frontend/common'
 import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
+  AutoFillValidation,
+  AutoFillValidationType,
   Certificate,
   CertificateData,
   CertificateDataElement,
@@ -23,6 +24,7 @@ import {
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueIcf,
@@ -194,10 +196,11 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       const newValidationResults: ValidationResult[] = []
 
       validations.forEach((validation) => {
+        const affectedId = typeof validation.id === 'string' ? [validation.id] : (validation.id as string[])
         const validationResult: ValidationResult = {
           type: validation.type,
           id,
-          affectedIds: validation.id as string[],
+          affectedIds: affectedId,
           result: getResult(validation, data, id),
         }
         newValidationResults.push(validationResult)
@@ -338,6 +341,20 @@ export function setDisableForChildElement(data: CertificateData, validationResul
   data[validationResult.id].config.list = updatedList
 }
 
+export function autoFillElement(validation: CertificateDataValidation, question: CertificateDataElement): void {
+  const {
+    fillValue: { type, selected },
+  } = { ...validation } as AutoFillValidation
+
+  switch (type) {
+    case AutoFillValidationType.BOOLEAN: {
+      const updatedValue = { ...question.value, selected } as ValueBoolean
+      question.value = updatedValue
+      break
+    }
+  }
+}
+
 function validate(data: CertificateData, id: string) {
   const validations = data[id].validation || []
 
@@ -349,24 +366,35 @@ function validate(data: CertificateData, id: string) {
       result: getResult(validation, data, id),
     }
 
-    if (validationResult.type === CertificateDataValidationType.MANDATORY_VALIDATION) {
-      data[id].mandatory = !validationResult.result
-    } else if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
-      data[id].visible = validationResult.result
-    } else if (validationResult.type === CertificateDataValidationType.HIDE_VALIDATION) {
-      if (validationResult.result) {
-        data[id].visible = false
+    switch (validationResult.type) {
+      case CertificateDataValidationType.MANDATORY_VALIDATION:
+        data[id].mandatory = !validationResult.result
+        break
+      case CertificateDataValidationType.SHOW_VALIDATION:
+        data[id].visible = validationResult.result
+        break
+      case CertificateDataValidationType.HIDE_VALIDATION: {
+        if (validationResult.result) {
+          data[id].visible = false
+        }
+        break
       }
-    } else if (validationResult.type === CertificateDataValidationType.ENABLE_VALIDATION) {
-      data[id].disabled = !validationResult.result
-    } else if (validationResult.type === CertificateDataValidationType.HIGHLIGHT_VALIDATION) {
-      if (validationResult.result) {
-        data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
-      } else {
-        data[id].style = CertificateDataElementStyleEnum.NORMAL
-      }
-    } else if (validationResult.type === CertificateDataValidationType.DISABLE_VALIDATION) {
-      setDisableForChildElement(data, validationResult)
+      case CertificateDataValidationType.ENABLE_VALIDATION:
+        data[id].disabled = !validationResult.result
+        break
+      case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
+        if (validationResult.result) {
+          data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
+        } else {
+          data[id].style = CertificateDataElementStyleEnum.NORMAL
+        }
+        break
+      case CertificateDataValidationType.DISABLE_VALIDATION:
+        setDisableForChildElement(data, validationResult)
+        break
+      case CertificateDataValidationType.AUTO_FILL_VALIDATION:
+        autoFillElement(validation, data[id])
+        break
     }
   })
 }

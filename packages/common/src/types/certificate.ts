@@ -84,6 +84,7 @@ export enum ConfigTypes {
   UE_TEXTFIELD = 'UE_TEXTFIELD',
   UE_TYPEAHEAD = 'UE_TYPEAHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
+  UE_DATE = 'UE_DATE',
 }
 
 export enum MessageLevel {
@@ -291,6 +292,11 @@ export enum CertificateDataValidationType {
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
+  AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
+}
+
+export enum AutoFillValidationType {
+  BOOLEAN = 'BOOLEAN',
 }
 
 export interface CertificateDataValidation {
@@ -299,6 +305,15 @@ export interface CertificateDataValidation {
   expression: string
 
   [propName: string]: unknown
+}
+
+export interface AutoFillValidation extends CertificateDataValidation {
+  id: string
+  fillValue: {
+    type: AutoFillValidationType
+    selected?: boolean
+    id: string
+  }
 }
 
 export interface TextValidation extends CertificateDataValidation {
