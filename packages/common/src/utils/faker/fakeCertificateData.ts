@@ -142,7 +142,7 @@ export const fakeCheckboxMultipleCodeElement = (
         ...data?.config,
       },
       value: {
-        type: CertificateDataValueType.CODE,
+        type: CertificateDataValueType.CODE_LIST,
         id: faker.random.alpha({ count: 10 }),
         list: [],
         ...data?.value,

@@ -116,7 +116,7 @@ DB.args = {
           unselectedText: 'Ej säkert',
         },
         value: {
-          id: 'dodsdatum',
+          id: 'DODSDATUM',
         },
         mandatory: true,
       }),
@@ -126,7 +126,7 @@ DB.args = {
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$dodsdatum',
+            expression: '$DODSDATUM',
           }),
         ],
         mandatory: true,
@@ -137,7 +137,7 @@ DB.args = {
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$dodsdatum',
+            expression: '$DODSDATUM',
           }),
         ],
       }),
@@ -147,7 +147,7 @@ DB.args = {
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$dodsdatum',
+            expression: '$DODSDATUM',
           }),
         ],
         mandatory: true,
