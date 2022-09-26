@@ -22,7 +22,7 @@ export enum SickLeavePeriods {
   HELT_NEDSATT = 'HELT_NEDSATT',
 }
 
-export const getValidDateFormat = (dateString: string | undefined) => {
+export const getValidDateFormat = (dateString: string | undefined): Date | undefined => {
   if (!dateString) return
 
   if (_dateReg.test(dateString)) {
@@ -33,12 +33,12 @@ export const getValidDateFormat = (dateString: string | undefined) => {
   }
 }
 
-export const getValidDate = (dateString: string | undefined) => {
+export const getValidDate = (dateString: string | undefined): Date | undefined => {
   if (!dateString) return
 
-  let dateValue = getValidDateFormat(dateString)
+  const dateValue = getValidDateFormat(dateString)
   if (dateValue) {
-    if (!isBefore(dateValue!, _minAllowedDate) && !isAfter(dateValue!, _maxAllowedDate)) return dateValue
+    if (!isBefore(dateValue, _minAllowedDate) && !isAfter(dateValue, _maxAllowedDate)) return dateValue
   }
 }
 
