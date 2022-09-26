@@ -8,10 +8,9 @@ import { getVisibleValidationErrors } from '../../../store/certificate/certifica
 export interface Props {
   question: CertificateDataElement
   disabled: boolean
-  id: string
 }
 
-const UeDatePicker: React.FC<Props> = ({ question, disabled, id }) => {
+const UeDatePicker: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const [dateString, setDateString] = useState<string | null>('')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
@@ -35,9 +34,10 @@ const UeDatePicker: React.FC<Props> = ({ question, disabled, id }) => {
         setDate={handleDatePickerSelect}
         inputString={dateString}
         questionId={question.id}
-        max={getMaxDate(question.validation, id)}
+        max={getMaxDate(question.validation, question.id)}
         displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
+        componentField={question.id}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
