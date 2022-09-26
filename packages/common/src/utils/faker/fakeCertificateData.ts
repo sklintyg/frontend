@@ -2,6 +2,7 @@ import { CertificateData, CertificateDataElement, CertificateDataValueType, Conf
 import faker from 'faker'
 import { Merge, PartialDeep } from 'type-fest'
 import {
+  CertificateDataValidationType,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
@@ -259,6 +260,23 @@ export const fakeDropdownElement = (
         code: 'test',
         ...data?.value,
       },
+    },
+    children
+  )
+
+export const fakeDatePickerElement = (
+  data?: PartialCertificateDataElement<ConfigUeDropdown, ValueCode>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_DATEPICKER,
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.DATE, text: '2022-09-29', ...data?.value },
+      validation: [fakeCertificateDataValidation({ type: CertificateDataValidationType.MAX_DATE_VALIDATION, numberOfDays: 0 })],
     },
     children
   )
