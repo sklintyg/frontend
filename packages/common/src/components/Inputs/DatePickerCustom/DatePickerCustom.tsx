@@ -1,4 +1,4 @@
-import { formatDateToString, getValidDate, getReasonableDate, _dateReg, _format } from '@frontend/common'
+import { formatDateToString, getValidDateFormat, getValidDate, _dateReg, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
@@ -46,11 +46,11 @@ const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
 const UNREASONABLE_DATE = 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.'
 
 const isValueFormatIncorrect = (value: string | null) => {
-  return value && value.length > 0 && !isValid(getValidDate(value))
+  return value && value.length > 0 && !isValid(getValidDateFormat(value))
 }
 
 const isValueUnreasonable = (value: string | null) => {
-  return value && value.length > 0 && !isValid(getReasonableDate(value))
+  return value && value.length > 0 && !isValid(getValidDate(value))
 }
 
 const DatePickerCustom: React.FC<Props> = ({
