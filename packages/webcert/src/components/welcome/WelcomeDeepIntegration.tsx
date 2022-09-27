@@ -52,6 +52,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
         <input hidden={true} type="text" name="sjf" value={String(integrationParameters.coherentJournaling)} />
         <input hidden={true} type="text" name="kopieringOK" value={String(integrationParameters.allowCopy)} />
         <input hidden={true} type="text" name="inaktivEnhet" value={String(integrationParameters.inactiveUnit)} />
+        <input hidden={true} type="text" name="launchId" value={integrationParameters.launchId} />
         <input hidden={true} type="submit" />
       </form>
     </>
