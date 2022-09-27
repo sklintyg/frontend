@@ -26,6 +26,7 @@ import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
+import UeMessage from '../Inputs/UeMessage'
 
 export interface QuestionProps {
   id: string
@@ -130,6 +131,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeDiagnoses {...commonProps} />
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
         return <UeRadioGroupOptionalDropdown {...commonProps} />
+      case ConfigTypes.UE_MESSAGE:
+        return <UeMessage {...commonProps} />
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
