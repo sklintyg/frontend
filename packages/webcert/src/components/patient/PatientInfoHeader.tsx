@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { clearPatient } from '../../store/patient/patientActions'
 import styled from 'styled-components/macro'
 import PatientStatuses from '../notification/PatientStatuses'
+import swap from '@frontend/common/src/images/swap.svg'
 
 interface Props {
   patient: Patient
@@ -42,6 +43,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
                 onClick={onSwitchPatient}
                 className="iu-ml-500"
                 tooltip="Byt patient att skriva och söka intyg för."
+                startIcon={<img src={swap} alt="Byt patient" />}
               />
             </ButtonWrapper>
           </div>

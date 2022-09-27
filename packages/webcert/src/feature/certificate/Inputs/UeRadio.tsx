@@ -1,6 +1,3 @@
-import * as React from 'react'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../../store/store'
 import {
   CertificateDataElement,
   CertificateDataValueType,
@@ -9,10 +6,13 @@ import {
   RadioButton,
   ValueBoolean,
 } from '@frontend/common'
+import * as React from 'react'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../store/store'
 
-interface Props {
+export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

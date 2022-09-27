@@ -1,0 +1,23 @@
+import { CertificateDataValidation, CertificateDataValidationType } from '@frontend/common'
+import faker from 'faker'
+import { ValidationError } from '../../types/certificate'
+
+export const fakeCertificateDataValidation = (data?: Partial<CertificateDataValidation>): CertificateDataValidation => {
+  return {
+    type: CertificateDataValidationType.TEXT_VALIDATION,
+    questionId: faker.random.alpha({ count: 5 }),
+    expression: '',
+    ...data,
+  }
+}
+
+export const fakeCertificateValidationError = (data?: Partial<ValidationError>): ValidationError => {
+  return {
+    id: faker.random.alpha({ count: 5 }),
+    category: faker.random.alpha({ count: 5 }),
+    field: faker.random.alpha({ count: 5 }),
+    type: faker.random.alpha({ count: 5 }),
+    text: faker.lorem.sentence(),
+    ...data,
+  }
+}
