@@ -202,6 +202,14 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   placeholder: string
 }
 
+export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+  id: string
+  label: string
+  allowedYears: string[]
+  unknownYear: boolean
+  unknownMonth: boolean
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
