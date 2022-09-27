@@ -41,9 +41,6 @@ it('renders a text which has correct value after typing in it', async () => {
   const input = screen.getByRole('textbox')
   userEvent.type(input, 'Hello, World!')
   expect(input).toHaveValue('Hello, World!')
-  //TODO: Perhaps this will work if we update our testing packages. Can't break to new lines currently
-  //   userEvent.type(input, 'Hello,{enter}World!')
-  //   expect(input).toHaveValue('Hello,\nWorld!')
 })
 
 it('should show character counter if text validation is set', () => {
