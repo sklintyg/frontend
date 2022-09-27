@@ -35,6 +35,7 @@ export interface IntegrationParameters {
   zipcode: string
   allowCopy: boolean
   responsibleHospName: string
+  launchId?: string
 }
 
 export interface IntegrationParametersDisablers {
@@ -106,6 +107,7 @@ const initialState: WelcomeState = {
     zipcode: '555 66',
     allowCopy: true,
     responsibleHospName: '',
+    launchId: '',
   },
   integrationParametersDisablers: {
     firstName: true,

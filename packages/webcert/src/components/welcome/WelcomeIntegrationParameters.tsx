@@ -187,6 +187,17 @@ const WelcomeIntegrationParameters: React.FC = () => {
           dispatch(updateIntegrationParameters(newParameters))
         }}
       />
+      <TextInput
+        ref={null}
+        value={integrationParameters.launchId}
+        label={'LaunchId'}
+        placeholder={'launchId'}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          const newParameters = { ...integrationParameters }
+          newParameters.launchId = event.currentTarget.value
+          dispatch(updateIntegrationParameters(newParameters))
+        }}
+      />
       <Checkbox
         label={'Sammanhållen journalföring'}
         id={'sjf'}
