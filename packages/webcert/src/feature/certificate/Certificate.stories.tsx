@@ -261,7 +261,7 @@ DB.args = {
         config: {
           text: '',
           type: ConfigTypes.UE_MESSAGE,
-          level: MessageLevel.WARNING,
+          level: MessageLevel.OBSERVE,
           message: 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
         },
       }),

@@ -89,7 +89,7 @@ export enum ConfigTypes {
 
 export enum MessageLevel {
   INFO = 'INFO',
-  WARNING = 'WARNING',
+  OBSERVE = 'OBSERVE',
   ERROR = 'ERROR',
 }
 
@@ -120,6 +120,12 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   label: string
   selectedText: string
   unselectedText: string
+}
+
+export interface ConfigUeMessage extends CertificateDataConfig {
+  id: string
+  level: MessageLevel
+  message: string
 }
 
 export interface CheckboxCode {
