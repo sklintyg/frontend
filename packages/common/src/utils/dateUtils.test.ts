@@ -81,40 +81,8 @@ describe('Date utils tests', () => {
     expect(date).toEqual(new Date(2099, 11, 12))
   })
 
-  it('get reasonable 1900 date with valid dashes string', () => {
-    const validDateStringDashes = '1901-04-08'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toEqual(new Date(1901, 3, 8))
-  })
-
-  it('get reasonable 1900 date without dashes string', () => {
-    const validDateString = '19010408'
-    const date = getValidDate(validDateString)
-    // console.log(date)
-    expect(date).toEqual(new Date(1901, 3, 8))
-  })
-
-  it('get unreasonable 2100 date with valid dashes string', () => {
-    const validDateStringDashes = '2121-04-08'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toBeUndefined()
-  })
-
   it('get unreasonable 2099-12-13 date with valid dashes string', () => {
     const validDateStringDashes = '2099-12-13'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toBeUndefined()
-  })
-
-  it('get unreasonable 2100 date without dashes string', () => {
-    const validDateString = '21210408'
-    const date = getValidDate(validDateString)
-    // console.log(date)
-    expect(date).toBeUndefined()
-  })
-
-  it('get unreasonable 1800 date with valid dashes string', () => {
-    const validDateStringDashes = '1821-04-08'
     const date = getValidDate(validDateStringDashes)
     expect(date).toBeUndefined()
   })
@@ -124,25 +92,10 @@ describe('Date utils tests', () => {
     const date = getValidDate(validDateStringDashes)
     expect(date).toBeUndefined()
   })
-  it('get unreasonable 2990 date with valid dashes string', () => {
-    const validDateStringDashes = '2990-12-12'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toBeUndefined()
-  })
+
   it('get unreasonable 1200 date without valid dashes string', () => {
     const validDateStringDashes = '12121212'
     const date = getValidDate(validDateStringDashes)
-    expect(date).toBeUndefined()
-  })
-  it('get unreasonable 2990 date without valid dashes string', () => {
-    const validDateStringDashes = '29901212'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toBeUndefined()
-  })
-  it('get unreasonable 1800  date without dashes string', () => {
-    const validDateString = '18210408'
-    const date = getValidDate(validDateString)
-    // console.log(date)
     expect(date).toBeUndefined()
   })
 
