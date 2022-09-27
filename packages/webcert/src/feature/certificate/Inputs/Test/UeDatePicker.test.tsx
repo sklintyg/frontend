@@ -14,8 +14,6 @@ import store from '../../../../store/store'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const _format = 'yyyy-MM-dd'
-
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'datepicker'
 
