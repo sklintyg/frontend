@@ -23,6 +23,7 @@
     - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
     - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
   - VS Code
+    - Install plugin `ESLint`
     - Install plugin `vscode-styled-components`
     - Install plugin `Prettier - Code formatter`
     - Enable auto format on save
@@ -32,6 +33,13 @@
         {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.formatOnSave": true
+        }
+        ```
+      - Add the following properties (_optional_)
+        ```json
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true,
+          "source.fixAll": true
         }
         ```
 
