@@ -66,7 +66,7 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   }
 
   return (
-    <Wrapper>
+    <div className="iu-grid-cols">
       <Dropdown
         id={'year_' + question.id}
         label={label}
@@ -106,7 +106,7 @@ const UeUncertainDate: React.FC<Props> = (props) => {
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationWrapper>
-    </Wrapper>
+    </div>
   )
 }
 
