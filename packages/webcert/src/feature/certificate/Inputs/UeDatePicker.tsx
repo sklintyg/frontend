@@ -27,7 +27,7 @@ const UeDatePicker: React.FC<Props> = ({ question, disabled }) => {
   )
 
   return (
-    <div>
+    <>
       <DatePickerCustom
         disabled={disabled}
         textInputOnChange={handleDatePickerSelect}
@@ -42,7 +42,7 @@ const UeDatePicker: React.FC<Props> = ({ question, disabled }) => {
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationWrapper>
-    </div>
+    </>
   )
 }
 
