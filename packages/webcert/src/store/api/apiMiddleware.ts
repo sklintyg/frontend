@@ -5,7 +5,6 @@ import { FunctionDisabler, generateFunctionDisabler } from '../../utils/function
 import { throwError } from '../error/errorActions'
 import { createErrorRequestFromApiError, createSilentErrorRequestFromApiError } from '../error/errorCreator'
 import { apiCallBegan, apiCallFailed, apiCallSuccess, ApiError, apiGenericError, apiSilentGenericError } from './apiActions'
-import { ErrorCode } from '../error/errorReducer'
 
 const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => async (action: AnyAction) => {
   if (!apiCallBegan.match(action)) {
@@ -29,12 +28,8 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
       method,
       data,
       withCredentials: true,
-      headers: addLaunchIdIfPresent(),
+      headers: getHeaders(),
     })
-
-    if (launchIdPresentInResponse(response) && !sessionStorage.getItem('launchId')) {
-      sessionStorage.setItem('launchId', response.data.user.launchId)
-    }
 
     dispatch(apiCallSuccess(response.data))
 
@@ -63,14 +58,11 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
   }
 }
 
-function addLaunchIdIfPresent() {
+function getHeaders() {
   if (sessionStorage.getItem('launchId')) {
     return { launchId: sessionStorage.getItem('launchId') }
   }
-}
-
-function launchIdPresentInResponse(response: AxiosResponse): boolean {
-  return response.data && response.data.user && response.data.user.launchId
+  return {}
 }
 
 const handleApiGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -85,9 +77,7 @@ function createApiError(api: string, response: AxiosResponse | undefined, altMes
   if (!response) {
     return { api, errorCode: 'UNKNOWN_INTERNAL_PROBLEM', message: altMessage }
   }
-  if (response.data && response.data.INVALID_LAUNCHID) {
-    return { api, errorCode: ErrorCode.INVALID_LAUNCHID, message: response.data.INVALID_LAUNCHID }
-  }
+
   if (response.data && response.data.errorCode) {
     return { api, errorCode: response.data.errorCode, message: response.data.message }
   }

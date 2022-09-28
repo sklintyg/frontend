@@ -7,7 +7,10 @@ import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
 import {
   acknowledgeSubscription,
+  getUserError,
+  getUserStarted,
   getUserStatistics,
+  getUserSuccess,
   setUnit,
   triggerLogout,
   updateInactivateAutomaticLogout,
@@ -17,11 +20,13 @@ import {
 import {
   getSubscriptionWarningResourceLink,
   getUser,
+  getUserWithLaunchId,
   getUserStatistics as statistics,
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
 import { stopPoll } from '../session/sessionActions'
+import { apiCallBegan } from '../api/apiActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -139,6 +144,50 @@ describe('Test user middleware', () => {
       const resourceLink = testStore.getState().ui.uiUser.links.map((link: ResourceLink) => link.type)
 
       expect(resourceLink).not.toContain(ResourceLinkType.SUBSCRIPTION_WARNING)
+    })
+  })
+
+  describe('Handle launchId on user', () => {
+    beforeEach(() => {
+      sessionStorage.clear()
+    })
+    it('should add launchId to sessionStorage', async function() {
+      const data = {
+        user: getUserWithLaunchId(),
+      }
+      fakeAxios.onGet('/api/user').reply(200, data)
+      testStore.dispatch(
+        apiCallBegan({
+          url: '/api/user',
+          method: 'GET',
+          onStart: getUserStarted.type,
+          onSuccess: getUserSuccess.type,
+          onError: getUserError.type,
+        })
+      )
+
+      await flushPromises()
+
+      expect(sessionStorage.getItem('launchId')).toBe(data.user.launchId)
+    })
+    it('should not add launchId to sessionStorage', async function() {
+      const data = {
+        user: getUser(),
+      }
+      fakeAxios.onGet('/api/user').reply(200, data)
+      testStore.dispatch(
+        apiCallBegan({
+          url: '/api/user',
+          method: 'GET',
+          onStart: getUserStarted.type,
+          onSuccess: getUserSuccess.type,
+          onError: getUserError.type,
+        })
+      )
+
+      await flushPromises()
+
+      expect(sessionStorage.getItem('launchId')).toBe(null)
     })
   })
 })

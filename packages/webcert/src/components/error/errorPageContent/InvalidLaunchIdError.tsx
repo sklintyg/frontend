@@ -1,15 +1,15 @@
 import React from 'react'
 
-export const TIMEOUT_TITLE = 'Intyget kan inte visas'
-export const TIMEOUT_MESSAGE = 'Detta intyg kan inte visas eftersom du har öppnat ett annat intyg.'
+export const INVALID_LAUNCHID_TITLE = 'Intyget kan inte visas'
+export const INVALID_LAUNCHID_MESSAGE = 'Detta intyg kan inte visas eftersom du har öppnat ett annat intyg.'
 
 const InvalidLaunchIdError: React.FC = () => {
   return (
     <>
       <p>
-        <strong>{TIMEOUT_TITLE}</strong>
+        <strong>{INVALID_LAUNCHID_TITLE}</strong>
       </p>
-      <p>{TIMEOUT_MESSAGE}</p>
+      <p>{INVALID_LAUNCHID_MESSAGE}</p>
     </>
   )
 }
