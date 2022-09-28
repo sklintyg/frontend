@@ -192,10 +192,21 @@ const WelcomeIntegrationParameters: React.FC = () => {
         value={integrationParameters.launchId}
         label={'LaunchId'}
         placeholder={'launchId'}
+        disabled={integrationParametersDisablers.launchId}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           const newParameters = { ...integrationParameters }
           newParameters.launchId = event.currentTarget.value
           dispatch(updateIntegrationParameters(newParameters))
+        }}
+      />
+      <Checkbox
+        label={'Include'}
+        id={'includeLaunchId'}
+        checked={!integrationParametersDisablers.launchId}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          const newDisablers = { ...integrationParametersDisablers }
+          newDisablers.launchId = !event.currentTarget.checked
+          dispatch(updateIntegrationParametersDisablers(newDisablers))
         }}
       />
       <Checkbox

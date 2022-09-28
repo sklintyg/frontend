@@ -45,6 +45,7 @@ export interface IntegrationParametersDisablers {
   address: boolean
   city: boolean
   zipcode: boolean
+  launchId: boolean
 }
 
 export interface CreateCertificate {
@@ -107,7 +108,7 @@ const initialState: WelcomeState = {
     zipcode: '555 66',
     allowCopy: true,
     responsibleHospName: '',
-    launchId: '',
+    launchId: '97f279ba-7d2b-4b0a-8665-7adde08f26f4',
   },
   integrationParametersDisablers: {
     firstName: true,
@@ -116,6 +117,7 @@ const initialState: WelcomeState = {
     address: true,
     city: true,
     zipcode: true,
+    launchId: true,
   },
 }
 

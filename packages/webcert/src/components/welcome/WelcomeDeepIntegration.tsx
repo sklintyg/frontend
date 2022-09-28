@@ -12,7 +12,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
   const formRef = useRef(null)
   const integrationParameters = useSelector(getIntegrationParameters())
   const integrationParametersDisablers = useSelector(getIntegrationParametersDisablers())
-
+  sessionStorage.removeItem('launchId')
   useEffect(() => {
     if (formRef) {
       const form = (formRef.current as unknown) as HTMLFormElement
@@ -43,13 +43,15 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
         {!integrationParametersDisablers.zipcode && (
           <input hidden={true} type="text" name="postkod" value={integrationParameters.zipcode} />
         )}
+        {!integrationParametersDisablers.launchId && (
+          <input hidden={true} type="text" name="launchId" value={integrationParameters.launchId} />
+        )}
         <input hidden={true} type="text" name="ref" value={integrationParameters.ref} />
         <input hidden={true} type="text" name="responsibleHospName" value={integrationParameters.responsibleHospName} />
         <input hidden={true} type="text" name="alternatePatientSSn" value={integrationParameters.alternatePatientSSN} />
         <input hidden={true} type="text" name="sjf" value={String(integrationParameters.coherentJournaling)} />
         <input hidden={true} type="text" name="kopieringOK" value={String(integrationParameters.allowCopy)} />
         <input hidden={true} type="text" name="inaktivEnhet" value={String(integrationParameters.inactiveUnit)} />
-        <input hidden={true} type="text" name="launchId" value={integrationParameters.launchId} />
         <input hidden={true} type="submit" />
       </form>
     </>
