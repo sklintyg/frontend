@@ -1,4 +1,4 @@
-import { formatDateToString, getValidDate, _dateReg, _format } from '@frontend/common'
+import { formatDateToString, getValidDateFormat, getValidDate, _dateReg, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
@@ -43,7 +43,13 @@ export interface Props {
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
 
+const UNREASONABLE_DATE = 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.'
+
 const isValueFormatIncorrect = (value: string | null) => {
+  return value && value.length > 0 && !isValid(getValidDateFormat(value))
+}
+
+const isValueUnreasonable = (value: string | null) => {
   return value && value.length > 0 && !isValid(getValidDate(value))
 }
 
@@ -70,6 +76,7 @@ const DatePickerCustom: React.FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
+  const [displayUnreasonableDateError, setDisplayUnreasonableDateError] = useState(false)
   const toggleFormattingError = useCallback(() => {
     if (onDispatchValidationError) {
       onDispatchValidationError(!displayFormattingError, {
@@ -82,6 +89,20 @@ const DatePickerCustom: React.FC<Props> = ({
       })
     }
   }, [displayFormattingError, onDispatchValidationError, componentField, questionId])
+
+  const toggleUnreasonableDateError = useCallback(() => {
+    if (onDispatchValidationError) {
+      onDispatchValidationError(!displayUnreasonableDateError, {
+        category: '',
+        field: componentField ? componentField : '',
+        id: questionId ? questionId : '',
+        text: UNREASONABLE_DATE,
+        type: 'UNREASONABLE_DATE',
+        showAlways: true,
+      })
+    }
+  }, [displayUnreasonableDateError, onDispatchValidationError, componentField, questionId])
+
   const boundryRef = useContext(DatePickerBoundryContext)
 
   const getValidDateForPicker = (dateString: string) => {
@@ -103,7 +124,11 @@ const DatePickerCustom: React.FC<Props> = ({
   }, [displayFormattingError, toggleFormattingError])
 
   useEffect(() => {
-    if (displayFormattingError) {
+    toggleUnreasonableDateError()
+  }, [displayUnreasonableDateError, toggleUnreasonableDateError])
+
+  useEffect(() => {
+    if (displayFormattingError || displayUnreasonableDateError) {
       updateFormattingValidation(inputString)
     }
   }, [inputString, displayFormattingError])
@@ -133,10 +158,19 @@ const DatePickerCustom: React.FC<Props> = ({
   }
 
   const updateFormattingValidation = (value: string | null) => {
+    setDisplayUnreasonableDateError(false)
     if (isValueFormatIncorrect(value)) {
       setDisplayFormattingError(true)
     } else {
       setDisplayFormattingError(false)
+      updateUnreasonableValidation(value)
+    }
+  }
+  const updateUnreasonableValidation = (value: string | null) => {
+    if (isValueUnreasonable(value)) {
+      setDisplayUnreasonableDateError(true)
+    } else {
+      setDisplayUnreasonableDateError(false)
     }
   }
 
