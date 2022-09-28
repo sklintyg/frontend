@@ -722,7 +722,8 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   }
 
   const validationResults = validateExpressions(certificate, update)
-  validationResults.forEach(({ result, type, id, affectedIds }) => {
+  validationResults.forEach((validationResult) => {
+    const { result, type, id } = validationResult
     switch (type) {
       case CertificateDataValidationType.MANDATORY_VALIDATION:
         if (result) {
@@ -754,7 +755,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         } else {
           dispatch(enableCertificateDataElement(id))
         }
-        dispatch(setDisabledCertificateDataChild({ result, type, id, affectedIds }))
+        dispatch(setDisabledCertificateDataChild(validationResult))
         break
 
       case CertificateDataValidationType.ENABLE_VALIDATION:
@@ -774,7 +775,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:
         if (result) {
-          dispatch(applyCertificateDataElementAutoFill({ result, type, id, affectedIds }))
+          dispatch(applyCertificateDataElementAutoFill(validationResult))
         }
         break
     }
