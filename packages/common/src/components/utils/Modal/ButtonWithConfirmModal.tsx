@@ -7,7 +7,7 @@ interface Props {
   name: string
   startIcon?: React.ReactNode
   modalTitle: string
-  onConfirm: () => any
+  onConfirm: () => void
   confirmButtonText: string
   additionalConfirmButtonStyles?: string
   confirmButtonDisabled?: boolean
