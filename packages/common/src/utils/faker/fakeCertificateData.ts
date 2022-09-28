@@ -11,6 +11,7 @@ import {
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
+  ConfigureUeUncertainDate,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -18,6 +19,7 @@ import {
   ValueDiagnosis,
   ValueIcf,
   ValueText,
+  ValueDate,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -257,6 +259,29 @@ export const fakeDropdownElement = (
       value: {
         id: faker.random.alpha(),
         code: 'test',
+        ...data?.value,
+      },
+    },
+    children
+  )
+
+export const fakeUncertainDateElement = (
+  data?: PartialCertificateDataElement<ConfigureUeUncertainDate, ValueDate>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_UNCERTAIN_DATE,
+        allowedYears: [new Date().getFullYear() - 1, new Date().getFullYear()],
+        unknownYear: true,
+        unknownMonth: true,
+        ...data?.config,
+      },
+      value: {
+        id: faker.random.alpha(),
+        date: '0000-00-00',
         ...data?.value,
       },
     },
