@@ -1,12 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { CustomButton, ResourceLink, sanitizeText, TextWithInfoModal } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ResourceLink, sanitizeText, TextWithInfoModal } from '@frontend/common'
 import classnames from 'classnames'
+import React from 'react'
+import styled from 'styled-components'
 import WCDynamicLink from '../../utils/WCDynamicLink'
-import file from '@frontend/common/src/images/file.svg'
 
 interface Props {
   certificateName: string
@@ -15,7 +14,6 @@ interface Props {
   issuerTypeId: string
   preferenceClick: (...args: string[]) => void
   favorite: boolean
-  createCertificate: (...args: string[]) => void
   link?: ResourceLink
 }
 
@@ -37,6 +35,34 @@ const ModalContent = styled.div`
   white-space: pre-line;
 `
 
+const hasDynamicLink = (text?: string): boolean => {
+  if (!text) {
+    return false
+  }
+  return text.split('<LINK:').length > 1
+}
+
+const formatText = (text?: string) => {
+  if (!text) {
+    return ''
+  }
+  const splitText = text.split('<LINK:')
+  if (splitText.length > 1) {
+    const dynamicLinkKey = splitText[1].split('>')[0]
+    const textAfterLink = splitText[1].split('>')[1]
+    return (
+      <>
+        <p>
+          {splitText[0]}
+          <WCDynamicLink linkKey={dynamicLinkKey} />
+          {textAfterLink}
+        </p>
+      </>
+    )
+  }
+  return text
+}
+
 const CertificateListRow: React.FC<Props> = ({
   certificateName,
   certificateInfo,
@@ -44,45 +70,11 @@ const CertificateListRow: React.FC<Props> = ({
   issuerTypeId,
   preferenceClick,
   favorite,
-  createCertificate,
-  link,
+  children,
 }) => {
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {
     preferenceClick(id)
-  }
-
-  const onCreateCertificateClick = () => {
-    createCertificate(id)
-  }
-
-  const formatText = (text: string) => {
-    if (!text) {
-      return ''
-    }
-    const splitText = text.split('<LINK:')
-    if (splitText.length > 1) {
-      const dynamicLinkKey = splitText[1].split('>')[0]
-      const textAfterLink = splitText[1].split('>')[1]
-      return (
-        <>
-          <p>
-            {splitText[0]}
-            <WCDynamicLink linkKey={dynamicLinkKey} />
-            {textAfterLink}
-          </p>
-        </>
-      )
-    }
-    return text
-  }
-
-  const hasDynamicLink = (text: string) => {
-    if (!text) {
-      return false
-    }
-    const splitText = text.split('<LINK:')
-    return splitText.length > 1
   }
 
   return (
@@ -103,16 +95,7 @@ const CertificateListRow: React.FC<Props> = ({
           <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
         )}
       </TextWithInfoModal>
-      {link && (
-        <CustomButton
-          buttonStyle="primary"
-          onClick={onCreateCertificateClick}
-          startIcon={<img src={file} alt={link?.description} />}
-          disabled={!link?.enabled}
-          text={link?.name}
-          tooltip={link?.description}
-        />
-      )}
+      {children}
     </Row>
   )
 }
