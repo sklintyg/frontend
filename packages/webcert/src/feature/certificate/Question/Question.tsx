@@ -134,7 +134,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeRadioGroupOptionalDropdown {...commonProps} />
       case ConfigTypes.UE_MESSAGE:
         return <UeMessage {...commonProps} />
-      case ConfigTypes.UE_DATEPICKER:
+      case ConfigTypes.UE_DATE:
         return <UeDatePicker {...commonProps} />
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>

@@ -28,7 +28,7 @@ const question: CertificateDataElement = {
   config: {
     text: '',
     description: '',
-    type: ConfigTypes.UE_DATEPICKER,
+    type: ConfigTypes.UE_DATE,
   },
   validation: [
     {

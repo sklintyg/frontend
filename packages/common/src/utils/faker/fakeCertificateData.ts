@@ -274,7 +274,7 @@ export const fakeDatePickerElement = (
     {
       ...data,
       config: {
-        type: ConfigTypes.UE_DATEPICKER,
+        type: ConfigTypes.UE_DATE,
         ...data?.config,
       },
       value: { type: CertificateDataValueType.DATE, text: '2022-09-29', ...data?.value },
