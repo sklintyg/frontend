@@ -2,43 +2,16 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-} from '@frontend/common/src/types/certificate'
 import UeDate from '../UeDate'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import { fakeDateElement } from '@frontend/common'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'datepicker'
 
-const question: CertificateDataElement = {
-  id: QUESTION_ID,
-  mandatory: false,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  value: { type: CertificateDataValueType.DATE },
-  config: {
-    text: '',
-    description: '',
-    type: ConfigTypes.UE_DATE,
-  },
-  validation: [
-    {
-      type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-      questionId: QUESTION_ID,
-      expression: `$datum`,
-    },
-  ],
-  validationErrors: [{ category: 'category', field: '', text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
-}
+const question = fakeDateElement({ id: QUESTION_ID })[QUESTION_ID]
 
 const renderComponent = (disabled: boolean) => {
   render(

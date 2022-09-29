@@ -277,8 +277,15 @@ export const fakeDateElement = (
         type: ConfigTypes.UE_DATE,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.DATE, text: '2022-09-29', ...data?.value },
-      validation: [fakeCertificateDataValidation({ type: CertificateDataValidationType.MAX_DATE_VALIDATION, numberOfDays: 0 })],
+      value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `$${data.id.toUpperCase()}` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
     },
     children
   )
