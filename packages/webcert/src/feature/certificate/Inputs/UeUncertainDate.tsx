@@ -30,16 +30,18 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   const [selectedYear, setSelectedYear] = React.useState(getYear((question.value as ValueDate).date))
   const [selectedMonth, setSelectedMonth] = React.useState(getMonth((question.value as ValueDate).date))
   const [selectedDay, setSelectedDay] = React.useState('00')
-  const [disabledMonth, setDisabledMonth] = React.useState(disabled || getYear((question.value as ValueDate).date) == '0000')
+  const [disabledMonth, setDisabledMonth] = React.useState(
+    disabled || getYear((question.value as ValueDate).date) == '0000' || getYear((question.value as ValueDate).date) == ''
+  )
 
-  let years: ConfigUeDropdownItem[] = []
+  let years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
 
   if (config.unknownYear) years.push({ id: '0000', label: '0000 (ej känt)' })
   config.allowedYears.map((item) => {
     years.push({ id: item, label: item })
   })
 
-  let months: ConfigUeDropdownItem[] = []
+  let months: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange månad' }]
   if (config.unknownMonth) months.push({ id: '00', label: '00 (ej känt)' })
   for (let i = 1; i <= 12; i++) {
     let strMonth = '0' + i.toString()
@@ -49,8 +51,9 @@ const UeUncertainDate: React.FC<Props> = (props) => {
 
   const handleYearChange = (value: string) => {
     setSelectedYear(value)
+    if (value == '') setSelectedMonth('')
     if (value == '0000') setSelectedMonth('00')
-    setDisabledMonth(disabled || value == '0000')
+    setDisabledMonth(disabled || value == '0000' || value == '')
     dispatch(updateCertificateDataElement(getUpdatedDateValue(question, id, selectedYear, selectedMonth)))
   }
 
@@ -109,15 +112,15 @@ const UeUncertainDate: React.FC<Props> = (props) => {
 }
 
 const getYear = (date: string) => {
-  let year = '0000'
+  let year = ''
   if (date && date.indexOf('-') == 4) year = date.split('-')[0]
   return year
 }
 const getMonth = (date: string) => {
-  if (date && date.indexOf('-') == 4 && getYear(date) != '0000') {
+  if (date && date.indexOf('-') == 4 && getYear(date) != '0000' && getYear(date) != '') {
     const monthPart: string = date.split('-')[1]
-    return monthPart && monthPart.length == 2 ? monthPart : '00'
-  } else return '00'
+    return monthPart && monthPart.length == 2 ? monthPart : ''
+  } else return ''
 }
 
 const getUpdatedDateValue = (question: CertificateDataElement, id: string, year: string, month: string) => {
