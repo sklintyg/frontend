@@ -8,7 +8,7 @@ import {
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import UeDatePicker from '../UeDatePicker'
+import UeDate from '../UeDate'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 
@@ -44,7 +44,7 @@ const renderComponent = (disabled: boolean) => {
   render(
     <>
       <Provider store={store}>
-        <UeDatePicker question={question} disabled={disabled} />
+        <UeDate question={question} disabled={disabled} />
       </Provider>
     </>
   )

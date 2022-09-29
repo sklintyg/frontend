@@ -10,7 +10,7 @@ export interface Props {
   disabled: boolean
 }
 
-const UeDatePicker: React.FC<Props> = ({ question, disabled }) => {
+const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const [dateString, setDateString] = useState<string | null>('')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
@@ -46,4 +46,4 @@ const UeDatePicker: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-export default UeDatePicker
+export default UeDate

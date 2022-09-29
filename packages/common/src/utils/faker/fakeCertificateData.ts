@@ -266,7 +266,7 @@ export const fakeDropdownElement = (
     children
   )
 
-export const fakeDatePickerElement = (
+export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDatePicker, ValueDate>,
   children?: CertificateData[]
 ): CertificateData =>
