@@ -15,17 +15,14 @@ const ValidationWrapper = styled.div`
 `
 
 export interface Props {
-  label?: string
-  id: string
   hasValidationError?: boolean
   disabled?: boolean
   question: CertificateDataElement
 }
 
 const UeUncertainDate: React.FC<Props> = (props) => {
-  const { label, id, question, hasValidationError, disabled } = props
+  const { question, hasValidationError, disabled } = props
   const config = question.config as ConfigureUeUncertainDate
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, id))
   const dispatch = useAppDispatch()
   const [selectedYear, setSelectedYear] = React.useState(getYear((question.value as ValueDate).date))
   const [selectedMonth, setSelectedMonth] = React.useState(getMonth((question.value as ValueDate).date))
@@ -54,12 +51,12 @@ const UeUncertainDate: React.FC<Props> = (props) => {
     if (value == '') setSelectedMonth('')
     if (value == '0000') setSelectedMonth('00')
     setDisabledMonth(disabled || value == '0000' || value == '')
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
   }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
   }
 
   return (
@@ -105,7 +102,7 @@ const UeUncertainDate: React.FC<Props> = (props) => {
         />
       </div>
       <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
+        <QuestionValidationTexts validationErrors={question.validationErrors} />
       </ValidationWrapper>
     </div>
   )
