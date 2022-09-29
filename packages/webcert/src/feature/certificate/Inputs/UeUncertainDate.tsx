@@ -1,10 +1,10 @@
 import { CertificateDataElement, Dropdown, TextInput, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+// import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 const ValidationWrapper = styled.div`
@@ -31,18 +31,18 @@ const UeUncertainDate: React.FC<Props> = (props) => {
     disabled || getYear((question.value as ValueDate).date) == '0000' || getYear((question.value as ValueDate).date) == ''
   )
 
-  let years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
+  const years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
 
   if (config.unknownYear) years.push({ id: '0000', label: '0000 (ej känt)' })
   config.allowedYears.map((item) => {
     years.push({ id: item, label: item })
   })
 
-  let months: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange månad' }]
+  const months: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange månad' }]
   if (config.unknownMonth) months.push({ id: '00', label: '00 (ej känt)' })
   for (let i = 1; i <= 12; i++) {
-    let strMonth = '0' + i.toString()
-    let month = strMonth.substring(strMonth.length - 2)
+    const strMonth = '0' + i.toString()
+    const month = strMonth.substring(strMonth.length - 2)
     months.push({ id: month, label: month })
   }
 
