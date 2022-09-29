@@ -1,4 +1,4 @@
-import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
+import { CertificateDataElement, Dropdown, TextInput, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -7,12 +7,6 @@ import { updateCertificateDataElement } from '../../../store/certificate/certifi
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-`
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
@@ -66,43 +60,47 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className="iu-grid-cols">
-      <Dropdown
-        id={'year_' + question.id}
-        label={label}
-        options={years.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.label}
-          </option>
-        ))}
-        disabled={disabled}
-        onChange={(event) => handleYearChange(event.target.value)}
-        value={selectedYear}
-        hasValidationError={hasValidationError}
-      />
-      <Dropdown
-        id={'month_' + question.id}
-        options={months.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.label}
-          </option>
-        ))}
-        disabled={disabledMonth}
-        onChange={(event) => handleMonthChange(event.currentTarget.value)}
-        value={selectedMonth}
-        hasValidationError={hasValidationError}
-      />
-      <Dropdown
-        id={'day_' + question.id}
-        options={
-          <option key="00" value="00" selected>
-            00
-          </option>
-        }
-        onChange={(event) => setSelectedDay('00')}
-        disabled={true}
-        value={selectedDay}
-      />
+    <div className="ic-forms__group iu-grid-cols">
+      <div>
+        <Dropdown
+          id={'year_' + question.id}
+          label="År"
+          options={years.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.label}
+            </option>
+          ))}
+          disabled={disabled}
+          onChange={(event) => handleYearChange(event.target.value)}
+          value={selectedYear}
+          hasValidationError={hasValidationError}
+        />
+      </div>
+      <div>
+        <Dropdown
+          id={'month_' + question.id}
+          label="Månad"
+          options={months.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.label}
+            </option>
+          ))}
+          disabled={disabledMonth}
+          onChange={(event) => handleMonthChange(event.currentTarget.value)}
+          value={selectedMonth}
+          hasValidationError={hasValidationError}
+        />
+      </div>
+      <div className="iu-width-xxl">
+        <TextInput
+          id={'day_' + question.id}
+          label="Dag"
+          onChange={(event) => setSelectedDay('00')}
+          disabled={true}
+          value="00"
+          className="iu-color-muted iu-border-muted"
+        />
+      </div>
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationWrapper>
