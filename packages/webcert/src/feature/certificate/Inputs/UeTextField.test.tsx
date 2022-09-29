@@ -24,7 +24,7 @@ it('renders component with correct default values', () => {
 
 it('renders a text which has correct value after typing in it', async () => {
   render(<UeTextField question={mockQuestion.type} disabled={false} />)
-  const inputString = 'Hello, World!'
+  const inputString = 'Hello, World'
   const input = screen.getByRole('textbox')
   userEvent.clear(input)
   userEvent.type(input, inputString)
