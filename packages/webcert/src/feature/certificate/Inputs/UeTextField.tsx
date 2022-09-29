@@ -52,7 +52,8 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
         onChange={handleChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 100}></TextInput>
+        limit={textValidation ? textValidation.limit : 100}
+      />
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )

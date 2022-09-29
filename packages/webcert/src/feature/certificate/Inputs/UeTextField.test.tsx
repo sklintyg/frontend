@@ -3,8 +3,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { CertificateDataConfig, CertificateDataElement, CertificateDataValueType } from '@frontend/common'
-
+import { fakeTextFieldElement } from '@frontend/common'
 import UeTextField from './UeTextField'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')
@@ -14,19 +13,26 @@ useSelectorSpy.mockReturnValue({})
 useDispatchSpy.mockReturnValue(jest.fn())
 
 const mockQuestion = {
-  value: { type: CertificateDataValueType.TEXT },
-  config: ({ prop: '' } as unknown) as CertificateDataConfig,
-} as CertificateDataElement
+  type: fakeTextFieldElement({ id: '1' })['1'],
+}
+
+it('renders component with correct default values', () => {
+  render(<UeTextField question={mockQuestion.type} disabled={false} />)
+  const input = screen.getByRole('textbox')
+  expect(input).toHaveValue('Text')
+})
 
 it('renders a text which has correct value after typing in it', async () => {
-  render(<UeTextField question={mockQuestion} disabled={false} />)
+  render(<UeTextField question={mockQuestion.type} disabled={false} />)
+  const inputString = 'Hello, World!'
   const input = screen.getByRole('textbox')
-  userEvent.type(input, 'Hello, World!')
-  expect(input).toHaveValue('Hello, World!')
+  userEvent.clear(input)
+  userEvent.type(input, inputString)
+  expect(input).toHaveValue(inputString)
 })
 
 it('disables component if disabled is set', () => {
-  render(<UeTextField question={mockQuestion} disabled={true} />)
+  render(<UeTextField question={mockQuestion.type} disabled={true} />)
   const input = screen.getByRole('textbox')
   expect(input).toBeDisabled()
 })
