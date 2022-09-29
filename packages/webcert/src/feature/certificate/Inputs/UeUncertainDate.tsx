@@ -1,10 +1,8 @@
-import { CertificateDataElement, Dropdown, TextInput, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
+import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React from 'react'
-// import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-// import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 const ValidationWrapper = styled.div`
@@ -26,9 +24,8 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const [selectedYear, setSelectedYear] = React.useState(getYear((question.value as ValueDate).date))
   const [selectedMonth, setSelectedMonth] = React.useState(getMonth((question.value as ValueDate).date))
-  const [selectedDay, setSelectedDay] = React.useState('00')
   const [disabledMonth, setDisabledMonth] = React.useState(
-    disabled || getYear((question.value as ValueDate).date) == '0000' || getYear((question.value as ValueDate).date) == ''
+    disabled || getYear((question.value as ValueDate).date) === '0000' || getYear((question.value as ValueDate).date) === ''
   )
 
   const years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
@@ -48,9 +45,9 @@ const UeUncertainDate: React.FC<Props> = (props) => {
 
   const handleYearChange = (value: string) => {
     setSelectedYear(value)
-    if (value == '') setSelectedMonth('')
-    if (value == '0000') setSelectedMonth('00')
-    setDisabledMonth(disabled || value == '0000' || value == '')
+    if (value === '') setSelectedMonth('')
+    if (value === '0000') setSelectedMonth('00')
+    setDisabledMonth(disabled || value === '0000' || value === '')
     dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
   }
 
@@ -92,14 +89,8 @@ const UeUncertainDate: React.FC<Props> = (props) => {
         />
       </div>
       <div className="iu-width-xxl">
-        <TextInput
-          id={'day_' + question.id}
-          label="Dag"
-          onChange={(event) => setSelectedDay('00')}
-          disabled={true}
-          value="00"
-          className="iu-color-muted iu-border-muted"
-        />
+        <label htmlFor={'day_' + question.id}>Dag</label>
+        <input id={'day_' + question.id} type="text" disabled={true} value="00" className="ic-textfield iu-color-muted iu-border-muted" />
       </div>
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={question.validationErrors} />
@@ -110,13 +101,13 @@ const UeUncertainDate: React.FC<Props> = (props) => {
 
 const getYear = (date: string) => {
   let year = ''
-  if (date && date.indexOf('-') == 4) year = date.split('-')[0]
+  if (date && date.indexOf('-') === 4) year = date.split('-')[0]
   return year
 }
 const getMonth = (date: string) => {
-  if (date && date.indexOf('-') == 4 && getYear(date) != '0000' && getYear(date) != '') {
+  if (date && date.indexOf('-') === 4 && getYear(date) !== '0000' && getYear(date) !== '') {
     const monthPart: string = date.split('-')[1]
-    return monthPart && monthPart.length == 2 ? monthPart : ''
+    return monthPart && monthPart.length === 2 ? monthPart : ''
   } else return ''
 }
 
