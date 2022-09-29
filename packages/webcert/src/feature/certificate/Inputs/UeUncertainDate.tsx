@@ -31,7 +31,7 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   const years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
 
   if (config.unknownYear) years.push({ id: '0000', label: '0000 (ej känt)' })
-  config.allowedYears.map((item) => {
+  config.allowedYears.forEach((item) => {
     years.push({ id: item, label: item })
   })
 
