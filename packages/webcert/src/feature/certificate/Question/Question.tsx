@@ -27,6 +27,7 @@ import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import UeMessage from '../Inputs/UeMessage'
 
 export interface QuestionProps {
   id: string
@@ -133,6 +134,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeRadioGroupOptionalDropdown {...commonProps} />
       case ConfigTypes.UE_UNCERTAIN_DATE:
         return <UeUncertainDate {...commonProps} />
+      case ConfigTypes.UE_MESSAGE:
+        return <UeMessage {...commonProps} />
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
