@@ -201,7 +201,7 @@ export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
 }
 
-export interface ConfigUeDatePicker extends CertificateDataConfig {
+export interface ConfigUeDate extends CertificateDataConfig {
   id: string
 }
 

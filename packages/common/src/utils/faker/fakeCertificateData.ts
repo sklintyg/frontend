@@ -6,7 +6,7 @@ import {
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
-  ConfigUeDatePicker,
+  ConfigUeDate,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeIcf,
@@ -267,7 +267,7 @@ export const fakeDropdownElement = (
   )
 
 export const fakeDateElement = (
-  data?: PartialCertificateDataElement<ConfigUeDatePicker, ValueDate>,
+  data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
