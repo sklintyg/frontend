@@ -23,7 +23,7 @@ import {
   ResourceLinkType,
 } from '@frontend/common'
 import { stopPoll } from '../session/sessionActions'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
