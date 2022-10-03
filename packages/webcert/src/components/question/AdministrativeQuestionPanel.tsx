@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from 'react'
-import { ImageCentered, Question, Spinner } from '@frontend/common'
+import { ImageCentered, Question, QuestionType, Spinner } from '@frontend/common'
+import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { useCreateQuestionMutation } from '../../store/api'
+import { getCertificate } from '../../store/certificate/certificateSelectors'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
-import styled from 'styled-components'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
-import { useSelector } from 'react-redux'
-import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 
 const Root = styled.div`
   overflow-y: auto;
@@ -26,8 +27,9 @@ const Wrapper = styled.div<StyledProps>`
 interface Props {
   administrativeQuestions: Question[]
   isQuestionFormVisible: boolean
-  administrativeQuestionDraft: Question
+  administrativeQuestionDraft?: Question
   headerHeight: number
+  isLoadingQuestions: boolean
 }
 
 const AdministrativeQuestionPanel: React.FC<Props> = ({
@@ -35,9 +37,22 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
   isQuestionFormVisible,
   administrativeQuestionDraft,
   headerHeight,
+  isLoadingQuestions,
 }) => {
+  const certificate = useSelector(getCertificate)
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
+  const [createQuestionDraft] = useCreateQuestionMutation()
+  const certificateId = certificate?.metadata.id
+
+  useEffect(() => {
+    if (isQuestionFormVisible && certificateId && !administrativeQuestionDraft) {
+      createQuestionDraft({
+        certificateId: certificateId,
+        type: QuestionType.MISSING,
+        message: '',
+      })
+    }
+  }, [administrativeQuestionDraft, certificateId, createQuestionDraft, isQuestionFormVisible])
 
   const contentRef = useCallback((node: HTMLDivElement) => {
     setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
@@ -46,7 +61,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
   const getNoQuestionsMessage = () => {
     return (
       <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionsImg} alt="Inga frågor">
           <p>Det finns inga administrativa frågor för detta intyg.</p>
         </ImageCentered>
       </div>
@@ -56,9 +71,9 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
   return (
     <Root>
       <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
-        {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
+        {isQuestionFormVisible && administrativeQuestionDraft && <QuestionForm questionDraft={administrativeQuestionDraft} />}
         {isLoadingQuestions && <Spinner className="iu-m-500" />}
-        <div className={'iu-bg-light-grey'}>
+        <div className="iu-bg-light-grey">
           {getQuestionsOrderedByLastUpdatedAndHandled(administrativeQuestions).map((administrativeQuestion) => (
             <QuestionItem key={administrativeQuestion.id} question={administrativeQuestion} />
           ))}

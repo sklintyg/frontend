@@ -1,9 +1,10 @@
-import { CertificateDataElementStyleEnum, Expandable } from '@frontend/common'
+import { CertificateDataElementStyleEnum, Expandable, QuestionType } from '@frontend/common'
 import { isEqual } from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getComplementsForQuestions, getQuestion } from '../../../store/certificate/certificateSelectors'
+import { useGetQuestionsQuery } from '../../../store/api'
+import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import Question from './Question'
 import QuestionWrapper from './QuestionWrapper'
 
@@ -39,18 +40,27 @@ const QuestionWithMargin = styled(Question)`
 `
 
 interface Props {
+  certificateId: string
   questionIds: string[]
 }
 
-export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
-  const complements = useSelector(getComplementsForQuestions(questionIds), isEqual)
+export const QuestionWithSubQuestions: React.FC<Props> = ({ certificateId, questionIds }) => {
+  const { complements } = useGetQuestionsQuery(certificateId, {
+    selectFromResult: ({ data }) => ({
+      complements:
+        data
+          ?.filter(({ type, id }) => type === QuestionType.COMPLEMENT && questionIds.includes(id))
+          .map((question) => question.complements)
+          .flat() ?? [],
+    }),
+  })
   const parentQuestion = useSelector(getQuestion(questionIds[0]), isEqual)
 
   if (!parentQuestion) return null
 
   return (
     <Highlighted highlight={complements.length > 0}>
-      <Expandable isExpanded={parentQuestion.visible} additionalStyles={'questionWrapper'}>
+      <Expandable isExpanded={parentQuestion.visible} additionalStyles="questionWrapper">
         <QuestionWrapper highlighted={parentQuestion.style === CertificateDataElementStyleEnum.HIGHLIGHTED}>
           {questionIds.map((id) => (
             <QuestionWithMargin key={id} id={id} />

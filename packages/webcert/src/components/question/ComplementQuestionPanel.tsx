@@ -1,13 +1,11 @@
-import React, { useCallback, useState } from 'react'
 import { CertificateStatus, ImageCentered, InfoBox, Question, Spinner } from '@frontend/common'
-import QuestionItem from './QuestionItem'
 import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import React, { useCallback, useState } from 'react'
+import QuestionItem from './QuestionItem'
 
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
-import { useSelector } from 'react-redux'
-import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 
 const Root = styled.div`
   height: 100%;
@@ -33,11 +31,16 @@ interface Props {
   complementQuestions: Question[]
   isDisplayingCertificateDraft: boolean
   headerHeight: number
+  isLoadingQuestions: boolean
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft, headerHeight }) => {
+const ComplementQuestionPanel: React.FC<Props> = ({
+  complementQuestions,
+  isDisplayingCertificateDraft,
+  headerHeight,
+  isLoadingQuestions,
+}) => {
   const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
 
   const contentRef = useCallback((node: HTMLDivElement) => {
     setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
@@ -46,7 +49,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   const getNoQuestionsMessage = () => {
     return (
       <div>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionsImg} alt="Inga frågor">
           <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
         </ImageCentered>
       </div>
@@ -64,8 +67,8 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
     }
 
     return (
-      <div className={'iu-p-300'}>
-        <InfoBox type={'info'}>
+      <div className="iu-p-300">
+        <InfoBox type="info">
           <p>
             Det finns redan en påbörjad komplettering.{' '}
             <Link to={`/certificate/${question.answeredByCertificate?.certificateId}`}>Öppna utkastet</Link>

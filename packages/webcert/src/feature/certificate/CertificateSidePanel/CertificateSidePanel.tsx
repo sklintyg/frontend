@@ -1,15 +1,15 @@
-import React, { ReactNode, useState } from 'react'
-import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
-import { useSelector } from 'react-redux'
-import AboutCertificatePanel from './AboutCertificatePanel'
-import FMBPanel from '../../../components/fmb/FMBPanel'
-import { getResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components/macro'
-import QuestionPanel from '../../../components/question/QuestionPanel'
-import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
+import React, { ReactNode, useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
+import FMBPanel from '../../../components/fmb/FMBPanel'
+import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
+import QuestionPanel from '../../../components/question/QuestionPanel'
+import { getCertificate, getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
+import AboutCertificatePanel from './AboutCertificatePanel'
 
 const Root = styled.div`
   overflow-y: hidden;
@@ -26,6 +26,7 @@ const CertificateSidePanel: React.FC = () => {
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
   const [headerHeight, setHeaderHeight] = useState(0)
+  const certificate = useSelector(getCertificate)
 
   if (showSpinner) return null
 
@@ -37,14 +38,14 @@ const CertificateSidePanel: React.FC = () => {
     const tabsArray: ReactNode[] = []
     const tabsContentArray: ReactNode[] = []
 
-    if (questionsPanelActive) {
+    if (questionsPanelActive && certificate) {
       tabsArray.push(
         <div data-tip={questionsPanelActive.description}>
           <p>{questionsPanelActive.name}</p>
         </div>
       )
 
-      tabsContentArray.push(<QuestionPanel headerHeight={headerHeight} />)
+      tabsContentArray.push(<QuestionPanel headerHeight={headerHeight} certificateId={certificate.metadata.id} />)
     }
 
     if (questionsNotAvailablePanelActive) {
@@ -71,7 +72,7 @@ const CertificateSidePanel: React.FC = () => {
     }
 
     tabsArray.push(
-      <div data-tip={'Läs om intyget.'}>
+      <div data-tip="Läs om intyget.">
         <p>Om intyget</p>
       </div>
     )
@@ -85,7 +86,7 @@ const CertificateSidePanel: React.FC = () => {
   }
 
   return (
-    <Root className={'iu-border-secondary-light'}>
+    <Root className="iu-border-secondary-light">
       <Tabs
         setHeaderHeight={(height: number) => {
           setHeaderHeight(height)

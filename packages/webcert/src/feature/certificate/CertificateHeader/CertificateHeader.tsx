@@ -1,5 +1,7 @@
+import { Divider, ResourceLinkType } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
 import {
   getCertificateEvents,
   getCertificateMetaData,
@@ -9,17 +11,15 @@ import {
   getResourceLinks,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
-import ShowHistory from './ShowHistory'
+import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 import CertificateInfo from './CertificateInfo'
 import HeaderButtons from './HeaderButtons'
-import styled from 'styled-components/macro'
-import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
-import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
+import ShowHistory from './ShowHistory'
 
-import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
-import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import { useGetQuestionsQuery } from '../../../store/api'
 import NavigateBackButton from './NavigateBackButton'
+import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -41,15 +41,17 @@ const StatusLeftSide = styled.div`
   }
 `
 
-const CertificateHeader: React.FC = () => {
+interface Props {
+  certificateId: string
+}
+
+const CertificateHeader: React.FC<Props> = ({ certificateId }) => {
   const certificateMetadata = useSelector(getCertificateMetaData, _.isEqual)
   const historyEntries = useSelector(getCertificateEvents, _.isEqual)
   const isShowSpinner = useSelector(getIsShowSpinner)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
-  const candidateResourceLink = resourceLinks.find((link) =>
-    resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
-  )
-  const questions = useSelector(getQuestions, _.isEqual)
+  const candidateResourceLink = resourceLinks.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
+  const { data: questions } = useGetQuestionsQuery(certificateId)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const functionDisabled = useSelector(isCertificateFunctionDisabled)
@@ -67,7 +69,7 @@ const CertificateHeader: React.FC = () => {
             <NavigateBackButton />
             <CertificateHeaderStatuses
               certificateMetadata={certificateMetadata}
-              questions={questions}
+              questions={questions || []}
               isValidForSigning={isValidForSigning}
               isValidating={isValidating}
             />

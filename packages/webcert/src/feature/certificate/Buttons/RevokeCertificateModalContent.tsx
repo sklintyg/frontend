@@ -1,26 +1,28 @@
 import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { css } from 'styled-components'
+import { useGetQuestionsQuery } from '../../../store/api'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { getIsLocked } from '../../../store/certificate/certificateSelectors'
-import { css } from 'styled-components'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
-import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;
 `
 
 interface Props {
+  certificateId: string
   onChange: (obj: RevokeCertificateReason) => void
-  type?: string
+  type: string
 }
 
-export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
+export const RevokeCertificateModalContent: React.FC<Props> = ({ certificateId, onChange, type }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
-  const recipient = type ? (type === 'lisjp' ? 'för Försäkringskassan' : '') : ''
-  const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)
+  const recipient = type === 'lisjp' ? 'för Försäkringskassan' : ''
+  const { data: questions = [] } = useGetQuestionsQuery(certificateId)
+  const hasUnhandledQuestions = questions.filter((question) => !question.handled).length > 0
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -44,7 +46,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
     <>
       Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om
       intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makluerade
-      intyg på <WCDynamicLink linkKey={'minaintyg'} />. {hasUnhandledQuestions && unhandledQuestionsText}
+      intyg på <WCDynamicLink linkKey="minaintyg" />. {hasUnhandledQuestions && unhandledQuestionsText}
     </>
   )
 
@@ -85,7 +87,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
           label="Annat allvarligt fel"
           value="ANNAT_ALLVARLIGT_FEL"
           name="radio_invoke_reason"
-          wrapperAdditionalStyles={'iu-mt-200'}
+          wrapperAdditionalStyles="iu-mt-200"
         />
         {textArea.display && textArea.name === 'ANNAT_ALLVARLIGT_FEL' && (
           <div>

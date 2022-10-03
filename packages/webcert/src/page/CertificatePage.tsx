@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import styled from 'styled-components/macro'
+import CommonLayout from '../components/commonLayout/CommonLayout'
+import WebcertHeader from '../components/header/WebcertHeader'
 import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
-import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import styled from 'styled-components/macro'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
-import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
-import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import { getCertificate } from '../store/certificate/certificateActions'
+import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import { getUserStatistics } from '../store/user/userActions'
-import CommonLayout from '../components/commonLayout/CommonLayout'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -52,7 +52,7 @@ const CertificatePage: React.FC = () => {
           <>
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
-            <CertificateHeader />
+            <CertificateHeader certificateId={certificateId} />
             <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )

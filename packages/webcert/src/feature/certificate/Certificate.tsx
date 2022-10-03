@@ -8,6 +8,7 @@ import { clearGotoCertificateDataElement } from '../../store/certificate/certifi
 import {
   CertificateStructure,
   getCertificateDataElements,
+  getCertificateMetaData,
   getGotoId,
   getIsComplementingCertificate,
   getIsShowSpinner,
@@ -39,6 +40,7 @@ const Wrapper = styled.div`
 
 const Certificate: React.FC = () => {
   const dispatch = useDispatch()
+  const certificateMetadata = useSelector(getCertificateMetaData)
   const certificateStructure = useSelector(getCertificateDataElements, _.isEqual)
   const showSpinner = useSelector(getIsShowSpinner)
   const spinnerText = useSelector(getSpinnerText)
@@ -76,13 +78,20 @@ const Certificate: React.FC = () => {
         <ResponsibleHospName />
         <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>
           {certificateStructure &&
+            certificateMetadata &&
             certificateStructure
               .filter((data) => filterHidden(data))
               .map((data) => {
                 if (data.component === ConfigTypes.CATEGORY) {
                   return <Category key={data.id} id={data.id} />
                 } else {
-                  return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                  return (
+                    <QuestionWithSubQuestions
+                      key={data.id}
+                      certificateId={certificateMetadata.id}
+                      questionIds={[data.id, ...data.subQuestionIds]}
+                    />
+                  )
                 }
               })}
         </CertificateContext.Provider>

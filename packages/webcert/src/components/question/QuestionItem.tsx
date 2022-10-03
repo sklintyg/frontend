@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import styled, { css } from 'styled-components'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Answer,
   ButtonWithConfirmModal,
@@ -15,26 +15,18 @@ import {
   StatusWithIcon,
   TextArea,
 } from '@frontend/common'
-import { format } from 'date-fns'
-import fkImg from './fk.png'
-import userImage from '@frontend/common/src/images/user-image.svg'
-import arrowLeft from '../../images/arrow-left.svg'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  createAnswer,
-  deleteAnswer,
-  editAnswer,
-  gotoComplement,
-  handleQuestion,
-  sendAnswer,
-  updateAnswerDraftSaved,
-} from '../../store/question/questionActions'
-import _ from 'lodash'
-import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
-import { Link } from 'react-router-dom'
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CheckIcon from '@frontend/common/src/images/CheckIcon'
+import userImage from '@frontend/common/src/images/user-image.svg'
+import { format } from 'date-fns'
+import _ from 'lodash'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+import arrowLeft from '../../images/arrow-left.svg'
+import { useDeleteAnswerMutation, useHandleQuestionMutation, useSendAnswerMutation, useUpdateAnswerMutation } from '../../store/api'
+import { updateGotoCertificateDataElement } from '../../store/certificate/certificateActions'
+import fkImg from './fk.png'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -121,25 +113,35 @@ interface Props {
 
 const QuestionItem: React.FC<Props> = ({ question }) => {
   const dispatch = useDispatch()
-  const isSaved = useSelector(isAnswerDraftSaved(question.id))
-  const isFormEmpty = !question.answer?.message
-  const [message, setMessage] = useState(question.answer?.message ?? '')
-  const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
+  const [updateAnswer, { isLoading, isUninitialized, isSuccess }] = useUpdateAnswerMutation()
+  const [sendAnswer] = useSendAnswerMutation()
+  const [deleteAnswer] = useDeleteAnswerMutation()
+  const [handleQuestion] = useHandleQuestionMutation()
+  const incomingMessage = question.answer?.message ?? ''
+  const [message, setMessage] = useState(incomingMessage)
+  const isFormEmpty = incomingMessage.length === 0
+  const isDirty = message !== incomingMessage
+  const isSaved = isSuccess && !isLoading && !isUninitialized && !isDirty
+
+  const isAnswerButtonVisible = !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
+  const isLastDateToReplyVisible = !question.handled && question.lastDateToReply
+  const isHandleCheckboxVisible = getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
+  const isRemindersVisible = question.reminders.length > 0 && !question.handled
+  const isComplementsVisible = question.complements.length > 0
+  const isComplementQuestion = question.type === QuestionType.COMPLEMENT
 
   useEffect(() => {
-    setMessage(question.answer?.message ?? '')
-  }, [question.answer?.message])
+    setMessage(incomingMessage ?? '')
+  }, [incomingMessage])
 
   const dispatchEditAnswer = useRef(
     _.debounce((question: Question, value: string) => {
-      const updatedAnswer = { ...question.answer, message: value } as Answer
-      dispatch(editAnswer({ questionId: question.id, answer: updatedAnswer }))
+      updateAnswer({ questionId: question.id, answer: { ...question.answer, message: value } as Answer })
     }, 1000)
   ).current
 
   const onTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     dispatchEditAnswer(question, event.currentTarget.value)
-    dispatch(updateAnswerDraftSaved({ questionId: question.id, isAnswerDraftSaved: false }))
     setMessage(event.currentTarget.value)
   }
 
@@ -147,56 +149,37 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     return author === 'Försäkringskassan' ? fkImg : userImage
   }
 
-  const handleCreateAnswer = () => dispatch(createAnswer(question))
+  const handleCreateAnswer = () =>
+    updateAnswer({ questionId: question.id, answer: { id: '', message: '', author: '', sent: '' } as Answer })
 
-  const handleSendAnswer = () => dispatch(sendAnswer({ questionId: question.id, answer: { ...question.answer } as Answer }))
-
-  const handleDeleteAnswer = () => dispatch(deleteAnswer(question))
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) =>
-    dispatch(
-      handleQuestion({
-        questionId: question.id,
-        handled: event.currentTarget.checked,
-      })
-    )
+  const handleSendAnswer = () => {
+    sendAnswer({ questionId: question.id, answer: { ...question.answer } as Answer })
+  }
 
   const handleSelect = (isSelected: boolean) =>
-    dispatch(
-      handleQuestion({
-        questionId: question.id,
-        handled: isSelected,
-      })
-    )
+    handleQuestion({
+      questionId: question.id,
+      handled: isSelected,
+    })
 
-  const isAnswerButtonVisible = () => !question.answer && getResourceLink(question.links, ResourceLinkType.ANSWER_QUESTION)?.enabled
-
-  const isLastDateToReplyVisible = () => !question.handled && question.lastDateToReply
-
-  const isHandleCheckboxVisible = () => getResourceLink(question.links, ResourceLinkType.HANDLE_QUESTION)?.enabled
-
-  const isRemindersVisible = () => question.reminders.length > 0 && !question.handled
-
-  const isComplementsVisible = () => question.complements.length > 0
-
-  const isComplementQuestion = () => question.type === QuestionType.COMPLEMENT
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => handleSelect(event.currentTarget.checked)
 
   const onClickComplement = (questionId: string, valueId: string): void => {
-    dispatch(gotoComplement({ questionId, valueId }))
+    dispatch(updateGotoCertificateDataElement({ questionId, valueId }))
   }
 
   const getAnsweredByCertificate = (question: Question) => {
     return (
       <AnsweredByCertificate
         key={question.id}
-        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200`}>
+        className="iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-mt-800 iu-mb-200">
         <CheckIcon />
-        <Complement key={question.id} className={'iu-fullwidth'}>
-          <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+        <Complement key={question.id} className="iu-fullwidth">
+          <div className="iu-fullwidth iu-pl-300 iu-fs-200">
             <Wrapper>
-              <div className={'iu-fullwidth iu-color-black iu-text-left'}>
+              <div className="iu-fullwidth iu-color-black iu-text-left">
                 Kompletteringsbegäran besvarades med ett nytt intyg.{' '}
-                <Link className={'iu-color-black'} to={`/certificate/${question.answeredByCertificate?.certificateId}`}>
+                <Link className="iu-color-black" to={`/certificate/${question.answeredByCertificate?.certificateId}`}>
                   Öppna intyget
                 </Link>
               </div>
@@ -211,12 +194,12 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
     return (
       <AnsweredByCertificate
         key={question.id}
-        className={`iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800`}>
+        className="iu-bg-success-light iu-fullwidth iu-border-success-light iu-radius-card iu-my-800">
         <CheckIcon />
-        <Complement key={question.id} className={'iu-fullwidth'}>
-          <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+        <Complement key={question.id} className="iu-fullwidth">
+          <div className="iu-fullwidth iu-pl-300 iu-fs-200">
             <Wrapper>
-              <div className={'iu-fullwidth iu-color-black iu-text-left'}>{COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE}</div>
+              <div className="iu-fullwidth iu-color-black iu-text-left">{COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE}</div>
             </Wrapper>
           </div>
         </Complement>
@@ -230,22 +213,22 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const isComplementAnsweredByMessage = (question: Question) => question.type === QuestionType.COMPLEMENT && question.answer
 
   return (
-    <Card key={question.id} className={'ic-card'}>
+    <Card key={question.id} className="ic-card">
       <QuestionHeader>
-        <img src={getImageSrc(question.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
-        <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+        <img src={getImageSrc(question.author)} className="iu-mr-200" alt="Avsändarebild" />
+        <div className="iu-fullwidth iu-pl-300 iu-fs-200">
           <Wrapper>
-            <p className={'iu-fw-heading'}>{question.author}</p>
-            {isHandleCheckboxVisible() &&
-              (isComplementQuestion() ? (
+            <p className="iu-fw-heading">{question.author}</p>
+            {isHandleCheckboxVisible &&
+              (isComplementQuestion ? (
                 <CheckboxWithConfirmModal
                   id={question.id}
                   checked={question.handled}
                   disabled={false}
-                  buttonStyle={'default'}
-                  modalTitle={'Markera som hanterad'}
-                  confirmButtonText={'Markera som hanterad'}
-                  name={'Hanterad'}
+                  buttonStyle="default"
+                  modalTitle="Markera som hanterad"
+                  confirmButtonText="Markera som hanterad"
+                  name="Hanterad"
                   onConfirm={handleSelect}
                   wrapperStyles={CheckboxStyles}>
                   <p>När ett intyg markeras som hanterad kan detta inte ångras senare.</p>
@@ -261,73 +244,73 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
                   onChange={handleChange}
                 />
               ))}
-            {!isHandleCheckboxVisible() && question.handled && (
-              <StatusWithIcon icon={'CheckIcon'} additionalTextStyles={'iu-fs-200 iu-color-grey-400'}>
+            {!isHandleCheckboxVisible && question.handled && (
+              <StatusWithIcon icon="CheckIcon" additionalTextStyles="iu-fs-200 iu-color-grey-400">
                 Hanterad
               </StatusWithIcon>
             )}
           </Wrapper>
           <Wrapper>
-            <p className={'iu-fw-heading'}>{question.subject}</p>
-            <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.sent), 'yyyy-MM-dd HH:mm')}</p>
+            <p className="iu-fw-heading">{question.subject}</p>
+            <p className="iu-color-grey-400 iu-m-none">{format(new Date(question.sent), 'yyyy-MM-dd HH:mm')}</p>
           </Wrapper>
         </div>
       </QuestionHeader>
-      {isRemindersVisible() &&
+      {isRemindersVisible &&
         question.reminders.map((reminder) => (
-          <div key={reminder.id} className={`ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400`}>
-            <Reminder className={'iu-fullwidth '}>
-              <i className={`ic-alert__icon ic-info-icon iu-m-none`} />
-              <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+          <div key={reminder.id} className="ic-alert ic-alert--status ic-alert--info iu-p-none iu-my-400">
+            <Reminder className="iu-fullwidth ">
+              <i className="ic-alert__icon ic-info-icon iu-m-none" />
+              <div className="iu-fullwidth iu-pl-300 iu-fs-200">
                 <Wrapper>
-                  <p className={'iu-fw-heading'}>{'Påminnelse'}</p>
-                  <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
+                  <p className="iu-fw-heading">Påminnelse</p>
+                  <p className="iu-color-grey-400 iu-m-none">{format(new Date(reminder.sent), 'yyyy-MM-dd HH:mm')}</p>
                 </Wrapper>
                 <Wrapper>
-                  <FormattedText className={'iu-fullwidth'}>{reminder.message}</FormattedText>
+                  <FormattedText className="iu-fullwidth">{reminder.message}</FormattedText>
                 </Wrapper>
               </div>
             </Reminder>
           </div>
         ))}
-      <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
-        {isComplementQuestion() ? (
+      <div className={question.message ? (isComplementsVisible ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
+        {isComplementQuestion ? (
           <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
         ) : (
           <FormattedText>{question.message}</FormattedText>
         )}
       </div>
-      {isComplementsVisible() &&
+      {isComplementsVisible &&
         question.complements.map((complement) => (
           <ComplementCard
             key={complement.questionId}
-            className={`ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200`}
+            className="ic-button iu-fullwidth iu-border-main iu-radius-card iu-mb-200"
             onClick={() => onClickComplement(complement.questionId, complement.valueId)}>
             <img
               src={arrowLeft}
-              className={'iu-svg-icon iu-ml-200'}
+              className="iu-svg-icon iu-ml-200"
               style={{ width: '1rem', height: '1rem', transform: 'rotate(90deg)' }}
-              alt={'Pil'}
+              alt="Pil"
             />
-            <Complement key={complement.questionId} className={'iu-fullwidth'}>
-              <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+            <Complement key={complement.questionId} className="iu-fullwidth">
+              <div className="iu-fullwidth iu-pl-300 iu-fs-200">
                 <Wrapper>
-                  <p className={'iu-fw-heading iu-color-grey-400 iu-mb-200'}>{'Visa kompletteringsbegäran för:'}</p>
+                  <p className="iu-fw-heading iu-color-grey-400 iu-mb-200">Visa kompletteringsbegäran för:</p>
                 </Wrapper>
                 <Wrapper>
-                  <p className={'iu-fullwidth iu-color-main iu-text-left'}>{complement.questionText}</p>
+                  <p className="iu-fullwidth iu-color-main iu-text-left">{complement.questionText}</p>
                 </Wrapper>
               </div>
             </Complement>
           </ComplementCard>
         ))}
-      {isLastDateToReplyVisible() && (
-        <p className={'iu-mb-300 iu-color-text iu-fs-200'}>
-          <FontAwesomeIcon className={'iu-mr-200'} icon={faCalendarAlt} />
+      {isLastDateToReplyVisible && (
+        <p className="iu-mb-300 iu-color-text iu-fs-200">
+          <FontAwesomeIcon className="iu-mr-200" icon={faCalendarAlt} />
           Svara senast: {question.lastDateToReply}
         </p>
       )}
-      {isAnswerButtonVisible() && <CustomButton buttonStyle={'primary'} onClick={handleCreateAnswer} text={'Svara'} />}
+      {isAnswerButtonVisible && <CustomButton buttonStyle="primary" onClick={handleCreateAnswer} text="Svara" />}
       {question.answer && !question.answer.id && (
         <>
           <div className="ic-forms__group">
@@ -335,24 +318,19 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
-              <CustomButton
-                disabled={isFormEmpty || isFunctionDisabled}
-                buttonStyle={'primary'}
-                onClick={handleSendAnswer}
-                text={'Skicka'}
-              />
+              <CustomButton disabled={isFormEmpty || isDirty} buttonStyle="primary" onClick={handleSendAnswer} text="Skicka" />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || isFunctionDisabled}
-                buttonStyle={'default'}
-                modalTitle={'Radera påbörjad svar'}
-                confirmButtonText={'Ja, radera'}
-                description={''}
-                name={'Avbryt'}
-                onConfirm={handleDeleteAnswer}>
+                disabled={isFormEmpty || isDirty}
+                buttonStyle="default"
+                modalTitle="Radera påbörjad svar"
+                confirmButtonText="Ja, radera"
+                description=""
+                name="Avbryt"
+                onConfirm={() => deleteAnswer(question.id)}>
                 <p>Är du säker på att du vill radera ditt påbörjade svar?</p>
               </ButtonWithConfirmModal>
             </div>
-            {isSaved && <StatusWithIcon icon={'CheckIcon'}>Utkast sparat</StatusWithIcon>}
+            {isSaved && <StatusWithIcon icon="CheckIcon">Utkast sparat</StatusWithIcon>}
           </QuestionFormFooter>
         </>
       )}
@@ -360,18 +338,18 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
       {question.answer && question.answer.id && (
         <>
           <QuestionHeader>
-            <img src={getImageSrc(question.answer.author)} className={'iu-mr-200'} alt={'Avsändarebild'} />
-            <div className={'iu-fullwidth iu-pl-300 iu-fs-200'}>
+            <img src={getImageSrc(question.answer.author)} className="iu-mr-200" alt="Avsändarebild" />
+            <div className="iu-fullwidth iu-pl-300 iu-fs-200">
               <Wrapper>
-                <p className={'iu-fw-heading'}>{question.answer.author}</p>
+                <p className="iu-fw-heading">{question.answer.author}</p>
               </Wrapper>
               <Wrapper>
-                <p className={'iu-fw-heading'}>{'Re: ' + question.subject}</p>
-                <p className={'iu-color-grey-400 iu-m-none'}>{format(new Date(question.answer.sent), 'yyyy-MM-dd HH:mm')}</p>
+                <p className="iu-fw-heading">{'Re: ' + question.subject}</p>
+                <p className="iu-color-grey-400 iu-m-none">{format(new Date(question.answer.sent), 'yyyy-MM-dd HH:mm')}</p>
               </Wrapper>
             </div>
           </QuestionHeader>
-          <p className={'iu-mb-800'}>{question.answer.message}</p>
+          <p className="iu-mb-800">{question.answer.message}</p>
         </>
       )}
       {isAnsweredByCertificate(question) && getAnsweredByCertificate(question)}

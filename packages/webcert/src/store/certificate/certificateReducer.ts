@@ -4,7 +4,6 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateEvent,
-  Complement,
   ConfigTypes,
   ValidationError,
   ValueBoolean,
@@ -41,7 +40,6 @@ import {
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateAsReadOnly,
-  updateCertificateComplements,
   updateCertificateEvents,
   updateCertificateSigningData,
   updateCertificateStatus,
@@ -67,7 +65,6 @@ interface CertificateState {
   showValidationErrors: boolean
   isValidForSigning: boolean
   isDeleted: boolean
-  complements: Complement[]
   gotoCertificateDataElement?: GotoCertificateDataElement
   signingData?: SigningData
   routedFromDeletedCertificate: boolean
@@ -86,7 +83,6 @@ const getInitialState = (): CertificateState => {
     showValidationErrors: false,
     isValidForSigning: false,
     isDeleted: false,
-    complements: [],
     routedFromDeletedCertificate: false,
     functionDisablers: [],
     clientValidationErrors: [],
@@ -282,9 +278,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
         return
       }
       setDisableForChildElement(state.certificate.data, action.payload)
-    })
-    .addCase(updateCertificateComplements, (state, action) => {
-      state.complements = action.payload
     })
     .addCase(updateGotoCertificateDataElement, (state, action) => {
       state.gotoCertificateDataElement = action.payload

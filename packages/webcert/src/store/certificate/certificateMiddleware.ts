@@ -100,7 +100,6 @@ import {
   unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
-  updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificateSigningData,
@@ -108,7 +107,6 @@ import {
   updateCertificateVersion,
   updateClientValidationError,
   updateCreatedCertificateId,
-  updateGotoCertificateDataElement,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
@@ -122,7 +120,6 @@ import {
 
 import _ from 'lodash'
 import { throwError } from '../error/errorActions'
-import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
@@ -657,14 +654,6 @@ const handleValidateCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(validateCertificateCompleted())
 }
 
-const handleUpdateComplements: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateCertificateComplements(action.payload))
-}
-
-const handleGotoComplement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateGotoCertificateDataElement(action.payload))
-}
-
 const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAction): void => {
   const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
   if (action.payload.iframe) {
@@ -824,8 +813,6 @@ const middlewareMethods = {
   [copyCertificateSuccess.type]: handleCopyCertificateSuccess,
   [sendCertificate.type]: handleSendCertificate,
   [sendCertificateSuccess.type]: handleSendCertificateSuccess,
-  [updateComplements.type]: handleUpdateComplements,
-  [gotoComplement.type]: handleGotoComplement,
   [complementCertificate.type]: handleComplementCertificate,
   [complementCertificateSuccess.type]: handleComplementCertificateSuccess,
   [answerComplementCertificate.type]: handleAnswerComplementCertificate,

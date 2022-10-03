@@ -6,7 +6,6 @@ import {
   CertificateMetadata,
   CertificateRelationType,
   CertificateStatus,
-  Complement,
   Patient,
   PersonId,
   ResourceLink,
@@ -44,15 +43,6 @@ export const getIsComplementingCertificate = (state: RootState): boolean => {
 
   return metadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED && metadata.status === CertificateStatus.UNSIGNED
 }
-
-export const getComplements = (questionId: string) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId)
-
-export const getComplementsIncludingSubQuestions = (questionId: string) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => complement.questionId === questionId.split('.')[0])
-
-export const getComplementsForQuestions = (questionIds: string[]) => (state: RootState): Complement[] =>
-  state.ui.uiCertificate.complements.filter((complement) => questionIds.includes(complement.questionId))
 
 export const getGotoId = (state: RootState): string | undefined => state.ui.uiCertificate.gotoCertificateDataElement?.questionId
 
@@ -173,7 +163,10 @@ export const getIsLocked = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate?.metadata.status === CertificateStatus.LOCKED_REVOKED
 
 export const getIsEditable = (state: RootState): boolean | undefined =>
-  state.ui.uiCertificate.certificate?.links.some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
+  getResourceLinks(state).some((link) => link.type === ResourceLinkType.EDIT_CERTIFICATE)
+
+export const getIsCreateQuestionsAvailable = (state: RootState): boolean =>
+  getResourceLinks(state).find((link) => link.type === ResourceLinkType.CREATE_QUESTIONS)?.enabled || false
 
 export const getSigningData = (state: RootState): SigningData | undefined => state.ui.uiCertificate.signingData
 

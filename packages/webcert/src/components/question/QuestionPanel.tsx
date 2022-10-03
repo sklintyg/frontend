@@ -1,18 +1,13 @@
-import { CustomButton, Question, QuestionType } from '@frontend/common'
-import _ from 'lodash'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { CertificateStatus, CustomButton, Question, QuestionType } from '@frontend/common'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PanelHeaderCustomized from '../../feature/certificate/CertificateSidePanel/PanelHeaderCustomized'
-import { getIsSigned } from '../../store/certificate/certificateSelectors'
-import {
-  getErrorId,
-  getIsLoadingQuestions,
-  getQuestionDraft,
-  getQuestions,
-  isCreateQuestionsAvailable,
-  isDisplayingCertificateDraft,
-} from '../../store/question/questionSelectors'
+import { useGetQuestionsQuery } from '../../store/api'
+import { getCertificateMetaData, getIsCreateQuestionsAvailable, getIsSigned } from '../../store/certificate/certificateSelectors'
+import { throwError } from '../../store/error/errorActions'
+import { createErrorRequestWithErrorId } from '../../store/error/errorCreator'
+import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import FetchQuestionsProblem from '../error/errorPageContent/FetchQuestionsProblem'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
@@ -32,25 +27,40 @@ const Wrapper = styled.div`
 
 interface Props {
   headerHeight: number
+  certificateId: string
 }
 
 const QuestionPanel: React.FC<Props> = (props) => {
-  const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-  return isLoadingQuestions ? null : <QuestionPanelInner {...props} />
+  const { isLoading, isUninitialized } = useGetQuestionsQuery(props.certificateId)
+  return isLoading || isUninitialized ? null : <QuestionPanelInner {...props} />
 }
 
-const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
-  const questions = useSelector(getQuestions, _.isEqual)
-  const questionDraft = useSelector(getQuestionDraft, _.isEqual)
-  const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
-  const isCertificateDraft = useSelector(isDisplayingCertificateDraft)
+const QuestionPanelInner: React.FC<Props> = ({ headerHeight, certificateId }) => {
+  const dispatch = useDispatch()
+  const { data, isLoading, isError } = useGetQuestionsQuery(certificateId)
+  const certificateMetadata = useSelector(getCertificateMetaData)
+  const questions = (data || []).filter(({ sent }) => sent)
+  const questionDraft = (data || []).find(({ sent }) => !sent)
+  const isQuestionFormVisible = useSelector(getIsCreateQuestionsAvailable)
+  const isCertificateDraft = certificateMetadata?.status === CertificateStatus.UNSIGNED
   const isSigned = useSelector(getIsSigned())
   const complementQuestions = questions.filter((question) => question.type === QuestionType.COMPLEMENT)
   const administrativeQuestions = questions.filter((question) => question.type !== QuestionType.COMPLEMENT)
   const [isComplementSelected, setIsComplementSelected] = useState(
     getShouldComplementedBeActive(administrativeQuestions, complementQuestions)
   )
-  const errorId = useSelector(getErrorId)
+
+  const errorRequest = useMemo(() => createErrorRequestWithErrorId(ErrorType.SILENT, ErrorCode.FETCH_QUESTIONS_PROBLEM, certificateId), [
+    certificateId,
+  ])
+
+  const errorId = errorRequest.errorId ?? ''
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(throwError(errorRequest))
+    }
+  }, [dispatch, errorRequest, isError])
 
   const getButtonNumber = (questions: Question[]) => {
     if (!isSigned) return undefined
@@ -89,6 +99,7 @@ const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
             complementQuestions={complementQuestions}
             isDisplayingCertificateDraft={isCertificateDraft}
             headerHeight={headerHeight}
+            isLoadingQuestions={isLoading}
           />
         ) : (
           <AdministrativeQuestionPanel
@@ -96,6 +107,7 @@ const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
             isQuestionFormVisible={isQuestionFormVisible}
             administrativeQuestionDraft={questionDraft}
             headerHeight={headerHeight}
+            isLoadingQuestions={isLoading}
           />
         )}
         <QuestionPanelFooter questions={questions} />
@@ -105,7 +117,7 @@ const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
 
   return (
     <Wrapper className="iu-bg-light-grey">
-      {errorId ? (
+      {isError ? (
         <>
           <PanelHeaderCustomized content={null} />
           <FetchQuestionsProblem errorId={errorId} />
