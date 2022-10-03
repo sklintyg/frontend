@@ -145,7 +145,23 @@
       "unused-imports/no-unused-vars": [
         "warn"
       ],
-      "import/no-relative-packages": "error"
+      "import/no-relative-packages": "error",
+      "react/jsx-curly-brace-presence": [
+        "warn",
+        "never"
+      ],
+      "react/jsx-no-useless-fragment": "warn",
+      "react/jsx-fragments": "warn",
+      "react/jsx-no-bind": [
+        "error",
+        {
+          "allowArrowFunctions": true,
+          "allowBind": false,
+          "ignoreRefs": true
+        }
+      ],
+      "react/no-did-update-set-state": "error",
+      "react/self-closing-comp": "error"
     },
     "overrides": [
       {

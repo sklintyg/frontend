@@ -1,4 +1,3 @@
-import { ResourceLink } from './../types/resourceLink'
 import {
   Certificate,
   CertificateEvent,
@@ -9,13 +8,13 @@ import {
   Question,
   QuestionType,
 } from '..'
-import { ResourceLinkType } from '../types/resourceLink'
+import { ResourceLink, ResourceLinkType } from './../types/resourceLink'
 
-export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
+export const isSigned = (certificateMetadata: CertificateMetadata): boolean => certificateMetadata?.status === CertificateStatus.SIGNED
 
-export const isUnsigned = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
+export const isUnsigned = (certificateMetadata: CertificateMetadata): boolean => certificateMetadata.status === CertificateStatus.UNSIGNED
 
-export const isReplaced = (certificateMetadata: CertificateMetadata) => {
+export const isReplaced = (certificateMetadata: CertificateMetadata): boolean => {
   const {
     relations: { children },
   } = certificateMetadata
@@ -27,7 +26,7 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   return false
 }
 
-export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata) => {
+export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata): boolean => {
   const {
     relations: { children },
   } = certificateMetadata
@@ -39,50 +38,50 @@ export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata
   return false
 }
 
-export const isLocked = (certificateMetadata: CertificateMetadata) =>
+export const isLocked = (certificateMetadata: CertificateMetadata): boolean =>
   certificateMetadata.status === CertificateStatus.LOCKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
-export const isLockedRevoked = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
+export const isLockedRevoked = (certificateMetadata: CertificateMetadata): boolean =>
+  certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
-export const isDraft = (certificateMetadata: CertificateMetadata) => certificateMetadata.status === CertificateStatus.UNSIGNED
+export const isDraft = (certificateMetadata: CertificateMetadata): boolean => certificateMetadata.status === CertificateStatus.UNSIGNED
 
-export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean) =>
+export const isDraftSaved = (certificateMetadata: CertificateMetadata, isValidating: boolean): boolean =>
   isDraft(certificateMetadata) && !isValidating
 
-export const isRevoked = (certificateMetadata: CertificateMetadata) =>
+export const isRevoked = (certificateMetadata: CertificateMetadata): boolean =>
   certificateMetadata.status === CertificateStatus.REVOKED || certificateMetadata.status === CertificateStatus.LOCKED_REVOKED
 
-export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]) => {
+export const isReplacingCertificateRevoked = (historyEntries: CertificateEvent[]): boolean => {
   return historyEntries.some((entry) => entry.relatedCertificateStatus === CertificateStatus.REVOKED)
 }
 
-export const getReplacedCertificateStatus = (certificateMetadata: CertificateMetadata) => {
+export const getReplacedCertificateStatus = (certificateMetadata: CertificateMetadata): CertificateStatus => {
   return certificateMetadata.relations.children[0].status
 }
 
-export const getReplacedType = (certificateMetadata: CertificateMetadata) => certificateMetadata.relations.children[0].type
+export const getReplacedType = (certificateMetadata: CertificateMetadata): CertificateRelationType =>
+  certificateMetadata.relations.children[0].type
 
-export const isParentRevoked = (certificateMetadata: CertificateMetadata) => {
+export const isParentRevoked = (certificateMetadata: CertificateMetadata): boolean => {
   return (
     certificateMetadata.relations.parent?.status === CertificateStatus.REVOKED ||
     certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED_REVOKED
   )
 }
 
-export const isHasParent = (certificateMetadata: CertificateMetadata) => {
+export const isHasParent = (certificateMetadata: CertificateMetadata): boolean => {
   return !!certificateMetadata.relations.parent
 }
 
-export const resourceLinksAreEqual = (actual: ResourceLinkType, wanted: ResourceLinkType) => actual === wanted
+export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink | undefined =>
+  resourceLinks.find((link) => link.type === wanted)
 
-export const getResourceLink = (resourceLinks: ResourceLink[], wanted: ResourceLinkType): ResourceLink =>
-  resourceLinks.find((link) => link.type === wanted)!
-
-export const isDisabled = (certificateMetadata: CertificateMetadata) => {
+export const isDisabled = (certificateMetadata: CertificateMetadata): boolean => {
   return certificateMetadata.status === CertificateStatus.LOCKED
 }
 
-export const isParentLocked = (certificateMetadata: CertificateMetadata) => {
+export const isParentLocked = (certificateMetadata: CertificateMetadata): boolean => {
   return (
     certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED ||
     certificateMetadata.relations.parent?.status === CertificateStatus.LOCKED_REVOKED
@@ -114,4 +113,4 @@ export const getComplementedByCertificateRelation = (certificateMetadata: Certif
 interface Indexable {
   index: number
 }
-export const sortByIndex = (a: Indexable, b: Indexable) => a.index - b.index
+export const sortByIndex = (a: Indexable, b: Indexable): number => a.index - b.index
