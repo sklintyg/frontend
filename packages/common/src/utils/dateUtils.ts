@@ -4,6 +4,10 @@ import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
+
+export const _minAllowedDate = new Date(1900, 0, 1)
+export const _maxAllowedDate = new Date(2099, 11, 12)
+
 export const _format = 'yyyy-MM-dd'
 export const _parseformat = 'yyyyMMdd'
 
@@ -18,7 +22,7 @@ export enum SickLeavePeriods {
   HELT_NEDSATT = 'HELT_NEDSATT',
 }
 
-export const getValidDate = (dateString: string | undefined) => {
+export const getValidDateFormat = (dateString: string | undefined): Date | undefined => {
   if (!dateString) return
 
   if (_dateReg.test(dateString)) {
@@ -26,6 +30,15 @@ export const getValidDate = (dateString: string | undefined) => {
     return parse(formattedString, _parseformat, new Date())
   } else if (_dateRegDashesOptional.test(dateString)) {
     return parse(dateString, _parseformat, new Date())
+  }
+}
+
+export const getValidDate = (dateString: string | undefined): Date | undefined => {
+  if (!dateString) return
+
+  const dateValue = getValidDateFormat(dateString)
+  if (dateValue) {
+    if (!isBefore(dateValue, _minAllowedDate) && !isAfter(dateValue, _maxAllowedDate)) return dateValue
   }
 }
 

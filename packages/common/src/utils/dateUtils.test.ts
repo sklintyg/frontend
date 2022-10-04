@@ -5,6 +5,7 @@ import {
   getLatestPeriodEndDate,
   getPeriodHasOverlap,
   getPeriodWorkHours,
+  getValidDateFormat,
   getValidDate,
   isDateRangeValid,
   isDateRangeValidOrIncomplete,
@@ -63,15 +64,39 @@ const configList: ConfigUeCheckboxDateRange[] = [
 describe('Date utils tests', () => {
   it('get valid date with valid dashes string', () => {
     const validDateStringDashes = '2021-04-08'
-    const date = getValidDate(validDateStringDashes)
-    expect(date).toBeTruthy()
+    const date = getValidDateFormat(validDateStringDashes)
+    expect(date).toEqual(new Date(2021, 3, 8))
   })
 
   it('get valid date without dashes string', () => {
     const validDateString = '20210408'
-    const date = getValidDate(validDateString)
+    const date = getValidDateFormat(validDateString)
     // console.log(date)
-    expect(date).toBeTruthy()
+    expect(date).toEqual(new Date(2021, 3, 8))
+  })
+
+  it('get reasonable 2099-12-12 date with valid dashes string', () => {
+    const validDateStringDashes = '2099-12-12'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toEqual(new Date(2099, 11, 12))
+  })
+
+  it('get unreasonable 2099-12-13 date with valid dashes string', () => {
+    const validDateStringDashes = '2099-12-13'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeUndefined()
+  })
+
+  it('get unreasonable 1200 date with valid dashes string', () => {
+    const validDateStringDashes = '1212-12-12'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeUndefined()
+  })
+
+  it('get unreasonable 1200 date without valid dashes string', () => {
+    const validDateStringDashes = '12121212'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeUndefined()
   })
 
   it('gets correct period end date with one prior period', () => {
