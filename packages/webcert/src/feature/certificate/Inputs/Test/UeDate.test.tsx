@@ -8,7 +8,6 @@ import store from '../../../../store/store'
 import { fakeDateElement } from '@frontend/common'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
-
 const QUESTION_ID = 'datepicker'
 
 const question = fakeDateElement({ id: QUESTION_ID })[QUESTION_ID]
@@ -34,12 +33,6 @@ describe('DatePicker component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('renders component with correct default values', () => {
-    renderComponent(false)
-    const input = screen.getByRole('textbox')
-    expect(input).toHaveValue('')
-  })
-
   it('does not disable component if disabled is not set', () => {
     renderComponent(false)
     const input = screen.getByRole('textbox')
@@ -59,8 +52,8 @@ describe('DatePicker component', () => {
   it('formats input into yyyy-mm-dd', () => {
     renderComponent(false)
 
-    const inputDate = '20200202'
-    const expected = '2020-02-02'
+    const inputDate = '20220929'
+    const expected = '2022-09-29'
     const input = screen.getByRole('textbox')
 
     userEvent.type(input, inputDate)
@@ -70,6 +63,7 @@ describe('DatePicker component', () => {
   it('should display error when input is not a complete date', () => {
     renderComponent(false)
     const input = screen.getByRole('textbox')
+    userEvent.clear(input)
     userEvent.type(input, '2020-01')
     userEvent.tab()
     expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
@@ -78,6 +72,7 @@ describe('DatePicker component', () => {
   it('should display error when input is not a valid date', () => {
     renderComponent(false)
     const input = screen.getByRole('textbox')
+    userEvent.clear(input)
     userEvent.type(input, 'test')
     userEvent.tab()
     expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
@@ -89,5 +84,13 @@ describe('DatePicker component', () => {
     userEvent.type(input, '20200101')
     userEvent.tab()
     expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
+  })
+
+  it('renders component with correct default values', () => {
+    renderComponent(false)
+    const input = screen.getByRole('textbox')
+    const button = screen.getByRole('button')
+    expect(input).toHaveValue('2022-09-29')
+    expect(button).toHaveValue('2022-09-29')
   })
 })
