@@ -1,8 +1,10 @@
 import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 const ValidationWrapper = styled.div`
@@ -13,30 +15,37 @@ const ValidationWrapper = styled.div`
 `
 
 export interface Props {
-  hasValidationError?: boolean
+  // hasValidationError?: boolean
   disabled?: boolean
   question: CertificateDataElement
 }
 
-const UeUncertainDate: React.FC<Props> = (props) => {
-  const { question, hasValidationError, disabled } = props
+const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigureUeUncertainDate
   const dispatch = useAppDispatch()
-  const [selectedYear, setSelectedYear] = React.useState(getYear((question.value as ValueDate).date))
-  const [selectedMonth, setSelectedMonth] = React.useState(getMonth((question.value as ValueDate).date))
-  const [disabledMonth, setDisabledMonth] = React.useState(
-    disabled || getYear((question.value as ValueDate).date) === '0000' || getYear((question.value as ValueDate).date) === ''
-  )
+  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const [selectedYear, setSelectedYear] = useState(getYear(question))
+  const [selectedMonth, setSelectedMonth] = useState(getMonth(question))
+  const [disabledMonth, setDisabledMonth] = useState(disabled || getYear(question) === '0000' || getYear(question) === '')
 
   const years: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange år' }]
 
-  if (config.unknownYear) years.push({ id: '0000', label: '0000 (ej känt)' })
-  config.allowedYears.forEach((item) => {
-    years.push({ id: item, label: item })
-  })
+  if (config.unknownYear) {
+    years.push({ id: '0000', label: '0000 (ej känt)' })
+  }
+
+  if (config.allowedYears) {
+    config.allowedYears.forEach((item) => {
+      years.push({ id: item, label: item })
+    })
+  }
 
   const months: ConfigUeDropdownItem[] = [{ id: '', label: 'Ange månad' }]
-  if (config.unknownMonth) months.push({ id: '00', label: '00 (ej känt)' })
+
+  if (config.unknownMonth) {
+    months.push({ id: '00', label: '00 (ej känt)' })
+  }
+
   for (let i = 1; i <= 12; i++) {
     const strMonth = '0' + i.toString()
     const month = strMonth.substring(strMonth.length - 2)
@@ -99,16 +108,36 @@ const UeUncertainDate: React.FC<Props> = (props) => {
   )
 }
 
-const getYear = (date: string) => {
+const getYear = (question: CertificateDataElement) => {
   let year = ''
-  if (date && date.indexOf('-') === 4) year = date.split('-')[0]
+  const date: string = getDatelike(question)
+  if (date) {
+    year = date.split('-')[0]
+  }
+
   return year
 }
-const getMonth = (date: string) => {
-  if (date && date.indexOf('-') === 4 && getYear(date) !== '0000' && getYear(date) !== '') {
+
+const getMonth = (question: CertificateDataElement) => {
+  let month = ''
+  const date: string = getDatelike(question)
+
+  if (date && date.split('-')[0] !== '0000') {
     const monthPart: string = date.split('-')[1]
-    return monthPart && monthPart.length === 2 ? monthPart : ''
-  } else return ''
+    month = monthPart && monthPart.length === 2 ? monthPart : ''
+  }
+  return month
+}
+
+const getDatelike = (question: CertificateDataElement) => {
+  let datelike = ''
+  const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
+
+  if (question && (question.value as ValueDate)) {
+    const date: string = (question.value as ValueDate).date
+    datelike = _dateReg.test(date) ? date : ''
+  }
+  return datelike
 }
 
 const getUpdatedDateValue = (question: CertificateDataElement, id: string, year: string, month: string) => {
