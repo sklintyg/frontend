@@ -36,6 +36,12 @@ interface Props {
   excludePageSpecificElements?: boolean
 }
 
+/**
+ * Returns a complete page containing a list with filter options, sorting etc. Page components is based on provided configuration.
+ * @param type determine what icons should be displayed and how sub-components should behave.
+ * @param excludePageSpecificElements used to strip everything and only return the filter and list part of the page
+ * @constructor
+ */
 const ListPage: React.FC<Props> = ({ type, excludePageSpecificElements }) => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig, shallowEqual)

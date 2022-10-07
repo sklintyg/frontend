@@ -23,6 +23,16 @@ interface Props {
   type: ListType
 }
 
+/**
+ * Generates a table with filtering options and sorting.
+ * @param icon specify what icon to use other vice undefined.
+ * @param config for this and sub-components
+ * @param list a list of all values that rows that should be displayed
+ * @param filter all filter options that can be applied in the above list
+ * @param title titletext
+ * @param type what type of page this is on
+ * @constructor
+ */
 const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)

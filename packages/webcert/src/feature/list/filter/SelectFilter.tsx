@@ -13,6 +13,13 @@ interface Props {
   isHighlighted: boolean
 }
 
+/**
+ * Component for generating a generic dropdown field based on the provided configuration.
+ * @param config for this and sub-components
+ * @param onChange action to trigger
+ * @param isHighlighted
+ * @constructor
+ */
 const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueSelect
 
