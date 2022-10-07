@@ -12,18 +12,16 @@ const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 useSelectorSpy.mockReturnValue({})
 useDispatchSpy.mockReturnValue(jest.fn())
 
-const mockQuestion = {
-  type: fakeTextFieldElement({ id: '1' })['1'],
-}
+const mockQuestion = fakeTextFieldElement({ id: '1' })['1']
 
 it('renders component with correct default values', () => {
-  render(<UeTextField question={mockQuestion.type} disabled={false} />)
+  render(<UeTextField question={mockQuestion} disabled={false} />)
   const input = screen.getByRole('textbox')
-  expect(input).toHaveValue('Text')
+  expect(input).toHaveValue('')
 })
 
 it('renders a text which has correct value after typing in it', async () => {
-  render(<UeTextField question={mockQuestion.type} disabled={false} />)
+  render(<UeTextField question={mockQuestion} disabled={false} />)
   const inputString = 'Hello, World'
   const input = screen.getByRole('textbox')
   userEvent.clear(input)
@@ -32,7 +30,7 @@ it('renders a text which has correct value after typing in it', async () => {
 })
 
 it('disables component if disabled is set', () => {
-  render(<UeTextField question={mockQuestion.type} disabled={true} />)
+  render(<UeTextField question={mockQuestion} disabled={true} />)
   const input = screen.getByRole('textbox')
   expect(input).toBeDisabled()
 })
