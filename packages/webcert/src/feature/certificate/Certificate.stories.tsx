@@ -1,7 +1,7 @@
 import {
-  AutoFillValidationType,
   CertificateData,
   CertificateDataValidationType,
+  CertificateDataValueType,
   CertificateMetadata,
   ConfigTypes,
   fakeCategoryElement,
@@ -226,7 +226,7 @@ DB.args = {
             id: 'polisanmalan_auto_fill',
             type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
             fillValue: {
-              type: AutoFillValidationType.BOOLEAN,
+              type: CertificateDataValueType.BOOLEAN,
               selected: true,
               id: 'polisanmalan',
             },

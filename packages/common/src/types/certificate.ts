@@ -301,10 +301,6 @@ export enum CertificateDataValidationType {
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
 }
 
-export enum AutoFillValidationType {
-  BOOLEAN = 'BOOLEAN',
-}
-
 export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
@@ -316,7 +312,7 @@ export interface CertificateDataValidation {
 export interface AutoFillValidation extends CertificateDataValidation {
   id: string
   fillValue: {
-    type: AutoFillValidationType
+    type: CertificateDataValueType
     selected?: boolean
     id: string
   }

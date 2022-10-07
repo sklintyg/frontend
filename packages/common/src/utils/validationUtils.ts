@@ -2,7 +2,6 @@ import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
   AutoFillValidation,
-  AutoFillValidationType,
   Certificate,
   CertificateData,
   CertificateDataElement,
@@ -347,7 +346,7 @@ export function autoFillElement(validation: CertificateDataValidation, question:
   } = { ...validation } as AutoFillValidation
 
   switch (type) {
-    case AutoFillValidationType.BOOLEAN: {
+    case CertificateDataValueType.BOOLEAN: {
       const updatedValue = { ...question.value, selected } as ValueBoolean
       question.value = updatedValue
       break

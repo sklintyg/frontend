@@ -1,6 +1,5 @@
 import { addDays } from 'date-fns'
 import {
-  AutoFillValidationType,
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
@@ -1184,7 +1183,7 @@ describe('autoFillElement', () => {
       fakeCertificateDataValidation({
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         fillValue: {
-          type: AutoFillValidationType.BOOLEAN,
+          type: CertificateDataValueType.BOOLEAN,
           selected: false,
         },
       }),
@@ -1197,7 +1196,7 @@ describe('autoFillElement', () => {
       fakeCertificateDataValidation({
         type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
         fillValue: {
-          type: AutoFillValidationType.BOOLEAN,
+          type: CertificateDataValueType.BOOLEAN,
           selected: true,
         },
       }),
