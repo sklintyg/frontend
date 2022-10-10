@@ -256,7 +256,7 @@ export const fakeTextFieldElement = (
         type: ConfigTypes.UE_TEXTFIELD,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.TEXT, text: '', ...data?.value },
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', ...data?.value },
     },
     children
   )

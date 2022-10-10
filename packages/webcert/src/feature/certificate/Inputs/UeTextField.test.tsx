@@ -17,7 +17,7 @@ const mockQuestion = fakeTextFieldElement({ id: '1' })['1']
 it('renders component with correct default values', () => {
   render(<UeTextField question={mockQuestion} disabled={false} />)
   const input = screen.getByRole('textbox')
-  expect(input).toHaveValue('')
+  expect(input).toHaveValue('Text')
 })
 
 it('renders a text which has correct value after typing in it', async () => {
