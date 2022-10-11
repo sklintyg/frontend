@@ -210,6 +210,13 @@ describe('ErrorComponent', () => {
       expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.UNKNOWN_INTERNAL_PROBLEM)
       expect(history.location.pathname).toBe('/error')
     })
+    it('shall display ErrorCode.INVALID_LAUNCHID information', () => {
+      setErrorState(ErrorType.ROUTE, ErrorCode.INVALID_LAUNCHID)
+      renderComponent()
+
+      expect((history.location.state as ErrorRoute).errorCode).toBe(ErrorCode.INVALID_LAUNCHID)
+      expect(history.location.pathname).toBe('/error')
+    })
   })
 })
 

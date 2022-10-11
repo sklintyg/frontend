@@ -18,6 +18,7 @@ import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certific
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
+import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
@@ -27,6 +28,7 @@ import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
 import UeMessage from '../Inputs/UeMessage'
+import UeTextField from '../Inputs/UeTextField'
 
 export interface QuestionProps {
   id: string
@@ -133,6 +135,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeRadioGroupOptionalDropdown {...commonProps} />
       case ConfigTypes.UE_MESSAGE:
         return <UeMessage {...commonProps} />
+      case ConfigTypes.UE_TEXTFIELD:
+        return <UeTextField {...commonProps} />
+      case ConfigTypes.UE_DATE:
+        return <UeDate {...commonProps} />
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }

@@ -13,7 +13,11 @@ export const createSilentErrorRequestFromApiError = (apiError: ApiError, certifi
 
 export const createErrorRequestFromApiError = (apiError: ApiError, certificateId?: string): ErrorRequest => {
   const message = apiError.message + ' - ' + apiError.api
-  if (apiError.errorCode === ErrorCode.TIMEOUT || apiError.errorCode === ErrorCode.AUTHORIZATION_PROBLEM) {
+  if (
+    apiError.errorCode === ErrorCode.TIMEOUT ||
+    apiError.errorCode === ErrorCode.AUTHORIZATION_PROBLEM ||
+    apiError.errorCode === ErrorCode.INVALID_LAUNCHID
+  ) {
     return createErrorRequest(ErrorType.ROUTE, convert(apiError.errorCode), message, certificateId)
   } else {
     return createErrorRequest(ErrorType.MODAL, convert(apiError.errorCode), message, certificateId)
