@@ -181,7 +181,7 @@ describe('Test certificate middleware', () => {
       expect(fakeAxios.history.post[0].data).toEqual('{"metadata":{"id":"certificateId"},"links":[]}')
     })
 
-    it.only('Should call correct endpoint for DSS signin', async () => {
+    it('Should call correct endpoint for DSS signin', async () => {
       const certificate = getCertificate('certificateId')
       certificate.metadata.type = 'certificateType'
       certificate.metadata.version = 12345
@@ -196,7 +196,7 @@ describe('Test certificate middleware', () => {
       expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/SIGN_SERVICE')
     })
 
-    it.only('Should call correct endpoint for bankid signin', async () => {
+    it('Should call correct endpoint for bankid signin', async () => {
       const certificate = getCertificate('certificateId')
       certificate.metadata.type = 'certificateType'
       certificate.metadata.version = 12345
