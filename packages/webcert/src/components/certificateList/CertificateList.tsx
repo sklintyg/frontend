@@ -1,4 +1,4 @@
-import { ResourceLinkType } from '@frontend/common'
+import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import fileIcon from '@frontend/common/src/images/file.svg'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -62,8 +62,8 @@ const CertificateList: React.FC = () => {
     dispatch(setUserPreference({ key: 'wc.favoritIntyg', value: JSON.stringify(updatedFavorites) }))
   }
 
-  const handleCreateCertificate = (certificateType: string) => {
-    if (certificateType === 'db') {
+  const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
+    if (links.some((link) => link.type === ResourceLinkType.CREATE_DEATHCERTIFICATE_CONFIRMATION)) {
       setShowDeathCertificateModal(true)
     } else {
       if (patient) {
@@ -117,7 +117,13 @@ const CertificateList: React.FC = () => {
                   preferenceClick={handlePreferenceClick}
                   key={id}>
                   {createCertificateLink && (
-                    <CreateCertificateButton id={id} onClick={handleCreateCertificate} {...createCertificateLink} />
+                    <CreateCertificateButton
+                      id={id}
+                      onClick={(certificateType: string) => {
+                        handleCreateCertificate(certificateType, links)
+                      }}
+                      {...createCertificateLink}
+                    />
                   )}
                 </CertificateListRow>
               )
