@@ -15,7 +15,8 @@ import {
   ValidationError,
   ValueBoolean,
   ValueCode,
-  ValueCodeList, ValueDate,
+  ValueCodeList,
+  ValueDate,
   ValueDateList,
   ValueDateRangeList,
   ValueIcf,
@@ -1196,8 +1197,25 @@ describe('Validate expressions based on DateValue', () => {
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(false)
   })
-})
 
+  it('should return true if EpochDay is within 28 days', () => {
+    const result = parseExpression('$dodsdatum.toEpochDays > -20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('should return false if EpochDay is not within 28 days', () => {
+    const result = parseExpression('$dodsdatum.toEpochDays > 20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if EpochDay is smaller than dodsdatum', () => {
+    const result = parseExpression('$dodsdatum.toEpochDays < -20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return true if EpochDay is bigger 28 days', () => {
+    const result = parseExpression('$dodsdatum.toEpochDays < 20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
 const getValidationError = (type: string): ValidationError => {
   return {
     id: 'id',
