@@ -21,7 +21,7 @@ import {
   ValidationErrorSummary,
   ValueBoolean,
   ValueCode,
-  ValueCodeList,
+  ValueCodeList, ValueDate,
   ValueDateList,
   ValueDateRangeList,
   ValueDiagnosisList,
@@ -82,6 +82,18 @@ export const parseExpression = (
           const toDate = getValidDate(dateRange.to)
           return isValid(fromDate) && isValid(toDate) ? 1 : 0
         }
+      }
+      case CertificateDataValueType.DATE: {
+        const date = element.value as ValueDate
+        if (adjustedId.includes('toEpochDays')) {
+          const dateObj = getValidDate(date.date)
+          if (dateObj) {
+            return Math.floor(dateObj.getTime() / 8.64e7)
+          } else {
+            return 0
+          }
+        }
+        return date.date ? 1 : 0
       }
       case CertificateDataValueType.DATE_LIST: {
         const valueDateList = element.value as ValueDateList
