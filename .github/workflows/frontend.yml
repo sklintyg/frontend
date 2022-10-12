@@ -46,7 +46,7 @@ jobs:
           node-version: '12.x'
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - run: yarn workspace @frontend/${{ matrix.name }} tsc --noEmit
+      - run: yarn workspace ${{ matrix.name }} tsc --noEmit
   jest:
     name: runner / jest
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
           node-version: '12.x'
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - run: yarn workspace @frontend/${{ matrix.name }} test:ci
+      - run: yarn workspace ${{ matrix.name }} test:ci
   coverage:
     name: runner / coverage
     runs-on: ubuntu-latest
