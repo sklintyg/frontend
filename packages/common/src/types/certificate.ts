@@ -39,10 +39,7 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
 }
-
-export interface CertificateData {
-  [propName: string]: CertificateDataElement
-}
+export type CertificateData = Record<string, CertificateDataElement>
 
 export interface CertificateDataElement {
   id: string
@@ -74,6 +71,7 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
+  UE_DATE = 'UE_DATE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
@@ -83,6 +81,16 @@ export enum ConfigTypes {
   UE_SICK_LEAVE_PERIOD = 'UE_SICK_LEAVE_PERIOD',
   UE_TEXTAREA = 'UE_TEXTAREA',
   UE_ICF = 'UE_ICF',
+  UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
+  UE_TEXTFIELD = 'UE_TEXTFIELD',
+  UE_TYPEAHEAD = 'UE_TYPEAHEAD',
+  UE_MESSAGE = 'UE_MESSAGE',
+}
+
+export enum MessageLevel {
+  INFO = 'INFO',
+  OBSERVE = 'OBSERVE',
+  ERROR = 'ERROR',
 }
 
 export interface CertificateDataConfig {
@@ -101,6 +109,10 @@ export interface ConfigUeTextArea extends CertificateDataConfig {
   id: string
 }
 
+export interface ConfigUeTextField extends CertificateDataConfig {
+  id: string
+}
+
 export interface ConfigUeRadioBoolean extends CertificateDataConfig {
   id: string
   selectedText: string
@@ -112,6 +124,12 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
   label: string
   selectedText: string
   unselectedText: string
+}
+
+export interface ConfigUeMessage extends CertificateDataConfig {
+  id: string
+  level: MessageLevel
+  message: string
 }
 
 export interface CheckboxCode {
@@ -185,6 +203,10 @@ export interface ConfigUeDropdownItem {
 
 export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
+}
+
+export interface ConfigUeDate extends CertificateDataConfig {
+  id: string
 }
 
 export interface ConfigUeIcf extends CertificateDataConfig {

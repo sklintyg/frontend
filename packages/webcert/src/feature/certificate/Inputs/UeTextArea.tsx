@@ -1,7 +1,3 @@
-import * as React from 'react'
-import { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import _ from 'lodash'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
@@ -12,10 +8,14 @@ import {
   TextValidation,
   ValueText,
 } from '@frontend/common'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import _ from 'lodash'
+import * as React from 'react'
+import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 
-interface Props {
+export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }

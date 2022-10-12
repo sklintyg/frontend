@@ -12,6 +12,7 @@
 - Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
 - Install [Node v14](https://nodejs.org/en/download/releases/) (via [nvm](https://github.com/nvm-sh/nvm) as a suggestion)
   - Node v14 is needed as it's the version that supports `node-sass` v4, using a newer version will generate error relating to missing python package when running `npm install`
+- Make sure you have the VPN client Cisco AnyConnect installed
 
 ## Setup
 
@@ -22,6 +23,7 @@
     - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
     - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
   - VS Code
+    - Install plugin `ESLint`
     - Install plugin `vscode-styled-components`
     - Install plugin `Prettier - Code formatter`
     - Enable auto format on save
@@ -31,6 +33,13 @@
         {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.formatOnSave": true
+        }
+        ```
+      - Add the following properties (_optional_)
+        ```json
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true,
+          "source.fixAll": true
         }
         ```
 
@@ -81,7 +90,7 @@ To create a frontend-pipeline using the template, you make sure to first login t
 
 Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common.
 
-- Start storybook: `yarn workspace @frontend/common storybook`
+- Start storybook: `yarn storybook`
 
 ## Running tests
 

@@ -12,6 +12,7 @@ export interface User {
   loginMethod: LoginMethod
   protectedPerson: boolean
   careProviders: CareProvider[]
+  launchId?: string
 }
 
 export enum SigningMethod {
