@@ -13,16 +13,17 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import { ListType } from '@frontend/common/src/types/list'
 import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
 import { StartPageWithRedirect } from './page/StartPage'
-import { ListPageWithRedirect } from './page/ListPage'
 import { Backdrop } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
 import CareProviderModal from './feature/careProvider/CareProviderModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
 import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
+import CertificateDraftsPage from './page/CertificateDraftsPage'
+import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
+import SignedCertificatesPage from './page/SignedCertificatesPage'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -64,9 +65,9 @@ function App(): JSX.Element {
             <Route path="/welcome" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
             <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
-            <Route path="/list/draft" render={() => <ListPageWithRedirect type={ListType.DRAFTS} />} />
-            <Route path="/list/certificate" render={() => <ListPageWithRedirect type={ListType.CERTIFICATES} />} />
-            <Route path="/list/question" render={() => <ListPageWithRedirect type={ListType.QUESTIONS} />} />
+            <Route path="/list/draft" render={() => <CertificateDraftsPage />} />
+            <Route path="/list/certificate" render={() => <SignedCertificatesPage />} />
+            <Route path="/list/unhandledcertificates" render={() => <UnhandledCertificatesPage />} />
           </Switch>
         </ErrorBoundary>
       </BrowserRouter>
