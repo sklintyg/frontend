@@ -109,6 +109,10 @@ export interface ConfigUeTextArea extends CertificateDataConfig {
   id: string
 }
 
+export interface ConfigUeTextField extends CertificateDataConfig {
+  id: string
+}
+
 export interface ConfigUeRadioBoolean extends CertificateDataConfig {
   id: string
   selectedText: string
