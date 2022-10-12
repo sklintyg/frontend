@@ -62,21 +62,28 @@ jobs:
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - run: yarn workspace ${{ matrix.name }} test:ci
-  coverage:
-    name: runner / coverage
-    runs-on: ubuntu-latest
-    needs: [jest, get-changed-workspaces]
-    strategy:
-      matrix:
-        name: ${{ fromJson(needs.get-changed-workspaces.outputs.names) }}
-        path: ${{ fromJson(needs.get-changed-workspaces.outputs.paths) }}
-    steps:
-      - uses: actions/checkout@v3
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
         with:
           output: report-markdown
-          coverage-file: ${{ matrix.path }}/coverage/coverage-final.json
+          coverage-file: ./pacakges/${{ matrix.name }}/coverage/coverage-final.json
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: ${{ steps.coverage.outputs.report }}
+  # coverage:
+  #   name: runner / coverage
+  #   runs-on: ubuntu-latest
+  #   needs: [jest, get-changed-workspaces]
+  #   strategy:
+  #     matrix:
+  #       path: ${{ fromJson(needs.get-changed-workspaces.outputs.paths) }}
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: ArtiomTr/jest-coverage-report-action@v2
+  #       id: coverage
+  #       with:
+  #         output: report-markdown
+  #         coverage-file: ${{ matrix.path }}/coverage/coverage-final.json
+  #     - uses: marocchino/sticky-pull-request-comment@v2
+  #       with:
+  #         message: ${{ steps.coverage.outputs.report }}
