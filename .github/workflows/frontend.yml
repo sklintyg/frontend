@@ -67,14 +67,15 @@ jobs:
         run: yarn install --frozen-lockfile
       - id: packageInfo
         run: |
-          info=$(yarn workspaces info | jq '.${{ matrix.name }}')
+          info=$(yarn --json workspaces info | jq '.data')
+          info=$(node -e "console.log(JSON.stringify(JSON.parse($info)['${{ matrix.name }}']))")
           echo "::set-output name=info::$info"
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
         with:
           skip-step: install
           output: report-markdown
-          working-directory: ${{ fromJson(steps.packageInfo.outputs.info) }}
+          working-directory: ${{ fromJson(steps.packageInfo.outputs.info.location) }}
           test-script: yarn workspace ${{ matrix.name }} test:gh
           package-manager: yarn
       - uses: marocchino/sticky-pull-request-comment@v2
