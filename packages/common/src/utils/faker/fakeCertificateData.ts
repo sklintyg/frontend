@@ -13,7 +13,7 @@ import {
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
- ConfigureUeUncertainDate,
+  ConfigureUeUncertainDate,
   ConfigUeTextField,
   ValueBoolean,
   ValueCode,
@@ -23,7 +23,6 @@ import {
   ValueDiagnosis,
   ValueIcf,
   ValueText,
-  ValueDate,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -307,7 +306,7 @@ export const fakeUncertainDateElement = (
     },
     children
   )
-  
+
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
   children?: CertificateData[]
