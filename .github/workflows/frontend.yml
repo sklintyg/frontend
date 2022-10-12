@@ -56,17 +56,13 @@ jobs:
         name: ${{ fromJson(needs.get-changed-workspaces.outputs.names) }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12.x'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn workspace ${{ matrix.name }} test:ci
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
         with:
           output: report-markdown
-          coverage-file: ./pacakges/${{ matrix.name }}/coverage/coverage-final.json
+          working-directory: ./packages/${{ matrix.name }}
+          test-script: yarn workspace ${{ matrix.name }} test:gh
+          package-manager: yarn
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: ${{ steps.coverage.outputs.report }}

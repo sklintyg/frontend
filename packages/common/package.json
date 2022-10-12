@@ -24,6 +24,7 @@
   "scripts": {
     "test": "jest",
     "test:ci": "set CI=true&&jest --ci --coverage --reporters=default --reporters=jest-junit",
+    "test:gh": "set CI=true&&react-app-rewired test --ci --json --coverage --testLocationInResults --outputFile=report.json",
     "test:staged": "jest --bail --findRelatedTests",
     "typescript": "tsc"
   },
