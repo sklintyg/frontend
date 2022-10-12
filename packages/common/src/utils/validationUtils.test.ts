@@ -1211,7 +1211,7 @@ describe('Validate expressions based on DateValue', () => {
     const result = parseExpression('$dodsdatum.toEpochDays < -20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(false)
   })
-  it('should return true if EpochDay is bigger 28 days', () => {
+  it('should return true if EpochDay is bigger than dodsdatum', () => {
     const result = parseExpression('$dodsdatum.toEpochDays < 20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
