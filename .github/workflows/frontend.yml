@@ -69,7 +69,7 @@ jobs:
         id: packageInfo
         run: |
           info=$(yarn --json workspaces info | jq '.data')
-          location=$(node -e "console.log(JSON.parse($data)['${{ matrix.name }}'].location)")
+          location=$(node -e "console.log(JSON.parse($info)['${{ matrix.name }}'].location)")
           echo ::set-output name=location::$location
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
