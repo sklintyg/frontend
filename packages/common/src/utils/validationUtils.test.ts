@@ -32,7 +32,7 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { getBooleanElement, getCertificate, getTextElement } from './test/certificateTestUtil'
+import { getBooleanElement, getCertificate, getTextElement, getDateElement } from './test/certificateTestUtil'
 import { addDays } from 'date-fns'
 
 describe('Validate mandatory rule for boolean values', () => {
@@ -1180,6 +1180,14 @@ describe('isShowAlways', () => {
   it('should return false if validation error is of other type than other or invalid format', () => {
     const result = isShowAlways(getValidationError('TEST'))
     expect(result).toBeFalsy()
+  })
+})
+
+describe('Validate dodsdatum expressions', () => {
+  const element = getDateElement()
+  it('should contain disable validation', () => {
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBeTruthy()
   })
 })
 

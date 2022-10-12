@@ -47,6 +47,42 @@ export const getBooleanElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
+export const getDateElement = (): CertificateDataElement => {
+  return {
+    id: '1.1',
+    parent: 'funktionsnedsattning',
+    index: 1,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
+      description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
+      type: ConfigTypes.UE_RADIO_BOOLEAN,
+      id: 'harFunktionsnedsattning',
+      selectedText: 'Ja',
+      unselectedText: 'Nej',
+    },
+    value: {
+      type: CertificateDataValueType.DATE,
+      id: 'dodsdatum',
+      selected: null,
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+      },
+    ],
+    validationErrors: [],
+  }
+}
 
 export const getTextElement = (): CertificateDataElement => {
   return {
