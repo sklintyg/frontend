@@ -2,19 +2,23 @@ import { CertificateData, CertificateDataElement, CertificateDataValueType, Conf
 import faker from 'faker'
 import { Merge, PartialDeep } from 'type-fest'
 import {
+  CertificateDataValidationType,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDate,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
-  ConfigureUeUncertainDate,
+ ConfigureUeUncertainDate,
+  ConfigUeTextField,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDate,
   ValueDateList,
   ValueDiagnosis,
   ValueIcf,
@@ -246,6 +250,22 @@ export const fakeTextAreaElement = (
     children
   )
 
+export const fakeTextFieldElement = (
+  data?: PartialCertificateDataElement<ConfigUeTextField, ValueText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_TEXTFIELD,
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', ...data?.value },
+    },
+    children
+  )
+
 export const fakeDropdownElement = (
   data?: PartialCertificateDataElement<ConfigUeDropdown, ValueCode>,
   children?: CertificateData[]
@@ -284,6 +304,30 @@ export const fakeUncertainDateElement = (
         date: '0000-00-00',
         ...data?.value,
       },
+    },
+    children
+  )
+  
+export const fakeDateElement = (
+  data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_DATE,
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `$${data.id.toUpperCase()}` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
     },
     children
   )
