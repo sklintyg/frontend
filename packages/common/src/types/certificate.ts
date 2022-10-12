@@ -231,6 +231,7 @@ export enum CertificateDataValueType {
   ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
+  UNCERTAIN_DATE = 'UNCERTAIN_DATE',
 }
 
 export interface Value {
@@ -286,6 +287,11 @@ export interface ValueCodeList extends Value {
 export interface ValueText extends Value {
   id: string
   text: string | null
+}
+
+export interface ValueUncertainDate extends Value {
+  id: string
+  value: string | null
 }
 
 export interface ValueIcf extends Value {

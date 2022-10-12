@@ -27,6 +27,8 @@ import {
   ConfigTypes,
   ConfigUeCheckboxBoolean,
   ConfigUeRadioMultipleCodesOptionalDropdown,
+  ValueDate,
+  ValueUncertainDate,
 } from '../../types/certificate'
 import Badge from './Badge'
 
@@ -183,7 +185,7 @@ const UvText: React.FC<Props> = ({ question }) => {
       return null
     }
 
-    let displayText = 'Ej angivet'
+    let displayText
 
     switch (question.value.type) {
       case CertificateDataValueType.BOOLEAN: {
@@ -255,6 +257,20 @@ const UvText: React.FC<Props> = ({ question }) => {
 
         if ((icfCodes && icfCodes.length) || (icfTextValue && icfTextValue.length)) {
           return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
+        }
+        break
+      }
+      case CertificateDataValueType.DATE: {
+        const textValueDate = question.value as ValueDate
+        if (textValueDate.date != null && textValueDate.date.length > 0) {
+          displayText = textValueDate.date
+        }
+        break
+      }
+      case CertificateDataValueType.UNCERTAIN_DATE: {
+        const textValueUncertainDate = question.value as ValueUncertainDate
+        if (textValueUncertainDate.value != null && textValueUncertainDate.value.length > 0) {
+          displayText = textValueUncertainDate.value
         }
         break
       }
