@@ -237,6 +237,7 @@ export enum CertificateDataValueType {
   ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
+  HEADER = 'HEADER',
 }
 
 export interface Value {
@@ -298,6 +299,10 @@ export interface ValueIcf extends Value {
   id: string
   icfCodes?: string[]
   text: string | null
+}
+
+export interface ValueHeader extends Value {
+  id: string
 }
 
 // Validation
