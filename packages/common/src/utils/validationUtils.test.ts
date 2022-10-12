@@ -15,7 +15,7 @@ import {
   ValidationError,
   ValueBoolean,
   ValueCode,
-  ValueCodeList,
+  ValueCodeList, ValueDate,
   ValueDateList,
   ValueDateRangeList,
   ValueIcf,
@@ -1183,11 +1183,18 @@ describe('isShowAlways', () => {
   })
 })
 
-describe('Validate dodsdatum expressions', () => {
+describe('Validate expressions based on DateValue', () => {
   const element = getDateElement()
-  it('should contain disable validation', () => {
+
+  it('should return true if date has a value', () => {
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
-    expect(result).toBeTruthy()
+    expect(result).toBe(true)
+  })
+
+  it('should return false if date is missing a value', () => {
+    ;(element.value as ValueDate).date = null
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 

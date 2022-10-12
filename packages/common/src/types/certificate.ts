@@ -252,7 +252,7 @@ export interface ValueCode extends Value {
 
 export interface ValueDate extends Value {
   id: string
-  date: string
+  date: string | null
 }
 
 export interface ValueDateList extends Value {

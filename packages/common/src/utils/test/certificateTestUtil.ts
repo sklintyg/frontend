@@ -6,7 +6,7 @@ import {
   CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
-  ConfigTypes,
+  ConfigTypes, ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
@@ -58,28 +58,15 @@ export const getDateElement = (): CertificateDataElement => {
     config: {
       text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      type: ConfigTypes.UE_RADIO_BOOLEAN,
-      id: 'harFunktionsnedsattning',
-      selectedText: 'Ja',
-      unselectedText: 'Nej',
+      type: ConfigTypes.UE_DATE,
+      id: 'dodsdatum',
     },
     value: {
       type: CertificateDataValueType.DATE,
       id: 'dodsdatum',
-      selected: null,
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
-      },
-      {
-        type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-        questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
-      },
-    ],
+      date: '2022-10-01',
+    } as ValueDate,
+    validation: [],
     validationErrors: [],
   }
 }
@@ -295,13 +282,13 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         expression: '$avstangningSmittskydd',
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$NUVARANDE_ARBETE',
         id: ['ARBETSSOKANDE'],
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$ARBETSSOKANDE',
         id: ['NUVARANDE_ARBETE'],
