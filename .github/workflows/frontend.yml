@@ -69,7 +69,7 @@ jobs:
         run: |
           info=$(yarn --json workspaces info | jq '.data')
           info=$(node -e "console.log(JSON.stringify(JSON.parse($info)['${{ matrix.name }}']))")
-          echo "::set-output name=info::$info"
+          echo ::set-output name=info::$info
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
         with:
