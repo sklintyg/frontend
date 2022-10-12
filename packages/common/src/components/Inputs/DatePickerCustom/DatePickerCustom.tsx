@@ -131,7 +131,7 @@ const DatePickerCustom: React.FC<Props> = ({
     if (displayFormattingError || displayUnreasonableDateError) {
       updateFormattingValidation(inputString)
     }
-  }, [inputString, displayFormattingError, displayUnreasonableDateError, updateFormattingValidation])
+  }, [inputString, displayFormattingError])
 
   if (inputString) {
     date = getValidDateForPicker(inputString)
@@ -157,7 +157,7 @@ const DatePickerCustom: React.FC<Props> = ({
     textInputOnBlur?.(event)
   }
 
-  const updateFormattingValidation = useCallback((value: string | null) => {
+  const updateFormattingValidation = (value: string | null) => {
     setDisplayUnreasonableDateError(false)
     if (isValueFormatIncorrect(value)) {
       setDisplayFormattingError(true)
@@ -165,7 +165,7 @@ const DatePickerCustom: React.FC<Props> = ({
       setDisplayFormattingError(false)
       updateUnreasonableValidation(value)
     }
-  })
+  }
   const updateUnreasonableValidation = (value: string | null) => {
     if (isValueUnreasonable(value)) {
       setDisplayUnreasonableDateError(true)
