@@ -51,7 +51,7 @@ jobs:
   jest:
     name: runner / jest
     runs-on: ubuntu-latest
-    if: ${{ !fromJson(needs.generate_matrix.outputs.empty) }}
+    # if: ${{ !fromJson(needs.generate_matrix.outputs.empty) }}
     needs: [get-changed-workspaces]
     strategy:
       matrix:
