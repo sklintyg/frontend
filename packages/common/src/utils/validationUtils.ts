@@ -366,6 +366,8 @@ function validate(data: CertificateData, id: string) {
         data[id].style = CertificateDataElementStyleEnum.NORMAL
       }
     } else if (validationResult.type === CertificateDataValidationType.DISABLE_VALIDATION) {
+      data[id].disabled = validationResult.result
+    } else if (validationResult.type === CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION) {
       setDisableForChildElement(data, validationResult)
     }
   })

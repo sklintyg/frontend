@@ -748,6 +748,14 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         break
 
       case CertificateDataValidationType.DISABLE_VALIDATION:
+        if (result.result) {
+          dispatch(disableCertificateDataElement(result.id))
+        } else {
+          dispatch(enableCertificateDataElement(result.id))
+        }
+        break
+
+      case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
         dispatch(setDisabledCertificateDataChild(result))
         break
 
