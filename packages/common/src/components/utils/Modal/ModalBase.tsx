@@ -59,7 +59,9 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
               <h3 id="dialog-title">{title}</h3>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">{content}</ModalContentWrapper>
-            <div className="ic-button-group ic-button-group--right">{buttons}</div>
+            <div data-testid="modal-buttons" className="ic-button-group ic-button-group--right">
+              {buttons}
+            </div>
           </WrapText>
         </div>
       </div>
