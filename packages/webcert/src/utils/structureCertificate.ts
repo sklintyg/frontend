@@ -11,6 +11,7 @@ export const structureCertificate = (certificate?: Certificate): CertificateStru
   const elements = Object.values(certificate.data)
 
   return elements
+    .sort(sortByIndex)
     .reduce((structure: CertificateStructure[], element: CertificateDataElement) => {
       if (structure.some(hasSubQuestionId(element.id))) {
         return structure
