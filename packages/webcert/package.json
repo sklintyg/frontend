@@ -16,7 +16,6 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "test:ci": "set CI=true&&react-app-rewired test --ci --coverage --reporters=default --reporters=jest-junit --coverageReporters=cobertura",
-    "test:gh": "set CI=true&&react-app-rewired test --ci --json --coverage --testLocationInResults --outputFile=report.json",
     "test:staged": "react-app-rewired test --bail --findRelatedTests",
     "eject": "react-scripts eject",
     "typescript": "tsc"

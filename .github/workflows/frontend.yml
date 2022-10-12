@@ -77,7 +77,7 @@ jobs:
           skip-step: install
           output: report-markdown
           working-directory: ${{ steps.packageInfo.outputs.location }}
-          test-script: yarn workspace ${{ matrix.name }} test:gh
+          test-script: yarn workspace ${{ matrix.name }} test
           package-manager: yarn
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
