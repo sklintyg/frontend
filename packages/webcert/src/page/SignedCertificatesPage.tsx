@@ -23,8 +23,7 @@ import { updateShouldRouteAfterDelete } from '../store/certificate/certificateAc
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 
 /**
- * Page for signed certificates containing a list with filter options, sorting etc..
- * @constructor
+ * Page for signed certificates containing a list with filter options, sorting etc.
  */
 const SignedCertificatesPage: React.FC = () => {
   const dispatch = useDispatch()

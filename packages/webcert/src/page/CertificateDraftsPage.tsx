@@ -17,7 +17,6 @@ import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
 
 /**
  * Page for certificate drafts containing a list with filter options, sorting etc..
- * @constructor
  */
 const CertificateDraftPage: React.FC = () => {
   const dispatch = useDispatch()

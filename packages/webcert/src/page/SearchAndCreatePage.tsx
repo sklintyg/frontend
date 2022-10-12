@@ -26,7 +26,6 @@ interface Params {
 
 /**
  * Certificate page for a specific patient.
- * @constructor
  */
 const SearchAndCreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()

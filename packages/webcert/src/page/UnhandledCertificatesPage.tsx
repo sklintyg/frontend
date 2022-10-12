@@ -16,8 +16,7 @@ import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certific
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 
 /**
- * Page for unhandled certificates containing a list with filter options, sorting etc..
- * @constructor
+ * Page for unhandled certificates containing a list with filter options, sorting etc.
  */
 const UnhandledCertificatsPage: React.FC = () => {
   const dispatch = useDispatch()
