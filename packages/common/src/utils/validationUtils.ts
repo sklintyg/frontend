@@ -89,7 +89,7 @@ export const parseExpression = (
         if (adjustedId.includes('toEpochDays')) {
           const dateObj = getValidDate(date.date)
           if (dateObj) {
-            return Math.floor(dateObj.getTime() / 8.64e7)
+            return epochDaysAdjustedToTimezone(dateObj)
           } else {
             return 0
           }

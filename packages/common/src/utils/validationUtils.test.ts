@@ -35,6 +35,7 @@ import {
 } from './validationUtils'
 import { getBooleanElement, getCertificate, getTextElement, getDateElement } from './test/certificateTestUtil'
 import { addDays } from 'date-fns'
+import {getValidDate} from "@frontend/common";
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -1188,6 +1189,7 @@ describe('Validate expressions based on DateValue', () => {
   const element = getDateElement()
 
   it('should return true if date has a value', () => {
+    ;(element.value as ValueDate).date = '2022-01-01'
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
@@ -1199,23 +1201,18 @@ describe('Validate expressions based on DateValue', () => {
   })
 
   it('should return true if EpochDay is within 28 days', () => {
-    const result = parseExpression('$dodsdatum.toEpochDays > -20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    ;(element.value as ValueDate).date = '2022-01-01' // 18993
+    const result = parseExpression('$dodsdatum.toEpochDays <= 19013', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
 
   it('should return false if EpochDay is not within 28 days', () => {
-    const result = parseExpression('$dodsdatum.toEpochDays > 20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    ;(element.value as ValueDate).date = '2022-01-01' // 18993
+    const result = parseExpression('$dodsdatum.toEpochDays <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(false)
-  })
-  it('should return false if EpochDay is smaller than dodsdatum', () => {
-    const result = parseExpression('$dodsdatum.toEpochDays < -20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
-    expect(result).toBe(false)
-  })
-  it('should return true if EpochDay is bigger than dodsdatum', () => {
-    const result = parseExpression('$dodsdatum.toEpochDays < 20811', element, CertificateDataValidationType.DISABLE_VALIDATION)
-    expect(result).toBe(true)
   })
 })
+
 const getValidationError = (type: string): ValidationError => {
   return {
     id: 'id',
