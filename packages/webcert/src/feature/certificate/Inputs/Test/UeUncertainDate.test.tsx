@@ -53,7 +53,6 @@ describe('Uncertain Date', () => {
 
   it('renders control and all options', () => {
     renderComponent()
-    //expect(screen.queryByText(LABEL)).toBeInTheDocument()
     const yearDropdown = screen.getByLabelText('År')
     expect(yearDropdown).not.toBeDisabled()
     expect(yearDropdown).toBeInTheDocument()
