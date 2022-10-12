@@ -1,4 +1,4 @@
-import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
+import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueUncertainDate } from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -15,7 +15,6 @@ const ValidationWrapper = styled.div`
 `
 
 export interface Props {
-  // hasValidationError?: boolean
   disabled?: boolean
   question: CertificateDataElement
 }
@@ -111,10 +110,10 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 const getYear = (question: CertificateDataElement) => {
   let year = ''
   const date: string = getDatelike(question)
+
   if (date) {
     year = date.split('-')[0]
   }
-
   return year
 }
 
@@ -133,8 +132,8 @@ const getDatelike = (question: CertificateDataElement) => {
   let datelike = ''
   const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
 
-  if (question && (question.value as ValueDate)) {
-    const date: string = (question.value as ValueDate).date
+  if (question && (question.value as ValueUncertainDate)) {
+    const date: string = (question.value as ValueUncertainDate).date
     datelike = _dateReg.test(date) ? date : ''
   }
   return datelike
@@ -143,7 +142,7 @@ const getDatelike = (question: CertificateDataElement) => {
 const getUpdatedDateValue = (question: CertificateDataElement, id: string, year: string, month: string) => {
   const updatedQuestion: CertificateDataElement = { ...question }
 
-  const updatedValue = { ...(updatedQuestion.value as ValueDate) }
+  const updatedValue = { ...(updatedQuestion.value as ValueUncertainDate) }
 
   updatedValue.id = id
   updatedValue.date = `${year}-${month}-00`
