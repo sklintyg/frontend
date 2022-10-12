@@ -20,6 +20,7 @@ interface CertificateTypeViewModel {
   issuerTypeId: string
   favorite: boolean
   link?: ResourceLink
+  message?: string
 }
 
 const byFavorite = (a: CertificateTypeViewModel, b: CertificateTypeViewModel): number => {
@@ -102,6 +103,7 @@ const CertificateList: React.FC = () => {
         issuerTypeId: t.issuerTypeId,
         favorite: favorites.includes(t.id),
         link: t.links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
+        message: t.message,
       }))
       .sort(byFavorite)
 
