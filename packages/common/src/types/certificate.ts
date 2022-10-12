@@ -85,6 +85,7 @@ export enum ConfigTypes {
   UE_TEXTFIELD = 'UE_TEXTFIELD',
   UE_TYPEAHEAD = 'UE_TYPEAHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
+  UE_HEADER = 'UE_HEADER',
 }
 
 export enum MessageLevel {
@@ -215,6 +216,11 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   modalLabel: string
   collectionsLabel: string
   placeholder: string
+}
+
+export interface ConfigUeHeader {
+  id: string
+  label: string
 }
 
 // Values

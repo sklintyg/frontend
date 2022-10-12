@@ -139,6 +139,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeTextField {...commonProps} />
       case ConfigTypes.UE_DATE:
         return <UeDate {...commonProps} />
+      case ConfigTypes.UE_HEADER:
+        return
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
