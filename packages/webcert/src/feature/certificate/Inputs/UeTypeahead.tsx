@@ -45,12 +45,11 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     list-style-type: none;
     text-align: left;
     position: absolute;
-    margin: 43px 0 0 17px;
     grid-column: span 6;
     padding: 5px 0;
     border-top: 1px solid gray;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
-    left: 0;
+    left: 16px;
     right: 0;
     z-index: 100000;
     background-color: white;
@@ -59,7 +58,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     flex: 1;
     grid-area: ul;
     display: ${open ? 'block' : 'none'};
-    width: 494px;
+    width: 48%;
   `
 
   const SuggestionsListItem = styled.li`
@@ -147,8 +146,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const wholeRowGrid = css`
     position: relative;
-    grid-column-end: diagnosis;
-    grid-column-start: code;
   `
 
   const getItemClassName = (item: string, index: number) => {
@@ -201,17 +198,18 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <div className="iu-pt-200 iu-grid-cols iu-grid-cols-12">
-      <TextInput
-        className="iu-grid-span-6"
-        disabled={disabled}
-        hasValidationError={questionHasValidationError}
-        onChange={handleChange}
-        value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 100}
-      />
-      <div css={wholeRowGrid}>{open ? renderSuggestions() : ''}</div>
+      <div className="iu-grid-span-6">
+        <TextInput
+          disabled={disabled}
+          hasValidationError={questionHasValidationError}
+          onChange={handleChange}
+          value={text === null ? '' : text}
+          limit={textValidation ? textValidation.limit : 100}
+        />
+        <div css={wholeRowGrid}>{open ? renderSuggestions() : ''}</div>
 
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      </div>
     </div>
   )
 }
