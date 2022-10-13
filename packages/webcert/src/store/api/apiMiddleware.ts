@@ -28,6 +28,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
       method,
       data,
       withCredentials: true,
+      headers: getHeaders(),
     })
 
     dispatch(apiCallSuccess(response.data))
@@ -55,6 +56,13 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
       dispatch({ type: functionDisablerType, payload: functionDisabler })
     }
   }
+}
+
+function getHeaders() {
+  if (sessionStorage.getItem('launchId')) {
+    return { launchId: sessionStorage.getItem('launchId') }
+  }
+  return {}
 }
 
 const handleApiGenericError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
