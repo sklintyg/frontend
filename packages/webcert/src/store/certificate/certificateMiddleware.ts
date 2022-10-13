@@ -22,6 +22,7 @@ import {
   autoSaveCertificateStarted,
   autoSaveCertificateSuccess,
   certificateApiGenericError,
+  clearCertificateDataElementValue,
   complementCertificate,
   complementCertificateStarted,
   complementCertificateSuccess,
@@ -744,6 +745,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(showCertificateDataElement(result.id))
         } else {
           dispatch(hideCertificateDataElement(result.id))
+          dispatch(clearCertificateDataElementValue(result.id))
         }
         break
 

@@ -138,6 +138,7 @@ const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data 
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
 const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
+const CLEAR_CERTIFICATE_DATA_ELEMENT_VALUE = `${CERTIFICATE} Clear certificate data element value`
 const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
 const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
 
@@ -507,6 +508,8 @@ export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DA
 export const printCertificate = createAction<CertificateMetadata & { iframe: HTMLIFrameElement }>(PRINT_CERTIFICATE)
 
 export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
+
+export const clearCertificateDataElementValue = createAction<string>(CLEAR_CERTIFICATE_DATA_ELEMENT_VALUE)
 
 export interface GotoCertificateDataElement {
   questionId: string

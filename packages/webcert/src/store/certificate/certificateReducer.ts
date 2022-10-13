@@ -9,12 +9,14 @@ import {
   ValidationError,
   ValueBoolean,
   ValueCode,
+  ValueDate,
   ValueText,
 } from '@frontend/common'
 import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
+  clearCertificateDataElementValue,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -234,6 +236,21 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
 
       state.certificate.data[action.payload].visible = false
+    })
+    .addCase(clearCertificateDataElementValue, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+      switch (state.certificate.data[action.payload].value?.type) {
+        case CertificateDataValueType.DATE: {
+          delete (state.certificate.data[action.payload].value as ValueDate).date
+          break
+        }
+        case CertificateDataValueType.BOOLEAN: {
+          ;(state.certificate.data[action.payload].value as ValueBoolean).selected = null
+          break
+        }
+      }
     })
     .addCase(unhideCertificateDataElement, (state, action) => {
       if (!state.certificate) {
