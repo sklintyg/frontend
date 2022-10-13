@@ -1,6 +1,6 @@
-import { ErrorData } from '../../../store/error/errorReducer'
 import { Dispatch } from 'react'
 import { clearError } from '../../../store/error/errorActions'
+import { ErrorData } from '../../../store/error/errorReducer'
 
 export interface ModalProps {
   errorData: ErrorData
@@ -22,7 +22,7 @@ export const uuidv4 = (): string => {
   })
 }
 
-export const messageSubstring = (activeError: ErrorData): string | undefined => {
+export const messageSubstring = (activeError: { message?: string }): string | undefined => {
   return activeError?.message?.substring(0, activeError.message?.indexOf(' -'))
 }
 
