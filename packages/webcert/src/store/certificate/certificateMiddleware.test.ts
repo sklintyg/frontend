@@ -12,6 +12,8 @@ import {
   ConfigTypes,
   SigningMethod,
   ValidationError,
+  ValueBoolean,
+  ValueDate,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -24,6 +26,7 @@ import {
   answerComplementCertificate,
   autoSaveCertificateError,
   certificateApiGenericError,
+  clearCertificateDataElementValue,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
@@ -544,6 +547,27 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle clear certificate data element value', () => {
+    it('should clear boolean value', async () => {
+      const certificate = getCertificateWithShowValidationAndBooleanValue(false)
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(clearCertificateDataElementValue(certificate.data[0].id))
+
+      await flushPromises()
+
+      expect((testStore.getState().ui.uiCertificate.certificate.data[0].value as ValueBoolean).selected).toBe(null)
+    })
+    it('should clear date value', async () => {
+      const certificate = getCertificateWithShowValidationAndDateValue('2022-01-01')
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(clearCertificateDataElementValue(certificate.data[0].id))
+
+      await flushPromises()
+
+      expect((testStore.getState().ui.uiCertificate.certificate.data[0].value as ValueDate).date).toBeFalsy()
+    })
+  })
+
   const setDefaultUser = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -590,6 +614,70 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
           {
             questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+            expression: '$0',
+          },
+        ],
+      } as unknown) as CertificateDataElement,
+    },
+    links: [],
+  }
+}
+const getCertificateWithShowValidationAndBooleanValue = (selected: boolean): Certificate => {
+  return {
+    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
+    data: {
+      '0': ({
+        id: '0',
+        readOnly: false,
+        parent: '0',
+        index: 1,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+        },
+        validation: [
+          {
+            questionId: '0',
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            expression: '$0',
+          },
+        ],
+      } as unknown) as CertificateDataElement,
+    },
+    links: [],
+  }
+}
+const getCertificateWithShowValidationAndDateValue = (date: string): Certificate => {
+  return {
+    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
+    data: {
+      '0': ({
+        id: '0',
+        readOnly: false,
+        parent: '0',
+        index: 1,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.DATE,
+          date: date,
+        },
+        validation: [
+          {
+            questionId: '0',
+            type: CertificateDataValidationType.SHOW_VALIDATION,
             expression: '$0',
           },
         ],
