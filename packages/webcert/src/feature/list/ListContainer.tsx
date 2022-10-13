@@ -20,18 +20,18 @@ import { updateShouldRouteAfterDelete } from '../../store/certificate/certificat
 import { getLoggedInUnit } from '../../store/user/userSelectors'
 
 interface Props {
+  /** Determine what should be dispatch. */
   type: ListType
+  /** Set if list is empty. */
   showMessageForEmptyList: boolean
+  /** Link to optional icon to display. */
   icon?: string
+  /** Link to what icon should be displayed if list is empty. */
   emptyListIcon: string
 }
 
 /**
  * Returns a list with filter options, sorting etc. Page components is based on provided configuration.
- * @param type determine what should be dispatch.
- * @param showMessageForEmptyList set if list is empty.
- * @param icon Link to optional icon to display.
- * @param emptyListIcon link to what icon should be displayed if list is empty.
  */
 const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, emptyListIcon }) => {
   const dispatch = useDispatch()
