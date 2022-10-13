@@ -44,17 +44,19 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="iu-pt-200 iu-grid-cols iu-grid-cols-12">
-      <TextInput
-        className="iu-grid-span-6"
-        disabled={disabled}
-        hasValidationError={questionHasValidationError}
-        onChange={handleChange}
-        name={questionConfig.id}
-        value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 100}
-      />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+    <div className="iu-pt-200 iu-grid-cols-12">
+      <div className="iu-grid-span-6">
+        <TextInput
+          className=""
+          disabled={disabled}
+          hasValidationError={questionHasValidationError}
+          onChange={handleChange}
+          name={questionConfig.id}
+          value={text === null ? '' : text}
+          limit={textValidation ? textValidation.limit : 100}
+        />
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}{' '}
+      </div>
     </div>
   )
 }

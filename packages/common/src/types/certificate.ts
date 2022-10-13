@@ -217,6 +217,14 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   placeholder: string
 }
 
+export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+  id: string
+  label: string
+  allowedYears: string[]
+  unknownYear: boolean
+  unknownMonth: boolean
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -231,6 +239,7 @@ export enum CertificateDataValueType {
   ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
+  UNCERTAIN_DATE = 'UNCERTAIN_DATE',
 }
 
 export interface Value {
@@ -250,6 +259,11 @@ export interface ValueCode extends Value {
 }
 
 export interface ValueDate extends Value {
+  id: string
+  date: string
+}
+
+export interface ValueUncertainDate extends Value {
   id: string
   date: string
 }
