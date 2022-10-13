@@ -1,3 +1,4 @@
+import { Suggestion } from '../components/Inputs/Typeahead'
 import { Patient } from './patient'
 import { ResourceLink } from './resourceLink'
 
@@ -83,7 +84,7 @@ export enum ConfigTypes {
   UE_ICF = 'UE_ICF',
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
   UE_TEXTFIELD = 'UE_TEXTFIELD',
-  UE_TYPEAHEAD = 'UE_TYPEAHEAD',
+  UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
 }
@@ -131,6 +132,13 @@ export interface ConfigUeMessage extends CertificateDataConfig {
   id: string
   level: MessageLevel
   message: string
+}
+
+export interface ConfigUeTypeahead extends CertificateDataConfig{
+  id: string
+  typeahead: string[]
+  text: string
+  label: string
 }
 
 export interface CheckboxCode {
@@ -300,13 +308,17 @@ export interface ValueDiagnosisList extends Value {
   list: ValueDiagnosis[]
 }
 
+export interface TextTypeahead extends Value {
+  list: Suggestion[]
+}
+
 export interface ValueCodeList extends Value {
   list: ValueCode[]
 }
 
 export interface ValueText extends Value {
-  id: string
   text: string | null
+  id: string
 }
 
 export interface ValueIcf extends Value {
@@ -466,6 +478,7 @@ export interface IcfTitles {
     unique: string[]
     common: string[]
   }
+
 }
 
 export enum CertificateSignStatus {
