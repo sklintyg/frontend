@@ -1,8 +1,8 @@
+import React, { useEffect } from 'react'
 import { CustomButton, ModalBase, ResourceLink, sanitizeText } from '@frontend/common'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
+import { useDispatch } from 'react-redux'
 
 interface Props {
   resourceLink: ResourceLink | undefined

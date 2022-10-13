@@ -1,18 +1,18 @@
-import { getResourceLink, InfoBox, ResourceLinkType, StatusWithIcon } from '@frontend/common'
-import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
 import {
   getCertificateMetaData,
   getIsValidForSigning,
   getResourceLinks,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
-import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
-import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
+import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
+import styled from 'styled-components/macro'
+import _ from 'lodash'
+import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,20 +37,23 @@ export const CertificateFooter: React.FC = () => {
 
   if (!certificateMetadata || !resourceLinks) return null
 
-  const signResourceLink = getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE)
-  const forwardResourceLink = getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)
-  const readyForSignResourceLink = getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)
+  const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
+  const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
+  const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
-      {signResourceLink != null && (
+      {canSign && (
         <div className="iu-flex">
-          <SignAndSendButton functionDisabled={functionDisabled} {...signResourceLink} />
+          <SignAndSendButton
+            functionDisabled={functionDisabled}
+            {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }}
+          />
         </div>
       )}
 
-      {forwardResourceLink != null && (
+      {canForward && (
         <div className="iu-flex">
           <ForwardCertificateButton
             certificateId={certificateMetadata.id}
@@ -58,7 +61,7 @@ export const CertificateFooter: React.FC = () => {
             careProviderName={certificateMetadata.careProvider.unitName}
             forwarded={certificateMetadata.forwarded}
             functionDisabled={functionDisabled}
-            {...forwardResourceLink}
+            {...getResourceLink(resourceLinks, ResourceLinkType.FORWARD_CERTIFICATE)}
           />
           {certificateMetadata.forwarded && (
             <StatusWithIcon icon="CheckIcon" additionalWrapperStyles="iu-ml-400">
@@ -68,20 +71,24 @@ export const CertificateFooter: React.FC = () => {
         </div>
       )}
 
-      {readyForSignResourceLink && !isReadyForSign && (
+      {canReadyForSign && !isReadyForSign && (
         <div className="iu-flex">
-          <ReadyForSignButton functionDisabled={functionDisabled} isValidForSigning={isValidForSigning} {...readyForSignResourceLink} />
+          <ReadyForSignButton
+            functionDisabled={functionDisabled}
+            isValidForSigning={isValidForSigning}
+            {...getResourceLink(resourceLinks, ResourceLinkType.READY_FOR_SIGN)}
+          />
         </div>
       )}
 
-      {readyForSignResourceLink && isReadyForSign && (
+      {canReadyForSign && isReadyForSign && (
         <InfoBox type="success">
           <p>Utkastet är sparat och markerat klart för signering.</p>
         </InfoBox>
       )}
 
       <RightWrapper>
-        {(forwardResourceLink || (readyForSignResourceLink && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
+        {(canForward || (canReadyForSign && !isReadyForSign)) && !isValidForSigning && <ShowValidationErrorsSwitch />}
         <p className="iu-fs-200">Intygs-ID: {certificateMetadata.id}</p>
       </RightWrapper>
     </Wrapper>
