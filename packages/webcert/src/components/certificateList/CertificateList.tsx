@@ -104,7 +104,7 @@ const CertificateList: React.FC = () => {
         <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
           {[...certificateTypes]
             .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
-            .map(({ label, detailedDescription, id, issuerTypeId, links }) => {
+            .map(({ label, detailedDescription, id, issuerTypeId, links, message }) => {
               const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
               return (
                 <CertificateListRow
@@ -115,6 +115,7 @@ const CertificateList: React.FC = () => {
                   favorite={favorites.includes(id)}
                   link={links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)}
                   preferenceClick={handlePreferenceClick}
+                  message={message}
                   key={id}>
                   {createCertificateLink && (
                     <CreateCertificateButton
