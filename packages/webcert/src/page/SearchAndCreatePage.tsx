@@ -9,8 +9,8 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import PatientSearch from '../components/patient/PatientSearch'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { updateActiveListFilterValue } from '../store/list/listActions'
-import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
+import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
+import { getActiveListFilterValue } from '../store/list/listSelectors'
 import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
@@ -63,7 +63,8 @@ const SearchAndCreatePage: React.FC = () => {
   useEffect(() => {
     ReactTooltip.hide()
     updatePatientFilter()
-  }, [updatePatientFilter])
+    dispatch(performListSearch)
+  }, [dispatch, updatePatientFilter])
 
   useEffect(() => {
     if (!patientFilter) {
