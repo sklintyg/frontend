@@ -41,7 +41,6 @@ interface Props {
  * Generates a filter container to contain the generated fields for filtering.
  * @param config for this and sub-components
  * @param filter all filter options
- * @constructor
  */
 const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   const dispatch = useDispatch()

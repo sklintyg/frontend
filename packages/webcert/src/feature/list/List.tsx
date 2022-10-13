@@ -31,7 +31,6 @@ interface Props {
  * @param filter all filter options that can be applied in the above list
  * @param title titletext
  * @param type what type of page this is on
- * @constructor
  */
 const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
   const dispatch = useDispatch()

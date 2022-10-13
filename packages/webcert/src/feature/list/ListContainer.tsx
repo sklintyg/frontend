@@ -32,7 +32,6 @@ interface Props {
  * @param showMessageForEmptyList set if list is empty.
  * @param icon Link to optional icon to display.
  * @param emptyListIcon link to what icon should be displayed if list is empty.
- * @constructor
  */
 const ListContainer: React.FC<Props> = ({ type, showMessageForEmptyList, icon, emptyListIcon }) => {
   const dispatch = useDispatch()
