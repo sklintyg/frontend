@@ -7,7 +7,7 @@ import {
   TextValidation,
   ValueText,
 } from '@frontend/common'
-import _, { set } from 'lodash'
+import _ from 'lodash'
 import * as React from 'react'
 import { useRef, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,7 +16,6 @@ import { getQuestionHasValidationError, getShowValidationErrors } from '../../..
 import styled, { css } from 'styled-components'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import { Element, scroller } from 'react-scroll'
-import { off } from 'process'
 
 export interface Props {
   question: CertificateDataElement
@@ -46,7 +45,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     list-style-type: none;
     text-align: left;
     position: absolute;
-    margin: 43px 0 0 16px;
+    margin: 43px 0 0 17px;
     grid-column: span 6;
     padding: 5px 0;
     border-top: 1px solid gray;
@@ -60,7 +59,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     flex: 1;
     grid-area: ul;
     display: ${open ? 'block' : 'none'};
-    width: 45%;
+    width: 494px;
   `
 
   const SuggestionsListItem = styled.li`
@@ -84,7 +83,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
-  }, [suggestions])
+  }, [open, suggestions])
   useEffect(() => {
     if (hovered >= 0) {
       setCursor(hovered)
@@ -94,22 +93,22 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     if (suggestions.length > 0 && downPress && open) {
       setCursor((prevState) => (prevState < suggestions.length - 1 ? prevState + 1 : 0))
     }
-  }, [downPress])
+  }, [downPress, open, suggestions.length])
   useEffect(() => {
     if (suggestions.length > 0 && upPress && open) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : suggestions.length - 1))
     }
-  }, [upPress])
+  }, [open, suggestions.length, upPress])
   useEffect(() => {
     if ((enterPress || tabPress) && suggestions.length >= cursor && cursor >= 0 && open) {
       handleEnter(suggestions[cursor])
     }
-  }, [enterPress, tabPress])
+  }, [cursor, enterPress, open, suggestions, tabPress])
   useEffect(() => {
     if (escPress && open) {
       handleClose()
     }
-  }, [escPress])
+  }, [escPress, open])
   useEffect(() => {
     if (cursor >= 0 && suggestions[cursor].length > 0 && cursor !== hovered) {
       const element = typeaheadList.current
@@ -123,7 +122,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         })
       }
     }
-  }, [cursor])
+  }, [cursor, hovered, suggestions])
 
   const updateHovered = (i: number) => {
     setHovered(i)

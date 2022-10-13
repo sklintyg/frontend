@@ -114,7 +114,7 @@ DB.args = {
       }),
       fakeDataElement({ config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE } }),
       fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPE_AHEAD },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({
