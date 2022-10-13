@@ -223,6 +223,14 @@ export interface ConfigUeHeader extends CertificateDataConfig {
   label: string
 }
 
+export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+  id: string
+  label: string
+  allowedYears: string[]
+  unknownYear: boolean
+  unknownMonth: boolean
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -238,6 +246,7 @@ export enum CertificateDataValueType {
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
+  UNCERTAIN_DATE = 'UNCERTAIN_DATE',
 }
 
 export interface Value {
@@ -257,6 +266,11 @@ export interface ValueCode extends Value {
 }
 
 export interface ValueDate extends Value {
+  id: string
+  date: string
+}
+
+export interface ValueUncertainDate extends Value {
   id: string
   date: string
 }

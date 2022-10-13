@@ -21,6 +21,7 @@ const createType = ({
   issuerTypeId = '',
   label = '',
   links = [],
+  message = '',
 }: {
   description?: string
   detailedDescription?: string
@@ -28,6 +29,7 @@ const createType = ({
   issuerTypeId?: string
   label?: string
   links?: ResourceLink[]
+  message?: string
 }): CertificateType => ({
   description,
   detailedDescription,
@@ -35,6 +37,7 @@ const createType = ({
   issuerTypeId,
   label,
   links,
+  message,
 })
 
 let testStore: EnhancedStore
@@ -62,7 +65,7 @@ describe('CertificateList', () => {
     })
 
     types = [
-      createType({ id: 'typ1', label: 'Typ 1' }),
+      createType({ id: 'typ1', label: 'Typ 1', message: 'Meddelande' }),
       createType({ id: 'typ2', label: 'Typ 2' }),
       createType({ id: 'typ3', label: 'Typ 3' }),
       createType({ id: 'typ4', label: 'Typ 4' }),
@@ -148,5 +151,11 @@ describe('CertificateList', () => {
     renderComponent()
 
     expect(testStore.getState().ui.uiCertificate.createdCertificateId).toEqual('')
+  })
+
+  it('should show message when it exists', () => {
+    renderComponent()
+
+    expect(screen.getByText('Meddelande')).toBeInTheDocument()
   })
 })
