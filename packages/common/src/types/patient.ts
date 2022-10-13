@@ -14,6 +14,9 @@ export interface Patient {
   firstName: string
   lastName: string
   fullName: string
+  street: string
+  zipCode: string
+  city: string
   coordinationNumber: boolean
   testIndicated: boolean
   protectedPerson: boolean
