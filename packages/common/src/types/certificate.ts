@@ -218,7 +218,7 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   placeholder: string
 }
 
-export interface ConfigUeHeader {
+export interface ConfigUeHeader extends CertificateDataConfig {
   id: string
   label: string
 }
