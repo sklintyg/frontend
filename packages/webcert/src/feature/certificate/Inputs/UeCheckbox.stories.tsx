@@ -20,5 +20,14 @@ const Template: Story<Props> = ({ ...args }) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  disabled: false,
+  hasValidationError: false,
+  question: fakeCheckboxBooleanElement({ id: '1' })['1'],
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  disabled: true,
+  hasValidationError: false,
   question: fakeCheckboxBooleanElement({ id: '1' })['1'],
 }
