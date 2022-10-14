@@ -33,10 +33,15 @@ const FilterWrapper = styled.div`
 `
 
 interface Props {
+  /** For this and sub-components. */
   config: ListConfig | undefined
+  /** All filter options. */
   filter: ListFilter | undefined
 }
 
+/**
+ * Generates a filter container to contain all filters for a specific table.
+ */
 const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
   const dispatch = useDispatch()
   const totalCount = useSelector(getListTotalCount)

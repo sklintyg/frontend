@@ -84,14 +84,14 @@ describe('withLoggedInUserRedirect', () => {
     )
   })
 
-  it('should redirect to /list/question  if logged in as care admin', () => {
+  it('should redirect to /list/unhandledcertificates  if logged in as care admin', () => {
     renderComponent()
     const doctor = getDummyUser('Vårdadministratör')
     testStore.dispatch(updateUser(doctor))
 
     expect(testHistory.replace).toHaveBeenCalledWith(
       expect.objectContaining({
-        pathname: '/list/question',
+        pathname: '/list/unhandledcertificates',
       })
     )
   })
