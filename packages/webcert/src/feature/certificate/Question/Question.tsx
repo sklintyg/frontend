@@ -30,6 +30,7 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
 import UeMessage from '../Inputs/UeMessage'
 import UeTextField from '../Inputs/UeTextField'
+import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
   id: string
@@ -53,36 +54,9 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
 
-  const getHeading = () => {
-    if (question.config.header) {
-      return (
-        <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
-            {question.config.header}
-          </h4>
-          <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.text}</h5>
-          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.label as string}</h5>}
-        </>
-      )
-    } else {
-      return (
-        <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
-            {question.config.text}
-          </h4>
-          {question.readOnly && (
-            <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
-              {question.config.label as string}
-            </h4>
-          )}
-        </>
-      )
-    }
-  }
-
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
     if (disabled) {
-      return getHeading()
+      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
     }
 
     if (!readOnly && config.description) {
@@ -103,7 +77,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {getHeading()}
+        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
       </>
     )
   }
@@ -156,7 +130,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div className="iu-mt-300">{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
     </div>
   )
 }

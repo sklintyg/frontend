@@ -26,14 +26,19 @@ import SigningForm from './Signing/SigningForm'
 const Wrapper = styled.div`
   overflow-y: auto;
   height: 100%;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding: 16px;
 
   -webkit-transform: translateZ(0); // Fix for disappearing sign button INTYGFV-14332
 
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
+  }
+`
+
+const CategoryWrapper = styled.div`
+  :not(:last-child) {
+    margin-bottom: 16px;
   }
 `
 
@@ -78,12 +83,27 @@ const Certificate: React.FC = () => {
           {certificateStructure &&
             certificateStructure
               .filter((data) => filterHidden(data))
-              .map((data) => {
+              .reduce((result, data) => {
+                const last = result[result.length - 1]
                 if (data.component === ConfigTypes.CATEGORY) {
-                  return <Category key={data.id} id={data.id} />
-                } else {
-                  return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                  result.push([data])
+                } else if (last) {
+                  result[result.length - 1] = last.concat(data)
                 }
+                return result
+              }, [] as CertificateStructure[][])
+              .map((strucutre, index) => {
+                return (
+                  <CategoryWrapper key={index}>
+                    {strucutre.map((data) => {
+                      if (data.component === ConfigTypes.CATEGORY) {
+                        return <Category key={data.id} id={data.id} />
+                      } else {
+                        return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                      }
+                    })}
+                  </CategoryWrapper>
+                )
               })}
         </CertificateContext.Provider>
         <CareUnit />
