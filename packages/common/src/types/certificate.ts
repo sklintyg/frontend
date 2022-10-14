@@ -456,3 +456,12 @@ export interface IcfTitles {
     common: string[]
   }
 }
+
+export enum CertificateSignStatus {
+  INITIAL = '',
+  UNKNOWN = 'OKAND',
+  PROCESSING = 'BEARBETAR',
+  NO_CLIENT = 'NO_CLIENT',
+  SIGNED = 'SIGNERAD',
+  FAILED = 'FAILED',
+}

@@ -1,5 +1,7 @@
+import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
 import {
   getCertificateEvents,
   getCertificateMetaData,
@@ -9,17 +11,16 @@ import {
   getResourceLinks,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
-import ShowHistory from './ShowHistory'
+import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
 import CertificateInfo from './CertificateInfo'
 import HeaderButtons from './HeaderButtons'
-import styled from 'styled-components/macro'
-import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
-import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
+import ShowHistory from './ShowHistory'
 
-import { getQuestions } from '../../../store/question/questionSelectors'
 import _ from 'lodash'
-import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import { getQuestions } from '../../../store/question/questionSelectors'
+import { SignCertificateModal } from '../Modals/SignCertificateModal'
 import NavigateBackButton from './NavigateBackButton'
+import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -62,6 +63,7 @@ const CertificateHeader: React.FC = () => {
     <Wrapper>
       <div className="ic-container iu-pt-200">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
+        <SignCertificateModal />
         <StatusWrapper>
           <StatusLeftSide>
             <NavigateBackButton />

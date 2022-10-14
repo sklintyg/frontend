@@ -1,10 +1,10 @@
-import React from 'react'
-import { startSignCertificate } from '../../../store/certificate/certificateActions'
-import { useDispatch, useSelector } from 'react-redux'
-import { getIsValidating } from '../../../store/certificate/certificateSelectors'
-import { CustomButton } from '@frontend/common'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { CertificateSignStatus, CustomButton } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { startSignCertificate } from '../../../store/certificate/certificateActions'
+import { getIsValidating, getSigningStatus } from '../../../store/certificate/certificateSelectors'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -15,6 +15,7 @@ interface Props extends FunctionDisabled {
 const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
   const dispatch = useDispatch()
   const isValidating = useSelector(getIsValidating)
+  const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
 
   return (
     <CustomButton
@@ -22,7 +23,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functi
       buttonStyle="primary"
       text={name}
       startIcon={<img src={edit} alt="Signera intyget" />}
-      disabled={isValidating || !enabled || functionDisabled}
+      disabled={isValidating || isSigning || !enabled || functionDisabled}
       onClick={() => {
         dispatch(startSignCertificate())
       }}
