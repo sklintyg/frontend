@@ -109,7 +109,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     }
   }, [escPress, open])
   useEffect(() => {
-    if (cursor >= 0 && suggestions[cursor].length > 0 && cursor !== hovered) {
+    if (suggestions.length > 0 && cursor >= 0 && suggestions[cursor].length > 0 && cursor !== hovered) {
       const element = typeaheadList.current
       if (element !== null && element !== undefined) {
         scroller.scrollTo('typeahead-item-' + cursor, {
