@@ -757,11 +757,11 @@ const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, g
   action: AnyAction
 ): void => {
   const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
+  dispatch(validateCertificateInFrontEndCompleted())
+
   questionIdsToValidate.forEach((questionId) =>
     dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
   )
-
-  dispatch(validateCertificateInFrontEndCompleted())
 }
 
 const isSameValidationError = (savedValidationError: ValidationError, payloadValidationError: ValidationError) => {
@@ -813,23 +813,28 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
       case CertificateDataValidationType.HIDE_VALIDATION:
         if (result.result) {
           dispatch(hideCertificateDataElement(result.id))
+          if (certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
         } else {
           dispatch(unhideCertificateDataElement(result.id))
+          if (!certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
         }
         break
 
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result.result) {
           dispatch(showCertificateDataElement(result.id))
+          if (!certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
         } else {
           dispatch(hideCertificateDataElement(result.id))
           if (certificate.data[result.id].visible) {
             questionIdsToValidate.push(result.id)
           }
-
-          // TODO: 1. Notifiera att element har ändrats så att en ny frontend-validering görs.
-          // TODO: 2. (Eventuellt) Om ett element inte är synligt så skall valideringen tolkas som att den saknar värde.
-          // dispatch(clearCertificateDataElementValue(result.id))
         }
         break
 

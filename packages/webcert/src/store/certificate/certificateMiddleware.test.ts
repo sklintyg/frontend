@@ -37,11 +37,13 @@ import {
   CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
+  hideCertificateDataElement,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
+  showCertificateDataElement,
   SigningData,
-  startSignCertificate,
+  startSignCertificate, unhideCertificateDataElement,
   updateCertificate,
   updateClientValidationError,
   updateValidationErrors,
@@ -533,6 +535,110 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle Validate certificates in frontend', () => {
+    describe('Show validation', () => {
+      it('should throw hide action when hidden', async () => {
+        const certificate = getCertificateWithValidation(false, CertificateDataValidationType.SHOW_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.payload).toBe('1.2')
+      })
+
+      it('should throw show action when hidden', async () => {
+        const certificate = getCertificateWithValidation(true, CertificateDataValidationType.SHOW_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const showCertificateDataElementAction = dispatchedActions.find((action) => showCertificateDataElement.match(action))
+        expect(showCertificateDataElementAction.payload).toBe('1.2')
+      })
+
+      it('should trigger another frontend validation if the element is hidden ', async () => {
+        const certificate = getCertificateWithValidation(false, CertificateDataValidationType.SHOW_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const numberOfValidateCertificateInFrontend = dispatchedActions.filter((action) => validateCertificateInFrontEnd.match(action))
+        expect(numberOfValidateCertificateInFrontend.length).toBe(2)
+        expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
+        expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
+      })
+
+      it('should trigger another frontend validation if the element is shown ', async () => {
+        const certificate = getCertificateWithValidation(true, CertificateDataValidationType.SHOW_VALIDATION)
+        certificate.data['1.2'].visible = false
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const numberOfValidateCertificateInFrontend = dispatchedActions.filter((action) => validateCertificateInFrontEnd.match(action))
+        expect(numberOfValidateCertificateInFrontend.length).toBe(2)
+        expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
+        expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
+      })
+    })
+
+    describe('Hide Validation', () => {
+      it('should throw hide action when visible', async () => {
+        const certificate = getCertificateWithValidation(true, CertificateDataValidationType.HIDE_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.payload).toBe('1.2')
+      })
+
+      it('should throw unhide action when hidden', async () => {
+        const certificate = getCertificateWithValidation(false, CertificateDataValidationType.HIDE_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const unhideCertificateDataElementAction = dispatchedActions.find((action) => unhideCertificateDataElement.match(action))
+        expect(unhideCertificateDataElementAction.payload).toBe('1.2')
+      })
+
+      it('should trigger another frontend validation if the element is visible ', async () => {
+        const certificate = getCertificateWithValidation(true, CertificateDataValidationType.HIDE_VALIDATION)
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const numberOfValidateCertificateInFrontend = dispatchedActions.filter((action) => validateCertificateInFrontEnd.match(action))
+        expect(numberOfValidateCertificateInFrontend.length).toBe(2)
+        expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
+        expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
+      })
+
+      it('should trigger another frontend validation if the element is shown ', async () => {
+        const certificate = getCertificateWithValidation(true, CertificateDataValidationType.HIDE_VALIDATION)
+        certificate.data['1.2'].visible = true
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const numberOfValidateCertificateInFrontend = dispatchedActions.filter((action) => validateCertificateInFrontEnd.match(action))
+        expect(numberOfValidateCertificateInFrontend.length).toBe(2)
+        expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
+        expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
+      })
+    })
+  })
+
   describe('Handle sign certificate', () => {
     const validationError: ValidationError = {
       type: 'ERROR',
@@ -726,6 +832,57 @@ const getCertificateWithShowValidationAndDateValue = (date: string): Certificate
             questionId: '0',
             type: CertificateDataValidationType.SHOW_VALIDATION,
             expression: '$0',
+          },
+        ],
+      } as unknown) as CertificateDataElement,
+    },
+    links: [],
+  }
+}
+const getCertificateWithValidation = (selected: boolean, validationType: CertificateDataValidationType): Certificate => {
+  return {
+    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
+    data: {
+      '1.1': ({
+        id: '1.1',
+        readOnly: false,
+        parent: '1',
+        index: 1,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+          id: 'haveValue',
+        },
+        validation: [],
+      } as unknown) as CertificateDataElement,
+      '1.2': ({
+        id: '1.2',
+        readOnly: false,
+        parent: '1',
+        index: 2,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+        },
+        validation: [
+          {
+            questionId: '1.1',
+            type: validationType,
+            expression: '$haveValue',
           },
         ],
       } as unknown) as CertificateDataElement,
