@@ -32,13 +32,13 @@ import {
   getPreviousCertificatesListError,
   getPreviousCertificatesListStarted,
   getPreviousCertificatesListSuccess,
-  getQuestionListConfig,
-  getQuestionListConfigStarted,
-  getQuestionListConfigSuccess,
-  getQuestions,
-  getQuestionsError,
-  getQuestionsStarted,
-  getQuestionsSuccess,
+  getUnhandledCertificatesListConfig,
+  getUnhandledCertificatesListConfigStarted,
+  getUnhandledCertificatesListConfigSuccess,
+  getUnhandledCertificates,
+  getUnhandledCertificatesError,
+  getUnhandledCertificatesStarted,
+  getUnhandledCertificatesSuccess,
   performListSearch,
   setListError,
   updateActiveList,
@@ -54,7 +54,7 @@ import {
   updateListConfigStarted,
   updateListConfigSuccess,
   updateListItemAsForwarded,
-  updateQuestionListConfig,
+  updateUnhandledCertificatesListConfig,
   updateTotalCount,
 } from './listActions'
 
@@ -68,8 +68,8 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
       dispatch(getCertificateList(listFilter))
     } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
       dispatch(getPreviousCertificatesList(listFilter))
-    } else if (listType === ListType.QUESTIONS) {
-      dispatch(getQuestions(listFilter))
+    } else if (listType === ListType.UNHANDLED_CERTIFICATES) {
+      dispatch(getUnhandledCertificates(listFilter))
     }
   }
 }
@@ -83,9 +83,9 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
     dispatch(getCertificateListConfig())
   } else if (listType === ListType.PREVIOUS_CERTIFICATES) {
     dispatch(getPreviousCertificatesListConfig())
-  } else if (listType === ListType.QUESTIONS) {
+  } else if (listType === ListType.UNHANDLED_CERTIFICATES) {
     const chosenUnit = filter.values?.UNIT?.value ?? ''
-    dispatch(getQuestionListConfig(chosenUnit))
+    dispatch(getUnhandledCertificatesListConfig(chosenUnit))
   }
 }
 
@@ -93,9 +93,9 @@ const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Mi
   const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   const config = getState().ui.uiList.activeListConfig
-  if (listType === ListType.QUESTIONS) {
+  if (listType === ListType.UNHANDLED_CERTIFICATES) {
     const chosenUnit = filter.values?.UNIT?.value ?? ''
-    dispatch(updateQuestionListConfig({ config: config, unitId: chosenUnit }))
+    dispatch(updateUnhandledCertificatesListConfig({ config: config, unitId: chosenUnit }))
   }
 }
 
@@ -138,15 +138,15 @@ const handleGetPreviousCertificatesList: Middleware<Dispatch> = ({ dispatch }: M
   )
 }
 
-const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetUnhandledCertificates: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/question',
       method: 'POST',
       data: { filter: action.payload },
-      onStart: getQuestionsStarted.type,
-      onSuccess: getQuestionsSuccess.type,
-      onError: getQuestionsError.type,
+      onStart: getUnhandledCertificatesStarted.type,
+      onSuccess: getUnhandledCertificatesSuccess.type,
+      onError: getUnhandledCertificatesError.type,
     })
   )
 }
@@ -211,20 +211,22 @@ const handleGetPreviousCertificatesListConfig: Middleware<Dispatch> = ({ dispatc
   )
 }
 
-const handleGetQuestionListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetUnhandledCertificatesListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/config/question',
       method: 'POST',
       data: action.payload,
-      onStart: getQuestionListConfigStarted.type,
-      onSuccess: getQuestionListConfigSuccess.type,
+      onStart: getUnhandledCertificatesListConfigStarted.type,
+      onSuccess: getUnhandledCertificatesListConfigSuccess.type,
       onError: setListError.type,
     })
   )
 }
 
-const handleUpdateQuestionListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleUpdateUnhandledCertificatesListConfig: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
   dispatch(
     apiCallBegan({
       url: '/api/list/config/question/update',
@@ -317,18 +319,18 @@ const middlewareMethods = {
   [getPreviousCertificatesListError.type]: handleGetListError(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListStarted.type]: handleGetListStarted(ListType.PREVIOUS_CERTIFICATES),
   [getPreviousCertificatesListSuccess.type]: handleGetListSuccess(ListType.PREVIOUS_CERTIFICATES),
-  [getQuestionListConfig.type]: handleGetQuestionListConfig,
-  [getQuestionListConfigStarted.type]: handleGetListConfigStarted(ListType.QUESTIONS),
-  [getQuestionListConfigSuccess.type]: handleGetListConfigSuccess(ListType.QUESTIONS),
-  [getQuestions.type]: handleGetQuestions,
-  [getQuestionsError.type]: handleGetListError(ListType.QUESTIONS),
-  [getQuestionsStarted.type]: handleGetListStarted(ListType.QUESTIONS),
-  [getQuestionsSuccess.type]: handleGetListSuccess(ListType.QUESTIONS),
+  [getUnhandledCertificatesListConfig.type]: handleGetUnhandledCertificatesListConfig,
+  [getUnhandledCertificatesListConfigStarted.type]: handleGetListConfigStarted(ListType.UNHANDLED_CERTIFICATES),
+  [getUnhandledCertificatesListConfigSuccess.type]: handleGetListConfigSuccess(ListType.UNHANDLED_CERTIFICATES),
+  [getUnhandledCertificates.type]: handleGetUnhandledCertificates,
+  [getUnhandledCertificatesError.type]: handleGetListError(ListType.UNHANDLED_CERTIFICATES),
+  [getUnhandledCertificatesStarted.type]: handleGetListStarted(ListType.UNHANDLED_CERTIFICATES),
+  [getUnhandledCertificatesSuccess.type]: handleGetListSuccess(ListType.UNHANDLED_CERTIFICATES),
   [performListSearch.type]: handlePerformListSearch,
   [updateDefaultListFilterValues.type]: handleUpdateDefaultFilterValues,
   [updateListConfig.type]: handleUpdateListConfig,
   [updateListConfigSuccess.type]: handleUpdateListConfigSuccess,
-  [updateQuestionListConfig.type]: handleUpdateQuestionListConfig,
+  [updateUnhandledCertificatesListConfig.type]: handleUpdateUnhandledCertificatesListConfig,
 }
 
 export const listMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

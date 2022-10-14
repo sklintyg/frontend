@@ -8,11 +8,17 @@ import { FilterWrapper } from './filterStyles'
 import { sanitizeText } from '@frontend/common'
 
 interface Props {
+  /** Contains all filter options that should be displayed. */
   config: ListFilterSelectConfig
+  /** Action to trigger. */
   onChange: (value: ListFilterValue, id: string) => void
+  /** Is highlighted. :) */
   isHighlighted: boolean
 }
 
+/**
+ * Component for generating a generic dropdown field based on the provided configuration.
+ */
 const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueSelect
 
