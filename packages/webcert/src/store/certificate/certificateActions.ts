@@ -1,18 +1,20 @@
-import { createAction } from '@reduxjs/toolkit'
-import { History, LocationState } from 'history'
 import {
   Certificate,
   CertificateDataElement,
   CertificateEvent,
   CertificateMetadata,
+  CertificateSignStatus,
   CertificateStatus,
   Complement,
   Unit,
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
-import { ApiError, ApiGenericError } from '../api/apiActions'
+import { createAction } from '@reduxjs/toolkit'
+import { History, LocationState } from 'history'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
+import { ApiError, ApiGenericError } from '../api/apiActions'
+import { ErrorData } from '../error/errorReducer'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -66,6 +68,9 @@ const SIGN_CERTIFICATE_ERROR = `${CERTIFICATE} Sign certificate error`
 const SIGN_CERTIFICATE_COMPLETED = `${CERTIFICATE} Sign certificate completed`
 const FAKE_SIGN_CERTIFICATE = `${CERTIFICATE} Fake sign certificate`
 const FAKE_SIGN_CERTIFICATE_SUCCESS = `${CERTIFICATE} Fake sign certificate success`
+const UPDATE_SIGN_CERTIFICATE_STATUS = `${CERTIFICATE} update sign status`
+const SIGN_CERTIFICATE_STATUS_SUCCESS = `${CERTIFICATE} Get certificate sign status success`
+const SIGN_CERTIFICATE_STATUS_ERROR = `${CERTIFICATE} Get certificate sign status error`
 
 const REVOKE_CERTIFICATE = `${CERTIFICATE} Revoke certificate`
 const REVOKE_CERTIFICATE_STARTED = `${CERTIFICATE} Revoke certificate started`
@@ -165,6 +170,7 @@ const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data 
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
 const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
+const SET_CERTIFICATE_SIGNING_ERROR = `${CERTIFICATE} Set signing error`
 
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
@@ -302,6 +308,12 @@ export const fakeSignCertificate = createAction(FAKE_SIGN_CERTIFICATE)
 export const signCertificateError = createAction<string>(SIGN_CERTIFICATE_ERROR)
 
 export const signCertificateCompleted = createAction(SIGN_CERTIFICATE_COMPLETED)
+
+export const updateCertificateSignStatus = createAction<CertificateSignStatus>(UPDATE_SIGN_CERTIFICATE_STATUS)
+
+export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
+
+export const signCertificateStatusError = createAction(SIGN_CERTIFICATE_STATUS_ERROR)
 
 export interface RevokeCertificateReason {
   reason: string
@@ -527,6 +539,7 @@ export interface SigningData {
 }
 
 export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)
+export const setCertificateSigningErrorData = createAction<ErrorData | undefined>(SET_CERTIFICATE_SIGNING_ERROR)
 
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)

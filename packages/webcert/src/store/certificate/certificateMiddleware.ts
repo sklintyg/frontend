@@ -2,6 +2,7 @@ import {
   Certificate,
   CertificateDataElement,
   CertificateDataValidationType,
+  CertificateSignStatus,
   CertificateStatus,
   getCertificateToSave,
   SigningMethod,
@@ -86,6 +87,7 @@ import {
   sendCertificate,
   sendCertificateSuccess,
   setCertificateDataElement,
+  setCertificateSigningErrorData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
@@ -94,6 +96,8 @@ import {
   showSpinner,
   showValidationErrors,
   signCertificateCompleted,
+  signCertificateStatusError,
+  signCertificateStatusSuccess,
   startSignCertificate,
   startSignCertificateSuccess,
   toggleCertificateFunctionDisabler,
@@ -105,6 +109,7 @@ import {
   updateCertificateDataElement,
   updateCertificateEvents,
   updateCertificateSigningData,
+  updateCertificateSignStatus,
   updateCertificateUnit,
   updateCertificateVersion,
   updateClientValidationError,
@@ -318,23 +323,92 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
 
   const signingMethod = getState().ui.uiUser.user.signingMethod
 
-  if (signingMethod === SigningMethod.FAKE) {
-    dispatch(fakeSignCertificate)
-  } else if (signingMethod === SigningMethod.DSS) {
-    dispatch(
-      apiCallBegan({
-        url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
-        method: 'POST',
-        onSuccess: startSignCertificateSuccess.type,
-        onError: apiGenericError.type,
-        functionDisablerType: toggleCertificateFunctionDisabler.type,
-      })
-    )
+  switch (signingMethod) {
+    case SigningMethod.FAKE:
+      dispatch(fakeSignCertificate)
+      break
+    case SigningMethod.DSS:
+      dispatch(
+        apiCallBegan({
+          url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/SIGN_SERVICE`,
+          method: 'POST',
+          onSuccess: startSignCertificateSuccess.type,
+          onError: signCertificateStatusError.type,
+          functionDisablerType: toggleCertificateFunctionDisabler.type,
+        })
+      )
+      break
+    case SigningMethod.BANK_ID:
+      dispatch(
+        apiCallBegan({
+          url: `/api/signature/${certificate.metadata.type}/${certificate.metadata.id}/${certificate.metadata.version}/signeringshash/GRP`,
+          method: 'POST',
+          onSuccess: startSignCertificateSuccess.type,
+          onError: signCertificateStatusError.type,
+          functionDisablerType: toggleCertificateFunctionDisabler.type,
+        })
+      )
+      break
   }
 }
 
-const handleStartSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateCertificateSigningData(action.payload))
+const handleSignCertificateStatusSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+  const signStatus: CertificateSignStatus = getState().ui.uiCertificate.signingStatus
+
+  if (action.payload?.status) {
+    dispatch(updateCertificateSignStatus(action.payload.status))
+  }
+
+  switch (signStatus) {
+    case CertificateSignStatus.UNKNOWN:
+    case CertificateSignStatus.SIGNED:
+      break
+    default:
+      setTimeout(
+        () =>
+          dispatch(
+            apiCallBegan({
+              url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
+              method: 'GET',
+              onSuccess: signCertificateStatusSuccess.type,
+              onError: signCertificateStatusError.type,
+              functionDisablerType: toggleCertificateFunctionDisabler.type,
+            })
+          ),
+        1000
+      )
+      break
+  }
+}
+
+const handleSignCertificateStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action): void => {
+  dispatch(setCertificateSigningErrorData(action.payload.error))
+  dispatch(updateCertificateSignStatus(CertificateSignStatus.FAILED))
+}
+
+const handleStartSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  if (action.payload?.status === CertificateSignStatus.PROCESSING) {
+    dispatch(updateCertificateSignStatus(action.payload.status))
+
+    dispatch(
+      apiCallBegan({
+        url: `/api/signature/${certificate.metadata.type}/${action.payload.id}/signeringsstatus`,
+        method: 'GET',
+        onSuccess: signCertificateStatusSuccess.type,
+        onError: signCertificateStatusError.type,
+        functionDisablerType: toggleCertificateFunctionDisabler.type,
+      })
+    )
+  } else {
+    dispatch(updateCertificateSigningData(action.payload))
+  }
 }
 
 const handleFakeSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
@@ -845,6 +919,8 @@ const middlewareMethods = {
   [certificateApiGenericError.type]: handleGenericCertificateApiError,
   [updateClientValidationError.type]: handleUpdateClientValidationError,
   [getCertificateError.type]: handleGetCertificateError,
+  [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
+  [signCertificateStatusError.type]: handleSignCertificateStatusError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
