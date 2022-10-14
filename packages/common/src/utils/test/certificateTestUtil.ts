@@ -236,6 +236,9 @@ export const getCheckBoxElement = (): CertificateDataElement => {
     id: '28',
     parent: 'sysselsattning',
     index: 7,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
     config: {
       type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
       text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
@@ -277,11 +280,6 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
       },
       {
-        type: CertificateDataValidationType.HIDE_VALIDATION,
-        questionId: '27',
-        expression: '$avstangningSmittskydd',
-      },
-      {
         type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$NUVARANDE_ARBETE',
@@ -294,9 +292,6 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         id: ['NUVARANDE_ARBETE'],
       },
     ],
-    mandatory: false,
-    readOnly: false,
-    visible: true,
     validationErrors: [],
   }
 }

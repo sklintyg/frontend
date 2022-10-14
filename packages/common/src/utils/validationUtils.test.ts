@@ -35,7 +35,6 @@ import {
 } from './validationUtils'
 import { getBooleanElement, getCertificate, getTextElement, getDateElement } from './test/certificateTestUtil'
 import { addDays } from 'date-fns'
-import {getValidDate} from "@frontend/common";
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -344,14 +343,14 @@ describe('Validate disable rule for code list', () => {
           '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '40',
         expression:
           '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
         id: ['EJ_AKTUELLT'],
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '40',
         expression: '$EJ_AKTUELLT',
         id: [
@@ -374,14 +373,14 @@ describe('Validate disable rule for code list', () => {
   it('it should validate as true when code is in list', () => {
     const value = codeListElement.value as ValueCodeList
     value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
     expect(result).toBe(true)
   })
 
   it('it should validate as false when code is not in list', () => {
     const value = codeListElement.value as ValueCodeList
     value.list = []
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
     expect(result).toBe(false)
   })
 
@@ -392,7 +391,7 @@ describe('Validate disable rule for code list', () => {
     const result = parseExpression(
       '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
       codeListElement,
-      CertificateDataValidationType.DISABLE_VALIDATION
+      CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
     )
     expect(result).toBe(true)
   })
@@ -403,7 +402,7 @@ describe('Validate multiple show rules', () => {
     id: 'aktivitetsbegransning',
     parent: '',
     index: 3,
-    visible: false,
+    visible: true,
     readOnly: false,
     mandatory: false,
     config: {
@@ -426,7 +425,7 @@ describe('Validate multiple show rules', () => {
     id: '2.1',
     parent: 'aktivitetsbegransning',
     index: 4,
-    visible: false,
+    visible: true,
     readOnly: false,
     mandatory: true,
     config: {
@@ -462,7 +461,7 @@ describe('Validate multiple show rules', () => {
     id: '2.2',
     parent: '2.1',
     index: 5,
-    visible: false,
+    visible: true,
     readOnly: false,
     mandatory: true,
     config: {
@@ -856,14 +855,14 @@ describe('Validate disable rule for code list', () => {
   it('it should validate as true when code is in list', () => {
     const value = codeListElement.value as ValueCodeList
     value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
     expect(result).toBe(true)
   })
 
   it('it should validate as false when code is not in list', () => {
     const value = codeListElement.value as ValueCodeList
     value.list = []
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
     expect(result).toBe(false)
   })
 
@@ -874,7 +873,7 @@ describe('Validate disable rule for code list', () => {
     const result = parseExpression(
       '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
       codeListElement,
-      CertificateDataValidationType.DISABLE_VALIDATION
+      CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
     )
     expect(result).toBe(true)
   })
@@ -968,6 +967,8 @@ describe('Set initial values to a certificate', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
+    certificate.data['1.2'].visible = true // Set it visible as default
+    certificate.data['1.2'].validation = [] // Clear the validations so they don't affect this test.
     const textValue: ValueText = certificate.data['1.2'].value as ValueText
     textValue.text = 'A little text'
 
@@ -1209,6 +1210,24 @@ describe('Validate expressions based on DateValue', () => {
   it('should return false if EpochDay is not within 28 days', () => {
     ;(element.value as ValueDate).date = '2022-01-01' // 18993
     const result = parseExpression('$dodsdatum.toEpochDays <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+})
+
+describe('Validate expressions only when visible', () => {
+  const element = getDateElement()
+
+  it('should return true if date has a value and element is visible', () => {
+    ;(element.value as ValueDate).date = '2022-01-01'
+    element.visible = true
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('should return false if date has a value and element is not visible', () => {
+    ;(element.value as ValueDate).date = '2022-01-01'
+    element.visible = false
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(false)
   })
 })

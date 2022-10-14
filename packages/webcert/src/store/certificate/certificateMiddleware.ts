@@ -756,7 +756,10 @@ const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAct
 const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
-  validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
+  const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
+  questionIdsToValidate.forEach((questionId) =>
+    dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
+  )
 
   dispatch(validateCertificateInFrontEndCompleted())
 }
@@ -790,11 +793,12 @@ const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, get
   }
 }
 
-function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
+function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): string[] {
   if (!certificate) {
-    return
+    return []
   }
 
+  const questionIdsToValidate = [] as string[]
   const validationResults = validateExpressions(certificate, update)
   validationResults.forEach((result) => {
     switch (result.type) {
@@ -819,7 +823,13 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(showCertificateDataElement(result.id))
         } else {
           dispatch(hideCertificateDataElement(result.id))
-          dispatch(clearCertificateDataElementValue(result.id))
+          if (certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
+
+          // TODO: 1. Notifiera att element har ändrats så att en ny frontend-validering görs.
+          // TODO: 2. (Eventuellt) Om ett element inte är synligt så skall valideringen tolkas som att den saknar värde.
+          // dispatch(clearCertificateDataElementValue(result.id))
         }
         break
 
@@ -852,6 +862,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         break
     }
   })
+  return questionIdsToValidate
 }
 
 const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

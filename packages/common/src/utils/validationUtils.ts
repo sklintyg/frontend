@@ -43,6 +43,10 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
+  if (element && !element.visible) {
+    return false
+  }
+
   const adjustedExpression = getExpression(expression)
 
   function convertToValue(id: string, type: CertificateDataValidationType): number {
