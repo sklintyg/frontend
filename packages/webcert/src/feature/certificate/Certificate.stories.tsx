@@ -162,6 +162,7 @@ DB.args = {
       }),
     ]),
     fakeCategoryElement({ config: { text: 'Polisanmälan' } }, [
+      fakeDataElement({ config: { text: 'Polisanmälan Rubrik', type: ConfigTypes.UE_HEADER } }),
       fakeRadioMultipleCodeElement({
         config: {
           text: 'Finns skäl för polisanmälan?',
