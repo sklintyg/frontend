@@ -6,10 +6,10 @@ import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@
 import * as redux from 'react-redux'
 
 const suggestions = [
-  { label: 'Hello, World!', disabled: false, title: null },
-  { label: 'Suggestion 2', disabled: false, title: null },
-  { label: 'Test', disabled: false, title: null },
-  { label: 'String', disabled: true, title: null },
+  { label: 'Göteborg', disabled: false, title: null },
+  { label: 'Stockholm', disabled: false, title: null },
+  { label: 'Sundsvall', disabled: false, title: null },
+  { label: 'Östersund', disabled: true, title: null },
 ]
 
 const question: CertificateDataElement = {
@@ -30,8 +30,6 @@ const question: CertificateDataElement = {
   },
 }
 
-const defaultOnSuggestionSelected = jest.fn()
-
 const renderDefaultComponent = () => {
   render(
     <>
@@ -43,7 +41,7 @@ const renderDefaultComponent = () => {
 const renderWithSuggestions = (open: boolean) => {
   render(
     <>
-      <UeTypeahead question={question} disabled={false} />
+      <UeTypeahead question={question} disabled={true} />
     </>
   )
 }
@@ -58,7 +56,7 @@ beforeEach(() => {
   useDispatchSpy.mockReturnValue(jest.fn())
 })
 
-describe('Typeahead  component', () => {
+describe('Typeahead component', () => {
   it('renders without crashing', () => {
     renderDefaultComponent()
   })
@@ -72,5 +70,11 @@ describe('Typeahead  component', () => {
     renderWithSuggestions(false)
     const list = screen.queryByRole('list')
     expect(list).toBeNull()
+  })
+
+  it('disables component if disabled is set', () => {
+    renderWithSuggestions(true)
+    const input = screen.getByRole('textbox')
+    expect(input).toBeDisabled()
   })
 })
