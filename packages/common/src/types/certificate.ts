@@ -85,6 +85,7 @@ export enum ConfigTypes {
   UE_TEXTFIELD = 'UE_TEXTFIELD',
   UE_TYPEAHEAD = 'UE_TYPEAHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
+  UE_HEADER = 'UE_HEADER',
 }
 
 export enum MessageLevel {
@@ -217,6 +218,11 @@ export interface ConfigUeIcf extends CertificateDataConfig {
   placeholder: string
 }
 
+export interface ConfigUeHeader extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
 export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   id: string
   label: string
@@ -239,6 +245,7 @@ export enum CertificateDataValueType {
   ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
+  HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
 }
 
@@ -311,6 +318,10 @@ export interface ValueIcf extends Value {
   id: string
   icfCodes?: string[]
   text: string | null
+}
+
+export interface ValueHeader extends Value {
+  id: string
 }
 
 // Validation

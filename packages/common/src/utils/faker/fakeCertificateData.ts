@@ -15,6 +15,7 @@ import {
   ConfigUeTextArea,
   ConfigureUeUncertainDate,
   ConfigUeTextField,
+  ConfigUeHeader,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -23,6 +24,7 @@ import {
   ValueDiagnosis,
   ValueIcf,
   ValueText,
+  ValueHeader,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -327,6 +329,22 @@ export const fakeDateElement = (
         }),
         ...(data?.validation ?? []),
       ],
+    },
+    children
+  )
+
+export const fakeHeaderElement = (
+  data?: PartialCertificateDataElement<ConfigUeHeader, ValueHeader>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_HEADER,
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.HEADER },
     },
     children
   )

@@ -18,10 +18,15 @@ import TextFilter from './TextFilter'
 import RadioFilter from './RadioFilter'
 
 interface Props {
+  /** For this filter and sub-components */
   config: ListFilterConfig
+  /** Action to trigger when something changes. */
   onChange: (value: ListFilterValue, id: string) => void
 }
 
+/**
+ * Generates a components for filtering a table based on provided configuration.
+ */
 const ListFilterComponent: React.FC<Props> = ({ config, onChange }) => {
   const value = useSelector(getActiveListFilterValue(config.id)) as ListFilterValue
 
