@@ -55,7 +55,7 @@ const Certificate: React.FC = () => {
   const certificateContainerRef = useRef<HTMLDivElement>(null)
   const certificateContainerId = 'questions-container'
   const links = useSelector(getResourceLinks)
-  const showPatientAddress = links.find((link) => link.type === ResourceLinkType.PATIENT_ADDRESS)
+  const showPatientAddress = links.find((link) => link.type === ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)
 
   useEffect(() => {
     if (gotoId) {
