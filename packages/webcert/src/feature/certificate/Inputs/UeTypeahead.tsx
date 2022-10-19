@@ -1,6 +1,7 @@
 import {
   CertificateDataElement,
   CertificateDataValidationType,
+  CertificateDataValueType,
   ConfigUeTypeahead,
   QuestionValidationTexts,
   TextValidation,
@@ -28,7 +29,8 @@ const wholeRowGrid = css`
 const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const questionConfig = question.config as ConfigUeTypeahead
-  const [text, setText] = useState((question.value as ValueText).text)
+  const textValue = getTextValue(question)
+  const [text, setText] = useState(textValue != null ? textValue.text : '')
   const [open, setOpen] = useState(false)
   const [suggestions, setSuggestions] = useState([] as string[])
   const dispatch = useDispatch()
@@ -100,6 +102,13 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       </div>
     </div>
   )
+}
+
+function getTextValue(question: CertificateDataElement): ValueText | null {
+  if (question.value?.type !== CertificateDataValueType.TEXT) {
+    return null
+  }
+  return question.value as ValueText
 }
 
 function getUpdatedValue(question: CertificateDataElement, text: string): CertificateDataElement {
