@@ -6,10 +6,9 @@ interface WrapperProps {
 }
 
 const Wrapper = styled.section<WrapperProps>`
-  padding-top: 16px;
-  padding-bottom: 16px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  padding-bottom: 16px;
   background-color: ${(props) => (props.highlighted ? '#FFF8E0' : '')} !important;
 `
 
@@ -20,8 +19,7 @@ interface Props {
 
 const QuestionWrapper: React.FC<Props> = ({ additionalStyles, highlighted, children }) => {
   return (
-    // @ts-expect-error highlighted gives error but works as expected
-    <Wrapper highlighted={highlighted} css={additionalStyles} className={`contentPaperWrapper questionWrapper iu-bg-white`}>
+    <Wrapper highlighted={Boolean(highlighted)} css={additionalStyles} className={`contentPaperWrapper questionWrapper iu-bg-white`}>
       {children}
     </Wrapper>
   )
