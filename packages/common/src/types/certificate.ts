@@ -134,7 +134,7 @@ export interface ConfigUeMessage extends CertificateDataConfig {
   message: string
 }
 
-export interface ConfigUeTypeahead extends CertificateDataConfig{
+export interface ConfigUeTypeahead extends CertificateDataConfig {
   id: string
   typeahead: string[]
   text: string
@@ -478,7 +478,6 @@ export interface IcfTitles {
     unique: string[]
     common: string[]
   }
-
 }
 
 export enum CertificateSignStatus {

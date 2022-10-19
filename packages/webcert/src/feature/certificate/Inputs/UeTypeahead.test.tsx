@@ -41,7 +41,7 @@ const renderDefaultComponent = () => {
 const renderWithSuggestions = (open: boolean) => {
   render(
     <>
-      <UeTypeahead question={question} disabled={true} />
+      <UeTypeahead question={question} disabled={open} />
     </>
   )
 }
