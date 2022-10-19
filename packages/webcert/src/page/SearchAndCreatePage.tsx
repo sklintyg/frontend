@@ -72,7 +72,9 @@ const SearchAndCreatePage: React.FC = () => {
 
   if (patient && !patientId) {
     history.push(`/create/${patient.personId.id}`)
-  } else if (history.action === 'POP') {
+  }
+
+  if (history.action === 'POP') {
     dispatch(clearPatient())
     history.push('/create')
   }
