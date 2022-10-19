@@ -29,7 +29,6 @@ describe('AG7804-intyg minimalt ifyllt', function() {
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                     const önskadUrl = "/certificate/" + this.utkastId ;
                     cy.visit(önskadUrl);
-                    cy.wait(100);
                     intyg.signera();
                     intyg.makulera();
                     cy.contains(this.utkastId).should('not.exist')
@@ -40,7 +39,6 @@ describe('AG7804-intyg minimalt ifyllt', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
                 //intyg.signeraSkicka();
                 //expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 intyg.signera();

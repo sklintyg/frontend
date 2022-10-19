@@ -60,7 +60,7 @@ describe('AG7804-utkast tomt', function() {
                 const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
                // cy.wait(1000);
-                cy.contains("Klart att signera", {timeout:5000}).should('exist');
+                cy.contains("Klart att signera").should('exist');
                 
                 //cy.get('label').contains('Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna "Diagnos" och "Nedsättning av arbetsförmåga".)').click();
                 cy.get('label').contains('100 procent').click();
