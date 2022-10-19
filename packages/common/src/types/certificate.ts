@@ -71,6 +71,7 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_CODE = 'UE_CHECKBOX_MULTIPLE_CODE',
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
+  UE_DATE = 'UE_DATE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
@@ -84,6 +85,7 @@ export enum ConfigTypes {
   UE_TEXTFIELD = 'UE_TEXTFIELD',
   UE_TYPEAHEAD = 'UE_TYPEAHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
+  UE_HEADER = 'UE_HEADER',
 }
 
 export enum MessageLevel {
@@ -105,6 +107,10 @@ export interface CertificateDataConfig {
 export type ConfigCategory = CertificateDataConfig
 
 export interface ConfigUeTextArea extends CertificateDataConfig {
+  id: string
+}
+
+export interface ConfigUeTextField extends CertificateDataConfig {
   id: string
 }
 
@@ -200,12 +206,29 @@ export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
 }
 
+export interface ConfigUeDate extends CertificateDataConfig {
+  id: string
+}
+
 export interface ConfigUeIcf extends CertificateDataConfig {
   id: string
   label: string
   modalLabel: string
   collectionsLabel: string
   placeholder: string
+}
+
+export interface ConfigUeHeader extends CertificateDataConfig {
+  id: string
+  label: string
+}
+
+export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+  id: string
+  label: string
+  allowedYears: string[]
+  unknownYear: boolean
+  unknownMonth: boolean
 }
 
 // Values
@@ -222,6 +245,8 @@ export enum CertificateDataValueType {
   ICF = 'ICF',
   TEXT = 'TEXT',
   UNKNOWN = 'UNKNOWN',
+  HEADER = 'HEADER',
+  UNCERTAIN_DATE = 'UNCERTAIN_DATE',
 }
 
 export interface Value {
@@ -241,6 +266,11 @@ export interface ValueCode extends Value {
 }
 
 export interface ValueDate extends Value {
+  id: string
+  date: string
+}
+
+export interface ValueUncertainDate extends Value {
   id: string
   date: string
 }
@@ -283,6 +313,10 @@ export interface ValueIcf extends Value {
   id: string
   icfCodes?: string[]
   text: string | null
+}
+
+export interface ValueHeader extends Value {
+  id: string
 }
 
 // Validation
@@ -432,4 +466,13 @@ export interface IcfTitles {
     unique: string[]
     common: string[]
   }
+}
+
+export enum CertificateSignStatus {
+  INITIAL = '',
+  UNKNOWN = 'OKAND',
+  PROCESSING = 'BEARBETAR',
+  NO_CLIENT = 'NO_CLIENT',
+  SIGNED = 'SIGNERAD',
+  FAILED = 'FAILED',
 }

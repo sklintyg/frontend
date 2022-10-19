@@ -13,8 +13,8 @@ import {
   getDrafts,
   getPreviousCertificatesList,
   getPreviousCertificatesListConfig,
-  getQuestionListConfig,
-  getQuestions,
+  getUnhandledCertificatesListConfig,
+  getUnhandledCertificates,
   ListResponse,
   updateActiveListConfig,
   updateActiveListType,
@@ -156,7 +156,7 @@ describe('Test list middleware', () => {
     describe('questions', () => {
       it('shall call api to get questions', async () => {
         const filter = getFilter()
-        testStore.dispatch(getQuestions(filter))
+        testStore.dispatch(getUnhandledCertificates(filter))
 
         await flushPromises()
         expect(fakeAxios.history.post.length).toBe(1)
@@ -169,8 +169,8 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/question').reply(200, getListSuccess)
 
-        testStore.dispatch(updateActiveListType(ListType.QUESTIONS))
-        testStore.dispatch(getQuestions(getFilter()))
+        testStore.dispatch(updateActiveListType(ListType.UNHANDLED_CERTIFICATES))
+        testStore.dispatch(getUnhandledCertificates(getFilter()))
 
         await flushPromises()
         expect(testStore.getState().ui.uiList.activeList).toEqual(expectedList)
@@ -182,8 +182,8 @@ describe('Test list middleware', () => {
         const getListSuccess = { list: expectedList, totalCount: expectedTotalCount } as ListResponse
         fakeAxios.onPost('/api/list/question').reply(200, getListSuccess)
 
-        testStore.dispatch(updateActiveListType(ListType.QUESTIONS))
-        testStore.dispatch(getQuestions(getFilter()))
+        testStore.dispatch(updateActiveListType(ListType.UNHANDLED_CERTIFICATES))
+        testStore.dispatch(getUnhandledCertificates(getFilter()))
 
         await flushPromises()
         expect(testStore.getState().ui.uiList.totalCount).toEqual(expectedTotalCount)
@@ -269,7 +269,7 @@ describe('Test list middleware', () => {
 
     describe('questions', () => {
       it('shall call api to get config', async () => {
-        testStore.dispatch(getQuestionListConfig('UNIT_ID'))
+        testStore.dispatch(getUnhandledCertificatesListConfig('UNIT_ID'))
 
         await flushPromises()
         expect(fakeAxios.history.post.length).toBe(1)
@@ -281,7 +281,7 @@ describe('Test list middleware', () => {
 
         fakeAxios.onGet('/api/list/config/question').reply(200, expectedConfig)
 
-        testStore.dispatch(getQuestionListConfig('UNIT_ID'))
+        testStore.dispatch(getUnhandledCertificatesListConfig('UNIT_ID'))
 
         await flushPromises()
         expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)

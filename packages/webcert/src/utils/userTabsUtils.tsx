@@ -12,7 +12,7 @@ const getTabsForDoctor = (statistics: UserStatistics | undefined, links: Resourc
   const tabs: UserTab[] = []
 
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
-  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_QUESTION_LIST, getQuestionListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, getUnhandledCertificatesListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
 
@@ -35,7 +35,7 @@ const addTabIfAccessToPage = (
 const getTabsForAdministrator = (statistics: UserStatistics | undefined, links: ResourceLink[]) => {
   const tabs: UserTab[] = []
 
-  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_QUESTION_LIST, getQuestionListTab)
+  addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES, getUnhandledCertificatesListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_DRAFT_LIST, getDraftListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST, getCertificateListTab)
   addTabIfAccessToPage(tabs, statistics, links, ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE, getSearchCreateTab)
@@ -64,11 +64,11 @@ const getDraftListTab = (link: ResourceLink, statistics: UserStatistics | undefi
   }
 }
 
-const getQuestionListTab = (link: ResourceLink, statistics: UserStatistics | undefined): UserTab => {
+const getUnhandledCertificatesListTab = (link: ResourceLink, statistics: UserStatistics | undefined): UserTab => {
   return {
     number: statistics ? statistics.nbrOfUnhandledQuestionsOnSelectedUnit : undefined,
     title: link.name,
-    url: '/list/question',
+    url: '/list/unhandledcertificates',
     matchedUrls: [],
   }
 }

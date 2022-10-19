@@ -35,4 +35,5 @@ export interface CertificateType {
   issuerTypeId: string
   label: string
   links: ResourceLink[]
+  message: string
 }

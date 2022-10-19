@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
 import FocusTrap from 'focus-trap-react'
+import React, { useRef } from 'react'
 import { createPortal } from 'react-dom'
+import styled from 'styled-components'
 
 const ModalContentWrapper = styled.div`
   p + p {
@@ -21,9 +21,10 @@ interface Props {
   content: React.ReactNode
   enableCross?: boolean
   className?: string
+  focusTrap?: boolean
 }
 
-const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className }) => {
+const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className, focusTrap = true }) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
   const rootElement = document.getElementById('modalRoot')
 
@@ -32,7 +33,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
   }
 
   return createPortal(
-    <FocusTrap active={open}>
+    <FocusTrap active={open && focusTrap}>
       <div tabIndex={0}>
         <div
           className="ic-backdrop iu-lh-body"
@@ -58,7 +59,9 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
               <h3 id="dialog-title">{title}</h3>
             </div>
             <ModalContentWrapper className="ic-modal__body ic-text">{content}</ModalContentWrapper>
-            <div className="ic-button-group ic-button-group--right">{buttons}</div>
+            <div data-testid="modal-buttons" className="ic-button-group ic-button-group--right">
+              {buttons}
+            </div>
           </WrapText>
         </div>
       </div>
