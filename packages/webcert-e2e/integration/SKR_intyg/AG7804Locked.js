@@ -40,7 +40,6 @@ describe('AG7804-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
                 intyg.makuleraUtkast();
                 expect(cy.contains('Utkastet är makulerat'))
                 
@@ -50,7 +49,6 @@ describe('AG7804-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                cy.wait(100);
                 intyg.kopieraUtkast();
                 cy.contains(this.utkastId).should('not.exist');
                 intyg.signera();
@@ -60,7 +58,7 @@ describe('AG7804-intyg låst utkast', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId;
                 cy.visit(önskadUrl);
-                cy.get('.ic-textarea').should('be.disabled'); 
+                cy.get('.iu-pt-200 > #ovrigt').should('be.disabled');
                 cy.contains('Utkastet är låst').should('exist');                           
             });
 
