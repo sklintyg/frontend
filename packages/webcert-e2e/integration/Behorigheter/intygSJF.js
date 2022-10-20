@@ -42,53 +42,19 @@ describe('LISJP-intyg tomt', function() {
 
                                
             });
-            it('Ett LISJP-intyg ska inte kunna makuleras när en användare loggar in från en annan vårdgivare',function(){
+            it('Ett LISJP-intyg ska inte kunna makuleras/skickas/Ersättas och skrivas ut när en användare loggar på annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
                 
                 cy.visit(önskadUrl);
                 cy.contains(this.vårdpersonal.förnamn).should('exist');
 
+                // Kollar så att knapparna inte syns/finns
                 cy.contains('Makulera').should('not.exist');
-                cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-                cy.contains(this.vårdenhet.namn).should('exist');
-                               
-            });
-            it('Ett LISJP-intyg ska inte kunna skickas när en användare loggar in från en annan vårdgivare',function(){
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
-                const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
-                
-                cy.visit(önskadUrl);
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-
                 cy.contains('Skicka').should('not.exist');
-                cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-                cy.contains(this.vårdenhet.namn).should('exist');
-                               
-            });
-            it('Ett LISJP-intyg ska inte kunna ersättas när en användare loggar in från en annan vårdgivare',function(){
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
-                const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
-                
-                cy.visit(önskadUrl);
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-
                 cy.contains('Ersätt').should('not.exist');
-                cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-                cy.contains(this.vårdenhet.namn).should('exist');
-                               
-            });
-            it('Ett LISJP-intyg ska inte kunna skrivas ut när en användare loggar in från en annan vårdgivare',function(){
-                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
-                const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
-                
-                cy.visit(önskadUrl);
-                cy.contains(this.vårdpersonal.förnamn).should('exist');
-
                 cy.contains('Skriv ut').should('not.exist');
+
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
                 cy.contains(this.vårdpersonal.förnamn).should('exist');
                 cy.contains(this.vårdenhet.namn).should('exist');

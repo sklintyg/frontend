@@ -66,6 +66,7 @@ export function signera() {
     // TODO: Utan wait så tappas ofta slutet på texten bort i sista textboxen.
     // Antagligen hinner WebCert inte auto-spara innan man trycker på "signera".
     // Wait är dock ett anti-pattern så finns något annat sätt så är det att föredra.
+    cy.wait(1000);
 
     cy.contains("Klart att signera");
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
@@ -88,7 +89,6 @@ export function skrivUtUtkast(){
     cy.get('button').contains("Skriv ut").click();
     
 }
-
 // Generell utskriftsfunktion. Gäller inte för t.ex. LISJP
 export function skrivUt(typAvUtskrift, intygsId, intygsTyp){
     const theUrl = 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + "/pdf" + typAvUtskrift;
@@ -121,7 +121,6 @@ export function ersatta() {
         }
     });
 }
-
 export function fornya() {
     cy.get('button').contains("Förnya").click();
     //cy.get('#fornyaBtn').click();
@@ -135,7 +134,6 @@ export function fornya() {
         }
     });
 }
-
 export function kopieraUtkast(){
     cy.contains('Kopiera').click().then(() => {
         cy.get('.ic-modal').then((ele) => {
@@ -149,7 +147,6 @@ export function kopieraUtkast(){
         });
     });
 }
-
 export function svaraPåÄrende(typAvFråga, meddelande) {   
     
     cy.get('.ic-card').within((panel)=>
@@ -162,7 +159,6 @@ export function svaraPåÄrende(typAvFråga, meddelande) {
                 
            
 }
-
 export function svaraPaKomplettering(alternativ, meddelandeText) {
     switch(alternativ) {
         case "nyttIntyg":
@@ -196,7 +192,6 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
             cy.log('Inget bra alternativ valt');
     }
 }
-
 export function raderaUtkast() {
     cy.get('.fhrpJS > .ic-button').should('be.visible');
     cy.get('button').contains("Radera").click();
@@ -207,15 +202,17 @@ export function raderaUtkast() {
 }
 
 export function makulera() {
-    cy.get('button').contains("Makulera").click();
-    cy.contains("Intyget har utfärdats på fel patient").click();
+   cy.wait(1000);
+   cy.get('button').contains("Makulera").click();
+   cy.contains("Intyget har utfärdats på fel patient").click();
 
-    cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Intyget har utfärdats på fel patient');
-    cy.get('.ic-modal').within((modal) => {
-        cy.get('button').contains("Makulera").click();
-    });
+   cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Intyget har utfärdats på fel patient');
+   cy.wait(100);
+   cy.get('.ic-modal').within((modal)=>
+   {
+       cy.get('button').contains("Makulera").click();
+   });
 }
-
 export function makuleraUtkast() {
     cy.get('.fhrpJS > .ic-button').should('be.visible').contains("Makulera").click();
    // cy.get('#ta-bort-utkast').click();
@@ -223,6 +220,7 @@ export function makuleraUtkast() {
         {
             cy.contains("Utkastet har skapats på fel patient").click();
             cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Utkastet har skapats på fel patient');
+            cy.wait(1000);
             cy.get('button').contains("Makulera").click();
         });
    
@@ -232,7 +230,6 @@ export function makuleraUtkast() {
   
    //cy.get('radio').contains("Intyget har utfärdats på fel patient").check();  
 }
-
 export function makuleraIntyg(arg) {
     cy.get('#makuleraBtn').click();
     if (arg === "Annat allvarligt fel") {
@@ -244,7 +241,6 @@ export function makuleraIntyg(arg) {
         cy.get('#button1makulera-dialog').click();
     }
 }
-
 export function komplettera() {
         cy.wait(3000);
       
