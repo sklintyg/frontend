@@ -30,7 +30,7 @@ describe('LISJP-intyg låst utkast', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-               
+                intyg.verifieraLastIntyg();
                 intyg.skrivUt("utkast", this.utkastId, "lisjp");//skriver ut via request
             });
         
@@ -40,6 +40,11 @@ describe('LISJP-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
+<<<<<<< Updated upstream
+=======
+                intyg.verifieraLastIntyg();
+                cy.wait(100);
+>>>>>>> Stashed changes
                 intyg.makuleraUtkast();
                 expect(cy.contains('Utkastet är makulerat'))
 
@@ -49,6 +54,11 @@ describe('LISJP-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
+<<<<<<< Updated upstream
+=======
+                intyg.verifieraLastIntyg();
+                cy.wait(100);
+>>>>>>> Stashed changes
                 intyg.kopieraUtkast();
                 cy.contains(this.utkastId).should('not.exist')
                 intyg.signera();
@@ -59,6 +69,7 @@ describe('LISJP-intyg låst utkast', function() {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId;
                 cy.visit(önskadUrl);
+                intyg.verifieraLastIntyg();
                 cy.get('.ic-textarea').should('be.disabled'); 
                 cy.contains('Utkastet är låst').should('exist');                           
             });

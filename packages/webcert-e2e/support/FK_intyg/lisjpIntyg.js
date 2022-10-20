@@ -6,7 +6,7 @@ import * as fk from './fk_helpers'
 
 // De funktioner etc. som är gemensamma för alla FK-intyg kan exporteras direkt
 export {besökÖnskadUrl, loggaUtLoggaIn, sektionÖvrigt, sektionKontakt,loggaUt,kopiera,
-        skickaTillFk, fornya, raderaUtkast, makuleraIntyg,komplettera, makulera, ersatta,kopieraUtkast, makuleraUtkast,svaraPåÄrende} from './fk_helpers';
+        skickaTillFk, fornya, raderaUtkast, makuleraIntyg,komplettera, makulera, ersatta,kopieraUtkast, makuleraUtkast,svaraPåÄrende,verifieraLastIntyg} from './fk_helpers';
 
 // -------------------- 'Smittbärarpenning' --------------------
 // Ej implementerad än
