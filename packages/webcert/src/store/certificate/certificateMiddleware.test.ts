@@ -544,7 +544,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
-        expect(hideCertificateDataElementAction!.payload).toBe('1.2')
+        expect(hideCertificateDataElementAction && hideCertificateDataElementAction.payload).toBe('1.2')
       })
 
       it('should throw show action when hidden', async () => {
@@ -555,7 +555,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const showCertificateDataElementAction = dispatchedActions.find((action) => showCertificateDataElement.match(action))
-        expect(showCertificateDataElementAction!.payload).toBe('1.2')
+        expect(showCertificateDataElementAction && showCertificateDataElementAction.payload).toBe('1.2')
       })
 
       it('should trigger another frontend validation if the element is hidden ', async () => {
@@ -595,7 +595,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
-        expect(hideCertificateDataElementAction!.payload).toBe('1.2')
+        expect(hideCertificateDataElementAction && hideCertificateDataElementAction.payload).toBe('1.2')
       })
 
       it('should throw unhide action when hidden', async () => {
@@ -606,7 +606,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const unhideCertificateDataElementAction = dispatchedActions.find((action) => unhideCertificateDataElement.match(action))
-        expect(unhideCertificateDataElementAction!.payload).toBe('1.2')
+        expect(unhideCertificateDataElementAction && unhideCertificateDataElementAction.payload).toBe('1.2')
       })
 
       it('should trigger another frontend validation if the element is visible ', async () => {
@@ -748,12 +748,6 @@ describe('Test certificate middleware', () => {
       expect(createdCertificateId).toEqual(response.certificateId)
     })
   })
-
-  const setDefaultUser = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    testStore.dispatch(updateUser({ signingMethod: SigningMethod.DSS }))
-  }
 })
 
 export const getCertificate = (
@@ -795,70 +789,6 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
           {
             questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-            expression: '$0',
-          },
-        ],
-      } as unknown) as CertificateDataElement,
-    },
-    links: [],
-  }
-}
-const getCertificateWithShowValidationAndBooleanValue = (selected: boolean): Certificate => {
-  return {
-    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
-    data: {
-      '0': ({
-        id: '0',
-        readOnly: false,
-        parent: '0',
-        index: 1,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-        },
-        validation: [
-          {
-            questionId: '0',
-            type: CertificateDataValidationType.SHOW_VALIDATION,
-            expression: '$0',
-          },
-        ],
-      } as unknown) as CertificateDataElement,
-    },
-    links: [],
-  }
-}
-const getCertificateWithShowValidationAndDateValue = (date: string): Certificate => {
-  return {
-    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
-    data: {
-      '0': ({
-        id: '0',
-        readOnly: false,
-        parent: '0',
-        index: 1,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.DATE,
-          date: date,
-        },
-        validation: [
-          {
-            questionId: '0',
-            type: CertificateDataValidationType.SHOW_VALIDATION,
             expression: '$0',
           },
         ],

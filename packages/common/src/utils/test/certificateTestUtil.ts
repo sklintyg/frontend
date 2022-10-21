@@ -6,7 +6,8 @@ import {
   CertificateRelation,
   CertificateRelationType,
   CertificateStatus,
-  ConfigTypes, ValueDate,
+  ConfigTypes,
+  ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
