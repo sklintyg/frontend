@@ -521,8 +521,6 @@ export const printCertificate = createAction<CertificateMetadata & { iframe: HTM
 
 export const updateCertificateComplements = createAction<Complement[]>(UPDATE_CERTIFICATE_COMPLEMENTS)
 
-export const clearCertificateDataElementValue = createAction<string>(CLEAR_CERTIFICATE_DATA_ELEMENT_VALUE)
-
 export interface GotoCertificateDataElement {
   questionId: string
   valueId: string
