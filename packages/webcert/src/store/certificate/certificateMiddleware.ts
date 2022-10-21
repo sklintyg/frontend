@@ -805,13 +805,13 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
    */
   function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
     function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
-      return !validationResults.some(
-        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.result && value.id === validationResult.id
+      return validationResults.some(
+        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id
       )
     }
 
     if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
-      return hideValidationHasPriorityOverShow(validationResult)
+      return !hideValidationHasPriorityOverShow(validationResult)
     }
     return true
   }
@@ -835,7 +835,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
               questionIdsToValidate.push(result.id)
             }
           } else {
-            dispatch(unhideCertificateDataElement(result.id))
+            dispatch(showCertificateDataElement(result.id))
             if (!certificate.data[result.id].visible) {
               questionIdsToValidate.push(result.id)
             }
