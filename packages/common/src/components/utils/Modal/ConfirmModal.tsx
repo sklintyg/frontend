@@ -11,6 +11,7 @@ interface Props {
   declineButtonText?: string
   disabled: boolean
   hideDeclineButton?: boolean
+  hideConfirmButtom?: boolean
   modalTitle: string
   onClose?: () => void
   onConfirm: () => void
@@ -25,6 +26,8 @@ export const ConfirmModal: React.FC<Props> = ({
   confirmButtonDisabled,
   confirmButtonStyle,
   confirmButtonText,
+  hideDeclineButton,
+  hideConfirmButtom,
   modalTitle,
   declineButtonText,
   onClose,
@@ -59,14 +62,18 @@ export const ConfirmModal: React.FC<Props> = ({
       content={children}
       buttons={
         <>
-          <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
-          <CustomButton
-            buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
-            className={additionalConfirmButtonStyles}
-            disabled={confirmButtonDisabled}
-            onClick={handleConfirm}
-            text={confirmButtonText}
-          />
+          {hideDeclineButton != true && (
+            <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
+          )}
+          {hideConfirmButtom != true && (
+            <CustomButton
+              buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
+              className={additionalConfirmButtonStyles}
+              disabled={confirmButtonDisabled}
+              onClick={handleConfirm}
+              text={confirmButtonText}
+            />
+          )}
         </>
       }
     />

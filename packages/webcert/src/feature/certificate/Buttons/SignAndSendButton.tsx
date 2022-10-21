@@ -1,4 +1,4 @@
-import { CertificateSignStatus, CustomButton } from '@frontend/common'
+import { CertificateSignStatus, ButtonWithConfirmModal, resourceLinksAreEqual, ResourceLinkType, ResourceLink } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,27 +7,39 @@ import { getIsValidating, getSigningStatus } from '../../../store/certificate/ce
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
-  name: string
-  description: string
-  enabled: boolean
+  link: ResourceLink
+  canSign: boolean
 }
 
-const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const SignAndSendButton: React.FC<Props> = ({ link, canSign, functionDisabled }) => {
   const dispatch = useDispatch()
   const isValidating = useSelector(getIsValidating)
   const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
 
   return (
-    <CustomButton
-      tooltip={description}
+    <ButtonWithConfirmModal
+      description={link.description}
       buttonStyle="primary"
-      text={name}
+      name={link.name}
+      modalTitle={link.name}
       startIcon={<img src={edit} alt="Signera intyget" />}
-      disabled={isValidating || isSigning || !enabled || functionDisabled}
+      confirmButtonText={link.name}
+      disabled={isValidating || isSigning || !link.enabled || functionDisabled}
+      hideConfirmButton={canSign != true}
       onClick={() => {
-        dispatch(startSignCertificate())
+        !resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION) && dispatch(startSignCertificate())
       }}
-    />
+      onConfirm={() => {
+        canSign && dispatch(startSignCertificate())
+      }}>
+      {link.body ? (
+        <div>
+          <p>{link.body}</p>
+        </div>
+      ) : (
+        ''
+      )}
+    </ButtonWithConfirmModal>
   )
 }
 

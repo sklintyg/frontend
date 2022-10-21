@@ -19,6 +19,7 @@ interface Props {
   onClick?: () => void
   onClose?: () => void
   hideDeclineButton?: boolean
+  hideConfirmButton?: boolean
   buttonClasses?: string
 }
 
