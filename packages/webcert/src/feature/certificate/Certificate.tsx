@@ -83,7 +83,11 @@ const Certificate: React.FC = () => {
           </InfoBox>
         )}
         <ResponsibleHospName />
-        {showPatientAddress && <PatientAddress />}
+        {showPatientAddress && (
+          <CategoryWrapper>
+            <PatientAddress />
+          </CategoryWrapper>
+        )}
         <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>
           {certificateStructure &&
             certificateStructure
