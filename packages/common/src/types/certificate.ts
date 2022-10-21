@@ -1,4 +1,3 @@
-import { Suggestion } from '../components/Inputs/Typeahead'
 import { Patient } from './patient'
 import { ResourceLink } from './resourceLink'
 
@@ -306,10 +305,6 @@ export interface ValueDiagnosis extends Value {
 
 export interface ValueDiagnosisList extends Value {
   list: ValueDiagnosis[]
-}
-
-export interface TextTypeahead extends Value {
-  list: Suggestion[]
 }
 
 export interface ValueCodeList extends Value {

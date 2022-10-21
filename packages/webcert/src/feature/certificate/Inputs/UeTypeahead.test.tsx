@@ -2,33 +2,11 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import UeTypeahead from './UeTypeahead'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import * as redux from 'react-redux'
+import userEvent from '@testing-library/user-event'
+import { fakeTypeaheadElement } from '@frontend/common'
 
-const suggestions = [
-  { label: 'Göteborg', disabled: false, title: null },
-  { label: 'Stockholm', disabled: false, title: null },
-  { label: 'Sundsvall', disabled: false, title: null },
-  { label: 'Östersund', disabled: true, title: null },
-]
-
-const question: CertificateDataElement = {
-  id: 'typeahead',
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  validation: [],
-  validationErrors: [],
-  value: { type: CertificateDataValueType.TEXT, list: [] },
-  config: {
-    text: '',
-    description: '',
-    type: ConfigTypes.UE_TYPE_AHEAD,
-    list: [{ id: 'id1' }, { id: 'id2' }, { id: 'id3' }],
-  },
-}
+const question = fakeTypeaheadElement({ id: '1' })['1']
 
 const renderDefaultComponent = () => {
   render(
@@ -38,10 +16,10 @@ const renderDefaultComponent = () => {
   )
 }
 
-const renderWithSuggestions = (open: boolean) => {
+const renderWithSuggestions = () => {
   render(
     <>
-      <UeTypeahead question={question} disabled={open} />
+      <UeTypeahead question={question} disabled={true} />
     </>
   )
 }
@@ -49,32 +27,47 @@ const renderWithSuggestions = (open: boolean) => {
 beforeEach(() => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue({
-    typeahead: suggestions,
-    resultat: 'OK',
-  })
+  useSelectorSpy.mockReturnValue({})
   useDispatchSpy.mockReturnValue(jest.fn())
 })
+
+const checkListVisibility = (visible: boolean) => {
+  const listItems = screen.queryAllByRole('option')
+  if (visible) {
+    expect(listItems).toHaveLength(2)
+  } else {
+    expect(listItems).toHaveLength(0)
+  }
+}
 
 describe('Typeahead component', () => {
   it('renders without crashing', () => {
     renderDefaultComponent()
   })
-
   it('does not render suggestions when array is empty', () => {
     renderDefaultComponent()
     const list = screen.queryByRole('list')
     expect(list).toBeNull()
   })
-  it('does not render suggestions when open is false', () => {
-    renderWithSuggestions(false)
-    const list = screen.queryByRole('list')
-    expect(list).toBeNull()
+  it('renders component with correct default values', () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    expect(input).toHaveValue('Kommun')
   })
-
   it('disables component if disabled is set', () => {
-    renderWithSuggestions(true)
+    renderWithSuggestions()
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled()
+  })
+  it('shows results when users types text', () => {
+    renderDefaultComponent()
+    const testinput = 'Ö'
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    checkListVisibility(false)
+    userEvent.type(input, testinput)
+    checkListVisibility(true)
+    expect(input).toHaveValue(testinput)
+    checkListVisibility(true)
   })
 })

@@ -300,7 +300,7 @@ export const fakeTypeaheadElement = (
         list: fakeList(3),
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.TEXT, list: [], ...data?.value },
+      value: { type: CertificateDataValueType.TEXT, text: 'Kommun', list: [], ...data?.value },
     },
     children
   )
