@@ -143,7 +143,6 @@ const UPDATE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update certificate data 
 const UPDATE_VALIDATION_ERRORS = `${CERTIFICATE} Update validation errors`
 const UPDATE_CERTIFICATE_VERSION = `${CERTIFICATE} Update certificate version`
 const UPDATE_CERTIFICATE_COMPLEMENTS = `${CERTIFICATE} Update certificate complements`
-const CLEAR_CERTIFICATE_DATA_ELEMENT_VALUE = `${CERTIFICATE} Clear certificate data element value`
 const UPDATE_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Update goto certificate data element`
 const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certificate data element`
 
