@@ -6,7 +6,13 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/babel-loader"
+      "**/babel-loader",
+      "**/mochawesome",
+      "**/mochawesome/**",
+      "**/mocha",
+      "**/mocha/**",
+      "**/cypress",
+      "**/cypress/**"
     ]
   },
   "scripts": {
