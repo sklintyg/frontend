@@ -2,6 +2,7 @@ import {
   Certificate,
   CertificateDataElement,
   CertificateDataElementStyleEnum,
+  CertificateDataValidation,
   CertificateDataValidationType,
   CertificateDataValueType,
   CertificateMetadata,
@@ -13,8 +14,6 @@ import {
   getUser,
   SigningMethod,
   ValidationError,
-  ValueBoolean,
-  ValueDate,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -27,7 +26,6 @@ import {
   answerComplementCertificate,
   autoSaveCertificateError,
   certificateApiGenericError,
-  clearCertificateDataElementValue,
   complementCertificate,
   complementCertificateSuccess,
   ComplementCertificateSuccess,
@@ -43,7 +41,8 @@ import {
   readyForSignSuccess,
   showCertificateDataElement,
   SigningData,
-  startSignCertificate, unhideCertificateDataElement,
+  startSignCertificate,
+  unhideCertificateDataElement,
   updateCertificate,
   updateClientValidationError,
   updateValidationErrors,
@@ -545,7 +544,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
-        expect(hideCertificateDataElementAction.payload).toBe('1.2')
+        expect(hideCertificateDataElementAction!.payload).toBe('1.2')
       })
 
       it('should throw show action when hidden', async () => {
@@ -556,7 +555,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const showCertificateDataElementAction = dispatchedActions.find((action) => showCertificateDataElement.match(action))
-        expect(showCertificateDataElementAction.payload).toBe('1.2')
+        expect(showCertificateDataElementAction!.payload).toBe('1.2')
       })
 
       it('should trigger another frontend validation if the element is hidden ', async () => {
@@ -596,7 +595,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const hideCertificateDataElementAction = dispatchedActions.find((action) => hideCertificateDataElement.match(action))
-        expect(hideCertificateDataElementAction.payload).toBe('1.2')
+        expect(hideCertificateDataElementAction!.payload).toBe('1.2')
       })
 
       it('should throw unhide action when hidden', async () => {
@@ -607,7 +606,7 @@ describe('Test certificate middleware', () => {
 
         await flushPromises()
         const unhideCertificateDataElementAction = dispatchedActions.find((action) => unhideCertificateDataElement.match(action))
-        expect(unhideCertificateDataElementAction.payload).toBe('1.2')
+        expect(unhideCertificateDataElementAction!.payload).toBe('1.2')
       })
 
       it('should trigger another frontend validation if the element is visible ', async () => {
@@ -635,6 +634,24 @@ describe('Test certificate middleware', () => {
         expect(numberOfValidateCertificateInFrontend.length).toBe(2)
         expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
         expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
+      })
+    })
+
+    describe('Show and Hide validation', () => {
+      it('should throw hide action when both hide and show is present and validates true', async () => {
+        const certificate = getCertificateWithArrayOfValidations(true, [
+          { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '$haveValue' },
+        ])
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
+        const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.length).toBe(1)
+        expect(showCertificateDataElementAction.length).toBe(0)
       })
     })
   })
@@ -697,27 +714,6 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const createdCertificateId = testStore.getState().ui.uiCertificate.createdCertificateId
       expect(createdCertificateId).toEqual(response.certificateId)
-    })
-  })
-
-  describe('Handle clear certificate data element value', () => {
-    it('should clear boolean value', async () => {
-      const certificate = getCertificateWithShowValidationAndBooleanValue(false)
-      testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(clearCertificateDataElementValue(certificate.data[0].id))
-
-      await flushPromises()
-
-      expect((testStore.getState().ui.uiCertificate.certificate.data[0].value as ValueBoolean).selected).toBe(null)
-    })
-    it('should clear date value', async () => {
-      const certificate = getCertificateWithShowValidationAndDateValue('2022-01-01')
-      testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(clearCertificateDataElementValue(certificate.data[0].id))
-
-      await flushPromises()
-
-      expect((testStore.getState().ui.uiCertificate.certificate.data[0].value as ValueDate).date).toBeFalsy()
     })
   })
 
@@ -885,6 +881,51 @@ const getCertificateWithValidation = (selected: boolean, validationType: Certifi
             expression: '$haveValue',
           },
         ],
+      } as unknown) as CertificateDataElement,
+    },
+    links: [],
+  }
+}
+const getCertificateWithArrayOfValidations = (selected: boolean, validation: CertificateDataValidation[]): Certificate => {
+  return {
+    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
+    data: {
+      '1.1': ({
+        id: '1.1',
+        readOnly: false,
+        parent: '1',
+        index: 1,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+          id: 'haveValue',
+        },
+        validation: [],
+      } as unknown) as CertificateDataElement,
+      '1.2': ({
+        id: '1.2',
+        readOnly: false,
+        parent: '1',
+        index: 2,
+        visible: true,
+        mandatory: false,
+        config: {
+          text: '',
+          description: '',
+          type: (null as unknown) as ConfigTypes,
+        },
+        value: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: selected,
+        },
+        validation,
       } as unknown) as CertificateDataElement,
     },
     links: [],
