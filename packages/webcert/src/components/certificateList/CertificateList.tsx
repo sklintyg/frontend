@@ -63,7 +63,7 @@ const CertificateList: React.FC = () => {
   }
 
   const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
-    if (links.some((link) => link.type === ResourceLinkType.CREATE_DEATHCERTIFICATE_CONFIRMATION)) {
+    if (links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)) {
       setShowDeathCertificateModal(true)
     } else {
       if (patient) {
