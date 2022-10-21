@@ -653,6 +653,38 @@ describe('Test certificate middleware', () => {
         expect(hideCertificateDataElementAction.length).toBe(1)
         expect(showCertificateDataElementAction.length).toBe(0)
       })
+
+      it('should throw hide action when both hide and show is present but only hide validates true', async () => {
+        const certificate = getCertificateWithArrayOfValidations(true, [
+          { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '!$haveValue' },
+        ])
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
+        const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.length).toBe(1)
+        expect(showCertificateDataElementAction.length).toBe(0)
+      })
+
+      it('should throw show action when both hide and show is present but only show validates true', async () => {
+        const certificate = getCertificateWithArrayOfValidations(true, [
+          { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '!$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '$haveValue' },
+        ])
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
+        const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.length).toBe(0)
+        expect(showCertificateDataElementAction.length).toBe(1)
+      })
     })
   })
 
