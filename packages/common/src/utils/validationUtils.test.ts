@@ -630,7 +630,7 @@ describe('Validate multiple show rules', () => {
     expect(textResult === undefined ? undefined : textResult.result).toBe(false)
   })
 
-  it('It should validate as false if only one show rule is true', () => {
+  it('It should validate as true if one show rule is true and the other false', () => {
     const valueBoolean = updatedElement.value as ValueBoolean
     valueBoolean.selected = true
 
@@ -653,7 +653,7 @@ describe('Validate multiple show rules', () => {
 
     expect(categoryResult === undefined ? undefined : categoryResult.result).toBe(true)
     expect(booleanResult === undefined ? undefined : booleanResult.result).toBe(true)
-    expect(textResult === undefined ? undefined : textResult.result).toBe(false)
+    expect(textResult === undefined ? undefined : textResult.result).toBe(true)
   })
 
   it('It should validate as true if both show rules are true', () => {
