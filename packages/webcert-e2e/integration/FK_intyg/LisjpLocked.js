@@ -42,6 +42,7 @@ describe('LISJP-intyg låst utkast', function() {
                 cy.visit(önskadUrl);
                 intyg.verifieraLastIntyg();
                 cy.wait(100);
+
                 intyg.makuleraUtkast();
                 expect(cy.contains('Utkastet är makulerat'))
 
@@ -54,6 +55,7 @@ describe('LISJP-intyg låst utkast', function() {
 
                 intyg.verifieraLastIntyg();
                 cy.wait(100);
+
                 intyg.kopieraUtkast();
                 cy.contains(this.utkastId).should('not.exist')
                 intyg.signera();
