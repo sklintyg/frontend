@@ -40,11 +40,9 @@ describe('LISJP-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-<<<<<<< Updated upstream
-=======
                 intyg.verifieraLastIntyg();
                 cy.wait(100);
->>>>>>> Stashed changes
+
                 intyg.makuleraUtkast();
                 expect(cy.contains('Utkastet är makulerat'))
 
@@ -54,11 +52,9 @@ describe('LISJP-intyg låst utkast', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-<<<<<<< Updated upstream
-=======
                 intyg.verifieraLastIntyg();
                 cy.wait(100);
->>>>>>> Stashed changes
+
                 intyg.kopieraUtkast();
                 cy.contains(this.utkastId).should('not.exist')
                 intyg.signera();
