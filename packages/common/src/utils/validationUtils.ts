@@ -229,7 +229,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           )
 
           if (sameRuleTypeFound) {
-            sameRuleTypeFound.result = sameRuleTypeFound.result && validationResult.result
+            sameRuleTypeFound.result = validationResult.result ? validationResult.result : sameRuleTypeFound.result
           } else {
             currentValidationResults.push(validationResult)
           }

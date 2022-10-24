@@ -100,7 +100,6 @@ import {
   startSignCertificate,
   startSignCertificateSuccess,
   toggleCertificateFunctionDisabler,
-  unhideCertificateDataElement,
   unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,

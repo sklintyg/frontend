@@ -14,6 +14,7 @@ import {
   getUser,
   SigningMethod,
   ValidationError,
+  ValueBoolean,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -42,7 +43,6 @@ import {
   showCertificateDataElement,
   SigningData,
   startSignCertificate,
-  unhideCertificateDataElement,
   updateCertificate,
   updateClientValidationError,
   updateValidationErrors,
@@ -703,10 +703,42 @@ describe('Test certificate middleware', () => {
         expect(showCertificateDataElementAction.length).toBe(1)
       })
 
-      it('should throw hide action when both hide and show is present and validates false', async () => {
-        const certificate = getCertificateWithArrayOfValidations(false, [
+      it('should throw show action when two hide validations is present and validates false', async () => {
+        const certificate = getCertificateWithArrayOfValidations(true, [
           { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '!$haveValue' },
-          { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.HIDE_VALIDATION, expression: '!$haveValue' },
+        ])
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
+        const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.length).toBe(0)
+        expect(showCertificateDataElementAction.length).toBe(1)
+      })
+
+      it('should throw show action when two show validations is present and one validates false and one true', async () => {
+        const certificate = getCertificateWithArrayOfValidations(false, [
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '!$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '$haveValue' },
+        ])
+        ;(certificate.data['1.2'].value as ValueBoolean).selected = true
+        testStore.dispatch(updateCertificate(certificate))
+
+        testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
+
+        await flushPromises()
+        const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
+        const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
+        expect(hideCertificateDataElementAction.length).toBe(0)
+        expect(showCertificateDataElementAction.length).toBe(1)
+      })
+      it('should throw one show action when two show validations is present that validates true', async () => {
+        const certificate = getCertificateWithArrayOfValidations(true, [
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '$haveValue' },
+          { questionId: '1.1', type: CertificateDataValidationType.SHOW_VALIDATION, expression: '$haveValue' },
         ])
         testStore.dispatch(updateCertificate(certificate))
 
@@ -919,6 +951,7 @@ const getCertificateWithArrayOfValidations = (selected: boolean, validation: Cer
         value: {
           type: CertificateDataValueType.BOOLEAN,
           selected: selected,
+          id: 'haveValue',
         },
         validation,
       } as unknown) as CertificateDataElement,
