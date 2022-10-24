@@ -8,7 +8,7 @@ import {
   SigningMethod,
   ValidationError,
 } from '@frontend/common'
-import { decorateCertificateWithInitialValues, validateExpressions, ValidationResult } from '@frontend/common/src/utils/validationUtils'
+import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
@@ -799,91 +799,67 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   const questionIdsToValidate = [] as string[]
   const validationResults = validateExpressions(certificate, update)
 
-  /**
-   * HIDE_VALIDATION has priority over SHOW_VALIDATION
-   */
-  function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
-    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
-      return validationResults.some(
-        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id
-      )
+  validationResults.forEach((result) => {
+    switch (result.type) {
+      case CertificateDataValidationType.MANDATORY_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElementMandatory(result.id))
+        } else {
+          dispatch(showCertificateDataElementMandatory(result.id))
+        }
+        break
+      case CertificateDataValidationType.HIDE_VALIDATION:
+        if (result.result) {
+          dispatch(hideCertificateDataElement(result.id))
+          if (certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
+        } else {
+          dispatch(showCertificateDataElement(result.id))
+          if (!certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
+        }
+        break
+      case CertificateDataValidationType.SHOW_VALIDATION:
+        if (result.result) {
+          dispatch(showCertificateDataElement(result.id))
+          if (!certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
+        } else {
+          dispatch(hideCertificateDataElement(result.id))
+          if (certificate.data[result.id].visible) {
+            questionIdsToValidate.push(result.id)
+          }
+        }
+        break
+      case CertificateDataValidationType.DISABLE_VALIDATION:
+        if (result.result) {
+          dispatch(disableCertificateDataElement(result.id))
+        } else {
+          dispatch(enableCertificateDataElement(result.id))
+        }
+        break
+      case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
+        dispatch(setDisabledCertificateDataChild(result))
+        break
+      case CertificateDataValidationType.ENABLE_VALIDATION:
+        if (result.result) {
+          dispatch(enableCertificateDataElement(result.id))
+        } else {
+          dispatch(disableCertificateDataElement(result.id))
+        }
+        break
+      case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
+        if (result.result) {
+          dispatch(highlightCertificateDataElement(result.id))
+        } else {
+          dispatch(unstyleCertificateDataElement(result.id))
+        }
+        break
     }
-
-    if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
-      return !hideValidationHasPriorityOverShow(validationResult)
-    }
-    return true
-  }
-
-  validationResults
-    .filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
-    .forEach((result) => {
-      switch (result.type) {
-        case CertificateDataValidationType.MANDATORY_VALIDATION:
-          if (result.result) {
-            dispatch(hideCertificateDataElementMandatory(result.id))
-          } else {
-            dispatch(showCertificateDataElementMandatory(result.id))
-          }
-          break
-
-        case CertificateDataValidationType.HIDE_VALIDATION:
-          if (result.result) {
-            dispatch(hideCertificateDataElement(result.id))
-            if (certificate.data[result.id].visible) {
-              questionIdsToValidate.push(result.id)
-            }
-          } else {
-            dispatch(showCertificateDataElement(result.id))
-            if (!certificate.data[result.id].visible) {
-              questionIdsToValidate.push(result.id)
-            }
-          }
-          break
-
-        case CertificateDataValidationType.SHOW_VALIDATION:
-          if (result.result) {
-            dispatch(showCertificateDataElement(result.id))
-            if (!certificate.data[result.id].visible) {
-              questionIdsToValidate.push(result.id)
-            }
-          } else {
-            dispatch(hideCertificateDataElement(result.id))
-            if (certificate.data[result.id].visible) {
-              questionIdsToValidate.push(result.id)
-            }
-          }
-          break
-
-        case CertificateDataValidationType.DISABLE_VALIDATION:
-          if (result.result) {
-            dispatch(disableCertificateDataElement(result.id))
-          } else {
-            dispatch(enableCertificateDataElement(result.id))
-          }
-          break
-
-        case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
-          dispatch(setDisabledCertificateDataChild(result))
-          break
-
-        case CertificateDataValidationType.ENABLE_VALIDATION:
-          if (result.result) {
-            dispatch(enableCertificateDataElement(result.id))
-          } else {
-            dispatch(disableCertificateDataElement(result.id))
-          }
-          break
-
-        case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
-          if (result.result) {
-            dispatch(highlightCertificateDataElement(result.id))
-          } else {
-            dispatch(unstyleCertificateDataElement(result.id))
-          }
-          break
-      }
-    })
+  })
   return questionIdsToValidate
 }
 

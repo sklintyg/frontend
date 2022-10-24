@@ -239,8 +239,23 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       )
     }
   }
+  /**
+   * HIDE_VALIDATION has priority over SHOW_VALIDATION
+   */
+  function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
+    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
+      return validationResults.some(
+        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id
+      )
+    }
 
-  return validationResults
+    if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
+      return !hideValidationHasPriorityOverShow(validationResult)
+    }
+    return true
+  }
+
+  return validationResults.filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
 }
 
 export const decorateCertificateWithInitialValues = (certificate: Certificate): void => {
