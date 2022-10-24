@@ -129,12 +129,14 @@ const getMonth = (question: CertificateDataElement) => {
 }
 
 const getDatelike = (question: CertificateDataElement) => {
-  let datelike = ''
+  let datelike: string | undefined = ''
   const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
 
   if (question && (question.value as ValueUncertainDate)) {
-    const date: string | undefined = (question.value as ValueUncertainDate).date
-    datelike = _dateReg.test(date) ? date : ''
+    const date: unknown = (question.value as ValueUncertainDate).date
+    if (typeof date === 'string') {
+      datelike = _dateReg.test(date) ? date : ''
+    }
   }
   return datelike
 }
