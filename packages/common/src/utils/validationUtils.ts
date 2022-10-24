@@ -42,7 +42,7 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
-  if (element && !element.visible) {
+  if (element && !element.visible && element.id === '2.2') {
     return false
   }
 
