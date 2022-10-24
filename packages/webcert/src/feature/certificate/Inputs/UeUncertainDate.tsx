@@ -133,7 +133,7 @@ const getDatelike = (question: CertificateDataElement) => {
   const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
 
   if (question && (question.value as ValueUncertainDate)) {
-    const date: string = (question.value as ValueUncertainDate).date
+    const date: string | undefined = (question.value as ValueUncertainDate).date
     datelike = _dateReg.test(date) ? date : ''
   }
   return datelike
