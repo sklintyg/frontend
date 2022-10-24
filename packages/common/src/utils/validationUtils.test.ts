@@ -1196,7 +1196,7 @@ describe('Validate expressions based on DateValue', () => {
   })
 
   it('should return false if date is missing a value', () => {
-    ;(element.value as ValueDate).date = null
+    ;(element.value as ValueDate).date = undefined
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(false)
   })

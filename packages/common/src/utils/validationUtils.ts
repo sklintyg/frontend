@@ -167,7 +167,7 @@ const validateMaxDate = (id: string, validation: MaxDateValidation, data: Certif
   }
   const index = value.list.findIndex((item) => item.id === validation.id)
   if (index !== -1) {
-    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? false : true
+    return differenceInDays(new Date(value.list[index].date as string), new Date()) <= validation.numberOfDays
   } else return true
 }
 
