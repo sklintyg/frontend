@@ -49,12 +49,12 @@ export const CertificateFooter: React.FC = () => {
         <div className={'iu-flex'}>
           <SignAndSendButton
             functionDisabled={functionDisabled}
-            link={
-              canSignConfirm
-                ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
-                : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE)
-            }
             canSign={canSign}
+            {...{
+              ...(canSignConfirm
+                ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
+                : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE)),
+            }}
           />
         </div>
       )}
