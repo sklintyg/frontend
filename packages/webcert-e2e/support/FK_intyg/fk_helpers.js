@@ -230,6 +230,13 @@ export function makuleraUtkast() {
   
    //cy.get('radio').contains("Intyget har utfärdats på fel patient").check();  
 }
+export function verifieraLastIntyg() {
+    cy.contains('Utkastet är låst').click();
+    cy.get('.ic-modal').within((modal)=>
+    {
+        cy.get('button').contains("Stäng").click();
+    });
+}
 export function makuleraIntyg(arg) {
     cy.get('#makuleraBtn').click();
     if (arg === "Annat allvarligt fel") {
