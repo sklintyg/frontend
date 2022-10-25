@@ -1,7 +1,7 @@
-import { CertificateSignStatus, ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
-import edit from '@frontend/common/src/images/edit.svg'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CertificateSignStatus, ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
+import edit from '@frontend/common/src/images/edit.svg'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
@@ -19,6 +19,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
   const dispatch = useDispatch()
   const isValidating = useSelector(getIsValidating)
   const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
+
   let button = <></>
 
   const handleConfirm = () => {
@@ -36,7 +37,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
         confirmButtonText={name}
         onConfirm={handleConfirm}
         disabled={isValidating || isSigning || !enabled || functionDisabled}
-        hideConfirmButton={canSign === false}>
+        hideConfirmButton={!canSign}>
         {body ? (
           <div>
             <p>{body}</p>

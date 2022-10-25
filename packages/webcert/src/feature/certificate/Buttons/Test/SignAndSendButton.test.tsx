@@ -81,7 +81,7 @@ describe('Show sign button with modal', () => {
     const button = screen.getByRole('button')
     userEvent.click(button)
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
     expect(screen.queryByText(BODY)).toBeInTheDocument()
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const confirmButton = getByText(modalBody, NAME)
@@ -98,6 +98,7 @@ describe('Show sign button with modal', () => {
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const cancelButton = getByText(modalBody, 'Avbryt')
     userEvent.click(cancelButton)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 
@@ -116,8 +117,8 @@ describe('Show sign button with modal', () => {
     renderDefaultComponent(true, false, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
     const button = screen.getByRole('button')
     userEvent.click(button)
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.queryByText(BODY)).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const confirmButton = getByText(modalBody, NAME)
     const cancelButton = getByText(modalBody, 'Avbryt')
@@ -133,6 +134,7 @@ describe('Show sign button with modal', () => {
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const cancelButton = getByText(modalBody, 'Avbryt')
     userEvent.click(cancelButton)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 })
