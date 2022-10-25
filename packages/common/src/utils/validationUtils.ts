@@ -127,7 +127,7 @@ export const parseExpression = (
   }
 
   const options: Options = {
-    customProp: (id: string, _: unknown, type: CertificateDataValidationType): number => convertToValue(id, type),
+    customProp: (id: string, _: unknown, type: CertificateDataValidationType): number | undefined => convertToValue(id, type),
   }
 
   const executeExpression = compileExpression(adjustedExpression, options)
