@@ -296,7 +296,7 @@ export const fakeTypeaheadElement = (
       ...data,
       config: {
         type: ConfigTypes.UE_TYPE_AHEAD,
-        typeahead: ['Stockholm', 'Göteborg', 'Östersund'],
+        typeAhead: ['Stockholm', 'Göteborg', 'Östersund'],
         list: fakeList(3),
         ...data?.config,
       },
