@@ -48,7 +48,7 @@ export const parseExpression = (
 
   const adjustedExpression = getExpression(expression)
 
-  function convertToValue(id: string, type: CertificateDataValidationType): number {
+  function convertToValue(id: string, type: CertificateDataValidationType): number | undefined {
     const adjustedId = id.replace(/\$/g, '')
 
     switch (element.value?.type) {
@@ -95,7 +95,7 @@ export const parseExpression = (
           if (dateObj) {
             return epochDaysAdjustedToTimezone(dateObj)
           } else {
-            return 0
+            return undefined
           }
         }
         return date.date ? 1 : 0

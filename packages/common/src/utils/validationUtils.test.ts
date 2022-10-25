@@ -1203,13 +1203,18 @@ describe('Validate expressions based on DateValue', () => {
 
   it('should return true if EpochDay is within 28 days', () => {
     ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDays <= 19013', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum.toEpochDay <= 19013', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
 
   it('should return false if EpochDay is not within 28 days', () => {
     ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDays <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum.toEpochDay <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if EpochDay is not set', () => {
+    ;(element.value as ValueDate).date = undefined // 18993
+    const result = parseExpression('$dodsdatum.toEpochDay > 18992', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
 })
