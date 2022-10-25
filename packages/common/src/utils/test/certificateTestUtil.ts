@@ -319,7 +319,7 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
 export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
-      id: '',
+      id: 'certificateId',
       type: '',
       created: '',
       description: '',

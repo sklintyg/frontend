@@ -101,10 +101,10 @@ const Certificate: React.FC = () => {
                 }
                 return result
               }, [] as CertificateStructure[][])
-              .map((strucutre, index) => {
+              .map((structure, index) => {
                 return (
                   <CategoryWrapper key={index}>
-                    {strucutre.map((data) => {
+                    {structure.map((data) => {
                       if (data.component === ConfigTypes.CATEGORY) {
                         return <Category key={data.id} id={data.id} />
                       } else {
