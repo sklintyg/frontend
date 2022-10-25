@@ -1,13 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { getByText, render, screen } from '@testing-library/react'
+import { getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import * as redux from 'react-redux'
 import SignAndSendButton from '../SignAndSendButton'
 import store from '../../../../store/store'
 import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
-import ConcurrentModification from '../../../../components/error/modals/ConcurrentModification'
 
 const NAME = 'Sign button name'
 const DESCRIPTION = 'Sign button description'
@@ -120,9 +119,9 @@ describe('Show sign button with modal', () => {
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
 
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
-    const confirmButton = getByText(modalBody, NAME)
-    const cancelButton = getByText(modalBody, 'Avbryt')
-    expect(confirmButton).toBeNull
+    const confirmButton = queryByText(modalBody, NAME)
+    const cancelButton = queryByText(modalBody, 'Avbryt')
+    expect(confirmButton).not.toBeInTheDocument()
     expect(cancelButton).toBeInTheDocument()
   })
 

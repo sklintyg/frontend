@@ -1,6 +1,6 @@
 import { CustomButton } from '@frontend/common'
 import React from 'react'
-import { ConfirmModal } from './ConfirmModal'
+import ConfirmModal from './ConfirmModal'
 
 interface Props {
   disabled: boolean

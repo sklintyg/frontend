@@ -1,5 +1,6 @@
 import { CustomButton, useKeyPress } from '@frontend/common'
 import React, { useCallback, useEffect } from 'react'
+import ButtonWithConfirmModal from './ButtonWithConfirmModal'
 import ModalBase from './ModalBase'
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
   declineButtonText?: string
   disabled: boolean
   hideDeclineButton?: boolean
-  hideConfirmButtom?: boolean
+  hideConfirmButton?: boolean
   modalTitle: string
   onClose?: () => void
   onConfirm: () => void
@@ -20,14 +21,14 @@ interface Props {
   open: boolean
 }
 
-export const ConfirmModal: React.FC<Props> = ({
+const ConfirmModal: React.FC<Props> = ({
   additionalConfirmButtonStyles,
   children,
   confirmButtonDisabled,
   confirmButtonStyle,
   confirmButtonText,
-  hideDeclineButton,
-  hideConfirmButtom,
+  hideDeclineButton = false,
+  hideConfirmButton = false,
   modalTitle,
   declineButtonText,
   onClose,
@@ -62,10 +63,10 @@ export const ConfirmModal: React.FC<Props> = ({
       content={children}
       buttons={
         <>
-          {hideDeclineButton != true && (
+          {hideDeclineButton !== true && (
             <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
           )}
-          {hideConfirmButtom != true && (
+          {hideConfirmButton !== true && (
             <CustomButton
               buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
               className={additionalConfirmButtonStyles}
@@ -79,3 +80,5 @@ export const ConfirmModal: React.FC<Props> = ({
     />
   )
 }
+
+export default ConfirmModal
