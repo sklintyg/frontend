@@ -22,9 +22,20 @@ interface Props {
   enableCross?: boolean
   className?: string
   focusTrap?: boolean
+  closeOnBackdropClick?: boolean
 }
 
-const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content, enableCross, className, focusTrap = true }) => {
+const ModalBase: React.FC<Props> = ({
+  open,
+  handleClose,
+  title,
+  buttons,
+  content,
+  enableCross,
+  className,
+  focusTrap = true,
+  closeOnBackdropClick,
+}) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
   const rootElement = document.getElementById('modalRoot')
 
@@ -39,7 +50,7 @@ const ModalBase: React.FC<Props> = ({ open, handleClose, title, buttons, content
           className="ic-backdrop iu-lh-body"
           ref={backdropRef}
           onClick={(event) => {
-            if (backdropRef.current === event.target) {
+            if (closeOnBackdropClick && backdropRef.current === event.target) {
               handleClose(event)
             }
           }}>
