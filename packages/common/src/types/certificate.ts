@@ -135,7 +135,7 @@ export interface ConfigUeMessage extends CertificateDataConfig {
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
   id: string
-  typeahead: string[]
+  typeAhead: string[]
   text: string
   label: string
 }
