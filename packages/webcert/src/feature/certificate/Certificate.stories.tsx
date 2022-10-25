@@ -16,6 +16,7 @@ import {
   fakeResourceLink,
   fakeTextAreaElement,
   MessageLevel,
+  fakeTypeaheadElement,
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
@@ -114,8 +115,8 @@ DB.args = {
         mandatory: true,
       }),
       fakeDataElement({ config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE } }),
-      fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
+      fakeTypeaheadElement({
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', id: '1' },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({
