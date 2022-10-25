@@ -43,10 +43,10 @@ describe('CertificateFooter', () => {
         expect(button).toBeFalsy()
       })
 
-      it('Sign button active', () => {
+      it('No sign button if no sign or sign confirm resource link', () => {
         testStore.dispatch(updateValidationErrors([]))
         const button = screen.queryByText('Sign certificate')
-        expect(button).toBeFalsy()
+        expect(button).not.toBeInTheDocument()
       })
     })
 
@@ -131,7 +131,7 @@ describe('CertificateFooter', () => {
     it('Sign button active', () => {
       testStore.dispatch(updateValidationErrors([]))
       const button = screen.queryByText('Sign certificate')
-      expect(button).toBeTruthy()
+      expect(button).toBeInTheDocument()
     })
   })
 
@@ -154,7 +154,7 @@ describe('CertificateFooter', () => {
     it('Sign button active', () => {
       testStore.dispatch(updateValidationErrors([]))
       const button = screen.queryByText('Sign certificate')
-      expect(button).toBeTruthy()
+      expect(button).toBeInTheDocument()
     })
   })
 
@@ -176,7 +176,7 @@ describe('CertificateFooter', () => {
     it('Sign button active', () => {
       testStore.dispatch(updateValidationErrors([]))
       const button = screen.queryByText('Sign certificate')
-      expect(button).toBeTruthy()
+      expect(button).toBeInTheDocument()
     })
   })
 })
