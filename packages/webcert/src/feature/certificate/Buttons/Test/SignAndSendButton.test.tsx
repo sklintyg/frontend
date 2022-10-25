@@ -30,13 +30,12 @@ const renderDefaultComponent = (enabled: boolean, canSign: boolean, type: Resour
     </Provider>
   )
 }
+beforeEach(() => {
+  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(mockDispatchFn)
+})
 
 describe('Show sign button without modal', () => {
-  beforeEach(() => {
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-    useDispatchSpy.mockReturnValue(mockDispatchFn)
-  })
-
   it('Enabled Sign button and no modal', () => {
     renderDefaultComponent(true, true, ResourceLinkType.SIGN_CERTIFICATE)
     const button = screen.getByRole('button')
