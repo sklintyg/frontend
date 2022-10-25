@@ -55,6 +55,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
       fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.PRINT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.COPY_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE }),
     ]
   }
 
