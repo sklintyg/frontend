@@ -90,7 +90,7 @@ export const parseExpression = (
       }
       case CertificateDataValueType.DATE: {
         const date = element.value as ValueDate
-        if (adjustedId.includes('toEpochDays')) {
+        if (adjustedId.includes('toEpochDay')) {
           const dateObj = getValidDate(date.date)
           if (dateObj) {
             return epochDaysAdjustedToTimezone(dateObj)
