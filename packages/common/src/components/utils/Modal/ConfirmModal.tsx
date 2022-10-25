@@ -19,6 +19,7 @@ interface Props {
   setOpen: (val: boolean) => void
   startIcon?: React.ReactNode
   open: boolean
+  closeOnBackdropClick?: boolean
 }
 
 const ConfirmModal: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const ConfirmModal: React.FC<Props> = ({
   onConfirm,
   setOpen,
   open,
+  closeOnBackdropClick,
 }) => {
   const escPress = useKeyPress('Escape')
 
@@ -77,6 +79,7 @@ const ConfirmModal: React.FC<Props> = ({
           )}
         </>
       }
+      closeOnBackdropClick={closeOnBackdropClick}
     />
   )
 }

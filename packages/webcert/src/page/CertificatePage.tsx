@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
@@ -10,10 +10,17 @@ import MajorVersionNotification from '../feature/certificate/NotificationBanners
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
-import { getIsCertificateDeleted, getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
+import {
+  getCertificateMetaData,
+  getIsCertificateDeleted,
+  getIsRoutedFromDeletedCertificate,
+  getResourceLinks,
+} from '../store/certificate/certificateSelectors'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getUserStatistics } from '../store/user/userActions'
 import CommonLayout from '../components/commonLayout/CommonLayout'
+import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
+import { ResourceLinkType } from '@frontend/common'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;
@@ -34,8 +41,14 @@ interface Params {
 const CertificatePage: React.FC = () => {
   const { certificateId } = useParams<Params>()
   const dispatch = useDispatch()
+  const history = useHistory()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
   const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+  const links = useSelector(getResourceLinks)
+  const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
+  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
+  const metadata = useSelector(getCertificateMetaData)
+  const patient = metadata?.patient
 
   useEffect(() => {
     if (certificateId) {
@@ -62,14 +75,25 @@ const CertificatePage: React.FC = () => {
       {isCertificateDeleted ? (
         <CertificateDeletedHandler />
       ) : (
-        <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
-          <OverflowScroll className="iu-grid-span-7">
-            <Certificate />
-          </OverflowScroll>
-          <OverflowHidden className="iu-grid-span-5">
-            <CertificateSidePanel />
-          </OverflowHidden>
-        </Columns>
+        <>
+          {isDBIntegrated && patient && (
+            <DeathCertificateConfirmModalIntegrated
+              certificateId={certificateId}
+              patient={patient}
+              setOpen={setShowDeathCertificateModal}
+              open={showDeathCertificateModal}
+              history={history}
+            />
+          )}
+          <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">
+            <OverflowScroll className="iu-grid-span-7">
+              <Certificate />
+            </OverflowScroll>
+            <OverflowHidden className="iu-grid-span-5">
+              <CertificateSidePanel />
+            </OverflowHidden>
+          </Columns>
+        </>
       )}
     </CommonLayout>
   )
