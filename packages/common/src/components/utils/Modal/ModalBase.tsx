@@ -34,7 +34,7 @@ const ModalBase: React.FC<Props> = ({
   enableCross,
   className,
   focusTrap = true,
-  closeOnBackdropClick,
+  closeOnBackdropClick = true,
 }) => {
   const backdropRef = useRef<HTMLDivElement | null>(null)
   const rootElement = document.getElementById('modalRoot')
