@@ -338,7 +338,7 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
 export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
-      id: '',
+      id: 'certificateId',
       type: '',
       created: '',
       description: '',
@@ -396,6 +396,9 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
         firstName: '',
         fullName: '',
         lastName: '',
+        street: 'Street 1',
+        zipCode: '12345',
+        city: 'City',
         protectedPerson: false,
         testIndicated: false,
         reserveId: false,
@@ -480,6 +483,9 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         firstName: '',
         fullName: '',
         lastName: '',
+        street: '',
+        zipCode: '',
+        city: '',
         protectedPerson: false,
         testIndicated: false,
         reserveId: false,

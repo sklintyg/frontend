@@ -47,8 +47,8 @@ const renderComponent = (
             chosenIcfCodeValues={icfValues}
             collectionsLabel={COLLECTIONS_LABEL}
             disabled={disabled}
-            onAddCode={() => {}}
-            onRemoveCode={() => {}}
+            onAddCode={() => null}
+            onRemoveCode={() => null}
             id="test"
           />
         </CertificateContext.Provider>
@@ -172,7 +172,7 @@ describe('IcfDropdown', () => {
     expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toBeInTheDocument()
     expect(screen.getByText('Läs mer om ICF hos Socialstyrelsen')).toHaveAttribute(
       'href',
-      'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'
+      'https://www.socialstyrelsen.se/statistik-och-data/klassifikationer-och-koder/icf'
     )
   })
 
