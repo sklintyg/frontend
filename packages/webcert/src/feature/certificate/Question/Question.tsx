@@ -29,6 +29,7 @@ import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod
 import UeTextArea from '../Inputs/UeTextArea'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
 import UeMessage from '../Inputs/UeMessage'
+import UeTypeahead from '../Inputs/UeTypeahead'
 import UeTextField from '../Inputs/UeTextField'
 import QuestionHeading from './QuestionHeading'
 
@@ -112,6 +113,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeUncertainDate {...commonProps} />
       case ConfigTypes.UE_MESSAGE:
         return <UeMessage {...commonProps} />
+      case ConfigTypes.UE_TYPE_AHEAD:
+        return <UeTypeahead {...commonProps} />
       case ConfigTypes.UE_TEXTFIELD:
         return <UeTextField {...commonProps} />
       case ConfigTypes.UE_DATE:
