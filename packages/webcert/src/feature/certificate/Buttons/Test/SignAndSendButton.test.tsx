@@ -83,8 +83,8 @@ describe('Show sign button with modal', () => {
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
     expect(screen.queryByText(BODY)).toBeInTheDocument()
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
-    const confirmButton = getByText(modalBody, NAME)
-    const cancelButton = getByText(modalBody, 'Avbryt')
+    const confirmButton = queryByText(modalBody, NAME)
+    const cancelButton = queryByText(modalBody, 'Avbryt')
     expect(confirmButton).toBeInTheDocument()
     expect(cancelButton).toBeInTheDocument()
   })
