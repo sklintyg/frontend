@@ -279,7 +279,7 @@ export interface ValueDate extends Value {
 
 export interface ValueUncertainDate extends Value {
   id: string
-  date: string
+  value: string | null
 }
 
 export interface ValueDateList extends Value {
