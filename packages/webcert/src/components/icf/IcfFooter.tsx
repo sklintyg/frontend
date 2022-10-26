@@ -15,10 +15,7 @@ const IcfFooter: React.FC<IcfFooterProps> = ({ handleToggleDropdownButtonClick }
           Stäng
         </CustomButton>
       </ButtonWrapper>
-      <a
-        rel="noreferrer"
-        target={'_blank'}
-        href={'https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/icf'}>
+      <a rel="noreferrer" target={'_blank'} href={'https://www.socialstyrelsen.se/statistik-och-data/klassifikationer-och-koder/icf'}>
         Läs mer om ICF hos Socialstyrelsen
         <ExternalLinkIcon className={'iu-ml-100'} />
       </a>

@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 const ValidationWrapper = styled.div`
@@ -31,6 +31,7 @@ export interface Props {
 }
 
 const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
   const config = question.config as ConfigureUeUncertainDate
   const dispatch = useAppDispatch()
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -67,12 +68,12 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
     if (value === '') setSelectedMonth('')
     if (value === '0000') setSelectedMonth('00')
     setDisabledMonth(disabled || value === '0000' || value === '')
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
   }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
   }
 
   return (
@@ -111,9 +112,11 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
         <label htmlFor={'day_' + question.id}>Dag</label>
         <TextInput id={'day_' + question.id} disabled={true} hasValidationError={hasValidationError} value="00" css={styleTextField} />
       </div>
-      <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={question.validationErrors} />
-      </ValidationWrapper>
+      {isShowValidationError && (
+        <ValidationWrapper>
+          <QuestionValidationTexts validationErrors={question.validationErrors} />
+        </ValidationWrapper>
+      )}{' '}
     </div>
   )
 }
