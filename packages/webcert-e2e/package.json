@@ -11,7 +11,7 @@
     "cy:run": "cypress run"
   },
   "devDependencies": {
-    "cypress": "^7.5.0",
+    "cypress": "^10.10.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.23.3"
   },
