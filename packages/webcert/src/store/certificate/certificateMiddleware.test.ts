@@ -168,7 +168,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle StartSignCertificate', () => {
-    it('Should call correct endpoint for fake signin', async () => {
+    it.only('Should call correct endpoint for fake signin', async () => {
       const certificate = getCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
@@ -179,7 +179,8 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
       expect(fakeAxios.history.post[0].url).toEqual('/api/certificate/certificateId/sign')
-      expect(fakeAxios.history.post[0].data).toEqual('{"metadata":{"id":"certificateId"},"links":[]}')
+      expect(fakeAxios.history.post[0].data).toBeDefined()
+      expect(JSON.parse(fakeAxios.history.post[0].data)).toMatchObject({ metadata: { id: 'certificateId' }, links: [] })
     })
 
     it('Should call correct endpoint for DSS signin', async () => {
