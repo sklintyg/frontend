@@ -194,4 +194,55 @@ describe('Test API middleware', () => {
       expect(addFunctionDisabler.id).toBe(removeFunctionDisabler.id)
     })
   })
+  describe('handle API calls with launchId', () => {
+    const INVALID_LAUNCHID = 'INVALID_LAUNCHID'
+    const user = {
+      launchId: '97f279ba-7d2b-4b0a-8665-7adde08f26f4',
+    }
+    beforeEach(() => {
+      clearDispatchedActions()
+      sessionStorage.clear()
+    })
+
+    it('should add launchId to header if its present in sessionStorage', async () => {
+      sessionStorage.setItem('launchId', user.launchId)
+
+      fakeAxios.onGet('api/call').reply((config) => {
+        expect(config.headers.launchId).toEqual(user.launchId)
+        return [200]
+      })
+    })
+
+    it('should not add launchId to header if its not present in sessionStorage', async () => {
+      fakeAxios.onGet('api/call').reply((config) => {
+        expect(config.headers.launchId).toEqual(null)
+        return [200]
+      })
+    })
+
+    it('should throw INVALID_LAUNCHID type error', async () => {
+      const response = {
+        errorCode: 'INVALID_LAUNCHID',
+        message: 'Invalid launchId',
+      }
+
+      fakeAxios.onGet('api/call').reply(403, response)
+      testStore.dispatch(apiCallBegan({ url: 'api/call', method: 'GET' }))
+
+      await flushPromises()
+
+      const throwErrorAction: AnyAction[] | undefined = dispatchedActions.filter((action) => action.type === INVALID_LAUNCHID)
+
+      expect(throwErrorAction).toBeTruthy()
+    })
+    it('should not throw INVALID_LAUNCHID type error', async () => {
+      fakeAxios.onGet('api/call').reply(403)
+      testStore.dispatch(apiCallBegan({ url: 'api/call', method: 'GET' }))
+
+      await flushPromises()
+
+      const throwErrorAction: AnyAction[] | undefined = dispatchedActions.filter((action) => action.type === INVALID_LAUNCHID)
+      expect(throwErrorAction.length).toBe(0)
+    })
+  })
 })

@@ -5,10 +5,16 @@ import { PartialDeep } from 'type-fest'
 export const fakePatient = (data?: PartialDeep<Patient>): Patient => {
   const firstName = faker.name.firstName()
   const lastName = faker.name.lastName()
+  const street = faker.address.streetAddress()
+  const zipCode = faker.address.zipCode()
+  const city = faker.address.city()
   return {
     firstName,
     lastName,
     fullName: data?.fullName ?? `${firstName} ${lastName}`,
+    street,
+    zipCode,
+    city,
     coordinationNumber: false,
     testIndicated: false,
     protectedPerson: false,

@@ -1,13 +1,13 @@
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { AnyAction, configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { userMiddleware } from './userMiddleware'
 import {
   acknowledgeSubscription,
   getUserStatistics,
+  getUserSuccess,
   setUnit,
   triggerLogout,
   updateInactivateAutomaticLogout,
@@ -17,11 +17,13 @@ import {
 import {
   getSubscriptionWarningResourceLink,
   getUser,
+  getUserWithLaunchId,
   getUserStatistics as statistics,
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
 import { stopPoll } from '../session/sessionActions'
+import { apiMiddleware } from '../api/apiMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -34,7 +36,7 @@ describe('Test user middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, userMiddleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, userMiddleware, dispatchHelperMiddleware),
     })
   })
 
@@ -139,6 +141,115 @@ describe('Test user middleware', () => {
       const resourceLink = testStore.getState().ui.uiUser.links.map((link: ResourceLink) => link.type)
 
       expect(resourceLink).not.toContain(ResourceLinkType.SUBSCRIPTION_WARNING)
+    })
+  })
+
+  describe('Handle GetUserSuccess actions', () => {
+    beforeEach(() => {
+      sessionStorage.clear()
+    })
+    it('should add launchId to sessionStorage if added on user', async function() {
+      const data = {
+        user: getUserWithLaunchId(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      expect(sessionStorage.getItem('launchId')).toBe(data.user.launchId)
+    })
+    it('should not add launchId to sessionStorage if not added on user', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      expect(sessionStorage.getItem('launchId')).toBe(null)
+    })
+    it('should dispatch updateUser action', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const didUpdateUser: AnyAction | undefined = dispatchedActions.find((action) => action.type === '[User] Update user')
+
+      expect(didUpdateUser).toBeTruthy()
+    })
+    it('should update the user with correct values', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const user = testStore.getState().ui.uiUser.user
+      expect(user).toBe(data.user)
+    })
+    it('should dispatch updateUserResources action', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const didUpdateResourceLinks: AnyAction | undefined = dispatchedActions.find(
+        (action) => action.type === '[User] Update user resource links'
+      )
+
+      expect(didUpdateResourceLinks).toBeTruthy()
+    })
+    it('should update the user resourceLinks with correct values', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const resourceLink = testStore.getState().ui.uiUser.links
+
+      expect(resourceLink).toBe(data.links)
+    })
+    it('should dispatch isLoadingUser action', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const didUpdateIsLoadingUser: AnyAction | undefined = dispatchedActions.find(
+        (action) => action.type === '[User] Update is loading user'
+      )
+
+      expect(didUpdateIsLoadingUser).toBeTruthy()
+    })
+    it('should update isLoadingUser to false', async function() {
+      const data = {
+        user: getUser(),
+        links: [],
+      }
+      testStore.dispatch(getUserSuccess(data))
+
+      await flushPromises()
+
+      const isLoadingUser = testStore.getState().ui.uiUser.isLoadingUser
+
+      expect(isLoadingUser).toBeFalsy()
     })
   })
 })

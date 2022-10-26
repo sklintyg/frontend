@@ -18,6 +18,7 @@ import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certific
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
+import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
@@ -26,7 +27,11 @@ import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
+import UeUncertainDate from '../Inputs/UeUncertainDate'
 import UeMessage from '../Inputs/UeMessage'
+import UeTypeahead from '../Inputs/UeTypeahead'
+import UeTextField from '../Inputs/UeTextField'
+import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
   id: string
@@ -50,36 +55,9 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   // TODO: We keep this until we have fixed the useRef for the UeTextArea debounce-functionality. It need to update its ref everytime its props changes.
   if (!question || (!question.visible && !question.readOnly)) return null
 
-  const getHeading = () => {
-    if (question.config.header) {
-      return (
-        <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
-            {question.config.header}
-          </h4>
-          <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.text}</h5>
-          {question.readOnly && <h5 className={`iu-fw-heading iu-fs-200`}>{question.config.label as string}</h5>}
-        </>
-      )
-    } else {
-      return (
-        <>
-          <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
-            {question.config.text}
-          </h4>
-          {question.readOnly && (
-            <h4 id={question.id} className={`iu-fw-heading iu-fs-300`}>
-              {question.config.label as string}
-            </h4>
-          )}
-        </>
-      )
-    }
-  }
-
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
     if (disabled) {
-      return getHeading()
+      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
     }
 
     if (!readOnly && config.description) {
@@ -100,7 +78,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {getHeading()}
+        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
       </>
     )
   }
@@ -131,8 +109,18 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeDiagnoses {...commonProps} />
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
         return <UeRadioGroupOptionalDropdown {...commonProps} />
+      case ConfigTypes.UE_UNCERTAIN_DATE:
+        return <UeUncertainDate {...commonProps} />
       case ConfigTypes.UE_MESSAGE:
         return <UeMessage {...commonProps} />
+      case ConfigTypes.UE_TYPE_AHEAD:
+        return <UeTypeahead {...commonProps} />
+      case ConfigTypes.UE_TEXTFIELD:
+        return <UeTextField {...commonProps} />
+      case ConfigTypes.UE_DATE:
+        return <UeDate {...commonProps} />
+      case ConfigTypes.UE_HEADER:
+        return
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
@@ -145,7 +133,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div className="iu-mt-300">{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
     </div>
   )
 }

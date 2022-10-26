@@ -14,6 +14,7 @@ import MedarbetaruppdragSaknas from './errorPageContent/MedarbetaruppdragSaknas'
 import ProtectedPersonAgreementError from './errorPageContent/ProtectedPersonAgreementError'
 import Timeout from './errorPageContent/Timeout'
 import UnknownInternalProblem from './errorPageContent/UnknownInternalProblem'
+import InvalidLaunchIdError from './errorPageContent/InvalidLaunchIdError'
 
 interface Props {
   errorCode?: string
@@ -48,6 +49,8 @@ const DisplayError: React.FC<Props> = ({ errorCode, fallback }) => {
       return <MedarbetaruppdragSaknas />
     case ErrorCode.GET_CERTIFICATE_PROBLEM:
       return <GetCertificateProblem />
+    case ErrorCode.INVALID_LAUNCHID:
+      return <InvalidLaunchIdError />
     case ErrorCode.UNKNOWN_INTERNAL_PROBLEM:
     default:
       return fallback != null ? <p>{fallback}</p> : <UnknownInternalProblem />

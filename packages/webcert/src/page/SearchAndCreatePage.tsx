@@ -1,7 +1,7 @@
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
 import React, { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Redirect, useParams } from 'react-router-dom'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import CertificateList from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
@@ -9,24 +9,34 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import PatientInfoHeader from '../components/patient/PatientInfoHeader'
 import PatientSearch from '../components/patient/PatientSearch'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
-import { updateActiveListFilterValue } from '../store/list/listActions'
-import { getActiveListFilterValue } from '../store/list/listSelectors'
-import { getPatient } from '../store/patient/patientActions'
+import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
+import { getActiveListFilterValue, getActiveListConfig, getActiveListFilter, getListTotalCount } from '../store/list/listSelectors'
+import { getPatient, clearPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
 import { withResourceAccess } from '../utils/withResourceAccess'
-import ListPage from './ListPage'
+import { isFilterDefault } from '../feature/list/listUtils'
+import ListContainer from '../feature/list/ListContainer'
+import listImage from '@frontend/common/src/images/list.svg'
+import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 
 interface Params {
   patientId: string
 }
 
+/**
+ * Certificate page for a specific patient.
+ */
 const SearchAndCreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()
   const dispatch = useDispatch()
+  const config = useSelector(getActiveListConfig, shallowEqual)
+  const totalCount = useSelector(getListTotalCount)
+  const filter = useSelector(getActiveListFilter, shallowEqual)
   const patient = useSelector(getActivePatient)
   const user = useSelector(getUser)
   const patientFilter = useSelector(getActiveListFilterValue('PATIENT_ID'))
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
@@ -54,7 +64,8 @@ const SearchAndCreatePage: React.FC = () => {
   useEffect(() => {
     ReactTooltip.hide()
     updatePatientFilter()
-  }, [updatePatientFilter])
+    dispatch(performListSearch)
+  }, [dispatch, updatePatientFilter])
 
   useEffect(() => {
     if (!patientFilter) {
@@ -69,7 +80,12 @@ const SearchAndCreatePage: React.FC = () => {
   }, [dispatch, patientId])
 
   if (patient && !patientId) {
-    return <Redirect to={`/create/${patient.personId.id}`} />
+    history.push(`/create/${patient.personId.id}`)
+  }
+
+  if (history.action === 'POP') {
+    dispatch(clearPatient())
+    history.push('/create')
   }
 
   return (
@@ -80,7 +96,12 @@ const SearchAndCreatePage: React.FC = () => {
             <>
               <CertificateList />
               <div className="iu-mt-800">
-                <ListPage type={ListType.PREVIOUS_CERTIFICATES} excludePageSpecificElements />
+                <ListContainer
+                  type={ListType.PREVIOUS_CERTIFICATES}
+                  showMessageForEmptyList={isFilterDefault(config?.filters, filter?.values) && totalCount === 0}
+                  icon={listImage}
+                  emptyListIcon={noDraftsImage}
+                />
               </div>
             </>
           ) : (

@@ -28,6 +28,7 @@ import {
   ValueDiagnosisList,
   ValueIcf,
   ValueText,
+  ValueUncertainDate,
 } from '..'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
@@ -104,6 +105,13 @@ export const parseExpression = (
         const valueIcf = element.value as ValueIcf
         return valueIcf.id === adjustedId && valueIcf.text ? 1 : 0
       }
+      case CertificateDataValueType.UNCERTAIN_DATE: {
+        const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
+        const uncertainDate = element.value as ValueUncertainDate
+        if (!uncertainDate.value) return 0
+        return _dateReg.test(uncertainDate.value as string) ? 1 : 0
+      }
+
       default: {
         return 0
       }

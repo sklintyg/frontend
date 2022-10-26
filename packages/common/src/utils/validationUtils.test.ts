@@ -24,6 +24,7 @@ import {
   ValueDateRangeList,
   ValueIcf,
   ValueText,
+  ValueUncertainDate,
 } from '..'
 import { getBooleanElement, getCertificate, getTextElement } from './test/certificateTestUtil'
 import {
@@ -271,6 +272,70 @@ describe('Validate mandatory rule for date list', () => {
       dateListElement,
       CertificateDataValidationType.MANDATORY_VALIDATION
     )
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate mandatory rule for uncertain datet', () => {
+  const uncertainDateElement: CertificateDataElement = {
+    id: '1',
+    parent: 'grundformu',
+    index: 3,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    config: {
+      text: 'Osäkert dödsdatum',
+      description: 'Datum då döden inträffade är osäkert',
+      type: ConfigTypes.UE_UNCERTAIN_DATE,
+      id: 'osakertDodsDatum',
+    },
+    value: {
+      type: CertificateDataValueType.UNCERTAIN_DATE,
+      id: 'osakertDodsDatum',
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '1',
+        expression: '$osakertDodsDatum',
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as false when no date is set', () => {
+    const value = uncertainDateElement.value as ValueUncertainDate
+    value.value = ''
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when no valid date is set', () => {
+    const value = uncertainDateElement.value as ValueUncertainDate
+    value.value = '0000--00'
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when unknown year is set', () => {
+    const value = uncertainDateElement.value as ValueUncertainDate
+    value.value = '0000-00-00'
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as true when unknown month is set', () => {
+    const value = uncertainDateElement.value as ValueUncertainDate
+    value.value = '2022-00-00'
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as true when year and month are set', () => {
+    const value = uncertainDateElement.value as ValueUncertainDate
+    value.value = '2022-04-00'
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
     expect(result).toBe(true)
   })
 })
@@ -588,6 +653,9 @@ describe('Validate multiple show rules', () => {
         firstName: 'Tolvan',
         lastName: 'Tolvansson',
         fullName: 'Tolvan Tolvansson',
+        street: 'Street 1',
+        zipCode: '12345',
+        city: 'City',
         coordinationNumber: false,
         testIndicated: false,
         protectedPerson: false,

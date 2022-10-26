@@ -65,6 +65,9 @@ const handleGetUserSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI)
   dispatch(updateUser(action.payload.user))
   dispatch(updateUserResourceLinks(action.payload.links))
   dispatch(updateIsLoadingUser(false))
+  if (action.payload.user.launchId) {
+    sessionStorage.setItem('launchId', action.payload.user.launchId)
+  }
 }
 
 const handleSetUserPreference: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

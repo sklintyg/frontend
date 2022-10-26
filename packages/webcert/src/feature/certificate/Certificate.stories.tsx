@@ -19,8 +19,11 @@ import {
   fakeResourceLink,
   fakeTextAreaElement,
   MessageLevel,
+  fakeTypeaheadElement,
   ResourceLink,
   ResourceLinkType,
+  fakeUncertainDateElement,
+  fakeDateElement,
 } from '@frontend/common'
 import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
@@ -57,6 +60,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
       fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.PRINT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.COPY_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE }),
     ]
   }
 
@@ -99,11 +103,6 @@ DB.args = {
     typeName: 'Dödsbevis',
   }),
   data: fakeCertificateData([
-    fakeCategoryElement({ config: { text: 'Patientens adressuppgifter' } }, [
-      fakeDataElement({ config: { text: 'Postadress', type: ConfigTypes.UE_TEXTFIELD } }),
-      fakeDataElement({ config: { text: 'Postnummer', type: ConfigTypes.UE_TEXTFIELD } }),
-      fakeDataElement({ config: { text: 'Postort', type: ConfigTypes.UE_TEXTFIELD } }),
-    ]),
     fakeCategoryElement({ config: { text: 'Komplitterande patientuppgifter' } }, [
       fakeDataElement({ config: { text: 'Identiteten styrkt genom', type: ConfigTypes.UE_TEXTFIELD }, mandatory: true }),
     ]),
@@ -120,8 +119,8 @@ DB.args = {
         },
         mandatory: true,
       }),
-      fakeDataElement({
-        config: { text: 'Datum', type: ConfigTypes.UE_DATE },
+      fakeDateElement({
+        config: { text: 'Datum' },
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,
@@ -131,8 +130,7 @@ DB.args = {
         ],
         mandatory: true,
       }),
-      fakeDataElement({
-        config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE },
+      fakeUncertainDateElement({
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
@@ -141,8 +139,8 @@ DB.args = {
           }),
         ],
       }),
-      fakeDataElement({
-        config: { text: 'Anträffad död', type: ConfigTypes.UE_DATE },
+      fakeDateElement({
+        config: { text: 'Anträffad död' },
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
@@ -152,8 +150,8 @@ DB.args = {
         ],
         mandatory: true,
       }),
-      fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
+      fakeTypeaheadElement({
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', id: '1' },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({
@@ -200,8 +198,8 @@ DB.args = {
         },
         mandatory: true,
       }),
-      fakeDataElement({
-        config: { text: 'Undersökningsdatum', type: ConfigTypes.UE_DATE },
+      fakeDateElement({
+        config: { text: 'Undersökningsdatum' },
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,

@@ -11,6 +11,7 @@ import {
   fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeRadioBooleanElement,
+  getUser,
   SigningMethod,
   ValidationError,
 } from '@frontend/common'
@@ -166,6 +167,52 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle StartSignCertificate', () => {
+    it('Should call correct endpoint for fake signin', async () => {
+      const certificate = getCertificate('certificateId')
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.FAKE }))
+
+      testStore.dispatch(startSignCertificate())
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/certificate/certificateId/sign')
+      expect(fakeAxios.history.post[0].data).toEqual('{"metadata":{"id":"certificateId"},"links":[]}')
+    })
+
+    it('Should call correct endpoint for DSS signin', async () => {
+      const certificate = getCertificate('certificateId')
+      certificate.metadata.type = 'certificateType'
+      certificate.metadata.version = 12345
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
+
+      testStore.dispatch(startSignCertificate())
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/SIGN_SERVICE')
+    })
+
+    it('Should call correct endpoint for bankid signin', async () => {
+      const certificate = getCertificate('certificateId')
+      certificate.metadata.type = 'certificateType'
+      certificate.metadata.version = 12345
+      testStore.dispatch(updateCertificate(certificate))
+
+      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.BANK_ID }))
+
+      testStore.dispatch(startSignCertificate())
+
+      await flushPromises()
+      expect(fakeAxios.history.post.length).toBe(1)
+      expect(fakeAxios.history.post[0].url).toEqual('/api/signature/certificateType/certificateId/12345/signeringshash/GRP')
+    })
+  })
+
   describe('Handle ReadyForSign', () => {
     it('shall call api to make the certificate ready for sign', async () => {
       const certificate = getCertificate('certificateId')
@@ -305,7 +352,7 @@ describe('Test certificate middleware', () => {
     it('shall update signing data when successfully starting the signing process', async () => {
       const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
       const certificate = getCertificate('id', 'lisjp', 2)
-      setDefaultUser()
+      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
       testStore.dispatch(updateCertificate(certificate))
 
       fakeAxios
@@ -322,7 +369,7 @@ describe('Test certificate middleware', () => {
 
     it('shall make a signing request to DSS when users signing method is DSS', async () => {
       const certificate = getCertificate('id', 'lisjp', 2)
-      setDefaultUser()
+      testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
       testStore.dispatch(startSignCertificate)
@@ -544,12 +591,6 @@ describe('Test certificate middleware', () => {
       expect(createdCertificateId).toEqual(response.certificateId)
     })
   })
-
-  const setDefaultUser = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    testStore.dispatch(updateUser({ signingMethod: SigningMethod.DSS }))
-  }
 })
 
 export const getCertificate = (
