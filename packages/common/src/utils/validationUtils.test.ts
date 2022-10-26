@@ -1296,14 +1296,6 @@ describe('Validate expressions only when visible', () => {
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
-
-  it('should return false if date has a value and element is not visible', () => {
-    ;(element.value as ValueDate).date = '2022-01-01'
-    element.id = '2.2'
-    element.visible = false
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
-    expect(result).toBe(false)
-  })
 })
 
 const getValidationError = (type: string): ValidationError => {
