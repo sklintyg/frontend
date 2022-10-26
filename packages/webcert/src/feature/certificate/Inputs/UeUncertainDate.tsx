@@ -1,4 +1,11 @@
-import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueUncertainDate } from '@frontend/common'
+import {
+  CertificateDataElement,
+  Dropdown,
+  ConfigureUeUncertainDate,
+  QuestionValidationTexts,
+  ValueUncertainDate,
+  TextInput,
+} from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,6 +20,10 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
+const styleTextField = {
+  height: '50px',
+  padding: '0.4em 0 0 1.5em',
+}
 
 export interface Props {
   disabled?: boolean
@@ -54,15 +65,21 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 
   const handleYearChange = (value: string) => {
     setSelectedYear(value)
-    if (value === '') setSelectedMonth('')
-    if (value === '0000') setSelectedMonth('00')
+    let month = selectedMonth
+    if (value === '') {
+      month = ''
+    }
+    if (value === '0000') {
+      month = '00'
+    }
+    setSelectedMonth(month)
     setDisabledMonth(disabled || value === '0000' || value === '')
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, value, month)))
   }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, value)))
   }
 
   return (
@@ -99,7 +116,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
       </div>
       <div className="iu-width-xxl">
         <label htmlFor={'day_' + question.id}>Dag</label>
-        <input id={'day_' + question.id} type="text" disabled={true} value="00" className="ic-textfield iu-color-muted iu-border-muted" />
+        <TextInput id={'day_' + question.id} disabled={true} hasValidationError={hasValidationError} value="00" css={styleTextField} />
       </div>
       {isShowValidationError && (
         <ValidationWrapper>
@@ -136,9 +153,9 @@ const getDatelike = (question: CertificateDataElement) => {
   const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
 
   if (question && (question.value as ValueUncertainDate)) {
-    const date = (question.value as ValueUncertainDate).value
-    if (typeof date === 'string') {
-      datelike = _dateReg.test(date) ? date : ''
+    const date: string | unknown = (question.value as ValueUncertainDate).value
+    if (date) {
+      datelike = _dateReg.test(date as string) ? (date as string) : ''
     }
   }
   return datelike
@@ -150,7 +167,7 @@ const getUpdatedDateValue = (question: CertificateDataElement, id: string, year:
   const updatedValue = { ...(updatedQuestion.value as ValueUncertainDate) }
 
   updatedValue.id = id
-  updatedValue.date = `${year}-${month}-00`
+  updatedValue.value = `${year}-${month}-00`
 
   updatedQuestion.value = updatedValue
 
