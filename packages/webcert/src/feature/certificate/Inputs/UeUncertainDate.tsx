@@ -54,15 +54,21 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 
   const handleYearChange = (value: string) => {
     setSelectedYear(value)
-    if (value === '') setSelectedMonth('')
-    if (value === '0000') setSelectedMonth('00')
+    let month = selectedMonth
+    if (value === '') {
+      month = ''
+    }
+    if (value === '0000') {
+      month = '00'
+    }
+    setSelectedMonth(month)
     setDisabledMonth(disabled || value === '0000' || value === '')
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, value, month)))
   }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, value)))
   }
 
   return (
