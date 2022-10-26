@@ -168,7 +168,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle StartSignCertificate', () => {
-    it.only('Should call correct endpoint for fake signin', async () => {
+    it('Should call correct endpoint for fake signin', async () => {
       const certificate = getCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
