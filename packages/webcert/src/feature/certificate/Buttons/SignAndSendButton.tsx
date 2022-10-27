@@ -20,14 +20,12 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
   const isValidating = useSelector(getIsValidating)
   const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
 
-  let button = <></>
-
   const handleConfirm = () => {
     dispatch(startSignCertificate())
   }
 
   if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
-    button = (
+    return (
       <ButtonWithConfirmModal
         description={description}
         buttonStyle="primary"
@@ -38,17 +36,15 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
         onConfirm={handleConfirm}
         disabled={isValidating || isSigning || !enabled || functionDisabled}
         hideConfirmButton={!canSign}>
-        {body ? (
+        {body && (
           <div>
             <p>{body}</p>
           </div>
-        ) : (
-          <></>
         )}
       </ButtonWithConfirmModal>
     )
   else if (canSign)
-    button = (
+    return (
       <CustomButton
         tooltip={description}
         buttonStyle={'primary'}
@@ -59,7 +55,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
       />
     )
 
-  return button
+  return null
 }
 
 export default SignAndSendButton

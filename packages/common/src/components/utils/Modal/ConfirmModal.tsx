@@ -11,7 +11,6 @@ interface Props {
   declineButtonText?: string
   disabled: boolean
   hideDeclineButton?: boolean
-  hideConfirmButton?: boolean
   modalTitle: string
   onClose?: () => void
   onConfirm: () => void
@@ -28,7 +27,6 @@ export const ConfirmModal: React.FC<Props> = ({
   confirmButtonStyle,
   confirmButtonText,
   hideDeclineButton = false,
-  hideConfirmButton = false,
   modalTitle,
   declineButtonText,
   onClose,
@@ -67,15 +65,13 @@ export const ConfirmModal: React.FC<Props> = ({
           {hideDeclineButton !== true && (
             <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
           )}
-          {hideConfirmButton !== true && (
-            <CustomButton
-              buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
-              className={additionalConfirmButtonStyles}
-              disabled={confirmButtonDisabled}
-              onClick={handleConfirm}
-              text={confirmButtonText}
-            />
-          )}
+          <CustomButton
+            buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
+            className={additionalConfirmButtonStyles}
+            disabled={confirmButtonDisabled}
+            onClick={handleConfirm}
+            text={confirmButtonText}
+          />
         </>
       }
       closeOnBackdropClick={closeOnBackdropClick}
