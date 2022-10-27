@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress')
+const fs = require('fs')
 
 module.exports = defineConfig({
   env: {
@@ -28,16 +29,16 @@ module.exports = defineConfig({
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
       on('after:screenshot', (details) => {
-        console.log(details) // print all details to terminal
+        // console.log(details.specName) // print all details to terminal
   
-        const fileName = details.takenAt.replace("/:/g",".") +".png";
-        console.log(fileName);
-        const newPath = "screenshots/"+ fileName;
-        console.log(newPath);
+        const fileName = details.takenAt.replace(/:/g,".") +".png"
+        // console.log(fileName);
+        const newPath = "screenshots/" + details.specName + "/" + fileName;
+        // console.log(newPath);
 
         return new Promise((resolve, reject) => {
-            // fs.rename moves the file to the existing directory 'new/path/to'
-            // and renames the image to 'screenshot.png'
+            // fs.rename uses the same path as the existing screenshot
+            // and renames the image based on date and time taken.
             fs.rename(details.path, newPath, (err) => {
                 if (err) return reject(err)
   
