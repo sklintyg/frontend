@@ -277,11 +277,6 @@ export interface ValueDate extends Value {
   date?: string
 }
 
-export interface ValueUncertainDate extends Value {
-  id: string
-  value: string | null
-}
-
 export interface ValueDateList extends Value {
   list: ValueDate[]
 }
