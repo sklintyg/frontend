@@ -50,11 +50,9 @@ export const CertificateFooter: React.FC = () => {
           <SignAndSendButton
             functionDisabled={functionDisabled}
             canSign={canSign}
-            {...{
-              ...(canSignConfirm
-                ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
-                : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE)),
-            }}
+            {...(canSignConfirm
+              ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
+              : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE))}
           />
         </div>
       )}
