@@ -6,7 +6,7 @@ interface Props {
   label?: string
   name?: string
   value?: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   onFocus?: () => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
