@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { DeathCertificateConfirmModalIntegrated } from './DeathCertificateConfirmModalIntegrated'
+import { DeathCertificateConfirmModal } from './DeathCertificateConfirmModal'
 import { createMemoryHistory } from 'history'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
@@ -24,19 +24,13 @@ const renderComponent = (isOpen: boolean) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <DeathCertificateConfirmModalIntegrated
-          patient={createPatient(PERSON_ID)}
-          certificateId="certificateId"
-          setOpen={setOpen}
-          open={isOpen}
-          history={history}
-        />
+        <DeathCertificateConfirmModal patient={createPatient(PERSON_ID)} setOpen={setOpen} open={isOpen} />
       </Router>
     </Provider>
   )
 }
 
-describe('DeathCertificateConfirmModalIntegrated', () => {
+describe('DeathCertificateConfirmModal', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,
@@ -67,50 +61,60 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
     renderComponent(true)
     expect(screen.queryByText('firstName middleName lastName', { exact: false })).toBeInTheDocument()
   })
+})
 
-  it('should show button for delete', () => {
+describe('Confirm button', () => {
+  it('should show button to proceed', () => {
     renderComponent(true)
-    expect(screen.getByText('Radera')).toBeInTheDocument()
+    expect(screen.getByText('Gå vidare')).toBeInTheDocument()
   })
 
-  it('should dispatch delete certificate on close', () => {
+  it('should disable confirm button when checkbox in not checked', () => {
+    renderComponent(true)
+    const confirmButton = screen.getByText('Gå vidare')
+
+    expect(confirmButton)
+    expect(confirmButton).toBeDisabled()
+  })
+
+  it('should enable confirm button when checkbox in checked', () => {
+    renderComponent(true)
+    const confirmCheckbox = screen.getByRole('checkbox')
+    userEvent.click(confirmCheckbox)
+
+    const confirmButton = screen.getByText('Gå vidare')
+    expect(confirmButton).not.toBeDisabled()
+  })
+
+  it('should dispatch create new certificate on proceed', () => {
     const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
 
-    const deleteButton = screen.getByText('Radera')
-    userEvent.click(deleteButton)
+    const confirmCheckbox = screen.getByRole('checkbox')
+    userEvent.click(confirmCheckbox)
+
+    const confirmButton = screen.getByText('Gå vidare')
+    userEvent.click(confirmButton)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
+})
 
-  it('should not close modal when clicking outside the modal', () => {
+describe('Cancel button', () => {
+  it('should show button to cancel', () => {
     renderComponent(true)
-    userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
-    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('Avbryt')).toBeInTheDocument()
   })
 
-  describe('Confirm button', () => {
-    it('should show button for confirm', () => {
-      renderComponent(true)
-      expect(screen.getByText('Gå vidare')).toBeInTheDocument()
-    })
+  it('Cancelling shall not create certificate', () => {
+    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+    useDispatchSpy.mockReturnValue(mockDispatchFn)
 
-    it('should disable confirm button when checkbox in not checked', () => {
-      renderComponent(true)
-      const confirmButton = screen.getByText('Gå vidare')
+    renderComponent(true)
+    const cancelButton = screen.getByText('Avbryt')
+    userEvent.click(cancelButton)
 
-      expect(confirmButton)
-      expect(confirmButton).toBeDisabled()
-    })
-
-    it('should enable confirm button when checkbox in checked', () => {
-      renderComponent(true)
-      const confirmCheckbox = screen.getByRole('checkbox')
-      userEvent.click(confirmCheckbox)
-
-      const confirmButton = screen.getByText('Gå vidare')
-      expect(confirmButton).not.toBeDisabled()
-    })
+    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
   })
 })
