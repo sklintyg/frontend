@@ -84,6 +84,12 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
 
+  it('should not close modal when clicking outside the modal', () => {
+    renderComponent(true)
+    userEvent.click(screen.getByRole('dialog').parentElement as HTMLElement)
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+  })
+
   describe('Confirm button', () => {
     it('should show button for confirm', () => {
       renderComponent(true)
