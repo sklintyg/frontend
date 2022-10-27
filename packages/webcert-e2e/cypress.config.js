@@ -1,4 +1,6 @@
-module.exports = {
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
   env: {
     webcertUrl: 'https://webcert-devtest.intyg.nordicmedtest.se',
     intygMockBaseUrl: 'http://nmt-vs-tintyg.intyg.nordicmedtest.se',
@@ -25,10 +27,30 @@ module.exports = {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
+      on('after:screenshot', (details) => {
+        console.log(details) // print all details to terminal
+  
+        const fileName = details.takenAt.replace("/:/g",".") +".png";
+        console.log(fileName);
+        const newPath = "screenshots/"+ fileName;
+        console.log(newPath);
+
+        return new Promise((resolve, reject) => {
+            // fs.rename moves the file to the existing directory 'new/path/to'
+            // and renames the image to 'screenshot.png'
+            fs.rename(details.path, newPath, (err) => {
+                if (err) return reject(err)
+  
+                // because we renamed and moved the image, resolve with the new path
+                // so it is accurate in the test results
+                resolve({ path: newPath })
+            })
+        })
+    })
       return require('./plugins/index.js')(on, config)
     },
     baseUrl: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
     specPattern: 'integration/**/*.{js,jsx,ts,tsx}',
     supportFile: 'support/index.js',
   },
-}
+})
