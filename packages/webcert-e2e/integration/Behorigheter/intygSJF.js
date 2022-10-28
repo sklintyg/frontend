@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 
 describe('LISJP-intyg tomt', function() {
 

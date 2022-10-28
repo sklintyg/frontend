@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 
 describe('LISJP-intyg tomt', function() {
 
@@ -11,27 +12,19 @@ describe('LISJP-intyg tomt', function() {
         cy.fixture('FK_intyg/minLisjpData').as('intygsdata');
         cy.fixture('vEnheter/betaVC').as('vårdenhet');
         cy.fixture('vPatienter/athenaAndersson').as('vårdtagare');
-        cy.fixture('vPersonal/beataDoktor').as('vårdpersonal');
-      /*  cy.skapaLisjpUtkast(this).then((utkastId) => {
-        
-            cy.wrap(utkastId).as('utkastId');
-            cy.log("LISJP förifyllt utkast med id " + utkastId + " skapat och används i testfallet");
-        });*/
-        
+        cy.fixture('vPersonal/beataDoktor').as('vårdpersonal');  
     });
   
     context('Använadare har möjlighet att uföra följande med ett tomt utkast ',function() {
         beforeEach(function() {
-           
             //UNSIGNED LISJP EMPTY
             cy.skapaIntygViaApi(this,1,1,false).then((utkastId) => {
                 cy.wrap(utkastId).as('utkastId');
                 cy.log("LISJP-utkast med id " + utkastId + " skapat och används i testfallet");
             });
-
         });
-        describe('Funktioner på ett tomt LISJP utkast (ignore)', () =>{
 
+        describe('Funktioner på ett tomt LISJP utkast (ignore)', () =>{
             it('Ett icke ifylld LISJP går ej att signera och skicka till FK',function(){
                 const webcertUrl = Cypress.env('webcertUrl')
                 Cypress.config('baseUrl', webcertUrl)

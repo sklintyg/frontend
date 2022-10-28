@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 
 describe('LISJP-intyg tomt', function() {
 
@@ -25,8 +26,8 @@ describe('LISJP-intyg tomt', function() {
             });
 
         });
-        describe('Funktioner då man loggar in på ett utkast från annan vårdgivare med sammanhållenjournal', () =>{
 
+        describe('Funktioner då man loggar in på ett utkast från annan vårdgivare med sammanhållenjournal', () =>{
             it('Ett LISJP utkast ska  inte kunna signeras från en annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
@@ -36,6 +37,7 @@ describe('LISJP-intyg tomt', function() {
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
                                 
             });
+
             it('Ett LISJP utkast ska  inte kunna raderas från en annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
@@ -46,6 +48,7 @@ describe('LISJP-intyg tomt', function() {
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
                                 
             });
+
             it('Ett LISJP utkast ska  inte kunna förnyas från en annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
@@ -56,6 +59,7 @@ describe('LISJP-intyg tomt', function() {
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
                                 
             });
+
             it('Ett LISJP utkast ska  inte kunna skrivas ut från en annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";
@@ -66,6 +70,7 @@ describe('LISJP-intyg tomt', function() {
                 cy.contains(this.vårdpersonalNR1.förnamn).should('exist');
                                 
             });
+
             it('Ett LISJP utkast ska  inte kunna editeras från en annan vårdgivare',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhetNR1.id +"&sjf=true";

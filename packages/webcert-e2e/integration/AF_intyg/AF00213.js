@@ -3,7 +3,9 @@
 import * as intyg from '../../support/AF_intyg/af00213Intyg'
 
 
-// AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
+/**
+ * AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
+ */
 
 describe('AF00213-intyg tomt', function() {
 
@@ -35,25 +37,23 @@ describe('AF00213-intyg tomt', function() {
                 intyg.verifieraMeddelande();
              
             });
+
             it('Det är möjligt att raderar ett icke ifylld AF00213', function () {
                     cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                     const önskadUrl = "/certificate/" + this.utkastId ;
                     cy.visit(önskadUrl);
-                    
 
                     intyg.raderaUtkast();
                     cy.contains(this.utkastId).should('not.exist')
-
             });
+
             it('Skriva ut ett icke ifyllt AF00213', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request
-                
-        });
-
+                intyg.skrivUt("utkast", this.utkastId, "af00213");//skriver ut via request 
+            });
         });
     });
 });

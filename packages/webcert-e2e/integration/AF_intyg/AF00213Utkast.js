@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/AF_intyg/af00213Intyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
+ */
 
 describe('AF00213-intyg', function() {
 
@@ -24,8 +25,8 @@ describe('AF00213-intyg', function() {
             });
 
         });
-        describe('Funktioner på ett AF20013 utkast', () =>{
-            
+
+        describe('Funktioner på ett AF20013 utkast', () =>{            
             it('Skapar en minimalt ifylld AF00213 och skickar den till AF',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -37,24 +38,22 @@ describe('AF00213-intyg', function() {
                 cy.contains("Intyget är tillgängligt för patienten");
 
             });
+
             it('Raderar ett ifylld AF00213', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 intyg.raderaUtkast();
                 cy.contains(this.utkastId).should('not.exist')
-
             });
-           it('Skriva ut ett AF00213 utkast', function () {
+
+            it('Skriva ut ett AF00213 utkast', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 intyg.skrivUt("utkast", this.utkastId, "af00213");
 
             });
-            
-            
-
         });
     });
 });

@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 
 describe('LISJP-intyg tomt', function() {
 
@@ -27,20 +28,13 @@ describe('LISJP-intyg tomt', function() {
         describe('Funktioner på ett tomt LISJP utkast', () =>{
 
             it('Ett icke ifylld LISJP går ej att signera och skicka till FK',function(){
-             /*   cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId,true);
-                const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhet.id;
-               // const önskadUrl = "/certificate/" + this.utkastId ;
-                cy.log(önskadUrl);
-                cy.visit(önskadUrl);*/
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId,true);
                 const önskadUrl = "/visa/intyg/" + this.utkastId + "?enhet=" + this.vårdenhet.id;
-                //const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
                 cy.wait(1000);
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.contains("Signera intyget").click();
-                cy.get('.ic-page-header').should('exist')
-                               
+                cy.get('.ic-page-header').should('exist')               
             });
         });
     });

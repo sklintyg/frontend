@@ -1,9 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 
 describe('LISJP-utkast tomt', function() {
 
@@ -25,10 +26,6 @@ describe('LISJP-utkast tomt', function() {
 
         });
         describe('Funktioner på ett tomt LISJP utkast', () =>{
-           /* const intygStatus = (status ? "SIGNED" : "UNSIGNED");
-            const intygTyp = (typ ? "af00213" : "lisjp");
-            const filler = (theFill ?   "MINIMAL" :"EMPTY");*/
-
             it('Skapar en minimalt ifylld FK7804 och skickar den till FK',function(){
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -64,16 +61,10 @@ describe('LISJP-utkast tomt', function() {
 
                 const önskadUrl = "/certificate/" + this.utkastId 
                 cy.visit(önskadUrl);
-               // cy.wait(1000);
                 cy.contains("Klart att signera", {timeout:5000}).should('exist');
-                
-                //cy.get('label').contains('Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna "Diagnos" och "Nedsättning av arbetsförmåga".)').click();
                 cy.get('label').contains('100 procent').click();
                 cy.contains("Obligatoriska uppgifter saknas", {timeout:5000}).should('exist');
                 cy.contains("Klart att signera", {timeout:5000}).should('not.exist');
-               
-              
-
             });
         });
     });

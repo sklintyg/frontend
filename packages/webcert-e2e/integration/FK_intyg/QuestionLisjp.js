@@ -2,10 +2,12 @@
 /// <reference types="Cypress" />
 import * as intyg from '../../support/FK_intyg/fk_helpers'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
+// 
 
 /**
- * These testcases are being blocked by
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * 
+ * Some of these testcases are failing due to an open issue:
  * https://inera.atlassian.net/browse/INTYGFV-14823
  */
 describe('FK7804-intyg Ärende kommunikation', function() {
@@ -35,17 +37,16 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
                 intyg.skickaFraga("Avstämningsmöte");
-                           
-               
              });
+
              it('Skicka fråga gällande Kontakt på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
                 const önskadUrl = "/certificate/" + this.utkastId ;
                 cy.visit(önskadUrl);
-                intyg.skickaFraga("Kontakt");                            
-               
+                intyg.skickaFraga("Kontakt");
              });
+
              it('Skicka fråga gällande Övrigt på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
 
@@ -55,6 +56,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                            
                
              });
+
              it('Svara på fråga gällande Komplettering  med nytt Intyg på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const önskadUrl = "/certificate/" + this.utkastId ;
@@ -65,11 +67,9 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.reload();
                 intyg.svaraPaKomplettering("nyttIntyg", );
                 intyg.signeraSkicka();
-                cy.contains(this.utkastId).should('not.exist')
-                              
-               
+                cy.contains(this.utkastId).should('not.exist')               
              });
-            
+
              it('Svara på fråga gällande Komplettering  med meddelande på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
@@ -81,10 +81,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.reload();
                 intyg.svaraPaKomplettering("meddelande", medText );
                 cy.contains(medText);
-               
-                
-               
              });
+
              it('Svara på fråga gällande Komplettering  med text och nytt Intyg på ett Lisjp intyg', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const medText = "Det är ingen som vill svara";
@@ -98,10 +96,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 intyg.signeraSkicka();
                 cy.contains(this.utkastId).should('not.exist')
                 cy.contains(medText);
-               
-                
-               
              });
+
              it('Markera fråga gällande Komplettering på ett Lisjp intyg som hanterad', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const medText = "Det är ingen som vill svara så jag svarar med meddelande";
@@ -118,9 +114,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                  });
                 cy.wait(700);
                 cy.contains('Komplettera').should('not.exist')
-                          
-               
              });
+
              it('Markera fråga gällande Övrigt på ett Lisjp intyg som hanterad och avmarkera den sedan', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 
@@ -138,6 +133,7 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.contains('Svara').should('exist');
 
              });
+
              it('Svara på fråga gällande Kontakt på ett Lisjp intyg som har en påminnelse.', function () {
                 cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                 const medText = "this is an answer";
@@ -154,9 +150,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                 cy.wait(700);
                 cy.contains('Påminnelse').should('not.exist');
                 cy.contains('Svara').should('not.exist');
-               
-
              });
+
              it('Svara på fråga gällande Avstämningsmöte på ett Lisjp intyg som har en påminnelse.', function () {
                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                const medText = "this is an answer";
@@ -173,9 +168,8 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                cy.wait(700);
                cy.contains('Påminnelse').should('not.exist');
                cy.contains('Svara').should('not.exist');
-              
-
             });
+
             it('Svara på fråga gällande Övrigt på ett Lisjp intyg som har en påminnelse.', function () {
                cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId);
                const medText = "this is an answer";
@@ -192,8 +186,6 @@ describe('FK7804-intyg Ärende kommunikation', function() {
                cy.wait(700);
                cy.contains('Påminnelse').should('not.exist');
                cy.contains('Svara').should('not.exist');
-              
-
             });
          });
      });

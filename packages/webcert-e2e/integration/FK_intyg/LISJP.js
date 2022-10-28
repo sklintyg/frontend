@@ -1,10 +1,10 @@
 /* globals context cy */
 /// <reference types="Cypress" />
-//import * as intyg from '../../support/FK_intyg/fk_helpers'
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
-// LISJP = Läkarintyg för sjukpenning, FK 7804
-
+/**
+ * LISJP = Läkarintyg för sjukpenning, FK 7804
+ * */
 describe('LISJP-intyg tomt', function() {
 
     before(function() {
@@ -34,16 +34,6 @@ describe('LISJP-intyg tomt', function() {
                 expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
                 cy.contains("Signera intyget").click();
                 intyg.verifieraMeddelande();
-               /* 
-                expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
-                expect(cy.get(':nth-child(1) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Grund för medicinskt underlag")).to.exist;
-                expect(cy.get(':nth-child(2) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Sysselsättning")).to.exist;
-                expect(cy.get(':nth-child(3) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Diagnos")).to.exist;
-                expect(cy.get(':nth-child(4) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Sjukdomens konsekvenser för patienten")).to.exist;
-                expect(cy.get(':nth-child(5) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Sjukdomens konsekvenser för patienten")).to.exist;
-                expect(cy.get(':nth-child(6) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Bedömning")).to.exist;
-                expect(cy.get(':nth-child(7) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Bedömning")).to.exist;
-                expect(cy.get(':nth-child(8) > .CertificateValidation___StyledLink-sc-2b7v8n-0').contains("Åtgärder")).to.exist;*/
                 cy.get('button').contains("Skicka till Försäkringskassan").should('not.exist');
                 
             });
