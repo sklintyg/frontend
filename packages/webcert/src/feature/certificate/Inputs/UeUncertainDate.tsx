@@ -1,10 +1,17 @@
-import { CertificateDataElement, Dropdown, ConfigureUeUncertainDate, QuestionValidationTexts, ValueUncertainDate } from '@frontend/common'
+import {
+  CertificateDataElement,
+  Dropdown,
+  ConfigureUeUncertainDate,
+  QuestionValidationTexts,
+  ValueUncertainDate,
+  TextInput,
+} from '@frontend/common'
 import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 const ValidationWrapper = styled.div`
@@ -13,6 +20,10 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
+const styleTextField = {
+  height: '50px',
+  padding: '0.4em 0 0 1.5em',
+}
 
 export interface Props {
   disabled?: boolean
@@ -20,6 +31,7 @@ export interface Props {
 }
 
 const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
   const config = question.config as ConfigureUeUncertainDate
   const dispatch = useAppDispatch()
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -53,15 +65,21 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 
   const handleYearChange = (value: string) => {
     setSelectedYear(value)
-    if (value === '') setSelectedMonth('')
-    if (value === '0000') setSelectedMonth('00')
+    let month = selectedMonth
+    if (value === '') {
+      month = ''
+    }
+    if (value === '0000') {
+      month = '00'
+    }
+    setSelectedMonth(month)
     setDisabledMonth(disabled || value === '0000' || value === '')
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, value, month)))
   }
 
   const handleMonthChange = (value: string) => {
     setSelectedMonth(value)
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, question.id, selectedYear, selectedMonth)))
+    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, config.id, selectedYear, value)))
   }
 
   return (
@@ -98,11 +116,13 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
       </div>
       <div className="iu-width-xxl">
         <label htmlFor={'day_' + question.id}>Dag</label>
-        <input id={'day_' + question.id} type="text" disabled={true} value="00" className="ic-textfield iu-color-muted iu-border-muted" />
+        <TextInput id={'day_' + question.id} disabled={true} hasValidationError={hasValidationError} value="00" css={styleTextField} />
       </div>
-      <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={question.validationErrors} />
-      </ValidationWrapper>
+      {isShowValidationError && (
+        <ValidationWrapper>
+          <QuestionValidationTexts validationErrors={question.validationErrors} />
+        </ValidationWrapper>
+      )}{' '}
     </div>
   )
 }
@@ -133,8 +153,10 @@ const getDatelike = (question: CertificateDataElement) => {
   const _dateReg = /[0-2][0-9]{3}-[0-9]{2}-[0-9]{2}/
 
   if (question && (question.value as ValueUncertainDate)) {
-    const date: string = (question.value as ValueUncertainDate).date
-    datelike = _dateReg.test(date) ? date : ''
+    const date: string | unknown = (question.value as ValueUncertainDate).value
+    if (date) {
+      datelike = _dateReg.test(date as string) ? (date as string) : ''
+    }
   }
   return datelike
 }
@@ -145,7 +167,7 @@ const getUpdatedDateValue = (question: CertificateDataElement, id: string, year:
   const updatedValue = { ...(updatedQuestion.value as ValueUncertainDate) }
 
   updatedValue.id = id
-  updatedValue.date = `${year}-${month}-00`
+  updatedValue.value = `${year}-${month}-00`
 
   updatedQuestion.value = updatedValue
 

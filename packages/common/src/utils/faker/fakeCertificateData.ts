@@ -13,6 +13,7 @@ import {
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
+  ConfigUeTypeahead,
   ConfigureUeUncertainDate,
   ConfigUeTextField,
   ConfigUeHeader,
@@ -282,6 +283,24 @@ export const fakeDropdownElement = (
         code: 'test',
         ...data?.value,
       },
+    },
+    children
+  )
+
+export const fakeTypeaheadElement = (
+  data?: PartialCertificateDataElement<ConfigUeTypeahead, ValueText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_TYPE_AHEAD,
+        typeahead: ['Stockholm', 'Göteborg', 'Östersund'],
+        list: fakeList(3),
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.TEXT, text: 'Kommun', list: [], ...data?.value },
     },
     children
   )

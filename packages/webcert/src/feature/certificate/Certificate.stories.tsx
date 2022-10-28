@@ -16,6 +16,7 @@ import {
   fakeResourceLink,
   fakeTextAreaElement,
   MessageLevel,
+  fakeTypeaheadElement,
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
@@ -54,6 +55,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
       fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.PRINT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.COPY_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE }),
     ]
   }
 
@@ -113,8 +115,8 @@ DB.args = {
         mandatory: true,
       }),
       fakeDataElement({ config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE } }),
-      fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
+      fakeTypeaheadElement({
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', id: '1' },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({
