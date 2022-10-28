@@ -46,9 +46,6 @@ pipeline {
     // Denna variabel måste börja på "CYPRESS" och därefter heta exakt samma som parametern i
     // cypress.json eftersom den då skrivs över
     CYPRESS_intygMockBaseUrl = "https://nmt-vs-tintyg.intyg.nordicmedtest.se"
-    LC_ALL = 'sv_SE.UTF-8'
-    LANG    = 'en_US.UTF-8'
-    LANGUAGE = 'en_US.UTF-8'
 
   }
 
@@ -71,8 +68,6 @@ pipeline {
           sh 'npm --version'
           sh 'node --version'
           sh "chmod +x ${RESURSSKRIPT_ABS}"
-          // Slå på Chuck Norris-plugin. Kan tas bort utan negativ påverkan.
-          //chuckNorris()
         }
       }
     }
@@ -93,7 +88,6 @@ pipeline {
     stage('Installera Cypress') {
       steps {
         dir("${CYPRESS_DIR_REL}") {
-          //sh 'npm ci'
           sh 'yarn install --frozen-lockfile --production=false'
           sh 'yarn workspace @frontend/webcert-e2e cy:verify'
 

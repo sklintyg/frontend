@@ -23,11 +23,13 @@ export function loggaUtLoggaIn(vPersonal, vEnhet) {
    cy.visit('/logout')
    cy.loggaInVårdpersonalIntegrerat(vPersonal, vEnhet);
 }
+
 export function loggaUt() {
-    // loggar ut 
+    // loggar ut
     cy.clearCookies();
     cy.visit('/logout');
 }
+
 export function sektionÖvrigt(övrigt) {
     cy.get("#ovrigt").type(övrigt.text);
 }
@@ -41,15 +43,15 @@ export function sektionKontakt(kontakt) {
         }
     }
 }
+
 export function signeraSkicka() {
-    
-    //cy.contains("Klart att signera"); HÄR FINNS EN BUG ATT TA HAND OM
-    
+    cy.contains("Klart att signera");
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
     cy.contains("Utkastet sparas").should('not.exist');
     cy.get('button').contains("Signera och skicka").click();
 
 }
+
 export function skickaFraga(amne) {
     cy.contains("Administrativa frågor").click();
     cy.wait(100);
@@ -59,14 +61,10 @@ export function skickaFraga(amne) {
     cy.get('button').contains('Skicka').click();
     expect(cy.contains('skickar en fråga angående '+ amne)).to.exist;
     cy.contains('Hanterad').click();
-       
+
 }
 
 export function signera() {
-    // TODO: Utan wait så tappas ofta slutet på texten bort i sista textboxen.
-    // Antagligen hinner WebCert inte auto-spara innan man trycker på "signera".
-    // Wait är dock ett anti-pattern så finns något annat sätt så är det att föredra.
-    cy.wait(1000);
 
     cy.contains("Klart att signera");
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
@@ -79,23 +77,25 @@ export function signera() {
 
 export function skickaTillFk() {
     cy.get('button').contains("Skicka till Försäkringskassan").click();
- 
+
         cy.get('.ic-modal').within((modal)=>
         {
              cy.get('button').contains('Skicka till Försäkringskassan').click();
         });
- }
+}
+
 export function skrivUtUtkast(){
     cy.get('button').contains("Skriv ut").click();
-    
+
 }
+
 // Generell utskriftsfunktion. Gäller inte för t.ex. LISJP
 export function skrivUt(typAvUtskrift, intygsId, intygsTyp){
     const theUrl = 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + "/pdf" + typAvUtskrift;
     switch(typAvUtskrift) {
         case "utkast":
         case "fullständigt":
-           
+
             cy.request({
                 method: 'GET',
                 url: 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + "/pdf",
@@ -112,7 +112,7 @@ export function ersatta() {
     cy.get('button').contains("Ersätt").click();
     //cy.get('#fornyaBtn').click();
     //cy.get('.iu-pb-400').then
-    
+
     cy.get('.ic-modal').then((ele) => {
         if(ele.text().includes('Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades')) {
             //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
@@ -121,11 +121,12 @@ export function ersatta() {
         }
     });
 }
+
 export function fornya() {
     cy.get('button').contains("Förnya").click();
     //cy.get('#fornyaBtn').click();
     //cy.get('.iu-pb-400').then
-    
+
     cy.get('.ic-modal').then((ele) => {
         if(ele.text().includes('Förnya intyg kan användas vid förlängning av en sjukskrivning')) {
             //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
@@ -134,6 +135,7 @@ export function fornya() {
         }
     });
 }
+
 export function kopieraUtkast(){
     cy.contains('Kopiera').click().then(() => {
         cy.get('.ic-modal').then((ele) => {
@@ -142,23 +144,25 @@ export function kopieraUtkast(){
                 {
                      cy.get('button').contains('Kopiera').click();
                 });
-                
+
             }
         });
     });
 }
-export function svaraPåÄrende(typAvFråga, meddelande) {   
-    
+
+export function svaraPåÄrende(typAvFråga, meddelande) {
+
     cy.get('.ic-card').within((panel)=>
     {
         cy.contains(typAvFråga).should('exist');
         cy.contains("Svara").click();
         cy.get('.ic-textarea').type(meddelande);
         cy.contains('Skicka').click();
-    });     
-                
-           
+    });
+
+
 }
+
 export function svaraPaKomplettering(alternativ, meddelandeText) {
     switch(alternativ) {
         case "nyttIntyg":
@@ -186,50 +190,45 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
                 cy.contains("Skicka svar").click();
             });
             cy.log("Svarar med text");
-           
+
             break;
         default:
             cy.log('Inget bra alternativ valt');
     }
 }
+
 export function raderaUtkast() {
     cy.get('.fhrpJS > .ic-button').should('be.visible');
     cy.get('button').contains("Radera").click();
-    // cy.get('#ta-bort-utkast').click();
     cy.get('.ic-modal').within((modal) => {
         cy.get('button').contains("Radera").click();
     });
 }
 
 export function makulera() {
-   cy.wait(1000);
-   cy.get('button').contains("Makulera").click();
-   cy.contains("Intyget har utfärdats på fel patient").click();
+    cy.wait(1000);
+    cy.get('button').contains("Makulera").click();
+    cy.contains("Intyget har utfärdats på fel patient").click();
 
-   cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Intyget har utfärdats på fel patient');
-   cy.wait(100);
-   cy.get('.ic-modal').within((modal)=>
-   {
-       cy.get('button').contains("Makulera").click();
-   });
+    cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Intyget har utfärdats på fel patient');
+    cy.wait(100);
+    cy.get('.ic-modal').within((modal)=>
+    {
+        cy.get('button').contains("Makulera").click();
+    });
 }
+
 export function makuleraUtkast() {
     cy.get('.fhrpJS > .ic-button').should('be.visible').contains("Makulera").click();
-   // cy.get('#ta-bort-utkast').click();
-   cy.get('.ic-modal').within((modal)=>
+    cy.get('.ic-modal').within((modal)=>
         {
             cy.contains("Utkastet har skapats på fel patient").click();
             cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Utkastet har skapats på fel patient');
             cy.wait(1000);
             cy.get('button').contains("Makulera").click();
         });
-   
-      
-   
-  // cy.get('.ic-button-group > :nth-child(1) > .ic-button').click();
-  
-   //cy.get('radio').contains("Intyget har utfärdats på fel patient").check();  
 }
+
 export function verifieraLastIntyg() {
     cy.contains('Utkastet är låst').click();
     cy.get('.ic-modal').within((modal)=>
@@ -237,6 +236,7 @@ export function verifieraLastIntyg() {
         cy.get('button').contains("Stäng").click();
     });
 }
+
 export function makuleraIntyg(arg) {
     cy.get('#makuleraBtn').click();
     if (arg === "Annat allvarligt fel") {
@@ -248,41 +248,43 @@ export function makuleraIntyg(arg) {
         cy.get('#button1makulera-dialog').click();
     }
 }
+
 export function komplettera() {
         cy.wait(3000);
-      
+
         cy.get('#showallstatusesLink > span').click();
-        cy.get('body').then(($body) => {        
-            if($body.text().includes('Det finns redan en påbörjad komplettering')){           
+        cy.get('body').then(($body) => {
+            if($body.text().includes('Det finns redan en påbörjad komplettering')){
                 cy.get('#confirmationOkButton').click();
                 cy.log('Är och kompletterar på det redan skapade');
-                cy.get('#komplettera-open-utkast').click();                
-            }           
-            else { 
+                cy.get('#komplettera-open-utkast').click();
+            }
+            else {
                 cy.get('#confirmationOkButton').click();
-                cy.log('Är och kompletterar på det första');              
-                cy.get('#komplettera-intyg').click();                
-            }           
-        
+                cy.log('Är och kompletterar på det första');
+                cy.get('#komplettera-intyg').click();
+            }
        });
-        
- }
-export function vidarebefordra(){
+}
+
+export function vidarebefordra() {
     cy.get('#ta-bort-utkast').click();
     cy.get('#confirm-draft-delete-button').click();
 }
-export function skapaAdmFraga(){
+
+export function skapaAdmFraga() {
     cy.contains("Intyget är skickat till Försäkringskassan");
     cy.contains("Obligatoriska uppgifter saknas").should('not.exist');
     cy.contains("Utkastet sparas").should('not.exist');
     cy.get('#arende-filter-administrativafragor').click();
     cy.get('#new-question-topic-selected-item-label').click();
     cy.get('#new-question-topic-AVSTMN').click();
-    
+
     cy.get('#arendeNewModelText').type("SKAPAR ADM FRÅGA").type('{enter}');
     cy.get('#sendArendeBtn').click();
-    
+
 }
-export function hanteraFraga(){
-    cy.get('.checkbox-inline').click();     
+
+export function hanteraFraga() {
+    cy.get('.checkbox-inline').click();
 }

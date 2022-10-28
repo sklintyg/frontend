@@ -11,14 +11,11 @@ export {
 } from './../FK_intyg/fk_helpers';
 
 export function verifieraMeddelande() {
-    //iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper  ic-error-icon
     cy.get('.iu-pt-400').within((texter) => {
-        
-        expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist; //Nedan också
+
+        expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
         cy.contains('Funktionsnedsättning').should('exist')
         cy.contains('Utredning och behandling').should('exist')
         cy.contains('Arbetets påverkan på sjukdom/skada').should('exist')
-       
-       
     });
 }

@@ -72,6 +72,7 @@ export function sektionSysselsättning(sysselsättning) {
         }
     }
 }
+
 // -------------------- 'Diagnos' --------------------
 export function sektionDiagnos(diagnos) {
 
@@ -133,6 +134,7 @@ export function sektionMedicinskBehandling(medBehandling) {
     cy.get("#pagaendeBehandling").type(medBehandling.pågåendeBehandling);
     cy.get("#planeradBehandling").type(medBehandling.planeradeBehandling);
 }
+
 // -------------------- 'Bedömning Helt Nedsatt' --------------------
 export function sektionBedömning75Nedsatt(bedömning) {
     // Beräkna datum både framåt och bakåt från idag
@@ -281,12 +283,6 @@ export function sektionÅtgärder(åtgärder) {
 // -------------------- 'Signera intyget' --------------------
 export function signera() {
     fk.signera();
-
-    // Välj intygsmottagare
-    // TODO: Ger en utökad timeout då modalen i perioder inte hinner laddas. Detta bör ses över
-    //OBS! Bortkommenterade rader eftersom det endast finns en mottagare av intyget
-    //cy.get('#approve-receiver-SKANDIA-radio-no', {timeout: 20000}).check();
-    //cy.get('#save-approval-settings-btn').click();
 }
 
 // -------------------- 'Skriv ut intyget' --------------------
@@ -311,8 +307,9 @@ export function skrivUt(typAvUtskrift, intygsId){
             cy.log('Ingen korrekt typ av utskrift vald');
     }
 }
+
 //--------------------Ställa fråga på intyg till FK------------------
-export function stallaFragaTillFK(typAvFraga){
+export function stallaFragaTillFK(typAvFraga) {
     switch(typAvFraga) {
         case "Administrativ":
             cy.get('#arende-filter-administrativafragor').click();
@@ -320,29 +317,28 @@ export function stallaFragaTillFK(typAvFraga){
                 cy.get('#new-question-topic-AVSTMN').click();
                 cy.get('#arendeNewModelText').click().type('Detta är en ' + typAvFraga + ' fråga');
                 cy.get('#sendArendeBtn').click().then(() =>{
-                    
+
                     cy.contains('Detta är en ' + typAvFraga + ' fråga');
                 });
         break;
-        default:      
-        
-    }    
+        default:
+
+    }
 }
+
 export function verifieraMeddelande() {
-    //iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper  ic-error-icon
     cy.get('.iu-pt-400').within((texter)=>
     {
-       // expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
-               // cy.get('button').contains("Signera intyget").click();
-                expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist; //Nedan också
-                cy.contains('Grund för medicinskt underlag').should('exist')
-                cy.contains('Sysselsättning').should('exist')
-                cy.contains('Diagnos').should('exist')
-                cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
-                cy.contains('Bedömning').should('exist')
-                cy.contains('Åtgärder').should('exist')
+        expect(cy.contains("Utkastet saknar uppgifter i följande avsnitt:")).to.exist;
+        cy.contains('Grund för medicinskt underlag').should('exist')
+        cy.contains('Sysselsättning').should('exist')
+        cy.contains('Diagnos').should('exist')
+        cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
+        cy.contains('Bedömning').should('exist')
+        cy.contains('Åtgärder').should('exist')
     });
 }
+
 // -------------------- SRS-specifika funktioner --------------------
 export function bytTillSrsPanel() {
     cy.get('#tab-link-wc-srs-panel-tab').click();
@@ -391,12 +387,15 @@ export function verifieraDiagnosUnderStatistik(diagnoskod) {
     cy.contains("Statistik").click();
     cy.get('#nationalStatisticsHeader').contains(diagnoskod);
 }
+
 export function kompletteraLisjp(){
     fk.komplettera();
 }
+
 export function skapaAdmFragaLisjp(){
     fk.skapaAdmFraga();
 }
+
 export function hanteraFragaLisjp(){
     fk.hanteraFraga();
 }

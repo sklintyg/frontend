@@ -28,23 +28,17 @@ module.exports = defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
+      //Rename saved screenshots to avoid issue with "åäö".
       on('after:screenshot', (details) => {
-        // console.log(details.specName) // print all details to terminal
-  
+
         const fileName = details.takenAt.replace(/:/g,".") +".png"
-        // console.log(fileName);
         const newPath = "screenshots/" + details.specName + "/" + fileName;
-        // console.log(newPath);
+        console.log("Saving screenshot: " + newPath);
 
         return new Promise((resolve, reject) => {
-            // fs.rename uses the same path as the existing screenshot
-            // and renames the image based on date and time taken.
             fs.rename(details.path, newPath, (err) => {
                 if (err) return reject(err)
-  
-                // because we renamed and moved the image, resolve with the new path
-                // so it is accurate in the test results
-                resolve({ path: newPath })
+                  resolve({ path: newPath })
             })
         })
     })
