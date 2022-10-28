@@ -18,7 +18,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled,
   const history = useHistory()
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
-  const isDB = certificateMetadata?.type === 'db'
+  const isDodsbevis = certificateMetadata?.type === 'db'
 
   const handleConfirm = () => {
     dispatch(replaceCertificate(history))
@@ -37,24 +37,18 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled,
       <>
         <InfoBox type="observe" activateIconWrap>
           <p>
-            {!isDB
+            {!isDodsbevis
               ? 'Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.'
               : 'Om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.'}
           </p>
         </InfoBox>
-        {!isDB ? (
-          <p>
-            Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades.
-            När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera
-            innan du signerar intyget.
-          </p>
-        ) : (
+        <p>
+          Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När
+          ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan
+          du signerar intyget.
+        </p>
+        {isDodsbevis && (
           <>
-            <p>
-              Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades.
-              När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan
-              redigera innan du signerar intyget.
-            </p>
             <p>
               Senast skapade dödsbevis är det som gäller. Om du ersätter det tidigare dödsbeviset och lämnar in det nya så blir det därför
               detta dödsbevis som gäller.
