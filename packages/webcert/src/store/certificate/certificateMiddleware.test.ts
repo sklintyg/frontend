@@ -1,20 +1,25 @@
 import {
   Certificate,
-  CertificateDataElement,
   CertificateDataElementStyleEnum,
   CertificateDataValidation,
   CertificateDataValidationType,
-  CertificateDataValueType,
-  CertificateMetadata,
   CertificateRelation,
   CertificateRelations,
   CertificateRelationType,
   CertificateStatus,
-  ConfigTypes,
+  fakeCertificate,
+  fakeCertificateData,
+  fakeCertificateDataValidation,
+  fakeCertificateMetaData,
+  fakeRadioBooleanElement,
   getUser,
   SigningMethod,
   ValidationError,
   ValueBoolean,
+  CertificateMetadata,
+  ConfigTypes,
+  CertificateDataValueType,
+  CertificateDataElement,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -182,7 +187,8 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(fakeAxios.history.post.length).toBe(1)
       expect(fakeAxios.history.post[0].url).toEqual('/api/certificate/certificateId/sign')
-      expect(fakeAxios.history.post[0].data).toEqual('{"metadata":{"id":"certificateId"},"links":[]}')
+      expect(fakeAxios.history.post[0].data).toBeDefined()
+      expect(JSON.parse(fakeAxios.history.post[0].data)).toMatchObject({ metadata: { id: 'certificateId' }, links: [] })
     })
 
     it('Should call correct endpoint for DSS signin', async () => {
@@ -822,47 +828,28 @@ export const getCertificate = (
   version?: number,
   readyForSign?: string,
   relations?: CertificateRelations
-): Certificate => {
-  return {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    metadata: { id, type, version, readyForSign, relations: relations },
-    links: [],
-  }
-}
+): Certificate =>
+  fakeCertificate({
+    metadata: fakeCertificateMetaData({ id, type, version, readyForSign, relations }),
+  })
 
-const getCertificateWithHiglightValidation = (selected: boolean): Certificate => {
-  return {
-    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
-    data: {
-      '0': ({
+const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
+  fakeCertificate({
+    data: fakeCertificateData([
+      fakeRadioBooleanElement({
         id: '0',
-        readOnly: false,
-        parent: '0',
-        index: 1,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-        },
+        value: { selected },
         validation: [
-          {
+          fakeCertificateDataValidation({
             questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
             expression: '$0',
-          },
+          }),
         ],
-      } as unknown) as CertificateDataElement,
-    },
-    links: [],
-  }
-}
+      }),
+    ]),
+  })
+
 const getCertificateWithValidation = (selected: boolean, validationType: CertificateDataValidationType): Certificate => {
   return {
     metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,

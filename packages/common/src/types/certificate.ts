@@ -339,6 +339,7 @@ export enum CertificateDataValidationType {
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
+  AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
 }
 
 export interface CertificateDataValidation {
@@ -347,6 +348,15 @@ export interface CertificateDataValidation {
   expression: string
 
   [propName: string]: unknown
+}
+
+export interface AutoFillValidation extends CertificateDataValidation {
+  id: string
+  fillValue: {
+    type: CertificateDataValueType
+    selected?: boolean
+    id: string
+  }
 }
 
 export interface TextValidation extends CertificateDataValidation {

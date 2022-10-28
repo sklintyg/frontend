@@ -1,3 +1,4 @@
+import { addDays } from 'date-fns'
 import {
   Certificate,
   CertificateDataElement,
@@ -7,6 +8,8 @@ import {
   CertificateStatus,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
+  fakeCertificateDataValidation,
+  fakeCheckboxMultipleCodeElement,
   formatDateToString,
   getIcfElement,
   getSickLeavePeriodElement,
@@ -23,7 +26,10 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
+import { fakeRadioBooleanElement } from './faker/fakeCertificateData'
+import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
+  autoFillElement,
   CARE_UNIT_ADDRESS_CATEGORY_TITLE,
   CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
   CARE_UNIT_ADDRESS_FIELD,
@@ -34,8 +40,6 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { getBooleanElement, getCertificate, getTextElement, getDateElement } from './test/certificateTestUtil'
-import { addDays } from 'date-fns'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -823,17 +827,9 @@ describe('Validate enable rule for code values', () => {
 })
 
 describe('Validate disable rule for code list', () => {
-  const codeListElement: CertificateDataElement = {
+  const codeListElement = fakeCheckboxMultipleCodeElement({
     id: '40',
-    parent: 'atgarder',
-    index: 27,
-    visible: true,
-    readOnly: false,
-    mandatory: true,
     config: {
-      text: 'Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete',
-      description: '',
-      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
       list: [
         {
           id: 'EJ_AKTUELLT',
@@ -880,45 +876,40 @@ describe('Validate disable rule for code list', () => {
           label: 'Övrigt',
         },
       ],
+      validation: [
+        {
+          type: CertificateDataValidationType.MANDATORY_VALIDATION,
+          questionId: '40',
+          expression:
+            '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+        },
+        {
+          type: CertificateDataValidationType.DISABLE_VALIDATION,
+          questionId: '40',
+          expression:
+            '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+          id: ['EJ_AKTUELLT'],
+        },
+        {
+          type: CertificateDataValidationType.DISABLE_VALIDATION,
+          questionId: '40',
+          expression: '$EJ_AKTUELLT',
+          id: [
+            'ARBETSTRANING',
+            'ARBETSANPASSNING',
+            'SOKA_NYTT_ARBETE',
+            'BESOK_ARBETSPLATS',
+            'ERGONOMISK',
+            'HJALPMEDEL',
+            'KONFLIKTHANTERING',
+            'KONTAKT_FHV',
+            'OMFORDELNING',
+            'OVRIGA_ATGARDER',
+          ],
+        },
+      ],
     },
-    value: {
-      type: CertificateDataValueType.CODE_LIST,
-      list: [],
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '40',
-        expression:
-          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
-        questionId: '40',
-        expression:
-          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-        id: ['EJ_AKTUELLT'],
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
-        questionId: '40',
-        expression: '$EJ_AKTUELLT',
-        id: [
-          'ARBETSTRANING',
-          'ARBETSANPASSNING',
-          'SOKA_NYTT_ARBETE',
-          'BESOK_ARBETSPLATS',
-          'ERGONOMISK',
-          'HJALPMEDEL',
-          'KONFLIKTHANTERING',
-          'KONTAKT_FHV',
-          'OMFORDELNING',
-          'OVRIGA_ATGARDER',
-        ],
-      },
-    ],
-    validationErrors: [],
-  }
+  })['40']
 
   it('it should validate as true when code is in list', () => {
     const value = codeListElement.value as ValueCodeList
@@ -1295,6 +1286,39 @@ describe('Validate expressions only when visible', () => {
     element.visible = true
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
+  })
+})
+
+describe('autoFillElement', () => {
+  it('Should handle boolean values', () => {
+    const radioBooleanElement = fakeRadioBooleanElement({ id: '1', value: { selected: true } })['1']
+    expect(radioBooleanElement?.value?.selected).toEqual(true)
+
+    autoFillElement(
+      fakeCertificateDataValidation({
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        fillValue: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: false,
+        },
+      }),
+      radioBooleanElement
+    )
+
+    expect(radioBooleanElement?.value?.selected).toEqual(false)
+
+    autoFillElement(
+      fakeCertificateDataValidation({
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        fillValue: {
+          type: CertificateDataValueType.BOOLEAN,
+          selected: true,
+        },
+      }),
+      radioBooleanElement
+    )
+
+    expect(radioBooleanElement?.value?.selected).toEqual(true)
   })
 })
 

@@ -173,7 +173,7 @@ const SET_CERTIFICATE_SIGNING_ERROR = `${CERTIFICATE} Set signing error`
 
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
-
+const APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL = `${CERTIFICATE} Apply data element auto fill`
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
 
 const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation error`
@@ -540,6 +540,7 @@ export const setCertificateSigningErrorData = createAction<ErrorData | undefined
 
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
+export const applyCertificateDataElementAutoFill = createAction<ValidationResult>(APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL)
 
 export interface CertificateApiGenericError {
   error: ApiError

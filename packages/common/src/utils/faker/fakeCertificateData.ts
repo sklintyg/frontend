@@ -1,31 +1,36 @@
-import { CertificateData, CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
 import faker from 'faker'
 import { Merge, PartialDeep } from 'type-fest'
 import {
+  CertificateData,
+  CertificateDataElement,
   CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigCategory,
+  ConfigTypes,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
+  ConfigUeHeader,
   ConfigUeIcf,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
+  ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigureUeUncertainDate,
-  ConfigUeTextField,
-  ConfigUeHeader,
+  Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDate,
   ValueDateList,
   ValueDiagnosis,
+  ValueHeader,
   ValueIcf,
   ValueText,
-  ValueHeader,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -46,8 +51,8 @@ export const fakeCertificateData = (children: CertificateData[]): CertificateDat
 }
 
 export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, children: CertificateData[] = []): CertificateData => {
-  const id = data?.id ?? faker.random.alpha({ count: 5 })
   const type = data?.config?.type ?? ConfigTypes.CATEGORY
+  const id = data?.id ?? faker.random.alpha({ count: 5 })
   let certificateData: CertificateData = {}
   certificateData[id] = {
     parent: '',
@@ -70,21 +75,38 @@ export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, chil
       data != null && data.value != null
         ? {
             ...data.value,
-            type: data?.value?.type ?? CertificateDataValueType.BOOLEAN,
+            type: data?.value?.type ?? CertificateDataValueType.UNKNOWN,
           }
         : null,
   }
 
   children.forEach((elements, indexOffset) => {
     certificateData = Object.values(elements).reduce((certificateData: CertificateData, element, index) => {
-      return { ...certificateData, ...fakeDataElement({ ...element, parent: id, id: `${id}.${indexOffset + index + 1}` }) }
+      return { ...certificateData, ...fakeDataElement({ ...element, parent: id, id: element.id ?? `${id}.${indexOffset + index + 1}` }) }
     }, certificateData)
   })
 
   return certificateData
 }
 
-export const fakeCategoryElement = fakeDataElement
+export const fakeCategoryElement = (
+  data?: PartialCertificateDataElement<ConfigCategory, Value>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.CATEGORY,
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.UNKNOWN,
+        ...data?.value,
+      },
+    },
+    children
+  )
 
 export const fakeCheckboxBooleanElement = (
   data?: PartialCertificateDataElement<ConfigUeCheckboxBoolean, ValueCodeList>,
@@ -128,7 +150,7 @@ export const fakeCheckboxMultipleCodeElement = (
         ...data?.config,
       },
       value: {
-        type: CertificateDataValueType.CODE,
+        type: CertificateDataValueType.CODE_LIST,
         id: faker.random.alpha({ count: 10 }),
         list: [],
         ...data?.value,
@@ -277,6 +299,7 @@ export const fakeDropdownElement = (
       ...data,
       config: {
         list: fakeList(5),
+        ...data?.config,
       },
       value: {
         id: faker.random.alpha(),
