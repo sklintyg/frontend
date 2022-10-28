@@ -109,15 +109,10 @@ export function skrivUt(typAvUtskrift, intygsId, intygsTyp){
 }
 
 export function ersatta() {
-    cy.get('button').contains("Ersätt").click();
-    //cy.get('#fornyaBtn').click();
-    //cy.get('.iu-pb-400').then
-
+    cy.get('[data-tip="Skapar en kopia av detta intyg som du kan redigera."] > .ic-button').should('be.visible').contains("Ersätt").click();
     cy.get('.ic-modal').then((ele) => {
         if(ele.text().includes('Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades')) {
-            //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
             cy.get('.ic-button-group').contains("Ersätt").click();
-            //cy.get('#button1fornya-dialog').click();
         }
     });
 }
