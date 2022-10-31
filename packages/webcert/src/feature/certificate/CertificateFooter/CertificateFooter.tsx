@@ -38,17 +38,21 @@ export const CertificateFooter: React.FC = () => {
   if (!certificateMetadata || !resourceLinks) return null
 
   const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
+  const canSignConfirm = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION))
   const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
   const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
-      {canSign && (
+      {(canSign || canSignConfirm) && (
         <div className={'iu-flex'}>
           <SignAndSendButton
             functionDisabled={functionDisabled}
-            {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }}
+            canSign={canSign}
+            {...(canSignConfirm
+              ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
+              : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE))}
           />
         </div>
       )}

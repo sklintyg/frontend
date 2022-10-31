@@ -1,6 +1,7 @@
 import { CustomButton } from '@frontend/common'
-import React from 'react'
-import { ConfirmModal } from './ConfirmModal'
+import React, { useCallback, useEffect } from 'react'
+import ModalBase from './ModalBase'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
 
 interface Props {
   disabled: boolean
@@ -19,17 +20,36 @@ interface Props {
   onClick?: () => void
   onClose?: () => void
   hideDeclineButton?: boolean
+  hideConfirmButton?: boolean
   buttonClasses?: string
 }
 
 const ButtonWithConfirmModal: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(false)
+  const escPress = useKeyPress('Escape')
 
   const handleClickOpen = () => {
     setOpen(true)
 
     props.onClick?.()
   }
+
+  const handleConfirm = () => {
+    setOpen(false)
+    props.onConfirm()
+  }
+
+  const handleClose = useCallback(() => {
+    setOpen(false)
+
+    props.onClose?.()
+  }, [setOpen, props])
+
+  useEffect(() => {
+    if (escPress) {
+      handleClose()
+    }
+  }, [escPress, handleClose])
 
   return (
     <>
@@ -43,7 +63,32 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         text={props.name}
         buttonClasses={props.buttonClasses}
       />
-      <ConfirmModal {...props} open={open} setOpen={setOpen} />
+      <ModalBase
+        open={open}
+        handleClose={handleClose}
+        title={props.modalTitle}
+        content={props.children}
+        buttons={
+          <>
+            {props.hideDeclineButton !== true && (
+              <CustomButton
+                onClick={handleClose}
+                buttonStyle="default"
+                text={props.declineButtonText ? props.declineButtonText : 'Avbryt'}
+              />
+            )}
+            {props.hideConfirmButton !== true && (
+              <CustomButton
+                buttonStyle={props.confirmButtonStyle ? props.confirmButtonStyle : 'primary'}
+                className={props.additionalConfirmButtonStyles}
+                disabled={props.confirmButtonDisabled}
+                onClick={handleConfirm}
+                text={props.confirmButtonText}
+              />
+            )}
+          </>
+        }
+      />
     </>
   )
 }

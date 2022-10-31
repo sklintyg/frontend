@@ -1,34 +1,61 @@
-import { CertificateSignStatus, CustomButton } from '@frontend/common'
-import edit from '@frontend/common/src/images/edit.svg'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CertificateSignStatus, ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
+import edit from '@frontend/common/src/images/edit.svg'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
+  canSign: boolean
   name: string
   description: string
   enabled: boolean
+  body?: string
+  type: ResourceLinkType
 }
 
-const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, type, canSign, functionDisabled }) => {
   const dispatch = useDispatch()
   const isValidating = useSelector(getIsValidating)
   const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
 
-  return (
-    <CustomButton
-      tooltip={description}
-      buttonStyle="primary"
-      text={name}
-      startIcon={<img src={edit} alt="Signera intyget" />}
-      disabled={isValidating || isSigning || !enabled || functionDisabled}
-      onClick={() => {
-        dispatch(startSignCertificate())
-      }}
-    />
-  )
+  const handleConfirm = () => {
+    dispatch(startSignCertificate())
+  }
+
+  if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
+    return (
+      <ButtonWithConfirmModal
+        description={description}
+        buttonStyle="primary"
+        name={name}
+        modalTitle={name}
+        startIcon={<img src={edit} alt="Signera intyget" />}
+        confirmButtonText={name}
+        onConfirm={handleConfirm}
+        disabled={isValidating || isSigning || !enabled || functionDisabled}
+        hideConfirmButton={!canSign}>
+        {body && (
+          <div>
+            <p>{body}</p>
+          </div>
+        )}
+      </ButtonWithConfirmModal>
+    )
+  else if (canSign)
+    return (
+      <CustomButton
+        tooltip={description}
+        buttonStyle={'primary'}
+        disabled={isValidating || isSigning || !enabled || functionDisabled}
+        startIcon={<img src={edit} alt="Signera intyget" />}
+        onClick={handleConfirm}
+        text={name}
+      />
+    )
+
+  return null
 }
 
 export default SignAndSendButton

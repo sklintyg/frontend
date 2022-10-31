@@ -26,6 +26,7 @@ export const ConfirmModal: React.FC<Props> = ({
   confirmButtonDisabled,
   confirmButtonStyle,
   confirmButtonText,
+  hideDeclineButton = false,
   modalTitle,
   declineButtonText,
   onClose,
@@ -61,7 +62,9 @@ export const ConfirmModal: React.FC<Props> = ({
       content={children}
       buttons={
         <>
-          <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
+          {hideDeclineButton !== true && (
+            <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
+          )}
           <CustomButton
             buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
             className={additionalConfirmButtonStyles}
