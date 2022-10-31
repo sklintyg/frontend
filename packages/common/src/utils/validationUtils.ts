@@ -57,6 +57,10 @@ export const parseExpression = (
       }
       case CertificateDataValueType.BOOLEAN: {
         const valueBoolean = element.value as ValueBoolean
+
+        if ((valueBoolean.selected === undefined || valueBoolean.selected === null) && adjustedExpression.includes('not')) {
+          return 1
+        }
         return type === CertificateDataValidationType.MANDATORY_VALIDATION
           ? valueBoolean.selected !== null && valueBoolean.selected !== undefined
             ? 1

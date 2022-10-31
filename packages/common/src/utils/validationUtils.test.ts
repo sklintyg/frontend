@@ -1322,6 +1322,31 @@ describe('autoFillElement', () => {
   })
 })
 
+describe('Validate expressions with boolean values set to null or undefined should not be showed', () => {
+  const element = getBooleanElement()
+
+  it('should return false if selected is undefined for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is undefined for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+})
+
 const getValidationError = (type: string): ValidationError => {
   return {
     id: 'id',

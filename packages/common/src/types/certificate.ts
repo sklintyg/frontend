@@ -264,7 +264,7 @@ export interface Value {
 
 export interface ValueBoolean extends Value {
   id: string
-  selected: boolean | null
+  selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {
