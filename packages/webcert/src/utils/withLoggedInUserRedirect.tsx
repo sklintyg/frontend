@@ -11,6 +11,7 @@ import {
 
 /**
  * Redirects a user based on Role when logged in.
+ *
  * @param WrappedComponent
  */
 export function withLoggedInUserRedirect<P>(WrappedComponent: React.FC): React.FC<P> {

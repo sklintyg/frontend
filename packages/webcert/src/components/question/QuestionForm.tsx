@@ -69,6 +69,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
   }
 
   const handleSendQuestion = () => {
+    dispatchEditDraft.cancel()
     dispatch(sendQuestion(questionDraft))
   }
 

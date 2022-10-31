@@ -17,6 +17,7 @@ import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
+  applyCertificateDataElementAutoFill,
   autoSaveCertificate,
   autoSaveCertificateCompleted,
   autoSaveCertificateError,
@@ -795,49 +796,60 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   }
 
   const validationResults = validateExpressions(certificate, update)
-  validationResults.forEach((result) => {
-    switch (result.type) {
+  validationResults.forEach((validationResult) => {
+    const { result, type, id } = validationResult
+    switch (type) {
       case CertificateDataValidationType.MANDATORY_VALIDATION:
-        if (result.result) {
-          dispatch(hideCertificateDataElementMandatory(result.id))
+        if (result) {
+          dispatch(hideCertificateDataElementMandatory(id))
         } else {
-          dispatch(showCertificateDataElementMandatory(result.id))
+          dispatch(showCertificateDataElementMandatory(id))
         }
         break
 
       case CertificateDataValidationType.HIDE_VALIDATION:
-        if (result.result) {
-          dispatch(hideCertificateDataElement(result.id))
+        if (result) {
+          dispatch(hideCertificateDataElement(id))
         } else {
-          dispatch(unhideCertificateDataElement(result.id))
+          dispatch(unhideCertificateDataElement(id))
         }
         break
 
       case CertificateDataValidationType.SHOW_VALIDATION:
-        if (result.result) {
-          dispatch(showCertificateDataElement(result.id))
+        if (result) {
+          dispatch(showCertificateDataElement(id))
         } else {
-          dispatch(hideCertificateDataElement(result.id))
+          dispatch(hideCertificateDataElement(id))
         }
         break
 
       case CertificateDataValidationType.DISABLE_VALIDATION:
-        dispatch(setDisabledCertificateDataChild(result))
+        if (result) {
+          dispatch(disableCertificateDataElement(id))
+        } else {
+          dispatch(enableCertificateDataElement(id))
+        }
+        dispatch(setDisabledCertificateDataChild(validationResult))
         break
 
       case CertificateDataValidationType.ENABLE_VALIDATION:
-        if (result.result) {
-          dispatch(enableCertificateDataElement(result.id))
+        if (result) {
+          dispatch(enableCertificateDataElement(id))
         } else {
-          dispatch(disableCertificateDataElement(result.id))
+          dispatch(disableCertificateDataElement(id))
         }
         break
 
       case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
-        if (result.result) {
-          dispatch(highlightCertificateDataElement(result.id))
+        if (result) {
+          dispatch(highlightCertificateDataElement(id))
         } else {
-          dispatch(unstyleCertificateDataElement(result.id))
+          dispatch(unstyleCertificateDataElement(id))
+        }
+        break
+      case CertificateDataValidationType.AUTO_FILL_VALIDATION:
+        if (result) {
+          dispatch(applyCertificateDataElementAutoFill(validationResult))
         }
         break
     }
