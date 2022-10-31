@@ -13,6 +13,7 @@ import {
   CertificateStatus,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
+  epochDaysAdjustedToTimezone,
   getValidDate,
   MaxDateValidation,
   ResourceLinkType,
@@ -22,6 +23,7 @@ import {
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDate,
   ValueDateList,
   ValueDateRange,
   ValueDateRangeList,
@@ -45,7 +47,7 @@ export const parseExpression = (
 ): boolean => {
   const adjustedExpression = getExpression(expression)
 
-  function convertToValue(id: string, type: CertificateDataValidationType): number {
+  function convertToValue(id: string, type: CertificateDataValidationType): number | undefined {
     const adjustedId = id.replace(/\$/g, '')
 
     switch (element.value?.type) {
@@ -85,6 +87,18 @@ export const parseExpression = (
           return isValid(fromDate) && isValid(toDate) ? 1 : 0
         }
       }
+      case CertificateDataValueType.DATE: {
+        const date = element.value as ValueDate
+        if (adjustedId.includes('toEpochDay')) {
+          const dateObj = getValidDate(date.date)
+          if (dateObj) {
+            return epochDaysAdjustedToTimezone(dateObj)
+          } else {
+            return undefined
+          }
+        }
+        return date.date ? 1 : 0
+      }
       case CertificateDataValueType.DATE_LIST: {
         const valueDateList = element.value as ValueDateList
         const date = valueDateList.list.find((date) => date.id === adjustedId)
@@ -111,7 +125,6 @@ export const parseExpression = (
         if (!uncertainDate.value) return 0
         return _dateReg.test(uncertainDate.value as string) ? 1 : 0
       }
-
       default: {
         return 0
       }
@@ -119,7 +132,7 @@ export const parseExpression = (
   }
 
   const options: Options = {
-    customProp: (id: string, _: unknown, type: CertificateDataValidationType): number => convertToValue(id, type),
+    customProp: (id: string, _: unknown, type: CertificateDataValidationType): number | undefined => convertToValue(id, type),
   }
 
   const executeExpression = compileExpression(adjustedExpression, options)
@@ -159,7 +172,7 @@ const validateMaxDate = (id: string, validation: MaxDateValidation, data: Certif
   }
   const index = value.list.findIndex((item) => item.id === validation.id)
   if (index !== -1) {
-    return differenceInDays(new Date(value.list[index].date), new Date()) > validation.numberOfDays ? false : true
+    return differenceInDays(new Date(value.list[index].date as string), new Date()) <= validation.numberOfDays
   } else return true
 }
 
@@ -222,7 +235,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           )
 
           if (sameRuleTypeFound) {
-            sameRuleTypeFound.result = sameRuleTypeFound.result && validationResult.result
+            sameRuleTypeFound.result = validationResult.result ? validationResult.result : sameRuleTypeFound.result
           } else {
             currentValidationResults.push(validationResult)
           }
@@ -232,8 +245,23 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       )
     }
   }
+  /**
+   * HIDE_VALIDATION has priority over SHOW_VALIDATION
+   */
+  function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
+    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
+      return validationResults.some(
+        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id
+      )
+    }
 
-  return validationResults
+    if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
+      return !hideValidationHasPriorityOverShow(validationResult)
+    }
+    return true
+  }
+
+  return validationResults.filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
 }
 
 export const decorateCertificateWithInitialValues = (certificate: Certificate): void => {
@@ -389,14 +417,18 @@ function validate(data: CertificateData, id: string) {
       case CertificateDataValidationType.ENABLE_VALIDATION:
         data[id].disabled = !validationResult.result
         break
-      case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
+      case CertificateDataValidationType.HIGHLIGHT_VALIDATION: {
         if (validationResult.result) {
           data[id].style = CertificateDataElementStyleEnum.HIGHLIGHTED
         } else {
           data[id].style = CertificateDataElementStyleEnum.NORMAL
         }
         break
+      }
       case CertificateDataValidationType.DISABLE_VALIDATION:
+        data[id].disabled = validationResult.result
+        break
+      case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
         setDisableForChildElement(data, validationResult)
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:

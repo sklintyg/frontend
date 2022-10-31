@@ -64,7 +64,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     if (newText.length === 0) {
       setOpen(false)
     }
-    setSuggestions(questionConfig.typeahead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0))
+    setSuggestions(questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0))
   }
 
   const getSuggestions = (): Suggestion[] => {

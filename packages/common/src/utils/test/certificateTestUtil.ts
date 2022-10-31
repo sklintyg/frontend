@@ -7,6 +7,7 @@ import {
   CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
+  ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
@@ -44,6 +45,29 @@ export const getBooleanElement = (): CertificateDataElement => {
         expression: '$harFunktionsnedsattning',
       },
     ],
+    validationErrors: [],
+  }
+}
+export const getDateElement = (): CertificateDataElement => {
+  return {
+    id: '1.1',
+    parent: 'funktionsnedsattning',
+    index: 1,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
+      description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
+      type: ConfigTypes.UE_DATE,
+      id: 'dodsdatum',
+    },
+    value: {
+      type: CertificateDataValueType.DATE,
+      id: 'dodsdatum',
+      date: '2022-10-01',
+    } as ValueDate,
+    validation: [],
     validationErrors: [],
   }
 }
@@ -213,6 +237,9 @@ export const getCheckBoxElement = (): CertificateDataElement => {
     id: '28',
     parent: 'sysselsattning',
     index: 7,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
     config: {
       type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
       text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
@@ -254,26 +281,18 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
       },
       {
-        type: CertificateDataValidationType.HIDE_VALIDATION,
-        questionId: '27',
-        expression: '$avstangningSmittskydd',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$NUVARANDE_ARBETE',
         id: ['ARBETSSOKANDE'],
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$ARBETSSOKANDE',
         id: ['NUVARANDE_ARBETE'],
       },
     ],
-    mandatory: false,
-    readOnly: false,
-    visible: true,
     validationErrors: [],
   }
 }
