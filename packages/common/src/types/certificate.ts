@@ -135,7 +135,7 @@ export interface ConfigUeMessage extends CertificateDataConfig {
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
   id: string
-  typeahead: string[]
+  typeAhead: string[]
   text: string
   label: string
 }
@@ -274,12 +274,7 @@ export interface ValueCode extends Value {
 
 export interface ValueDate extends Value {
   id: string
-  date: string
-}
-
-export interface ValueUncertainDate extends Value {
-  id: string
-  value: string | null
+  date?: string
 }
 
 export interface ValueDateList extends Value {
@@ -316,6 +311,11 @@ export interface ValueText extends Value {
   id: string
 }
 
+export interface ValueUncertainDate extends Value {
+  id: string
+  value: string | null
+}
+
 export interface ValueIcf extends Value {
   id: string
   icfCodes?: string[]
@@ -333,6 +333,7 @@ export enum CertificateDataValidationType {
   SHOW_VALIDATION = 'SHOW_VALIDATION',
   HIDE_VALIDATION = 'HIDE_VALIDATION',
   DISABLE_VALIDATION = 'DISABLE_VALIDATION',
+  DISABLE_SUB_ELEMENT_VALIDATION = 'DISABLE_SUB_ELEMENT_VALIDATION',
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',

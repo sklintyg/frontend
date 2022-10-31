@@ -33,6 +33,8 @@ export const getValidDateFormat = (dateString: string | undefined): Date | undef
   }
 }
 
+export const epochDaysAdjustedToTimezone = (date: Date): number => Math.floor((date.getTime() - date.getTimezoneOffset() * 60000) / 8.64e7)
+
 export const getValidDate = (dateString: string | undefined): Date | undefined => {
   if (!dateString) return
 

@@ -101,7 +101,6 @@ import {
   startSignCertificate,
   startSignCertificateSuccess,
   toggleCertificateFunctionDisabler,
-  unhideCertificateDataElement,
   unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
@@ -756,9 +755,12 @@ const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAct
 const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
-  validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
-
+  const questionIdsToValidate = validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
   dispatch(validateCertificateInFrontEndCompleted())
+
+  questionIdsToValidate.forEach((questionId) =>
+    dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
+  )
 }
 
 const isSameValidationError = (savedValidationError: ValidationError, payloadValidationError: ValidationError) => {
@@ -790,11 +792,12 @@ const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, get
   }
 }
 
-function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
+function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): string[] {
   if (!certificate) {
-    return
+    return []
   }
 
+  const questionIdsToValidate = [] as string[]
   const validationResults = validateExpressions(certificate, update)
   validationResults.forEach((validationResult) => {
     const { result, type, id } = validationResult
@@ -806,32 +809,42 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(showCertificateDataElementMandatory(id))
         }
         break
-
       case CertificateDataValidationType.HIDE_VALIDATION:
         if (result) {
           dispatch(hideCertificateDataElement(id))
+          if (certificate.data[id].visible) {
+            questionIdsToValidate.push(id)
+          }
         } else {
-          dispatch(unhideCertificateDataElement(id))
+          dispatch(showCertificateDataElement(id))
+          if (!certificate.data[id].visible) {
+            questionIdsToValidate.push(id)
+          }
         }
         break
-
       case CertificateDataValidationType.SHOW_VALIDATION:
         if (result) {
           dispatch(showCertificateDataElement(id))
+          if (!certificate.data[id].visible) {
+            questionIdsToValidate.push(id)
+          }
         } else {
           dispatch(hideCertificateDataElement(id))
+          if (certificate.data[id].visible) {
+            questionIdsToValidate.push(id)
+          }
         }
         break
-
       case CertificateDataValidationType.DISABLE_VALIDATION:
         if (result) {
           dispatch(disableCertificateDataElement(id))
         } else {
           dispatch(enableCertificateDataElement(id))
         }
+        break
+      case CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION:
         dispatch(setDisabledCertificateDataChild(validationResult))
         break
-
       case CertificateDataValidationType.ENABLE_VALIDATION:
         if (result) {
           dispatch(enableCertificateDataElement(id))
@@ -839,7 +852,6 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
           dispatch(disableCertificateDataElement(id))
         }
         break
-
       case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
         if (result) {
           dispatch(highlightCertificateDataElement(id))
@@ -854,6 +866,7 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         break
     }
   })
+  return questionIdsToValidate
 }
 
 const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

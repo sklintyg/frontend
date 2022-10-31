@@ -120,7 +120,13 @@ export interface CertificateStructure {
 
 export const getCertificateDataElements = createSelector<RootState, Certificate | undefined, CertificateStructure[]>(
   getCertificate,
-  (certificate) => structureCertificate(certificate)
+  (certificate) => {
+    if (certificate == null) {
+      return []
+    }
+
+    return structureCertificate(certificate.data)
+  }
 )
 
 export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {

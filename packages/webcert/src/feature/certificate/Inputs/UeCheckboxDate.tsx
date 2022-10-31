@@ -41,7 +41,7 @@ export interface Props {
   datePickerAdditionalStyles?: string
   disabled?: boolean
   question: CertificateDataElement
-  date: string | null
+  date: string | null | undefined
 }
 
 const UeCheckboxDate: React.FC<Props> = (props) => {
