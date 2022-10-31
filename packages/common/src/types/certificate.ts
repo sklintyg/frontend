@@ -86,7 +86,6 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
-  UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
 }
 
 export enum MessageLevel {
@@ -239,18 +238,6 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
-export enum CauseOfDeathSpecification {
-  UPPGIFT_SAKNAS = 'UPPGIFT_SAKNAS',
-  KRONISK = 'KRONISK',
-  PLOTSLIG = 'PLOTSLIG',
-}
-
-export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
-  title: string
-  label: string
-  specification: CauseOfDeathSpecification[]
-}
-
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -337,12 +324,6 @@ export interface ValueIcf extends Value {
 
 export interface ValueHeader extends Value {
   id: string
-}
-
-export interface ValueCauseOfDeath extends Value {
-  id: string
-  description: string
-  specification: CauseOfDeathSpecification
 }
 
 // Validation
