@@ -138,7 +138,7 @@ export interface ConfigUeTypeahead extends CertificateDataConfig {
   typeAhead: string[]
   text: string
   label: string
-  placeholder: string
+  placeholder?: string
 }
 
 export interface CheckboxCode {
