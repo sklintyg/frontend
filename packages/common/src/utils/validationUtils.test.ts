@@ -1078,6 +1078,28 @@ describe('Set initial values to a certificate', () => {
     expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
   })
 
+  describe('Intialize values for autoFill validation', () => {
+    const certificate = getCertificate()
+
+    it('should autoFill value if validation is true', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
+    })
+
+    it('should not autoFill value if validation is false', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.3'].value as ValueText).text).toBe(null)
+    })
+  })
+
   describe('Intialize values when certificate is not UNSIGNED', () => {
     const certificate = getCertificate()
 

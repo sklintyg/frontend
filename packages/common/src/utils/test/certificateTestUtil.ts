@@ -103,6 +103,16 @@ export const getTextElement = (): CertificateDataElement => {
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
       },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'funktionsnedsattning',
+          text: 'Detta är autoifyllt!',
+        },
+      },
     ],
     validationErrors: [],
   }
@@ -226,6 +236,16 @@ export const getAnotherTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.HIDE_VALIDATION,
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '!$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'annanFunktionsnedsattning',
+          text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+        },
       },
     ],
     validationErrors: [],
