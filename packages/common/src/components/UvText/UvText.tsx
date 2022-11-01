@@ -265,7 +265,7 @@ const UvText: React.FC<Props> = ({ question }) => {
         if (textValueDate.date != null && textValueDate.date.length > 0) {
           displayText = textValueDate.date
         } else {
-          displayText = ''
+          displayText = 'Ej angivet'
         }
         break
       }
