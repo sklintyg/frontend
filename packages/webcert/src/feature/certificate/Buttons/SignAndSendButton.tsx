@@ -22,8 +22,8 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const disabled = isValidating || isSigning || !enabled || functionDisabled
 
-  const handleConfirm = () => {
-    if (confirmModalOpen === false && type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION && isValidForSigning) {
+  const handleConfirm = (showConfirmation: boolean) => () => {
+    if (showConfirmation) {
       setConfirmModalOpen(true)
     } else {
       dispatch(startSignCertificate())
@@ -35,7 +35,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
       <ConfirmModal
         modalTitle={name}
         startIcon={<img src={edit} alt={name} />}
-        onConfirm={handleConfirm}
+        onConfirm={handleConfirm(false)}
         disabled={disabled}
         confirmButtonText={name}
         open={confirmModalOpen}
@@ -49,7 +49,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
         buttonStyle={'primary'}
         disabled={confirmModalOpen || disabled}
         startIcon={<img src={edit} alt={name} />}
-        onClick={handleConfirm}
+        onClick={handleConfirm(isValidForSigning && type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)}
         text={name}
       />
     </>
