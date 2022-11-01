@@ -1,14 +1,12 @@
 import {
   Certificate,
-  CertificateDataElement,
-  CertificateDataValidationType,
   CertificateSignStatus,
   CertificateStatus,
   getCertificateToSave,
   SigningMethod,
   ValidationError,
 } from '@frontend/common'
-import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
+import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
@@ -17,7 +15,6 @@ import {
   answerComplementCertificate,
   answerComplementCertificateStarted,
   answerComplementCertificateSuccess,
-  applyCertificateDataElementAutoFill,
   autoSaveCertificate,
   autoSaveCertificateCompleted,
   autoSaveCertificateError,
@@ -44,8 +41,6 @@ import {
   deleteCertificateCompleted,
   deleteCertificateStarted,
   deleteCertificateSuccess,
-  disableCertificateDataElement,
-  enableCertificateDataElement,
   fakeSignCertificate,
   fakeSignCertificateSuccess,
   forwardCertificate,
@@ -61,11 +56,8 @@ import {
   getCertificateEventsSuccess,
   getCertificateStarted,
   getCertificateSuccess,
-  hideCertificateDataElement,
-  hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
-  highlightCertificateDataElement,
   printCertificate,
   readyForSign,
   readyForSignCompleted,
@@ -89,10 +81,7 @@ import {
   setCertificateDataElement,
   setCertificateSigningErrorData,
   setCertificateUnitData,
-  setDisabledCertificateDataChild,
   setReadyForSign,
-  showCertificateDataElement,
-  showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
   signCertificateCompleted,
@@ -101,7 +90,6 @@ import {
   startSignCertificate,
   startSignCertificateSuccess,
   toggleCertificateFunctionDisabler,
-  unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateComplements,
@@ -120,7 +108,6 @@ import {
   validateCertificateCompleted,
   validateCertificateError,
   validateCertificateInFrontEnd,
-  validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
@@ -131,7 +118,7 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
-import {handleValidateCertificateInFrontEnd} from "./validateCertificateInFrontend";
+import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
