@@ -42,7 +42,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: string) => {
       const oldValue = question.value as ValueText
-      if (text !== oldValue.text) {
+      if (value !== oldValue.text) {
         const updatedValue = getUpdatedValue(question, value)
         dispatch(updateCertificateDataElement(updatedValue))
       }
