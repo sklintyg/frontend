@@ -333,13 +333,8 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
         return
       }
 
-      const { id, affectedIds } = action.payload
+      const { id, validation } = action.payload
       const question = state.certificate.data[id]
-
-      const validation = state.certificate.data[id].validation.find((validation) => {
-        const { id } = { ...validation } as AutoFillValidation
-        return affectedIds?.includes(id)
-      })
 
       if (validation && question) {
         autoFillElement(validation, question)

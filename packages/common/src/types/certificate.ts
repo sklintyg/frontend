@@ -352,11 +352,7 @@ export interface CertificateDataValidation {
 
 export interface AutoFillValidation extends CertificateDataValidation {
   id: string
-  fillValue: {
-    type: CertificateDataValueType
-    selected?: boolean
-    id: string
-  }
+  fillValue: Value
 }
 
 export interface TextValidation extends CertificateDataValidation {

@@ -548,7 +548,7 @@ describe('Validate multiple show rules', () => {
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1.2',
+        questionId: '2.2',
         expression: '$aktivitetsbegransning',
       },
       {
@@ -1078,6 +1078,28 @@ describe('Set initial values to a certificate', () => {
     expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
   })
 
+  describe('Intialize values for autoFill validation', () => {
+    const certificate = getCertificate()
+
+    it('should autoFill value if validation is true', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
+    })
+
+    it('should not autoFill value if validation is false', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.3'].value as ValueText).text).toBe(null)
+    })
+  })
+
   describe('Intialize values when certificate is not UNSIGNED', () => {
     const certificate = getCertificate()
 
@@ -1286,6 +1308,13 @@ describe('Validate expressions only when visible', () => {
     element.visible = true
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
+  })
+
+  it('should return false if date has a value and element is not visible', () => {
+    ;(element.value as ValueDate).date = '2022-01-01'
+    element.visible = false
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 
