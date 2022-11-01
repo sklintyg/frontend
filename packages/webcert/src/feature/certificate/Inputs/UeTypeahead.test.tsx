@@ -49,11 +49,7 @@ describe('Typeahead component', () => {
     const list = screen.queryByRole('list')
     expect(list).toBeNull()
   })
-  it('renders component with correct default values', () => {
-    renderDefaultComponent()
-    const input = screen.getByRole('textbox')
-    expect(input).toHaveValue('Kommun')
-  })
+
   it('disables component if disabled is set', () => {
     renderWithSuggestions()
     const input = screen.getByRole('textbox')

@@ -41,8 +41,11 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: string) => {
-      const updatedValue = getUpdatedValue(question, value)
-      dispatch(updateCertificateDataElement(updatedValue))
+      const oldValue = question.value as ValueText
+      if (text !== oldValue.text) {
+        const updatedValue = getUpdatedValue(question, value)
+        dispatch(updateCertificateDataElement(updatedValue))
+      }
     }, 1000)
   ).current
 
@@ -92,6 +95,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleChange}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
+          placeholder={questionConfig.placeholder}
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
           open={open}

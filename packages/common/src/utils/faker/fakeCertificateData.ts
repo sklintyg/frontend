@@ -322,8 +322,9 @@ export const fakeTypeaheadElement = (
         typeAhead: ['Stockholm', 'Göteborg', 'Östersund'],
         list: fakeList(3),
         ...data?.config,
+        placeholder: 'Kommun',
       },
-      value: { type: CertificateDataValueType.TEXT, text: 'Kommun', list: [], ...data?.value },
+      value: { type: CertificateDataValueType.TEXT, text: '', list: [], ...data?.value },
     },
     children
   )
