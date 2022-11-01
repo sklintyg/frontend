@@ -157,6 +157,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
     dispatch(validateCertificate(action.payload.certificate))
   }
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+  dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 }
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
@@ -364,6 +365,8 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> = ({ dispatch, ge
   switch (signStatus) {
     case CertificateSignStatus.UNKNOWN:
     case CertificateSignStatus.SIGNED:
+      dispatch(signCertificateCompleted())
+      dispatch(getCertificate(certificate.metadata.id))
       break
     default:
       setTimeout(
