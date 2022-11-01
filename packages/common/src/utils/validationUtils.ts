@@ -45,6 +45,10 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
+  if (!element.visible) {
+    return false
+  }
+
   const adjustedExpression = getExpression(expression)
 
   function convertToValue(id: string, type: CertificateDataValidationType): number | undefined {
@@ -145,6 +149,7 @@ export interface ValidationResult {
   id: string
   result: boolean
   affectedIds?: string[]
+  validation: CertificateDataValidation
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string): boolean => {
@@ -203,6 +208,42 @@ const differenceInDays = (a: Date, b: Date) => {
   return Math.floor((a.getTime() - b.getTime()) / (1000 * 60 * 60 * 24))
 }
 
+const filterValidations = (validationResults: ValidationResult[]): ValidationResult[] => {
+  /**
+   * This method resolves priority between HIDE_VALIDATION and SHOW_VALIDATION.
+   *
+   * If both exists the HIDE_VALIDATION should have precedence if true, otherwise it should be ignored.
+   *
+   * HIDE_VALIDATION == true --> SHOW_VALIDATION is filtered out.
+   * HIDE_VALIDATION == false --> HIDE_VALIDATION is filtered out.
+   *
+   */
+  function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
+    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
+      return validationResults.some(
+        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id && value.result
+      )
+    }
+
+    function showValidationHasPriorityOverHide(validationResult: ValidationResult) {
+      return validationResults.some(
+        (value) =>
+          value.type === CertificateDataValidationType.SHOW_VALIDATION && value.id === validationResult.id && !validationResult.result
+      )
+    }
+
+    if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
+      return !hideValidationHasPriorityOverShow(validationResult)
+    }
+    if (validationResult.type === CertificateDataValidationType.HIDE_VALIDATION) {
+      return !showValidationHasPriorityOverHide(validationResult)
+    }
+    return true
+  }
+
+  return validationResults.filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
+}
+
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
   const validationResults: ValidationResult[] = []
   const data = certificate.data
@@ -222,6 +263,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           id,
           affectedIds: affectedId,
           result: getResult(validation, data, id),
+          validation,
         }
         newValidationResults.push(validationResult)
       })
@@ -245,32 +287,24 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
       )
     }
   }
-  /**
-   * HIDE_VALIDATION has priority over SHOW_VALIDATION
-   */
-  function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
-    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
-      return validationResults.some(
-        (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id
-      )
-    }
 
-    if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
-      return !hideValidationHasPriorityOverShow(validationResult)
-    }
-    return true
-  }
-
-  return validationResults.filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
+  return filterValidations(validationResults)
 }
 
 export const decorateCertificateWithInitialValues = (certificate: Certificate): void => {
   const data = certificate.data
 
+  function setAsVisibleTrueAsDefault() {
+    for (const id in data) {
+      data[id].visible = true
+    }
+  }
+
+  setAsVisibleTrueAsDefault()
+
   for (const id in data) {
     if (shouldBeReadOnly(certificate.metadata)) {
       data[id].readOnly = true
-      data[id].visible = true
     } else if (shouldBeDisabled(certificate)) {
       validate(data, id)
       data[id].disabled = true
@@ -391,16 +425,20 @@ export function autoFillElement(validation: CertificateDataValidation, question:
 }
 
 function validate(data: CertificateData, id: string) {
+  const validationResults: ValidationResult[] = []
   const validations = data[id].validation || []
 
   validations.forEach((validation) => {
-    const validationResult: ValidationResult = {
+    validationResults.push({
       type: validation.type,
       id,
       affectedIds: validation.id as string[],
       result: getResult(validation, data, id),
-    }
+      validation,
+    })
+  })
 
+  filterValidations(validationResults).forEach((validationResult) => {
     switch (validationResult.type) {
       case CertificateDataValidationType.MANDATORY_VALIDATION:
         data[id].mandatory = !validationResult.result
@@ -409,9 +447,7 @@ function validate(data: CertificateData, id: string) {
         data[id].visible = validationResult.result
         break
       case CertificateDataValidationType.HIDE_VALIDATION: {
-        if (validationResult.result) {
-          data[id].visible = false
-        }
+        data[id].visible = !validationResult.result
         break
       }
       case CertificateDataValidationType.ENABLE_VALIDATION:
@@ -432,7 +468,7 @@ function validate(data: CertificateData, id: string) {
         setDisableForChildElement(data, validationResult)
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:
-        autoFillElement(validation, data[id])
+        autoFillElement(validationResult.validation, data[id])
         break
     }
   })

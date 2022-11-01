@@ -300,15 +300,15 @@ describe('Test certificate frontend validation', () => {
       })
 
       it('should throw hide action when both hide and show is present and validates false', async () => {
-        const certificate = showAndHideValidation(false, false)
+        const certificate = showAndHideValidation(false, true)
         testStore.dispatch(updateCertificate(certificate))
 
         testStore.dispatch(validateCertificateInFrontEnd(certificate.data['1.1']))
 
         const hideCertificateDataElementAction = dispatchedActions.filter((action) => hideCertificateDataElement.match(action))
         const showCertificateDataElementAction = dispatchedActions.filter((action) => showCertificateDataElement.match(action))
-        expect(hideCertificateDataElementAction.length).toBe(0)
-        expect(showCertificateDataElementAction.length).toBe(1)
+        expect(hideCertificateDataElementAction.length).toBe(1)
+        expect(showCertificateDataElementAction.length).toBe(0)
       })
     })
   })
