@@ -3,8 +3,6 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateRelation,
-  CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
   ValueDate,
@@ -526,8 +524,4 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
 
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
   return [{ type: type, handled: handled } as Question]
-}
-
-export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {
-  return [{ type: type, certificateId: '', status: CertificateStatus.UNSIGNED, created: '' }]
 }
