@@ -2,6 +2,7 @@ import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { AnyAction } from '@reduxjs/toolkit'
 import {
   applyCertificateDataElementAutoFill,
+  autoSaveCertificate,
   disableCertificateDataElement,
   enableCertificateDataElement,
   hideCertificateDataElement,
@@ -11,11 +12,20 @@ import {
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   unstyleCertificateDataElement,
+  validateCertificate,
   validateCertificateInFrontEnd,
   validateCertificateInFrontEndCompleted,
 } from './certificateActions'
-import { Certificate, CertificateDataElement, CertificateDataValidationType } from '@frontend/common'
+import {
+  AutoFillValidation,
+  Certificate,
+  CertificateDataElement,
+  CertificateDataValidation,
+  CertificateDataValidationType,
+  Value,
+} from '@frontend/common'
 import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
+import _ from 'lodash'
 
 export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
@@ -26,6 +36,11 @@ export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ disp
   questionIdsToValidate.forEach((questionId) =>
     dispatch(validateCertificateInFrontEnd(getState().ui.uiCertificate.certificate.data[questionId]))
   )
+}
+
+function getAutoFillValidation(validation: CertificateDataValidation): Value {
+  const autoFillValidation = validation as AutoFillValidation
+  return autoFillValidation.fillValue
 }
 
 function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): string[] {
@@ -96,8 +111,11 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
         }
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:
-        if (result) {
+        if (result && !_.isEqual(certificate.data[id].value, getAutoFillValidation(validationResult.validation))) {
           dispatch(applyCertificateDataElementAutoFill(validationResult))
+          dispatch(validateCertificate(certificate))
+          dispatch(autoSaveCertificate(certificate))
+          questionIdsToValidate.push(id)
         }
         break
     }

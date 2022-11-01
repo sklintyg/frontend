@@ -3,8 +3,6 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateRelation,
-  CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
   ValueDate,
@@ -102,6 +100,16 @@ export const getTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.SHOW_VALIDATION,
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'funktionsnedsattning',
+          text: 'Detta är autoifyllt!',
+        },
       },
     ],
     validationErrors: [],
@@ -226,6 +234,16 @@ export const getAnotherTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.HIDE_VALIDATION,
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '!$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'annanFunktionsnedsattning',
+          text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+        },
       },
     ],
     validationErrors: [],
@@ -506,8 +524,4 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
 
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
   return [{ type: type, handled: handled } as Question]
-}
-
-export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {
-  return [{ type: type, certificateId: '', status: CertificateStatus.UNSIGNED, created: '' }]
 }
