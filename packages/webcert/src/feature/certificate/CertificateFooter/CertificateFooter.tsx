@@ -45,7 +45,7 @@ export const CertificateFooter: React.FC = () => {
 
   return (
     <Wrapper>
-      {(canSign || canSignConfirm) && (
+      {isValidForSigning && (canSign || canSignConfirm) && (
         <div className={'iu-flex'}>
           <SignAndSendButton
             functionDisabled={functionDisabled}
