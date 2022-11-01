@@ -7,6 +7,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import _ from 'lodash'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import trash from '@frontend/common/src/images/trash.svg'
+import { RevokeDodsbevisModalContent } from './RevokeDodsbevisModalContent'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -17,8 +18,9 @@ interface Props extends FunctionDisabled {
 const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
-  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const isDodsbevis = metadata?.type === 'db'
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(isDodsbevis ? false : true)
 
   const handleRevokeForm = (obj: RevokeCertificateReason) => {
     setDispatchObject(obj)
@@ -30,6 +32,8 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
   const handleDispatch = () => {
     if (dispatchObject) {
       dispatch(revokeCertificate(dispatchObject))
+    } else {
+      dispatch(revokeCertificate({ reason: '', message: '', title: '' }))
     }
   }
 
@@ -54,7 +58,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
       confirmButtonText="Makulera">
-      <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} />
+      {!isDodsbevis ? <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} /> : <RevokeDodsbevisModalContent />}
     </ButtonWithConfirmModal>
   )
 }
