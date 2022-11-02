@@ -3,17 +3,16 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { CustomTooltip, getDeathCertificate, QuestionType } from '@frontend/common/src'
+import { Certificate, CustomTooltip, fakeCertificate, fakeCertificateMetaData, QuestionType } from '@frontend/common/src'
 import RevokeCertificateButton from '../RevokeCertificateButton'
 import store from '../../../../store/store'
 import reducer from '../../../../store/reducers'
 import { updateQuestions } from '../../../../store/question/questionActions'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import { updateCertificate } from '../../../../store/certificate/certificateActions'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import * as redux from 'react-redux'
 
 const NAME = 'Revoke button name'
 const DESCRIPTION = 'Revoke button description'
@@ -200,7 +199,7 @@ describe('Revoke continue button', () => {
   })
 
   describe('isDodsbevis', () => {
-    const mockDispatchFn = jest.fn()
+    const createCertificate = (): Certificate => fakeCertificate({ metadata: fakeCertificateMetaData({ type: 'db' }) })
 
     beforeEach(() => {
       testStore = configureStore({
@@ -209,10 +208,8 @@ describe('Revoke continue button', () => {
           getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
       })
 
-      const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-      useDispatchSpy.mockReturnValue(mockDispatchFn)
-
-      testStore.dispatch(updateCertificate(getDeathCertificate()))
+      const certificate = createCertificate()
+      testStore.dispatch(updateCertificate(certificate))
     })
 
     afterEach(() => clearDispatchedActions())
@@ -220,6 +217,7 @@ describe('Revoke continue button', () => {
     it('shall enable confirm button if isDodsbevis', () => {
       renderComponentWithTestStore(true)
       openModal()
+
       const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
       expect(revokeButton).toBeEnabled()
     })
@@ -228,17 +226,18 @@ describe('Revoke continue button', () => {
       renderComponentWithTestStore(true)
       openModal()
       userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
-      expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+
+      const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
+      expect(revokeCertificateAction).toBeDefined()
     })
 
-    it('shall dispatch with chosen reason, message and title for other reason', () => {
+    it('shall dispatch with empty reason, message and title', () => {
       renderComponentWithTestStore(true)
       openModal()
       userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
-      expect(mockDispatchFn).toHaveBeenCalledWith({
-        payload: { reason: '', message: '', title: '' },
-        type: '[CERTIFICATE] Revoke certificate',
-      })
+
+      const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
+      expect(revokeCertificateAction?.payload).toEqual({ reason: '', message: '', title: '' })
     })
   })
 })
