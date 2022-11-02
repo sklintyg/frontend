@@ -34,7 +34,7 @@ beforeEach(() => {
 const checkListVisibility = (visible: boolean) => {
   const listItems = screen.queryAllByRole('option')
   if (visible) {
-    expect(listItems).toHaveLength(2)
+    expect(listItems).toHaveLength(60)
   } else {
     expect(listItems).toHaveLength(0)
   }
