@@ -181,7 +181,7 @@ const UvText: React.FC<Props> = ({ question }) => {
   }
 
   const getUVText = () => {
-    if (question.value === undefined || question.value === null) {
+    if (question.value === undefined || question.value === null || !question.visible) {
       return null
     }
 
@@ -264,8 +264,6 @@ const UvText: React.FC<Props> = ({ question }) => {
         const textValueDate = question.value as ValueDate
         if (textValueDate.date != null && textValueDate.date.length > 0) {
           displayText = textValueDate.date
-        } else {
-          displayText = 'Ej angivet'
         }
         break
       }
@@ -273,8 +271,6 @@ const UvText: React.FC<Props> = ({ question }) => {
         const textValueUncertainDate = question.value as ValueUncertainDate
         if (textValueUncertainDate.value != null && textValueUncertainDate.value.length > 0) {
           displayText = textValueUncertainDate.value
-        } else {
-          displayText = ''
         }
         break
       }
