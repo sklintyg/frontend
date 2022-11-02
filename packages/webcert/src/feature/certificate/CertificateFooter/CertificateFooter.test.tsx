@@ -133,12 +133,6 @@ describe('CertificateFooter', () => {
       const button = screen.queryByText('Sign certificate')
       expect(button).toBeInTheDocument()
     })
-
-    it('shall NOT Sign button if the draft contains validation errors', () => {
-      testStore.dispatch(updateValidationErrors([{ type: 'type', category: 'category', field: 'field', id: 'id', text: 'text' }]))
-      const button = screen.queryByText('Sign certificate')
-      expect(button).not.toBeInTheDocument()
-    })
   })
 
   describe('Signing when resource link exists and certificate can be signed and confirmation is needed', () => {
