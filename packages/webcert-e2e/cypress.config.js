@@ -30,18 +30,17 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       //Rename saved screenshots to avoid issue with "åäö".
       on('after:screenshot', (details) => {
-
-        const fileName = details.takenAt.replace(/:/g,".") +".png"
-        const newPath = "screenshots/" + details.specName + "/" + fileName;
-        console.log("Saving screenshot: " + newPath);
+        const fileName = details.takenAt.replace(/:/g, '.') + '.png'
+        const newPath = 'screenshots/' + details.specName + '/' + fileName
+        console.log('Saving screenshot: ' + newPath)
 
         return new Promise((resolve, reject) => {
-            fs.rename(details.path, newPath, (err) => {
-                if (err) return reject(err)
-                  resolve({ path: newPath })
-            })
+          fs.rename(details.path, newPath, (err) => {
+            if (err) return reject(err)
+            resolve({ path: newPath })
+          })
         })
-    })
+      })
       return require('./plugins/index.js')(on, config)
     },
     baseUrl: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',

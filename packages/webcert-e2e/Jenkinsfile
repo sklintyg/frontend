@@ -12,14 +12,13 @@ pipeline {
 
     HOME = "${env.WORKSPACE}" // Måste sättas för "npm ci"
 
-    //CYPRESS_DIR_REL="E2ETest/cypress"
     CYPRESS_DIR_REL="packages/webcert-e2e"
     RESULTAT_DIR_REL="${CYPRESS_DIR_REL}/results"
     RESULTAT_DIR_ABS="${env.WORKSPACE}/${RESULTAT_DIR_REL}"
 
     RESURSRAPPORTSKRIPTNAMN = "write_resource_stats.sh"
     RESURSSKRIPT_ABS="${env.WORKSPACE}/${CYPRESS_DIR_REL}/${RESURSRAPPORTSKRIPTNAMN}"
-    
+
 
     RESURSRAPPORTERINGSFIL_REL="${RESULTAT_DIR_REL}/resursrapporteringsfil.txt"
     RESURSRAPPORTERINGSFIL_ABS="${env.WORKSPACE}/${RESURSRAPPORTERINGSFIL_REL}"
@@ -117,7 +116,7 @@ pipeline {
           // sh "npm run test:e2e:electron"
           //sh "npm run test:e2e:electron -- --spec '${SPECFILES_TO_RUN}'"
           sh "yarn workspace @frontend/webcert-e2e run test:e2e:electron -- --spec '${SPECFILES_TO_RUN}' --reporter-options jenkinsMode=true "
-          
+
         }
       }
     }
@@ -125,7 +124,6 @@ pipeline {
 
   post {
     always {
-      //archiveArtifacts artifacts: 'test/cypress/videos/**/*.*', fingerprint: false
       archiveArtifacts artifacts: 'packages/webcert-e2e/videos/**/*.*', fingerprint: false
       archiveArtifacts artifacts: "${RESURSRAPPORTERINGSFIL_REL}", fingerprint: false
       // TODO: Använd variabler för att hämta JUnit-filer istället för hårdkodade pather
@@ -145,7 +143,6 @@ pipeline {
 
     failure {
       archiveArtifacts artifacts: 'packages/webcert-e2e/screenshots/**/*.*', fingerprint: true
-      //archiveArtifacts artifacts: 'test/cypress/screenshots/**/*.*', fingerprint: false
       archiveArtifacts artifacts: '.npm/_logs/*.log', fingerprint: true
       archiveArtifacts artifacts: "${CYPRESSFAILEDLOGS_REL}", fingerprint: true
     }
