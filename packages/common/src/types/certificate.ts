@@ -264,7 +264,7 @@ export interface Value {
 
 export interface ValueBoolean extends Value {
   id: string
-  selected: boolean | null
+  selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {
@@ -352,11 +352,7 @@ export interface CertificateDataValidation {
 
 export interface AutoFillValidation extends CertificateDataValidation {
   id: string
-  fillValue: {
-    type: CertificateDataValueType
-    selected?: boolean
-    id: string
-  }
+  fillValue: Value
 }
 
 export interface TextValidation extends CertificateDataValidation {
