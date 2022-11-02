@@ -238,6 +238,13 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
+export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
+  id: string
+  label: string
+  title: string
+  specifications: ConfigUeDropdownItem[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -314,6 +321,13 @@ export interface ValueText extends Value {
 export interface ValueUncertainDate extends Value {
   id: string
   value: string | null
+}
+
+export interface ValueCauseOfDeath extends Value {
+  id: string
+  description: string
+  debut: string
+  specification: string
 }
 
 export interface ValueIcf extends Value {
