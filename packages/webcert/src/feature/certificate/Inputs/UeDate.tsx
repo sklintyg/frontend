@@ -13,7 +13,7 @@ import { isValid } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
   question: CertificateDataElement
@@ -25,7 +25,7 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
   const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
+  const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
 
   const deleteDateFromSavedValue = () => {
     dispatch(updateCertificateDataElement(getUpdatedDateValue(question, questionConfig.id, '')))
@@ -65,12 +65,12 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         inputString={dateString}
         questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
-        displayValidationErrorOutline={validationErrors.length > 0}
+        displayValidationErrorOutline={questionHasValidationError && question.validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
       />
       <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
+        <QuestionValidationTexts validationErrors={question.validationErrors} />
       </ValidationWrapper>
     </>
   )
