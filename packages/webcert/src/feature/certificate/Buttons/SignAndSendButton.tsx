@@ -12,9 +12,10 @@ interface Props extends FunctionDisabled {
   enabled: boolean
   body?: string
   type: ResourceLinkType
+  canSign: boolean
 }
 
-const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, type, functionDisabled }) => {
+const SignAndSendButton: React.FC<Props> = ({ name, canSign, description, enabled, body, type, functionDisabled }) => {
   const dispatch = useDispatch()
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
@@ -39,6 +40,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
         disabled={disabled}
         confirmButtonText={name}
         open={confirmModalOpen}
+        hideConfirmButton={!canSign}
         setOpen={setConfirmModalOpen}>
         <div>
           <p>{body}</p>
