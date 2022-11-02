@@ -32,6 +32,7 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
+import { Value } from '@frontend/common'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -45,7 +46,19 @@ export const parseExpression = (
   element: CertificateDataElement,
   validationType: CertificateDataValidationType
 ): boolean => {
-  if (!element.visible) {
+  function missingValue(value: Value | null): boolean {
+    if (value == null) {
+      return true
+    }
+
+    if (value.type === CertificateDataValueType.BOOLEAN) {
+      const valueBoolean = value as ValueBoolean
+      return valueBoolean.selected === null || valueBoolean.selected === undefined
+    }
+    return false
+  }
+
+  if (!element.visible || missingValue(element.value)) {
     return false
   }
 
