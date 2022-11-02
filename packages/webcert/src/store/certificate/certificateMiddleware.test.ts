@@ -1,7 +1,6 @@
 import {
   Certificate,
   CertificateDataElementStyleEnum,
-  CertificateDataValidation,
   CertificateDataValidationType,
   CertificateRelation,
   CertificateRelations,
@@ -15,10 +14,6 @@ import {
   getUser,
   SigningMethod,
   ValidationError,
-  CertificateMetadata,
-  ConfigTypes,
-  CertificateDataValueType,
-  CertificateDataElement,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -626,101 +621,3 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
       }),
     ]),
   })
-
-const getCertificateWithValidation = (selected: boolean, validationType: CertificateDataValidationType): Certificate => {
-  return {
-    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
-    data: {
-      '1.1': ({
-        id: '1.1',
-        readOnly: false,
-        parent: '1',
-        index: 1,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-          id: 'haveValue',
-        },
-        validation: [],
-      } as unknown) as CertificateDataElement,
-      '1.2': ({
-        id: '1.2',
-        readOnly: false,
-        parent: '1',
-        index: 2,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-        },
-        validation: [
-          {
-            questionId: '1.1',
-            type: validationType,
-            expression: '$haveValue',
-          },
-        ],
-      } as unknown) as CertificateDataElement,
-    },
-    links: [],
-  }
-}
-const getCertificateWithArrayOfValidations = (selected: boolean, validation: CertificateDataValidation[]): Certificate => {
-  return {
-    metadata: { id: 'id', type: 'type', version: 0 } as CertificateMetadata,
-    data: {
-      '1.1': ({
-        id: '1.1',
-        readOnly: false,
-        parent: '1',
-        index: 1,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-          id: 'haveValue',
-        },
-        validation: [],
-      } as unknown) as CertificateDataElement,
-      '1.2': ({
-        id: '1.2',
-        readOnly: false,
-        parent: '1',
-        index: 2,
-        visible: true,
-        mandatory: false,
-        config: {
-          text: '',
-          description: '',
-          type: (null as unknown) as ConfigTypes,
-        },
-        value: {
-          type: CertificateDataValueType.BOOLEAN,
-          selected: selected,
-          id: 'haveValue',
-        },
-        validation,
-      } as unknown) as CertificateDataElement,
-    },
-    links: [],
-  }
-}

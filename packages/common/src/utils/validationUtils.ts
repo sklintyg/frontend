@@ -209,23 +209,14 @@ const differenceInDays = (a: Date, b: Date) => {
 }
 
 const filterValidations = (validationResults: ValidationResult[]): ValidationResult[] => {
-  /**
-   * This method resolves priority between HIDE_VALIDATION and SHOW_VALIDATION.
-   *
-   * If both exists the HIDE_VALIDATION should have precedence if true, otherwise it should be ignored.
-   *
-   * HIDE_VALIDATION == true --> SHOW_VALIDATION is filtered out.
-   * HIDE_VALIDATION == false --> HIDE_VALIDATION is filtered out.
-   *
-   */
   function resolvePriorityBetweenValidationTypes(validationResult: ValidationResult) {
-    function hideValidationHasPriorityOverShow(validationResult: ValidationResult) {
+    function hideValidationHasPriorityOverShowIfHideTrue(validationResult: ValidationResult) {
       return validationResults.some(
         (value) => value.type === CertificateDataValidationType.HIDE_VALIDATION && value.id === validationResult.id && value.result
       )
     }
 
-    function showValidationHasPriorityOverHide(validationResult: ValidationResult) {
+    function showValidationHasPriorityOverHideIfHideFalse(validationResult: ValidationResult) {
       return validationResults.some(
         (value) =>
           value.type === CertificateDataValidationType.SHOW_VALIDATION && value.id === validationResult.id && !validationResult.result
@@ -233,15 +224,49 @@ const filterValidations = (validationResults: ValidationResult[]): ValidationRes
     }
 
     if (validationResult.type === CertificateDataValidationType.SHOW_VALIDATION) {
-      return !hideValidationHasPriorityOverShow(validationResult)
+      return !hideValidationHasPriorityOverShowIfHideTrue(validationResult)
     }
     if (validationResult.type === CertificateDataValidationType.HIDE_VALIDATION) {
-      return !showValidationHasPriorityOverHide(validationResult)
+      return !showValidationHasPriorityOverHideIfHideFalse(validationResult)
     }
     return true
   }
 
-  return validationResults.filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
+  function shouldValidationRuleBeMerged(validationType: CertificateDataValidationType) {
+    return [
+      CertificateDataValidationType.SHOW_VALIDATION,
+      CertificateDataValidationType.HIDE_VALIDATION,
+      CertificateDataValidationType.DISABLE_VALIDATION,
+      CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+    ].find((type) => type === validationType)
+  }
+
+  function getSameRuleTypeFound(currentValidationResults: ValidationResult[], validationResult: ValidationResult) {
+    return currentValidationResults.find(
+      (currentValidationResult) =>
+        currentValidationResult.id === validationResult.id &&
+        currentValidationResult.type === validationResult.type &&
+        (validationResult.affectedIds === undefined || currentValidationResult.affectedIds === validationResult.affectedIds)
+    )
+  }
+
+  return validationResults
+    .filter((validationResult) => resolvePriorityBetweenValidationTypes(validationResult))
+    .reduce((currentValidationResults: ValidationResult[], validationResult: ValidationResult) => {
+      if (!shouldValidationRuleBeMerged(validationResult.type)) {
+        currentValidationResults.push(validationResult)
+        return currentValidationResults
+      }
+
+      const sameRuleTypeFound = getSameRuleTypeFound(currentValidationResults, validationResult)
+      if (sameRuleTypeFound) {
+        sameRuleTypeFound.result = validationResult.result ? validationResult.result : sameRuleTypeFound.result
+      } else {
+        currentValidationResults.push(validationResult)
+      }
+
+      return currentValidationResults
+    }, [])
 }
 
 export const validateExpressions = (certificate: Certificate, updated: CertificateDataElement): ValidationResult[] => {
@@ -254,8 +279,6 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
     const needsValidation = validations.find((validation) => validation.questionId === updated.id)
 
     if (needsValidation) {
-      const newValidationResults: ValidationResult[] = []
-
       validations.forEach((validation) => {
         const affectedId = typeof validation.id === 'string' ? [validation.id] : (validation.id as string[])
         const validationResult: ValidationResult = {
@@ -265,26 +288,8 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           result: getResult(validation, data, id),
           validation,
         }
-        newValidationResults.push(validationResult)
+        validationResults.push(validationResult)
       })
-
-      validationResults.push(
-        ...newValidationResults.reduce((currentValidationResults: ValidationResult[], validationResult: ValidationResult) => {
-          const sameRuleTypeFound = currentValidationResults.find(
-            (currentValidationResult) =>
-              currentValidationResult.type === validationResult.type &&
-              (validationResult.affectedIds === undefined || currentValidationResult.affectedIds === validationResult.affectedIds)
-          )
-
-          if (sameRuleTypeFound) {
-            sameRuleTypeFound.result = validationResult.result ? validationResult.result : sameRuleTypeFound.result
-          } else {
-            currentValidationResults.push(validationResult)
-          }
-
-          return currentValidationResults
-        }, [])
-      )
     }
   }
 
@@ -411,17 +416,8 @@ export function setDisableForChildElement(data: CertificateData, validationResul
 }
 
 export function autoFillElement(validation: CertificateDataValidation, question: CertificateDataElement): void {
-  const {
-    fillValue: { type, selected },
-  } = { ...validation } as AutoFillValidation
-
-  switch (type) {
-    case CertificateDataValueType.BOOLEAN: {
-      const updatedValue = { ...question.value, selected } as ValueBoolean
-      question.value = updatedValue
-      break
-    }
-  }
+  const autoFillValidation = validation as AutoFillValidation
+  question.value = autoFillValidation.fillValue
 }
 
 function validate(data: CertificateData, id: string) {
@@ -468,7 +464,9 @@ function validate(data: CertificateData, id: string) {
         setDisableForChildElement(data, validationResult)
         break
       case CertificateDataValidationType.AUTO_FILL_VALIDATION:
-        autoFillElement(validationResult.validation, data[id])
+        if (validationResult.result) {
+          autoFillElement(validationResult.validation, data[id])
+        }
         break
     }
   })
