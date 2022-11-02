@@ -1,17 +1,13 @@
-import { CertificateSignStatus, ConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
+import { CertificateSignStatus, ConfirmModal, CustomButton, ResourceLinkType, ResourceLink } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { Merge } from 'type-fest'
 
-interface Props extends FunctionDisabled {
-  name: string
-  description: string
-  enabled: boolean
-  body?: string
-  type: ResourceLinkType
+interface Props extends Merge<FunctionDisabled, ResourceLink> {
   canSign: boolean
 }
 
