@@ -46,7 +46,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         const updatedValue = getUpdatedValue(question, value)
         dispatch(updateCertificateDataElement(updatedValue))
       }
-    }, 1000)
+    }, 150)
   ).current
 
   const handleClose = () => {
@@ -55,19 +55,23 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newText = event.currentTarget.value
-    setText(newText)
+    if (newText !== text) {
+      setText(newText)
 
-    setOpen(true)
-    dispatchEditDraft(question, newText)
+      setOpen(true)
+      dispatchEditDraft(question, newText)
 
-    if (newText === undefined || newText === null) {
-      return []
+      if (newText === undefined || newText === null) {
+        return []
+      }
+
+      if (newText.length === 0) {
+        setOpen(false)
+      }
+      setSuggestions(
+        questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0).sort()
+      )
     }
-
-    if (newText.length === 0) {
-      setOpen(false)
-    }
-    setSuggestions(questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0))
   }
 
   const getSuggestions = (): Suggestion[] => {
