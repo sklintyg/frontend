@@ -173,7 +173,8 @@
           "plugin:cypress/recommended"
         ],
         "rules": {
-          "no-undef": "off"
+          "no-undef": "off",
+          "@typescript-eslint/no-var-requires": "off"
         }
       },
       {
