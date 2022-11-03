@@ -85,9 +85,11 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const onSuggestionSelected = (value: string) => {
-    setText(value)
     setOpen(false)
-    dispatchEditDraft(question, value)
+    if (value !== text) {
+      setText(value)
+      dispatchEditDraft(question, value)
+    }
   }
 
   return (

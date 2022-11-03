@@ -8,6 +8,8 @@ import { fakeTypeaheadElement } from '@frontend/common'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
+const mockDispatchFn = jest.fn()
+
 const renderDefaultComponent = () => {
   render(
     <>
@@ -28,7 +30,7 @@ beforeEach(() => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
   useSelectorSpy.mockReturnValue({})
-  useDispatchSpy.mockReturnValue(jest.fn())
+  useDispatchSpy.mockReturnValue(mockDispatchFn)
 })
 
 const checkListVisibility = (visible: boolean) => {
@@ -65,5 +67,48 @@ describe('Typeahead component', () => {
     checkListVisibility(true)
     expect(input).toHaveValue(testinput)
     checkListVisibility(true)
+  })
+
+  it('dispatches results when users types text', () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    userEvent.type(input, 'Ö')
+    setTimeout(() => {
+      expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+    }, 30)
+  })
+
+  it('dispatches results when users types new text only after a wait', () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    userEvent.type(input, 'Ö')
+    setTimeout(() => {
+      userEvent.type(input, 's')
+      setTimeout(() => {
+        expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+      }, 30)
+    }, 30)
+    setTimeout(() => {
+      expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+    }, 500)
+  })
+
+  it('does not dispatch results when users text is not changed, even after wait', () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    userEvent.type(input, 'Ö')
+    setTimeout(() => {
+      userEvent.clear(input)
+      setTimeout(() => {
+        userEvent.type(input, 'Ö')
+        expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+        setTimeout(() => {
+          expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+        }, 500)
+      }, 30)
+    }, 30)
   })
 })
