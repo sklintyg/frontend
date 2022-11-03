@@ -1,18 +1,18 @@
+import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
+import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
+import styled from 'styled-components/macro'
 import {
   getCertificateMetaData,
   getIsValidForSigning,
   getResourceLinks,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
-import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
-import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
-import styled from 'styled-components/macro'
-import _ from 'lodash'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
+import SignAndSendButton from '../Buttons/SignAndSendButton'
+import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,17 +38,20 @@ export const CertificateFooter: React.FC = () => {
   if (!certificateMetadata || !resourceLinks) return null
 
   const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
+  const canSignConfirm = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION))
   const canForward = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.FORWARD_CERTIFICATE))
   const canReadyForSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.READY_FOR_SIGN))
   const isReadyForSign = certificateMetadata.readyForSign !== undefined
 
   return (
     <Wrapper>
-      {canSign && (
+      {(canSign || canSignConfirm) && (
         <div className={'iu-flex'}>
           <SignAndSendButton
             functionDisabled={functionDisabled}
-            {...{ ...getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE) }}
+            {...(canSignConfirm
+              ? getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
+              : getResourceLink(resourceLinks, ResourceLinkType.SIGN_CERTIFICATE))}
           />
         </div>
       )}

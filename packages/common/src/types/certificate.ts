@@ -83,7 +83,7 @@ export enum ConfigTypes {
   UE_ICF = 'UE_ICF',
   UE_UNCERTAIN_DATE = 'UE_UNCERTAIN_DATE',
   UE_TEXTFIELD = 'UE_TEXTFIELD',
-  UE_TYPEAHEAD = 'UE_TYPEAHEAD',
+  UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
 }
@@ -131,6 +131,13 @@ export interface ConfigUeMessage extends CertificateDataConfig {
   id: string
   level: MessageLevel
   message: string
+}
+
+export interface ConfigUeTypeahead extends CertificateDataConfig {
+  id: string
+  typeAhead: string[]
+  text: string
+  label: string
 }
 
 export interface CheckboxCode {
@@ -257,7 +264,7 @@ export interface Value {
 
 export interface ValueBoolean extends Value {
   id: string
-  selected: boolean | null
+  selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {
@@ -267,12 +274,7 @@ export interface ValueCode extends Value {
 
 export interface ValueDate extends Value {
   id: string
-  date: string
-}
-
-export interface ValueUncertainDate extends Value {
-  id: string
-  date: string
+  date?: string
 }
 
 export interface ValueDateList extends Value {
@@ -305,8 +307,13 @@ export interface ValueCodeList extends Value {
 }
 
 export interface ValueText extends Value {
-  id: string
   text: string | null
+  id: string
+}
+
+export interface ValueUncertainDate extends Value {
+  id: string
+  value: string | null
 }
 
 export interface ValueIcf extends Value {
@@ -326,11 +333,13 @@ export enum CertificateDataValidationType {
   SHOW_VALIDATION = 'SHOW_VALIDATION',
   HIDE_VALIDATION = 'HIDE_VALIDATION',
   DISABLE_VALIDATION = 'DISABLE_VALIDATION',
+  DISABLE_SUB_ELEMENT_VALIDATION = 'DISABLE_SUB_ELEMENT_VALIDATION',
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
+  AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
 }
 
 export interface CertificateDataValidation {
@@ -339,6 +348,11 @@ export interface CertificateDataValidation {
   expression: string
 
   [propName: string]: unknown
+}
+
+export interface AutoFillValidation extends CertificateDataValidation {
+  id: string
+  fillValue: Value
 }
 
 export interface TextValidation extends CertificateDataValidation {

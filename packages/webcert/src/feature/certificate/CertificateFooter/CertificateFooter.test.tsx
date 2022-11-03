@@ -31,7 +31,7 @@ describe('CertificateFooter', () => {
   })
 
   describe('Ready for signing', () => {
-    describe('Ready for signing when resource link doesnt exists', () => {
+    describe('Ready for signing or Sign certificate when resource link doesnt exists', () => {
       beforeEach(() => {
         certificate = getCertificate()
         testStore.dispatch(updateCertificate(certificate))
@@ -41,6 +41,12 @@ describe('CertificateFooter', () => {
         testStore.dispatch(updateValidationErrors([]))
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeFalsy()
+      })
+
+      it('No sign button if no sign or sign confirm resource link', () => {
+        testStore.dispatch(updateValidationErrors([]))
+        const button = screen.queryByText('Sign certificate')
+        expect(button).not.toBeInTheDocument()
       })
     })
 
@@ -110,6 +116,67 @@ describe('CertificateFooter', () => {
         const text = screen.queryByText('Visa vad som saknas')
         expect(text).toBeFalsy()
       })
+    })
+  })
+
+  describe('Signing when resource link exists and certificate can be signed but no confirmation is needed', () => {
+    beforeEach(() => {
+      certificate = getCertificate()
+      certificate.links = [
+        { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
+      ]
+      testStore.dispatch(updateCertificate(certificate))
+    })
+
+    it('Sign button active', () => {
+      testStore.dispatch(updateValidationErrors([]))
+      const button = screen.queryByText('Sign certificate')
+      expect(button).toBeInTheDocument()
+    })
+  })
+
+  describe('Signing when resource link exists and certificate can be signed and confirmation is needed', () => {
+    beforeEach(() => {
+      certificate = getCertificate()
+      certificate.links = [
+        { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
+        {
+          type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+          name: 'Sign certificate',
+          description: 'Sign description',
+          body: 'Body for signing modal',
+          enabled: true,
+        },
+      ]
+      testStore.dispatch(updateCertificate(certificate))
+    })
+
+    it('Sign button active', () => {
+      testStore.dispatch(updateValidationErrors([]))
+      const button = screen.queryByText('Sign certificate')
+      expect(button).toBeInTheDocument()
+    })
+  })
+
+  describe('Signing when resource link exists and certificate can not be signed but confirmation modal is to be displayed', () => {
+    beforeEach(() => {
+      certificate = getCertificate()
+      certificate.links = [
+        {
+          type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+          name: 'Sign certificate',
+          description: 'Sign description',
+          body: 'Body for signing modal',
+          enabled: true,
+        },
+      ]
+      testStore.dispatch(updateCertificate(certificate))
+    })
+
+    it('Sign button active', () => {
+      testStore.dispatch(updateValidationErrors([]))
+      const button = screen.queryByText('Sign certificate')
+      expect(button).toBeInTheDocument()
     })
   })
 })

@@ -1,14 +1,12 @@
 import {
   Certificate,
-  CertificateDataElement,
-  CertificateDataValidationType,
   CertificateSignStatus,
   CertificateStatus,
   getCertificateToSave,
   SigningMethod,
   ValidationError,
 } from '@frontend/common'
-import { decorateCertificateWithInitialValues, validateExpressions } from '@frontend/common/src/utils/validationUtils'
+import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
@@ -43,8 +41,6 @@ import {
   deleteCertificateCompleted,
   deleteCertificateStarted,
   deleteCertificateSuccess,
-  disableCertificateDataElement,
-  enableCertificateDataElement,
   fakeSignCertificate,
   fakeSignCertificateSuccess,
   forwardCertificate,
@@ -60,11 +56,8 @@ import {
   getCertificateEventsSuccess,
   getCertificateStarted,
   getCertificateSuccess,
-  hideCertificateDataElement,
-  hideCertificateDataElementMandatory,
   hideSpinner,
   hideValidationErrors,
-  highlightCertificateDataElement,
   printCertificate,
   readyForSign,
   readyForSignCompleted,
@@ -88,10 +81,7 @@ import {
   setCertificateDataElement,
   setCertificateSigningErrorData,
   setCertificateUnitData,
-  setDisabledCertificateDataChild,
   setReadyForSign,
-  showCertificateDataElement,
-  showCertificateDataElementMandatory,
   showSpinner,
   showValidationErrors,
   signCertificateCompleted,
@@ -100,8 +90,6 @@ import {
   startSignCertificate,
   startSignCertificateSuccess,
   toggleCertificateFunctionDisabler,
-  unhideCertificateDataElement,
-  unstyleCertificateDataElement,
   updateCertificate,
   updateCertificateAsDeleted,
   updateCertificateComplements,
@@ -120,7 +108,6 @@ import {
   validateCertificateCompleted,
   validateCertificateError,
   validateCertificateInFrontEnd,
-  validateCertificateInFrontEndCompleted,
   validateCertificateStarted,
   validateCertificateSuccess,
 } from './certificateActions'
@@ -131,6 +118,7 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -752,14 +740,6 @@ const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAct
   }
 }
 
-const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
-  action: AnyAction
-): void => {
-  validate(getState().ui.uiCertificate.certificate, dispatch, action.payload)
-
-  dispatch(validateCertificateInFrontEndCompleted())
-}
-
 const isSameValidationError = (savedValidationError: ValidationError, payloadValidationError: ValidationError) => {
   return (
     savedValidationError.type === payloadValidationError.type &&
@@ -787,61 +767,6 @@ const handleUpdateClientValidationError: Middleware<Dispatch> = ({ dispatch, get
   } else if (!action.payload.shouldBeRemoved) {
     dispatch(addClientValidationError(action.payload.validationError))
   }
-}
-
-function validate(certificate: Certificate, dispatch: Dispatch, update: CertificateDataElement): void {
-  if (!certificate) {
-    return
-  }
-
-  const validationResults = validateExpressions(certificate, update)
-  validationResults.forEach((result) => {
-    switch (result.type) {
-      case CertificateDataValidationType.MANDATORY_VALIDATION:
-        if (result.result) {
-          dispatch(hideCertificateDataElementMandatory(result.id))
-        } else {
-          dispatch(showCertificateDataElementMandatory(result.id))
-        }
-        break
-
-      case CertificateDataValidationType.HIDE_VALIDATION:
-        if (result.result) {
-          dispatch(hideCertificateDataElement(result.id))
-        } else {
-          dispatch(unhideCertificateDataElement(result.id))
-        }
-        break
-
-      case CertificateDataValidationType.SHOW_VALIDATION:
-        if (result.result) {
-          dispatch(showCertificateDataElement(result.id))
-        } else {
-          dispatch(hideCertificateDataElement(result.id))
-        }
-        break
-
-      case CertificateDataValidationType.DISABLE_VALIDATION:
-        dispatch(setDisabledCertificateDataChild(result))
-        break
-
-      case CertificateDataValidationType.ENABLE_VALIDATION:
-        if (result.result) {
-          dispatch(enableCertificateDataElement(result.id))
-        } else {
-          dispatch(disableCertificateDataElement(result.id))
-        }
-        break
-
-      case CertificateDataValidationType.HIGHLIGHT_VALIDATION:
-        if (result.result) {
-          dispatch(highlightCertificateDataElement(result.id))
-        } else {
-          dispatch(unstyleCertificateDataElement(result.id))
-        }
-        break
-    }
-  })
 }
 
 const handleCreateNewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {

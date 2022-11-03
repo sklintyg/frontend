@@ -1,4 +1,4 @@
-import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox } from '@frontend/common'
+import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ import {
   getIsComplementingCertificate,
   getIsShowSpinner,
   getIsSigned,
+  getResourceLinks,
   getSpinnerText,
 } from '../../store/certificate/certificateSelectors'
 import CareUnit from './CareUnit/CareUnit'
@@ -19,6 +20,7 @@ import Category from './Category/Category'
 import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
+import PatientAddress from './PatientAddress/PatientAddress'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
@@ -52,6 +54,8 @@ const Certificate: React.FC = () => {
   const isSigned = useSelector(getIsSigned())
   const certificateContainerRef = useRef<HTMLDivElement>(null)
   const certificateContainerId = 'questions-container'
+  const links = useSelector(getResourceLinks)
+  const showPatientAddress = links.find((link) => link.type === ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)
 
   useEffect(() => {
     if (gotoId) {
@@ -79,6 +83,11 @@ const Certificate: React.FC = () => {
           </InfoBox>
         )}
         <ResponsibleHospName />
+        {showPatientAddress && (
+          <CategoryWrapper>
+            <PatientAddress />
+          </CategoryWrapper>
+        )}
         <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>
           {certificateStructure &&
             certificateStructure
@@ -92,10 +101,10 @@ const Certificate: React.FC = () => {
                 }
                 return result
               }, [] as CertificateStructure[][])
-              .map((strucutre, index) => {
+              .map((structure, index) => {
                 return (
                   <CategoryWrapper key={index}>
-                    {strucutre.map((data) => {
+                    {structure.map((data) => {
                       if (data.component === ConfigTypes.CATEGORY) {
                         return <Category key={data.id} id={data.id} />
                       } else {

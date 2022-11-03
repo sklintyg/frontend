@@ -1,7 +1,7 @@
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
 import React, { useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { Redirect, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import CertificateList from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
@@ -11,7 +11,7 @@ import PatientSearch from '../components/patient/PatientSearch'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
 import { getActiveListFilterValue, getActiveListConfig, getActiveListFilter, getListTotalCount } from '../store/list/listSelectors'
-import { getPatient } from '../store/patient/patientActions'
+import { getPatient, clearPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
 import { withResourceAccess } from '../utils/withResourceAccess'
@@ -36,6 +36,7 @@ const SearchAndCreatePage: React.FC = () => {
   const patient = useSelector(getActivePatient)
   const user = useSelector(getUser)
   const patientFilter = useSelector(getActiveListFilterValue('PATIENT_ID'))
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(updateShouldRouteAfterDelete(true))
@@ -79,7 +80,12 @@ const SearchAndCreatePage: React.FC = () => {
   }, [dispatch, patientId])
 
   if (patient && !patientId) {
-    return <Redirect to={`/create/${patient.personId.id}`} />
+    history.push(`/create/${patient.personId.id}`)
+  }
+
+  if (history.action === 'POP') {
+    dispatch(clearPatient())
+    history.push('/create')
   }
 
   return (

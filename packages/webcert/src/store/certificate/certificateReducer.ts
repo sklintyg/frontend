@@ -1,4 +1,5 @@
 import {
+  AutoFillValidation,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -12,10 +13,11 @@ import {
   ValueCode,
   ValueText,
 } from '@frontend/common'
-import { isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
+import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   addClientValidationError,
+  applyCertificateDataElementAutoFill,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
   enableCertificateDataElement,
@@ -276,9 +278,13 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
         return
       }
 
-      state.certificate.data[action.payload].disabled = true
-      ;(state.certificate.data[action.payload].value as ValueCode).id = ''
-      ;(state.certificate.data[action.payload].value as ValueCode).code = ''
+      const question = state.certificate.data[action.payload]
+
+      question.disabled = true
+      if (question?.value?.code) {
+        ;(question.value as ValueCode).id = ''
+        ;(question.value as ValueCode).code = ''
+      }
     })
     .addCase(updateCertificateAsDeleted, (state) => {
       state.certificate = undefined
@@ -321,6 +327,18 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
 
       state.certificate.data[action.payload].style = CertificateDataElementStyleEnum.NORMAL
+    })
+    .addCase(applyCertificateDataElementAutoFill, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      const { id, validation } = action.payload
+      const question = state.certificate.data[id]
+
+      if (validation && question) {
+        autoFillElement(validation, question)
+      }
     })
     .addCase(setReadyForSign, (state, action) => {
       if (!state.certificate) {

@@ -17,6 +17,7 @@ interface Props {
   setOpen: (val: boolean) => void
   startIcon?: React.ReactNode
   open: boolean
+  closeOnBackdropClick?: boolean
 }
 
 export const ConfirmModal: React.FC<Props> = ({
@@ -25,12 +26,14 @@ export const ConfirmModal: React.FC<Props> = ({
   confirmButtonDisabled,
   confirmButtonStyle,
   confirmButtonText,
+  hideDeclineButton = false,
   modalTitle,
   declineButtonText,
   onClose,
   onConfirm,
   setOpen,
   open,
+  closeOnBackdropClick,
 }) => {
   const escPress = useKeyPress('Escape')
 
@@ -59,7 +62,9 @@ export const ConfirmModal: React.FC<Props> = ({
       content={children}
       buttons={
         <>
-          <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
+          {hideDeclineButton !== true && (
+            <CustomButton onClick={handleClose} buttonStyle="default" text={declineButtonText ? declineButtonText : 'Avbryt'} />
+          )}
           <CustomButton
             buttonStyle={confirmButtonStyle ? confirmButtonStyle : 'primary'}
             className={additionalConfirmButtonStyles}
@@ -69,6 +74,7 @@ export const ConfirmModal: React.FC<Props> = ({
           />
         </>
       }
+      closeOnBackdropClick={closeOnBackdropClick}
     />
   )
 }

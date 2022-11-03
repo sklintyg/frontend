@@ -3,10 +3,9 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  CertificateRelation,
-  CertificateRelationType,
   CertificateStatus,
   ConfigTypes,
+  ValueDate,
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
@@ -47,6 +46,29 @@ export const getBooleanElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
+export const getDateElement = (): CertificateDataElement => {
+  return {
+    id: '1.1',
+    parent: 'funktionsnedsattning',
+    index: 1,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
+      description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
+      type: ConfigTypes.UE_DATE,
+      id: 'dodsdatum',
+    },
+    value: {
+      type: CertificateDataValueType.DATE,
+      id: 'dodsdatum',
+      date: '2022-10-01',
+    } as ValueDate,
+    validation: [],
+    validationErrors: [],
+  }
+}
 
 export const getTextElement = (): CertificateDataElement => {
   return {
@@ -78,6 +100,16 @@ export const getTextElement = (): CertificateDataElement => {
         type: CertificateDataValidationType.SHOW_VALIDATION,
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
+      },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'funktionsnedsattning',
+          text: 'Detta är autoifyllt!',
+        },
       },
     ],
     validationErrors: [],
@@ -203,6 +235,16 @@ export const getAnotherTextElement = (): CertificateDataElement => {
         questionId: '1.1',
         expression: '$harFunktionsnedsattning',
       },
+      {
+        type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+        questionId: '1.1',
+        expression: '!$harFunktionsnedsattning',
+        fillValue: {
+          type: CertificateDataValueType.TEXT,
+          id: 'annanFunktionsnedsattning',
+          text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+        },
+      },
     ],
     validationErrors: [],
   }
@@ -213,6 +255,9 @@ export const getCheckBoxElement = (): CertificateDataElement => {
     id: '28',
     parent: 'sysselsattning',
     index: 7,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
     config: {
       type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
       text: 'I relation till vilken sysselsättning bedömer du arbetsförmågan?',
@@ -254,26 +299,18 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
       },
       {
-        type: CertificateDataValidationType.HIDE_VALIDATION,
-        questionId: '27',
-        expression: '$avstangningSmittskydd',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$NUVARANDE_ARBETE',
         id: ['ARBETSSOKANDE'],
       },
       {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
         questionId: '28',
         expression: '$ARBETSSOKANDE',
         id: ['NUVARANDE_ARBETE'],
       },
     ],
-    mandatory: false,
-    readOnly: false,
-    visible: true,
     validationErrors: [],
   }
 }
@@ -319,7 +356,7 @@ export const getCategorySysselsattning = (): CertificateDataElement => {
 export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}): Certificate => {
   return {
     metadata: {
-      id: '',
+      id: 'certificateId',
       type: '',
       created: '',
       description: '',
@@ -377,6 +414,9 @@ export const getCertificate = ({ links = [] }: { links?: ResourceLink[] } = {}):
         firstName: '',
         fullName: '',
         lastName: '',
+        street: 'Street 1',
+        zipCode: '12345',
+        city: 'City',
         protectedPerson: false,
         testIndicated: false,
         reserveId: false,
@@ -461,6 +501,9 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
         firstName: '',
         fullName: '',
         lastName: '',
+        street: '',
+        zipCode: '',
+        city: '',
         protectedPerson: false,
         testIndicated: false,
         reserveId: false,
@@ -481,8 +524,4 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
 
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
   return [{ type: type, handled: handled } as Question]
-}
-
-export const getRelation = (type: CertificateRelationType): CertificateRelation[] => {
-  return [{ type: type, certificateId: '', status: CertificateStatus.UNSIGNED, created: '' }]
 }

@@ -1,9 +1,12 @@
 import {
   CertificateData,
+  CertificateDataValidationType,
+  CertificateDataValueType,
   CertificateMetadata,
   ConfigTypes,
   fakeCategoryElement,
   fakeCertificateData,
+  fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeCheckboxBooleanElement,
   fakeCheckboxMultipleDate,
@@ -16,8 +19,11 @@ import {
   fakeResourceLink,
   fakeTextAreaElement,
   MessageLevel,
+  fakeTypeaheadElement,
   ResourceLink,
   ResourceLinkType,
+  fakeUncertainDateElement,
+  fakeDateElement,
 } from '@frontend/common'
 import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
@@ -54,6 +60,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
       fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.PRINT_CERTIFICATE }),
       fakeResourceLink({ type: ResourceLinkType.COPY_CERTIFICATE }),
+      fakeResourceLink({ type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE }),
     ]
   }
 
@@ -96,25 +103,55 @@ DB.args = {
     typeName: 'Dödsbevis',
   }),
   data: fakeCertificateData([
-    fakeCategoryElement({ config: { text: 'Patientens adressuppgifter' } }, [
-      fakeDataElement({ config: { text: 'Postadress', type: ConfigTypes.UE_TEXTFIELD } }),
-      fakeDataElement({ config: { text: 'Postnummer', type: ConfigTypes.UE_TEXTFIELD } }),
-      fakeDataElement({ config: { text: 'Postort', type: ConfigTypes.UE_TEXTFIELD } }),
-    ]),
     fakeCategoryElement({ config: { text: 'Komplitterande patientuppgifter' } }, [
       fakeDataElement({ config: { text: 'Identiteten styrkt genom', type: ConfigTypes.UE_TEXTFIELD }, mandatory: true }),
     ]),
     fakeCategoryElement({ config: { text: 'Dödsdatum och dödsplats' } }, [
-      fakeRadioMultipleCodeElement({
+      fakeRadioBooleanElement({
+        id: 'dodsdatum',
         config: {
           text: 'Dödsdatum',
-          list: [fakeListItem({ label: 'Säkert' }), fakeListItem({ label: 'Ej säkert' })],
+          selectedText: 'Säkert',
+          unselectedText: 'Ej säkert',
+        },
+        value: {
+          id: 'DODSDATUM',
         },
         mandatory: true,
       }),
-      fakeDataElement({ config: { text: '', type: ConfigTypes.UE_UNCERTAIN_DATE } }),
-      fakeDataElement({
-        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', type: ConfigTypes.UE_TYPEAHEAD },
+      fakeDateElement({
+        config: { text: 'Datum' },
+        validation: [
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            questionId: 'dodsdatum',
+            expression: '$DODSDATUM',
+          }),
+        ],
+        mandatory: true,
+      }),
+      fakeUncertainDateElement({
+        validation: [
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.HIDE_VALIDATION,
+            questionId: 'dodsdatum',
+            expression: '$DODSDATUM',
+          }),
+        ],
+      }),
+      fakeDateElement({
+        config: { text: 'Anträffad död' },
+        validation: [
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.HIDE_VALIDATION,
+            questionId: 'dodsdatum',
+            expression: '$DODSDATUM',
+          }),
+        ],
+        mandatory: true,
+      }),
+      fakeTypeaheadElement({
+        config: { text: 'Kommun (om okänd dödsplats, kommunen där kroppen påträffades)', id: '1' },
         mandatory: true,
       }),
       fakeRadioMultipleCodeElement({
@@ -150,30 +187,56 @@ DB.args = {
     ]),
     fakeCategoryElement({ config: { text: 'Yttre undersökning' } }, [
       fakeRadioMultipleCodeElement({
+        id: 'yttreUndersokning',
         config: {
           text: 'Har yttre undersökning av kroppen genomförts?',
           list: [
-            fakeListItem({ label: 'Ja' }),
-            fakeListItem({ label: 'Nej, rättsmedicinsk undersökning ska göras' }),
-            fakeListItem({ label: 'Nej, den avlidne undersökt kort före döden' }),
+            fakeListItem({ id: 'YTTRE_UNDERSOKNING_JA', label: 'Ja' }),
+            fakeListItem({ id: 'YTTRE_UNDERSOKNING_NEJ_RATTS', label: 'Nej, rättsmedicinsk undersökning ska göras' }),
+            fakeListItem({ id: 'YTTRE_UNDERSOKNING_NEJ', label: 'Nej, den avlidne undersökt kort före döden' }),
           ],
         },
         mandatory: true,
       }),
+      fakeDateElement({
+        config: { text: 'Undersökningsdatum' },
+        validation: [
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            questionId: 'yttreUndersokning',
+            expression: '$YTTRE_UNDERSOKNING_NEJ',
+          }),
+        ],
+        mandatory: true,
+      }),
     ]),
     fakeCategoryElement({ config: { text: 'Polisanmälan' } }, [
-      fakeDataElement({ config: { text: 'Polisanmälan Rubrik', type: ConfigTypes.UE_HEADER } }),
-      fakeRadioMultipleCodeElement({
+      fakeRadioBooleanElement({
         config: {
+          id: 'polisanmalan',
           text: 'Finns skäl för polisanmälan?',
-          list: [
-            fakeListItem({
-              label:
-                'Ja, om dödsfallet har eller kan ha orsakats av yttre påverkan (skada/förgiftning) eller fel/försummelse i vården eller den dödes identitet är okänd, ska polisanmälan göras och dödsbeviset lämnas till Polismyndigheten',
-            }),
-            fakeListItem({ label: 'Nej' }),
-          ],
+          selectedText:
+            'Ja, om dödsfallet har eller kan ha orsakats av yttre påverkan (skada/förgiftning) eller fel/försummelse i vården eller den dödes identitet är okänd, ska polisanmälan göras och dödsbeviset lämnas till Polismyndigheten',
+          unselectedText: 'Nej',
         },
+        validation: [
+          fakeCertificateDataValidation({
+            id: 'polisanmalan_auto_fill',
+            type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+            fillValue: {
+              type: CertificateDataValueType.BOOLEAN,
+              selected: true,
+              id: 'polisanmalan',
+            },
+            questionId: 'yttreUndersokning',
+            expression: '$YTTRE_UNDERSOKNING_NEJ_RATTS',
+          }),
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.DISABLE_VALIDATION,
+            questionId: 'yttreUndersokning',
+            expression: '$YTTRE_UNDERSOKNING_NEJ_RATTS',
+          }),
+        ],
         mandatory: true,
       }),
       fakeDataElement({
@@ -184,6 +247,13 @@ DB.args = {
           message:
             'Du har angivit att en rättsmedicinsk undersökning ska göras. Detta kräver att en polisanmälan görs och fältet har därför förifyllts.',
         },
+        validation: [
+          fakeCertificateDataValidation({
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            questionId: 'yttreUndersokning',
+            expression: '$YTTRE_UNDERSOKNING_NEJ_RATTS',
+          }),
+        ],
       }),
       fakeDataElement({
         config: {
