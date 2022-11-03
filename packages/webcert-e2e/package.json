@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "cypress:open": "cypress open",
+    "cypress:open:local": "cypress open --config baseUrl=https://localhost:3000",
     "test:e2e:chrome": "cypress run --browser chrome --reporter mocha-junit-reporter",
     "test:e2e:electron": "cypress run --reporter mocha-junit-reporter",
     "test:e2e:electron:record": "cypress run --reporter mocha-junit-reporter --record",

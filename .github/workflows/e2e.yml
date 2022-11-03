@@ -1,0 +1,15 @@
+name: End-To-End
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    container: cypress/base:14.19.0
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v4
+        with:
+          install-command: yarn --frozen-lockfile --silent
+          working-directory: 'packages/webcert-e2e'
+          start: yarn workspace @frontend/webcert start:test
+          wait-on: 'https://localhost:3000'
+          command: yarn workspace @frontend/webcert-e2e test:e2e:electron --config baseUrl=https://localhost:3000
