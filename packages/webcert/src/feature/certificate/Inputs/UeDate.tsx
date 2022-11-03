@@ -13,7 +13,7 @@ import { isValid } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
   question: CertificateDataElement
@@ -21,11 +21,12 @@ export interface Props {
 }
 
 const UeDate: React.FC<Props> = ({ question, disabled }) => {
+  const showValidationErrors = useSelector(getShowValidationErrors)
   const dispatch = useDispatch()
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
   const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
-  const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, questionConfig.id))
 
   const deleteDateFromSavedValue = () => {
     dispatch(updateCertificateDataElement(getUpdatedDateValue(question, questionConfig.id, '')))
@@ -65,12 +66,12 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         inputString={dateString}
         questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
-        displayValidationErrorOutline={questionHasValidationError && question.validationErrors.length > 0}
+        displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
       />
       <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={question.validationErrors} />
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationWrapper>
     </>
   )
