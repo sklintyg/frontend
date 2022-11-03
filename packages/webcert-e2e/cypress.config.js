@@ -46,5 +46,6 @@ module.exports = defineConfig({
     baseUrl: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
     specPattern: 'integration/**/*.{js,jsx,ts,tsx}',
     supportFile: 'support/index.js',
+    video: false,
   },
 })
