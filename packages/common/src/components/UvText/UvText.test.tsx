@@ -82,6 +82,20 @@ describe('UvText', () => {
     expect(screen.getByText(/Ej angivet/i)).toBeInTheDocument()
   })
 
+  it('Not displaying text value if visible is false', () => {
+    const question = createQuestionWithTextValue()
+    question.visible = false
+    renderDefaultComponent(question)
+    expect(screen.queryByText(/Text/i)).not.toBeInTheDocument()
+  })
+
+  it('Displaying text value if visible is true', () => {
+    const question = createQuestionWithTextValue()
+    question.visible = true
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Text/i)).toBeInTheDocument()
+  })
+
   it('displaying unknown value type', () => {
     const question = createQuestionWithTextValue()
     ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
