@@ -49,6 +49,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, 
         buttonStyle={'primary'}
         disabled={confirmModalOpen || disabled}
         startIcon={<img src={edit} alt={name} />}
+        data-testid="sign-certificate-button"
         onClick={handleConfirm(isValidForSigning && type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)}
         text={name}
       />

@@ -53,7 +53,8 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       startIcon={<img src={trash} alt="Makulera" />}
       modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
-      confirmButtonText="Makulera">
+      confirmButtonText="Makulera"
+      buttonTestId="revoke-certificate-button">
       <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} />
     </ButtonWithConfirmModal>
   )
