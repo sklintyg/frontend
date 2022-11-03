@@ -23,8 +23,10 @@ import {
 import {
   ConfigUeCheckboxMultipleDate,
   ConfigUeDropdown,
+  ConfigUeMessage,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   getCertificateWithQuestion,
+  MessageLevel,
   ValueDateList,
 } from '../..'
 import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
@@ -167,6 +169,17 @@ describe('UvText', () => {
     testStore.dispatch(updateCertificate(getCertificateWithQuestion(dropdownQuestion)))
     renderDefaultComponent(question)
     expect(screen.getByText('Code 1 dropdown value')).toBeInTheDocument()
+  })
+  it('should render ue_message if visible is true', () => {
+    const question = createQuestionWithUeMessageConfig()
+    renderDefaultComponent(question)
+    expect(screen.queryByText(/Hello from UE_MESSAGE/i)).toBeInTheDocument()
+  })
+  it('should not render ue_message if visible is false', () => {
+    const question = createQuestionWithUeMessageConfig()
+    question.visible = false
+    renderDefaultComponent(question)
+    expect(screen.queryByText(/Hello from UE_MESSAGE/i)).not.toBeInTheDocument()
   })
 })
 
@@ -475,6 +488,24 @@ const createDropdownQuestion = () => {
     config,
     value,
   }
+}
+export function createQuestionWithUeMessageConfig(): CertificateDataElement {
+  const value: ValueText = {
+    type: CertificateDataValueType.TEXT,
+    text: 'Text',
+    limit: 50,
+    id: '',
+  }
+  const config: ConfigUeMessage = {
+    description: '',
+    text: '',
+    type: ConfigTypes.UE_MESSAGE,
+    level: MessageLevel.OBSERVE,
+    message: 'Hello from UE_MESSAGE',
+    id: '1.1',
+  }
+
+  return createQuestion(value, config)
 }
 
 export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
