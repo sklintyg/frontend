@@ -11,10 +11,15 @@ module.exports = function(app) {
       protocolRewrite: env.HTTPS === 'true' ? 'https' : 'http',
       changeOrigin: true,
       autoRewrite: true,
+      logger: (...args) => {
+        if (env.HTTP_PROXY_LOGS !== 'false') {
+          console.log.call(args)
+        }
+      },
     })
   )
 
-  app.post('/visa/intyg/:id', (req, res) => {
+  app.all('/visa/intyg/:id', (req, res) => {
     res.redirect(303, `/certificate/${req.params.id}`)
   })
 }
