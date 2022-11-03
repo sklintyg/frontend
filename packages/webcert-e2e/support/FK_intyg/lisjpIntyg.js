@@ -11,7 +11,6 @@ export {
   sektionÖvrigt,
   sektionKontakt,
   loggaUt,
-  kopiera,
   skickaTillFk,
   fornya,
   raderaUtkast,
@@ -159,19 +158,19 @@ export function raderaDiagnoskod(rad) {
   if (rad === 1) {
     cy.get('#diagnoseCode-0')
       .parent()
-      .within(($diagnoskodrad) => {
+      .within(() => {
         cy.get('#diagnoseCode-0').clear()
       })
   } else if (rad === 2) {
     cy.get('#diagnoseCode-1')
       .parent()
-      .within(($diagnoskodrad) => {
+      .within(() => {
         cy.get('#diagnoseCode-1').clear()
       })
   } else {
     cy.get('#diagnoseCode-2')
       .parent()
-      .within(($diagnoskodrad) => {
+      .within(() => {
         cy.get('#diagnoseCode-2').clear()
       })
   }

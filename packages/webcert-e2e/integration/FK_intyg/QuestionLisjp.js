@@ -86,13 +86,12 @@ describe('FK7804-intyg Ärende kommunikation', function() {
 
       it('Markera fråga gällande Komplettering på ett Lisjp intyg som hanterad', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-        const medText = 'Det är ingen som vill svara så jag svarar med meddelande'
         const önskadUrl = '/certificate/' + this.utkastId
         cy.visit(önskadUrl)
         cy.skapaÄrende(this, this.utkastId, 'COMPLEMENT', 'Nu vill jag ha en komplettering skapad')
         cy.reload()
         cy.contains('Hanterad').click()
-        cy.get('.ic-modal').within((modal) => {
+        cy.get('.ic-modal').within(() => {
           cy.get('button')
             .contains('Markera som hanterad')
             .click()

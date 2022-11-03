@@ -9,7 +9,6 @@ export {
   sektionÖvrigt,
   sektionKontakt,
   loggaUt,
-  kopiera,
   skrivUt,
   skickaTillFk,
   fornya,
@@ -24,7 +23,7 @@ export {
 } from './../FK_intyg/fk_helpers'
 
 export function verifieraMeddelande() {
-  cy.get('.iu-pt-400').within((texter) => {
+  cy.get('.iu-pt-400').within(() => {
     cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
     cy.contains('Funktionsnedsättning').should('exist')
     cy.contains('Utredning och behandling').should('exist')

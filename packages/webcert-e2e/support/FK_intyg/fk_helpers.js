@@ -80,7 +80,7 @@ export function skickaTillFk() {
     .contains('Skicka till Försäkringskassan')
     .click()
 
-  cy.get('.ic-modal').within((modal) => {
+  cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Skicka till Försäkringskassan')
       .click()
@@ -155,7 +155,7 @@ export function kopieraUtkast() {
     .then(() => {
       cy.get('.ic-modal').then((ele) => {
         if (ele.text().includes('Kopiera låst utkast')) {
-          cy.get('.ic-modal').within((modal) => {
+          cy.get('.ic-modal').within(() => {
             cy.get('button')
               .contains('Kopiera')
               .click()
@@ -166,7 +166,7 @@ export function kopieraUtkast() {
 }
 
 export function svaraPåÄrende(typAvFråga, meddelande) {
-  cy.get('.ic-card').within((panel) => {
+  cy.get('.ic-card').within(() => {
     cy.contains(typAvFråga).should('exist')
     cy.contains('Svara').click()
     cy.get('.ic-textarea').type(meddelande)
@@ -184,7 +184,7 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
       break
     case 'meddelande':
       cy.contains('Kan ej komplettera').click()
-      cy.get('.ic-modal').within((modal) => {
+      cy.get('.ic-modal').within(() => {
         cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
@@ -193,7 +193,7 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
       break
     case 'textIntyg':
       cy.contains('Kan ej komplettera').click()
-      cy.get('.ic-modal').within((modal) => {
+      cy.get('.ic-modal').within(() => {
         cy.contains('Ingen ytterligare medicinsk information kan anges.').click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
@@ -211,7 +211,7 @@ export function raderaUtkast() {
   cy.get('button')
     .contains('Radera')
     .click()
-  cy.get('.ic-modal').within((modal) => {
+  cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Radera')
       .click()
@@ -223,7 +223,7 @@ export function makulera() {
   cy.contains('Intyget har utfärdats på fel patient').click()
 
   cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Intyget har utfärdats på fel patient')
-  cy.get('.ic-modal').within((modal) => {
+  cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Makulera')
       .click()
@@ -234,7 +234,7 @@ export function makuleraUtkast() {
   cy.contains('Makulera')
     .should('be.visible')
     .click()
-  cy.get('.ic-modal').within((modal) => {
+  cy.get('.ic-modal').within(() => {
     cy.contains('Utkastet har skapats på fel patient').click()
     cy.get('.ic-radio-group-vertical > :nth-child(2) > .undefined').type('Utkastet har skapats på fel patient')
     cy.get('button')
@@ -245,7 +245,7 @@ export function makuleraUtkast() {
 
 export function verifieraLastIntyg() {
   cy.contains('Utkastet är låst').click()
-  cy.get('.ic-modal').within((modal) => {
+  cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Stäng')
       .click()
