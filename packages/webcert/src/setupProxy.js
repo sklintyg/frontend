@@ -4,7 +4,7 @@ const { env } = require('process')
 
 module.exports = function(app) {
   app.use(
-    ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml'],
+    ['/fake', '/api', '/moduleapi', '/testability', '/saml', '/error.jsp'],
     createProxyMiddleware({
       target: env.API_TARGET,
       cookieDomainRewrite: { '*': '' },
@@ -13,4 +13,8 @@ module.exports = function(app) {
       autoRewrite: true,
     })
   )
+
+  app.post('/visa/intyg/:id', (req, res) => {
+    res.redirect(303, `/certificate/${req.params.id}`)
+  })
 }
