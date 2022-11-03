@@ -1152,8 +1152,6 @@ describe('Set initial values to a certificate', () => {
 
       expect(certificate.data['1.1'].readOnly).toBe(true)
       expect(certificate.data['1.2'].readOnly).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
     })
 
     it('Shall set all data elements as readOnly when certificate is REVOKED', () => {
@@ -1164,8 +1162,6 @@ describe('Set initial values to a certificate', () => {
 
       expect(certificate.data['1.1'].readOnly).toBe(true)
       expect(certificate.data['1.2'].readOnly).toBe(true)
-      expect(certificate.data['1.1'].visible).toBe(true)
-      expect(certificate.data['1.2'].visible).toBe(true)
     })
   })
 
