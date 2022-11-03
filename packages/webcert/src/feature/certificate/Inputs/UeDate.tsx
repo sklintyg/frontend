@@ -13,7 +13,7 @@ import { isValid } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
   question: CertificateDataElement
@@ -21,7 +21,6 @@ export interface Props {
 }
 
 const UeDate: React.FC<Props> = ({ question, disabled }) => {
-  const showValidationErrors = useSelector(getShowValidationErrors)
   const dispatch = useDispatch()
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
