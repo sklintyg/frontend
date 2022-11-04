@@ -1,5 +1,4 @@
 import {
-  AutoFillValidation,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -32,6 +31,7 @@ import {
   setCertificateDataElement,
   setCertificateSigningErrorData,
   setCertificateUnitData,
+  setCertificatePatientData,
   setDisabledCertificateDataChild,
   setReadyForSign,
   showCertificateDataElement,
@@ -174,6 +174,13 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       }
 
       state.certificate.metadata.unit = action.payload
+    })
+    .addCase(setCertificatePatientData, (state, action) => {
+      if (!state.certificate) {
+        return
+      }
+
+      state.certificate.metadata.patient = action.payload
     })
     .addCase(updateCertificateVersion, (state, action) => {
       if (!state.certificate) {

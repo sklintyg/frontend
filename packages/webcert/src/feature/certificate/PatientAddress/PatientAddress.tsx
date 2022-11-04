@@ -1,11 +1,36 @@
-import { TextInput } from '@frontend/common'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import {
+  MandatoryIcon,
+  QuestionValidationTexts,
+  TextInput,
+  getResourceLink,
+  resourceLinksAreEqual,
+  ResourceLinkType,
+  Patient,
+} from '@frontend/common'
+import {
+  PATIENT_STREET_FIELD,
+  PATIENT_CITY_FIELD,
+  PATIENT_ZIP_CODE_FIELD,
+  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+  PATIENT_ADDRESS_CATEGORY_TITLE,
+  getValidationErrors,
+} from '@frontend/common/src/utils/validationUtils'
+import React, { useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
-import { getPatient } from '../../../store/certificate/certificateSelectors'
+import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
+import {
+  getPatient,
+  getCareUnitValidationErrors,
+  getIsEditable,
+  getIsLocked,
+  getShowValidationErrors,
+  getResourceLinks,
+} from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -20,62 +45,107 @@ const CityInput = styled(TextInput)`
 `
 
 const PatientAddress: React.FC = () => {
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getCareUnitValidationErrors(), _.isEqual)
   const patient = useSelector(getPatient)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
+  const disabled = useSelector(getIsLocked)
+  const editable =
+    useSelector(getIsEditable) &&
+    resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)) &&
+    getResourceLink(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE).enabled
+
+  const [patientInfo, setPatientInfo] = useState(patient as Patient)
+
+  const dispatch = useDispatch()
+
+  const streetValidationErrors = getValidationErrors(validationErrors, PATIENT_STREET_FIELD)
+  const zipCodeValidationErrors = getValidationErrors(validationErrors, PATIENT_ZIP_CODE_FIELD)
+  const cityValidationErrors = getValidationErrors(validationErrors, PATIENT_CITY_FIELD)
+
+  const dispatchEditDraft = useRef(
+    _.debounce((state: Patient) => {
+      dispatch(updateCertificatePatient(state))
+    }, 150)
+  ).current
 
   if (!patient) {
     return null
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const { name, value } = event.target
+    const updatedPatient = { ...patientInfo, [name]: value } as Patient
+
+    setPatientInfo(updatedPatient)
+    dispatchEditDraft(updatedPatient)
+  }
+
   return (
     <>
       <CategoryHeader>
-        <CategoryTitle titleId="patientensadress">Patientens adressuppgifter</CategoryTitle>
+        <CategoryTitle titleId={PATIENT_ADDRESS_CATEGORY_TITLE_ID}>{PATIENT_ADDRESS_CATEGORY_TITLE}</CategoryTitle>
       </CategoryHeader>
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!patientInfo.street} />
             <label htmlFor="patientAddress">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
             <TextInput
-              disabled={true}
-              onChange={() => {
-                return
-              }}
-              name="patientAddress"
-              id="patientAddress"
+              disabled={disabled || !editable}
+              className={`ic-textfield ${
+                isShowValidationError && (!patient.street || streetValidationErrors.length > 0) ? 'ic-textfield--error' : ''
+              }`}
+              onChange={handleChange}
+              name="street"
+              id="street"
               value={patient.street}
             />
+            {isShowValidationError && streetValidationErrors.length > 0 && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_STREET_FIELD)} />
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!patientInfo.zipCode} />
             <label htmlFor="patientZipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
             <ZipCodeInput
-              disabled={true}
-              onChange={() => {
-                return
-              }}
-              name="patientZipCode"
-              id="patientZipCode"
+              disabled={disabled || !editable}
+              className={`ic-textfield ${
+                isShowValidationError && (!patient.zipCode || zipCodeValidationErrors.length > 0) ? 'ic-textfield--error' : ''
+              }`}
+              onChange={handleChange}
+              name="zipCode"
+              id="zipCode"
               value={patient.zipCode}
             />
+            {isShowValidationError && zipCodeValidationErrors.length > 0 && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_ZIP_CODE_FIELD)} />
+            )}
           </div>
 
           <div className="iu-grid-span-3">
+            <MandatoryIcon display={!patientInfo.city} />
             <label htmlFor="patientCity">Postort</label>
           </div>
           <div className="iu-grid-span-9">
             <CityInput
-              disabled={true}
-              onChange={() => {
-                return
-              }}
-              name="patientCity"
-              id="patientCity"
+              disabled={disabled || !editable}
+              className={`ic-textfield ${
+                isShowValidationError && (!patient.city || cityValidationErrors.length > 0) ? 'ic-textfield--error' : ''
+              }`}
+              onChange={handleChange}
+              name="city"
+              id="city"
               value={patient.city}
             />
+            {isShowValidationError && cityValidationErrors.length > 0 && (
+              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_CITY_FIELD)} />
+            )}
           </div>
         </Wrapper>
       </QuestionWrapper>

@@ -81,6 +81,7 @@ import {
   setCertificateDataElement,
   setCertificateSigningErrorData,
   setCertificateUnitData,
+  setCertificatePatientData,
   setReadyForSign,
   showSpinner,
   showValidationErrors,
@@ -98,6 +99,7 @@ import {
   updateCertificateSigningData,
   updateCertificateSignStatus,
   updateCertificateUnit,
+  updateCertificatePatient,
   updateCertificateVersion,
   updateClientValidationError,
   updateCreatedCertificateId,
@@ -656,6 +658,13 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState 
   dispatch(autoSaveCertificate(certificate))
 }
 
+const handleUpdateCertificatePatient: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(setCertificatePatientData(action.payload))
+  const certificate = getState().ui.uiCertificate.certificate
+  dispatch(validateCertificate(certificate))
+  dispatch(autoSaveCertificate(certificate))
+}
+
 const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
   const certificate = getState().ui.uiCertificate.certificate
   dispatch(
@@ -802,6 +811,7 @@ const middlewareMethods = {
   [autoSaveCertificateSuccess.type]: handleAutoSaveCertificateSuccess,
   [autoSaveCertificateError.type]: handleAutoSaveCertificateError,
   [updateCertificateUnit.type]: handleUpdateCertificateUnit,
+  [updateCertificatePatient.type]: handleUpdateCertificatePatient,
   [deleteCertificate.type]: handleDeleteCertificate,
   [deleteCertificateSuccess.type]: handleDeleteCertificateSuccess,
   [printCertificate.type]: handlePrintCertificate,
