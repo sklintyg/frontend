@@ -31,6 +31,7 @@ import {
   ValueUncertainDate,
 } from '../../types/certificate'
 import Badge from './Badge'
+import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -181,6 +182,11 @@ const UvText: React.FC<Props> = ({ question }) => {
   }
 
   const getUVText = () => {
+    if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
+      const questionProps = { key: question.id, disabled: false, question }
+      return <UeMessage {...questionProps} />
+    }
+
     if (question.value === undefined || question.value === null || !question.visible) {
       return null
     }
