@@ -1,61 +1,57 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { CertificateSignStatus, ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
+import { CertificateSignStatus, ConfirmModal, CustomButton, ResourceLinkType, ResourceLink } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
-import { getIsValidating, getSigningStatus } from '../../../store/certificate/certificateSelectors'
+import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import { Merge } from 'type-fest'
 
-interface Props extends FunctionDisabled {
+interface Props extends Merge<FunctionDisabled, ResourceLink> {
   canSign: boolean
-  name: string
-  description: string
-  enabled: boolean
-  body?: string
-  type: ResourceLinkType
 }
 
-const SignAndSendButton: React.FC<Props> = ({ name, description, enabled, body, type, canSign, functionDisabled }) => {
+const SignAndSendButton: React.FC<Props> = ({ name, canSign, description, enabled, body, type, functionDisabled }) => {
   const dispatch = useDispatch()
+  const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
   const isSigning = useSelector(getSigningStatus) !== CertificateSignStatus.INITIAL
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false)
+  const disabled = isValidating || isSigning || !enabled || functionDisabled
 
-  const handleConfirm = () => {
-    dispatch(startSignCertificate())
+  const handleConfirm = (showConfirmation: boolean) => () => {
+    if (showConfirmation) {
+      setConfirmModalOpen(true)
+    } else {
+      dispatch(startSignCertificate())
+    }
   }
 
-  if (type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)
-    return (
-      <ButtonWithConfirmModal
-        description={description}
-        buttonStyle="primary"
-        name={name}
+  return (
+    <>
+      <ConfirmModal
         modalTitle={name}
-        startIcon={<img src={edit} alt="Signera intyget" />}
+        startIcon={<img src={edit} alt={name} />}
+        onConfirm={handleConfirm(false)}
+        disabled={disabled}
         confirmButtonText={name}
-        onConfirm={handleConfirm}
-        disabled={isValidating || isSigning || !enabled || functionDisabled}
-        hideConfirmButton={!canSign}>
-        {body && (
-          <div>
-            <p>{body}</p>
-          </div>
-        )}
-      </ButtonWithConfirmModal>
-    )
-  else if (canSign)
-    return (
+        open={confirmModalOpen}
+        hideConfirmButton={!canSign}
+        setOpen={setConfirmModalOpen}>
+        <div>
+          <p>{body}</p>
+        </div>
+      </ConfirmModal>
       <CustomButton
         tooltip={description}
         buttonStyle={'primary'}
-        disabled={isValidating || isSigning || !enabled || functionDisabled}
-        startIcon={<img src={edit} alt="Signera intyget" />}
-        onClick={handleConfirm}
+        disabled={confirmModalOpen || disabled}
+        startIcon={<img src={edit} alt={name} />}
+        onClick={handleConfirm(isValidForSigning && type === ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION)}
         text={name}
       />
-    )
-
-  return null
+    </>
+  )
 }
 
 export default SignAndSendButton
