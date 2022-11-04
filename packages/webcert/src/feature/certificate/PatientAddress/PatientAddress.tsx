@@ -21,7 +21,7 @@ import styled from 'styled-components/macro'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getPatient,
-  getCareUnitValidationErrors,
+  getPatientValidationErrors,
   getIsEditable,
   getIsLocked,
   getShowValidationErrors,
@@ -46,7 +46,7 @@ const CityInput = styled(TextInput)`
 
 const PatientAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getCareUnitValidationErrors(), _.isEqual)
+  const validationErrors = useSelector(getPatientValidationErrors(), _.isEqual)
   const patient = useSelector(getPatient)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const disabled = useSelector(getIsLocked)
