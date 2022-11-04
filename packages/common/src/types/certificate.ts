@@ -138,6 +138,7 @@ export interface ConfigUeTypeahead extends CertificateDataConfig {
   typeAhead: string[]
   text: string
   label: string
+  placeholder?: string
 }
 
 export interface CheckboxCode {
@@ -264,7 +265,7 @@ export interface Value {
 
 export interface ValueBoolean extends Value {
   id: string
-  selected: boolean | null
+  selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {

@@ -1106,7 +1106,6 @@ describe('Set initial values to a certificate', () => {
     const clearValues = () => {
       for (const id in certificate.data) {
         certificate.data[id].value = null
-        certificate.data[id].visible = false
         certificate.data[id].readOnly = false
         certificate.data[id].disabled = false
       }
@@ -1348,6 +1347,31 @@ describe('autoFillElement', () => {
     )
 
     expect(radioBooleanElement?.value?.selected).toEqual(true)
+  })
+})
+
+describe('Validate expressions with boolean values set to null or undefined should not be showed', () => {
+  const element = getBooleanElement()
+
+  it('should return false if selected is undefined for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is undefined for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 
