@@ -1106,7 +1106,6 @@ describe('Set initial values to a certificate', () => {
     const clearValues = () => {
       for (const id in certificate.data) {
         certificate.data[id].value = null
-        certificate.data[id].visible = false
         certificate.data[id].readOnly = false
         certificate.data[id].disabled = false
       }

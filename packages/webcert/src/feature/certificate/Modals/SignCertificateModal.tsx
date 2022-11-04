@@ -102,45 +102,6 @@ const SignCertificateErrorMessage: React.FC<ErrorData> = ({ errorCode, message }
           </p>
         </>
       )
-    case ErrorCode.INTYG_FROM_OTHER_VARDGIVARE_EXISTS: {
-      switch (certificateType) {
-        case 'db':
-          return (
-            <p>
-              Dödsbevis för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta
-              utkast. Det är inte möjligt att signera detta dödsbevis.
-            </p>
-          )
-        case 'doi':
-          return (
-            <p>
-              Dödsorsaksintyg för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta
-              utkast. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför
-              detta dödsorsaksintyg som gäller.
-            </p>
-          )
-      }
-      break
-    }
-    case ErrorCode.INTYG_FROM_SAME_VARDGIVARE_EXISTS: {
-      switch (certificateType) {
-        case 'db':
-          return (
-            <p>
-              Dödsbevis för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera
-              detta dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.
-            </p>
-          )
-        case 'doi':
-          return (
-            <p>
-              Dödsorsaksintyg för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte
-              signera detta dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.
-            </p>
-          )
-      }
-      break
-    }
     case ErrorCode.GRP_PROBLEM: {
       switch (message) {
         case 'ALREADY_IN_PROGRESS':
