@@ -314,7 +314,9 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
 
   function setAsVisibleTrueAsDefault() {
     for (const id in data) {
-      data[id].visible = true
+      if (data[id].visible === undefined) {
+        data[id].visible = true
+      }
     }
   }
 

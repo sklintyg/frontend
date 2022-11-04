@@ -41,9 +41,12 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: string) => {
-      const updatedValue = getUpdatedValue(question, value)
-      dispatch(updateCertificateDataElement(updatedValue))
-    }, 1000)
+      const oldValue = question.value as ValueText
+      if (value !== oldValue.text) {
+        const updatedValue = getUpdatedValue(question, value)
+        dispatch(updateCertificateDataElement(updatedValue))
+      }
+    }, 150)
   ).current
 
   const handleClose = () => {
@@ -52,19 +55,23 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newText = event.currentTarget.value
-    setText(newText)
+    if (newText !== text) {
+      setText(newText)
 
-    setOpen(true)
-    dispatchEditDraft(question, newText)
+      setOpen(true)
+      dispatchEditDraft(question, newText)
 
-    if (newText === undefined || newText === null) {
-      return []
+      if (newText === undefined || newText === null) {
+        return []
+      }
+
+      if (newText.length === 0) {
+        setOpen(false)
+      }
+      setSuggestions(
+        questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0).sort()
+      )
     }
-
-    if (newText.length === 0) {
-      setOpen(false)
-    }
-    setSuggestions(questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0))
   }
 
   const getSuggestions = (): Suggestion[] => {
@@ -78,9 +85,11 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const onSuggestionSelected = (value: string) => {
-    setText(value)
     setOpen(false)
-    dispatchEditDraft(question, value)
+    if (value !== text) {
+      setText(value)
+      dispatchEditDraft(question, value)
+    }
   }
 
   return (
@@ -92,6 +101,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleChange}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
+          placeholder={questionConfig.placeholder}
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
           open={open}

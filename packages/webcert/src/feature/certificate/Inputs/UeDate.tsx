@@ -25,7 +25,7 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
   const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, questionConfig.id))
 
   const deleteDateFromSavedValue = () => {
     dispatch(updateCertificateDataElement(getUpdatedDateValue(question, questionConfig.id, '')))
