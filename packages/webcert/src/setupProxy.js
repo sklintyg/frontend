@@ -1,10 +1,11 @@
 /* eslint-disable */
 const { createProxyMiddleware } = require('http-proxy-middleware')
 const { env } = require('process')
+const querystring = require('querystring')
 
 module.exports = function(app) {
   app.use(
-    ['/fake', '/api', '/moduleapi', '/testability', '/saml', '/error.jsp'],
+    ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp'],
     createProxyMiddleware({
       target: env.API_TARGET,
       cookieDomainRewrite: { '*': '' },
@@ -18,8 +19,4 @@ module.exports = function(app) {
       },
     })
   )
-
-  app.all('/visa/intyg/:id', (req, res) => {
-    res.redirect(303, `/certificate/${req.params.id}`)
-  })
 }
