@@ -15,4 +15,6 @@ jobs:
           working-directory: 'packages/webcert-e2e'
           start: yarn workspace @frontend/webcert start:test
           wait-on: 'https://localhost:3000'
-          command: yarn workspace @frontend/webcert-e2e cypress run --config baseUrl=https://localhost:3000,screenshotOnRunFailure=false
+          command: yarn workspace @frontend/webcert-e2e cypress run
+            --config baseUrl=https://localhost:3000,screenshotOnRunFailure=false
+            --env grepTags=@react,grepFilterSpecs=true

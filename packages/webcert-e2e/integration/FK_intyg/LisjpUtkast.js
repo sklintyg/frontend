@@ -5,7 +5,7 @@ import * as intyg from '../../support/FK_intyg/lisjpIntyg'
  * LISJP = Läkarintyg för sjukpenning, FK 7804
  */
 
-describe('LISJP-utkast tomt', function() {
+describe('LISJP-utkast tomt', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -21,7 +21,7 @@ describe('LISJP-utkast tomt', function() {
         cy.log('LISJP-utkast med id ' + utkastId + ' skapat och används i testfallet')
       })
     })
-    describe('Funktioner på ett tomt LISJP utkast', () => {
+    describe('Funktioner på ett tomt LISJP utkast', { tags: '@react' }, () => {
       it('Skapar en minimalt ifylld FK7804 och skickar den till FK', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
