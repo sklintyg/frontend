@@ -2,6 +2,7 @@ import {
   MandatoryIcon,
   QuestionValidationTexts,
   TextInput,
+  TextArea,
   getResourceLink,
   resourceLinksAreEqual,
   ResourceLinkType,
@@ -18,6 +19,7 @@ import {
 import React, { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
+import { css } from 'styled-components'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getPatient,
@@ -43,6 +45,9 @@ const ZipCodeInput = styled(TextInput)`
 const CityInput = styled(TextInput)`
   max-width: 20em;
 `
+const mandatoryIconAdditionalStyles = css`
+  top: -5px;
+`
 
 const PatientAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
@@ -66,7 +71,7 @@ const PatientAddress: React.FC = () => {
   const dispatchEditDraft = useRef(
     _.debounce((state: Patient) => {
       dispatch(updateCertificatePatient(state))
-    }, 150)
+    }, 1000)
   ).current
 
   if (!patient) {
@@ -89,19 +94,21 @@ const PatientAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!patientInfo.street} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.street} />
             <label htmlFor="patientAddress">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
-            <TextInput
+            <TextArea
               disabled={disabled || !editable}
-              className={`ic-textfield ${
+              additionalStyles={`ic-textfield ${
                 isShowValidationError && (!patient.street || streetValidationErrors.length > 0) ? 'ic-textfield--error' : ''
               }`}
               onChange={handleChange}
               name="street"
-              id="street"
-              value={patient.street}
+              value={patientInfo.street}
+              rowsMin={1}
+              disableCounter={true}
+              autoResize={true}
             />
             {isShowValidationError && streetValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_STREET_FIELD)} />
@@ -109,7 +116,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!patientInfo.zipCode} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.zipCode} />
             <label htmlFor="patientZipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -121,7 +128,7 @@ const PatientAddress: React.FC = () => {
               onChange={handleChange}
               name="zipCode"
               id="zipCode"
-              value={patient.zipCode}
+              value={patientInfo.zipCode}
             />
             {isShowValidationError && zipCodeValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_ZIP_CODE_FIELD)} />
@@ -129,7 +136,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!patientInfo.city} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.city} />
             <label htmlFor="patientCity">Postort</label>
           </div>
           <div className="iu-grid-span-9">
@@ -141,7 +148,7 @@ const PatientAddress: React.FC = () => {
               onChange={handleChange}
               name="city"
               id="city"
-              value={patient.city}
+              value={patientInfo.city}
             />
             {isShowValidationError && cityValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_CITY_FIELD)} />
