@@ -311,6 +311,11 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
     return
   }
 
+  if (certificate?.metadata?.patientValidationErrors != null && certificate.metadata.patientValidationErrors.length > 0) {
+    dispatch(showValidationErrors())
+    return
+  }
+
   const signingMethod = getState().ui.uiUser.user.signingMethod
 
   switch (signingMethod) {

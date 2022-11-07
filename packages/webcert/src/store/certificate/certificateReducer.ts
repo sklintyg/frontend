@@ -105,6 +105,7 @@ const getInitialState = (): CertificateState => {
 }
 
 const CARE_UNIT_CATEGORY_NAME = 'vardenhet'
+const PATIENT_CATEGORY_NAME = 'patient'
 
 const certificateReducer = createReducer(getInitialState(), (builder) =>
   builder
@@ -225,6 +226,12 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
         for (const validationError of action.payload) {
           if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
             state.certificate.metadata.careUnitValidationErrors.push(validationError)
+          }
+        }
+        state.certificate.metadata.patientValidationErrors = []
+        for (const validationError of action.payload) {
+          if (validationError.category === PATIENT_CATEGORY_NAME) {
+            state.certificate.metadata.patientValidationErrors.push(validationError)
           }
         }
       }

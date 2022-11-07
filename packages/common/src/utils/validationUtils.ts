@@ -406,10 +406,12 @@ function addCareUnitValidationErrors(validationErrorSummary: ValidationErrorSumm
 
 function addPatientValidationErrors(validationErrorSummary: ValidationErrorSummary[], patientValidationErrors?: ValidationError[]) {
   if (patientValidationErrors && patientValidationErrors.length > 0) {
-    validationErrorSummary = validationErrorSummary.concat({
-      id: PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-      text: PATIENT_ADDRESS_CATEGORY_TITLE,
-    } as ValidationErrorSummary)
+    validationErrorSummary = [
+      {
+        id: PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+        text: PATIENT_ADDRESS_CATEGORY_TITLE,
+      } as ValidationErrorSummary,
+    ].concat(validationErrorSummary)
   }
 
   return validationErrorSummary

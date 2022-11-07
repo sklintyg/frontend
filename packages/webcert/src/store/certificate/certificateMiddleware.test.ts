@@ -559,6 +559,15 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(startSignCertificate())
       expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
     })
+
+    it('should halt and display patientValidationErrors', () => {
+      const certificate = getCertificateWithHiglightValidation(false)
+      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(updateValidationErrors([{ category: 'patient', field: 'field', text: 'text', type: 'EMPTY', id: '1' }]))
+
+      testStore.dispatch(startSignCertificate())
+      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
+    })
   })
 
   describe('Handle create certificate', () => {
