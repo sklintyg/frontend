@@ -7,6 +7,7 @@ import {
   CertificateStatus,
   Complement,
   Unit,
+  Patient,
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
@@ -125,6 +126,7 @@ const VALIDATE_CERTIFICATE_ERROR = `${CERTIFICATE} Validate certificate error`
 
 const UPDATE_CERTIFICATE_STATUS = `${CERTIFICATE} Update certificate status`
 const UPDATE_CERTIFICATE_UNIT = `${CERTIFICATE} Update certificate unit`
+const UPDATE_CERTIFICATE_PATIENT = `${CERTIFICATE} Update certificate patient`
 
 const AUTO_SAVE_CERTIFICATE = `${CERTIFICATE} Auto save certificate`
 const AUTO_SAVE_STARTED = `${CERTIFICATE} Auto save certificate started`
@@ -148,6 +150,7 @@ const CLEAR_GOTO_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Clear goto certifica
 
 const SET_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Set certificate data element`
 const SET_CERTIFICATE_UNIT_DATA = `${CERTIFICATE} Set certificate unit data`
+const SET_CERTIFICATE_PATIENT_DATA = `${CERTIFICATE} Set certificate patient data`
 
 const SHOW_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Show data element`
 const HIDE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Hide data element`
@@ -497,7 +500,9 @@ export const showCertificateDataElementMandatory = createAction<string>(SHOW_CER
 export const hideCertificateDataElementMandatory = createAction<string>(HIDE_CERTIFICATE_DATA_ELEMENT_MANDATORY)
 
 export const setDisabledCertificateDataChild = createAction<ValidationResult>(SET_DISABLED_CERTIFICATE_DATA_CHILD)
+
 export const enableCertificateDataElement = createAction<string>(ENABLE_CERTIFICATE_DATA_ELEMENT)
+
 export const disableCertificateDataElement = createAction<string>(DISABLE_CERTIFICATE_DATA_ELEMENT)
 
 export const setCertificateDataElement = createAction<CertificateDataElement>(SET_CERTIFICATE_DATA_ELEMENT)
@@ -515,6 +520,10 @@ export const hideValidationErrors = createAction(HIDE_CERTIFICATE_VALIDATION_ERR
 export const updateCertificateUnit = createAction<Unit>(UPDATE_CERTIFICATE_UNIT)
 
 export const setCertificateUnitData = createAction<Unit>(SET_CERTIFICATE_UNIT_DATA)
+
+export const updateCertificatePatient = createAction<Patient>(UPDATE_CERTIFICATE_PATIENT)
+
+export const setCertificatePatientData = createAction<Patient>(SET_CERTIFICATE_PATIENT_DATA)
 
 export const printCertificate = createAction<CertificateMetadata & { iframe: HTMLIFrameElement }>(PRINT_CERTIFICATE)
 
@@ -536,10 +545,13 @@ export interface SigningData {
 }
 
 export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)
+
 export const setCertificateSigningErrorData = createAction<ErrorData | undefined>(SET_CERTIFICATE_SIGNING_ERROR)
 
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
+
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)
+
 export const applyCertificateDataElementAutoFill = createAction<ValidationResult>(APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL)
 
 export interface CertificateApiGenericError {
@@ -565,6 +577,7 @@ export const updateClientValidationError = createAction<UpdateValidationError>(U
 export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
 
 export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
+
 export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)
 
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)

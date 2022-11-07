@@ -145,6 +145,14 @@ export const getCareUnitValidationErrors = () => (state: RootState): ValidationE
   return state.ui.uiCertificate.certificate.metadata.careUnitValidationErrors
 }
 
+export const getPatientValidationErrors = () => (state: RootState): ValidationError[] => {
+  if (!state.ui.uiCertificate.certificate || !state.ui.uiCertificate.certificate.metadata.patientValidationErrors) {
+    return []
+  }
+
+  return state.ui.uiCertificate.certificate.metadata.patientValidationErrors
+}
+
 const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
