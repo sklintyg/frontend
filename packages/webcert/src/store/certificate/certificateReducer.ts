@@ -1,5 +1,4 @@
 import {
-  AutoFillValidation,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
