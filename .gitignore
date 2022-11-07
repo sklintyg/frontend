@@ -26,3 +26,5 @@ yarn-error.log*
 /packages/mockserver/dist/
 /packages/webcert-e2e/results/
 /packages/webcert-e2e/videos/
+
+/.vscode/settings.json
