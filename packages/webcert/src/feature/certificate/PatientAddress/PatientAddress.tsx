@@ -52,7 +52,7 @@ const mandatoryIconAdditionalStyles = css`
 const PatientAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getPatientValidationErrors(), _.isEqual)
-  const patient = useSelector(getPatient)
+  const patient = useSelector(getPatient, _.isEqual)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const disabled = useSelector(getIsLocked)
   const editable =
@@ -60,7 +60,7 @@ const PatientAddress: React.FC = () => {
     resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE)) &&
     getResourceLink(resourceLinks, ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE).enabled
 
-  const [patientInfo, setPatientInfo] = useState(patient as Patient)
+  const [patientInfo, setPatientInfo] = useState<Patient>(patient as Patient)
 
   const dispatch = useDispatch()
 
@@ -81,6 +81,19 @@ const PatientAddress: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target
     const updatedPatient = { ...patientInfo, [name]: value } as Patient
+
+    setPatientInfo(updatedPatient)
+    dispatchEditDraft(updatedPatient)
+  }
+
+  const handleNumericChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')
+    let updatedPatient = { ...patientInfo, [event.target.name]: value }
+
+    if (event.target.name === 'zipCode' && value.length > 3) {
+      const zipValue = [value.split('').slice(0, 3), ' ', value.split('').slice(3, 5)].flat().join('')
+      updatedPatient = { ...patientInfo, [event.target.name]: zipValue }
+    }
 
     setPatientInfo(updatedPatient)
     dispatchEditDraft(updatedPatient)
@@ -111,7 +124,7 @@ const PatientAddress: React.FC = () => {
               autoResize={true}
             />
             {isShowValidationError && streetValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_STREET_FIELD)} />
+              <QuestionValidationTexts validationErrors={streetValidationErrors} />
             )}
           </div>
 
@@ -125,13 +138,13 @@ const PatientAddress: React.FC = () => {
               className={`ic-textfield ${
                 isShowValidationError && (!patient.zipCode || zipCodeValidationErrors.length > 0) ? 'ic-textfield--error' : ''
               }`}
-              onChange={handleChange}
+              onChange={handleNumericChange}
               name="zipCode"
               id="zipCode"
               value={patientInfo.zipCode}
             />
             {isShowValidationError && zipCodeValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_ZIP_CODE_FIELD)} />
+              <QuestionValidationTexts validationErrors={zipCodeValidationErrors} />
             )}
           </div>
 
@@ -151,7 +164,7 @@ const PatientAddress: React.FC = () => {
               value={patientInfo.city}
             />
             {isShowValidationError && cityValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, PATIENT_CITY_FIELD)} />
+              <QuestionValidationTexts validationErrors={cityValidationErrors} />
             )}
           </div>
         </Wrapper>
