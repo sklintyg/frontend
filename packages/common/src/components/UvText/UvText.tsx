@@ -31,6 +31,7 @@ import {
   ValueUncertainDate,
 } from '../../types/certificate'
 import Badge from './Badge'
+import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -181,7 +182,12 @@ const UvText: React.FC<Props> = ({ question }) => {
   }
 
   const getUVText = () => {
-    if (question.value === undefined || question.value === null) {
+    if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
+      const questionProps = { key: question.id, disabled: false, question }
+      return <UeMessage {...questionProps} />
+    }
+
+    if (question.value === undefined || question.value === null || !question.visible) {
       return null
     }
 
@@ -264,8 +270,6 @@ const UvText: React.FC<Props> = ({ question }) => {
         const textValueDate = question.value as ValueDate
         if (textValueDate.date != null && textValueDate.date.length > 0) {
           displayText = textValueDate.date
-        } else {
-          displayText = ''
         }
         break
       }
@@ -273,8 +277,6 @@ const UvText: React.FC<Props> = ({ question }) => {
         const textValueUncertainDate = question.value as ValueUncertainDate
         if (textValueUncertainDate.value != null && textValueUncertainDate.value.length > 0) {
           displayText = textValueUncertainDate.value
-        } else {
-          displayText = ''
         }
         break
       }

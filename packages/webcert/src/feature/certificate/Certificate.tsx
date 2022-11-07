@@ -20,7 +20,7 @@ import Category from './Category/Category'
 import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
-import PatientAddress from './PatientAddress/PatientAddress'
+import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
@@ -85,7 +85,7 @@ const Certificate: React.FC = () => {
         <ResponsibleHospName />
         {showPatientAddress && (
           <CategoryWrapper>
-            <PatientAddress />
+            <PatientAddressInfo />
           </CategoryWrapper>
         )}
         <CertificateContext.Provider value={{ certificateContainerId, certificateContainerRef }}>

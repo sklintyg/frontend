@@ -31,6 +31,7 @@ export interface CertificateMetadata {
   relations: CertificateRelations
   unit: Unit
   careUnitValidationErrors?: ValidationError[]
+  patientValidationErrors?: ValidationError[]
   careUnit: Unit
   careProvider: Unit
   patient: Patient

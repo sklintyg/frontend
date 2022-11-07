@@ -81,6 +81,7 @@ import {
   setCertificateDataElement,
   setCertificateSigningErrorData,
   setCertificateUnitData,
+  setCertificatePatientData,
   setReadyForSign,
   showSpinner,
   showValidationErrors,
@@ -98,6 +99,7 @@ import {
   updateCertificateSigningData,
   updateCertificateSignStatus,
   updateCertificateUnit,
+  updateCertificatePatient,
   updateCertificateVersion,
   updateClientValidationError,
   updateCreatedCertificateId,
@@ -145,6 +147,7 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
     dispatch(validateCertificate(action.payload.certificate))
   }
   dispatch(getCertificateEvents(action.payload.certificate.metadata.id))
+  dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 }
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
@@ -308,6 +311,11 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({ dispatch, getState }
     return
   }
 
+  if (certificate?.metadata?.patientValidationErrors != null && certificate.metadata.patientValidationErrors.length > 0) {
+    dispatch(showValidationErrors())
+    return
+  }
+
   const signingMethod = getState().ui.uiUser.user.signingMethod
 
   switch (signingMethod) {
@@ -352,6 +360,8 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> = ({ dispatch, ge
   switch (signStatus) {
     case CertificateSignStatus.UNKNOWN:
     case CertificateSignStatus.SIGNED:
+      dispatch(signCertificateCompleted())
+      dispatch(getCertificate(certificate.metadata.id))
       break
     default:
       setTimeout(
@@ -656,6 +666,13 @@ const handleUpdateCertificateUnit: Middleware<Dispatch> = ({ dispatch, getState 
   dispatch(autoSaveCertificate(certificate))
 }
 
+const handleUpdateCertificatePatient: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(setCertificatePatientData(action.payload))
+  const certificate = getState().ui.uiCertificate.certificate
+  dispatch(validateCertificate(certificate))
+  dispatch(autoSaveCertificate(certificate))
+}
+
 const autoSaving = _.debounce(({ dispatch, getState }: MiddlewareAPI) => {
   const certificate = getState().ui.uiCertificate.certificate
   dispatch(
@@ -802,6 +819,7 @@ const middlewareMethods = {
   [autoSaveCertificateSuccess.type]: handleAutoSaveCertificateSuccess,
   [autoSaveCertificateError.type]: handleAutoSaveCertificateError,
   [updateCertificateUnit.type]: handleUpdateCertificateUnit,
+  [updateCertificatePatient.type]: handleUpdateCertificatePatient,
   [deleteCertificate.type]: handleDeleteCertificate,
   [deleteCertificateSuccess.type]: handleDeleteCertificateSuccess,
   [printCertificate.type]: handlePrintCertificate,
