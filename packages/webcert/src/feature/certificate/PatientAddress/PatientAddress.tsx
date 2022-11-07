@@ -1,7 +1,6 @@
 import {
   MandatoryIcon,
   QuestionValidationTexts,
-  TextInput,
   TextArea,
   getResourceLink,
   resourceLinksAreEqual,
@@ -38,13 +37,22 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-const ZipCodeInput = styled(TextInput)`
+const ZipCodeInput = styled.input.attrs({
+  type: 'text',
+  size: 6,
+  maxLength: 6,
+})`
   max-width: 6.5em;
 `
 
-const CityInput = styled(TextInput)`
+const CityInput = styled.input.attrs({
+  type: 'text',
+  size: 30,
+  maxLength: 30,
+})`
   max-width: 20em;
 `
+
 const mandatoryIconAdditionalStyles = css`
   top: -5px;
 `
