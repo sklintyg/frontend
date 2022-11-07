@@ -120,13 +120,12 @@ const PatientAddress: React.FC = () => {
           </div>
           <div className="iu-grid-span-9">
             <TextArea
+              hasValidationError={isShowValidationError && (!patientInfo.street || streetValidationErrors.length > 0)}
               disabled={disabled || !editable}
-              additionalStyles={`ic-textfield ${
-                isShowValidationError && (!patient.street || streetValidationErrors.length > 0) ? 'ic-textfield--error' : ''
-              }`}
               onChange={handleChange}
               name="street"
               value={patientInfo.street}
+              limit={209}
               rowsMin={1}
               disableCounter={true}
               autoResize={true}
