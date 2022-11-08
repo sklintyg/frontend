@@ -46,7 +46,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         const updatedValue = getUpdatedValue(question, value)
         dispatch(updateCertificateDataElement(updatedValue))
       }
-    }, 150)
+    }, 100)
   ).current
 
   const handleClose = () => {
@@ -68,9 +68,14 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       if (newText.length === 0) {
         setOpen(false)
       }
-      setSuggestions(
-        questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0).sort()
-      )
+
+      const sortResult = [
+        ...questionConfig.typeAhead.filter((suggestion) => suggestion.toLowerCase().startsWith(newText.toLowerCase())),
+        ...questionConfig.typeAhead.filter((suggestion) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0).sort(),
+      ]
+      const newResult = new Set(sortResult)
+
+      setSuggestions(Array.from(newResult))
     }
   }
 
