@@ -2,26 +2,29 @@ import {
   CertificateDataElement,
   Dropdown,
   DatePickerCustom,
+  ConfigTypes,
   ConfigureUeCauseOfDeath,
   QuestionValidationTexts,
   getValidDate,
+  CertificateDataValueType,
   ValueCauseOfDeath,
+  ValueCauseOfDeathList,
   TextInput,
+  ValidationError,
 } from '@frontend/common'
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { isValid } from 'date-fns'
 import styled from 'styled-components/macro'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import {
-  getQuestionHasValidationError,
-  getShowValidationErrors,
-  getVisibleValidationErrors,
-} from '../../../store/certificate/certificateSelectors'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 export interface Props {
+  config?: ConfigureUeCauseOfDeath
+  value?: ValueCauseOfDeath
   disabled?: boolean
+  hasValidationError?: boolean
   question: CertificateDataElement
 }
 
@@ -32,23 +35,37 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 
-const UeCauseOfDeath: React.FC<Props> = ({ question, disabled }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const config = question.config as ConfigureUeCauseOfDeath
+const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question }) => {
+  const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
+  config = (isSingleCauseOfDeath ? question.config : config) as ConfigureUeCauseOfDeath
+  value = (isSingleCauseOfDeath ? question.value : value) as ValueCauseOfDeath
   const dispatch = useAppDispatch()
-  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const [descriptionValue, setDescriptionValue] = useState((question.value as ValueCauseOfDeath).description)
-  const [debutString, setDebutString] = useState((question.value as ValueCauseOfDeath).debut)
-  const [selectedSpec, setSelectedSpec] = useState((question.value as ValueCauseOfDeath).specification)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, (question.value as ValueCauseOfDeath).id))
+  const [descriptionValue, setDescriptionValue] = useState(value.description)
+  const [debutString, setDebutString] = useState(value.debut)
+  const [selectedSpec, setSelectedSpec] = useState(value.specification)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, config.id))
+
+  const getUpdatedValue = (question: CertificateDataElement, id: string, description: string, debut: string, specification: string) => {
+    if (isSingleCauseOfDeath) {
+      return getSingleUpdatedValue(question, id, description, debut, specification)
+    } else {
+      return getListUpdatedValue(question, id, description, debut, specification)
+    }
+  }
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setDescriptionValue(event.currentTarget.value)
-    dispatch(updateCertificateDataElement(getUpdatedValue(question, event.currentTarget.value, debutString, selectedSpec)))
+    dispatch(
+      updateCertificateDataElement(
+        getUpdatedValue(question, (config as ConfigureUeCauseOfDeath).id, event.currentTarget.value, debutString, selectedSpec)
+      )
+    )
   }
 
   const deleteDateFromSavedValue = () => {
-    dispatch(updateCertificateDataElement(getUpdatedValue(question, descriptionValue, '', selectedSpec)))
+    dispatch(
+      updateCertificateDataElement(getUpdatedValue(question, (config as ConfigureUeCauseOfDeath).id, descriptionValue, '', selectedSpec))
+    )
   }
 
   const handleDateChange = (date: string) => {
@@ -60,14 +77,38 @@ const UeCauseOfDeath: React.FC<Props> = ({ question, disabled }) => {
     const parsedDate = getValidDate(date)
 
     if (isValid(parsedDate)) {
-      dispatch(updateCertificateDataElement(getUpdatedValue(question, descriptionValue, date, selectedSpec)))
+      dispatch(
+        updateCertificateDataElement(
+          getUpdatedValue(question, (config as ConfigureUeCauseOfDeath).id, descriptionValue, date, selectedSpec)
+        )
+      )
     }
   }
 
   const handleSpecificationChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelectedSpec(event.currentTarget.value)
-    dispatch(updateCertificateDataElement(getUpdatedValue(question, descriptionValue, debutString, event.currentTarget.value)))
+    dispatch(
+      updateCertificateDataElement(
+        getUpdatedValue(question, (config as ConfigureUeCauseOfDeath).id, descriptionValue, debutString, event.currentTarget.value)
+      )
+    )
   }
+  const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
+    if (hasValidationError) {
+      return true
+    }
+    if (id) {
+      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
+    }
+    return validationErrors.length > 0
+  }
+
+  const dispatchValidationError = useCallback(
+    (shouldBeRemoved: boolean, validationError: ValidationError) => {
+      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+    },
+    [dispatch]
+  )
 
   return (
     <div className="ic-forms__group iu-grid-cols">
@@ -77,10 +118,12 @@ const UeCauseOfDeath: React.FC<Props> = ({ question, disabled }) => {
         <div>
           <TextInput
             label="Beskrivning"
-            id={'description_' + question.id}
+            id={'description_' + config.id}
             value={descriptionValue}
             onChange={handleDescriptionChange}
-            disabled={disabled}></TextInput>
+            disabled={disabled}
+            hasValidationError={hasValidationError}
+          />
           <DatePickerCustom
             label="Ungefärlig debut"
             forbidFutureDates={true}
@@ -92,30 +135,45 @@ const UeCauseOfDeath: React.FC<Props> = ({ question, disabled }) => {
             setDate={(date: string) => {
               handleDateChange(date)
             }}
-            id={'debut_' + question.id}
-            displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
+            id={`debut${config.id}`}
+            componentField={`debut.${config.id}`}
+            displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'debut')}
+            onDispatchValidationError={dispatchValidationError}
           />
           <Dropdown
             label="Specificera tillståndet"
-            id={'specification_' + question.id}
+            id={'specification_' + config.id}
             onChange={handleSpecificationChange}
             disabled={disabled}
             value={selectedSpec}
             options={config.specifications.map((item) => (
               <option value={item.id}>{item.label}</option>
-            ))}></Dropdown>
-          {isShowValidationError && (
-            <ValidationWrapper>
-              <QuestionValidationTexts validationErrors={validationErrors} />
-            </ValidationWrapper>
-          )}
+            ))}
+            hasValidationError={hasValidationError}
+          />{' '}
+          <ValidationWrapper>
+            <QuestionValidationTexts validationErrors={validationErrors} />
+          </ValidationWrapper>
         </div>
       </div>
     </div>
   )
 }
 
-const getUpdatedValue = (question: CertificateDataElement, description: string, debut: string, specification: string) => {
+const getListUpdatedValue = (question: CertificateDataElement, id: string, description: string, debut: string, specification: string) => {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  const updatedQuestionValue = { ...(updatedQuestion.value as ValueCauseOfDeathList) }
+
+  updatedQuestionValue.list = (updatedQuestionValue.list ?? [])
+    .filter((item) => item.id !== id)
+    .concat({ id: id, description: description, debut: debut, specification: specification, type: CertificateDataValueType.CAUSE_OF_DEATH })
+
+  updatedQuestion.value = updatedQuestionValue
+
+  return updatedQuestion
+}
+
+const getSingleUpdatedValue = (question: CertificateDataElement, id: string, description: string, debut: string, specification: string) => {
   const updatedQuestion: CertificateDataElement = { ...question }
 
   const updatedValue = { ...(updatedQuestion.value as ValueCauseOfDeath) }

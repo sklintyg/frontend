@@ -86,6 +86,8 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
+  UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
+  UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
 }
 
 export enum MessageLevel {
@@ -245,6 +247,10 @@ export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
   specifications: ConfigUeDropdownItem[]
 }
 
+export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
+  list: ConfigureUeCauseOfDeath[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -261,6 +267,8 @@ export enum CertificateDataValueType {
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
+  CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
+  CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
 
 export interface Value {
@@ -328,6 +336,10 @@ export interface ValueCauseOfDeath extends Value {
   description: string
   debut: string
   specification: string
+}
+
+export interface ValueCauseOfDeathList extends Value {
+  list: ValueCauseOfDeath[]
 }
 
 export interface ValueIcf extends Value {
