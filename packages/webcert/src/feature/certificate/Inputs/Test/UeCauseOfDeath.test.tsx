@@ -21,8 +21,7 @@ const CAUSE_OF_DEATH = {
   label: 'A',
   title: 'Den terminala dödsorsaken',
   specifications: [
-    { id: '', label: '' },
-    { id: 'EJ_ANGIVEN', label: 'Ej angiven' },
+    { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
     { id: 'KRONISK', label: 'Kronisk' },
     { id: 'PLOTSLIG', label: 'Plötslig' },
   ],

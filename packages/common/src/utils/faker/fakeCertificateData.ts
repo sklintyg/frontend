@@ -21,6 +21,7 @@ import {
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigureUeUncertainDate,
+  ConfigureUeCauseOfDeath,
   Value,
   ValueBoolean,
   ValueCode,
@@ -28,9 +29,11 @@ import {
   ValueDate,
   ValueDateList,
   ValueDiagnosis,
+  ValueUncertainDate,
   ValueHeader,
   ValueIcf,
   ValueText,
+  ValueCauseOfDeath,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -329,7 +332,7 @@ export const fakeTypeaheadElement = (
   )
 
 export const fakeUncertainDateElement = (
-  data?: PartialCertificateDataElement<ConfigureUeUncertainDate, ValueDate>,
+  data?: PartialCertificateDataElement<ConfigureUeUncertainDate, ValueUncertainDate>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -344,7 +347,7 @@ export const fakeUncertainDateElement = (
       },
       value: {
         id: faker.random.alpha(),
-        date: '0000-00-00',
+        value: '0000-00-00',
         ...data?.value,
       },
     },
@@ -387,6 +390,35 @@ export const fakeHeaderElement = (
         ...data?.config,
       },
       value: { type: CertificateDataValueType.HEADER },
+    },
+    children
+  )
+
+export const fakeCauseOfDeathElement = (
+  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeath, ValueCauseOfDeath>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_CAUSE_OF_DEATH,
+        label: 'A',
+        title: 'Den terminala dödsorsaken var',
+        specifications: [
+          { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+          { id: 'KRONISK', label: 'Kronisk' },
+          { id: 'PLOTSLIG', label: 'Plötslig' },
+        ],
+        ...data?.config,
+      },
+      value: {
+        id: faker.random.alpha(),
+        description: 'Unguis incarnatus',
+        debut: '1960-04-23',
+        specification: 'KRONISK',
+        ...data?.value,
+      },
     },
     children
   )
