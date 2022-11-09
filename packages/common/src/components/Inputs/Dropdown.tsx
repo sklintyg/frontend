@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import classNames from 'classnames'
-import styled from 'styled-components'
+import { css } from 'styled-components/macro'
 
 interface Props {
   label?: string
@@ -15,32 +15,29 @@ interface Props {
 }
 
 const Dropdown: React.FC<Props> = (props) => {
-  const Wrapper = props.height
-    ? styled.div`
+  const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
+
+  const heightStyle = props.height
+    ? css`
+        height: ${props.height} !important;
         min-height: ${props.height} !important;
       `
-    : styled.div``
+    : css``
 
-  const StyledSelect = props.height
-    ? styled.select`
-        height: ${props.height} !important;
-      `
-    : styled.select``
-
-  const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
   return (
     <>
       {label !== 'undefined' ? <label htmlFor={id}>{label}</label> : null}
-      <Wrapper
+      <div
+        css={heightStyle}
         className={classNames('ic-forms__select', {
           'iu-border-error dropdown': hasValidationError,
           dropdown: !hasValidationError,
           'ic-forms__select--disabled': disabled,
         })}>
-        <StyledSelect value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
+        <select css={heightStyle} value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
           {options}
-        </StyledSelect>
-      </Wrapper>
+        </select>
+      </div>
     </>
   )
 }

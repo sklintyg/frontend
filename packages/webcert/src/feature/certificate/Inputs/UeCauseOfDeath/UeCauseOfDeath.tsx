@@ -18,7 +18,7 @@ import {
 import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { isValid } from 'date-fns'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
@@ -30,6 +30,12 @@ export interface Props {
   hasValidationError?: boolean
   question: CertificateDataElement
 }
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+`
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
@@ -52,6 +58,38 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
     : undefined
 
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }].concat(config.specifications)
+
+  const descriptionCss = config.label
+    ? css`
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row: 1;
+      `
+    : css`
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row: 1;
+      `
+
+  const dateCss = config.label
+    ? css`
+        grid-column: 1;
+        grid-row: 2;
+      `
+    : css`
+        grid-column: 3;
+        grid-row: 1;
+      `
+
+  const specificationCss = config.label
+    ? css`
+        grid-column: 2;
+        grid-row: 2;
+      `
+    : css`
+        grid-column: 4;
+        grid-row: 1;
+      `
 
   const getUpdatedValue = (question: CertificateDataElement, id: string, description: string, debut: string, specification: string) => {
     if (isSingleCauseOfDeath) {
@@ -124,8 +162,8 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
 
       <div>
         {config.label && <div className="iu-fl iu-fs-600">{config.label}</div>}
-        <div className={`${config.label ? 'iu-m-700' : 'iu-flex'}`}>
-          <div className={`${!config.label ? 'iu-mb-700 iu-mt-400 iu-mr-500' : ''}`}>
+        <Wrapper>
+          <div css={descriptionCss}>
             <TextInput
               label="Beskrivning"
               id={'description_' + config.id}
@@ -136,46 +174,47 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
               limit={textValidation ? textValidation.limit : 100}
             />
           </div>
-          <div className="iu-flex iu-mt-400">
-            <div className="iu-mr-500">
-              <DatePickerCustom
-                label="Ungefärlig debut"
-                forbidFutureDates={true}
-                vertical={true}
-                inputString={debutString}
-                disabled={disabled}
-                textInputOnChange={(value: string) => {
-                  handleDateChange(value)
-                }}
-                setDate={(date: string) => {
-                  handleDateChange(date)
-                }}
-                id={`debut${config.id}`}
-                questionId={question.id}
-                componentField={`debut.${config.id}`}
-                displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'debut')}
-                onDispatchValidationError={dispatchValidationError}
-              />
-            </div>
-            <div className="iu-mr-500">
-              <Dropdown
-                label="Specificera tillståndet"
-                id={'specification_' + config.id}
-                onChange={handleSpecificationChange}
-                disabled={disabled}
-                value={selectedSpec}
-                options={specifications.map((item) => (
-                  <option value={item.id}>{item.label}</option>
-                ))}
-                hasValidationError={hasValidationError}
-                height="47px"
-              />
-            </div>
+
+          <div css={dateCss}>
+            <DatePickerCustom
+              label="Ungefärlig debut"
+              forbidFutureDates={true}
+              vertical={true}
+              inputString={debutString}
+              disabled={disabled}
+              textInputOnChange={(value: string) => {
+                handleDateChange(value)
+              }}
+              setDate={(date: string) => {
+                handleDateChange(date)
+              }}
+              id={`debut${config.id}`}
+              questionId={question.id}
+              componentField={`debut.${config.id}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'debut')}
+              onDispatchValidationError={dispatchValidationError}
+            />
           </div>
-          <ValidationWrapper>
-            <QuestionValidationTexts validationErrors={validationErrors} />
-          </ValidationWrapper>
-        </div>
+          <div css={specificationCss}>
+            <Dropdown
+              label="Specificera tillståndet"
+              id={'specification_' + config.id}
+              onChange={handleSpecificationChange}
+              disabled={disabled}
+              value={selectedSpec}
+              options={specifications.map((item) => (
+                <option value={item.id} key={item.id}>
+                  {item.label}
+                </option>
+              ))}
+              hasValidationError={hasValidationError}
+              height="47px"
+            />
+          </div>
+        </Wrapper>
+        <ValidationWrapper>
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </ValidationWrapper>
       </div>
     </div>
   )
