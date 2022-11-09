@@ -2,7 +2,7 @@ import { fakeCauseOfDeathElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
+import store from '../../../../store/store'
 import UeCauseOfDeath, { Props } from './UeCauseOfDeath'
 
 export default {

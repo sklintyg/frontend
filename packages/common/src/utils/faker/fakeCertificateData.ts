@@ -413,11 +413,12 @@ export const fakeCauseOfDeathElement = (
         ...data?.config,
       },
       value: {
-        id: faker.random.alpha(),
+        id: '1',
         description: 'Unguis incarnatus',
         debut: '1960-04-23',
         specification: 'KRONISK',
         ...data?.value,
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
       },
     },
     children

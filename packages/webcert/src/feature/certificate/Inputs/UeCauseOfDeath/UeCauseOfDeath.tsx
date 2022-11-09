@@ -19,9 +19,9 @@ import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { isValid } from 'date-fns'
 import styled from 'styled-components/macro'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
+import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
   config?: ConfigureUeCauseOfDeath
@@ -123,17 +123,19 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
       {config.title}
 
       <div>
-        <div className="iu-fl iu-fs-600">{config.label}</div>
-        <div className={`iu-m-700 ${!config.label ? 'iu-flex' : ''}`}>
-          <TextInput
-            label="Beskrivning"
-            id={'description_' + config.id}
-            value={descriptionValue}
-            onChange={handleDescriptionChange}
-            disabled={disabled}
-            hasValidationError={hasValidationError}
-            limit={textValidation ? textValidation.limit : 100}
-          />
+        {config.label && <div className="iu-fl iu-fs-600">{config.label}</div>}
+        <div className={`${config.label ? 'iu-m-700' : 'iu-flex'}`}>
+          <div className={`${!config.label ? 'iu-mb-700 iu-mt-400 iu-mr-500' : ''}`}>
+            <TextInput
+              label="Beskrivning"
+              id={'description_' + config.id}
+              value={descriptionValue}
+              onChange={handleDescriptionChange}
+              disabled={disabled}
+              hasValidationError={hasValidationError}
+              limit={textValidation ? textValidation.limit : 100}
+            />
+          </div>
           <div className="iu-flex iu-mt-400">
             <div className="iu-mr-500">
               <DatePickerCustom
@@ -149,6 +151,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
                   handleDateChange(date)
                 }}
                 id={`debut${config.id}`}
+                questionId={question.id}
                 componentField={`debut.${config.id}`}
                 displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'debut')}
                 onDispatchValidationError={dispatchValidationError}

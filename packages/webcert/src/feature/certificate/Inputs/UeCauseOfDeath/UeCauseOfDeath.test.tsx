@@ -1,6 +1,5 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { format } from 'date-fns'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
@@ -9,13 +8,12 @@ import {
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import UeCauseOfDeath from '../UeCauseOfDeath'
+import UeCauseOfDeath from './UeCauseOfDeath'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const _format = 'yyyy-MM-dd'
 const CAUSE_OF_DEATH = {
   id: 'termainalDodsorsak',
   label: 'A',
@@ -74,42 +72,37 @@ describe('Cause of death component', () => {
 
   it('renders, textinput, calendar button and drop down', () => {
     renderComponent(false, false)
-    const textboxes = screen.getAllByRole('textbox')
-    expect(textboxes).toHaveLength(2)
-    expect(textboxes[0]).toBeInTheDocument()
-    expect(textboxes[1]).toBeInTheDocument()
+    expect(screen.getByLabelText('Beskrivning')).toBeInTheDocument()
+    expect(screen.getByLabelText('Ungefärlig debut')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
     expect(screen.getByRole('combobox')).toBeInTheDocument()
   })
 
   it('renders component with correct default values', () => {
     renderComponent(false, false)
-    const textboxes = screen.getAllByRole('textbox')
     const dropdown = screen.getByRole('combobox')
-    expect(textboxes[0]).toHaveValue('')
-    expect(textboxes[1]).toHaveValue('')
+    expect(screen.getByLabelText('Beskrivning')).toHaveValue('')
+    expect(screen.getByLabelText('Ungefärlig debut')).toHaveValue('')
     expect(dropdown).toHaveValue('')
   })
 
   it('does not disable component if disabled is not set', () => {
     renderComponent(false, false)
     const dropdown = screen.getByRole('combobox')
-    const textboxes = screen.getAllByRole('textbox')
     const button = screen.getByRole('button')
     expect(dropdown).not.toBeDisabled()
-    expect(textboxes[0]).not.toBeDisabled()
-    expect(textboxes[1]).not.toBeDisabled()
+    expect(screen.getByLabelText('Beskrivning')).not.toBeDisabled()
+    expect(screen.getByLabelText('Ungefärlig debut')).not.toBeDisabled()
     expect(button).not.toBeDisabled()
   })
 
   it('disables component if disabled is set', () => {
     renderComponent(true, false)
     const dropdown = screen.getByRole('combobox')
-    const textboxes = screen.getAllByRole('textbox')
     const button = screen.getByRole('button')
     expect(dropdown).toBeDisabled()
-    expect(textboxes[0]).toBeDisabled()
-    expect(textboxes[1]).toBeDisabled()
+    expect(screen.getByLabelText('Beskrivning')).toBeDisabled()
+    expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
     expect(button).toBeDisabled()
   })
 
@@ -118,31 +111,31 @@ describe('Cause of death component', () => {
 
     const inputDate = '20200202'
     const expected = '2020-02-02'
-    const inputs = screen.getAllByRole('textbox')
-    userEvent.type(inputs[1], inputDate)
-    expect(inputs[1]).toHaveValue(expected)
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, inputDate)
+    expect(input).toHaveValue(expected)
   })
 
   it('should display error when input is not a complete date', () => {
     renderComponent(false, false)
-    const inputs = screen.getAllByRole('textbox')
-    userEvent.type(inputs[1], '2020-01')
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, '2020-01')
     userEvent.tab()
     expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
   })
 
   it('should display error when input is not a valid date', () => {
     renderComponent(false, false)
-    const inputs = screen.getAllByRole('textbox')
-    userEvent.type(inputs[1], 'test')
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, 'test')
     userEvent.tab()
     expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
   })
 
   it('should not display error when input is a valid date', () => {
     renderComponent(false, false)
-    const inputs = screen.getAllByRole('textbox')
-    userEvent.type(inputs[1], '20200101')
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, '20200101')
     userEvent.tab()
     expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
