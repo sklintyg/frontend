@@ -2,7 +2,7 @@ import { CertificateDataElement, ConfigureUeCauseOfDeathList, QuestionValidation
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import UeCauseOfDeath from './UeCauseOfDeath'
+import UeCauseOfDeath from './UeCauseOfDeath/UeCauseOfDeath'
 
 export interface Props {
   disabled: boolean
@@ -19,7 +19,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
       return null
     }
     return causes.map((cause, index) => {
-      const value = (question.value as ValueCauseOfDeathList).list.find((item) => item.id !== cause.id)
+      const value = (question.value as ValueCauseOfDeathList).list.find((item) => item.id === cause.id)
       return (
         <UeCauseOfDeath
           config={cause}

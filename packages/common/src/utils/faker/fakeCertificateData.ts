@@ -22,6 +22,7 @@ import {
   ConfigUeTypeahead,
   ConfigureUeUncertainDate,
   ConfigureUeCauseOfDeath,
+  ConfigureUeCauseOfDeathList,
   Value,
   ValueBoolean,
   ValueCode,
@@ -34,6 +35,7 @@ import {
   ValueIcf,
   ValueText,
   ValueCauseOfDeath,
+  ValueCauseOfDeathList,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeList } from './fakeList'
@@ -402,6 +404,7 @@ export const fakeCauseOfDeathElement = (
     {
       ...data,
       config: {
+        id: '1',
         type: ConfigTypes.UE_CAUSE_OF_DEATH,
         label: 'A',
         title: 'Den terminala dödsorsaken var',
@@ -419,6 +422,84 @@ export const fakeCauseOfDeathElement = (
         specification: 'KRONISK',
         ...data?.value,
         type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+    },
+    children
+  )
+
+export const fakeCauseOfDeathListElement = (
+  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeathList, ValueCauseOfDeathList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
+        list: [
+          {
+            id: 'A',
+            type: ConfigTypes.UE_CAUSE_OF_DEATH,
+            label: 'A',
+            specifications: [
+              { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+              { id: 'KRONISK', label: 'Kronisk' },
+              { id: 'PLOTSLIG', label: 'Plötslig' },
+            ],
+          },
+          {
+            id: 'B',
+            type: ConfigTypes.UE_CAUSE_OF_DEATH,
+            label: 'B',
+            title: 'Som var en följd av',
+            specifications: [
+              { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+              { id: 'KRONISK', label: 'Kronisk' },
+              { id: 'PLOTSLIG', label: 'Plötslig' },
+            ],
+          },
+          {
+            id: 'C',
+            type: ConfigTypes.UE_CAUSE_OF_DEATH,
+            label: 'C',
+            title: 'Som var en följd av',
+            specifications: [
+              { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+              { id: 'KRONISK', label: 'Kronisk' },
+              { id: 'PLOTSLIG', label: 'Plötslig' },
+            ],
+          },
+        ],
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
+        list: [
+          {
+            id: 'A',
+            description: 'Unguis incarnatus',
+            debut: '1960-04-23',
+            specification: 'KRONISK',
+            ...data?.value,
+            type: CertificateDataValueType.CAUSE_OF_DEATH,
+          },
+          {
+            id: 'B',
+            description: 'Hallux valgus',
+            debut: '1965-04-23',
+            specification: 'PLOTSLIG',
+            ...data?.value,
+            type: CertificateDataValueType.CAUSE_OF_DEATH,
+          },
+          {
+            id: 'C',
+            description: 'Arthritis urica',
+            debut: '1970-04-23',
+            specification: 'UPPGIFT_SAKNAS',
+            ...data?.value,
+            type: CertificateDataValueType.CAUSE_OF_DEATH,
+          },
+        ],
       },
     },
     children
