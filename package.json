@@ -178,7 +178,6 @@
           "ignoreRefs": true
         }
       ],
-      "react/no-did-update-set-state": "error",
       "react/self-closing-comp": "error",
       "sort-imports": "warn"
     },
