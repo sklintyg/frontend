@@ -486,7 +486,7 @@ export const fakeCauseOfDeathListElement = (
           {
             id: 'B',
             description: 'Hallux valgus',
-            debut: '1965-04-23',
+            debut: '1965-05-16',
             specification: 'PLOTSLIG',
             ...data?.value,
             type: CertificateDataValueType.CAUSE_OF_DEATH,
@@ -494,7 +494,7 @@ export const fakeCauseOfDeathListElement = (
           {
             id: 'C',
             description: 'Arthritis urica',
-            debut: '1970-04-23',
+            debut: '1970-10-04',
             specification: 'UPPGIFT_SAKNAS',
             ...data?.value,
             type: CertificateDataValueType.CAUSE_OF_DEATH,

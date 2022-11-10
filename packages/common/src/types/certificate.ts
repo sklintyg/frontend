@@ -248,6 +248,7 @@ export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
 }
 
 export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
+  itemCount?: number
   list: ConfigureUeCauseOfDeath[]
 }
 

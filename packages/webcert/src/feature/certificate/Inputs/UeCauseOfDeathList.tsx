@@ -9,15 +9,21 @@ export interface Props {
   question: CertificateDataElement
 }
 
-const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
+const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
+  const itemCount: number | null | undefined = (question.config as ConfigureUeCauseOfDeathList).itemCount
   const causes = (question.config as ConfigureUeCauseOfDeathList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
-  const renderCheckboxes = () => {
+  const renderCauseOfDeathList = () => {
     if (!causes) {
       return null
     }
+
+    if (itemCount) {
+      causes.splice(itemCount)
+    }
+
     return causes.map((cause, index) => {
       const value = (question.value as ValueCauseOfDeathList).list.find((item) => item.id === cause.id)
       return (
@@ -34,13 +40,13 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="checkbox-group-wrapper">
+    <div className="cause-of-death-list-wrapper">
       <div>
-        <div className="checkbox-child">{renderCheckboxes()}</div>
+        <div className="cause-of-death-child">{renderCauseOfDeathList()}</div>
         {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
       </div>
     </div>
   )
 }
 
-export default UeCheckboxGroup
+export default UeCauseOfDeathList
