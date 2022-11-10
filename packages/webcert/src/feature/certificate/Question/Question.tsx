@@ -32,6 +32,8 @@ import UeMessage from '../Inputs/UeMessage'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeTextField from '../Inputs/UeTextField'
 import QuestionHeading from './QuestionHeading'
+import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
+import UeCauseOfDeathList from '../Inputs/UeCauseOfDeathList'
 
 export interface QuestionProps {
   id: string
@@ -119,6 +121,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeTextField {...commonProps} />
       case ConfigTypes.UE_DATE:
         return <UeDate {...commonProps} />
+      case ConfigTypes.UE_CAUSE_OF_DEATH:
+        return <UeCauseOfDeath {...commonProps} />
+      case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
+        return <UeCauseOfDeathList {...commonProps} />
       case ConfigTypes.UE_HEADER:
         return
       default:
