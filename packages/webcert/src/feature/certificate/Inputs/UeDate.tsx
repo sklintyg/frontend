@@ -28,7 +28,7 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = [
     ...useSelector(getVisibleValidationErrors(question.id, questionConfig.id)),
-    ...(question.validationErrors || []),
+    ...(isShowValidationError && question.validationErrors ? question.validationErrors : []),
   ]
 
   const deleteDateFromSavedValue = () => {
@@ -69,15 +69,13 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         inputString={dateString}
         questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
-        displayValidationErrorOutline={isShowValidationError}
+        displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
       />
-      {isShowValidationError && (
-        <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={validationErrors} />
-        </ValidationWrapper>
-      )}
+      <ValidationWrapper>
+        <QuestionValidationTexts validationErrors={validationErrors} />
+      </ValidationWrapper>
     </>
   )
 }
