@@ -33,6 +33,9 @@ import {
   CARE_UNIT_ADDRESS_CATEGORY_TITLE,
   CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
   CARE_UNIT_ADDRESS_FIELD,
+  PATIENT_ADDRESS_CATEGORY_TITLE,
+  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+  PATIENT_STREET_FIELD,
   decorateCertificateWithInitialValues,
   getSortedValidationErrorSummary,
   getValidationErrors,
@@ -548,7 +551,7 @@ describe('Validate multiple show rules', () => {
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1.2',
+        questionId: '2.2',
         expression: '$aktivitetsbegransning',
       },
       {
@@ -1078,13 +1081,34 @@ describe('Set initial values to a certificate', () => {
     expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
   })
 
+  describe('Intialize values for autoFill validation', () => {
+    const certificate = getCertificate()
+
+    it('should autoFill value if validation is true', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
+    })
+
+    it('should not autoFill value if validation is false', () => {
+      const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
+      booleanValue.selected = true
+
+      decorateCertificateWithInitialValues(certificate)
+
+      expect((certificate.data['1.3'].value as ValueText).text).toBe(null)
+    })
+  })
+
   describe('Intialize values when certificate is not UNSIGNED', () => {
     const certificate = getCertificate()
 
     const clearValues = () => {
       for (const id in certificate.data) {
         certificate.data[id].value = null
-        certificate.data[id].visible = false
         certificate.data[id].readOnly = false
         certificate.data[id].disabled = false
       }
@@ -1168,31 +1192,56 @@ describe('Set initial values to a certificate', () => {
     expect(result.length).toBe(0)
   })
 
+  it('should return empty array on non existing field', () => {
+    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationErrors: ValidationError[] = []
+    validationErrors.push(validationError)
+
+    const result = getValidationErrors(validationErrors, 'NON_EXISTING_FIELD')
+
+    expect(result.length).toBe(0)
+  })
+
+  it('should return validation errors from field', () => {
+    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationErrors: ValidationError[] = []
+    validationErrors.push(validationError)
+
+    const result = getValidationErrors(validationErrors, PATIENT_STREET_FIELD)
+
+    expect(result.length).toBe(1)
+    expect(result[0].field).toBe(PATIENT_STREET_FIELD)
+  })
+
   it('should return empty validation error summary', () => {
     const result = getSortedValidationErrorSummary(certificate, [])
 
     expect(result.length).toBe(0)
   })
 
-  it('should return sorted validation error summary including care unit address', () => {
+  it('should return sorted validation error summary including patient and care unit address', () => {
     const certificate = getCertificate()
     const validationError: ValidationError = { id: '', category: '', field: '', type: '', text: '' }
     certificate.data['1.2'].validationErrors.push(validationError)
     certificate.data['28'].validationErrors.push(validationError)
     certificate.metadata.careUnitValidationErrors = []
     certificate.metadata.careUnitValidationErrors.push(validationError)
+    certificate.metadata.patientValidationErrors = []
+    certificate.metadata.patientValidationErrors.push(validationError)
 
     const result = getSortedValidationErrorSummary(certificate, [])
 
-    expect(result.length).toBe(3)
-    expect(result[0].id).toBe('sysselsattning')
-    expect(result[0].text).toBe('Sysselsättning')
-    expect(result[0].index).toBe(6)
-    expect(result[1].id).toBe('funktionsnedsattning')
-    expect(result[1].text).toBe('Sjukdomens konsekvenser')
-    expect(result[1].index).toBe(11)
-    expect(result[2].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
-    expect(result[2].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
+    expect(result.length).toBe(4)
+    expect(result[0].id).toBe(PATIENT_ADDRESS_CATEGORY_TITLE_ID)
+    expect(result[0].text).toBe(PATIENT_ADDRESS_CATEGORY_TITLE)
+    expect(result[1].id).toBe('sysselsattning')
+    expect(result[1].text).toBe('Sysselsättning')
+    expect(result[1].index).toBe(6)
+    expect(result[2].id).toBe('funktionsnedsattning')
+    expect(result[2].text).toBe('Sjukdomens konsekvenser')
+    expect(result[2].index).toBe(11)
+    expect(result[3].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
+    expect(result[3].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
   })
 
   it('should include client validation errors in result', () => {
@@ -1287,6 +1336,13 @@ describe('Validate expressions only when visible', () => {
     const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
     expect(result).toBe(true)
   })
+
+  it('should return false if date has a value and element is not visible', () => {
+    ;(element.value as ValueDate).date = '2022-01-01'
+    element.visible = false
+    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    expect(result).toBe(false)
+  })
 })
 
 describe('autoFillElement', () => {
@@ -1319,6 +1375,31 @@ describe('autoFillElement', () => {
     )
 
     expect(radioBooleanElement?.value?.selected).toEqual(true)
+  })
+})
+
+describe('Validate expressions with boolean values set to null or undefined should not be showed', () => {
+  const element = getBooleanElement()
+
+  it('should return false if selected is undefined for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is undefined for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = undefined
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for negative expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+  it('should return false if selected is null for positive expression', () => {
+    ;(element.value as ValueBoolean).selected = null
+    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 

@@ -5,18 +5,44 @@ import userEvent from '@testing-library/user-event'
 import UeDate from '../UeDate'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
-import { fakeDateElement } from '@frontend/common'
+import { fakeDateElement, getCertificateWithQuestion } from '@frontend/common'
+import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
+const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
 const QUESTION_ID = 'datepicker'
+const VALIDATION = [
+  {
+    category: 'category',
+    field: QUESTION_ID,
+    id: QUESTION_ID,
+    text: VALIDATION_ERROR,
+    type: 'type',
+  },
+]
 
 const question = fakeDateElement({ id: QUESTION_ID })[QUESTION_ID]
+
+const questionWithValidationError = fakeDateElement({
+  id: QUESTION_ID,
+  validationErrors: VALIDATION,
+})[QUESTION_ID]
 
 const renderComponent = (disabled: boolean) => {
   render(
     <>
       <Provider store={store}>
         <UeDate question={question} disabled={disabled} />
+      </Provider>
+    </>
+  )
+}
+
+const renderComponentWithValidationErrors = (disabled: boolean) => {
+  render(
+    <>
+      <Provider store={store}>
+        <UeDate question={questionWithValidationError} disabled={disabled} />
       </Provider>
     </>
   )
@@ -92,5 +118,13 @@ describe('DatePicker component', () => {
     const button = screen.getByRole('button')
     expect(input).toHaveValue('2022-09-29')
     expect(button).toHaveValue('2022-09-29')
+  })
+
+  it('renders validation message when there is a validation error', () => {
+    store.dispatch(updateCertificate(getCertificateWithQuestion(questionWithValidationError)))
+    renderComponentWithValidationErrors(false)
+    store.dispatch(showValidationErrors())
+    expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+    store.dispatch(hideValidationErrors())
   })
 })

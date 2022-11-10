@@ -25,6 +25,7 @@ const additionalHeaderStyles = css`
 const additionalContentStyles = css`
   background-color: rgb(1, 165, 163) !important;
   color: white;
+  padding: 20px;
 
   p + p {
     margin-top: 0;
