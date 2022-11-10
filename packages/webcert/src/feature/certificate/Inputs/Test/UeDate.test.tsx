@@ -107,7 +107,7 @@ describe('DatePicker component', () => {
     expect(button).toHaveValue('2022-09-29')
   })
 
-  it('should display server validation errors on question.config.field', () => {
+  it('should display server validation errors on question.config.id (field)', () => {
     const question = fakeDateElement({
       config: { id: 'field' },
       id: QUESTION_ID,
