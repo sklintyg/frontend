@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
@@ -95,20 +95,17 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
   const [hovered, setHovered] = useState<number>(-1)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
 
-  const onClick = useCallback(
-    (suggestion: Suggestion) => {
-      if (!suggestion.disabled) {
-        onSuggestionSelected(suggestion.label)
-      }
-    },
-    [onSuggestionSelected]
-  )
-
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     setCursor(-1)
     setHovered(-1)
     onClose()
-  }, [onClose])
+  }
+
+  const onClick = (suggestion: Suggestion) => {
+    if (!suggestion.disabled) {
+      onSuggestionSelected(suggestion.label)
+    }
+  }
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
@@ -132,12 +129,12 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     if ((enterPress || tabPress) && suggestions.length >= cursor && cursor >= 0 && open) {
       onClick(suggestions[cursor])
     }
-  }, [cursor, enterPress, onClick, open, suggestions, tabPress])
+  }, [enterPress, tabPress])
   useEffect(() => {
     if (escPress && open) {
       handleClose()
     }
-  }, [escPress, handleClose, open])
+  }, [escPress])
   useEffect(() => {
     if (cursor >= 0 && suggestions[cursor].label.length > 0 && cursor !== hovered) {
       const element = typeaheadList.current
@@ -151,7 +148,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
         })
       }
     }
-  }, [cursor, hovered, suggestions])
+  }, [cursor])
 
   const updateHovered = (i: number) => {
     setHovered(i)
