@@ -43,6 +43,16 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
+const Description = styled.div<{ hasLabel: boolean }>`
+  grid-column: ${(props) => (props.hasLabel ? 1 / 2 : 1)};
+  grid-row: 1;
+`
+
+const DateAndSpec = styled.div<{ hasLabel: boolean }>`
+  display: flex;
+  grid-column: ${(props) => (props.hasLabel ? 1 : 2)};
+  grid-row: ${(props) => (props.hasLabel ? 2 : 1)};
+`
 
 const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question }) => {
   const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
@@ -58,28 +68,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
     : undefined
 
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }].concat(config.specifications)
-
-  const descriptionCss = config.label
-    ? css`
-        grid-column: 1 / span 2;
-        grid-row: 1;
-      `
-    : css`
-        grid-column: 1;
-        grid-row: 1;
-      `
-
-  const dateAndSpecCss = config.label
-    ? css`
-        display: flex;
-        grid-column: 1;
-        grid-row: 2;
-      `
-    : css`
-        display: flex;
-        grid-column: 2;
-        grid-row: 1;
-      `
+  const hasLabel = config.label ? true : false
 
   const dateAndSpec = css`
     min-width: 25ch;
@@ -161,7 +150,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
       <div>
         {config.label && <div className="iu-fl iu-fs-700 iu-mr-400">{config.label}</div>}
         <Wrapper>
-          <div css={descriptionCss}>
+          <Description hasLabel={hasLabel}>
             <TextInput
               label="Beskrivning"
               id={'description_' + config.id}
@@ -172,8 +161,8 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
               limit={textValidation ? textValidation.limit : 100}
               additionalStyles={inputHeight}
             />
-          </div>
-          <div css={dateAndSpecCss}>
+          </Description>
+          <DateAndSpec hasLabel={hasLabel}>
             <div css={dateAndSpec}>
               <DatePickerCustom
                 additionalStyles="iu-mr-500"
@@ -211,7 +200,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
                 height="47px"
               />
             </div>
-          </div>
+          </DateAndSpec>
         </Wrapper>
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={validationErrors} />
