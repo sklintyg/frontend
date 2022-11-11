@@ -1,4 +1,10 @@
-import { CertificateDataElement, ConfigureUeCauseOfDeathList, QuestionValidationTexts, ValueCauseOfDeathList } from '@frontend/common'
+import {
+  CertificateDataElement,
+  ConfigureUeCauseOfDeathList,
+  QuestionValidationTexts,
+  ValueCauseOfDeathList,
+  ValueCauseOfDeath,
+} from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
@@ -25,7 +31,9 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
     }
 
     return causes.map((cause, index) => {
-      const value = (question.value as ValueCauseOfDeathList).list.find((item) => item.id === cause.id)
+      const value: ValueCauseOfDeath = (question.value as ValueCauseOfDeathList).list
+        ? ((question.value as ValueCauseOfDeathList).list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
+        : ({ id: cause.id } as ValueCauseOfDeath)
       return (
         <UeCauseOfDeath
           config={cause}
