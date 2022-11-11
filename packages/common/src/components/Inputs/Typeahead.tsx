@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
@@ -95,6 +95,21 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
   const [hovered, setHovered] = useState<number>(-1)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
 
+  const onClick = useCallback(
+    (suggestion: Suggestion) => {
+      if (!suggestion.disabled) {
+        onSuggestionSelected(suggestion.label)
+      }
+    },
+    [onSuggestionSelected]
+  )
+
+  const handleClose = useCallback(() => {
+    setCursor(-1)
+    setHovered(-1)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
   }, [open, suggestions])
@@ -143,12 +158,6 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     setCursor(i)
   }
 
-  const handleClose = useCallback(() => {
-    setCursor(-1)
-    setHovered(-1)
-    onClose()
-  })
-
   const getItemClassName = (item: Suggestion, index: number) => {
     const isCursor = index === cursor
     const isHoverDifferentFromCursor = cursor >= 0 && hovered === index && hovered !== cursor
@@ -160,12 +169,6 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
       return 'iu-bg-main iu-color-white'
     }
   }
-
-  const onClick = useCallback((suggestion: Suggestion) => {
-    if (!suggestion.disabled) {
-      onSuggestionSelected(suggestion.label)
-    }
-  })
 
   const renderSuggestions = () => {
     if (suggestions.length === 0) {

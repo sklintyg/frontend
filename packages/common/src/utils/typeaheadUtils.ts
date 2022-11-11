@@ -1,4 +1,4 @@
-export const GetFilteredSuggestions = function(typeAheadlist: string[], text: string) {
+export const GetFilteredSuggestions = function(typeAheadlist: string[], text: string): string[] {
   const sortResult = [
     ...typeAheadlist.filter((suggestion: string) => suggestion.toLowerCase().startsWith(text.toLowerCase())),
     ...typeAheadlist.filter((suggestion: string) => suggestion.toLowerCase().indexOf(text.toLowerCase()) >= 0).sort(),
