@@ -161,6 +161,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       dispatchUpdateDiagnosis(question, code, newDescription, selectedCodeSystem)
     }
     dispatchTypeahead(newDescription, selectedCodeSystem)
+    dispatchUpdateDiagnosis.cancel()
   }
 
   const dispatchTypeahead = useRef(
