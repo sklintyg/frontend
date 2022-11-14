@@ -16,43 +16,34 @@ export interface Props {
 }
 
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
-  const itemCount: number | null | undefined = (question.config as ConfigureUeCauseOfDeathList).itemCount
-  const causes = (question.config as ConfigureUeCauseOfDeathList).list
+  const questionConfig = question.config
+  const questionValue = question.value
+  const itemCount: number | null | undefined = (questionConfig as ConfigureUeCauseOfDeathList).itemCount
+  const causes = (questionConfig as ConfigureUeCauseOfDeathList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
 
-  const renderCauseOfDeathList = () => {
-    if (!causes) {
-      return null
-    }
-
-    if (itemCount) {
-      causes.splice(itemCount)
-    }
-
-    return causes.map((cause, index) => {
-      const value: ValueCauseOfDeath = (question.value as ValueCauseOfDeathList).list
-        ? ((question.value as ValueCauseOfDeathList).list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
-        : ({ id: cause.id } as ValueCauseOfDeath)
-      return (
-        <UeCauseOfDeath
-          config={cause}
-          value={value}
-          key={index}
-          disabled={disabled}
-          hasValidationError={shouldDisplayValidationError}
-          question={question}
-        />
-      )
-    })
-  }
-
   return (
-    <div className="cause-of-death-list-wrapper">
+    <div>
       <div>
-        <div className="cause-of-death-child">{renderCauseOfDeathList()}</div>
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        {causes &&
+          causes.slice(0, itemCount).map((cause, index) => {
+            const value: ValueCauseOfDeath = (questionValue as ValueCauseOfDeathList).list
+              ? ((questionValue as ValueCauseOfDeathList).list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
+              : ({ id: cause.id } as ValueCauseOfDeath)
+            return (
+              <UeCauseOfDeath
+                config={cause}
+                value={value}
+                key={index}
+                disabled={disabled}
+                hasValidationError={shouldDisplayValidationError}
+                question={question}
+              />
+            )
+          })}
       </div>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
 }
