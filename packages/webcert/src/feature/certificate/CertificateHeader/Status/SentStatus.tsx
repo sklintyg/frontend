@@ -6,11 +6,28 @@ interface Props {
 }
 
 const SentStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  return (
-    <StatusWithIcon icon={'CheckIcon'}>
-      Intyget är skickat till {certificateMetadata.type === 'lisjp' ? 'Försäkringskassan' : 'Arbetsförmedlingen'}
-    </StatusWithIcon>
-  )
+  let reciever = ''
+  switch (certificateMetadata.type) {
+    case 'lisjp':
+      reciever = 'Försäkringskassan'
+      break
+    case 'af00213':
+      reciever = 'Arbetsförmedlingen'
+      break
+    case 'ag7804':
+      reciever = 'arbetsgivaren'
+      break
+    case 'db':
+      reciever = 'Skatteverket'
+      break
+    case 'doi':
+      reciever = 'Socialstyrelsen'
+      break
+    default:
+      reciever = 'okänd mottagare'
+      break
+  }
+  return <StatusWithIcon icon={'CheckIcon'}>Intyget är skickat till {reciever}</StatusWithIcon>
 }
 
 export default SentStatus
