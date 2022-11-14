@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import classNames from 'classnames'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components'
+import { css } from 'styled-components/macro'
 
 const DropdownDiv = styled.div<{ height?: string }>`
   ${(props) =>
