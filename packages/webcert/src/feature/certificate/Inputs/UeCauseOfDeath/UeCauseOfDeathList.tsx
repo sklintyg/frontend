@@ -2,13 +2,13 @@ import {
   CertificateDataElement,
   ConfigureUeCauseOfDeathList,
   QuestionValidationTexts,
-  ValueCauseOfDeathList,
   ValueCauseOfDeath,
+  ValueCauseOfDeathList,
 } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import UeCauseOfDeath from './UeCauseOfDeath/UeCauseOfDeath'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 export interface Props {
   disabled: boolean
@@ -18,7 +18,6 @@ export interface Props {
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config
   const questionValue = question.value
-  const itemCount: number | null | undefined = (questionConfig as ConfigureUeCauseOfDeathList).itemCount
   const causes = (questionConfig as ConfigureUeCauseOfDeathList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -27,12 +26,13 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
     <div>
       <div>
         {causes &&
-          causes.slice(0, itemCount).map((cause, index) => {
+          causes.map((cause, index) => {
             const value: ValueCauseOfDeath = (questionValue as ValueCauseOfDeathList).list
               ? ((questionValue as ValueCauseOfDeathList).list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
               : ({ id: cause.id } as ValueCauseOfDeath)
+
             return (
-              <UeCauseOfDeath
+              <UeCauseOfDeathControl
                 config={cause}
                 value={value}
                 key={index}

@@ -3,7 +3,7 @@ import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
-import UeCauseOfDeathList, { Props } from './UeCauseOfDeathList'
+import UeCauseOfDeathList, { Props } from './UeCauseOfDeath/UeCauseOfDeathList'
 
 export default {
   title: 'Webcert/UeCauseOfDeathList',

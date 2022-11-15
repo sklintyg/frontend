@@ -242,16 +242,27 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
-export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
+export interface ConfigureUeCauseOfDeathSpecification {
   id: string
+  code: string
   label: string
-  title: string
-  specifications: ConfigUeDropdownItem[]
+}
+
+export interface ConfigureUeCauseOfDeathControl {
+  id: string
+  descriptionId: string
+  debutId: string
+  specifications: ConfigureUeCauseOfDeathSpecification[]
+}
+
+export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
+  label?: string
+  causeOfDeath: ConfigureUeCauseOfDeathControl
 }
 
 export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
   itemCount?: number
-  list: ConfigureUeCauseOfDeath[]
+  list: ConfigureUeCauseOfDeathControl[]
 }
 
 // Values
@@ -292,7 +303,7 @@ export interface ValueCode extends Value {
 
 export interface ValueDate extends Value {
   id: string
-  date?: string
+  date: string | null
 }
 
 export interface ValueDateList extends Value {
@@ -325,7 +336,7 @@ export interface ValueCodeList extends Value {
 }
 
 export interface ValueText extends Value {
-  text: string | null
+  text: string | undefined
   id: string
 }
 
@@ -336,9 +347,9 @@ export interface ValueUncertainDate extends Value {
 
 export interface ValueCauseOfDeath extends Value {
   id: string
-  description: string
-  debut: string
-  specification: string
+  description: ValueText
+  debut: ValueDate
+  specification: ValueCode
 }
 
 export interface ValueCauseOfDeathList extends Value {
