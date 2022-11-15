@@ -303,7 +303,7 @@ export interface ValueCode extends Value {
 
 export interface ValueDate extends Value {
   id: string
-  date: string | null
+  date?: string
 }
 
 export interface ValueDateList extends Value {
@@ -336,7 +336,7 @@ export interface ValueCodeList extends Value {
 }
 
 export interface ValueText extends Value {
-  text: string | undefined
+  text: string | null
   id: string
 }
 
