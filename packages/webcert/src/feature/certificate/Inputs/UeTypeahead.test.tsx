@@ -111,4 +111,17 @@ describe('Typeahead component', () => {
       }, 30)
     }, 30)
   })
+
+  it('Render correct suggestions', () => {
+    renderDefaultComponent()
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    userEvent.type(input, 'ors')
+    const listItems = screen.queryAllByRole('option')
+    expect(listItems[0].title).toBe('ORSA')
+    expect(listItems[1].title).toBe('BENGTSFORS')
+    expect(listItems[2].title).toBe('DEGERFORS')
+    expect(listItems[3].title).toBe('FORSHAGA')
+    expect(listItems[4].title).toBe('HAGFORS')
+  })
 })
