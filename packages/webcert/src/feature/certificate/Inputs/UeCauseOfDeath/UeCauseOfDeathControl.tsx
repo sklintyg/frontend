@@ -43,14 +43,14 @@ const ValidationWrapper = styled.div`
   margin-top: 0;
 `
 const Description = styled.div<{ oneLine: boolean }>`
-  grid-column: ${(props) => (props.oneLine ? 1 / 2 : 1)};
+  grid-column: ${(props) => (props.oneLine ? 1 : 1 / 2)};
   grid-row: 1;
 `
 
 const DateAndSpec = styled.div<{ oneLine: boolean }>`
   display: flex;
-  grid-column: ${(props) => (props.oneLine ? 1 : 2)};
-  grid-row: ${(props) => (props.oneLine ? 2 : 1)};
+  grid-column: ${(props) => (props.oneLine ? 2 : 1)};
+  grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
 
 const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question }) => {

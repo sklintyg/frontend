@@ -132,13 +132,13 @@ describe('Cause of death component', () => {
     expect(input).toHaveValue(expected)
   })
 
-  it('should display error when input is not a complete date', () => {
-    renderComponent(false, false)
-    const input = screen.getByLabelText('Ungefärlig debut')
-    userEvent.type(input, '2020-01')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
+  // it('should display error when input is not a complete date', () => {
+  //   renderComponent(false, false)
+  //   const input = screen.getByLabelText('Ungefärlig debut')
+  //   userEvent.type(input, '2020-01')
+  //   userEvent.tab()
+  //   expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
+  // })
 
   // it('should display error when input is not a valid date', () => {
   //   renderComponent(false, false)
