@@ -75,7 +75,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       if (result.length === 0) {
         dispatchEditDraft(question, newText)
       }
-      console.log(result)
     }
   }
 
