@@ -59,7 +59,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       setText(newText)
 
       setOpen(true)
-      dispatchEditDraft(question, newText)
       dispatchEditDraft.cancel()
 
       if (newText === undefined || newText === null) {
@@ -70,7 +69,13 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         setOpen(false)
       }
 
-      setSuggestions(GetFilteredSuggestions(questionConfig.typeAhead, newText))
+      const result = GetFilteredSuggestions(questionConfig.typeAhead, newText)
+      setSuggestions(result)
+
+      if (result.length === 0) {
+        dispatchEditDraft(question, newText)
+      }
+      console.log(result)
     }
   }
 
