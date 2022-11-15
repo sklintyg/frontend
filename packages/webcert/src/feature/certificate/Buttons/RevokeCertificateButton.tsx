@@ -7,7 +7,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import _ from 'lodash'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import trash from '@frontend/common/src/images/trash.svg'
-import { RevokeDBandDoiModalContent } from './RevokeDBandDoiModalContent'
+import { RevokeDBAndDOIModalContent } from './RevokeDBAndDOIModalContent'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -60,7 +60,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       onConfirm={handleDispatch}
       confirmButtonText="Makulera">
       {isDodsbevis || isDodsorsaksIntyg ? (
-        <RevokeDBandDoiModalContent />
+        <RevokeDBAndDOIModalContent />
       ) : (
         <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} />
       )}

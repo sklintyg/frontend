@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCertificateMetaData, getIsLocked } from '../../../store/certificate/certificateSelectors'
 
-export const RevokeDBandDoiModalContent: React.FC = () => {
+export const RevokeDBAndDOIModalContent: React.FC = () => {
   const locked = useSelector(getIsLocked)
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
   const isDodsbevis = metadata?.type === 'db'
