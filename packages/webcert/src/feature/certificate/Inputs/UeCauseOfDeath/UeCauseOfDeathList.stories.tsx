@@ -2,8 +2,8 @@ import { fakeCauseOfDeathListElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import UeCauseOfDeathList, { Props } from './UeCauseOfDeath/UeCauseOfDeathList'
+import store from '../../../../store/store'
+import UeCauseOfDeathList, { Props } from './UeCauseOfDeathList'
 
 export default {
   title: 'Webcert/UeCauseOfDeathList',

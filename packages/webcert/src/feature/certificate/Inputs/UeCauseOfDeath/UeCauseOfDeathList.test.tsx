@@ -6,6 +6,7 @@ import {
 } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
@@ -58,13 +59,92 @@ const question: CertificateDataElement = {
   parent: '',
   visible: true,
   readOnly: false,
-  value: { type: CertificateDataValueType.CAUSE_OF_DEATH_LIST },
   config: {
-    id: 'CauseOfDeathList',
-    list: CAUSES_OF_DEATH,
-    description: '',
-    text: '',
     type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
+    text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
+    description: '',
+    list: [
+      {
+        id: 'sjukdom1',
+        descriptionId: 'description1',
+        debutId: 'debut1',
+        specifications: [
+          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+        ],
+      },
+      {
+        id: 'sjukdom2',
+        descriptionId: 'description2',
+        debutId: 'debut2',
+        specifications: [
+          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+        ],
+      },
+      {
+        id: 'sjukdom3',
+        descriptionId: 'description3',
+        debutId: 'debut3',
+        specifications: [
+          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+        ],
+      },
+    ],
+  },
+  value: {
+    type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
+    list: [
+      {
+        id: 'sjukdom1',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description1',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut1',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom2',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description2',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut2',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom3',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description3',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut3',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+    ],
   },
   validation: [
     {
@@ -175,42 +255,58 @@ describe('Cause of death component', () => {
     })
   })
 
-  // it('formats input into yyyy-mm-dd', () => {
-  //   renderComponent(false)
-  //   const dates = screen.getAllByLabelText('Ungefärlig debut')
-  //   const inputDate = '20200202'
-  //   const expected = '2020-02-02'
-  //   dates.forEach((date) => {
-  //     userEvent.type(date, inputDate)
-  //     expect(date).toHaveValue(expected)
-  //   })
-  // })
+  it('formats input into yyyy-mm-dd', () => {
+    renderComponent(false)
+    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const inputDate = '20200202'
+    const expected = '2020-02-02'
+    dates.forEach((date) => {
+      userEvent.type(date, inputDate)
+      expect(date).toHaveValue(expected)
+    })
+  })
 
-  // it('should display error when input is not a complete date', () => {
-  //   renderComponent(false)
-  //   const dates = screen.getAllByLabelText('Ungefärlig debut')
-  //   dates.forEach((date) => {
-  //     userEvent.type(date, '2020-01')
-  //     userEvent.tab()
-  //     const error = screen.getByText(INVALID_DATE_MESSAGE)
-  //     expect(error).toBeInTheDocument()
-  //     userEvent.clear(date)
-  //     userEvent.tab()
-  //     expect(error).not.toBeInTheDocument()
-  //   })
-  // })
+  it('should display error when input is not a complete date', () => {
+    renderComponent(false)
+    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    dates.forEach((date) => {
+      userEvent.type(date, '2020-01')
+      userEvent.tab()
+      setTimeout(() => {
+        const error = screen.getByText(INVALID_DATE_MESSAGE)
+        expect(error).toBeInTheDocument()
+        userEvent.clear(date)
+        userEvent.tab()
+        setTimeout(() => expect(error).not.toBeInTheDocument(), 100)
+      }, 100)
+    })
+  })
 
-  // it('should display error when input is not a valid date', () => {
-  //   renderComponent(false)
-  //   const dates = screen.getAllByLabelText('Ungefärlig debut')
-  //   dates.forEach((date) => {
-  //     userEvent.type(date, 'test')
-  //     userEvent.tab()
-  //     const error = screen.getByText(INVALID_DATE_MESSAGE)
-  //     expect(error).toBeInTheDocument()
-  //     userEvent.clear(date)
-  //     userEvent.tab()
-  //     expect(error).not.toBeInTheDocument()
-  //   })
-  // })
+  it('should display error when input is not a valid date', () => {
+    renderComponent(false)
+    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    dates.forEach((date) => {
+      userEvent.type(date, 'test')
+      userEvent.tab()
+      setTimeout(() => {
+        const error = screen.getByText(INVALID_DATE_MESSAGE)
+        expect(error).toBeInTheDocument()
+        userEvent.clear(date)
+        userEvent.tab()
+        setTimeout(() => expect(error).not.toBeInTheDocument(), 100)
+      }, 100)
+    })
+  })
+
+  it('should not display error when input is a valid date', () => {
+    renderComponent(false)
+    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    dates.forEach((date) => {
+      userEvent.type(date, '20200101')
+      userEvent.tab()
+      setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument(), 100)
+      userEvent.clear(date)
+      userEvent.tab()
+    })
+  })
 })

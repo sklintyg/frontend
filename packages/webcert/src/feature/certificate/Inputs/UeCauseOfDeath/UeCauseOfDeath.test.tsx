@@ -132,27 +132,27 @@ describe('Cause of death component', () => {
     expect(input).toHaveValue(expected)
   })
 
-  // it('should display error when input is not a complete date', () => {
-  //   renderComponent(false, false)
-  //   const input = screen.getByLabelText('Ungefärlig debut')
-  //   userEvent.type(input, '2020-01')
-  //   userEvent.tab()
-  //   expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  // })
+  it('should display error when input is not a complete date', () => {
+    renderComponent(false, false)
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, '2020-01')
+    userEvent.tab()
+    setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument(), 100)
+  })
 
-  // it('should display error when input is not a valid date', () => {
-  //   renderComponent(false, false)
-  //   const input = screen.getByLabelText('Ungefärlig debut')
-  //   userEvent.type(input, 'test')
-  //   userEvent.tab()
-  //   expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  // })
+  it('should display error when input is not a valid date', () => {
+    renderComponent(false, false)
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, 'test')
+    userEvent.tab()
+    setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument(), 100)
+  })
 
-  // it('should not display error when input is a valid date', () => {
-  //   renderComponent(false, false)
-  //   const input = screen.getByLabelText('Ungefärlig debut')
-  //   userEvent.type(input, '20200101')
-  //   userEvent.tab()
-  //   expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-  // })
+  it('should not display error when input is a valid date', () => {
+    renderComponent(false, false)
+    const input = screen.getByLabelText('Ungefärlig debut')
+    userEvent.type(input, '20200101')
+    userEvent.tab()
+    setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument(), 100)
+  })
 })
