@@ -14,43 +14,41 @@ import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
-const CAUSES_OF_DEATH = [
+const VALIDATION_ERROR = 'Ange ett svar'
+const QUESTION_ID = 'checkbox'
+
+const CONFIG_LIST = [
   {
-    id: 'A',
-    type: ConfigTypes.UE_CAUSE_OF_DEATH,
-    label: 'A',
+    id: 'sjukdom1',
+    descriptionId: 'description1',
+    debutId: 'debut1',
     specifications: [
-      { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', label: 'Plötslig' },
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
     ],
   },
   {
-    id: 'B',
-    type: ConfigTypes.UE_CAUSE_OF_DEATH,
-    label: 'B',
-    title: 'Som var en följd av',
+    id: 'sjukdom2',
+    descriptionId: 'description2',
+    debutId: 'debut2',
     specifications: [
-      { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', label: 'Plötslig' },
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
     ],
   },
   {
-    id: 'C',
-    type: ConfigTypes.UE_CAUSE_OF_DEATH,
-    label: 'C',
-    title: 'Som var en följd av',
+    id: 'sjukdom3',
+    descriptionId: 'description3',
+    debutId: 'debut3',
     specifications: [
-      { id: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', label: 'Plötslig' },
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
     ],
   },
 ]
-
-const VALIDATION_ERROR = 'Ange ett svar'
-const QUESTION_ID = 'checkbox'
 
 const question: CertificateDataElement = {
   id: QUESTION_ID,
@@ -63,38 +61,7 @@ const question: CertificateDataElement = {
     type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
     text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
     description: '',
-    list: [
-      {
-        id: 'sjukdom1',
-        descriptionId: 'description1',
-        debutId: 'debut1',
-        specifications: [
-          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-        ],
-      },
-      {
-        id: 'sjukdom2',
-        descriptionId: 'description2',
-        debutId: 'debut2',
-        specifications: [
-          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-        ],
-      },
-      {
-        id: 'sjukdom3',
-        descriptionId: 'description3',
-        debutId: 'debut3',
-        specifications: [
-          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-        ],
-      },
-    ],
+    list: CONFIG_LIST,
   },
   value: {
     type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
@@ -173,17 +140,15 @@ describe('Cause of death component', () => {
 
   it('renders all components', () => {
     renderComponent(false)
-    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(CAUSES_OF_DEATH.length)
-    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(CAUSES_OF_DEATH.length)
-    expect(screen.getAllByRole('button')).toHaveLength(CAUSES_OF_DEATH.length)
-    expect(screen.getAllByRole('combobox')).toHaveLength(CAUSES_OF_DEATH.length)
+    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(CONFIG_LIST.length)
+    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(CONFIG_LIST.length)
+    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(CONFIG_LIST.length)
   })
 
   it('renders, textinput, calendar button and drop down', () => {
     renderComponent(false)
     const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByRole('combobox')
-    const buttons = screen.getAllByRole('button')
+    const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     descriptions.forEach((description) => {
       expect(description).toBeInTheDocument()
@@ -194,15 +159,12 @@ describe('Cause of death component', () => {
     dates.forEach((date) => {
       expect(date).toBeInTheDocument()
     })
-    buttons.forEach((button) => {
-      expect(button).toBeInTheDocument()
-    })
   })
 
   it('renders component with correct default values', () => {
     renderComponent(false)
     const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByRole('combobox')
+    const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     descriptions.forEach((description) => {
       expect(description).toHaveValue('')
@@ -218,7 +180,7 @@ describe('Cause of death component', () => {
   it('does not disable component if disabled is not set', () => {
     renderComponent(false)
     const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByRole('combobox')
+    const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     descriptions.forEach((description) => {
@@ -238,7 +200,7 @@ describe('Cause of death component', () => {
   it('Disable component if disabled is set', () => {
     renderComponent(true)
     const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByRole('combobox')
+    const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const buttons = screen.getAllByRole('button')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     descriptions.forEach((description) => {

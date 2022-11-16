@@ -67,7 +67,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
           })}
       </div>
       <CustomButton
-        disabled={noVisible >= causes.length}
+        disabled={disabled || noVisible >= causes.length}
         buttonStyle={'primary'}
         text="Lägg till ytterligare sjukdom"
         onClick={addRowClick}
