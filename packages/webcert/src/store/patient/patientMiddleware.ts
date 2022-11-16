@@ -18,6 +18,7 @@ import {
   setPatientError,
   updateCertificateTypes,
 } from './patientActions'
+import { getSessionStatusError } from '../session/sessionActions'
 
 const handleGetPatient: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(
@@ -72,12 +73,17 @@ const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: Mi
   dispatch(updateCertificateTypes(action.payload))
 }
 
+const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(updateCertificateTypes([]))
+}
+
 const middlewareMethods = {
   [getPatient.type]: handleGetPatient,
   [getPatientSuccess.type]: handleGetPatientSuccess,
   [getPatientError.type]: handleGetPatientError,
   [getCertificateTypes.type]: handleGetCertificateTypes,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
+  [getSessionStatusError.type]: handleGetSessionStatusError,
 }
 
 export const patientMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {
