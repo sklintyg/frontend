@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import Typeahead, { Suggestion } from '@frontend/common/src/components/Inputs/Typeahead'
-
+import { GetFilteredSuggestions } from '@frontend/common/src/utils/typeaheadUtils'
 import { css } from 'styled-components'
 
 export interface Props {
@@ -46,7 +46,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         const updatedValue = getUpdatedValue(question, value)
         dispatch(updateCertificateDataElement(updatedValue))
       }
-    }, 150)
+    }, 100)
   ).current
 
   const handleClose = () => {
@@ -59,7 +59,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       setText(newText)
 
       setOpen(true)
-      dispatchEditDraft(question, newText)
+      dispatchEditDraft.cancel()
 
       if (newText === undefined || newText === null) {
         return []
@@ -68,9 +68,13 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       if (newText.length === 0) {
         setOpen(false)
       }
-      setSuggestions(
-        questionConfig.typeAhead.filter((suggestion: string) => suggestion.toLowerCase().indexOf(newText.toLowerCase()) >= 0).sort()
-      )
+
+      const result = GetFilteredSuggestions(questionConfig.typeAhead, newText)
+      setSuggestions(result)
+
+      if (result.length === 0) {
+        dispatchEditDraft(question, newText)
+      }
     }
   }
 

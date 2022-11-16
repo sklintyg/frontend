@@ -87,6 +87,18 @@ describe('Date utils tests', () => {
     expect(date).toBeUndefined()
   })
 
+  it('get reasonable 1900-01-02 date with valid dashes string', () => {
+    const validDateStringDashes = '1900-01-02'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toEqual(new Date(1900, 0, 2))
+  })
+
+  it('get unreasonable 1900-01-01 date with valid dashes string', () => {
+    const validDateStringDashes = '1900-01-01'
+    const date = getValidDate(validDateStringDashes)
+    expect(date).toBeUndefined()
+  })
+
   it('get unreasonable 1200 date with valid dashes string', () => {
     const validDateStringDashes = '1212-12-12'
     const date = getValidDate(validDateStringDashes)

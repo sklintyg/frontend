@@ -45,7 +45,7 @@ interface QuestionState {
   isLoadingQuestions: boolean
 }
 
-const getInitialState = (): QuestionState => {
+const getInitialState = (functionDisablers?: FunctionDisabler[]): QuestionState => {
   return {
     questions: [],
     questionDraft: defaultQuestionDraft(),
@@ -58,7 +58,7 @@ const getInitialState = (): QuestionState => {
     isAnswerDraftSaved: {},
     isDisplayingCertificateDraft: false,
     isSendingQuestion: false,
-    functionDisablers: [],
+    functionDisablers: functionDisablers ? functionDisablers : [],
     errorId: '',
     isLoadingQuestions: false,
   }
@@ -109,7 +109,7 @@ const questionReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateDisplayValidationMessages, (state, action) => {
       state.isDisplayValidationMessages = action.payload
     })
-    .addCase(resetState, () => getInitialState())
+    .addCase(resetState, (state) => getInitialState(state.functionDisablers))
     .addCase(addAnswer, (state, action) => {
       const question = state.questions.find((question) => question.id === action.payload.questionId)
       if (question) {
