@@ -9,13 +9,13 @@ import {
   ConfigTypes,
   ConfigUeSickLeavePeriod,
   getValidDate,
+  getCertificateWithQuestion,
 } from '@frontend/common'
 import { Provider } from 'react-redux'
 import { addDays, isEqual } from 'date-fns'
 import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 import store from '../../../../store/store'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { getCertificateWithQuestion } from '@frontend/common/src'
 
 const LABEL = '25 procent'
 const QUESTION_ID = 'Test'
@@ -300,30 +300,19 @@ describe('UeSickLeavePeriod', () => {
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
   })
 
-  it('should show validation error if work hours is more than 168', () => {
+  it('should not allow working hours bigger than two digits', () => {
     renderDefaultComponent()
 
-    userEvent.type(screen.getByTestId('workingHours'), '170')
+    userEvent.type(screen.getByTestId('workingHours'), '100')
 
-    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
-    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument()
+    expect(screen.getByTestId('workingHours')).not.toHaveValue('100')
   })
 
-  it('should not show validation error if work hours is less than 168', () => {
+  it('should allow working hours smaller than two digits', () => {
     renderDefaultComponent()
 
-    userEvent.type(screen.getByTestId('workingHours'), '165')
+    userEvent.type(screen.getByTestId('workingHours'), '99')
 
-    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
-    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
-  })
-
-  it('should not show validation error if work hours is 168', () => {
-    renderDefaultComponent()
-
-    userEvent.type(screen.getByTestId('workingHours'), '168')
-
-    const expectedErrorMessage = 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.'
-    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
+    expect(screen.getByTestId('workingHours')).toHaveValue('99')
   })
 })
