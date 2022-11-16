@@ -128,13 +128,13 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
-                disabled={isFormEmpty || isFunctionDisabled}
+                disabled={isFormEmpty || isFunctionDisabled || questionDraft.message !== message}
                 buttonStyle={'primary'}
                 onClick={handleSendQuestion}
                 text={'Skicka'}
               />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || isFunctionDisabled}
+                disabled={isFormEmpty || isFunctionDisabled || questionDraft.message !== message}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad fråga'}
                 confirmButtonText={'Ja, radera'}
