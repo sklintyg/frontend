@@ -8,7 +8,6 @@ import {
 } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
@@ -16,10 +15,6 @@ export interface Props {
   disabled: boolean
   question: CertificateDataElement
 }
-
-const Wrapper = styled.div<{ visible: boolean }>`
-  display: ${(props) => (props.visible === false ? 'none' : 'block')};
-`
 
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config
@@ -52,8 +47,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
               visible = true
             }
 
-            return (
-              <Wrapper visible={visible}>
+            if (visible) {
+              return (
                 <UeCauseOfDeathControl
                   config={cause}
                   value={value}
@@ -62,8 +57,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   hasValidationError={shouldDisplayValidationError}
                   question={question}
                 />
-              </Wrapper>
-            )
+              )
+            } else return <></>
           })}
       </div>
       <CustomButton

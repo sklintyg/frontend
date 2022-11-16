@@ -140,9 +140,9 @@ describe('Cause of death component', () => {
 
   it('renders all components', () => {
     renderComponent(false)
-    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(CONFIG_LIST.length)
-    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(CONFIG_LIST.length)
-    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(CONFIG_LIST.length)
+    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(2)
+    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(2)
+    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(2)
   })
 
   it('renders, textinput, calendar button and drop down', () => {
@@ -270,5 +270,35 @@ describe('Cause of death component', () => {
       userEvent.clear(date)
       userEvent.tab()
     })
+  })
+
+  it('should add new row when button is clicked', () => {
+    renderComponent(false)
+    const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
+    userEvent.click(button)
+    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(3)
+    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(3)
+    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(3)
+  })
+
+  it('should not add more than 6 rows', () => {
+    renderComponent(false)
+    const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
+    userEvent.click(button)
+    setTimeout(() => {
+      userEvent.click(button)
+      setTimeout(() => userEvent.click(button), 100)
+      setTimeout(() => userEvent.click(button), 100)
+      setTimeout(() => userEvent.click(button), 100)
+      expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(7)
+      expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(7)
+      expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(7)
+      expect(button).not.toBeDisabled()
+      setTimeout(() => userEvent.click(button), 100)
+      expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(8)
+      expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(8)
+      expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(8)
+      expect(button).toBeDisabled()
+    }, 100)
   })
 })
