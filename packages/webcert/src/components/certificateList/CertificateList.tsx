@@ -80,7 +80,7 @@ const CertificateList: React.FC = () => {
       setShowDeathCertificateModal(true)
     } else if (hasMissingRelatedCertificate) {
       setMissingRelatedCertificate({
-        resourceLink: links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE),
+        resourceLink: links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION),
         certificateType,
         buttonText: `Skapa ${label.toLowerCase()}`,
       })
