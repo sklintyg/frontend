@@ -1,20 +1,17 @@
+import { CertificateType, PatientStatus } from '@frontend/common/src/types/patient'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { patientMiddleware } from './patientMiddleware'
-import { getPatient, GetPatientResponse } from './patientActions'
-import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
-import { PatientStatus } from '@frontend/common/src/types/patient'
-import apiMiddleware from '../api/apiMiddleware'
+import MockAdapter from 'axios-mock-adapter'
 import { createPatient } from '../../components/patient/patientTestUtils'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { ErrorCode } from '../error/errorReducer'
+import reducer from '../reducers'
+import { getSessionStatusError } from '../session/sessionActions'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
+import { getPatient, GetPatientResponse, updateCertificateTypes } from './patientActions'
+import { patientMiddleware } from './patientMiddleware'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
-
-const mockHistory = {
-  push: jest.fn(),
-}
 
 describe('Test patient middleware', () => {
   let fakeAxios: MockAdapter
@@ -79,5 +76,35 @@ describe('Test patient middleware', () => {
 
     await flushPromises()
     expect(testStore.getState().ui.uiPatient.error.errorCode).toEqual(ErrorCode.GETTING_PATIENT_ERROR)
+  })
+
+  it('Should reset certificateTypes information on session error', () => {
+    const certificateTypes: CertificateType[] = [
+      {
+        description: 'description',
+        detailedDescription: 'detailedDescription',
+        id: 'id',
+        issuerTypeId: 'issuerTypeId',
+        label: 'label',
+        links: [],
+        message: 'message',
+      },
+    ]
+
+    testStore.dispatch(updateCertificateTypes(certificateTypes))
+
+    expect(testStore.getState().ui.uiPatient.certificateTypes).toEqual(certificateTypes)
+
+    testStore.dispatch(
+      getSessionStatusError({
+        error: {
+          api: 'api',
+          errorCode: 'errorCode',
+          message: 'message',
+        },
+      })
+    )
+
+    expect(testStore.getState().ui.uiPatient.certificateTypes).toEqual([])
   })
 })

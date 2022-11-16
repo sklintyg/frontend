@@ -50,6 +50,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { getSessionStatusError } from '../session/sessionActions'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -599,6 +600,27 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       const createdCertificateId = testStore.getState().ui.uiCertificate.createdCertificateId
       expect(createdCertificateId).toEqual(response.certificateId)
+    })
+  })
+
+  describe('Should handle failed session poll request', () => {
+    it('Should reset certificate information on session error', () => {
+      const certificate = getCertificate('certificateId')
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiCertificate.certificate).toEqual(certificate)
+
+      testStore.dispatch(
+        getSessionStatusError({
+          error: {
+            api: 'api',
+            errorCode: 'errorCode',
+            message: 'message',
+          },
+        })
+      )
+
+      expect(testStore.getState().ui.uiCertificate.certificate).toBeUndefined()
     })
   })
 })
