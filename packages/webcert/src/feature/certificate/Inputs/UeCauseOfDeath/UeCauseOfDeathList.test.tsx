@@ -48,6 +48,56 @@ const CONFIG_LIST = [
       { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
     ],
   },
+  {
+    id: 'sjukdom4',
+    descriptionId: 'description4',
+    debutId: 'debut4',
+    specifications: [
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+    ],
+  },
+  {
+    id: 'sjukdom5',
+    descriptionId: 'description5',
+    debutId: 'debut5',
+    specifications: [
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+    ],
+  },
+  {
+    id: 'sjukdom6',
+    descriptionId: 'description6',
+    debutId: 'debut6',
+    specifications: [
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+    ],
+  },
+  {
+    id: 'sjukdom7',
+    descriptionId: 'description7',
+    debutId: 'debut7',
+    specifications: [
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+    ],
+  },
+  {
+    id: 'sjukdom8',
+    descriptionId: 'description8',
+    debutId: 'debut8',
+    specifications: [
+      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+    ],
+  },
 ]
 
 const question: CertificateDataElement = {
@@ -105,6 +155,81 @@ const question: CertificateDataElement = {
         debut: {
           type: CertificateDataValueType.DATE,
           id: 'debut3',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom4',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description4',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut4',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom5',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description5',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut5',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom6',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description6',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut6',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom7',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description7',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut7',
+        },
+        specification: {
+          type: CertificateDataValueType.CODE,
+        },
+        type: CertificateDataValueType.CAUSE_OF_DEATH,
+      },
+      {
+        id: 'sjukdom8',
+        description: {
+          type: CertificateDataValueType.TEXT,
+          id: 'description8',
+        },
+        debut: {
+          type: CertificateDataValueType.DATE,
+          id: 'debut8',
         },
         specification: {
           type: CertificateDataValueType.CODE,
