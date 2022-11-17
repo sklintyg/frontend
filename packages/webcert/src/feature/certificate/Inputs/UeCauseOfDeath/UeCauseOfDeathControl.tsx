@@ -4,6 +4,7 @@ import {
   ConfigTypes,
   ConfigUeDropdownItem,
   ConfigureUeCauseOfDeathControl,
+  CustomButton,
   DatePickerCustom,
   Dropdown,
   getValidDate,
@@ -14,6 +15,7 @@ import {
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
 } from '@frontend/common'
+import trash from '@frontend/common/src/images/trash.svg'
 import { isValid } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -28,6 +30,8 @@ export interface Props {
   disabled?: boolean
   hasValidationError?: boolean
   question: CertificateDataElement
+  key?: number
+  onDelete?: (key: number) => void
 }
 
 const Wrapper = styled.div`
@@ -53,7 +57,7 @@ const DateAndSpec = styled.div<{ oneLine: boolean }>`
   grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
 
-const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question }) => {
+const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, key, onDelete }) => {
   const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
   const dispatch = useAppDispatch()
   const [descriptionValue, setDescriptionValue] = useState(value.description !== undefined ? value.description.text ?? '' : '')
@@ -69,7 +73,9 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
   const dateAndSpec = css`
     min-width: 25ch;
   `
-
+  const deleteBtn = css`
+    min-width: 10ch;
+  `
   const inputHeight = css`
     height: 47px;
     margin-bottom: 15px;
@@ -141,6 +147,12 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
     [dispatch]
   )
 
+  const deleteRow = () => {
+    if (onDelete) {
+      onDelete(key as number)
+    }
+  }
+
   return (
     <>
       <Wrapper>
@@ -193,6 +205,9 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
               hasValidationError={hasValidationError}
               height="47px"
             />
+          </div>
+          <div css={deleteBtn}>
+            <CustomButton startIcon={<img src={trash} alt="Radera rad" />} buttonStyle="secondary" onClick={deleteRow}></CustomButton>
           </div>
         </DateAndSpec>
       </Wrapper>

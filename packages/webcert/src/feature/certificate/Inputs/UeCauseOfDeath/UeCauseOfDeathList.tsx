@@ -18,7 +18,7 @@ export interface Props {
 
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config
-  const questionValue = question.value
+  const questionValue = question.value as ValueCauseOfDeathList
   const causes = (questionConfig as ConfigureUeCauseOfDeathList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -30,6 +30,12 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
     }
   }
 
+  questionValue.list.forEach((value, index) => {
+    if (index > 1 && (value.description.text || value.debut.date || value.specification.code)) {
+      setNoVisible(index)
+    }
+  })
+
   return (
     <div>
       <div>
@@ -39,13 +45,9 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
             if (index < noVisible) {
               visible = true
             }
-            const value: ValueCauseOfDeath = (questionValue as ValueCauseOfDeathList).list
-              ? ((questionValue as ValueCauseOfDeathList).list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
+            const value: ValueCauseOfDeath = questionValue.list
+              ? (questionValue.list.find((item) => item.id === cause.id) as ValueCauseOfDeath)
               : ({ id: cause.id } as ValueCauseOfDeath)
-
-            if (value.description.text || value.debut.date || value.specification.code) {
-              visible = true
-            }
 
             if (visible) {
               return (
