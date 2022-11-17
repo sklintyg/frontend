@@ -26,6 +26,9 @@ const ContentWrapper = styled.div<StyledProps>`
   ul {
     margin: 8px 0 8px 0;
   }
+  p:last-of-type {
+    padding-bottom: 50px;
+  }
 `
 
 const Description = styled.p`
