@@ -30,7 +30,7 @@ export interface Props {
   disabled?: boolean
   hasValidationError?: boolean
   question: CertificateDataElement
-  key?: number
+  questionKey?: number
   onDelete?: (key: number) => void
 }
 
@@ -57,7 +57,7 @@ const DateAndSpec = styled.div<{ oneLine: boolean }>`
   grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
 
-const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, key, onDelete }) => {
+const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, questionKey, onDelete }) => {
   const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
   const dispatch = useAppDispatch()
   const [descriptionValue, setDescriptionValue] = useState(value.description !== undefined ? value.description.text ?? '' : '')
@@ -149,7 +149,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasVa
 
   const deleteRow = () => {
     if (onDelete) {
-      onDelete(key as number)
+      onDelete(questionKey as number)
     }
   }
 
@@ -207,7 +207,11 @@ const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasVa
             />
           </div>
           <div css={deleteBtn}>
-            <CustomButton startIcon={<img src={trash} alt="Radera rad" />} buttonStyle="secondary" onClick={deleteRow}></CustomButton>
+            <CustomButton
+              startIcon={<img src={trash} alt="Radera rad" />}
+              disabled={disabled}
+              buttonStyle="secondary"
+              onClick={deleteRow}></CustomButton>
           </div>
         </DateAndSpec>
       </Wrapper>

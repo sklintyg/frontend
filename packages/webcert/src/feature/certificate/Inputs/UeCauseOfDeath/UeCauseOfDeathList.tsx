@@ -55,6 +55,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   config={cause}
                   value={value}
                   key={index}
+                  questionKey={index}
                   disabled={disabled}
                   hasValidationError={shouldDisplayValidationError}
                   question={question}

@@ -90,7 +90,6 @@ describe('Cause of death component', () => {
     renderComponent(false, false)
     expect(screen.getByLabelText('Beskrivning')).toBeInTheDocument()
     expect(screen.getByLabelText('Ungefärlig debut')).toBeInTheDocument()
-    expect(screen.getByRole('button')).toBeInTheDocument()
     expect(screen.getByRole('combobox')).toBeInTheDocument()
   })
 
@@ -105,21 +104,17 @@ describe('Cause of death component', () => {
   it('does not disable component if disabled is not set', () => {
     renderComponent(false, false)
     const dropdown = screen.getByRole('combobox')
-    const button = screen.getByRole('button')
     expect(dropdown).not.toBeDisabled()
     expect(screen.getByLabelText('Beskrivning')).not.toBeDisabled()
     expect(screen.getByLabelText('Ungefärlig debut')).not.toBeDisabled()
-    expect(button).not.toBeDisabled()
   })
 
   it('disables component if disabled is set', () => {
     renderComponent(true, false)
     const dropdown = screen.getByRole('combobox')
-    const button = screen.getByRole('button')
     expect(dropdown).toBeDisabled()
     expect(screen.getByLabelText('Beskrivning')).toBeDisabled()
     expect(screen.getByLabelText('Ungefärlig debut')).toBeDisabled()
-    expect(button).toBeDisabled()
   })
 
   it('formats input into yyyy-mm-dd', () => {
