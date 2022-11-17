@@ -57,7 +57,7 @@ const DateAndSpec = styled.div<{ oneLine: boolean }>`
   grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
 
-const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, key, onDelete }) => {
+const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, key, onDelete }) => {
   const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
   const dispatch = useAppDispatch()
   const [descriptionValue, setDescriptionValue] = useState(value.description !== undefined ? value.description.text ?? '' : '')
@@ -250,4 +250,4 @@ const getSingleUpdatedValue = (question: CertificateDataElement, id: string, des
   return updatedQuestion
 }
 
-export default UeCauseOfDeath
+export default UeCauseOfDeathControl
