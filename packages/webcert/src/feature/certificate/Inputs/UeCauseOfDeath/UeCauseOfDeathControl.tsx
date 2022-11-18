@@ -4,6 +4,7 @@ import {
   ConfigTypes,
   ConfigUeDropdownItem,
   ConfigureUeCauseOfDeathControl,
+  ConfigureUeCauseOfDeathList,
   CustomButton,
   DatePickerCustom,
   Dropdown,
@@ -30,8 +31,8 @@ export interface Props {
   disabled?: boolean
   hasValidationError?: boolean
   question: CertificateDataElement
-  questionKey?: number
-  onDelete?: (key: number) => void
+  canBeDeleted?: boolean
+  deleteRow?: () => void
 }
 
 const Wrapper = styled.div`
@@ -56,8 +57,7 @@ const DateAndSpec = styled.div<{ oneLine: boolean }>`
   grid-column: ${(props) => (props.oneLine ? 2 : 1)};
   grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
-
-const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, questionKey, onDelete }) => {
+const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasValidationError, question, canBeDeleted, deleteRow }) => {
   const isSingleCauseOfDeath = question.config.type !== ConfigTypes.UE_CAUSE_OF_DEATH_LIST
   const dispatch = useAppDispatch()
   const [descriptionValue, setDescriptionValue] = useState(value.description !== undefined ? value.description.text ?? '' : '')
@@ -75,6 +75,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasVa
   `
   const deleteBtn = css`
     min-width: 10ch;
+    padding-top: 1.46rem;
   `
   const inputHeight = css`
     height: 47px;
@@ -147,10 +148,32 @@ const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasVa
     [dispatch]
   )
 
-  const deleteRow = () => {
-    if (onDelete) {
-      onDelete(questionKey as number)
-    }
+  const deleteItem = () => {
+    if (deleteRow) deleteRow()
+  }
+
+  const getDeleteButtonDiv = () => {
+    if (!isSingleCauseOfDeath) {
+      return (
+        <div css={deleteBtn} className="iu-ml-500">
+          {getDeleteButton()}
+        </div>
+      )
+    } else return <></>
+  }
+
+  const getDeleteButton = () => {
+    if (canBeDeleted) {
+      return (
+        <CustomButton
+          startIcon={<img src={trash} alt="Radera rad" />}
+          disabled={disabled}
+          buttonStyle="secondary"
+          onClick={deleteItem}
+          height="47px"
+        />
+      )
+    } else return <></>
   }
 
   return (
@@ -206,13 +229,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({ config, value, disabled, hasVa
               height="47px"
             />
           </div>
-          <div css={deleteBtn}>
-            <CustomButton
-              startIcon={<img src={trash} alt="Radera rad" />}
-              disabled={disabled}
-              buttonStyle="secondary"
-              onClick={deleteRow}></CustomButton>
-          </div>
+          {getDeleteButtonDiv()}
         </DateAndSpec>
       </Wrapper>
       <ValidationWrapper>
@@ -236,6 +253,26 @@ const getListUpdatedValue = (question: CertificateDataElement, id: string, descr
   updatedQuestionValue.list = updatedQuestionValue.list.filter((item) => item.id !== id).concat(updatedQuestionItem)
 
   updatedQuestion.value = updatedQuestionValue
+
+  return updatedQuestion
+}
+
+const deleteItem = (question: CertificateDataElement, id: string) => {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  const questionConfig = { ...(updatedQuestion.config as ConfigureUeCauseOfDeathList) }
+  const updatedQuestionValue = { ...(updatedQuestion.value as ValueCauseOfDeathList) }
+
+  let previousId: string | undefined
+  let move = false
+
+  questionConfig.list.forEach((config) => {
+    if (previousId && (config.id === id || move)) {
+      const updatedQuestionItem: ValueCauseOfDeath = updatedQuestionValue.list.find((item) => item.id === config.id) as ValueCauseOfDeath
+      updatedQuestionItem.id = previousId
+      move = true
+    }
+    previousId = config.id
+  })
 
   return updatedQuestion
 }

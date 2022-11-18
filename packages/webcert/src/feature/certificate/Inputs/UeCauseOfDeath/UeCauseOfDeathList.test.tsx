@@ -20,8 +20,8 @@ const QUESTION_ID = 'checkbox'
 const CONFIG_LIST = [
   {
     id: 'sjukdom1',
-    descriptionId: 'description1',
-    debutId: 'debut1',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -30,8 +30,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom2',
-    descriptionId: 'description2',
-    debutId: 'debut2',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -40,8 +40,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom3',
-    descriptionId: 'description3',
-    debutId: 'debut3',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -50,8 +50,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom4',
-    descriptionId: 'description4',
-    debutId: 'debut4',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -60,8 +60,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom5',
-    descriptionId: 'description5',
-    debutId: 'debut5',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -70,8 +70,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom6',
-    descriptionId: 'description6',
-    debutId: 'debut6',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -80,8 +80,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom7',
-    descriptionId: 'description7',
-    debutId: 'debut7',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -90,8 +90,8 @@ const CONFIG_LIST = [
   },
   {
     id: 'sjukdom8',
-    descriptionId: 'description8',
-    debutId: 'debut8',
+    descriptionId: 'description',
+    debutId: 'debut',
     specifications: [
       { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
       { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
@@ -120,11 +120,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom1',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description1',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut1',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -135,11 +135,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom2',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description2',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut2',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -150,11 +150,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom3',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description3',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut3',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -165,11 +165,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom4',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description4',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut4',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -180,11 +180,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom5',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description5',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut5',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -195,11 +195,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom6',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description6',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut6',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -210,11 +210,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom7',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description7',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut7',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,
@@ -225,11 +225,11 @@ const question: CertificateDataElement = {
         id: 'sjukdom8',
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description8',
+          id: 'description',
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut8',
+          id: 'debut',
         },
         specification: {
           type: CertificateDataValueType.CODE,

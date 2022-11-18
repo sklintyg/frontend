@@ -1,5 +1,6 @@
 import {
   CertificateDataElement,
+  CertificateDataValueType,
   ConfigureUeCauseOfDeathList,
   CustomButton,
   QuestionValidationTexts,
@@ -8,7 +9,9 @@ import {
 } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 export interface Props {
@@ -23,11 +26,16 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const [noVisible, setNoVisible] = useState(2)
+  const dispatch = useAppDispatch()
 
   const addRowClick = () => {
     if (noVisible < causes.length) {
       setNoVisible(noVisible + 1)
     }
+  }
+
+  const deleteRow = (id: string) => {
+    dispatch(updateCertificateDataElement(deleteItem(question, id)))
   }
 
   questionValue.list.forEach((value, index) => {
@@ -55,13 +63,14 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   config={cause}
                   value={value}
                   key={index}
-                  questionKey={index}
+                  canBeDeleted={index > 0}
                   disabled={disabled}
                   hasValidationError={shouldDisplayValidationError}
                   question={question}
+                  deleteRow={() => deleteRow(cause.id)}
                 />
               )
-            } else return <></>
+            } else return <span key={index}></span>
           })}
       </div>
       <CustomButton
@@ -73,6 +82,50 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </div>
   )
+}
+
+const deleteItem = (question: CertificateDataElement, id: string) => {
+  const updatedQuestion: CertificateDataElement = { ...question }
+  const questionConfig = { ...(updatedQuestion.config as ConfigureUeCauseOfDeathList) }
+  const updatedQuestionValue = { ...(updatedQuestion.value as ValueCauseOfDeathList) }
+  const newValues: ValueCauseOfDeath[] = []
+
+  let previousId: string | undefined
+  let move = false
+
+  questionConfig.list.forEach((config) => {
+    if (!previousId) {
+      newValues.push(updatedQuestionValue.list.find((item) => item.id === config.id) as ValueCauseOfDeath)
+    } else if (config.id === id) {
+      move = true
+    } else if (move) {
+      const updatedQuestionItem: ValueCauseOfDeath = updatedQuestionValue.list.find((item) => item.id === config.id) as ValueCauseOfDeath
+      updatedQuestionItem.id = previousId
+      newValues.push(updatedQuestionItem)
+      move = true
+    }
+    previousId = config.id
+  })
+
+  if (move) {
+    newValues.push({
+      id: previousId,
+      description: {
+        type: CertificateDataValueType.TEXT,
+        id: questionConfig.list[0].descriptionId,
+      },
+      debut: {
+        type: CertificateDataValueType.DATE,
+        id: questionConfig.list[0].debutId,
+      },
+      specification: {
+        type: CertificateDataValueType.CODE,
+      },
+      type: CertificateDataValueType.CAUSE_OF_DEATH,
+    } as ValueCauseOfDeath)
+  }
+  updatedQuestionValue.list = newValues
+  return updatedQuestion
 }
 
 export default UeCauseOfDeathList
