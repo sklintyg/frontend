@@ -125,6 +125,7 @@ const deleteItem = (question: CertificateDataElement, id: string) => {
     } as ValueCauseOfDeath)
   }
   updatedQuestionValue.list = newValues
+  updatedQuestion.value = updatedQuestionValue
   return updatedQuestion
 }
 
