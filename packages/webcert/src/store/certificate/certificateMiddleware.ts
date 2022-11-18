@@ -112,6 +112,7 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
+  resetCertificateState,
 } from './certificateActions'
 
 import _ from 'lodash'
@@ -121,6 +122,7 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
+import { getSessionStatusError } from '../session/sessionActions'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -802,6 +804,10 @@ const handleCreateNewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: M
   dispatch(updateCreatedCertificateId(action.payload.certificateId))
 }
 
+const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(resetCertificateState())
+}
+
 const middlewareMethods = {
   [createNewCertificate.type]: handleCreateNewCertificate,
   [createNewCertificateSuccess.type]: handleCreateNewCertificateSuccess,
@@ -854,6 +860,7 @@ const middlewareMethods = {
   [getCertificateError.type]: handleGetCertificateError,
   [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
   [signCertificateStatusError.type]: handleSignCertificateStatusError,
+  [getSessionStatusError.type]: handleGetSessionStatusError,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

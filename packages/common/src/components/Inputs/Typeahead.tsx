@@ -95,9 +95,21 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
   const [hovered, setHovered] = useState<number>(-1)
   const typeaheadList = useRef<null | HTMLUListElement>(null)
 
+  const handleClose = useCallback(() => {
+    setCursor(-1)
+    setHovered(-1)
+    onClose()
+  })
+
+  const onClick = useCallback((suggestion: Suggestion) => {
+    if (!suggestion.disabled) {
+      onSuggestionSelected(suggestion.label)
+    }
+  })
+
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
-  }, [suggestions])
+  }, [open, suggestions])
   useEffect(() => {
     if (hovered >= 0) {
       setCursor(hovered)
@@ -107,22 +119,22 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     if (suggestions.length > 0 && downPress && open) {
       setCursor((prevState) => (prevState < suggestions.length - 1 ? prevState + 1 : 0))
     }
-  }, [downPress])
+  }, [downPress, open, suggestions.length])
   useEffect(() => {
     if (suggestions.length > 0 && upPress && open) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : suggestions.length - 1))
     }
-  }, [upPress])
+  }, [open, suggestions.length, upPress])
   useEffect(() => {
     if ((enterPress || tabPress) && suggestions.length >= cursor && cursor >= 0 && open) {
       onClick(suggestions[cursor])
     }
-  }, [enterPress, tabPress])
+  }, [cursor, enterPress, onClick, open, suggestions, tabPress])
   useEffect(() => {
     if (escPress && open) {
       handleClose()
     }
-  }, [escPress])
+  }, [escPress, handleClose, open])
   useEffect(() => {
     if (cursor >= 0 && suggestions[cursor].label.length > 0 && cursor !== hovered) {
       const element = typeaheadList.current
@@ -132,21 +144,15 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
           delay: 0,
           smooth: false,
           containerId: 'typeahead-list',
-          offset: -10,
+          offset: -300,
         })
       }
     }
-  }, [cursor])
+  }, [cursor, hovered, suggestions])
 
   const updateHovered = (i: number) => {
     setHovered(i)
     setCursor(i)
-  }
-
-  const handleClose = () => {
-    setCursor(-1)
-    setHovered(-1)
-    onClose()
   }
 
   const getItemClassName = (item: Suggestion, index: number) => {
@@ -158,12 +164,6 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
       return 'iu-bg-secondary-light iu-color-grey-500'
     } else if (isCursor) {
       return 'iu-bg-main iu-color-white'
-    }
-  }
-
-  const onClick = (suggestion: Suggestion) => {
-    if (!suggestion.disabled) {
-      onSuggestionSelected(suggestion.label)
     }
   }
 

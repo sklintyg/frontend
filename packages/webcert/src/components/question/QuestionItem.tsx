@@ -128,7 +128,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   useEffect(() => {
     setMessage(question.answer?.message ?? '')
-  }, [question.answer?.message])
+  }, [question.answer.message])
 
   const dispatchEditAnswer = useRef(
     _.debounce((question: Question, value: string) => {
@@ -336,13 +336,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
-                disabled={isFormEmpty || isFunctionDisabled}
+                disabled={isFormEmpty || isFunctionDisabled || question.answer.message !== message}
                 buttonStyle={'primary'}
                 onClick={handleSendAnswer}
                 text={'Skicka'}
               />
               <ButtonWithConfirmModal
-                disabled={isFormEmpty || isFunctionDisabled}
+                disabled={isFormEmpty || isFunctionDisabled || question.answer.message !== message}
                 buttonStyle={'default'}
                 modalTitle={'Radera påbörjad svar'}
                 confirmButtonText={'Ja, radera'}
