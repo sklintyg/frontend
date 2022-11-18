@@ -4,7 +4,6 @@ import {
   ConfigTypes,
   ConfigUeDropdownItem,
   ConfigureUeCauseOfDeathControl,
-  ConfigureUeCauseOfDeathList,
   CustomButton,
   DatePickerCustom,
   Dropdown,
@@ -253,26 +252,6 @@ const getListUpdatedValue = (question: CertificateDataElement, id: string, descr
   updatedQuestionValue.list = updatedQuestionValue.list.filter((item) => item.id !== id).concat(updatedQuestionItem)
 
   updatedQuestion.value = updatedQuestionValue
-
-  return updatedQuestion
-}
-
-const deleteItem = (question: CertificateDataElement, id: string) => {
-  const updatedQuestion: CertificateDataElement = { ...question }
-  const questionConfig = { ...(updatedQuestion.config as ConfigureUeCauseOfDeathList) }
-  const updatedQuestionValue = { ...(updatedQuestion.value as ValueCauseOfDeathList) }
-
-  let previousId: string | undefined
-  let move = false
-
-  questionConfig.list.forEach((config) => {
-    if (previousId && (config.id === id || move)) {
-      const updatedQuestionItem: ValueCauseOfDeath = updatedQuestionValue.list.find((item) => item.id === config.id) as ValueCauseOfDeath
-      updatedQuestionItem.id = previousId
-      move = true
-    }
-    previousId = config.id
-  })
 
   return updatedQuestion
 }
