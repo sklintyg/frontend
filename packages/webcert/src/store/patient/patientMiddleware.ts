@@ -71,7 +71,7 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
   )
 }
 
-const handleGetCertificateTypesStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetCertificateTypesStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(isLoadingCertificateTypes(true))
 }
 
