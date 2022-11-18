@@ -5,7 +5,7 @@ import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
  * AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
  */
 
-describe('AG7804-utkast tomt', function() {
+describe('AG7804-utkast tomt', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -22,7 +22,7 @@ describe('AG7804-utkast tomt', function() {
       })
     })
 
-    describe('Funktioner på ett tomt AG7804-utkast', () => {
+    describe('Funktioner på ett tomt AG7804-utkast', { tags: '@react' }, () => {
       it('Skapar en minimalt ifylld AG7804 och signerar', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId
