@@ -128,7 +128,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
 
   useEffect(() => {
     setMessage(question.answer?.message ?? '')
-  }, [question.answer.message])
+  }, [question.answer?.message])
 
   const dispatchEditAnswer = useRef(
     _.debounce((question: Question, value: string) => {
