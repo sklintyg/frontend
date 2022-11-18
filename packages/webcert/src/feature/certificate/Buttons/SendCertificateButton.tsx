@@ -28,7 +28,8 @@ const SendCertificateButton: React.FC<Props> = ({ name, description, enabled, bo
       }}
       confirmButtonText={name}
       declineButtonText="Avbryt"
-      confirmButtonDisabled={functionDisabled}>
+      confirmButtonDisabled={functionDisabled}
+      buttonTestId="send-certificate-button">
       {body && <div dangerouslySetInnerHTML={sanitizeText(body)} />}{' '}
     </ButtonWithConfirmModal>
   )

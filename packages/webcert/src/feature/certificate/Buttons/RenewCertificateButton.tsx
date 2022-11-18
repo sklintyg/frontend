@@ -52,7 +52,8 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
           name={name}
           description={description}
           startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
-          confirmButtonDisabled={functionDisabled}>
+          confirmButtonDisabled={functionDisabled}
+          buttonTestId="renew-certificate-button">
           <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)} />
           <Checkbox id={'renew-modal-checkbox'} disabled={false} onChange={onCheckboxChange} label={'Visa inte igen.'} checked={checked} />
         </ButtonWithConfirmModal>
@@ -64,6 +65,7 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
         disabled={!enabled}
         text={name}
         buttonStyle={'primary'}
+        data-testid="renew-certificate-button"
         startIcon={<FontAwesomeIcon icon={faSyncAlt} size="lg" />}
         onClick={handleClick}
       />
