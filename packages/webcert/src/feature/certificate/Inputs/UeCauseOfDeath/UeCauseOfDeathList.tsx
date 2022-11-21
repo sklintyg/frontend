@@ -25,8 +25,19 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const causes = (questionConfig as ConfigureUeCauseOfDeathList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const [noVisible, setNoVisible] = useState(2)
   const dispatch = useAppDispatch()
+
+  const getNoVisible = () => {
+    let no = 2
+    questionValue.list.forEach((value, index) => {
+      if (index > 1 && (value.description.text || value.debut.date || value.specification.code)) {
+        no = index + 1
+      }
+    })
+    return no
+  }
+
+  const [noVisible, setNoVisible] = useState(getNoVisible())
 
   const addRowClick = () => {
     if (noVisible < causes.length) {
@@ -36,13 +47,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
   const deleteRow = (id: string) => {
     dispatch(updateCertificateDataElement(deleteItem(question, id)))
+    setNoVisible(getNoVisible())
   }
-
-  questionValue.list.forEach((value, index) => {
-    if (index > 1 && (value.description.text || value.debut.date || value.specification.code)) {
-      setNoVisible(index)
-    }
-  })
 
   return (
     <div>

@@ -857,13 +857,17 @@ export const fakeCauseOfDeathListElement = (
             description: {
               type: CertificateDataValueType.TEXT,
               id: 'description',
+              text: 'Hallux Valgus',
             },
             debut: {
               type: CertificateDataValueType.DATE,
               id: 'debut',
+              date: '1965-09-21',
             },
             specification: {
               type: CertificateDataValueType.CODE,
+              id: 'PLOTSLIG',
+              code: 'PLOTSLIG',
             },
             ...data?.value,
             type: CertificateDataValueType.CAUSE_OF_DEATH,
@@ -873,13 +877,17 @@ export const fakeCauseOfDeathListElement = (
             description: {
               type: CertificateDataValueType.TEXT,
               id: 'description',
+              text: 'Arthritis urica',
             },
             debut: {
               type: CertificateDataValueType.DATE,
               id: 'debut',
+              date: '1974-11-14',
             },
             specification: {
               type: CertificateDataValueType.CODE,
+              id: 'UPPGIFT_SAKNAS',
+              code: 'UPPGIFT_SAKNAS',
             },
             ...data?.value,
             type: CertificateDataValueType.CAUSE_OF_DEATH,

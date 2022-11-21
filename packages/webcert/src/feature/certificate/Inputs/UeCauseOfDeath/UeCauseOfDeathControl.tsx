@@ -256,6 +256,26 @@ const getListUpdatedValue = (question: CertificateDataElement, id: string, descr
   return updatedQuestion
 }
 
+// const deleteItem = (question: CertificateDataElement, id: string) => {
+//   const updatedQuestion: CertificateDataElement = { ...question }
+//   const questionConfig = { ...(updatedQuestion.config as ConfigureUeCauseOfDeathList) }
+//   const updatedQuestionValue = { ...(updatedQuestion.value as ValueCauseOfDeathList) }
+
+//   let previousId: string | undefined
+//   let move = false
+
+//   questionConfig.list.forEach((config) => {
+//     if (previousId && (config.id === id || move)) {
+//       const updatedQuestionItem: ValueCauseOfDeath = updatedQuestionValue.list.find((item) => item.id === config.id) as ValueCauseOfDeath
+//       updatedQuestionItem.id = previousId
+//       move = true
+//     }
+//     previousId = config.id
+//   })
+
+//   return updatedQuestion
+// }
+
 const getSingleUpdatedValue = (question: CertificateDataElement, id: string, description: string, debut: string, specification: string) => {
   const updatedQuestion: CertificateDataElement = { ...question }
 
