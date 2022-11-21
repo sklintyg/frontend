@@ -39,6 +39,7 @@ interface Props {
   tooltipPlacement?: Place
   buttonClasses?: string
   height?: string
+  'data-testid'?: string
 }
 
 export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
@@ -84,7 +85,8 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         onSubmit={props.onSubmit}
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
         disabled={props.disabled}
-        onClick={props.onClick}>
+        onClick={props.onClick}
+        data-testid={props['data-testid']}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
         {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
