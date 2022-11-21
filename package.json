@@ -179,7 +179,8 @@
           "ignoreRefs": true
         }
       ],
-      "react/self-closing-comp": "error"
+      "react/self-closing-comp": "error",
+      "prefer-template": "warn"
     },
     "overrides": [
       {
