@@ -1,5 +1,8 @@
 # `Frontend`
 
+![End-To-End](https://github.com/sklintyg/frontend/actions/workflows/e2e.yml/badge.svg)
+![Frontend CI](https://github.com/sklintyg/frontend/actions/workflows/frontend.yml/badge.svg)
+
 ## Pre-requisites
 
 - Install Java OpenJDK 11
