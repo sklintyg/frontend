@@ -108,7 +108,7 @@ describe('Test patient middleware', () => {
     expect(testStore.getState().ui.uiPatient.certificateTypes).toEqual([])
   })
 
-  it('should set leadingCertificateTypes to true when the certificate types are fetched', () => {
+  it('should set loadingCertificateTypes to true when the certificate types are fetched', () => {
     testStore.dispatch(updateCertificateTypes(certificateTypes))
 
     expect(testStore.getState().ui.uiPatient.loadingCertificateTypes).toEqual(false)

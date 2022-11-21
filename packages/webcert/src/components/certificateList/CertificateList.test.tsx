@@ -189,15 +189,14 @@ describe('CertificateList', () => {
   })
 
   it('should show modal when MISSING_RELATED_CERTIFICATE_CONFIRMATION resource link exists', () => {
+    testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
     const button = screen.getAllByRole('button', {
       name: /Skapa intyg/,
-    }) as HTMLElement[]
+    })
     userEvent.click(button[0])
 
-    testStore.dispatch(setPatient(fakePatient()))
-    screen.debug()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 })
