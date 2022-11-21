@@ -13,11 +13,14 @@ export const RevokeDBAndDOIModalContent: React.FC = () => {
   return (
     <>
       <InfoBox type="info" activateIconWrap>
-        <p>
-          {locked
-            ? 'Om du behöver korrigera innehållet i utkastet, ska du istället kopiera utkastet och skapa ett nytt intyg.'
-            : 'Du ska endast makulera om intyget är utfärdat på fel person. Om du behöver ändra innehållet i intyget ska du välja ”Avbryt” och därefter välja ”Ersätt”.'}
-        </p>
+        {locked ? (
+          <p>Om du behöver korrigera innehållet i utkastet, ska du istället kopiera utkastet och skapa ett nytt intyg.'</p>
+        ) : (
+          <p>
+            <span className="iu-fw-bold">Du ska endast makulera om intyget är utfärdat på fel person.</span> Om du behöver ändra innehållet
+            i intyget ska du välja ”Avbryt” och därefter välja ”Ersätt”.
+          </p>
+        )}
       </InfoBox>
       {(isDodsbevis || isDodsorsaksIntyg) && locked ? (
         <p>Genom att trycka på "Makulera" makulerar du det låsta utkastet i Webcert. </p>
@@ -42,7 +45,7 @@ export const RevokeDBAndDOIModalContent: React.FC = () => {
           <ol>
             <li>
               Tryck på ”Makulera”, detta leder till att dödsorsaksintyget makuleras i Webcert men återkallar{' '}
-              <span className="iu-fw-bold">inte</span> dödsbeviset hos Skatteverket.
+              <span className="iu-fw-bold">inte</span> dödsorsaksintyget hos Socialstyrelsen.
             </li>
             <li>
               <span className="iu-fw-bold">Kontakta omedelbart Socialstyrelsen</span> (Dödsorsaksproduktionen) på telefon{' '}
