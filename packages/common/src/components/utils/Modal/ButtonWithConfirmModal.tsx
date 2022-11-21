@@ -10,6 +10,7 @@ interface Props {
   modalTitle: string
   onConfirm: () => void
   confirmButtonText: string
+  buttonTestId?: string
   additionalConfirmButtonStyles?: string
   confirmButtonDisabled?: boolean
   declineButtonText?: string
@@ -61,6 +62,7 @@ const ButtonWithConfirmModal: React.FC<Props> = (props) => {
         onClick={handleClickOpen}
         startIcon={props.startIcon ? props.startIcon : null}
         text={props.name}
+        data-testid={props.buttonTestId}
         buttonClasses={props.buttonClasses}
       />
       <ModalBase
