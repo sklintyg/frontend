@@ -35,6 +35,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled,
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm}
       confirmButtonText={'Ersätt'}
+      buttonTestId="replace-certificate-button"
       confirmButtonDisabled={functionDisabled}>
       <>
         <InfoBox type="observe" activateIconWrap>

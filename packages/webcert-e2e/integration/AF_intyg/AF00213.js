@@ -5,7 +5,7 @@ import * as intyg from '../../support/AF_intyg/af00213Intyg'
  * AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
  */
 
-describe('AF00213-intyg tomt', function() {
+describe('AF00213-intyg tomt', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -21,7 +21,7 @@ describe('AF00213-intyg tomt', function() {
         cy.log('af00213-utkast med id ' + utkastId + ' skapat och används i testfallet')
       })
     })
-    describe('Funktioner på ett tomt AF20013 utkast', () => {
+    describe('Funktioner på ett tomt AF20013 utkast', { tags: '@react' }, () => {
       it('Ett icke ifylld AF00213 går ej att signera och skicka till AF', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId
