@@ -3,11 +3,11 @@ import { CertificateDataElement, CertificateDataValidationType } from '@frontend
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import _ from 'lodash'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
-import _ from 'lodash'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
