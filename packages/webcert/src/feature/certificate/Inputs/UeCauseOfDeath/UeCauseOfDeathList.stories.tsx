@@ -1,21 +1,41 @@
-import { fakeCauseOfDeathListElement } from '@frontend/common'
+import { fakeCauseOfDeathListElement, fakeCertificateMetaData } from '@frontend/common'
+import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
-import React from 'react'
-import { Provider } from 'react-redux'
-import store from '../../../../store/store'
-import UeCauseOfDeathList, { Props } from './UeCauseOfDeathList'
+import React, { ComponentProps } from 'react'
+import { Provider, useSelector } from 'react-redux'
+import { updateCertificate } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { getQuestion } from '../../../../store/certificate/certificateSelectors'
+import reducers from '../../../../store/reducers'
+import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 export default {
   title: 'Webcert/UeCauseOfDeathList',
   component: UeCauseOfDeathList,
 }
 
-const Template: Story<Props> = ({ ...args }) => {
-  return (
-    <Provider store={store}>
-      <UeCauseOfDeathList {...args} />
-    </Provider>
+const ComponentWrapper: React.FC<ComponentProps<typeof UeCauseOfDeathList>> = ({ ...args }) => {
+  const question = useSelector(getQuestion('1'))
+  return question ? <UeCauseOfDeathList {...args} question={question} /> : null
+}
+
+const Template: Story<ComponentProps<typeof UeCauseOfDeathList>> = ({ ...args }) => {
+  const store = configureStore({
+    reducer: reducers,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+  })
+
+  store.dispatch(
+    updateCertificate({
+      metadata: fakeCertificateMetaData(),
+      data: {
+        [args.question.id]: args.question,
+      },
+      links: [],
+    })
   )
+
+  return <Provider store={store}>{<ComponentWrapper {...args} />}</Provider>
 }
 
 export const Default = Template.bind({})

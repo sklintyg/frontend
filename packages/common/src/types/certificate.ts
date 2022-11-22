@@ -255,10 +255,7 @@ export interface ConfigureUeCauseOfDeathControl {
   specifications: ConfigureUeCauseOfDeathSpecification[]
 }
 
-export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
-  label?: string
-  causeOfDeath: ConfigureUeCauseOfDeathControl
-}
+export type ConfigureUeCauseOfDeath = { label?: string } & CertificateDataConfig & ConfigureUeCauseOfDeathControl
 
 export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
   itemCount?: number

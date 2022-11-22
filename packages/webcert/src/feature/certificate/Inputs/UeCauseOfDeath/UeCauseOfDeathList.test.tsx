@@ -1,13 +1,9 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-} from '@frontend/common/src/types/certificate'
+import { fakeCauseOfDeathListElement } from '@frontend/common'
+import { CertificateDataElement, CertificateDataValidationType } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
@@ -15,229 +11,10 @@ import UeCauseOfDeathList from './UeCauseOfDeathList'
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
 const VALIDATION_ERROR = 'Ange ett svar'
-const QUESTION_ID = 'checkbox'
+const QUESTION_ID = 'list'
 
-const CONFIG_LIST = [
-  {
-    id: 'sjukdom1',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom2',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom3',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom4',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom5',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom6',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom7',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-  {
-    id: 'sjukdom8',
-    descriptionId: 'description',
-    debutId: 'debut',
-    specifications: [
-      { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-      { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-      { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-    ],
-  },
-]
-
-const question: CertificateDataElement = {
+const question: CertificateDataElement = fakeCauseOfDeathListElement({
   id: QUESTION_ID,
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  config: {
-    type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
-    text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
-    description: '',
-    list: CONFIG_LIST,
-  },
-  value: {
-    type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
-    list: [
-      {
-        id: 'sjukdom1',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom2',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom3',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom4',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom5',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom6',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom7',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-      {
-        id: 'sjukdom8',
-        description: {
-          type: CertificateDataValueType.TEXT,
-          id: 'description',
-        },
-        debut: {
-          type: CertificateDataValueType.DATE,
-          id: 'debut',
-        },
-        specification: {
-          type: CertificateDataValueType.CODE,
-        },
-        type: CertificateDataValueType.CAUSE_OF_DEATH,
-      },
-    ],
-  },
   validation: [
     {
       type: CertificateDataValidationType.MANDATORY_VALIDATION,
@@ -246,13 +23,13 @@ const question: CertificateDataElement = {
     },
   ],
   validationErrors: [{ category: 'category', field: '', text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
-}
+})[QUESTION_ID]
 
-const renderComponent = (disabled: boolean) => {
+const renderComponent = (props: ComponentProps<typeof UeCauseOfDeathList>) => {
   render(
     <>
       <Provider store={store}>
-        <UeCauseOfDeathList question={question} disabled={disabled} />
+        <UeCauseOfDeathList {...props} />
       </Provider>
     </>
   )
@@ -260,18 +37,18 @@ const renderComponent = (disabled: boolean) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
   })
 
   it('renders all components', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(2)
     expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(2)
     expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(2)
   })
 
   it('renders, textinput, calendar button and drop down', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const descriptions = screen.getAllByLabelText('Beskrivning')
     const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
@@ -287,7 +64,7 @@ describe('Cause of death component', () => {
   })
 
   it('renders component with correct default values', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const descriptions = screen.getAllByLabelText('Beskrivning')
     const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const dates = screen.getAllByLabelText('Ungefärlig debut')
@@ -303,7 +80,7 @@ describe('Cause of death component', () => {
   })
 
   it('does not disable component if disabled is not set', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const descriptions = screen.getAllByLabelText('Beskrivning')
     const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const buttons = screen.getAllByRole('button')
@@ -323,7 +100,7 @@ describe('Cause of death component', () => {
   })
 
   it('Disable component if disabled is set', () => {
-    renderComponent(true)
+    renderComponent({ disabled: true, question })
     const descriptions = screen.getAllByLabelText('Beskrivning')
     const specifications = screen.getAllByLabelText('Specificera tillståndet')
     const buttons = screen.getAllByRole('button')
@@ -343,7 +120,7 @@ describe('Cause of death component', () => {
   })
 
   it('formats input into yyyy-mm-dd', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     const inputDate = '20200202'
     const expected = '2020-02-02'
@@ -354,7 +131,7 @@ describe('Cause of death component', () => {
   })
 
   it('should display error when input is not a complete date', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     dates.forEach((date) => {
       userEvent.type(date, '2020-01')
@@ -370,7 +147,7 @@ describe('Cause of death component', () => {
   })
 
   it('should display error when input is not a valid date', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     dates.forEach((date) => {
       userEvent.type(date, 'test')
@@ -386,7 +163,7 @@ describe('Cause of death component', () => {
   })
 
   it('should not display error when input is a valid date', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const dates = screen.getAllByLabelText('Ungefärlig debut')
     dates.forEach((date) => {
       userEvent.type(date, '20200101')
@@ -397,8 +174,8 @@ describe('Cause of death component', () => {
     })
   })
 
-  it('should add new row when button is clicked', () => {
-    renderComponent(false)
+  it.only('should add new row when button is clicked', () => {
+    renderComponent({ disabled: false, question })
     const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
     userEvent.click(button)
     expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(3)
@@ -407,7 +184,7 @@ describe('Cause of death component', () => {
   })
 
   it('should not add more than 6 rows', () => {
-    renderComponent(false)
+    renderComponent({ disabled: false, question })
     const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
     userEvent.click(button)
     setTimeout(() => {
