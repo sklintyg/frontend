@@ -32,14 +32,13 @@ interface Props extends FunctionDisabled {
 const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, functionDisabled }) => {
   return (
     <Wrapper>
-      {
-        /*resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SHOW_RELATED_CERTIFICATE)) &&*/ <ShowRelatedCertificateButton
-          certificateId={''}
+      {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SHOW_RELATED_CERTIFICATE)) && (
+        <ShowRelatedCertificateButton
+          certificateMetadata={certificateMetadata}
           functionDisabled={false}
           {...getResourceLink(resourceLinks, ResourceLinkType.SHOW_RELATED_CERTIFICATE)}
-          certificateMetadata={certificateMetadata}
         />
-      }
+      )}
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)) && (
         <CreateCertificateFromTemplateButton
           {...getResourceLink(resourceLinks, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)}

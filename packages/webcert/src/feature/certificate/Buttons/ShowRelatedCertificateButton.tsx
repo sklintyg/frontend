@@ -12,15 +12,14 @@ interface Props extends FunctionDisabled {
   description: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
-  certificateId: string
 }
-const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateId }) => {
+const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateMetadata }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const handleClick = () => {
-    dispatch(showRelatedCertificate({ certificateId: certificateId, history: history }))
-  }
+  // const handleClick = () => {
+  //   dispatch(showRelatedCertificate({ certificateId: certificateId, history: history }))
+  // }
 
   return (
     <CustomButton
@@ -29,7 +28,9 @@ const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enab
       startIcon={<img src={file} alt={description} />}
       buttonStyle="primary"
       text={name}
-      onClick={handleClick}
+      onClick={() => {
+        dispatch(showRelatedCertificate({ certificateId: certificateMetadata.id, history: history }))
+      }}
     />
   )
 }
