@@ -97,9 +97,10 @@ const CertificateListRow: React.FC<Props> = ({
     preferenceClick(id)
   }
 
-  const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
-    const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
-    const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+  const handleCreateCertificate = (certificateType: string, links?: ResourceLink[]) => {
+    const createDodsbevis = links && links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
+    const hasMissingRelatedCertificate =
+      links && links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
     if (createDodsbevis) {
       setShowDeathCertificateModal(true)
