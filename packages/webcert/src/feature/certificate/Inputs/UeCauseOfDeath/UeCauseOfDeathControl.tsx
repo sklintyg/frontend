@@ -86,15 +86,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }, ...config.specifications]
 
   const handleValueUpdate = (updatedValue: Partial<ValueCauseOfDeath>) => {
-    console.log('change on', value.id)
     onChange({ ...value, ...updatedValue })
   }
-
-  // const handleDescriptionChange = useRef(
-  //   _.debounce((text: string) => {
-  //     handleValueUpdate({ description: { ...value.description, text } })
-  //   }, 1000)
-  // ).current
 
   const handleDescriptionChange = (text: string) => {
     setDescriptionValue(text)
