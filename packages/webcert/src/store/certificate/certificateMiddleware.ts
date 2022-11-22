@@ -113,6 +113,10 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
   resetCertificateState,
+  showRelatedCertificateStarted,
+  showRelatedCertificateSuccess,
+  showRelatedCertificateCompleted,
+  showRelatedCertificate,
 } from './certificateActions'
 
 import _ from 'lodash'
@@ -567,6 +571,28 @@ const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
   action.payload.history.push(`/certificate/${action.payload.certificateId}`)
 }
 
+const handleShowRelatedCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(showSpinner('Laddar...'))
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + action.payload.certificateId + '/related',
+      method: 'POST',
+      onStart: showRelatedCertificateStarted.type,
+      onSuccess: showRelatedCertificateSuccess.type,
+      onError: certificateApiGenericError.type,
+      onArgs: { history: action.payload.history },
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
+    })
+  )
+}
+
+const handleShowRelatedCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  dispatch(hideSpinner())
+  dispatch(showRelatedCertificateCompleted())
+  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+}
+
 const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
@@ -861,6 +887,8 @@ const middlewareMethods = {
   [signCertificateStatusSuccess.type]: handleSignCertificateStatusSuccess,
   [signCertificateStatusError.type]: handleSignCertificateStatusError,
   [getSessionStatusError.type]: handleGetSessionStatusError,
+  [showRelatedCertificate.type]: handleShowRelatedCertificate,
+  [showRelatedCertificateSuccess.type]: handleShowRelatedCertificateSuccess,
 }
 
 export const certificateMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI) => (next) => (action: AnyAction): void => {

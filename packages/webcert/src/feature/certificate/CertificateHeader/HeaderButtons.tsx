@@ -12,6 +12,7 @@ import ReplaceCertificateContinueButton from '../Buttons/ReplaceCertificateConti
 import CreateCertificateFromTemplateButton from '../Buttons/CreateCertificateFromTemplateButton'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import CopyCertificateContinueButton from '../Buttons/CopyCertificateContinueButton'
+import ShowRelatedCertificateButton from '../Buttons/ShowRelatedCertificateButton'
 
 const Wrapper = styled.div`
   margin-bottom: 4px;
@@ -31,6 +32,14 @@ interface Props extends FunctionDisabled {
 const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, functionDisabled }) => {
   return (
     <Wrapper>
+      {
+        /*resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SHOW_RELATED_CERTIFICATE)) &&*/ <ShowRelatedCertificateButton
+          certificateId={''}
+          functionDisabled={false}
+          {...getResourceLink(resourceLinks, ResourceLinkType.SHOW_RELATED_CERTIFICATE)}
+          certificateMetadata={certificateMetadata}
+        />
+      }
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)) && (
         <CreateCertificateFromTemplateButton
           {...getResourceLink(resourceLinks, ResourceLinkType.CREATE_CERTIFICATE_FROM_TEMPLATE)}
