@@ -33,24 +33,27 @@ function loggaInVårdpersonal(vårdpersonal, vårdenhet, intygsId, ärDjup) {
   //assert.isBoolean(ärDjup);  "/api/certificate/" + utkastId + "/validate",
   //const originSträng =  "DJUPINTEGRATION";
   //"authenticationMethod": "FAKE"
-
   const originSträng = ärDjup ? 'DJUPINTEGRATION' : 'NORMAL'
-  cy.log(`${vårdpersonal.förnamn} ${vårdpersonal.efternamn} ${vårdpersonal.hsaId} ${vårdpersonal.legitimeradeYrkesgrupper}`)
+  cy.log(vårdpersonal.förnamn + vårdpersonal.efternamn + vårdpersonal.hsaId)
   cy.request({
     method: 'POST',
     url: theUrl,
     form: true,
     body: {
-      userJsonDisplay: `{
-        "hsaId": "${vårdpersonal.hsaId}",
-        "forNamn": "${vårdpersonal.förnamn}",
-        "efterNamn": "${vårdpersonal.efternamn}",
-        "enhetId": "${vårdenhet.id}",
-        "legitimeradeYrkesgrupper": ${vårdpersonal.legitimeradeYrkesgrupper},
-        "origin": "${originSträng}"
-      }`
-        .replace(/\n/g, '')
-        .replace(/\s{2,}/g, ' '),
+      userJsonDisplay:
+        '{"hsaId": "' +
+        vårdpersonal.hsaId +
+        '","forNamn": "' +
+        vårdpersonal.förnamn +
+        '","efterNamn": "' +
+        vårdpersonal.efternamn +
+        '","enhetId": "' +
+        vårdenhet.id +
+        '","legitimeradeYrkesgrupper": ' +
+        vårdpersonal.legitimeradeYrkesgrupper +
+        ',"origin": "' +
+        originSträng +
+        '"}',
     },
   }).then((resp) => {
     //cy.log("json:" ,JSON.stringify(resp));
@@ -106,7 +109,7 @@ function skapaIntygViaApi(fx, status, typ, theFill, sent) {
   const intygStatus = theStatus[status]
   const beingSent = sent ? true : false
   // cy.log(intygStatus);
-  const intygTyp = ['af00213', 'lisjp', 'ag7804']
+  const intygTyp = ['af00213', 'lisjp', 'ag7804', 'db']
   const intygsTypen = intygTyp[typ]
   const filler = theFill ? 'MINIMAL' : 'EMPTY'
   //cy.log(intygStatus + intygTyp + filler);
