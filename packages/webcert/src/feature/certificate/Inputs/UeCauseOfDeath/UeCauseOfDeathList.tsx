@@ -8,18 +8,26 @@ import {
   ValueCauseOfDeathList,
 } from '@frontend/common'
 import trash from '@frontend/common/src/images/trash.svg'
-import React, { useState } from 'react'
+import React, { useState, ComponentProps } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getFilter } from '../../../../components/icf/Styles'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import {
+  getQuestionHasValidationError,
+  getShowValidationErrors,
+  getVisibleValidationErrors,
+} from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
-interface Props {
+interface UeCauseOfDeathListProps {
   disabled: boolean
   question: CertificateDataElement
+}
+
+interface UeCauseOfDeathControlWrapperProps extends Omit<ComponentProps<typeof UeCauseOfDeathControl>, 'validationErrors'> {
+  questionId: string
 }
 
 const DeleteButtonWrapper = styled.div`
@@ -60,7 +68,16 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
   })
 }
 
-const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
+const UeCauseOfDeathControlWrapper: React.FC<UeCauseOfDeathControlWrapperProps> = ({ children, questionId, ...args }) => {
+  const validationErrors = useSelector(getVisibleValidationErrors(questionId, args.config.id))
+  return (
+    <UeCauseOfDeathControl {...args} validationErrors={validationErrors}>
+      {children}
+    </UeCauseOfDeathControl>
+  )
+}
+
+const UeCauseOfDeathList: React.FC<UeCauseOfDeathListProps> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigureUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
   const questionValueList = getValueList(questionValue.list, questionConfig)
@@ -121,7 +138,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
             return (
               config && (
-                <UeCauseOfDeathControl
+                <UeCauseOfDeathControlWrapper
+                  questionId={question.id}
                   id={value.id}
                   config={config}
                   value={value}
@@ -130,8 +148,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   hasValidationError={shouldDisplayValidationError}
                   oneLine={true}
                   validation={question.validation}
-                  onChange={handleChange}
-                  validationErrors={question.validationErrors}>
+                  onChange={handleChange}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
                       <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)} height="47px">
@@ -141,7 +158,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                       </CustomButton>
                     )}
                   </DeleteButtonWrapper>
-                </UeCauseOfDeathControl>
+                </UeCauseOfDeathControlWrapper>
               )
             )
           })}

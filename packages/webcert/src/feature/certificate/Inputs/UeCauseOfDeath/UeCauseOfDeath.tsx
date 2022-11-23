@@ -17,7 +17,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
   const dispatch = useDispatch()
   config = question.config as ConfigureUeCauseOfDeath
   value = question.value as ValueCauseOfDeath
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, config.causeOfDeath.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
 
   const handleChange = (value: ValueCauseOfDeath) => {
     dispatch(
