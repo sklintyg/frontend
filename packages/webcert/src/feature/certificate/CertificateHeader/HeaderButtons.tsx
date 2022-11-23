@@ -34,7 +34,7 @@ const HeaderButtons: React.FC<Props> = ({ resourceLinks, certificateMetadata, fu
     <Wrapper>
       {resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SHOW_RELATED_CERTIFICATE)) && (
         <ShowRelatedCertificateButton
-          certificateMetadata={certificateMetadata}
+          certificateId={certificateMetadata.id}
           functionDisabled={false}
           {...getResourceLink(resourceLinks, ResourceLinkType.SHOW_RELATED_CERTIFICATE)}
         />
