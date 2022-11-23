@@ -577,7 +577,7 @@ const handleShowRelatedCertificate: Middleware<Dispatch> = ({ dispatch }: Middle
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + action.payload.certificateId + '/related',
-      method: 'POST',
+      method: 'GET',
       onStart: showRelatedCertificateStarted.type,
       onSuccess: showRelatedCertificateSuccess.type,
       onError: certificateApiGenericError.type,
