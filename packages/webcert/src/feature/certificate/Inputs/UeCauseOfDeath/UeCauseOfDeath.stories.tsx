@@ -1,16 +1,16 @@
 import { fakeCauseOfDeathElement } from '@frontend/common'
 import { Story } from '@storybook/react'
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
-import UeCauseOfDeath, { Props } from './UeCauseOfDeath'
+import UeCauseOfDeath from './UeCauseOfDeath'
 
 export default {
   title: 'Webcert/UeCauseOfDeath',
   component: UeCauseOfDeath,
 }
 
-const Template: Story<Props> = ({ ...args }) => {
+const Template: Story<ComponentProps<typeof UeCauseOfDeath>> = ({ ...args }) => {
   return (
     <Provider store={store}>
       <UeCauseOfDeath {...args} />

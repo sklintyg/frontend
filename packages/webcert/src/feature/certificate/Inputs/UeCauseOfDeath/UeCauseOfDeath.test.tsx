@@ -28,11 +28,9 @@ const question: CertificateDataElement = fakeCauseOfDeathElement({
 
 const renderComponent = (props: ComponentProps<typeof UeCauseOfDeath>) => {
   render(
-    <>
-      <Provider store={store}>
-        <UeCauseOfDeath {...props} />
-      </Provider>
-    </>
+    <Provider store={store}>
+      <UeCauseOfDeath {...props} />
+    </Provider>
   )
 }
 

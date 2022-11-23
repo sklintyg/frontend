@@ -406,18 +406,21 @@ export const fakeCauseOfDeathElement = (
     {
       ...data,
       config: {
-        debutId: 'debut',
         description: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
-        descriptionId: 'description',
         id: 'termainalDodsorsak',
         label: 'A',
         text: 'Den terminala dödsorsaken var',
         type: ConfigTypes.UE_CAUSE_OF_DEATH,
-        specifications: [
-          { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-          { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-          { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-        ],
+        causeOfDeath: {
+          id: faker.random.alpha({ count: 5 }),
+          debutId: 'debut',
+          descriptionId: 'description',
+          specifications: [
+            { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+            { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+            { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+          ],
+        },
         ...data?.config,
       },
       value: {

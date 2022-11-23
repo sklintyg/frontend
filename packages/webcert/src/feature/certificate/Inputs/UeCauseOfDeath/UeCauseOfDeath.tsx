@@ -5,7 +5,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
-export interface Props {
+interface Props {
   config?: ConfigureUeCauseOfDeath
   value?: ValueCauseOfDeath
   disabled?: boolean
@@ -17,7 +17,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
   const dispatch = useDispatch()
   config = question.config as ConfigureUeCauseOfDeath
   value = question.value as ValueCauseOfDeath
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, config.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id, config.causeOfDeath.id))
 
   const handleChange = (value: ValueCauseOfDeath) => {
     dispatch(
@@ -35,7 +35,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
         {config.label && <div className="iu-fl iu-fs-700 iu-mr-400">{config.label}</div>}
         <UeCauseOfDeathControl
           id={question.id}
-          config={config}
+          config={config.causeOfDeath}
           value={value}
           disabled={disabled}
           onChange={handleChange}

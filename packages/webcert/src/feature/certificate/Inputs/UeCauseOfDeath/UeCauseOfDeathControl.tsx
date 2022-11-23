@@ -17,6 +17,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
+import { merge } from 'lodash'
 
 export interface Props {
   config: ConfigureUeCauseOfDeathControl
@@ -75,9 +76,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   value,
 }) => {
   const dispatch = useAppDispatch()
-  const [descriptionValue, setDescriptionValue] = useState(value.description !== undefined ? value.description.text ?? '' : '')
-  const [debutValue, setDebutValue] = useState(value.debut !== undefined ? value.debut.date ?? '' : '')
-  const [specificationValue, setSpecificationValue] = useState(value.specification !== undefined ? value.specification.code : '')
+  const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(value)
 
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
@@ -85,25 +84,21 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
 
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }, ...config.specifications]
 
-  const handleValueUpdate = (updatedValue: Partial<ValueCauseOfDeath>) => {
-    onChange({ ...value, ...updatedValue })
-  }
-
   const handleDescriptionChange = (text: string) => {
-    setDescriptionValue(text)
-    handleValueUpdate({ description: { ...value.description, text } })
+    setCurrentValue((val) => merge(val, { description: { text } }))
+    onChange(currentValue)
   }
 
   const handleDateChange = (date: string) => {
-    setDebutValue(date)
+    setCurrentValue((val) => merge(val, { debut: { date } }))
     if (isValid(getValidDate(date)) || date === '') {
-      handleValueUpdate({ debut: { ...value.debut, date } })
+      onChange(currentValue)
     }
   }
 
   const handleSpecificationChange = (code: string) => {
-    setSpecificationValue(code)
-    handleValueUpdate({ specification: { ...value.specification, code } })
+    setCurrentValue((val) => merge(val, { specification: { code } }))
+    onChange(currentValue)
   }
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
@@ -124,9 +119,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   )
 
   useEffect(() => {
-    setDescriptionValue(value.description.text ?? '')
-    setDebutValue(value.debut.date ?? '')
-    setSpecificationValue(value.specification.code)
+    setCurrentValue(value)
   }, [value])
 
   return (
@@ -136,7 +129,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           <TextInputCustomHeight
             label="Beskrivning"
             id={'description_' + config.id}
-            value={descriptionValue}
+            value={currentValue.description.text ?? ''}
             onChange={(event) => {
               handleDescriptionChange(event.currentTarget.value)
             }}
@@ -152,7 +145,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               label="Ungefärlig debut"
               forbidFutureDates={true}
               vertical={true}
-              inputString={debutValue}
+              inputString={currentValue.debut.date ?? ''}
               disabled={disabled}
               textInputOnChange={handleDateChange}
               setDate={handleDateChange}
@@ -171,7 +164,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
                 handleSpecificationChange(event.currentTarget.value)
               }}
               disabled={disabled}
-              value={specificationValue}
+              value={currentValue.specification.code}
               options={specifications.map((item) => (
                 <option value={item.id} key={item.id}>
                   {item.label}
