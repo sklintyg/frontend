@@ -4,7 +4,7 @@
  * LISJP = Läkarintyg för sjukpenning, FK 7804
  */
 
-describe('LISJP-intyg tomt', function() {
+describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
   before(function() {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/betaVC').as('vårdenhet')
@@ -21,7 +21,7 @@ describe('LISJP-intyg tomt', function() {
       })
     })
 
-    describe('Funktioner på ett tomt LISJP utkast (ignore)', () => {
+    describe('Funktioner på ett tomt LISJP utkast (ignore)', { tags: '@angular' }, () => {
       it('Ett icke ifylld LISJP går ej att signera och skicka till FK', function() {
         const webcertUrl = Cypress.env('webcertUrl')
         Cypress.config('baseUrl', webcertUrl)

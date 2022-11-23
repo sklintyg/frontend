@@ -12,6 +12,7 @@ import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
+import { css } from 'styled-components'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,
@@ -50,6 +51,9 @@ const PhoneNumberInput = styled.input.attrs({
   maxLength: 20,
 })`
   max-width: 15em;
+`
+const mandatoryIconAdditionalStyles = css`
+  top: -5px;
 `
 
 const UeCareUnitAddress: React.FC = () => {
@@ -101,7 +105,7 @@ const UeCareUnitAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!careUnitInfo.address} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.address} />
             <label htmlFor="address">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
@@ -122,7 +126,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!careUnitInfo.zipCode} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.zipCode} />
             <label htmlFor="zipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -142,7 +146,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!careUnitInfo.city} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.city} />
             <label htmlFor="city">Postort</label>
           </div>
           <div className="iu-grid-span-9">

@@ -40,6 +40,11 @@ export const CARE_UNIT_CITY_FIELD = 'grunddata.skapadAv.vardenhet.postort'
 export const CARE_UNIT_PHONE_NUMBER_FIELD = 'grunddata.skapadAv.vardenhet.telefonnummer'
 export const CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID = 'vardenhetensadress'
 export const CARE_UNIT_ADDRESS_CATEGORY_TITLE = 'Vårdenhetens adress'
+export const PATIENT_STREET_FIELD = 'grunddata.patient.postadress'
+export const PATIENT_ZIP_CODE_FIELD = 'grunddata.patient.postnummer'
+export const PATIENT_CITY_FIELD = 'grunddata.patient.postort'
+export const PATIENT_ADDRESS_CATEGORY_TITLE_ID = 'patientensadress'
+export const PATIENT_ADDRESS_CATEGORY_TITLE = 'Patientens adressuppgifter'
 
 export const parseExpression = (
   expression: string,
@@ -314,7 +319,9 @@ export const decorateCertificateWithInitialValues = (certificate: Certificate): 
 
   function setAsVisibleTrueAsDefault() {
     for (const id in data) {
-      data[id].visible = true
+      if (data[id].visible === undefined) {
+        data[id].visible = true
+      }
     }
   }
 
@@ -381,6 +388,7 @@ export const getSortedValidationErrorSummary = (
   result.sort(sortByIndex)
 
   result = addCareUnitValidationErrors(result, certificate.metadata.careUnitValidationErrors)
+  result = addPatientValidationErrors(result, certificate.metadata.patientValidationErrors)
 
   return result
 }
@@ -391,6 +399,19 @@ function addCareUnitValidationErrors(validationErrorSummary: ValidationErrorSumm
       id: CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
       text: CARE_UNIT_ADDRESS_CATEGORY_TITLE,
     } as ValidationErrorSummary)
+  }
+
+  return validationErrorSummary
+}
+
+function addPatientValidationErrors(validationErrorSummary: ValidationErrorSummary[], patientValidationErrors?: ValidationError[]) {
+  if (patientValidationErrors && patientValidationErrors.length > 0) {
+    validationErrorSummary = [
+      {
+        id: PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+        text: PATIENT_ADDRESS_CATEGORY_TITLE,
+      } as ValidationErrorSummary,
+    ].concat(validationErrorSummary)
   }
 
   return validationErrorSummary

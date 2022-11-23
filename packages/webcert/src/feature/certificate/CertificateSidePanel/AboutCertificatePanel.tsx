@@ -1,11 +1,11 @@
+import { sanitizeText } from '@frontend/common'
+import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
-import styled from 'styled-components'
-import _ from 'lodash'
-import { sanitizeText } from '@frontend/common'
 
 const Root = styled.div`
   height: 100%;
@@ -25,6 +25,9 @@ const ContentWrapper = styled.div<StyledProps>`
 
   ul {
     margin: 8px 0 8px 0;
+  }
+  p:last-of-type {
+    padding-bottom: 50px;
   }
 `
 

@@ -7,6 +7,7 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import _ from 'lodash'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import trash from '@frontend/common/src/images/trash.svg'
+import { RevokeDBAndDOIModalContent } from './RevokeDBAndDOIModalContent'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -17,8 +18,10 @@ interface Props extends FunctionDisabled {
 const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
   const [dispatchObject, setDispatchObject] = useState<null | RevokeCertificateReason>(null)
   const dispatch = useDispatch()
-  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true)
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const isDodsbevis = metadata?.type === 'db'
+  const isDodsorsaksIntyg = metadata?.type === 'doi'
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(isDodsbevis || isDodsorsaksIntyg ? false : true)
 
   const handleRevokeForm = (obj: RevokeCertificateReason) => {
     setDispatchObject(obj)
@@ -30,6 +33,8 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
   const handleDispatch = () => {
     if (dispatchObject) {
       dispatch(revokeCertificate(dispatchObject))
+    } else {
+      dispatch(revokeCertificate({ reason: '', message: '', title: '' }))
     }
   }
 
@@ -53,8 +58,13 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       startIcon={<img src={trash} alt="Makulera" />}
       modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
-      confirmButtonText="Makulera">
-      <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} />
+      confirmButtonText="Makulera"
+      buttonTestId="revoke-certificate-button">
+      {isDodsbevis || isDodsorsaksIntyg ? (
+        <RevokeDBAndDOIModalContent />
+      ) : (
+        <RevokeCertificateModalContent onChange={handleRevokeForm} type={metadata?.type} />
+      )}
     </ButtonWithConfirmModal>
   )
 }
