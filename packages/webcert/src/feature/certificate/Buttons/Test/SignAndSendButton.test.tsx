@@ -2,23 +2,29 @@ import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
 import '@testing-library/jest-dom'
 import { getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
 import { updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import SignAndSendButton from '../SignAndSendButton'
 
-const NAME = 'Sign button name'
-const DESCRIPTION = 'Sign button description'
-const BODY = 'Sign modal body'
-
 const mockDispatchFn = jest.fn()
 
-const renderDefaultComponent = (enabled: boolean, type: ResourceLinkType, body?: string) => {
+const commonProps = {
+  body: 'Sign modal body',
+  canSign: true,
+  description: 'Sign button description',
+  enabled: true,
+  functionDisabled: false,
+  name: 'Sign button name',
+  type: ResourceLinkType.SIGN_CERTIFICATE,
+}
+
+const renderDefaultComponent = (props: ComponentProps<typeof SignAndSendButton>) => {
   render(
     <Provider store={store}>
-      <SignAndSendButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} type={type} body={body} />
+      <SignAndSendButton {...props} />
     </Provider>
   )
 }
@@ -30,19 +36,19 @@ beforeEach(() => {
 
 describe('Sign certificate without confirmation modal', () => {
   it('Enabled Sign button and no modal', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE)
+    renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
     expect(button).toBeEnabled()
   })
 
   it('Disabled Sign button', () => {
-    renderDefaultComponent(false, ResourceLinkType.SIGN_CERTIFICATE)
+    renderDefaultComponent({ ...commonProps, enabled: false })
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
   })
 
   it('Click Sign button and no modal', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE)
+    renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
     userEvent.click(button)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
@@ -55,33 +61,33 @@ describe('Sign certificate with confirmation modal', () => {
   })
 
   it('Enabled Sign button and no modal', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     expect(button).toBeEnabled()
   })
 
   it('Disabled Sign button', () => {
-    renderDefaultComponent(false, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, enabled: false, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
   })
 
   it('Click Sign button and modal', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     userEvent.click(button)
 
     expect(screen.queryByRole('dialog')).toBeInTheDocument()
-    expect(screen.queryByText(BODY)).toBeInTheDocument()
+    expect(screen.queryByText(commonProps.body)).toBeInTheDocument()
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
-    const confirmButton = queryByText(modalBody, NAME)
+    const confirmButton = queryByText(modalBody, commonProps.name)
     const cancelButton = queryByText(modalBody, 'Avbryt')
     expect(confirmButton).toBeInTheDocument()
     expect(cancelButton).toBeInTheDocument()
   })
 
   it('Click Sign button and modal cancel', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     userEvent.click(button)
 
@@ -93,12 +99,12 @@ describe('Sign certificate with confirmation modal', () => {
   })
 
   it('Click Sign button and modal confirm', () => {
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     userEvent.click(button)
 
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
-    const confirmButton = getByText(modalBody, NAME)
+    const confirmButton = getByText(modalBody, commonProps.name)
     userEvent.click(confirmButton)
     expect(mockDispatchFn).toHaveBeenCalledTimes(1)
   })
@@ -115,9 +121,23 @@ describe('Sign certificate with confirmation modal', () => {
         },
       ])
     )
-    renderDefaultComponent(true, ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION, BODY)
+    renderDefaultComponent({ ...commonProps, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
     const button = screen.getByRole('button')
     userEvent.click(button)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('Should hide modal confirmation button when canSign is false', () => {
+    renderDefaultComponent({ ...commonProps, canSign: false, type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION })
+    const button = screen.getByRole('button')
+    userEvent.click(button)
+
+    expect(screen.queryByRole('dialog')).toBeInTheDocument()
+
+    const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
+    const confirmButton = queryByText(modalBody, commonProps.name)
+    const cancelButton = queryByText(modalBody, 'Avbryt')
+    expect(confirmButton).not.toBeInTheDocument()
+    expect(cancelButton).toBeInTheDocument()
   })
 })

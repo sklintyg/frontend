@@ -31,7 +31,8 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
         modalTitle={isDraft(certificateMetadata) || isLocked(certificateMetadata) ? 'Skriv ut utkast' : 'Skriv ut intyg'}
         startIcon={<img src={print} alt="Skriva ut" />}
         onConfirm={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
-        confirmButtonText={'Skriv ut'}>
+        confirmButtonText={'Skriv ut'}
+        buttonTestId="print-certificate-button">
         <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
       </ButtonWithConfirmModal>
     ) : (
@@ -39,6 +40,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
         tooltip={description}
         disabled={!enabled}
         buttonStyle="primary"
+        data-testid="print-certificate-button"
         text={name}
         startIcon={<img src={print} alt="Skriva ut" />}
         onClick={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}

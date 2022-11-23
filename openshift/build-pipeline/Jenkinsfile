@@ -136,7 +136,7 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
-                            timeout(10) {
+                            timeout(15) {
                                 def status = ""
                                 build.untilEach(1) {
                                     status = it.object().status.phase

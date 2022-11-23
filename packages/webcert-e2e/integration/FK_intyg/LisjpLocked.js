@@ -3,7 +3,7 @@
 import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 
 // LISJP = Läkarintyg för sjukpenning, FK 7804
-describe('LISJP-intyg låst utkast', function() {
+describe('LISJP-intyg låst utkast', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -18,7 +18,7 @@ describe('LISJP-intyg låst utkast', function() {
         cy.log('LISJP-låst utkast med id ' + utkastId + ' skapat och används i testfallet')
       })
     })
-    describe('Funktioner på ett låst LISJP utkast', () => {
+    describe('Funktioner på ett låst LISJP utkast', { tags: '@react' }, () => {
       it('Skriva ut ett låst LISJP utkast', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId

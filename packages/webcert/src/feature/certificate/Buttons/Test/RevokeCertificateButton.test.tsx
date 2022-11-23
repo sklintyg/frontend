@@ -3,10 +3,16 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { CustomTooltip, QuestionType } from '@frontend/common/src'
+import { Certificate, CustomTooltip, fakeCertificate, fakeCertificateMetaData, QuestionType } from '@frontend/common/src'
 import RevokeCertificateButton from '../RevokeCertificateButton'
 import store from '../../../../store/store'
+import reducer from '../../../../store/reducers'
 import { updateQuestions } from '../../../../store/question/questionActions'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import { apiMiddleware } from '../../../../store/api/apiMiddleware'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 
 const NAME = 'Revoke button name'
 const DESCRIPTION = 'Revoke button description'
@@ -15,9 +21,20 @@ const OTHER_REASON_LABEL = 'Annat allvarligt fel'
 const WRONG_PATIENT_LABEL = 'Intyget har utfärdats på fel patient'
 const UNHANDLED_QUESTIONS_TEXT = 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.'
 
+let testStore: EnhancedStore
+
 const renderDefaultComponent = (enabled: boolean) => {
   render(
     <Provider store={store}>
+      <CustomTooltip />
+      <RevokeCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
+    </Provider>
+  )
+}
+
+const renderComponentWithTestStore = (enabled: boolean) => {
+  render(
+    <Provider store={testStore}>
       <CustomTooltip />
       <RevokeCertificateButton name={NAME} description={DESCRIPTION} enabled={enabled} functionDisabled={false} />
     </Provider>
@@ -178,6 +195,49 @@ describe('Revoke continue button', () => {
     expect(store.dispatch).toHaveBeenCalledWith({
       payload: { reason: 'FEL_PATIENT', message: 'test', title: WRONG_PATIENT_LABEL },
       type: '[CERTIFICATE] Revoke certificate',
+    })
+  })
+
+  describe('isDodsbevis', () => {
+    const createCertificate = (): Certificate => fakeCertificate({ metadata: fakeCertificateMetaData({ type: 'db' }) })
+
+    beforeEach(() => {
+      testStore = configureStore({
+        reducer,
+        middleware: (getDefaultMiddleware) =>
+          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
+      })
+
+      const certificate = createCertificate()
+      testStore.dispatch(updateCertificate(certificate))
+    })
+
+    afterEach(() => clearDispatchedActions())
+
+    it('shall enable confirm button if isDodsbevis', () => {
+      renderComponentWithTestStore(true)
+      openModal()
+
+      const revokeButton = screen.queryByText(REVOKE_BUTTON_TEXT)
+      expect(revokeButton).toBeEnabled()
+    })
+
+    it('shall dispatch revoke certificate when revoke is pressed', () => {
+      renderComponentWithTestStore(true)
+      openModal()
+      userEvent.click(screen.getByLabelText(REVOKE_BUTTON_TEXT))
+
+      const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
+      expect(revokeCertificateAction).toBeDefined()
+    })
+
+    it('shall dispatch with empty reason, message and title', () => {
+      renderComponentWithTestStore(true)
+      openModal()
+      userEvent.click(screen.getByText(REVOKE_BUTTON_TEXT))
+
+      const revokeCertificateAction = dispatchedActions.find((action) => revokeCertificate.match(action))
+      expect(revokeCertificateAction?.payload).toEqual({ reason: '', message: '', title: '' })
     })
   })
 })

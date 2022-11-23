@@ -59,6 +59,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
         disabled={!enabled}
         onClick={handleEmailSend}
         tooltip={description}
+        data-testid="forward-certificate-button"
         startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}>
         {name}
       </CustomButton>
@@ -76,6 +77,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       onClick={handleEmailSend}
       confirmButtonText="Ja"
       declineButtonText="Nej"
+      buttonTestId="forward-certificate-button"
       confirmButtonDisabled={functionDisabled}>
       <p>Vill du markera {type === ResourceLinkType.FORWARD_CERTIFICATE ? 'utkastet' : 'ärendet'} som vidarebefordrat?</p>
     </ButtonWithConfirmModal>
