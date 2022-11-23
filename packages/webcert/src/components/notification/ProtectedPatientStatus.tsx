@@ -1,6 +1,10 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import PatientStatusNotificationWithModal from '../../feature/certificate/Notifications/PatientStatusNotificationWithModal'
 
+const BulletList = styled.ul`
+  margin-top: 0.625rem;
+`
 interface Props {
   isProtectedPatient: boolean
 }
@@ -17,7 +21,9 @@ const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
       <p>
         Att en patient har skyddade personuppgifter betyder att Skatteverket har bedömt att patientens personuppgifter är extra viktiga att
         skydda. Det finns speciella riktlinjer för hur personuppgifter för de invånarna ska hanteras. I Webcert innebär det att:
-        <ul>
+      </p>
+      <p>
+        <BulletList>
           <li>
             Du som användare av Webcert ska behandla personuppgifterna med försiktighet. Samtliga personuppgifter rörande patienten är
             skyddsvärda.
@@ -29,7 +35,7 @@ const ProtectedPatientStatus: React.FC<Props> = ({ isProtectedPatient }) => {
             Endast ett urval av intygstyper kan utfärdas för patienten med skyddade personuppgifter. Det beror på att det krävs särskild
             hantering av deras personuppgifter i Webcert och hos mottagaren av intyget.
           </li>
-        </ul>
+        </BulletList>
       </p>
     </PatientStatusNotificationWithModal>
   )
