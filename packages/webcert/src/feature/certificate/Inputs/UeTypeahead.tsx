@@ -46,7 +46,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
         const updatedValue = getUpdatedValue(question, value)
         dispatch(updateCertificateDataElement(updatedValue))
       }
-    }, 100)
+    }, 2000)
   ).current
 
   const handleClose = () => {
@@ -55,11 +55,12 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newText = event.currentTarget.value
+
     if (newText !== text) {
       setText(newText)
 
       setOpen(true)
-      dispatchEditDraft.cancel()
+      dispatchEditDraft(question, newText)
 
       if (newText === undefined || newText === null) {
         return []
@@ -71,10 +72,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
 
       const result = GetFilteredSuggestions(questionConfig.typeAhead, newText)
       setSuggestions(result)
-
-      if (result.length === 0) {
-        dispatchEditDraft(question, newText)
-      }
     }
   }
 
