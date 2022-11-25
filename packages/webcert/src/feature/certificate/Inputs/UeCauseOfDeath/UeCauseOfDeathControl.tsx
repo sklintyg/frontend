@@ -84,9 +84,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   }
 
   const handleDateChange = (date: string) => {
-    // if (isValid(getValidDate(date)) || date === '') {
-    //   onChange({ ...value, debut: { ...value.debut, date } })
-    // }
     onChange({ ...value, debut: { ...value.debut, date } })
   }
 
