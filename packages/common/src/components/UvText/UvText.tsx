@@ -1,37 +1,41 @@
 import {
   CertificateDataConfig,
   CertificateDataElement,
+  CertificateDataElementStyleEnum,
   CertificateDataValueType,
   CheckboxCode,
+  ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDiagnoses,
   ConfigUeIcf,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
+  ConfigureUeCauseOfDeath,
+  ConfigureUeCauseOfDeathControl,
+  ConfigureUeCauseOfDeathList,
+  ConfigureUeCauseOfDeathSpecification,
   ValueBoolean,
+  ValueCauseOfDeath,
+  ValueCauseOfDeathList,
   ValueCode,
   ValueCodeList,
+  ValueDate,
   ValueDateList,
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
   ValueText,
+  ValueUncertainDate,
 } from '@frontend/common'
+import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
 import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import {
-  CertificateDataElementStyleEnum,
-  ConfigTypes,
-  ConfigUeCheckboxBoolean,
-  ConfigUeRadioMultipleCodesOptionalDropdown,
-  ValueDate,
-  ValueUncertainDate,
-} from '../../types/certificate'
 import Badge from './Badge'
-import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -39,6 +43,26 @@ const IcfCode = styled.p`
 
 const IcfCodeWrapper = styled.div`
   flex-wrap: wrap;
+`
+
+const CauseOfDeathWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+`
+const CauseOfDeathDescription = styled.div<{ oneLine: boolean }>`
+  grid-column: ${(props) => (props.oneLine ? 1 : 1 / 2)};
+  grid-row: 1;
+`
+
+const CauseOfDeathDateAndSpec = styled.div<{ oneLine: boolean }>`
+  display: flex;
+  grid-column: ${(props) => (props.oneLine ? 2 : 1)};
+  grid-row: ${(props) => (props.oneLine ? 1 : 2)};
+`
+
+const CauseOfDeathDateAndSpecInner = styled.div`
+  min-width: 25ch;
 `
 
 export interface Props {
@@ -181,6 +205,72 @@ const UvText: React.FC<Props> = ({ question }) => {
     return 'Ej angivet'
   }
 
+  const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
+    return (
+      <CauseOfDeathWrapper>
+        <CauseOfDeathDescription oneLine={false}>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Beskrivning</p>
+          <div>{description}</div>
+        </CauseOfDeathDescription>
+        <CauseOfDeathDateAndSpec oneLine={false}>
+          <CauseOfDeathDateAndSpecInner>
+            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Ungefärlig debut</p>
+            <div>{debut}</div>
+          </CauseOfDeathDateAndSpecInner>
+          <CauseOfDeathDateAndSpecInner>
+            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Specificera tillståndet</p>
+            <div>{specification}</div>
+          </CauseOfDeathDateAndSpecInner>
+        </CauseOfDeathDateAndSpec>
+      </CauseOfDeathWrapper>
+    )
+  }
+
+  const getCauseOfDeathValue = (questionElement: CertificateDataElement) => {
+    const causeOfDeathValue = questionElement.value as ValueCauseOfDeath
+    const causeOfDeathConfig = questionElement.config as ConfigureUeCauseOfDeath
+    const causeOfDeathControlConfig = causeOfDeathConfig.causeOfDeath as ConfigureUeCauseOfDeathControl
+    if (causeOfDeathValue.id !== undefined && questionElement.visible) {
+      const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCauseOfDeathSpecification[]).find(
+        (item) => item.code === causeOfDeathValue.specification.code
+      )
+      return (
+        <>
+          {causeOfDeathConfig.label && <div className="iu-fl iu-fs-700 iu-mr-400">{causeOfDeathConfig.label}</div>}
+          {getCauseOfDeathRow(
+            false,
+            causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
+            causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet',
+            chosenSpec ? chosenSpec.label : 'Ej angivet'
+          )}
+        </>
+      )
+    }
+    return ''
+  }
+
+  const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
+    const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
+    const causeOfDeathListConfig = questionElement.config as ConfigureUeCauseOfDeathList
+    if (causeOfDeathValueList.id !== undefined && questionElement.visible) {
+      return causeOfDeathListConfig.list.map((causeOfDeathControlConfig) => {
+        const causeOfDeathValue = causeOfDeathValueList.list.find((item) => item.id === causeOfDeathControlConfig.id)
+        if (causeOfDeathValue) {
+          const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCauseOfDeathSpecification[]).find(
+            (item) => item.code === causeOfDeathValue.specification.code
+          )
+          return getCauseOfDeathRow(
+            true,
+            causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
+            causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet',
+            chosenSpec ? chosenSpec.label : 'Ej angivet'
+          )
+        } else return ''
+      })
+    }
+    return ''
+  }
+
   const getUVText = () => {
     if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
       const questionProps = { key: question.id, disabled: false, question }
@@ -279,6 +369,12 @@ const UvText: React.FC<Props> = ({ question }) => {
           displayText = textValueUncertainDate.value
         }
         break
+      }
+      case CertificateDataValueType.CAUSE_OF_DEATH: {
+        return getCauseOfDeathValue(question)
+      }
+      case CertificateDataValueType.CAUSE_OF_DEATH_LIST: {
+        return getCauseOfDeathValueList(question)
       }
       default: {
         displayText = 'Okänd datatyp'
