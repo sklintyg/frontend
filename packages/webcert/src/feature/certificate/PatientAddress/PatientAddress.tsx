@@ -1,37 +1,37 @@
 import {
-  MandatoryIcon,
-  QuestionValidationTexts,
-  TextArea,
   getResourceLink,
+  MandatoryIcon,
+  Patient,
+  QuestionValidationTexts,
   resourceLinksAreEqual,
   ResourceLinkType,
-  Patient,
+  TextArea,
 } from '@frontend/common'
 import {
-  PATIENT_STREET_FIELD,
-  PATIENT_CITY_FIELD,
-  PATIENT_ZIP_CODE_FIELD,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
   getValidationErrors,
+  PATIENT_ADDRESS_CATEGORY_TITLE,
+  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+  PATIENT_CITY_FIELD,
+  PATIENT_STREET_FIELD,
+  PATIENT_ZIP_CODE_FIELD,
 } from '@frontend/common/src/utils/validationUtils'
-import React, { useState, useRef } from 'react'
+import _ from 'lodash'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
 import { css } from 'styled-components'
+import styled from 'styled-components/macro'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
-  getPatient,
-  getPatientValidationErrors,
   getIsEditable,
   getIsLocked,
-  getShowValidationErrors,
+  getPatient,
+  getPatientValidationErrors,
   getResourceLinks,
+  getShowValidationErrors,
 } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
-import _ from 'lodash'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -115,7 +115,7 @@ const PatientAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.street} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.street} />
             <label htmlFor="patientAddress">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
@@ -136,7 +136,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.zipCode} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.zipCode} />
             <label htmlFor="patientZipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -156,7 +156,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!patientInfo.city} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.city} />
             <label htmlFor="patientCity">Postort</label>
           </div>
           <div className="iu-grid-span-9">
