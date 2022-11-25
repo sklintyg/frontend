@@ -49,7 +49,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
 
   return (
     <ButtonWithConfirmModal
-      onClose={() => setConfirmButtonDisabled(true)}
+      onClose={() => (isDodsbevis || isDodsorsaksIntyg ? setConfirmButtonDisabled(false) : setConfirmButtonDisabled(true))}
       confirmButtonDisabled={confirmButtonDisabled || functionDisabled}
       buttonStyle="secondary"
       name={name}
