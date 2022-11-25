@@ -8,26 +8,18 @@ import {
   ValueCauseOfDeathList,
 } from '@frontend/common'
 import trash from '@frontend/common/src/images/trash.svg'
-import React, { useState, ComponentProps } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getFilter } from '../../../../components/icf/Styles'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import {
-  getQuestionHasValidationError,
-  getShowValidationErrors,
-  getVisibleValidationErrors,
-} from '../../../../store/certificate/certificateSelectors'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
-interface UeCauseOfDeathListProps {
+interface Props {
   disabled: boolean
   question: CertificateDataElement
-}
-
-interface UeCauseOfDeathControlWrapperProps extends Omit<ComponentProps<typeof UeCauseOfDeathControl>, 'validationErrors'> {
-  questionId: string
 }
 
 const DeleteButtonWrapper = styled.div`
@@ -68,22 +60,13 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
   })
 }
 
-const UeCauseOfDeathControlWrapper: React.FC<UeCauseOfDeathControlWrapperProps> = ({ children, questionId, ...args }) => {
-  const validationErrors = useSelector(getVisibleValidationErrors(questionId, args.config.id))
-  return (
-    <UeCauseOfDeathControl {...args} validationErrors={validationErrors}>
-      {children}
-    </UeCauseOfDeathControl>
-  )
-}
-
-const UeCauseOfDeathList: React.FC<UeCauseOfDeathListProps> = ({ question, disabled }) => {
+const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigureUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
-  const questionValueList = getValueList(questionValue.list, questionConfig)
   const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
+  const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
       return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
@@ -97,32 +80,22 @@ const UeCauseOfDeathList: React.FC<UeCauseOfDeathListProps> = ({ question, disab
   }
 
   const handleDeleteRow = (id: string) => {
-    dispatchChanges(
-      getValueList(
-        questionValueList.filter((item) => item.id !== id),
-        questionConfig
-      )
-    )
-
+    updateList(questionValueList.filter((item) => item.id !== id))
     setNumVisible((val) => Math.max(val - 1, 2))
   }
 
   const handleChange = (value: ValueCauseOfDeath) => {
-    dispatchChanges(
-      getValueList(
-        questionValueList.map((item) => (item.id === value.id ? value : item)),
-        questionConfig
-      )
-    )
+    updateList(questionValueList.map((item) => (item.id === value.id ? value : item)))
   }
 
-  const dispatchChanges = (list: ValueCauseOfDeath[]) => {
+  const updateList = (list: ValueCauseOfDeath[]) => {
+    setQuestionValueList(getValueList(list, questionConfig))
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: {
           ...questionValue,
-          list,
+          list: questionValueList,
         },
       })
     )
@@ -138,17 +111,17 @@ const UeCauseOfDeathList: React.FC<UeCauseOfDeathListProps> = ({ question, disab
 
             return (
               config && (
-                <UeCauseOfDeathControlWrapper
+                <UeCauseOfDeathControl
                   questionId={question.id}
-                  id={value.id}
                   config={config}
                   value={value}
-                  key={index}
+                  key={config.id}
                   disabled={disabled}
-                  hasValidationError={shouldDisplayValidationError}
+                  isShowValidationError={isShowValidationError}
                   oneLine={true}
                   validation={question.validation}
-                  onChange={handleChange}>
+                  onChange={handleChange}
+                  validationErrors={validationErrors.filter((v) => [config.descriptionId, config.debutId].includes(v.field))}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
                       <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)} height="47px">
@@ -158,7 +131,7 @@ const UeCauseOfDeathList: React.FC<UeCauseOfDeathListProps> = ({ question, disab
                       </CustomButton>
                     )}
                   </DeleteButtonWrapper>
-                </UeCauseOfDeathControlWrapper>
+                </UeCauseOfDeathControl>
               )
             )
           })}

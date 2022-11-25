@@ -1,5 +1,13 @@
 import { fakeCauseOfDeathListElement } from '@frontend/common'
-import { CertificateDataElement, CertificateDataValidationType } from '@frontend/common/src/types/certificate'
+import {
+  CertificateDataElement,
+  CertificateDataValidationType,
+  Value,
+  CertificateDataValueType,
+  ValueText,
+  ValueDate,
+  ValueCode,
+} from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,8 +16,11 @@ import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
+const DESCRIPTION_LABEL = 'Beskrivning'
+const DEBUT_LABEL = 'Ungefärlig debut'
+const SPECIFICATION_LABEL = 'Specificera tillståndet'
+const ADD_BUTTON_TEXT = 'Lägg till ytterligare sjukdom'
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
-
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'list'
 
@@ -40,16 +51,16 @@ describe('Cause of death component', () => {
 
   it('renders all components', () => {
     renderComponent({ disabled: false, question })
-    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(2)
-    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(2)
-    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(2)
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(2)
+    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(2)
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(2)
   })
 
   it('renders, textinput, calendar button and drop down', () => {
     renderComponent({ disabled: false, question })
-    const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByLabelText('Specificera tillståndet')
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const descriptions = screen.getAllByLabelText(DESCRIPTION_LABEL)
+    const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     descriptions.forEach((description) => {
       expect(description).toBeInTheDocument()
     })
@@ -62,27 +73,38 @@ describe('Cause of death component', () => {
   })
 
   it('renders component with correct default values', () => {
-    renderComponent({ disabled: false, question })
-    const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByLabelText('Specificera tillståndet')
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
-    descriptions.forEach((description) => {
-      expect(description).toHaveValue('')
+    const description: ValueText = { type: CertificateDataValueType.TEXT, id: '1', text: 'Description text' }
+    const debut: ValueDate = { type: CertificateDataValueType.DATE, id: '1', date: '2020-02-20' }
+    const specification: ValueCode = { type: CertificateDataValueType.CODE, id: '1', code: '' }
+
+    renderComponent({
+      disabled: false,
+      question: {
+        ...question,
+        value: {
+          ...(question.value as Value),
+          list: [
+            {
+              description,
+              debut,
+              specification,
+            },
+          ],
+        },
+      },
     })
-    specifications.forEach((specification) => {
-      expect(specification).toHaveValue('')
-    })
-    dates.forEach((date) => {
-      expect(date).toHaveValue('')
-    })
+
+    expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)[0]).toHaveValue('Description text')
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)[0]).toHaveValue('')
   })
 
   it('does not disable component if disabled is not set', () => {
     renderComponent({ disabled: false, question })
-    const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByLabelText('Specificera tillståndet')
+    const descriptions = screen.getAllByLabelText(DESCRIPTION_LABEL)
+    const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     descriptions.forEach((description) => {
       expect(description).not.toBeDisabled()
     })
@@ -99,10 +121,10 @@ describe('Cause of death component', () => {
 
   it('Disable component if disabled is set', () => {
     renderComponent({ disabled: true, question })
-    const descriptions = screen.getAllByLabelText('Beskrivning')
-    const specifications = screen.getAllByLabelText('Specificera tillståndet')
+    const descriptions = screen.getAllByLabelText(DESCRIPTION_LABEL)
+    const specifications = screen.getAllByLabelText(SPECIFICATION_LABEL)
     const buttons = screen.getAllByRole('button')
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     descriptions.forEach((description) => {
       expect(description).toBeDisabled()
     })
@@ -119,10 +141,11 @@ describe('Cause of death component', () => {
 
   it('formats input into yyyy-mm-dd', () => {
     renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     const inputDate = '20200202'
     const expected = '2020-02-02'
     dates.forEach((date) => {
+      userEvent.clear(date)
       userEvent.type(date, inputDate)
       expect(date).toHaveValue(expected)
     })
@@ -130,7 +153,7 @@ describe('Cause of death component', () => {
 
   it('should display error when input is not a complete date', () => {
     renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     dates.forEach((date) => {
       userEvent.type(date, '2020-01')
       userEvent.tab()
@@ -146,7 +169,7 @@ describe('Cause of death component', () => {
 
   it('should display error when input is not a valid date', () => {
     renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     dates.forEach((date) => {
       userEvent.type(date, 'test')
       userEvent.tab()
@@ -162,7 +185,7 @@ describe('Cause of death component', () => {
 
   it('should not display error when input is a valid date', () => {
     renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText('Ungefärlig debut')
+    const dates = screen.getAllByLabelText(DEBUT_LABEL)
     dates.forEach((date) => {
       userEvent.type(date, '20200101')
       userEvent.tab()
@@ -172,32 +195,32 @@ describe('Cause of death component', () => {
     })
   })
 
-  it.only('should add new row when button is clicked', () => {
+  it('should add new row when button is clicked', () => {
     renderComponent({ disabled: false, question })
-    const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
+    const button = screen.getByLabelText(ADD_BUTTON_TEXT)
     userEvent.click(button)
-    expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(3)
-    expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(3)
-    expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(3)
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(3)
+    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(3)
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(3)
   })
 
   it('should not add more than 6 rows', () => {
     renderComponent({ disabled: false, question })
-    const button = screen.getByLabelText('Lägg till ytterligare sjukdom')
+    const button = screen.getByLabelText(ADD_BUTTON_TEXT)
     userEvent.click(button)
     setTimeout(() => {
       userEvent.click(button)
       setTimeout(() => userEvent.click(button), 100)
       setTimeout(() => userEvent.click(button), 100)
       setTimeout(() => userEvent.click(button), 100)
-      expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(7)
-      expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(7)
-      expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(7)
+      expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(7)
+      expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(7)
+      expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(7)
       expect(button).not.toBeDisabled()
       setTimeout(() => userEvent.click(button), 100)
-      expect(screen.getAllByLabelText('Beskrivning')).toHaveLength(8)
-      expect(screen.getAllByLabelText('Ungefärlig debut')).toHaveLength(8)
-      expect(screen.getAllByLabelText('Specificera tillståndet')).toHaveLength(8)
+      expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(8)
+      expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(8)
+      expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(8)
       expect(button).toBeDisabled()
     }, 100)
   })

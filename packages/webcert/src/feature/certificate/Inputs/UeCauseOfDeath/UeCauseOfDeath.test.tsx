@@ -36,11 +36,11 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeath>) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
   })
 
   it('renders, textinput, calendar button and drop down', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
     expect(screen.getByLabelText('Beskrivning')).toBeInTheDocument()
     expect(screen.getByLabelText('Ungefärlig debut')).toBeInTheDocument()
     expect(screen.getByRole('combobox')).toBeInTheDocument()
@@ -49,7 +49,7 @@ describe('Cause of death component', () => {
   it('renders component with correct default values', () => {
     renderComponent({
       disabled: false,
-      hasValidationError: false,
+
       question: _.merge(question, {
         value: {
           description: { text: 'description' },
@@ -65,7 +65,7 @@ describe('Cause of death component', () => {
   })
 
   it('does not disable component if disabled is not set', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
     const dropdown = screen.getByRole('combobox')
     expect(dropdown).not.toBeDisabled()
     expect(screen.getByLabelText('Beskrivning')).not.toBeDisabled()
@@ -73,7 +73,7 @@ describe('Cause of death component', () => {
   })
 
   it('disables component if disabled is set', () => {
-    renderComponent({ disabled: true, hasValidationError: false, question })
+    renderComponent({ disabled: true, question })
     const dropdown = screen.getByRole('combobox')
     expect(dropdown).toBeDisabled()
     expect(screen.getByLabelText('Beskrivning')).toBeDisabled()
@@ -81,7 +81,7 @@ describe('Cause of death component', () => {
   })
 
   it('formats input into yyyy-mm-dd', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
 
     const inputDate = '20200202'
     const expected = '2020-02-02'
@@ -91,7 +91,7 @@ describe('Cause of death component', () => {
   })
 
   it('should display error when input is not a complete date', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
     const input = screen.getByLabelText('Ungefärlig debut')
     userEvent.type(input, '2020-01')
     userEvent.tab()
@@ -99,7 +99,7 @@ describe('Cause of death component', () => {
   })
 
   it('should display error when input is not a valid date', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
     const input = screen.getByLabelText('Ungefärlig debut')
     userEvent.type(input, 'test')
     userEvent.tab()
@@ -107,7 +107,7 @@ describe('Cause of death component', () => {
   })
 
   it('should not display error when input is a valid date', () => {
-    renderComponent({ disabled: false, hasValidationError: false, question })
+    renderComponent({ disabled: false, question })
     const input = screen.getByLabelText('Ungefärlig debut')
     userEvent.type(input, '20200101')
     userEvent.tab()

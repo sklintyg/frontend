@@ -401,40 +401,42 @@ export const fakeHeaderElement = (
 export const fakeCauseOfDeathElement = (
   data?: PartialCertificateDataElement<ConfigureUeCauseOfDeath, ValueCauseOfDeath>,
   children?: CertificateData[]
-): CertificateData =>
-  fakeDataElement(
+): CertificateData => {
+  const descriptionId = faker.random.alpha({ count: 5 })
+  const debutId = faker.random.alpha({ count: 5 })
+
+  return fakeDataElement(
     {
       ...data,
       config: {
         description: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
-        id: 'termainalDodsorsak',
         label: 'A',
         text: 'Den terminala dödsorsaken var',
         type: ConfigTypes.UE_CAUSE_OF_DEATH,
         causeOfDeath: {
           id: faker.random.alpha({ count: 5 }),
-          debutId: 'debut',
-          descriptionId: 'description',
+          debutId: debutId,
+          descriptionId: descriptionId,
           specifications: [
             { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
             { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
             { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
           ],
+          ...data?.config?.causeOfDeath,
         },
         ...data?.config,
       },
       value: {
-        id: '1',
         type: CertificateDataValueType.CAUSE_OF_DEATH,
         description: {
           type: CertificateDataValueType.TEXT,
-          id: 'description',
+          id: descriptionId,
           text: faker.lorem.words(),
           ...data?.value?.description,
         },
         debut: {
           type: CertificateDataValueType.DATE,
-          id: 'debut',
+          id: debutId,
           date: faker.date
             .past()
             .toISOString()
@@ -443,7 +445,7 @@ export const fakeCauseOfDeathElement = (
         },
         specification: {
           type: CertificateDataValueType.CODE,
-          id: 'KRONISK',
+          id: faker.random.alpha({ count: 5 }),
           code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
           ...data?.value?.specification,
         },
@@ -452,47 +454,45 @@ export const fakeCauseOfDeathElement = (
     },
     children
   )
+}
 
 export const fakeCauseOfDeathListElement = (
   data?: PartialCertificateDataElement<ConfigureUeCauseOfDeathList, ValueCauseOfDeathList>,
   children?: CertificateData[]
-): CertificateData =>
-  fakeDataElement(
+): CertificateData => {
+  const questions = new Array(8).fill(null).map(() => {
+    const id = faker.random.alpha({ count: 5 })
+    return fakeCauseOfDeathElement({ id })[id]
+  })
+
+  return fakeDataElement(
     {
       ...data,
       config: {
         type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
         text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
-        list: new Array(8)
-          .fill({
-            descriptionId: 'description',
-            debutId: 'debut',
-            specifications: [
-              { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-              { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-              { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-            ],
-          })
-          .map((val, index) => ({ ...val, id: `sjukdom${index + 1}` })),
         ...data?.config,
+        list: data?.config?.list ?? questions.map((question) => question.config.causeOfDeath),
       },
       value: {
         type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
         ...data?.value,
         list:
           data?.value?.list ??
-          new Array(8).fill(null).map((_, index) => {
-            const value = fakeCauseOfDeathElement({ id: '1', value: { id: `sjukdom${index + 1}` } })['1'].value as ValueCauseOfDeath
-            return index > 1
-              ? {
-                  ...value,
-                  description: { ...value.description, text: null },
-                  debut: { ...value.debut, date: undefined },
-                  specification: { ...value.specification, code: '' },
-                }
-              : value
-          }),
+          questions
+            .map((question) => question.value as ValueCauseOfDeath)
+            .map((value, index) =>
+              index > 1
+                ? {
+                    ...value,
+                    description: { ...value.description, text: null },
+                    debut: { ...value.debut, date: undefined },
+                    specification: { ...value.specification, code: '' },
+                  }
+                : value
+            ),
       },
     },
     children
   )
+}

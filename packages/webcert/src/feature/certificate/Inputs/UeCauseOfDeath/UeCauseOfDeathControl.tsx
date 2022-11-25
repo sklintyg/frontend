@@ -5,30 +5,27 @@ import {
   ConfigureUeCauseOfDeathControl,
   DatePickerCustom,
   Dropdown,
-  getValidDate,
   QuestionValidationTexts,
   TextInput,
   TextValidation,
   ValidationError,
   ValueCauseOfDeath,
 } from '@frontend/common'
-import { isValid } from 'date-fns'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
-import { merge } from 'lodash'
 
 export interface Props {
   config: ConfigureUeCauseOfDeathControl
-  onChange: (value: ValueCauseOfDeath) => void
   disabled?: boolean
-  hasValidationError?: boolean
-  validationErrors: ValidationError[]
-  id: string
-  validation: CertificateDataValidation[]
-  value: ValueCauseOfDeath
+  isShowValidationError: boolean
+  questionId: string
+  onChange: (value: ValueCauseOfDeath) => void
   oneLine?: boolean
+  validation: CertificateDataValidation[]
+  validationErrors: ValidationError[]
+  value: ValueCauseOfDeath
 }
 
 const Wrapper = styled.div`
@@ -64,20 +61,18 @@ const TextInputCustomHeight = styled(TextInput)`
 `
 
 const UeCauseOfDeathControl: React.FC<Props> = ({
-  children,
+  questionId,
+  value,
   config,
   disabled = false,
-  hasValidationError = false,
-  id,
-  onChange,
   oneLine = false,
+  children,
+  onChange,
   validation,
   validationErrors,
-  value,
+  isShowValidationError,
 }) => {
   const dispatch = useAppDispatch()
-  const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(value)
-
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -85,42 +80,26 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
-    setCurrentValue((val) => merge(val, { description: { text } }))
-    onChange(currentValue)
+    onChange({ ...value, description: { ...value.description, text } })
   }
 
   const handleDateChange = (date: string) => {
-    setCurrentValue((val) => merge(val, { debut: { date } }))
-    if (isValid(getValidDate(date)) || date === '') {
-      onChange(currentValue)
-    }
+    // if (isValid(getValidDate(date)) || date === '') {
+    //   onChange({ ...value, debut: { ...value.debut, date } })
+    // }
+    onChange({ ...value, debut: { ...value.debut, date } })
   }
 
   const handleSpecificationChange = (code: string) => {
-    setCurrentValue((val) => merge(val, { specification: { code } }))
-    onChange(currentValue)
-  }
-
-  const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    if (hasValidationError) {
-      return true
-    }
-    if (id) {
-      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
-    }
-    return validationErrors.length > 0
+    onChange({ ...value, debut: { ...value.specification, code } })
   }
 
   const dispatchValidationError = useCallback(
     (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
+      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
     },
     [dispatch]
   )
-
-  useEffect(() => {
-    setCurrentValue(value)
-  }, [value])
 
   return (
     <>
@@ -128,13 +107,13 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
         <Description oneLine={oneLine}>
           <TextInputCustomHeight
             label="Beskrivning"
-            id={'description_' + config.id}
-            value={currentValue.description.text ?? ''}
+            id={config.descriptionId}
+            value={value.description.text ?? ''}
             onChange={(event) => {
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={hasValidationError}
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.descriptionId)}
             limit={textValidation ? textValidation.limit : 100}
           />
         </Description>
@@ -145,14 +124,14 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               label="Ungefärlig debut"
               forbidFutureDates={true}
               vertical={true}
-              inputString={currentValue.debut.date ?? ''}
+              inputString={value.debut.date ?? ''}
               disabled={disabled}
               textInputOnChange={handleDateChange}
               setDate={handleDateChange}
-              id={`debut${config.id}`}
-              questionId={id}
-              componentField={`debut.${config.id}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'debut')}
+              id={config.debutId}
+              questionId={questionId}
+              componentField={config.debutId}
+              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.debutId)}
               onDispatchValidationError={dispatchValidationError}
             />
           </DateAndSpecInner>
@@ -164,22 +143,24 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
                 handleSpecificationChange(event.currentTarget.value)
               }}
               disabled={disabled}
-              value={currentValue.specification.code}
+              value={value.specification.code}
               options={specifications.map((item) => (
                 <option value={item.id} key={item.id}>
                   {item.label}
                 </option>
               ))}
-              hasValidationError={hasValidationError}
+              hasValidationError={false}
               height="47px"
             />
           </DateAndSpecInner>
           {children}
         </DateAndSpec>
       </Wrapper>
-      <ValidationWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
-      </ValidationWrapper>
+      {isShowValidationError && (
+        <ValidationWrapper>
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </ValidationWrapper>
+      )}
     </>
   )
 }

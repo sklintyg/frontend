@@ -1,25 +1,24 @@
 import { CertificateDataElement, ConfigureUeCauseOfDeath, ValueCauseOfDeath } from '@frontend/common'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
-  config?: ConfigureUeCauseOfDeath
-  value?: ValueCauseOfDeath
   disabled?: boolean
-  hasValidationError?: boolean
   question: CertificateDataElement
 }
 
-const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidationError, question }) => {
+const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
   const dispatch = useDispatch()
-  config = question.config as ConfigureUeCauseOfDeath
-  value = question.value as ValueCauseOfDeath
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
+  const config = question.config as ConfigureUeCauseOfDeath
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(question.value as ValueCauseOfDeath)
 
   const handleChange = (value: ValueCauseOfDeath) => {
+    setCurrentValue(value)
     dispatch(
       updateCertificateDataElement({
         ...question,
@@ -34,12 +33,12 @@ const UeCauseOfDeath: React.FC<Props> = ({ config, value, disabled, hasValidatio
       <div>
         {config.label && <div className="iu-fl iu-fs-700 iu-mr-400">{config.label}</div>}
         <UeCauseOfDeathControl
-          id={question.id}
+          questionId={question.id}
           config={config.causeOfDeath}
-          value={value}
+          value={currentValue}
           disabled={disabled}
           onChange={handleChange}
-          hasValidationError={hasValidationError}
+          isShowValidationError={isShowValidationError}
           validation={question.validation}
           validationErrors={validationErrors}
         />
