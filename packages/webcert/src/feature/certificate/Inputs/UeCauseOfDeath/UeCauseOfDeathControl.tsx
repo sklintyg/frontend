@@ -88,7 +88,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   }
 
   const handleSpecificationChange = (code: string) => {
-    onChange({ ...value, debut: { ...value.specification, code } })
+    onChange({ ...value, specification: { ...value.specification, code } })
   }
 
   const dispatchValidationError = useCallback(
