@@ -4,7 +4,7 @@
  * LISJP = Läkarintyg för sjukpenning, FK 7804
  */
 
-describe('LISJP-intyg tomt', function() {
+describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
   before(function() {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhetNR1')
@@ -23,7 +23,7 @@ describe('LISJP-intyg tomt', function() {
       })
     })
 
-    describe('Funktioner då man loggar in på ett utkast från annan vårdgivare med sammanhållenjournal', () => {
+    describe('Funktioner då man loggar in på ett utkast från annan vårdgivare med sammanhållenjournal', { tags: '@angular' }, () => {
       it('Ett LISJP utkast ska  inte kunna signeras från en annan vårdgivare', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId, true)
         const önskadUrl = '/visa/intyg/' + this.utkastId + '?enhet=' + this.vårdenhetNR1.id + '&sjf=true'
