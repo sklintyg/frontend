@@ -131,8 +131,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         })
       )
     } else if (typeaheadResult !== null) {
-      setOpenCode(false)
-      setOpenDescription(false)
       dispatch(resetDiagnosisTypeahead())
     }
   }
