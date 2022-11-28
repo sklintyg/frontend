@@ -109,7 +109,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
-  }, [open])
+  }, [open, suggestions.length])
   useEffect(() => {
     if (hovered >= 0) {
       setCursor(hovered)
