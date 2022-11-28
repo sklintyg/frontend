@@ -4,7 +4,7 @@ import * as intyg from '../../support/FK_intyg/lisjpIntyg'
 /**
  * LISJP = Läkarintyg för sjukpenning, FK 7804
  */
-describe('FK7804-intyg minimalt ifyllt', function() {
+describe('FK7804-intyg minimalt ifyllt', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('FK_intyg/maxLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -20,7 +20,7 @@ describe('FK7804-intyg minimalt ifyllt', function() {
         cy.log('Lisjp-utkast med id ' + utkastId + ' skapat och används i testfallet')
       })
     })
-    describe('Funktioner på ett Lisjp intyg', () => {
+    describe('Funktioner på ett Lisjp intyg', { tags: '@react' }, () => {
       it('Makulerar ett signerat LISJP intyg', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId

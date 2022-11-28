@@ -207,7 +207,7 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
 }
 
 export function raderaUtkast() {
-  cy.get('.fhrpJS > .ic-button').should('be.visible')
+  cy.get('[data-testid="remove-certificate-button"]').should('be.visible')
   cy.get('button')
     .contains('Radera')
     .click()

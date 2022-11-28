@@ -31,7 +31,8 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, fu
       modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
       confirmButtonText={'Kopiera'}
-      confirmButtonDisabled={functionDisabled}>
+      confirmButtonDisabled={functionDisabled}
+      buttonTestId="copy-certificate-button">
       <div>
         <p>
           Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan

@@ -5,7 +5,7 @@ import * as intyg from '../../support/AF_intyg/af00213Intyg'
  * AF00213 = Arbetsförmedlingens medicinska utlåtande, AF 00213
  */
 
-describe('AF00213-intyg', function() {
+describe('AF00213-intyg', { tags: '@react' }, function() {
   before(function() {
     cy.fixture('AF_intyg/maxAF00213Data').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
@@ -22,7 +22,7 @@ describe('AF00213-intyg', function() {
       })
     })
 
-    describe('Funktioner på ett AF20013 utkast', () => {
+    describe('Funktioner på ett AF20013 utkast', { tags: '@react' }, () => {
       it('Skapar en minimalt ifylld AF00213 och skickar den till AF', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
