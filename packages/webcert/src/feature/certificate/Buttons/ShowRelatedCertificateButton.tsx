@@ -5,6 +5,7 @@ import file from '@frontend/common/src/images/file.svg'
 import { useHistory } from 'react-router-dom'
 import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
+import ReactTooltip from 'react-tooltip'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -12,9 +13,15 @@ interface Props extends FunctionDisabled {
   enabled: boolean
   certificateId: string
 }
+
 const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enabled, certificateId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const handleClick = () => {
+    dispatch(showRelatedCertificate({ certificateId: certificateId, history: history }))
+    ReactTooltip.hide()
+  }
 
   return (
     <CustomButton
@@ -23,9 +30,7 @@ const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enab
       startIcon={<img src={file} alt={description} />}
       buttonStyle="primary"
       text={name}
-      onClick={() => {
-        dispatch(showRelatedCertificate({ certificateId: certificateId, history: history }))
-      }}
+      onClick={handleClick}
     />
   )
 }
