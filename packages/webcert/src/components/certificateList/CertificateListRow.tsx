@@ -22,7 +22,7 @@ interface Props {
   favorite: boolean
   message?: string
   patient?: Patient
-  links?: ResourceLink[]
+  links: ResourceLink[]
 }
 
 const Row = styled.div`
@@ -88,19 +88,17 @@ const CertificateListRow: React.FC<Props> = ({
   const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
 
-  const createCertificateLink = links && links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
-  const missingRelatedCertificateLink =
-    links && links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+  const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
+  const missingRelatedCertificateLink = links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {
     preferenceClick(id)
   }
 
-  const handleCreateCertificate = (certificateType: string, links?: ResourceLink[]) => {
-    const createDodsbevis = links && links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
-    const hasMissingRelatedCertificate =
-      links && links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+  const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
+    const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
+    const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
     if (createDodsbevis) {
       setShowDeathCertificateModal(true)
@@ -148,7 +146,7 @@ const CertificateListRow: React.FC<Props> = ({
               <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
             )}
           </TextWithInfoModal>
-          {createCertificateLink && (
+          {patient && createCertificateLink && (
             <CreateCertificateButton
               id={id}
               onClick={(certificateType: string) => {

@@ -100,7 +100,7 @@ const CertificateList: React.FC = () => {
                   message={message}
                   key={id}
                   patient={patient}
-                  links={links}
+                  links={links ?? []}
                 />
               )
             })}

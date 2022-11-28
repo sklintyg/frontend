@@ -176,14 +176,13 @@ describe('CertificateList', () => {
   })
 
   it('should show confirm modal when CREATE_DODSBEVIS_CONFIRMATION resource link exists', () => {
+    testStore.dispatch(setPatient(fakePatient()))
     renderComponent()
 
     const button = screen.getAllByRole('button', {
       name: /Skapa intyg/,
     }) as HTMLElement[]
     userEvent.click(button[1])
-
-    testStore.dispatch(setPatient(fakePatient()))
 
     expect(screen.getByText('Du är på väg att utfärda ett dödsbevis för', { exact: false })).toBeInTheDocument()
   })
