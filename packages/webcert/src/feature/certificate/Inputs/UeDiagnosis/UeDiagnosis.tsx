@@ -1,21 +1,21 @@
-import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
-import React, { useEffect, useRef } from 'react'
-import styled, { css } from 'styled-components'
 import {
   CertificateDataElement,
+  CertificateDataValidationType,
   CertificateDataValueType,
   Diagnosis,
+  TextValidation,
   ValueDiagnosis,
   ValueDiagnosisList,
-  CertificateDataValidationType,
-  TextValidation,
 } from '@frontend/common'
-import { shallowEqual, useSelector } from 'react-redux'
-import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
-import { useAppDispatch } from '../../../../store/store'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
+import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import _ from 'lodash'
+import React, { useEffect, useRef } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
+import styled, { css } from 'styled-components'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../../store/store'
+import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
 import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
@@ -131,6 +131,8 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         })
       )
     } else if (typeaheadResult !== null) {
+      setOpenCode(false)
+      setOpenDescription(false)
       dispatch(resetDiagnosisTypeahead())
     }
   }

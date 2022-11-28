@@ -1,10 +1,10 @@
+import { sanitizeText } from '@frontend/common'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import TextInput from './TextInput'
+import { Element, scroller } from 'react-scroll'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { Element, scroller } from 'react-scroll'
 import { useKeyPress } from '../../utils/userFunctionUtils'
-import { sanitizeText } from '@frontend/common'
+import TextInput from './TextInput'
 
 interface Props {
   value?: string
@@ -109,7 +109,7 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)
-  }, [open, suggestions])
+  }, [open])
   useEffect(() => {
     if (hovered >= 0) {
       setCursor(hovered)
