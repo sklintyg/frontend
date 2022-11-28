@@ -16,7 +16,7 @@ const Text = styled.p`
   ol {
     list-style-position: inside;
     list-style-type: decimal;
-    white-space: nowrap;
+    white-space: normal;
 
     li {
       padding-bottom: 5px;
