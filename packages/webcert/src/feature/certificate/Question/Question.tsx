@@ -58,8 +58,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
+    const hideLabel = question.config.type === ConfigTypes.UE_CAUSE_OF_DEATH
+
     if (disabled) {
-      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
+      return <QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />
     }
 
     if (!readOnly && config.description) {
@@ -80,7 +82,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
+        {<QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />}
       </>
     )
   }

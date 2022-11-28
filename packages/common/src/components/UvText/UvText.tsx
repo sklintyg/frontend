@@ -62,7 +62,7 @@ const CauseOfDeathDateAndSpec = styled.div<{ oneLine: boolean }>`
 `
 
 const CauseOfDeathDateAndSpecInner = styled.div`
-  min-width: 25ch;
+  min-width: 18ch;
 `
 
 export interface Props {
@@ -208,18 +208,18 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
     return (
       <CauseOfDeathWrapper>
-        <CauseOfDeathDescription oneLine={false}>
+        <CauseOfDeathDescription oneLine={oneLine}>
           <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Beskrivning</p>
-          <div>{description}</div>
+          <Badge>{description}</Badge>
         </CauseOfDeathDescription>
-        <CauseOfDeathDateAndSpec oneLine={false}>
+        <CauseOfDeathDateAndSpec oneLine={oneLine}>
           <CauseOfDeathDateAndSpecInner>
             <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Ungefärlig debut</p>
-            <div>{debut}</div>
+            <Badge>{debut}</Badge>
           </CauseOfDeathDateAndSpecInner>
           <CauseOfDeathDateAndSpecInner>
             <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Specificera tillståndet</p>
-            <div>{specification}</div>
+            <Badge>{specification}</Badge>
           </CauseOfDeathDateAndSpecInner>
         </CauseOfDeathDateAndSpec>
       </CauseOfDeathWrapper>
@@ -236,7 +236,7 @@ const UvText: React.FC<Props> = ({ question }) => {
       )
       return (
         <>
-          {causeOfDeathConfig.label && <div className="iu-fl iu-fs-700 iu-mr-400">{causeOfDeathConfig.label}</div>}
+          {causeOfDeathConfig.label && <div className="iu-fl iu-fs-700 iu-mr-400 iu-pt-200">{causeOfDeathConfig.label}</div>}
           {getCauseOfDeathRow(
             false,
             causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
@@ -252,10 +252,13 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
     const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
     const causeOfDeathListConfig = questionElement.config as ConfigureUeCauseOfDeathList
-    if (causeOfDeathValueList.id !== undefined && questionElement.visible) {
+    if (causeOfDeathValueList !== undefined && questionElement.visible) {
       return causeOfDeathListConfig.list.map((causeOfDeathControlConfig) => {
         const causeOfDeathValue = causeOfDeathValueList.list.find((item) => item.id === causeOfDeathControlConfig.id)
-        if (causeOfDeathValue) {
+        if (
+          causeOfDeathValue &&
+          (causeOfDeathValue.description.text || causeOfDeathValue.debut.date || causeOfDeathValue.specification.code)
+        ) {
           const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCauseOfDeathSpecification[]).find(
             (item) => item.code === causeOfDeathValue.specification.code
           )
