@@ -1,10 +1,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { MandatoryIcon } from '@frontend/common'
+import { MandatoryIcon, sanitizeText } from '@frontend/common'
 import Icon from '../image/Icon'
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { sanitizeText } from '@frontend/common'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;
@@ -14,10 +13,25 @@ const Text = styled.p`
   overflow-y: auto;
   white-space: pre-wrap;
 
+  ol {
+    list-style-position: inside;
+    list-style-type: decimal;
+    white-space: normal;
+
+    li {
+      padding-bottom: 5px;
+      padding-top: 5px;
+    }
+  }
+
   ul {
-    list-style: unset;
+    list-style: disc;
     padding-left: 40px;
     margin-bottom: 10px;
+    li {
+      padding-bottom: unset;
+      padding-top: unset;
+    }
   }
 `
 
