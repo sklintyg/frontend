@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 
-export const DatePickerWrapper = styled.div`
-  display: flex;
+interface datePickerProps {
+  vertical?: boolean
+}
+
+export const DatePickerWrapper = styled.div<datePickerProps>`
+  display: ${(props) => (props.vertical === true ? 'block' : 'flex')};
   align-items: center;
 `
 

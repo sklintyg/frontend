@@ -19,12 +19,13 @@ const QuestionSubHeadline = styled.h5`
 interface QuestionHeadingProps {
   header?: string
   id: string
+  hideLabel: boolean
   label?: string
   readOnly: boolean
   text: string
 }
 
-const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, text, label }) => {
+const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label }) => {
   if (header) {
     return (
       <>
@@ -32,7 +33,7 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id,
           {header}
         </QuestionHeadline>
         <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
-        {readOnly && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
+        {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
       </>
     )
   }
@@ -41,7 +42,7 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id,
       <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
         {text}
       </QuestionHeadline>
-      {readOnly && (
+      {readOnly && !hideLabel && (
         <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
           {label}
         </QuestionHeadline>

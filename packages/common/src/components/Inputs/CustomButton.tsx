@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import ReactTooltip, { Place } from 'react-tooltip'
 import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
+import React, { useEffect } from 'react'
+import ReactTooltip, { Place } from 'react-tooltip'
+import styled from 'styled-components'
 import NumberCircle from '../utils/NumberCircle'
 
 interface WrapperProps {
   filter: string
+  height?: string
 }
 
 const Wrapper = styled.div<WrapperProps>`
   width: fit-content;
 
+  button {
+    height: ${(props) => props.height};
+  }
   .buttonIcon {
     width: 22px;
     height: 22px;
@@ -34,6 +38,7 @@ interface Props {
   number?: string | number | undefined
   tooltipPlacement?: Place
   buttonClasses?: string
+  height?: string
   'data-testid'?: string
 }
 
@@ -72,7 +77,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
   }
 
   return (
-    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`} height={props.height}>
       <button
         aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}

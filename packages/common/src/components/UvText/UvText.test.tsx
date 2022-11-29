@@ -1,40 +1,39 @@
-import React from 'react'
-import 'jest-styled-components'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import UvText from './UvText'
 import {
   CertificateDataConfig,
   CertificateDataElement,
   CertificateDataValueType,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
+  ConfigUeCheckboxMultipleDate,
+  ConfigUeDropdown,
   ConfigUeIcf,
+  ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
+  ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
+  getCertificateWithQuestion,
+  MessageLevel,
   Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
+  ValueDateList,
+  ValueDateRangeList,
   ValueIcf,
   ValueText,
 } from '@frontend/common'
-import {
-  ConfigUeCheckboxMultipleDate,
-  ConfigUeDropdown,
-  ConfigUeMessage,
-  ConfigUeRadioMultipleCodesOptionalDropdown,
-  getCertificateWithQuestion,
-  MessageLevel,
-  ValueDateList,
-} from '../..'
-import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../types/certificate'
-import { Provider } from 'react-redux'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '@frontend/webcert/src/store/reducers'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
+import reducer from '@frontend/webcert/src/store/reducers'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import 'jest-styled-components'
+import React from 'react'
+import { Provider } from 'react-redux'
+import UvText from './UvText'
 
 let testStore: EnhancedStore
 

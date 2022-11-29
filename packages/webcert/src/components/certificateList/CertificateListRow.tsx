@@ -1,11 +1,17 @@
-import { InfoBox, ResourceLink, sanitizeText, TextWithInfoModal } from '@frontend/common'
+import { InfoBox, Patient, ResourceLink, ResourceLinkType, sanitizeText, TextWithInfoModal } from '@frontend/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
 import classnames from 'classnames'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import WCDynamicLink from '../../utils/WCDynamicLink'
+import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
+import { CreateCertificateButton } from './CreateCertificateButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { createNewCertificate } from '../../store/certificate/certificateActions'
+import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
+import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
 
 interface Props {
   certificateName: string
@@ -14,8 +20,9 @@ interface Props {
   issuerTypeId: string
   preferenceClick: (...args: string[]) => void
   favorite: boolean
-  link?: ResourceLink
   message?: string
+  patient?: Patient
+  links: ResourceLink[]
 }
 
 const Row = styled.div`
@@ -71,41 +78,90 @@ const CertificateListRow: React.FC<Props> = ({
   issuerTypeId,
   preferenceClick,
   favorite,
-  children,
   message,
+  patient,
+  links,
 }) => {
+  const dispatch = useDispatch()
+
+  const isLoadingCertificateTypes = useSelector(loadingCertificateTypes)
+  const [showMissingRelatedCertificateModal, setShowMissingRelatedCertificateModal] = useState(false)
+  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
+
+  const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
+  const missingRelatedCertificateLink = links.find((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+
   const favoriteText = favorite ? 'Ta bort som favoritmarkerat intyg.' : 'Markera intyget som favorit och fäst högst upp i listan.'
   const onPreferenceClick = () => {
     preferenceClick(id)
   }
 
+  const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
+    const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
+    const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
+
+    if (createDodsbevis) {
+      setShowDeathCertificateModal(true)
+    } else if (hasMissingRelatedCertificate) {
+      setShowMissingRelatedCertificateModal(true)
+    } else {
+      dispatch(createNewCertificate({ certificateType, patientId }))
+    }
+  }
+
   return (
-    <Row className="iu-flex iu-flex-column iu-p-400">
-      <div className="iu-flex iu-flex-center">
-        <Star className="iu-mr-1rem" onClick={onPreferenceClick} data-tip={favoriteText} aria-label={favoriteText}>
-          <FontAwesomeIcon
-            icon={favorite ? starChecked : star}
-            className={classnames({ 'iu-color-information': favorite, 'iu-color-muted': !favorite })}
-          />
-        </Star>
-        <CertificateName>
-          <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
-        </CertificateName>
-        <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
-          {hasDynamicLink(certificateInfo) ? (
-            <ModalContent>{formatText(certificateInfo)}</ModalContent>
-          ) : (
-            <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
+    <>
+      {patient && (
+        <>
+          <DeathCertificateConfirmModal patient={patient} setOpen={setShowDeathCertificateModal} open={showDeathCertificateModal} />
+          {missingRelatedCertificateLink?.type !== undefined && (
+            <MissingRelatedCertificateModal
+              createCertificateType={id}
+              confirmButtonText={'Skapa intyg'}
+              patient={patient}
+              setOpen={setShowMissingRelatedCertificateModal}
+              open={showMissingRelatedCertificateModal}
+              {...missingRelatedCertificateLink}
+            />
           )}
-        </TextWithInfoModal>
-        {children}
-      </div>
-      {message && (
-        <div className="iu-pt-200">
-          <InfoBox type="info">{message}</InfoBox>
-        </div>
+        </>
       )}
-    </Row>
+      <Row className="iu-flex iu-flex-column iu-p-400">
+        <div className="iu-flex iu-flex-center">
+          <Star className="iu-mr-1rem" onClick={onPreferenceClick} data-tip={favoriteText} aria-label={favoriteText}>
+            <FontAwesomeIcon
+              icon={favorite ? starChecked : star}
+              className={classnames({ 'iu-color-information': favorite, 'iu-color-muted': !favorite })}
+            />
+          </Star>
+          <CertificateName>
+            <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
+          </CertificateName>
+          <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
+            {hasDynamicLink(certificateInfo) ? (
+              <ModalContent>{formatText(certificateInfo)}</ModalContent>
+            ) : (
+              <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
+            )}
+          </TextWithInfoModal>
+          {patient && createCertificateLink && (
+            <CreateCertificateButton
+              id={id}
+              onClick={(certificateType: string) => {
+                handleCreateCertificate(certificateType, patient.personId.id, links)
+              }}
+              disabled={isLoadingCertificateTypes}
+              {...createCertificateLink}
+            />
+          )}
+        </div>
+        {message && (
+          <div className="iu-pt-200">
+            <InfoBox type="info">{message}</InfoBox>
+          </div>
+        )}
+      </Row>
+    </>
   )
 }
 

@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
+import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
@@ -56,8 +58,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
+    const hideLabel = question.config.type === ConfigTypes.UE_CAUSE_OF_DEATH
+
     if (disabled) {
-      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
+      return <QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />
     }
 
     if (!readOnly && config.description) {
@@ -78,7 +82,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
+        {<QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />}
       </>
     )
   }
@@ -134,6 +138,12 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         break
       case ConfigTypes.UE_DATE:
         component = <UeDate {...commonProps} />
+        break
+      case ConfigTypes.UE_CAUSE_OF_DEATH:
+        component =  <UeCauseOfDeath {...commonProps} />
+        break
+      case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
+        component =  <UeCauseOfDeathList {...commonProps} />
         break
       case ConfigTypes.UE_HEADER:
         break
