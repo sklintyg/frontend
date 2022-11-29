@@ -87,6 +87,8 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
+  UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
+  UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
 }
 
 export enum MessageLevel {
@@ -240,6 +242,29 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
+export interface ConfigureUeCauseOfDeathSpecification {
+  id: string
+  code: string
+  label: string
+}
+
+export interface ConfigureUeCauseOfDeathControl {
+  id: string
+  descriptionId: string
+  debutId: string
+  specifications: ConfigureUeCauseOfDeathSpecification[]
+}
+
+export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
+  label?: string
+  causeOfDeath: ConfigureUeCauseOfDeathControl
+}
+
+export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
+  itemCount?: number
+  list: ConfigureUeCauseOfDeathControl[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -256,6 +281,8 @@ export enum CertificateDataValueType {
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
+  CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
+  CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
 
 export interface Value {
@@ -316,6 +343,17 @@ export interface ValueText extends Value {
 export interface ValueUncertainDate extends Value {
   id: string
   value: string | null
+}
+
+export interface ValueCauseOfDeath extends Value {
+  id: string
+  description: ValueText
+  debut: ValueDate
+  specification: ValueCode
+}
+
+export interface ValueCauseOfDeathList extends Value {
+  list: ValueCauseOfDeath[]
 }
 
 export interface ValueIcf extends Value {
