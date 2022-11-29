@@ -16,6 +16,7 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
+import { merge } from 'lodash'
 
 interface Props {
   disabled: boolean
@@ -38,16 +39,20 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
     const value = values[index]
     return {
       id: configItem.id,
-      description: {
-        type: CertificateDataValueType.TEXT,
-        id: configItem.descriptionId,
-        text: value ? value.description.text : null,
-      },
-      debut: {
-        type: CertificateDataValueType.DATE,
-        id: configItem.debutId,
-        date: value ? value.debut.date : undefined,
-      },
+      description: merge(
+        {
+          type: CertificateDataValueType.TEXT,
+          id: configItem.descriptionId,
+        },
+        value && { text: value.description.text }
+      ),
+      debut: merge(
+        {
+          type: CertificateDataValueType.DATE,
+          id: configItem.debutId,
+        },
+        value && { date: value.debut.date }
+      ),
       specification: value
         ? value.specification
         : {
