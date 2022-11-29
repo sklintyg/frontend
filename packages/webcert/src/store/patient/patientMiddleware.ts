@@ -14,6 +14,7 @@ import {
   getPatientError,
   getPatientStarted,
   getPatientSuccess,
+  isLoadingCertificateTypes,
   setPatient,
   setPatientError,
   updateCertificateTypes,
@@ -69,8 +70,13 @@ const handleGetCertificateTypes: Middleware<Dispatch> = ({ dispatch }: Middlewar
   )
 }
 
+const handleGetCertificateTypesStarted: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
+  dispatch(isLoadingCertificateTypes(true))
+}
+
 const handleGetCertificateTypesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(updateCertificateTypes(action.payload))
+  dispatch(isLoadingCertificateTypes(false))
 }
 
 const handleGetSessionStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
@@ -82,6 +88,7 @@ const middlewareMethods = {
   [getPatientSuccess.type]: handleGetPatientSuccess,
   [getPatientError.type]: handleGetPatientError,
   [getCertificateTypes.type]: handleGetCertificateTypes,
+  [getCertificateTypesStarted.type]: handleGetCertificateTypesStarted,
   [getCertificateTypesSuccess.type]: handleGetCertificateTypesSuccess,
   [getSessionStatusError.type]: handleGetSessionStatusError,
 }

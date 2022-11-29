@@ -3,6 +3,7 @@ import { CertificateType, Patient, PatientStatus } from '@frontend/common'
 import {
   clearPatient,
   clearPatientError,
+  isLoadingCertificateTypes,
   resetPatientState,
   setPatient,
   setPatientError,
@@ -16,6 +17,7 @@ interface PatientState {
   status: PatientStatus | undefined
   error: ErrorRequest | undefined
   certificateTypes: CertificateType[]
+  loadingCertificateTypes: boolean
 }
 
 const getInitialState = (): PatientState => {
@@ -24,6 +26,7 @@ const getInitialState = (): PatientState => {
     status: undefined,
     error: undefined,
     certificateTypes: [],
+    loadingCertificateTypes: false,
   }
 }
 
@@ -47,6 +50,9 @@ const errorReducer = createReducer(getInitialState(), (builder) => [
     state.certificateTypes = Object.values(action.payload)
   }),
   builder.addCase(resetPatientState, () => getInitialState()),
+  builder.addCase(isLoadingCertificateTypes, (state, action) => {
+    state.loadingCertificateTypes = action.payload
+  }),
 ])
 
 export default errorReducer
