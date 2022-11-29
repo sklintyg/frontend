@@ -8,10 +8,22 @@ import { ErrorCode } from '../error/errorReducer'
 import reducer from '../reducers'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
-import { getPatient, GetPatientResponse, updateCertificateTypes } from './patientActions'
+import { getCertificateTypes, getPatient, GetPatientResponse, updateCertificateTypes } from './patientActions'
 import { patientMiddleware } from './patientMiddleware'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+
+const certificateTypes: CertificateType[] = [
+  {
+    description: 'description',
+    detailedDescription: 'detailedDescription',
+    id: 'id',
+    issuerTypeId: 'issuerTypeId',
+    label: 'label',
+    links: [],
+    message: 'message',
+  },
+]
 
 describe('Test patient middleware', () => {
   let fakeAxios: MockAdapter
@@ -79,18 +91,6 @@ describe('Test patient middleware', () => {
   })
 
   it('Should reset certificateTypes information on session error', () => {
-    const certificateTypes: CertificateType[] = [
-      {
-        description: 'description',
-        detailedDescription: 'detailedDescription',
-        id: 'id',
-        issuerTypeId: 'issuerTypeId',
-        label: 'label',
-        links: [],
-        message: 'message',
-      },
-    ]
-
     testStore.dispatch(updateCertificateTypes(certificateTypes))
 
     expect(testStore.getState().ui.uiPatient.certificateTypes).toEqual(certificateTypes)
@@ -106,5 +106,15 @@ describe('Test patient middleware', () => {
     )
 
     expect(testStore.getState().ui.uiPatient.certificateTypes).toEqual([])
+  })
+
+  it('should set loadingCertificateTypes to true when the certificate types are fetched', () => {
+    testStore.dispatch(updateCertificateTypes(certificateTypes))
+
+    expect(testStore.getState().ui.uiPatient.loadingCertificateTypes).toEqual(false)
+
+    testStore.dispatch(getCertificateTypes('patientId'))
+
+    expect(testStore.getState().ui.uiPatient.loadingCertificateTypes).toEqual(true)
   })
 })

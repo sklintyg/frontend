@@ -1,19 +1,16 @@
-import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import fileIcon from '@frontend/common/src/images/file.svg'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
-import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
-import { createNewCertificate, updateCreatedCertificateId } from '../../store/certificate/certificateActions'
+import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { getCertificateId } from '../../store/certificate/certificateSelectors'
 import { getCertificateTypes } from '../../store/patient/patientActions'
 import { getActivePatient, selectCertificateTypes } from '../../store/patient/patientSelectors'
 import { setUserPreference } from '../../store/user/userActions'
 import { getUserPreference } from '../../store/user/userSelectors'
 import CertificateListRow from './CertificateListRow'
-import { CreateCertificateButton } from './CreateCertificateButton'
 
 const sortByFavorite = (a: boolean, b: boolean): number => {
   if (a > b) {
@@ -41,7 +38,7 @@ const CertificateList: React.FC = () => {
   const patient = useSelector(getActivePatient)
 
   const [favorites, setFavorites] = useState<string[]>([])
-  const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(false)
+
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -60,16 +57,6 @@ const CertificateList: React.FC = () => {
 
     setFavorites(updatedFavorites)
     dispatch(setUserPreference({ key: 'wc.favoritIntyg', value: JSON.stringify(updatedFavorites) }))
-  }
-
-  const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
-    if (links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)) {
-      setShowDeathCertificateModal(true)
-    } else {
-      if (patient) {
-        dispatch(createNewCertificate({ certificateType, patientId: patient.personId.id }))
-      }
-    }
   }
 
   useEffect(() => {
@@ -98,14 +85,10 @@ const CertificateList: React.FC = () => {
       </div>
       <FlexWrapper>
         <h3 className="iu-mb-05rem">Skapa intyg</h3>
-        {patient && (
-          <DeathCertificateConfirmModal patient={patient} setOpen={setShowDeathCertificateModal} open={showDeathCertificateModal} />
-        )}
         <CertificateBox className="iu-border-secondary-light iu-shadow-sm iu-flex iu-flex-column">
           {[...certificateTypes]
             .sort(({ id: a }, { id: b }) => sortByFavorite(favorites.includes(a), favorites.includes(b)))
             .map(({ label, detailedDescription, id, issuerTypeId, links, message }) => {
-              const createCertificateLink = links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)
               return (
                 <CertificateListRow
                   certificateName={label}
@@ -113,20 +96,12 @@ const CertificateList: React.FC = () => {
                   id={id}
                   issuerTypeId={issuerTypeId}
                   favorite={favorites.includes(id)}
-                  link={links.find((link) => link.type === ResourceLinkType.CREATE_CERTIFICATE)}
                   preferenceClick={handlePreferenceClick}
                   message={message}
-                  key={id}>
-                  {createCertificateLink && (
-                    <CreateCertificateButton
-                      id={id}
-                      onClick={(certificateType: string) => {
-                        handleCreateCertificate(certificateType, links)
-                      }}
-                      {...createCertificateLink}
-                    />
-                  )}
-                </CertificateListRow>
+                  key={id}
+                  patient={patient}
+                  links={links ?? []}
+                />
               )
             })}
         </CertificateBox>
