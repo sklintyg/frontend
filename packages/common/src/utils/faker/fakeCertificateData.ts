@@ -2,6 +2,7 @@ import faker from 'faker'
 import { Merge, PartialDeep } from 'type-fest'
 import {
   CertificateData,
+  CertificateDataConfig,
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
@@ -38,8 +39,8 @@ import {
   ValueUncertainDate,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
-import { fakeList } from './fakeList'
 import { fakeCityList } from './fakeCity'
+import { fakeList } from './fakeList'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -76,7 +77,7 @@ export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, chil
       description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
       ...data?.config,
       id,
-    },
+    } as CertificateDataConfig,
     value:
       data != null && data.value != null
         ? {

@@ -111,7 +111,7 @@ export interface CertificateDataConfig {
 export interface ConfigureAccordion {
   openText: string
   closeText: string
-  header: string
+  header?: string
 }
 
 export type ConfigCategory = CertificateDataConfig
