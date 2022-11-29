@@ -96,7 +96,7 @@ const CertificateListRow: React.FC<Props> = ({
     preferenceClick(id)
   }
 
-  const handleCreateCertificate = (certificateType: string, links: ResourceLink[]) => {
+  const handleCreateCertificate = (certificateType: string, patientId: string, links: ResourceLink[]) => {
     const createDodsbevis = links.some((link) => link.type === ResourceLinkType.CREATE_DODSBEVIS_CONFIRMATION)
     const hasMissingRelatedCertificate = links.some((link) => link.type === ResourceLinkType.MISSING_RELATED_CERTIFICATE_CONFIRMATION)
 
@@ -105,9 +105,7 @@ const CertificateListRow: React.FC<Props> = ({
     } else if (hasMissingRelatedCertificate) {
       setShowMissingRelatedCertificateModal(true)
     } else {
-      if (patient) {
-        dispatch(createNewCertificate({ certificateType, patientId: patient.personId.id }))
-      }
+      dispatch(createNewCertificate({ certificateType, patientId }))
     }
   }
 
@@ -150,7 +148,7 @@ const CertificateListRow: React.FC<Props> = ({
             <CreateCertificateButton
               id={id}
               onClick={(certificateType: string) => {
-                handleCreateCertificate(certificateType, links)
+                handleCreateCertificate(certificateType, patient.personId.id, links)
               }}
               disabled={isLoadingCertificateTypes}
               {...createCertificateLink}
