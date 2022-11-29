@@ -11,19 +11,20 @@ import {
   fakeCheckboxBooleanElement,
   fakeCheckboxMultipleDate,
   fakeDataElement,
+  fakeDateElement,
   fakeDiagnosesElement,
   fakeICFDataElement,
   fakeListItem,
   fakeRadioBooleanElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
+  fakeTextAreaAccordionElement,
   fakeTextAreaElement,
-  MessageLevel,
   fakeTypeaheadElement,
+  fakeUncertainDateElement,
+  MessageLevel,
   ResourceLink,
   ResourceLinkType,
-  fakeUncertainDateElement,
-  fakeDateElement,
 } from '@frontend/common'
 import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
@@ -80,6 +81,12 @@ Default.args = {
     fakeCategoryElement({ id: 'kategori 2' }, [fakeRadioBooleanElement(), fakeICFDataElement()]),
     fakeCategoryElement({ id: 'kategori 3' }, [fakeCheckboxMultipleDate()]),
     fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement(), fakeTextAreaElement()]),
+    fakeCategoryElement({ id: 'Funktionshinder' }, [
+      fakeTextAreaAccordionElement(),
+      fakeTextAreaAccordionElement(),
+      fakeTextAreaAccordionElement(),
+      fakeTextAreaAccordionElement(),
+    ]),
   ]),
 }
 

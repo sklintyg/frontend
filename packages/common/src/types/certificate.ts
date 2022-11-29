@@ -101,8 +101,15 @@ export interface CertificateDataConfig {
   text: string
   description: string
   type: ConfigTypes
+  accordion?: ConfigureAccordion
 
   [propName: string]: unknown
+}
+
+export interface ConfigureAccordion {
+  openText: string
+  closeText: string
+  header: string
 }
 
 export type ConfigCategory = CertificateDataConfig

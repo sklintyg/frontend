@@ -1,9 +1,9 @@
+import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+import { MandatoryIcon, sanitizeText } from '@frontend/common'
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { MandatoryIcon, sanitizeText } from '@frontend/common'
-import Icon from '../image/Icon'
-import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import Icon from '../image/Icon'
 
 const mandatoryIconAdditionalStyles = css`
   top: -4px;
@@ -51,19 +51,42 @@ const StyledSummary = styled.summary`
   }
 `
 
-const StyledDetails = styled.details`
+interface DetailsProps {
+  title?: string
+  titleClose?: string
+}
+
+const StyledDetails = styled.details<DetailsProps>`
   padding: 0 !important;
   overflow: visible;
+  h5.close {
+    display: block;
+    text-decoration: underline;
+  }
+  h5.open {
+    display: none;
+    text-decoration: underline;
+  }
+  &[open] {
+    h5.close {
+      display: none;
+    }
+    h5.open {
+      display: block;
+    }
+  }
 `
 
 interface Props {
   title?: string
+  titleClose?: string
   titleId: string
   header?: string
-  description: string
+  description?: string
   additionalStyles?: string
   displayMandatory?: boolean
   isCategory?: boolean
+  isControl?: boolean
   icon?: string
   includeIconTooltip?: boolean
   iconSize?: FontAwesomeIconProps['size']
@@ -73,12 +96,14 @@ interface Props {
 const Accordion: React.FC<Props> = ({
   icon,
   title,
+  titleClose,
   titleId,
   description,
   additionalStyles,
   displayMandatory,
   header,
   isCategory,
+  isControl,
   includeIconTooltip,
   iconSize,
   children,
@@ -87,29 +112,43 @@ const Accordion: React.FC<Props> = ({
   const hasHeader = header !== null && header !== '' && header !== undefined
 
   const getHeader = () => {
-    if (!hasHeader) {
-      return (
-        <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
-          <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />
-          <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
-        </StyledSummary>
-      )
-    } else {
+    if (isControl) {
       return (
         <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
           <Icon iconType={icon ? icon : ''} size={iconSize} />
           <MandatoryIcon display={displayMandatory as boolean} additionalStyles={mandatoryIconAdditionalStyles} />
-          <h5 className={`iu-fs-200 iu-lh-body ${additionalStyles}`}>{title}</h5>
+          <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body close ${additionalStyles}`}>{title}</h5>
+          <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body open ${additionalStyles}`}>{titleClose}</h5>
         </StyledSummary>
       )
+    } else {
+      if (hasHeader) {
+        return (
+          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+            <Icon iconType={icon ? icon : ''} size={iconSize} />
+            <MandatoryIcon display={displayMandatory as boolean} additionalStyles={mandatoryIconAdditionalStyles} />
+            <h5 className={`iu-fs-200 iu-lh-body ${additionalStyles}`}>{title}</h5>
+          </StyledSummary>
+        )
+      } else {
+        return (
+          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+            <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
+            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />
+            <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
+          </StyledSummary>
+        )
+      }
     }
   }
 
   return (
     <div id={titleId} css={wrapperStyles}>
-      {hasHeader && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
-      <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
+      {hasHeader && !isControl && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
+      <StyledDetails
+        className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white"
+        title={title}
+        titleClose={titleClose}>
         {title ? (
           getHeader()
         ) : (
@@ -119,7 +158,13 @@ const Accordion: React.FC<Props> = ({
             {children}
           </StyledSummary>
         )}
-        <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={sanitizeText(description)}></Text>
+        {isControl && (
+          <>
+            <h5 className={`iu-fs-200 iu-lh-body`}>{header ?? ''}</h5>
+            {children}
+          </>
+        )}
+        {description && <Text className={`${!isCategory ? 'iu-mb-400' : ''}`} dangerouslySetInnerHTML={sanitizeText(description)}></Text>}
       </StyledDetails>
     </div>
   )

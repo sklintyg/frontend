@@ -274,6 +274,27 @@ export const fakeTextAreaElement = (
     children
   )
 
+export const fakeTextAreaAccordionElement = (
+  data?: PartialCertificateDataElement<ConfigUeTextArea, ValueText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_TEXTAREA,
+        accordion: {
+          openText: 'Visa fritextfält',
+          closeText: 'Dölj fritextfält',
+          header: faker.lorem.sentence(5),
+        },
+        ...data?.config,
+      },
+      value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50, ...data?.value },
+    },
+    children
+  )
+
 export const fakeTextFieldElement = (
   data?: PartialCertificateDataElement<ConfigUeTextField, ValueText>,
   children?: CertificateData[]

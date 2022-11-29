@@ -22,15 +22,15 @@ import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
+import UeMessage from '../Inputs/UeMessage'
 import UeRadio from '../Inputs/UeRadio'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
-import UeUncertainDate from '../Inputs/UeUncertainDate'
-import UeMessage from '../Inputs/UeMessage'
-import UeTypeahead from '../Inputs/UeTypeahead'
 import UeTextField from '../Inputs/UeTextField'
+import UeTypeahead from '../Inputs/UeTypeahead'
+import UeUncertainDate from '../Inputs/UeUncertainDate'
 import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
@@ -85,44 +85,76 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     const commonProps = { key: question.id, disabled, question }
-
+    let component = <></>
     switch (question.config.type) {
       case ConfigTypes.UE_RADIO_BOOLEAN:
-        return <UeRadio {...commonProps} />
+        component = <UeRadio {...commonProps} />
+        break
       case ConfigTypes.UE_ICF:
-        return <UeIcf {...commonProps} />
+        component = <UeIcf {...commonProps} />
+        break
       case ConfigTypes.UE_TEXTAREA:
-        return <UeTextArea {...commonProps} />
+        component = <UeTextArea {...commonProps} />
+        break
       case ConfigTypes.UE_CHECKBOX_BOOLEAN:
-        return <UeCheckbox {...commonProps} />
+        component = <UeCheckbox {...commonProps} />
+        break
       case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:
-        return <UeCheckboxGroup {...commonProps} />
+        component = <UeCheckboxGroup {...commonProps} />
+        break
       case ConfigTypes.UE_DROPDOWN:
-        return <UeDropdown {...commonProps} />
+        component = <UeDropdown {...commonProps} />
+        break
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE:
-        return <UeRadioGroup {...commonProps} />
+        component = <UeRadioGroup {...commonProps} />
+        break
       case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
-        return <UeCheckboxDateGroup {...commonProps} />
+        component = <UeCheckboxDateGroup {...commonProps} />
+        break
       case ConfigTypes.UE_SICK_LEAVE_PERIOD:
-        return <UeSickLeavePeriod {...commonProps} />
+        component = <UeSickLeavePeriod {...commonProps} />
+        break
       case ConfigTypes.UE_DIAGNOSES:
-        return <UeDiagnoses {...commonProps} />
+        component = <UeDiagnoses {...commonProps} />
+        break
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
-        return <UeRadioGroupOptionalDropdown {...commonProps} />
+        component = <UeRadioGroupOptionalDropdown {...commonProps} />
+        break
       case ConfigTypes.UE_UNCERTAIN_DATE:
-        return <UeUncertainDate {...commonProps} />
+        component = <UeUncertainDate {...commonProps} />
+        break
       case ConfigTypes.UE_MESSAGE:
-        return <UeMessage {...commonProps} />
+        component = <UeMessage {...commonProps} />
+        break
       case ConfigTypes.UE_TYPE_AHEAD:
-        return <UeTypeahead {...commonProps} />
+        component = <UeTypeahead {...commonProps} />
+        break
       case ConfigTypes.UE_TEXTFIELD:
-        return <UeTextField {...commonProps} />
+        component = <UeTextField {...commonProps} />
+        break
       case ConfigTypes.UE_DATE:
-        return <UeDate {...commonProps} />
+        component = <UeDate {...commonProps} />
+        break
       case ConfigTypes.UE_HEADER:
-        return
+        break
       default:
-        return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
+        component = <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
+    }
+    if (!question.config.accordion) {
+      return component
+    } else {
+      return (
+        <Accordion
+          icon={question.config.icon}
+          includeIconTooltip
+          titleId={question.id}
+          title={question.config.accordion.openText}
+          titleClose={question.config.accordion.closeText}
+          header={question.config.accordion.header}
+          isControl={true}>
+          {component}
+        </Accordion>
+      )
     }
   }
 
