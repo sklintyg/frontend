@@ -184,6 +184,12 @@ const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors
 const ADD_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Add client validation error`
 const REMOVE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Remove client validation error`
 
+const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
+const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`
+const SHOW_RELATED_CERTIFICATE_SUCCESS = `${CERTIFICATE} Show related certificate success`
+const SHOW_RELATED_CERTIFICATE_ERROR = `${CERTIFICATE} Show related certificate error`
+const SHOW_RELATED_CERTIFICATE_COMPLETED = `${CERTIFICATE} Show related certificate completed`
+
 export interface CreateCertificateResponse {
   certificateId: string
 }
@@ -394,6 +400,21 @@ export const renewCertificateSuccess = createAction<RenewCertificate>(RENEW_CERT
 export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERROR)
 
 export const renewCertificateCompleted = createAction(RENEW_CERTIFICATE_COMPLETED)
+
+export const showRelatedCertificate = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE)
+
+export const showRelatedCertificateStarted = createAction(SHOW_RELATED_CERTIFICATE_STARTED)
+
+export interface ShowRelatedCertificate {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const showRelatedCertificateSuccess = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE_SUCCESS)
+
+export const showRelatedCertificateError = createAction<string>(SHOW_RELATED_CERTIFICATE_ERROR)
+
+export const showRelatedCertificateCompleted = createAction(SHOW_RELATED_CERTIFICATE_COMPLETED)
 
 export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
 
