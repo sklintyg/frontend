@@ -251,7 +251,7 @@ export interface ConfigUeCodeItem extends CertificateDataConfig {
 
 export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
   id: string
-  typeOptions: ConfigUeCodeItem[]
+  typeId: string
   informationSourceId: string
   dateId: string
 }
@@ -261,6 +261,7 @@ export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig 
   dateText: string
   informationSourceText: string
   informationSourceDescription: string
+  typeOptions: ConfigUeCodeItem[]
   list: ConfigUeMedicalInvestigation[]
 }
 
@@ -396,7 +397,7 @@ export interface MedicalInvestigation {
   informationSource: ValueText
 }
 
-export interface ValueMedicalInvestigationList {
+export interface ValueMedicalInvestigationList extends Value {
   list: MedicalInvestigation[]
 }
 

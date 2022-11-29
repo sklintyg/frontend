@@ -10,11 +10,13 @@ import {
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeCodeItem,
   ConfigUeDate,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
@@ -34,6 +36,7 @@ import {
   ValueDiagnosis,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
 } from '../../types/certificate'
@@ -357,6 +360,68 @@ export const fakeUncertainDateElement = (
     },
     children
   )
+
+  export const fakeMedicalInvestigationListElement = (
+    data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>,
+    children?: CertificateData[]
+  ): CertificateData =>
+    fakeDataElement(
+      {
+        ...data,
+        config: {
+          type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+          typeText: 'Ange utredning eller underlag',
+          dateText: 'Datum',
+          informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
+          informationSourceDescription: 'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
+          typeOptions: [{
+            id: '',
+            label: 'Välj...',
+            code: '',
+          },
+          {
+            id: '',
+            label: 'Utredning',
+            code: '',
+          },
+          {
+            id: '',
+            label: 'Underlag',
+            code: '',
+          }],
+          list: [{
+            id: '1',
+            typeId: '',
+            informationSourceId: '',
+            dateId: '',
+          },
+          {
+            id: '2',
+            typeId: '',
+            informationSourceId: '',
+            dateId: '',
+          },
+          {
+            id: '3',
+            typeId: '',
+            informationSourceId: '',
+            dateId: '',
+          }],
+          ...data?.config,
+        },
+        value: {
+          type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+          list: [{
+            id: faker.random.alpha(),
+            type: '',
+            date: '2022-11-29',
+            informationSource: '',
+          }],
+          ...data?.value,
+        },
+      },
+      children
+    )
 
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
