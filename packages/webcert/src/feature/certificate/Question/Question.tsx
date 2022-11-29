@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
+import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
 import UeCheckbox from '../Inputs/UeCheckbox'
 import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
 import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
@@ -22,15 +24,15 @@ import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
+import UeMessage from '../Inputs/UeMessage'
 import UeRadio from '../Inputs/UeRadio'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
 import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
 import UeTextArea from '../Inputs/UeTextArea'
-import UeUncertainDate from '../Inputs/UeUncertainDate'
-import UeMessage from '../Inputs/UeMessage'
-import UeTypeahead from '../Inputs/UeTypeahead'
 import UeTextField from '../Inputs/UeTextField'
+import UeTypeahead from '../Inputs/UeTypeahead'
+import UeUncertainDate from '../Inputs/UeUncertainDate'
 import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
@@ -56,8 +58,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
+    const hideLabel = question.config.type === ConfigTypes.UE_CAUSE_OF_DEATH
+
     if (disabled) {
-      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
+      return <QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />
     }
 
     if (!readOnly && config.description) {
@@ -78,7 +82,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
         <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
+        {<QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />}
       </>
     )
   }
@@ -119,6 +123,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeTextField {...commonProps} />
       case ConfigTypes.UE_DATE:
         return <UeDate {...commonProps} />
+      case ConfigTypes.UE_CAUSE_OF_DEATH:
+        return <UeCauseOfDeath {...commonProps} />
+      case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
+        return <UeCauseOfDeathList {...commonProps} />
       case ConfigTypes.UE_HEADER:
         return
       default:
