@@ -45,6 +45,7 @@ import {
   updateValidationErrors,
   validateCertificate,
   validateCertificateInFrontEnd,
+  showRelatedCertificate,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
@@ -395,6 +396,18 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
       expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  describe('Handle Show Related Certificate', async () => {
+    xit('shall call api to show related certificate', async () => {
+      const certificate = getCertificate('certificateId')
+      // @ts-expect-error mocking history
+      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id, history: mockHistory }))
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/certificate/certificateId/related')
     })
   })
 
