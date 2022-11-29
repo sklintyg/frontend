@@ -143,7 +143,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         component = <UeCauseOfDeath {...commonProps} />
         break
       case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
-        component =  <UeCauseOfDeathList {...commonProps} />
+        component = <UeCauseOfDeathList {...commonProps} />
         break
       case ConfigTypes.UE_HEADER:
         break
