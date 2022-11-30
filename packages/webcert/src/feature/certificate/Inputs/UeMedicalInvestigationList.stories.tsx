@@ -3,17 +3,17 @@ import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
-import UeMedicalInvestigation, { Props } from './UeMedicalInvestigation'
+import UeMedicalInvestigationList, { Props } from './UeMedicalInvestigationList'
 
 export default {
-  title: 'Webcert/UeMedicalInvestigation',
-  component: UeMedicalInvestigation,
+  title: 'Webcert/UeMedicalInvestigationList',
+  component: UeMedicalInvestigationList,
 }
 
 const Template: Story<Props> = ({ ...args }) => {
   return (
     <Provider store={store}>
-      <UeMedicalInvestigation {...args} />
+      <UeMedicalInvestigationList {...args} />
     </Provider>
   )
 }

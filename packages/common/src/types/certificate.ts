@@ -390,15 +390,15 @@ export interface ValueHeader extends Value {
   id: string
 }
 
-export interface MedicalInvestigation {
+export interface ValueMedicalInvestigation extends Value {
   id: string
-  type: ValueCode
+  sort: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
 
 export interface ValueMedicalInvestigationList extends Value {
-  list: MedicalInvestigation[]
+  list: ValueMedicalInvestigation[]
 }
 
 // Validation
