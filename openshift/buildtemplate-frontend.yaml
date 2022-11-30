@@ -36,7 +36,7 @@ objects:
         app: ${APP_NAME}
         stage: ${STAGE}
     spec:
-      completionDeadlineSeconds: 1200
+      completionDeadlineSeconds: 1800
       successfulBuildsHistoryLimit: 2
       failedBuildsHistoryLimit: 4
       output:
