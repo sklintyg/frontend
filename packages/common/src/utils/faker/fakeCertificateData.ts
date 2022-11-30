@@ -35,7 +35,7 @@ import {
   ValueHeader,
   ValueIcf,
   ValueText,
-  ValueUncertainDate
+  ValueUncertainDate,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
