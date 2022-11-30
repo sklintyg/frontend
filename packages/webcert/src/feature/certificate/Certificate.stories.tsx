@@ -18,7 +18,6 @@ import {
   fakeRadioBooleanElement,
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
-  fakeTextAreaAccordionElement,
   fakeTextAreaElement,
   fakeTypeaheadElement,
   fakeUncertainDateElement,
@@ -91,7 +90,7 @@ Default.args = {
           },
         },
       }),
-      fakeTextAreaAccordionElement({
+      fakeTextAreaElement({
         config: {
           accordion: {
             openText: 'Visa fritextfält',
@@ -100,7 +99,7 @@ Default.args = {
           },
         },
       }),
-      fakeTextAreaAccordionElement({
+      fakeTextAreaElement({
         config: {
           accordion: {
             openText: 'Visa fritextfält',
@@ -109,7 +108,7 @@ Default.args = {
           },
         },
       }),
-      fakeTextAreaAccordionElement({
+      fakeTextAreaElement({
         config: {
           accordion: {
             openText: 'Visa fritextfält',

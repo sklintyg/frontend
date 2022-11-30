@@ -1,8 +1,8 @@
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { MandatoryIcon, sanitizeText } from '@frontend/common'
 import React from 'react'
-import styled, { css } from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled from 'styled-components'
+import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 import Icon from '../image/Icon'
 
 const mandatoryIconAdditionalStyles = css`
@@ -50,8 +50,10 @@ const StyledSummary = styled.summary`
     outline-offset: 3px;
   }
 `
-
-const StyledDetails = styled.details`
+interface detailsProperties {
+  isControl?: boolean
+}
+const StyledDetails = styled.details<detailsProperties>`
   padding: 0 !important;
   overflow: visible;
   h5.close {
@@ -69,13 +71,30 @@ const StyledDetails = styled.details`
     h5.open {
       display: block;
     }
+    .ic-expandable-button.ic-inner.ic-expandable-button--chevron::after {
+      ${(props) =>
+        props.isControl &&
+        css`
+          margin-top: -3px;
+        `}
+    }
+  }
+  .ic-expandable-button.ic-inner.ic-expandable-button--chevron::after {
+    ${(props) =>
+      props.isControl &&
+      css`
+        background-image: url("data:image/svg+xml,%3Csvg class='iu-svg-icon' xmlns='http://www.w3.org/2000/svg' width='18' height='10' viewBox='0 0 22 15'%3E%3Cpath fill='rgb(95,95,95)' d='M8.325 10.647L.585 3.259c-.78-.746-.78-1.954 0-2.7.782-.745 2.048-.745 2.83 0l9.153 8.738c.781.745.781 1.954 0 2.7l-9.154 8.737c-.78.746-2.047.746-2.828 0-.781-.745-.781-1.954 0-2.7l7.74-7.387z' transform='translate(-1290 -179) translate(410 141) rotate(90 432 470)'/%3E%3C/svg%3E") !important;
+        position: static;
+        margin-left: 5px;
+        margin-top: 5px;
+      `}
   }
 `
 
 interface Props {
   title?: string
   titleClose?: string
-  titleId: string
+  titleId?: string
   header?: string
   description?: string
   additionalStyles?: string
@@ -95,7 +114,7 @@ const Accordion: React.FC<Props> = ({
   titleId,
   description,
   additionalStyles,
-  displayMandatory = false,
+  displayMandatory,
   header,
   isCategory,
   isControl,
@@ -117,7 +136,7 @@ const Accordion: React.FC<Props> = ({
 
   const getHeader = () => {
     return (
-      <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+      <StyledSummary tabIndex={0} className={`ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400`}>
         {!title && ' '}
         <Icon iconType={icon ? icon : ''} includeTooltip={!hasHeader && includeIconTooltip} size={iconSize} />
         {displayMandatory && <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={true} />}
@@ -131,7 +150,9 @@ const Accordion: React.FC<Props> = ({
   return (
     <div id={titleId} css={wrapperStyles}>
       {hasHeader && !isControl && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
-      <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
+      <StyledDetails
+        isControl={isControl}
+        className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
         {getHeader()}
         {isControl && (
           <>
