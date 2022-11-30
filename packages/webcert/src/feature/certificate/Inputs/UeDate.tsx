@@ -13,7 +13,7 @@ import { isValid } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
   question: CertificateDataElement
@@ -25,27 +25,18 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const questionValue = question.value as ValueDate
   const questionConfig = question.config as ConfigUeDate
   const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = [
-    ...useSelector(getVisibleValidationErrors(question.id, questionConfig.id)),
-    ...(isShowValidationError && question.validationErrors ? question.validationErrors : []),
-  ]
-
-  const deleteDateFromSavedValue = () => {
-    dispatch(updateCertificateDataElement(getUpdatedDateValue(question, questionConfig.id, '')))
-  }
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const handleChange = (date: string) => {
     setDateString(date)
 
-    if (date === '') {
-      deleteDateFromSavedValue()
-    }
-
-    const parsedDate = getValidDate(date)
-
-    if (isValid(parsedDate)) {
-      dispatch(updateCertificateDataElement(getUpdatedDateValue(question, questionConfig.id, date)))
+    if (isValid(getValidDate(date)) || date === '') {
+      dispatch(
+        updateCertificateDataElement({
+          ...question,
+          value: { ...questionValue, date },
+        })
+      )
     }
   }
 
@@ -60,12 +51,8 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
     <>
       <DatePickerCustom
         disabled={disabled}
-        textInputOnChange={(value: string) => {
-          handleChange(value)
-        }}
-        setDate={(date: string) => {
-          handleChange(date)
-        }}
+        textInputOnChange={handleChange}
+        setDate={handleChange}
         inputString={dateString}
         questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
@@ -78,18 +65,6 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
       </ValidationWrapper>
     </>
   )
-}
-
-const getUpdatedDateValue = (question: CertificateDataElement, id: string, date: string) => {
-  const updatedQuestion: CertificateDataElement = { ...question }
-
-  const updatedValue = { ...(updatedQuestion.value as ValueDate) }
-  updatedValue.id = id
-  updatedValue.date = date
-
-  updatedQuestion.value = updatedValue
-
-  return updatedQuestion
 }
 
 export default UeDate
