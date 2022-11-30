@@ -163,7 +163,7 @@ const getQuestionClientValidationErrors = (questionId: string) => (state: RootSt
 
 const getQuestionServerValidationErrors = (questionId: string) => (state: RootState): ValidationError[] => {
   const question = getQuestion(questionId)(state)
-  return question ? question.validationErrors ?? [] : []
+  return question?.validationErrors ?? []
 }
 
 export const getVisibleValidationErrors = (questionId: string, field?: string) => (state: RootState): ValidationError[] => {
