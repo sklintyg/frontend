@@ -22,6 +22,7 @@ import { structureCertificate } from '../../utils/structureCertificate'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
+import { uniqBy } from 'lodash'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -172,9 +173,12 @@ export const getVisibleValidationErrors = (questionId: string, field?: string) =
     clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
   )
 
-  return [...clientValidationErrors, ...serverValidationErrors]
-    .filter((v) => showValidationErrors || v.showAlways)
-    .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true))
+  return uniqBy(
+    [...clientValidationErrors, ...serverValidationErrors]
+      .filter((v) => showValidationErrors || v.showAlways)
+      .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
+    'type'
+  )
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
