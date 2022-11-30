@@ -35,11 +35,11 @@ import {
   ValueHeader,
   ValueIcf,
   ValueText,
-  ValueUncertainDate,
+  ValueUncertainDate
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
-import { fakeList } from './fakeList'
 import { fakeCityList } from './fakeCity'
+import { fakeList } from './fakeList'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -482,7 +482,7 @@ export const fakeCauseOfDeathListElement = (
           questions
             .map((question) => question.value as ValueCauseOfDeath)
             .map((value, index) =>
-              index > 1
+              index > 0
                 ? {
                     ...value,
                     description: { ...value.description, text: null },
