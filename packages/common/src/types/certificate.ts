@@ -243,7 +243,7 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
-export interface ConfigUeCodeItem extends CertificateDataConfig {
+export interface ConfigUeCodeItem {
   id: string
   label: string
   code: string
@@ -254,6 +254,7 @@ export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
   typeId: string
   informationSourceId: string
   dateId: string
+  typeOptions: ConfigUeCodeItem[]
 }
 
 export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
@@ -261,21 +262,14 @@ export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig 
   dateText: string
   informationSourceText: string
   informationSourceDescription: string
-  typeOptions: ConfigUeCodeItem[]
   list: ConfigUeMedicalInvestigation[]
-}
-
-export interface ConfigureUeCauseOfDeathSpecification {
-  id: string
-  code: string
-  label: string
 }
 
 export interface ConfigureUeCauseOfDeathControl {
   id: string
   descriptionId: string
   debutId: string
-  specifications: ConfigureUeCauseOfDeathSpecification[]
+  specifications: ConfigUeCodeItem[]
 }
 
 export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
@@ -392,7 +386,7 @@ export interface ValueHeader extends Value {
 
 export interface ValueMedicalInvestigation extends Value {
   id: string
-  sort: ValueCode
+  investigationType: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
