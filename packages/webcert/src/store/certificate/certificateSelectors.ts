@@ -22,6 +22,7 @@ import { structureCertificate } from '../../utils/structureCertificate'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
+import { uniqBy } from 'lodash'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -157,27 +158,27 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-export const getVisibleValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
-  let validationErrors
-  const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
-  validationErrors = [...clientValidationErrors]
+const getQuestionClientValidationErrors = (questionId: string) => (state: RootState): ValidationError[] =>
+  state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
 
-  if (state.ui.uiCertificate.certificate) {
-    const question = state.ui.uiCertificate.certificate.data[questionId]
-    if (question && question.validationErrors) {
-      let serverValidationErrors = question.validationErrors
-      if (clientValidationErrors.length > 0) {
-        serverValidationErrors = serverValidationErrors.filter((v) => v.type !== 'EMPTY')
-      }
-      validationErrors = [...validationErrors, ...serverValidationErrors]
-    }
-  }
+const getQuestionServerValidationErrors = (questionId: string) => (state: RootState): ValidationError[] => {
+  const question = getQuestion(questionId)(state)
+  return question ? question.validationErrors ?? [] : []
+}
 
-  if (state.ui.uiCertificate.showValidationErrors) {
-    return validationErrors.filter((v: ValidationError) => doesFieldsMatch(field, v.field))
-  } else {
-    return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
-  }
+export const getVisibleValidationErrors = (questionId: string, field?: string) => (state: RootState): ValidationError[] => {
+  const showValidationErrors = getShowValidationErrors(state)
+  const clientValidationErrors = getQuestionClientValidationErrors(questionId)(state)
+  const serverValidationErrors = getQuestionServerValidationErrors(questionId)(state).filter((v) =>
+    clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
+  )
+
+  return uniqBy(
+    [...clientValidationErrors, ...serverValidationErrors]
+      .filter((v) => showValidationErrors || v.showAlways)
+      .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
+    'type'
+  )
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
