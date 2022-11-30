@@ -1,8 +1,7 @@
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { MandatoryIcon, sanitizeText } from '@frontend/common'
 import React from 'react'
-import styled from 'styled-components'
-import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { css } from 'styled-components'
 import Icon from '../image/Icon'
 
 const mandatoryIconAdditionalStyles = css`
@@ -104,7 +103,6 @@ interface Props {
   icon?: string
   includeIconTooltip?: boolean
   iconSize?: FontAwesomeIconProps['size']
-  wrapperStyles?: FlattenSimpleInterpolation
 }
 
 const Accordion: React.FC<Props> = ({
@@ -121,7 +119,6 @@ const Accordion: React.FC<Props> = ({
   includeIconTooltip,
   iconSize,
   children,
-  wrapperStyles,
 }) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
@@ -148,7 +145,7 @@ const Accordion: React.FC<Props> = ({
   }
 
   return (
-    <div id={titleId} css={wrapperStyles}>
+    <div id={titleId}>
       {hasHeader && !isControl && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
       <StyledDetails
         isControl={isControl}
