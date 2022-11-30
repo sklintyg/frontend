@@ -89,70 +89,53 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
 
   function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
     const commonProps = { key: question.id, disabled, question }
-    let component = <></>
+
     switch (question.config.type) {
       case ConfigTypes.UE_RADIO_BOOLEAN:
-        component = <UeRadio {...commonProps} />
-        break
+        return <UeRadio {...commonProps} />
       case ConfigTypes.UE_ICF:
-        component = <UeIcf {...commonProps} />
-        break
+        return <UeIcf {...commonProps} />
       case ConfigTypes.UE_TEXTAREA:
-        component = <UeTextArea {...commonProps} />
-        break
+        return <UeTextArea {...commonProps} />
       case ConfigTypes.UE_CHECKBOX_BOOLEAN:
-        component = <UeCheckbox {...commonProps} />
-        break
+        return <UeCheckbox {...commonProps} />
       case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:
-        component = <UeCheckboxGroup {...commonProps} />
-        break
+        return <UeCheckboxGroup {...commonProps} />
       case ConfigTypes.UE_DROPDOWN:
-        component = <UeDropdown {...commonProps} />
-        break
+        return <UeDropdown {...commonProps} />
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE:
-        component = <UeRadioGroup {...commonProps} />
-        break
+        return <UeRadioGroup {...commonProps} />
       case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
-        component = <UeCheckboxDateGroup {...commonProps} />
-        break
+        return <UeCheckboxDateGroup {...commonProps} />
       case ConfigTypes.UE_SICK_LEAVE_PERIOD:
-        component = <UeSickLeavePeriod {...commonProps} />
-        break
+        return <UeSickLeavePeriod {...commonProps} />
       case ConfigTypes.UE_DIAGNOSES:
-        component = <UeDiagnoses {...commonProps} />
-        break
+        return <UeDiagnoses {...commonProps} />
       case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
-        component = <UeRadioGroupOptionalDropdown {...commonProps} />
-        break
+        return <UeRadioGroupOptionalDropdown {...commonProps} />
       case ConfigTypes.UE_UNCERTAIN_DATE:
-        component = <UeUncertainDate {...commonProps} />
-        break
+        return <UeUncertainDate {...commonProps} />
       case ConfigTypes.UE_MESSAGE:
-        component = <UeMessage {...commonProps} />
-        break
+        return <UeMessage {...commonProps} />
       case ConfigTypes.UE_TYPE_AHEAD:
-        component = <UeTypeahead {...commonProps} />
-        break
+        return <UeTypeahead {...commonProps} />
       case ConfigTypes.UE_TEXTFIELD:
-        component = <UeTextField {...commonProps} />
-        break
+        return <UeTextField {...commonProps} />
       case ConfigTypes.UE_DATE:
-        component = <UeDate {...commonProps} />
-        break
+        return <UeDate {...commonProps} />
       case ConfigTypes.UE_CAUSE_OF_DEATH:
-        component = <UeCauseOfDeath {...commonProps} />
-        break
+        return <UeCauseOfDeath {...commonProps} />
       case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
-        component = <UeCauseOfDeathList {...commonProps} />
-        break
+        return <UeCauseOfDeathList {...commonProps} />
       case ConfigTypes.UE_HEADER:
-        break
+        return
       default:
-        component = <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
+        return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
-    if (!question.config.accordion) {
-      return component
-    } else {
+  }
+
+  function getEditComponent(question: CertificateDataElement, disabled: boolean) {
+    if (question.config.accordion)
       return (
         <Accordion
           icon={question.config.icon}
@@ -162,10 +145,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
           titleClose={question.config.accordion.closeText}
           header={question.config.accordion.header}
           isControl={true}>
-          {component}
+          {getUnifiedEditComponent(question, disabled)}
         </Accordion>
       )
-    }
+    else return getUnifiedEditComponent(question, disabled)
   }
 
   function getUnifiedViewComponent(question: CertificateDataElement) {
@@ -175,7 +158,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? getUnifiedViewComponent(question) : getEditComponent(question, disabled)}</div>
     </div>
   )
 }

@@ -51,12 +51,7 @@ const StyledSummary = styled.summary`
   }
 `
 
-interface DetailsProps {
-  title?: string
-  titleClose?: string
-}
-
-const StyledDetails = styled.details<DetailsProps>`
+const StyledDetails = styled.details`
   padding: 0 !important;
   overflow: visible;
   h5.close {
@@ -100,7 +95,7 @@ const Accordion: React.FC<Props> = ({
   titleId,
   description,
   additionalStyles,
-  displayMandatory,
+  displayMandatory = false,
   header,
   isCategory,
   isControl,
@@ -111,53 +106,33 @@ const Accordion: React.FC<Props> = ({
 }) => {
   const hasHeader = header !== null && header !== '' && header !== undefined
 
-  const getHeader = () => {
+  const getTitle = () => {
     if (isControl) {
-      return (
-        <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-          <Icon iconType={icon ? icon : ''} size={iconSize} />
-          <MandatoryIcon display={displayMandatory as boolean} additionalStyles={mandatoryIconAdditionalStyles} />
-          <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body close ${additionalStyles}`}>{title}</h5>
-          <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body open ${additionalStyles}`}>{titleClose}</h5>
-        </StyledSummary>
-      )
-    } else {
-      if (hasHeader) {
-        return (
-          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-            <Icon iconType={icon ? icon : ''} size={iconSize} />
-            <MandatoryIcon display={displayMandatory as boolean} additionalStyles={mandatoryIconAdditionalStyles} />
-            <h5 className={`iu-fs-200 iu-lh-body ${additionalStyles}`}>{title}</h5>
-          </StyledSummary>
-        )
-      } else {
-        return (
-          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
-            <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory as boolean} />
-            <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
-          </StyledSummary>
-        )
-      }
+      return <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body close ${additionalStyles}`}>{title}</h5>
+    } else if (hasHeader) {
+      return <h4 className={`${isCategory ? 'iu-fs-400' : 'iu-fs-300'} ${additionalStyles}`}>{title}</h4>
     }
+    return <h5 className={`iu-fs-200 iu-lh-body ${additionalStyles}`}>{title}</h5>
+  }
+
+  const getHeader = () => {
+    return (
+      <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron iu-fs-400">
+        {!title && ' '}
+        <Icon iconType={icon ? icon : ''} includeTooltip={!hasHeader && includeIconTooltip} size={iconSize} />
+        {displayMandatory && <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={true} />}
+        {title && getTitle()}
+        {titleClose && <h5 className={`iu-fs-100 iu-fw-bold iu-lh-body open ${additionalStyles}`}>{titleClose}</h5>}
+        {!title && children}
+      </StyledSummary>
+    )
   }
 
   return (
     <div id={titleId} css={wrapperStyles}>
       {hasHeader && !isControl && <h4 className={`iu-fs-300 iu-mb-200 ${additionalStyles}`}>{header}</h4>}
-      <StyledDetails
-        className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white"
-        title={title}
-        titleClose={titleClose}>
-        {title ? (
-          getHeader()
-        ) : (
-          <StyledSummary tabIndex={0} className="ic-expandable-button ic-inner ic-expandable-button--chevron">
-            {' '}
-            <Icon iconType={icon ? icon : ''} includeTooltip={includeIconTooltip} size={iconSize} />
-            {children}
-          </StyledSummary>
-        )}
+      <StyledDetails className="ic-card ic-card--expandable ic-card--sm-unset-style ic-expandable ic-card--inspiration-large iu-bg-white">
+        {getHeader()}
         {isControl && (
           <>
             <h5 className={`iu-fs-200 iu-lh-body`}>{header ?? ''}</h5>

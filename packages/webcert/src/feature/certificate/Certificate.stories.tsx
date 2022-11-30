@@ -82,10 +82,42 @@ Default.args = {
     fakeCategoryElement({ id: 'kategori 3' }, [fakeCheckboxMultipleDate()]),
     fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement(), fakeTextAreaElement()]),
     fakeCategoryElement({ id: 'Funktionshinder' }, [
-      fakeTextAreaAccordionElement(),
-      fakeTextAreaAccordionElement(),
-      fakeTextAreaAccordionElement(),
-      fakeTextAreaAccordionElement(),
+      fakeTextAreaElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaAccordionElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaAccordionElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaAccordionElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
     ]),
   ]),
 }
