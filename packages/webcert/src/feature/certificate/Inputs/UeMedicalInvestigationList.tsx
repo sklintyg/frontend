@@ -1,25 +1,8 @@
-import {
-  CertificateDataElement,
-  Dropdown,
-  QuestionValidationTexts,
-  ValueUncertainDate,
-  TextInput,
-  DatePickerCustom,
-  getValidDate,
-  Accordion,
-} from '@frontend/common'
-import {
-  ValueMedicalInvestigation,
-  ConfigUeCodeItem,
-  ConfigUeMedicalInvestigationList,
-  ValueCode,
-  ValueDate,
-} from '@frontend/common/src/types/certificate'
-import { isValid } from 'date-fns'
-import React, { useState, useEffect } from 'react'
+import { CertificateDataElement, Accordion } from '@frontend/common'
+import { ValueMedicalInvestigation, ConfigUeCodeItem, ConfigUeMedicalInvestigationList } from '@frontend/common/src/types/certificate'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
@@ -51,9 +34,8 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
         <h4>{config.dateText}</h4>
         <Accordion title={config.informationSourceText} titleId={''} description={config.informationSourceDescription} />
       </div>
-      <div className="ic-forms__group iu-grid-cols">
+      <div className="ic-forms__group iu-grid-rows">
         {config.list.map((listItem) => {
-          console.log(listItem)
           return <UeMedicalInvestigation question={question} />
         })}
       </div>

@@ -1,21 +1,10 @@
-import {
-  CertificateDataElement,
-  Dropdown,
-  QuestionValidationTexts,
-  ValueUncertainDate,
-  TextInput,
-  DatePickerCustom,
-  getValidDate,
-  Accordion,
-} from '@frontend/common'
+import { CertificateDataElement, Dropdown, QuestionValidationTexts, TextInput, DatePickerCustom } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigationList,
   ValueCode,
-  ValueDate,
 } from '@frontend/common/src/types/certificate'
-import { isValid } from 'date-fns'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
@@ -52,7 +41,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div className="ic-forms__group iu-grid-cols">
+      <div className="iu-grid-cols">
         <div>
           <Dropdown
             id="typeText"
