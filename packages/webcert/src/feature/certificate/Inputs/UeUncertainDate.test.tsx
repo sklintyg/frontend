@@ -68,7 +68,7 @@ describe('UeUncertainDate', () => {
     expect(monthDropdown).toBeInTheDocument()
     expect(monthDropdown).toBeDisabled()
     const monthOptions = monthDropdown.querySelectorAll('option')
-    expect(monthOptions).toHaveLength(14)
+    expect(monthOptions).toHaveLength(13)
 
     const dayText = screen.getByLabelText('Dag')
     expect(dayText).toBeInTheDocument()
@@ -91,13 +91,13 @@ describe('UeUncertainDate', () => {
     expect(yearOptions[2].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
     expect(monthDropdown).not.toBeDisabled()
-    expect(monthDropdown).toHaveValue('')
+    expect(monthDropdown).toHaveValue('00')
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[2].selected).toBeFalsy()
 
     userEvent.click(monthDropdown)
     userEvent.selectOptions(monthDropdown, MONTHS[0])
-    expect(monthOptions[2].selected).toBeTruthy()
+    expect(monthOptions[1].selected).toBeTruthy()
     expect(monthOptions[0].selected).toBeFalsy()
 
     userEvent.click(yearDropdown)
@@ -106,7 +106,7 @@ describe('UeUncertainDate', () => {
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
     expect(monthDropdown).toBeDisabled()
-    expect(monthDropdown).toHaveValue('')
+    expect(monthDropdown).toHaveValue('00')
     expect(monthOptions[0].selected).toBeTruthy()
     expect(monthOptions[1].selected).toBeFalsy()
   })

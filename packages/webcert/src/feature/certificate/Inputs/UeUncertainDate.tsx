@@ -58,10 +58,12 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   ]
 
   const months: ConfigUeDropdownItem[] = [
-    { id: '', label: 'Ange månad' },
+    ...(!config.unknownMonth ? [{ id: '', label: 'Ange månad' }] : []),
     ...(config.unknownMonth ? [{ id: '00', label: '00 (ej känt)' }] : []),
     ...monthList.map((month) => ({ id: month, label: month })),
   ]
+
+  const defaultMonth = config.unknownMonth ? '00' : ''
 
   const handleValueChanged = useCallback(
     (year: string, month: string) => {
@@ -83,10 +85,10 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 
   useEffect(() => {
     const yearUnknown = ['', '0000'].includes(selectedYear)
-    setSelectedMonth((current) => (yearUnknown ? '' : current))
+    setSelectedMonth((current) => (yearUnknown ? defaultMonth : current))
     setDisabledMonth(disabled || yearUnknown)
     handleValueChanged(selectedYear, selectedMonth)
-  }, [disabled, selectedYear, selectedMonth, handleValueChanged])
+  }, [disabled, selectedYear, selectedMonth, handleValueChanged, defaultMonth])
 
   return (
     <>
