@@ -35,7 +35,7 @@ import {
   ValueDiagnosis,
   ValueHeader,
   ValueIcf,
-  ValueMedicalInvestigationList,
+  ValueMedicalInvestigation,
   ValueText,
   ValueUncertainDate,
 } from '../../types/certificate'
@@ -361,7 +361,7 @@ export const fakeUncertainDateElement = (
   )
 
 export const fakeMedicalInvestigationListElement = (
-  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>,
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -381,21 +381,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource1',
             dateId: 'date1',
             typeOptions: [
-              {
-                id: '',
-                label: 'Välj...',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Utredning',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Underlag',
-                code: '',
-              },
+              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '', label: 'Underlag från habiliteringen', code: '' },
+              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
           {
@@ -404,21 +392,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource2',
             dateId: 'date2',
             typeOptions: [
-              {
-                id: '',
-                label: 'Välj...',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Utredning 2',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Underlag 2',
-                code: '',
-              },
+              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '', label: 'Underlag från habiliteringen', code: '' },
+              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
           {
@@ -427,21 +403,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource3',
             dateId: 'date3',
             typeOptions: [
-              {
-                id: '',
-                label: 'Välj...',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Utredning 3',
-                code: '',
-              },
-              {
-                id: '',
-                label: 'Underlag 3',
-                code: '',
-              },
+              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '', label: 'Underlag från habiliteringen', code: '' },
+              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
         ],
@@ -449,7 +413,27 @@ export const fakeMedicalInvestigationListElement = (
       },
       value: {
         type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-        list: [],
+        informationSource: {
+          type: CertificateDataValueType.TEXT,
+          id: '',
+          text: faker.lorem.words(),
+          ...data?.value?.informationSource,
+        },
+        date: {
+          type: CertificateDataValueType.DATE,
+          id: '',
+          date: faker.date
+            .past()
+            .toISOString()
+            .split('T')[0],
+          ...data?.value?.date,
+        },
+        investigationType: {
+          type: CertificateDataValueType.CODE,
+          id: faker.random.alpha({ count: 5 }),
+          code: faker.random.arrayElement(['Neuropsykiatriskt utlåtande', 'Underlag från habiliteringen', 'Underlag från arbetsterapeut']),
+          ...data?.value?.investigationType,
+        },
         ...data?.value,
       },
     },

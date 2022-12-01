@@ -1,16 +1,9 @@
 import { CertificateDataElement, Accordion } from '@frontend/common'
 import { ValueMedicalInvestigation, ConfigUeMedicalInvestigationList } from '@frontend/common/src/types/certificate'
-import React from 'react'
-import styled from 'styled-components/macro'
-import { useAppDispatch } from '../../../store/store'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
-
-const ValidationWrapper = styled.div`
-  flex: 0 !important;
-  flex-basis: 100% !important;
-  padding-bottom: 16px;
-  margin-top: 0;
-`
 
 export interface Props {
   disabled?: boolean
@@ -18,10 +11,20 @@ export interface Props {
 }
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
+  const dispatch = useDispatch()
   const questionValue = question.value as ValueMedicalInvestigation
   const config = question.config as ConfigUeMedicalInvestigationList
-  const dispatch = useAppDispatch()
+  const [currentValue, setCurrentValue] = useState<ValueMedicalInvestigation>(question.value as ValueMedicalInvestigation)
 
+  const handleChange = (value: ValueMedicalInvestigation) => {
+    setCurrentValue(value)
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value,
+      })
+    )
+  }
   return (
     <>
       <div className="iu-grid-cols">
@@ -31,8 +34,15 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
       </div>
       <div className="ic-forms__group iu-grid-rows">
         {config.list.map((listItem) => {
-          console.log(questionValue)
-          return <UeMedicalInvestigation question={question} config={listItem} questionId={question.id} value={questionValue} />
+          return (
+            <UeMedicalInvestigation
+              id={listItem.id}
+              config={listItem}
+              questionId={question.id}
+              value={currentValue}
+              onChange={handleChange}
+            />
+          )
         })}
       </div>
     </>

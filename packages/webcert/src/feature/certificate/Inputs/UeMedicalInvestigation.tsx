@@ -1,110 +1,67 @@
-import { CertificateDataElement, Dropdown, QuestionValidationTexts, TextInput, DatePickerCustom, getValidDate } from '@frontend/common'
-import {
-  ValueMedicalInvestigation,
-  ConfigUeCodeItem,
-  ConfigUeMedicalInvestigation,
-  ValueCode,
-} from '@frontend/common/src/types/certificate'
-import { isValid } from 'date-fns'
-import React, { useState, useEffect } from 'react'
+import { Dropdown, TextInput, DatePickerCustom } from '@frontend/common'
+import { ValueMedicalInvestigation, ConfigUeCodeItem, ConfigUeMedicalInvestigation } from '@frontend/common/src/types/certificate'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
-
-const ValidationWrapper = styled.div`
-  flex: 0 !important;
-  flex-basis: 100% !important;
-  padding-bottom: 16px;
-  margin-top: 0;
-`
+import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
+  id: string
   disabled?: boolean
-  question: CertificateDataElement
   config: ConfigUeMedicalInvestigation
   questionId: string
   value: ValueMedicalInvestigation
+  onChange: (value: ValueMedicalInvestigation) => void
 }
 
-const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled, config, questionId, value }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const questionValue = question.value as ValueMedicalInvestigation
-  const dispatch = useAppDispatch()
-  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const typeOptions = config.typeOptions as ConfigUeCodeItem[]
-  const [selected, setSelected] = useState((question.value as ValueCode).code)
-  const [dateString, setDateString] = useState<string | null>()
-  const [text, setText] = useState(value != null ? value.informationSource.text : '')
+const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questionId, onChange, value }) => {
+  //const isShowValidationError = useSelector(getShowValidationErrors)
+  // const questionValue = question.value as ValueMedicalInvestigation
+  const hasValidationError = useSelector(getQuestionHasValidationError(questionId))
+  // const typeOptions = config.typeOptions as ConfigUeCodeItem[]
 
-  // console.log('typeOptions', typeOptions)
-  //console.log('typeId', config.typeId)
+  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
-  // const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
-
-  const getUpdatedValue = (question: CertificateDataElement, selected: string) => {
-    const updatedQuestion: CertificateDataElement = { ...question }
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueCode) }
-    updatedQuestionValue.id = selected
-    updatedQuestionValue.code = selected
-    updatedQuestion.value = updatedQuestionValue
-    return updatedQuestion
-  }
   const handleDescriptionChange = (text: string) => {
-    // onChange({ ...value, description: { ...value.description, text } })
-
-    setText(text)
+    onChange({ ...value, informationSource: { ...value.informationSource, text } })
   }
 
   const handleDateChange = (date: string) => {
-    //onChange({ ...value, debut: { ...value.debut, date } })
-
-    setDateString(date)
-
-    if (isValid(getValidDate(date)) || date === '') {
-      dispatch(
-        updateCertificateDataElement({
-          ...question,
-          value: { ...questionValue, date },
-        })
-      )
-    }
+    onChange({ ...value, date: { ...value.date, date } })
   }
 
-  useEffect(() => {
-    if (disabled === false && selected != null) {
-      dispatch(updateCertificateDataElement(getUpdatedValue(question, selected)))
-    }
-  }, [disabled, selected, question, dispatch])
+  const handleSpecificationChange = (code: string) => {
+    onChange({ ...value, investigationType: { ...value.investigationType, code } })
+  }
 
   return (
     <>
       <div className="iu-grid-cols">
         <div>
           <Dropdown
-            id={config.typeId}
+            id={'type_' + id}
             label=""
             options={
               typeOptions &&
               typeOptions.map((item) => (
-                <option key={item.label} value={item.label}>
+                <option key={item.id} value={item.id}>
                   {item.label}
                 </option>
               ))
             }
-            value={selected}
+            value={''}
             disabled={disabled}
-            onChange={(event) => setSelected(event.currentTarget.value)}
+            onChange={(event) => {
+              handleSpecificationChange(event.currentTarget.value)
+            }}
             hasValidationError={hasValidationError}
           />
         </div>
         <div>
           <DatePickerCustom
-            id={config.dateId}
+            id={'date_' + id}
             questionId={questionId}
             forbidFutureDates={true}
-            inputString={dateString || null}
+            inputString={''}
             textInputOnChange={handleDateChange}
             displayValidationErrorOutline={false}
             setDate={(date: string) => {
@@ -117,16 +74,16 @@ const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled, config, q
             onChange={(event) => {
               handleDescriptionChange(event.currentTarget.value)
             }}
-            id={config.informationSourceId}
+            id={'informationSource_' + id}
             hasValidationError={hasValidationError}
-            value={text}
+            value={''}
           />
         </div>
-        {isShowValidationError && (
+        {/* {isShowValidationError && (
           <ValidationWrapper>
             <QuestionValidationTexts validationErrors={question.validationErrors} />
           </ValidationWrapper>
-        )}{' '}
+        )}{' '} */}
       </div>
     </>
   )
