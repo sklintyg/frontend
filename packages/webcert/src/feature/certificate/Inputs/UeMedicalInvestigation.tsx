@@ -1,10 +1,11 @@
-import { CertificateDataElement, Dropdown, QuestionValidationTexts, TextInput, DatePickerCustom } from '@frontend/common'
+import { CertificateDataElement, Dropdown, QuestionValidationTexts, TextInput, DatePickerCustom, getValidDate } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeCodeItem,
-  ConfigUeMedicalInvestigationList,
+  ConfigUeMedicalInvestigation,
   ValueCode,
 } from '@frontend/common/src/types/certificate'
+import { isValid } from 'date-fns'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
@@ -22,16 +23,54 @@ const ValidationWrapper = styled.div`
 export interface Props {
   disabled?: boolean
   question: CertificateDataElement
+  config: ConfigUeMedicalInvestigation
+  questionId: string
+  value: ValueMedicalInvestigation
 }
 
-const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled }) => {
+const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled, config, questionId, value }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const questionValue = question.value as ValueMedicalInvestigation
-  const config = question.config as ConfigUeMedicalInvestigationList
   const dispatch = useAppDispatch()
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
   const typeOptions = config.typeOptions as ConfigUeCodeItem[]
   const [selected, setSelected] = useState((question.value as ValueCode).code)
+  const [dateString, setDateString] = useState<string | null>()
+  const [text, setText] = useState(value != null ? value.informationSource.text : '')
+
+  // console.log('typeOptions', typeOptions)
+  //console.log('typeId', config.typeId)
+
+  // const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
+
+  const getUpdatedValue = (question: CertificateDataElement, selected: string) => {
+    const updatedQuestion: CertificateDataElement = { ...question }
+    const updatedQuestionValue = { ...(updatedQuestion.value as ValueCode) }
+    updatedQuestionValue.id = selected
+    updatedQuestionValue.code = selected
+    updatedQuestion.value = updatedQuestionValue
+    return updatedQuestion
+  }
+  const handleDescriptionChange = (text: string) => {
+    // onChange({ ...value, description: { ...value.description, text } })
+
+    setText(text)
+  }
+
+  const handleDateChange = (date: string) => {
+    //onChange({ ...value, debut: { ...value.debut, date } })
+
+    setDateString(date)
+
+    if (isValid(getValidDate(date)) || date === '') {
+      dispatch(
+        updateCertificateDataElement({
+          ...question,
+          value: { ...questionValue, date },
+        })
+      )
+    }
+  }
 
   useEffect(() => {
     if (disabled === false && selected != null) {
@@ -44,13 +83,16 @@ const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-cols">
         <div>
           <Dropdown
-            id="typeText"
+            id={config.typeId}
             label=""
-            options={typeOptions.map((item) => (
-              <option key={item.label} value={item.label}>
-                {item.label}
-              </option>
-            ))}
+            options={
+              typeOptions &&
+              typeOptions.map((item) => (
+                <option key={item.label} value={item.label}>
+                  {item.label}
+                </option>
+              ))
+            }
             value={selected}
             disabled={disabled}
             onChange={(event) => setSelected(event.currentTarget.value)}
@@ -59,20 +101,26 @@ const UeMedicalInvestigation: React.FC<Props> = ({ question, disabled }) => {
         </div>
         <div>
           <DatePickerCustom
-            id="dateText"
+            id={config.dateId}
+            questionId={questionId}
             forbidFutureDates={true}
-            inputString={null}
-            textInputOnChange={function(value: string, isValueValid?: boolean | undefined): void {
-              throw new Error('Function not implemented.')
-            }}
+            inputString={dateString || null}
+            textInputOnChange={handleDateChange}
             displayValidationErrorOutline={false}
             setDate={(date: string) => {
-              handleChange(date)
+              handleDateChange(date)
             }}
           />
         </div>
         <div>
-          <TextInput id="informationSourceText" hasValidationError={hasValidationError} />
+          <TextInput
+            onChange={(event) => {
+              handleDescriptionChange(event.currentTarget.value)
+            }}
+            id={config.informationSourceId}
+            hasValidationError={hasValidationError}
+            value={text}
+          />
         </div>
         {isShowValidationError && (
           <ValidationWrapper>

@@ -10,7 +10,6 @@ import {
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
-  ConfigUeCodeItem,
   ConfigUeDate,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
@@ -361,67 +360,101 @@ export const fakeUncertainDateElement = (
     children
   )
 
-  export const fakeMedicalInvestigationListElement = (
-    data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>,
-    children?: CertificateData[]
-  ): CertificateData =>
-    fakeDataElement(
-      {
-        ...data,
-        config: {
-          type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
-          typeText: 'Ange utredning eller underlag',
-          dateText: 'Datum',
-          informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
-          informationSourceDescription: 'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
-          typeOptions: [{
-            id: '',
-            label: 'Välj...',
-            code: '',
-          },
+export const fakeMedicalInvestigationListElement = (
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+        typeText: 'Ange utredning eller underlag',
+        dateText: 'Datum',
+        informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
+        informationSourceDescription:
+          'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
+        list: [
           {
-            id: '',
-            label: 'Utredning',
-            code: '',
-          },
-          {
-            id: '',
-            label: 'Underlag',
-            code: '',
-          }],
-          list: [{
             id: '1',
-            typeId: '',
-            informationSourceId: '',
-            dateId: '',
+            typeId: 'type1',
+            informationSourceId: 'infoSource1',
+            dateId: 'date1',
+            typeOptions: [
+              {
+                id: '',
+                label: 'Välj...',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Utredning',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Underlag',
+                code: '',
+              },
+            ],
           },
           {
             id: '2',
-            typeId: '',
-            informationSourceId: '',
-            dateId: '',
+            typeId: 'type2',
+            informationSourceId: 'infoSource2',
+            dateId: 'date2',
+            typeOptions: [
+              {
+                id: '',
+                label: 'Välj...',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Utredning 2',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Underlag 2',
+                code: '',
+              },
+            ],
           },
           {
             id: '3',
-            typeId: '',
-            informationSourceId: '',
-            dateId: '',
-          }],
-          ...data?.config,
-        },
-        value: {
-          type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-          list: [{
-            id: faker.random.alpha(),
-            type: '',
-            date: '2022-11-29',
-            informationSource: '',
-          }],
-          ...data?.value,
-        },
+            typeId: 'type3',
+            informationSourceId: 'infoSource3',
+            dateId: 'date3',
+            typeOptions: [
+              {
+                id: '',
+                label: 'Välj...',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Utredning 3',
+                code: '',
+              },
+              {
+                id: '',
+                label: 'Underlag 3',
+                code: '',
+              },
+            ],
+          },
+        ],
+        ...data?.config,
       },
-      children
-    )
+      value: {
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+        list: [],
+        ...data?.value,
+      },
+    },
+    children
+  )
 
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
