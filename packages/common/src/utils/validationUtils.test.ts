@@ -151,7 +151,7 @@ describe('Validate show rule for date range values', () => {
   it('it should validate as false when from date is less than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(new Date())
-    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
@@ -159,7 +159,7 @@ describe('Validate show rule for date range values', () => {
   it('it should validate as false when to date is less than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(new Date())
-    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
@@ -167,7 +167,7 @@ describe('Validate show rule for date range values', () => {
   it('it should validate as true when from date is greater than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(addDays(new Date(), -7))
-    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
@@ -175,7 +175,7 @@ describe('Validate show rule for date range values', () => {
   it('it should validate as true when to date is greater than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(addDays(new Date(), -7))
-    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
@@ -187,21 +187,21 @@ describe('Validate mandatory rule for date range values', () => {
 
   it('it should validate as false when from date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when to date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when from and to date are valid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
-    value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE_LIST }]
+    value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
@@ -461,7 +461,7 @@ describe('Validate disable rule for code list', () => {
     value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
     value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
     const result = parseExpression(
-      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
       codeListElement,
       CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
     )
@@ -824,6 +824,7 @@ describe('Validate enable rule for code values', () => {
   it('it should validate as true when code is set', () => {
     const value = codeElement.value as ValueCode
     value.id = 'ATER_X_ANTAL_DGR'
+    value.code = 'ATER_X_ANTAL_DGR'
     const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
     expect(result).toBe(true)
   })
@@ -884,13 +885,13 @@ describe('Validate disable rule for code list', () => {
           type: CertificateDataValidationType.MANDATORY_VALIDATION,
           questionId: '40',
           expression:
-            '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+            '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
         },
         {
           type: CertificateDataValidationType.DISABLE_VALIDATION,
           questionId: '40',
           expression:
-            '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+            '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
           id: ['EJ_AKTUELLT'],
         },
         {
@@ -933,7 +934,7 @@ describe('Validate disable rule for code list', () => {
     value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
     value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
     const result = parseExpression(
-      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
       codeListElement,
       CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
     )
@@ -1321,7 +1322,7 @@ describe('Validate expressions based on DateValue', () => {
     expect(result).toBe(false)
   })
   it('should return false if EpochDay is not set', () => {
-    ;(element.value as ValueDate).date = undefined // 18993
+    ;(element.value as ValueDate).date = undefined
     const result = parseExpression('$dodsdatum.toEpochDay > 18992', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
@@ -1381,20 +1382,20 @@ describe('autoFillElement', () => {
 describe('Validate expressions with boolean values set to null or undefined should not be showed', () => {
   const element = getBooleanElement()
 
-  it('should return false if selected is undefined for negative expression', () => {
+  it('should return true if selected is undefined for negative expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
     const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
-    expect(result).toBe(false)
+    expect(result).toBe(true)
   })
   it('should return false if selected is undefined for positive expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
     const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
-  it('should return false if selected is null for negative expression', () => {
+  it('should return true if selected is null for negative expression', () => {
     ;(element.value as ValueBoolean).selected = null
     const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
-    expect(result).toBe(false)
+    expect(result).toBe(true)
   })
   it('should return false if selected is null for positive expression', () => {
     ;(element.value as ValueBoolean).selected = null
