@@ -4,7 +4,6 @@ import {
   ConfigureUeCauseOfDeathList,
   CustomButton,
   getValidDate,
-  QuestionValidationTexts,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
 } from '@frontend/common'
@@ -76,7 +75,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
-      return index > 0 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
+      return index > 0 && (item.description.text || item.debut.date || item.specification.code) ? index + 1 : result
     }, 1)
   )
 
@@ -135,7 +134,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   oneLine={true}
                   validation={question.validation}
                   onChange={handleChange}
-                  validationErrors={validationErrors.filter((v) => [config.descriptionId, config.debutId].includes(v.field))}>
+                  validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
                       <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)} height="47px">
@@ -156,7 +155,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
         text="Lägg till ytterligare sjukdom"
         onClick={addRowClick}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      {/* {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>} */}
     </>
   )
 }
