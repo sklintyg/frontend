@@ -2,12 +2,12 @@ import { CertificateDataElement, Accordion } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
-  ConfigUeMedicalInvestigation,
   ValueMedicalInvestigationList,
 } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
 
 export interface Props {
@@ -16,22 +16,30 @@ export interface Props {
 }
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
-  const dispatch = useDispatch()
-  //const questionValue = question.value as ValueMedicalInvestigation
-  const values = (question.value as ValueMedicalInvestigationList).list
+  const dispatch = useAppDispatch()
+  const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
+  //const values = (question.value as ValueMedicalInvestigationList).list
   //const [questionValueList, setQuestionValueList] = useState(values)
-  const [currentValue, setCurrentValue] = useState<ValueMedicalInvestigationList>(question.value as ValueMedicalInvestigationList)
+  const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list as ValueMedicalInvestigation[])
 
   const handleChange = (value: ValueMedicalInvestigation) => {
-    setCurrentValue(value)
+    updateList(questionValueList.map((item) => (item.id === value.id ? value : item)))
+  }
+
+  const updateList = (list: ValueMedicalInvestigation[]) => {
+    setQuestionValueList(list)
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value,
+        value: {
+          ...questionValue,
+          list: questionValueList,
+        },
       })
     )
   }
+
   return (
     <>
       <div className="iu-grid-cols">
@@ -41,11 +49,13 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
       </div>
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config) => {
-          // const valueSomething = config.list.find((item) => item.id === currentValue.id)
-          // const value = questionValue.find((value) => )
+          console.log('config', config)
 
-          //const config = questionConfig.list.find((item) => item.id === value.id)
-          return <UeMedicalInvestigation config={config} question={question} value={currentValue} onChange={handleChange} />
+          //const valueSomething = config.list.find((item) => item.id === currentValue.id)
+          // const value = questionValue.find((value) => )
+          const value = questionValue.list.find((item) => item.id === config.id)
+          console.log('value', value)
+          return <UeMedicalInvestigation config={config} question={question} value={value} onChange={handleChange} />
         })}
       </div>
     </>

@@ -20,15 +20,14 @@ export interface Props {
   onChange: (value: ValueMedicalInvestigation) => void
 }
 
-const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, question, onChange, value }) => {
+  question: CertificateDataElement
   //const isShowValidationError = useSelector(getShowValidationErrors)
   // const questionValue = question.value as ValueMedicalInvestigation
   const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
   // const typeOptions = config.typeOptions as ConfigUeCodeItem[]
-  const savedValue = (question.value as ValueMedicalInvestigationList).list.find((item) => item && item.id === config.id)
+  const savedValue = (question.value as ValueMedicalInvestigationLi, questionind((item) => item && item.id === config.id))
   const [informationSource, setInformationSource] = useState(savedValue !== undefined ? (savedValue.informationSource as ValueText) : '')
   const [code, setCode] = useState(savedValue !== undefined ? savedValue.code : '')
-
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
   const handleInformationSourceChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -52,6 +51,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, question, o
 
   const handleSpecificationChange = (code: string) => {
     onChange({ ...value, investigationType: { ...value.investigationType, code } })
+    const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
+    onChange({ ...value, investigationType: { ...value.investigationType, id: typeId, code: code } })
   }
 
   return (
