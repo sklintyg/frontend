@@ -1,5 +1,10 @@
 import { CertificateDataElement, Accordion } from '@frontend/common'
-import { ValueMedicalInvestigation, ConfigUeMedicalInvestigationList } from '@frontend/common/src/types/certificate'
+import {
+  ValueMedicalInvestigation,
+  ConfigUeMedicalInvestigationList,
+  ConfigUeMedicalInvestigation,
+  ValueMedicalInvestigationList,
+} from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
@@ -12,9 +17,11 @@ export interface Props {
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
-  const questionValue = question.value as ValueMedicalInvestigation
-  const config = question.config as ConfigUeMedicalInvestigationList
-  const [currentValue, setCurrentValue] = useState<ValueMedicalInvestigation>(question.value as ValueMedicalInvestigation)
+  //const questionValue = question.value as ValueMedicalInvestigation
+  const values = (question.value as ValueMedicalInvestigationList).list
+  const questionConfig = question.config as ConfigUeMedicalInvestigationList
+  //const [questionValueList, setQuestionValueList] = useState(values)
+  const [currentValue, setCurrentValue] = useState<ValueMedicalInvestigationList>(question.value as ValueMedicalInvestigationList)
 
   const handleChange = (value: ValueMedicalInvestigation) => {
     setCurrentValue(value)
@@ -28,21 +35,17 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
   return (
     <>
       <div className="iu-grid-cols">
-        <h4>{config.typeText}</h4>
-        <h4>{config.dateText}</h4>
-        <Accordion title={config.informationSourceText} titleId={''} description={config.informationSourceDescription} />
+        <h4>{questionConfig.typeText}</h4>
+        <h4>{questionConfig.dateText}</h4>
+        <Accordion title={questionConfig.informationSourceText} titleId={''} description={questionConfig.informationSourceDescription} />
       </div>
       <div className="ic-forms__group iu-grid-rows">
-        {config.list.map((listItem) => {
-          return (
-            <UeMedicalInvestigation
-              id={listItem.id}
-              config={listItem}
-              questionId={question.id}
-              value={currentValue}
-              onChange={handleChange}
-            />
-          )
+        {questionConfig.list.map((config) => {
+          // const valueSomething = config.list.find((item) => item.id === currentValue.id)
+          // const value = questionValue.find((value) => )
+
+          //const config = questionConfig.list.find((item) => item.id === value.id)
+          return <UeMedicalInvestigation config={config} question={question} value={currentValue} onChange={handleChange} />
         })}
       </div>
     </>

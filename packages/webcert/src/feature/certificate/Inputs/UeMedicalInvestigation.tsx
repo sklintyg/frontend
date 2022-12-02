@@ -1,28 +1,49 @@
 import { Dropdown, TextInput, DatePickerCustom } from '@frontend/common'
-import { ValueMedicalInvestigation, ConfigUeCodeItem, ConfigUeMedicalInvestigation } from '@frontend/common/src/types/certificate'
-import React from 'react'
+import {
+  ValueMedicalInvestigation,
+  ConfigUeCodeItem,
+  ConfigUeMedicalInvestigation,
+  CertificateDataElement,
+  ValueMedicalInvestigationList,
+  ValueText,
+  CertificateDataValueType,
+} from '@frontend/common/src/types/certificate'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
 
 export interface Props {
-  id: string
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
-  questionId: string
+  question: CertificateDataElement
   value: ValueMedicalInvestigation
   onChange: (value: ValueMedicalInvestigation) => void
 }
 
-const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questionId, onChange, value }) => {
+const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, question, onChange, value }) => {
   //const isShowValidationError = useSelector(getShowValidationErrors)
   // const questionValue = question.value as ValueMedicalInvestigation
-  const hasValidationError = useSelector(getQuestionHasValidationError(questionId))
+  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
   // const typeOptions = config.typeOptions as ConfigUeCodeItem[]
+  const savedValue = (question.value as ValueMedicalInvestigationList).list.find((item) => item && item.id === config.id)
+  const [informationSource, setInformationSource] = useState(savedValue !== undefined ? (savedValue.informationSource as ValueText) : '')
+  const [code, setCode] = useState(savedValue !== undefined ? savedValue.code : '')
 
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
-  const handleDescriptionChange = (text: string) => {
-    onChange({ ...value, informationSource: { ...value.informationSource, text } })
+  const handleInformationSourceChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const newText = event.currentTarget.value
+
+    const informationSourceValue: ValueText = {
+      type: CertificateDataValueType.TEXT,
+      id: config.informationSourceId,
+      text: newText,
+    }
+
+    setInformationSource(informationSourceValue)
+
+    // onChange({ ...value, informationSource: { ...value.informationSource, text } })
+    //setText(onChange, value, text)
   }
 
   const handleDateChange = (date: string) => {
@@ -38,7 +59,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questio
       <div className="iu-grid-cols">
         <div>
           <Dropdown
-            id={'type_' + id}
+            id={config.typeId}
             label=""
             options={
               typeOptions &&
@@ -58,8 +79,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questio
         </div>
         <div>
           <DatePickerCustom
-            id={'date_' + id}
-            questionId={questionId}
+            id={config.dateId}
+            questionId={question.id}
             forbidFutureDates={true}
             inputString={''}
             textInputOnChange={handleDateChange}
@@ -71,12 +92,10 @@ const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questio
         </div>
         <div>
           <TextInput
-            onChange={(event) => {
-              handleDescriptionChange(event.currentTarget.value)
-            }}
-            id={'informationSource_' + id}
+            onChange={handleInformationSourceChange}
+            id={config.informationSourceId}
             hasValidationError={hasValidationError}
-            value={''}
+            value={informationSource.text ?? ''}
           />
         </div>
         {/* {isShowValidationError && (
@@ -87,6 +106,17 @@ const UeMedicalInvestigation: React.FC<Props> = ({ id, disabled, config, questio
       </div>
     </>
   )
+}
+
+function setText(onChange: (value: ValueMedicalInvestigation) => void, value: ValueMedicalInvestigation, text: string) {
+  console.log(value)
+  onChange({ ...value, informationSource: { ...value.informationSource, text } })
+  // const index = values.informationSource.findIndex((text: ValueText) => text.id === id)
+  // if (index !== -1) {
+  //   return value.informationSource[index].text
+  // } else {
+  //   return null
+  // }
 }
 
 export default UeMedicalInvestigation
