@@ -1,3 +1,4 @@
+import { Value } from '@frontend/common'
 import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
@@ -21,6 +22,7 @@ import {
   ValidationError,
   ValidationErrorSummary,
   ValueBoolean,
+  ValueCauseOfDeath,
   ValueCode,
   ValueCodeList,
   ValueDate,
@@ -32,7 +34,6 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
-import { Value } from '@frontend/common'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -146,6 +147,16 @@ export const parseExpression = (
         const uncertainDate = element.value as ValueUncertainDate
         if (!uncertainDate.value) return 0
         return _dateReg.test(uncertainDate.value as string) ? 1 : 0
+      }
+      case CertificateDataValueType.CAUSE_OF_DEATH: {
+        const valueCauseOfDeath = element.value as ValueCauseOfDeath
+        return type === CertificateDataValidationType.MANDATORY_VALIDATION
+          ? valueCauseOfDeath.description?.text
+            ? 1
+            : 0
+          : valueCauseOfDeath
+          ? 1
+          : 0
       }
       default: {
         return 0
