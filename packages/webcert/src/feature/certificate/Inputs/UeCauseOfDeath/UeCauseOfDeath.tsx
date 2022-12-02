@@ -1,8 +1,15 @@
-import { CertificateDataElement, ConfigureUeCauseOfDeath, ValueCauseOfDeath } from '@frontend/common'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigureUeCauseOfDeath,
+  getValidDate,
+  ValueCauseOfDeath,
+} from '@frontend/common'
+import { isValid } from 'date-fns'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
@@ -19,10 +26,14 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
 
   const handleChange = (value: ValueCauseOfDeath) => {
     setCurrentValue(value)
+    let debut = value.debut
+    if (value && !isValid(getValidDate(value.debut.date))) {
+      debut = { id: value.id, type: CertificateDataValueType.DATE, date: '' }
+    }
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value,
+        value: { ...(question.value as ValueCauseOfDeath), debut },
       })
     )
   }

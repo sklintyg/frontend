@@ -3,11 +3,13 @@ import {
   CertificateDataValueType,
   ConfigureUeCauseOfDeathList,
   CustomButton,
+  getValidDate,
   QuestionValidationTexts,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
 } from '@frontend/common'
 import trash from '@frontend/common/src/images/trash.svg'
+import { isValid } from 'date-fns'
 import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -75,7 +77,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
       return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
-    }, 1)
+    }, 2)
   )
 
   const addRowClick = () => {
@@ -90,17 +92,24 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleChange = (value: ValueCauseOfDeath) => {
-    updateList(questionValueList.map((item) => (item.id === value.id ? value : item)))
+    updateList(
+      questionValueList.map((item) => (item.id === value.id ? value : item)),
+      value
+    )
   }
 
-  const updateList = (list: ValueCauseOfDeath[]) => {
+  const updateList = (list: ValueCauseOfDeath[], value?: ValueCauseOfDeath) => {
     setQuestionValueList(getValueList(list, questionConfig))
+    if (value && value.debut.date) {
+      value.debut.date = isValid(getValidDate(value.debut.date)) ? value.debut.date : ''
+      list.map((item) => (item.id === value.id ? value : item))
+    }
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: {
           ...questionValue,
-          list: questionValueList,
+          list: list,
         },
       })
     )

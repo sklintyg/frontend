@@ -83,7 +83,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
 
   const emptyValidationError = validationErrors ? (validationErrors.find((e) => e.type === 'EMPTY') as ValidationError) : undefined
   const nonEmptyValidationErrors = validationErrors ? validationErrors.filter((e) => e.type !== 'EMPTY') : undefined
-  // if (isShowValidationError) console.log(nonEmptyValidationErrors)
+
   const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
@@ -95,7 +95,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   }
 
   const handleSpecificationChange = (code: string) => {
-    onChange({ ...value, specification: { ...value.specification, code } })
+    const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
+    onChange({ ...value, specification: { ...value.specification, id: specificationId, code: code } })
   }
 
   const dispatchValidationError = useCallback(
@@ -104,7 +105,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     },
     [dispatch]
   )
-  if (isShowValidationError) console.log(validationErrors)
+
   return (
     <>
       <Wrapper>
