@@ -1,5 +1,5 @@
 import { ValueType, CertificateDataValueType, MaxDateValidation, CertificateDataValidationType } from '../types/certificate'
-import { isValid, getUnixTime, add, differenceInDays } from 'date-fns'
+import { isValid, getUnixTime, add, differenceInDays, differenceInHours } from 'date-fns'
 import { getValidDate, epochDaysAdjustedToTimezone, isValidUncertainDate } from './dateUtils'
 import { compileExpression } from 'filtrex'
 
@@ -104,7 +104,8 @@ export const validateExpression = (expression: string, value: ValueType, validat
         },
         days: (val: unknown) => {
           if (typeof val === 'number') {
-            return differenceInDays(new Date(val * 1000), new Date())
+            // Ignore DST and only measure exact 24-hour periods
+            return Math.floor(differenceInHours(new Date(val * 1000), new Date()) / 24) + 1
           }
           return NaN
         },

@@ -1,6 +1,6 @@
 import { getKeyValuePair, validateExpression, maxDateToExpression } from './validateExpression'
 import { CertificateDataValueType, CertificateDataValidationType } from '../types/certificate'
-import { getUnixTime, addDays, subDays } from 'date-fns'
+import { getUnixTime, addDays, subDays, format } from 'date-fns'
 
 jest.useFakeTimers('modern').setSystemTime(new Date('2020-01-01'))
 
@@ -352,6 +352,48 @@ describe('validateExpression', () => {
       })
     })
 
-    // describe()
+    describe('days', () => {
+      it('Should convert unix timestampt to days from current date', () => {
+        expect(
+          validateExpression(`days(ID) == 8`, {
+            type: CertificateDataValueType.DATE,
+            id: 'ID',
+            date: format(addDays(new Date(), 8), 'yyyy-MM-dd'),
+          })
+        ).toBe(true)
+      })
+
+      it('Should return negative number if date is in the past', () => {
+        expect(
+          validateExpression(`days(ID) == -8`, {
+            type: CertificateDataValueType.DATE,
+            id: 'ID',
+            date: format(subDays(new Date(), 8), 'yyyy-MM-dd'),
+          })
+        ).toBe(true)
+      })
+    })
+
+    describe('uncertainDate', () => {
+      it('Should return true if date is valid', () => {
+        expect(
+          validateExpression('uncertainDate(ID)', {
+            type: CertificateDataValueType.TEXT,
+            id: 'ID',
+            text: '0000-00-00',
+          })
+        ).toBe(true)
+      })
+
+      it('Should return false if date is invalid', () => {
+        expect(
+          validateExpression('uncertainDate(ID)', {
+            type: CertificateDataValueType.TEXT,
+            id: 'ID',
+            text: '123456789',
+          })
+        ).toBe(false)
+      })
+    })
   })
 })
