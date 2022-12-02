@@ -7,9 +7,10 @@ import {
 } from '@frontend/common'
 import { isValid } from 'date-fns'
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const config = question.config as ConfigureUeCauseOfDeath
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const isShowValidationError = useSelector(getShowValidationErrors)
@@ -33,7 +34,7 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...(question.value as ValueCauseOfDeath), debut },
+        value: { ...value, debut },
       })
     )
   }
