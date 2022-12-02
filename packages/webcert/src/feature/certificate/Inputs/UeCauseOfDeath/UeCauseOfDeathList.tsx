@@ -76,8 +76,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
-      return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
-    }, 2)
+      return index > 0 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
+    }, 1)
   )
 
   const addRowClick = () => {
