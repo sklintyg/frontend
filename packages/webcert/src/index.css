@@ -64,7 +64,7 @@ input:disabled::placeholder {
 }
 
 .ic-textfield {
-  min-height: unset !important;
+  min-height: 3.125rem !important;
 }
 
 .ic-alert__icon {

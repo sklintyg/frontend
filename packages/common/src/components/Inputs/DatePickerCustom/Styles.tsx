@@ -17,7 +17,8 @@ export const StyledButton = styled.button<buttonProps>`
   min-width: 0;
   padding: 0 !important;
   width: 55px;
-  height: 2.956rem;
+  min-height: 3.125rem;
+  // height: 2.956rem;
   box-shadow: none;
   background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
   color: #000000;
@@ -41,7 +42,7 @@ export const TextInput = styled.input`
   max-width: 15ch;
   border-right: 0 !important;
   min-width: 134px;
-  min-height: unset !important;
+  //min-height: unset !important;
 
   &:focus {
     box-shadow: none;

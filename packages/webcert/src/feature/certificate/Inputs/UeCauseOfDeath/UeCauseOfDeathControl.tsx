@@ -162,7 +162,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
                 </option>
               ))}
               hasValidationError={false}
-              height="47px"
             />
           </DateAndSpecInner>
           {children}

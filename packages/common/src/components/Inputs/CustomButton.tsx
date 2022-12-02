@@ -38,7 +38,7 @@ interface Props {
   number?: string | number | undefined
   tooltipPlacement?: Place
   buttonClasses?: string
-  height?: string
+  //height?: string
   'data-testid'?: string
 }
 

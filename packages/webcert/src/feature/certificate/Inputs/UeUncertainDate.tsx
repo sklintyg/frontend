@@ -20,6 +20,7 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
+
 const styleTextField = {
   height: '50px',
   padding: '0.4em 0 0 1.5em',
