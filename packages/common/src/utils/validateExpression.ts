@@ -74,7 +74,7 @@ export const validateExpression = (expression: string, value: ValueType, validat
             // Equivalent expression for backend could be something like `CODE in (OPTION_1, OPTION_2)`
             return value.list.find((code) => code.id === id) ? 1 : 0
           case CertificateDataValueType.CODE:
-            // Equivalent expression for backend would be `ID == OPTION`
+            // Equivalent expression for backend could be something like `ID == OPTION`
             return value.id === id ? 1 : 0
         }
 
