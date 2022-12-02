@@ -155,7 +155,6 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
         text="Lägg till ytterligare sjukdom"
         onClick={addRowClick}
       />
-      {/* {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>} */}
     </>
   )
 }
