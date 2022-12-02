@@ -8,6 +8,7 @@ import {
   ValueCauseOfDeathList,
 } from '@frontend/common'
 import trash from '@frontend/common/src/images/trash.svg'
+import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -16,7 +17,6 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
-import { merge } from 'lodash'
 
 interface Props {
   disabled: boolean
@@ -75,7 +75,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
       return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
-    }, 2)
+    }, 1)
   )
 
   const addRowClick = () => {
@@ -86,7 +86,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
   const handleDeleteRow = (id: string) => {
     updateList(questionValueList.filter((item) => item.id !== id))
-    setNumVisible((val) => Math.max(val - 1, 2))
+    setNumVisible((val) => Math.max(val - 1, 1))
   }
 
   const handleChange = (value: ValueCauseOfDeath) => {

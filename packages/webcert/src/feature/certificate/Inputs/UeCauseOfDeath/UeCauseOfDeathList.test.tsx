@@ -2,11 +2,11 @@ import { fakeCauseOfDeathListElement } from '@frontend/common'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
-  Value,
   CertificateDataValueType,
-  ValueText,
-  ValueDate,
+  Value,
   ValueCode,
+  ValueDate,
+  ValueText,
 } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -51,9 +51,9 @@ describe('Cause of death component', () => {
 
   it('renders all components', () => {
     renderComponent({ disabled: false, question })
-    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(2)
-    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(2)
-    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(2)
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(1)
+    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(1)
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(1)
   })
 
   it('renders, textinput, calendar button and drop down', () => {
@@ -199,17 +199,18 @@ describe('Cause of death component', () => {
     renderComponent({ disabled: false, question })
     const button = screen.getByLabelText(ADD_BUTTON_TEXT)
     userEvent.click(button)
-    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(3)
-    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(3)
-    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(3)
+    expect(screen.getAllByLabelText(DESCRIPTION_LABEL)).toHaveLength(2)
+    expect(screen.getAllByLabelText(DEBUT_LABEL)).toHaveLength(2)
+    expect(screen.getAllByLabelText(SPECIFICATION_LABEL)).toHaveLength(2)
   })
 
-  it('should not add more than 6 rows', () => {
+  it('should not add more than 7 rows', () => {
     renderComponent({ disabled: false, question })
     const button = screen.getByLabelText(ADD_BUTTON_TEXT)
     userEvent.click(button)
     setTimeout(() => {
       userEvent.click(button)
+      setTimeout(() => userEvent.click(button), 100)
       setTimeout(() => userEvent.click(button), 100)
       setTimeout(() => userEvent.click(button), 100)
       setTimeout(() => userEvent.click(button), 100)

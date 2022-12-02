@@ -172,7 +172,7 @@ export interface ValidationResult {
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData, id: string): boolean => {
   if (validation.expression === undefined || validation.expression === null) {
-    if (CertificateDataValidationType.MAX_DATE_VALIDATION) {
+    if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
       return validateMaxDate(id, validation as MaxDateValidation, data)
     }
     return false

@@ -483,7 +483,7 @@ export const fakeCauseOfDeathListElement = (
           questions
             .map((question) => question.value as ValueCauseOfDeath)
             .map((value, index) =>
-              index > 1
+              index > 0
                 ? {
                     ...value,
                     description: { ...value.description, text: null },
