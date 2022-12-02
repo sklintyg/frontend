@@ -1,17 +1,25 @@
 import { ValueType, CertificateDataValueType, MaxDateValidation, CertificateDataValidationType } from '../types/certificate'
-import { isValid, getUnixTime, add, differenceInDays, differenceInHours } from 'date-fns'
+import { isValid, getUnixTime, add, differenceInHours } from 'date-fns'
 import { getValidDate, epochDaysAdjustedToTimezone, isValidUncertainDate } from './dateUtils'
 import { compileExpression } from 'filtrex'
+
+/**
+ * Return difference in days
+ * ignoring DST and only measure exact 24-hour periods
+ */
+const differenceInDays = (a: Date | number, b: Date | number) => Math.floor(differenceInHours(a, b) / 24) + 1
 
 const getKeyValuePairFromList = (list: ValueType[]) =>
   list.reduce((result: Record<string, unknown>, value: ValueType) => Object.assign(result, getKeyValuePair(value)), {})
 
-const parseDateValue = (date?: string, manipulate?: (date: Date | number) => number): string | undefined | number => {
+const parseDateValue = (date?: string): string | undefined | number => {
   const dateObj = getValidDate(date)
-  if (manipulate == null) {
-    manipulate = getUnixTime
-  }
-  return dateObj ? manipulate(dateObj) : date
+  return dateObj ? getUnixTime(dateObj) : date
+}
+
+const parseDateRangeValue = (date?: string): string | undefined | number => {
+  const dateObj = getValidDate(date)
+  return dateObj ? differenceInDays(dateObj, new Date()) : date
 }
 
 export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
@@ -32,8 +40,8 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
       return {
         [value.id]: isValid(getValidDate(value.from)) && isValid(getValidDate(value.to)),
         // TODO: Can be simplified by replacing `ID.from >= 7` with `days(ID.from) <= 7`
-        [`${value.id}.from`]: parseDateValue(value.from, (date) => differenceInDays(date, new Date())),
-        [`${value.id}.to`]: parseDateValue(value.to, (date) => differenceInDays(date, new Date())),
+        [`${value.id}.from`]: parseDateRangeValue(value.from),
+        [`${value.id}.to`]: parseDateRangeValue(value.to),
       }
     // TODO: No need to convert uncertain date value if backend expressions are replaced with `uncertainDate(ID)`
     case CertificateDataValueType.UNCERTAIN_DATE:
@@ -104,8 +112,7 @@ export const validateExpression = (expression: string, value: ValueType, validat
         },
         days: (val: unknown) => {
           if (typeof val === 'number') {
-            // Ignore DST and only measure exact 24-hour periods
-            return Math.floor(differenceInHours(new Date(val * 1000), new Date()) / 24) + 1
+            return differenceInDays(new Date(val * 1000), new Date())
           }
           return NaN
         },
