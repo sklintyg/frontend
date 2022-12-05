@@ -287,20 +287,20 @@ export enum CertificateDataValueType {
 
 export type ValueType =
   | ValueBoolean
+  | ValueCauseOfDeath
+  | ValueCauseOfDeathList
   | ValueCode
+  | ValueCodeList
   | ValueDate
   | ValueDateList
   | ValueDateRange
   | ValueDateRangeList
   | ValueDiagnosis
   | ValueDiagnosisList
-  | ValueCodeList
-  | ValueText
-  | ValueUncertainDate
-  | ValueCauseOfDeath
-  | ValueCauseOfDeathList
   | ValueHeader
   | ValueIcf
+  | ValueText
+  | ValueUncertainDate
 
 export interface Value {
   [propName: string]: unknown
