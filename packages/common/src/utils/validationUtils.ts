@@ -1,7 +1,9 @@
+import { Value } from '@frontend/common'
 import { isValid } from 'date-fns'
 import { compileExpression, Options } from 'filtrex'
 import {
   AutoFillValidation,
+  CategoryMandatoryValidation,
   Certificate,
   CertificateData,
   CertificateDataElement,
@@ -32,7 +34,6 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
-import { Value } from '@frontend/common'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -175,6 +176,9 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
     if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
       return validateMaxDate(id, validation as MaxDateValidation, data)
     }
+    if (validation.type === CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION) {
+      return validateCategoryMandatory(validation as CategoryMandatoryValidation, data)
+    }
     return false
   } else {
     return parseExpression(validation.expression, data[validation.questionId], validation.type)
@@ -186,6 +190,13 @@ const getExpression = (expression: string): string => {
   expression = expression.replace(/&&/g, 'and')
   expression = expression.replace(/!/g, 'not ')
   return expression
+}
+
+const validateCategoryMandatory = (validation: CategoryMandatoryValidation, data: CertificateData): boolean => {
+  return validation.questions.some(
+    (question) =>
+      question.type === CertificateDataValidationType.MANDATORY_VALIDATION && getResult(question, data, question.questionId) === true
+  )
 }
 
 const validateMaxDate = (id: string, validation: MaxDateValidation, data: CertificateData): boolean => {
@@ -470,6 +481,9 @@ function validate(data: CertificateData, id: string) {
 
   filterValidations(validationResults).forEach((validationResult) => {
     switch (validationResult.type) {
+      case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
+        data[id].mandatory = !validationResult.result
+        break
       case CertificateDataValidationType.MANDATORY_VALIDATION:
         data[id].mandatory = !validationResult.result
         break

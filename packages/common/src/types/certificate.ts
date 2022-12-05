@@ -376,6 +376,7 @@ export enum CertificateDataValidationType {
   DISABLE_SUB_ELEMENT_VALIDATION = 'DISABLE_SUB_ELEMENT_VALIDATION',
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+  CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
@@ -412,6 +413,11 @@ export interface DisableValidation extends CertificateDataValidation {
 export type EnableValidation = CertificateDataValidation
 
 export type MandatoryValidation = CertificateDataValidation
+
+export interface CategoryMandatoryValidation extends CertificateDataValidation {
+  expressionType: string
+  questions: CertificateDataValidation[]
+}
 
 export type HighlightValidation = CertificateDataValidation
 

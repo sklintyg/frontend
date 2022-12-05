@@ -1,5 +1,15 @@
-import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
+import {
+  AutoFillValidation,
+  Certificate,
+  CertificateDataElement,
+  CertificateDataValidation,
+  CertificateDataValidationType,
+  Value,
+} from '@frontend/common'
+import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
+import _ from 'lodash'
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import {
   applyCertificateDataElementAutoFill,
   autoSaveCertificate,
@@ -16,16 +26,6 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateInFrontEndCompleted,
 } from './certificateActions'
-import {
-  AutoFillValidation,
-  Certificate,
-  CertificateDataElement,
-  CertificateDataValidation,
-  CertificateDataValidationType,
-  Value,
-} from '@frontend/common'
-import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
-import _ from 'lodash'
 
 export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
   action: AnyAction
@@ -54,6 +54,13 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
     const { result, type, id } = validationResult
     switch (type) {
       case CertificateDataValidationType.MANDATORY_VALIDATION:
+        if (result) {
+          dispatch(hideCertificateDataElementMandatory(id))
+        } else {
+          dispatch(showCertificateDataElementMandatory(id))
+        }
+        break
+      case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
         if (result) {
           dispatch(hideCertificateDataElementMandatory(id))
         } else {
