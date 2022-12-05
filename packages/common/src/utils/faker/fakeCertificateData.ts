@@ -415,13 +415,13 @@ export const fakeMedicalInvestigationListElement = (
         type: CertificateDataValueType.MEDICAL_INVESTIGATION,
         informationSource: {
           type: CertificateDataValueType.TEXT,
-          id: '',
+          id: faker.random.alpha({ count: 5 }),
           text: faker.lorem.words(),
           ...data?.value?.informationSource,
         },
         date: {
           type: CertificateDataValueType.DATE,
-          id: '',
+          id: faker.random.alpha({ count: 5 }),
           date: faker.date
             .past()
             .toISOString()

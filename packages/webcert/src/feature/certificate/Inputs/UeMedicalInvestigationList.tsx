@@ -5,8 +5,9 @@ import {
   ValueMedicalInvestigationList,
 } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
 
@@ -17,14 +18,16 @@ export interface Props {
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
+
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
-  //const values = (question.value as ValueMedicalInvestigationList).list
-  //const [questionValueList, setQuestionValueList] = useState(values)
+
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list as ValueMedicalInvestigation[])
 
-  const handleChange = (value: ValueMedicalInvestigation) => {
-    updateList(questionValueList.map((item) => (item.id === value.id ? value : item)))
+  const handleChange = (index: number) => (value: ValueMedicalInvestigation) => {
+    updateList(questionValueList.map((item, i) => (i === index ? value : item)))
   }
 
   const updateList = (list: ValueMedicalInvestigation[]) => {
@@ -34,7 +37,7 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
         ...question,
         value: {
           ...questionValue,
-          list: questionValueList,
+          list,
         },
       })
     )
@@ -48,14 +51,30 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
         <Accordion title={questionConfig.informationSourceText} titleId={''} description={questionConfig.informationSourceDescription} />
       </div>
       <div className="ic-forms__group iu-grid-rows">
-        {questionConfig.list.map((config) => {
-          console.log('config', config)
+        {questionConfig.list.map((config, index) => {
+          const value = questionValue.list[index]
 
-          //const valueSomething = config.list.find((item) => item.id === currentValue.id)
-          // const value = questionValue.find((value) => )
-          const value = questionValue.list.find((item) => item.id === config.id)
-          console.log('value', value)
-          return <UeMedicalInvestigation config={config} question={question} value={value} onChange={handleChange} />
+          return (
+            value && (
+              <UeMedicalInvestigation
+                questionId={question.id}
+                config={config}
+                value={value}
+                key={config.id}
+                disabled={disabled}
+                isShowValidationError={isShowValidationError}
+                validation={question.validation}
+                onChange={handleChange(index)}
+                validationErrors={validationErrors.filter((v) =>
+                  [config.typeId, config.dateId, config.informationSourceId].includes(v.field)
+                )}
+              />
+            )
+          )
+
+          {
+            /* <UeMedicalInvestigation questionId={question.id} config={config} value={value} onChange={handleChange} /> */
+          }
         })}
       </div>
     </>

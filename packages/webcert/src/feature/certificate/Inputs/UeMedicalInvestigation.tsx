@@ -3,64 +3,70 @@ import {
   ValueMedicalInvestigation,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
-  CertificateDataElement,
-  ValueMedicalInvestigationList,
-  ValueText,
-  CertificateDataValueType,
+  CertificateDataValidation,
+  ValidationError,
+  CertificateDataValidationType,
+  TextValidation,
 } from '@frontend/common/src/types/certificate'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError } from '../../../store/certificate/certificateSelectors'
+import React, { useCallback } from 'react'
+import { updateClientValidationError } from '../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../store/store'
 
 export interface Props {
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
-  question: CertificateDataElement
+  questionId: string
   value: ValueMedicalInvestigation
+  isShowValidationError: boolean
+  validation: CertificateDataValidation[]
+  validationErrors: ValidationError[]
   onChange: (value: ValueMedicalInvestigation) => void
 }
 
-  question: CertificateDataElement
-  //const isShowValidationError = useSelector(getShowValidationErrors)
-  // const questionValue = question.value as ValueMedicalInvestigation
-  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
-  // const typeOptions = config.typeOptions as ConfigUeCodeItem[]
-  const savedValue = (question.value as ValueMedicalInvestigationLi, questionind((item) => item && item.id === config.id))
-  const [informationSource, setInformationSource] = useState(savedValue !== undefined ? (savedValue.informationSource as ValueText) : '')
-  const [code, setCode] = useState(savedValue !== undefined ? savedValue.code : '')
+const UeMedicalInvestigation: React.FC<Props> = ({
+  questionId,
+  disabled,
+  config,
+  value,
+  isShowValidationError,
+  validation,
+  validationErrors,
+  onChange,
+}) => {
+  const dispatch = useAppDispatch()
+  const textValidation = validation
+    ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
+    : undefined
+
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
-  const handleInformationSourceChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newText = event.currentTarget.value
-
-    const informationSourceValue: ValueText = {
-      type: CertificateDataValueType.TEXT,
-      id: config.informationSourceId,
-      text: newText,
-    }
-
-    setInformationSource(informationSourceValue)
-
-    // onChange({ ...value, informationSource: { ...value.informationSource, text } })
-    //setText(onChange, value, text)
+  const handleInvestigationTypeChange = (code: string) => {
+    onChange({ ...value, investigationType: { ...value.investigationType, code } })
+    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
+    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
   }
 
   const handleDateChange = (date: string) => {
     onChange({ ...value, date: { ...value.date, date } })
   }
 
-  const handleSpecificationChange = (code: string) => {
-    onChange({ ...value, investigationType: { ...value.investigationType, code } })
-    const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
-    onChange({ ...value, investigationType: { ...value.investigationType, id: typeId, code: code } })
+  const handleInformationSourceChange = (text: string) => {
+    onChange({ ...value, informationSource: { ...value.informationSource, text } })
   }
+
+  const dispatchValidationError = useCallback(
+    (shouldBeRemoved: boolean, validationError: ValidationError) => {
+      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
+    },
+    [dispatch]
+  )
 
   return (
     <>
       <div className="iu-grid-cols">
         <div>
           <Dropdown
-            id={config.typeId}
+            id={config.investigationTypeId}
             label=""
             options={
               typeOptions &&
@@ -70,33 +76,37 @@ export interface Props {
                 </option>
               ))
             }
-            value={''}
+            value={value.investigationType.code ?? ''}
             disabled={disabled}
             onChange={(event) => {
-              handleSpecificationChange(event.currentTarget.value)
+              handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            hasValidationError={hasValidationError}
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)} //Men i UeCauseOfDeathControl är den bara false?!
           />
         </div>
         <div>
           <DatePickerCustom
             id={config.dateId}
-            questionId={question.id}
+            questionId={questionId}
             forbidFutureDates={true}
-            inputString={''}
+            inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
-            displayValidationErrorOutline={false}
             setDate={(date: string) => {
               handleDateChange(date)
             }}
+            displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.dateId)}
+            onDispatchValidationError={dispatchValidationError}
           />
         </div>
         <div>
           <TextInput
-            onChange={handleInformationSourceChange}
+            onChange={(event) => {
+              handleInformationSourceChange(event.currentTarget.value)
+            }}
             id={config.informationSourceId}
-            hasValidationError={hasValidationError}
-            value={informationSource.text ?? ''}
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
+            value={value.informationSource.text ?? ''}
+            limit={textValidation ? textValidation.limit : 100}
           />
         </div>
         {/* {isShowValidationError && (
@@ -107,17 +117,6 @@ export interface Props {
       </div>
     </>
   )
-}
-
-function setText(onChange: (value: ValueMedicalInvestigation) => void, value: ValueMedicalInvestigation, text: string) {
-  console.log(value)
-  onChange({ ...value, informationSource: { ...value.informationSource, text } })
-  // const index = values.informationSource.findIndex((text: ValueText) => text.id === id)
-  // if (index !== -1) {
-  //   return value.informationSource[index].text
-  // } else {
-  //   return null
-  // }
 }
 
 export default UeMedicalInvestigation
