@@ -9,18 +9,22 @@ import { compileExpression } from 'filtrex'
  */
 const differenceInDays = (a: Date | number, b: Date | number) => Math.floor(differenceInHours(a, b) / 24) + 1
 
-const getKeyValuePairFromList = (list: ValueType[]) =>
-  list.reduce((result: Record<string, unknown>, value: ValueType) => Object.assign(result, getKeyValuePair(value)), {})
-
 const parseDateValue = (date?: string): string | undefined | number => {
   const dateObj = getValidDate(date)
-  return dateObj ? getUnixTime(dateObj) : date
+  return dateObj ? getUnixTime(dateObj) : undefined
 }
 
+/**
+ * @deprecated This function can be removed once date_range 'from'
+ * and 'to' is simplified to use days function or unix timestamp.
+ */
 const parseDateRangeValue = (date?: string): string | undefined | number => {
   const dateObj = getValidDate(date)
-  return dateObj ? differenceInDays(dateObj, new Date()) : date
+  return dateObj ? differenceInDays(dateObj, new Date()) : undefined
 }
+
+const getKeyValuePairFromList = (list: ValueType[]) =>
+  list.reduce((result: Record<string, unknown>, value: ValueType) => Object.assign(result, getKeyValuePair(value)), {})
 
 export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
   switch (value.type) {
@@ -87,7 +91,7 @@ export const validateExpression = (expression: string, value: ValueType, validat
         }
 
         // TODO: This can be remove if backend expression for
-        // mandatory validation is replaced with `!empty(ID)` from `!ID`
+        // mandatory validation is replaced with `exists(ID)` from `!ID`
         if (value.type === CertificateDataValueType.BOOLEAN && validationType === CertificateDataValidationType.MANDATORY_VALIDATION) {
           return get(id) != null ? 1 : 0
         }
@@ -122,6 +126,8 @@ export const validateExpression = (expression: string, value: ValueType, validat
           }
           return false
         },
+        exists: (val: unknown) => val != null,
+        empty: (val: unknown) => val == null || val === '' || (Array.isArray(val) && val.length === 0),
       },
     })(getKeyValuePair(value))
   )

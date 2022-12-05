@@ -285,6 +285,14 @@ describe('validateExpression', () => {
         date: undefined,
       })
     ).toBe(false)
+
+    expect(
+      validateExpression('ID', {
+        type: CertificateDataValueType.DATE,
+        id: 'ID',
+        date: 'invalid date',
+      })
+    ).toBe(false)
   })
 
   describe('comparison', () => {
@@ -393,6 +401,46 @@ describe('validateExpression', () => {
             text: '123456789',
           })
         ).toBe(false)
+      })
+    })
+
+    describe('exists', () => {
+      it('Should return false when value is undefined', () => {
+        expect(validateExpression('exists(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: undefined })).toBe(false)
+      })
+
+      it('Should return false when value is null', () => {
+        expect(validateExpression('exists(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: null })).toBe(false)
+      })
+
+      it('Should return true when value is true', () => {
+        expect(validateExpression('exists(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: true })).toBe(true)
+      })
+
+      it('Should return true when value is false', () => {
+        expect(validateExpression('exists(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: false })).toBe(true)
+      })
+    })
+
+    describe('empty', () => {
+      it('Should return true when value is null', () => {
+        expect(validateExpression('empty(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: undefined })).toBe(true)
+      })
+
+      it('Should return false when value is true', () => {
+        expect(validateExpression('empty(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: true })).toBe(false)
+      })
+
+      it('Should return false when value is false', () => {
+        expect(validateExpression('empty(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: false })).toBe(false)
+      })
+
+      it('Should return true when value is empty string', () => {
+        expect(validateExpression('empty(ID)', { type: CertificateDataValueType.TEXT, id: 'ID', text: '' })).toBe(true)
+      })
+
+      it('Should return false when value is populated string', () => {
+        expect(validateExpression('empty(ID)', { type: CertificateDataValueType.TEXT, id: 'ID', text: 'lorem' })).toBe(false)
       })
     })
   })
