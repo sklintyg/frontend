@@ -81,7 +81,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)} //Men i UeCauseOfDeathControl är den bara false?!
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}
           />
         </div>
         <div>
