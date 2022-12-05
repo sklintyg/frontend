@@ -71,10 +71,6 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
               />
             )
           )
-
-          {
-            /* <UeMedicalInvestigation questionId={question.id} config={config} value={value} onChange={handleChange} /> */
-          }
         })}
       </div>
     </>
