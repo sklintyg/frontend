@@ -6,9 +6,9 @@ import {
 } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
-import { useAppDispatch } from '../../../store/store'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
 
 export interface Props {
@@ -53,14 +53,12 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config, index) => {
           const value = questionValue.list[index]
-
           return (
             value && (
               <UeMedicalInvestigation
                 questionId={question.id}
                 config={config}
                 value={value}
-                key={index}
                 disabled={disabled}
                 isShowValidationError={isShowValidationError}
                 validation={question.validation}

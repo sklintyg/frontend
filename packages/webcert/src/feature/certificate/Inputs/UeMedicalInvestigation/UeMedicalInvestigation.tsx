@@ -9,8 +9,8 @@ import {
   TextValidation,
 } from '@frontend/common/src/types/certificate'
 import React, { useCallback } from 'react'
-import { updateClientValidationError } from '../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../store/store'
+import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
   disabled?: boolean
@@ -38,10 +38,10 @@ const UeMedicalInvestigation: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
+  const typeOptions: ConfigUeCodeItem[] = [{ id: 'Id', label: 'Välj...', code: 'Id' }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    onChange({ ...value, investigationType: { ...value.investigationType, code } })
+    // onChange({ ...value, investigationType: { ...value.investigationType, code } })
     const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
     onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
   }
@@ -76,7 +76,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
                 </option>
               ))
             }
-            value={value.investigationType.code ?? ''}
+            value={value.investigationType.code ?? null}
             disabled={disabled}
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
@@ -89,7 +89,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             id={config.dateId}
             questionId={questionId}
             forbidFutureDates={true}
-            inputString={value.date.date ?? ''}
+            inputString={value.date.date ?? null}
             textInputOnChange={handleDateChange}
             setDate={(date: string) => {
               handleDateChange(date)

@@ -2,7 +2,7 @@ import { fakeMedicalInvestigationListElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
+import store from '../../../../store/store'
 import UeMedicalInvestigationList, { Props } from './UeMedicalInvestigationList'
 
 export default {

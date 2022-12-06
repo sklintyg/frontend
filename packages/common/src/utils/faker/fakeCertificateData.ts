@@ -363,8 +363,8 @@ export const fakeUncertainDateElement = (
 export const fakeMedicalInvestigationListElement = (
   data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
   children?: CertificateData[]
-): CertificateData =>
-  fakeDataElement(
+): CertificateData => {
+  return fakeDataElement(
     {
       ...data,
       config: {
@@ -381,9 +381,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource1',
             dateId: 'date1',
             typeOptions: [
-              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '', label: 'Underlag från habiliteringen', code: '' },
-              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
+              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '2', label: 'Underlag från habiliteringen', code: '' },
+              { id: '3', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
           {
@@ -392,9 +392,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource2',
             dateId: 'date2',
             typeOptions: [
-              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '', label: 'Underlag från habiliteringen', code: '' },
-              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
+              { id: '4', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '5', label: 'Underlag från habiliteringen', code: '' },
+              { id: '6', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
           {
@@ -403,9 +403,9 @@ export const fakeMedicalInvestigationListElement = (
             informationSourceId: 'infoSource3',
             dateId: 'date3',
             typeOptions: [
-              { id: '', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '', label: 'Underlag från habiliteringen', code: '' },
-              { id: '', label: 'Underlag från arbetsterapeut', code: '' },
+              { id: '7', label: 'Neuropsykiatriskt utlåtande', code: '' },
+              { id: '8', label: 'Underlag från habiliteringen', code: '' },
+              { id: '9', label: 'Underlag från arbetsterapeut', code: '' },
             ],
           },
         ],
@@ -439,6 +439,7 @@ export const fakeMedicalInvestigationListElement = (
     },
     children
   )
+}
 
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
