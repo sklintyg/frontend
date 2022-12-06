@@ -244,7 +244,7 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
 
 export interface ConfigureUeCodeItem {
   id: string
-  code: string
+  code: string | null
   label: string
 }
 

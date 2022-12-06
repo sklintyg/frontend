@@ -38,7 +38,7 @@ const ButtonIcon = styled.span`
 
 const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDeathList): ValueCauseOfDeath[] => {
   return config.list.map((configItem, index) => {
-    const value = values[index]
+    const value: ValueCauseOfDeath = values[index]
     return {
       id: configItem.id,
       description: merge(
@@ -55,13 +55,11 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
         },
         value && { date: value.debut.date }
       ),
-      specification: value
-        ? value.specification
-        : {
-            id: configItem.id,
-            type: CertificateDataValueType.CODE,
-            code: '',
-          },
+      specification: {
+        id: configItem.id,
+        type: CertificateDataValueType.CODE,
+        code: value?.specification?.code ?? null,
+      },
       type: CertificateDataValueType.CAUSE_OF_DEATH,
     }
   })
