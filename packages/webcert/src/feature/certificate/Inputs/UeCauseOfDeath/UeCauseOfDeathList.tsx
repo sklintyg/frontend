@@ -133,7 +133,11 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
-                      <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)}>
+                      <CustomButton
+                        disabled={disabled}
+                        buttonStyle="secondary"
+                        onClick={() => handleDeleteRow(config.id)}
+                        height="2.956rem">
                         <ButtonIcon>
                           <img src={trash} alt="Radera rad" />
                         </ButtonIcon>
