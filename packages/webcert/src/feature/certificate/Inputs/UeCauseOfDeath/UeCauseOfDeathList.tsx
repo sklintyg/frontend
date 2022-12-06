@@ -3,6 +3,7 @@ import {
   CertificateDataValueType,
   ConfigureUeCauseOfDeathList,
   CustomButton,
+  formatDateToString,
   getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -91,24 +92,21 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleChange = (value: ValueCauseOfDeath) => {
-    updateList(
-      questionValueList.map((item) => (item.id === value.id ? value : item)),
-      value
-    )
+    updateList(questionValueList.map((item) => (item.id === value.id ? value : item)))
   }
 
-  const updateList = (list: ValueCauseOfDeath[], value?: ValueCauseOfDeath) => {
+  const updateList = (list: ValueCauseOfDeath[]) => {
     setQuestionValueList(getValueList(list, questionConfig))
-    if (value && value.debut.date) {
-      value.debut.date = isValid(getValidDate(value.debut.date)) ? value.debut.date : ''
-      list.map((item) => (item.id === value.id ? value : item))
-    }
+
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: {
           ...questionValue,
-          list: list,
+          list: list.map(({ debut, ...val }) => {
+            const date = getValidDate(debut.date)
+            return { ...val, debut: { ...debut, date: date && isValid(date) ? formatDateToString(date) : '' } }
+          }),
         },
       })
     )

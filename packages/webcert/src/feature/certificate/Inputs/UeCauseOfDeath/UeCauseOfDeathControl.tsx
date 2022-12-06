@@ -97,6 +97,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   const handleSpecificationChange = (code: string) => {
     const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
     onChange({ ...value, specification: { ...value.specification, id: specificationId, code: code } })
+    console.log(validationErrors)
   }
 
   const dispatchValidationError = useCallback(
@@ -143,7 +144,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               id={config.debutId}
               questionId={questionId}
               componentField={config.debutId}
-              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.debutId)}
+              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field.endsWith('.datum'))}
               onDispatchValidationError={dispatchValidationError}
             />
           </DateAndSpecInner>
