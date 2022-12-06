@@ -17,6 +17,7 @@ import {
   ResourceLinkType,
   ValidationError,
   ValueBoolean,
+  ValueCauseOfDeath,
   ValueCode,
   ValueCodeList,
   ValueDate,
@@ -33,14 +34,14 @@ import {
   CARE_UNIT_ADDRESS_CATEGORY_TITLE,
   CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
   CARE_UNIT_ADDRESS_FIELD,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_STREET_FIELD,
   decorateCertificateWithInitialValues,
   getSortedValidationErrorSummary,
   getValidationErrors,
   isShowAlways,
   parseExpression,
+  PATIENT_ADDRESS_CATEGORY_TITLE,
+  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
+  PATIENT_STREET_FIELD,
   validateExpressions,
 } from './validationUtils'
 
@@ -340,6 +341,59 @@ describe('Validate mandatory rule for uncertain datet', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '2022-04-00'
     const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(true)
+  })
+})
+
+describe('Validate mandatory rule for cause of death', () => {
+  const causeOfDeathElement: CertificateDataElement = {
+    id: '1',
+    parent: 'grundformu',
+    index: 3,
+    visible: true,
+    readOnly: false,
+    mandatory: true,
+    config: {
+      text: 'Dödsorsak',
+      description: 'Den terminala dödsorsaken',
+      type: ConfigTypes.UE_CAUSE_OF_DEATH,
+      id: 'dodsorsak',
+    },
+    value: {
+      type: CertificateDataValueType.CAUSE_OF_DEATH,
+      id: 'dodsorsak',
+      description: { text: 'description' },
+      debut: { date: '2020-02-02' },
+      specification: { code: 'KRONISK' },
+    },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '1',
+        expression: '$dodsorsak',
+      },
+    ],
+    validationErrors: [],
+  }
+
+  it('it should validate as false when text is null', () => {
+    const value = causeOfDeathElement.value as ValueCauseOfDeath
+    value.description.text = null
+    const result = parseExpression('$dodsorsak', causeOfDeathElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as false when text is empty', () => {
+    const value = causeOfDeathElement.value as ValueCauseOfDeath
+    value.description.text = ''
+    const result = parseExpression('$dodsorsak', causeOfDeathElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when text is at least one character long', () => {
+    const value = causeOfDeathElement.value as ValueCauseOfDeath
+    value.description.text = 'Här är en text'
+    const result = parseExpression('$dodsorsak', causeOfDeathElement, CertificateDataValidationType.MANDATORY_VALIDATION)
     expect(result).toBe(true)
   })
 })
