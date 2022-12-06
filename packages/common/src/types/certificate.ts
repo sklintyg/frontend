@@ -249,9 +249,9 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
   unknownMonth: boolean
 }
 
-export interface ConfigureUeCauseOfDeathSpecification {
+export interface ConfigureUeCodeItem {
   id: string
-  code: string
+  code: string | null
   label: string
 }
 
@@ -259,7 +259,7 @@ export interface ConfigureUeCauseOfDeathControl {
   id: string
   descriptionId: string
   debutId: string
-  specifications: ConfigureUeCauseOfDeathSpecification[]
+  specifications: ConfigureUeCodeItem[]
 }
 
 export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {

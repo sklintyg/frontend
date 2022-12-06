@@ -1,8 +1,8 @@
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
-  ConfigUeDropdownItem,
   ConfigureUeCauseOfDeathControl,
+  ConfigureUeCodeItem,
   DatePickerCustom,
   Dropdown,
   QuestionValidationTexts,
@@ -40,6 +40,10 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
+const EmptyValidationWrapper = styled.div`
+  grid-column: 1 / 2;
+  grid-row: 2;
+`
 const Description = styled.div<{ oneLine: boolean }>`
   grid-column: ${(props) => (props.oneLine ? 1 : 1 / 2)};
   grid-row: 1;
@@ -48,7 +52,7 @@ const Description = styled.div<{ oneLine: boolean }>`
 const DateAndSpec = styled.div<{ oneLine: boolean }>`
   display: flex;
   grid-column: ${(props) => (props.oneLine ? 2 : 1)};
-  grid-row: ${(props) => (props.oneLine ? 1 : 2)};
+  grid-row: ${(props) => (props.oneLine ? 1 : 3)};
 `
 
 const DateAndSpecInner = styled.div`
@@ -77,7 +81,10 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const specifications: ConfigUeDropdownItem[] = [{ id: '', label: 'Välj...' }, ...config.specifications]
+  const emptyValidationError = validationErrors ? (validationErrors.find((e) => e.type === 'EMPTY') as ValidationError) : undefined
+  const nonEmptyValidationErrors = validationErrors ? validationErrors.filter((e) => e.type !== 'EMPTY') : undefined
+
+  const specifications: ConfigureUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
     onChange({ ...value, description: { ...value.description, text } })
@@ -88,7 +95,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   }
 
   const handleSpecificationChange = (code: string) => {
-    onChange({ ...value, specification: { ...value.specification, code } })
+    const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
+    onChange({ ...value, specification: { ...value.specification, id: specificationId, code: code } })
   }
 
   const dispatchValidationError = useCallback(
@@ -110,10 +118,17 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.descriptionId)}
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
             limit={textValidation ? textValidation.limit : 100}
           />
         </Description>
+        <EmptyValidationWrapper>
+          {isShowValidationError && emptyValidationError && (
+            <ValidationWrapper>
+              <QuestionValidationTexts validationErrors={[emptyValidationError]} />
+            </ValidationWrapper>
+          )}
+        </EmptyValidationWrapper>
         <DateAndSpec oneLine={oneLine}>
           <DateAndSpecInner>
             <DatePickerCustom
@@ -128,7 +143,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               id={config.debutId}
               questionId={questionId}
               componentField={config.debutId}
-              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.debutId)}
+              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field.endsWith('.datum'))}
               onDispatchValidationError={dispatchValidationError}
             />
           </DateAndSpecInner>
@@ -153,9 +168,9 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           {children}
         </DateAndSpec>
       </Wrapper>
-      {isShowValidationError && (
+      {isShowValidationError && nonEmptyValidationErrors && (
         <ValidationWrapper>
-          <QuestionValidationTexts validationErrors={validationErrors} />
+          <QuestionValidationTexts validationErrors={nonEmptyValidationErrors} />
         </ValidationWrapper>
       )}
     </>
