@@ -27,7 +27,7 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
-import { fakeRadioBooleanElement } from './faker/fakeCertificateData'
+import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
 import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
   autoFillElement,
@@ -346,35 +346,7 @@ describe('Validate mandatory rule for uncertain datet', () => {
 })
 
 describe('Validate mandatory rule for cause of death', () => {
-  const causeOfDeathElement: CertificateDataElement = {
-    id: '1',
-    parent: 'grundformu',
-    index: 3,
-    visible: true,
-    readOnly: false,
-    mandatory: true,
-    config: {
-      text: 'Dödsorsak',
-      description: 'Den terminala dödsorsaken',
-      type: ConfigTypes.UE_CAUSE_OF_DEATH,
-      id: 'dodsorsak',
-    },
-    value: {
-      type: CertificateDataValueType.CAUSE_OF_DEATH,
-      id: 'dodsorsak',
-      description: { text: 'description' },
-      debut: { date: '2020-02-02' },
-      specification: { code: 'KRONISK' },
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '1',
-        expression: '$dodsorsak',
-      },
-    ],
-    validationErrors: [],
-  }
+  const causeOfDeathElement = fakeCauseOfDeathElement({ id: '1', value: { text: null } })[1]
 
   it('it should validate as false when text is null', () => {
     const value = causeOfDeathElement.value as ValueCauseOfDeath
