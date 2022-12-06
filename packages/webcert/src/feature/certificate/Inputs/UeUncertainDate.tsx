@@ -58,12 +58,10 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   ]
 
   const months: ConfigUeDropdownItem[] = [
-    ...(!config.unknownMonth ? [{ id: '', label: 'Ange månad' }] : []),
+    { id: '', label: 'Ange månad' },
     ...(config.unknownMonth ? [{ id: '00', label: '00 (ej känt)' }] : []),
     ...monthList.map((month) => ({ id: month, label: month })),
   ]
-
-  const defaultMonth = config.unknownMonth ? '00' : ''
 
   const handleValueChanged = useCallback(
     (year: string, month: string) => {
@@ -85,10 +83,10 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
 
   useEffect(() => {
     const yearUnknown = ['', '0000'].includes(selectedYear)
-    setSelectedMonth((current) => (yearUnknown ? defaultMonth : current))
-    setDisabledMonth(disabled || yearUnknown)
+    setSelectedMonth((current) => (yearUnknown ? '' : current))
+    setDisabledMonth(disabled || selectedYear === '')
     handleValueChanged(selectedYear, selectedMonth)
-  }, [disabled, selectedYear, selectedMonth, handleValueChanged, defaultMonth])
+  }, [disabled, selectedYear, selectedMonth, handleValueChanged])
 
   return (
     <>
@@ -105,7 +103,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
             disabled={disabled}
             onChange={(event) => setSelectedYear(event.target.value)}
             value={selectedYear}
-            hasValidationError={validationErrors.some((v) => v.field.includes(`${question.id}.year`))}
+            hasValidationError={validationErrors.some((v) => v.field.includes(`${config.id}.year`))}
           />
         </div>
         <div>
@@ -120,7 +118,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
             disabled={disabledMonth}
             onChange={(event) => setSelectedMonth(event.currentTarget.value)}
             value={selectedMonth}
-            hasValidationError={validationErrors.some((v) => v.field.includes(`${question.id}.month`))}
+            hasValidationError={validationErrors.some((v) => v.field.includes(`${config.id}.month`))}
           />
         </div>
         <div className="iu-width-xxl">
