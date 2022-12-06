@@ -23,6 +23,7 @@ interface RootProps {
 const Root = styled.textarea<RootProps>`
   cursor: auto;
   overflow-y: ${(props) => (props.hideOverflow ? 'hidden' : '')};
+  height: ${(props) => props.rows === 1 && '2.956rem !important'};
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
@@ -55,7 +56,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
       const scrollHeight = textareaRef.current.scrollHeight
       textareaRef.current.style.height = scrollHeight + 'px'
     }
-  }, [value])
+  }, [autoResize, value])
 
   return (
     <>

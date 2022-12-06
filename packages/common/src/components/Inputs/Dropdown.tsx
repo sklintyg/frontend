@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import classNames from 'classnames'
+import styled from 'styled-components'
 
 interface Props {
   label?: string
@@ -12,22 +13,30 @@ interface Props {
   id: string
 }
 
+const StyledDiv = styled.div`
+  min-height: 2.956rem !important;
+`
+
+const StyledSelect = styled.select`
+  height: 2.956rem !important;
+`
+
 const Dropdown: React.FC<Props> = (props) => {
   const { onChange, label, name, id, value, hasValidationError, options, disabled } = props
 
   return (
     <>
       {label !== 'undefined' ? <label htmlFor={id}>{label}</label> : null}
-      <div
+      <StyledDiv
         className={classNames('ic-forms__select', {
           'iu-border-error dropdown': hasValidationError,
           dropdown: !hasValidationError,
           'ic-forms__select--disabled': disabled,
         })}>
-        <select value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
+        <StyledSelect value={value} name={name} id={id} disabled={disabled} onChange={onChange}>
           {options}
-        </select>
-      </div>
+        </StyledSelect>
+      </StyledDiv>
     </>
   )
 }
