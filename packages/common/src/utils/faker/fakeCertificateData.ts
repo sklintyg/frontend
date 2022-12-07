@@ -15,6 +15,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
@@ -376,36 +377,13 @@ export const fakeMedicalInvestigationListElement = (
           'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
         list: [
           {
-            id: '1',
-            typeId: 'type1',
+            investigationTypeId: 'type1',
             informationSourceId: 'infoSource1',
             dateId: 'date1',
             typeOptions: [
-              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '2', label: 'Underlag från habiliteringen', code: '' },
-              { id: '3', label: 'Underlag från arbetsterapeut', code: '' },
-            ],
-          },
-          {
-            id: '2',
-            typeId: 'type2',
-            informationSourceId: 'infoSource2',
-            dateId: 'date2',
-            typeOptions: [
-              { id: '4', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '5', label: 'Underlag från habiliteringen', code: '' },
-              { id: '6', label: 'Underlag från arbetsterapeut', code: '' },
-            ],
-          },
-          {
-            id: '3',
-            typeId: 'type3',
-            informationSourceId: 'infoSource3',
-            dateId: 'date3',
-            typeOptions: [
-              { id: '7', label: 'Neuropsykiatriskt utlåtande', code: '' },
-              { id: '8', label: 'Underlag från habiliteringen', code: '' },
-              { id: '9', label: 'Underlag från arbetsterapeut', code: '' },
+              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '2' },
+              { id: '2', label: 'Underlag från habiliteringen', code: '3' },
+              { id: '3', label: 'Underlag från arbetsterapeut', code: '4' },
             ],
           },
         ],
@@ -413,27 +391,35 @@ export const fakeMedicalInvestigationListElement = (
       },
       value: {
         type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-        informationSource: {
-          type: CertificateDataValueType.TEXT,
-          id: faker.random.alpha({ count: 5 }),
-          text: faker.lorem.words(),
-          ...data?.value?.informationSource,
-        },
-        date: {
-          type: CertificateDataValueType.DATE,
-          id: faker.random.alpha({ count: 5 }),
-          date: faker.date
-            .past()
-            .toISOString()
-            .split('T')[0],
-          ...data?.value?.date,
-        },
-        investigationType: {
-          type: CertificateDataValueType.CODE,
-          id: faker.random.alpha({ count: 5 }),
-          code: faker.random.arrayElement(['Neuropsykiatriskt utlåtande', 'Underlag från habiliteringen', 'Underlag från arbetsterapeut']),
-          ...data?.value?.investigationType,
-        },
+        list: [
+          {
+            investigationType: {
+              type: CertificateDataValueType.CODE,
+              id: faker.random.alpha({ count: 5 }),
+              code: faker.random.arrayElement([
+                'Neuropsykiatriskt utlåtande',
+                'Underlag från habiliteringen',
+                'Underlag från arbetsterapeut',
+              ]),
+              ...data?.value?.investigationType,
+            },
+            date: {
+              type: CertificateDataValueType.DATE,
+              id: faker.random.alpha({ count: 5 }),
+              date: faker.date
+                .past()
+                .toISOString()
+                .split('T')[0],
+              ...data?.value?.date,
+            },
+            informationSource: {
+              type: CertificateDataValueType.TEXT,
+              id: faker.random.alpha({ count: 5 }),
+              text: faker.lorem.words(),
+              ...data?.value?.informationSource,
+            },
+          },
+        ],
         ...data?.value,
       },
     },
@@ -571,6 +557,105 @@ export const fakeCauseOfDeathListElement = (
                     description: { ...value.description, text: null },
                     debut: { ...value.debut, date: undefined },
                     specification: { ...value.specification, code: '' },
+                  }
+                : value
+            ),
+      },
+    },
+    children
+  )
+}
+
+export const fakeMedicalElement = (
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigation, ValueMedicalInvestigation>,
+  children?: CertificateData[]
+): CertificateData => {
+  const informationSourceId = faker.random.alpha({ count: 5 })
+  const dateId = faker.random.alpha({ count: 5 })
+  const investigationTypeId = faker.random.alpha({ count: 5 })
+
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        informationSource: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
+        text: 'Den terminala dödsorsaken var',
+        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+        medical: {
+          id: faker.random.alpha({ count: 5 }),
+          dateId: dateId,
+          informationSourceId: informationSourceId,
+          investigationTypeId: investigationTypeId,
+          typeOptions: [
+            { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
+            { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
+            { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
+          ],
+        },
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+        informationSource: {
+          type: CertificateDataValueType.TEXT,
+          id: informationSourceId,
+          text: faker.lorem.words(),
+          ...data?.value?.informationSource,
+        },
+        date: {
+          type: CertificateDataValueType.DATE,
+          id: dateId,
+          date: faker.date
+            .past()
+            .toISOString()
+            .split('T')[0],
+          ...data?.value?.date,
+        },
+        investigationType: {
+          type: CertificateDataValueType.CODE,
+          id: faker.random.alpha({ count: 5 }),
+          code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
+          ...data?.value?.investigationType,
+        },
+        ...data?.value,
+      },
+    },
+    children
+  )
+}
+
+export const fakeMedicalListElement = (
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
+  children?: CertificateData[]
+): CertificateData => {
+  const questions = new Array(8).fill(null).map(() => {
+    const id = faker.random.alpha({ count: 5 })
+    return fakeMedicalElement({ id })[id]
+  })
+
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+        text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
+        ...data?.config,
+        list: data?.config?.list ?? questions.map((question) => question.config),
+      },
+      value: {
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+        ...data?.value,
+        list:
+          data?.value?.list ??
+          questions
+            .map((question) => question.value as ValueMedicalInvestigation)
+            .map((value, index) =>
+              index > 0
+                ? {
+                    ...value,
+                    informationSource: { ...value.informationSource, text: null },
+                    date: { ...value.date, date: undefined },
+                    investigationType: { ...value.investigationType, code: '' },
                   }
                 : value
             ),

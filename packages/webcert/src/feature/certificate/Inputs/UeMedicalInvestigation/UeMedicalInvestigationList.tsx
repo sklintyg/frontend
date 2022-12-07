@@ -60,6 +60,7 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
                 config={config}
                 value={value}
                 disabled={disabled}
+                key={index}
                 isShowValidationError={isShowValidationError}
                 validation={question.validation}
                 onChange={handleChange(index)}

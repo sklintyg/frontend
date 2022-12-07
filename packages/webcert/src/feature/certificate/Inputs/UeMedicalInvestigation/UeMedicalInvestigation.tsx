@@ -38,10 +38,9 @@ const UeMedicalInvestigation: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const typeOptions: ConfigUeCodeItem[] = [{ id: 'Id', label: 'Välj...', code: 'Id' }, ...config.typeOptions]
+  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    // onChange({ ...value, investigationType: { ...value.investigationType, code } })
     const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
     onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
   }
@@ -105,7 +104,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             }}
             id={config.informationSourceId}
             hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
-            value={value.informationSource.text ?? ''}
+            value={value.informationSource.text ?? null}
             limit={textValidation ? textValidation.limit : 100}
           />
         </div>
