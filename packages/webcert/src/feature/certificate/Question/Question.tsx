@@ -1,11 +1,14 @@
 import {
   Accordion,
+  AccordionHeader,
   CertificateDataConfig,
   CertificateDataElement,
   ConfigTypes,
   Icon,
   InfoBox,
   MandatoryIcon,
+  sanitizeText,
+  Text,
   UvText,
 } from '@frontend/common'
 import _ from 'lodash'
@@ -13,7 +16,7 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
@@ -43,6 +46,39 @@ export interface QuestionProps {
 const mandatoryIconAdditionalStyles = css`
   top: -5px;
 `
+const OpenLink = styled.h5.attrs({
+  className: 'iu-fs-100 iu-fw-bold iu-lh-body close',
+})`
+  display: block;
+  text-decoration: underline;
+`
+
+const CloseLink = styled.h5.attrs({
+  className: 'iu-fs-100 iu-fw-bold iu-lh-body open',
+})`
+  display: none;
+  text-decoration: underline;
+`
+
+const ControlAccordion = styled(Accordion)`
+  &[open] {
+    ${OpenLink} {
+      display: none;
+    }
+    ${CloseLink} {
+      display: block;
+    }
+    ${AccordionHeader}.ic-expandable-button--chevron::after {
+      margin-top: -3px;
+    }
+  }
+  ${AccordionHeader}.ic-expandable-button--chevron::after {
+    background-image: url("data:image/svg+xml,%3Csvg class='iu-svg-icon' xmlns='http://www.w3.org/2000/svg' width='18' height='10' viewBox='0 0 22 15'%3E%3Cpath fill='rgb(95,95,95)' d='M8.325 10.647L.585 3.259c-.78-.746-.78-1.954 0-2.7.782-.745 2.048-.745 2.83 0l9.153 8.738c.781.745.781 1.954 0 2.7l-9.154 8.737c-.78.746-2.047.746-2.828 0-.781-.745-.781-1.954 0-2.7l7.74-7.387z' transform='translate(-1290 -179) translate(410 141) rotate(90 432 470)'/%3E%3C/svg%3E") !important;
+    position: static;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+`
 
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
@@ -66,16 +102,17 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
 
     if (!readOnly && config.description) {
       return (
-        <Accordion
-          icon={question.config.icon}
-          includeIconTooltip
-          header={question.config.header}
-          titleId={question.id}
-          title={question.config.text}
-          description={question.config.description}
-          displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading"
-        />
+        <div id={question.id}>
+          {question.config.header && <h4 className={'iu-fs-300 iu-mb-200 iu-fw-heading'}>{question.config.header}</h4>}
+          <Accordion>
+            <AccordionHeader>
+              {question.config.icon && <Icon iconType={question.config.icon} includeTooltip={true} />}
+              {displayMandatory && <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={true} />}
+              <h4 className={'iu-fs-300'}>{question.config.text}</h4>
+            </AccordionHeader>
+            <Text dangerouslySetInnerHTML={sanitizeText(question.config.description)}></Text>
+          </Accordion>
+        </div>
       )
     }
     return (
@@ -137,16 +174,17 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   function getEditComponent(question: CertificateDataElement, disabled: boolean) {
     if (question.config.accordion)
       return (
-        <Accordion
-          icon={question.config.icon}
-          includeIconTooltip
-          titleId={question.id}
-          title={question.config.accordion.openText}
-          titleClose={question.config.accordion.closeText}
-          header={question.config.accordion.header}
-          isControl={true}>
-          {getUnifiedEditComponent(question, disabled)}
-        </Accordion>
+        <div id={question.id}>
+          <ControlAccordion>
+            <AccordionHeader>
+              {question.config.icon && <Icon iconType={question.config.icon} includeTooltip={true} />}
+              <OpenLink>{question.config.accordion.openText}</OpenLink>
+              <CloseLink>{question.config.accordion.closeText}</CloseLink>
+            </AccordionHeader>
+            {question.config.accordion?.header && <h5 className={`iu-fs-200 iu-lh-body`}>{question.config.accordion.header}</h5>}
+            {getUnifiedEditComponent(question, disabled)}
+          </ControlAccordion>
+        </div>
       )
     else return getUnifiedEditComponent(question, disabled)
   }
