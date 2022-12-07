@@ -15,7 +15,6 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
-  ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
@@ -557,105 +556,6 @@ export const fakeCauseOfDeathListElement = (
                     description: { ...value.description, text: null },
                     debut: { ...value.debut, date: undefined },
                     specification: { ...value.specification, code: '' },
-                  }
-                : value
-            ),
-      },
-    },
-    children
-  )
-}
-
-export const fakeMedicalElement = (
-  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigation, ValueMedicalInvestigation>,
-  children?: CertificateData[]
-): CertificateData => {
-  const informationSourceId = faker.random.alpha({ count: 5 })
-  const dateId = faker.random.alpha({ count: 5 })
-  const investigationTypeId = faker.random.alpha({ count: 5 })
-
-  return fakeDataElement(
-    {
-      ...data,
-      config: {
-        informationSource: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
-        text: 'Den terminala dödsorsaken var',
-        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
-        medical: {
-          id: faker.random.alpha({ count: 5 }),
-          dateId: dateId,
-          informationSourceId: informationSourceId,
-          investigationTypeId: investigationTypeId,
-          typeOptions: [
-            { id: 'UPPGIFT_SAKNAS', code: 'UPPGIFT_SAKNAS', label: 'Uppgift saknas' },
-            { id: 'KRONISK', code: 'KRONISK', label: 'Kronisk' },
-            { id: 'PLOTSLIG', code: 'PLOTSLIG', label: 'Akut' },
-          ],
-        },
-        ...data?.config,
-      },
-      value: {
-        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-        informationSource: {
-          type: CertificateDataValueType.TEXT,
-          id: informationSourceId,
-          text: faker.lorem.words(),
-          ...data?.value?.informationSource,
-        },
-        date: {
-          type: CertificateDataValueType.DATE,
-          id: dateId,
-          date: faker.date
-            .past()
-            .toISOString()
-            .split('T')[0],
-          ...data?.value?.date,
-        },
-        investigationType: {
-          type: CertificateDataValueType.CODE,
-          id: faker.random.alpha({ count: 5 }),
-          code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
-          ...data?.value?.investigationType,
-        },
-        ...data?.value,
-      },
-    },
-    children
-  )
-}
-
-export const fakeMedicalListElement = (
-  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
-  children?: CertificateData[]
-): CertificateData => {
-  const questions = new Array(8).fill(null).map(() => {
-    const id = faker.random.alpha({ count: 5 })
-    return fakeMedicalElement({ id })[id]
-  })
-
-  return fakeDataElement(
-    {
-      ...data,
-      config: {
-        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
-        text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
-        ...data?.config,
-        list: data?.config?.list ?? questions.map((question) => question.config),
-      },
-      value: {
-        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-        ...data?.value,
-        list:
-          data?.value?.list ??
-          questions
-            .map((question) => question.value as ValueMedicalInvestigation)
-            .map((value, index) =>
-              index > 0
-                ? {
-                    ...value,
-                    informationSource: { ...value.informationSource, text: null },
-                    date: { ...value.date, date: undefined },
-                    investigationType: { ...value.investigationType, code: '' },
                   }
                 : value
             ),

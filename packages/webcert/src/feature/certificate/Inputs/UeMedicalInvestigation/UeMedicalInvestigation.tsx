@@ -38,11 +38,12 @@ const UeMedicalInvestigation: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
+  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: null }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
-    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
+    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? null
+    const investigationTypeCode = config.typeOptions.find((s) => s.code === code)?.code ?? null
+    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: investigationTypeCode } })
   }
 
   const handleDateChange = (date: string) => {
@@ -75,7 +76,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
                 </option>
               ))
             }
-            value={value.investigationType.code ?? null}
+            value={value.investigationType.code ?? ''}
             disabled={disabled}
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
@@ -88,8 +89,9 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             id={config.dateId}
             questionId={questionId}
             forbidFutureDates={true}
-            inputString={value.date.date ?? null}
+            inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
+            disabled={disabled}
             setDate={(date: string) => {
               handleDateChange(date)
             }}
@@ -104,8 +106,9 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             }}
             id={config.informationSourceId}
             hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
-            value={value.informationSource.text ?? null}
+            value={value.informationSource.text ?? ''}
             limit={textValidation ? textValidation.limit : 100}
+            disabled={disabled}
           />
         </div>
         {/* {isShowValidationError && (

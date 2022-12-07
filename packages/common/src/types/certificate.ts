@@ -246,7 +246,7 @@ export interface ConfigureUeUncertainDate extends CertificateDataConfig {
 export interface ConfigUeCodeItem {
   id: string
   label: string
-  code: string
+  code: string | null
 }
 
 export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
@@ -314,8 +314,8 @@ export interface ValueBoolean extends Value {
 }
 
 export interface ValueCode extends Value {
-  id: string
-  code: string
+  id: string | null
+  code: string | null
 }
 
 export interface ValueDate extends Value {
