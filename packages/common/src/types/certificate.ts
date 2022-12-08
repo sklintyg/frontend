@@ -249,12 +249,6 @@ export interface ConfigUeCodeItem {
   code: string | null
 }
 
-export interface ConfigureUeCodeItem {
-  id: string
-  label: string
-  code: string | null
-}
-
 export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
   investigationTypeId: string
   informationSourceId: string
@@ -274,7 +268,7 @@ export interface ConfigureUeCauseOfDeathControl {
   id: string
   descriptionId: string
   debutId: string
-  specifications: ConfigureUeCodeItem[]
+  specifications: ConfigUeCodeItem[]
 }
 
 export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {

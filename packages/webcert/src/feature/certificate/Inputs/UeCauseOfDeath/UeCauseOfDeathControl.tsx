@@ -2,7 +2,7 @@ import {
   CertificateDataValidation,
   CertificateDataValidationType,
   ConfigureUeCauseOfDeathControl,
-  ConfigureUeCodeItem,
+  ConfigUeCodeItem,
   DatePickerCustom,
   Dropdown,
   QuestionValidationTexts,
@@ -84,7 +84,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   const emptyValidationError = validationErrors ? (validationErrors.find((e) => e.type === 'EMPTY') as ValidationError) : undefined
   const nonEmptyValidationErrors = validationErrors ? validationErrors.filter((e) => e.type !== 'EMPTY') : undefined
 
-  const specifications: ConfigureUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
+  const specifications: ConfigUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
     onChange({ ...value, description: { ...value.description, text } })
