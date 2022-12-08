@@ -6,15 +6,11 @@ import NumberCircle from '../utils/NumberCircle'
 
 interface WrapperProps {
   filter: string
-  height?: string
 }
 
 const Wrapper = styled.div<WrapperProps>`
   width: fit-content;
 
-  button {
-    height: ${(props) => props.height};
-  }
   .buttonIcon {
     width: 22px;
     height: 22px;
@@ -38,9 +34,13 @@ interface Props {
   number?: string | number | undefined
   tooltipPlacement?: Place
   buttonClasses?: string
-  height?: string
   'data-testid'?: string
+  inline?: boolean
 }
+
+const Button = styled.button<Props>`
+  height: ${(props) => props.inline && '3rem'};
+`
 
 export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement> }> = React.forwardRef((props, ref) => {
   useEffect(() => {
@@ -77,8 +77,8 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
   }
 
   return (
-    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`} height={props.height}>
-      <button
+    <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
+      <Button
         aria-label={props.text}
         ref={ref as React.RefObject<HTMLButtonElement>}
         type={props.type ?? 'button'}
@@ -86,11 +86,12 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
         disabled={props.disabled}
         onClick={props.onClick}
-        data-testid={props['data-testid']}>
+        data-testid={props['data-testid']}
+        inline={props.inline}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon">{props.startIcon}</span> : null}
         {props.children} {props.text}{' '}
         {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
-      </button>
+      </Button>
     </Wrapper>
   )
 })

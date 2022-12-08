@@ -3,11 +3,11 @@ import classNames from 'classnames'
 import styled from 'styled-components'
 
 const DropdownDiv = styled.div`
-  min-height: 2.956rem !important;
+  min-height: 3rem !important;
 `
 
 const DropdownSelect = styled.select`
-  height: 2.956rem !important;
+  height: 3rem !important;
 `
 
 interface Props {
