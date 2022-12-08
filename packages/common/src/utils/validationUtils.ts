@@ -23,6 +23,7 @@ import {
   ValidationError,
   ValidationErrorSummary,
   ValueBoolean,
+  ValueCauseOfDeath,
   ValueCode,
   ValueCodeList,
   ValueDate,
@@ -147,6 +148,16 @@ export const parseExpression = (
         const uncertainDate = element.value as ValueUncertainDate
         if (!uncertainDate.value) return 0
         return _dateReg.test(uncertainDate.value as string) ? 1 : 0
+      }
+      case CertificateDataValueType.CAUSE_OF_DEATH: {
+        const valueCauseOfDeath = element.value as ValueCauseOfDeath
+        return type === CertificateDataValidationType.MANDATORY_VALIDATION
+          ? valueCauseOfDeath.description?.text
+            ? 1
+            : 0
+          : valueCauseOfDeath
+          ? 1
+          : 0
       }
       default: {
         return 0
