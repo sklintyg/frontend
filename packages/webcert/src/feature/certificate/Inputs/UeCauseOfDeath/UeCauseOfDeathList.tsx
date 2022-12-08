@@ -3,11 +3,13 @@ import {
   CertificateDataValueType,
   ConfigureUeCauseOfDeathList,
   CustomButton,
-  QuestionValidationTexts,
+  formatDateToString,
+  getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
 } from '@frontend/common'
 import trash from '@frontend/common/src/images/trash.svg'
+import { isValid } from 'date-fns'
 import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -36,7 +38,7 @@ const ButtonIcon = styled.span`
 
 const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDeathList): ValueCauseOfDeath[] => {
   return config.list.map((configItem, index) => {
-    const value = values[index]
+    const value: ValueCauseOfDeath = values[index]
     return {
       id: configItem.id,
       description: merge(
@@ -53,13 +55,11 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
         },
         value && { date: value.debut.date }
       ),
-      specification: value
-        ? value.specification
-        : {
-            id: configItem.id,
-            type: CertificateDataValueType.CODE,
-            code: '',
-          },
+      specification: {
+        id: configItem.id,
+        type: CertificateDataValueType.CODE,
+        code: value?.specification?.code ?? null,
+      },
       type: CertificateDataValueType.CAUSE_OF_DEATH,
     }
   })
@@ -74,7 +74,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
-      return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
+      return index > 0 && (item.description.text || item.debut.date || item.specification.code) ? index + 1 : result
     }, 1)
   )
 
@@ -95,12 +95,16 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
   const updateList = (list: ValueCauseOfDeath[]) => {
     setQuestionValueList(getValueList(list, questionConfig))
+
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: {
           ...questionValue,
-          list: questionValueList,
+          list: list.map(({ debut, ...val }) => {
+            const date = getValidDate(debut.date)
+            return { ...val, debut: { ...debut, date: date && isValid(date) ? formatDateToString(date) : '' } }
+          }),
         },
       })
     )
@@ -126,7 +130,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   oneLine={true}
                   validation={question.validation}
                   onChange={handleChange}
-                  validationErrors={validationErrors.filter((v) => [config.descriptionId, config.debutId].includes(v.field))}>
+                  validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
                       <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)} height="47px">
@@ -147,7 +151,6 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
         text="Lägg till ytterligare sjukdom"
         onClick={addRowClick}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </>
   )
 }

@@ -15,6 +15,7 @@ import {
   ConfigureUeCauseOfDeath,
   ConfigureUeCauseOfDeathControl,
   ConfigureUeCauseOfDeathList,
+  ConfigureUeCodeItem,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -231,7 +232,7 @@ const UvText: React.FC<Props> = ({ question }) => {
     const causeOfDeathConfig = questionElement.config as ConfigureUeCauseOfDeath
     const causeOfDeathControlConfig = causeOfDeathConfig.causeOfDeath as ConfigureUeCauseOfDeathControl
     if (causeOfDeathValue.id !== undefined && questionElement.visible) {
-      const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
+      const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCodeItem[]).find(
         (item) => item.code === causeOfDeathValue.specification.code
       )
       return (
@@ -259,7 +260,7 @@ const UvText: React.FC<Props> = ({ question }) => {
           causeOfDeathValue &&
           (causeOfDeathValue.description.text || causeOfDeathValue.debut.date || causeOfDeathValue.specification.code)
         ) {
-          const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
+          const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCodeItem[]).find(
             (item) => item.code === causeOfDeathValue.specification.code
           )
           return getCauseOfDeathRow(
