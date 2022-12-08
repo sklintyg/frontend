@@ -314,8 +314,8 @@ export interface ValueBoolean extends Value {
 }
 
 export interface ValueCode extends Value {
-  id: string | null
-  code: string | null
+  id: string
+  code: string
 }
 
 export interface ValueDate extends Value {

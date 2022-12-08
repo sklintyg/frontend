@@ -38,12 +38,11 @@ const UeMedicalInvestigation: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: null }, ...config.typeOptions]
+  const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? null
-    const investigationTypeCode = config.typeOptions.find((s) => s.code === code)?.code ?? null
-    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: investigationTypeCode } })
+    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
+    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
   }
 
   const handleDateChange = (date: string) => {
