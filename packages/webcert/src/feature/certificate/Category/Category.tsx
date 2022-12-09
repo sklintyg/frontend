@@ -26,6 +26,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
   return (
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
+        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
         {showTitleWithDescription ? (
           <div id={category.id}>
             <Accordion>
@@ -37,7 +38,6 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           </div>
         ) : (
           <>
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
             <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
           </>
         )}
