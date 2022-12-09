@@ -1,7 +1,7 @@
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
-  ConfigureUeCauseOfDeathControl,
+  ConfigUeCauseOfDeathControl,
   ConfigUeCodeItem,
   DatePickerCustom,
   Dropdown,
@@ -17,7 +17,7 @@ import { updateClientValidationError } from '../../../../store/certificate/certi
 import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
-  config: ConfigureUeCauseOfDeathControl
+  config: ConfigUeCauseOfDeathControl
   disabled?: boolean
   isShowValidationError: boolean
   questionId: string
@@ -56,12 +56,7 @@ const DateAndSpec = styled.div<{ oneLine: boolean }>`
 `
 
 const DateAndSpecInner = styled.div`
-  min-width: 25ch;
-`
-
-const TextInputCustomHeight = styled(TextInput)`
-  height: 47px;
-  margin-bottom: 15px;
+  min-width: 22ch;
 `
 
 const UeCauseOfDeathControl: React.FC<Props> = ({
@@ -110,7 +105,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     <>
       <Wrapper>
         <Description oneLine={oneLine}>
-          <TextInputCustomHeight
+          <TextInput
             label="Beskrivning"
             id={config.descriptionId}
             value={value.description.text ?? ''}
@@ -120,6 +115,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
             disabled={disabled}
             hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
             limit={textValidation ? textValidation.limit : 100}
+            className="iu-mb-1rem"
           />
         </Description>
         <EmptyValidationWrapper>
@@ -162,7 +158,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
                 </option>
               ))}
               hasValidationError={false}
-              height="47px"
             />
           </DateAndSpecInner>
           {children}

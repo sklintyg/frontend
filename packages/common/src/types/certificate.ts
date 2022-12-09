@@ -104,8 +104,15 @@ export interface CertificateDataConfig {
   text: string
   description: string
   type: ConfigTypes
+  accordion?: ConfigAccordion
 
   [propName: string]: unknown
+}
+
+export interface ConfigAccordion {
+  openText: string
+  closeText: string
+  header?: string
 }
 
 export type ConfigCategory = CertificateDataConfig
@@ -235,7 +242,7 @@ export interface ConfigUeHeader extends CertificateDataConfig {
   label: string
 }
 
-export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+export interface ConfigUeUncertainDate extends CertificateDataConfig {
   id: string
   label: string
   allowedYears: string[]
@@ -264,21 +271,21 @@ export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig 
   list: ConfigUeMedicalInvestigation[]
 }
 
-export interface ConfigureUeCauseOfDeathControl {
+export interface ConfigUeCauseOfDeathControl {
   id: string
   descriptionId: string
   debutId: string
   specifications: ConfigUeCodeItem[]
 }
 
-export interface ConfigureUeCauseOfDeath extends CertificateDataConfig {
+export interface ConfigUeCauseOfDeath extends CertificateDataConfig {
   label?: string
-  causeOfDeath: ConfigureUeCauseOfDeathControl
+  causeOfDeath: ConfigUeCauseOfDeathControl
 }
 
-export interface ConfigureUeCauseOfDeathList extends CertificateDataConfig {
+export interface ConfigUeCauseOfDeathList extends CertificateDataConfig {
   itemCount?: number
-  list: ConfigureUeCauseOfDeathControl[]
+  list: ConfigUeCauseOfDeathControl[]
 }
 
 // Values

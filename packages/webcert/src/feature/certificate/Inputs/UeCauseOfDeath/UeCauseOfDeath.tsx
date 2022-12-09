@@ -1,4 +1,4 @@
-import { CertificateDataElement, ConfigureUeCauseOfDeath, formatDateToString, getValidDate, ValueCauseOfDeath } from '@frontend/common'
+import { CertificateDataElement, ConfigUeCauseOfDeath, formatDateToString, getValidDate, ValueCauseOfDeath } from '@frontend/common'
 import { isValid } from 'date-fns'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ interface Props {
 
 const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
   const dispatch = useAppDispatch()
-  const config = question.config as ConfigureUeCauseOfDeath
+  const config = question.config as ConfigUeCauseOfDeath
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const isShowValidationError = useSelector(getShowValidationErrors)
   const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(question.value as ValueCauseOfDeath)
