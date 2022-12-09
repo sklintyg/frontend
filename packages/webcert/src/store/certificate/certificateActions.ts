@@ -6,8 +6,8 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
-  Unit,
   Patient,
+  Unit,
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
@@ -106,6 +106,11 @@ const CREATE_CERTIFICATE_FROM_CANDIDATE = `${CERTIFICATE} Create certificate fro
 const CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED = `${CERTIFICATE} Create certificate started from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR = `${CERTIFICATE} Create certificate error from candidate`
+
+const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT = `${CERTIFICATE} Create certificate from candidate different care unit`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_STARTED = `${CERTIFICATE} Create certificate started from candidate different care unit`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_SUCCESS = `${CERTIFICATE} Create certificate success from candidate different care unit`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_ERROR = `${CERTIFICATE} Create certificate error from candidate different care unit`
 
 const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Create certificate from template`
 const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Create certificate started from template`
@@ -446,6 +451,24 @@ export const createCertificateFromCandidateSuccess = createAction<CreateCertific
 export const createCertificateFromCandidateError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR)
 
 export interface CreateCertificateFromCandidateSuccess {
+  certificateId: string
+}
+
+export const createCertificateFromCandidateDifferentCareUnit = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT)
+
+export const createCertificateFromCandidateDifferentCareUnitStarted = createAction(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_STARTED
+)
+
+export const createCertificateFromCandidateDifferentCareUnitSuccess = createAction<CreateCertificateFromCandidateDifferentCareUnitSuccess>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS
+)
+
+export const createCertificateFromCandidateDifferentCareUnitError = createAction<string>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_ERROR
+)
+
+export interface CreateCertificateFromCandidateDifferentCareUnitSuccess {
   certificateId: string
 }
 

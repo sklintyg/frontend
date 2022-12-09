@@ -29,6 +29,9 @@ import {
   copyCertificateStarted,
   copyCertificateSuccess,
   createCertificateFromCandidate,
+  createCertificateFromCandidateDifferentCareUnit,
+  createCertificateFromCandidateDifferentCareUnitStarted,
+  createCertificateFromCandidateDifferentCareUnitSuccess,
   createCertificateFromCandidateStarted,
   createCertificateFromCandidateSuccess,
   createCertificateFromTemplate,
@@ -72,6 +75,7 @@ import {
   replaceCertificateCompleted,
   replaceCertificateStarted,
   replaceCertificateSuccess,
+  resetCertificateState,
   revokeCertificate,
   revokeCertificateCompleted,
   revokeCertificateStarted,
@@ -79,10 +83,14 @@ import {
   sendCertificate,
   sendCertificateSuccess,
   setCertificateDataElement,
+  setCertificatePatientData,
   setCertificateSigningErrorData,
   setCertificateUnitData,
-  setCertificatePatientData,
   setReadyForSign,
+  showRelatedCertificate,
+  showRelatedCertificateCompleted,
+  showRelatedCertificateStarted,
+  showRelatedCertificateSuccess,
   showSpinner,
   showValidationErrors,
   signCertificateCompleted,
@@ -96,10 +104,10 @@ import {
   updateCertificateComplements,
   updateCertificateDataElement,
   updateCertificateEvents,
+  updateCertificatePatient,
   updateCertificateSigningData,
   updateCertificateSignStatus,
   updateCertificateUnit,
-  updateCertificatePatient,
   updateCertificateVersion,
   updateClientValidationError,
   updateCreatedCertificateId,
@@ -112,11 +120,6 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
-  resetCertificateState,
-  showRelatedCertificateStarted,
-  showRelatedCertificateSuccess,
-  showRelatedCertificateCompleted,
-  showRelatedCertificate,
 } from './certificateActions'
 
 import _ from 'lodash'
@@ -125,8 +128,8 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
-import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 import { getSessionStatusError } from '../session/sessionActions'
+import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Laddar...'))
@@ -644,6 +647,33 @@ const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> = ({ dis
   dispatch(getCertificate(action.payload.certificateId))
 }
 
+const handleCreateCertificateFromCandidateDifferentCareUnit: Middleware<Dispatch> = ({
+  dispatch,
+  getState,
+}: MiddlewareAPI) => () => (): void => {
+  dispatch(showSpinner('Laddar...'))
+
+  const certificate: Certificate = getState().ui.uiCertificate.certificate
+
+  dispatch(
+    apiCallBegan({
+      url: '/api/certificate/' + certificate.metadata.id + '/unit',
+      method: 'POST',
+      onStart: createCertificateFromCandidateDifferentCareUnitStarted.type,
+      onSuccess: createCertificateFromCandidateDifferentCareUnitSuccess.type,
+      onError: certificateApiGenericError.type,
+      functionDisablerType: toggleCertificateFunctionDisabler.type,
+    })
+  )
+}
+
+const handleCreateCertificateFromCandidateDifferentCareUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
+  action: AnyAction
+): void => {
+  dispatch(hideSpinner())
+  action.payload.history.push(action.payload.unit)
+}
+
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   dispatch(showSpinner('Kopierar...'))
 
@@ -863,6 +893,8 @@ const middlewareMethods = {
   [createCertificateFromTemplateSuccess.type]: handleCreateCertificateFromTemplateSuccess,
   [createCertificateFromCandidate.type]: handleCreateCertificateFromCandidate,
   [createCertificateFromCandidateSuccess.type]: handleCreateCertificateFromCandidateSuccess,
+  [createCertificateFromCandidateDifferentCareUnit.type]: handleCreateCertificateFromCandidateDifferentCareUnit,
+  [createCertificateFromCandidateDifferentCareUnitSuccess.type]: handleCreateCertificateFromCandidateDifferentCareUnitSuccess,
   [replaceCertificate.type]: handleReplaceCertificate,
   [replaceCertificateSuccess.type]: handleReplaceCertificateSuccess,
   [forwardCertificate.type]: handleForwardCertificate,
