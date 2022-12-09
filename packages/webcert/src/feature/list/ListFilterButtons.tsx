@@ -18,8 +18,8 @@ const Wrapper = styled.div`
 const ListFilterButtons: React.FC<Props> = ({ searchTooltip, onSearch, onReset, isSearchEnabled, resetTooltip }) => {
   return (
     <Wrapper>
-      <CustomButton buttonStyle="primary" text="Sök" tooltip={searchTooltip} onClick={onSearch} disabled={!isSearchEnabled} />
-      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip={resetTooltip} onClick={onReset} />
+      <CustomButton buttonStyle="primary" text="Sök" tooltip={searchTooltip} onClick={onSearch} disabled={!isSearchEnabled} inline={true} />
+      <CustomButton buttonStyle="secondary" text="Återställ sökfilter" tooltip={resetTooltip} onClick={onReset} inline={true} />
     </Wrapper>
   )
 }
