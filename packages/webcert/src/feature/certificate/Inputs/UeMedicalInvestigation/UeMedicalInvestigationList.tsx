@@ -1,4 +1,4 @@
-import { CertificateDataElement, Accordion } from '@frontend/common'
+import { CertificateDataElement, Accordion, AccordionHeader, Text, sanitizeText } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
@@ -48,7 +48,12 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
       <div className="iu-grid-cols">
         <h4>{questionConfig.typeText}</h4>
         <h4>{questionConfig.dateText}</h4>
-        <Accordion title={questionConfig.informationSourceText} titleId={''} description={questionConfig.informationSourceDescription} />
+        <Accordion>
+          <AccordionHeader>
+            <h5 className={'iu-fs-200 iu-lh-body'}>{questionConfig.informationSourceText}</h5>
+          </AccordionHeader>
+          <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
+        </Accordion>
       </div>
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config, index) => {
