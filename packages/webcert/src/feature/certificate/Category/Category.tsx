@@ -1,4 +1,4 @@
-import { Accordion, Expandable, MandatoryIcon } from '@frontend/common'
+import { Accordion, AccordionHeader, Expandable, sanitizeText, Text } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -27,13 +27,14 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
         {showTitleWithDescription ? (
-          <Accordion
-            titleId={category.id}
-            title={category.config.text}
-            description={category.config.description}
-            isCategory={true}
-            displayMandatory={displayMandatory}
-          />
+          <div id={category.id}>
+            <Accordion>
+              <AccordionHeader>
+                <h5 className={'iu-fs-200 iu-lh-body'}>{category.config.text}</h5>
+              </AccordionHeader>
+              <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(category.config.description)}></Text>
+            </Accordion>
+          </div>
         ) : (
           <>
             <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />

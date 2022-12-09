@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  CertificateDataConfig,
-  CertificateDataElement,
-  ConfigTypes,
-  Icon,
-  InfoBox,
-  MandatoryIcon,
-  UvText,
-} from '@frontend/common'
+import { CertificateDataConfig, CertificateDataElement, ConfigTypes, Icon, InfoBox, MandatoryIcon, UvText } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -33,6 +24,8 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import QuestionAccordion from './QuestionAccordion'
+import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
@@ -66,16 +59,9 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
 
     if (!readOnly && config.description) {
       return (
-        <Accordion
-          icon={question.config.icon}
-          includeIconTooltip
-          header={question.config.header}
-          titleId={question.id}
-          title={question.config.text}
-          description={question.config.description}
-          displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading"
-        />
+        <div id={question.id}>
+          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} />
+        </div>
       )
     }
     return (
@@ -134,6 +120,18 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
     }
   }
 
+  function getEditComponent(question: CertificateDataElement, disabled: boolean) {
+    if (question.config.accordion)
+      return (
+        <div id={question.id}>
+          <QuestionAccordion accordion={question.config.accordion} icon={question.config.icon}>
+            {getUnifiedEditComponent(question, disabled)}
+          </QuestionAccordion>
+        </div>
+      )
+    else return getUnifiedEditComponent(question, disabled)
+  }
+
   function getUnifiedViewComponent(question: CertificateDataElement) {
     return <UvText question={question} />
   }
@@ -141,7 +139,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? getUnifiedViewComponent(question) : getEditComponent(question, disabled)}</div>
     </div>
   )
 }

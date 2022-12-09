@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { merge } from 'lodash'
 import { Merge, PartialDeep } from 'type-fest'
 import {
   CertificateData,
@@ -20,9 +21,10 @@ import {
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
-  ConfigureUeCauseOfDeath,
-  ConfigureUeCauseOfDeathList,
-  ConfigureUeUncertainDate,
+  ConfigAccordion,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
+  ConfigUeUncertainDate,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -56,6 +58,13 @@ export const fakeCertificateData = (children: CertificateData[]): CertificateDat
   )
 }
 
+export const fakeDataElementConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
+  openText: faker.lorem.words(),
+  closeText: faker.lorem.words(),
+  header: faker.lorem.words(),
+  ...data,
+})
+
 export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, children: CertificateData[] = []): CertificateData => {
   const type = data?.config?.type ?? ConfigTypes.CATEGORY
   const id = data?.id ?? faker.random.alpha({ count: 5 })
@@ -70,13 +79,16 @@ export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, chil
     validation: data?.validation instanceof Array ? data?.validation.map(fakeCertificateDataValidation) : [],
     validationErrors: data?.validationErrors instanceof Array ? data.validationErrors.map(fakeCertificateValidationError) : [],
     id,
-    config: {
-      type: ConfigTypes.CATEGORY,
-      text: `${id} - ${faker.lorem.words()}`,
-      description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
-      ...data?.config,
-      id,
-    },
+    config: merge(
+      {
+        type: ConfigTypes.CATEGORY,
+        text: `${id} - ${faker.lorem.words()}`,
+        description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
+      },
+      data?.config,
+      data?.config?.accordion && { accordion: fakeDataElementConfigAccordion(data.config.accordion) },
+      { id }
+    ),
     value:
       data != null && data.value != null
         ? {
@@ -336,7 +348,7 @@ export const fakeTypeaheadElement = (
   )
 
 export const fakeUncertainDateElement = (
-  data?: PartialCertificateDataElement<ConfigureUeUncertainDate, ValueUncertainDate>,
+  data?: PartialCertificateDataElement<ConfigUeUncertainDate, ValueUncertainDate>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -399,7 +411,7 @@ export const fakeHeaderElement = (
   )
 
 export const fakeCauseOfDeathElement = (
-  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeath, ValueCauseOfDeath>,
+  data?: PartialCertificateDataElement<ConfigUeCauseOfDeath, ValueCauseOfDeath>,
   children?: CertificateData[]
 ): CertificateData => {
   const descriptionId = faker.random.alpha({ count: 5 })
@@ -457,7 +469,7 @@ export const fakeCauseOfDeathElement = (
 }
 
 export const fakeCauseOfDeathListElement = (
-  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeathList, ValueCauseOfDeathList>,
+  data?: PartialCertificateDataElement<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>,
   children?: CertificateData[]
 ): CertificateData => {
   const questions = new Array(8).fill(null).map(() => {

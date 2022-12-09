@@ -1,5 +1,6 @@
 import {
   Accordion,
+  AccordionHeader,
   CertificateDataElement,
   CertificateDataValueType,
   ConfigUeCheckboxDateRange,
@@ -11,6 +12,7 @@ import {
   getPeriodHasOverlap,
   Icon,
   QuestionValidationTexts,
+  Text,
   ValidationError,
   ValueDateRange,
   ValueDateRangeList,
@@ -18,7 +20,7 @@ import {
 import { addDays, isValid } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DateRangePicker from './DateRangePicker'
@@ -27,7 +29,7 @@ import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { DaysRangeWrapper } from './Styles'
 import { WorkingHoursInput } from './WorkingHoursInput'
 
-const AccordionStyles = css`
+const AccodrionWrapper = styled.div`
   flex: 0 0 100%;
 `
 
@@ -162,21 +164,24 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         {!disabled && (
           <>
             <DaysRangeWrapper>
-              <Accordion
-                wrapperStyles={AccordionStyles}
-                titleId={'workHours'}
-                icon={'lightbulb_outline'}
-                iconSize={'sm'}
-                includeIconTooltip={true}
-                description={
-                  'Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.'
-                }>
-                <WorkingHoursInput
-                  onChange={handleWorkingHoursOnChange}
-                  value={baseWorkHours}
-                  hasValidationError={workingHoursErrors.length > 0}
-                />
-              </Accordion>
+              <AccodrionWrapper id={'workHours'}>
+                <Accordion>
+                  <AccordionHeader>
+                    <Icon iconType={'lightbulb_outline'} includeTooltip={true} size={'sm'} />
+                    <WorkingHoursInput
+                      onChange={handleWorkingHoursOnChange}
+                      value={baseWorkHours}
+                      hasValidationError={workingHoursErrors.length > 0}
+                    />
+                  </AccordionHeader>
+                  <Text className="iu-mb-400">
+                    Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka.
+                    Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna
+                    arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då
+                    Försäkringskassan inhämtar information från annat håll.
+                  </Text>
+                </Accordion>
+              </AccodrionWrapper>
             </DaysRangeWrapper>
             <div className="iu-pb-500">
               <QuestionValidationTexts validationErrors={workingHoursErrors} />

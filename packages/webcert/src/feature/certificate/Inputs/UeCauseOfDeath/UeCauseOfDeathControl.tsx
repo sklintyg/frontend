@@ -1,8 +1,8 @@
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
-  ConfigureUeCauseOfDeathControl,
-  ConfigureUeCodeItem,
+  ConfigUeCauseOfDeathControl,
+  ConfigUeCodeItem,
   DatePickerCustom,
   Dropdown,
   QuestionValidationTexts,
@@ -17,7 +17,7 @@ import { updateClientValidationError } from '../../../../store/certificate/certi
 import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
-  config: ConfigureUeCauseOfDeathControl
+  config: ConfigUeCauseOfDeathControl
   disabled?: boolean
   isShowValidationError: boolean
   questionId: string
@@ -84,7 +84,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   const emptyValidationError = validationErrors ? (validationErrors.find((e) => e.type === 'EMPTY') as ValidationError) : undefined
   const nonEmptyValidationErrors = validationErrors ? validationErrors.filter((e) => e.type !== 'EMPTY') : undefined
 
-  const specifications: ConfigureUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
+  const specifications: ConfigUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
     onChange({ ...value, description: { ...value.description, text } })
