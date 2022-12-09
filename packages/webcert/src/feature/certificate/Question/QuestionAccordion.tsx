@@ -1,9 +1,9 @@
-import { Accordion, AccordionHeader, ConfigureAccordion, Icon } from '@frontend/common'
+import { Accordion, AccordionHeader, ConfigAccordion, Icon } from '@frontend/common'
 import * as React from 'react'
 import styled from 'styled-components'
 
 export interface QuestionAccordionProps {
-  accordion: ConfigureAccordion
+  accordion: ConfigAccordion
   icon?: string
 }
 
