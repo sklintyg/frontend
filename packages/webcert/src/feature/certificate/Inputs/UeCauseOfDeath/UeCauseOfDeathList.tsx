@@ -1,7 +1,7 @@
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigureUeCauseOfDeathList,
+  ConfigUeCauseOfDeathList,
   CustomButton,
   formatDateToString,
   getValidDate,
@@ -36,7 +36,7 @@ const ButtonIcon = styled.span`
   filter: ${() => getFilter('primary')};
 `
 
-const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDeathList): ValueCauseOfDeath[] => {
+const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathList): ValueCauseOfDeath[] => {
   return config.list.map((configItem, index) => {
     const value: ValueCauseOfDeath = values[index]
     return {
@@ -66,7 +66,7 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
 }
 
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
-  const questionConfig = question.config as ConfigureUeCauseOfDeathList
+  const questionConfig = question.config as ConfigUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))

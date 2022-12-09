@@ -1,7 +1,7 @@
 import {
   CertificateDataElement,
   Dropdown,
-  ConfigureUeUncertainDate,
+  ConfigUeUncertainDate,
   QuestionValidationTexts,
   ValueUncertainDate,
   TextInput,
@@ -43,7 +43,7 @@ const getDateSplit = (candidate: string) => [...(dateReg.test(candidate) ? candi
 const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
-  const config = question.config as ConfigureUeUncertainDate
+  const config = question.config as ConfigUeUncertainDate
   const value = question.value as ValueUncertainDate
   const hasValidationError = validationErrors.length > 0
   const [year, month] = getDateSplit(value.value ?? '')
