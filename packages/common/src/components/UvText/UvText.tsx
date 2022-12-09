@@ -19,7 +19,6 @@ import {
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
-  ConfigUeCodeItem,
   ValueCode,
   ValueCodeList,
   ValueDate,
