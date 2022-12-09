@@ -29,11 +29,10 @@ import {
   copyCertificateStarted,
   copyCertificateSuccess,
   createCertificateFromCandidate,
-  createCertificateFromCandidateDifferentCareUnit,
-  createCertificateFromCandidateDifferentCareUnitStarted,
-  createCertificateFromCandidateDifferentCareUnitSuccess,
   createCertificateFromCandidateStarted,
   createCertificateFromCandidateSuccess,
+  createCertificateFromCandidateWithMessage,
+  createCertificateFromCandidateWithMessageSuccess,
   createCertificateFromTemplate,
   createCertificateFromTemplateStarted,
   createCertificateFromTemplateSuccess,
@@ -647,31 +646,28 @@ const handleCreateCertificateFromCandidateSuccess: Middleware<Dispatch> = ({ dis
   dispatch(getCertificate(action.payload.certificateId))
 }
 
-const handleCreateCertificateFromCandidateDifferentCareUnit: Middleware<Dispatch> = ({
-  dispatch,
-  getState,
-}: MiddlewareAPI) => () => (): void => {
+const handleCreateCertificateFromCandidateWithMessage: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   dispatch(showSpinner('Laddar...'))
 
   const certificate: Certificate = getState().ui.uiCertificate.certificate
 
   dispatch(
     apiCallBegan({
-      url: '/api/certificate/' + certificate.metadata.id + '/unit',
+      url: '/api/certificate/' + certificate.metadata.id + '/candidatemessage',
       method: 'POST',
-      onStart: createCertificateFromCandidateDifferentCareUnitStarted.type,
-      onSuccess: createCertificateFromCandidateDifferentCareUnitSuccess.type,
+      onStart: createCertificateFromCandidateWithMessage.type,
+      onSuccess: createCertificateFromCandidateWithMessageSuccess.type,
       onError: certificateApiGenericError.type,
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
 }
 
-const handleCreateCertificateFromCandidateDifferentCareUnitSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
+const handleCreateCertificateFromCandidateWithMessageSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
   action: AnyAction
 ): void => {
   dispatch(hideSpinner())
-  action.payload.history.push(action.payload.unit)
+  action.payload.history.push(action.payload.message)
 }
 
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -893,8 +889,8 @@ const middlewareMethods = {
   [createCertificateFromTemplateSuccess.type]: handleCreateCertificateFromTemplateSuccess,
   [createCertificateFromCandidate.type]: handleCreateCertificateFromCandidate,
   [createCertificateFromCandidateSuccess.type]: handleCreateCertificateFromCandidateSuccess,
-  [createCertificateFromCandidateDifferentCareUnit.type]: handleCreateCertificateFromCandidateDifferentCareUnit,
-  [createCertificateFromCandidateDifferentCareUnitSuccess.type]: handleCreateCertificateFromCandidateDifferentCareUnitSuccess,
+  [createCertificateFromCandidateWithMessage.type]: handleCreateCertificateFromCandidateWithMessage,
+  [createCertificateFromCandidateWithMessageSuccess.type]: handleCreateCertificateFromCandidateWithMessageSuccess,
   [replaceCertificate.type]: handleReplaceCertificate,
   [replaceCertificateSuccess.type]: handleReplaceCertificateSuccess,
   [forwardCertificate.type]: handleForwardCertificate,

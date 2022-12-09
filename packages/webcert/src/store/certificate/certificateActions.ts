@@ -107,10 +107,10 @@ const CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED = `${CERTIFICATE} Create certifi
 const CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR = `${CERTIFICATE} Create certificate error from candidate`
 
-const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT = `${CERTIFICATE} Create certificate from candidate different care unit`
-const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_STARTED = `${CERTIFICATE} Create certificate started from candidate different care unit`
-const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_SUCCESS = `${CERTIFICATE} Create certificate success from candidate different care unit`
-const CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_ERROR = `${CERTIFICATE} Create certificate error from candidate different care unit`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE = `${CERTIFICATE} Create certificate from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED = `${CERTIFICATE} Create certificate started from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR = `${CERTIFICATE} Create certificate error from candidate with message`
 
 const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Create certificate from template`
 const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Create certificate started from template`
@@ -454,21 +454,17 @@ export interface CreateCertificateFromCandidateSuccess {
   certificateId: string
 }
 
-export const createCertificateFromCandidateDifferentCareUnit = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT)
+export const createCertificateFromCandidateWithMessage = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
 
-export const createCertificateFromCandidateDifferentCareUnitStarted = createAction(
-  CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_STARTED
+export const createCertificateFromCandidateWithMessageStarted = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED)
+
+export const createCertificateFromCandidateWithMessageSuccess = createAction<CreateCertificateFromCandidateWithMessageSuccess>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS
 )
 
-export const createCertificateFromCandidateDifferentCareUnitSuccess = createAction<CreateCertificateFromCandidateDifferentCareUnitSuccess>(
-  CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS
-)
+export const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
 
-export const createCertificateFromCandidateDifferentCareUnitError = createAction<string>(
-  CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT_ERROR
-)
-
-export interface CreateCertificateFromCandidateDifferentCareUnitSuccess {
+export interface CreateCertificateFromCandidateWithMessageSuccess {
   certificateId: string
 }
 

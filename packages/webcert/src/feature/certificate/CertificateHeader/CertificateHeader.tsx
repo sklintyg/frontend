@@ -12,7 +12,7 @@ import {
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import CreateCertificateFromCandidateModal from '../Modals/CreateCertificateFromCandidateModal'
-import DifferentCareUnitModal from '../Modals/DifferentCareUnitModal'
+import CandidateWithMessageModal from '../Modals/CreateCertificateFromCandidateWithMessageModal'
 import CertificateInfo from './CertificateInfo'
 import HeaderButtons from './HeaderButtons'
 import ShowHistory from './ShowHistory'
@@ -51,8 +51,8 @@ const CertificateHeader: React.FC = () => {
   const candidateResourceLink = resourceLinks.find((link) =>
     resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE)
   )
-  const differentCareUnitResourceLink = resourceLinks.find((link) =>
-    resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE_DIFFERENT_CARE_UNIT)
+  const candidateWithMessageResourceLink = resourceLinks.find((link) =>
+    resourceLinksAreEqual(link.type, ResourceLinkType.CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
   )
   const questions = useSelector(getQuestions, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
@@ -67,7 +67,7 @@ const CertificateHeader: React.FC = () => {
     <Wrapper>
       <div className="ic-container iu-pt-200">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
-        <DifferentCareUnitModal resourceLink={differentCareUnitResourceLink} />
+        <CandidateWithMessageModal resourceLink={candidateWithMessageResourceLink} />
         <SignCertificateModal />
         <StatusWrapper>
           <StatusLeftSide>

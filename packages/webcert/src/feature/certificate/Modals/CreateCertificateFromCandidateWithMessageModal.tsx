@@ -2,13 +2,13 @@ import { CustomButton, ModalBase, ResourceLink, sanitizeText } from '@frontend/c
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { createCertificateFromCandidateDifferentCareUnit } from '../../../store/certificate/certificateActions'
+import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
 
 interface Props {
   resourceLink: ResourceLink | undefined
 }
 
-const DifferentCareUnitModal: React.FC<Props> = ({ resourceLink }) => {
+const CreateCertificateFromCandidateWithMessageModal: React.FC<Props> = ({ resourceLink }) => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false)
   const escPress = useKeyPress('Escape')
@@ -34,14 +34,14 @@ const DifferentCareUnitModal: React.FC<Props> = ({ resourceLink }) => {
   }
 
   const handleConfirm = () => {
-    dispatch(createCertificateFromCandidateDifferentCareUnit())
+    dispatch(createCertificateFromCandidateWithMessage())
   }
 
   return (
     <ModalBase
       open={open}
       handleClose={handleClose}
-      title={resourceLink.name}
+      title={resourceLink.title}
       content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(resourceLink.body as string)}></div>}
       buttons={
         <>
@@ -53,4 +53,4 @@ const DifferentCareUnitModal: React.FC<Props> = ({ resourceLink }) => {
   )
 }
 
-export default DifferentCareUnitModal
+export default CreateCertificateFromCandidateWithMessageModal
