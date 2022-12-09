@@ -1,7 +1,7 @@
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigureUeCauseOfDeathList,
+  ConfigUeCauseOfDeathList,
   CustomButton,
   formatDateToString,
   getValidDate,
@@ -30,7 +30,7 @@ const DeleteButtonWrapper = styled.div`
   padding-top: 1.46rem;
 `
 
-const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDeathList): ValueCauseOfDeath[] => {
+const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathList): ValueCauseOfDeath[] => {
   return config.list.map((configItem, index) => {
     const value: ValueCauseOfDeath = values[index]
     return {
