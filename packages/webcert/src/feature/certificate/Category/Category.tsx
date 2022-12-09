@@ -1,4 +1,4 @@
-import { Accordion, AccordionHeader, Expandable, sanitizeText, Text } from '@frontend/common'
+import { Accordion, AccordionHeader, Expandable, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
