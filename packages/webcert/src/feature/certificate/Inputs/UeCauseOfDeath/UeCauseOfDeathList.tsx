@@ -1,7 +1,7 @@
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigUeCauseOfDeathList,
+  ConfigureUeCauseOfDeathList,
   CustomButton,
   formatDateToString,
   getValidDate,
