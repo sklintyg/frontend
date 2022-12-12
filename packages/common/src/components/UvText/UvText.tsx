@@ -35,6 +35,7 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { ValueMedicalInvestigation } from '../../types/certificate'
 import Badge from './Badge'
 
 const IcfCode = styled.p`
@@ -203,6 +204,32 @@ const UvText: React.FC<Props> = ({ question }) => {
       return chosenValue ? (chosenValue.label as string) : ''
     }
     return 'Ej angivet'
+  }
+
+  const getMedicalInvestigationValue = (valueList: ValueMedicalInvestigationList) => {
+    return (
+      <table className="ic-table iu-fullwidth">
+        <thead>
+          <tr>
+            <th scope="col">Ange utredning eller underlag</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Från vilken vårdgivare</th>
+          </tr>
+        </thead>
+        <tbody>
+          {(valueList.list as ValueMedicalInvestigation[]).map((medicalIvestigation) => {
+            if (medicalIvestigation.informationSource.text === undefined) return null
+            return (
+              <tr>
+                <td>{medicalIvestigation.investigationType.code}</td>
+                <td>{medicalIvestigation.date.date}</td>
+                <td>{medicalIvestigation.informationSource.text}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
   }
 
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
@@ -378,6 +405,13 @@ const UvText: React.FC<Props> = ({ question }) => {
       }
       case CertificateDataValueType.CAUSE_OF_DEATH_LIST: {
         return getCauseOfDeathValueList(question)
+      }
+      case CertificateDataValueType.MEDICAL_INVESTIGATION_LIST: {
+        const medicalInvestigationListValue = question.value as ValueMedicalInvestigationList
+        if (medicalInvestigationListValue.list.length > 0 && question.visible) {
+          return getMedicalInvestigationValue(medicalInvestigationListValue)
+        }
+        break
       }
       default: {
         displayText = 'Okänd datatyp'
