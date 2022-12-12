@@ -28,6 +28,8 @@ import {
   ValueDiagnosisList,
   ValueText,
   ValueUncertainDate,
+  ValueMedicalInvestigation,
+  ValueMedicalInvestigationList,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -35,7 +37,6 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ValueMedicalInvestigation } from '../../types/certificate'
 import Badge from './Badge'
 
 const IcfCode = styled.p`
@@ -409,7 +410,7 @@ const UvText: React.FC<Props> = ({ question }) => {
       case CertificateDataValueType.MEDICAL_INVESTIGATION_LIST: {
         const medicalInvestigationListValue = question.value as ValueMedicalInvestigationList
         if (medicalInvestigationListValue.list.length > 0 && question.visible) {
-          return getMedicalInvestigationValue(medicalInvestigationListValue)
+          return <div className={'iu-p-none'}>{getMedicalInvestigationValue(medicalInvestigationListValue)}</div>
         }
         break
       }
