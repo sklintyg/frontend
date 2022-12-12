@@ -32,6 +32,7 @@ import {
   createCertificateFromCandidateStarted,
   createCertificateFromCandidateSuccess,
   createCertificateFromCandidateWithMessage,
+  createCertificateFromCandidateWithMessageStarted,
   createCertificateFromCandidateWithMessageSuccess,
   createCertificateFromTemplate,
   createCertificateFromTemplateStarted,
@@ -128,6 +129,7 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
+import { updateModalData } from '../utils/utilsActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -654,8 +656,8 @@ const handleCreateCertificateFromCandidateWithMessage: Middleware<Dispatch> = ({
   dispatch(
     apiCallBegan({
       url: '/api/certificate/' + certificate.metadata.id + '/candidatemessage',
-      method: 'POST',
-      onStart: createCertificateFromCandidateWithMessage.type,
+      method: 'GET',
+      onStart: createCertificateFromCandidateWithMessageStarted.type,
       onSuccess: createCertificateFromCandidateWithMessageSuccess.type,
       onError: certificateApiGenericError.type,
       functionDisablerType: toggleCertificateFunctionDisabler.type,
@@ -667,7 +669,7 @@ const handleCreateCertificateFromCandidateWithMessageSuccess: Middleware<Dispatc
   action: AnyAction
 ): void => {
   dispatch(hideSpinner())
-  action.payload.history.push(action.payload.message)
+  dispatch(updateModalData(action.payload))
 }
 
 const handleCopyCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {

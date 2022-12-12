@@ -6,6 +6,7 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
+  ModalData,
   Patient,
   Unit,
   ValidationError,
@@ -465,7 +466,7 @@ export const createCertificateFromCandidateWithMessageSuccess = createAction<Cre
 export const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
 
 export interface CreateCertificateFromCandidateWithMessageSuccess {
-  certificateId: string
+  modal: ModalData
 }
 
 export interface CopyCertificateSuccess {

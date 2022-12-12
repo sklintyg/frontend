@@ -1,8 +1,9 @@
-import { CustomButton, ModalBase, ResourceLink, sanitizeText } from '@frontend/common'
+import { CustomButton, ModalBase, ModalData, ResourceLink, sanitizeText } from '@frontend/common'
 import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
+import { getModalData } from '../../../store/utils/utilsSelectors'
 
 interface Props {
   resourceLink: ResourceLink | undefined
@@ -10,12 +11,22 @@ interface Props {
 
 const CreateCertificateFromCandidateWithMessageModal: React.FC<Props> = ({ resourceLink }) => {
   const dispatch = useDispatch()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [showButton, setShowButton] = useState(true)
+  const [modalData, setModalData] = useState<ModalData>({ title: resourceLink?.name ?? '', message: resourceLink?.body ?? '' })
   const escPress = useKeyPress('Escape')
+  const modal = useSelector(getModalData())
 
   const handleClose = () => {
     setOpen(false)
   }
+
+  useEffect(() => {
+    if (modal) {
+      setShowButton(false)
+      setModalData(modal)
+    }
+  }, [modal])
 
   useEffect(() => {
     if (escPress) {
@@ -34,19 +45,21 @@ const CreateCertificateFromCandidateWithMessageModal: React.FC<Props> = ({ resou
   }
 
   const handleConfirm = () => {
-    dispatch(createCertificateFromCandidateWithMessage())
+    if (showButton) {
+      dispatch(createCertificateFromCandidateWithMessage())
+    }
   }
 
   return (
     <ModalBase
       open={open}
       handleClose={handleClose}
-      title={resourceLink.title}
-      content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(resourceLink.body as string)}></div>}
+      title={modalData.title}
+      content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(modalData.message as string)}></div>}
       buttons={
         <>
           <CustomButton onClick={handleClose} buttonStyle="default" text="Avbryt" />
-          <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Visa'} />
+          {showButton && <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Visa'} />}
         </>
       }
     />
