@@ -1,13 +1,4 @@
-import {
-  Accordion,
-  CertificateDataConfig,
-  CertificateDataElement,
-  ConfigTypes,
-  Icon,
-  InfoBox,
-  MandatoryIcon,
-  UvText,
-} from '@frontend/common'
+import { CertificateDataConfig, CertificateDataElement, ConfigTypes, Icon, InfoBox, MandatoryIcon, UvText } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -24,6 +15,7 @@ import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
+import UeMedicalInvestigationList from '../Inputs/UeMedicalInvestigation/UeMedicalInvestigationList'
 import UeMessage from '../Inputs/UeMessage'
 import UeRadio from '../Inputs/UeRadio'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
@@ -33,6 +25,8 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import QuestionAccordion from './QuestionAccordion'
+import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
 
 export interface QuestionProps {
@@ -66,16 +60,9 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
 
     if (!readOnly && config.description) {
       return (
-        <Accordion
-          icon={question.config.icon}
-          includeIconTooltip
-          header={question.config.header}
-          titleId={question.id}
-          title={question.config.text}
-          description={question.config.description}
-          displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading"
-        />
+        <div id={question.id}>
+          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} />
+        </div>
       )
     }
     return (
@@ -127,11 +114,25 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeCauseOfDeath {...commonProps} />
       case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
         return <UeCauseOfDeathList {...commonProps} />
+      case ConfigTypes.UE_MEDICAL_INVESTIGATION:
+        return <UeMedicalInvestigationList {...commonProps} />
       case ConfigTypes.UE_HEADER:
         return
       default:
         return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
     }
+  }
+
+  function getEditComponent(question: CertificateDataElement, disabled: boolean) {
+    if (question.config.accordion)
+      return (
+        <div id={question.id}>
+          <QuestionAccordion accordion={question.config.accordion} icon={question.config.icon}>
+            {getUnifiedEditComponent(question, disabled)}
+          </QuestionAccordion>
+        </div>
+      )
+    else return getUnifiedEditComponent(question, disabled)
   }
 
   function getUnifiedViewComponent(question: CertificateDataElement) {
@@ -141,7 +142,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? getUnifiedViewComponent(question) : getEditComponent(question, disabled)}</div>
     </div>
   )
 }

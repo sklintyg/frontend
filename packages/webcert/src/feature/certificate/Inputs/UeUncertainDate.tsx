@@ -1,7 +1,7 @@
 import {
   CertificateDataElement,
   Dropdown,
-  ConfigureUeUncertainDate,
+  ConfigUeUncertainDate,
   QuestionValidationTexts,
   ValueUncertainDate,
   TextInput,
@@ -20,20 +20,11 @@ const ValidationWrapper = styled.div`
   padding-bottom: 16px;
   margin-top: 0;
 `
-const styleTextField = {
-  height: '50px',
-  padding: '0.4em 0 0 1.5em',
-}
 
 export interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }
-
-const DisabledTextInput = styled(TextInput)`
-  border: 0.0625rem solid #acacac;
-  opacity: 0.7 !important;
-`
 
 const dateReg = /[0-9]{4}-[0-9]{2}/
 const monthList = Array.from({ length: 12 }, (_, index) => `0${++index}`.slice(-2))
@@ -43,7 +34,7 @@ const getDateSplit = (candidate: string) => [...(dateReg.test(candidate) ? candi
 const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
-  const config = question.config as ConfigureUeUncertainDate
+  const config = question.config as ConfigUeUncertainDate
   const value = question.value as ValueUncertainDate
   const hasValidationError = validationErrors.length > 0
   const [year, month] = getDateSplit(value.value ?? '')
@@ -123,13 +114,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
         </div>
         <div className="iu-width-xxl">
           <label htmlFor={`day_${question.id}`}>Dag</label>
-          <DisabledTextInput
-            id={`day_${question.id}`}
-            disabled={true}
-            hasValidationError={hasValidationError}
-            value="00"
-            css={styleTextField}
-          />
+          <TextInput id={`day_${question.id}`} disabled={true} hasValidationError={hasValidationError} value="00" />
         </div>
       </div>
       <ValidationWrapper>

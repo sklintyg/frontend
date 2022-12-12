@@ -1,4 +1,5 @@
 import faker from 'faker'
+import { merge } from 'lodash'
 import { Merge, PartialDeep } from 'type-fest'
 import {
   CertificateData,
@@ -15,14 +16,16 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
-  ConfigureUeCauseOfDeath,
-  ConfigureUeCauseOfDeathList,
-  ConfigureUeUncertainDate,
+  ConfigAccordion,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
+  ConfigUeUncertainDate,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -34,6 +37,7 @@ import {
   ValueDiagnosis,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigation,
   ValueText,
   ValueUncertainDate,
 } from '../../types/certificate'
@@ -56,6 +60,13 @@ export const fakeCertificateData = (children: CertificateData[]): CertificateDat
   )
 }
 
+export const fakeDataElementConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
+  openText: faker.lorem.words(),
+  closeText: faker.lorem.words(),
+  header: faker.lorem.words(),
+  ...data,
+})
+
 export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, children: CertificateData[] = []): CertificateData => {
   const type = data?.config?.type ?? ConfigTypes.CATEGORY
   const id = data?.id ?? faker.random.alpha({ count: 5 })
@@ -70,13 +81,16 @@ export const fakeDataElement = (data?: PartialDeep<CertificateDataElement>, chil
     validation: data?.validation instanceof Array ? data?.validation.map(fakeCertificateDataValidation) : [],
     validationErrors: data?.validationErrors instanceof Array ? data.validationErrors.map(fakeCertificateValidationError) : [],
     id,
-    config: {
-      type: ConfigTypes.CATEGORY,
-      text: `${id} - ${faker.lorem.words()}`,
-      description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
-      ...data?.config,
-      id,
-    },
+    config: merge(
+      {
+        type: ConfigTypes.CATEGORY,
+        text: `${id} - ${faker.lorem.words()}`,
+        description: data?.config?.description ?? type === ConfigTypes.CATEGORY ? `description: ${faker.lorem.sentence()}` : '',
+      },
+      data?.config,
+      data?.config?.accordion && { accordion: fakeDataElementConfigAccordion(data.config.accordion) },
+      { id }
+    ),
     value:
       data != null && data.value != null
         ? {
@@ -336,7 +350,7 @@ export const fakeTypeaheadElement = (
   )
 
 export const fakeUncertainDateElement = (
-  data?: PartialCertificateDataElement<ConfigureUeUncertainDate, ValueUncertainDate>,
+  data?: PartialCertificateDataElement<ConfigUeUncertainDate, ValueUncertainDate>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -357,6 +371,72 @@ export const fakeUncertainDateElement = (
     },
     children
   )
+
+export const fakeMedicalInvestigationListElement = (
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
+  children?: CertificateData[]
+): CertificateData => {
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+        typeText: 'Ange utredning eller underlag',
+        dateText: 'Datum',
+        informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
+        informationSourceDescription:
+          'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
+        list: [
+          {
+            investigationTypeId: 'type1',
+            informationSourceId: 'infoSource1',
+            dateId: 'date1',
+            typeOptions: [
+              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '2' },
+              { id: '2', label: 'Underlag från habiliteringen', code: '3' },
+              { id: '3', label: 'Underlag från arbetsterapeut', code: '4' },
+            ],
+          },
+        ],
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+        list: [
+          {
+            investigationType: {
+              type: CertificateDataValueType.CODE,
+              id: faker.random.alpha({ count: 5 }),
+              code: faker.random.arrayElement([
+                'Neuropsykiatriskt utlåtande',
+                'Underlag från habiliteringen',
+                'Underlag från arbetsterapeut',
+              ]),
+              ...data?.value?.investigationType,
+            },
+            date: {
+              type: CertificateDataValueType.DATE,
+              id: faker.random.alpha({ count: 5 }),
+              date: faker.date
+                .past()
+                .toISOString()
+                .split('T')[0],
+              ...data?.value?.date,
+            },
+            informationSource: {
+              type: CertificateDataValueType.TEXT,
+              id: faker.random.alpha({ count: 5 }),
+              text: faker.lorem.words(),
+              ...data?.value?.informationSource,
+            },
+          },
+        ],
+        ...data?.value,
+      },
+    },
+    children
+  )
+}
 
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
@@ -399,7 +479,7 @@ export const fakeHeaderElement = (
   )
 
 export const fakeCauseOfDeathElement = (
-  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeath, ValueCauseOfDeath>,
+  data?: PartialCertificateDataElement<ConfigUeCauseOfDeath, ValueCauseOfDeath>,
   children?: CertificateData[]
 ): CertificateData => {
   const descriptionId = faker.random.alpha({ count: 5 })
@@ -457,7 +537,7 @@ export const fakeCauseOfDeathElement = (
 }
 
 export const fakeCauseOfDeathListElement = (
-  data?: PartialCertificateDataElement<ConfigureUeCauseOfDeathList, ValueCauseOfDeathList>,
+  data?: PartialCertificateDataElement<ConfigUeCauseOfDeathList, ValueCauseOfDeathList>,
   children?: CertificateData[]
 ): CertificateData => {
   const questions = new Array(8).fill(null).map(() => {
