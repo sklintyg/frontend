@@ -15,6 +15,7 @@ import UeDate from '../Inputs/UeDate'
 import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../Inputs/UeDropdown'
 import UeIcf from '../Inputs/UeIcf'
+import UeMedicalInvestigationList from '../Inputs/UeMedicalInvestigation/UeMedicalInvestigationList'
 import UeMessage from '../Inputs/UeMessage'
 import UeRadio from '../Inputs/UeRadio'
 import UeRadioGroup from '../Inputs/UeRadioGroup'
@@ -113,6 +114,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeCauseOfDeath {...commonProps} />
       case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
         return <UeCauseOfDeathList {...commonProps} />
+      case ConfigTypes.UE_MEDICAL_INVESTIGATION:
+        return <UeMedicalInvestigationList {...commonProps} />
       case ConfigTypes.UE_HEADER:
         return
       default:

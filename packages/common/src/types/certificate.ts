@@ -87,6 +87,7 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
+  UE_MEDICAL_INVESTIGATION = 'UE_MEDICAL_INVESTIGATION',
   UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
   UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
 }
@@ -251,8 +252,23 @@ export interface ConfigUeUncertainDate extends CertificateDataConfig {
 
 export interface ConfigUeCodeItem {
   id: string
-  code: string | null
   label: string
+  code: string | null
+}
+
+export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
+  investigationTypeId: string
+  informationSourceId: string
+  dateId: string
+  typeOptions: ConfigUeCodeItem[]
+}
+
+export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
+  typeText: string
+  dateText: string
+  informationSourceText: string
+  informationSourceDescription: string
+  list: ConfigUeMedicalInvestigation[]
 }
 
 export interface ConfigUeCauseOfDeathControl {
@@ -288,6 +304,7 @@ export enum CertificateDataValueType {
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
+  MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
@@ -371,6 +388,16 @@ export interface ValueIcf extends Value {
 
 export interface ValueHeader extends Value {
   id: string
+}
+
+export interface ValueMedicalInvestigation extends Value {
+  investigationType: ValueCode
+  date: ValueDate
+  informationSource: ValueText
+}
+
+export interface ValueMedicalInvestigationList extends Value {
+  list: ValueMedicalInvestigation[]
 }
 
 // Validation
