@@ -51,6 +51,7 @@ const PatientSearch: React.FC = () => {
           buttonStyle="primary"
           onClick={onSubmit}
           tooltip="Gå vidare för att skapa eller söka efter intyg för patienten."
+          inline={true}
         />
       </FormWrapper>
       <PatientSearchError />

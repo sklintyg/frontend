@@ -17,7 +17,7 @@ export const StyledButton = styled.button<buttonProps>`
   min-width: 0;
   padding: 0 !important;
   width: 55px;
-  height: 2.956rem;
+  height: 3rem;
   box-shadow: none;
   background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
   color: #000000;
@@ -40,7 +40,7 @@ export const TextInput = styled.input`
   border-bottom-right-radius: 0;
   max-width: 15ch;
   border-right: 0 !important;
-  min-width: 134px;
+  min-width: 124px;
   min-height: unset !important;
 
   &:focus {
@@ -57,7 +57,7 @@ export const Wrapper = styled.div`
 `
 export const FocusWrapper = styled.div`
   display: flex;
-  height: 2.956rem;
+  height: 3rem;
 
   &:focus-within {
     box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);

@@ -52,14 +52,14 @@ export interface ValidationResult {
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData): boolean => {
-  if (validation.expression == null) {
-    return false
-  }
   const question = data[validation.questionId]
   if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-    parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
+    return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
   }
-  return parseExpression(validation.expression, question, validation.type)
+  if (validation.expression != null) {
+    return parseExpression(validation.expression, question, validation.type)
+  }
+  return false
 }
 
 const filterValidations = (validationResults: ValidationResult[]): ValidationResult[] => {

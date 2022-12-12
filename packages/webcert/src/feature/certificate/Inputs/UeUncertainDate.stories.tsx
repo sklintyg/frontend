@@ -1,19 +1,37 @@
-import { fakeUncertainDateElement } from '@frontend/common'
+import { fakeUncertainDateElement, fakeCertificate } from '@frontend/common'
 import { Story } from '@storybook/react'
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import UeUncertainDate, { Props } from './UeUncertainDate'
+import UeUncertainDate from './UeUncertainDate'
+import { configureStore } from '@reduxjs/toolkit'
+import reducers from '../../../store/reducers'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
 
 export default {
   title: 'Webcert/UeUncertainDate',
   component: UeUncertainDate,
 }
 
-const Template: Story<Props> = ({ ...args }) => {
+const Template: Story<ComponentProps<typeof UeUncertainDate>> = ({ question, ...args }) => {
+  const store = configureStore({
+    reducer: reducers,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+  })
+
+  store.dispatch(
+    updateCertificate(
+      fakeCertificate({
+        data: {
+          [question.id]: question,
+        },
+      })
+    )
+  )
+
   return (
     <Provider store={store}>
-      <UeUncertainDate {...args} />
+      <UeUncertainDate {...args} question={question} />
     </Provider>
   )
 }

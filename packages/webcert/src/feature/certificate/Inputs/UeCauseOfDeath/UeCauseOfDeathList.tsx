@@ -1,22 +1,24 @@
 import {
   CertificateDataElement,
   CertificateDataValueType,
-  ConfigureUeCauseOfDeathList,
+  ConfigUeCauseOfDeathList,
   CustomButton,
-  QuestionValidationTexts,
+  formatDateToString,
+  getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
 } from '@frontend/common'
-import trash from '@frontend/common/src/images/trash.svg'
+import add_row from '@frontend/common/src/images/add_circle.svg'
+import remove_row from '@frontend/common/src/images/remove_circle.svg'
+import { isValid } from 'date-fns'
+import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getFilter } from '../../../../components/icf/Styles'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
-import { merge } from 'lodash'
 
 interface Props {
   disabled: boolean
@@ -24,19 +26,13 @@ interface Props {
 }
 
 const DeleteButtonWrapper = styled.div`
-  min-width: 10ch;
+  min-width: 116.17px;
   padding-top: 1.46rem;
 `
 
-const ButtonIcon = styled.span`
-  width: 22px;
-  height: 22px;
-  filter: ${() => getFilter('primary')};
-`
-
-const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDeathList): ValueCauseOfDeath[] => {
+const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathList): ValueCauseOfDeath[] => {
   return config.list.map((configItem, index) => {
-    const value = values[index]
+    const value: ValueCauseOfDeath = values[index]
     return {
       id: configItem.id,
       description: merge(
@@ -53,20 +49,18 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigureUeCauseOfDea
         },
         value && { date: value.debut.date }
       ),
-      specification: value
-        ? value.specification
-        : {
-            id: configItem.id,
-            type: CertificateDataValueType.CODE,
-            code: '',
-          },
+      specification: {
+        id: configItem.id,
+        type: CertificateDataValueType.CODE,
+        code: value?.specification?.code ?? null,
+      },
       type: CertificateDataValueType.CAUSE_OF_DEATH,
     }
   })
 }
 
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
-  const questionConfig = question.config as ConfigureUeCauseOfDeathList
+  const questionConfig = question.config as ConfigUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
@@ -74,8 +68,8 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
   const [numVisible, setNumVisible] = useState(
     questionValueList.reduce((result, item, index) => {
-      return index > 1 && (item.description.text || item.debut.date || item.specification.code) ? result + 1 : result
-    }, 2)
+      return index > 0 && (item.description.text || item.debut.date || item.specification.code) ? index + 1 : result
+    }, 1)
   )
 
   const addRowClick = () => {
@@ -86,7 +80,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
   const handleDeleteRow = (id: string) => {
     updateList(questionValueList.filter((item) => item.id !== id))
-    setNumVisible((val) => Math.max(val - 1, 2))
+    setNumVisible((val) => Math.max(val - 1, 1))
   }
 
   const handleChange = (value: ValueCauseOfDeath) => {
@@ -95,12 +89,16 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
 
   const updateList = (list: ValueCauseOfDeath[]) => {
     setQuestionValueList(getValueList(list, questionConfig))
+
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: {
           ...questionValue,
-          list: questionValueList,
+          list: list.map(({ debut, ...val }) => {
+            const date = getValidDate(debut.date)
+            return { ...val, debut: { ...debut, date: date && isValid(date) ? formatDateToString(date) : '' } }
+          }),
         },
       })
     )
@@ -126,14 +124,17 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
                   oneLine={true}
                   validation={question.validation}
                   onChange={handleChange}
-                  validationErrors={validationErrors.filter((v) => [config.descriptionId, config.debutId].includes(v.field))}>
+                  validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}>
                   <DeleteButtonWrapper className="iu-ml-500">
                     {index > 0 && (
-                      <CustomButton disabled={disabled} buttonStyle="secondary" onClick={() => handleDeleteRow(config.id)} height="47px">
-                        <ButtonIcon>
-                          <img src={trash} alt="Radera rad" />
-                        </ButtonIcon>
-                      </CustomButton>
+                      <CustomButton
+                        disabled={disabled}
+                        buttonStyle="secondary"
+                        onClick={() => handleDeleteRow(config.id)}
+                        text="Ta bort"
+                        startIcon={<img src={remove_row} alt="Radera rad" />}
+                        inline={true}
+                      />
                     )}
                   </DeleteButtonWrapper>
                 </UeCauseOfDeathControl>
@@ -143,11 +144,11 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
       </div>
       <CustomButton
         disabled={disabled || numVisible >= questionConfig.list.length}
-        buttonStyle={'primary'}
-        text="Lägg till ytterligare sjukdom"
+        buttonStyle="secondary"
+        text="Lägg till sjukdom/skada"
         onClick={addRowClick}
+        startIcon={<img src={add_row} alt="Lägg till rad" />}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
     </>
   )
 }

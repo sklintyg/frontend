@@ -12,10 +12,10 @@ import {
   ConfigUeIcf,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
-  ConfigureUeCauseOfDeath,
-  ConfigureUeCauseOfDeathControl,
-  ConfigureUeCauseOfDeathList,
-  ConfigureUeCauseOfDeathSpecification,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathControl,
+  ConfigUeCauseOfDeathList,
+  ConfigUeCodeItem,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -228,10 +228,10 @@ const UvText: React.FC<Props> = ({ question }) => {
 
   const getCauseOfDeathValue = (questionElement: CertificateDataElement) => {
     const causeOfDeathValue = questionElement.value as ValueCauseOfDeath
-    const causeOfDeathConfig = questionElement.config as ConfigureUeCauseOfDeath
-    const causeOfDeathControlConfig = causeOfDeathConfig.causeOfDeath as ConfigureUeCauseOfDeathControl
+    const causeOfDeathConfig = questionElement.config as ConfigUeCauseOfDeath
+    const causeOfDeathControlConfig = causeOfDeathConfig.causeOfDeath as ConfigUeCauseOfDeathControl
     if (causeOfDeathValue.id !== undefined && questionElement.visible) {
-      const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCauseOfDeathSpecification[]).find(
+      const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
         (item) => item.code === causeOfDeathValue.specification.code
       )
       return (
@@ -251,7 +251,7 @@ const UvText: React.FC<Props> = ({ question }) => {
 
   const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
     const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
-    const causeOfDeathListConfig = questionElement.config as ConfigureUeCauseOfDeathList
+    const causeOfDeathListConfig = questionElement.config as ConfigUeCauseOfDeathList
     if (causeOfDeathValueList !== undefined && questionElement.visible) {
       return causeOfDeathListConfig.list.map((causeOfDeathControlConfig) => {
         const causeOfDeathValue = causeOfDeathValueList.list.find((item) => item.id === causeOfDeathControlConfig.id)
@@ -259,7 +259,7 @@ const UvText: React.FC<Props> = ({ question }) => {
           causeOfDeathValue &&
           (causeOfDeathValue.description.text || causeOfDeathValue.debut.date || causeOfDeathValue.specification.code)
         ) {
-          const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigureUeCauseOfDeathSpecification[]).find(
+          const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
             (item) => item.code === causeOfDeathValue.specification.code
           )
           return getCauseOfDeathRow(

@@ -173,7 +173,7 @@ export const getVisibleValidationErrors = (questionId: string, field?: string) =
     clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
   )
 
-  return uniqBy(
+  return uniqBy<ValidationError>(
     [...clientValidationErrors, ...serverValidationErrors]
       .filter((v) => showValidationErrors || v.showAlways)
       .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
