@@ -99,7 +99,10 @@ describe('UvText', () => {
 
   it('displaying unknown value type', () => {
     const question = createQuestionWithTextValue()
-    ;(question.value as ValueText).type = CertificateDataValueType.UNKNOWN
+    question.value = {
+      ...question.value,
+      type: CertificateDataValueType.UNKNOWN,
+    }
     renderDefaultComponent(question)
     expect(screen.getByText(/Okänd datatyp/i)).toBeInTheDocument()
   })
@@ -124,10 +127,9 @@ describe('UvText', () => {
 
   it('displays icf values if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
-    const questionValue = question.value as ValueIcf
     renderDefaultComponent(question)
-    expect(screen.getByText(questionValue.icfCodes![0])).toBeInTheDocument()
-    expect(screen.getByText(questionValue.icfCodes![1])).toBeInTheDocument()
+    expect(screen.getByText('test')).toBeInTheDocument()
+    expect(screen.getByText('test 2')).toBeInTheDocument()
   })
 
   it('displays icf text value', () => {

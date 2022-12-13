@@ -529,7 +529,6 @@ export const fakeCauseOfDeathElement = (
           code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
           ...data?.value?.specification,
         },
-        ...data?.value,
       },
     },
     children

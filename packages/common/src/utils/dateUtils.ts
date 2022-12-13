@@ -44,6 +44,8 @@ export const getValidDate = (dateString: string | undefined): Date | undefined =
   }
 }
 
+export const isValidUncertainDate = (dateString: string): boolean => /[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(dateString)
+
 export const isValidDateIncludingSpecialDateCodes = (dateString: string | undefined) => {
   if (!dateString) return
 
