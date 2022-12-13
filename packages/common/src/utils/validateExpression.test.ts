@@ -463,7 +463,7 @@ describe('differenceInDays', () => {
 })
 
 describe('parseDateValue', () => {
-  it('Should', () => {
+  it('Should parse unix timestamp', () => {
     const result = parseDateValue('2022-12-12')
     expect(fromUnixTime(result as number)).toEqual(new Date(2022, 11, 12))
   })
