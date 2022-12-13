@@ -106,6 +106,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         let reciever = ''
         switch (certificateMetadata.type) {
           case 'lisjp':
+          case 'fk7801':
+          case 'fk7802':
             reciever = 'Försäkringskassan'
             break
           case 'af00213':
