@@ -51,13 +51,17 @@ export interface ValidationResult {
   validation: CertificateDataValidation
 }
 
-const getResult = (validation: CertificateDataValidation, data: CertificateData): boolean => {
+const getResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
   const question = data[validation.questionId]
-  if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-    return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
-  }
-  if (validation.expression != null) {
-    return parseExpression(validation.expression, question, validation.type)
+  if (question) {
+    if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
+      // TODO: remove hack for missing questionId in MAX_DATE_VALIDATION validation
+      validation = { ...validation, questionId }
+      return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
+    }
+    if (validation.expression != null) {
+      return parseExpression(validation.expression, question, validation.type)
+    }
   }
   return false
 }
@@ -139,7 +143,7 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
           type: validation.type,
           id,
           affectedIds: affectedId,
-          result: getResult(validation, data),
+          result: getResult(validation, data, id),
           validation,
         }
         validationResults.push(validationResult)
@@ -299,7 +303,7 @@ function validate(data: CertificateData, id: string) {
       type: validation.type,
       id,
       affectedIds: validation.id as string[],
-      result: getResult(validation, data),
+      result: getResult(validation, data, id),
       validation,
     })
   })
