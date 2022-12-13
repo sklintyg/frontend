@@ -199,8 +199,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix",
-    "packages/common/*.{js,jsx,ts,tsx}": "yarn workspaces @frontend/common test:staged",
-    "packages/webcert/*.{js,jsx,ts,tsx}": "yarn workspaces @frontend/webcert test:staged"
+    "packages/common/*.{js,jsx,ts,tsx}": "yarn workspace @frontend/common test:staged",
+    "packages/webcert/*.{js,jsx,ts,tsx}": "yarn workspace @frontend/webcert test:staged"
   },
   "browserslist": [
     ">0.2%",
