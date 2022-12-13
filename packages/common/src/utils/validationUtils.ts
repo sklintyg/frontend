@@ -52,11 +52,15 @@ export interface ValidationResult {
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
-  const question = data[validation.questionId]
+  let question = data[validation.questionId]
+
+  // TODO: remove hack for missing questionId in MAX_DATE_VALIDATION validation
+  if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
+    question = data[questionId]
+  }
+
   if (question) {
     if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-      // TODO: remove hack for missing questionId in MAX_DATE_VALIDATION validation
-      validation = { ...validation, questionId }
       return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
     }
     if (validation.expression != null) {
