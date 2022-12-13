@@ -30,11 +30,11 @@ import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { updateCertificate } from '../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { getCertificate } from '../../store/certificate/certificateSelectors'
 import reducer from '../../store/reducers'
 import Certificate from './Certificate'
+import { getCertificateSuccess } from '../../store/certificate/certificateActions'
 
 export default {
   title: 'Webcert/Certificate',
@@ -68,7 +68,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
     metadata = fakeCertificateMetaData()
   }
 
-  store.dispatch(updateCertificate({ metadata, data, links }))
+  store.dispatch(getCertificateSuccess({ certificate: { metadata, data, links } }))
 
   return <Provider store={store}>{getCertificate(store.getState()) && <Certificate />}</Provider>
 }
@@ -153,7 +153,8 @@ DB.args = {
           unselectedText: 'Ej säkert',
         },
         value: {
-          id: 'DODSDATUM',
+          id: 'dodsdatumSakert',
+          selected: null,
         },
         mandatory: true,
       }),
@@ -163,7 +164,7 @@ DB.args = {
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && dodsdatumSakert',
           }),
         ],
         mandatory: true,
@@ -171,19 +172,20 @@ DB.args = {
       fakeUncertainDateElement({
         validation: [
           fakeCertificateDataValidation({
-            type: CertificateDataValidationType.HIDE_VALIDATION,
+            type: CertificateDataValidationType.SHOW_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && !dodsdatumSakert',
           }),
         ],
       }),
       fakeDateElement({
-        config: { text: 'Anträffad död' },
+        config: { id: 'antraffatDodDatum', text: 'Anträffad död' },
+        value: { id: 'antraffatDodDatum' },
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && !$dodsdatumSakert',
           }),
         ],
         mandatory: true,

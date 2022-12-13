@@ -7,6 +7,8 @@ import {
   getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
+  ValueDate,
+  ValueText,
 } from '@frontend/common'
 import add_row from '@frontend/common/src/images/add_circle.svg'
 import remove_row from '@frontend/common/src/images/remove_circle.svg'
@@ -41,14 +43,14 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathL
           id: configItem.descriptionId,
         },
         value && { text: value.description.text }
-      ),
+      ) as ValueText,
       debut: merge(
         {
           type: CertificateDataValueType.DATE,
           id: configItem.debutId,
         },
         value && { date: value.debut.date }
-      ),
+      ) as ValueDate,
       specification: {
         id: configItem.id,
         type: CertificateDataValueType.CODE,
