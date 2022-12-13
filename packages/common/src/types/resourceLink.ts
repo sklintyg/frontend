@@ -1,6 +1,7 @@
 export interface ResourceLink {
   type: ResourceLinkType
   name: string
+  title?: string
   description: string
   body?: string
   enabled: boolean

@@ -1,17 +1,17 @@
-import { CertificateSignStatus, ConfirmModal, CustomButton, ResourceLinkType, ResourceLink } from '@frontend/common'
+import { CertificateSignStatus, ConfirmModal, CustomButton, ResourceLink, ResourceLinkType } from '@frontend/common'
 import edit from '@frontend/common/src/images/edit.svg'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Merge } from 'type-fest'
 import { startSignCertificate } from '../../../store/certificate/certificateActions'
 import { getIsValidating, getIsValidForSigning, getSigningStatus } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import { Merge } from 'type-fest'
 
 interface Props extends Merge<FunctionDisabled, ResourceLink> {
   canSign: boolean
 }
 
-const SignAndSendButton: React.FC<Props> = ({ name, canSign, description, enabled, body, type, functionDisabled }) => {
+const SignAndSendButton: React.FC<Props> = ({ name, canSign, title, description, enabled, body, type, functionDisabled }) => {
   const dispatch = useDispatch()
   const isValidForSigning = useSelector(getIsValidForSigning)
   const isValidating = useSelector(getIsValidating)
@@ -30,7 +30,7 @@ const SignAndSendButton: React.FC<Props> = ({ name, canSign, description, enable
   return (
     <>
       <ConfirmModal
-        modalTitle={name}
+        modalTitle={title ?? name}
         startIcon={<img src={edit} alt={name} />}
         onConfirm={handleConfirm(false)}
         disabled={disabled}
