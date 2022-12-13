@@ -677,12 +677,12 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
     data: fakeCertificateData([
       fakeRadioBooleanElement({
         id: '0',
-        value: { selected },
+        value: { id: 'val', selected },
         validation: [
           fakeCertificateDataValidation({
             questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-            expression: '$0',
+            expression: '$val',
           }),
         ],
       }),
