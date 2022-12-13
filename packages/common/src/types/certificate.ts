@@ -305,6 +305,7 @@ export enum CertificateDataValueType {
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
   MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
+  MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
@@ -325,6 +326,8 @@ export type ValueType =
   | ValueIcf
   | ValueText
   | ValueUncertainDate
+  | ValueMedicalInvestigation
+  | ValueMedicalInvestigationList
 
 export interface Value {
   [propName: string]: unknown
@@ -421,12 +424,14 @@ export interface ValueHeader extends Value {
 }
 
 export interface ValueMedicalInvestigation extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION
   investigationType: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
 
 export interface ValueMedicalInvestigationList extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
 }
 

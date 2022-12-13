@@ -1,4 +1,4 @@
-import { Dropdown, TextInput, DatePickerCustom } from '@frontend/common'
+import { Dropdown, TextInput, DatePickerCustom, QuestionValidationTexts } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeCodeItem,
@@ -110,12 +110,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             disabled={disabled}
           />
         </div>
-        {/* {isShowValidationError && (
-          <ValidationWrapper>
-            <QuestionValidationTexts validationErrors={question.validationErrors} />
-          </ValidationWrapper>
-        )}{' '} */}
       </div>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={validationErrors} />}
     </>
   )
 }
