@@ -73,11 +73,11 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   )
 
   useEffect(() => {
-    const yearUnknown = ['', '0000'].includes(selectedYear)
-    setSelectedMonth((current) => (yearUnknown ? '' : current))
-    setDisabledMonth(disabled || selectedYear === '')
+    const yearUnknown = ['0000'].includes(selectedYear)
+    setDisabledMonth(disabled || selectedYear === '' || yearUnknown)
+    setSelectedMonth((current) => (yearUnknown ? '00' : disabledMonth ? '' : current))
     handleValueChanged(selectedYear, selectedMonth)
-  }, [disabled, selectedYear, selectedMonth, handleValueChanged])
+  }, [disabled, selectedYear, selectedMonth, handleValueChanged, disabledMonth])
 
   return (
     <>
