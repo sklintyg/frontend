@@ -50,7 +50,7 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
         <h4>{questionConfig.dateText}</h4>
         <Accordion>
           <AccordionHeader>
-            <h5 className={'iu-fs-200 iu-lh-body'}>{questionConfig.informationSourceText}</h5>
+            <h4 className={'iu-fs-300'}>{questionConfig.informationSourceText}</h4>
           </AccordionHeader>
           <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
         </Accordion>
