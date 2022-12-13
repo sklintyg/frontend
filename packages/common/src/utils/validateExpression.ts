@@ -1,15 +1,15 @@
-import { ValueType, CertificateDataValueType, MaxDateValidation, CertificateDataValidationType } from '../types/certificate'
-import { isValid, getUnixTime, add, differenceInHours } from 'date-fns'
-import { getValidDate, epochDaysAdjustedToTimezone, isValidUncertainDate } from './dateUtils'
+import { add, differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
 import { compileExpression } from 'filtrex'
+import { CertificateDataValidationType, CertificateDataValueType, MaxDateValidation, ValueType } from '../types/certificate'
+import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
 
 /**
  * Return difference in days
  * ignoring DST and only measure exact 24-hour periods
  */
-const differenceInDays = (a: Date | number, b: Date | number) => Math.floor(differenceInHours(a, b) / 24) + 1
+export const differenceInDays = (a: Date | number, b: Date | number): number => Math.floor(differenceInHours(a, b) / 24)
 
-const parseDateValue = (date?: string): string | undefined | number => {
+export const parseDateValue = (date?: string): string | undefined | number => {
   const dateObj = getValidDate(date)
   return dateObj ? getUnixTime(dateObj) : undefined
 }
@@ -101,7 +101,7 @@ export const validateExpression = (expression: string, value: ValueType, validat
         if (id.includes('toEpochDay')) {
           const val = get(id.replace('.toEpochDay', ''))
           if (typeof val === 'number') {
-            return epochDaysAdjustedToTimezone(new Date(val * 1000))
+            return epochDaysAdjustedToTimezone(fromUnixTime(val))
           }
         }
 
@@ -110,13 +110,13 @@ export const validateExpression = (expression: string, value: ValueType, validat
       extraFunctions: {
         epochDay: (val: unknown) => {
           if (typeof val === 'number') {
-            return epochDaysAdjustedToTimezone(new Date(val * 1000))
+            return epochDaysAdjustedToTimezone(fromUnixTime(val))
           }
           return NaN
         },
         days: (val: unknown) => {
           if (typeof val === 'number') {
-            return differenceInDays(new Date(val * 1000), new Date())
+            return differenceInDays(startOfDay(fromUnixTime(val)), startOfToday())
           }
           return NaN
         },

@@ -1,8 +1,9 @@
-import { getKeyValuePair, validateExpression, maxDateToExpression } from './validateExpression'
-import { CertificateDataValueType, CertificateDataValidationType } from '../types/certificate'
-import { getUnixTime, addDays, subDays, format } from 'date-fns'
+import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
+import { CertificateDataValidationType, CertificateDataValueType } from '../types/certificate'
+import { differenceInDays, getKeyValuePair, maxDateToExpression, parseDateValue, validateExpression } from './validateExpression'
 
-jest.useFakeTimers('modern').setSystemTime(new Date('2020-01-01'))
+const SYSTEM_DATE = new Date('2020-06-18')
+jest.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
 
 describe('getKeyValuePair', () => {
   it('Should convert BOOLEAN to key-value pair', () => {
@@ -75,6 +76,8 @@ describe('getKeyValuePair', () => {
   })
 
   it('Should convert CAUSE_OF_DEATH to key-value pair', () => {
+    const date = startOfToday()
+
     expect(
       getKeyValuePair({
         type: CertificateDataValueType.CAUSE_OF_DEATH,
@@ -82,7 +85,7 @@ describe('getKeyValuePair', () => {
         debut: {
           type: CertificateDataValueType.DATE,
           id: 'debut',
-          date: '2019-01-04',
+          date: format(date, 'yyyy-MM-dd'),
         },
         description: {
           type: CertificateDataValueType.TEXT,
@@ -95,10 +98,11 @@ describe('getKeyValuePair', () => {
           code: 'specification',
         },
       })
-    ).toEqual({ debut: 1546556400, description: 'Hello', specification: 'specification' })
+    ).toEqual({ debut: getUnixTime(date), description: 'Hello', specification: 'specification' })
   })
 
   it('Should convert list of CAUSE_OF_DEATH to key-value pair', () => {
+    const date = startOfToday()
     expect(
       getKeyValuePair({
         type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
@@ -108,7 +112,7 @@ describe('getKeyValuePair', () => {
           debut: {
             type: CertificateDataValueType.DATE,
             id: `cause[${index + 1}].debut`,
-            date: '2019-01-04',
+            date: format(date, 'yyyy-MM-dd'),
           },
           description: {
             type: CertificateDataValueType.TEXT,
@@ -123,13 +127,13 @@ describe('getKeyValuePair', () => {
         })),
       })
     ).toEqual({
-      'cause[1].debut': 1546556400,
+      'cause[1].debut': getUnixTime(date),
       'cause[1].description': 'Hello',
       'cause[1].specification': 'specification',
-      'cause[2].debut': 1546556400,
+      'cause[2].debut': getUnixTime(date),
       'cause[2].description': 'Hello',
       'cause[2].specification': 'specification',
-      'cause[3].debut': 1546556400,
+      'cause[3].debut': getUnixTime(date),
       'cause[3].description': 'Hello',
       'cause[3].specification': 'specification',
     })
@@ -138,7 +142,7 @@ describe('getKeyValuePair', () => {
 
 describe('maxDateToExpression', () => {
   it('Should convert validation to expression', () => {
-    const expected = getUnixTime(addDays(new Date('2020-01-01'), 2))
+    const expected = getUnixTime(addDays(new Date(SYSTEM_DATE), 2))
     expect(
       maxDateToExpression({
         type: CertificateDataValidationType.MAX_DATE_VALIDATION,
@@ -150,7 +154,7 @@ describe('maxDateToExpression', () => {
   })
 
   it('Should convert validation to expression for negative value', () => {
-    const expected = getUnixTime(subDays(new Date('2020-01-01'), 2))
+    const expected = getUnixTime(subDays(new Date(SYSTEM_DATE), 2))
     expect(
       maxDateToExpression({
         type: CertificateDataValidationType.MAX_DATE_VALIDATION,
@@ -191,7 +195,7 @@ describe('maxDateToExpression', () => {
         {
           type: CertificateDataValueType.DATE,
           id: 'ID',
-          date: '2020-01-04',
+          date: format(addDays(new Date(SYSTEM_DATE), 3), 'yyyy-MM-dd'),
         }
       )
     ).toBe(false)
@@ -296,42 +300,43 @@ describe('validateExpression', () => {
   })
 
   describe('comparison', () => {
+    const date = startOfToday()
     it('Should return true for equal match', () => {
       expect(
-        validateExpression('ID == 1546556400', {
+        validateExpression(`ID == ${getUnixTime(date)}`, {
           type: CertificateDataValueType.DATE,
           id: 'ID',
-          date: '2019-01-04',
+          date: format(date, 'yyyy-MM-dd'),
         })
       ).toBe(true)
     })
 
     it('Should return false for non-equal match', () => {
       expect(
-        validateExpression('ID != 1546556400', {
+        validateExpression(`ID != ${getUnixTime(date)}`, {
           type: CertificateDataValueType.DATE,
           id: 'ID',
-          date: '2019-01-04',
+          date: format(date, 'yyyy-MM-dd'),
         })
       ).toBe(false)
     })
 
     it('Should return true for above match', () => {
       expect(
-        validateExpression('ID >= 1546556300', {
+        validateExpression(`ID >= ${getUnixTime(date) - 100}`, {
           type: CertificateDataValueType.DATE,
           id: 'ID',
-          date: '2019-01-04',
+          date: format(date, 'yyyy-MM-dd'),
         })
       ).toBe(true)
     })
 
     it('Should return true for below match', () => {
       expect(
-        validateExpression('ID <= 1546556500', {
+        validateExpression(`ID <= ${getUnixTime(date) + 100}`, {
           type: CertificateDataValueType.DATE,
           id: 'ID',
-          date: '2019-01-04',
+          date: format(date, 'yyyy-MM-dd'),
         })
       ).toBe(true)
     })
@@ -366,7 +371,7 @@ describe('validateExpression', () => {
           validateExpression(`days(ID) == 8`, {
             type: CertificateDataValueType.DATE,
             id: 'ID',
-            date: format(addDays(new Date(), 8), 'yyyy-MM-dd'),
+            date: format(addHours(new Date(SYSTEM_DATE), 8 * 24), 'yyyy-MM-dd'),
           })
         ).toBe(true)
       })
@@ -376,7 +381,7 @@ describe('validateExpression', () => {
           validateExpression(`days(ID) == -8`, {
             type: CertificateDataValueType.DATE,
             id: 'ID',
-            date: format(subDays(new Date(), 8), 'yyyy-MM-dd'),
+            date: format(subHours(new Date(SYSTEM_DATE), 8 * 24), 'yyyy-MM-dd'),
           })
         ).toBe(true)
       })
@@ -443,5 +448,23 @@ describe('validateExpression', () => {
         expect(validateExpression('empty(ID)', { type: CertificateDataValueType.TEXT, id: 'ID', text: 'lorem' })).toBe(false)
       })
     })
+  })
+})
+
+describe('differenceInDays', () => {
+  const date = new Date(SYSTEM_DATE)
+  it('Should return expected posetive number of days', () => {
+    expect(differenceInDays(addDays(date, 8), date)).toBe(8)
+  })
+
+  it('Should return expected negative number of days', () => {
+    expect(differenceInDays(subDays(date, 8), date)).toBe(-8)
+  })
+})
+
+describe('parseDateValue', () => {
+  it('Should', () => {
+    const result = parseDateValue('2022-12-12')
+    expect(fromUnixTime(result as number)).toEqual(new Date(2022, 11, 12))
   })
 })
