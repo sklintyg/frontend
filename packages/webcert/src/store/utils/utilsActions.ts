@@ -1,6 +1,6 @@
+import { DiagnosisTypeahead, ModalData } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { Configuration, DynamicLinkMap } from './utilsReducer'
-import { DiagnosisTypeahead } from '@frontend/common'
 
 export interface GetDiagnosisTypeahead {
   codeSystem: string
@@ -24,6 +24,8 @@ export const getDiagnosisTypeaheadError = createAction<string>('[Utils] Get diag
 export const resetDiagnosisTypeahead = createAction('[Utils] Resets diagnosis typeahead')
 
 export const updateDiagnosisTypeahead = createAction<DiagnosisTypeahead>('[Utils] Update diagnosis typeahead')
+
+export const updateModalData = createAction<ModalData>('[Utils] Update Modal data')
 
 export const getConfig = createAction('[Utils] Get module config')
 export const getConfigStarted = createAction('[Utils] Get module config started')

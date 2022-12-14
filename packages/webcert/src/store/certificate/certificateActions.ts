@@ -6,8 +6,9 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
-  Unit,
+  ModalData,
   Patient,
+  Unit,
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
@@ -106,6 +107,11 @@ const CREATE_CERTIFICATE_FROM_CANDIDATE = `${CERTIFICATE} Create certificate fro
 const CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED = `${CERTIFICATE} Create certificate started from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR = `${CERTIFICATE} Create certificate error from candidate`
+
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE = `${CERTIFICATE} Create certificate from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED = `${CERTIFICATE} Create certificate started from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR = `${CERTIFICATE} Create certificate error from candidate with message`
 
 const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Create certificate from template`
 const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Create certificate started from template`
@@ -447,6 +453,20 @@ export const createCertificateFromCandidateError = createAction<string>(CREATE_C
 
 export interface CreateCertificateFromCandidateSuccess {
   certificateId: string
+}
+
+export const createCertificateFromCandidateWithMessage = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
+
+export const createCertificateFromCandidateWithMessageStarted = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED)
+
+export const createCertificateFromCandidateWithMessageSuccess = createAction<CreateCertificateFromCandidateWithMessageSuccess>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS
+)
+
+export const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
+
+export interface CreateCertificateFromCandidateWithMessageSuccess {
+  modal: ModalData
 }
 
 export interface CopyCertificateSuccess {
