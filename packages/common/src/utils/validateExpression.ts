@@ -67,7 +67,7 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
 }
 
 export const maxDateToExpression = (validation: MaxDateValidation): string =>
-  validation.expression ?? `${validation.id} <= ${getUnixTime(add(new Date(), { days: validation.numberOfDays }))}`
+  validation.expression ?? `'${validation.id}' <= ${getUnixTime(add(new Date(), { days: validation.numberOfDays }))}`
 
 /** convert expression to be compatible with filtrex */
 export const convertExpression = (expression: string): string =>
