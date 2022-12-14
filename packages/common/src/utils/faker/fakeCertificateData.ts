@@ -5,10 +5,8 @@ import {
   CertificateData,
   CertificateDataElement,
   CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigCategory,
-  ConfigTypes,
-  ConfigUeCheckboxBoolean,
+  CertificateDataValueType, ConfigAccordion, ConfigCategory, ConfigLayout, ConfigTypes, ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList, ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
@@ -21,12 +19,7 @@ import {
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
   ConfigUeTextField,
-  ConfigUeTypeahead,
-  ConfigAccordion,
-  ConfigUeCauseOfDeath,
-  ConfigUeCauseOfDeathList,
-  ConfigUeUncertainDate,
-  Value,
+  ConfigUeTypeahead, ConfigUeUncertainDate, Value,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -39,7 +32,7 @@ import {
   ValueIcf,
   ValueMedicalInvestigation,
   ValueText,
-  ValueUncertainDate,
+  ValueUncertainDate
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
@@ -166,7 +159,8 @@ export const fakeCheckboxMultipleCodeElement = (
         text: `text: ${faker.lorem.sentence()}`,
         selectedText: 'Ja',
         unselectedText: 'Nej',
-        list: fakeList(5),
+        layout: ConfigLayout.ROWS,
+        list: fakeList(10),
         ...data?.config,
       },
       value: {
