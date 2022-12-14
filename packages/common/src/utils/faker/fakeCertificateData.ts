@@ -412,7 +412,6 @@ export const fakeMedicalInvestigationListElement = (
                 'Underlag från habiliteringen',
                 'Underlag från arbetsterapeut',
               ]),
-              ...data?.value?.investigationType,
             },
             date: {
               type: CertificateDataValueType.DATE,
@@ -421,13 +420,11 @@ export const fakeMedicalInvestigationListElement = (
                 .past()
                 .toISOString()
                 .split('T')[0],
-              ...data?.value?.date,
             },
             informationSource: {
               type: CertificateDataValueType.TEXT,
               id: faker.random.alpha({ count: 5 }),
               text: faker.lorem.words(),
-              ...data?.value?.informationSource,
             },
           },
         ],
