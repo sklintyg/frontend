@@ -1,4 +1,4 @@
-import { CertificateDataElement, Accordion, AccordionHeader, Text, sanitizeText } from '@frontend/common'
+import { CertificateDataElement, Accordion, AccordionHeader, Text, sanitizeText, getValidDate, formatDateToString } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
@@ -7,9 +7,10 @@ import {
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
+import { isValid } from 'date-fns'
 
 export interface Props {
   disabled?: boolean
@@ -22,9 +23,8 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
 
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list as ValueMedicalInvestigation[])
+  const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list)
 
   const handleChange = (index: number) => (value: ValueMedicalInvestigation) => {
     updateList(questionValueList.map((item, i) => (i === index ? value : item)))
@@ -37,7 +37,16 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
         ...question,
         value: {
           ...questionValue,
-          list,
+          list: list.map(({ date, ...val }) => {
+            const validDate = getValidDate(date.date)
+            return {
+              ...val,
+              date: {
+                ...date,
+                date: validDate && isValid(validDate) ? formatDateToString(validDate) : '',
+              },
+            }
+          }),
         },
       })
     )
@@ -57,7 +66,7 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
       </div>
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config, index) => {
-          const value = questionValue.list[index]
+          const value = questionValueList[index]
           return (
             value && (
               <UeMedicalInvestigation
@@ -66,11 +75,11 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
                 value={value}
                 disabled={disabled}
                 key={index}
-                isShowValidationError={isShowValidationError}
+                isShowValidationError={validationErrors.length > 0}
                 validation={question.validation}
                 onChange={handleChange(index)}
                 validationErrors={validationErrors.filter((v) =>
-                  [config.typeId, config.dateId, config.informationSourceId].includes(v.field)
+                  [config.investigationTypeId, config.dateId, config.informationSourceId].includes(v.field)
                 )}
               />
             )

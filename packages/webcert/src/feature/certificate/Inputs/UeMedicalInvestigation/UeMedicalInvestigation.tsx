@@ -67,14 +67,11 @@ const UeMedicalInvestigation: React.FC<Props> = ({
           <Dropdown
             id={config.investigationTypeId}
             label=""
-            options={
-              typeOptions &&
-              typeOptions.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))
-            }
+            options={typeOptions.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
             value={value.investigationType.code ?? ''}
             disabled={disabled}
             onChange={(event) => {
@@ -88,12 +85,11 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             id={config.dateId}
             questionId={questionId}
             forbidFutureDates={true}
+            componentField={config.dateId}
             inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
             disabled={disabled}
-            setDate={(date: string) => {
-              handleDateChange(date)
-            }}
+            setDate={handleDateChange}
             displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.dateId)}
             onDispatchValidationError={dispatchValidationError}
           />
