@@ -56,12 +56,34 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
         <Checkbox id={questionConfig.rightEye.contactLensesId} onChange={onChange}></Checkbox>
       </div>
       <div className="iu-grid-cols-3">{questionConfig.leftEye.label}</div>
-      <div className="iu-grid-cols-3"></div>
-      <div className="iu-grid-cols-3"></div>
-      <div className="iu-grid-cols-3"></div>
+      <div className="iu-grid-cols-3">
+        <AcuityInput
+          id={questionConfig.leftEye.withoutCorrectionId}
+          value={questionValue.leftEye.withoutCorrection.value?.toString() ?? ''}
+          limit={3}></AcuityInput>
+      </div>
+      <div className="iu-grid-cols-3">
+        <AcuityInput
+          id={questionConfig.leftEye.withCorrectionId}
+          value={questionValue.leftEye.withCorrection.value?.toString() ?? ''}
+          limit={3}></AcuityInput>
+      </div>
+      <div className="iu-grid-cols-3">
+        <Checkbox id={questionConfig.leftEye.contactLensesId} onChange={onChange}></Checkbox>
+      </div>
       <div className="iu-grid-cols-3">{questionConfig.binocular.label}</div>
-      <div className="iu-grid-cols-3"></div>
-      <div className="iu-grid-cols-3"></div>
+      <div className="iu-grid-cols-3">
+        <AcuityInput
+          id={questionConfig.binocular.withoutCorrectionId}
+          value={questionValue.binocular.withoutCorrection.value?.toString() ?? ''}
+          limit={3}></AcuityInput>
+      </div>
+      <div className="iu-grid-cols-3">
+        <AcuityInput
+          id={questionConfig.binocular.withCorrectionId}
+          value={questionValue.binocular.withCorrection.value?.toString() ?? ''}
+          limit={3}></AcuityInput>
+      </div>
       <div className="iu-grid-cols-3"></div>
     </div>
   )
