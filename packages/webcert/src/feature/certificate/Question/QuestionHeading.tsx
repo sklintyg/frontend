@@ -19,25 +19,35 @@ const QuestionSubHeadline = styled.h5`
 `
 
 interface QuestionHeadingProps {
-  id: string
   hideLabel: boolean
   label?: string
   readOnly: boolean
-  text: string
   question: CertificateDataElement
+  header?: string
+  text: string
 }
 
-const QuestionHeading: React.FC<QuestionHeadingProps> = ({ question, readOnly, hideLabel, text, label }) => {
-  const questionHaveSubQuestions = toNumber(question.parent)
-  console.log(questionHaveSubQuestions)
-  //console.log(question.parent)
-  if (!questionHaveSubQuestions) {
+const QuestionHeading: React.FC<QuestionHeadingProps> = ({ question, readOnly, hideLabel, label, header, text }) => {
+  const subQuestions = toNumber(question.parent)
+  if (header) {
+    return (
+      <>
+        <QuestionHeadline id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
+          {header}
+        </QuestionHeadline>
+        <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
+        {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
+      </>
+    )
+  }
+  if (!subQuestions) {
     return (
       <QuestionHeadline id={question.id} className={`iu-fw-heading iu-fs-300 iu-pt-200`}>
         {text}
       </QuestionHeadline>
     )
   }
+
   return (
     <>
       <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
