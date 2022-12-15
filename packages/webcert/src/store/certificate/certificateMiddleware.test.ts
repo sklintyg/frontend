@@ -32,12 +32,15 @@ import {
   CreateCertificate,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  createCertificateFromCandidateWithMessage,
+  CreateCertificateFromCandidateWithMessageSuccess,
   CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
+  showRelatedCertificate,
   SigningData,
   startSignCertificate,
   updateCertificate,
@@ -45,7 +48,6 @@ import {
   updateValidationErrors,
   validateCertificate,
   validateCertificateInFrontEnd,
-  showRelatedCertificate,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
@@ -396,6 +398,27 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
       expect(fakeAxios.history.post.length).toBe(1)
+    })
+  })
+
+  describe('Handle CreateCertificateFromCandidateWithMessage', () => {
+    it('shall return message', async () => {
+      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
+        modal: { title: 'Test title', message: 'test message' },
+      }
+      fakeAxios
+        .onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`)
+        .reply(200, createCertificateFromCandidateWithMessageSuccess)
+      testStore.dispatch(updateCertificate(expectedCertificate))
+
+      testStore.dispatch(createCertificateFromCandidateWithMessage())
+
+      await flushPromises()
+      setTimeout(() => {
+        expect(testStore.getState().ui.uiUtils.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
+        expect(fakeAxios.history.post.length).toBe(1)
+      }, 200)
     })
   })
 
