@@ -5,8 +5,14 @@ import {
   CertificateData,
   CertificateDataElement,
   CertificateDataValidationType,
-  CertificateDataValueType, ConfigAccordion, ConfigCategory, ConfigLayout, ConfigTypes, ConfigUeCauseOfDeath,
-  ConfigUeCauseOfDeathList, ConfigUeCheckboxBoolean,
+  CertificateDataValueType,
+  ConfigAccordion,
+  ConfigCategory,
+  ConfigLayout,
+  ConfigTypes,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
@@ -19,7 +25,9 @@ import {
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
   ConfigUeTextField,
-  ConfigUeTypeahead, ConfigUeUncertainDate, Value,
+  ConfigUeTypeahead,
+  ConfigUeUncertainDate,
+  Value,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -32,7 +40,7 @@ import {
   ValueIcf,
   ValueMedicalInvestigation,
   ValueText,
-  ValueUncertainDate
+  ValueUncertainDate,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
@@ -173,8 +181,6 @@ export const fakeCheckboxMultipleCodeElement = (
     children
   )
 
-
-  
 export const fakeDiagnosesElement = (
   data?: PartialCertificateDataElement<ConfigUeDiagnoses, ValueDiagnosis>,
   children?: CertificateData[]
