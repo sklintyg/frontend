@@ -11,6 +11,8 @@ const SentStatus: React.FC<Props> = ({ certificateMetadata }) => {
     case 'lisjp':
     case 'fk7801':
     case 'fk7802':
+    case 'luae_na':
+    case 'luae_fs':
       reciever = 'Försäkringskassan'
       break
     case 'af00213':
