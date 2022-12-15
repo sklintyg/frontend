@@ -28,3 +28,8 @@ export interface UserTab {
   url: string
   matchedUrls: string[]
 }
+
+export interface ModalData {
+  title: string
+  message: string
+}
