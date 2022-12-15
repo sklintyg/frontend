@@ -2,6 +2,7 @@ import {
   CertificateDataConfig,
   CertificateDataElement,
   CertificateDataValueType,
+  ConfigLayout,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
@@ -272,6 +273,7 @@ export function createQuestionWithCodeValue(): CertificateDataElement {
     id: '',
     text: '',
     type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
+    layout: ConfigLayout.ROWS,
     list: [
       {
         text: '',
@@ -314,6 +316,7 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
     id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
+    layout: ConfigLayout.ROWS,
     list: [
       {
         id: 'CODE_1',
