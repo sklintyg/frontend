@@ -5,7 +5,6 @@ import file from '@frontend/common/src/images/file.svg'
 import { useHistory } from 'react-router-dom'
 import { showRelatedCertificate } from '../../../store/certificate/certificateActions'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import ReactTooltip from 'react-tooltip'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -20,7 +19,6 @@ const ShowRelatedCertificateButton: React.FC<Props> = ({ name, description, enab
 
   const handleClick = () => {
     dispatch(showRelatedCertificate({ certificateId: certificateId, history: history }))
-    ReactTooltip.hide()
   }
 
   return (
