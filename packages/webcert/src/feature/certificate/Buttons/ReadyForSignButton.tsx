@@ -1,19 +1,20 @@
 import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
-import React, { useEffect } from 'react'
-import { readyForSign } from '../../../store/certificate/certificateActions'
-import { useDispatch } from 'react-redux'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import check from '@frontend/common/src/images/check.svg'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
+import { readyForSign } from '../../../store/certificate/certificateActions'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
+  title?: string
   description: string
   enabled: boolean
   isValidForSigning: boolean
 }
 
-const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isValidForSigning, functionDisabled }) => {
+const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled, isValidForSigning, functionDisabled }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, description, enabled, isVal
     <ButtonWithConfirmModal
       disabled={!enabled}
       description={description}
-      name={name}
+      name={title ?? name}
       startIcon={<img src={check} alt="Check" />}
       modalTitle="Markera utkast klart för signering"
       onConfirm={() => dispatch(readyForSign())}

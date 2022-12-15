@@ -24,13 +24,14 @@ export const MissingRelatedCertificateModal: React.FC<Props> = ({
   open,
   body,
   name,
+  title,
   enabled,
 }) => {
   const dispatch = useDispatch()
 
   return (
     <ConfirmModal
-      modalTitle={name}
+      modalTitle={title ?? name}
       confirmButtonText={confirmButtonText}
       disabled={!enabled}
       setOpen={setOpen}
