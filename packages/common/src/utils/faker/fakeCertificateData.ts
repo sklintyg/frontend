@@ -173,6 +173,8 @@ export const fakeCheckboxMultipleCodeElement = (
     children
   )
 
+
+  
 export const fakeDiagnosesElement = (
   data?: PartialCertificateDataElement<ConfigUeDiagnoses, ValueDiagnosis>,
   children?: CertificateData[]
@@ -249,6 +251,7 @@ export const fakeRadioMultipleCodeElement = (
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
         list: fakeList(5),
+        layout: ConfigLayout.ROWS,
         ...data?.config,
       },
       value: { type: CertificateDataValueType.CODE, list: [], ...data?.value },

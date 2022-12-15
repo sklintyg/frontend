@@ -16,15 +16,16 @@ interface checkboxesProps {
 
 interface checkboxProps {
   layout: ConfigLayout
-  column: number
+  index: number
+  noItems: number
 }
 
 const CheckboxesWrapper = styled.div<checkboxesProps>`
   ${(props) => {
     if (props.layout === ConfigLayout.COLUMNS) {
       return css`
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
       `
     }
   }}
@@ -38,51 +39,43 @@ const CheckboxWrapper = styled.div<checkboxProps>`
           display: inline-block;
           min-width: 100px;
         `
-      case ConfigLayout.COLUMNS:
+      case ConfigLayout.COLUMNS: {
+        const column = Math.trunc((2 * props.index) / props.noItems + 1)
+        const row = props.index < props.noItems / 2 ? props.index + 1 : props.index - props.noItems / 2
         return css`
-          width: 50%;
+          grid-column: ${column};
+          grid-row: ${row};
         `
+      }
     }
   }}
 `
 
 const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
-  const checkboxes = (question.config as ConfigUeCheckboxMultipleCodes).list
+  const config = question.config as ConfigUeCheckboxMultipleCodes
+  const checkboxes = config.list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
-  const config = question.config as ConfigUeCheckboxMultipleCodes
 
   const noItems = checkboxes.length
-
-  const additionalStyles = `${() => {
-    switch (config.layout) {
-      case ConfigLayout.INLINE:
-        return 'min-width:100px'
-      case ConfigLayout.COLUMNS:
-        return ' width:50%;'
-      default:
-        return ''
-    }
-  }}`
 
   return (
     checkboxes && (
       <div className="checkbox-group-wrapper">
         <CheckboxesWrapper layout={config.layout}>
-          <div className="checkbox-child">
-            {checkboxes.map((checkbox, index) => (
-              <CheckboxWrapper key={index} layout={config.layout} column={Math.trunc((2 * index) / noItems + 1)}>
-                <UeCheckbox
-                  id={checkbox.id}
-                  label={checkbox.label}
-                  disabled={disabled || checkbox.disabled}
-                  hasValidationError={shouldDisplayValidationError}
-                  question={question}
-                  wrapperAdditionalStyles={`${index !== 0 ? 'iu-pt-400' : ''}${additionalStyles}`}
-                />
-              </CheckboxWrapper>
-            ))}
-          </div>
+          {checkboxes.map((checkbox, index) => (
+            <CheckboxWrapper key={index} layout={config.layout} index={index} noItems={noItems}>
+              <UeCheckbox
+                id={checkbox.id}
+                label={checkbox.label}
+                disabled={disabled || checkbox.disabled}
+                hasValidationError={shouldDisplayValidationError}
+                question={question}
+                wrapperAdditionalStyles={`${config.layout === ConfigLayout.ROWS && index === 0 ? '' : 'iu-pt-400'} `}
+              />
+            </CheckboxWrapper>
+          ))}
+
           {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
         </CheckboxesWrapper>
       </div>
