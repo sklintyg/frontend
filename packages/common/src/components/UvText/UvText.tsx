@@ -29,7 +29,7 @@ import {
   ValueText,
   ValueUncertainDate,
   ValueMedicalInvestigation,
-  ValueMedicalInvestigationList,
+  ConfigUeMedicalInvestigation,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -38,7 +38,6 @@ import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Badge from './Badge'
-
 const IcfCode = styled.p`
   flex-shrink: 0;
 `
@@ -206,33 +205,36 @@ const UvText: React.FC<Props> = ({ question }) => {
     }
     return 'Ej angivet'
   }
-
-  const getMedicalInvestigationValue = (valueList: ValueMedicalInvestigationList) => {
+  const getMedicalInvestigationValue = (questionElement: CertificateDataElement) => {
+    const medicalInvestigationValue = questionElement.value as ValueMedicalInvestigation
     return (
       <table className="ic-table iu-fullwidth">
         <thead>
           <tr>
             <th scope="col">Ange utredning eller underlag</th>
             <th scope="col">Datum</th>
-            <th scope="col">Från vilken vårdgivare</th>
+            <th scope="col">Vårdgivare</th>
           </tr>
         </thead>
         <tbody>
-          {(valueList.list as ValueMedicalInvestigation[]).map((medicalIvestigation) => {
-            if (medicalIvestigation.informationSource.text === undefined) return null
-            return (
-              <tr>
-                <td>{medicalIvestigation.investigationType.code}</td>
-                <td>{medicalIvestigation.date.date}</td>
-                <td>{medicalIvestigation.informationSource.text}</td>
-              </tr>
-            )
-          })}
+          <tr>
+            <td>{getInvestigationType(questionElement)}</td>
+            <td>{medicalInvestigationValue.date?.date}</td>
+            <td>{medicalInvestigationValue.informationSource?.text}</td>
+          </tr>
         </tbody>
       </table>
     )
   }
-
+  const getInvestigationType = (questionElement: CertificateDataElement) => {
+    const medicalInvestigationValue = questionElement.value as ValueMedicalInvestigation
+    const medicalInvestigationConfig = questionElement.config as ConfigUeMedicalInvestigation
+    if (questionElement.visible && medicalInvestigationValue.id !== undefined) {
+      const codeValue = medicalInvestigationConfig.typeOptions.find((item) => item.id === medicalInvestigationValue?.investigationType.id)
+      return codeValue?.label
+    }
+    return ''
+  }
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
     return (
       <CauseOfDeathWrapper>
@@ -408,9 +410,8 @@ const UvText: React.FC<Props> = ({ question }) => {
         return getCauseOfDeathValueList(question)
       }
       case CertificateDataValueType.MEDICAL_INVESTIGATION_LIST: {
-        const medicalInvestigationListValue = question.value as ValueMedicalInvestigationList
-        if (medicalInvestigationListValue.list.length > 0 && question.visible) {
-          return <div className={'iu-p-none'}>{getMedicalInvestigationValue(medicalInvestigationListValue)}</div>
+        if (question.visible) {
+          return <div className={'iu-p-none'}>{getMedicalInvestigationValue(question)}</div>
         }
         break
       }
