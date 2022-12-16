@@ -324,6 +324,7 @@ export enum CertificateDataValueType {
   MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
+  VISUAL_ACUITIES = 'VISUAL_ACUITIES',
   VISUAL_ACUITY = 'VISUAL_ACUITY',
 }
 
@@ -343,6 +344,7 @@ export type ValueType =
   | ValueIcf
   | ValueText
   | ValueUncertainDate
+  | ValueEyeAcuity
   | ValueVisualAcuity
 
 export interface Value {
@@ -456,11 +458,13 @@ export interface ValueMedicalInvestigationList extends Value {
 }
 
 export interface ValueEyeAcuity {
+  type: CertificateDataValueType.VISUAL_ACUITY
   withoutCorrection: ValueDouble
   withCorrection: ValueDouble
   contactLenses?: ValueBoolean
 }
 export interface ValueVisualAcuity extends Value {
+  type: CertificateDataValueType.VISUAL_ACUITIES
   rightEye: ValueEyeAcuity
   leftEye: ValueEyeAcuity
   binocular: ValueEyeAcuity
