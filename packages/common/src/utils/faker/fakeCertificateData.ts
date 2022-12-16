@@ -34,16 +34,17 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
-  ValueDiagnosis,
   ValueHeader,
   ValueIcf,
-  ValueMedicalInvestigation,
   ValueText,
   ValueUncertainDate,
+  ValueDiagnosisList,
+  ValueMedicalInvestigationList,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
+import { fakeCertificateValue } from './fakeCertificateValue'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -129,7 +130,7 @@ export const fakeCategoryElement = (
   )
 
 export const fakeCheckboxBooleanElement = (
-  data?: PartialCertificateDataElement<ConfigUeCheckboxBoolean, ValueCodeList>,
+  data?: PartialCertificateDataElement<ConfigUeCheckboxBoolean, ValueBoolean>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -144,11 +145,7 @@ export const fakeCheckboxBooleanElement = (
         unselectedText: 'Nej',
         ...data?.config,
       },
-      value: {
-        type: CertificateDataValueType.BOOLEAN,
-        id: faker.random.alpha({ count: 10 }),
-        ...data?.value,
-      },
+      value: fakeCertificateValue.boolean(data?.value),
     },
     children
   )
@@ -169,18 +166,13 @@ export const fakeCheckboxMultipleCodeElement = (
         list: fakeList(5),
         ...data?.config,
       },
-      value: {
-        type: CertificateDataValueType.CODE_LIST,
-        id: faker.random.alpha({ count: 10 }),
-        list: [],
-        ...data?.value,
-      },
+      value: fakeCertificateValue.codeList(data?.value),
     },
     children
   )
 
 export const fakeDiagnosesElement = (
-  data?: PartialCertificateDataElement<ConfigUeDiagnoses, ValueDiagnosis>,
+  data?: PartialCertificateDataElement<ConfigUeDiagnoses, ValueDiagnosisList>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -203,7 +195,7 @@ export const fakeDiagnosesElement = (
         list: fakeList(3),
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.DIAGNOSIS_LIST, list: [], ...data?.value },
+      value: fakeCertificateValue.diagnosisList(data?.value),
     },
     children
   )
@@ -223,7 +215,7 @@ export const fakeICFDataElement = (
         placeholder: `placeholder: ${faker.lorem.sentence()}`,
         ...data?.config,
       },
-      value: { id: faker.random.alpha(), type: CertificateDataValueType.ICF, icfCodes: [], ...data?.value },
+      value: fakeCertificateValue.icf(data?.value),
     },
     children
   )
@@ -240,13 +232,13 @@ export const fakeCheckboxMultipleDate = (
         list: fakeList(5),
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.DATE_LIST, list: [], ...data?.value },
+      value: fakeCertificateValue.dateList(data?.value),
     },
     children
   )
 
 export const fakeRadioMultipleCodeElement = (
-  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCode>,
+  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -257,7 +249,7 @@ export const fakeRadioMultipleCodeElement = (
         list: fakeList(5),
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.CODE, list: [], ...data?.value },
+      value: fakeCertificateValue.codeList(data?.value),
     },
     children
   )
@@ -273,7 +265,7 @@ export const fakeRadioBooleanElement = (
         type: ConfigTypes.UE_RADIO_BOOLEAN,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.BOOLEAN, selected: true, ...data?.value },
+      value: fakeCertificateValue.boolean(data?.value),
     },
     children
   )
@@ -289,7 +281,7 @@ export const fakeTextAreaElement = (
         type: ConfigTypes.UE_TEXTAREA,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.TEXT, text: 'Text', limit: 50, ...data?.value },
+      value: fakeCertificateValue.text(data?.value),
     },
     children
   )
@@ -305,7 +297,7 @@ export const fakeTextFieldElement = (
         type: ConfigTypes.UE_TEXTFIELD,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.TEXT, text: 'Text', ...data?.value },
+      value: fakeCertificateValue.text(data?.value),
     },
     children
   )
@@ -321,11 +313,7 @@ export const fakeDropdownElement = (
         list: fakeList(5),
         ...data?.config,
       },
-      value: {
-        id: faker.random.alpha(),
-        code: 'test',
-        ...data?.value,
-      },
+      value: fakeCertificateValue.code(data?.value),
     },
     children
   )
@@ -344,7 +332,7 @@ export const fakeTypeaheadElement = (
         ...data?.config,
         placeholder: 'Kommun',
       },
-      value: { type: CertificateDataValueType.TEXT, text: '', list: [], ...data?.value },
+      value: fakeCertificateValue.text(data?.value),
     },
     children
   )
@@ -363,19 +351,46 @@ export const fakeUncertainDateElement = (
         unknownMonth: true,
         ...data?.config,
       },
-      value: {
-        id: faker.random.alpha(),
-        value: '0000-00-00',
-        ...data?.value,
-      },
+      value: fakeCertificateValue.uncertainDate(data?.value),
     },
     children
   )
 
 export const fakeMedicalInvestigationListElement = (
-  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>,
   children?: CertificateData[]
 ): CertificateData => {
+  const typeOptions = [
+    { id: '1', label: 'Neuropsykiatriskt utlåtande', code: 'CODE_2' },
+    { id: '2', label: 'Underlag från habiliteringen', code: 'CODE_3' },
+    { id: '3', label: 'Underlag från arbetsterapeut', code: 'CODE_4' },
+  ]
+  const valueList = Array.from({ length: 3 }, () =>
+    fakeCertificateValue.medicalInvestigation({
+      investigationType: {
+        id: faker.random.alpha({ count: 5 }),
+        code: faker.random.arrayElement(typeOptions.map((option) => option.label)),
+      },
+      date: {
+        id: faker.random.alpha({ count: 5 }),
+        date: faker.date
+          .past()
+          .toISOString()
+          .split('T')[0],
+      },
+      informationSource: {
+        id: faker.random.alpha({ count: 5 }),
+        text: faker.lorem.words(),
+      },
+    })
+  )
+  const configList = valueList.map(({ investigationType, informationSource, date }) => ({
+    investigationTypeId: investigationType.id,
+    informationSourceId: informationSource.id,
+    dateId: date.id,
+    typeOptions,
+  }))
+
   return fakeDataElement(
     {
       ...data,
@@ -386,50 +401,13 @@ export const fakeMedicalInvestigationListElement = (
         informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
         informationSourceDescription:
           'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
-        list: [
-          {
-            investigationTypeId: 'type1',
-            informationSourceId: 'infoSource1',
-            dateId: 'date1',
-            typeOptions: [
-              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '2' },
-              { id: '2', label: 'Underlag från habiliteringen', code: '3' },
-              { id: '3', label: 'Underlag från arbetsterapeut', code: '4' },
-            ],
-          },
-        ],
+        list: configList,
         ...data?.config,
       },
-      value: {
-        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
-        list: [
-          {
-            investigationType: {
-              type: CertificateDataValueType.CODE,
-              id: faker.random.alpha({ count: 5 }),
-              code: faker.random.arrayElement([
-                'Neuropsykiatriskt utlåtande',
-                'Underlag från habiliteringen',
-                'Underlag från arbetsterapeut',
-              ]),
-            },
-            date: {
-              type: CertificateDataValueType.DATE,
-              id: faker.random.alpha({ count: 5 }),
-              date: faker.date
-                .past()
-                .toISOString()
-                .split('T')[0],
-            },
-            informationSource: {
-              type: CertificateDataValueType.TEXT,
-              id: faker.random.alpha({ count: 5 }),
-              text: faker.lorem.words(),
-            },
-          },
-        ],
+      value: fakeCertificateValue.medicalInvestigationList({
+        list: valueList,
         ...data?.value,
-      },
+      }),
     },
     children
   )
@@ -446,11 +424,12 @@ export const fakeDateElement = (
         type: ConfigTypes.UE_DATE,
         ...data?.config,
       },
-      value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      value: fakeCertificateValue.date(data?.value),
       validation: [
         fakeCertificateDataValidation({
           type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-          expression: data?.id ? `$${data.id.toUpperCase()}` : undefined,
+          expression: data?.id ? `'${data.id.toUpperCase()}'` : undefined,
           numberOfDays: 0,
         }),
         ...(data?.validation ?? []),
