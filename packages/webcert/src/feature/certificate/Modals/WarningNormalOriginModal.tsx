@@ -1,5 +1,5 @@
+import { CustomButton, InfoBox, ModalBase, ResourceLinkType } from '@frontend/common/src'
 import React, { useState } from 'react'
-import { CustomButton, InfoBox, ResourceLinkType, ModalBase } from '@frontend/common/src'
 import { useSelector } from 'react-redux'
 import { getUser, getUserResourceLink } from '../../../store/user/userSelectors'
 
@@ -44,7 +44,7 @@ const WarningNormalOriginModal: React.FC = () => {
     <ModalBase
       open={openModal()}
       handleClose={handleClose}
-      title={resourceLink.name}
+      title={resourceLink.title ?? resourceLink.name}
       buttons={<CustomButton onClick={handleClose} buttonStyle="default" text="Stäng" />}
       content={getModalContent()}
     />

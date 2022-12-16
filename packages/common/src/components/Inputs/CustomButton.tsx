@@ -76,6 +76,11 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
     return getFilter('primary')
   }
 
+  const onClick = () => {
+    ReactTooltip.hide()
+    props.onClick && props.onClick()
+  }
+
   return (
     <Wrapper filter={getIconFilter()} data-tip={props.tooltip} className={`custom-button ${props.className}`}>
       <Button
@@ -85,7 +90,7 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         onSubmit={props.onSubmit}
         className={'ic-button ' + addedClass + ' ' + props.buttonClasses}
         disabled={props.disabled}
-        onClick={props.onClick}
+        onClick={onClick}
         data-testid={props['data-testid']}
         inline={props.inline}>
         {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon">{props.startIcon}</span> : null}

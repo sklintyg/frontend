@@ -1,19 +1,20 @@
+import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
+import fileIcon from '@frontend/common/src/images/file.svg'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
-import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 import { useHistory } from 'react-router-dom'
-import fileIcon from '@frontend/common/src/images/file.svg'
+import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 
 interface Props {
   name: string
+  title?: string
   description: string
   enabled: boolean
   body?: string
   certificateMetadata: CertificateMetadata
 }
 
-const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, description, enabled, body }) => {
+const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, description, enabled, body }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -25,7 +26,7 @@ const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, descriptio
     <ButtonWithConfirmModal
       disabled={!enabled}
       onConfirm={handleConfirm}
-      modalTitle={name}
+      modalTitle={title ?? name}
       confirmButtonText={name}
       name={name}
       description={description}
