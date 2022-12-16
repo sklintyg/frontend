@@ -28,6 +28,7 @@ import {
   ValueDiagnosisList,
   ValueText,
   ValueUncertainDate,
+  ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
@@ -191,6 +192,7 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getMedicalInvestigationValue = (questionElement: CertificateDataElement) => {
     const medicalInvestigationValueList = questionElement.value as ValueMedicalInvestigationList
     const medicalInvestigationConfigList = questionElement.config as ConfigUeMedicalInvestigationList
+
     return (
       <table className="ic-table iu-fullwidth">
         <thead>
@@ -202,17 +204,22 @@ const UvText: React.FC<Props> = ({ question }) => {
         </thead>
         <tbody>
           {medicalInvestigationConfigList.list.map((medicalConfig) => {
-            const medicalValue = medicalInvestigationValueList.list.find((item) => item.id === medicalConfig.id)
-            const chosenMedical = (medicalConfig.typeOptions as ConfigUeCodeItem[]).find(
-              (item) => item.code === medicalValue?.investigationType.code
+            const medicalValue = (medicalInvestigationValueList.list as ValueMedicalInvestigation[]).find(
+              (item) => item.investigationType.id === medicalConfig.investigationTypeId
             )
-            return (
-              <tr>
-                <td>{chosenMedical?.label}</td>
-                <td>{medicalValue?.date.date}</td>
-                <td>{medicalValue?.informationSource.text}</td>
-              </tr>
+            const codeValue = (medicalConfig.typeOptions as ConfigUeCodeItem[]).find(
+              (value) => value.code === medicalValue?.investigationType.code
             )
+            if (medicalValue?.informationSource.text !== undefined) {
+              return (
+                <tr key={medicalValue?.investigationType.id}>
+                  <td>{codeValue?.label}</td>
+                  <td>{medicalValue?.date.date}</td>
+                  <td>{medicalValue?.informationSource.text}</td>
+                </tr>
+              )
+            }
+            return ''
           })}
         </tbody>
       </table>
