@@ -28,8 +28,7 @@ import {
   ValueDiagnosisList,
   ValueText,
   ValueUncertainDate,
-  ValueMedicalInvestigation,
-  ConfigUeMedicalInvestigation,
+  ValueMedicalInvestigationList,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -37,15 +36,14 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { ConfigUeMedicalInvestigationList } from '../../types/certificate'
 import Badge from './Badge'
 const IcfCode = styled.p`
   flex-shrink: 0;
 `
-
 const IcfCodeWrapper = styled.div`
   flex-wrap: wrap;
 `
-
 const CauseOfDeathWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -55,21 +53,17 @@ const CauseOfDeathDescription = styled.div<{ oneLine: boolean }>`
   grid-column: ${(props) => (props.oneLine ? 1 : 1 / 2)};
   grid-row: 1;
 `
-
 const CauseOfDeathDateAndSpec = styled.div<{ oneLine: boolean }>`
   display: flex;
   grid-column: ${(props) => (props.oneLine ? 2 : 1)};
   grid-row: ${(props) => (props.oneLine ? 1 : 2)};
 `
-
 const CauseOfDeathDateAndSpecInner = styled.div`
   min-width: 18ch;
 `
-
 export interface Props {
   question: CertificateDataElement
 }
-
 const UvText: React.FC<Props> = ({ question }) => {
   const getOptionalDropdown = () => {
     if (question.config.type === ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN) {
@@ -78,10 +72,8 @@ const UvText: React.FC<Props> = ({ question }) => {
       )
     }
   }
-
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
-
   const getUvIcf = (collectionsLabel: string, icfCodes: string[], textValue: string) => {
     return (
       <Badge>
@@ -104,7 +96,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       </Badge>
     )
   }
-
   const getCheckboxBooleanText = (value: ValueBoolean, config: ConfigUeCheckboxBoolean): JSX.Element => {
     return (
       <>
@@ -118,17 +109,14 @@ const UvText: React.FC<Props> = ({ question }) => {
       </>
     )
   }
-
   const getCodeListText = (id: string, config: CertificateDataConfig) => {
     const item = (config.list as CheckboxCode[]).find((item) => item.id === id)
     return item ? item.label : ''
   }
-
   const getCodeListConfigIndex = (id: string, config: CertificateDataConfig) => {
     const index = (config.list as CheckboxCode[]).findIndex((item) => item.id === id)
     return index
   }
-
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
     return (
       <table className="ic-table iu-fullwidth">
@@ -149,7 +137,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       </table>
     )
   }
-
   const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {
     return config.list.map((element, index) => {
       const foundValue = value.list.find((v) => v.id === element.id)
@@ -163,7 +150,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       )
     })
   }
-
   const getDateRangeListDisplayValue = (valueList: ValueDateRange[], configList: ConfigUeCheckboxDateRange[]) => {
     return (
       <table className="ic-table iu-fullwidth">
@@ -180,9 +166,7 @@ const UvText: React.FC<Props> = ({ question }) => {
             .reverse()
             .map((element, index) => {
               const foundValue = valueList.find((v) => v.id === element.id)
-
               if (!foundValue?.from || !foundValue.to) return null
-
               return (
                 <tr key={element.id}>
                   <td>{element.label}</td>
@@ -195,7 +179,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       </table>
     )
   }
-
   const getCodeValue = (questionElement: CertificateDataElement): string => {
     const codeValue = questionElement.value as ValueCode
     const codeConfig = questionElement.config
@@ -206,7 +189,8 @@ const UvText: React.FC<Props> = ({ question }) => {
     return 'Ej angivet'
   }
   const getMedicalInvestigationValue = (questionElement: CertificateDataElement) => {
-    const medicalInvestigationValue = questionElement.value as ValueMedicalInvestigation
+    const medicalInvestigationValueList = questionElement.value as ValueMedicalInvestigationList
+    const medicalInvestigationConfigList = questionElement.config as ConfigUeMedicalInvestigationList
     return (
       <table className="ic-table iu-fullwidth">
         <thead>
@@ -217,23 +201,22 @@ const UvText: React.FC<Props> = ({ question }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{getInvestigationType(questionElement)}</td>
-            <td>{medicalInvestigationValue.date?.date}</td>
-            <td>{medicalInvestigationValue.informationSource?.text}</td>
-          </tr>
+          {medicalInvestigationConfigList.list.map((medicalConfig) => {
+            const medicalValue = medicalInvestigationValueList.list.find((item) => item.id === medicalConfig.id)
+            const chosenMedical = (medicalConfig.typeOptions as ConfigUeCodeItem[]).find(
+              (item) => item.code === medicalValue?.investigationType.code
+            )
+            return (
+              <tr>
+                <td>{chosenMedical?.label}</td>
+                <td>{medicalValue?.date.date}</td>
+                <td>{medicalValue?.informationSource.text}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     )
-  }
-  const getInvestigationType = (questionElement: CertificateDataElement) => {
-    const medicalInvestigationValue = questionElement.value as ValueMedicalInvestigation
-    const medicalInvestigationConfig = questionElement.config as ConfigUeMedicalInvestigation
-    if (questionElement.visible && medicalInvestigationValue.id !== undefined) {
-      const codeValue = medicalInvestigationConfig.typeOptions.find((item) => item.id === medicalInvestigationValue?.investigationType.id)
-      return codeValue?.label
-    }
-    return ''
   }
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
     return (
@@ -255,7 +238,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       </CauseOfDeathWrapper>
     )
   }
-
   const getCauseOfDeathValue = (questionElement: CertificateDataElement) => {
     const causeOfDeathValue = questionElement.value as ValueCauseOfDeath
     const causeOfDeathConfig = questionElement.config as ConfigUeCauseOfDeath
@@ -278,7 +260,6 @@ const UvText: React.FC<Props> = ({ question }) => {
     }
     return ''
   }
-
   const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
     const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
     const causeOfDeathListConfig = questionElement.config as ConfigUeCauseOfDeathList
@@ -303,19 +284,15 @@ const UvText: React.FC<Props> = ({ question }) => {
     }
     return ''
   }
-
   const getUVText = () => {
     if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
       const questionProps = { key: question.id, disabled: false, question }
       return <UeMessage {...questionProps} />
     }
-
     if (question.value === undefined || question.value === null || !question.visible) {
       return null
     }
-
     let displayText = 'Ej angivet'
-
     switch (question.value.type) {
       case CertificateDataValueType.BOOLEAN: {
         const booleanConfig = question.config as ConfigUeCheckboxBoolean
@@ -383,7 +360,6 @@ const UvText: React.FC<Props> = ({ question }) => {
         const icfCodes = question.value.icfCodes as string[]
         const icfTextValue = question.value.text as string
         const collectionsLabel = (question.config as ConfigUeIcf).collectionsLabel
-
         if ((icfCodes && icfCodes.length) || (icfTextValue && icfTextValue.length)) {
           return getUvIcf(collectionsLabel, icfCodes, icfTextValue)
         }
@@ -424,8 +400,6 @@ const UvText: React.FC<Props> = ({ question }) => {
       return <Badge>{displayText}</Badge>
     }
   }
-
   return <>{getUVText()}</>
 }
-
 export default UvText
