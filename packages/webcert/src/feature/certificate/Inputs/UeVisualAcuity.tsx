@@ -1,7 +1,18 @@
-import { CertificateDataElement, Checkbox, ConfigUeVisualAcuity, TextInput, ValueVisualAcuity } from '@frontend/common'
-import React from 'react'
+import {
+  CertificateDataElement,
+  Checkbox,
+  ConfigEyeAcuity,
+  ConfigUeVisualAcuity,
+  TextInput,
+  ValueEyeAcuity,
+  ValueVisualAcuity,
+} from '@frontend/common'
+
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
 
 export interface Props {
@@ -20,7 +31,30 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
 
   const questionValue = question.value as ValueVisualAcuity
+  const rightValue = questionValue.rightEye as ValueEyeAcuity
+  const leftValue = questionValue.leftEye as ValueEyeAcuity
+  const binocularValue = questionValue.binocularEye as ValueEyeAcuity
+
   const questionConfig = question.config as ConfigUeVisualAcuity
+  const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
+  const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
+  const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
+  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+
+  const [rightNoCorrection, setRightNoCorrection] = useState(rightValue.withoutCorrection.value?.toString() ?? '')
+  const [rightCorrection, setRightCorrection] = useState(rightValue.withCorrection.value?.toString() ?? '')
+  const [rightContacts, setRightContacts] = useState(rightValue.contactLenses?.selected === true)
+  const [leftNoCorrection, setLeftNoCorrection] = useState(leftValue.withoutCorrection.value?.toString() ?? '')
+  const [leftCorrection, setLeftCorrection] = useState(leftValue.withCorrection.value?.toString() ?? '')
+  const [leftContacts, setLeftContacts] = useState(leftValue.contactLenses?.selected === true)
+  const [binocularNoCorrection, setBinocularNoCorrection] = useState(binocularValue.withoutCorrection.value?.toString() ?? '')
+  const [binocularCorrection, setBinocularCorrection] = useState(binocularValue.withCorrection.value?.toString() ?? '')
+
+  const parseAcuity = (value: string) => {
+    value = value.replace(/\./gm, ',')
+  }
+  const onRightNoCorrectionChange = (value: string) => {}
 
   const onChange = () => {
     dispatch(
@@ -39,50 +73,35 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-cols-3">{questionConfig.withoutCorrectionLabel}</div>
       <div className="iu-grid-cols-3">{questionConfig.withCorrectionLabel}</div>
       <div className="iu-grid-cols-3">{questionConfig.contactLensesLabel}</div>
-      <div className="iu-grid-cols-3">{questionConfig.rightEye.label}</div>
+
+      <div className="iu-grid-cols-3">{rightConfig.label}</div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.rightEye.withoutCorrectionId}
-          value={questionValue.rightEye.withoutCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={rightConfig.withoutCorrectionId} value={rightCorrection} limit={3}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.rightEye.withCorrectionId}
-          value={questionValue.rightEye.withCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={rightConfig.withCorrectionId} value={rightNoCorrection} limit={3} onChange={onChange}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3">
-        <Checkbox id={questionConfig.rightEye.contactLensesId} onChange={onChange}></Checkbox>
+        <Checkbox id={rightConfig.contactLensesId} onChange={onChange} checked={rightContacts}></Checkbox>
       </div>
-      <div className="iu-grid-cols-3">{questionConfig.leftEye.label}</div>
+
+      <div className="iu-grid-cols-3">{leftConfig.label}</div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.leftEye.withoutCorrectionId}
-          value={questionValue.leftEye.withoutCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={leftConfig.withoutCorrectionId} value={leftNoCorrection} limit={3} onChange={onChange}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.leftEye.withCorrectionId}
-          value={questionValue.leftEye.withCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={leftConfig.withCorrectionId} value={leftCorrection} limit={3} onChange={onChange}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3">
-        <Checkbox id={questionConfig.leftEye.contactLensesId} onChange={onChange}></Checkbox>
+        <Checkbox id={leftConfig.contactLensesId} onChange={onChange} checked={leftContacts}></Checkbox>
       </div>
-      <div className="iu-grid-cols-3">{questionConfig.binocular.label}</div>
+
+      <div className="iu-grid-cols-3">{binocularConfig.label}</div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.binocular.withoutCorrectionId}
-          value={questionValue.binocular.withoutCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={binocularConfig.withoutCorrectionId} value={binocularNoCorrection} limit={3} onChange={onChange}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3">
-        <AcuityInput
-          id={questionConfig.binocular.withCorrectionId}
-          value={questionValue.binocular.withCorrection.value?.toString() ?? ''}
-          limit={3}></AcuityInput>
+        <AcuityInput id={binocularConfig.withCorrectionId} value={binocularCorrection} limit={3} onChange={onChange}></AcuityInput>
       </div>
       <div className="iu-grid-cols-3"></div>
     </div>
