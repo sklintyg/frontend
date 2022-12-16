@@ -12,7 +12,7 @@ const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 useSelectorSpy.mockReturnValue({})
 useDispatchSpy.mockReturnValue(jest.fn())
 
-const mockQuestion = fakeTextFieldElement({ id: '1' })['1']
+const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 
 it('renders component with correct default values', () => {
   render(<UeTextField question={mockQuestion} disabled={false} />)

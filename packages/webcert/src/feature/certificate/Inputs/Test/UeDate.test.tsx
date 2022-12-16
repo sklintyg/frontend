@@ -16,7 +16,7 @@ const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
 const QUESTION_ID = 'datepicker'
 
-const question = fakeDateElement({ id: QUESTION_ID })[QUESTION_ID]
+const question = fakeDateElement({ id: QUESTION_ID, value: { date: '2022-09-29' } })[QUESTION_ID]
 
 const renderComponent = (props: ComponentProps<typeof UeDate>) => {
   render(
