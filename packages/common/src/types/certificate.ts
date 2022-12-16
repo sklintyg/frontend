@@ -318,6 +318,7 @@ export enum CertificateDataValueType {
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
   ICF = 'ICF',
   TEXT = 'TEXT',
+  DOUBLE = 'DOUBLE',
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
@@ -340,6 +341,7 @@ export type ValueType =
   | ValueDateRangeList
   | ValueDiagnosis
   | ValueDiagnosisList
+  | ValueDouble
   | ValueHeader
   | ValueIcf
   | ValueText
@@ -411,7 +413,7 @@ export interface ValueText extends Value {
 }
 
 export interface ValueDouble extends Value {
-  type: CertificateDataValueType.TEXT
+  type: CertificateDataValueType.DOUBLE
   value: number | null
   id: string
 }
