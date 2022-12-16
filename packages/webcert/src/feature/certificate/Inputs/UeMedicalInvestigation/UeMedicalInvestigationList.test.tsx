@@ -1,26 +1,26 @@
-import { fakeMedicalInvestigationListElement } from '@frontend/common'
+import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import faker from 'faker'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, validateCertificateSuccess } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import reducers from '../../../../store/reducers'
-import store from '../../../../store/store'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
 
-const INVESTIGATIONTYPE_LABEL = 'Ange utredning eller underlag'
-const DATE_LABEL = 'Datum'
-const INFORMATIONSOURCE_LABEL = 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?'
+faker.seed(10)
+
 const QUESTION_ID = 'list'
 
 let testStore: EnhancedStore
 
 const question = fakeMedicalInvestigationListElement({ id: QUESTION_ID })[QUESTION_ID]
+
 const renderComponent = (props: ComponentProps<typeof UeMedicalInvestigationList>) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <UeMedicalInvestigationList {...props} />
     </Provider>
   )
@@ -31,68 +31,127 @@ describe('Medical investigation component', () => {
       reducer: reducers,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
     })
+
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: {
+            [QUESTION_ID]: question,
+          },
+        })
+      )
+    )
   })
 
-  it('renders without crashing', () => {
+  it('Renders without crashing', () => {
     renderComponent({ disabled: false, question })
   })
 
   it('renders all components', () => {
     renderComponent({ disabled: false, question })
-    expect(screen.getAllByText(INVESTIGATIONTYPE_LABEL)).toHaveLength(1)
-    expect(screen.getAllByText(DATE_LABEL)).toHaveLength(1)
-    expect(screen.getAllByText(INFORMATIONSOURCE_LABEL)).toHaveLength(1)
+    expect(screen.getAllByText('Ange utredning eller underlag')).toHaveLength(1)
+    expect(screen.getAllByText('Datum')).toHaveLength(1)
+    expect(screen.getAllByText('Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?')).toHaveLength(1)
   })
 
-  it('renders, textinput, calendar button and drop down', () => {
+  it('Renders textinput, calendar button and drop down', () => {
     renderComponent({ disabled: false, question })
-    const informationSources = screen.getAllByRole('textbox')
-    const investigationtypes = screen.getByRole('combobox')
-    const dates = screen.getByRole('button')
-    informationSources.forEach((informationSource) => {
-      expect(informationSource).toBeInTheDocument()
-    })
-    expect(investigationtypes).toBeInTheDocument()
-    expect(dates).toBeInTheDocument()
+    expect(screen.getAllByRole('combobox')).toHaveLength(3)
+    expect(screen.getAllByRole('button')).toHaveLength(3)
+    expect(screen.getAllByRole('textbox')).toHaveLength(6)
   })
 
-  it('does not disable component if disabled is not set', () => {
+  it('Should not disable component if disabled is not set', () => {
     renderComponent({ disabled: false, question })
-    const InvestigationsTypes = screen.getAllByRole('combobox')
-    InvestigationsTypes.forEach((investigationType) => {
+
+    expect(screen.getAllByRole('combobox')).toHaveLength(3)
+    expect(screen.getAllByRole('button')).toHaveLength(3)
+    expect(screen.getAllByRole('textbox')).toHaveLength(6)
+
+    screen.getAllByRole('combobox').forEach((investigationType) => {
       expect(investigationType).not.toBeDisabled()
     })
-    const textinputs = screen.getAllByRole('textbox')
-    textinputs.forEach((textinput) => {
+
+    screen.getAllByRole('button').forEach((button) => {
+      expect(button).not.toBeDisabled()
+    })
+
+    screen.getAllByRole('textbox').forEach((textinput) => {
       expect(textinput).not.toBeDisabled()
     })
-    const button = screen.getByRole('button')
-    expect(button).not.toBeDisabled()
   })
 
-  it('does disable component if disabled is set', () => {
+  it('Should disable component if disabled is set', () => {
     renderComponent({ disabled: true, question })
-    const InvestigationsTypes = screen.getAllByRole('combobox')
-    InvestigationsTypes.forEach((investigationType) => {
+
+    expect(screen.getAllByRole('combobox')).toHaveLength(3)
+    expect(screen.getAllByRole('button')).toHaveLength(3)
+    expect(screen.getAllByRole('textbox')).toHaveLength(6)
+
+    screen.getAllByRole('combobox').forEach((investigationType) => {
       expect(investigationType).toBeDisabled()
     })
-    const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
-    const textinputs = screen.getAllByRole('textbox')
-    textinputs.forEach((textinput) => {
+
+    screen.getAllByRole('button').forEach((button) => {
+      expect(button).toBeDisabled()
+    })
+
+    screen.getAllByRole('textbox').forEach((textinput) => {
       expect(textinput).toBeDisabled()
     })
   })
 
-  it('Display validationErrors for investigationTypeId', () => {
-    const question = fakeMedicalInvestigationListElement({
-      id: 'id',
-      config: {
-        list: [],
-      },
-    })['id']
-    testStore.dispatch(showValidationErrors)
-    testStore.dispatch(validateCertificateSuccess({ validationErrors: [] }))
-    renderComponent({ disabled: true, question })
+  it('Should display empty validationErrors for information source', () => {
+    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].informationSourceId
+    testStore.dispatch(showValidationErrors())
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
+  })
+
+  it('Should display empty validationErrors for investigation type', () => {
+    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].investigationTypeId
+    testStore.dispatch(showValidationErrors())
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
+  })
+
+  it('Should display empty validationErrors for date', () => {
+    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].dateId
+    testStore.dispatch(showValidationErrors())
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
   })
 })
