@@ -58,7 +58,7 @@ const CreateCertificateFromCandidateWithMessageModal: React.FC<Props> = ({ resou
       content={<div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(modalData.message as string)}></div>}
       buttons={
         <>
-          <CustomButton onClick={handleClose} buttonStyle="default" text="Avbryt" />
+          <CustomButton onClick={handleClose} buttonStyle="default" text={showButton ? 'Avbryt' : 'Stäng'} />
           {showButton && <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Visa'} />}
         </>
       }
