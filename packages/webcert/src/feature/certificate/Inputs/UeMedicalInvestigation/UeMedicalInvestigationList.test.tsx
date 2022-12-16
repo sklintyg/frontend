@@ -101,57 +101,104 @@ describe('Medical investigation component', () => {
     })
   })
 
-  it('Should display empty validationErrors for information source', () => {
-    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].informationSourceId
+  const config = question.config as ConfigUeMedicalInvestigationList
+
+  it.each(config.list)('Should display validation error for field information source field %#', ({ informationSourceId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
       updateValidationErrors([
         {
           id: QUESTION_ID,
           category: 'category',
-          field,
+          field: informationSourceId,
           type: 'EMPTY',
           text: 'Ange ett svar.',
         },
       ])
     )
     renderComponent({ question })
-    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
   })
 
-  it('Should display empty validationErrors for investigation type', () => {
-    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].investigationTypeId
+  it.each(config.list)('Should display validation error for investation field %#', ({ investigationTypeId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
       updateValidationErrors([
         {
           id: QUESTION_ID,
           category: 'category',
-          field,
+          field: investigationTypeId,
           type: 'EMPTY',
           text: 'Ange ett svar.',
         },
       ])
     )
     renderComponent({ question })
-    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
   })
 
-  it('Should display empty validationErrors for date', () => {
-    const field = (question.config as ConfigUeMedicalInvestigationList).list[0].dateId
+  it.each(config.list)('Should display validation error for date field %#', ({ dateId }) => {
     testStore.dispatch(showValidationErrors())
     testStore.dispatch(
       updateValidationErrors([
         {
           id: QUESTION_ID,
           category: 'category',
-          field,
+          field: dateId,
           type: 'EMPTY',
           text: 'Ange ett svar.',
         },
       ])
     )
     renderComponent({ question })
-    expect(screen.getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+  })
+
+  it.each(config.list)('Should not display empty validationErrors for information source field %#', ({ informationSourceId }) => {
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: informationSourceId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
+  })
+
+  it.each(config.list)('Should not display empty validationErrors for investigation field %#', ({ investigationTypeId }) => {
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: investigationTypeId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
+  })
+
+  it.each(config.list)('Should not display empty validationErrors for date field %#', ({ dateId }) => {
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: dateId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 })
