@@ -161,6 +161,7 @@ export interface CheckboxCode {
 export enum ConfigLayout {
   ROWS = 'ROWS',
   INLINE = 'INLINE',
+  COLUMN = 'COLUMN',
   COLUMNS = 'COLUMNS',
 }
 
