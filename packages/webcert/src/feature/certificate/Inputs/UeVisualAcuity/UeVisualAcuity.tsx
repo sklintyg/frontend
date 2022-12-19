@@ -7,7 +7,7 @@ import {
   ValueVisualAcuity,
 } from '@frontend/common'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -31,9 +31,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
 
   const questionValue = question.value as ValueVisualAcuity
-  const [rightValue, setRightValue] = useState(questionValue.rightEye as ValueEyeAcuity)
-  const [leftValue, setLeftValue] = useState(questionValue.leftEye as ValueEyeAcuity)
-  const [binocularValue, setBinocularValue] = useState(questionValue.binocularEye as ValueEyeAcuity)
 
   const questionConfig = question.config as ConfigUeVisualAcuity
   const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
@@ -43,27 +40,36 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const onRightChanged = (rightValue: ValueEyeAcuity) => {
-    setRightValue(rightValue)
     dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, rightValue } }))
   }
   const onLeftChanged = (leftValue: ValueEyeAcuity) => {
-    setLeftValue(leftValue)
     dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, leftValue } }))
   }
   const onBinocularChanged = (binocularValue: ValueEyeAcuity) => {
-    setBinocularValue(binocularValue)
     dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, binocularValue } }))
   }
 
   return (
     <div className="iu-grid-cols iu-grid-cols-12">
-      <div className="iu-grid-cols-3"></div>
-      <div className="iu-grid-cols-3">{questionConfig.withoutCorrectionLabel}</div>
-      <div className="iu-grid-cols-3">{questionConfig.withCorrectionLabel}</div>
-      <div className="iu-grid-cols-3">{questionConfig.contactLensesLabel}</div>
-      <UeEyeAcuity config={rightConfig} value={rightValue} disabled={disabled} onChange={onRightChanged}></UeEyeAcuity>
-      <UeEyeAcuity config={leftConfig} value={leftValue} disabled={disabled} onChange={onLeftChanged}></UeEyeAcuity>
-      <UeEyeAcuity config={binocularConfig} value={binocularValue} disabled={disabled} onChange={onBinocularChanged}></UeEyeAcuity>
+      <div className="iu-grid-span-3"></div>
+      <div className="iu-grid-span-3">{questionConfig.withoutCorrectionLabel}</div>
+      <div className="iu-grid-span-3">{questionConfig.withCorrectionLabel}</div>
+      <div className="iu-grid-span-3">{questionConfig.contactLensesLabel}</div>
+      <UeEyeAcuity
+        config={rightConfig}
+        value={questionValue.rightEye as ValueEyeAcuity}
+        disabled={disabled}
+        onChange={onRightChanged}></UeEyeAcuity>
+      <UeEyeAcuity
+        config={leftConfig}
+        value={questionValue.leftEye as ValueEyeAcuity}
+        disabled={disabled}
+        onChange={onLeftChanged}></UeEyeAcuity>
+      <UeEyeAcuity
+        config={binocularConfig}
+        value={questionValue.binocular as ValueEyeAcuity}
+        disabled={disabled}
+        onChange={onBinocularChanged}></UeEyeAcuity>
     </div>
   )
 }

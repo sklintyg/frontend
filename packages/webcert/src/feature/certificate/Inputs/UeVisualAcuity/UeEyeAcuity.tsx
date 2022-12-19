@@ -1,5 +1,5 @@
 import { Checkbox, ConfigEyeAcuity, TextInput, ValueEyeAcuity } from '@frontend/common'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 export interface Props {
@@ -16,6 +16,10 @@ const AcuityInput = styled(TextInput)`
 `
 
 const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => {
+  const [noCorrection, setNoCorrection] = useState(value.withoutCorrection.value?.toString() ?? '')
+  const [correction, setCorrection] = useState(value.withCorrection.value?.toString() ?? '')
+  const [contacts, setContacts] = useState(value?.contactLenses?.checked === true)
+
   const parseAcuity = (acuityValue: string) => {
     acuityValue = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
     return acuityValue
@@ -23,44 +27,51 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
     noCorrectionValue = parseAcuity(noCorrectionValue)
-    onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue) } })
+    setNoCorrection(noCorrectionValue)
+    if (parseFloat(noCorrectionValue)) {
+      onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue) } })
+    }
   }
 
   const onCorrectionChange = (correctionValue: string) => {
     correctionValue = parseAcuity(correctionValue)
-    onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue) } })
+    setCorrection(correctionValue)
+    if (parseFloat(correctionValue)) {
+      onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue) } })
+    }
   }
 
   const onContactsChange = (selected: boolean) => {
+    setContacts(selected)
     if (value.contactLenses) {
       onChange({ ...value, contactLenses: { ...value.contactLenses, selected } })
     }
   }
-
+  console.log(value)
   return (
     <>
-      <div className="iu-grid-cols-3">{config.label}</div>
-      <div className="iu-grid-cols-3">
+      <div className="iu-grid-span-3">{config.label}</div>
+      <div className="iu-grid-span-3">
         <AcuityInput
           disabled={disabled}
           id={config.withoutCorrectionId}
-          value={value.withoutCorrection.value?.toString() ?? ''}
+          value={noCorrection}
           limit={3}
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
           }}></AcuityInput>
       </div>
-      <div className="iu-grid-cols-3">
+      <div className="iu-grid-span-3">
         <AcuityInput
           disabled={disabled}
           id={config.withCorrectionId}
-          value={value.withCorrection.value?.toString() ?? ''}
+          value={correction}
           limit={3}
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
           }}></AcuityInput>
       </div>
-      <div className="iu-grid-cols-3">
+      <div className="iu-grid-span-3">
         {config.contactLensesId && (
           <Checkbox
             disabled={disabled}
@@ -68,7 +79,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
             onChange={(event) => {
               onContactsChange(event.currentTarget.checked)
             }}
-            checked={value.contactLenses?.selected === true}></Checkbox>
+            checked={contacts}></Checkbox>
         )}
       </div>
     </>

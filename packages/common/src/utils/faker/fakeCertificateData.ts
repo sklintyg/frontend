@@ -6,8 +6,11 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  ConfigAccordion,
   ConfigCategory,
   ConfigTypes,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
@@ -22,10 +25,8 @@ import {
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
-  ConfigAccordion,
-  ConfigUeCauseOfDeath,
-  ConfigUeCauseOfDeathList,
   ConfigUeUncertainDate,
+  ConfigUeVisualAcuity,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -40,6 +41,7 @@ import {
   ValueMedicalInvestigation,
   ValueText,
   ValueUncertainDate,
+  ValueVisualAcuity,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
@@ -570,6 +572,90 @@ export const fakeCauseOfDeathListElement = (
                   }
                 : value
             ),
+      },
+    },
+    children
+  )
+}
+
+export const fakeVisualAcuityElement = (
+  data?: PartialCertificateDataElement<ConfigUeVisualAcuity, ValueVisualAcuity>,
+  children?: CertificateData[]
+): CertificateData => {
+  const id = faker.random.alpha({ count: 5 })
+
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        description: 'Synskärpan på respektive öga och binokulärt',
+        text: 'Synskärpa',
+        type: ConfigTypes.UE_VISUAL_ACUITY,
+        withoutCorrectionLabel: 'Utan korrigering',
+        withCorrectionLabel: 'Med korrigering',
+        contactLensesLabel: 'Kontaktlinser',
+        rightEye: {
+          label: 'Höger',
+          withoutCorrectionId: `right_without_${id}`,
+          withCorrectionId: `right_with_${id}`,
+          contactLensesId: `right_contacts_${id}`,
+        },
+        leftEye: {
+          label: 'Vänster',
+          withoutCorrectionId: `left_without_${id}`,
+          withCorrectionId: `left_with_${id}`,
+          contactLensesId: `left_contacts_${id}`,
+        },
+        binocular: {
+          label: 'Binokulärt',
+          withoutCorrectionId: `binocular_without_${id}`,
+          withCorrectionId: `binocular_with_${id}`,
+        },
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.VISUAL_ACUITIES,
+        rightEye: {
+          type: CertificateDataValueType.VISUAL_ACUITY,
+          withoutCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `right_without_${id}`,
+          },
+          withCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `right_with_${id}`,
+          },
+          contactLenses: {
+            type: CertificateDataValueType.BOOLEAN,
+            id: `right_contacts_${id}`,
+          },
+        },
+        leftEye: {
+          type: CertificateDataValueType.VISUAL_ACUITY,
+          withoutCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `left_without_${id}`,
+          },
+          withCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `left_with_${id}`,
+          },
+          contactLenses: {
+            type: CertificateDataValueType.BOOLEAN,
+            id: `left_contacts_${id}`,
+          },
+        },
+        binocular: {
+          type: CertificateDataValueType.VISUAL_ACUITY,
+          withoutCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `binocular_without_${id}`,
+          },
+          withCorrection: {
+            type: CertificateDataValueType.DOUBLE,
+            id: `binocular_with_${id}`,
+          },
+        },
       },
     },
     children
