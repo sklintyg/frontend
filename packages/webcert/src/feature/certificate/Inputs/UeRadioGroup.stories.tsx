@@ -1,4 +1,4 @@
-import { fakeRadioMultipleCodeElement } from '@frontend/common'
+import { fakeRadioMultipleCodeElement, ConfigLayout } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -21,6 +21,26 @@ const Template: Story<Props> = ({ ...args }) => {
 export const Default = Template.bind({})
 Default.args = {
   question: fakeRadioMultipleCodeElement({
+    id: '1',
+  })['1'],
+}
+
+export const Inline = Template.bind({})
+Inline.args = {
+  question: fakeRadioMultipleCodeElement({
+    config: {
+      layout: ConfigLayout.INLINE,
+    },
+    id: '1',
+  })['1'],
+}
+
+export const Columns = Template.bind({})
+Columns.args = {
+  question: fakeRadioMultipleCodeElement({
+    config: {
+      layout: ConfigLayout.COLUMNS,
+    },
     id: '1',
   })['1'],
 }
