@@ -55,6 +55,20 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
     case CertificateDataValueType.ICF:
     case CertificateDataValueType.TEXT:
       return { [value.id]: value.text }
+    case CertificateDataValueType.DOUBLE:
+      return { [value.id]: value.value }
+    case CertificateDataValueType.VISUAL_ACUITIES:
+      return {
+        ...getKeyValuePair(value.rightEye),
+        ...getKeyValuePair(value.leftEye),
+        ...getKeyValuePair(value.binocular),
+      }
+    case CertificateDataValueType.VISUAL_ACUITY: {
+      return {
+        ...getKeyValuePair(value.withoutCorrection),
+        ...getKeyValuePair(value.withCorrection),
+      }
+    }
     default:
       return value.list instanceof Array ? getKeyValuePairFromList(value.list) : {}
   }
