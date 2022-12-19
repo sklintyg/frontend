@@ -87,6 +87,7 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
+  UE_MEDICAL_INVESTIGATION = 'UE_MEDICAL_INVESTIGATION',
   UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
   UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
 }
@@ -251,8 +252,23 @@ export interface ConfigUeUncertainDate extends CertificateDataConfig {
 
 export interface ConfigUeCodeItem {
   id: string
-  code: string | null
   label: string
+  code: string | null
+}
+
+export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
+  investigationTypeId: string
+  informationSourceId: string
+  dateId: string
+  typeOptions: ConfigUeCodeItem[]
+}
+
+export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
+  typeText: string
+  dateText: string
+  informationSourceText: string
+  informationSourceDescription: string
+  list: ConfigUeMedicalInvestigation[]
 }
 
 export interface ConfigUeCauseOfDeathControl {
@@ -288,46 +304,70 @@ export enum CertificateDataValueType {
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
+  MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
+  MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
 
-export interface Value {
-  type: CertificateDataValueType
+export type ValueType =
+  | ValueBoolean
+  | ValueCauseOfDeath
+  | ValueCauseOfDeathList
+  | ValueCode
+  | ValueCodeList
+  | ValueDate
+  | ValueDateList
+  | ValueDateRange
+  | ValueDateRangeList
+  | ValueDiagnosis
+  | ValueDiagnosisList
+  | ValueHeader
+  | ValueIcf
+  | ValueText
+  | ValueUncertainDate
 
+export interface Value {
   [propName: string]: unknown
 }
 
 export interface ValueBoolean extends Value {
+  type: CertificateDataValueType.BOOLEAN
   id: string
   selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {
+  type: CertificateDataValueType.CODE
   id: string
   code: string
 }
 
 export interface ValueDate extends Value {
+  type: CertificateDataValueType.DATE
   id: string
   date?: string
 }
 
 export interface ValueDateList extends Value {
+  type: CertificateDataValueType.DATE_LIST
   list: ValueDate[]
 }
 
 export interface ValueDateRange extends Value {
+  type: CertificateDataValueType.DATE_RANGE
   id: string
   from?: string
   to?: string
 }
 
 export interface ValueDateRangeList extends Value {
+  type: CertificateDataValueType.DATE_RANGE_LIST
   list: ValueDateRange[]
 }
 
 export interface ValueDiagnosis extends Value {
+  type: CertificateDataValueType.DIAGNOSIS
   id: string
   terminology: string
   code: string
@@ -335,24 +375,29 @@ export interface ValueDiagnosis extends Value {
 }
 
 export interface ValueDiagnosisList extends Value {
+  type: CertificateDataValueType.DIAGNOSIS_LIST
   list: ValueDiagnosis[]
 }
 
 export interface ValueCodeList extends Value {
+  type: CertificateDataValueType.CODE_LIST
   list: ValueCode[]
 }
 
 export interface ValueText extends Value {
+  type: CertificateDataValueType.TEXT
   text: string | null
   id: string
 }
 
 export interface ValueUncertainDate extends Value {
+  type: CertificateDataValueType.UNCERTAIN_DATE
   id: string
   value: string | null
 }
 
 export interface ValueCauseOfDeath extends Value {
+  type: CertificateDataValueType.CAUSE_OF_DEATH
   id: string
   description: ValueText
   debut: ValueDate
@@ -360,17 +405,30 @@ export interface ValueCauseOfDeath extends Value {
 }
 
 export interface ValueCauseOfDeathList extends Value {
+  type: CertificateDataValueType.CAUSE_OF_DEATH_LIST
   list: ValueCauseOfDeath[]
 }
 
 export interface ValueIcf extends Value {
+  type: CertificateDataValueType.ICF
   id: string
   icfCodes?: string[]
   text: string | null
 }
 
 export interface ValueHeader extends Value {
+  type: CertificateDataValueType.HEADER
   id: string
+}
+
+export interface ValueMedicalInvestigation extends Value {
+  investigationType: ValueCode
+  date: ValueDate
+  informationSource: ValueText
+}
+
+export interface ValueMedicalInvestigationList extends Value {
+  list: ValueMedicalInvestigation[]
 }
 
 // Validation
@@ -393,7 +451,7 @@ export enum CertificateDataValidationType {
 export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
-  expression: string
+  expression?: string
 
   [propName: string]: unknown
 }
@@ -430,6 +488,7 @@ export type HighlightValidation = CertificateDataValidation
 
 // How to handle date ranges i.e. min & max
 export interface MaxDateValidation extends CertificateDataValidation {
+  type: CertificateDataValidationType.MAX_DATE_VALIDATION
   id: string
   numberOfDays: number
 }

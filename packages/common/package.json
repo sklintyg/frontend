@@ -13,7 +13,7 @@
     "@types/react-dom": "16.9.2",
     "customize-cra": "^0.8.0",
     "enzyme": "^3.10.0",
-    "filtrex": "^2.1.0",
+    "filtrex": "^2.2.0",
     "jest": "^26.4.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",

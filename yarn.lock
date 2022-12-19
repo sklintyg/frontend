@@ -9910,10 +9910,10 @@ filter-obj@^1.1.0:
   resolved "https://registry.yarnpkg.com/filter-obj/-/filter-obj-1.1.0.tgz#9b311112bc6c6127a16e016c6c5d7f19e0805c5b"
   integrity sha1-mzERErxsYSehbgFsbF1/GeCAXFs=
 
-filtrex@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/filtrex/-/filtrex-2.1.0.tgz#1b57e01e8ba18a0e57ddb9c11cef569176697cae"
-  integrity sha512-iP/mJEwLPmxPhIK9uK1XGAgUoKYc+lnkWkDHBcTS6XH2z7KZrTY1hz1tMzCOoTHNyYZozlcz/wXcsXPJoSUwbg==
+filtrex@^2.2.0:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/filtrex/-/filtrex-2.2.3.tgz#299dff339ac957558e3f56fa46e9a850b362d64b"
+  integrity sha512-TL12R6SckvJdZLibXqyp4D//wXZNyCalVYGqaWwQk9zucq9dRxmrJV4oyuRq4PHFHCeV5ZdzncIc/Ybqv1Lr6Q==
 
 finalhandler@~1.1.2:
   version "1.1.2"

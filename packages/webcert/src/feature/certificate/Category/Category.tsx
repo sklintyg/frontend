@@ -31,7 +31,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           <div id={category.id}>
             <Accordion>
               <AccordionHeader>
-                <h5 className={'iu-fs-200 iu-lh-body'}>{category.config.text}</h5>
+                <h3 className={'iu-fs-400  iu-fw-heading'}>{category.config.text}</h3>
               </AccordionHeader>
               <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(category.config.description)}></Text>
             </Accordion>

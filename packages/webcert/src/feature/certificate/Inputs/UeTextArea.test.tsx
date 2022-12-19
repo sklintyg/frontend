@@ -4,8 +4,7 @@ import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
 import UeTextArea from './UeTextArea'
-import { CertificateDataConfig, CertificateDataElement, CertificateDataValidation, CertificateDataValueType } from '@frontend/common'
-import { CertificateDataValidationType } from '@frontend/common/src'
+import { CertificateDataValidation, CertificateDataValidationType, fakeTextAreaElement } from '@frontend/common'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')
 const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
@@ -13,23 +12,8 @@ const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
 useSelectorSpy.mockReturnValue({})
 useDispatchSpy.mockReturnValue(jest.fn())
 
-const mockQuestionWithLimit = {
-  value: { type: CertificateDataValueType.TEXT },
-  config: ({ prop: '' } as unknown) as CertificateDataConfig,
-  validation: [
-    ({
-      type: CertificateDataValidationType.TEXT_VALIDATION,
-      questionId: 'id',
-      limit: 100,
-    } as unknown) as CertificateDataValidation,
-  ],
-} as CertificateDataElement
-
 it('renders a textarea which has correct value after typing in it', async () => {
-  const mockQuestion = {
-    value: { type: CertificateDataValueType.TEXT },
-    config: ({ prop: '' } as unknown) as CertificateDataConfig,
-  } as CertificateDataElement
+  const mockQuestion = fakeTextAreaElement({ id: '1', value: { text: null } })['1']
 
   render(<UeTextArea question={mockQuestion} disabled={false} />)
 
@@ -42,6 +26,17 @@ it('renders a textarea which has correct value after typing in it', async () => 
 })
 
 it('should show character counter if text validation is set', () => {
+  const mockQuestionWithLimit = fakeTextAreaElement({
+    id: '1',
+    value: { text: null },
+    validation: [
+      ({
+        type: CertificateDataValidationType.TEXT_VALIDATION,
+        questionId: 'id',
+        limit: 100,
+      } as unknown) as CertificateDataValidation,
+    ],
+  })['1']
   render(<UeTextArea question={mockQuestionWithLimit} disabled={false} />)
   expect(screen.getByText('Tecken kvar:', { exact: false })).toBeInTheDocument()
 })

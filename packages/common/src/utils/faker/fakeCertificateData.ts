@@ -16,6 +16,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeTextArea,
@@ -36,6 +37,7 @@ import {
   ValueDiagnosis,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigation,
   ValueText,
   ValueUncertainDate,
 } from '../../types/certificate'
@@ -370,6 +372,72 @@ export const fakeUncertainDateElement = (
     children
   )
 
+export const fakeMedicalInvestigationListElement = (
+  data?: PartialCertificateDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigation>,
+  children?: CertificateData[]
+): CertificateData => {
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+        typeText: 'Ange utredning eller underlag',
+        dateText: 'Datum',
+        informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
+        informationSourceDescription:
+          'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
+        list: [
+          {
+            investigationTypeId: 'type1',
+            informationSourceId: 'infoSource1',
+            dateId: 'date1',
+            typeOptions: [
+              { id: '1', label: 'Neuropsykiatriskt utlåtande', code: '2' },
+              { id: '2', label: 'Underlag från habiliteringen', code: '3' },
+              { id: '3', label: 'Underlag från arbetsterapeut', code: '4' },
+            ],
+          },
+        ],
+        ...data?.config,
+      },
+      value: {
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+        list: [
+          {
+            investigationType: {
+              type: CertificateDataValueType.CODE,
+              id: faker.random.alpha({ count: 5 }),
+              code: faker.random.arrayElement([
+                'Neuropsykiatriskt utlåtande',
+                'Underlag från habiliteringen',
+                'Underlag från arbetsterapeut',
+              ]),
+              ...data?.value?.investigationType,
+            },
+            date: {
+              type: CertificateDataValueType.DATE,
+              id: faker.random.alpha({ count: 5 }),
+              date: faker.date
+                .past()
+                .toISOString()
+                .split('T')[0],
+              ...data?.value?.date,
+            },
+            informationSource: {
+              type: CertificateDataValueType.TEXT,
+              id: faker.random.alpha({ count: 5 }),
+              text: faker.lorem.words(),
+              ...data?.value?.informationSource,
+            },
+          },
+        ],
+        ...data?.value,
+      },
+    },
+    children
+  )
+}
+
 export const fakeDateElement = (
   data?: PartialCertificateDataElement<ConfigUeDate, ValueDate>,
   children?: CertificateData[]
@@ -461,7 +529,6 @@ export const fakeCauseOfDeathElement = (
           code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
           ...data?.value?.specification,
         },
-        ...data?.value,
       },
     },
     children
