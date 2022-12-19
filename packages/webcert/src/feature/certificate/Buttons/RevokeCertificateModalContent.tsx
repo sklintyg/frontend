@@ -19,8 +19,18 @@ interface Props {
 export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
-  const recipient = type ? (type === 'lisjp' ? 'för Försäkringskassan' : '') : ''
   const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)
+
+  const getRecipient = () => {
+    switch (type) {
+      case 'lisjp':
+        return 'för Försäkringskassan'
+      case 'ts-bas':
+        return 'för Transportstyrelsen'
+      default:
+        return ''
+    }
+  }
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -50,9 +60,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   const getRevokeReasonText = (): string => {
     if (locked) {
-      return `Ange ${recipient} varför du makulerar det låsta utkastet:`
+      return `Ange ${getRecipient()} varför du makulerar det låsta utkastet:`
     } else {
-      return `Ange ${recipient} varför du makulerar intyget:`
+      return `Ange ${getRecipient()} varför du makulerar intyget:`
     }
   }
 
