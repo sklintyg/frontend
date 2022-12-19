@@ -41,11 +41,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
-  const parseAcuity = (value: string) => {
-    value = value.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
-    return value
-  }
-
   return (
     <div className="iu-grid-cols iu-grid-cols-12">
       <div className="iu-grid-cols-3"></div>

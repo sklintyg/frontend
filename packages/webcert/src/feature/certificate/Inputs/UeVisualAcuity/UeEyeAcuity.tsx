@@ -1,11 +1,12 @@
 import { Checkbox, ConfigEyeAcuity, TextInput, ValueEyeAcuity } from '@frontend/common'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 export interface Props {
   disabled?: boolean
   config: ConfigEyeAcuity
   value: ValueEyeAcuity
+  onChange: (value: ValueEyeAcuity) => void
 }
 const AcuityInput = styled(TextInput)`
   width: 40px;
@@ -14,28 +15,26 @@ const AcuityInput = styled(TextInput)`
   text-align: center;
 `
 
-const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value }) => {
-  const [noCorrection, setNoCorrection] = useState(value.withoutCorrection.value?.toString() ?? '')
-  const [correction, setCorrection] = useState(value.withCorrection.value?.toString() ?? '')
-  const [contacts, setContacts] = useState(value.contactLenses?.selected === true)
-
-  const parseAcuity = (value: string) => {
-    value = value.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
-    return value
+const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => {
+  const parseAcuity = (acuityValue: string) => {
+    acuityValue = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
+    return acuityValue
   }
 
-  const onNoCorrectionChange = (value: string) => {
-    value = parseAcuity(value)
-    setNoCorrection(value)
+  const onNoCorrectionChange = (noCorrectionValue: string) => {
+    noCorrectionValue = parseAcuity(noCorrectionValue)
+    onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue) } })
   }
 
-  const onCorrectionChange = (value: string) => {
-    value = parseAcuity(value)
-    setCorrection(value)
+  const onCorrectionChange = (correctionValue: string) => {
+    correctionValue = parseAcuity(correctionValue)
+    onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue) } })
   }
 
   const onContactsChange = (selected: boolean) => {
-    setContacts(selected)
+    if (value.contactLenses) {
+      onChange({ ...value, contactLenses: { ...value.contactLenses, selected } })
+    }
   }
 
   return (
@@ -45,7 +44,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value }) => {
         <AcuityInput
           disabled={disabled}
           id={config.withoutCorrectionId}
-          value={noCorrection}
+          value={value.withoutCorrection.value?.toString() ?? ''}
           limit={3}
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
@@ -55,7 +54,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value }) => {
         <AcuityInput
           disabled={disabled}
           id={config.withCorrectionId}
-          value={correction}
+          value={value.withCorrection.value?.toString() ?? ''}
           limit={3}
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
@@ -69,7 +68,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value }) => {
             onChange={(event) => {
               onContactsChange(event.currentTarget.checked)
             }}
-            checked={contacts}></Checkbox>
+            checked={value.contactLenses?.selected === true}></Checkbox>
         )}
       </div>
     </>
