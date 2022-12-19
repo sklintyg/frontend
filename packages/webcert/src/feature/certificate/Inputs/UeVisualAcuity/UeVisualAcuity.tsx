@@ -1,17 +1,7 @@
-import {
-  CertificateDataElement,
-  ConfigEyeAcuity,
-  ConfigUeVisualAcuity,
-  TextInput,
-  ValueEyeAcuity,
-  ValueVisualAcuity,
-} from '@frontend/common'
+import { CertificateDataElement, ConfigEyeAcuity, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
 
 import React from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
 
@@ -19,13 +9,6 @@ export interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }
-
-const AcuityInput = styled(TextInput)`
-  width: 40px;
-  padding: 4px 4px;
-  height: 35px;
-  text-align: center;
-`
 
 const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
@@ -36,8 +19,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
   const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const onRightChanged = (rightValue: ValueEyeAcuity) => {
     dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, rightValue } }))
