@@ -26,7 +26,7 @@ export function verifieraMeddelande() {
   //iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper  ic-error-icon
   // expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
   // cy.get('button').contains("Signera intyget").click();
-  expect(cy.contains('Utkastet saknar uppgifter i följande avsnitt:')).to.exist //Nedan också
+  cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist') //Nedan också
   cy.contains('Grund för medicinskt underlag').should('exist')
   cy.contains('Sysselsättning').should('exist')
   cy.contains('Diagnos').should('exist')
