@@ -40,7 +40,7 @@ import {
   ValueIcf,
   ValueMedicalInvestigation,
   ValueText,
-  ValueUncertainDate,
+  ValueUncertainDate
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
@@ -156,7 +156,8 @@ export const fakeCheckboxBooleanElement = (
 
 export const fakeCheckboxMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeCheckboxMultipleCodes, ValueCodeList>,
-  children?: CertificateData[]
+  children?: CertificateData[],
+  shortItems?: boolean
 ): CertificateData =>
   fakeDataElement(
     {
@@ -168,7 +169,7 @@ export const fakeCheckboxMultipleCodeElement = (
         selectedText: 'Ja',
         unselectedText: 'Nej',
         layout: ConfigLayout.ROWS,
-        list: fakeList(10),
+        list: fakeList(10, shortItems),
         ...data?.config,
       },
       value: {
@@ -249,14 +250,15 @@ export const fakeCheckboxMultipleDate = (
 
 export const fakeRadioMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCode>,
-  children?: CertificateData[]
+  children?: CertificateData[],
+  shortItems?:boolean
 ): CertificateData =>
   fakeDataElement(
     {
       ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-        list: fakeList(5),
+        list: fakeList(5,shortItems),
         layout: ConfigLayout.ROWS,
         ...data?.config,
       },

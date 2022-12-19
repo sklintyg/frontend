@@ -1,4 +1,4 @@
-import { fakeRadioMultipleCodeElement, ConfigLayout } from '@frontend/common'
+import { ConfigLayout, fakeRadioMultipleCodeElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -27,12 +27,16 @@ Default.args = {
 
 export const Inline = Template.bind({})
 Inline.args = {
-  question: fakeRadioMultipleCodeElement({
-    config: {
-      layout: ConfigLayout.INLINE,
+  question: fakeRadioMultipleCodeElement(
+    {
+      config: {
+        layout: ConfigLayout.INLINE,
+      },
+      id: '1',
     },
-    id: '1',
-  })['1'],
+    [],
+    true
+  )['1'],
 }
 
 export const Columns = Template.bind({})
