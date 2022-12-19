@@ -34,7 +34,7 @@ describe('LISJP-utkast tomt', { tags: '@react' }, function() {
         cy.contains('Intyget är tillgängligt för patienten')
       })
 
-      it('Det är möjligt att raderar ett ifyllt LISJP', function() {
+      it('Det är möjligt att radera ett ifyllt LISJP', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId
         cy.visit(önskadUrl)

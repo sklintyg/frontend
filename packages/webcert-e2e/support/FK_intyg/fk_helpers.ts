@@ -169,7 +169,9 @@ export function svaraPåÄrende(typAvFråga, meddelande) {
   cy.get('.ic-card').within(() => {
     cy.contains(typAvFråga).should('exist')
     cy.contains('Svara').click()
-    cy.get('.ic-textarea').type(meddelande)
+    cy.get('.ic-textarea')
+      .should('be.visible')
+      .type(meddelande)
     cy.contains('Skicka').click()
   })
 }
@@ -208,9 +210,7 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
 
 export function raderaUtkast() {
   cy.get('[data-testid="remove-certificate-button"]').should('be.visible')
-  cy.get('button')
-    .contains('Radera')
-    .click()
+  cy.contains('Radera').click()
   cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Radera')
