@@ -33,9 +33,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
             </Accordion>
           </div>
         ) : (
-          <>
-            <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
-          </>
+          <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
         )}
       </CategoryHeader>
     </Expandable>
