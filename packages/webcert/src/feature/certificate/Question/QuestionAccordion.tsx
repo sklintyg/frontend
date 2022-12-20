@@ -1,5 +1,5 @@
 import { Accordion, AccordionHeader, ConfigAccordion, Icon } from '@frontend/common'
-import * as React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 
 export interface Props {
@@ -43,8 +43,9 @@ const AccordionControl = styled(Accordion)`
 `
 
 const QuestionAccordion: React.FC<Props> = ({ accordion, icon, children, open }) => {
+  const isOpen = useRef(open)
   return (
-    <AccordionControl open={open}>
+    <AccordionControl open={isOpen.current}>
       <AccordionHeader>
         {icon && <Icon iconType={icon} includeTooltip={true} />}
         <OpenLink>{accordion.openText}</OpenLink>
