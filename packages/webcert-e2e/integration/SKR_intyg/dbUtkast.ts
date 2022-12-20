@@ -61,7 +61,7 @@ describe('Testa DB-utkast', function() {
 
       cy.get('[name="identitetStyrkt"]').type(this.intygsdata.kompletterandePatientuppgifter.identietenStyrktGenom.text)
       cy.get('[id="dodsdatumSakerttrue"]').check({ force: true })
-      cy.get('[class="sc-hHEiqL ccTnQh ic-textfield"').type(this.intygsdata.dödsdatumOchDödsplats.datum)
+      cy.get('input[placeholder=åååå-mm-dd]').type(this.intygsdata.dödsdatumOchDödsplats.datum)
       cy.get('[class="TextInput___StyledInput-i4d6wy-0  ic-textfield undefined"]').type(this.intygsdata.dödsdatumOchDödsplats.Kommun)
       cy.get('[id="SJUKHUS"]').check({ force: true })
       cy.get('[id="barnfalse"]').should('be.checked')
@@ -70,6 +70,7 @@ describe('Testa DB-utkast', function() {
       cy.get('#polisanmalanfalse').check({ force: true })
 
       cy.contains('Utkastet är sparat').should('be.visible')
+      cy.contains('Klart att signera').should('be.visible')
       cy.contains('Signera och skicka').click()
       cy.contains('Intyget är skickat till Skatteverket').should('be.visible')
       cy.contains('Intyget är tillgängligt för patienten').should('be.visible')
