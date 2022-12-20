@@ -40,7 +40,7 @@ import {
   ValueIcf,
   ValueMedicalInvestigation,
   ValueText,
-  ValueUncertainDate,
+  ValueUncertainDate
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCityList } from './fakeCity'
@@ -240,7 +240,7 @@ export const fakeCheckboxMultipleDate = (
       ...data,
       config: {
         type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
-        list: fakeList(5),
+        list: fakeList(6),
         ...data?.config,
       },
       value: { type: CertificateDataValueType.DATE_LIST, list: [], ...data?.value },
@@ -258,7 +258,7 @@ export const fakeRadioMultipleCodeElement = (
       ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-        list: fakeList(5, shortItems),
+        list: fakeList(7, shortItems),
         layout: ConfigLayout.ROWS,
         ...data?.config,
       },
