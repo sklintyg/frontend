@@ -25,6 +25,7 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import UeVisualAcuity from '../Inputs/UeVisualAcuity/UeVisualAcuity'
 import QuestionAccordion from './QuestionAccordion'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
@@ -116,6 +117,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         return <UeCauseOfDeathList {...commonProps} />
       case ConfigTypes.UE_MEDICAL_INVESTIGATION:
         return <UeMedicalInvestigationList {...commonProps} />
+      case ConfigTypes.UE_VISUAL_ACUITY:
+        return <UeVisualAcuity {...commonProps} />
       case ConfigTypes.UE_HEADER:
         return
       default:
