@@ -17,7 +17,7 @@ const QuestionHeaderAccordion: React.FC<QuestionHeaderAccordionProps> = ({ confi
       <Accordion>
         <AccordionHeader>
           {config.icon && <Icon iconType={config.icon} includeTooltip={true} />}
-          {displayMandatory && <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={true} />}
+          {displayMandatory && <MandatoryIcon />}
           <h4 className={'iu-fs-300'}>{config.text}</h4>
         </AccordionHeader>
         <Text dangerouslySetInnerHTML={sanitizeText(config.description)}></Text>

@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
-import { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
@@ -33,10 +32,6 @@ export interface QuestionProps {
   id: string
   className?: string
 }
-
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
-`
 
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
@@ -68,7 +63,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
     return (
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
-        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
+        {displayMandatory && <MandatoryIcon />}
         {<QuestionHeading readOnly={question.readOnly} id={question.id} hideLabel={hideLabel} {...question.config} />}
       </>
     )

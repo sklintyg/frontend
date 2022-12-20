@@ -2,7 +2,6 @@ import { Accordion, AccordionHeader, Expandable, MandatoryIcon, sanitizeText, Te
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { css } from 'styled-components'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
@@ -10,9 +9,6 @@ import CategoryTitle from './CategoryTitle'
 interface CategoryProps {
   id: string
 }
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
-`
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id), _.isEqual)
@@ -26,11 +22,11 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
   return (
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
-        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
         {showTitleWithDescription ? (
           <div id={category.id}>
             <Accordion>
               <AccordionHeader>
+                {displayMandatory && <MandatoryIcon />}
                 <h3 className={'iu-fs-400  iu-fw-heading'}>{category.config.text}</h3>
               </AccordionHeader>
               <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(category.config.description)}></Text>
