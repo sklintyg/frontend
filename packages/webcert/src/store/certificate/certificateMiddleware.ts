@@ -112,6 +112,7 @@ import {
   updateClientValidationError,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
+  updateModalData,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
@@ -129,7 +130,6 @@ import { gotoComplement, updateComplements } from '../question/questionActions'
 import { createConcurrencyErrorRequestFromApiError, createErrorRequestFromApiError } from '../error/errorCreator'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
-import { updateModalData } from '../utils/utilsActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
 const handleGetCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
