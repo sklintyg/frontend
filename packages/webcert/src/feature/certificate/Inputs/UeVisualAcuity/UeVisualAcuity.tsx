@@ -1,6 +1,6 @@
 import { CertificateDataElement, ConfigEyeAcuity, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
@@ -13,8 +13,8 @@ export interface Props {
 const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
 
-  const questionValue = question.value as ValueVisualAcuity
-
+  //const questionValue = question.value as ValueVisualAcuity
+  const [currentValue, setCurrentValue] = useState<ValueVisualAcuity>(question.value as ValueVisualAcuity)
   const questionConfig = question.config as ConfigUeVisualAcuity
   const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
@@ -22,15 +22,20 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
 
   const onRightChanged = (rightEye: ValueEyeAcuity) => {
     console.log(rightEye)
-    const newValue = { ...question, value: { ...questionValue, rightEye } }
+    const newValue = { ...currentValue, rightEye }
+    setCurrentValue(newValue)
     console.log(newValue)
-    dispatch(updateCertificateDataElement(newValue))
+    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
   }
   const onLeftChanged = (leftEye: ValueEyeAcuity) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, leftEye } }))
+    const newValue = { ...currentValue, leftEye }
+    setCurrentValue(newValue)
+    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
   }
   const onBinocularChanged = (binocular: ValueEyeAcuity) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, binocular } }))
+    const newValue = { ...currentValue, binocular }
+    setCurrentValue(newValue)
+    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
   }
 
   return (
@@ -41,17 +46,17 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-3">{questionConfig.contactLensesLabel}</div>
       <UeEyeAcuity
         config={rightConfig}
-        value={questionValue.rightEye as ValueEyeAcuity}
+        value={currentValue.rightEye as ValueEyeAcuity}
         disabled={disabled}
         onChange={onRightChanged}></UeEyeAcuity>
       <UeEyeAcuity
         config={leftConfig}
-        value={questionValue.leftEye as ValueEyeAcuity}
+        value={currentValue.leftEye as ValueEyeAcuity}
         disabled={disabled}
         onChange={onLeftChanged}></UeEyeAcuity>
       <UeEyeAcuity
         config={binocularConfig}
-        value={questionValue.binocular as ValueEyeAcuity}
+        value={currentValue.binocular as ValueEyeAcuity}
         disabled={disabled}
         onChange={onBinocularChanged}></UeEyeAcuity>
     </div>
