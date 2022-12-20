@@ -8,6 +8,7 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
+  ModalData,
   Patient,
   PersonId,
   ResourceLink,
@@ -18,11 +19,11 @@ import {
 } from '@frontend/common'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
+import { uniqBy } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
 import { SigningData } from './certificateActions'
-import { uniqBy } from 'lodash'
 
 export const getIsShowSpinner = (state: RootState): boolean => state.ui.uiCertificate.spinner
 
@@ -233,3 +234,5 @@ export const getIsReserveId = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false
 
 export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus
+
+export const getModalData = () => (state: RootState): ModalData | null => state.ui.uiCertificate.modalData
