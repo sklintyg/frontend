@@ -59,13 +59,14 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
     question = data[questionId]
   }
 
-  if (question) {
-    if (validation.questions != null) {
-      if (validation.expressionType === 'OR') {
-        return validation.questions.some((validation) => getResult(validation, data, questionId))
-      }
+  if (validation.questions != null) {
+    if (validation.expressionType === 'OR') {
+      return validation.questions.some((v) => getResult(v, data, questionId))
     }
+    return validation.questions.every((v) => getResult(v, data, questionId))
+  }
 
+  if (question) {
     if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
       return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
     }
@@ -74,6 +75,7 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
       return parseExpression(validation.expression, question, validation.type)
     }
   }
+
   return false
 }
 
