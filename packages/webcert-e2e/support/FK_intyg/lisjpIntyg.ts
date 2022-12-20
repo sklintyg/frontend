@@ -412,15 +412,13 @@ export function stallaFragaTillFK(typAvFraga) {
 }
 
 export function verifieraMeddelande() {
-  cy.get('.iu-pt-400').within((texter) => {
-    cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
-    cy.contains('Grund för medicinskt underlag').should('exist')
-    cy.contains('Sysselsättning').should('exist')
-    cy.contains('Diagnos').should('exist')
-    cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
-    cy.contains('Bedömning').should('exist')
-    cy.contains('Åtgärder').should('exist')
-  })
+  cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
+  cy.contains('Grund för medicinskt underlag').should('exist')
+  cy.contains('Sysselsättning').should('exist')
+  cy.contains('Diagnos').should('exist')
+  cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
+  cy.contains('Bedömning').should('exist')
+  cy.contains('Åtgärder').should('exist')
 }
 
 // -------------------- SRS-specifika funktioner --------------------
