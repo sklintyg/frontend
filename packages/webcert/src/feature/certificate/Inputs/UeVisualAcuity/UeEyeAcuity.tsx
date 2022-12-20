@@ -16,20 +16,20 @@ const AcuityInput = styled(TextInput)`
 `
 
 const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => {
-  const [noCorrection, setNoCorrection] = useState(value.withoutCorrection.value?.toString() ?? '')
-  const [correction, setCorrection] = useState(value.withCorrection.value?.toString() ?? '')
-  const [contacts, setContacts] = useState(value?.contactLenses?.checked === true)
-
   const parseAcuity = (acuityValue: string) => {
     acuityValue = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
     return acuityValue
   }
+  const [noCorrection, setNoCorrection] = useState(parseAcuity(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(parseAcuity(value.withCorrection.value?.toString() ?? ''))
+  const [contacts, setContacts] = useState(value?.contactLenses?.checked === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
     noCorrectionValue = parseAcuity(noCorrectionValue)
+
     setNoCorrection(noCorrectionValue)
     if (parseFloat(noCorrectionValue)) {
-      onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue) } })
+      onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue.replace(/,/gm, '.')) } })
     }
   }
 
@@ -37,7 +37,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
     correctionValue = parseAcuity(correctionValue)
     setCorrection(correctionValue)
     if (parseFloat(correctionValue)) {
-      onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue) } })
+      onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue.replace(/,/gm, '.')) } })
     }
   }
 
@@ -47,7 +47,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
       onChange({ ...value, contactLenses: { ...value.contactLenses, selected } })
     }
   }
-  console.log(value)
+
   return (
     <>
       <div className="iu-grid-span-3">{config.label}</div>

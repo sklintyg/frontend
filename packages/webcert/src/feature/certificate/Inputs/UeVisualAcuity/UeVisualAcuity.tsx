@@ -20,14 +20,17 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
   const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
 
-  const onRightChanged = (rightValue: ValueEyeAcuity) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, rightValue } }))
+  const onRightChanged = (rightEye: ValueEyeAcuity) => {
+    console.log(rightEye)
+    const newValue = { ...question, value: { ...questionValue, rightEye } }
+    console.log(newValue)
+    dispatch(updateCertificateDataElement(newValue))
   }
-  const onLeftChanged = (leftValue: ValueEyeAcuity) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, leftValue } }))
+  const onLeftChanged = (leftEye: ValueEyeAcuity) => {
+    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, leftEye } }))
   }
-  const onBinocularChanged = (binocularValue: ValueEyeAcuity) => {
-    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, binocularValue } }))
+  const onBinocularChanged = (binocular: ValueEyeAcuity) => {
+    dispatch(updateCertificateDataElement({ ...question, value: { ...questionValue, binocular } }))
   }
 
   return (
