@@ -452,6 +452,8 @@ export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
   expression?: string
+  expressionType?: string
+  questions?: CertificateDataValidation[]
 
   [propName: string]: unknown
 }
@@ -479,10 +481,7 @@ export type EnableValidation = CertificateDataValidation
 
 export type MandatoryValidation = CertificateDataValidation
 
-export interface CategoryMandatoryValidation extends CertificateDataValidation {
-  expressionType: string
-  questions: CertificateDataValidation[]
-}
+export type CategoryMandatoryValidation = CertificateDataValidation
 
 export type HighlightValidation = CertificateDataValidation
 
