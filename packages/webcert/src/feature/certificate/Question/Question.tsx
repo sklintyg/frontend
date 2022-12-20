@@ -1,4 +1,14 @@
-import { CertificateDataConfig, CertificateDataElement, ConfigTypes, Icon, InfoBox, MandatoryIcon, UvText } from '@frontend/common'
+import {
+  CertificateDataConfig,
+  CertificateDataElement,
+  ConfigTypes,
+  Icon,
+  InfoBox,
+  MandatoryIcon,
+  UvText,
+  ValueType,
+  validateExpression,
+} from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -122,7 +132,10 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
     if (question.config.accordion)
       return (
         <div id={question.id}>
-          <QuestionAccordion accordion={question.config.accordion} icon={question.config.icon}>
+          <QuestionAccordion
+            accordion={question.config.accordion}
+            icon={question.config.icon}
+            open={question.value != null ? validateExpression(`'${question.value.id}'`, question.value as ValueType) : false}>
             {getUnifiedEditComponent(question, disabled)}
           </QuestionAccordion>
         </div>

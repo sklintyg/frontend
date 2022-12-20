@@ -2,9 +2,10 @@ import { Accordion, AccordionHeader, ConfigAccordion, Icon } from '@frontend/com
 import * as React from 'react'
 import styled from 'styled-components'
 
-export interface QuestionAccordionProps {
+export interface Props {
   accordion: ConfigAccordion
   icon?: string
+  open: boolean
 }
 
 const OpenLink = styled.h5.attrs({
@@ -41,9 +42,9 @@ const AccordionControl = styled(Accordion)`
   }
 `
 
-const QuestionAccordion: React.FC<QuestionAccordionProps> = ({ accordion, icon, children }) => {
+const QuestionAccordion: React.FC<Props> = ({ accordion, icon, children, open }) => {
   return (
-    <AccordionControl>
+    <AccordionControl open={open}>
       <AccordionHeader>
         {icon && <Icon iconType={icon} includeTooltip={true} />}
         <OpenLink>{accordion.openText}</OpenLink>
