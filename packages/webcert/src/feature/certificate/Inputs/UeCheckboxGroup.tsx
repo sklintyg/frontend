@@ -18,8 +18,8 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
 
   const noItems = checkboxes.length
 
-  function isLastCheckbox(index: number) {
-    return index === checkboxes.length - 1
+  function shouldHaveItemPadding(index: number) {
+    return (config.layout === ConfigLayout.ROWS || config.layout === ConfigLayout.COLUMN) && index < checkboxes.length - 1
   }
 
   return (
@@ -34,7 +34,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
                 disabled={disabled || checkbox.disabled}
                 hasValidationError={shouldDisplayValidationError}
                 question={question}
-                wrapperAdditionalStyles={`${!isLastCheckbox(index) && config.layout !== ConfigLayout.INLINE ? '' : 'iu-pb-400'} `}
+                wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
               />
             </ItemWrapper>
           ))}

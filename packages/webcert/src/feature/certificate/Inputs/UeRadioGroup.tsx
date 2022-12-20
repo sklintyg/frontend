@@ -46,8 +46,11 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
     return updatedQuestion
   }
 
-  function isLastRadiobutton(index: number) {
-    return index === radiobuttons.length - 1
+  function shouldHaveItemPadding(index: number) {
+    return (
+      ((config.layout === ConfigLayout.ROWS && !shouldBeHorizontal) || config.layout === ConfigLayout.COLUMN) &&
+      index < radiobuttons.length - 1
+    )
   }
 
   return (
@@ -69,9 +72,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
                 checked={radio.id === code}
                 hasValidationError={shouldDisplayValidationError}
                 onChange={handleChange}
-                wrapperAdditionalStyles={
-                  !shouldBeHorizontal && !isLastRadiobutton(index) && config.layout !== ConfigLayout.INLINE ? 'iu-pb-400' : ''
-                }
+                wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
               />
             </ItemWrapper>
           ))}

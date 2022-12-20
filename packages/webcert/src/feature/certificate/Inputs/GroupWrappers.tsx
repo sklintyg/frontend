@@ -17,6 +17,7 @@ export const GroupWrapper = styled.div<checkboxesProps>`
       return css`
         display: grid;
         grid-template-columns: 1fr 1fr;
+        row-gap: 15px;
       `
     }
   }}
