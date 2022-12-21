@@ -17,9 +17,27 @@ const AcuityInput = styled(TextInput)`
 
 const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => {
   const parseAcuity = (acuityValue: string) => {
-    acuityValue = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
-    return acuityValue
+    // This could probably be made better with RegEx replace?
+    let returnString = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
+    if (returnString) {
+      if (returnString.indexOf(',') < 0) {
+        if (returnString.length > 1) {
+          returnString = returnString.charAt(0) + ',' + returnString.charAt(1)
+        }
+      } else {
+        const parts = returnString.split(',').slice(0, 2)
+        if (!parts[0]) {
+          parts[0] = '0'
+        }
+        if (parts[1].length > 1) {
+          parts[1] = parts[1].substring(0, 1)
+        }
+        returnString = parts.join(',')
+      }
+    }
+    return returnString
   }
+
   const [noCorrection, setNoCorrection] = useState(parseAcuity(value.withoutCorrection.value?.toString() ?? ''))
   const [correction, setCorrection] = useState(parseAcuity(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
