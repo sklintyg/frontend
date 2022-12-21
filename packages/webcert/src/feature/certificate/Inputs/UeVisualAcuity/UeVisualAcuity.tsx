@@ -23,15 +23,12 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: ValueVisualAcuity) => {
-      console.log(value)
       const newQuestionValue = { ...question, value }
-      console.log(newQuestionValue)
       dispatch(updateCertificateDataElement(newQuestionValue))
-    }, 1000)
+    }, 500)
   ).current
 
   const onRightChanged = (rightEye: ValueEyeAcuity) => {
-    console.log(rightEye)
     const newValue = { ...currentValue, rightEye }
     setCurrentValue(newValue)
     dispatchEditDraft(question, newValue)

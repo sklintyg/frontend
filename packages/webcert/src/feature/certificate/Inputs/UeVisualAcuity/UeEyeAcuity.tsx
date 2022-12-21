@@ -22,13 +22,12 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
   }
   const [noCorrection, setNoCorrection] = useState(parseAcuity(value.withoutCorrection.value?.toString() ?? ''))
   const [correction, setCorrection] = useState(parseAcuity(value.withCorrection.value?.toString() ?? ''))
-  const [contacts, setContacts] = useState(value?.contactLenses?.checked === true)
+  const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
     noCorrectionValue = parseAcuity(noCorrectionValue)
-
     setNoCorrection(noCorrectionValue)
-    if (parseFloat(noCorrectionValue)) {
+    if (parseFloat(noCorrectionValue) || !noCorrectionValue) {
       onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue.replace(/,/gm, '.')) } })
     }
   }
@@ -36,7 +35,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
   const onCorrectionChange = (correctionValue: string) => {
     correctionValue = parseAcuity(correctionValue)
     setCorrection(correctionValue)
-    if (parseFloat(correctionValue)) {
+    if (parseFloat(correctionValue) || !correctionValue) {
       onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue.replace(/,/gm, '.')) } })
     }
   }
