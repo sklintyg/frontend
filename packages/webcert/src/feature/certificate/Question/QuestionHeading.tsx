@@ -33,34 +33,26 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id,
   const parent = useSelector(getQuestion(questionParent))
   const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
 
-  if (header) {
-    return (
-      <>
-        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
-          {header}
-        </QuestionHeadline>
-        <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
-        {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
-      </>
-    )
-  }
-
-  if (questionTypeIsCategory) {
-    return (
-      <>
+  return header ? (
+    <>
+      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
+        {header}
+      </QuestionHeadline>
+      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
+      {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
+    </>
+  ) : questionTypeIsCategory ? (
+    <>
+      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-pt-200`}>
+        {text}
+      </QuestionHeadline>
+      {readOnly && !hideLabel && (
         <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-          {text}
+          {label}
         </QuestionHeadline>
-        {readOnly && !hideLabel && (
-          <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
-            {label}
-          </QuestionHeadline>
-        )}
-      </>
-    )
-  }
-
-  return (
+      )}
+    </>
+  ) : (
     <>
       <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
       {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
