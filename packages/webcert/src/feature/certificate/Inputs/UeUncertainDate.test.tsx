@@ -105,10 +105,10 @@ describe('UeUncertainDate', () => {
     expect(yearDropdown).toHaveValue('0000')
     expect(yearOptions[1].selected).toBeTruthy()
     expect(yearOptions[0].selected).toBeFalsy()
-    expect(monthDropdown).not.toBeDisabled()
-    expect(monthDropdown).toHaveValue('')
-    expect(monthOptions[0].selected).toBeTruthy()
-    expect(monthOptions[1].selected).toBeFalsy()
+    expect(monthDropdown).toBeDisabled()
+    expect(monthDropdown).toHaveValue('00')
+    expect(monthOptions[1].selected).toBeTruthy()
+    expect(monthOptions[0].selected).toBeFalsy()
   })
 
   it('gets disabled correctly', () => {

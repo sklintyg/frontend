@@ -59,7 +59,7 @@ const WebcertHeaderUnit: React.FC = () => {
             className="iu-ml-400"
             data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
             <AlertCircle />
-            <span>Inaktiv enhet</span>
+            <span className="iu-ml-200">Inaktiv enhet</span>
           </InactiveUnit>
         )}
         {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}

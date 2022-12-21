@@ -38,6 +38,7 @@ const StyledTable = styled.table<TableProps>`
 
   th {
     cursor: pointer;
+    white-space: nowrap;
   }
 `
 
@@ -46,7 +47,6 @@ const SortingButton = styled.button`
   border: none;
   padding: 0 !important;
   color: #5f5f5f;
-  float: right;
 `
 
 const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent, isEmptyList, children, headings, onTableHeadClick }) => {
@@ -81,8 +81,8 @@ const Table: React.FC<Props> = ({ orderBy, ascending, caption, isLoadingContent,
   const getTableHeadings = () => {
     return headings.map((heading) => (
       <th key={heading.id + '-heading'} id={heading.id} scope="col" onClick={onTableHeadClick} data-html data-tip={heading.description}>
+        <span className="iu-mr-500">{heading.title}</span>
         {getSortingArrow(heading.id, heading.title)}
-        {heading.title}
       </th>
     ))
   }
