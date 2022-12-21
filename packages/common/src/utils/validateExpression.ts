@@ -67,6 +67,7 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
       return {
         ...getKeyValuePair(value.withoutCorrection),
         ...getKeyValuePair(value.withCorrection),
+        ...(value.contactLenses && getKeyValuePair(value.contactLenses)),
       }
     }
     default:
