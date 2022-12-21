@@ -1,16 +1,12 @@
 import { Accordion, AccordionHeader, CertificateDataConfig, Icon, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
 import * as React from 'react'
-import { css } from 'styled-components'
 
-export interface QuestionHeaderAccordionProps {
+export interface Props {
   config: CertificateDataConfig
   displayMandatory: boolean
 }
 
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
-`
-const QuestionHeaderAccordion: React.FC<QuestionHeaderAccordionProps> = ({ config, displayMandatory }) => {
+const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory }) => {
   return (
     <>
       {config.header && <h4 className={'iu-fs-300 iu-mb-200 iu-fw-heading'}>{config.header}</h4>}
