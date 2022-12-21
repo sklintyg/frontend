@@ -41,13 +41,13 @@ module.exports = defineConfig({
           })
         })
       })
-      require('./plugins/index.js')(on, config)
+      require('./plugins/index.ts')(on, config)
       require('@cypress/grep/src/plugin')(config)
       return config
     },
     baseUrl: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
     specPattern: 'integration/**/*.{js,jsx,ts,tsx}',
-    supportFile: 'support/index.js',
+    supportFile: 'support/index.ts',
     video: false,
   },
 })
