@@ -24,6 +24,7 @@ export interface CertificateMetadata {
   typeName?: string
   status: CertificateStatus
   sent: boolean
+  sentTo?: string
   created: string
   testCertificate: boolean
   forwarded: boolean
@@ -305,6 +306,7 @@ export enum CertificateDataValueType {
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
   MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
+  MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
 }
