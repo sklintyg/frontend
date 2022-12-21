@@ -9,7 +9,7 @@ export const fakeCertificateDataValidation = (data?: PartialDeep<CertificateData
     questionId: faker.random.alpha({ count: 5 }),
     expression: '',
     ...data,
-    questions: data?.questions ? data?.questions.map(fakeCertificateDataValidation) : [],
+    questions: data?.questions ? data?.questions.map(fakeCertificateDataValidation) : undefined,
   }
 }
 

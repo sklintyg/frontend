@@ -53,14 +53,8 @@ function validate(certificate: Certificate, dispatch: Dispatch, update: Certific
   validationResults.forEach((validationResult) => {
     const { result, type, id } = validationResult
     switch (type) {
-      case CertificateDataValidationType.MANDATORY_VALIDATION:
-        if (result) {
-          dispatch(hideCertificateDataElementMandatory(id))
-        } else {
-          dispatch(showCertificateDataElementMandatory(id))
-        }
-        break
       case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
+      case CertificateDataValidationType.MANDATORY_VALIDATION:
         if (result) {
           dispatch(hideCertificateDataElementMandatory(id))
         } else {
