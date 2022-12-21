@@ -1,15 +1,14 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { CertificateRelationType, CertificateStatus } from '../../../../../../common/src/types/certificate'
+import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
-import { Question, QuestionType } from '@frontend/common/src'
 
-const EXPECTED_TEXT = 'Intyget är skickat till'
+const EXPECTED_TEXT = 'Intyget är skickat till Försäkringskassan'
 
 const renderComponent = (
   isSent: boolean,
