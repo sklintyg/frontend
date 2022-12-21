@@ -46,7 +46,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
       : ''
   }
   const [noCorrection, setNoCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
-  const [correction, setCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(parseFixed(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
