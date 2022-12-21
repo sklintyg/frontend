@@ -1,7 +1,7 @@
-import { CertificateDataElement } from '@frontend/common/src/types/certificate'
 import * as React from 'react'
+import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
-import { toNumber } from 'lodash'
+import { getCertificate } from '../../../store/certificate/certificateSelectors'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;
@@ -19,20 +19,24 @@ const QuestionSubHeadline = styled.h5`
 `
 
 interface QuestionHeadingProps {
+  header?: string
+  id: string
   hideLabel: boolean
   label?: string
   readOnly: boolean
-  question: CertificateDataElement
-  header?: string
   text: string
+  parent: string
 }
 
-const QuestionHeading: React.FC<QuestionHeadingProps> = ({ question, readOnly, hideLabel, label, header, text }) => {
-  const subQuestions = toNumber(question.parent)
+const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label, parent }) => {
+  const certificate = useSelector(getCertificate)
+  const certificateData = certificate?.data
+  const questionTypeIsCategory = certificateData && parent && certificateData[parent].config.type === 'CATEGORY'
+
   if (header) {
     return (
       <>
-        <QuestionHeadline id={question.id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
+        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
           {header}
         </QuestionHeadline>
         <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
@@ -40,11 +44,19 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ question, readOnly, h
       </>
     )
   }
-  if (!subQuestions) {
+
+  if (questionTypeIsCategory) {
     return (
-      <QuestionHeadline id={question.id} className={`iu-fw-heading iu-fs-300 iu-pt-200`}>
-        {text}
-      </QuestionHeadline>
+      <>
+        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+          {text}
+        </QuestionHeadline>
+        {readOnly && !hideLabel && (
+          <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+            {label}
+          </QuestionHeadline>
+        )}
+      </>
     )
   }
 
@@ -55,4 +67,5 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ question, readOnly, h
     </>
   )
 }
+
 export default QuestionHeading
