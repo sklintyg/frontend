@@ -2,13 +2,20 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import ShowHistory from './ShowHistory'
 import userEvent from '@testing-library/user-event'
-import { CertificateEvent, CertificateEventType, CertificateMetadata, CertificateRelationType, CertificateStatus } from '@frontend/common'
+import {
+  CertificateEvent,
+  CertificateEventType,
+  CertificateMetadata,
+  CertificateRelationType,
+  CertificateStatus,
+  fakeCertificateMetaData,
+} from '@frontend/common'
 import { BrowserRouter } from 'react-router-dom'
 
-//@ts-expect-error Only relevant data for test
-const certificateMetadata: CertificateMetadata = {
+const certificateMetadata: CertificateMetadata = fakeCertificateMetaData({
   type: 'lisjp',
-}
+  sentTo: 'Försäkringskassan',
+})
 
 describe('Verify history events', () => {
   it('displays history entries', async () => {
