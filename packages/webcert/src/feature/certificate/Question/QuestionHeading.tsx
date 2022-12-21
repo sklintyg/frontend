@@ -26,12 +26,12 @@ interface QuestionHeadingProps {
   label?: string
   readOnly: boolean
   text: string
-  parent: string
+  questionParent: string
 }
 
-const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label, parent }) => {
-  const getParent = useSelector(getQuestion(parent))
-  const questionTypeIsCategory = getParent && getParent.config.type === ConfigTypes.CATEGORY
+const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label, questionParent }) => {
+  const parent = useSelector(getQuestion(questionParent))
+  const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
 
   if (header) {
     return (

@@ -60,7 +60,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
           readOnly={question.readOnly}
           id={question.id}
           hideLabel={hideLabel}
-          parent={question.parent}
+          questionParent={question.parent}
           {...question.config}
         />
       )
@@ -82,7 +82,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
             readOnly={question.readOnly}
             id={question.id}
             hideLabel={hideLabel}
-            parent={question.parent}
+            questionParent={question.parent}
             {...question.config}
           />
         }
