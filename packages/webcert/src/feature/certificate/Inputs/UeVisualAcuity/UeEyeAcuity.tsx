@@ -38,8 +38,15 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
     return returnString
   }
 
-  const [noCorrection, setNoCorrection] = useState(value.withoutCorrection.value?.toFixed(1).replace('.', ',') ?? '')
-  const [correction, setCorrection] = useState(value.withCorrection.value?.toFixed(1).replace('.', ',') ?? '')
+  const parseFixed = (value: string) => {
+    return value
+      ? parseFloat(value.replace(',', '.'))
+          .toFixed(1)
+          .replace('.', ',')
+      : ''
+  }
+  const [noCorrection, setNoCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
@@ -77,13 +84,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
           }}
-          onBlur={() =>
-            setNoCorrection(
-              parseFloat(noCorrection.replace(',', '.'))
-                .toFixed(1)
-                .replace('.', ',')
-            )
-          }></AcuityInput>
+          onBlur={() => setNoCorrection(parseFixed(noCorrection))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         <AcuityInput
@@ -94,13 +95,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
           }}
-          onBlur={() =>
-            setCorrection(
-              parseFloat(correction.replace(',', '.'))
-                .toFixed(1)
-                .replace('.', ',')
-            )
-          }></AcuityInput>
+          onBlur={() => setCorrection(parseFixed(correction))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         {config.contactLensesId && (
