@@ -158,7 +158,7 @@ describe('maxDateToExpression', () => {
         id: 'ID',
         questionId: '',
       })
-    ).toEqual(`'ID' <= ${expected}`)
+    ).toEqual(`ID <= ${expected}`)
   })
 
   it('Should convert validation to expression for negative value', () => {
@@ -170,7 +170,7 @@ describe('maxDateToExpression', () => {
         id: 'ID',
         questionId: '',
       })
-    ).toEqual(`'ID' <= ${expected}`)
+    ).toEqual(`ID <= ${expected}`)
   })
 
   it('Should return true for date below max date', () => {
