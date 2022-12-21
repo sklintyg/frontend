@@ -38,8 +38,8 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
     return returnString
   }
 
-  const [noCorrection, setNoCorrection] = useState(parseAcuity(value.withoutCorrection.value?.toString() ?? ''))
-  const [correction, setCorrection] = useState(parseAcuity(value.withCorrection.value?.toString() ?? ''))
+  const [noCorrection, setNoCorrection] = useState(value.withoutCorrection.value?.toFixed(1).replace('.', ',') ?? '')
+  const [correction, setCorrection] = useState(value.withCorrection.value?.toFixed(1).replace('.', ',') ?? '')
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
@@ -76,7 +76,14 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           limit={3}
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
-          }}></AcuityInput>
+          }}
+          onBlur={() =>
+            setNoCorrection(
+              parseFloat(noCorrection.replace(',', '.'))
+                .toFixed(1)
+                .replace('.', ',')
+            )
+          }></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         <AcuityInput
@@ -86,7 +93,14 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           limit={3}
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
-          }}></AcuityInput>
+          }}
+          onBlur={() =>
+            setCorrection(
+              parseFloat(correction.replace(',', '.'))
+                .toFixed(1)
+                .replace('.', ',')
+            )
+          }></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         {config.contactLensesId && (
