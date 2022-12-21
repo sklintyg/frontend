@@ -25,7 +25,8 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
     const newValue = { ...currentValue, rightEye }
     setCurrentValue(newValue)
     console.log(newValue)
-    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
+    const newQuestionValue = { ...question, value: newValue }
+    dispatch(updateCertificateDataElement(newQuestionValue))
   }
   const onLeftChanged = (leftEye: ValueEyeAcuity) => {
     const newValue = { ...currentValue, leftEye }
