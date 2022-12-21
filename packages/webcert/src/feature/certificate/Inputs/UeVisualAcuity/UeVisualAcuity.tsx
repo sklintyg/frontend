@@ -1,6 +1,7 @@
 import { CertificateDataElement, ConfigEyeAcuity, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
 
-import React, { useState } from 'react'
+import _ from 'lodash'
+import React, { useRef, useState } from 'react'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
@@ -20,23 +21,30 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
   const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
 
+  const dispatchEditDraft = useRef(
+    _.debounce((question: CertificateDataElement, value: ValueVisualAcuity) => {
+      console.log(value)
+      const newQuestionValue = { ...question, value }
+      console.log(newQuestionValue)
+      dispatch(updateCertificateDataElement(newQuestionValue))
+    }, 1000)
+  ).current
+
   const onRightChanged = (rightEye: ValueEyeAcuity) => {
     console.log(rightEye)
     const newValue = { ...currentValue, rightEye }
     setCurrentValue(newValue)
-    console.log(newValue)
-    const newQuestionValue = { ...question, value: newValue }
-    dispatch(updateCertificateDataElement(newQuestionValue))
+    dispatchEditDraft(question, newValue)
   }
   const onLeftChanged = (leftEye: ValueEyeAcuity) => {
     const newValue = { ...currentValue, leftEye }
     setCurrentValue(newValue)
-    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
+    dispatchEditDraft(question, newValue)
   }
   const onBinocularChanged = (binocular: ValueEyeAcuity) => {
     const newValue = { ...currentValue, binocular }
     setCurrentValue(newValue)
-    dispatch(updateCertificateDataElement({ ...question, value: newValue }))
+    dispatchEditDraft(question, newValue)
   }
 
   return (
