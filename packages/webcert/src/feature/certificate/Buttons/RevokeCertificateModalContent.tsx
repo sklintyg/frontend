@@ -2,7 +2,7 @@ import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
-import { getIsLocked } from '../../../store/certificate/certificateSelectors'
+import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
 import { css } from 'styled-components'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
@@ -20,17 +20,8 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
   const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)
-
-  const getRecipient = () => {
-    switch (type) {
-      case 'lisjp':
-        return 'för Försäkringskassan'
-      case 'ts-bas':
-        return 'för Transportstyrelsen'
-      default:
-        return ''
-    }
-  }
+  const sentTo = useSelector(getRecipient)
+  const recipient = sentTo ? `för ${sentTo}` : ''
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -60,9 +51,9 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
 
   const getRevokeReasonText = (): string => {
     if (locked) {
-      return `Ange ${getRecipient()} varför du makulerar det låsta utkastet:`
+      return `Ange ${recipient} varför du makulerar det låsta utkastet:`
     } else {
-      return `Ange ${getRecipient()} varför du makulerar intyget:`
+      return `Ange ${recipient} varför du makulerar intyget:`
     }
   }
 
