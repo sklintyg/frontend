@@ -1,7 +1,8 @@
+import { ConfigTypes } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
-import { getCertificate } from '../../../store/certificate/certificateSelectors'
+import { getQuestion } from '../../../store/certificate/certificateSelectors'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;
@@ -29,9 +30,8 @@ interface QuestionHeadingProps {
 }
 
 const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label, parent }) => {
-  const certificate = useSelector(getCertificate)
-  const certificateData = certificate?.data
-  const questionTypeIsCategory = certificateData && parent && certificateData[parent].config.type === 'CATEGORY'
+  const getParent = useSelector(getQuestion(parent))
+  const questionTypeIsCategory = getParent && getParent.config.type === ConfigTypes.CATEGORY
 
   if (header) {
     return (
