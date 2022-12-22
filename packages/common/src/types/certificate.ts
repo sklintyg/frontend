@@ -359,6 +359,8 @@ export type ValueType =
   | ValueUncertainDate
   | ValueEyeAcuity
   | ValueVisualAcuity
+  | ValueMedicalInvestigation
+  | ValueMedicalInvestigationList
 
 export interface Value {
   [propName: string]: unknown
@@ -461,12 +463,14 @@ export interface ValueHeader extends Value {
 }
 
 export interface ValueMedicalInvestigation extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION
   investigationType: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
 
 export interface ValueMedicalInvestigationList extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
 }
 

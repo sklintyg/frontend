@@ -1,4 +1,4 @@
-import { Dropdown, TextInput, DatePickerCustom } from '@frontend/common'
+import { Dropdown, TextInput, DatePickerCustom, QuestionValidationTexts } from '@frontend/common'
 import {
   ValueMedicalInvestigation,
   ConfigUeCodeItem,
@@ -41,16 +41,36 @@ const UeMedicalInvestigation: React.FC<Props> = ({
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
-    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
+    onChange({
+      ...value,
+      investigationType: {
+        ...value.investigationType,
+        id: config.investigationTypeId,
+        code: code,
+      },
+    })
   }
 
   const handleDateChange = (date: string) => {
-    onChange({ ...value, date: { ...value.date, date } })
+    onChange({
+      ...value,
+      date: {
+        ...value.date,
+        id: config.dateId,
+        date,
+      },
+    })
   }
 
   const handleInformationSourceChange = (text: string) => {
-    onChange({ ...value, informationSource: { ...value.informationSource, text } })
+    onChange({
+      ...value,
+      informationSource: {
+        ...value.informationSource,
+        id: config.informationSourceId,
+        text,
+      },
+    })
   }
 
   const dispatchValidationError = useCallback(
@@ -67,14 +87,11 @@ const UeMedicalInvestigation: React.FC<Props> = ({
           <Dropdown
             id={config.investigationTypeId}
             label=""
-            options={
-              typeOptions &&
-              typeOptions.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))
-            }
+            options={typeOptions.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
             value={value.investigationType.code ?? ''}
             disabled={disabled}
             onChange={(event) => {
@@ -88,12 +105,11 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             id={config.dateId}
             questionId={questionId}
             forbidFutureDates={true}
+            componentField={config.dateId}
             inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
             disabled={disabled}
-            setDate={(date: string) => {
-              handleDateChange(date)
-            }}
+            setDate={handleDateChange}
             displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.dateId)}
             onDispatchValidationError={dispatchValidationError}
           />
@@ -110,12 +126,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             disabled={disabled}
           />
         </div>
-        {/* {isShowValidationError && (
-          <ValidationWrapper>
-            <QuestionValidationTexts validationErrors={question.validationErrors} />
-          </ValidationWrapper>
-        )}{' '} */}
       </div>
+      {isShowValidationError && <QuestionValidationTexts validationErrors={validationErrors} />}
     </>
   )
 }
