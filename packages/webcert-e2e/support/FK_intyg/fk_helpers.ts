@@ -187,16 +187,22 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
     case 'meddelande':
       cy.contains('Kan ej komplettera').click()
       cy.get('.ic-modal').within(() => {
-        cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click()
+        cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget')
+          .should('be.visible')
+          .click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
       })
       cy.log('Svarar med meddelande')
       break
     case 'textIntyg':
-      cy.contains('Kan ej komplettera').click()
+      cy.contains('Kan ej komplettera')
+        .should('be.visible')
+        .click()
       cy.get('.ic-modal').within(() => {
-        cy.contains('Ingen ytterligare medicinsk information kan anges.').click()
+        cy.contains('Ingen ytterligare medicinsk information kan anges.')
+          .should('be.visible')
+          .click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
       })

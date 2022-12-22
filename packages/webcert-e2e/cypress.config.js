@@ -42,7 +42,7 @@ module.exports = defineConfig({
         })
       })
       require('./plugins/index.ts')(on, config)
-      require('@cypress/grep/src/plugin')(config)
+      // require('@cypress/grep/src/plugin')(config)
       return config
     },
     baseUrl: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
