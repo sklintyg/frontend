@@ -1,10 +1,5 @@
 import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
-import { css } from 'styled-components'
-
-const mandatoryIconAdditionalStyles = css`
-  top: -4px;
-`
 
 export interface CannotComplementData {
   answerWithCertificate: boolean
@@ -42,7 +37,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
         {textArea.display && textArea.name === 'ANSWER_WITH_CERTIFICATE' && (
           <div className={'iu-ml-700 iu-my-300'}>
             <p className="iu-fs-200 iu-mb-300">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
+              {textArea.value.length < 1 && <MandatoryIcon />}
               Kommentera varför det inte är möjligt att ange ytterligare medicinsk information. När du skickar svaret skapas en kopia av
               intyget med din kommentar i fältet "Övriga upplysningar". Intyget måste därefter signeras och skickas till Försäkringskassan.
             </p>
@@ -63,7 +58,7 @@ export const CannotComplementModalContent: React.FC<Props> = ({ onChange }) => {
               <p>Ingen medicinsk information får anges.</p>
             </InfoBox>
             <p className="iu-fs-200 iu-my-300">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
+              {textArea.value.length < 1 && <MandatoryIcon />}
               Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
               så ska du delge Försäkringskassan det genom att svara med ett meddelande.{' '}
             </p>

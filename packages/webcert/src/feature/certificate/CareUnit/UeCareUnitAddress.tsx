@@ -12,7 +12,6 @@ import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
-import { css } from 'styled-components'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,
@@ -51,9 +50,6 @@ const PhoneNumberInput = styled.input.attrs({
   maxLength: 20,
 })`
   max-width: 15em;
-`
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
 `
 
 const UeCareUnitAddress: React.FC = () => {
@@ -105,7 +101,7 @@ const UeCareUnitAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.address} />
+            {!careUnitInfo.address && <MandatoryIcon />}
             <label htmlFor="address">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
@@ -126,7 +122,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.zipCode} />
+            {!careUnitInfo.zipCode && <MandatoryIcon />}
             <label htmlFor="zipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -146,7 +142,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!careUnitInfo.city} />
+            {!careUnitInfo.city && <MandatoryIcon />}
             <label htmlFor="city">Postort</label>
           </div>
           <div className="iu-grid-span-9">
@@ -166,7 +162,7 @@ const UeCareUnitAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon display={!careUnitInfo.phoneNumber} />
+            {!careUnitInfo.phoneNumber && <MandatoryIcon />}
             <label htmlFor="phoneNumber">Telefonnummer</label>
           </div>
           <div className="iu-grid-span-9">
