@@ -1,13 +1,15 @@
 import { CertificateDataValidation, CertificateDataValidationType } from '@frontend/common'
 import faker from 'faker'
 import { ValidationError } from '../../types/certificate'
+import { PartialDeep } from 'type-fest'
 
-export const fakeCertificateDataValidation = (data?: Partial<CertificateDataValidation>): CertificateDataValidation => {
+export const fakeCertificateDataValidation = (data?: PartialDeep<CertificateDataValidation>): CertificateDataValidation => {
   return {
     type: CertificateDataValidationType.TEXT_VALIDATION,
     questionId: faker.random.alpha({ count: 5 }),
     expression: '',
     ...data,
+    questions: data?.questions ? data?.questions.map(fakeCertificateDataValidation) : undefined,
   }
 }
 

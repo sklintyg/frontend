@@ -1,4 +1,4 @@
-import { Accordion, AccordionHeader, Expandable, sanitizeText, Text } from '@frontend/common'
+import { Accordion, AccordionHeader, Expandable, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id), _.isEqual)
+  const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 
   if (!category) return null
 
@@ -25,6 +26,7 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
           <div id={category.id}>
             <Accordion>
               <AccordionHeader>
+                {displayMandatory && <MandatoryIcon />}
                 <h3 className={'iu-fs-400  iu-fw-heading'}>{category.config.text}</h3>
               </AccordionHeader>
               <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(category.config.description)}></Text>

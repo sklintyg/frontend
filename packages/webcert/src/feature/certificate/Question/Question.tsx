@@ -1,10 +1,9 @@
-import { CertificateDataConfig, CertificateDataElement, ConfigTypes, Icon, InfoBox, MandatoryIcon, UvText } from '@frontend/common'
+import { CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon, UvText } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
-import { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
 import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
 import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
@@ -29,15 +28,12 @@ import UeVisualAcuity from '../Inputs/UeVisualAcuity/UeVisualAcuity'
 import QuestionAccordion from './QuestionAccordion'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
+import QuestionEditComponent from './QuestionEditComponent'
 
 export interface QuestionProps {
   id: string
   className?: string
 }
-
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
-`
 
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
@@ -74,10 +70,11 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         </div>
       )
     }
+
     return (
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
-        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
+        {displayMandatory && <MandatoryIcon />}
         {
           <QuestionHeading
             readOnly={question.readOnly}
@@ -161,7 +158,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? getUnifiedViewComponent(question) : getEditComponent(question, disabled)}</div>
+      <div>{question.readOnly ? <UvText question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}</div>
     </div>
   )
 }
