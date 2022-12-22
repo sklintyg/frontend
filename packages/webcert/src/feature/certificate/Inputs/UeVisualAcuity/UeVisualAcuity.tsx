@@ -2,7 +2,9 @@ import { CertificateDataElement, ConfigEyeAcuity, ConfigUeVisualAcuity, ValueEye
 
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
 
@@ -20,6 +22,19 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
   const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
+
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+
+  const rightValidationErrors = validationErrors.filter(
+    (v) =>
+      v.field === rightConfig.withoutCorrectionId || v.field === rightConfig.withCorrectionId || v.field === rightConfig.contactLensesId
+  )
+  const leftValidationErrors = validationErrors.filter(
+    (v) => v.field === leftConfig.withoutCorrectionId || v.field === leftConfig.withCorrectionId || v.field === leftConfig.contactLensesId
+  )
+  const binocularValidationErrors = validationErrors.filter(
+    (v) => v.field === binocularConfig.withoutCorrectionId || v.field === binocularConfig.withCorrectionId
+  )
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: ValueVisualAcuity) => {
@@ -54,16 +69,22 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
         config={rightConfig}
         value={currentValue.rightEye as ValueEyeAcuity}
         disabled={disabled}
+        isShowValidationError={rightValidationErrors.length > 0}
+        validationErrors={rightValidationErrors}
         onChange={onRightChanged}></UeEyeAcuity>
       <UeEyeAcuity
         config={leftConfig}
         value={currentValue.leftEye as ValueEyeAcuity}
         disabled={disabled}
+        isShowValidationError={leftValidationErrors.length > 0}
+        validationErrors={leftValidationErrors}
         onChange={onLeftChanged}></UeEyeAcuity>
       <UeEyeAcuity
         config={binocularConfig}
         value={currentValue.binocular as ValueEyeAcuity}
         disabled={disabled}
+        isShowValidationError={binocularValidationErrors.length > 0}
+        validationErrors={binocularValidationErrors}
         onChange={onBinocularChanged}></UeEyeAcuity>
     </div>
   )

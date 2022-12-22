@@ -1,4 +1,4 @@
-import { Checkbox, ConfigEyeAcuity, TextInput, ValueEyeAcuity } from '@frontend/common'
+import { Checkbox, ConfigEyeAcuity, QuestionValidationTexts, TextInput, ValidationError, ValueEyeAcuity } from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -6,6 +6,8 @@ export interface Props {
   disabled?: boolean
   config: ConfigEyeAcuity
   value: ValueEyeAcuity
+  isShowValidationError: boolean
+  validationErrors: ValidationError[]
   onChange: (value: ValueEyeAcuity) => void
 }
 const AcuityInput = styled(TextInput)`
@@ -15,7 +17,7 @@ const AcuityInput = styled(TextInput)`
   text-align: center;
 `
 
-const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => {
+const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, isShowValidationError, validationErrors, onChange }) => {
   const parseAcuity = (acuityValue: string) => {
     // This could probably be made better with RegEx replace?
     let returnString = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
@@ -84,6 +86,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
           }}
+          hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.withoutCorrectionId)}
           onBlur={() => setNoCorrection(parseFixed(noCorrection))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
@@ -95,6 +98,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
           }}
+          hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.withCorrectionId)}
           onBlur={() => setCorrection(parseFixed(correction))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
@@ -105,9 +109,16 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange }) => 
             onChange={(event) => {
               onContactsChange(event.currentTarget.checked)
             }}
+            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.contactLensesId)}
             checked={contacts}></Checkbox>
         )}
       </div>
+      {isShowValidationError && (
+        <div className="iu-grid-span-12">
+          {' '}
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </div>
+      )}
     </>
   )
 }
