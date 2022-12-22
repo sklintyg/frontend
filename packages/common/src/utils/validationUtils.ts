@@ -60,10 +60,9 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
   }
 
   if (validation.questions != null) {
-    if (validation.expressionType === 'OR') {
-      return validation.questions.some((v) => getResult(v, data, questionId))
-    }
-    return validation.questions.every((v) => getResult(v, data, questionId))
+    return validation.expressionType === 'OR'
+      ? validation.questions.some((v) => getResult(v, data, questionId))
+      : validation.questions.every((v) => getResult(v, data, questionId))
   }
 
   if (question) {
