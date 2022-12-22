@@ -26,9 +26,8 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const [questionValueList, setQuestionValueList] = useState<ValueMedicalInvestigation[]>(questionValue.list)
 
-  const handleChange = (index: number) => (value: ValueMedicalInvestigation) => {
+  const handleChange = (index: number) => (value: ValueMedicalInvestigation) =>
     updateList(questionValueList.map((item, i) => (i === index ? value : item)))
-  }
 
   const updateList = (list: ValueMedicalInvestigation[]) => {
     setQuestionValueList(list)

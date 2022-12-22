@@ -41,16 +41,36 @@ const UeMedicalInvestigation: React.FC<Props> = ({
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
   const handleInvestigationTypeChange = (code: string) => {
-    const investigationTypeId = config.typeOptions.find((s) => s.code === code)?.id ?? ''
-    onChange({ ...value, investigationType: { ...value.investigationType, id: investigationTypeId, code: code } })
+    onChange({
+      ...value,
+      investigationType: {
+        ...value.investigationType,
+        id: config.investigationTypeId,
+        code: code,
+      },
+    })
   }
 
   const handleDateChange = (date: string) => {
-    onChange({ ...value, date: { ...value.date, date } })
+    onChange({
+      ...value,
+      date: {
+        ...value.date,
+        id: config.dateId,
+        date,
+      },
+    })
   }
 
   const handleInformationSourceChange = (text: string) => {
-    onChange({ ...value, informationSource: { ...value.informationSource, text } })
+    onChange({
+      ...value,
+      informationSource: {
+        ...value.informationSource,
+        id: config.informationSourceId,
+        text,
+      },
+    })
   }
 
   const dispatchValidationError = useCallback(
