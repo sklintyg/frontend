@@ -159,8 +159,16 @@ export interface CheckboxCode {
   disabled?: boolean
 }
 
+export enum ConfigLayout {
+  ROWS = 'ROWS',
+  INLINE = 'INLINE',
+  COLUMN = 'COLUMN',
+  COLUMNS = 'COLUMNS',
+}
+
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
   list: CheckboxCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioCode extends CertificateDataConfig {
@@ -177,6 +185,7 @@ export interface ConfigUeRadioCodeOptionalDropdown {
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
   list: ConfigUeRadioCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioMultipleCodesOptionalDropdown extends CertificateDataConfig {
