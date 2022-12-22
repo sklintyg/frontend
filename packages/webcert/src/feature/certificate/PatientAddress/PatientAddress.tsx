@@ -18,7 +18,6 @@ import {
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { css } from 'styled-components'
 import styled from 'styled-components/macro'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
@@ -51,10 +50,6 @@ const CityInput = styled.input.attrs({
   maxLength: 30,
 })`
   max-width: 20em;
-`
-
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
 `
 
 const PatientAddress: React.FC = () => {
@@ -115,7 +110,7 @@ const PatientAddress: React.FC = () => {
       <QuestionWrapper>
         <Wrapper className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.street} />
+            {!disabled && !patientInfo.street && <MandatoryIcon />}
             <label htmlFor="patientAddress">Postadress</label>
           </div>
           <div className="iu-grid-span-9">
@@ -136,7 +131,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.zipCode} />
+            {!disabled && !patientInfo.zipCode && <MandatoryIcon />}
             <label htmlFor="patientZipCode">Postnummer</label>
           </div>
           <div className="iu-grid-span-9">
@@ -156,7 +151,7 @@ const PatientAddress: React.FC = () => {
           </div>
 
           <div className="iu-grid-span-3">
-            <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={!disabled && !patientInfo.city} />
+            {!disabled && !patientInfo.city && <MandatoryIcon />}
             <label htmlFor="patientCity">Postort</label>
           </div>
           <div className="iu-grid-span-9">
