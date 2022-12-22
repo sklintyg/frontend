@@ -146,6 +146,39 @@ describe('getKeyValuePair', () => {
       'cause[3].specification': 'specification',
     })
   })
+
+  it('Should convert list of MEDICAL_INVESTIGATION to key-value pair', () => {
+    const date = startOfToday()
+    expect(
+      getKeyValuePair({
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,
+        list: [
+          {
+            type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+            date: {
+              type: CertificateDataValueType.DATE,
+              id: 'underlag[0].datum',
+              date: format(date, 'yyyy-MM-dd'),
+            },
+            informationSource: {
+              type: CertificateDataValueType.TEXT,
+              id: 'underlag[0].hamtasFran',
+              text: 'loremIpsum',
+            },
+            investigationType: {
+              type: CertificateDataValueType.CODE,
+              id: 'underlag[0].typ',
+              code: 'ARBETSTERAPEUT',
+            },
+          },
+        ],
+      })
+    ).toEqual({
+      'underlag[0].datum': getUnixTime(date),
+      'underlag[0].hamtasFran': 'loremIpsum',
+      'underlag[0].typ': 'ARBETSTERAPEUT',
+    })
+  })
 })
 
 describe('maxDateToExpression', () => {
@@ -324,6 +357,36 @@ describe('validateExpression', () => {
               type: CertificateDataValueType.CODE,
               id: `ITEM_2`,
               code: '',
+            },
+          ],
+        })
+      ).toBe(true)
+    })
+  })
+
+  describe('MEDICAL_INVESTIGATION_LIST', () => {
+    it('Should', () => {
+      expect(
+        validateExpression("!empty('underlag[0].typ') && !empty('underlag[0].datum') && !empty('underlag[0].hamtasFran')", {
+          type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,
+          list: [
+            {
+              type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+              date: {
+                type: CertificateDataValueType.DATE,
+                id: 'underlag[0].datum',
+                date: '2022-12-16',
+              },
+              informationSource: {
+                type: CertificateDataValueType.TEXT,
+                id: 'underlag[0].hamtasFran',
+                text: 'loremIpsum',
+              },
+              investigationType: {
+                type: CertificateDataValueType.CODE,
+                id: 'underlag[0].typ',
+                code: 'ARBETSTERAPEUT',
+              },
             },
           ],
         })
