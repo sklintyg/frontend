@@ -153,8 +153,7 @@ export const fakeCheckboxBooleanElement = (
 
 export const fakeCheckboxMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeCheckboxMultipleCodes, ValueCodeList>,
-  children?: CertificateData[],
-  shortItems?: boolean
+  children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
     {
@@ -166,7 +165,7 @@ export const fakeCheckboxMultipleCodeElement = (
         selectedText: 'Ja',
         unselectedText: 'Nej',
         layout: ConfigLayout.ROWS,
-        list: fakeList(10, shortItems),
+        list: fakeList(10),
         ...data?.config,
       },
       value: fakeCertificateValue.codeList(data?.value),

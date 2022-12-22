@@ -1,5 +1,6 @@
 import { ConfigLayout, fakeCheckboxMultipleCodeElement } from '@frontend/common'
 import { Story } from '@storybook/react'
+import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
@@ -31,11 +32,15 @@ Inline.args = {
     {
       config: {
         layout: ConfigLayout.INLINE,
+        list: Array.from({ length: 5 }, () => ({
+          id: faker.random.alpha({ count: 10 }),
+          label: faker.lorem.word(3).toUpperCase(),
+          disabled: false,
+        })),
       },
       id: '1',
     },
-    [],
-    true
+    []
   )['1'],
 }
 
