@@ -1,17 +1,17 @@
 import { ConfigLayout } from '@frontend/common/'
 import styled, { css } from 'styled-components'
 
-interface checkboxesProps {
+interface groupWrapperProps {
   layout: ConfigLayout
 }
 
-interface checkboxProps {
+interface itemProps {
   layout: ConfigLayout
   index: number
   noItems: number
 }
 
-export const GroupWrapper = styled.div<checkboxesProps>`
+export const GroupWrapper = styled.div<groupWrapperProps>`
   ${(props) => {
     if (props.layout === ConfigLayout.COLUMNS) {
       return css`
@@ -23,7 +23,7 @@ export const GroupWrapper = styled.div<checkboxesProps>`
   }}
 `
 
-export const ItemWrapper = styled.div<checkboxProps>`
+export const ItemWrapper = styled.div<itemProps>`
   ${(props) => {
     switch (props.layout) {
       case ConfigLayout.INLINE:
