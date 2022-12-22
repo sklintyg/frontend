@@ -69,7 +69,6 @@ export const convertExpression = (expression: string): string =>
     .replace(/\|\|/g, 'or')
     .replace(/&&/g, 'and')
     .replace(/!(?!=)/g, 'not ')
-    .replace(/\$/g, '')
 
 /** Compile and execute expression on a certificate value */
 export const validateExpression = (expression: string, value: ValueType, validationType?: CertificateDataValidationType): boolean =>
@@ -79,6 +78,8 @@ export const validateExpression = (expression: string, value: ValueType, validat
         if (obj == null) {
           return obj
         }
+
+        id = id.replace(/\$/g, '')
 
         // TODO: Should be removed once CODE and CODE_LIST behaves as every other values
         switch (value.type) {

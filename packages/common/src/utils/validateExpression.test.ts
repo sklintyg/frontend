@@ -273,6 +273,17 @@ describe('validateExpression', () => {
     })
   })
 
+  describe('DIAGNOSIS_LIST', () => {
+    it('Should handle numbered identifier', () => {
+      expect(
+        validateExpression('$1', {
+          type: CertificateDataValueType.DIAGNOSIS_LIST,
+          list: [],
+        })
+      ).toBe(false)
+    })
+  })
+
   it('Should validate DATE value correctly', () => {
     expect(
       validateExpression('ID', {
