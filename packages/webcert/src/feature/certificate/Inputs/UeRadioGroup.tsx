@@ -1,22 +1,33 @@
+import {
+  CertificateDataElement,
+  ConfigLayout,
+  ConfigUeRadioMultipleCodes,
+  QuestionValidationTexts,
+  RadioButton,
+  ValueCode,
+} from '@frontend/common'
 import React, { useState } from 'react'
-import { CertificateDataElement, ConfigUeRadioMultipleCodes, QuestionValidationTexts, RadioButton, ValueCode } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../store/certificate/certificateActions'
+import { getQuestionHasValidationError, getShowValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../store/store'
+import { GroupWrapper, ItemWrapper } from './GroupWrappers'
 
-interface Props {
+export interface Props {
   disabled: boolean
   question: CertificateDataElement
 }
 
 const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
-  const radiobuttons = (question.config as ConfigUeRadioMultipleCodes).list
+  const config = question.config as ConfigUeRadioMultipleCodes
+  const radiobuttons = config.list
   const [code, setCode] = useState(question.value?.code)
   const isShowValidationError = useSelector(getShowValidationErrors)
   const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const dispatch = useAppDispatch()
-  const shouldBeHorizontal = radiobuttons.length <= 2
+  const shouldBeHorizontal = config.layout !== ConfigLayout.COLUMN && radiobuttons.length <= 2
+
+  const noItems = radiobuttons.length
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setCode(event.currentTarget.value)
@@ -35,37 +46,40 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
     return updatedQuestion
   }
 
-  function isLastRadiobutton(index: number) {
-    return index === radiobuttons.length - 1
-  }
-
-  const renderRadioButtons = () => {
-    if (!radiobuttons) {
-      return null
-    }
-    return radiobuttons.map((radio, index) => (
-      <RadioButton
-        id={radio.id as string}
-        value={radio.id}
-        name={question.id}
-        key={index}
-        label={radio.label}
-        disabled={disabled}
-        checked={radio.id === code}
-        hasValidationError={shouldDisplayValidationError}
-        onChange={handleChange}
-        wrapperAdditionalStyles={!shouldBeHorizontal && !isLastRadiobutton(index) ? 'iu-pb-400' : ''}
-      />
-    ))
+  function shouldHaveItemPadding(index: number) {
+    return (
+      ((config.layout === ConfigLayout.ROWS && !shouldBeHorizontal) || config.layout === ConfigLayout.COLUMN) &&
+      index < radiobuttons.length - 1
+    )
   }
 
   return (
-    <>
-      <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
-        {renderRadioButtons()}
-      </div>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
-    </>
+    radiobuttons && (
+      <>
+        <GroupWrapper
+          layout={config.layout}
+          role="radiogroup"
+          className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+          {radiobuttons.map((radio, index) => (
+            <ItemWrapper key={index} layout={config.layout} index={index} noItems={noItems}>
+              <RadioButton
+                id={radio.id as string}
+                value={radio.id}
+                name={question.id}
+                key={index}
+                label={radio.label}
+                disabled={disabled}
+                checked={radio.id === code}
+                hasValidationError={shouldDisplayValidationError}
+                onChange={handleChange}
+                wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
+              />
+            </ItemWrapper>
+          ))}
+        </GroupWrapper>
+        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      </>
+    )
   )
 }
 
