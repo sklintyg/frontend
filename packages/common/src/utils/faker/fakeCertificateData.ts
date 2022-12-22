@@ -6,8 +6,12 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  ConfigAccordion,
   ConfigCategory,
+  ConfigLayout,
   ConfigTypes,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
@@ -22,9 +26,6 @@ import {
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
-  ConfigAccordion,
-  ConfigUeCauseOfDeath,
-  ConfigUeCauseOfDeathList,
   ConfigUeUncertainDate,
   Value,
   ValueBoolean,
@@ -152,7 +153,8 @@ export const fakeCheckboxBooleanElement = (
 
 export const fakeCheckboxMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeCheckboxMultipleCodes, ValueCodeList>,
-  children?: CertificateData[]
+  children?: CertificateData[],
+  shortItems?: boolean
 ): CertificateData =>
   fakeDataElement(
     {
@@ -163,7 +165,8 @@ export const fakeCheckboxMultipleCodeElement = (
         text: `text: ${faker.lorem.sentence()}`,
         selectedText: 'Ja',
         unselectedText: 'Nej',
-        list: fakeList(5),
+        layout: ConfigLayout.ROWS,
+        list: fakeList(10, shortItems),
         ...data?.config,
       },
       value: fakeCertificateValue.codeList(data?.value),
@@ -229,7 +232,7 @@ export const fakeCheckboxMultipleDate = (
       ...data,
       config: {
         type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
-        list: fakeList(5),
+        list: fakeList(6),
         ...data?.config,
       },
       value: fakeCertificateValue.dateList(data?.value),
@@ -238,15 +241,17 @@ export const fakeCheckboxMultipleDate = (
   )
 
 export const fakeRadioMultipleCodeElement = (
-  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
-  children?: CertificateData[]
+  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCode>,
+  children?: CertificateData[],
+  shortItems?: boolean
 ): CertificateData =>
   fakeDataElement(
     {
       ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-        list: fakeList(5),
+        list: fakeList(7, shortItems),
+        layout: ConfigLayout.ROWS,
         ...data?.config,
       },
       value: fakeCertificateValue.codeList(data?.value),

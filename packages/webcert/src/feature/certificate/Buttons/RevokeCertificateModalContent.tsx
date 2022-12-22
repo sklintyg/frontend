@@ -2,14 +2,9 @@ import { InfoBox, MandatoryIcon, RadioButton, TextArea } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
-import { getIsLocked } from '../../../store/certificate/certificateSelectors'
-import { css } from 'styled-components'
+import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
 import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
-
-const mandatoryIconAdditionalStyles = css`
-  top: -4px;
-`
 
 interface Props {
   onChange: (obj: RevokeCertificateReason) => void
@@ -19,8 +14,9 @@ interface Props {
 export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type }) => {
   const [textArea, setTextArea] = useState({ display: false, name: '', value: '' })
   const locked = useSelector(getIsLocked)
-  const recipient = type ? (type === 'lisjp' ? 'för Försäkringskassan' : '') : ''
   const hasUnhandledQuestions = useSelector(getHasUnhandledQuestions)
+  const sentTo = useSelector(getRecipient)
+  const recipient = sentTo ? `för ${sentTo}` : ''
 
   const handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextArea({ ...textArea, display: true, name: event.target.id, value: '' })
@@ -90,7 +86,7 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
         {textArea.display && textArea.name === 'ANNAT_ALLVARLIGT_FEL' && (
           <div>
             <p className="iu-fw-bold iu-fs-200">
-              <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={textArea.value.length < 1} />
+              {textArea.value.length < 1 && <MandatoryIcon />}
               Ange orsaken till felet.
             </p>
             <TextArea

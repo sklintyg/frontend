@@ -233,3 +233,5 @@ export const getIsReserveId = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false
 
 export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus
+
+export const getRecipient = (state: RootState): string | undefined => state.ui.uiCertificate.certificate?.metadata.sentTo

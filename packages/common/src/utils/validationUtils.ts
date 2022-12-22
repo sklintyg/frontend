@@ -59,14 +59,22 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
     question = data[questionId]
   }
 
+  if (validation.questions != null) {
+    return validation.expressionType === 'OR'
+      ? validation.questions.some((v) => getResult(v, data, questionId))
+      : validation.questions.every((v) => getResult(v, data, questionId))
+  }
+
   if (question) {
     if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
       return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
     }
+
     if (validation.expression != null) {
       return parseExpression(validation.expression, question, validation.type)
     }
   }
+
   return false
 }
 
@@ -138,7 +146,10 @@ export const validateExpressions = (certificate: Certificate, updated: Certifica
   for (const id in data) {
     const validations = data[id].validation ?? []
 
-    const needsValidation = validations.find((validation) => validation.questionId === updated.id)
+    const needsValidation = validations.find(
+      (validation) =>
+        validation.questionId === updated.id || validation.questions?.some((validation) => validation.questionId === updated.id)
+    )
 
     if (needsValidation) {
       validations.forEach((validation) => {
@@ -314,6 +325,7 @@ function validate(data: CertificateData, id: string) {
 
   filterValidations(validationResults).forEach((validationResult) => {
     switch (validationResult.type) {
+      case CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION:
       case CertificateDataValidationType.MANDATORY_VALIDATION:
         data[id].mandatory = !validationResult.result
         break
