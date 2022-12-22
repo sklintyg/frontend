@@ -1,4 +1,11 @@
-import { CertificateDataElement, ConfigEyeAcuity, ConfigUeVisualAcuity, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
+import {
+  CertificateDataElement,
+  ConfigEyeAcuity,
+  ConfigUeVisualAcuity,
+  MandatoryIcon,
+  ValueEyeAcuity,
+  ValueVisualAcuity,
+} from '@frontend/common'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -20,18 +27,7 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
   const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
 
-  // const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-
-  // const rightValidationErrors = validationErrors.filter(
-  //   (v) =>
-  //     v.field === rightConfig.withoutCorrectionId || v.field === rightConfig.withCorrectionId || v.field === rightConfig.contactLensesId
-  // )
-  // const leftValidationErrors = validationErrors.filter(
-  //   (v) => v.field === leftConfig.withoutCorrectionId || v.field === leftConfig.withCorrectionId || v.field === leftConfig.contactLensesId
-  // )
-  // const binocularValidationErrors = validationErrors.filter(
-  //   (v) => v.field === binocularConfig.withoutCorrectionId || v.field === binocularConfig.withCorrectionId
-  // )
+  const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, value: ValueVisualAcuity) => {
@@ -59,7 +55,10 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   return (
     <div className="iu-grid-cols iu-grid-cols-12">
       <div className="iu-grid-span-3"></div>
-      <div className="iu-grid-span-3">{questionConfig.withoutCorrectionLabel}</div>
+      <div className="iu-grid-span-3">
+        {displayMandatory && <MandatoryIcon />}
+        {questionConfig.withoutCorrectionLabel}
+      </div>
       <div className="iu-grid-span-3">{questionConfig.withCorrectionLabel}</div>
       <div className="iu-grid-span-3">{questionConfig.contactLensesLabel}</div>
       <UeEyeAcuity
