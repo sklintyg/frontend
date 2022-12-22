@@ -240,16 +240,15 @@ export const fakeCheckboxMultipleDate = (
   )
 
 export const fakeRadioMultipleCodeElement = (
-  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCode>,
-  children?: CertificateData[],
-  shortItems?: boolean
+  data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
+  children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
     {
       ...data,
       config: {
         type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
-        list: fakeList(7, shortItems),
+        list: fakeList(7),
         layout: ConfigLayout.ROWS,
         ...data?.config,
       },

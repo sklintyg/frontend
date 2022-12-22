@@ -1,5 +1,6 @@
 import { ConfigLayout, fakeRadioMultipleCodeElement } from '@frontend/common'
 import { Story } from '@storybook/react'
+import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
@@ -27,16 +28,16 @@ Default.args = {
 
 export const Inline = Template.bind({})
 Inline.args = {
-  question: fakeRadioMultipleCodeElement(
-    {
-      config: {
-        layout: ConfigLayout.INLINE,
-      },
-      id: '1',
+  question: fakeRadioMultipleCodeElement({
+    config: {
+      layout: ConfigLayout.INLINE,
+      list: Array.from({ length: 5 }, () => ({
+        id: faker.random.alpha({ count: 10 }),
+        label: faker.lorem.word(3).toUpperCase(),
+      })),
     },
-    [],
-    true
-  )['1'],
+    id: '1',
+  })['1'],
 }
 
 export const Columns = Template.bind({})
