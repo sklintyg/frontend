@@ -277,10 +277,6 @@ describe('convertExpression', () => {
   it('Should not replace ! when part of a comparison', () => {
     expect(convertExpression("'ID_1' != 'ID_2'")).toEqual("'ID_1' != 'ID_2'")
   })
-
-  it('Should remove $ characters', () => {
-    expect(convertExpression("'$ID_1' and '$ID_2'")).toEqual("'ID_1' and 'ID_2'")
-  })
 })
 
 describe('filtrex', () => {
