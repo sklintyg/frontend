@@ -74,15 +74,17 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
       </RadioWrapper>
       <p>Diagnoskod enligt ICD-10 SE</p>
       <DiagnosesWrapper>
-        {questionConfig.list.map((diagnosis) => {
+        {questionConfig.list.map((diagnosis, index) => {
+          const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
             <UeDiagnosis
-              key={diagnosis.id + '-diagnosis'}
+              hasValidationError={(index === 0 && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
+              key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
-              validationErrors={validationErrors.filter((validation) => validation.field === diagnosis.id)}
+              validationErrors={diagnosisValidationErrors}
             />
           )
         })}
