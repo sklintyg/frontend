@@ -91,6 +91,9 @@ export enum ConfigTypes {
   UE_MEDICAL_INVESTIGATION = 'UE_MEDICAL_INVESTIGATION',
   UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
   UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
+  UE_VIEW_TEXT = 'UE_VIEW_TEXT',
+  UE_VIEW_LIST = 'UE_VIEW_LIST',
+  UE_VIEW_TABLE = 'UE_VIEW_TABLE',
 }
 
 export enum MessageLevel {
@@ -298,6 +301,23 @@ export interface ConfigUeCauseOfDeathList extends CertificateDataConfig {
   list: ConfigUeCauseOfDeathControl[]
 }
 
+export interface ConfigUeViewText extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigUeViewList extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigureViewColumn {
+  id: string
+  title: string
+}
+
+export interface ConfigureUeViewTable {
+  columns: ConfigureViewColumn[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -318,6 +338,10 @@ export enum CertificateDataValueType {
   MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
+  VIEW_TEXT = 'VIIEW_TEXT',
+  LIST = 'LIST',
+  ROW = 'ROW',
+  TABLE = 'TABLE',
 }
 
 export type ValueType =
@@ -338,7 +362,9 @@ export type ValueType =
   | ValueUncertainDate
   | ValueMedicalInvestigation
   | ValueMedicalInvestigationList
-
+  | ValueViewText
+  | ValueViewList
+  | ValueViewTable
 export interface Value {
   [propName: string]: unknown
 }
@@ -443,6 +469,26 @@ export interface ValueMedicalInvestigation extends Value {
 export interface ValueMedicalInvestigationList extends Value {
   type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
+}
+
+export interface ValueViewText extends Value {
+  type: CertificateDataValueType.VIEW_TEXT
+  text: string
+}
+
+export interface ValueViewList extends Value {
+  type: CertificateDataValueType.LIST
+  list: ValueViewText[]
+}
+
+export interface ValueTextRow {
+  type: CertificateDataValueType.ROW
+  columns: ValueText[]
+}
+
+export interface ValueViewTable extends Value {
+  type: CertificateDataValueType.TABLE
+  rows: ValueTextRow[]
 }
 
 // Validation
