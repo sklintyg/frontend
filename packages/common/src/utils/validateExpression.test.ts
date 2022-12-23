@@ -1,6 +1,14 @@
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
 import { CertificateDataValidationType, CertificateDataValueType } from '../types/certificate'
-import { differenceInDays, getKeyValuePair, maxDateToExpression, parseDateValue, validateExpression } from './validateExpression'
+import { compileExpression } from 'filtrex'
+import {
+  differenceInDays,
+  getKeyValuePair,
+  maxDateToExpression,
+  parseDateValue,
+  validateExpression,
+  convertExpression,
+} from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')
 jest.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
@@ -138,6 +146,39 @@ describe('getKeyValuePair', () => {
       'cause[3].specification': 'specification',
     })
   })
+
+  it('Should convert list of MEDICAL_INVESTIGATION to key-value pair', () => {
+    const date = startOfToday()
+    expect(
+      getKeyValuePair({
+        type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,
+        list: [
+          {
+            type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+            date: {
+              type: CertificateDataValueType.DATE,
+              id: 'underlag[0].datum',
+              date: format(date, 'yyyy-MM-dd'),
+            },
+            informationSource: {
+              type: CertificateDataValueType.TEXT,
+              id: 'underlag[0].hamtasFran',
+              text: 'loremIpsum',
+            },
+            investigationType: {
+              type: CertificateDataValueType.CODE,
+              id: 'underlag[0].typ',
+              code: 'ARBETSTERAPEUT',
+            },
+          },
+        ],
+      })
+    ).toEqual({
+      'underlag[0].datum': getUnixTime(date),
+      'underlag[0].hamtasFran': 'loremIpsum',
+      'underlag[0].typ': 'ARBETSTERAPEUT',
+    })
+  })
 })
 
 describe('maxDateToExpression', () => {
@@ -199,6 +240,56 @@ describe('maxDateToExpression', () => {
         }
       )
     ).toBe(false)
+  })
+})
+
+describe('differenceInDays', () => {
+  const date = new Date(SYSTEM_DATE)
+  it('Should return expected posetive number of days', () => {
+    expect(differenceInDays(addDays(date, 8), date)).toBe(8)
+  })
+
+  it('Should return expected negative number of days', () => {
+    expect(differenceInDays(subDays(date, 8), date)).toBe(-8)
+  })
+})
+
+describe('parseDateValue', () => {
+  it('Should parse unix timestamp', () => {
+    const result = parseDateValue('2022-12-12')
+    expect(fromUnixTime(result as number)).toEqual(new Date(2022, 11, 12))
+  })
+})
+
+describe('convertExpression', () => {
+  it('Should replace && with "and"', () => {
+    expect(convertExpression("'ID_1' && 'ID_2' && 'ID_3'")).toEqual("'ID_1' and 'ID_2' and 'ID_3'")
+  })
+
+  it('Should replace || with "or"', () => {
+    expect(convertExpression("'ID_1' || 'ID_2' || 'ID_3'")).toEqual("'ID_1' or 'ID_2' or 'ID_3'")
+  })
+
+  it('Should replace ! with "not"', () => {
+    expect(convertExpression("!'ID_1' and !'ID_2' and !'ID_3'")).toEqual("not 'ID_1' and not 'ID_2' and not 'ID_3'")
+  })
+
+  it('Should not replace ! when part of a comparison', () => {
+    expect(convertExpression("'ID_1' != 'ID_2'")).toEqual("'ID_1' != 'ID_2'")
+  })
+
+  it('Should remove $ characters', () => {
+    expect(convertExpression("'$ID_1' and '$ID_2'")).toEqual("'ID_1' and 'ID_2'")
+  })
+})
+
+describe('filtrex', () => {
+  it('Should be able to pick out value when using "\'" ', () => {
+    expect(
+      compileExpression("'underlag[0].typ'")({
+        'underlag[0].typ': 'lorem ipsum',
+      })
+    ).toEqual('lorem ipsum')
   })
 })
 
@@ -281,6 +372,36 @@ describe('validateExpression', () => {
           list: [],
         })
       ).toBe(false)
+    })
+  })
+
+  describe('MEDICAL_INVESTIGATION_LIST', () => {
+    it('Should', () => {
+      expect(
+        validateExpression("!empty('underlag[0].typ') && !empty('underlag[0].datum') && !empty('underlag[0].hamtasFran')", {
+          type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,
+          list: [
+            {
+              type: CertificateDataValueType.MEDICAL_INVESTIGATION,
+              date: {
+                type: CertificateDataValueType.DATE,
+                id: 'underlag[0].datum',
+                date: '2022-12-16',
+              },
+              informationSource: {
+                type: CertificateDataValueType.TEXT,
+                id: 'underlag[0].hamtasFran',
+                text: 'loremIpsum',
+              },
+              investigationType: {
+                type: CertificateDataValueType.CODE,
+                id: 'underlag[0].typ',
+                code: 'ARBETSTERAPEUT',
+              },
+            },
+          ],
+        })
+      ).toBe(true)
     })
   })
 
@@ -459,23 +580,5 @@ describe('validateExpression', () => {
         expect(validateExpression('empty(ID)', { type: CertificateDataValueType.TEXT, id: 'ID', text: 'lorem' })).toBe(false)
       })
     })
-  })
-})
-
-describe('differenceInDays', () => {
-  const date = new Date(SYSTEM_DATE)
-  it('Should return expected posetive number of days', () => {
-    expect(differenceInDays(addDays(date, 8), date)).toBe(8)
-  })
-
-  it('Should return expected negative number of days', () => {
-    expect(differenceInDays(subDays(date, 8), date)).toBe(-8)
-  })
-})
-
-describe('parseDateValue', () => {
-  it('Should parse unix timestamp', () => {
-    const result = parseDateValue('2022-12-12')
-    expect(fromUnixTime(result as number)).toEqual(new Date(2022, 11, 12))
   })
 })

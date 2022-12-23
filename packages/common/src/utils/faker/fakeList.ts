@@ -1,7 +1,7 @@
-import { CertificateDataConfig, ConfigTypes } from '@frontend/common'
+import { CertificateDataConfig } from '@frontend/common'
 import faker from 'faker'
 
-interface ListItem extends CertificateDataConfig {
+interface ListItem extends Omit<CertificateDataConfig, 'type'> {
   id: string
   label: string
 }
@@ -10,7 +10,6 @@ export const fakeList = (length = 5): ListItem[] => new Array(length).fill(0).ma
 
 export const fakeListItem = (data?: Partial<ListItem>): ListItem => {
   return {
-    type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
     text: faker.lorem.sentence(),
     description: '',
     id: faker.random.alpha({ count: 10 }),
