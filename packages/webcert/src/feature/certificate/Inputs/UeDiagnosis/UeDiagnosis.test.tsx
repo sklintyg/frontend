@@ -1,12 +1,12 @@
-import React from 'react'
+import { fakeDiagnosesElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import UeDiagnosis from './UeDiagnosis'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import React, { ComponentProps } from 'react'
 import * as redux from 'react-redux'
+import store from '../../../../store/store'
+import UeDiagnosis from './UeDiagnosis'
 
-const CODE_SYSTEM = 'ICD_10'
 const DIAGNOSES = [
   { kod: 'F50', beskrivning: 'Ätstörningar' },
   { kod: 'F500', beskrivning: 'Anorexia nervosa' },
@@ -19,69 +19,12 @@ const DIAGNOSES = [
   { kod: 'F509', beskrivning: 'Ätstörning, ospecificerad' },
 ]
 
-const testInput1 = 'ä'
-const testInput2 = 'tst'
-
-const question: CertificateDataElement = {
-  id: 'diagnos',
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  validation: [],
-  validationErrors: [],
-  value: { type: CertificateDataValueType.DIAGNOSIS, list: [] },
-  config: {
-    text: '',
-    description: '',
-    type: ConfigTypes.UE_DIAGNOSES,
-    terminology: ['ICD_10', 'Annat'],
-    list: [{ id: 'id1' }, { id: 'id2' }, { id: 'id3' }],
-  },
-}
-
-const questionWithValue: CertificateDataElement = {
-  id: 'diagnos',
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  validation: [],
-  validationErrors: [],
-  value: { type: CertificateDataValueType.DIAGNOSIS, list: [{ code: 'F503', description: 'Atypisk bulimia nervosa' }] },
-  config: {
-    text: '',
-    description: '',
-    type: ConfigTypes.UE_DIAGNOSES,
-    terminology: ['ICD_10', 'Annat'],
-    list: [{ id: 'id1' }, { id: 'id2' }, { id: 'id3' }],
-  },
-}
-const renderDefaultComponent = () => {
-  render(
-    <>
-      <UeDiagnosis question={question} disabled={false} id={'diagnosis'} selectedCodeSystem={CODE_SYSTEM} />
-    </>
+const renderComponent = ({ ...args }: ComponentProps<typeof UeDiagnosis>) => {
+  return render(
+    <redux.Provider store={store}>
+      <UeDiagnosis {...args} />
+    </redux.Provider>
   )
-}
-
-const renderComponentWithValue = () => {
-  render(
-    <>
-      <UeDiagnosis question={questionWithValue} disabled={false} id={'diagnosis'} selectedCodeSystem={CODE_SYSTEM} />
-    </>
-  )
-}
-
-const checkListVisibility = (visible: boolean) => {
-  const listItems = screen.queryAllByRole('option')
-  if (visible) {
-    expect(listItems).toHaveLength(DIAGNOSES.length)
-  } else {
-    expect(listItems).toHaveLength(0)
-  }
 }
 
 beforeEach(() => {
@@ -95,115 +38,181 @@ beforeEach(() => {
 })
 
 describe('Diagnosis component', () => {
-  it('renders without crashing', () => {
-    renderDefaultComponent()
+  it('Should renders without crashing', () => {
+    expect(() =>
+      renderComponent({
+        question: fakeDiagnosesElement({ id: 'id' })['id'],
+        disabled: false,
+        id: 'id',
+        selectedCodeSystem: 'ICD_10',
+        validationErrors: [],
+      })
+    ).not.toThrow()
   })
 
-  it('shows no results and has no values as default', () => {
-    renderDefaultComponent()
+  it('Should show no results and has no values as default', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.queryAllByRole('textbox')
-    input.forEach((i: any) => expect(i).toHaveValue(''))
-    checkListVisibility(false)
+    input.forEach((i: HTMLElement) => expect(i).toHaveValue(''))
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
   })
 
-  it('shows results when users types description', () => {
-    renderDefaultComponent()
+  it('Should show results when users types description', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    checkListVisibility(false)
-    userEvent.type(input[1], testInput1)
-    checkListVisibility(true)
-    expect(input[1]).toHaveValue(testInput1)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
+    userEvent.type(input[1], 'ä')
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
+    expect(input[1]).toHaveValue('ä')
     expect(input[0]).toHaveValue('')
-    checkListVisibility(true)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
   })
 
-  it('shows results when users types code', () => {
-    renderDefaultComponent()
+  it('Should show results when users types code', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     userEvent.type(input[0], 'f')
-    //checkListVisibility(false)
+    //expect(screen.queryAllByRole('option')).toHaveLength(0)
     userEvent.type(input[0], '50')
-    checkListVisibility(true)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
   })
 
-  it('allows user to choose value from list', () => {
-    renderDefaultComponent()
+  it('Should allow user to choose value from list', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     userEvent.type(input[1], 'nervosa')
-    checkListVisibility(true)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
     const items = screen.getAllByRole('option')
     expect(items).toHaveLength(DIAGNOSES.length)
     userEvent.click(items[3])
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     expect(input[0]).toHaveValue(DIAGNOSES[3].kod)
     expect(input[1]).toHaveValue(DIAGNOSES[3].beskrivning)
   })
 
-  it('does not allow user to choose short psychological diagnosis', () => {
-    renderDefaultComponent()
+  it('Should not allow user to choose short psychological diagnosis', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     userEvent.type(input[1], 'a')
-    checkListVisibility(true)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
     const items = screen.getAllByRole('option')
     expect(items).toHaveLength(DIAGNOSES.length)
     userEvent.click(items[0])
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     expect(input[0]).toHaveValue('')
     expect(input[1]).toHaveValue('a')
   })
 
-  it('closes list when component does not have focus', async () => {
-    renderDefaultComponent()
+  it('Should close list when component does not have focus', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    await userEvent.click(input[1])
-    await userEvent.type(input[1], testInput1)
-    checkListVisibility(true)
-    await userEvent.click(input[0])
-    checkListVisibility(false)
+    userEvent.click(input[1])
+    userEvent.type(input[1], 'ä')
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
+    userEvent.click(input[0])
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
   })
 
-  it('does not save code input if not selected from results', async () => {
+  it('Should not save code input if not selected from results', () => {
     const exampleCode = 'F501'
-    renderDefaultComponent()
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const codeInput = screen.getAllByRole('textbox')[0]
     const descriptionInput = screen.getAllByRole('textbox')[1]
-    await userEvent.click(codeInput)
-    await userEvent.type(codeInput, exampleCode)
+    userEvent.click(codeInput)
+    userEvent.type(codeInput, exampleCode)
     expect(codeInput).toHaveValue(exampleCode)
-    checkListVisibility(true)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
     userEvent.click(descriptionInput)
-    checkListVisibility(false)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     expect(codeInput).toHaveValue('')
 
-    await userEvent.click(codeInput)
-    await userEvent.type(codeInput, exampleCode)
-    checkListVisibility(true)
+    userEvent.click(codeInput)
+    userEvent.type(codeInput, exampleCode)
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
     expect(codeInput).toHaveValue(exampleCode)
-    await userEvent.click(screen.queryAllByRole('option')[4])
-    checkListVisibility(false)
+    userEvent.click(screen.queryAllByRole('option')[4])
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
     expect(codeInput).toHaveValue(DIAGNOSES[4].kod)
   })
 
-  it('does not reset code if escape key is pressed', async () => {
-    renderDefaultComponent()
+  it('Should not reset code if escape key is pressed', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({ id: 'id' })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    await userEvent.click(input[0])
-    await userEvent.keyboard(testInput1)
-    checkListVisibility(true)
-    await userEvent.keyboard('{escape}')
-    expect(input[0]).toHaveValue(testInput1)
-    checkListVisibility(false)
+    userEvent.click(input[0])
+    userEvent.keyboard('ä')
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
+    userEvent.keyboard('{escape}')
+    expect(input[0]).toHaveValue('ä')
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
   })
 
-  it('does not show already chosen values in list', async () => {
-    renderComponentWithValue()
+  it('Should not show already chosen values in list', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({
+        id: 'id',
+        value: {
+          list: [{ code: 'F503', description: 'Atypisk bulimia nervosa' }],
+        },
+      })['id'],
+      disabled: false,
+      id: 'id',
+      selectedCodeSystem: 'ICD_10',
+      validationErrors: [],
+    })
     const input = screen.getAllByRole('textbox')
-    await userEvent.click(input[0])
-    await userEvent.keyboard(testInput1)
-    const listItems = screen.queryAllByRole('option')
-    expect(listItems).toHaveLength(DIAGNOSES.length - 1)
+    userEvent.click(input[0])
+    userEvent.keyboard('ä')
+    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length - 1)
   })
 })
