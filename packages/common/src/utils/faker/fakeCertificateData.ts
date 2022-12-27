@@ -27,6 +27,7 @@ import {
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
+  ConfigUeViewText,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -35,17 +36,20 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
-  ValueDiagnosisList,
-  ValueMedicalInvestigationList,
+  ValueViewList,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
+import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateValue } from './fakeCertificateValue'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -554,3 +558,51 @@ export const fakeCauseOfDeathListElement = (
     children
   )
 }
+
+export const fakeViewTextElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TEXT,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewText(data?.value),
+    },
+    children
+  )
+
+export const fakeViewListElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_LIST,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewList(data?.value),
+    },
+    children
+  )
+
+export const fakeViewTableElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewTable>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TABLE,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewTable(data?.value),
+    },
+    children
+  )

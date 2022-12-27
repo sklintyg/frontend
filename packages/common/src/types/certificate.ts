@@ -481,7 +481,7 @@ export interface ValueViewList extends Value {
   list: ValueViewText[]
 }
 
-export interface ValueTextRow {
+export interface ValueTextRow extends Value {
   type: CertificateDataValueType.ROW
   columns: ValueText[]
 }

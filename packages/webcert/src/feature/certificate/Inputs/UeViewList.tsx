@@ -17,8 +17,8 @@ const UeViewList: React.FC<Props> = ({ question }) => {
         <Badge>
           {value && (
             <ul>
-              {value.list.map((i: ValueViewText) => (
-                <li>{i.text}</li>
+              {value.list.map((i: ValueViewText, index: number) => (
+                <li key={index}>{i.text}</li>
               ))}
             </ul>
           )}
