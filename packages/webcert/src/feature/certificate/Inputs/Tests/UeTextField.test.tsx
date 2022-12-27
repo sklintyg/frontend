@@ -1,10 +1,10 @@
-import React from 'react'
+import { fakeTextFieldElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { fakeTextFieldElement } from '@frontend/common'
-import UeTextField from './UeTextField'
+import React from 'react'
+import * as redux from 'react-redux'
+import UeTextField from '../UeTextField'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')
 const useDispatchSpy = jest.spyOn(redux, 'useDispatch')

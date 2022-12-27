@@ -1,12 +1,12 @@
-import { fakeUncertainDateElement, fakeCertificate } from '@frontend/common'
+import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
+import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import UeUncertainDate from './UeUncertainDate'
-import { configureStore } from '@reduxjs/toolkit'
-import reducers from '../../../store/reducers'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { updateCertificate } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import reducers from '../../../../store/reducers'
+import UeUncertainDate from '../UeUncertainDate'
 
 export default {
   title: 'Webcert/UeUncertainDate',

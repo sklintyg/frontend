@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import UeDropdown from '../UeDropdown'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import * as redux from 'react-redux'
+import UeDropdown from '../UeDropdown'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },

@@ -1,14 +1,14 @@
-import React, { ComponentProps } from 'react'
+import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import UeUncertainDate from './UeUncertainDate'
 import userEvent from '@testing-library/user-event'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
-import reducer from '../../../store/reducers'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
+import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { updateCertificate } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import reducer from '../../../../store/reducers'
+import UeUncertainDate from '../UeUncertainDate'
 
 const YEARS = ['2020', '2021', '2022']
 const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']

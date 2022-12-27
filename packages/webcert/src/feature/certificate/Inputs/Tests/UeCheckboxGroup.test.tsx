@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import UeCheckboxGroup from '../UeCheckboxGroup'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import React from 'react'
 import * as redux from 'react-redux'
+import UeCheckboxGroup from '../UeCheckboxGroup'
 
 const CHECKBOXES = [
   { label: 'Checkbox1', id: 'Checkbox_1' },

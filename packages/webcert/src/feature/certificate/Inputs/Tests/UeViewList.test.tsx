@@ -2,7 +2,7 @@ import { CertificateDataValueType, fakeViewListElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import UeViewList from './UeViewList'
+import UeViewList from '../UeViewList'
 
 const mockQuestion = fakeViewListElement({
   id: '1',

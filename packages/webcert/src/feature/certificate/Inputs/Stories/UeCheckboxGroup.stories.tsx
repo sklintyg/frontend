@@ -3,8 +3,8 @@ import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import UeCheckboxGroup, { Props } from './UeCheckboxGroup'
+import store from '../../../../store/store'
+import UeCheckboxGroup, { Props } from '../UeCheckboxGroup'
 
 export default {
   title: 'Webcert/UeCheckboxGroup',

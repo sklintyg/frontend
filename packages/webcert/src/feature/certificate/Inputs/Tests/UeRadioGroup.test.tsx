@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import UeRadioGroup from '../UeRadioGroup'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import React from 'react'
 import * as redux from 'react-redux'
+import UeRadioGroup from '../UeRadioGroup'
 
 const CODES = [
   { label: 'Option1', id: 'Option_1' },

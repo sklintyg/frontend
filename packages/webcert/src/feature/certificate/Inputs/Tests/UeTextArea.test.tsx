@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataValidation, CertificateDataValidationType, fakeTextAreaElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import UeTextArea from './UeTextArea'
-import { CertificateDataValidation, CertificateDataValidationType, fakeTextAreaElement } from '@frontend/common'
+import React from 'react'
+import * as redux from 'react-redux'
+import UeTextArea from '../UeTextArea'
 
 const useSelectorSpy = jest.spyOn(redux, 'useSelector')
 const useDispatchSpy = jest.spyOn(redux, 'useDispatch')

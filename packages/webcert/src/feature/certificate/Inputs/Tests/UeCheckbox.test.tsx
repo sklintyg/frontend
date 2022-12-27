@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import UeCheckbox from '../UeCheckbox'
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import React from 'react'
 import * as redux from 'react-redux'
+import UeCheckbox from '../UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
 const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'

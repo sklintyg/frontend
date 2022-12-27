@@ -1,10 +1,10 @@
-import React from 'react'
+import { CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean, ValueBoolean } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean, ValueBoolean } from '@frontend/common'
-import UeRadio from './UeRadio'
+import React from 'react'
+import * as redux from 'react-redux'
+import UeRadio from '../UeRadio'
 
 it('displays two radio buttons that toggle checked mode correctly', async () => {
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')

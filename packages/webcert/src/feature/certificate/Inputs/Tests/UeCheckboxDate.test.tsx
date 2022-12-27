@@ -1,17 +1,17 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { format } from 'date-fns'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
 } from '@frontend/common/src/types/certificate'
-import UeCheckboxDate from '../UeCheckboxDate'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { format } from 'date-fns'
+import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
+import UeCheckboxDate from '../UeCheckboxDate'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 

@@ -1,24 +1,24 @@
-import { fakeTextAreaElement } from '@frontend/common'
+import { fakeTextFieldElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import UeTextArea, { Props } from './UeTextArea'
+import store from '../../../../store/store'
+import UeTextField, { Props } from '../UeTextField'
 
 export default {
-  title: 'Webcert/UeTextArea',
-  component: UeTextArea,
+  title: 'Webcert/UeTextField',
+  component: UeTextField,
 }
 
 const Template: Story<Props> = ({ ...args }) => {
   return (
     <Provider store={store}>
-      <UeTextArea {...args} />
+      <UeTextField {...args} />
     </Provider>
   )
 }
 
 export const Default = Template.bind({})
 Default.args = {
-  question: fakeTextAreaElement({ id: '1' })['1'],
+  question: fakeTextFieldElement({ id: '1' })['1'],
 }

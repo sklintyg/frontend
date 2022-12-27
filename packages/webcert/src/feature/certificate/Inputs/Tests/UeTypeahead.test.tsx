@@ -1,10 +1,10 @@
-import React from 'react'
+import { fakeTypeaheadElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import UeTypeahead from './UeTypeahead'
-import * as redux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { fakeTypeaheadElement } from '@frontend/common'
+import React from 'react'
+import * as redux from 'react-redux'
+import UeTypeahead from '../UeTypeahead'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 

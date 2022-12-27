@@ -3,8 +3,8 @@ import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import UeRadioGroup, { Props } from './UeRadioGroup'
+import store from '../../../../store/store'
+import UeRadioGroup, { Props } from '../UeRadioGroup'
 
 export default {
   title: 'Webcert/UeRadioGroup',

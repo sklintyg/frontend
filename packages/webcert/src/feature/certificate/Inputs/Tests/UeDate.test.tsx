@@ -1,4 +1,4 @@
-import { fakeDateElement, fakeCertificate } from '@frontend/common'
+import { fakeCertificate, fakeDateElement } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -7,9 +7,9 @@ import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import reducer from '../../../../store/reducers'
 import UeDate from '../UeDate'
-import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 let testStore: EnhancedStore
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
