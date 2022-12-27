@@ -19,6 +19,9 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import UeViewList from '../Inputs/UeViewList'
+import UeViewTable from '../Inputs/UeViewTable'
+import UeViewText from '../Inputs/UeViewText'
 
 interface Props {
   question: CertificateDataElement
@@ -67,6 +70,12 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeCauseOfDeathList {...commonProps} />
     case ConfigTypes.UE_MEDICAL_INVESTIGATION:
       return <UeMedicalInvestigationList {...commonProps} />
+    case ConfigTypes.UE_VIEW_TEXT:
+      return <UeViewText {...commonProps} />
+    case ConfigTypes.UE_VIEW_LIST:
+      return <UeViewList {...commonProps} />
+    case ConfigTypes.UE_VIEW_TABLE:
+      return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
       return null
     default:

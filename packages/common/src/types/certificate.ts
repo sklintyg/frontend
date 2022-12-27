@@ -309,13 +309,13 @@ export interface ConfigUeViewList extends CertificateDataConfig {
   label?: string
 }
 
-export interface ConfigureViewColumn {
+export interface ConfigViewColumn {
   id: string
   title: string
 }
 
-export interface ConfigureUeViewTable {
-  columns: ConfigureViewColumn[]
+export interface ConfigUeViewTable extends CertificateDataConfig {
+  columns: ConfigViewColumn[]
 }
 
 // Values
