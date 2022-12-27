@@ -136,11 +136,11 @@ const fakeViewText = fakeDataElementValue<ValueViewText>({
   text: '',
 })
 const fakeViewList = fakeDataElementValue<ValueViewList>({
-  type: CertificateDataValueType.LIST,
+  type: CertificateDataValueType.VIEW_LIST,
   list: [],
 })
 const fakeViewTable = fakeDataElementValue<ValueViewTable>({
-  type: CertificateDataValueType.TABLE,
+  type: CertificateDataValueType.VIEW_TABLE,
   rows: [],
 })
 

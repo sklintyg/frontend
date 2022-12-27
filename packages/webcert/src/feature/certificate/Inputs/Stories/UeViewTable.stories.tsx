@@ -24,15 +24,15 @@ const mockQuestion = fakeViewTableElement({
   id: '1',
   config: {
     columns: [
-      { id: 'c1', title: faker.lorem.sentence(2) },
-      { id: 'c2', title: faker.lorem.sentence(2) },
-      { id: 'c3', title: faker.lorem.sentence(2) },
+      { id: 'c1', text: faker.lorem.sentence(2) },
+      { id: 'c2', text: faker.lorem.sentence(2) },
+      { id: 'c3', text: faker.lorem.sentence(2) },
     ],
   },
   value: {
     rows: [
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: faker.lorem.word() },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: faker.lorem.word() },
@@ -40,7 +40,7 @@ const mockQuestion = fakeViewTableElement({
         ],
       },
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: faker.lorem.word() },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: faker.lorem.word() },
@@ -48,7 +48,7 @@ const mockQuestion = fakeViewTableElement({
         ],
       },
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: faker.lorem.word() },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: faker.lorem.word() },

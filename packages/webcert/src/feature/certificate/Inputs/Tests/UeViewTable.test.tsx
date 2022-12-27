@@ -8,15 +8,15 @@ const mockQuestion = fakeViewTableElement({
   id: '1',
   config: {
     columns: [
-      { id: 'c1', title: 'column1' },
-      { id: 'c2', title: 'column2' },
-      { id: 'c3', title: 'column3' },
+      { id: 'c1', text: 'column1' },
+      { id: 'c2', text: 'column2' },
+      { id: 'c3', text: 'column3' },
     ],
   },
   value: {
     rows: [
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: 'r1c1' },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: 'r1c2' },
@@ -24,7 +24,7 @@ const mockQuestion = fakeViewTableElement({
         ],
       },
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: 'r2c1' },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: 'r2c2' },
@@ -32,7 +32,7 @@ const mockQuestion = fakeViewTableElement({
         ],
       },
       {
-        type: CertificateDataValueType.ROW,
+        type: CertificateDataValueType.VIEW_ROW,
         columns: [
           { type: CertificateDataValueType.TEXT, id: 'c1', text: 'r3c1' },
           { type: CertificateDataValueType.TEXT, id: 'c2', text: 'r3c2' },

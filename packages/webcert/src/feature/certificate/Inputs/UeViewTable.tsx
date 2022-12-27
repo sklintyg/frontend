@@ -1,4 +1,5 @@
-import { CertificateDataElement, ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow, ValueViewTable } from '@frontend/common'
+import { CertificateDataElement, ConfigUeViewTable, ValueViewTable } from '@frontend/common'
+import UvTable from '@frontend/common/src/components/UvText/UvTable'
 import * as React from 'react'
 
 export interface Props {
@@ -8,31 +9,12 @@ export interface Props {
 const UeViewTable: React.FC<Props> = ({ question }) => {
   const value = question.value as ValueViewTable
   const questionConfig = question.config as ConfigUeViewTable
+  const columns = questionConfig.columns
+  const rows = value.rows
 
   return (
     <div className="iu-p-none">
-      <table className="ic-table iu-fullwidth">
-        <thead>
-          <tr>
-            {questionConfig.columns.map((column: ConfigViewColumn, index: number) => (
-              <th key={index} scope="col">
-                {column.title}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        {value && (
-          <tbody>
-            {value.rows.map((row: ValueTextRow, index: number) => (
-              <tr key={index}>
-                {questionConfig.columns.map((column: ConfigViewColumn, index: number) => (
-                  <td key={index}>{row.columns.find((rowColumn: ValueText) => rowColumn.id === column.id)?.text ?? ''}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table>
+      <UvTable columns={columns} rows={rows} />
     </div>
   )
 }

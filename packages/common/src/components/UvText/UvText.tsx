@@ -5,17 +5,18 @@ import {
   CertificateDataValueType,
   CheckboxCode,
   ConfigTypes,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathControl,
+  ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeCodeItem,
   ConfigUeDiagnoses,
   ConfigUeIcf,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
-  ConfigUeCauseOfDeath,
-  ConfigUeCauseOfDeathControl,
-  ConfigUeCauseOfDeathList,
-  ConfigUeCodeItem,
+  ConfigViewColumn,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -26,10 +27,11 @@ import {
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
-  ValueText,
-  ValueUncertainDate,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
+  ValueText,
+  ValueTextRow,
+  ValueUncertainDate,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -39,6 +41,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ConfigUeMedicalInvestigationList } from '../../types/certificate'
 import Badge from './Badge'
+import UvTable from './UvTable'
 const IcfCode = styled.p`
   flex-shrink: 0;
 `
@@ -119,24 +122,20 @@ const UvText: React.FC<Props> = ({ question }) => {
     return index
   }
   const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
-    return (
-      <table className="ic-table iu-fullwidth">
-        <thead>
-          <tr>
-            <th>{`Diagnoskod enligt ICD-10 SE`}</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {(diagnosisListValue.list as ValueDiagnosis[]).map((diagnosis) => (
-            <tr key={diagnosis.code}>
-              <td>{diagnosis.code}</td>
-              <td>{diagnosis.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    const columns: ConfigViewColumn[] = [
+      { id: 'kod', text: `Diagnoskod enligt ICD-10 SE` },
+      { id: 'desc', text: '' },
+    ]
+    const rows: ValueTextRow[] = (diagnosisListValue.list as ValueDiagnosis[]).map(
+      (diagnosis) =>
+        ({
+          columns: [
+            { id: 'kod', text: diagnosis.code },
+            { id: 'desc', text: diagnosis.description },
+          ],
+        } as ValueTextRow)
     )
+    return <UvTable columns={columns} rows={rows} />
   }
   const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {
     return config.list.map((element, index) => {
@@ -152,33 +151,29 @@ const UvText: React.FC<Props> = ({ question }) => {
     })
   }
   const getDateRangeListDisplayValue = (valueList: ValueDateRange[], configList: ConfigUeCheckboxDateRange[]) => {
-    return (
-      <table className="ic-table iu-fullwidth">
-        <thead>
-          <tr>
-            <th scope="col">Nedsättningsgrad</th>
-            <th scope="col">Från och med</th>
-            <th scope="col">Till och med</th>
-          </tr>
-        </thead>
-        <tbody>
-          {configList
-            .slice()
-            .reverse()
-            .map((element, index) => {
-              const foundValue = valueList.find((v) => v.id === element.id)
-              if (!foundValue?.from || !foundValue.to) return null
-              return (
-                <tr key={element.id}>
-                  <td>{element.label}</td>
-                  <td>{foundValue.from}</td>
-                  <td>{foundValue.to}</td>
-                </tr>
-              )
-            })}
-        </tbody>
-      </table>
-    )
+    const columns: ConfigViewColumn[] = [
+      { id: 'degree', text: 'Nedsättningsgrad' },
+      { id: 'from', text: 'Från och med' },
+      { id: 'to', text: 'Till och med' },
+    ]
+    const rows: ValueTextRow[] = []
+    configList
+      .slice()
+      .reverse()
+      .forEach((element) => {
+        const foundValue = valueList.find((v) => v.id === element.id && (v.from || v.to))
+        if (foundValue) {
+          rows.push({
+            columns: [
+              { id: 'degree', text: element.label },
+              { id: 'from', text: foundValue.from },
+              { id: 'to', text: foundValue.to },
+            ],
+          } as ValueTextRow)
+        }
+      })
+
+    return rows && <UvTable columns={columns} rows={rows} />
   }
   const getCodeValue = (questionElement: CertificateDataElement): string => {
     const codeValue = questionElement.value as ValueCode
@@ -189,41 +184,34 @@ const UvText: React.FC<Props> = ({ question }) => {
     }
     return 'Ej angivet'
   }
+
   const getMedicalInvestigationValue = (questionElement: CertificateDataElement) => {
     const medicalInvestigationValueList = questionElement.value as ValueMedicalInvestigationList
     const medicalInvestigationConfigList = questionElement.config as ConfigUeMedicalInvestigationList
-
-    return (
-      <table className="ic-table iu-fullwidth">
-        <thead>
-          <tr>
-            <th scope="col">Ange utredning eller underlag</th>
-            <th scope="col">Datum</th>
-            <th scope="col">Vårdgivare</th>
-          </tr>
-        </thead>
-        <tbody>
-          {medicalInvestigationConfigList.list.map((medicalConfig) => {
-            const medicalValue = (medicalInvestigationValueList.list as ValueMedicalInvestigation[]).find(
-              (item) => item.investigationType.id === medicalConfig.investigationTypeId
-            )
-            const codeValue = (medicalConfig.typeOptions as ConfigUeCodeItem[]).find(
-              (value) => value.code === medicalValue?.investigationType.code
-            )
-            if (medicalValue?.informationSource.text !== undefined) {
-              return (
-                <tr key={medicalValue?.investigationType.id}>
-                  <td>{codeValue?.label}</td>
-                  <td>{medicalValue?.date.date}</td>
-                  <td>{medicalValue?.informationSource.text}</td>
-                </tr>
-              )
-            }
-            return ''
-          })}
-        </tbody>
-      </table>
-    )
+    const columns: ConfigViewColumn[] = [
+      { id: 'investigation', text: 'Ange utredning eller underlag' },
+      { id: 'date', text: 'Datum' },
+      { id: 'careGiver', text: 'Vårdgivare' },
+    ]
+    const rows: ValueTextRow[] = []
+    medicalInvestigationConfigList.list.forEach((medicalConfig) => {
+      const medicalValue = (medicalInvestigationValueList.list as ValueMedicalInvestigation[]).find(
+        (item) => item.investigationType.id === medicalConfig.investigationTypeId
+      )
+      if (medicalValue?.informationSource.text !== undefined) {
+        const codeValue = (medicalConfig.typeOptions as ConfigUeCodeItem[]).find(
+          (value) => value.code === medicalValue?.investigationType.code
+        )
+        rows.push({
+          columns: [
+            { id: 'investigation', text: codeValue?.label ?? '' },
+            { id: 'date', text: medicalValue?.date.date ?? '' },
+            { id: 'careGiver', text: medicalValue?.informationSource.text ?? '' },
+          ],
+        } as ValueTextRow)
+      }
+    })
+    return <UvTable columns={columns} rows={rows} />
   }
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
     return (

@@ -311,7 +311,7 @@ export interface ConfigUeViewList extends CertificateDataConfig {
 
 export interface ConfigViewColumn {
   id: string
-  title: string
+  text: string
 }
 
 export interface ConfigUeViewTable extends CertificateDataConfig {
@@ -338,10 +338,10 @@ export enum CertificateDataValueType {
   MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
-  VIEW_TEXT = 'VIIEW_TEXT',
-  LIST = 'LIST',
-  ROW = 'ROW',
-  TABLE = 'TABLE',
+  VIEW_TEXT = 'VIEW_TEXT',
+  VIEW_LIST = 'VIEW_LIST',
+  VIEW_ROW = 'VIEW_ROW',
+  VIEW_TABLE = 'VIEW_TABLE',
 }
 
 export type ValueType =
@@ -477,17 +477,17 @@ export interface ValueViewText extends Value {
 }
 
 export interface ValueViewList extends Value {
-  type: CertificateDataValueType.LIST
+  type: CertificateDataValueType.VIEW_LIST
   list: ValueViewText[]
 }
 
 export interface ValueTextRow extends Value {
-  type: CertificateDataValueType.ROW
+  type: CertificateDataValueType.VIEW_ROW
   columns: ValueText[]
 }
 
 export interface ValueViewTable extends Value {
-  type: CertificateDataValueType.TABLE
+  type: CertificateDataValueType.VIEW_TABLE
   rows: ValueTextRow[]
 }
 
