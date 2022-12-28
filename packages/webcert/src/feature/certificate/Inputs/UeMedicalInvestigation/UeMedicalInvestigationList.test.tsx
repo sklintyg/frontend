@@ -1,11 +1,11 @@
-import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
+import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import reducers from '../../../../store/reducers'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
@@ -56,17 +56,17 @@ describe('Medical investigation component', () => {
 
   it('Renders textinput, calendar button and drop down', () => {
     renderComponent({ disabled: false, question })
-    expect(screen.getAllByRole('combobox')).toHaveLength(3)
-    expect(screen.getAllByRole('button')).toHaveLength(3)
-    expect(screen.getAllByRole('textbox')).toHaveLength(6)
+    expect(screen.getAllByRole('combobox')).toHaveLength(5)
+    expect(screen.getAllByRole('button')).toHaveLength(5)
+    expect(screen.getAllByRole('textbox')).toHaveLength(10)
   })
 
   it('Should not disable component if disabled is not set', () => {
     renderComponent({ disabled: false, question })
 
-    expect(screen.getAllByRole('combobox')).toHaveLength(3)
-    expect(screen.getAllByRole('button')).toHaveLength(3)
-    expect(screen.getAllByRole('textbox')).toHaveLength(6)
+    expect(screen.getAllByRole('combobox')).toHaveLength(5)
+    expect(screen.getAllByRole('button')).toHaveLength(5)
+    expect(screen.getAllByRole('textbox')).toHaveLength(10)
 
     screen.getAllByRole('combobox').forEach((investigationType) => {
       expect(investigationType).not.toBeDisabled()
@@ -84,9 +84,9 @@ describe('Medical investigation component', () => {
   it('Should disable component if disabled is set', () => {
     renderComponent({ disabled: true, question })
 
-    expect(screen.getAllByRole('combobox')).toHaveLength(3)
-    expect(screen.getAllByRole('button')).toHaveLength(3)
-    expect(screen.getAllByRole('textbox')).toHaveLength(6)
+    expect(screen.getAllByRole('combobox')).toHaveLength(5)
+    expect(screen.getAllByRole('button')).toHaveLength(5)
+    expect(screen.getAllByRole('textbox')).toHaveLength(10)
 
     screen.getAllByRole('combobox').forEach((investigationType) => {
       expect(investigationType).toBeDisabled()
