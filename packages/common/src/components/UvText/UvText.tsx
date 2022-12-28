@@ -16,6 +16,7 @@ import {
   ConfigUeIcf,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
+  ConfigUeViewTable,
   ConfigViewColumn,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -32,6 +33,8 @@ import {
   ValueText,
   ValueTextRow,
   ValueUncertainDate,
+  ValueViewTable,
+  ValueViewText,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -39,7 +42,7 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ConfigUeMedicalInvestigationList } from '../../types/certificate'
+import { ConfigUeMedicalInvestigationList, ValueViewList } from '../../types/certificate'
 import Badge from './Badge'
 import UvTable from './UvTable'
 const IcfCode = styled.p`
@@ -303,12 +306,33 @@ const UvText: React.FC<Props> = ({ question }) => {
         const booleanValue = question.value as ValueBoolean
         return getCheckboxBooleanText(booleanValue, booleanConfig)
       }
-      case CertificateDataValueType.TEXT: {
-        const textValue = question.value as ValueText
+      case CertificateDataValueType.TEXT:
+      case CertificateDataValueType.VIEW_TEXT: {
+        const textValue = question.value as ValueText | ValueViewText
         if (textValue.text != null && textValue.text.length > 0) {
           displayText = textValue.text
         }
         break
+      }
+      case CertificateDataValueType.VIEW_LIST: {
+        const listValue = question.value as ValueViewList
+        return (
+          <Badge>
+            {listValue && (
+              <ul>
+                {listValue.list.map((i: ValueViewText, index: number) => (
+                  <li key={index}>{i.text}</li>
+                ))}
+              </ul>
+            )}
+          </Badge>
+        )
+      }
+      case CertificateDataValueType.VIEW_TABLE: {
+        const columns = (question.config as ConfigUeViewTable).columns
+        const rows = (question.value as ValueViewTable).rows
+
+        return rows && <UvTable columns={columns} rows={rows} />
       }
       case CertificateDataValueType.CODE_LIST: {
         const codeListValue = question.value as ValueCodeList
