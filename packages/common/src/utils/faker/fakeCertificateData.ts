@@ -23,6 +23,7 @@ import {
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
@@ -35,17 +36,18 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRangeList,
+  ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
-  ValueDiagnosisList,
-  ValueMedicalInvestigationList,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
+import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateValue } from './fakeCertificateValue'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -239,6 +241,23 @@ export const fakeCheckboxMultipleDate = (
     children
   )
 
+export const fakeCheckboxDateRangeList = (
+  data?: PartialCertificateDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+        list: fakeList(6),
+        ...data?.config,
+      },
+      value: fakeCertificateValue.dateRangeList(data?.value),
+    },
+    children
+  )
+
 export const fakeRadioMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
   children?: CertificateData[]
@@ -368,11 +387,11 @@ export const fakeMedicalInvestigationListElement = (
     { id: '2', label: 'Underlag från habiliteringen', code: 'CODE_3' },
     { id: '3', label: 'Underlag från arbetsterapeut', code: 'CODE_4' },
   ]
-  const valueList = Array.from({ length: 3 }, () =>
+  const valueList = Array.from({ length: 5 }, () =>
     fakeCertificateValue.medicalInvestigation({
       investigationType: {
         id: faker.random.alpha({ count: 5 }),
-        code: faker.random.arrayElement(typeOptions.map((option) => option.label)),
+        code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
       },
       date: {
         id: faker.random.alpha({ count: 5 }),
@@ -487,6 +506,7 @@ export const fakeCauseOfDeathElement = (
       },
       value: {
         type: CertificateDataValueType.CAUSE_OF_DEATH,
+        id: faker.random.alpha({ count: 5 }),
         description: {
           type: CertificateDataValueType.TEXT,
           id: descriptionId,
@@ -504,7 +524,7 @@ export const fakeCauseOfDeathElement = (
         },
         specification: {
           type: CertificateDataValueType.CODE,
-          id: faker.random.alpha({ count: 5 }),
+          id: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
           code: faker.random.arrayElement(['UPPGIFT_SAKNAS', 'KRONISK', 'PLOTSLIG']),
           ...data?.value?.specification,
         },
