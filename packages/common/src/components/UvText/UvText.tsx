@@ -53,14 +53,14 @@ const CauseOfDeathWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
 `
-const CauseOfDeathDescription = styled.div<{ oneLine: boolean }>`
-  grid-column: ${(props) => (props.oneLine ? 1 : 1 / 2)};
+const CauseOfDeathDescription = styled.div`
+  grid-column: 1 / 2;
   grid-row: 1;
 `
-const CauseOfDeathDateAndSpec = styled.div<{ oneLine: boolean }>`
+const CauseOfDeathDateAndSpec = styled.div`
   display: flex;
-  grid-column: ${(props) => (props.oneLine ? 2 : 1)};
-  grid-row: ${(props) => (props.oneLine ? 1 : 2)};
+  grid-column: 1;
+  grid-row: 2;
 `
 const CauseOfDeathDateAndSpecInner = styled.div`
   min-width: 18ch;
@@ -213,14 +213,14 @@ const UvText: React.FC<Props> = ({ question }) => {
     })
     return rows && <UvTable columns={columns} rows={rows} />
   }
-  const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
+  const getCauseOfDeathRow = (description: string, debut: string, specification: string) => {
     return (
       <CauseOfDeathWrapper>
-        <CauseOfDeathDescription oneLine={oneLine}>
+        <CauseOfDeathDescription>
           <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Beskrivning</p>
           <Badge>{description}</Badge>
         </CauseOfDeathDescription>
-        <CauseOfDeathDateAndSpec oneLine={oneLine}>
+        <CauseOfDeathDateAndSpec>
           <CauseOfDeathDateAndSpecInner>
             <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Ungefärlig debut</p>
             <Badge>{debut}</Badge>
@@ -245,10 +245,9 @@ const UvText: React.FC<Props> = ({ question }) => {
         <>
           {causeOfDeathConfig.label && <div className="iu-fl iu-fs-700 iu-mr-400 iu-pt-200">{causeOfDeathConfig.label}</div>}
           {getCauseOfDeathRow(
-            false,
-            causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
-            causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet',
-            chosenSpec ? chosenSpec.label : 'Ej angivet'
+            causeOfDeathValue.description?.text ?? 'Ej angivet',
+            causeOfDeathValue.debut?.date ?? 'Ej angivet',
+            chosenSpec?.label ?? 'Ej angivet'
           )}
         </>
       )
@@ -278,13 +277,9 @@ const UvText: React.FC<Props> = ({ question }) => {
           )
           rows.push({
             columns: [
-              {
-                id: 'descr',
-                text:
-                  causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
-              },
-              { id: 'date', text: causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet' },
-              { id: 'spec', text: chosenSpec ? chosenSpec.label : 'Ej angivet' },
+              { id: 'descr', text: causeOfDeathValue.description?.text ?? 'Ej angivet' },
+              { id: 'date', text: causeOfDeathValue.debut?.date ?? 'Ej angivet' },
+              { id: 'spec', text: chosenSpec?.label ?? 'Ej angivet' },
             ],
           } as ValueTextRow)
         }
