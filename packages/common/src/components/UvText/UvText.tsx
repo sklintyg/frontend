@@ -135,7 +135,7 @@ const UvText: React.FC<Props> = ({ question }) => {
           ],
         } as ValueTextRow)
     )
-    return <UvTable columns={columns} rows={rows} />
+    return rows && <UvTable columns={columns} rows={rows} />
   }
   const getDateListDisplayValue = (value: ValueDateList, config: ConfigUeCheckboxMultipleDate) => {
     return config.list.map((element, index) => {
@@ -211,7 +211,7 @@ const UvText: React.FC<Props> = ({ question }) => {
         } as ValueTextRow)
       }
     })
-    return <UvTable columns={columns} rows={rows} />
+    return rows && <UvTable columns={columns} rows={rows} />
   }
   const getCauseOfDeathRow = (oneLine: boolean, description: string, debut: string, specification: string) => {
     return (
@@ -290,7 +290,7 @@ const UvText: React.FC<Props> = ({ question }) => {
         }
       })
     }
-    return <UvTable columns={columns} rows={rows} />
+    return rows && <UvTable columns={columns} rows={rows} />
   }
 
   const getUVText = () => {
