@@ -258,8 +258,16 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
     const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
     const causeOfDeathListConfig = questionElement.config as ConfigUeCauseOfDeathList
+
+    const columns: ConfigViewColumn[] = [
+      { id: 'descr', text: 'Beskrivning' },
+      { id: 'date', text: 'Ungefärlig debut' },
+      { id: 'spec', text: 'Specificera tillståndet' },
+    ]
+    const rows: ValueTextRow[] = []
+
     if (causeOfDeathValueList !== undefined && questionElement.visible) {
-      return causeOfDeathListConfig.list.map((causeOfDeathControlConfig) => {
+      return causeOfDeathListConfig.list.forEach((causeOfDeathControlConfig) => {
         const causeOfDeathValue = causeOfDeathValueList.list.find((item) => item.id === causeOfDeathControlConfig.id)
         if (
           causeOfDeathValue &&
@@ -268,17 +276,23 @@ const UvText: React.FC<Props> = ({ question }) => {
           const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
             (item) => item.code === causeOfDeathValue.specification.code
           )
-          return getCauseOfDeathRow(
-            true,
-            causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
-            causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet',
-            chosenSpec ? chosenSpec.label : 'Ej angivet'
-          )
-        } else return ''
+          rows.push({
+            columns: [
+              {
+                id: 'descr',
+                text:
+                  causeOfDeathValue.description && causeOfDeathValue.description.text ? causeOfDeathValue.description.text : 'Ej angivet',
+              },
+              { id: 'date', text: causeOfDeathValue.debut && causeOfDeathValue.debut.date ? causeOfDeathValue.debut.date : 'Ej angivet' },
+              { id: 'spec', text: chosenSpec ? chosenSpec.label : 'Ej angivet' },
+            ],
+          } as ValueTextRow)
+        }
       })
     }
-    return ''
+    return <UvTable columns={columns} rows={rows} />
   }
+
   const getUVText = () => {
     if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
       const questionProps = { key: question.id, disabled: false, question }
