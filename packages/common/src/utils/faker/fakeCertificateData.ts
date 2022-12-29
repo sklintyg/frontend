@@ -23,6 +23,7 @@ import {
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
@@ -36,6 +37,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRangeList,
   ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
@@ -239,6 +241,23 @@ export const fakeCheckboxMultipleDate = (
         ...data?.config,
       },
       value: fakeCertificateValue.dateList(data?.value),
+    },
+    children
+  )
+
+export const fakeCheckboxDateRangeList = (
+  data?: PartialCertificateDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+        list: fakeList(6),
+        ...data?.config,
+      },
+      value: fakeCertificateValue.dateRangeList(data?.value),
     },
     children
   )
