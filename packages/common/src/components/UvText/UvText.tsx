@@ -240,7 +240,7 @@ const UvText: React.FC<Props> = ({ question }) => {
     const causeOfDeathValue = questionElement.value as ValueCauseOfDeath
     const causeOfDeathConfig = questionElement.config as ConfigUeCauseOfDeath
     const causeOfDeathControlConfig = causeOfDeathConfig.causeOfDeath as ConfigUeCauseOfDeathControl
-    if (causeOfDeathValue.id !== undefined && questionElement.visible) {
+    if (questionElement.visible) {
       const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
         (item) => item.code === causeOfDeathValue.specification.code
       )
@@ -260,7 +260,6 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getCauseOfDeathValueList = (questionElement: CertificateDataElement) => {
     const causeOfDeathValueList = questionElement.value as ValueCauseOfDeathList
     const causeOfDeathListConfig = questionElement.config as ConfigUeCauseOfDeathList
-
     const columns: ConfigViewColumn[] = [
       { id: 'descr', text: 'Beskrivning' },
       { id: 'date', text: 'Ungefärlig debut' },
@@ -269,12 +268,9 @@ const UvText: React.FC<Props> = ({ question }) => {
     const rows: ValueTextRow[] = []
 
     if (causeOfDeathValueList !== undefined && questionElement.visible) {
-      return causeOfDeathListConfig.list.forEach((causeOfDeathControlConfig) => {
+      causeOfDeathListConfig.list.forEach((causeOfDeathControlConfig) => {
         const causeOfDeathValue = causeOfDeathValueList.list.find((item) => item.id === causeOfDeathControlConfig.id)
-        if (
-          causeOfDeathValue &&
-          (causeOfDeathValue.description.text || causeOfDeathValue.debut.date || causeOfDeathValue.specification.code)
-        ) {
+        if (causeOfDeathValue?.description?.text || causeOfDeathValue?.debut?.date || causeOfDeathValue?.specification?.code) {
           const chosenSpec = (causeOfDeathControlConfig.specifications as ConfigUeCodeItem[]).find(
             (item) => item.code === causeOfDeathValue.specification.code
           )
@@ -288,6 +284,7 @@ const UvText: React.FC<Props> = ({ question }) => {
         }
       })
     }
+
     return rows && <UvTable columns={columns} rows={rows} />
   }
 
