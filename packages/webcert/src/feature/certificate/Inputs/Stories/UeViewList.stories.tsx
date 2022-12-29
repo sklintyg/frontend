@@ -4,7 +4,7 @@ import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
-import UeViewList, { Props } from '../UeViewList'
+import UeViewList, { Props } from '../UeViewComponents/UeViewList'
 
 export default {
   title: 'Webcert/UeViewList',

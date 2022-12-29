@@ -19,9 +19,9 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
-import UeViewList from '../Inputs/UeViewList'
-import UeViewTable from '../Inputs/UeViewTable'
-import UeViewText from '../Inputs/UeViewText'
+import UeViewList from '../Inputs/UeViewComponents/UeViewList'
+import UeViewTable from '../Inputs/UeViewComponents/UeViewTable'
+import UeViewText from '../Inputs/UeViewComponents/UeViewText'
 
 interface Props {
   question: CertificateDataElement

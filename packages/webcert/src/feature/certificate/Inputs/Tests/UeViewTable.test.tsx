@@ -2,7 +2,7 @@ import { CertificateDataValueType, fakeViewTableElement } from '@frontend/common
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import UeViewTable from '../UeViewTable'
+import UeViewTable from '../UeViewComponents/UeViewTable'
 
 const mockQuestion = fakeViewTableElement({
   id: '1',
