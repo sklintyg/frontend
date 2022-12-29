@@ -13,6 +13,8 @@ import {
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeSickLeavePeriod,
+  ConfigUeViewTable,
+  ConfigViewColumn,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -25,6 +27,10 @@ import {
   ValueDiagnosis,
   ValueDiagnosisList,
   ValueText,
+  ValueTextRow,
+  ValueViewList,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 import {
   fakeCauseOfDeathElement,
@@ -37,6 +43,9 @@ import {
   fakeMedicalInvestigationListElement,
   fakeRadioBooleanElement,
   fakeTextAreaElement,
+  fakeViewListElement,
+  fakeViewTableElement,
+  fakeViewTextElement,
 } from '../../utils/faker/fakeCertificateData'
 import UvText, { Props } from './UvText'
 
@@ -166,7 +175,47 @@ const causeOfDeathListQuestion = fakeCauseOfDeathListElement({ id: '1' })['1']
     },
   } as ValueCauseOfDeath)
 )
-
 CauseOfDeathList.args = {
   question: causeOfDeathListQuestion,
+}
+
+export const ViewText = Template.bind({})
+const viewTextQuestion = fakeViewTextElement({ id: '1' })['1']
+;(viewTextQuestion.value as ValueViewText).text = faker.lorem.sentence(5)
+ViewText.args = {
+  question: viewTextQuestion,
+}
+
+export const ViewList = Template.bind({})
+const viewListQuestion = fakeViewListElement({ id: '1' })['1']
+;(viewListQuestion.value as ValueViewList).list = new Array(5).fill(0).map(
+  () =>
+    ({
+      text: faker.lorem.sentence(5),
+    } as ValueViewText)
+)
+ViewList.args = {
+  question: viewListQuestion,
+}
+
+export const ViewTable = Template.bind({})
+const viewTableQuestion = fakeViewTableElement({ id: '1' })['1']
+const columns = new Array(4).fill(0).map(
+  () =>
+    ({
+      id: faker.random.alphaNumeric(3),
+      text: faker.lorem.sentence(5),
+    } as ConfigViewColumn)
+)
+const rows = new Array(5).fill(0).map(
+  () =>
+    ({
+      columns: columns.map((c) => ({ id: c.id, text: faker.lorem.sentence(3) } as ValueText)),
+    } as ValueTextRow)
+)
+;(viewTableQuestion.config as ConfigUeViewTable).columns = columns
+;(viewTableQuestion.value as ValueViewTable).rows = rows
+
+ViewTable.args = {
+  question: viewTableQuestion,
 }

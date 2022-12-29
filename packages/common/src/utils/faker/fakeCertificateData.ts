@@ -395,7 +395,7 @@ export const fakeMedicalInvestigationListElement = (
     fakeCertificateValue.medicalInvestigation({
       investigationType: {
         id: faker.random.alpha({ count: 5 }),
-        code: faker.random.arrayElement(typeOptions.map((option) => option.label)),
+        code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
       },
       date: {
         id: faker.random.alpha({ count: 5 }),
