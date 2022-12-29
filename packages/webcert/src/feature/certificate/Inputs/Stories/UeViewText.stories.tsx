@@ -4,7 +4,7 @@ import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
-import UeViewText, { Props } from '../UeViewText'
+import UeViewText, { Props } from '../UeViewComponents/UeViewText'
 
 export default {
   title: 'Webcert/UeViewText',

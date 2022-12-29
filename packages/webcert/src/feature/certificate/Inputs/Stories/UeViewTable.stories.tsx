@@ -4,7 +4,7 @@ import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
-import UeViewTable, { Props } from '../UeViewTable'
+import UeViewTable, { Props } from '../UeViewComponents/UeViewTable'
 
 export default {
   title: 'Webcert/UeViewTable',
