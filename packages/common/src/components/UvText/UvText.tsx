@@ -52,22 +52,9 @@ const IcfCodeWrapper = styled.div`
   flex-wrap: wrap;
 `
 const CauseOfDeathWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 20px;
+  display: inline-block;
 `
-const CauseOfDeathDescription = styled.div`
-  grid-column: 1 / 2;
-  grid-row: 1;
-`
-const CauseOfDeathDateAndSpec = styled.div`
-  display: flex;
-  grid-column: 1;
-  grid-row: 2;
-`
-const CauseOfDeathDateAndSpecInner = styled.div`
-  min-width: 18ch;
-`
+
 export interface Props {
   question: CertificateDataElement
 }
@@ -219,20 +206,20 @@ const UvText: React.FC<Props> = ({ question }) => {
   const getCauseOfDeathRow = (description: string, debut: string, specification: string) => {
     return (
       <CauseOfDeathWrapper>
-        <CauseOfDeathDescription>
-          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Beskrivning</p>
+        <div>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>Beskrivning</p>
           <Badge>{description}</Badge>
-        </CauseOfDeathDescription>
-        <CauseOfDeathDateAndSpec>
-          <CauseOfDeathDateAndSpecInner>
-            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Ungefärlig debut</p>
+        </div>
+        <div className="iu-flex">
+          <div className=" iu-mr-600">
+            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>Ungefärlig debut</p>
             <Badge>{debut}</Badge>
-          </CauseOfDeathDateAndSpecInner>
-          <CauseOfDeathDateAndSpecInner>
-            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>Specificera tillståndet</p>
+          </div>
+          <div>
+            <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>Specificera tillståndet</p>
             <Badge>{specification}</Badge>
-          </CauseOfDeathDateAndSpecInner>
-        </CauseOfDeathDateAndSpec>
+          </div>
+        </div>
       </CauseOfDeathWrapper>
     )
   }
