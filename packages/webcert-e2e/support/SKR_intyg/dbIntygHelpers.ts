@@ -67,6 +67,19 @@ export function verifieraMeddelande() {
   })
 }
 
+export function verifieraDoiMeddelande() {
+  cy.contains('Obligatoriska uppgifter saknas').should('exist')
+  cy.get('.iu-pt-400').within(() => {
+    cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
+    cy.contains('Kompletterande patientuppgifter').should('exist')
+    cy.contains('Dödsdatum och dödsplats').should('exist')
+    cy.contains('Barn som avlidit senast 28 dygn efter födelsen').should('exist')
+    cy.contains('Läkarens utlåtande om dödsorsaken').should('exist')
+    cy.contains('Opererad inom fyra veckor före döden').should('exist')
+    cy.contains('Skada/förgiftning').should('exist')
+    cy.contains('Dödsorsaksuppgifterna grundar sig på').should('exist')
+  })
+}
 //Ersätt med DB
 export function kompletteraLisjp() {
   fk.komplettera()

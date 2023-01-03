@@ -138,7 +138,7 @@ describe('certificateSelectors', () => {
                 id: '3',
                 validationErrors: faker.datatype
                   .array(5)
-                  .map((_, index) => fakeCertificateValidationError({ id: `server-3-${index}`, type: 'SAME_TYPE' })),
+                  .map((_, index) => fakeCertificateValidationError({ id: `server-3-${index}`, type: 'SAME_TYPE', field: 'SAME_FIELD' })),
               }),
             },
           })

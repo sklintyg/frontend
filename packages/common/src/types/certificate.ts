@@ -24,6 +24,7 @@ export interface CertificateMetadata {
   typeName?: string
   status: CertificateStatus
   sent: boolean
+  sentTo?: string
   created: string
   testCertificate: boolean
   forwarded: boolean
@@ -158,8 +159,16 @@ export interface CheckboxCode {
   disabled?: boolean
 }
 
+export enum ConfigLayout {
+  ROWS = 'ROWS',
+  INLINE = 'INLINE',
+  COLUMN = 'COLUMN',
+  COLUMNS = 'COLUMNS',
+}
+
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
   list: CheckboxCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioCode extends CertificateDataConfig {
@@ -176,6 +185,7 @@ export interface ConfigUeRadioCodeOptionalDropdown {
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
   list: ConfigUeRadioCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioMultipleCodesOptionalDropdown extends CertificateDataConfig {
@@ -326,6 +336,8 @@ export type ValueType =
   | ValueIcf
   | ValueText
   | ValueUncertainDate
+  | ValueMedicalInvestigation
+  | ValueMedicalInvestigationList
 
 export interface Value {
   [propName: string]: unknown
@@ -422,12 +434,14 @@ export interface ValueHeader extends Value {
 }
 
 export interface ValueMedicalInvestigation extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION
   investigationType: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
 
 export interface ValueMedicalInvestigationList extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
 }
 
@@ -441,6 +455,7 @@ export enum CertificateDataValidationType {
   DISABLE_SUB_ELEMENT_VALIDATION = 'DISABLE_SUB_ELEMENT_VALIDATION',
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+  CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
@@ -451,6 +466,8 @@ export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
   expression?: string
+  expressionType?: string
+  questions?: CertificateDataValidation[]
 
   [propName: string]: unknown
 }
@@ -477,6 +494,8 @@ export interface DisableValidation extends CertificateDataValidation {
 export type EnableValidation = CertificateDataValidation
 
 export type MandatoryValidation = CertificateDataValidation
+
+export type CategoryMandatoryValidation = CertificateDataValidation
 
 export type HighlightValidation = CertificateDataValidation
 
