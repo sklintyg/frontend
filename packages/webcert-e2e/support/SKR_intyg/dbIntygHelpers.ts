@@ -11,7 +11,6 @@ export {
   sektionÖvrigt,
   sektionKontakt,
   loggaUt,
-  kopiera,
   skickaTillFk,
   fornya,
   raderaUtkast,
@@ -28,12 +27,12 @@ export {
 // Ej implementerad
 
 // -------------------- 'Signera intyget' --------------------
-export function signera() {
+export function signera(): void {
   fk.signera()
 }
 
 // -------------------- 'Skriv ut intyget' --------------------
-export function skrivUt(typAvUtskrift, intygsId) {
+export function skrivUt(typAvUtskrift: string, intygsId: string): void {
   switch (typAvUtskrift) {
     case 'utkast':
     case 'fullständigt':
@@ -55,7 +54,7 @@ export function skrivUt(typAvUtskrift, intygsId) {
   }
 }
 
-export function verifieraMeddelande() {
+export function verifieraMeddelande(): void {
   cy.contains('Obligatoriska uppgifter saknas').should('exist')
   cy.get('.iu-pt-400').within(() => {
     cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
@@ -67,7 +66,7 @@ export function verifieraMeddelande() {
   })
 }
 
-export function verifieraDoiMeddelande() {
+export function verifieraDoiMeddelande(): void {
   cy.contains('Obligatoriska uppgifter saknas').should('exist')
   cy.get('.iu-pt-400').within(() => {
     cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
@@ -81,11 +80,11 @@ export function verifieraDoiMeddelande() {
   })
 }
 //Ersätt med DB
-export function kompletteraLisjp() {
+export function kompletteraLisjp(): void {
   fk.komplettera()
 }
 
-export function rensaIntyg(personnummer, personnummerKompakt) {
+export function rensaIntyg(personnummer: string, personnummerKompakt: string): void {
   cy.exec('curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/handelser/patient/' + personnummerKompakt)
   cy.exec('curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/patient/' + personnummer)
   cy.exec(
@@ -93,7 +92,7 @@ export function rensaIntyg(personnummer, personnummerKompakt) {
   )
 }
 
-export function accepteraDbModal() {
+export function accepteraDbModal(): void {
   cy.get('[type="checkbox"]').check({ force: true })
   cy.contains('Gå vidare').click()
 }

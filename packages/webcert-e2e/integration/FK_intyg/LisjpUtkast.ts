@@ -13,7 +13,7 @@ describe('LISJP-utkast tomt', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //UNSIGNED LISJP FILLED
       cy.skapaIntygViaApi(this, 1, 1, true).then((utkastId) => {

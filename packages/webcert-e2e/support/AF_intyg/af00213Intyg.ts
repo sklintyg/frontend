@@ -22,7 +22,7 @@ export {
   kopieraUtkast,
 } from './../FK_intyg/fk_helpers'
 
-export function verifieraMeddelande() {
+export function verifieraMeddelande(): void {
   cy.get('.iu-pt-400').within(() => {
     cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
     cy.contains('Funktionsnedsättning').should('exist')

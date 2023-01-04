@@ -28,7 +28,7 @@ export {
 // Ej implementerad än
 
 // -------------------- 'Grund för medicinskt underlag' --------------------
-export function sektionGrundFörMedicinsktUnderlag(medUnderlag) {
+export function sektionGrundFörMedicinsktUnderlag(medUnderlag): void {
   const idagMinus5 = Cypress.moment()
     .subtract(5, 'days')
     .format('YYYY-MM-DD')
@@ -82,7 +82,7 @@ export function sektionGrundFörMedicinsktUnderlag(medUnderlag) {
 }
 
 // -------------------- 'Sysselsättning' --------------------
-export function sektionSysselsättning(sysselsättning) {
+export function sektionSysselsättning(sysselsättning): void {
   if (sysselsättning.iRelationTillVilkenSysselsättningBedömerDuArbetsförmågan) {
     const relation = sysselsättning.iRelationTillVilkenSysselsättningBedömerDuArbetsförmågan
     if (relation.nuvarandeArbete) {
@@ -105,7 +105,7 @@ export function sektionSysselsättning(sysselsättning) {
 }
 
 // -------------------- 'Diagnos' --------------------
-export function sektionDiagnos(diagnos) {
+export function sektionDiagnos(diagnos): void {
   if (diagnos.rad1) {
     cy.get('#diagnoseCode-0')
       .parent()
@@ -152,7 +152,7 @@ export function sektionDiagnos(diagnos) {
 }
 
 // Raderar diagnoskoden på angiven rad (1-3)
-export function raderaDiagnoskod(rad) {
+export function raderaDiagnoskod(rad): void {
   assert.isTrue(rad >= 1 && rad <= 3)
 
   if (rad === 1) {
@@ -177,20 +177,20 @@ export function raderaDiagnoskod(rad) {
 }
 
 // -------------------- 'Sjukdomens konsekvenser för patienten' --------------------
-export function sektionSjukdomensKonsekvenserFörPatienten(konsekvenser) {
+export function sektionSjukdomensKonsekvenserFörPatienten(konsekvenser): void {
   cy.get('#funktionsnedsattning').type(konsekvenser.funktionsnedsättning)
   cy.get('#aktivitetsbegransning').type(konsekvenser.aktivitetsbegränsning)
 }
 
 // -------------------- 'Medicinsk behandling' --------------------
-export function sektionMedicinskBehandling(medBehandling) {
+export function sektionMedicinskBehandling(medBehandling): void {
   // ToDo: Är båda dessa mandatory eller ska de omslutas av if-satser?
   cy.get('#pagaendeBehandling').type(medBehandling.pågåendeBehandling)
   cy.get('#planeradBehandling').type(medBehandling.planeradeBehandling)
 }
 
 // -------------------- 'Bedömning Helt Nedsatt' --------------------
-export function sektionBedömning75Nedsatt(bedömning) {
+export function sektionBedömning75Nedsatt(bedömning): void {
   // Beräkna datum både framåt och bakåt från idag
   const idagPlus1 = Cypress.moment()
     .add(1, 'days')
@@ -209,7 +209,7 @@ export function sektionBedömning75Nedsatt(bedömning) {
 }
 
 // -------------------- 'Bedömning' --------------------
-export function sektionBedömning(bedömning) {
+export function sektionBedömning(bedömning): void {
   // Beräkna datum både framåt och bakåt från idag
   const idagPlus1 = Cypress.moment()
     .add(1, 'days')
@@ -287,7 +287,7 @@ export function sektionBedömning(bedömning) {
   }
 }
 // -------------------- 'Del av Bedömning' --------------------
-export function sektionDelAvBedömning(bedömning) {
+export function sektionDelAvBedömning(bedömning): void {
   if (bedömning.längreNedsattArbetsförmåga) {
     cy.get('#forsakringsmedicinsktBeslutsstod').type(bedömning.längreNedsattArbetsförmåga)
   }
@@ -311,7 +311,7 @@ export function sektionDelAvBedömning(bedömning) {
 }
 
 // -------------------- 'Åtgärder' --------------------
-export function sektionÅtgärder(åtgärder) {
+export function sektionÅtgärder(åtgärder): void {
   if (åtgärder.inteAktuellt) {
     cy.get('#arbetslivsinriktadeAtgarder-EJ_AKTUELLT').check()
   }
@@ -364,12 +364,12 @@ export function sektionÅtgärder(åtgärder) {
 // Ej implementerad
 
 // -------------------- 'Signera intyget' --------------------
-export function signera() {
+export function signera(): void {
   fk.signera()
 }
 
 // -------------------- 'Skriv ut intyget' --------------------
-export function skrivUt(typAvUtskrift, intygsId) {
+export function skrivUt(typAvUtskrift: string, intygsId: string): void {
   switch (typAvUtskrift) {
     case 'utkast':
     case 'fullständigt':
@@ -392,7 +392,7 @@ export function skrivUt(typAvUtskrift, intygsId) {
 }
 
 //--------------------Ställa fråga på intyg till FK------------------
-export function stallaFragaTillFK(typAvFraga) {
+export function stallaFragaTillFK(typAvFraga: string): void {
   switch (typAvFraga) {
     case 'Administrativ':
       cy.get('#arende-filter-administrativafragor').click()
@@ -411,7 +411,7 @@ export function stallaFragaTillFK(typAvFraga) {
   }
 }
 
-export function verifieraMeddelande() {
+export function verifieraMeddelande(): void {
   cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
   cy.contains('Grund för medicinskt underlag').should('exist')
   cy.contains('Sysselsättning').should('exist')
@@ -422,13 +422,13 @@ export function verifieraMeddelande() {
 }
 
 // -------------------- SRS-specifika funktioner --------------------
-export function bytTillSrsPanel() {
+export function bytTillSrsPanel(): void {
   cy.get('#tab-link-wc-srs-panel-tab').click()
   // Vänta på att text från SRS-panelen syns
   cy.contains('Patienten samtycker till att delta i SRS pilot').should('be.visible')
 }
 
-export function srsPatientenSamtyckerChecked() {
+export function srsPatientenSamtyckerChecked(): void {
   cy.contains('Patienten samtycker till att delta i SRS pilot')
     .parent()
     .within(() => {
@@ -436,7 +436,7 @@ export function srsPatientenSamtyckerChecked() {
     })
 }
 
-export function srsKlickaBeräkna() {
+export function srsKlickaBeräkna(): void {
   // Hämta ut elementet som innehåller alla frågor och "Beräkna"-knappen, klicka på "Beräkna".
   cy.get('#questions').within(() => {
     cy.get('button').click()
@@ -446,7 +446,7 @@ export function srsKlickaBeräkna() {
   })
 }
 
-export function läkareAngerPatientrisk(nivå) {
+export function läkareAngerPatientrisk(nivå: string): void {
   assert.equal(nivå, 'Högre') // Endast "Högre" är implementerad nedan just nu
 
   if (nivå === 'Högre') {
@@ -455,31 +455,31 @@ export function läkareAngerPatientrisk(nivå) {
 }
 
 // Verifierar att angiven diagnoskod syns under "Råd och åtgärder"
-export function verifieraDiagnosUnderRådOchÅtgärder(diagnoskod) {
+export function verifieraDiagnosUnderRådOchÅtgärder(diagnoskod: string): void {
   cy.contains('Råd och åtgärder').click()
   cy.get('#atgarder').contains(diagnoskod)
 }
 
 // Verifierar att angiven diagnoskod syns under "Tidigare Riskbedömning"
-export function verifieraDiagnosUnderTidigareRiskbedömning(diagnoskod) {
+export function verifieraDiagnosUnderTidigareRiskbedömning(diagnoskod: string): void {
   cy.contains('Tidigare riskbedömning').click()
   cy.get('#riskDiagram').contains(diagnoskod)
 }
 
 // Verifierar att angiven diagnoskod syns under "Statistik"
-export function verifieraDiagnosUnderStatistik(diagnoskod) {
+export function verifieraDiagnosUnderStatistik(diagnoskod: string): void {
   cy.contains('Statistik').click()
   cy.get('#nationalStatisticsHeader').contains(diagnoskod)
 }
 
-export function kompletteraLisjp() {
+export function kompletteraLisjp(): void {
   fk.komplettera()
 }
 
-export function skapaAdmFragaLisjp() {
+export function skapaAdmFragaLisjp(): void {
   fk.skapaAdmFraga()
 }
 
-export function hanteraFragaLisjp() {
+export function hanteraFragaLisjp(): void {
   fk.hanteraFraga()
 }
