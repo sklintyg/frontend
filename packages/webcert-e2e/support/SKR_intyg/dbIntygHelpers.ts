@@ -6,15 +6,10 @@ import * as fk from '../FK_intyg/fk_helpers'
 
 // De funktioner etc. som är gemensamma för alla FK-intyg kan exporteras direkt
 export {
-  besökÖnskadUrl,
-  loggaUtLoggaIn,
-  sektionÖvrigt,
-  sektionKontakt,
   loggaUt,
   skickaTillFk,
   fornya,
   raderaUtkast,
-  makuleraIntyg,
   komplettera,
   makulera,
   ersatta,

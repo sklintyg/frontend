@@ -4,16 +4,11 @@
 
 // De funktioner etc. som är gemensamma för alla FK-intyg kan exporteras direkt
 export {
-  besökÖnskadUrl,
-  loggaUtLoggaIn,
-  sektionÖvrigt,
-  sektionKontakt,
   loggaUt,
   skrivUt,
   skickaTillFk,
   fornya,
   raderaUtkast,
-  makuleraIntyg,
   makuleraUtkast,
   komplettera,
   signeraSkicka,

@@ -2,46 +2,10 @@
  * Denna fil innehåller FK-gemensamma funktioner för att reducera mängden duplicerad kod
  */
 
-export function besökÖnskadUrl(önskadUrl, vPersonal, vEnhet, utkastId): void {
-  cy.visit(önskadUrl)
-  //cy.get('.intygs-id').should('be.visible');
-  // Om vi dirigeras till sidan som säger att 'Intygsutkastet är raderat'
-  // så försöker vi igen eftersom det antagligen gick för snabbt.
-  cy.get('body').then(($body) => {
-    if ($body.text().includes('Intygsutkastet är raderat och kan därför inte längre visas.')) {
-      cy.log("Kom till 'Intygetsutkastet är raderat', antagligen gick det för snabbt. Provar igen.")
-      cy.loggaInVårdpersonalIntegrerat(vPersonal, vEnhet) // Vi behöver logga in igen
-      cy.visit(önskadUrl)
-    }
-  })
-  cy.url().should('include', utkastId)
-}
-
-export function loggaUtLoggaIn(vPersonal, vEnhet): void {
-  // Lite specialvariant av logga ut/logga in för att sedan öppna intyget på nytt med en ny session
-  cy.clearCookies()
-  cy.visit('/logout')
-  cy.loggaInVårdpersonalIntegrerat(vPersonal, vEnhet)
-}
-
 export function loggaUt(): void {
   // loggar ut
   cy.clearCookies()
   cy.visit('/logout')
-}
-
-export function sektionÖvrigt(övrigt): void {
-  cy.get('#ovrigt').type(övrigt.text)
-}
-
-export function sektionKontakt(kontakt): void {
-  if (kontakt.ja) {
-    cy.get('#kontaktMedFk').check()
-
-    if (kontakt.text) {
-      cy.get('#anledningTillKontakt').type(kontakt.text)
-    }
-  }
 }
 
 export function signeraSkicka(): void {
@@ -53,7 +17,7 @@ export function signeraSkicka(): void {
     .click()
 }
 
-export function skickaFraga(amne): void {
+export function skickaFraga(amne: string): void {
   cy.contains('Administrativa frågor').click()
   cy.get('select').select(amne)
   cy.get('.ic-textarea').type('skickar en fråga angående ' + amne)
@@ -166,7 +130,7 @@ export function kopieraUtkast(): void {
     })
 }
 
-export function svaraPåÄrende(typAvFråga, meddelande): void {
+export function svaraPåÄrende(typAvFråga: string, meddelande: string): void {
   cy.get('.ic-card').within(() => {
     cy.contains(typAvFråga).should('exist')
     cy.contains('Svara').click()
@@ -177,7 +141,7 @@ export function svaraPåÄrende(typAvFråga, meddelande): void {
   })
 }
 
-export function svaraPaKomplettering(alternativ, meddelandeText): void {
+export function svaraPaKomplettering(alternativ: string, meddelandeText: string): void {
   switch (alternativ) {
     case 'nyttIntyg':
       // cy.get('.ic-modal').within((modal)=>
@@ -257,18 +221,6 @@ export function verifieraLastIntyg(): void {
       .contains('Stäng')
       .click()
   })
-}
-
-export function makuleraIntyg(arg): void {
-  cy.get('#makuleraBtn').click()
-  if (arg === 'Annat allvarligt fel') {
-    cy.get('#reason-ANNAT_ALLVARLIGT_FEL').check()
-    cy.get('#clarification-ANNAT_ALLVARLIGT_FEL').type('Testanledning')
-    cy.get('#button1makulera-dialog').click()
-  } else {
-    cy.get('#reason-FEL_PATIENT').check()
-    cy.get('#button1makulera-dialog').click()
-  }
 }
 
 export function komplettera(): void {
