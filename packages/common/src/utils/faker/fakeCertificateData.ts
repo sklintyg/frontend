@@ -592,50 +592,38 @@ export const fakeVisualAcuityElement = (
         },
         ...data?.config,
       },
-      value: {
-        type: CertificateDataValueType.VISUAL_ACUITIES,
+      value: fakeCertificateValue.visualAcuity({
         rightEye: {
-          type: CertificateDataValueType.VISUAL_ACUITY,
           withoutCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `right_without_${id}`,
           },
           withCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `right_with_${id}`,
           },
           contactLenses: {
-            type: CertificateDataValueType.BOOLEAN,
             id: `right_contacts_${id}`,
           },
         },
         leftEye: {
-          type: CertificateDataValueType.VISUAL_ACUITY,
           withoutCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `left_without_${id}`,
           },
           withCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `left_with_${id}`,
           },
           contactLenses: {
-            type: CertificateDataValueType.BOOLEAN,
             id: `left_contacts_${id}`,
           },
         },
         binocular: {
-          type: CertificateDataValueType.VISUAL_ACUITY,
           withoutCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `binocular_without_${id}`,
           },
           withCorrection: {
-            type: CertificateDataValueType.DOUBLE,
             id: `binocular_with_${id}`,
           },
         },
-      },
+      }),
     },
     children
   )

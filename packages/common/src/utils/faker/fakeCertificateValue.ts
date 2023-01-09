@@ -20,6 +20,9 @@ import {
   ValueDateList,
   ValueMedicalInvestigationList,
   ValueCauseOfDeathList,
+  ValueDouble,
+  ValueVisualAcuity,
+  ValueEyeAcuity,
 } from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
@@ -80,6 +83,12 @@ const fakeDiagnosisList = fakeDataElementValue<ValueDiagnosisList>({
   list: [],
 })
 
+const fakeDouble = fakeDataElementValue<ValueDouble>({
+  type: CertificateDataValueType.DOUBLE,
+  id: faker.random.alpha({ count: 5 }),
+  value: null,
+})
+
 const fakeHeader = fakeDataElementValue<ValueHeader>({
   type: CertificateDataValueType.HEADER,
   id: faker.random.alpha({ count: 5 }),
@@ -129,6 +138,20 @@ const fakeMedicalInvestigationList = fakeDataElementValue<ValueMedicalInvestigat
   list: [],
 })
 
+const fakeEyeAcuity = fakeDataElementValue<ValueEyeAcuity>((override) => ({
+  type: CertificateDataValueType.VISUAL_ACUITY,
+  withoutCorrection: fakeDouble(override?.withoutCorrection),
+  withCorrection: fakeDouble(override?.withCorrection),
+  contactLenses: fakeBoolean(override?.contactLenses),
+}))
+
+const fakeVisualAcuity = fakeDataElementValue<ValueVisualAcuity>((override) => ({
+  type: CertificateDataValueType.VISUAL_ACUITIES,
+  rightEye: fakeEyeAcuity(override?.rightEye),
+  leftEye: fakeEyeAcuity(override?.leftEye),
+  binocular: fakeEyeAcuity(override?.binocular),
+}))
+
 export const fakeCertificateValue = {
   boolean: fakeBoolean,
   causeOfDeath: fakeCauseOfDeath,
@@ -141,10 +164,13 @@ export const fakeCertificateValue = {
   dateRangeList: fakeDateRangeList,
   diagnosis: fakeDiagnosis,
   diagnosisList: fakeDiagnosisList,
+  double: fakeDouble,
+  eyeAcuity: fakeEyeAcuity,
   header: fakeHeader,
   icf: fakeICF,
   medicalInvestigation: fakeMedicalInvestigation,
   medicalInvestigationList: fakeMedicalInvestigationList,
   text: fakeText,
   uncertainDate: fakeUncertainDate,
+  visualAcuity: fakeVisualAcuity,
 }
