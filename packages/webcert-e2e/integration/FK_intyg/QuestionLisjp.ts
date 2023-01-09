@@ -52,9 +52,8 @@ describe('FK7804-intyg Ärende kommunikation', { tags: '@react' }, function() {
       it('Svara på fråga gällande Komplettering  med nytt Intyg på ett Lisjp intyg', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId
-        cy.visit(önskadUrl)
         cy.skapaÄrende(this, this.utkastId, 'COMPLEMENT', 'Nu vill jag ha en komplettering skapad')
-        cy.reload()
+        cy.visit(önskadUrl)
         intyg.svaraPaKomplettering('nyttIntyg')
         intyg.signeraSkicka()
         cy.contains(this.utkastId).should('not.exist')

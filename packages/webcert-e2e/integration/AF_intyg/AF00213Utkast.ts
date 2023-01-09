@@ -13,7 +13,7 @@ describe('AF00213-intyg', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använader har möjlighet att uföra följande med utkast ', function() {
+  context('Användare har möjlighet att uföra följande med utkast ', function() {
     beforeEach(function() {
       //UNSIGNED AF00213 FILLED
       cy.skapaIntygViaApi(this, 1, 0, true).then((utkastId) => {

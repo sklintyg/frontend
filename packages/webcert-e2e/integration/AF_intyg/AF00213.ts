@@ -13,7 +13,7 @@ describe('AF00213-intyg tomt', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //unsigned AF00213 EMPTY
       cy.skapaIntygViaApi(this, 1, 0, false).then((utkastId) => {
@@ -33,7 +33,7 @@ describe('AF00213-intyg tomt', { tags: '@react' }, function() {
         intyg.verifieraMeddelande()
       })
 
-      it('Det är möjligt att raderar ett icke ifylld AF00213', function() {
+      it('Det är möjligt att radera ett icke ifylld AF00213', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
         const önskadUrl = '/certificate/' + this.utkastId
