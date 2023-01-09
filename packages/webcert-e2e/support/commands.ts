@@ -109,7 +109,7 @@ function skapaIntygViaApi(fx, status, typ, theFill, sent) {
   const intygStatus = theStatus[status]
   const beingSent = sent ? true : false
   // cy.log(intygStatus);
-  const intygTyp = ['af00213', 'lisjp', 'ag7804', 'db']
+  const intygTyp = ['af00213', 'lisjp', 'ag7804', 'db', 'doi']
   const intygsTypen = intygTyp[typ]
   const filler = theFill ? 'MINIMAL' : 'EMPTY'
   //cy.log(intygStatus + intygTyp + filler);
