@@ -3,6 +3,22 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { parseAcuity } from './parseAcuity'
+
+const parseFixed = (value: string) => {
+  return value
+    ? parseFloat(value.replace(',', '.'))
+        .toFixed(1)
+        .replace('.', ',')
+    : ''
+}
+
+const AcuityInput = styled(TextInput)`
+  width: 40px;
+  padding: 4px 4px;
+  height: 35px;
+  text-align: center;
+`
 
 export interface Props {
   questionId: string
@@ -11,43 +27,8 @@ export interface Props {
   value: ValueEyeAcuity
   onChange: (value: ValueEyeAcuity) => void
 }
-const AcuityInput = styled(TextInput)`
-  width: 40px;
-  padding: 4px 4px;
-  height: 35px;
-  text-align: center;
-`
 
 const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onChange }) => {
-  const parseAcuity = (acuityValue: string) => {
-    // This could probably be made better with RegEx replace?
-    let returnString = acuityValue.replace(/\./gm, ',').replace(/[^0-9,]/g, '')
-    if (returnString) {
-      if (returnString.indexOf(',') < 0) {
-        if (returnString.length > 1) {
-          returnString = returnString.charAt(0) + ',' + returnString.charAt(1)
-        }
-      } else {
-        const parts = returnString.split(',').slice(0, 2)
-        if (!parts[0]) {
-          parts[0] = '0'
-        }
-        if (parts[1].length > 1) {
-          parts[1] = parts[1].substring(0, 1)
-        }
-        returnString = parts.join(',')
-      }
-    }
-    return returnString
-  }
-
-  const parseFixed = (value: string) => {
-    return value
-      ? parseFloat(value.replace(',', '.'))
-          .toFixed(1)
-          .replace('.', ',')
-      : ''
-  }
   const [noCorrection, setNoCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
   const [correction, setCorrection] = useState(parseFixed(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
