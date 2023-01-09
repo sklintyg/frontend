@@ -5,9 +5,9 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
+import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
-import QuestionEditComponent from './QuestionEditComponent'
 
 export interface QuestionProps {
   id: string
@@ -18,7 +18,8 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
-  const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
+  const displayMandatory =
+    (!question?.readOnly && question?.mandatory && !question.disabled && question.config.type !== ConfigTypes.UE_VISUAL_ACUITY) ?? false
 
   useEffect(() => {
     ReactTooltip.rebuild()

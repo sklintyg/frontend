@@ -19,6 +19,7 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import UeVisualAcuity from '../Inputs/UeVisualAcuity/UeVisualAcuity'
 
 interface Props {
   question: CertificateDataElement
@@ -67,6 +68,8 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeCauseOfDeathList {...commonProps} />
     case ConfigTypes.UE_MEDICAL_INVESTIGATION:
       return <UeMedicalInvestigationList {...commonProps} />
+    case ConfigTypes.UE_VISUAL_ACUITY:
+      return <UeVisualAcuity {...commonProps} />
     case ConfigTypes.UE_HEADER:
       return null
     default:
