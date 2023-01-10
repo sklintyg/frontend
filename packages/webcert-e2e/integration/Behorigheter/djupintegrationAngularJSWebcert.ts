@@ -12,7 +12,7 @@ describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
     cy.fixture('vPersonal/beataDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //UNSIGNED LISJP EMPTY
       cy.skapaIntygViaApi(this, 1, 1, false).then((utkastId) => {

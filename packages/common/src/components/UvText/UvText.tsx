@@ -12,12 +12,14 @@ import {
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleDate,
   ConfigUeCodeItem,
-  ConfigUeDiagnoses,
   ConfigUeIcf,
+  ConfigUeMedicalInvestigationList,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
+  ConfigUeVisualAcuity,
   ConfigViewColumn,
+  formatAcuity,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -33,8 +35,10 @@ import {
   ValueText,
   ValueTextRow,
   ValueUncertainDate,
+  ValueViewList,
   ValueViewTable,
   ValueViewText,
+  ValueVisualAcuity,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -42,9 +46,9 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ConfigUeMedicalInvestigationList, ValueViewList } from '../../types/certificate'
 import Badge from './Badge'
 import UvTable from './UvTable'
+
 const IcfCode = styled.p`
   flex-shrink: 0;
 `
@@ -111,7 +115,7 @@ const UvText: React.FC<Props> = ({ question }) => {
     const index = (config.list as CheckboxCode[]).findIndex((item) => item.id === id)
     return index
   }
-  const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList, diagnosisListConfig: ConfigUeDiagnoses) => {
+  const getDiagnosisListText = (diagnosisListValue: ValueDiagnosisList) => {
     const columns: ConfigViewColumn[] = [
       { id: 'kod', text: `Diagnoskod enligt ICD-10 SE` },
       { id: 'desc', text: '' },
@@ -131,7 +135,7 @@ const UvText: React.FC<Props> = ({ question }) => {
     return config.list.map((element, index) => {
       const foundValue = value.list.find((v) => v.id === element.id)
       return (
-        <React.Fragment key={element.label}>
+        <React.Fragment key={index}>
           <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-400'}>{element.label}</p>
           <Badge>
             <div className={'iu-fs-200'}>{foundValue ? foundValue.date : 'Ej angivet'}</div>
@@ -275,6 +279,39 @@ const UvText: React.FC<Props> = ({ question }) => {
     return rows && <UvTable columns={columns} rows={rows} />
   }
 
+  const getVisualAcuityValue = (questionElement: CertificateDataElement) => {
+    const visualAcuityValue = questionElement.value as ValueVisualAcuity
+    const configVisualAcuity = questionElement.config as ConfigUeVisualAcuity
+
+    return (
+      <table className="ic-table iu-fullwidth">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">{configVisualAcuity.withoutCorrectionLabel}</th>
+            <th scope="col">{configVisualAcuity.withCorrectionLabel}</th>
+            <th scope="col">{configVisualAcuity.contactLensesLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { ...visualAcuityValue.rightEye, label: configVisualAcuity.rightEye.label },
+            { ...visualAcuityValue.leftEye, label: configVisualAcuity.leftEye.label },
+            { ...visualAcuityValue.binocular, label: configVisualAcuity.binocular.label },
+          ].map(({ label, withoutCorrection, withCorrection, contactLenses }, index) => {
+            return (
+              <tr key={index}>
+                <td>{label}</td>
+                <td>{formatAcuity(`${withoutCorrection.value}`)}</td>
+                <td>{formatAcuity(`${withCorrection.value}`)}</td>
+                <td>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
+  }
   const getUVText = () => {
     if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
       const questionProps = { key: question.id, disabled: false, question }
@@ -328,7 +365,7 @@ const UvText: React.FC<Props> = ({ question }) => {
                 {(codeListValue.list as ValueCode[])
                   .slice()
                   .sort((a, b) => getCodeListConfigIndex(a.id, codeListConfig) - getCodeListConfigIndex(b.id, codeListConfig))
-                  .map((value, key) => (
+                  .map((value) => (
                     <li key={value.id}>{getCodeListText(value.id, codeListConfig)}</li>
                   ))}
               </ul>
@@ -339,9 +376,8 @@ const UvText: React.FC<Props> = ({ question }) => {
       }
       case CertificateDataValueType.DIAGNOSIS_LIST: {
         const diagnosisListValue = question.value as ValueDiagnosisList
-        const diagnosisListConfig = question.config as ConfigUeDiagnoses
         if (diagnosisListValue.list.length > 0 && question.visible) {
-          return <div className={'iu-p-none'}>{getDiagnosisListText(diagnosisListValue, diagnosisListConfig)}</div>
+          return <div className={'iu-p-none'}>{getDiagnosisListText(diagnosisListValue)}</div>
         }
         break
       }
@@ -402,6 +438,9 @@ const UvText: React.FC<Props> = ({ question }) => {
           return <div className={'iu-p-none'}>{getMedicalInvestigationValue(question)}</div>
         }
         break
+      }
+      case CertificateDataValueType.VISUAL_ACUITIES: {
+        return getVisualAcuityValue(question)
       }
       default: {
         displayText = 'Okänd datatyp'

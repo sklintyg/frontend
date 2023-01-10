@@ -19,6 +19,7 @@ import UeTextArea from '../Inputs/UeTextArea'
 import UeTextField from '../Inputs/UeTextField'
 import UeTypeahead from '../Inputs/UeTypeahead'
 import UeUncertainDate from '../Inputs/UeUncertainDate'
+import UeVisualAcuity from '../Inputs/UeVisualAcuity/UeVisualAcuity'
 import UeViewList from '../Inputs/UeViewComponents/UeViewList'
 import UeViewTable from '../Inputs/UeViewComponents/UeViewTable'
 import UeViewText from '../Inputs/UeViewComponents/UeViewText'
@@ -70,6 +71,8 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeCauseOfDeathList {...commonProps} />
     case ConfigTypes.UE_MEDICAL_INVESTIGATION:
       return <UeMedicalInvestigationList {...commonProps} />
+    case ConfigTypes.UE_VISUAL_ACUITY:
+      return <UeVisualAcuity {...commonProps} />
     case ConfigTypes.UE_VIEW_TEXT:
       return <UeViewText {...commonProps} />
     case ConfigTypes.UE_VIEW_LIST:

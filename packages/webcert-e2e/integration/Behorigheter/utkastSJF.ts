@@ -14,7 +14,7 @@ describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
     cy.fixture('vEnheter/betaVC').as('vårdenhet')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //function skapaIntygViaApi(fx,status, typ, theFill,sent){
       cy.skapaIntygViaApi(this, 1, 1, true, false).then((utkastId) => {

@@ -91,6 +91,7 @@ export enum ConfigTypes {
   UE_MEDICAL_INVESTIGATION = 'UE_MEDICAL_INVESTIGATION',
   UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
   UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
+  UE_VISUAL_ACUITY = 'UE_VISUAL_ACUITY',
   UE_VIEW_TEXT = 'UE_VIEW_TEXT',
   UE_VIEW_LIST = 'UE_VIEW_LIST',
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
@@ -301,6 +302,22 @@ export interface ConfigUeCauseOfDeathList extends CertificateDataConfig {
   list: ConfigUeCauseOfDeathControl[]
 }
 
+export interface ConfigEyeAcuity {
+  label: string
+  withoutCorrectionId: string
+  withCorrectionId: string
+  contactLensesId?: string
+}
+
+export interface ConfigUeVisualAcuity extends CertificateDataConfig {
+  withoutCorrectionLabel: string
+  withCorrectionLabel: string
+  contactLensesLabel: string
+  rightEye: ConfigEyeAcuity
+  leftEye: ConfigEyeAcuity
+  binocular: ConfigEyeAcuity
+}
+
 export interface ConfigUeViewText extends CertificateDataConfig {
   label?: string
 }
@@ -331,6 +348,7 @@ export enum CertificateDataValueType {
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
   ICF = 'ICF',
   TEXT = 'TEXT',
+  DOUBLE = 'DOUBLE',
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
@@ -338,6 +356,8 @@ export enum CertificateDataValueType {
   MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
   CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
+  VISUAL_ACUITIES = 'VISUAL_ACUITIES',
+  VISUAL_ACUITY = 'VISUAL_ACUITY',
   VIEW_TEXT = 'VIEW_TEXT',
   VIEW_LIST = 'VIEW_LIST',
   VIEW_ROW = 'VIEW_ROW',
@@ -356,10 +376,13 @@ export type ValueType =
   | ValueDateRangeList
   | ValueDiagnosis
   | ValueDiagnosisList
+  | ValueDouble
   | ValueHeader
   | ValueIcf
   | ValueText
   | ValueUncertainDate
+  | ValueEyeAcuity
+  | ValueVisualAcuity
   | ValueMedicalInvestigation
   | ValueMedicalInvestigationList
   | ValueViewText
@@ -428,6 +451,12 @@ export interface ValueText extends Value {
   id: string
 }
 
+export interface ValueDouble extends Value {
+  type: CertificateDataValueType.DOUBLE
+  value: number | null
+  id: string
+}
+
 export interface ValueUncertainDate extends Value {
   type: CertificateDataValueType.UNCERTAIN_DATE
   id: string
@@ -469,6 +498,19 @@ export interface ValueMedicalInvestigation extends Value {
 export interface ValueMedicalInvestigationList extends Value {
   type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
+}
+
+export interface ValueEyeAcuity {
+  type: CertificateDataValueType.VISUAL_ACUITY
+  withoutCorrection: ValueDouble
+  withCorrection: ValueDouble
+  contactLenses?: ValueBoolean
+}
+export interface ValueVisualAcuity extends Value {
+  type: CertificateDataValueType.VISUAL_ACUITIES
+  rightEye: ValueEyeAcuity
+  leftEye: ValueEyeAcuity
+  binocular: ValueEyeAcuity
 }
 
 export interface ValueViewText extends Value {

@@ -2,49 +2,13 @@
  * Denna fil innehåller FK-gemensamma funktioner för att reducera mängden duplicerad kod
  */
 
-export function besökÖnskadUrl(önskadUrl, vPersonal, vEnhet, utkastId) {
-  cy.visit(önskadUrl)
-  //cy.get('.intygs-id').should('be.visible');
-  // Om vi dirigeras till sidan som säger att 'Intygsutkastet är raderat'
-  // så försöker vi igen eftersom det antagligen gick för snabbt.
-  cy.get('body').then(($body) => {
-    if ($body.text().includes('Intygsutkastet är raderat och kan därför inte längre visas.')) {
-      cy.log("Kom till 'Intygetsutkastet är raderat', antagligen gick det för snabbt. Provar igen.")
-      cy.loggaInVårdpersonalIntegrerat(vPersonal, vEnhet) // Vi behöver logga in igen
-      cy.visit(önskadUrl)
-    }
-  })
-  cy.url().should('include', utkastId)
-}
-
-export function loggaUtLoggaIn(vPersonal, vEnhet) {
-  // Lite specialvariant av logga ut/logga in för att sedan öppna intyget på nytt med en ny session
-  cy.clearCookies()
-  cy.visit('/logout')
-  cy.loggaInVårdpersonalIntegrerat(vPersonal, vEnhet)
-}
-
-export function loggaUt() {
+export function loggaUt(): void {
   // loggar ut
   cy.clearCookies()
   cy.visit('/logout')
 }
 
-export function sektionÖvrigt(övrigt) {
-  cy.get('#ovrigt').type(övrigt.text)
-}
-
-export function sektionKontakt(kontakt) {
-  if (kontakt.ja) {
-    cy.get('#kontaktMedFk').check()
-
-    if (kontakt.text) {
-      cy.get('#anledningTillKontakt').type(kontakt.text)
-    }
-  }
-}
-
-export function signeraSkicka() {
+export function signeraSkicka(): void {
   cy.contains('Klart att signera')
   cy.contains('Obligatoriska uppgifter saknas').should('not.exist')
   cy.contains('Utkastet sparas').should('not.exist')
@@ -53,10 +17,11 @@ export function signeraSkicka() {
     .click()
 }
 
-export function skickaFraga(amne) {
+export function skickaFraga(amne: string): void {
   cy.contains('Administrativa frågor').click()
   cy.get('select').select(amne)
   cy.get('.ic-textarea').type('skickar en fråga angående ' + amne)
+  cy.contains('Utkast sparat')
   cy.get('button')
     .contains('Skicka')
     .click()
@@ -64,7 +29,7 @@ export function skickaFraga(amne) {
   cy.contains('Hanterad').click()
 }
 
-export function signera() {
+export function signera(): void {
   cy.contains('Klart att signera')
   cy.contains('Obligatoriska uppgifter saknas').should('not.exist')
   cy.contains('Utkastet sparas').should('not.exist')
@@ -75,7 +40,7 @@ export function signera() {
   cy.contains('Intyget är tillgängligt för patienten').should('exist')
 }
 
-export function skickaTillFk() {
+export function skickaTillFk(): void {
   cy.get('button')
     .contains('Skicka till Försäkringskassan')
     .click()
@@ -87,14 +52,14 @@ export function skickaTillFk() {
   })
 }
 
-export function skrivUtUtkast() {
+export function skrivUtUtkast(): void {
   cy.get('button')
     .contains('Skriv ut')
     .click()
 }
 
 // Generell utskriftsfunktion. Gäller inte för t.ex. LISJP
-export function skrivUt(typAvUtskrift, intygsId, intygsTyp) {
+export function skrivUt(typAvUtskrift: string, intygsId: string, intygsTyp: string): void {
   const theUrl = 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/pdf' + typAvUtskrift
   switch (typAvUtskrift) {
     case 'utkast':
@@ -111,7 +76,7 @@ export function skrivUt(typAvUtskrift, intygsId, intygsTyp) {
   }
 }
 
-export function ersatta() {
+export function ersatta(): void {
   cy.get('[data-tip="Skapar en kopia av detta intyg som du kan redigera."] > .ic-button')
     .should('be.visible')
     .contains('Ersätt')
@@ -131,7 +96,7 @@ export function ersatta() {
   })
 }
 
-export function fornya() {
+export function fornya(): void {
   cy.get('button')
     .contains('Förnya')
     .click()
@@ -149,7 +114,7 @@ export function fornya() {
   })
 }
 
-export function kopieraUtkast() {
+export function kopieraUtkast(): void {
   cy.contains('Kopiera')
     .click()
     .then(() => {
@@ -165,16 +130,18 @@ export function kopieraUtkast() {
     })
 }
 
-export function svaraPåÄrende(typAvFråga, meddelande) {
+export function svaraPåÄrende(typAvFråga: string, meddelande: string): void {
   cy.get('.ic-card').within(() => {
     cy.contains(typAvFråga).should('exist')
     cy.contains('Svara').click()
-    cy.get('.ic-textarea').type(meddelande)
+    cy.get('.ic-textarea')
+      .should('be.visible')
+      .type(meddelande)
     cy.contains('Skicka').click()
   })
 }
 
-export function svaraPaKomplettering(alternativ, meddelandeText) {
+export function svaraPaKomplettering(alternativ: string, meddelandeText: string): void {
   switch (alternativ) {
     case 'nyttIntyg':
       // cy.get('.ic-modal').within((modal)=>
@@ -185,16 +152,22 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
     case 'meddelande':
       cy.contains('Kan ej komplettera').click()
       cy.get('.ic-modal').within(() => {
-        cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget').click()
+        cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget')
+          .should('be.visible')
+          .click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
       })
       cy.log('Svarar med meddelande')
       break
     case 'textIntyg':
-      cy.contains('Kan ej komplettera').click()
+      cy.contains('Kan ej komplettera')
+        .should('be.visible')
+        .click()
       cy.get('.ic-modal').within(() => {
-        cy.contains('Ingen ytterligare medicinsk information kan anges.').click()
+        cy.contains('Ingen ytterligare medicinsk information kan anges.')
+          .should('be.visible')
+          .click()
         cy.get('.ic-textarea').type(meddelandeText)
         cy.contains('Skicka svar').click()
       })
@@ -206,11 +179,9 @@ export function svaraPaKomplettering(alternativ, meddelandeText) {
   }
 }
 
-export function raderaUtkast() {
+export function raderaUtkast(): void {
   cy.get('[data-testid="remove-certificate-button"]').should('be.visible')
-  cy.get('button')
-    .contains('Radera')
-    .click()
+  cy.contains('Radera').click()
   cy.get('.ic-modal').within(() => {
     cy.get('button')
       .contains('Radera')
@@ -218,7 +189,7 @@ export function raderaUtkast() {
   })
 }
 
-export function makulera() {
+export function makulera(): void {
   cy.contains('Makulera').click()
   cy.contains('Intyget har utfärdats på fel patient').click()
 
@@ -230,7 +201,7 @@ export function makulera() {
   })
 }
 
-export function makuleraUtkast() {
+export function makuleraUtkast(): void {
   cy.contains('Makulera')
     .should('be.visible')
     .click()
@@ -243,7 +214,7 @@ export function makuleraUtkast() {
   })
 }
 
-export function verifieraLastIntyg() {
+export function verifieraLastIntyg(): void {
   cy.contains('Utkastet är låst').click()
   cy.get('.ic-modal').within(() => {
     cy.get('button')
@@ -252,19 +223,7 @@ export function verifieraLastIntyg() {
   })
 }
 
-export function makuleraIntyg(arg) {
-  cy.get('#makuleraBtn').click()
-  if (arg === 'Annat allvarligt fel') {
-    cy.get('#reason-ANNAT_ALLVARLIGT_FEL').check()
-    cy.get('#clarification-ANNAT_ALLVARLIGT_FEL').type('Testanledning')
-    cy.get('#button1makulera-dialog').click()
-  } else {
-    cy.get('#reason-FEL_PATIENT').check()
-    cy.get('#button1makulera-dialog').click()
-  }
-}
-
-export function komplettera() {
+export function komplettera(): void {
   cy.get('#showallstatusesLink > span').click()
   cy.get('body').then(($body) => {
     if ($body.text().includes('Det finns redan en påbörjad komplettering')) {
@@ -279,12 +238,12 @@ export function komplettera() {
   })
 }
 
-export function vidarebefordra() {
+export function vidarebefordra(): void {
   cy.get('#ta-bort-utkast').click()
   cy.get('#confirm-draft-delete-button').click()
 }
 
-export function skapaAdmFraga() {
+export function skapaAdmFraga(): void {
   cy.contains('Intyget är skickat till Försäkringskassan')
   cy.contains('Obligatoriska uppgifter saknas').should('not.exist')
   cy.contains('Utkastet sparas').should('not.exist')
@@ -298,6 +257,6 @@ export function skapaAdmFraga() {
   cy.get('#sendArendeBtn').click()
 }
 
-export function hanteraFraga() {
+export function hanteraFraga(): void {
   cy.get('.checkbox-inline').click()
 }
