@@ -33,6 +33,7 @@ import {
   ValueText,
   ValueUncertainDate,
   ValueVisualAcuity,
+  formatAcuity,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -309,40 +310,20 @@ const UvText: React.FC<Props> = ({ question }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{configVisualAcuity.rightEye.label}</td>
-            <td>
-              <Badge>{visualAcuityValue.rightEye.withoutCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td>
-              <Badge>{visualAcuityValue.rightEye.withCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td>
-              <Badge>{visualAcuityValue.rightEye.contactLenses?.selected === true ? 'Ja' : ''}</Badge>
-            </td>
-          </tr>
-          <tr>
-            <td>{configVisualAcuity.leftEye.label}</td>
-            <td>
-              <Badge>{visualAcuityValue.leftEye.withoutCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td>
-              <Badge>{visualAcuityValue.leftEye.withCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td>
-              <Badge>{visualAcuityValue.leftEye.contactLenses?.selected === true ? 'Ja' : ''}</Badge>
-            </td>
-          </tr>
-          <tr>
-            <td>{configVisualAcuity.binocular.label}</td>
-            <td>
-              <Badge>{visualAcuityValue.binocular.withoutCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td>
-              <Badge>{visualAcuityValue.binocular.withCorrection.value?.toString().replace('.', ',') ?? ''}</Badge>
-            </td>
-            <td></td>
-          </tr>
+          {[
+            { ...visualAcuityValue.rightEye, label: configVisualAcuity.rightEye.label },
+            { ...visualAcuityValue.leftEye, label: configVisualAcuity.leftEye.label },
+            { ...visualAcuityValue.binocular, label: configVisualAcuity.binocular.label },
+          ].map(({ label, withoutCorrection, withCorrection, contactLenses }, index) => {
+            return (
+              <tr key={index}>
+                <td>{label}</td>
+                <td>{formatAcuity(`${withoutCorrection.value}`)}</td>
+                <td>{formatAcuity(`${withCorrection.value}`)}</td>
+                <td>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     )
