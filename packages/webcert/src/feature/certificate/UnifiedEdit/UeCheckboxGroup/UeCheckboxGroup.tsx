@@ -2,7 +2,8 @@ import { CertificateDataElement, ConfigLayout, ConfigUeCheckboxMultipleCodes, Qu
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { GroupWrapper, ItemWrapper } from '../GroupWrappers'
+import { GroupWrapper } from '../GroupWrappers'
+import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
 
 export interface Props {

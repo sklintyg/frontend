@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { GroupWrapper, ItemWrapper } from '../GroupWrappers'
+import { GroupWrapper } from '../GroupWrappers'
+import { ItemWrapper } from '../ItemWrapper'
 
 export interface Props {
   disabled: boolean

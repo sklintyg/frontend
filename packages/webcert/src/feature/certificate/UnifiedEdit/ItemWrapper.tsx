@@ -1,29 +1,13 @@
 import { ConfigLayout } from '@frontend/common/'
 import styled, { css } from 'styled-components'
 
-interface groupWrapperProps {
-  layout: ConfigLayout
-}
-
-interface itemProps {
+interface Props {
   layout: ConfigLayout
   index: number
   noItems: number
 }
 
-export const GroupWrapper = styled.div<groupWrapperProps>`
-  ${(props) => {
-    if (props.layout === ConfigLayout.COLUMNS) {
-      return css`
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        row-gap: 15px;
-      `
-    }
-  }}
-`
-
-export const ItemWrapper = styled.div<itemProps>`
+export const ItemWrapper = styled.div<Props>`
   ${(props) => {
     switch (props.layout) {
       case ConfigLayout.INLINE:
