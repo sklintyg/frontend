@@ -1,9 +1,8 @@
-import { Checkbox, ConfigEyeAcuity, QuestionValidationTexts, TextInput, ValueEyeAcuity } from '@frontend/common'
+import { Checkbox, ConfigEyeAcuity, formatAcuity, QuestionValidationTexts, TextInput, ValueEyeAcuity } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { parseAcuity } from './parseAcuity'
 
 const parseFixed = (value: string) => {
   return value
@@ -40,7 +39,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
   const contactsValidationErrors = useSelector(getVisibleValidationErrors(questionId, config.contactLensesId)).length > 0
 
   const onNoCorrectionChange = (noCorrectionValue: string) => {
-    noCorrectionValue = parseAcuity(noCorrectionValue)
+    noCorrectionValue = formatAcuity(noCorrectionValue)
     setNoCorrection(noCorrectionValue)
     if (parseFloat(noCorrectionValue) || !noCorrectionValue) {
       onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue.replace(/,/gm, '.')) } })
@@ -48,7 +47,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
   }
 
   const onCorrectionChange = (correctionValue: string) => {
-    correctionValue = parseAcuity(correctionValue)
+    correctionValue = formatAcuity(correctionValue)
     setCorrection(correctionValue)
     if (parseFloat(correctionValue) || !correctionValue) {
       onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue.replace(/,/gm, '.')) } })

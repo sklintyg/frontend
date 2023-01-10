@@ -5,17 +5,19 @@ import {
   CertificateDataValueType,
   CheckboxCode,
   ConfigTypes,
-  ConfigUeCheckboxBoolean,
-  ConfigUeCheckboxDateRange,
-  ConfigUeCheckboxMultipleDate,
-  ConfigUeDiagnoses,
-  ConfigUeIcf,
-  ConfigUeRadioMultipleCodesOptionalDropdown,
-  ConfigUeSickLeavePeriod,
   ConfigUeCauseOfDeath,
   ConfigUeCauseOfDeathControl,
   ConfigUeCauseOfDeathList,
+  ConfigUeCheckboxBoolean,
+  ConfigUeCheckboxDateRange,
+  ConfigUeCheckboxMultipleDate,
   ConfigUeCodeItem,
+  ConfigUeDiagnoses,
+  ConfigUeIcf,
+  ConfigUeMedicalInvestigationList,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
+  ConfigUeSickLeavePeriod,
+  ConfigUeVisualAcuity,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -26,10 +28,12 @@ import {
   ValueDateRange,
   ValueDiagnosis,
   ValueDiagnosisList,
-  ValueText,
-  ValueUncertainDate,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
+  ValueText,
+  ValueUncertainDate,
+  ValueVisualAcuity,
+  formatAcuity,
 } from '@frontend/common'
 import UeMessage from '@frontend/webcert/src/feature/certificate/Inputs/UeMessage'
 import { getQuestion } from '@frontend/webcert/src/store/certificate/certificateSelectors'
@@ -37,7 +41,6 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { ConfigUeMedicalInvestigationList } from '../../types/certificate'
 import Badge from './Badge'
 const IcfCode = styled.p`
   flex-shrink: 0;
@@ -291,6 +294,40 @@ const UvText: React.FC<Props> = ({ question }) => {
     }
     return ''
   }
+
+  const getVisualAcuityValue = (questionElement: CertificateDataElement) => {
+    const visualAcuityValue = questionElement.value as ValueVisualAcuity
+    const configVisualAcuity = questionElement.config as ConfigUeVisualAcuity
+
+    return (
+      <table className="ic-table iu-fullwidth">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">{configVisualAcuity.withoutCorrectionLabel}</th>
+            <th scope="col">{configVisualAcuity.withCorrectionLabel}</th>
+            <th scope="col">{configVisualAcuity.contactLensesLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { ...visualAcuityValue.rightEye, label: configVisualAcuity.rightEye.label },
+            { ...visualAcuityValue.leftEye, label: configVisualAcuity.leftEye.label },
+            { ...visualAcuityValue.binocular, label: configVisualAcuity.binocular.label },
+          ].map(({ label, withoutCorrection, withCorrection, contactLenses }, index) => {
+            return (
+              <tr key={index}>
+                <td>{label}</td>
+                <td>{formatAcuity(`${withoutCorrection.value}`)}</td>
+                <td>{formatAcuity(`${withCorrection.value}`)}</td>
+                <td>{contactLenses ? (contactLenses.selected === true ? 'Ja' : 'Nej') : '-'}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
+  }
   const getUVText = () => {
     if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
       const questionProps = { key: question.id, disabled: false, question }
@@ -397,6 +434,9 @@ const UvText: React.FC<Props> = ({ question }) => {
           return <div className={'iu-p-none'}>{getMedicalInvestigationValue(question)}</div>
         }
         break
+      }
+      case CertificateDataValueType.VISUAL_ACUITIES: {
+        return getVisualAcuityValue(question)
       }
       default: {
         displayText = 'Okänd datatyp'
