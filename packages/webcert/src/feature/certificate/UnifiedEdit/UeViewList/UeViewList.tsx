@@ -1,5 +1,4 @@
-import { CertificateDataElement, ConfigUeViewList, ValueViewList, ValueViewText } from '@frontend/common'
-import Badge from '@frontend/common/src/components/UvText/Badge'
+import { CertificateDataElement, ConfigUeViewList, ValueViewList, ValueViewText, Badge } from '@frontend/common'
 import * as React from 'react'
 
 export interface Props {

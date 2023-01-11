@@ -1,5 +1,4 @@
-import { CertificateDataElement, ConfigUeViewTable, ValueViewTable } from '@frontend/common'
-import UvTable from '@frontend/common/src/components/UvText/UvTable'
+import { CertificateDataElement, ConfigUeViewTable, ValueViewTable, UvTable } from '@frontend/common'
 import * as React from 'react'
 
 export interface Props {
@@ -7,14 +6,9 @@ export interface Props {
 }
 
 const UeViewTable: React.FC<Props> = ({ question }) => {
-  const value = question.value as ValueViewTable
-  const questionConfig = question.config as ConfigUeViewTable
-  const columns = questionConfig.columns
-  const rows = value.rows
-
   return (
     <div className="iu-p-none">
-      <UvTable columns={columns} rows={rows} />
+      <UvTable value={question.value as ValueViewTable} config={question.config as ConfigUeViewTable} />
     </div>
   )
 }

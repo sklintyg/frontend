@@ -20,7 +20,11 @@ const Template: Story<Props> = ({ ...args }) => {
 }
 
 export const Default = Template.bind({})
-const mockQuestion = fakeViewTextElement({ id: '1', value: { text: faker.lorem.sentence(5) } })['1']
+const mockQuestion = fakeViewTextElement({
+  id: '1',
+  config: { label: faker.lorem.sentence(5) },
+  value: { text: faker.lorem.sentence(5) },
+})['1']
 Default.args = {
   question: mockQuestion,
 }

@@ -34,19 +34,19 @@ import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import React from 'react'
 import { Provider } from 'react-redux'
-import UvText from './UvText'
+import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
 
 const renderDefaultComponent = (question: CertificateDataElement) => {
   render(
     <Provider store={testStore}>
-      <UvText question={question} />
+      <QuestionUvResolve question={question} />
     </Provider>
   )
 }
 
-describe('UvText', () => {
+describe('QuestionUvResolve', () => {
   beforeEach(() => {
     testStore = configureStore({
       reducer,

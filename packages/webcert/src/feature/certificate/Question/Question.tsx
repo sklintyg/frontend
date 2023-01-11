@@ -1,4 +1,4 @@
-import { CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon, UvText } from '@frontend/common'
+import { CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -8,6 +8,7 @@ import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certific
 import QuestionEditComponent from './QuestionEditComponent'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
+import QuestionUvResolve from './QuestionUvResolve'
 
 export interface QuestionProps {
   id: string
@@ -71,7 +72,9 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? <UvText question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}</div>
+      <div>
+        {question.readOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
+      </div>
     </div>
   )
 }
