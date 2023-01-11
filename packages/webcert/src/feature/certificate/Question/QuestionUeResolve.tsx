@@ -1,25 +1,28 @@
 import { CertificateDataElement, ConfigTypes, InfoBox } from '@frontend/common'
 import React from 'react'
-import UeCauseOfDeath from '../Inputs/UeCauseOfDeath/UeCauseOfDeath'
-import UeCauseOfDeathList from '../Inputs/UeCauseOfDeath/UeCauseOfDeathList'
-import UeCheckbox from '../Inputs/UeCheckbox'
-import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
-import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
-import UeDate from '../Inputs/UeDate'
-import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
-import UeDropdown from '../Inputs/UeDropdown'
-import UeIcf from '../Inputs/UeIcf'
-import UeMedicalInvestigationList from '../Inputs/UeMedicalInvestigation/UeMedicalInvestigationList'
-import UeMessage from '../Inputs/UeMessage'
-import UeRadio from '../Inputs/UeRadio'
-import UeRadioGroup from '../Inputs/UeRadioGroup'
-import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
-import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
-import UeTextArea from '../Inputs/UeTextArea'
-import UeTextField from '../Inputs/UeTextField'
-import UeTypeahead from '../Inputs/UeTypeahead'
-import UeUncertainDate from '../Inputs/UeUncertainDate'
-import UeVisualAcuity from '../Inputs/UeVisualAcuity/UeVisualAcuity'
+import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
+import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
+import UeTextArea from '../UnifiedEdit/UeTextArea/UeTextArea'
+import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
+import UeCheckboxGroup from '../UnifiedEdit/UeCheckboxGroup/UeCheckboxGroup'
+import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
+import UeRadioGroup from '../UnifiedEdit/UeRadioGroup/UeRadioGroup'
+import UeCheckboxDateGroup from '../UnifiedEdit/UeCheckboxDateGroup/UeCheckboxDateGroup'
+import { UeSickLeavePeriod } from '../UnifiedEdit/UeSickLeavePeriod/UeSickLeavePeriod'
+import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
+import UeRadioGroupOptionalDropdown from '../UnifiedEdit/UeRadioGroupOptionalDropdown/UeRadioGroupOptionalDropdown'
+import UeUncertainDate from '../UnifiedEdit/UeUncertainDate/UeUncertainDate'
+import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
+import UeTypeahead from '../UnifiedEdit/UeTypeahead/UeTypeahead'
+import UeTextField from '../UnifiedEdit/UeTextField/UeTextField'
+import UeDate from '../UnifiedEdit/UeDate/UeDate'
+import UeCauseOfDeath from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeath'
+import UeCauseOfDeathList from '../UnifiedEdit/UeCauseOfDeath/UeCauseOfDeathList'
+import UeMedicalInvestigationList from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
+import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
+import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
+import UeViewList from '../UnifiedEdit/UeViewList/UeViewList'
+import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 
 interface Props {
   question: CertificateDataElement
@@ -70,6 +73,12 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeMedicalInvestigationList {...commonProps} />
     case ConfigTypes.UE_VISUAL_ACUITY:
       return <UeVisualAcuity {...commonProps} />
+    case ConfigTypes.UE_VIEW_TEXT:
+      return <UeViewText {...commonProps} />
+    case ConfigTypes.UE_VIEW_LIST:
+      return <UeViewList {...commonProps} />
+    case ConfigTypes.UE_VIEW_TABLE:
+      return <UeViewTable {...commonProps} />
     case ConfigTypes.UE_HEADER:
       return null
     default:

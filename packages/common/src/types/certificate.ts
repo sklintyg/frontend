@@ -92,6 +92,9 @@ export enum ConfigTypes {
   UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
   UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
   UE_VISUAL_ACUITY = 'UE_VISUAL_ACUITY',
+  UE_VIEW_TEXT = 'UE_VIEW_TEXT',
+  UE_VIEW_LIST = 'UE_VIEW_LIST',
+  UE_VIEW_TABLE = 'UE_VIEW_TABLE',
 }
 
 export enum MessageLevel {
@@ -315,6 +318,23 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
   binocular: ConfigEyeAcuity
 }
 
+export interface ConfigUeViewText extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigUeViewList extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigViewColumn {
+  id: string
+  text: string
+}
+
+export interface ConfigUeViewTable extends CertificateDataConfig {
+  columns: ConfigViewColumn[]
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -338,6 +358,10 @@ export enum CertificateDataValueType {
   CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
   VISUAL_ACUITIES = 'VISUAL_ACUITIES',
   VISUAL_ACUITY = 'VISUAL_ACUITY',
+  VIEW_TEXT = 'VIEW_TEXT',
+  VIEW_LIST = 'VIEW_LIST',
+  VIEW_ROW = 'VIEW_ROW',
+  VIEW_TABLE = 'VIEW_TABLE',
 }
 
 export type ValueType =
@@ -361,7 +385,9 @@ export type ValueType =
   | ValueVisualAcuity
   | ValueMedicalInvestigation
   | ValueMedicalInvestigationList
-
+  | ValueViewText
+  | ValueViewList
+  | ValueViewTable
 export interface Value {
   [propName: string]: unknown
 }
@@ -485,6 +511,26 @@ export interface ValueVisualAcuity extends Value {
   rightEye: ValueEyeAcuity
   leftEye: ValueEyeAcuity
   binocular: ValueEyeAcuity
+}
+
+export interface ValueViewText extends Value {
+  type: CertificateDataValueType.VIEW_TEXT
+  text: string
+}
+
+export interface ValueViewList extends Value {
+  type: CertificateDataValueType.VIEW_LIST
+  list: ValueViewText[]
+}
+
+export interface ValueTextRow extends Value {
+  type: CertificateDataValueType.VIEW_ROW
+  columns: ValueText[]
+}
+
+export interface ValueViewTable extends Value {
+  type: CertificateDataValueType.VIEW_TABLE
+  rows: ValueTextRow[]
 }
 
 // Validation

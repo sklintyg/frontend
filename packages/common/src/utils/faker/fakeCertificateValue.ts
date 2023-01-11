@@ -1,28 +1,31 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
 import {
-  ValueType,
   CertificateDataValueType,
   ValueBoolean,
+  ValueCauseOfDeath,
+  ValueCauseOfDeathList,
   ValueCode,
   ValueCodeList,
   ValueDate,
+  ValueDateList,
   ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
-  ValueText,
-  ValueUncertainDate,
   ValueMedicalInvestigation,
-  ValueCauseOfDeath,
-  ValueDateList,
   ValueMedicalInvestigationList,
-  ValueCauseOfDeathList,
+  ValueText,
+  ValueType,
+  ValueUncertainDate,
+  ValueViewList,
   ValueDouble,
   ValueVisualAcuity,
   ValueEyeAcuity,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
@@ -151,6 +154,18 @@ const fakeVisualAcuity = fakeDataElementValue<ValueVisualAcuity>((override) => (
   leftEye: fakeEyeAcuity(override?.leftEye),
   binocular: fakeEyeAcuity(override?.binocular),
 }))
+const fakeViewText = fakeDataElementValue<ValueViewText>({
+  type: CertificateDataValueType.VIEW_TEXT,
+  text: '',
+})
+const fakeViewList = fakeDataElementValue<ValueViewList>({
+  type: CertificateDataValueType.VIEW_LIST,
+  list: [],
+})
+const fakeViewTable = fakeDataElementValue<ValueViewTable>({
+  type: CertificateDataValueType.VIEW_TABLE,
+  rows: [],
+})
 
 export const fakeCertificateValue = {
   boolean: fakeBoolean,
@@ -172,5 +187,8 @@ export const fakeCertificateValue = {
   medicalInvestigationList: fakeMedicalInvestigationList,
   text: fakeText,
   uncertainDate: fakeUncertainDate,
+  viewText: fakeViewText,
+  viewList: fakeViewList,
+  viewTable: fakeViewTable,
   visualAcuity: fakeVisualAcuity,
 }

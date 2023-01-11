@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListType } from '@frontend/common/src/types/list'
-import Table from '@frontend/common/src/components/Table/Table'
 import { useDispatch, useSelector } from 'react-redux'
 import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
 import ListPagination from './pagination/ListPagination'
@@ -9,6 +8,7 @@ import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
 import { ResourceLink } from '@frontend/common'
 import styled from 'styled-components/macro'
+import { ListTable } from './ListTable'
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -39,26 +39,6 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
 
   if (!config) {
     return null
-  }
-
-  const getTable = () => {
-    return list.map((listItem, count) => <tr key={'listItem-' + count}>{getTableData(listItem)}</tr>)
-  }
-
-  const getTableData = (listItem: CertificateListItem) => {
-    return config.tableHeadings.map((heading) => {
-      return (
-        <ListItemContent
-          key={heading.id}
-          value={listItem.values[heading.id]}
-          valueType={heading.type}
-          tooltips={config.buttonTooltips}
-          links={listItem.values['LINKS'] as ResourceLink[]}
-          certificateId={listItem.values['CERTIFICATE_ID'] as string}
-          listType={type}
-        />
-      )
-    })
   }
 
   const getOrderBy = () => {
@@ -101,7 +81,7 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
 
   const getListContent = () => {
     return (
-      <Table
+      <ListTable
         caption={config.title}
         headings={config.tableHeadings}
         orderBy={getOrderBy() as string}
@@ -109,8 +89,24 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
         onTableHeadClick={updateSortingOfList}
         isLoadingContent={isLoadingList && !isSortingList}
         isEmptyList={list.length === 0}>
-        {getTable()}
-      </Table>
+        {list.map((listItem, count) => (
+          <tr key={'listItem-' + count}>
+            {config.tableHeadings.map((heading) => {
+              return (
+                <ListItemContent
+                  key={heading.id}
+                  value={listItem.values[heading.id]}
+                  valueType={heading.type}
+                  tooltips={config.buttonTooltips}
+                  links={listItem.values['LINKS'] as ResourceLink[]}
+                  certificateId={listItem.values['CERTIFICATE_ID'] as string}
+                  listType={type}
+                />
+              )
+            })}
+          </tr>
+        ))}
+      </ListTable>
     )
   }
 

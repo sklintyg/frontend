@@ -23,11 +23,13 @@ import {
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
   ConfigUeVisualAcuity,
+  ConfigUeViewText,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -36,18 +38,22 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRangeList,
+  ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
   ValueVisualAcuity,
-  ValueDiagnosisList,
-  ValueMedicalInvestigationList,
+  ValueViewList,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
+import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateValue } from './fakeCertificateValue'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -241,6 +247,23 @@ export const fakeCheckboxMultipleDate = (
     children
   )
 
+export const fakeCheckboxDateRangeList = (
+  data?: PartialCertificateDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+        list: fakeList(6),
+        ...data?.config,
+      },
+      value: fakeCertificateValue.dateRangeList(data?.value),
+    },
+    children
+  )
+
 export const fakeRadioMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
   children?: CertificateData[]
@@ -374,7 +397,7 @@ export const fakeMedicalInvestigationListElement = (
     fakeCertificateValue.medicalInvestigation({
       investigationType: {
         id: faker.random.alpha({ count: 5 }),
-        code: faker.random.arrayElement(typeOptions.map((option) => option.label)),
+        code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
       },
       date: {
         id: faker.random.alpha({ count: 5 }),
@@ -628,3 +651,51 @@ export const fakeVisualAcuityElement = (
     children
   )
 }
+
+export const fakeViewTextElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TEXT,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewText(data?.value),
+    },
+    children
+  )
+
+export const fakeViewListElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_LIST,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewList(data?.value),
+    },
+    children
+  )
+
+export const fakeViewTableElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewTable>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TABLE,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewTable(data?.value),
+    },
+    children
+  )
