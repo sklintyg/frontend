@@ -1,25 +1,31 @@
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
 import {
-  ValueType,
   CertificateDataValueType,
   ValueBoolean,
+  ValueCauseOfDeath,
+  ValueCauseOfDeathList,
   ValueCode,
   ValueCodeList,
   ValueDate,
+  ValueDateList,
   ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
-  ValueText,
-  ValueUncertainDate,
   ValueMedicalInvestigation,
-  ValueCauseOfDeath,
-  ValueDateList,
   ValueMedicalInvestigationList,
-  ValueCauseOfDeathList,
+  ValueText,
+  ValueType,
+  ValueUncertainDate,
+  ValueViewList,
+  ValueDouble,
+  ValueVisualAcuity,
+  ValueEyeAcuity,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
@@ -80,6 +86,12 @@ const fakeDiagnosisList = fakeDataElementValue<ValueDiagnosisList>({
   list: [],
 })
 
+const fakeDouble = fakeDataElementValue<ValueDouble>({
+  type: CertificateDataValueType.DOUBLE,
+  id: faker.random.alpha({ count: 5 }),
+  value: null,
+})
+
 const fakeHeader = fakeDataElementValue<ValueHeader>({
   type: CertificateDataValueType.HEADER,
   id: faker.random.alpha({ count: 5 }),
@@ -129,6 +141,32 @@ const fakeMedicalInvestigationList = fakeDataElementValue<ValueMedicalInvestigat
   list: [],
 })
 
+const fakeEyeAcuity = fakeDataElementValue<ValueEyeAcuity>((override) => ({
+  type: CertificateDataValueType.VISUAL_ACUITY,
+  withoutCorrection: fakeDouble(override?.withoutCorrection),
+  withCorrection: fakeDouble(override?.withCorrection),
+  contactLenses: fakeBoolean(override?.contactLenses),
+}))
+
+const fakeVisualAcuity = fakeDataElementValue<ValueVisualAcuity>((override) => ({
+  type: CertificateDataValueType.VISUAL_ACUITIES,
+  rightEye: fakeEyeAcuity(override?.rightEye),
+  leftEye: fakeEyeAcuity(override?.leftEye),
+  binocular: fakeEyeAcuity(override?.binocular),
+}))
+const fakeViewText = fakeDataElementValue<ValueViewText>({
+  type: CertificateDataValueType.VIEW_TEXT,
+  text: '',
+})
+const fakeViewList = fakeDataElementValue<ValueViewList>({
+  type: CertificateDataValueType.VIEW_LIST,
+  list: [],
+})
+const fakeViewTable = fakeDataElementValue<ValueViewTable>({
+  type: CertificateDataValueType.VIEW_TABLE,
+  rows: [],
+})
+
 export const fakeCertificateValue = {
   boolean: fakeBoolean,
   causeOfDeath: fakeCauseOfDeath,
@@ -141,10 +179,16 @@ export const fakeCertificateValue = {
   dateRangeList: fakeDateRangeList,
   diagnosis: fakeDiagnosis,
   diagnosisList: fakeDiagnosisList,
+  double: fakeDouble,
+  eyeAcuity: fakeEyeAcuity,
   header: fakeHeader,
   icf: fakeICF,
   medicalInvestigation: fakeMedicalInvestigation,
   medicalInvestigationList: fakeMedicalInvestigationList,
   text: fakeText,
   uncertainDate: fakeUncertainDate,
+  viewText: fakeViewText,
+  viewList: fakeViewList,
+  viewTable: fakeViewTable,
+  visualAcuity: fakeVisualAcuity,
 }

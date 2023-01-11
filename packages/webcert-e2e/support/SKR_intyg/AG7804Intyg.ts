@@ -4,17 +4,11 @@
 
 // De funktioner etc. som är gemensamma för många intyg kan exporteras direkt
 export {
-  besökÖnskadUrl,
-  loggaUtLoggaIn,
-  sektionÖvrigt,
-  sektionKontakt,
   loggaUt,
-  kopiera,
   skrivUt,
   skickaTillFk,
   fornya,
   raderaUtkast,
-  makuleraIntyg,
   makuleraUtkast,
   signera,
   makulera,
@@ -22,7 +16,7 @@ export {
   kopieraUtkast,
 } from '../FK_intyg/fk_helpers'
 
-export function verifieraMeddelande() {
+export function verifieraMeddelande(): void {
   //iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper  ic-error-icon
   // expect(cy.contains("Obligatoriska uppgifter saknas")).to.exist;
   // cy.get('button').contains("Signera intyget").click();

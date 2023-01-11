@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '.'
 import { Spinner } from '../index'
 
 interface Headings {
@@ -11,54 +12,43 @@ interface Props {
   caption?: string
   headings: Headings[]
   isLoadingContent?: boolean
-  className: string
 }
 
 const Caption = styled.caption`
   border-top: 0px !important;
 `
 
-const NoWrap = styled.th`
+const NoWrap = styled(TableCell)`
   width: 1%;
   white-space: nowrap;
 `
 
-const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings, className }) => {
-  const getTableHeadings = () => {
-    return headings.map((heading) => {
-      if (heading.adjustCellToText) {
-        return (
-          <NoWrap key={heading.title} scope="col" data-html>
-            {heading.title}
-          </NoWrap>
-        )
-      }
-
-      return (
-        <th key={heading.title} scope="col" data-html>
-          {heading.title}
-        </th>
-      )
-    })
-  }
-
+const SimpleTable: React.FC<Props> = ({ isLoadingContent, caption, children, headings }) => {
   return (
-    <table className={`${className} ic-table ic-table--full`}>
-      <thead>
-        <tr>{getTableHeadings()}</tr>
-      </thead>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {headings.map((heading, index) => {
+            if (heading.adjustCellToText) {
+              return <NoWrap key={index}>{heading.title}</NoWrap>
+            }
+
+            return <TableCell key={index}>{heading.title}</TableCell>
+          })}
+        </TableRow>
+      </TableHeader>
       {caption && <Caption>{caption}</Caption>}
-      <tbody>
+      <TableBody>
         {!isLoadingContent && <>{children}</>}
         {isLoadingContent && (
-          <tr>
-            <td className="iu-border-white">
+          <TableRow>
+            <TableCell className="iu-border-white">
               <Spinner className={'iu-mt-300'} />
-            </td>
-          </tr>
+            </TableCell>
+          </TableRow>
         )}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   )
 }
 

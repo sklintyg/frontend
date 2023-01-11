@@ -1,17 +1,16 @@
-import React from 'react'
+import { CertificateRelationType, CertificateStatus, Question, QuestionType } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { CertificateRelationType, CertificateStatus } from '../../../../../../common/src/types/certificate'
+import React from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
+import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import {
   createCertificateMetadata,
   createCertificateMetadataWithChildRelation,
   createCertificateMetadataWithParentRelation,
 } from './statusTestUtils'
-import { Question, QuestionType } from '@frontend/common/src'
 
 const SENT_TEXT = 'Intyget är skickat till Försäkringskassan'
 const AVAILABLE_TEXT = 'Intyget är tillgängligt för patienten'
