@@ -13,7 +13,7 @@ describe('AG7804-utkast tomt', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt AG7804-utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt AG7804-utkast ', function() {
     beforeEach(function() {
       //UNSIGNED AG FILLED
       cy.skapaIntygViaApi(this, 1, 2, true).then((utkastId) => {

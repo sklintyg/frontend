@@ -40,6 +40,12 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
       return { [value.id]: value.code }
     case CertificateDataValueType.DATE:
       return { [value.id]: parseDateValue(value.date) }
+    case CertificateDataValueType.MEDICAL_INVESTIGATION:
+      return {
+        ...getKeyValuePair(value.date),
+        ...getKeyValuePair(value.informationSource),
+        ...getKeyValuePair(value.investigationType),
+      }
     case CertificateDataValueType.DATE_RANGE:
       return {
         [value.id]: isValid(getValidDate(value.from)) && isValid(getValidDate(value.to)),
@@ -55,6 +61,21 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
     case CertificateDataValueType.ICF:
     case CertificateDataValueType.TEXT:
       return { [value.id]: value.text }
+    case CertificateDataValueType.DOUBLE:
+      return { [value.id]: value.value }
+    case CertificateDataValueType.VISUAL_ACUITIES:
+      return {
+        ...getKeyValuePair(value.rightEye),
+        ...getKeyValuePair(value.leftEye),
+        ...getKeyValuePair(value.binocular),
+      }
+    case CertificateDataValueType.VISUAL_ACUITY: {
+      return {
+        ...getKeyValuePair(value.withoutCorrection),
+        ...getKeyValuePair(value.withCorrection),
+        ...(value.contactLenses && getKeyValuePair(value.contactLenses)),
+      }
+    }
     default:
       return value.list instanceof Array ? getKeyValuePairFromList(value.list) : {}
   }

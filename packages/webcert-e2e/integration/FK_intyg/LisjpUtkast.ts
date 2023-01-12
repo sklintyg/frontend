@@ -13,7 +13,7 @@ describe('LISJP-utkast tomt', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //UNSIGNED LISJP FILLED
       cy.skapaIntygViaApi(this, 1, 1, true).then((utkastId) => {
@@ -34,7 +34,7 @@ describe('LISJP-utkast tomt', { tags: '@react' }, function() {
         cy.contains('Intyget är tillgängligt för patienten')
       })
 
-      it('Det är möjligt att raderar ett ifyllt LISJP', function() {
+      it('Det är möjligt att radera ett ifyllt LISJP', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
         const önskadUrl = '/certificate/' + this.utkastId
         cy.visit(önskadUrl)

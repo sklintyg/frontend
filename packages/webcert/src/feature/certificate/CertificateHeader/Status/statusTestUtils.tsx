@@ -1,16 +1,16 @@
-import { CertificateMetadata, CertificateRelationType, CertificateStatus } from '@frontend/common/src'
+import { CertificateMetadata, CertificateRelationType, CertificateStatus, fakeCertificateMetaData } from '@frontend/common/src'
 
 export const createCertificateMetadata = (status: CertificateStatus, isSent: boolean, type?: string): CertificateMetadata => {
-  // @ts-ignore
-  return {
+  return fakeCertificateMetaData({
     status: status,
     sent: isSent,
+    sentTo: isSent ? 'Försäkringskassan' : undefined,
     type: type ? type : 'lisjp',
     relations: {
       parent: null,
       children: [],
     },
-  }
+  })
 }
 
 export const createCertificateMetadataWithParentRelation = (
@@ -19,10 +19,10 @@ export const createCertificateMetadataWithParentRelation = (
   type: CertificateRelationType,
   sent?: boolean
 ): CertificateMetadata => {
-  // @ts-ignore
-  return {
+  return fakeCertificateMetaData({
     status: status,
     sent: sent ? sent : false,
+    sentTo: sent ? 'Försäkringskassan' : undefined,
     type: 'lisjp',
     relations: {
       parent: {
@@ -33,7 +33,7 @@ export const createCertificateMetadataWithParentRelation = (
       },
       children: [],
     },
-  }
+  })
 }
 
 export const createCertificateMetadataWithChildRelation = (
@@ -42,10 +42,10 @@ export const createCertificateMetadataWithChildRelation = (
   type: CertificateRelationType,
   sent?: boolean
 ): CertificateMetadata => {
-  // @ts-ignore
-  return {
+  return fakeCertificateMetaData({
     status: status,
     sent: sent ? sent : false,
+    sentTo: sent ? 'Försäkringskassan' : undefined,
     type: 'lisjp',
     relations: {
       parent: null,
@@ -58,5 +58,5 @@ export const createCertificateMetadataWithChildRelation = (
         },
       ],
     },
-  }
+  })
 }

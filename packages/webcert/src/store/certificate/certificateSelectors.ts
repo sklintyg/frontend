@@ -19,7 +19,7 @@ import {
 } from '@frontend/common'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
-import { uniqBy } from 'lodash'
+import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
@@ -174,11 +174,11 @@ export const getVisibleValidationErrors = (questionId: string, field?: string) =
     clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
   )
 
-  return uniqBy<ValidationError>(
+  return uniqWith<ValidationError>(
     [...clientValidationErrors, ...serverValidationErrors]
       .filter((v) => showValidationErrors || v.showAlways)
       .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
-    'type'
+    (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
   )
 }
 
@@ -234,5 +234,7 @@ export const getIsReserveId = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false
 
 export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus
+
+export const getRecipient = (state: RootState): string | undefined => state.ui.uiCertificate.certificate?.metadata.sentTo
 
 export const getModalData = () => (state: RootState): ModalData | null => state.ui.uiCertificate.modalData

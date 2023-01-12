@@ -34,7 +34,7 @@ export const ComplementMessage = styled.div`
 
 const QuestionWithMargin = styled(Question)`
   & + & {
-    margin-top: 32px;
+    margin-top: 5px;
   }
 `
 

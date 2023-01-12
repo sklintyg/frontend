@@ -13,7 +13,7 @@ describe('AG7804-intyg tomt', { tags: '@react' }, function() {
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Använadare har möjlighet att uföra följande med ett tomt utkast ', function() {
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
     beforeEach(function() {
       //UNSIGNED AG EMPTY
       cy.skapaIntygViaApi(this, 1, 2, false).then((utkastId) => {

@@ -1,0 +1,109 @@
+import { CertificateDataElement, ConfigUeVisualAcuity, fakeCertificate, fakeVisualAcuityElement } from '@frontend/common'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import React, { ComponentProps } from 'react'
+import { Provider } from 'react-redux'
+import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import reducers from '../../../../store/reducers'
+import UeVisualAcuity from './UeVisualAcuity'
+
+const QUESTION_ID = 'visualAcuity'
+
+let testStore: EnhancedStore
+
+const question: CertificateDataElement = fakeVisualAcuityElement({
+  id: QUESTION_ID,
+})[QUESTION_ID]
+
+const renderComponent = (props: ComponentProps<typeof UeVisualAcuity>) => {
+  render(
+    <Provider store={testStore}>
+      <UeVisualAcuity {...props} />
+    </Provider>
+  )
+}
+
+describe('Visual Acuity component', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer: reducers,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
+    })
+
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: {
+            [QUESTION_ID]: question,
+          },
+        })
+      )
+    )
+  })
+
+  it('renders without crashing', () => {
+    renderComponent({ disabled: false, question })
+  })
+
+  it('renders text inputs and checkboxes', () => {
+    renderComponent({ disabled: false, question })
+    const textboxes = screen.getAllByRole('textbox')
+    const checkboxes = screen.getAllByRole('checkbox')
+    expect(textboxes).toHaveLength(6)
+    expect(checkboxes).toHaveLength(2)
+  })
+
+  it('does not disable component if disabled is not set', () => {
+    renderComponent({ disabled: false, question })
+    const textboxes = screen.getAllByRole('textbox')
+    const checkboxes = screen.getAllByRole('checkbox')
+    textboxes.forEach((textbox) => expect(textbox).not.toBeDisabled())
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeDisabled())
+  })
+
+  it('disables component if disabled is set', () => {
+    renderComponent({ disabled: true, question })
+    const textboxes = screen.getAllByRole('textbox')
+    const checkboxes = screen.getAllByRole('checkbox')
+    textboxes.forEach((textbox) => expect(textbox).toBeDisabled())
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeDisabled())
+  })
+
+  it('formats input into float with decimal comma', () => {
+    renderComponent({ disabled: false, question })
+    const input = screen.getAllByRole('textbox')[0]
+    userEvent.type(input, 'abc')
+    expect(input).toHaveValue('')
+    userEvent.clear(input)
+    userEvent.type(input, '1.5')
+    expect(input).toHaveValue('1,5')
+    userEvent.clear(input)
+    userEvent.type(input, '0,3')
+    expect(input).toHaveValue('0,3')
+    userEvent.clear(input)
+    userEvent.type(input, '0,35')
+    expect(input).toHaveValue('0,3')
+  })
+
+  const config = question.config as ConfigUeVisualAcuity
+
+  it('should display validation error', () => {
+    testStore.dispatch(showValidationErrors())
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: config.rightEye.withoutCorrectionId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+    expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+  })
+})

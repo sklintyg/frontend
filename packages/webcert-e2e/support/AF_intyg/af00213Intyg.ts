@@ -4,16 +4,11 @@
 
 // De funktioner etc. som är gemensamma för alla FK-intyg kan exporteras direkt
 export {
-  besökÖnskadUrl,
-  loggaUtLoggaIn,
-  sektionÖvrigt,
-  sektionKontakt,
   loggaUt,
   skrivUt,
   skickaTillFk,
   fornya,
   raderaUtkast,
-  makuleraIntyg,
   makuleraUtkast,
   komplettera,
   signeraSkicka,
@@ -22,7 +17,7 @@ export {
   kopieraUtkast,
 } from './../FK_intyg/fk_helpers'
 
-export function verifieraMeddelande() {
+export function verifieraMeddelande(): void {
   cy.get('.iu-pt-400').within(() => {
     cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
     cy.contains('Funktionsnedsättning').should('exist')
