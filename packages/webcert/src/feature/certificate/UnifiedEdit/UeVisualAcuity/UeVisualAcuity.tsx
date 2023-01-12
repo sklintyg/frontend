@@ -63,7 +63,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-3">{questionConfig.withCorrectionLabel}</div>
       <div className="iu-grid-span-3">{questionConfig.contactLensesLabel}</div>
       <UeEyeAcuity
-        questionId={question.id}
         config={rightConfig}
         value={currentValue.rightEye as ValueEyeAcuity}
         validationErrors={validationErrors.filter(({ field }) =>
@@ -72,7 +71,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled}
         onChange={onRightChanged}></UeEyeAcuity>
       <UeEyeAcuity
-        questionId={question.id}
         config={leftConfig}
         value={currentValue.leftEye as ValueEyeAcuity}
         validationErrors={validationErrors.filter(({ field }) =>
@@ -81,7 +79,6 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled}
         onChange={onLeftChanged}></UeEyeAcuity>
       <UeEyeAcuity
-        questionId={question.id}
         config={binocularConfig}
         value={currentValue.binocular as ValueEyeAcuity}
         validationErrors={validationErrors.filter(({ field }) =>
