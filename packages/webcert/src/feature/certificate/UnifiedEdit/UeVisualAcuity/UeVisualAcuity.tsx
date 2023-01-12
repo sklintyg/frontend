@@ -6,11 +6,12 @@ import {
   ValueEyeAcuity,
   ValueVisualAcuity,
 } from '@frontend/common'
-import _ from 'lodash'
-import React, { useRef, useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
 import UeEyeAcuity from './UeEyeAcuity'
+import { useSelector } from 'react-redux'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
   disabled?: boolean
@@ -19,8 +20,8 @@ export interface Props {
 
 const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
-  //const questionValue = question.value as ValueVisualAcuity
   const [currentValue, setCurrentValue] = useState<ValueVisualAcuity>(question.value as ValueVisualAcuity)
   const questionConfig = question.config as ConfigUeVisualAcuity
   const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
@@ -29,27 +30,27 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
 
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
 
-  const dispatchEditDraft = useRef(
-    _.debounce((question: CertificateDataElement, value: ValueVisualAcuity) => {
-      const newQuestionValue = { ...question, value }
-      dispatch(updateCertificateDataElement(newQuestionValue))
-    }, 500)
-  ).current
+  const dispatchEditDraft = useCallback(
+    (value) => {
+      dispatch(updateCertificateDataElement({ ...question, value }))
+    },
+    [dispatch, question]
+  )
 
   const onRightChanged = (rightEye: ValueEyeAcuity) => {
     const newValue = { ...currentValue, rightEye }
     setCurrentValue(newValue)
-    dispatchEditDraft(question, newValue)
+    dispatchEditDraft(newValue)
   }
   const onLeftChanged = (leftEye: ValueEyeAcuity) => {
     const newValue = { ...currentValue, leftEye }
     setCurrentValue(newValue)
-    dispatchEditDraft(question, newValue)
+    dispatchEditDraft(newValue)
   }
   const onBinocularChanged = (binocular: ValueEyeAcuity) => {
     const newValue = { ...currentValue, binocular }
     setCurrentValue(newValue)
-    dispatchEditDraft(question, newValue)
+    dispatchEditDraft(newValue)
   }
 
   return (
@@ -65,18 +66,27 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
         questionId={question.id}
         config={rightConfig}
         value={currentValue.rightEye as ValueEyeAcuity}
+        validationErrors={validationErrors.filter(({ field }) =>
+          [rightConfig.contactLensesId, rightConfig.withCorrectionId, rightConfig.withoutCorrectionId].includes(field)
+        )}
         disabled={disabled}
         onChange={onRightChanged}></UeEyeAcuity>
       <UeEyeAcuity
         questionId={question.id}
         config={leftConfig}
         value={currentValue.leftEye as ValueEyeAcuity}
+        validationErrors={validationErrors.filter(({ field }) =>
+          [leftConfig.contactLensesId, leftConfig.withCorrectionId, leftConfig.withoutCorrectionId].includes(field)
+        )}
         disabled={disabled}
         onChange={onLeftChanged}></UeEyeAcuity>
       <UeEyeAcuity
         questionId={question.id}
         config={binocularConfig}
         value={currentValue.binocular as ValueEyeAcuity}
+        validationErrors={validationErrors.filter(({ field }) =>
+          [binocularConfig.contactLensesId, binocularConfig.withCorrectionId, binocularConfig.withoutCorrectionId].includes(field)
+        )}
         disabled={disabled}
         onChange={onBinocularChanged}></UeEyeAcuity>
     </div>

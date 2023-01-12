@@ -1,16 +1,16 @@
-import { Checkbox, ConfigEyeAcuity, formatAcuity, QuestionValidationTexts, TextInput, ValueEyeAcuity } from '@frontend/common'
+import {
+  Checkbox,
+  ConfigEyeAcuity,
+  formatAcuity,
+  QuestionValidationTexts,
+  TextInput,
+  ValueEyeAcuity,
+  ValidationError,
+} from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-
-const parseFixed = (value: string) => {
-  return value
-    ? parseFloat(value.replace(',', '.'))
-        .toFixed(1)
-        .replace('.', ',')
-    : ''
-}
 
 const AcuityInput = styled(TextInput)`
   width: 40px;
@@ -19,20 +19,24 @@ const AcuityInput = styled(TextInput)`
   text-align: center;
 `
 
+const parseValue = (val: string): number | null => {
+  const num = parseFloat(val.replace(/,/gm, '.'))
+  return isNaN(num) ? null : num
+}
+
 export interface Props {
   questionId: string
   disabled?: boolean
   config: ConfigEyeAcuity
   value: ValueEyeAcuity
+  validationErrors: ValidationError[]
   onChange: (value: ValueEyeAcuity) => void
 }
 
-const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onChange }) => {
-  const [noCorrection, setNoCorrection] = useState(parseFixed(value.withoutCorrection.value?.toString() ?? ''))
-  const [correction, setCorrection] = useState(parseFixed(value.withCorrection.value?.toString() ?? ''))
+const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onChange, validationErrors }) => {
+  const [noCorrection, setNoCorrection] = useState(formatAcuity(value.withoutCorrection.value?.toString() ?? ''))
+  const [correction, setCorrection] = useState(formatAcuity(value.withCorrection.value?.toString() ?? ''))
   const [contacts, setContacts] = useState(value?.contactLenses?.selected === true)
-
-  const validationErrors = useSelector(getVisibleValidationErrors(questionId))
 
   const noCorrectionValidationErrors = useSelector(getVisibleValidationErrors(questionId, config.withoutCorrectionId)).length > 0
   const correctionValidationErrors = useSelector(getVisibleValidationErrors(questionId, config.withCorrectionId)).length > 0
@@ -41,17 +45,15 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
   const onNoCorrectionChange = (noCorrectionValue: string) => {
     noCorrectionValue = formatAcuity(noCorrectionValue)
     setNoCorrection(noCorrectionValue)
-    if (parseFloat(noCorrectionValue) || !noCorrectionValue) {
-      onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: parseFloat(noCorrectionValue.replace(/,/gm, '.')) } })
-    }
+    const result = parseValue(noCorrectionValue)
+    onChange({ ...value, withoutCorrection: { ...value.withoutCorrection, value: result } })
   }
 
   const onCorrectionChange = (correctionValue: string) => {
     correctionValue = formatAcuity(correctionValue)
     setCorrection(correctionValue)
-    if (parseFloat(correctionValue) || !correctionValue) {
-      onChange({ ...value, withCorrection: { ...value.withCorrection, value: parseFloat(correctionValue.replace(/,/gm, '.')) } })
-    }
+    const result = parseValue(correctionValue)
+    onChange({ ...value, withCorrection: { ...value.withCorrection, value: result } })
   }
 
   const onContactsChange = (selected: boolean) => {
@@ -74,7 +76,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
             onNoCorrectionChange(event.currentTarget.value)
           }}
           hasValidationError={noCorrectionValidationErrors}
-          onBlur={() => setNoCorrection(parseFixed(noCorrection))}></AcuityInput>
+          onBlur={() => setNoCorrection(formatAcuity(noCorrection))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         <AcuityInput
@@ -86,7 +88,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
             onCorrectionChange(event.currentTarget.value)
           }}
           hasValidationError={correctionValidationErrors}
-          onBlur={() => setCorrection(parseFixed(correction))}></AcuityInput>
+          onBlur={() => setCorrection(formatAcuity(correction))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
         {config.contactLensesId && (
