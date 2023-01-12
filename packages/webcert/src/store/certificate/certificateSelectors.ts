@@ -8,6 +8,7 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
+  ModalData,
   Patient,
   PersonId,
   ResourceLink,
@@ -235,3 +236,5 @@ export const getIsReserveId = (state: RootState): boolean =>
 export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus
 
 export const getRecipient = (state: RootState): string | undefined => state.ui.uiCertificate.certificate?.metadata.sentTo
+
+export const getModalData = () => (state: RootState): ModalData | null => state.ui.uiCertificate.modalData

@@ -626,3 +626,5 @@ export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is d
 export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
 
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
+
+export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)

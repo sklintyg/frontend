@@ -23,10 +23,13 @@ import {
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
+  ConfigUeVisualAcuity,
+  ConfigUeViewText,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -35,17 +38,22 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRangeList,
+  ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
-  ValueDiagnosisList,
-  ValueMedicalInvestigationList,
+  ValueVisualAcuity,
+  ValueViewList,
+  ValueViewTable,
+  ValueViewText,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
+import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateValue } from './fakeCertificateValue'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -239,6 +247,23 @@ export const fakeCheckboxMultipleDate = (
     children
   )
 
+export const fakeCheckboxDateRangeList = (
+  data?: PartialCertificateDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+        list: fakeList(6),
+        ...data?.config,
+      },
+      value: fakeCertificateValue.dateRangeList(data?.value),
+    },
+    children
+  )
+
 export const fakeRadioMultipleCodeElement = (
   data?: PartialCertificateDataElement<ConfigUeRadioMultipleCodes, ValueCodeList>,
   children?: CertificateData[]
@@ -372,7 +397,7 @@ export const fakeMedicalInvestigationListElement = (
     fakeCertificateValue.medicalInvestigation({
       investigationType: {
         id: faker.random.alpha({ count: 5 }),
-        code: faker.random.arrayElement(typeOptions.map((option) => option.label)),
+        code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
       },
       date: {
         id: faker.random.alpha({ count: 5 }),
@@ -554,3 +579,123 @@ export const fakeCauseOfDeathListElement = (
     children
   )
 }
+
+export const fakeVisualAcuityElement = (
+  data?: PartialCertificateDataElement<ConfigUeVisualAcuity, ValueVisualAcuity>,
+  children?: CertificateData[]
+): CertificateData => {
+  const id = faker.random.alpha({ count: 5 })
+
+  return fakeDataElement(
+    {
+      ...data,
+      config: {
+        description: 'Synskärpan på respektive öga och binokulärt',
+        text: 'Synskärpa',
+        type: ConfigTypes.UE_VISUAL_ACUITY,
+        withoutCorrectionLabel: 'Utan korrigering',
+        withCorrectionLabel: 'Med korrigering',
+        contactLensesLabel: 'Kontaktlinser',
+        rightEye: {
+          label: 'Höger',
+          withoutCorrectionId: `right_without_${id}`,
+          withCorrectionId: `right_with_${id}`,
+          contactLensesId: `right_contacts_${id}`,
+        },
+        leftEye: {
+          label: 'Vänster',
+          withoutCorrectionId: `left_without_${id}`,
+          withCorrectionId: `left_with_${id}`,
+          contactLensesId: `left_contacts_${id}`,
+        },
+        binocular: {
+          label: 'Binokulärt',
+          withoutCorrectionId: `binocular_without_${id}`,
+          withCorrectionId: `binocular_with_${id}`,
+        },
+        ...data?.config,
+      },
+      value: fakeCertificateValue.visualAcuity({
+        rightEye: {
+          withoutCorrection: {
+            id: `right_without_${id}`,
+          },
+          withCorrection: {
+            id: `right_with_${id}`,
+          },
+          contactLenses: {
+            id: `right_contacts_${id}`,
+          },
+        },
+        leftEye: {
+          withoutCorrection: {
+            id: `left_without_${id}`,
+          },
+          withCorrection: {
+            id: `left_with_${id}`,
+          },
+          contactLenses: {
+            id: `left_contacts_${id}`,
+          },
+        },
+        binocular: {
+          withoutCorrection: {
+            id: `binocular_without_${id}`,
+          },
+          withCorrection: {
+            id: `binocular_with_${id}`,
+          },
+        },
+      }),
+    },
+    children
+  )
+}
+
+export const fakeViewTextElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewText>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TEXT,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewText(data?.value),
+    },
+    children
+  )
+
+export const fakeViewListElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewList>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_LIST,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewList(data?.value),
+    },
+    children
+  )
+
+export const fakeViewTableElement = (
+  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewTable>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_VIEW_TABLE,
+        ...data?.config,
+      },
+      value: fakeCertificateValue.viewTable(data?.value),
+    },
+    children
+  )

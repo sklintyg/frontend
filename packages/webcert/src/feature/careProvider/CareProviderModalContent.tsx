@@ -124,16 +124,17 @@ export const CareProviderModalContent: React.FC = () => {
     <>
       {user?.careProviders.map((careProvider) => {
         return (
-          <SimpleTable
-            headings={[
-              { title: checkSubscription(careProvider), adjustCellToText: false },
-              { title: 'Ej hanterade ärenden', adjustCellToText: true },
-              { title: 'Ej signerade utkast', adjustCellToText: true },
-            ]}
-            key={careProvider.id}
-            className="iu-mb-800">
-            {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}
-          </SimpleTable>
+          <div className="iu-mb-800">
+            <SimpleTable
+              headings={[
+                { title: checkSubscription(careProvider), adjustCellToText: false },
+                { title: 'Ej hanterade ärenden', adjustCellToText: true },
+                { title: 'Ej signerade utkast', adjustCellToText: true },
+              ]}
+              key={careProvider.id}>
+              {careProvider.careUnits.map((careUnit) => renderRows(careUnit))}
+            </SimpleTable>
+          </div>
         )
       })}
     </>

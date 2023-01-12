@@ -23,6 +23,11 @@ db = {
     },
   },
 
+  utlåtandeOmDödsorsaken: {
+    beskrivning: 'Infektion',
+    datum: '2021-11-01',
+  },
+
   polisanmälan: {
     finnsSkälFörPolisanmälan: {
       Ja: true,
