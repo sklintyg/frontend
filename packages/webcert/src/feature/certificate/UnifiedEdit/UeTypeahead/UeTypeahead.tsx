@@ -105,7 +105,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
           placeholder={questionConfig.placeholder}
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
-          open={open}
           onClose={handleClose}
           listStyles={wholeRowGrid}
         />

@@ -56,14 +56,14 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           onChange={onChange}
           placeholder="ååååmmdd-nnnn"
           value={value}
-          additionalStyles={TextInputStyles}
+          css={TextInputStyles}
           limit={13}
           onBlur={() => {
             setDisplayError(true)
           }}
           onFocus={handleFocus}
-          hasValidationError={displayError && hasValidationError()}
-          autoComplete={false}
+          error={displayError && hasValidationError()}
+          autoComplete="off"
         />
         <InvalidPersonIdMessage display={displayError && hasValidationError()} />
       </Wrapper>

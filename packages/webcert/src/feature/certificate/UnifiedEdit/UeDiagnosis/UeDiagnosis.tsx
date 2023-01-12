@@ -75,8 +75,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
-  const [openDescription, setOpenDescription] = React.useState(false)
-  const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
   const [shouldShowErrorStyling, setShouldShowErrorStyling] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
@@ -109,8 +107,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
 
   const handleClose = (diagnosisSelected: boolean) => {
     const isCodeInputFocused = document.activeElement === codeInput.current
-    setOpenCode(false)
-    setOpenDescription(false)
     if (codeChanged && !diagnosisSelected && !isCodeInputFocused) {
       setCode('')
     }
@@ -138,7 +134,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCode = event.currentTarget.value
     setCode(newCode)
-    setOpenCode(true)
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
@@ -152,7 +147,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newDescription = event.currentTarget.value
     setDescription(newDescription)
-    setOpenDescription(true)
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
@@ -186,7 +180,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       .map((diagnosis: Diagnosis) => {
         const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
         return {
-          label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
+          label: `${diagnosis.kod} ${DIAGNOSIS_DIVIDER} ${diagnosis.beskrivning}`,
           disabled: isDisabled,
           title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
         }
@@ -230,7 +224,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
       const regex = new RegExp(`(${searched})`, 'ig')
-      return itemCode + ' ' + DIAGNOSIS_DIVIDER + ' ' + itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')
+      return `${itemCode} ${DIAGNOSIS_DIVIDER} ${itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')}`
     } else return item
   }
 
@@ -246,7 +240,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   }
 
   return (
-    <Wrapper key={id + '-wrapper'}>
+    <Wrapper key={`${id}-wrapper`}>
       <Typeahead
         ref={codeInput}
         suggestions={getSuggestions()}
@@ -257,7 +251,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         hasValidationError={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
-        open={openCode}
         onChange={handleCodeChange}
         onClose={onClose}
         moreResults={typeaheadResult?.moreResults}
@@ -290,7 +283,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
-        open={openDescription}
         highlighted={true}
         onClose={onClose}
         getItemText={getItemText}

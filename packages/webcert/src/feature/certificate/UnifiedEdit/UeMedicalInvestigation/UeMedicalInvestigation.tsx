@@ -120,7 +120,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
               handleInformationSourceChange(event.currentTarget.value)
             }}
             id={config.informationSourceId}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
+            error={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
             value={value.informationSource.text ?? ''}
             limit={textValidation ? textValidation.limit : 100}
             disabled={disabled}

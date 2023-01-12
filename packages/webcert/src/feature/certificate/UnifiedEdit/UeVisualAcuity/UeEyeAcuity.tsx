@@ -73,7 +73,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
           onChange={(event) => {
             onNoCorrectionChange(event.currentTarget.value)
           }}
-          hasValidationError={noCorrectionValidationErrors}
+          error={noCorrectionValidationErrors}
           onBlur={() => setNoCorrection(parseFixed(noCorrection))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">
@@ -85,7 +85,7 @@ const UeEyeAcuity: React.FC<Props> = ({ questionId, disabled, config, value, onC
           onChange={(event) => {
             onCorrectionChange(event.currentTarget.value)
           }}
-          hasValidationError={correctionValidationErrors}
+          error={correctionValidationErrors}
           onBlur={() => setCorrection(parseFixed(correction))}></AcuityInput>
       </div>
       <div className="iu-grid-span-3">

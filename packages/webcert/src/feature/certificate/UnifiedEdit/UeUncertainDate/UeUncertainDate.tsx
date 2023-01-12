@@ -114,7 +114,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
         </div>
         <div className="iu-width-xxl">
           <label htmlFor={`day_${question.id}`}>Dag</label>
-          <TextInput id={`day_${question.id}`} disabled={true} hasValidationError={hasValidationError} value="00" />
+          <TextInput id={`day_${question.id}`} disabled={true} error={hasValidationError} value="00" />
         </div>
       </div>
       <ValidationWrapper>

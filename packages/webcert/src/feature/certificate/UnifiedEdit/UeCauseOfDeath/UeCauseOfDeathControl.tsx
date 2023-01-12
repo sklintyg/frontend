@@ -113,7 +113,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
+            error={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
             limit={textValidation ? textValidation.limit : 100}
             className="iu-mb-1rem"
           />
@@ -146,7 +146,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           <DateAndSpecInner>
             <Dropdown
               label="Specificera tillståndet"
-              id={'specification_' + config.id}
+              id={`specification_${config.id}`}
               onChange={(event) => {
                 handleSpecificationChange(event.currentTarget.value)
               }}

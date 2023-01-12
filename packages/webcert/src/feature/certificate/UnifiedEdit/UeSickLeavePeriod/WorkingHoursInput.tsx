@@ -29,10 +29,10 @@ export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidat
         onChange={onChange}
         value={value}
         limit={2}
-        hasValidationError={hasValidationError}
-        autoComplete={false}
+        error={hasValidationError}
+        autoComplete="off"
         className="iu-mx-200 iu-fs-200"
-        testId="workingHours"
+        data-testid="workingHours"
         onKeyDown={onKeyDown}
       />
       <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>

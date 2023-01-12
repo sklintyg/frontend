@@ -49,7 +49,7 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
         <TextInput
           className=""
           disabled={disabled}
-          hasValidationError={questionHasValidationError}
+          error={questionHasValidationError}
           onChange={handleChange}
           name={questionConfig.id}
           value={text === null ? '' : text}
