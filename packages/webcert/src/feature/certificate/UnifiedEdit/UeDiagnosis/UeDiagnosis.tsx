@@ -3,7 +3,9 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   Diagnosis,
+  QuestionValidationTexts,
   TextValidation,
+  ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '@frontend/common'
@@ -16,15 +18,14 @@ import { updateCertificateDataElement } from '../../../../store/certificate/cert
 import { useAppDispatch } from '../../../../store/store'
 import { getDiagnosisTypeahead, resetDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
-import DiagnosisValidation from './DiagnosisValidation'
 
 interface Props {
   question: CertificateDataElement
   disabled: boolean
   id: string
   selectedCodeSystem: string
-  isShowValidationError?: boolean
-  hasValidationError?: boolean
+  validationErrors: ValidationError[]
+  hasValidationError: boolean
 }
 
 const Wrapper = styled.div`
@@ -59,26 +60,13 @@ const descriptionListStyles = css`
   grid-column-start: diagnosis;
 `
 
-const codeErrorStyles = css`
-  grid-column-end: codeError;
-  grid-column-start: codeError;
-  grid-row-start: 2;
-`
-
-const descriptionErrorStyles = css`
-  grid-column-end: descError;
-  grid-column-start: descError;
-  grid-row-start: 2;
-`
-
-const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, isShowValidationError, hasValidationError }) => {
+const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, validationErrors, hasValidationError }) => {
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
   const [openDescription, setOpenDescription] = React.useState(false)
   const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
-  const [shouldShowErrorStyling, setShouldShowErrorStyling] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
@@ -186,7 +174,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       .map((diagnosis: Diagnosis) => {
         const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
         return {
-          label: diagnosis.kod + ' ' + DIAGNOSIS_DIVIDER + ' ' + diagnosis.beskrivning,
+          label: `${diagnosis.kod} ${DIAGNOSIS_DIVIDER} ${diagnosis.beskrivning}`,
           disabled: isDisabled,
           title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
         }
@@ -230,7 +218,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
       const regex = new RegExp(`(${searched})`, 'ig')
-      return itemCode + ' ' + DIAGNOSIS_DIVIDER + ' ' + itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')
+      return `${itemCode} ${DIAGNOSIS_DIVIDER} ${itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')}`
     } else return item
   }
 
@@ -239,74 +227,45 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     return code.length < 4 && isPsychologicalDiagnosis
   }
 
-  const hasErrorStyling = (visible: boolean, elementId: string) => {
-    if (elementId === id) {
-      setShouldShowErrorStyling(visible)
-    }
-  }
-
   return (
-    <Wrapper key={id + '-wrapper'}>
-      <Typeahead
-        ref={codeInput}
-        suggestions={getSuggestions()}
-        inputStyles={codeAdditionalStyles}
-        listStyles={wholeRowGrid}
-        placeholder="Kod"
-        disabled={disabled}
-        hasValidationError={shouldShowErrorStyling || hasValidationError}
-        onSuggestionSelected={onDiagnosisSelected}
-        value={code}
-        open={openCode}
-        onChange={handleCodeChange}
-        onClose={onClose}
-        moreResults={typeaheadResult?.moreResults}
-      />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'diagnoskod'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        specificStyle={codeErrorStyles}
-        disabled={!isShowValidationError}
-        handleErrorStyling={hasErrorStyling}
-      />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'row'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        handleErrorStyling={hasErrorStyling}
-        disabled={false}
-      />
-      <Typeahead
-        ref={diagnosisInput}
-        suggestions={getSuggestions()}
-        placeholder="Diagnos"
-        disabled={disabled}
-        inputStyles={descriptionAdditionalStyles}
-        listStyles={descriptionListStyles}
-        hasValidationError={shouldShowErrorStyling || hasValidationError}
-        onSuggestionSelected={onDiagnosisSelected}
-        value={description}
-        onChange={handleDescriptionChange}
-        open={openDescription}
-        highlighted={true}
-        onClose={onClose}
-        getItemText={getItemText}
-        moreResults={typeaheadResult?.moreResults}
-        limit={textValidation ? textValidation.limit : 250}
-      />
-      <DiagnosisValidation
-        validationErrors={question.validationErrors}
-        fieldId={'diagnosbeskrivning'}
-        id={id}
-        defaultStyle={wholeRowGrid}
-        specificStyle={descriptionErrorStyles}
-        disabled={!isShowValidationError && !hasValidationError}
-        handleErrorStyling={hasErrorStyling}
-      />
-    </Wrapper>
+    <>
+      <Wrapper key={`${id}-wrapper`}>
+        <Typeahead
+          ref={codeInput}
+          suggestions={getSuggestions()}
+          inputStyles={codeAdditionalStyles}
+          listStyles={wholeRowGrid}
+          placeholder="Kod"
+          disabled={disabled}
+          hasValidationError={hasValidationError}
+          onSuggestionSelected={onDiagnosisSelected}
+          value={code}
+          open={openCode}
+          onChange={handleCodeChange}
+          onClose={onClose}
+          moreResults={typeaheadResult?.moreResults}
+        />
+        <Typeahead
+          ref={diagnosisInput}
+          suggestions={getSuggestions()}
+          placeholder="Diagnos"
+          disabled={disabled}
+          inputStyles={descriptionAdditionalStyles}
+          listStyles={descriptionListStyles}
+          hasValidationError={hasValidationError}
+          onSuggestionSelected={onDiagnosisSelected}
+          value={description}
+          onChange={handleDescriptionChange}
+          open={openDescription}
+          highlighted={true}
+          onClose={onClose}
+          getItemText={getItemText}
+          moreResults={typeaheadResult?.moreResults}
+          limit={textValidation ? textValidation.limit : 250}
+        />
+      </Wrapper>
+      <QuestionValidationTexts validationErrors={validationErrors} />
+    </>
   )
 }
 
