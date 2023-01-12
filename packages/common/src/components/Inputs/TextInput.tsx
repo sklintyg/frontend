@@ -1,72 +1,22 @@
-import React, { ChangeEvent } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import React from 'react'
 
-interface Props {
-  expanded?: boolean
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  name?: string
-  value?: string
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
-  onBlur?: () => void
-  onFocus?: () => void
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  hasValidationError?: boolean
-  disabled?: boolean
-  placeholder?: string
-  additionalStyles?: FlattenSimpleInterpolation
-  activeDescendant?: string
   limit?: number
-  id?: string
-  autoComplete?: boolean
-  className?: string
-  testId?: string
+  error?: boolean
 }
 
-const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const {
-    expanded,
-    label,
-    disabled,
-    name,
-    onChange,
-    value,
-    additionalStyles,
-    hasValidationError,
-    placeholder,
-    onBlur,
-    onFocus,
-    onKeyDown,
-    activeDescendant,
-    limit,
-    id,
-    className,
-    testId,
-  } = props
-  return (
-    <>
-      {label ? <label htmlFor={id}>{label}</label> : ''}
-      <input
-        ref={ref}
-        aria-expanded={expanded}
-        css={additionalStyles}
-        type="text"
-        disabled={disabled}
-        className={`${hasValidationError ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
-        name={name ?? ''}
-        placeholder={placeholder}
-        value={value}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        aria-activedescendant={activeDescendant}
-        maxLength={limit ? limit : 3500}
-        id={id ?? 'textinput'}
-        autoComplete={props.autoComplete ? 'on' : 'off'}
-        data-testid={testId}
-      />
-    </>
-  )
-})
+const TextInput = React.forwardRef<HTMLInputElement, Props>(({ label, id, limit, className, error, ...props }, ref) => (
+  <>
+    {label ? <label htmlFor={id}>{label}</label> : ''}
+    <input
+      ref={ref}
+      className={`${error ? 'ic-textfield--error error' : ''} ic-textfield ${className}`}
+      maxLength={limit ? limit : 3500}
+      id={id ?? 'textinput'}
+      {...props}
+    />
+  </>
+))
 
 export default TextInput
