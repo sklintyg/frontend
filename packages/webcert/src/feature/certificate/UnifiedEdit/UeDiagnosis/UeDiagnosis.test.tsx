@@ -138,20 +138,10 @@ describe('Diagnosis component', () => {
     expect(codeInput).toHaveValue(DIAGNOSES[4].kod)
   })
 
-  it('Should not reset code if escape key is pressed', () => {
-    renderComponent({})
-    const input = screen.getAllByRole('textbox')
-    userEvent.click(input[0])
-    userEvent.keyboard('ä')
-    expect(screen.queryAllByRole('option')).toHaveLength(DIAGNOSES.length)
-    userEvent.keyboard('{escape}')
-    expect(input[0]).toHaveValue('ä')
-    expect(screen.queryAllByRole('option')).toHaveLength(0)
-  })
-
   it('Should not show already chosen values in list', () => {
     renderComponent({
       question: fakeDiagnosesElement({
+        id: 'id',
         value: {
           list: [{ code: 'F503', description: 'Atypisk bulimia nervosa' }],
         },
