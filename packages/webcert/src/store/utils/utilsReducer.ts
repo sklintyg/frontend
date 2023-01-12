@@ -1,4 +1,4 @@
-import { Banner, DiagnosisTypeahead, DynamicLinkData, ModalData } from '@frontend/common'
+import { Banner, DiagnosisTypeahead, DynamicLinkData } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   resetDiagnosisTypeahead,
@@ -7,7 +7,6 @@ import {
   updateDynamicLinks,
   updateIsLoadingConfig,
   updateIsLoadingDynamicLinks,
-  updateModalData,
 } from './utilsActions'
 
 export interface DynamicLinkMap {
@@ -25,7 +24,6 @@ export interface Configuration {
 interface UtilsState {
   dynamicLinks: DynamicLinkMap
   diagnosisTypeahead: DiagnosisTypeahead | null
-  modalData: ModalData | null
   config: Configuration
   isLoadingConfig: boolean
   isLoadingDynamicLinks: boolean
@@ -34,7 +32,6 @@ interface UtilsState {
 const initialState: UtilsState = {
   dynamicLinks: {},
   diagnosisTypeahead: null,
-  modalData: null,
   config: { version: '', banners: [], cgiFunktionstjansterIdpUrl: '', sakerhetstjanstIdpUrl: '', ppHost: '' },
   isLoadingConfig: false,
   isLoadingDynamicLinks: false,
@@ -47,9 +44,6 @@ const utilsReducer = createReducer(initialState, (builder) =>
     })
     .addCase(updateDiagnosisTypeahead, (state, action) => {
       state.diagnosisTypeahead = action.payload
-    })
-    .addCase(updateModalData, (state, action) => {
-      state.modalData = action.payload
     })
     .addCase(resetDiagnosisTypeahead, (state) => {
       state.diagnosisTypeahead = null
