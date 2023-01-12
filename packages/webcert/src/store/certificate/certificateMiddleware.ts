@@ -10,7 +10,6 @@ import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { gotoComplement, updateComplements } from '../question/questionActions'
 import { getSessionStatusError } from '../session/sessionActions'
 import { AppDispatch, RootState } from '../store'
-import { updateModalData } from '../utils/utilsActions'
 import {
   addClientValidationError,
   answerComplementCertificate,
@@ -121,6 +120,7 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
+  updateModalData,
 } from './certificateActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeDiagnosis from './UeDiagnosis'
 
@@ -36,7 +36,8 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(
     questionValue.list.length > 0 && firstSavedItem ? firstSavedItem.terminology : questionConfig.terminology[0].id
   )
-  const isShowValidationError = useSelector(getShowValidationErrors)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const fields = questionConfig.list.map((diagnosis) => diagnosis.id)
   const dispatch = useAppDispatch()
 
   const handleCodeSystemChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -50,13 +51,6 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
     updatedQuestionValue.list = []
     updatedQuestion.value = updatedQuestionValue
     dispatch(updateCertificateDataElement(updatedQuestion))
-  }
-
-  const getValidationErrors = () => {
-    if (!question.validationErrors) {
-      return []
-    }
-    return question.validationErrors.filter((v) => v.field === question.id)
   }
 
   return (
@@ -80,21 +74,22 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
       </RadioWrapper>
       <p>Diagnoskod enligt ICD-10 SE</p>
       <DiagnosesWrapper>
-        {questionConfig.list.map((diagnosis) => {
+        {questionConfig.list.map((diagnosis, index) => {
+          const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
             <UeDiagnosis
-              key={diagnosis.id + '-diagnosis'}
+              hasValidationError={(index === 0 && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
+              key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
-              hasValidationError={diagnosis.id === '1' ? isShowValidationError && getValidationErrors().length > 0 : false}
-              isShowValidationError={isShowValidationError}
+              validationErrors={diagnosisValidationErrors}
             />
           )
         })}
       </DiagnosesWrapper>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={getValidationErrors()} />}
+      <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
     </>
   )
 }

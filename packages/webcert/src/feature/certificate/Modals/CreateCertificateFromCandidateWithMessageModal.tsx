@@ -3,7 +3,7 @@ import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'
-import { getModalData } from '../../../store/utils/utilsSelectors'
+import { getModalData } from '../../../store/certificate/certificateSelectors'
 
 interface Props {
   resourceLink: ResourceLink | undefined
