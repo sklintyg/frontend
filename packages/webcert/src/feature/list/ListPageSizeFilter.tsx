@@ -46,33 +46,21 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
     onFilterChange(value, filter.id)
   }
 
-  const getSelectOptions = () => {
-    return (
-      <>
-        {pageSizes.map((number) =>
-          totalCount >= number ? (
-            <option id={filter.id + '-' + number} value={number} key={filter.id + '-' + number}>
-              {number}
-            </option>
-          ) : null
-        )}
-        <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
-          alla
-        </option>
-      </>
-    )
-  }
-
   const getFilterComponent = () => {
     return (
       <div className="iu-pb-300">
-        <Dropdown
-          onChange={handleFilterChange}
-          label={filter.title}
-          id={filter.id}
-          options={getSelectOptions()}
-          value={value ? value.value.toString() : ''}
-        />
+        <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
+          {pageSizes.map((number) =>
+            totalCount >= number ? (
+              <option id={`${filter.id}-${number}`} value={number} key={`${filter.id}-${number}`}>
+                {number}
+              </option>
+            ) : null
+          )}
+          <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
+            alla
+          </option>
+        </Dropdown>
       </div>
     )
   }

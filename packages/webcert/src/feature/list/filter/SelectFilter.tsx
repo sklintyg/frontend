@@ -30,18 +30,6 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
     onChange(value, config.id)
   }
 
-  const getSelectOptions = () => {
-    return config.values.map((configValue) => (
-      <option
-        key={configValue.id}
-        id={configValue.id}
-        value={configValue.id}
-        defaultValue={configValue.defaultValue ? configValue.id : ''}
-        dangerouslySetInnerHTML={sanitizeText(configValue.name)}
-      />
-    ))
-  }
-
   if (config.values.length === 0) {
     return null
   }
@@ -52,9 +40,17 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
         onChange={onSelectFilterChange}
         label={config.title}
         id={config.id}
-        options={getSelectOptions()}
-        value={value ? (value as ListFilterValueSelect).value : ''}
-      />
+        value={value ? (value as ListFilterValueSelect).value : ''}>
+        {config.values.map((configValue) => (
+          <option
+            key={configValue.id}
+            id={configValue.id}
+            value={configValue.id}
+            defaultValue={configValue.defaultValue ? configValue.id : ''}
+            dangerouslySetInnerHTML={sanitizeText(configValue.name)}
+          />
+        ))}
+      </Dropdown>
     </FilterWrapper>
   )
 }

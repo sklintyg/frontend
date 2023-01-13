@@ -87,19 +87,19 @@ const UeMedicalInvestigation: React.FC<Props> = ({
         <div>
           <Dropdown
             id={config.investigationTypeId}
-            label=""
-            options={typeOptions.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
             value={value.investigationType.code ?? ''}
+            title={typeOptions.find((item) => item.code === value.investigationType.code)?.label}
             disabled={disabled}
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}
-          />
+            error={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}>
+            {typeOptions.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
+          </Dropdown>
         </div>
         <div>
           <DatePickerCustom
