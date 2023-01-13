@@ -30,7 +30,6 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
   const {
     hasValidationError,
     additionalStyles,
-    children,
     disabled,
     name,
     onChange,
@@ -54,7 +53,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     if (autoResize && textareaRef && textareaRef.current) {
       textareaRef.current.style.height = '0px'
       const scrollHeight = textareaRef.current.scrollHeight
-      textareaRef.current.style.height = scrollHeight + 'px'
+      textareaRef.current.style.height = `${scrollHeight}px`
     }
   }, [autoResize, value])
 

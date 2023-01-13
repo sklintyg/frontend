@@ -31,7 +31,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeTypeahead
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
-  const [open, setOpen] = useState(false)
   const [suggestions, setSuggestions] = useState([] as string[])
   const dispatch = useDispatch()
   const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
@@ -98,7 +97,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-6">
         <Typeahead
           disabled={disabled}
-          hasValidationError={questionHasValidationError}
+          error={questionHasValidationError}
           onChange={handleChange}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}

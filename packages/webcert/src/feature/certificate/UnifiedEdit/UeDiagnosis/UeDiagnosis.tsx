@@ -219,7 +219,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }
   }
 
-  const getItemText = (item: string, searched: string | undefined) => {
+  const getItemText = (item: string, searched: string | number | readonly string[] | undefined) => {
     if (searched !== undefined) {
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
@@ -244,11 +244,11 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       <Typeahead
         ref={codeInput}
         suggestions={getSuggestions()}
-        inputStyles={codeAdditionalStyles}
+        css={codeAdditionalStyles}
         listStyles={wholeRowGrid}
         placeholder="Kod"
         disabled={disabled}
-        hasValidationError={shouldShowErrorStyling || hasValidationError}
+        error={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={code}
         onChange={handleCodeChange}
@@ -277,13 +277,12 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
         suggestions={getSuggestions()}
         placeholder="Diagnos"
         disabled={disabled}
-        inputStyles={descriptionAdditionalStyles}
+        css={descriptionAdditionalStyles}
         listStyles={descriptionListStyles}
-        hasValidationError={shouldShowErrorStyling || hasValidationError}
+        error={shouldShowErrorStyling || hasValidationError}
         onSuggestionSelected={onDiagnosisSelected}
         value={description}
         onChange={handleDescriptionChange}
-        highlighted={true}
         onClose={onClose}
         getItemText={getItemText}
         moreResults={typeaheadResult?.moreResults}

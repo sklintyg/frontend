@@ -1,26 +1,17 @@
 import { sanitizeText } from '@frontend/common'
-import React, { ChangeEventHandler, KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
+import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
 import { Element, scroller } from 'react-scroll'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import TextInput from './TextInput'
 
-interface Props {
-  value?: string
-  onChange: ChangeEventHandler<HTMLInputElement>
-  inputStyles?: FlattenSimpleInterpolation
+interface Props extends React.ComponentProps<typeof TextInput> {
   listStyles?: FlattenSimpleInterpolation
-  additionalStyles?: FlattenSimpleInterpolation
-  disabled?: boolean
-  placeholder?: string
   suggestions: Suggestion[]
   onSuggestionSelected: (value: string) => void
   onClose: () => void
-  getItemText?: (item: string, value: string | undefined) => string
-  highlighted?: boolean
-  hasValidationError?: boolean
+  getItemText?: (item: string, value: string | number | readonly string[] | undefined) => string
   moreResults?: boolean
-  limit?: number
 }
 
 export interface Suggestion {
@@ -67,21 +58,7 @@ const MoreResultsListItem = styled.li`
 
 const Typeahead = React.forwardRef<HTMLInputElement, Props>(
   (
-    {
-      disabled,
-      onChange,
-      value,
-      inputStyles,
-      listStyles,
-      hasValidationError,
-      placeholder,
-      suggestions,
-      onSuggestionSelected,
-      onClose,
-      moreResults,
-      getItemText,
-      limit,
-    },
+    { listStyles, suggestions, onSuggestionSelected, onClose, onChange, onBlur, onKeyDown, onClick, moreResults, getItemText, ...props },
     ref
   ) => {
     const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
@@ -96,7 +73,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
       onClose()
     }, [onClose])
 
-    const onClick = useCallback(
+    const onSelect = useCallback(
       (suggestion: Suggestion) => {
         if (!suggestion.disabled) {
           onSuggestionSelected(suggestion.label)
@@ -120,8 +97,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
             case 'Tab':
             case 'Enter':
               if (suggestions.length >= cursor && cursor >= 0) {
-                onClick(suggestions[cursor])
-                handleClose()
+                onSelect(suggestions[cursor])
               }
               event.preventDefault()
               break
@@ -131,7 +107,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
           }
         }
       },
-      [cursor, handleClose, onClick, open, suggestions]
+      [cursor, handleClose, onSelect, open, suggestions]
     )
 
     useEffect(() => {
@@ -170,19 +146,24 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
       <>
         <TextInput
           ref={ref}
-          css={inputStyles}
-          placeholder={placeholder}
-          disabled={disabled}
-          error={hasValidationError}
-          onChange={(e) => {
+          onClick={(evt) => {
             setOpen(true)
-            onChange(e)
+            onClick && onClick(evt)
           }}
-          value={value}
-          onBlur={handleClose}
-          limit={limit}
-          onKeyDown={handleKeyDown}
-          arial-activeDescendant={cursor >= 0 && open ? `typeahead-list-option-${cursor}` : undefined}
+          onChange={(evt) => {
+            setOpen(true)
+            onChange && onChange(evt)
+          }}
+          onBlur={(evt) => {
+            handleClose()
+            onBlur && onBlur(evt)
+          }}
+          onKeyDown={(evt) => {
+            handleKeyDown(evt)
+            onKeyDown && onKeyDown(evt)
+          }}
+          arial-activedescendant={cursor >= 0 && open ? `typeahead-list-option-${cursor}` : undefined}
+          {...props}
         />
         <div css={listStyles}>
           {open && suggestions.length > 0 && (
@@ -197,12 +178,12 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
                   role="option"
                   title={item.title ?? 'unknown-title'}
                   className={getItemClassName(item, index)}
-                  onMouseDown={() => onClick(item)}
+                  onMouseDown={() => onSelect(item)}
                   onMouseEnter={() => updateHovered(index)}
                   onMouseLeave={() => setHovered(-1)}>
                   <Element
                     name={`typeahead-item-${index}`}
-                    dangerouslySetInnerHTML={sanitizeText(getItemText ? getItemText(item.label, value) : item.label)}
+                    dangerouslySetInnerHTML={sanitizeText(getItemText ? getItemText(item.label, props.value) : item.label)}
                   />
                 </SuggestionsListItem>
               ))}

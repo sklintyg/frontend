@@ -12,7 +12,7 @@ const suggestions: Suggestion[] = [
 ]
 
 const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
-  return render(<Typeahead onChange={jest.fn()} onSuggestionSelected={jest.fn()} suggestions={[]} onClose={jest.fn()} {...args} />)
+  return render(<Typeahead onSuggestionSelected={jest.fn()} suggestions={[]} onClose={jest.fn()} {...args} />)
 }
 
 describe('Typeahead component', () => {
@@ -34,8 +34,8 @@ describe('Typeahead component', () => {
 
   it('Should renders suggestions when open is true', () => {
     renderComponent({ moreResults: false, suggestions })
-    const listItems = screen.queryAllByRole('option')
-    expect(listItems).toHaveLength(suggestions.length)
+    userEvent.click(screen.getByRole('textbox'))
+    expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
     suggestions.forEach((s) => expect(screen.queryByText(s.label)).not.toBeNull())
   })
 
@@ -43,20 +43,17 @@ describe('Typeahead component', () => {
     const onClose = jest.fn()
     renderComponent({ onClose })
     render(<button></button>)
-    const button = screen.getByRole('button')
-    const input = screen.getByRole('textbox')
     expect(onClose).toHaveBeenCalledTimes(0)
-    userEvent.click(input)
-    userEvent.click(button)
+    userEvent.click(screen.getByRole('textbox'))
+    userEvent.click(screen.getByRole('button'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('Should show information suggestion if there are more results', () => {
     renderComponent({ moreResults: true, suggestions })
-    const listItems = screen.queryAllByRole('option')
-    const moreItem = screen.queryAllByRole('listitem')
-    expect(listItems).toHaveLength(suggestions.length)
-    expect(moreItem).toHaveLength(1)
+    userEvent.click(screen.getByRole('textbox'))
+    expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(1)
   })
 
   it('Should allow user to choose option using click or enter key', () => {
