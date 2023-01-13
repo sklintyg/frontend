@@ -11,6 +11,7 @@ import {
 import React, { useCallback } from 'react'
 import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
+import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 
 export interface Props {
   disabled?: boolean
@@ -82,7 +83,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
 
   return (
     <>
-      <div className="iu-grid-cols">
+      <UeMedicalInvestigationGrid>
         <div>
           <Dropdown
             id={config.investigationTypeId}
@@ -126,7 +127,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             disabled={disabled}
           />
         </div>
-      </div>
+      </UeMedicalInvestigationGrid>
       {isShowValidationError && <QuestionValidationTexts validationErrors={validationErrors} />}
     </>
   )
