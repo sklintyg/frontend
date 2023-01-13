@@ -11,11 +11,22 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import { useAppDispatch } from '../../../../store/store'
 import UeMedicalInvestigation from './UeMedicalInvestigation'
 import { isValid } from 'date-fns'
+import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
+import styled from 'styled-components'
 
 export interface Props {
   disabled?: boolean
   question: CertificateDataElement
 }
+
+const StyledAccordionHeader = styled(AccordionHeader)`
+  padding: 0 !important;
+  margin: 0 !important;
+  padding-right: 1.625rem !important;
+  &:after {
+    right: 0 !important;
+  }
+`
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
@@ -53,16 +64,16 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
 
   return (
     <>
-      <div className="iu-grid-cols">
+      <UeMedicalInvestigationGrid>
         <h4>{questionConfig.typeText}</h4>
         <h4>{questionConfig.dateText}</h4>
         <Accordion>
-          <AccordionHeader>
+          <StyledAccordionHeader>
             <h4 className={'iu-fs-300'}>{questionConfig.informationSourceText}</h4>
-          </AccordionHeader>
+          </StyledAccordionHeader>
           <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
         </Accordion>
-      </div>
+      </UeMedicalInvestigationGrid>
       <div className="ic-forms__group iu-grid-rows">
         {questionConfig.list.map((config, index) => {
           const value = questionValueList[index]

@@ -146,19 +146,19 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           <DateAndSpecInner>
             <Dropdown
               label="Specificera tillståndet"
-              id={'specification_' + config.id}
+              id={`specification_${config.id}`}
               onChange={(event) => {
                 handleSpecificationChange(event.currentTarget.value)
               }}
               disabled={disabled}
               value={value.specification.code}
-              options={specifications.map((item) => (
+              error={false}>
+              {specifications.map((item) => (
                 <option value={item.id} key={item.id}>
                   {item.label}
                 </option>
               ))}
-              hasValidationError={false}
-            />
+            </Dropdown>
           </DateAndSpecInner>
           {children}
         </DateAndSpec>

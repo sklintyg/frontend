@@ -86,31 +86,31 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
           <Dropdown
             id={`year_${question.id}`}
             label="År"
-            options={years.map((item) => (
+            disabled={disabled}
+            onChange={(event) => setSelectedYear(event.target.value)}
+            value={selectedYear}
+            error={validationErrors.some((v) => v.field.includes(`${config.id}.year`))}>
+            {years.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
               </option>
             ))}
-            disabled={disabled}
-            onChange={(event) => setSelectedYear(event.target.value)}
-            value={selectedYear}
-            hasValidationError={validationErrors.some((v) => v.field.includes(`${config.id}.year`))}
-          />
+          </Dropdown>
         </div>
         <div>
           <Dropdown
             id={`month_${question.id}`}
             label="Månad"
-            options={months.map((item) => (
+            disabled={disabledMonth}
+            onChange={(event) => setSelectedMonth(event.currentTarget.value)}
+            value={selectedMonth}
+            error={validationErrors.some((v) => v.field.includes(`${config.id}.month`))}>
+            {months.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
               </option>
             ))}
-            disabled={disabledMonth}
-            onChange={(event) => setSelectedMonth(event.currentTarget.value)}
-            value={selectedMonth}
-            hasValidationError={validationErrors.some((v) => v.field.includes(`${config.id}.month`))}
-          />
+          </Dropdown>
         </div>
         <div className="iu-width-xxl">
           <label htmlFor={`day_${question.id}`}>Dag</label>

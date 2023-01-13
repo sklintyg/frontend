@@ -37,17 +37,17 @@ const UeDropdown: React.FC<Props> = (props) => {
     <>
       <Dropdown
         id={question.id}
-        label={question.config.label + ''}
-        options={config.list.map((item) => (
+        label={`${question.config.label}`}
+        disabled={disabled}
+        onChange={(event) => setSelected(event.currentTarget.value)}
+        value={selected}
+        error={hasValidationError}>
+        {config.list.map((item) => (
           <option key={item.id} value={item.id}>
             {item.label}
           </option>
         ))}
-        disabled={disabled}
-        onChange={(event) => setSelected(event.currentTarget.value)}
-        value={selected}
-        hasValidationError={hasValidationError}
-      />
+      </Dropdown>
       {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
     </>
   )
