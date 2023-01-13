@@ -10,9 +10,9 @@ export const UvMedicalInvestigationList: React.FC<{
     <Table>
       <TableHeader>
         <TableRow>
-          <TableCell>Ange utredning eller underlag</TableCell>
-          <TableCell>Datum</TableCell>
-          <TableCell>Vårdgivare</TableCell>
+          <TableCell>{config.typeText}</TableCell>
+          <TableCell>{config.dateText}</TableCell>
+          <TableCell>{config.informationSourceText}</TableCell>
         </TableRow>
       </TableHeader>
       <tbody>
