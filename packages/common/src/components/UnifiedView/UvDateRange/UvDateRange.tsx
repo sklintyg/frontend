@@ -17,7 +17,7 @@ export const UvDateRange: React.FC<{
           </TableRow>
         </TableHeader>
         <TableBody>
-          {config.list.reverse().map((element) => {
+          {[...config.list].reverse().map((element) => {
             const foundValue = value.list.find((v) => v.id === element.id && (v.from || v.to))
             return (
               foundValue && (

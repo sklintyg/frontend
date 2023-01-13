@@ -65,12 +65,7 @@ const QuestionUvResolve: React.FC<{
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
 
-  if (
-    question.value === undefined ||
-    question.value === null ||
-    question.visible === false ||
-    question.style === CertificateDataElementStyleEnum.HIDDEN
-  ) {
+  if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
     return null
   }
 
@@ -136,7 +131,7 @@ const QuestionUvResolve: React.FC<{
       return <UvVisualAcuity value={question.value as ValueVisualAcuity} config={question.config as ConfigUeVisualAcuity} />
 
     default:
-      return <Badge label="Okänd datatyp" />
+      return <Badge>Okänd datatyp</Badge>
   }
 }
 export default QuestionUvResolve
