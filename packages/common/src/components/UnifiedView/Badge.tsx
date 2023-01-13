@@ -11,11 +11,18 @@ const Root = styled.div`
   }
 `
 
-export const Badge: React.FC<{ label?: string }> = ({ children, label }) => {
-  return (
-    <Root className={'ic-badge ic-badge--small iu-bg-secondary-light'}>
-      {label && label.length > 0 && label}
-      {children}
-    </Root>
-  )
+export const Badge: React.FC<{ label?: string }> = ({ label, children }) => {
+  if (label != null && label.length > 0) {
+    return (
+      <Root className={'ic-badge ic-badge--small iu-bg-secondary-light'}>
+        {label} {children}
+      </Root>
+    )
+  }
+
+  if (children) {
+    return <Root className={'ic-badge ic-badge--small iu-bg-secondary-light'}>{children}</Root>
+  }
+
+  return null
 }

@@ -6,7 +6,5 @@ export const UvBoolean: React.FC<{
   value: ValueBoolean
   config: ConfigUeCheckboxBoolean
 }> = ({ value, config }) => (
-  <Badge>
-    {value.selected === undefined || value.selected === null ? 'Ej angivet' : value.selected ? config.selectedText : config.unselectedText}
-  </Badge>
+  <Badge label={value.selected == null ? 'Ej angivet' : value.selected ? config.selectedText : config.unselectedText} />
 )
