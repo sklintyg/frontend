@@ -24,8 +24,8 @@ export const UvMedicalInvestigationList: React.FC<{
             medicalValue &&
             medicalValue.informationSource.text && (
               <TableRow key={medicalValue.investigationType.id}>
-                <TableCell>{codeValue.label}</TableCell>
-                <TableCell>{medicalValue.date.date}</TableCell>
+                <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
+                <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
                 <TableCell>{medicalValue.informationSource.text}</TableCell>
               </TableRow>
             )
