@@ -21,7 +21,7 @@
     "typescript": "tsc"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "react-app-rewired test --bail --findRelatedTests"
+    "*.{js,jsx,ts,tsx}": "react-app-rewired test --verbose --bail --watchAll=false --findRelatedTests"
   },
   "peerDependencies": {
     "@types/jest": "24.0.19",
