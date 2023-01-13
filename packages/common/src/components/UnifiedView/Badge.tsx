@@ -1,7 +1,6 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
-const Root = styled.div.attrs({
+export const Badge = styled.div.attrs({
   className: 'ic-badge ic-badge--small iu-bg-secondary-light',
 })`
   overflow-wrap: anywhere;
@@ -11,20 +10,8 @@ const Root = styled.div.attrs({
     list-style: unset;
     padding-left: 15px;
   }
+
+  &:empty {
+    display: none;
+  }
 `
-
-export const Badge: React.FC<{ label?: string }> = ({ label, children }) => {
-  if (label != null && label.length > 0) {
-    return (
-      <Root>
-        {label} {children}
-      </Root>
-    )
-  }
-
-  if (children) {
-    return <Root>{children}</Root>
-  }
-
-  return null
-}

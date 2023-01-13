@@ -131,7 +131,7 @@ const QuestionUvResolve: React.FC<{
       return <UvVisualAcuity value={question.value as ValueVisualAcuity} config={question.config as ConfigUeVisualAcuity} />
 
     default:
-      return <Badge label="Okänd datatyp" />
+      return <Badge>Okänd datatyp</Badge>
   }
 }
 export default QuestionUvResolve
