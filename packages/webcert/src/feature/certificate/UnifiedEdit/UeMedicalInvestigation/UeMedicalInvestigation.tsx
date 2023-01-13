@@ -11,6 +11,7 @@ import {
 import React, { useCallback } from 'react'
 import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
+import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 
 export interface Props {
   disabled?: boolean
@@ -82,23 +83,23 @@ const UeMedicalInvestigation: React.FC<Props> = ({
 
   return (
     <>
-      <div className="iu-grid-cols">
+      <UeMedicalInvestigationGrid>
         <div>
           <Dropdown
             id={config.investigationTypeId}
-            label=""
-            options={typeOptions.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
             value={value.investigationType.code ?? ''}
+            title={typeOptions.find((item) => item.code === value.investigationType.code)?.label}
             disabled={disabled}
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}
-          />
+            error={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}>
+            {typeOptions.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
+          </Dropdown>
         </div>
         <div>
           <DatePickerCustom
@@ -126,7 +127,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             disabled={disabled}
           />
         </div>
-      </div>
+      </UeMedicalInvestigationGrid>
       {isShowValidationError && <QuestionValidationTexts validationErrors={validationErrors} />}
     </>
   )
