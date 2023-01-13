@@ -1,7 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-const Root = styled.div`
+const Root = styled.div.attrs({
+  className: 'ic-badge ic-badge--small iu-bg-secondary-light',
+})`
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 
@@ -14,14 +16,14 @@ const Root = styled.div`
 export const Badge: React.FC<{ label?: string }> = ({ label, children }) => {
   if (label != null && label.length > 0) {
     return (
-      <Root className={'ic-badge ic-badge--small iu-bg-secondary-light'}>
+      <Root>
         {label} {children}
       </Root>
     )
   }
 
   if (children) {
-    return <Root className={'ic-badge ic-badge--small iu-bg-secondary-light'}>{children}</Root>
+    return <Root>{children}</Root>
   }
 
   return null
