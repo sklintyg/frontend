@@ -27,9 +27,7 @@ export const UvCode: React.FC<{
 }> = ({ value, config, questionWithOptionalDropdown }) => {
   const label = getCodeLabel(value, config)
   if (questionWithOptionalDropdown) {
-    return (
-      <Badge label={`${label} ${getCodeLabel(questionWithOptionalDropdown.value as ValueCode, questionWithOptionalDropdown.config)}`} />
-    )
+    return <Badge>{`${label} ${getCodeLabel(questionWithOptionalDropdown.value as ValueCode, questionWithOptionalDropdown.config)}`}</Badge>
   }
-  return <Badge label={label} />
+  return <Badge>{label}</Badge>
 }
