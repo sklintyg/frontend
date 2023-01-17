@@ -135,6 +135,7 @@
     "extends": [
       "react-app",
       "eslint:recommended",
+      "plugin:react/recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:import/recommended",
@@ -180,6 +181,7 @@
         }
       ],
       "react/self-closing-comp": "error",
+      "react/prop-types": "off",
       "prefer-template": "warn"
     },
     "overrides": [
