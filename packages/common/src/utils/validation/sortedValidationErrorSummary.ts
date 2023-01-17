@@ -8,13 +8,12 @@ export interface ValidationErrorSummary {
 }
 
 const getCategoryValidationErrors = (data: CertificateData, clientValidationErrors: ValidationError[]): ValidationErrorSummary[] => {
-  const getParentCategory = (element: CertificateDataElement): CertificateDataElement | undefined => {
-    let parent = element
-    while (parent != null) {
-      if (parent.config.type === ConfigTypes.CATEGORY) {
-        return parent
+  const getCategory = (element: CertificateDataElement): CertificateDataElement | undefined => {
+    while (element != null) {
+      if (element.config.type === ConfigTypes.CATEGORY) {
+        return element
       } else {
-        parent = data[parent.parent]
+        element = data[element.parent]
       }
     }
   }
@@ -24,8 +23,8 @@ const getCategoryValidationErrors = (data: CertificateData, clientValidationErro
       ({ id, validationErrors }) => (validationErrors && validationErrors.length > 0) || clientValidationErrors.some((v) => v.id === id)
     )
     .reduce<ValidationErrorSummary[]>((result, element) => {
-      const category = getParentCategory(element)
-      if (category && !result.some(({ id }) => id === category.id)) {
+      const category = getCategory(element)
+      if (category && !result.find(({ id }) => id === category.id)) {
         return [...result, { id: category.id, text: category.config.text, index: category.index }]
       }
       return result

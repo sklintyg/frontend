@@ -18,8 +18,8 @@ const getCertificate = () =>
       ...fakeCheckboxBooleanElement({ id: '28', parent: 'sysselsattning' }),
       ...fakeCategoryElement({ id: 'funktionsnedsattning', index: 11, config: { text: 'Sjukdomens konsekvenser' } }),
       ...fakeCategoryElement({ id: 'sysselsattning', index: 6, config: { text: 'Sysselsättning' } }),
-      ...fakeCategoryElement({ id: 'client', index: 6, config: { text: 'Client Error' } }),
-      ...fakeCategoryElement({ id: 'cat', index: 6, config: { text: 'Category' } }),
+      ...fakeCategoryElement({ id: 'client', index: 7, config: { text: 'Client Error' } }),
+      ...fakeCategoryElement({ id: 'foo', index: 8, config: { text: 'En till kategori' } }),
     },
   })
 
@@ -51,7 +51,7 @@ describe('Sorted validation error', () => {
 
   it('Should return errors on question parent categories', () => {
     expect(result[1]).toEqual({ id: 'sysselsattning', text: 'Sysselsättning', index: 6 })
-    expect(result[2]).toEqual({ id: 'client', text: 'Client Error', index: 6 })
+    expect(result[2]).toEqual({ id: 'client', text: 'Client Error', index: 7 })
     expect(result[3]).toEqual({ id: 'funktionsnedsattning', text: 'Sjukdomens konsekvenser', index: 11 })
   })
 
