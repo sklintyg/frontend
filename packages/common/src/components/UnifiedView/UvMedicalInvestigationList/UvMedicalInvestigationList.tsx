@@ -10,9 +10,9 @@ export const UvMedicalInvestigationList: React.FC<{
     <Table>
       <TableHeader>
         <TableRow>
-          <TableCell>Ange utredning eller underlag</TableCell>
-          <TableCell>Datum</TableCell>
-          <TableCell>Vårdgivare</TableCell>
+          <TableCell>{config.typeText}</TableCell>
+          <TableCell>{config.dateText}</TableCell>
+          <TableCell>{config.informationSourceText}</TableCell>
         </TableRow>
       </TableHeader>
       <tbody>
@@ -24,8 +24,8 @@ export const UvMedicalInvestigationList: React.FC<{
             medicalValue &&
             medicalValue.informationSource.text && (
               <TableRow key={medicalValue.investigationType.id}>
-                <TableCell>{codeValue.label}</TableCell>
-                <TableCell>{medicalValue.date.date}</TableCell>
+                <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
+                <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
                 <TableCell>{medicalValue.informationSource.text}</TableCell>
               </TableRow>
             )
