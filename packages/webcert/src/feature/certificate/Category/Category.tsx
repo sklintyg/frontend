@@ -1,10 +1,10 @@
+import { Accordion, AccordionHeader, Expandable, MandatoryIcon, sanitizeText, Text } from '@frontend/common'
+import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from './CategoryHeader'
 import CategoryTitle from './CategoryTitle'
-import { Accordion, Expandable } from '@frontend/common'
-import _ from 'lodash'
 
 interface CategoryProps {
   id: string
@@ -12,6 +12,7 @@ interface CategoryProps {
 
 const Category: React.FC<CategoryProps> = ({ id }) => {
   const category = useSelector(getQuestion(id), _.isEqual)
+  const displayMandatory = (!category?.readOnly && category?.mandatory && !category.disabled) ?? false
 
   if (!category) return null
 
@@ -22,7 +23,15 @@ const Category: React.FC<CategoryProps> = ({ id }) => {
     <Expandable isExpanded={category.visible} additionalStyles={'categoryWrapper'}>
       <CategoryHeader>
         {showTitleWithDescription ? (
-          <Accordion titleId={category.id} title={category.config.text} description={category.config.description} isCategory={true} />
+          <div id={category.id}>
+            <Accordion>
+              <AccordionHeader>
+                {displayMandatory && <MandatoryIcon />}
+                <h3 className={'iu-fs-400  iu-fw-heading'}>{category.config.text}</h3>
+              </AccordionHeader>
+              <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(category.config.description)}></Text>
+            </Accordion>
+          </div>
         ) : (
           <CategoryTitle titleId={category.id}>{category.config.text}</CategoryTitle>
         )}

@@ -8,6 +8,7 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
+  ModalData,
   Patient,
   PersonId,
   ResourceLink,
@@ -18,6 +19,7 @@ import {
 } from '@frontend/common'
 import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
+import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
 import { ErrorData } from '../error/errorReducer'
 import { RootState } from '../store'
@@ -157,27 +159,27 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-export const getVisibleValidationErrors = (questionId: string, field: string) => (state: RootState): ValidationError[] => {
-  let validationErrors
-  const clientValidationErrors = state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
-  validationErrors = [...clientValidationErrors]
+const getQuestionClientValidationErrors = (questionId: string) => (state: RootState): ValidationError[] =>
+  state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
 
-  if (state.ui.uiCertificate.certificate) {
-    const question = state.ui.uiCertificate.certificate.data[questionId]
-    if (question && question.validationErrors) {
-      let serverValidationErrors = question.validationErrors
-      if (clientValidationErrors.length > 0) {
-        serverValidationErrors = serverValidationErrors.filter((v) => v.type !== 'EMPTY')
-      }
-      validationErrors = [...validationErrors, ...serverValidationErrors]
-    }
-  }
+const getQuestionServerValidationErrors = (questionId: string) => (state: RootState): ValidationError[] => {
+  const question = getQuestion(questionId)(state)
+  return question?.validationErrors ?? []
+}
 
-  if (state.ui.uiCertificate.showValidationErrors) {
-    return validationErrors.filter((v: ValidationError) => doesFieldsMatch(field, v.field))
-  } else {
-    return validationErrors.filter((v: ValidationError) => v.showAlways && doesFieldsMatch(field, v.field))
-  }
+export const getVisibleValidationErrors = (questionId: string, field?: string) => (state: RootState): ValidationError[] => {
+  const showValidationErrors = getShowValidationErrors(state)
+  const clientValidationErrors = getQuestionClientValidationErrors(questionId)(state)
+  const serverValidationErrors = getQuestionServerValidationErrors(questionId)(state).filter((v) =>
+    clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
+  )
+
+  return uniqWith<ValidationError>(
+    [...clientValidationErrors, ...serverValidationErrors]
+      .filter((v) => showValidationErrors || v.showAlways)
+      .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
+    (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`
+  )
 }
 
 export const getCertificateEvents = (state: RootState): CertificateEvent[] => state.ui.uiCertificate.certificateEvents
@@ -232,3 +234,7 @@ export const getIsReserveId = (state: RootState): boolean =>
   state.ui.uiCertificate.certificate ? state.ui.uiCertificate.certificate.metadata.patient.reserveId : false
 
 export const getSigningStatus = (state: RootState): CertificateSignStatus => state.ui.uiCertificate.signingStatus
+
+export const getRecipient = (state: RootState): string | undefined => state.ui.uiCertificate.certificate?.metadata.sentTo
+
+export const getModalData = () => (state: RootState): ModalData | null => state.ui.uiCertificate.modalData

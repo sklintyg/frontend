@@ -24,6 +24,7 @@ export interface CertificateMetadata {
   typeName?: string
   status: CertificateStatus
   sent: boolean
+  sentTo?: string
   created: string
   testCertificate: boolean
   forwarded: boolean
@@ -87,6 +88,13 @@ export enum ConfigTypes {
   UE_TYPE_AHEAD = 'UE_TYPE_AHEAD',
   UE_MESSAGE = 'UE_MESSAGE',
   UE_HEADER = 'UE_HEADER',
+  UE_MEDICAL_INVESTIGATION = 'UE_MEDICAL_INVESTIGATION',
+  UE_CAUSE_OF_DEATH = 'UE_CAUSE_OF_DEATH',
+  UE_CAUSE_OF_DEATH_LIST = 'UE_CAUSE_OF_DEATH_LIST',
+  UE_VISUAL_ACUITY = 'UE_VISUAL_ACUITY',
+  UE_VIEW_TEXT = 'UE_VIEW_TEXT',
+  UE_VIEW_LIST = 'UE_VIEW_LIST',
+  UE_VIEW_TABLE = 'UE_VIEW_TABLE',
 }
 
 export enum MessageLevel {
@@ -101,8 +109,15 @@ export interface CertificateDataConfig {
   text: string
   description: string
   type: ConfigTypes
+  accordion?: ConfigAccordion
 
   [propName: string]: unknown
+}
+
+export interface ConfigAccordion {
+  openText: string
+  closeText: string
+  header?: string
 }
 
 export type ConfigCategory = CertificateDataConfig
@@ -148,8 +163,16 @@ export interface CheckboxCode {
   disabled?: boolean
 }
 
+export enum ConfigLayout {
+  ROWS = 'ROWS',
+  INLINE = 'INLINE',
+  COLUMN = 'COLUMN',
+  COLUMNS = 'COLUMNS',
+}
+
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
   list: CheckboxCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioCode extends CertificateDataConfig {
@@ -166,6 +189,7 @@ export interface ConfigUeRadioCodeOptionalDropdown {
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
   id: string
   list: ConfigUeRadioCode[]
+  layout: ConfigLayout
 }
 
 export interface ConfigUeRadioMultipleCodesOptionalDropdown extends CertificateDataConfig {
@@ -213,6 +237,7 @@ export interface ConfigUeDropdownItem {
 
 export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
+  label?: string
 }
 
 export interface ConfigUeDate extends CertificateDataConfig {
@@ -232,12 +257,83 @@ export interface ConfigUeHeader extends CertificateDataConfig {
   label: string
 }
 
-export interface ConfigureUeUncertainDate extends CertificateDataConfig {
+export interface ConfigUeUncertainDate extends CertificateDataConfig {
   id: string
   label: string
   allowedYears: string[]
   unknownYear: boolean
   unknownMonth: boolean
+}
+
+export interface ConfigUeCodeItem {
+  id: string
+  label: string
+  code: string | null
+}
+
+export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
+  investigationTypeId: string
+  informationSourceId: string
+  dateId: string
+  typeOptions: ConfigUeCodeItem[]
+}
+
+export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
+  typeText: string
+  dateText: string
+  informationSourceText: string
+  informationSourceDescription: string
+  list: ConfigUeMedicalInvestigation[]
+}
+
+export interface ConfigUeCauseOfDeathControl {
+  id: string
+  descriptionId: string
+  debutId: string
+  specifications: ConfigUeCodeItem[]
+}
+
+export interface ConfigUeCauseOfDeath extends CertificateDataConfig {
+  label?: string
+  causeOfDeath: ConfigUeCauseOfDeathControl
+}
+
+export interface ConfigUeCauseOfDeathList extends CertificateDataConfig {
+  itemCount?: number
+  list: ConfigUeCauseOfDeathControl[]
+}
+
+export interface ConfigEyeAcuity {
+  label: string
+  withoutCorrectionId: string
+  withCorrectionId: string
+  contactLensesId?: string
+}
+
+export interface ConfigUeVisualAcuity extends CertificateDataConfig {
+  withoutCorrectionLabel: string
+  withCorrectionLabel: string
+  contactLensesLabel: string
+  rightEye: ConfigEyeAcuity
+  leftEye: ConfigEyeAcuity
+  binocular: ConfigEyeAcuity
+}
+
+export interface ConfigUeViewText extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigUeViewList extends CertificateDataConfig {
+  label?: string
+}
+
+export interface ConfigViewColumn {
+  id: string
+  text: string
+}
+
+export interface ConfigUeViewTable extends CertificateDataConfig {
+  columns: ConfigViewColumn[]
 }
 
 // Values
@@ -253,47 +349,87 @@ export enum CertificateDataValueType {
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
   ICF = 'ICF',
   TEXT = 'TEXT',
+  DOUBLE = 'DOUBLE',
   UNKNOWN = 'UNKNOWN',
   HEADER = 'HEADER',
   UNCERTAIN_DATE = 'UNCERTAIN_DATE',
+  MEDICAL_INVESTIGATION = 'MEDICAL_INVESTIGATION',
+  MEDICAL_INVESTIGATION_LIST = 'MEDICAL_INVESTIGATION_LIST',
+  CAUSE_OF_DEATH = 'CAUSE_OF_DEATH',
+  CAUSE_OF_DEATH_LIST = 'CAUSE_OF_DEATH_LIST',
+  VISUAL_ACUITIES = 'VISUAL_ACUITIES',
+  VISUAL_ACUITY = 'VISUAL_ACUITY',
+  VIEW_TEXT = 'VIEW_TEXT',
+  VIEW_LIST = 'VIEW_LIST',
+  VIEW_ROW = 'VIEW_ROW',
+  VIEW_TABLE = 'VIEW_TABLE',
 }
 
+export type ValueType =
+  | ValueBoolean
+  | ValueCauseOfDeath
+  | ValueCauseOfDeathList
+  | ValueCode
+  | ValueCodeList
+  | ValueDate
+  | ValueDateList
+  | ValueDateRange
+  | ValueDateRangeList
+  | ValueDiagnosis
+  | ValueDiagnosisList
+  | ValueDouble
+  | ValueHeader
+  | ValueIcf
+  | ValueText
+  | ValueUncertainDate
+  | ValueEyeAcuity
+  | ValueVisualAcuity
+  | ValueMedicalInvestigation
+  | ValueMedicalInvestigationList
+  | ValueViewText
+  | ValueViewList
+  | ValueViewTable
 export interface Value {
-  type: CertificateDataValueType
-
   [propName: string]: unknown
 }
 
 export interface ValueBoolean extends Value {
+  type: CertificateDataValueType.BOOLEAN
   id: string
   selected: boolean | null | undefined
 }
 
 export interface ValueCode extends Value {
+  type: CertificateDataValueType.CODE
   id: string
   code: string
 }
 
 export interface ValueDate extends Value {
+  type: CertificateDataValueType.DATE
   id: string
   date?: string
 }
 
 export interface ValueDateList extends Value {
+  type: CertificateDataValueType.DATE_LIST
   list: ValueDate[]
 }
 
 export interface ValueDateRange extends Value {
+  type: CertificateDataValueType.DATE_RANGE
   id: string
   from?: string
   to?: string
 }
 
 export interface ValueDateRangeList extends Value {
+  type: CertificateDataValueType.DATE_RANGE_LIST
   list: ValueDateRange[]
 }
 
 export interface ValueDiagnosis extends Value {
+  type: CertificateDataValueType.DIAGNOSIS
   id: string
   terminology: string
   code: string
@@ -301,31 +437,101 @@ export interface ValueDiagnosis extends Value {
 }
 
 export interface ValueDiagnosisList extends Value {
+  type: CertificateDataValueType.DIAGNOSIS_LIST
   list: ValueDiagnosis[]
 }
 
 export interface ValueCodeList extends Value {
+  type: CertificateDataValueType.CODE_LIST
   list: ValueCode[]
 }
 
 export interface ValueText extends Value {
+  type: CertificateDataValueType.TEXT
   text: string | null
   id: string
 }
 
+export interface ValueDouble extends Value {
+  type: CertificateDataValueType.DOUBLE
+  value: number | null
+  id: string
+}
+
 export interface ValueUncertainDate extends Value {
+  type: CertificateDataValueType.UNCERTAIN_DATE
   id: string
   value: string | null
 }
 
+export interface ValueCauseOfDeath extends Value {
+  type: CertificateDataValueType.CAUSE_OF_DEATH
+  id: string
+  description: ValueText
+  debut: ValueDate
+  specification: ValueCode
+}
+
+export interface ValueCauseOfDeathList extends Value {
+  type: CertificateDataValueType.CAUSE_OF_DEATH_LIST
+  list: ValueCauseOfDeath[]
+}
+
 export interface ValueIcf extends Value {
+  type: CertificateDataValueType.ICF
   id: string
   icfCodes?: string[]
   text: string | null
 }
 
 export interface ValueHeader extends Value {
+  type: CertificateDataValueType.HEADER
   id: string
+}
+
+export interface ValueMedicalInvestigation extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION
+  investigationType: ValueCode
+  date: ValueDate
+  informationSource: ValueText
+}
+
+export interface ValueMedicalInvestigationList extends Value {
+  type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
+  list: ValueMedicalInvestigation[]
+}
+
+export interface ValueEyeAcuity {
+  type: CertificateDataValueType.VISUAL_ACUITY
+  withoutCorrection: ValueDouble
+  withCorrection: ValueDouble
+  contactLenses?: ValueBoolean
+}
+export interface ValueVisualAcuity extends Value {
+  type: CertificateDataValueType.VISUAL_ACUITIES
+  rightEye: ValueEyeAcuity
+  leftEye: ValueEyeAcuity
+  binocular: ValueEyeAcuity
+}
+
+export interface ValueViewText extends Value {
+  type: CertificateDataValueType.VIEW_TEXT
+  text: string
+}
+
+export interface ValueViewList extends Value {
+  type: CertificateDataValueType.VIEW_LIST
+  list: ValueViewText[]
+}
+
+export interface ValueTextRow extends Value {
+  type: CertificateDataValueType.VIEW_ROW
+  columns: ValueText[]
+}
+
+export interface ValueViewTable extends Value {
+  type: CertificateDataValueType.VIEW_TABLE
+  rows: ValueTextRow[]
 }
 
 // Validation
@@ -338,6 +544,7 @@ export enum CertificateDataValidationType {
   DISABLE_SUB_ELEMENT_VALIDATION = 'DISABLE_SUB_ELEMENT_VALIDATION',
   ENABLE_VALIDATION = 'ENABLE_VALIDATION',
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
+  CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
@@ -347,7 +554,9 @@ export enum CertificateDataValidationType {
 export interface CertificateDataValidation {
   type: CertificateDataValidationType
   questionId: string
-  expression: string
+  expression?: string
+  expressionType?: string
+  questions?: CertificateDataValidation[]
 
   [propName: string]: unknown
 }
@@ -375,10 +584,13 @@ export type EnableValidation = CertificateDataValidation
 
 export type MandatoryValidation = CertificateDataValidation
 
+export type CategoryMandatoryValidation = CertificateDataValidation
+
 export type HighlightValidation = CertificateDataValidation
 
 // How to handle date ranges i.e. min & max
 export interface MaxDateValidation extends CertificateDataValidation {
+  type: CertificateDataValidationType.MAX_DATE_VALIDATION
   id: string
   numberOfDays: number
 }

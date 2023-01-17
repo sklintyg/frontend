@@ -32,12 +32,15 @@ import {
   CreateCertificate,
   createCertificateFromCandidate,
   CreateCertificateFromCandidateSuccess,
+  createCertificateFromCandidateWithMessage,
+  CreateCertificateFromCandidateWithMessageSuccess,
   CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
+  showRelatedCertificate,
   SigningData,
   startSignCertificate,
   updateCertificate,
@@ -51,6 +54,7 @@ import { certificateMiddleware } from './certificateMiddleware'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
+import { utilsMiddleware } from '../utils/utilsMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -67,7 +71,8 @@ describe('Test certificate middleware', () => {
     fakeAxios = new MockAdapter(axios)
     testStore = configureStore({
       reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware, utilsMiddleware),
     })
   })
 
@@ -398,6 +403,39 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle CreateCertificateFromCandidateWithMessage', () => {
+    it('shall return message', async () => {
+      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
+        modal: { title: 'Test title', message: 'test message' },
+      }
+      fakeAxios
+        .onPost(`/api/certificate/${expectedCertificate.metadata.id}/candidate`)
+        .reply(200, createCertificateFromCandidateWithMessageSuccess)
+      testStore.dispatch(updateCertificate(expectedCertificate))
+
+      testStore.dispatch(createCertificateFromCandidateWithMessage())
+
+      await flushPromises()
+      setTimeout(() => {
+        expect(testStore.getState().ui.uiUtils.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
+        expect(fakeAxios.history.post.length).toBe(1)
+      }, 200)
+    })
+  })
+
+  describe('Handle Show Related Certificate', async () => {
+    xit('shall call api to show related certificate', async () => {
+      const certificate = getCertificate('certificateId')
+      // @ts-expect-error mocking history
+      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id, history: mockHistory }))
+
+      await flushPromises()
+      expect(fakeAxios.history.get.length).toBe(1)
+      expect(fakeAxios.history.get[0].url).toEqual('/api/certificate/certificateId/related')
+    })
+  })
+
   describe('Handle highlight certificate data element', () => {
     it('shall highlight certificate data element', async () => {
       const certificate = getCertificateWithHiglightValidation(true)
@@ -641,12 +679,12 @@ const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
     data: fakeCertificateData([
       fakeRadioBooleanElement({
         id: '0',
-        value: { selected },
+        value: { id: 'val', selected },
         validation: [
           fakeCertificateDataValidation({
             questionId: '0',
             type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-            expression: '$0',
+            expression: '$val',
           }),
         ],
       }),

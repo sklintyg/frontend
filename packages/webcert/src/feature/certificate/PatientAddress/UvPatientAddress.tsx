@@ -5,7 +5,7 @@ import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
 import { css } from 'styled-components'
-import Badge from '@frontend/common/src/components/UvText/Badge'
+import { Badge } from '@frontend/common'
 import _ from 'lodash'
 
 const additionalContentStyles = css`

@@ -9,7 +9,7 @@ import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/f
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import { updateDynamicLinks } from '../../store/utils/utilsActions'
-import { CertificateDataValueType } from '@frontend/common/src'
+import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common/src'
 
 let testStore: EnhancedStore
 
@@ -172,7 +172,7 @@ describe('FMBPanel', () => {
   })
 })
 
-const getDiagnosisValueWithCodeSystem = (codeSystem: string) => {
+const getDiagnosisValueWithCodeSystem = (codeSystem: string): ValueDiagnosisList => {
   return {
     type: CertificateDataValueType.DIAGNOSIS_LIST,
     list:

@@ -103,28 +103,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
         }
         break
       case CertificateEventType.SENT: {
-        let reciever = ''
-        switch (certificateMetadata.type) {
-          case 'lisjp':
-            reciever = 'Försäkringskassan'
-            break
-          case 'af00213':
-            reciever = 'Arbetsförmedlingen'
-            break
-          case 'ag7804':
-            reciever = 'arbetsgivaren'
-            break
-          case 'db':
-            reciever = 'Skatteverket'
-            break
-          case 'doi':
-            reciever = 'Socialstyrelsen'
-            break
-          default:
-            reciever = 'okänd mottagare'
-            break
-        }
-        return `Intyget är skickat till ${reciever}`
+        return `Intyget är skickat till ${certificateMetadata.sentTo}`
       }
       case CertificateEventType.REVOKED: {
         const hasParent = isHasParent(certificateMetadata)

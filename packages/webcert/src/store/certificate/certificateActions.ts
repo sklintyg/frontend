@@ -6,8 +6,9 @@ import {
   CertificateSignStatus,
   CertificateStatus,
   Complement,
-  Unit,
+  ModalData,
   Patient,
+  Unit,
   ValidationError,
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
@@ -107,6 +108,11 @@ const CREATE_CERTIFICATE_FROM_CANDIDATE_STARTED = `${CERTIFICATE} Create certifi
 const CREATE_CERTIFICATE_FROM_CANDIDATE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate`
 const CREATE_CERTIFICATE_FROM_CANDIDATE_ERROR = `${CERTIFICATE} Create certificate error from candidate`
 
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE = `${CERTIFICATE} Create certificate from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED = `${CERTIFICATE} Create certificate started from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS = `${CERTIFICATE} Create certificate success from candidate with message`
+const CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR = `${CERTIFICATE} Create certificate error from candidate with message`
+
 const CREATE_CERTIFICATE_FROM_TEMPLATE = `${CERTIFICATE} Create certificate from template`
 const CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED = `${CERTIFICATE} Create certificate started from template`
 const CREATE_CERTIFICATE_FROM_TEMPLATE_SUCCESS = `${CERTIFICATE} Create certificate success from template`
@@ -183,6 +189,12 @@ const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation 
 const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 const ADD_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Add client validation error`
 const REMOVE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Remove client validation error`
+
+const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
+const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`
+const SHOW_RELATED_CERTIFICATE_SUCCESS = `${CERTIFICATE} Show related certificate success`
+const SHOW_RELATED_CERTIFICATE_ERROR = `${CERTIFICATE} Show related certificate error`
+const SHOW_RELATED_CERTIFICATE_COMPLETED = `${CERTIFICATE} Show related certificate completed`
 
 export interface CreateCertificateResponse {
   certificateId: string
@@ -395,6 +407,21 @@ export const renewCertificateError = createAction<string>(RENEW_CERTIFICATE_ERRO
 
 export const renewCertificateCompleted = createAction(RENEW_CERTIFICATE_COMPLETED)
 
+export const showRelatedCertificate = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE)
+
+export const showRelatedCertificateStarted = createAction(SHOW_RELATED_CERTIFICATE_STARTED)
+
+export interface ShowRelatedCertificate {
+  certificateId: string
+  history: History<LocationState>
+}
+
+export const showRelatedCertificateSuccess = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE_SUCCESS)
+
+export const showRelatedCertificateError = createAction<string>(SHOW_RELATED_CERTIFICATE_ERROR)
+
+export const showRelatedCertificateCompleted = createAction(SHOW_RELATED_CERTIFICATE_COMPLETED)
+
 export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
 
 export const copyCertificateStarted = createAction(COPY_CERTIFICATE_STARTED)
@@ -426,6 +453,20 @@ export const createCertificateFromCandidateError = createAction<string>(CREATE_C
 
 export interface CreateCertificateFromCandidateSuccess {
   certificateId: string
+}
+
+export const createCertificateFromCandidateWithMessage = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE)
+
+export const createCertificateFromCandidateWithMessageStarted = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_STARTED)
+
+export const createCertificateFromCandidateWithMessageSuccess = createAction<CreateCertificateFromCandidateWithMessageSuccess>(
+  CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_SUCCESS
+)
+
+export const createCertificateFromCandidateWithMessageError = createAction<string>(CREATE_CERTIFICATE_FROM_CANDIDATE_WITH_MESSAGE_ERROR)
+
+export interface CreateCertificateFromCandidateWithMessageSuccess {
+  modal: ModalData
 }
 
 export interface CopyCertificateSuccess {
@@ -585,3 +626,5 @@ export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is d
 export const updateShouldRouteAfterDelete = createAction<boolean>(`${CERTIFICATE} Update should route after delete`)
 
 export const resetCertificateState = createAction(`${CERTIFICATE} Reset certificate state`)
+
+export const updateModalData = createAction<ModalData>(`${CERTIFICATE} Update Modal data`)

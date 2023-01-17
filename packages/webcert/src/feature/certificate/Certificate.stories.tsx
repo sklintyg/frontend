@@ -11,6 +11,7 @@ import {
   fakeCheckboxBooleanElement,
   fakeCheckboxMultipleDate,
   fakeDataElement,
+  fakeDateElement,
   fakeDiagnosesElement,
   fakeICFDataElement,
   fakeListItem,
@@ -18,23 +19,22 @@ import {
   fakeRadioMultipleCodeElement,
   fakeResourceLink,
   fakeTextAreaElement,
-  MessageLevel,
   fakeTypeaheadElement,
+  fakeUncertainDateElement,
+  MessageLevel,
   ResourceLink,
   ResourceLinkType,
-  fakeUncertainDateElement,
-  fakeDateElement,
 } from '@frontend/common'
 import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { updateCertificate } from '../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { getCertificate } from '../../store/certificate/certificateSelectors'
 import reducer from '../../store/reducers'
 import Certificate from './Certificate'
+import { getCertificateSuccess } from '../../store/certificate/certificateActions'
 
 export default {
   title: 'Webcert/Certificate',
@@ -68,7 +68,7 @@ const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
     metadata = fakeCertificateMetaData()
   }
 
-  store.dispatch(updateCertificate({ metadata, data, links }))
+  store.dispatch(getCertificateSuccess({ certificate: { metadata, data, links } }))
 
   return <Provider store={store}>{getCertificate(store.getState()) && <Certificate />}</Provider>
 }
@@ -80,6 +80,44 @@ Default.args = {
     fakeCategoryElement({ id: 'kategori 2' }, [fakeRadioBooleanElement(), fakeICFDataElement()]),
     fakeCategoryElement({ id: 'kategori 3' }, [fakeCheckboxMultipleDate()]),
     fakeCategoryElement({ id: 'diagnoses' }, [fakeDiagnosesElement(), fakeTextAreaElement()]),
+    fakeCategoryElement({ id: 'Funktionshinder' }, [
+      fakeTextAreaElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+      fakeTextAreaElement({
+        config: {
+          accordion: {
+            openText: 'Visa fritextfält',
+            closeText: 'Dölj fritextfält',
+            header: faker.lorem.sentence(5),
+          },
+        },
+      }),
+    ]),
   ]),
 }
 
@@ -115,7 +153,8 @@ DB.args = {
           unselectedText: 'Ej säkert',
         },
         value: {
-          id: 'DODSDATUM',
+          id: 'dodsdatumSakert',
+          selected: null,
         },
         mandatory: true,
       }),
@@ -125,7 +164,7 @@ DB.args = {
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && dodsdatumSakert',
           }),
         ],
         mandatory: true,
@@ -133,19 +172,20 @@ DB.args = {
       fakeUncertainDateElement({
         validation: [
           fakeCertificateDataValidation({
-            type: CertificateDataValidationType.HIDE_VALIDATION,
+            type: CertificateDataValidationType.SHOW_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && !dodsdatumSakert',
           }),
         ],
       }),
       fakeDateElement({
-        config: { text: 'Anträffad död' },
+        config: { id: 'antraffatDodDatum', text: 'Anträffad död' },
+        value: { id: 'antraffatDodDatum' },
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.HIDE_VALIDATION,
             questionId: 'dodsdatum',
-            expression: '$DODSDATUM',
+            expression: 'exists(dodsdatumSakert) && !$dodsdatumSakert',
           }),
         ],
         mandatory: true,

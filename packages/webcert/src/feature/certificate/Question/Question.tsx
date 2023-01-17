@@ -1,52 +1,26 @@
-import {
-  Accordion,
-  CertificateDataConfig,
-  CertificateDataElement,
-  ConfigTypes,
-  Icon,
-  InfoBox,
-  MandatoryIcon,
-  UvText,
-} from '@frontend/common'
+import { CertificateDataConfig, ConfigTypes, Icon, MandatoryIcon } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
-import { css } from 'styled-components'
 import { getIsEditable, getIsLocked, getQuestion } from '../../../store/certificate/certificateSelectors'
-import UeCheckbox from '../Inputs/UeCheckbox'
-import UeCheckboxDateGroup from '../Inputs/UeCheckboxDateGroup'
-import UeCheckboxGroup from '../Inputs/UeCheckboxGroup'
-import UeDate from '../Inputs/UeDate'
-import UeDiagnoses from '../Inputs/UeDiagnosis/UeDiagnoses'
-import UeDropdown from '../Inputs/UeDropdown'
-import UeIcf from '../Inputs/UeIcf'
-import UeRadio from '../Inputs/UeRadio'
-import UeRadioGroup from '../Inputs/UeRadioGroup'
-import UeRadioGroupOptionalDropdown from '../Inputs/UeRadioGroupOptionalDropdown'
-import { UeSickLeavePeriod } from '../Inputs/UeSickLeavePeriod/UeSickLeavePeriod'
-import UeTextArea from '../Inputs/UeTextArea'
-import UeUncertainDate from '../Inputs/UeUncertainDate'
-import UeMessage from '../Inputs/UeMessage'
-import UeTypeahead from '../Inputs/UeTypeahead'
-import UeTextField from '../Inputs/UeTextField'
+import QuestionEditComponent from './QuestionEditComponent'
+import QuestionHeaderAccordion from './QuestionHeaderAccordion'
 import QuestionHeading from './QuestionHeading'
+import QuestionUvResolve from './QuestionUvResolve'
 
 export interface QuestionProps {
   id: string
   className?: string
 }
 
-const mandatoryIconAdditionalStyles = css`
-  top: -5px;
-`
-
 const Question: React.FC<QuestionProps> = ({ id, className }) => {
   const question = useSelector(getQuestion(id), _.isEqual)
   const isEditable = useSelector(getIsEditable)
   const disabled = useSelector(getIsLocked) || (question?.disabled as boolean) || !isEditable
-  const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
+  const displayMandatory =
+    (!question?.readOnly && question?.mandatory && !question.disabled && question.config.type !== ConfigTypes.UE_VISUAL_ACUITY) ?? false
 
   useEffect(() => {
     ReactTooltip.rebuild()
@@ -56,84 +30,51 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
   if (!question || (!question.visible && !question.readOnly)) return null
 
   const getQuestionComponent = (config: CertificateDataConfig, displayMandatory: boolean, readOnly: boolean) => {
+    const hideLabel = question.config.type === ConfigTypes.UE_CAUSE_OF_DEATH
+
     if (disabled) {
-      return <QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />
+      return (
+        <QuestionHeading
+          readOnly={question.readOnly}
+          id={question.id}
+          hideLabel={hideLabel}
+          questionParent={question.parent}
+          {...question.config}
+        />
+      )
     }
 
     if (!readOnly && config.description) {
       return (
-        <Accordion
-          icon={question.config.icon}
-          includeIconTooltip
-          header={question.config.header}
-          titleId={question.id}
-          title={question.config.text}
-          description={question.config.description}
-          displayMandatory={displayMandatory}
-          additionalStyles="iu-fw-heading"
-        />
+        <div id={question.id}>
+          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} />
+        </div>
       )
     }
+
     return (
       <>
         {question.config.icon && <Icon iconType={question.config.icon} includeTooltip />}
-        <MandatoryIcon additionalStyles={mandatoryIconAdditionalStyles} display={displayMandatory} />
-        {<QuestionHeading readOnly={question.readOnly} id={question.id} {...question.config} />}
+        {displayMandatory && <MandatoryIcon />}
+        {
+          <QuestionHeading
+            readOnly={question.readOnly}
+            id={question.id}
+            hideLabel={hideLabel}
+            questionParent={question.parent}
+            {...question.config}
+          />
+        }
       </>
     )
-  }
-
-  function getUnifiedEditComponent(question: CertificateDataElement, disabled: boolean) {
-    const commonProps = { key: question.id, disabled, question }
-
-    switch (question.config.type) {
-      case ConfigTypes.UE_RADIO_BOOLEAN:
-        return <UeRadio {...commonProps} />
-      case ConfigTypes.UE_ICF:
-        return <UeIcf {...commonProps} />
-      case ConfigTypes.UE_TEXTAREA:
-        return <UeTextArea {...commonProps} />
-      case ConfigTypes.UE_CHECKBOX_BOOLEAN:
-        return <UeCheckbox {...commonProps} />
-      case ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE:
-        return <UeCheckboxGroup {...commonProps} />
-      case ConfigTypes.UE_DROPDOWN:
-        return <UeDropdown {...commonProps} />
-      case ConfigTypes.UE_RADIO_MULTIPLE_CODE:
-        return <UeRadioGroup {...commonProps} />
-      case ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE:
-        return <UeCheckboxDateGroup {...commonProps} />
-      case ConfigTypes.UE_SICK_LEAVE_PERIOD:
-        return <UeSickLeavePeriod {...commonProps} />
-      case ConfigTypes.UE_DIAGNOSES:
-        return <UeDiagnoses {...commonProps} />
-      case ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN:
-        return <UeRadioGroupOptionalDropdown {...commonProps} />
-      case ConfigTypes.UE_UNCERTAIN_DATE:
-        return <UeUncertainDate {...commonProps} />
-      case ConfigTypes.UE_MESSAGE:
-        return <UeMessage {...commonProps} />
-      case ConfigTypes.UE_TYPE_AHEAD:
-        return <UeTypeahead {...commonProps} />
-      case ConfigTypes.UE_TEXTFIELD:
-        return <UeTextField {...commonProps} />
-      case ConfigTypes.UE_DATE:
-        return <UeDate {...commonProps} />
-      case ConfigTypes.UE_HEADER:
-        return
-      default:
-        return <InfoBox type="error">Cannot find a component for: {question.config.type}</InfoBox>
-    }
-  }
-
-  function getUnifiedViewComponent(question: CertificateDataElement) {
-    return <UvText question={question} />
   }
 
   return (
     <div className={className}>
       {getQuestionComponent(question.config, displayMandatory, question.readOnly)}
-      <div>{question.readOnly ? getUnifiedViewComponent(question) : getUnifiedEditComponent(question, disabled)}</div>
+      <div>
+        {question.readOnly ? <QuestionUvResolve question={question} /> : <QuestionEditComponent question={question} disabled={disabled} />}
+      </div>
     </div>
   )
 }

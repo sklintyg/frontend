@@ -103,18 +103,18 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           <h4 className={'iu-fs-300'}>Här kan du ställa en ny fråga till Försäkringskassan.</h4>
           <div className="ic-forms__group">
             <Dropdown
-              options={subjects
+              onChange={onDropdownChange}
+              id={'question_form_dropdown'}
+              value={questionDraft.type}
+              error={showTypeValidationError()}>
+              {subjects
                 .filter((subject) => subject !== QuestionType.COMPLEMENT)
                 .map((subject) => (
                   <option key={subject} value={subject}>
                     {getQuestionTypeName(subject)}
                   </option>
                 ))}
-              onChange={onDropdownChange}
-              id={'question_form_dropdown'}
-              value={questionDraft.type}
-              hasValidationError={showTypeValidationError()}
-            />
+            </Dropdown>
             {showTypeValidationError() && (
               <ValidationText id="showTypeValidationError" message="Ange en rubrik för att kunna skicka frågan." />
             )}

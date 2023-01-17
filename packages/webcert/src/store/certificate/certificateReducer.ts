@@ -7,6 +7,7 @@ import {
   CertificateSignStatus,
   Complement,
   ConfigTypes,
+  ModalData,
   ValidationError,
   ValueBoolean,
   ValueCode,
@@ -29,9 +30,9 @@ import {
   removeClientValidationError,
   resetCertificateState,
   setCertificateDataElement,
+  setCertificatePatientData,
   setCertificateSigningErrorData,
   setCertificateUnitData,
-  setCertificatePatientData,
   setDisabledCertificateDataChild,
   setReadyForSign,
   showCertificateDataElement,
@@ -54,6 +55,7 @@ import {
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
   updateIsDeleted,
+  updateModalData,
   updateRoutedFromDeletedCertificate,
   updateShouldRouteAfterDelete,
   updateValidationErrors,
@@ -83,6 +85,7 @@ interface CertificateState {
   shouldRouteAfterDelete: boolean
   signingStatus: CertificateSignStatus
   signingError?: ErrorData
+  modalData: ModalData | null
 }
 
 const getInitialState = (): CertificateState => {
@@ -101,6 +104,7 @@ const getInitialState = (): CertificateState => {
     createdCertificateId: '',
     shouldRouteAfterDelete: false,
     signingStatus: CertificateSignStatus.INITIAL,
+    modalData: null,
   }
 }
 
@@ -385,6 +389,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       state.shouldRouteAfterDelete = action.payload
     })
     .addCase(resetCertificateState, () => getInitialState())
+    .addCase(updateModalData, (state, action) => {
+      state.modalData = action.payload
+    })
 )
 
 export default certificateReducer

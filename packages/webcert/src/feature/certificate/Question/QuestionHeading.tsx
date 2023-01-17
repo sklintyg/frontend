@@ -1,5 +1,8 @@
+import { ConfigTypes } from '@frontend/common'
 import * as React from 'react'
+import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
+import { getQuestion } from '../../../store/certificate/certificateSelectors'
 
 const HeadlineStyles = css`
   margin-bottom: 0.625rem;
@@ -19,33 +22,40 @@ const QuestionSubHeadline = styled.h5`
 interface QuestionHeadingProps {
   header?: string
   id: string
+  hideLabel: boolean
   label?: string
   readOnly: boolean
   text: string
+  questionParent: string
 }
 
-const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, text, label }) => {
-  if (header) {
-    return (
-      <>
-        <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
-          {header}
-        </QuestionHeadline>
-        <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
-        {readOnly && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
-      </>
-    )
-  }
-  return (
+const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id, hideLabel, text, label, questionParent }) => {
+  const parent = useSelector(getQuestion(questionParent))
+  const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
+
+  return header ? (
     <>
-      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
+      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
+        {header}
+      </QuestionHeadline>
+      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
+      {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
+    </>
+  ) : questionTypeIsCategory ? (
+    <>
+      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-pt-200`}>
         {text}
       </QuestionHeadline>
-      {readOnly && (
+      {readOnly && !hideLabel && (
         <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
           {label}
         </QuestionHeadline>
       )}
+    </>
+  ) : (
+    <>
+      <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{text}</QuestionSubHeadline>
+      {readOnly && !hideLabel && <QuestionSubHeadline className={`iu-fw-heading iu-fs-200`}>{label}</QuestionSubHeadline>}
     </>
   )
 }

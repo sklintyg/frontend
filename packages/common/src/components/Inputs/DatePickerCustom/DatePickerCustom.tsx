@@ -5,7 +5,7 @@ import sv from 'date-fns/locale/sv'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import styled from 'styled-components'
+import styled, { CSSProp } from 'styled-components'
 import { ValidationError } from '../../..'
 import calendar from '../../../images/calendar.svg'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
@@ -39,6 +39,8 @@ export interface Props {
   forbidFutureDates?: boolean
   max?: string
   min?: string
+  vertical?: boolean
+  inputCss?: CSSProp | undefined
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
@@ -73,6 +75,8 @@ const DatePickerCustom: React.FC<Props> = ({
   forbidFutureDates,
   max,
   min,
+  vertical,
+  inputCss,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
@@ -184,7 +188,7 @@ const DatePickerCustom: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <DatePickerWrapper className={`date-picker + ${additionalStyles}`}>
+      <DatePickerWrapper className={`date-picker + ${additionalStyles}`} vertical={vertical}>
         {label && (
           <label className="iu-mr-300" htmlFor={id}>
             {label}
@@ -206,6 +210,7 @@ const DatePickerCustom: React.FC<Props> = ({
             ref={textInputRef}
             data-testid={textInputDataTestId}
             autoComplete="off"
+            css={inputCss}
           />
           <DatePicker
             calendarStartDay={1}
