@@ -604,12 +604,6 @@ export interface ValidationError {
   showAlways?: boolean
 }
 
-export interface ValidationErrorSummary {
-  id: string
-  text: string
-  index: number
-}
-
 export interface Unit {
   unitId: string
   unitName: string
