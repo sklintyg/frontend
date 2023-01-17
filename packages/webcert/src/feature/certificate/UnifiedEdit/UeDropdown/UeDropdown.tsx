@@ -37,7 +37,7 @@ const UeDropdown: React.FC<Props> = (props) => {
     <>
       <Dropdown
         id={question.id}
-        label={`${question.config.label}`}
+        label={config.label}
         disabled={disabled}
         onChange={(event) => setSelected(event.currentTarget.value)}
         value={selected}

@@ -237,6 +237,7 @@ export interface ConfigUeDropdownItem {
 
 export interface ConfigUeDropdown extends CertificateDataConfig {
   list: ConfigUeDropdownItem[]
+  label?: string
 }
 
 export interface ConfigUeDate extends CertificateDataConfig {

@@ -65,12 +65,12 @@ const QuestionUvResolve: React.FC<{
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
 
-  if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
-    return null
+  if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
+    return <UeMessage key={question.id} disabled={false} question={question} />
   }
 
-  if (question.config.type === ConfigTypes.UE_MESSAGE) {
-    return <UeMessage key={question.id} disabled={false} question={question} />
+  if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
+    return null
   }
 
   switch (question.value.type) {
