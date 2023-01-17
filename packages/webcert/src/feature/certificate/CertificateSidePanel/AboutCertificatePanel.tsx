@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 
@@ -55,6 +56,32 @@ const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
     setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
   }, [])
 
+  const hasDynamicLink = (text?: string): boolean => {
+    if (!text) {
+      return false
+    }
+    return text.split('<LINK:').length > 1
+  }
+
+  const formatText = (text?: string) => {
+    if (!text) {
+      return ''
+    }
+    const splitText = text.split('<LINK:')
+    if (splitText.length > 1) {
+      const dynamicLinkKey = splitText[1].split('>')[0]
+      const textAfterLink = splitText[1].split('>')[1]
+      return (
+        <p>
+          {splitText[0]}
+          <WCDynamicLink linkKey={dynamicLinkKey} />
+          {textAfterLink}
+        </p>
+      )
+    }
+    return text
+  }
+
   return (
     <>
       <PanelHeader description="Om intyget" />
@@ -70,7 +97,12 @@ const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
               </>
             )}
           </p>
-          {certMetaData && <Description dangerouslySetInnerHTML={sanitizeText(certMetaData.description)} />}
+          {certMetaData &&
+            (hasDynamicLink(certMetaData.description) ? (
+              <Description>{formatText(certMetaData.description)}</Description>
+            ) : (
+              <Description dangerouslySetInnerHTML={sanitizeText(certMetaData.description)} />
+            ))}
         </ContentWrapper>
       </Root>
       <AboutCertificatePanelFooter />
