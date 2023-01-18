@@ -67,21 +67,33 @@ const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
     if (!text) {
       return ''
     }
+    console.log(text)
     const splitText = text.split('<LINK:')
+    console.log(splitText.length)
     if (splitText.length > 1) {
+      let returnValue = (
+        <>
+          <span dangerouslySetInnerHTML={sanitizeText(splitText[0])}></span>
+        </>
+      )
+
       for (let i = 0; i < splitText.length - 1; i++) {
+        console.log(i)
+        console.log(`splitText i: ${splitText[i]}`)
+        console.log(`splitText i+1: ${splitText[i + 1]}`)
         const dynamicLinkKey = splitText[i + 1].split('>')[0]
-        const textAfterLink = splitText[i + 1].split('>')[1]
-        return (
+        console.log(`dynamicLinkKey: ${dynamicLinkKey}`)
+        const textAfterLink = splitText[i + 1].substring(splitText[i + 1].indexOf('>') + 1)
+        console.log(`textAfterLink: ${textAfterLink}`)
+        returnValue = (
           <>
-            <p>
-              {splitText[i]}
-              <WCDynamicLink linkKey={dynamicLinkKey} />
-              {textAfterLink}
-            </p>
+            {returnValue}
+            <WCDynamicLink linkKey={dynamicLinkKey} />
+            <span dangerouslySetInnerHTML={sanitizeText(textAfterLink)}></span>
           </>
         )
       }
+      return <>{returnValue}</>
     }
     return text
   }
