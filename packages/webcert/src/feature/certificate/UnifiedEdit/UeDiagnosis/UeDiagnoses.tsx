@@ -76,20 +76,21 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
       <DiagnosesWrapper>
         {questionConfig.list.map((diagnosis, index) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
+          console.log('index', index)
+          console.log('diagnos', diagnosis.id)
           return (
             <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
+              hasValidationError={(diagnosis.id === '0' && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
               key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
               id={diagnosis.id}
               selectedCodeSystem={selectedCodeSystem}
-              validationErrors={diagnosisValidationErrors}
+              validationErrors={validationErrors.filter((v) => v.field.includes(`[${index}]`))}
             />
           )
         })}
       </DiagnosesWrapper>
-      <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
     </>
   )
 }
