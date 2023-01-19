@@ -13,6 +13,8 @@ import {
   ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ValueDouble,
+  ValueEyeAcuity,
   ValueHeader,
   ValueIcf,
   ValueMedicalInvestigation,
@@ -21,11 +23,10 @@ import {
   ValueType,
   ValueUncertainDate,
   ValueViewList,
-  ValueDouble,
-  ValueVisualAcuity,
-  ValueEyeAcuity,
   ValueViewTable,
   ValueViewText,
+  ValueVisualAcuity,
+  ValueYear,
 } from '../../types/certificate'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
@@ -56,6 +57,12 @@ const fakeDate = fakeDataElementValue<ValueDate>({
   type: CertificateDataValueType.DATE,
   id: faker.random.alpha({ count: 5 }),
   date: undefined,
+})
+
+const fakeYear = fakeDataElementValue<ValueYear>({
+  type: CertificateDataValueType.YEAR,
+  id: faker.random.alpha({ count: 5 }),
+  text: undefined,
 })
 
 const fakeDateList = fakeDataElementValue<ValueDateList>({
@@ -174,6 +181,7 @@ export const fakeCertificateValue = {
   code: fakeCode,
   codeList: fakeCodeList,
   date: fakeDate,
+  year: fakeYear,
   dateList: fakeDateList,
   dateRange: fakeDateRange,
   dateRangeList: fakeDateRangeList,
