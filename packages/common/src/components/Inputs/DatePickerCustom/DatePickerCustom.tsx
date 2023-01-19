@@ -237,7 +237,7 @@ const DatePickerCustom: React.FC<Props> = ({
             onChange={() => {
               /*Empty*/
             }}
-            dateFormat={yearOnly === true ? _yearFormat : _format}
+            dateFormat={yearOnly ? _yearFormat : _format}
             customInput={
               <StyledButton
                 aria-label="Öppna kalendern"
