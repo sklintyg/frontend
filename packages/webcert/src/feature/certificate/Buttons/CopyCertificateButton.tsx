@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
+import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
 import { useDispatch } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,11 +10,12 @@ import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 interface Props extends FunctionDisabled {
   name: string
   description: string
+  body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
 }
 
-const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
+const CopyCertificateButton: React.FC<Props> = ({ name, description, body, enabled, functionDisabled }) => {
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -33,14 +34,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, enabled, fu
       confirmButtonText={'Kopiera'}
       confirmButtonDisabled={functionDisabled}
       buttonTestId="copy-certificate-button">
-      <div>
-        <p>
-          Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan
-          redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.
-        </p>
-        <br />
-        <p>Det nya utkastet skapas på den enhet du är inloggad på.</p>
-      </div>
+      <div dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )
 }

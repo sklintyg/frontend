@@ -30,8 +30,9 @@ const RadioFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
   }
 
   const getFilter = () => {
-    return config.values.map((configValue) => (
+    return config.values.map((configValue, index) => (
       <RadioButton
+        key={index}
         label={configValue.name}
         onChange={onFilterChange}
         id={configValue.id}
