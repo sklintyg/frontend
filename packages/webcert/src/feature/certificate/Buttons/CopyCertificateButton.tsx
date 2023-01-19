@@ -10,7 +10,7 @@ import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 interface Props extends FunctionDisabled {
   name: string
   description: string
-  body: string
+  body?: string
   enabled: boolean
   certificateMetadata: CertificateMetadata
 }
@@ -34,7 +34,7 @@ const CopyCertificateButton: React.FC<Props> = ({ name, description, body, enabl
       confirmButtonText={'Kopiera'}
       confirmButtonDisabled={functionDisabled}
       buttonTestId="copy-certificate-button">
-      <div dangerouslySetInnerHTML={sanitizeText(body)}></div>
+      <div dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>
   )
 }
