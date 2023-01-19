@@ -187,8 +187,6 @@ const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic er
 
 const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation error`
 const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
-const ADD_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Add client validation error`
-const REMOVE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Remove client validation error`
 
 const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
 const SHOW_RELATED_CERTIFICATE_STARTED = `${CERTIFICATE} Show related certificate started`

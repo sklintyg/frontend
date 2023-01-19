@@ -24,12 +24,30 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import DateRangePicker from './DateRangePicker'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
-import { DaysRangeWrapper } from './Styles'
 import { WorkingHoursInput } from './WorkingHoursInput'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 
 const AccodrionWrapper = styled.div`
   flex: 0 0 100%;
+`
+
+const DaysRangeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+
+  > * + * {
+    margin-left: 0.5rem;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 `
 
 export interface Props {

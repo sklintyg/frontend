@@ -16,13 +16,48 @@ import {
   _dateReg,
   _dateRegDashesOptional,
 } from '@frontend/common'
-import { DateGrid, DateRangeWrapper, DatesWrapper } from './Styles'
 
 import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { addDays, isValid } from 'date-fns'
+import styled from 'styled-components'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
+
+const DatesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-right: 8px;
+  }
+
+  label {
+    margin-right: 0.625em;
+  }
+
+  & + & {
+    margin-left: 8px;
+  }
+`
+const DateRangeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  @media (max-width: 820px) {
+    flex-direction: column;
+  }
+`
+const DateGrid = styled.div`
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: 1fr 1fr;
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+  }
+`
 
 interface Props {
   label: string
