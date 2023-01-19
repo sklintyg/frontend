@@ -47,7 +47,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
     if (!readOnly && config.description) {
       return (
         <div id={question.id}>
-          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} />
+          <QuestionHeaderAccordion questionParent={question.parent} config={question.config} displayMandatory={displayMandatory} />
         </div>
       )
     }
