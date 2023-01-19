@@ -1,11 +1,10 @@
 import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
-import { values } from 'lodash'
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeDiagnosis from './UeDiagnosis'
 
