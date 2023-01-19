@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
-import { ValidationError, _yearFormat } from '../../..'
+import { ValidationError, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
 import calendar from '../../../images/calendar.svg'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
 import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
@@ -201,7 +201,7 @@ const DatePickerCustom: React.FC<Props> = ({
       return new Date()
     } else if (max) {
       return new Date(getFullDate(max) as string)
-    } else return undefined
+    } else return _maxAllowedDate
   }
 
   return (
@@ -286,7 +286,7 @@ const DatePickerCustom: React.FC<Props> = ({
               },
             ]}
             maxDate={getMaxDate()}
-            minDate={min ? new Date(getFullDate(min) as string) : undefined}
+            minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
           />
         </FocusWrapper>
       </DatePickerWrapper>
