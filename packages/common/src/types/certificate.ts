@@ -546,7 +546,7 @@ export interface ValueViewTable extends Value {
 export interface ValueYear extends Value {
   type: CertificateDataValueType.YEAR
   id: string
-  text?: string
+  year?: number
 }
 
 // Validation

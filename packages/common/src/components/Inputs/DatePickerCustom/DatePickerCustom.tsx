@@ -90,7 +90,7 @@ const DatePickerCustom: React.FC<Props> = ({
 
   const getFullDate = useCallback(
     (value: string | null) => {
-      return value && `${value}${yearOnly ? '-01-01' : ''}`
+      return value && `${value}${yearOnly ? '-01-02' : ''}`
     },
     [yearOnly]
   )

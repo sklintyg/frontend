@@ -23,7 +23,7 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueYear
   const questionConfig = question.config as ConfigUeYear
-  const [yearString, setYearString] = useState<string | null>(questionValue.text ?? '')
+  const [yearString, setYearString] = useState<string | null>(questionValue.year?.toString() ?? '')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const handleChange = (date: string) => {
@@ -34,7 +34,7 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
       dispatch(
         updateCertificateDataElement({
           ...question,
-          value: { ...questionValue, text },
+          value: { ...questionValue, year: parseInt(text) },
         })
       )
     }

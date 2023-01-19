@@ -62,7 +62,7 @@ const fakeDate = fakeDataElementValue<ValueDate>({
 const fakeYear = fakeDataElementValue<ValueYear>({
   type: CertificateDataValueType.YEAR,
   id: faker.random.alpha({ count: 5 }),
-  text: undefined,
+  year: undefined,
 })
 
 const fakeDateList = fakeDataElementValue<ValueDateList>({
