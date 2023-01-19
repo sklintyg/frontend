@@ -1,10 +1,11 @@
-import { CertificateDataElement, ConfigUeDiagnoses, RadioButton, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
+import { values } from 'lodash'
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeDiagnosis from './UeDiagnosis'
 
@@ -78,7 +79,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
             <UeDiagnosis
-              hasValidationError={(diagnosis.id === '1' && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
+              hasValidationError={(diagnosis.id === '0' && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
               key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
@@ -89,6 +90,9 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </DiagnosesWrapper>
+      {validationErrors.length === 1 && (
+        <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
+      )}
     </>
   )
 }
