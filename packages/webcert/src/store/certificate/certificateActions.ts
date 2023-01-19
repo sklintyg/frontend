@@ -613,13 +613,9 @@ export interface UpdateValidationError {
 
 export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
 
-export const updateClientValidationError = createAction<UpdateValidationError>(UPDATE_CLIENT_VALIDATION_ERROR)
+export const updateClientValidationError = createAction<ValidationError[]>(UPDATE_CLIENT_VALIDATION_ERROR)
 
 export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
-
-export const addClientValidationError = createAction<ValidationError>(ADD_CLIENT_VALIDATION_ERROR)
-
-export const removeClientValidationError = createAction<number>(REMOVE_CLIENT_VALIDATION_ERROR)
 
 export const updateIsDeleted = createAction<boolean>(`${CERTIFICATE} Update is deleted`)
 

@@ -166,18 +166,18 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     return savedValue ? savedValue.to : ''
   }
 
-  const onValidationError = useCallback(
-    (isInactive: boolean, validationError: ValidationError) => {
-      if (validationError.field === configTo.id) {
-        setToValidationError(isInactive ? null : validationError)
-        dispatch(updateValidationError({ id: configTo.id, value: !isInactive }))
-      } else {
-        setFromValidationError(isInactive ? null : validationError)
-        dispatch(updateValidationError({ id: configFrom.id, value: !isInactive }))
-      }
-    },
-    [configFrom.id, configTo.id, dispatch]
-  )
+  // const onValidationError = useCallback(
+  //   (isInactive: boolean, validationError: ValidationError) => {
+  //     if (validationError.field === configTo.id) {
+  //       setToValidationError(isInactive ? null : validationError)
+  //       dispatch(updateValidationError({ id: configTo.id, value: !isInactive }))
+  //     } else {
+  //       setFromValidationError(isInactive ? null : validationError)
+  //       dispatch(updateValidationError({ id: configFrom.id, value: !isInactive }))
+  //     }
+  //   },
+  //   [configFrom.id, configTo.id, dispatch]
+  // )
 
   return (
     <div>
@@ -193,8 +193,6 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             textInputOnChange={onFromDateFilterChange}
             id={`${config.id}-${configFrom.id}`}
             forbidFutureDates={config.forbidFutureDates}
-            onDispatchValidationError={onValidationError}
-            componentField={configFrom.id}
             displayValidationErrorOutline={!!fromValidationError || !!globalValidationError}
             max={configFrom.max}
             min={configFrom.min}
@@ -211,8 +209,6 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             textInputOnChange={onToDateFilterChange}
             id={`${config.id}-${configTo.id}`}
             forbidFutureDates={config.forbidFutureDates}
-            onDispatchValidationError={onValidationError}
-            componentField={configTo.id}
             displayValidationErrorOutline={!!toValidationError || !!globalValidationError}
             max={configTo.max}
             min={configTo.min}

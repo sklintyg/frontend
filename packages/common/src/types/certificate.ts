@@ -97,6 +97,36 @@ export enum ConfigTypes {
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
 }
 
+export type CertificateDataConfigType =
+  | ConfigCategory
+  | ConfigUeTextArea
+  | ConfigUeTextField
+  | ConfigUeRadioBoolean
+  | ConfigUeCheckboxBoolean
+  | ConfigUeMessage
+  | ConfigUeTypeahead
+  | ConfigUeCheckboxMultipleCodes
+  | ConfigUeRadioCode
+  | ConfigUeRadioMultipleCodes
+  | ConfigUeRadioMultipleCodesOptionalDropdown
+  | ConfigUeCheckboxDate
+  | ConfigUeCheckboxDateRange
+  | ConfigUeCheckboxMultipleDate
+  | ConfigUeSickLeavePeriod
+  | ConfigUeDiagnoses
+  | ConfigUeDropdown
+  | ConfigUeDate
+  | ConfigUeIcf
+  | ConfigUeHeader
+  | ConfigUeUncertainDate
+  | ConfigUeMedicalInvestigationList
+  | ConfigUeCauseOfDeath
+  | ConfigUeCauseOfDeathList
+  | ConfigUeVisualAcuity
+  | ConfigUeViewText
+  | ConfigUeViewList
+  | ConfigUeViewTable
+
 export enum MessageLevel {
   INFO = 'INFO',
   OBSERVE = 'OBSERVE',
@@ -110,8 +140,6 @@ export interface CertificateDataConfig {
   description: string
   type: ConfigTypes
   accordion?: ConfigAccordion
-
-  [propName: string]: unknown
 }
 
 export interface ConfigAccordion {
@@ -120,23 +148,29 @@ export interface ConfigAccordion {
   header?: string
 }
 
-export type ConfigCategory = CertificateDataConfig
+export interface ConfigCategory extends CertificateDataConfig {
+  type: ConfigTypes.CATEGORY
+}
 
 export interface ConfigUeTextArea extends CertificateDataConfig {
+  type: ConfigTypes.UE_TEXTAREA
   id: string
 }
 
 export interface ConfigUeTextField extends CertificateDataConfig {
+  type: ConfigTypes.UE_TEXTFIELD
   id: string
 }
 
 export interface ConfigUeRadioBoolean extends CertificateDataConfig {
+  type: ConfigTypes.UE_RADIO_BOOLEAN
   id: string
   selectedText: string
   unselectedText: string
 }
 
 export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_BOOLEAN
   id: string
   label: string
   selectedText: string
@@ -144,12 +178,14 @@ export interface ConfigUeCheckboxBoolean extends CertificateDataConfig {
 }
 
 export interface ConfigUeMessage extends CertificateDataConfig {
+  type: ConfigTypes.UE_MESSAGE
   id: string
   level: MessageLevel
   message: string
 }
 
 export interface ConfigUeTypeahead extends CertificateDataConfig {
+  type: ConfigTypes.UE_TYPE_AHEAD
   id: string
   typeAhead: string[]
   text: string
@@ -171,11 +207,13 @@ export enum ConfigLayout {
 }
 
 export interface ConfigUeCheckboxMultipleCodes extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
   list: CheckboxCode[]
   layout: ConfigLayout
 }
 
 export interface ConfigUeRadioCode extends CertificateDataConfig {
+  type: ConfigTypes.UE_RADIO_CODE
   id: string
   label: string
 }
@@ -187,31 +225,37 @@ export interface ConfigUeRadioCodeOptionalDropdown {
 }
 
 export interface ConfigUeRadioMultipleCodes extends CertificateDataConfig {
+  type: ConfigTypes.UE_RADIO_MULTIPLE_CODE
   id: string
   list: ConfigUeRadioCode[]
   layout: ConfigLayout
 }
 
 export interface ConfigUeRadioMultipleCodesOptionalDropdown extends CertificateDataConfig {
+  type: ConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN
   id: string
   list: ConfigUeRadioCodeOptionalDropdown[]
 }
 
 export interface ConfigUeCheckboxDate extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_DATE
   id: string
   label: string
 }
 
 export interface ConfigUeCheckboxDateRange extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE_RANGE
   id: string
   label: string
 }
 
 export interface ConfigUeCheckboxMultipleDate extends CertificateDataConfig {
+  type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
   list: ConfigUeCheckboxDate[]
 }
 
 export interface ConfigUeSickLeavePeriod extends CertificateDataConfig {
+  type: ConfigTypes.UE_SICK_LEAVE_PERIOD
   list: ConfigUeCheckboxDateRange[]
   previousSickLeavePeriod: string
 }
@@ -226,6 +270,7 @@ export interface ConfigUeDiagnosisId {
 }
 
 export interface ConfigUeDiagnoses extends CertificateDataConfig {
+  type: ConfigTypes.UE_DIAGNOSES
   terminology: ConfigUeDiagnosisTerminology[]
   list: ConfigUeDiagnosisId[]
 }
@@ -236,15 +281,18 @@ export interface ConfigUeDropdownItem {
 }
 
 export interface ConfigUeDropdown extends CertificateDataConfig {
+  type: ConfigTypes.UE_DROPDOWN
   list: ConfigUeDropdownItem[]
   label?: string
 }
 
 export interface ConfigUeDate extends CertificateDataConfig {
+  type: ConfigTypes.UE_DATE
   id: string
 }
 
 export interface ConfigUeIcf extends CertificateDataConfig {
+  type: ConfigTypes.UE_ICF
   id: string
   label: string
   modalLabel: string
@@ -253,11 +301,13 @@ export interface ConfigUeIcf extends CertificateDataConfig {
 }
 
 export interface ConfigUeHeader extends CertificateDataConfig {
+  type: ConfigTypes.UE_HEADER
   id: string
   label: string
 }
 
 export interface ConfigUeUncertainDate extends CertificateDataConfig {
+  type: ConfigTypes.UE_UNCERTAIN_DATE
   id: string
   label: string
   allowedYears: string[]
@@ -271,7 +321,7 @@ export interface ConfigUeCodeItem {
   code: string | null
 }
 
-export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
+export interface ConfigUeMedicalInvestigation {
   investigationTypeId: string
   informationSourceId: string
   dateId: string
@@ -279,6 +329,7 @@ export interface ConfigUeMedicalInvestigation extends CertificateDataConfig {
 }
 
 export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
+  type: ConfigTypes.UE_MEDICAL_INVESTIGATION
   typeText: string
   dateText: string
   informationSourceText: string
@@ -294,11 +345,14 @@ export interface ConfigUeCauseOfDeathControl {
 }
 
 export interface ConfigUeCauseOfDeath extends CertificateDataConfig {
+  title: string
+  type: ConfigTypes.UE_CAUSE_OF_DEATH
   label?: string
   causeOfDeath: ConfigUeCauseOfDeathControl
 }
 
 export interface ConfigUeCauseOfDeathList extends CertificateDataConfig {
+  type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST
   itemCount?: number
   list: ConfigUeCauseOfDeathControl[]
 }
@@ -311,6 +365,7 @@ export interface ConfigEyeAcuity {
 }
 
 export interface ConfigUeVisualAcuity extends CertificateDataConfig {
+  type: ConfigTypes.UE_VISUAL_ACUITY
   withoutCorrectionLabel: string
   withCorrectionLabel: string
   contactLensesLabel: string
@@ -320,10 +375,12 @@ export interface ConfigUeVisualAcuity extends CertificateDataConfig {
 }
 
 export interface ConfigUeViewText extends CertificateDataConfig {
+  type: ConfigTypes.UE_VIEW_TEXT
   label?: string
 }
 
 export interface ConfigUeViewList extends CertificateDataConfig {
+  type: ConfigTypes.UE_VIEW_LIST
   label?: string
 }
 
@@ -333,6 +390,7 @@ export interface ConfigViewColumn {
 }
 
 export interface ConfigUeViewTable extends CertificateDataConfig {
+  type: ConfigTypes.UE_VIEW_TABLE
   columns: ConfigViewColumn[]
 }
 
@@ -389,6 +447,7 @@ export type ValueType =
   | ValueViewText
   | ValueViewList
   | ValueViewTable
+
 export interface Value {
   [propName: string]: unknown
 }

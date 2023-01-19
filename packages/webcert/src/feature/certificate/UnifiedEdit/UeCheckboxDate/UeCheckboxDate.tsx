@@ -5,17 +5,15 @@ import {
   ConfigTypes,
   DatePickerCustom,
   getMaxDate,
-  getValidDate,
   QuestionValidationTexts,
-  ValidationError,
   ValueDate,
   ValueDateList,
 } from '@frontend/common'
-import { format, isValid } from 'date-fns'
-import React, { useCallback } from 'react'
+import { format } from 'date-fns'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 
@@ -76,19 +74,8 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
       deleteDateFromSavedValue()
     }
 
-    const parsedDate = getValidDate(date)
-
-    if (isValid(parsedDate)) {
-      dispatch(updateCertificateDataElement(getUpdatedValue(question, checked, id, date)))
-    }
+    dispatch(updateCertificateDataElement(getUpdatedValue(question, checked, id, date)))
   }
-
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
-    },
-    [dispatch]
-  )
 
   return (
     <Wrapper>
@@ -114,10 +101,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
         }}
         inputString={dateString}
         additionalStyles={props.datePickerAdditionalStyles}
-        questionId={question.id}
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
-        componentField={id}
-        onDispatchValidationError={dispatchValidationError}
         max={getMaxDate(question.validation, id)}
       />
       <ValidationWrapper>

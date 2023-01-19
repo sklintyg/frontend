@@ -17,7 +17,6 @@ import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 import store from '../../../../store/store'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 
-const LABEL = '25 procent'
 const QUESTION_ID = 'Test'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'

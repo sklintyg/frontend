@@ -8,33 +8,20 @@ import {
   CertificateDataValidationType,
   TextValidation,
 } from '@frontend/common/src/types/certificate'
-import React, { useCallback } from 'react'
-import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
+import React from 'react'
 import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 
 export interface Props {
   disabled?: boolean
   config: ConfigUeMedicalInvestigation
-  questionId: string
   value: ValueMedicalInvestigation
-  isShowValidationError: boolean
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
+  error: boolean
   onChange: (value: ValueMedicalInvestigation) => void
 }
 
-const UeMedicalInvestigation: React.FC<Props> = ({
-  questionId,
-  disabled,
-  config,
-  value,
-  isShowValidationError,
-  validation,
-  validationErrors,
-  onChange,
-}) => {
-  const dispatch = useAppDispatch()
+const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, validation, validationErrors, error, onChange }) => {
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -74,13 +61,6 @@ const UeMedicalInvestigation: React.FC<Props> = ({
     })
   }
 
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
-    },
-    [dispatch]
-  )
-
   return (
     <>
       <UeMedicalInvestigationGrid>
@@ -93,7 +73,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            error={isShowValidationError && validationErrors.some((v) => v.field === config.investigationTypeId)}>
+            error={error || validationErrors.some((v) => v.field === config.investigationTypeId)}>
             {typeOptions.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
@@ -104,15 +84,12 @@ const UeMedicalInvestigation: React.FC<Props> = ({
         <div>
           <DatePickerCustom
             id={config.dateId}
-            questionId={questionId}
             forbidFutureDates={true}
-            componentField={config.dateId}
             inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
             disabled={disabled}
             setDate={handleDateChange}
-            displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field === config.dateId)}
-            onDispatchValidationError={dispatchValidationError}
+            displayValidationErrorOutline={error || validationErrors.some((v) => v.field === config.dateId)}
           />
         </div>
         <div>
@@ -121,14 +98,14 @@ const UeMedicalInvestigation: React.FC<Props> = ({
               handleInformationSourceChange(event.currentTarget.value)
             }}
             id={config.informationSourceId}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.field === config.informationSourceId)}
+            hasValidationError={error || validationErrors.some((v) => v.field === config.informationSourceId)}
             value={value.informationSource.text ?? ''}
             limit={textValidation ? textValidation.limit : 100}
             disabled={disabled}
           />
         </div>
       </UeMedicalInvestigationGrid>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={validationErrors} />}
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }

@@ -16,7 +16,6 @@ import {
 import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  addClientValidationError,
   applyCertificateDataElementAutoFill,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
@@ -27,7 +26,6 @@ import {
   hideSpinner,
   hideValidationErrors,
   highlightCertificateDataElement,
-  removeClientValidationError,
   resetCertificateState,
   setCertificateDataElement,
   setCertificatePatientData,
@@ -61,6 +59,7 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
+  updateClientValidationError,
 } from './certificateActions'
 
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
@@ -371,13 +370,8 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(toggleCertificateFunctionDisabler, (state, action) => {
       state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
     })
-    .addCase(addClientValidationError, (state, action) => {
-      state.clientValidationErrors.push(action.payload)
-    })
-    .addCase(removeClientValidationError, (state, action) => {
-      const clientValidationErrors = [...state.clientValidationErrors]
-      clientValidationErrors.splice(action.payload, 1)
-      state.clientValidationErrors = clientValidationErrors
+    .addCase(updateClientValidationError, (state, action) => {
+      state.clientValidationErrors = action.payload
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload
