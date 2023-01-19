@@ -1,4 +1,4 @@
-import { CertificateDataElement, ConfigUeDiagnoses, QuestionValidationTexts, RadioButton, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataElement, ConfigUeDiagnoses, RadioButton, ValueDiagnosisList } from '@frontend/common'
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
