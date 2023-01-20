@@ -339,8 +339,8 @@ export interface ConfigUeViewTable extends CertificateDataConfig {
 
 export interface ConfigUeYear extends CertificateDataConfig {
   id: string
-  minYear: string
-  maxYear: string
+  minYear?: number
+  maxYear?: number
 }
 
 // Values

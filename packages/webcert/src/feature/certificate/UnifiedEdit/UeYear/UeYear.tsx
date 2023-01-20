@@ -55,8 +55,8 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
         setDate={handleChange}
         inputString={yearString}
         questionId={question.id}
-        max={questionConfig.maxYear}
-        min={questionConfig.minYear}
+        max={questionConfig.maxYear?.toString()}
+        min={questionConfig.minYear ? (questionConfig.minYear - 1).toString() : ''}
         displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
