@@ -1,6 +1,12 @@
+import {
+  CertificateDataValidation,
+  CertificateDataValidationType,
+  MaxDateValidation,
+  MinDateValidation,
+  ValueDateRange,
+} from './../types/certificate'
 import { addDays, areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
 import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
-import { CertificateDataValidation, CertificateDataValidationType, MaxDateValidation, ValueDateRange } from './../types/certificate'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
@@ -240,4 +246,13 @@ export const getMaxDate = (validation: CertificateDataValidation[], id: string):
   )
 
   return maxDateValidation ? addDays(today, (maxDateValidation as MaxDateValidation).numberOfDays).toDateString() : ''
+}
+
+export const getMinDate = (validation: CertificateDataValidation[], id: string): string => {
+  const minDateValidation = validation.find(
+    (v) => v.type === CertificateDataValidationType.MIN_DATE_VALIDATION && id === (v as MinDateValidation).id
+  )
+
+  const minDate = minDateValidation ? (minDateValidation as MinDateValidation).minDate : undefined
+  return minDate ? minDate : ''
 }

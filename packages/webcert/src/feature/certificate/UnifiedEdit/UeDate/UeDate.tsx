@@ -3,6 +3,7 @@ import {
   ConfigUeDate,
   DatePickerCustom,
   getMaxDate,
+  getMinDate,
   getValidDate,
   QuestionValidationTexts,
   ValidationError,
@@ -56,6 +57,7 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         inputString={dateString}
         questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
+        min={getMinDate(question.validation, questionConfig.id)}
         displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
