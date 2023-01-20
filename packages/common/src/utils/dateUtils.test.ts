@@ -21,7 +21,7 @@ import {
   getPeriodWorkDays,
   SickLeavePeriods,
 } from './dateUtils'
-import {CertificateDataValidation, CertificateDataValidationType, MaxDateValidation, MinDateValidation} from '../types/certificate'
+import { CertificateDataValidationType, MaxDateValidation, MinDateValidation} from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'
