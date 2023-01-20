@@ -8,8 +8,10 @@ interface WrapperProps {
 const Wrapper = styled.section<WrapperProps>`
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  padding-bottom: 16px;
   background-color: ${(props) => (props.highlighted ? '#FFF8E0' : '')} !important;
+  &:not(:last-child) {
+    padding-bottom: 1rem;
+  }
 `
 
 interface Props {

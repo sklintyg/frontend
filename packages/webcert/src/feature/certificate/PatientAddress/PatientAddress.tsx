@@ -7,14 +7,7 @@ import {
   ResourceLinkType,
   TextArea,
 } from '@frontend/common'
-import {
-  getValidationErrors,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_CITY_FIELD,
-  PATIENT_STREET_FIELD,
-  PATIENT_ZIP_CODE_FIELD,
-} from '@frontend/common/src/utils/validationUtils'
+import { getValidationErrors } from '@frontend/common/src/utils/validationUtils'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,6 +24,12 @@ import {
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+
+export const PATIENT_STREET_FIELD = 'grunddata.patient.postadress'
+export const PATIENT_ZIP_CODE_FIELD = 'grunddata.patient.postnummer'
+export const PATIENT_CITY_FIELD = 'grunddata.patient.postort'
+export const PATIENT_ADDRESS_CATEGORY_TITLE_ID = 'patientensadress'
+export const PATIENT_ADDRESS_CATEGORY_TITLE = 'Patientens adressuppgifter'
 
 const Wrapper = styled.div`
   align-items: center;

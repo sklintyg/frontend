@@ -30,17 +30,10 @@ import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCe
 import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
   autoFillElement,
-  CARE_UNIT_ADDRESS_CATEGORY_TITLE,
-  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
-  CARE_UNIT_ADDRESS_FIELD,
   decorateCertificateWithInitialValues,
-  getSortedValidationErrorSummary,
   getValidationErrors,
   isShowAlways,
   parseExpression,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_STREET_FIELD,
   validateExpressions,
 } from './validationUtils'
 
@@ -1202,18 +1195,18 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return validation errors from field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
-    const result = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
+    const result = getValidationErrors(validationErrors, 'grunddata.skapadAv.vardenhet.postadress')
 
     expect(result.length).toBe(1)
-    expect(result[0].field).toBe(CARE_UNIT_ADDRESS_FIELD)
+    expect(result[0].field).toBe('grunddata.skapadAv.vardenhet.postadress')
   })
 
   it('should return empty array on non existing field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
@@ -1223,7 +1216,7 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return empty array on non existing field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
@@ -1233,51 +1226,14 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return validation errors from field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
-    const result = getValidationErrors(validationErrors, PATIENT_STREET_FIELD)
+    const result = getValidationErrors(validationErrors, 'grunddata.patient.postadress')
 
     expect(result.length).toBe(1)
-    expect(result[0].field).toBe(PATIENT_STREET_FIELD)
-  })
-
-  it('should return empty validation error summary', () => {
-    const result = getSortedValidationErrorSummary(certificate, [])
-
-    expect(result.length).toBe(0)
-  })
-
-  it('should return sorted validation error summary including patient and care unit address', () => {
-    const certificate = getCertificate()
-    const validationError: ValidationError = { id: '', category: '', field: '', type: '', text: '' }
-    certificate.data['1.2'].validationErrors.push(validationError)
-    certificate.data['28'].validationErrors.push(validationError)
-    certificate.metadata.careUnitValidationErrors = []
-    certificate.metadata.careUnitValidationErrors.push(validationError)
-    certificate.metadata.patientValidationErrors = []
-    certificate.metadata.patientValidationErrors.push(validationError)
-
-    const result = getSortedValidationErrorSummary(certificate, [])
-
-    expect(result.length).toBe(4)
-    expect(result[0].id).toBe(PATIENT_ADDRESS_CATEGORY_TITLE_ID)
-    expect(result[0].text).toBe(PATIENT_ADDRESS_CATEGORY_TITLE)
-    expect(result[1].id).toBe('sysselsattning')
-    expect(result[1].text).toBe('Sysselsättning')
-    expect(result[1].index).toBe(6)
-    expect(result[2].id).toBe('funktionsnedsattning')
-    expect(result[2].text).toBe('Sjukdomens konsekvenser')
-    expect(result[2].index).toBe(11)
-    expect(result[3].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
-    expect(result[3].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
-  })
-
-  it('should include client validation errors in result', () => {
-    const certificate = getCertificate()
-    const result = getSortedValidationErrorSummary(certificate, [{ id: '1.2', category: '', field: '', type: '', text: '' }])
-    expect(result.length).toBe(1)
+    expect(result[0].field).toBe('grunddata.patient.postadress')
   })
 
   it('should disable all categories if no edit link', () => {

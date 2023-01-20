@@ -117,14 +117,14 @@ export const CareProviderModalContent: React.FC = () => {
   }
 
   const checkSubscription = (careProvider: CareProvider) => {
-    return careProvider.missingSubscription ? careProvider.name + ' (Abonnemang saknas)' : careProvider.name
+    return careProvider.missingSubscription ? `${careProvider.name} (Abonnemang saknas)` : careProvider.name
   }
 
   return (
     <>
-      {user?.careProviders.map((careProvider) => {
+      {user?.careProviders.map((careProvider, index) => {
         return (
-          <div className="iu-mb-800">
+          <div key={index} className="iu-mb-800">
             <SimpleTable
               headings={[
                 { title: checkSubscription(careProvider), adjustCellToText: false },
