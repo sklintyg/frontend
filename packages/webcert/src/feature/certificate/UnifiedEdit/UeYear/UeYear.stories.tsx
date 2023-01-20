@@ -1,4 +1,4 @@
-import { fakeDateElement } from '@frontend/common'
+import { fakeYearElement } from '@frontend/common'
 import { Story } from '@storybook/react'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -20,5 +20,5 @@ const Template: Story<Props> = ({ ...args }) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  question: fakeDateElement({ id: '1' })['1'],
+  question: fakeYearElement({ id: '1' })['1'],
 }
