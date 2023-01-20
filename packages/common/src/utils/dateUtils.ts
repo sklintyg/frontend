@@ -1,3 +1,5 @@
+import { addDays, areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
+import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
 import {
   CertificateDataValidation,
   CertificateDataValidationType,
@@ -5,8 +7,6 @@ import {
   MinDateValidation,
   ValueDateRange,
 } from './../types/certificate'
-import { addDays, areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
-import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
 
 export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
 export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
