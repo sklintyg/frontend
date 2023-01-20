@@ -21,7 +21,7 @@ import {
   getPeriodWorkDays,
   SickLeavePeriods,
 } from './dateUtils'
-import { CertificateDataValidationType, MaxDateValidation, MinDateValidation } from '../types/certificate'
+import {CertificateDataValidation, CertificateDataValidationType, MaxDateValidation, MinDateValidation} from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'
@@ -541,7 +541,7 @@ describe('GetMinDate', () => {
         type: CertificateDataValidationType.MIN_DATE_VALIDATION,
         id: 'id',
         minDate: date,
-      }
+      },
     ]
 
     const result = getMinDate(validation, 'id')
@@ -554,7 +554,7 @@ describe('GetMinDate', () => {
         questionId: 'VALIDATION',
         type: CertificateDataValidationType.MIN_DATE_VALIDATION,
         id: 'id',
-      }
+      },
     ]
 
     const result = getMinDate(validation, 'id')
@@ -567,8 +567,8 @@ describe('GetMinDate', () => {
         questionId: 'VALIDATION',
         type: CertificateDataValidationType.MIN_DATE_VALIDATION,
         id: 'id',
-        minDate: '2023-01-19'
-      }
+        minDate: '2023-01-19',
+      },
     ]
 
     const result = getMinDate(validation, 'id1')
@@ -582,13 +582,13 @@ describe('GetMinDate', () => {
         questionId: 'VALIDATION',
         type: CertificateDataValidationType.MIN_DATE_VALIDATION,
         id: 'id',
-        minDate: '2023-01-10'
+        minDate: '2023-01-10',
       },
       {
         questionId: 'VALIDATION',
         type: CertificateDataValidationType.MIN_DATE_VALIDATION,
         id: 'second_id',
-        minDate: date
+        minDate: date,
       },
     ]
 
