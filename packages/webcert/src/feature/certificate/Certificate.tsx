@@ -36,12 +36,11 @@ const Wrapper = styled.div`
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
+    padding-bottom: 20px;
   }
 `
 
 const CategoryWrapper = styled.div`
-  background: #ffffff;
-  padding-bottom: 1rem;
   :not(:last-child) {
     margin-bottom: 16px;
   }
