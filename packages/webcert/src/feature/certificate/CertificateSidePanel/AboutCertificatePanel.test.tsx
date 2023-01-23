@@ -43,7 +43,7 @@ describe('CertificateSidePanel', () => {
 
   testStore = configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
   })
 
   afterEach(() => {
