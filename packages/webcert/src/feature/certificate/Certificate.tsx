@@ -24,6 +24,7 @@ import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
+import { QuestionValidationError } from './Question/QuestionValidationError'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -39,9 +40,15 @@ const Wrapper = styled.div`
 `
 
 const CategoryWrapper = styled.div`
+  background: #ffffff;
+  padding-bottom: 1rem;
   :not(:last-child) {
     margin-bottom: 16px;
   }
+`
+
+const ValidationErrorWrapper = styled.div`
+  padding: 0 2rem;
 `
 
 const Certificate: React.FC = () => {
@@ -95,22 +102,28 @@ const Certificate: React.FC = () => {
               .reduce((result, data) => {
                 const last = result[result.length - 1]
                 if (data.component === ConfigTypes.CATEGORY) {
-                  result.push([data])
+                  return [...result, [data]]
                 } else if (last) {
-                  result[result.length - 1] = last.concat(data)
+                  return [...result.slice(0, -1), [...last, data]]
                 }
                 return result
               }, [] as CertificateStructure[][])
               .map((structure, index) => {
+                const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
                 return (
                   <CategoryWrapper key={index}>
-                    {structure.map((data) => {
-                      if (data.component === ConfigTypes.CATEGORY) {
-                        return <Category key={data.id} id={data.id} />
+                    {structure.map(({ id, subQuestionIds, component }) => {
+                      if (component === ConfigTypes.CATEGORY) {
+                        return <Category key={index} id={id} />
                       } else {
-                        return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                        return <QuestionWithSubQuestions key={index} questionIds={[id, ...subQuestionIds]} />
                       }
                     })}
+                    {category && (
+                      <ValidationErrorWrapper>
+                        <QuestionValidationError id={category.id} />
+                      </ValidationErrorWrapper>
+                    )}
                   </CategoryWrapper>
                 )
               })}

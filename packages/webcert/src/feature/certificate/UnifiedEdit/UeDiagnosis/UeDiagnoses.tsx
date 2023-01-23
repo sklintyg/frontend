@@ -78,7 +78,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
             <UeDiagnosis
-              hasValidationError={(index === 0 && validationErrors.length > 0) || diagnosisValidationErrors.length > 0}
+              hasValidationError={(index === 0 && validationErrors.length === 1) || diagnosisValidationErrors.length > 0}
               key={`${diagnosis.id}-diagnosis`}
               question={question}
               disabled={disabled}
@@ -89,7 +89,9 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </DiagnosesWrapper>
-      <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
+      {validationErrors.length === 1 && (
+        <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
+      )}
     </>
   )
 }
