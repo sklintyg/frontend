@@ -47,4 +47,5 @@ export const UvMedicalInvestigationList: React.FC<{
       )}
     </div>
   )
+  return null
 }
