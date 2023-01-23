@@ -16,8 +16,8 @@ import {
   Unit,
   ValidationError,
   ValidationErrorSummary,
+  sortedValidationErrorSummary,
 } from '@frontend/common'
-import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
@@ -136,7 +136,7 @@ export const getValidationErrorSummary = () => (state: RootState): ValidationErr
     return []
   }
 
-  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
+  return sortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
 }
 
 export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {

@@ -546,6 +546,7 @@ export enum CertificateDataValidationType {
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
+  MIN_DATE_VALIDATION = 'MIN_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
@@ -595,6 +596,12 @@ export interface MaxDateValidation extends CertificateDataValidation {
   numberOfDays: number
 }
 
+export interface MinDateValidation extends CertificateDataValidation {
+  type: CertificateDataValidationType.MIN_DATE_VALIDATION
+  id: string
+  minDate?: string
+}
+
 // --------------------------------------------
 export interface ValidationError {
   id: string
@@ -603,12 +610,6 @@ export interface ValidationError {
   type: string
   text: string
   showAlways?: boolean
-}
-
-export interface ValidationErrorSummary {
-  id: string
-  text: string
-  index: number
 }
 
 export interface Unit {
