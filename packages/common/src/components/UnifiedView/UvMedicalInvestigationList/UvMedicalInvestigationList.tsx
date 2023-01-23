@@ -7,16 +7,17 @@ export const UvMedicalInvestigationList: React.FC<{
   config: ConfigUeMedicalInvestigationList
 }> = ({ value, config }) => {
   let hasCells = false
+
+  config.list.forEach((medicalConfig) => {
+    const medicalValue = value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
+    const codeValue = medicalConfig.typeOptions.find((value) => value.code === medicalValue?.investigationType.code)
+    if (codeValue && medicalValue && medicalValue.informationSource.text) {
+      hasCells = true
+    }
+  })
+
   return (
     <div className={'iu-p-none'}>
-      {config.list.map((medicalConfig) => {
-        const medicalValue = value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
-        const codeValue = medicalConfig.typeOptions.find((value) => value.code === medicalValue?.investigationType.code)
-        if (codeValue && medicalValue && medicalValue.informationSource.text) {
-          hasCells = true
-        }
-      })}
-
       {hasCells && (
         <Table>
           <TableHeader>
@@ -47,5 +48,4 @@ export const UvMedicalInvestigationList: React.FC<{
       )}
     </div>
   )
-  return null
 }
