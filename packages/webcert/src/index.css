@@ -145,7 +145,8 @@ img {
   border-left-color: #b3b3b3 !important;
 }
 
-.react-datepicker__day--selected {
+.react-datepicker__day--selected,
+.react-datepicker__year--selected {
   background-color: #01a5a3 !important;
 }
 
