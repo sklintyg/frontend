@@ -16,6 +16,7 @@ import {
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
@@ -39,6 +40,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueHeader,
@@ -456,6 +458,33 @@ export const fakeDateElement = (
       },
       // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
       value: fakeCertificateValue.date(data?.value),
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `'${data.id.toUpperCase()}'` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
+    },
+    children
+  )
+
+export const fakeDateRangeElement = (
+  data?: PartialCertificateDataElement<ConfigUeDateRange, ValueDateRange>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_DATE_RANGE,
+        fromLabel: 'Fr.o.m',
+        toLabel: 't.o.m',
+        ...data?.config,
+      },
+      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      value: fakeCertificateValue.dateRange(data?.value),
       validation: [
         fakeCertificateDataValidation({
           type: CertificateDataValidationType.MAX_DATE_VALIDATION,

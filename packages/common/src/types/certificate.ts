@@ -74,6 +74,7 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
   UE_DATE = 'UE_DATE',
+  UE_DATE_RANGE = 'UE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
@@ -243,6 +244,12 @@ export interface ConfigUeDropdown extends CertificateDataConfig {
 
 export interface ConfigUeDate extends CertificateDataConfig {
   id: string
+}
+
+export interface ConfigUeDateRange extends CertificateDataConfig {
+  id: string
+  fromLabel: string
+  toLabel: string
 }
 
 export interface ConfigUeIcf extends CertificateDataConfig {
