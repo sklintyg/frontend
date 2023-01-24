@@ -1,4 +1,4 @@
-import { formatDateToString, getValidDateFormat, getValidDate, _dateReg, _format } from '@frontend/common'
+import { formatDateToString, getValidDate, getValidDateFormat, _dateReg, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
-import { ValidationError } from '../../..'
+import { ValidationError, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
 import calendar from '../../../images/calendar.svg'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
 import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
@@ -41,11 +41,16 @@ export interface Props {
   min?: string
   vertical?: boolean
   inputCss?: CSSProp | undefined
+  yearOnly?: boolean
 }
 
 const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
 
+const INVALID_YEAR_FORMAT_ERROR = 'Ange år i formatet åååå.'
+
 const UNREASONABLE_DATE = 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.'
+
+const UNREASONABLE_YEAR = 'Ange ett år som inte ligger för långt fram eller tillbaka i tiden.'
 
 const isValueFormatIncorrect = (value: string | null) => {
   return value && value.length > 0 && !isValid(getValidDateFormat(value))
@@ -77,22 +82,31 @@ const DatePickerCustom: React.FC<Props> = ({
   min,
   vertical,
   inputCss,
+  yearOnly,
 }) => {
   const [open, setOpen] = useState(false)
   const [displayFormattingError, setDisplayFormattingError] = useState(false)
   const [displayUnreasonableDateError, setDisplayUnreasonableDateError] = useState(false)
+
+  const getFullDate = useCallback(
+    (value: string | null) => {
+      return value && `${value}${yearOnly ? '-01-02' : ''}`
+    },
+    [yearOnly]
+  )
+
   const toggleFormattingError = useCallback(() => {
     if (onDispatchValidationError) {
       onDispatchValidationError(!displayFormattingError, {
         category: '',
         field: componentField ? componentField : '',
         id: questionId ? questionId : '',
-        text: INVALID_DATE_FORMAT_ERROR,
+        text: yearOnly ? INVALID_YEAR_FORMAT_ERROR : INVALID_DATE_FORMAT_ERROR,
         type: 'INVALID_DATE_FORMAT',
         showAlways: true,
       })
     }
-  }, [displayFormattingError, onDispatchValidationError, componentField, questionId])
+  }, [displayFormattingError, onDispatchValidationError, componentField, questionId, yearOnly])
 
   const toggleUnreasonableDateError = useCallback(() => {
     if (onDispatchValidationError) {
@@ -100,12 +114,33 @@ const DatePickerCustom: React.FC<Props> = ({
         category: '',
         field: componentField ? componentField : '',
         id: questionId ? questionId : '',
-        text: UNREASONABLE_DATE,
+        text: yearOnly ? UNREASONABLE_YEAR : UNREASONABLE_DATE,
         type: 'UNREASONABLE_DATE',
         showAlways: true,
       })
     }
-  }, [displayUnreasonableDateError, onDispatchValidationError, componentField, questionId])
+  }, [displayUnreasonableDateError, onDispatchValidationError, componentField, questionId, yearOnly])
+
+  const updateFormattingValidation = useCallback(
+    (value: string | null) => {
+      setDisplayUnreasonableDateError(false)
+      if (isValueFormatIncorrect(getFullDate(value))) {
+        setDisplayFormattingError(true)
+      } else {
+        setDisplayFormattingError(false)
+        updateUnreasonableValidation(getFullDate(value))
+      }
+    },
+    [getFullDate]
+  )
+
+  const updateUnreasonableValidation = (value: string | null) => {
+    if (isValueUnreasonable(value)) {
+      setDisplayUnreasonableDateError(true)
+    } else {
+      setDisplayUnreasonableDateError(false)
+    }
+  }
 
   const boundryRef = useContext(DatePickerBoundryContext)
 
@@ -135,16 +170,16 @@ const DatePickerCustom: React.FC<Props> = ({
     if (displayFormattingError || displayUnreasonableDateError) {
       updateFormattingValidation(inputString)
     }
-  }, [inputString, displayFormattingError])
+  }, [inputString, displayFormattingError, displayUnreasonableDateError, updateFormattingValidation])
 
   if (inputString) {
-    date = getValidDateForPicker(inputString)
+    date = getValidDateForPicker(getFullDate(inputString) as string)
   } else {
     date = new Date()
   }
 
   const handleTextInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value
+    let value = getFullDate(event.target.value) ?? ''
 
     const parsedDate = getValidDate(value)
     const isValueValid = isValid(parsedDate)
@@ -157,33 +192,16 @@ const DatePickerCustom: React.FC<Props> = ({
   }
 
   const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    updateFormattingValidation(inputString)
+    updateFormattingValidation(getFullDate(inputString))
     textInputOnBlur?.(event)
-  }
-
-  const updateFormattingValidation = (value: string | null) => {
-    setDisplayUnreasonableDateError(false)
-    if (isValueFormatIncorrect(value)) {
-      setDisplayFormattingError(true)
-    } else {
-      setDisplayFormattingError(false)
-      updateUnreasonableValidation(value)
-    }
-  }
-  const updateUnreasonableValidation = (value: string | null) => {
-    if (isValueUnreasonable(value)) {
-      setDisplayUnreasonableDateError(true)
-    } else {
-      setDisplayUnreasonableDateError(false)
-    }
   }
 
   const getMaxDate = () => {
     if (forbidFutureDates) {
       return new Date()
     } else if (max) {
-      return new Date(max)
-    } else return undefined
+      return new Date(getFullDate(max) as string)
+    } else return _maxAllowedDate
   }
 
   return (
@@ -200,12 +218,12 @@ const DatePickerCustom: React.FC<Props> = ({
             id={id}
             name={textInputName}
             type="text"
-            maxLength={10}
+            maxLength={yearOnly ? 4 : 10}
             className={classNames('ic-textfield', { 'ic-textfield--error error': displayValidationErrorOutline })}
             onChange={handleTextInputOnChange}
             onBlur={handleTextInputOnBlur}
             onKeyDown={textInputOnKeyDown}
-            placeholder="åååå-mm-dd"
+            placeholder={yearOnly ? 'åååå' : 'åååå-mm-dd'}
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}
@@ -219,7 +237,7 @@ const DatePickerCustom: React.FC<Props> = ({
             onChange={() => {
               /*Empty*/
             }}
-            dateFormat={_format}
+            dateFormat={yearOnly ? _yearFormat : _format}
             customInput={
               <StyledButton
                 aria-label="Öppna kalendern"
@@ -238,6 +256,7 @@ const DatePickerCustom: React.FC<Props> = ({
               setDate(formatDateToString(date))
             }}
             showWeekNumbers
+            showYearPicker={yearOnly}
             portalId="root"
             popperPlacement="bottom-end"
             popperModifiers={[
@@ -267,7 +286,7 @@ const DatePickerCustom: React.FC<Props> = ({
               },
             ]}
             maxDate={getMaxDate()}
-            minDate={min ? new Date(min) : undefined}
+            minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
           />
         </FocusWrapper>
       </DatePickerWrapper>
