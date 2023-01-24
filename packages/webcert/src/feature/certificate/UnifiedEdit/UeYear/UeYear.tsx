@@ -1,13 +1,11 @@
 import {
   CertificateDataElement,
-  ConfigUeDate,
+  ConfigUeYear,
   DatePickerCustom,
-  getMaxDate,
-  getMinDate,
   getValidDate,
   QuestionValidationTexts,
   ValidationError,
-  ValueDate,
+  ValueYear,
 } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
 import { isValid } from 'date-fns'
@@ -21,21 +19,22 @@ export interface Props {
   disabled: boolean
 }
 
-const UeDate: React.FC<Props> = ({ question, disabled }) => {
+const UeYear: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
-  const questionValue = question.value as ValueDate
-  const questionConfig = question.config as ConfigUeDate
-  const [dateString, setDateString] = useState<string | null>(questionValue.date ?? '')
+  const questionValue = question.value as ValueYear
+  const questionConfig = question.config as ConfigUeYear
+  const [yearString, setYearString] = useState<string | null>(questionValue.year?.toString() ?? '')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const handleChange = (date: string) => {
-    setDateString(date)
+    const text = date.split('-')[0]
+    setYearString(text)
 
     if (isValid(getValidDate(date)) || date === '') {
       dispatch(
         updateCertificateDataElement({
           ...question,
-          value: { ...questionValue, date },
+          value: { ...questionValue, year: parseInt(text) },
         })
       )
     }
@@ -54,13 +53,14 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         disabled={disabled}
         textInputOnChange={handleChange}
         setDate={handleChange}
-        inputString={dateString}
+        inputString={yearString}
         questionId={question.id}
-        max={getMaxDate(question.validation, questionConfig.id)}
-        min={getMinDate(question.validation, questionConfig.id)}
+        max={questionConfig.maxYear?.toString()}
+        min={questionConfig.minYear ? (questionConfig.minYear - 1).toString() : ''}
         displayValidationErrorOutline={validationErrors.length > 0}
         onDispatchValidationError={dispatchValidationError}
         componentField={questionConfig.id}
+        yearOnly={true}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
@@ -69,4 +69,4 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   )
 }
 
-export default UeDate
+export default UeYear
