@@ -12,15 +12,18 @@ export const UvDateRange: React.FC<{
   config: ConfigUeDateRange
 }> = ({ value, config }) => {
   return (
-    <DateRangeWrapper>
-      <div>
-        <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.fromLabel}</p>
-        <Badge>{typeof value.from === 'string' && value.from.length > 0 ? value.text : 'Ej angivet'}</Badge>
-      </div>
-      <div className="iu-ml-600">
-        <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.toLabel}</p>
-        <Badge>{typeof value.to === 'string' && value.to.length > 0 ? value.text : 'Ej angivet'}</Badge>
-      </div>
-    </DateRangeWrapper>
+    <>
+      {config.label && <div className="iu-fl iu-fs-700 iu-mr-400 iu-pt-200">{config.label}</div>}
+      <DateRangeWrapper>
+        <div>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.fromLabel}</p>
+          <Badge>{typeof value.from === 'string' && value.from.length > 0 ? value.text : 'Ej angivet'}</Badge>
+        </div>
+        <div className={'iu-ml-600'}>
+          <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.toLabel}</p>
+          <Badge>{typeof value.to === 'string' && value.to.length > 0 ? value.text : 'Ej angivet'}</Badge>
+        </div>
+      </DateRangeWrapper>
+    </>
   )
 }
