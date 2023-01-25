@@ -10,7 +10,6 @@ import UeInteger from './UeInteger'
 import reducer from '../../../../store/reducers'
 
 let testStore: EnhancedStore
-const VALIDATION_ERROR = 'Ange ett nummer mellan 0 och 100.'
 const QUESTION_ID = 'percent'
 const testValue = 199
 const question = fakeIntegerElement({ id: QUESTION_ID, value: { value: testValue } })[QUESTION_ID]
@@ -41,7 +40,7 @@ describe('Integer component', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('should not allow bigger than three digits', () => {
+  it('should not allow numbers bigger than three digits', () => {
     renderComponent({ disabled: false, question })
 
     userEvent.type(screen.getByTestId('reducedPercent'), '199')
