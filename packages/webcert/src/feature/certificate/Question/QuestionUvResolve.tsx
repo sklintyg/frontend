@@ -14,8 +14,23 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
   ConfigUeVisualAcuity,
+  UvBoolean,
+  UvCauseOfDeath,
+  UvCauseOfDeathList,
+  UvCode,
+  UvCodeList,
+  UvDate,
+  UvDateList,
+  UvDateRange,
+  UvDiagnosisList,
+  UvIcf,
+  UvMedicalInvestigationList,
   UvTable,
   UvText,
+  UvUncertainDate,
+  UvViewList,
+  UvVisualAcuity,
+  UvYear,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -31,20 +46,6 @@ import {
   ValueViewList,
   ValueViewTable,
   ValueVisualAcuity,
-  UvBoolean,
-  UvViewList,
-  UvCodeList,
-  UvDiagnosisList,
-  UvCode,
-  UvDateList,
-  UvDateRange,
-  UvIcf,
-  UvDate,
-  UvUncertainDate,
-  UvCauseOfDeath,
-  UvCauseOfDeathList,
-  UvMedicalInvestigationList,
-  UvVisualAcuity,
 } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
@@ -129,6 +130,9 @@ const QuestionUvResolve: React.FC<{
 
     case CertificateDataValueType.VISUAL_ACUITIES:
       return <UvVisualAcuity value={question.value as ValueVisualAcuity} config={question.config as ConfigUeVisualAcuity} />
+
+    case CertificateDataValueType.YEAR:
+      return <UvYear value={question.value} />
 
     default:
       return <Badge>Okänd datatyp</Badge>
