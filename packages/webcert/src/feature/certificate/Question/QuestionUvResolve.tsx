@@ -8,14 +8,30 @@ import {
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeIcf,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
   ConfigUeVisualAcuity,
+  UvBoolean,
+  UvCauseOfDeath,
+  UvCauseOfDeathList,
+  UvCode,
+  UvCodeList,
+  UvDate,
+  UvDateList,
+  UvDateRange,
+  UvDateRangeList,
+  UvDiagnosisList,
+  UvIcf,
+  UvMedicalInvestigationList,
   UvTable,
   UvText,
+  UvUncertainDate,
+  UvViewList,
+  UvVisualAcuity,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -23,6 +39,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueIcf,
@@ -31,20 +48,6 @@ import {
   ValueViewList,
   ValueViewTable,
   ValueVisualAcuity,
-  UvBoolean,
-  UvViewList,
-  UvCodeList,
-  UvDiagnosisList,
-  UvCode,
-  UvDateList,
-  UvDateRange,
-  UvIcf,
-  UvDate,
-  UvUncertainDate,
-  UvCauseOfDeath,
-  UvCauseOfDeathList,
-  UvMedicalInvestigationList,
-  UvVisualAcuity,
 } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
@@ -101,8 +104,11 @@ const QuestionUvResolve: React.FC<{
     case CertificateDataValueType.DATE_LIST:
       return <UvDateList value={question.value as ValueDateList} config={question.config as ConfigUeCheckboxMultipleDate}></UvDateList>
 
+    case CertificateDataValueType.DATE_RANGE:
+      return <UvDateRange value={question.value as ValueDateRange} config={question.config as ConfigUeDateRange} />
+
     case CertificateDataValueType.DATE_RANGE_LIST:
-      return <UvDateRange value={question.value as ValueDateRangeList} config={question.config as ConfigUeSickLeavePeriod} />
+      return <UvDateRangeList value={question.value as ValueDateRangeList} config={question.config as ConfigUeSickLeavePeriod} />
 
     case CertificateDataValueType.ICF:
       return <UvIcf value={question.value as ValueIcf} config={question.config as ConfigUeIcf} />

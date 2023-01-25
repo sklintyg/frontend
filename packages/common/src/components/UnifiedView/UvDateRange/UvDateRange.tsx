@@ -1,37 +1,26 @@
 import React from 'react'
-import { Table, TableHeader, TableRow, TableCell, TableBody } from '../../Table'
-import { ValueDateRangeList, ConfigUeSickLeavePeriod } from '../../..'
+import styled from 'styled-components'
+import { ConfigUeDateRange, ValueDateRange } from '../../..'
+import { Badge } from '../Badge'
+
+const DateRangeWrapper = styled.div`
+  display: inline-block;
+`
 
 export const UvDateRange: React.FC<{
-  value: ValueDateRangeList
-  config: ConfigUeSickLeavePeriod
+  value: ValueDateRange
+  config: ConfigUeDateRange
 }> = ({ value, config }) => {
-  if (value.list.length > 0 && value.list.some((val) => val.from && val.to)) {
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableCell>Nedsättningsgrad</TableCell>
-            <TableCell>Från och med</TableCell>
-            <TableCell>Till och med</TableCell>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {[...config.list].reverse().map((element) => {
-            const foundValue = value.list.find((v) => v.id === element.id && (v.from || v.to))
-            return (
-              foundValue && (
-                <TableRow key={element.id}>
-                  <TableCell>{element.label}</TableCell>
-                  <TableCell>{foundValue.from}</TableCell>
-                  <TableCell>{foundValue.to}</TableCell>
-                </TableRow>
-              )
-            )
-          })}
-        </TableBody>
-      </Table>
-    )
-  }
-  return null
+  return (
+    <DateRangeWrapper>
+      <div>
+        <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.fromLabel}</p>
+        <Badge>{typeof value.from === 'string' && value.from.length > 0 ? value.text : 'Ej angivet'}</Badge>
+      </div>
+      <div className="iu-ml-600">
+        <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>{config.toLabel}</p>
+        <Badge>{typeof value.to === 'string' && value.to.length > 0 ? value.text : 'Ej angivet'}</Badge>
+      </div>
+    </DateRangeWrapper>
+  )
 }
