@@ -96,6 +96,7 @@ export enum ConfigTypes {
   UE_VIEW_LIST = 'UE_VIEW_LIST',
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
   UE_YEAR = 'UE_YEAR',
+  UE_INTEGER = 'UE_INTEGER',
 }
 
 export enum MessageLevel {
@@ -343,6 +344,13 @@ export interface ConfigUeYear extends CertificateDataConfig {
   maxYear?: number
 }
 
+export interface ConfigUeInteger extends CertificateDataConfig {
+  id: string
+  unit?: string
+  min?: number
+  max?: number
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -371,6 +379,7 @@ export enum CertificateDataValueType {
   VIEW_ROW = 'VIEW_ROW',
   VIEW_TABLE = 'VIEW_TABLE',
   YEAR = 'YEAR',
+  INTEGER = 'INTEGER',
 }
 
 export type ValueType =
@@ -398,6 +407,8 @@ export type ValueType =
   | ValueViewList
   | ValueViewTable
   | ValueYear
+  | ValueInteger
+
 export interface Value {
   [propName: string]: unknown
 }
@@ -547,6 +558,11 @@ export interface ValueYear extends Value {
   type: CertificateDataValueType.YEAR
   id: string
   year?: number
+}
+
+export interface ValueInteger extends Value {
+  type: CertificateDataValueType.INTEGER
+  value: number | null
 }
 
 // Validation

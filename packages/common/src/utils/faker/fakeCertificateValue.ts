@@ -28,6 +28,7 @@ import {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
+import { fakeIntegerElement } from './fakeCertificateData'
 
 type FakeElementValueCallback<T> = (value?: PartialDeep<T>) => T
 
@@ -199,4 +200,5 @@ export const fakeCertificateValue = {
   viewList: fakeViewList,
   viewTable: fakeViewTable,
   visualAcuity: fakeVisualAcuity,
+  integer: fakeIntegerElement,
 }
