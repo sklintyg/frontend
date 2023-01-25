@@ -6,6 +6,7 @@ import {
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeMessage,
@@ -21,6 +22,7 @@ import {
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
@@ -154,6 +156,13 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('Datum 2')).toBeInTheDocument()
     expect(screen.getByText('Datum 3')).toBeInTheDocument()
     expect(screen.getByText('Ej angivet')).toBeInTheDocument()
+  })
+
+  it('displays date range value', () => {
+    const question = createQuestionWithDateRange()
+    renderDefaultComponent(question)
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
   })
 
   it('displays several date range values', () => {
@@ -380,6 +389,25 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
       },
     ],
   }
+  return createQuestion(value, config)
+}
+
+export const createQuestionWithDateRange = (): CertificateDataElement => {
+  const value: ValueDateRange = {
+    type: CertificateDataValueType.DATE_RANGE,
+    id: 'DATE_1',
+    from: '2021-06-22',
+    to: '2021-06-25',
+  }
+  const config: ConfigUeDateRange = {
+    description: '',
+    id: '',
+    text: '',
+    type: ConfigTypes.UE_DATE_RANGE,
+    fromLabel: 'Fr.o.m',
+    toLabel: 't.o.m',
+  }
+
   return createQuestion(value, config)
 }
 
