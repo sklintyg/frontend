@@ -44,13 +44,10 @@ export const RevokeDBAndDOIModalContent: React.FC = () => {
           <p>För att makulera ett dödsorsaksintyg som är skickat på fel person måste du genomföra följande två steg:</p>
           <ol>
             <li>
-              Tryck på ”Makulera”, detta leder till att dödsorsaksintyget makuleras i Webcert men återkallar{' '}
-              <span className="iu-fw-bold">inte</span> dödsorsaksintyget hos Socialstyrelsen.
+              Kontakta omedelbart Socialstyrelsen (Dödsorsaksproduktionen) på telefon <b style={{ whiteSpace: 'nowrap' }}>075-247 39 00</b>{' '}
+              för att begära att intyget makuleras.
             </li>
-            <li>
-              <span className="iu-fw-bold">Kontakta omedelbart Socialstyrelsen</span> (Dödsorsaksproduktionen) på telefon{' '}
-              <span className="iu-fw-bold">075-247 39 00 </span>för att begära att intyget även makuleras hos dem.
-            </li>
+            <li>Tryck på "Makulera" för att makulera dödsorsaksintyget i Webcert.</li>
           </ol>
         </>
       )}
