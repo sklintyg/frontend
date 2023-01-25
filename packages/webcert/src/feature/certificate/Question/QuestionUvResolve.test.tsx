@@ -15,6 +15,7 @@ import {
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
+  ConfigUeYear,
   getCertificateWithQuestion,
   MessageLevel,
   Value,
@@ -26,6 +27,7 @@ import {
   ValueDateRangeList,
   ValueIcf,
   ValueText,
+  ValueYear,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
@@ -191,6 +193,33 @@ describe('QuestionUvResolve', () => {
     question.visible = false
     renderDefaultComponent(question)
     expect(screen.queryByText(/Hello from UE_MESSAGE/i)).not.toBeInTheDocument()
+  })
+
+  it('displaying year value', () => {
+    const question = createQuestionWithYearValue()
+    renderDefaultComponent(question)
+    expect(screen.getByText(/2020/i)).toBeInTheDocument()
+  })
+
+  it('displaying empty year value', () => {
+    const question = createQuestionWithYearValue()
+    ;(question.value as ValueYear).year = undefined
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Ej angivet/i)).toBeInTheDocument()
+  })
+
+  it('Not displaying year value if visible is false', () => {
+    const question = createQuestionWithYearValue()
+    question.visible = false
+    renderDefaultComponent(question)
+    expect(screen.queryByText(/2020/i)).not.toBeInTheDocument()
+  })
+
+  it('Displaying year value if visible is true', () => {
+    const question = createQuestionWithYearValue()
+    question.visible = true
+    renderDefaultComponent(question)
+    expect(screen.getByText(/2020/i)).toBeInTheDocument()
   })
 })
 
@@ -535,6 +564,22 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
     level: MessageLevel.OBSERVE,
     message: 'Hello from UE_MESSAGE',
     id: '1.1',
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithYearValue(): CertificateDataElement {
+  const value: ValueYear = {
+    type: CertificateDataValueType.YEAR,
+    year: 2020,
+    id: '',
+  }
+  const config: ConfigUeYear = {
+    description: '',
+    text: '',
+    id: '',
+    type: ConfigTypes.UE_YEAR,
   }
 
   return createQuestion(value, config)

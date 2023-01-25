@@ -32,6 +32,7 @@ import {
   UvUncertainDate,
   UvViewList,
   UvVisualAcuity,
+  UvYear,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -135,6 +136,9 @@ const QuestionUvResolve: React.FC<{
 
     case CertificateDataValueType.VISUAL_ACUITIES:
       return <UvVisualAcuity value={question.value as ValueVisualAcuity} config={question.config as ConfigUeVisualAcuity} />
+
+    case CertificateDataValueType.YEAR:
+      return <UvYear value={question.value} />
 
     default:
       return <Badge>Okänd datatyp</Badge>
