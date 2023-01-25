@@ -10,7 +10,7 @@ import UeInteger from './UeInteger'
 import reducer from '../../../../store/reducers'
 
 let testStore: EnhancedStore
-const QUESTION_ID = 'percent'
+const QUESTION_ID = 'number'
 const testValue = 199
 const question = fakeIntegerElement({ id: QUESTION_ID, value: { value: testValue } })[QUESTION_ID]
 
@@ -43,24 +43,24 @@ describe('Integer component', () => {
   it('should not allow numbers bigger than three digits', () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('reducedPercent'), '199')
+    userEvent.type(screen.getByTestId('testNumber'), '199')
 
-    expect(screen.getByTestId('reducedPercent')).not.toHaveValue('')
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('')
   })
 
   it('should not allow letters', () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('reducedPercent'), 'ABC')
+    userEvent.type(screen.getByTestId('testNumber'), 'ABC')
 
-    expect(screen.getByTestId('reducedPercent')).not.toHaveValue('ABC')
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
   })
 
   it('should allow numbers smaller than 100', () => {
     renderComponent({ disabled: false, question })
 
-    userEvent.type(screen.getByTestId('reducedPercent'), '99')
+    userEvent.type(screen.getByTestId('testNumber'), '99')
 
-    expect(screen.getByTestId('reducedPercent')).toHaveValue('99')
+    expect(screen.getByTestId('testNumber')).toHaveValue('99')
   })
 })

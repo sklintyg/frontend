@@ -31,6 +31,7 @@ import {
   UvViewList,
   UvVisualAcuity,
   UvYear,
+  UvInteger,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -133,6 +134,9 @@ const QuestionUvResolve: React.FC<{
 
     case CertificateDataValueType.YEAR:
       return <UvYear value={question.value} />
+
+    case CertificateDataValueType.INTEGER:
+      return <UvInteger value={question.value} />
 
     default:
       return <Badge>Okänd datatyp</Badge>

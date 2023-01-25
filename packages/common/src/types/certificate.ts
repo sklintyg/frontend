@@ -346,7 +346,7 @@ export interface ConfigUeYear extends CertificateDataConfig {
 
 export interface ConfigUeInteger extends CertificateDataConfig {
   id: string
-  unit?: string
+  unitOfMeasurement?: string
   min?: number
   max?: number
 }
@@ -562,7 +562,7 @@ export interface ValueYear extends Value {
 
 export interface ValueInteger extends Value {
   type: CertificateDataValueType.INTEGER
-  value: number | null
+  value?: number | null
 }
 
 // Validation
