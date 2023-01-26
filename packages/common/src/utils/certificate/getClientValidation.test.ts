@@ -47,7 +47,6 @@ describe('Validation based on value', () => {
   describe(CertificateDataValueType.DATE_RANGE, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } })['question']
-      console.log(dataElement.value?.list)
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -163,7 +162,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_YEAR for dates too far in the future', () => {
-      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: '3000' } })['question']
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 3000 } })['question']
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -176,7 +175,7 @@ describe('Validation based on value', () => {
     })
 
     it('Should return UNREASONABLE_YEAR for dates too far in the past', () => {
-      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: '1200' } })['question']
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 1200 } })['question']
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',

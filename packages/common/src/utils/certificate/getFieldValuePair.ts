@@ -14,6 +14,7 @@ export const getFieldValuePair = (value: ValueType): Record<string, ValueType> =
     case CertificateDataValueType.ICF:
     case CertificateDataValueType.TEXT:
     case CertificateDataValueType.YEAR:
+    case CertificateDataValueType.UNCERTAIN_DATE:
       return { [value.id]: value }
     case CertificateDataValueType.CAUSE_OF_DEATH:
       return {
