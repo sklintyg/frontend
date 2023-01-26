@@ -14,7 +14,7 @@ export const RevokeDBAndDOIModalContent: React.FC = () => {
     <>
       <InfoBox type="info" activateIconWrap>
         {locked ? (
-          <p>Om du behöver korrigera innehållet i utkastet, ska du istället kopiera utkastet och skapa ett nytt intyg.'</p>
+          <p>Om du behöver korrigera innehållet i utkastet, ska du istället kopiera utkastet och skapa ett nytt intyg.</p>
         ) : (
           <p>
             <span className="iu-fw-bold">Du ska endast makulera om intyget är utfärdat på fel person.</span> Om du behöver ändra innehållet
