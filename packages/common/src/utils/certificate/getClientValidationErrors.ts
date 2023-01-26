@@ -1,11 +1,10 @@
-import { isBefore, isValid, toDate } from 'date-fns'
+import { isBefore, isValid } from 'date-fns'
 import {
   CertificateDataElement,
   CertificateDataValueType,
   getPeriodHasOverlap,
   getValidDate,
   getValidDateFormat,
-  isValidDateIncludingSpecialDateCodes,
   ValidationError,
   Value,
   ValueType,
@@ -37,20 +36,10 @@ const INVALID_DATE_PERIOD_ERROR = {
   showAlways: true,
 }
 
-const NOT_COMPLETE_DATE_ERROR_MESSAGE = {
-  type: 'NOT_COMPLETE_DATE',
-  text: 'Ange ett datum.',
-  showAlways: false,
-}
-
 const OVERLAP_ERROR = {
   text: 'Ange sjukskrivningsperioder som inte överlappar varandra.',
   type: 'OVERLAP_ERROR',
   showAlways: true,
-}
-
-function isDateFormatValid(toDate?: string, fromDate?: string) {
-  return (toDate && isValidDateIncludingSpecialDateCodes(toDate)) || (fromDate && isValid(getValidDate(fromDate)))
 }
 
 const getValidationErrorFactory = (id: string, field = '') => ({
@@ -69,14 +58,16 @@ const isValueUnreasonable = (value?: string): boolean => {
   return Boolean(value && value.length > 0 && !isValid(getValidDate(value)))
 }
 
+const isDateEmpty = (date?: string): boolean => {
+  return Boolean(date == null || date.length === 0)
+}
+
 const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
   const validationErrorFactory = getValidationErrorFactory(id, field)
   if (isValueFormatIncorrect(date)) {
     return validationErrorFactory(INVALID_DATE_FORMAT_ERROR)
   } else if (isValueUnreasonable(date)) {
     return validationErrorFactory(UNREASONABLE_DATE)
-  } else if (date == null || date.length === 0) {
-    return validationErrorFactory(EMPTY_DATE)
   }
 }
 
@@ -90,16 +81,16 @@ const getErrorsFromValue = (id: string, value: Value | null): ValidationError[] 
         return result.concat(getDateValidationError(id, field, value.date) ?? [])
       }
       case CertificateDataValueType.DATE_RANGE: {
-        const validationErrorFactory = getValidationErrorFactory(id, `row.${field}`)
         const validFromDate = getValidDate(value.from ?? '')
         const validToDate = getValidDate(value.to ?? '')
         const invalidDatePeriod = !!validFromDate && !!validToDate && isBefore(validToDate, validFromDate)
-        const notCompleteDatePeriod = ((value.from && !toDate) || (toDate && !value.from)) && isDateFormatValid(value.to, value.from)
+
         return result
           .concat(getDateValidationError(id, `from.${field}`, value.from) ?? [])
           .concat(getDateValidationError(id, `tom.${field}`, value.to) ?? [])
-          .concat(invalidDatePeriod ? validationErrorFactory(INVALID_DATE_PERIOD_ERROR) : [])
-          .concat(notCompleteDatePeriod ? validationErrorFactory(NOT_COMPLETE_DATE_ERROR_MESSAGE) : [])
+          .concat(isDateEmpty(value.from) ? getValidationErrorFactory(id, `from.${field}`)(EMPTY_DATE) : [])
+          .concat(isDateEmpty(value.to) ? getValidationErrorFactory(id, `tom.${field}`)(EMPTY_DATE) : [])
+          .concat(invalidDatePeriod ? getValidationErrorFactory(id, `row.${field}`)(INVALID_DATE_PERIOD_ERROR) : [])
       }
       default:
         return result
