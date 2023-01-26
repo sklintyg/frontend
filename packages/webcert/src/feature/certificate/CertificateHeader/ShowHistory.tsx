@@ -113,18 +113,23 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           if (certificateMetadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED) {
             return (
               <>
-                Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
-                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</LinkWithMargin>
+                Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva
+                makuleras.{' '}
+                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna
+                  intyget</LinkWithMargin>
               </>
             )
           } else {
             return (
               <>
                 Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</LinkWithMargin>
+                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna
+                  intyget</LinkWithMargin>
               </>
             )
           }
+        } else if (certificateMetadata.status === CertificateStatus.LOCKED_REVOKED) {
+          return 'Utkastet är makulerat'
         } else {
           return 'Intyget är makulerat'
         }

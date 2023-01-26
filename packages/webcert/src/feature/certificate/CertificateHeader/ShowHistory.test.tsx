@@ -297,5 +297,27 @@ describe('Verify history events', () => {
       ).toBeInTheDocument()
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
+
+    it('Display revoke event when parent was replaced but isnt revoked', async () => {
+      certificateMetadata.status = CertificateStatus.LOCKED_REVOKED
+
+      const complementsHistoryEntry: CertificateEvent[] = [
+        {
+          certificateId: 'certificateId',
+          type: CertificateEventType.REVOKED,
+          timestamp: '2020-10-14T12:56:58.523Z',
+          relatedCertificateId: null,
+          relatedCertificateStatus: null,
+        },
+      ]
+
+      render(
+        <BrowserRouter>
+          <ShowHistory certificateMetadata={certificateMetadata} historyEntries={complementsHistoryEntry} />
+        </BrowserRouter>
+      )
+      userEvent.click(screen.getByText('Visa alla händelser'))
+      expect(screen.getByText(/Intyget är makulerat./i)).toBeInTheDocument()
+    })
   })
 })
