@@ -299,8 +299,15 @@ describe('Verify history events', () => {
     })
 
     it('should display correct revoked event for locked revoked draft', async () => {
-      certificateMetadata.status = CertificateStatus.LOCKED_REVOKED
-
+      //@ts-expect-error Only relevant data for test
+      const certificateMetadata: CertificateMetadata = {
+        type: 'lisjp',
+        status: CertificateStatus.LOCKED_REVOKED,
+        relations: {
+          parent: null,
+          children: [],
+        },
+      }
       const complementsHistoryEntry: CertificateEvent[] = [
         {
           certificateId: 'certificateId',
@@ -317,7 +324,7 @@ describe('Verify history events', () => {
         </BrowserRouter>
       )
       userEvent.click(screen.getByText('Visa alla händelser'))
-      expect(screen.getByText(/Intyget är makulerat./i)).toBeInTheDocument()
+      expect(screen.getByText(/Utkastet är makulerat/i)).toBeInTheDocument()
     })
   })
 })
