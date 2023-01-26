@@ -177,7 +177,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
             value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
             label={label}
             field={id}
-            hasValidationError={otherValiadtionErrors.length > 0 || fieldValidationErrors.length > 0}
+            hasValidationError={otherValiadtionErrors.length > 0}
             validationErrors={fieldValidationErrors}
             onChange={handleValueChanged}
           />

@@ -171,13 +171,9 @@ const DateRangePicker: React.FC<Props> = ({
   }
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    if (hasValidationError) {
-      return true
-    }
-    if (id) {
-      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
-    }
-    return hasValidationError
+    return hasValidationError === true
+      ? hasValidationError
+      : validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
   }
 
   return (
@@ -185,7 +181,7 @@ const DateRangePicker: React.FC<Props> = ({
       <DateRangeWrapper className="iu-mb-400">
         <Checkbox
           id={`${field}-checkbox`}
-          hasValidationError={hasValidationError}
+          hasValidationError={hasValidationError || validationErrors.length > 0}
           checked={!!value.from || !!value.to}
           onChange={handleCheckboxClick}
           label={label}
