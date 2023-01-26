@@ -51,11 +51,11 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
     const shouldClearPreviousPeriod = (): boolean => isDateRangeValid(previousFromDateString ?? '', previousToDateString ?? '')
 
     if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
-      if (isDateRangeValid(fromDateInput ?? '', toDateInput ?? '')) {
+      if (isDateRangeValid(fromDateInput ?? '', toDateInput ?? '') || (!fromDateInput && toDateInput) || (fromDateInput && !toDateInput)) {
         dispatch(
           updateCertificateDataElement({
             ...question,
-            value: { ...value, from: fromDateInput, to: toDateInput },
+            value: { ...value, from: fromDateInput ?? undefined, to: toDateInput ?? undefined },
           })
         )
       } else if (shouldClearPreviousPeriod()) {
