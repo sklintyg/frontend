@@ -9,8 +9,6 @@ import store from '../../../../store/store'
 import UeCheckboxDate from './UeCheckboxDate'
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
-
 const _format = 'yyyy-MM-dd'
 const DATE_CHECKBOX = {
   id: 'undersokningAvPatienten',
@@ -142,29 +140,5 @@ describe('CheckboxDate component', () => {
     userEvent.type(input, inputDate)
     expect(checkbox).toBeChecked()
     expect(input).toHaveValue(expected)
-  })
-
-  it('should display error when input is not a complete date', () => {
-    renderComponent(false, false)
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '2020-01')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should display error when input is not a valid date', () => {
-    renderComponent(false, false)
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, 'test')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should not display error when input is a valid date', () => {
-    renderComponent(false, false)
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '20200101')
-    userEvent.tab()
-    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
 })

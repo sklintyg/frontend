@@ -96,6 +96,7 @@ describe('certificateSelectors', () => {
 
     it('Should return list of client-side errors', () => {
       testStore.dispatch(showValidationErrors())
+      testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `client-1` })]))
       const result = getVisibleValidationErrors('client-1')(testStore.getState())
 
       expect(result).toMatchObject([{ id: 'client-1' }])
@@ -150,10 +151,10 @@ describe('certificateSelectors', () => {
             data: {
               ...fakeTextFieldElement({
                 id: 'id',
-                validationErrors: faker.datatype.array(4).map((field, index) =>
+                validationErrors: faker.datatype.array(4).map((_, index) =>
                   fakeCertificateValidationError({
                     id: `server-1-${index}`,
-                    type: index % 2 === 0 ? `${field}`.toUpperCase() : 'EMPTY',
+                    type: index % 2 === 0 ? 'OTHER' : 'EMPTY',
                   })
                 ),
               }),
@@ -167,8 +168,8 @@ describe('certificateSelectors', () => {
       const result = getVisibleValidationErrors('id')(testStore.getState())
       expect(result).toMatchObject([
         { id: 'id', type: 'EMPTY' },
-        { id: 'server-1-0', type: '33529' },
-        { id: 'server-1-2', type: 'TEX1JPDOLT' },
+        { id: 'server-1-0', type: 'OTHER' },
+        { id: 'server-1-2', type: 'OTHER' },
       ])
     })
 

@@ -87,22 +87,6 @@ export const getUnit = () => (state: RootState): Unit => {
   return state.ui.uiCertificate.certificate.metadata.unit
 }
 
-export const getQuestionHasValidationError = (id: string) => (state: RootState): boolean => {
-  const {
-    ui: {
-      uiCertificate: { showValidationErrors, certificate },
-    },
-  } = state
-
-  if (!showValidationErrors || !certificate || !certificate.data[id].validationErrors) {
-    return false
-  }
-
-  const question = certificate.data[id]
-
-  return question.validationErrors.length > 0
-}
-
 export const getCertificateMetaData = (state: RootState): CertificateMetadata | null => {
   const { certificate } = state.ui.uiCertificate
   if (!certificate) {

@@ -67,7 +67,7 @@ const DatePickerCustom: React.FC<Props> = ({
 
   const getValidDateForPicker = (dateString: string | null) => {
     if (dateString) {
-      const date = parse(dateString, 'yyyyMMdd', new Date())
+      const date = parse(dateString, _format, new Date())
 
       if (isValid(date)) {
         return date
@@ -148,7 +148,7 @@ const DatePickerCustom: React.FC<Props> = ({
             }
             onClickOutside={() => setOpen(false)}
             open={open}
-            selected={getValidDateForPicker(inputString)}
+            selected={getValidDateForPicker(getFullDate(inputString))}
             onSelect={(date: Date) => {
               setOpen(false)
               setDate(formatDateToString(date))

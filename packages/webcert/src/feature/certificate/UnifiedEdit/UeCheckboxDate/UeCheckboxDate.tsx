@@ -8,6 +8,7 @@ import {
   QuestionValidationTexts,
   ValueDate,
   ValueDateList,
+  _format,
 } from '@frontend/common'
 import { format } from 'date-fns'
 import React from 'react'
@@ -42,9 +43,16 @@ export interface Props {
   date: string | null | undefined
 }
 
-const UeCheckboxDate: React.FC<Props> = (props) => {
-  const _format = 'yyyy-MM-dd'
-  const { label, id, question, hasValidationError, disabled, date } = props
+const UeCheckboxDate: React.FC<Props> = ({
+  label,
+  id,
+  question,
+  hasValidationError,
+  disabled,
+  date,
+  checkboxAdditionalStyles,
+  datePickerAdditionalStyles,
+}) => {
   const dispatch = useAppDispatch()
   const values = (question.value as ValueDateList).list
   const isSingleCheckboxDate = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE
@@ -89,7 +97,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
           handleChange(event.target.checked, format(new Date(), _format))
         }}
         hasValidationError={hasValidationError}
-        checkboxAdditionalStyles={props.checkboxAdditionalStyles}
+        checkboxAdditionalStyles={checkboxAdditionalStyles}
       />
       <DatePickerCustom
         disabled={disabled}
@@ -100,7 +108,7 @@ const UeCheckboxDate: React.FC<Props> = (props) => {
           handleChange(true, date)
         }}
         inputString={dateString}
-        additionalStyles={props.datePickerAdditionalStyles}
+        additionalStyles={datePickerAdditionalStyles}
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
         max={getMaxDate(question.validation, id)}
       />

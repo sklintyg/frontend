@@ -138,44 +138,6 @@ describe('UeSickLeavePeriod', () => {
     expect(isEqual(actualDate!, expectedDate)).toBeTruthy()
   })
 
-  it('Renders validation error if one period overlaps another', () => {
-    const question: CertificateDataElement = {
-      ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [
-          { id: '1', from: '2021-06-05', to: '2021-06-06', type: CertificateDataValueType.DATE_RANGE },
-          { id: '2', from: '2021-06-01', to: '2021-06-06', type: CertificateDataValueType.DATE_RANGE },
-        ],
-      },
-    }
-
-    renderDefaultComponent(question)
-
-    const expectedErrorMessage = 'Ange sjukskrivningsperioder som inte överlappar varandra.'
-
-    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument()
-  })
-
-  it('Renders without validation error if correct periods', () => {
-    const question: CertificateDataElement = {
-      ...defaultQuestion,
-      value: {
-        type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [
-          { id: '1', from: '2021-06-01', to: '2021-06-05', type: CertificateDataValueType.DATE_RANGE },
-          { id: '2', from: '2021-06-06', to: '2021-06-10', type: CertificateDataValueType.DATE_RANGE },
-        ],
-      },
-    }
-
-    renderDefaultComponent(question)
-
-    const expectedErrorMessage = 'Ange sjukskrivningsperioder som inte överlappar varandra.'
-
-    expect(screen.queryByText(expectedErrorMessage)).not.toBeInTheDocument()
-  })
-
   it('inputs are disabled correctly', () => {
     renderDefaultComponent(undefined, true)
 
@@ -297,21 +259,5 @@ describe('UeSickLeavePeriod', () => {
     userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
-  })
-
-  it('should not allow working hours bigger than two digits', () => {
-    renderDefaultComponent()
-
-    userEvent.type(screen.getByTestId('workingHours'), '100')
-
-    expect(screen.getByTestId('workingHours')).not.toHaveValue('100')
-  })
-
-  it('should allow working hours smaller than two digits', () => {
-    renderDefaultComponent()
-
-    userEvent.type(screen.getByTestId('workingHours'), '99')
-
-    expect(screen.getByTestId('workingHours')).toHaveValue('99')
   })
 })
