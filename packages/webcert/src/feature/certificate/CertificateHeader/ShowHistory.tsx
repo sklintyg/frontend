@@ -113,8 +113,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
           if (certificateMetadata.relations.parent?.type === CertificateRelationType.COMPLEMENTED) {
             return (
               <>
-                Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva
-                makuleras.{' '}
+                Intyget är makulerat. Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
                 <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna
                   intyget</LinkWithMargin>
               </>
