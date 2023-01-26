@@ -1,15 +1,14 @@
 import { ValidationError } from '@frontend/common'
-import {
-  CARE_UNIT_ADDRESS_FIELD,
-  CARE_UNIT_CITY_FIELD,
-  CARE_UNIT_PHONE_NUMBER_FIELD,
-  CARE_UNIT_ZIP_CODE_FIELD,
-} from '@frontend/common/src/utils/validationUtils'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import UeCareUnitAddress from './UeCareUnitAddress'
+import UeCareUnitAddress, {
+  CARE_UNIT_ADDRESS_FIELD,
+  CARE_UNIT_ZIP_CODE_FIELD,
+  CARE_UNIT_CITY_FIELD,
+  CARE_UNIT_PHONE_NUMBER_FIELD,
+} from './UeCareUnitAddress'
 
 const getValidationErrors = (): ValidationError[] => {
   const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }

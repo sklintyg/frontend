@@ -16,11 +16,12 @@ import {
   filterDateRangeValueList,
   formatDate,
   getMaxDate,
+  getMinDate,
   getNumberOfSickLeavePeriodDays,
   getPeriodWorkDays,
   SickLeavePeriods,
 } from './dateUtils'
-import { CertificateDataValidationType, MaxDateValidation } from '../types/certificate'
+import { CertificateDataValidationType, MaxDateValidation, MinDateValidation } from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'
@@ -528,5 +529,70 @@ describe('GetMaxDate', () => {
     const result = getMaxDate(validation, 'second_id')
 
     expect(new Date().toString()).toContain(result)
+  })
+})
+
+describe('GetMinDate', () => {
+  it('should return date when date is present', () => {
+    const date = '2023-01-19'
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: date,
+      },
+    ]
+
+    const result = getMinDate(validation, 'id')
+    expect(result).toEqual(date)
+  })
+
+  it('should return empty string when no minDate is present', () => {
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+      },
+    ]
+
+    const result = getMinDate(validation, 'id')
+    expect(result).toEqual('')
+  })
+
+  it('should return empty string if id does not match', () => {
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: '2023-01-19',
+      },
+    ]
+
+    const result = getMinDate(validation, 'id1')
+    expect(result).toEqual('')
+  })
+
+  it('should validate if more than one min validation in same array', () => {
+    const date = '2023-01-19'
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: '2023-01-10',
+      },
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'second_id',
+        minDate: date,
+      },
+    ]
+
+    const result = getMinDate(validation, 'second_id')
+    expect(result).toEqual(date)
   })
 })

@@ -2,13 +2,14 @@ import { formatDateToString, getValidDate, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useCallback } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
 import calendar from '../../../images/calendar.svg'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
 import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
+import { _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
 
 const Logo = styled.img`
   width: 20px;
@@ -37,6 +38,7 @@ export interface Props {
   min?: string
   vertical?: boolean
   inputCss?: CSSProp | undefined
+  yearOnly?: boolean
 }
 
 const DatePickerCustom: React.FC<Props> = ({
@@ -58,6 +60,7 @@ const DatePickerCustom: React.FC<Props> = ({
   min,
   vertical,
   inputCss,
+  yearOnly,
 }) => {
   const [open, setOpen] = useState(false)
   const boundryRef = useContext(DatePickerBoundryContext)
@@ -78,9 +81,16 @@ const DatePickerCustom: React.FC<Props> = ({
     if (forbidFutureDates) {
       return new Date()
     } else if (max) {
-      return new Date(max)
-    } else return undefined
+      return new Date(getFullDate(max) as string)
+    } else return _maxAllowedDate
   }
+
+  const getFullDate = useCallback(
+    (value: string | null) => {
+      return value && `${value}${yearOnly ? '-01-02' : ''}`
+    },
+    [yearOnly]
+  )
 
   return (
     <Wrapper>
@@ -96,7 +106,7 @@ const DatePickerCustom: React.FC<Props> = ({
             id={id}
             name={textInputName}
             type="text"
-            maxLength={10}
+            maxLength={yearOnly ? 4 : 10}
             className={classNames('ic-textfield', { 'ic-textfield--error error': displayValidationErrorOutline })}
             onChange={(event) => {
               const value = event.target.value
@@ -111,7 +121,7 @@ const DatePickerCustom: React.FC<Props> = ({
             }}
             onBlur={textInputOnBlur}
             onKeyDown={textInputOnKeyDown}
-            placeholder="åååå-mm-dd"
+            placeholder={yearOnly ? 'åååå' : 'åååå-mm-dd'}
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}
@@ -125,7 +135,7 @@ const DatePickerCustom: React.FC<Props> = ({
             onChange={() => {
               /*Empty*/
             }}
-            dateFormat={_format}
+            dateFormat={yearOnly ? _yearFormat : _format}
             customInput={
               <StyledButton
                 aria-label="Öppna kalendern"
@@ -144,6 +154,7 @@ const DatePickerCustom: React.FC<Props> = ({
               setDate(formatDateToString(date))
             }}
             showWeekNumbers
+            showYearPicker={yearOnly}
             portalId="root"
             popperPlacement="bottom-end"
             popperModifiers={[
@@ -173,7 +184,7 @@ const DatePickerCustom: React.FC<Props> = ({
               },
             ]}
             maxDate={getMaxDate()}
-            minDate={min ? new Date(min) : undefined}
+            minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
           />
         </FocusWrapper>
       </DatePickerWrapper>

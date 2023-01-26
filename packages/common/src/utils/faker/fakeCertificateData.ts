@@ -28,8 +28,9 @@ import {
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
-  ConfigUeVisualAcuity,
   ConfigUeViewText,
+  ConfigUeVisualAcuity,
+  ConfigUeYear,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -45,10 +46,11 @@ import {
   ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
-  ValueVisualAcuity,
   ValueViewList,
   ValueViewTable,
   ValueViewText,
+  ValueVisualAcuity,
+  ValueYear,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
@@ -412,6 +414,31 @@ export const fakeDateElement = (
       ...data,
       config: fakeCertificateConfig.date(data?.config),
       value: fakeCertificateValue.date(data?.value),
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `'${data.id.toUpperCase()}'` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
+    },
+    children
+  )
+
+export const fakeYearElement = (
+  data?: PartialCertificateDataElement<ConfigUeYear, ValueYear>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: {
+        type: ConfigTypes.UE_YEAR,
+        ...data?.config,
+      },
+      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      value: fakeCertificateValue.year(data?.value),
       validation: [
         fakeCertificateDataValidation({
           type: CertificateDataValidationType.MAX_DATE_VALIDATION,

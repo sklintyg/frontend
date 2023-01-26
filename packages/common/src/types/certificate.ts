@@ -95,6 +95,7 @@ export enum ConfigTypes {
   UE_VIEW_TEXT = 'UE_VIEW_TEXT',
   UE_VIEW_LIST = 'UE_VIEW_LIST',
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
+  UE_YEAR = 'UE_YEAR',
 }
 
 export type CertificateDataConfigType =
@@ -126,6 +127,7 @@ export type CertificateDataConfigType =
   | ConfigUeViewTable
   | ConfigUeViewText
   | ConfigUeVisualAcuity
+  | ConfigUeYear
 
 export enum MessageLevel {
   INFO = 'INFO',
@@ -394,6 +396,12 @@ export interface ConfigUeViewTable extends CertificateDataConfig {
   columns: ConfigViewColumn[]
 }
 
+export interface ConfigUeYear extends CertificateDataConfig {
+  id: string
+  minYear?: number
+  maxYear?: number
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -421,6 +429,7 @@ export enum CertificateDataValueType {
   VIEW_LIST = 'VIEW_LIST',
   VIEW_ROW = 'VIEW_ROW',
   VIEW_TABLE = 'VIEW_TABLE',
+  YEAR = 'YEAR',
 }
 
 export type ValueType =
@@ -447,6 +456,7 @@ export type ValueType =
   | ValueViewText
   | ValueViewList
   | ValueViewTable
+  | ValueYear
 
 export interface Value {
   [propName: string]: unknown
@@ -593,6 +603,12 @@ export interface ValueViewTable extends Value {
   rows: ValueTextRow[]
 }
 
+export interface ValueYear extends Value {
+  type: CertificateDataValueType.YEAR
+  id: string
+  year?: number
+}
+
 // Validation
 
 export enum CertificateDataValidationType {
@@ -605,6 +621,7 @@ export enum CertificateDataValidationType {
   MANDATORY_VALIDATION = 'MANDATORY_VALIDATION',
   CATEGORY_MANDATORY_VALIDATION = 'CATEGORY_MANDATORY_VALIDATION',
   MAX_DATE_VALIDATION = 'MAX_DATE_VALIDATION',
+  MIN_DATE_VALIDATION = 'MIN_DATE_VALIDATION',
   DEFAULT_DATE_VALIDATION = 'DEFAULT_DATE_VALIDATION',
   HIGHLIGHT_VALIDATION = 'HIGHLIGHT_VALIDATION',
   AUTO_FILL_VALIDATION = 'AUTO_FILL_VALIDATION',
@@ -654,6 +671,12 @@ export interface MaxDateValidation extends CertificateDataValidation {
   numberOfDays: number
 }
 
+export interface MinDateValidation extends CertificateDataValidation {
+  type: CertificateDataValidationType.MIN_DATE_VALIDATION
+  id: string
+  minDate?: string
+}
+
 // --------------------------------------------
 export interface ValidationError {
   id: string
@@ -662,12 +685,6 @@ export interface ValidationError {
   type: string
   text: string
   showAlways?: boolean
-}
-
-export interface ValidationErrorSummary {
-  id: string
-  text: string
-  index: number
 }
 
 export interface Unit {

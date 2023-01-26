@@ -1,8 +1,8 @@
 import { add, differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
 import { compileExpression } from 'filtrex'
 import { CertificateDataValidationType, CertificateDataValueType, MaxDateValidation, ValueType } from '../types/certificate'
-import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
 import { getFieldValuePair } from './certificate/getFieldValuePair'
+import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
 
 /**
  * Return difference in days
@@ -33,6 +33,8 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
         return { ...result, [field]: value.code }
       case CertificateDataValueType.DATE:
         return { ...result, [field]: parseDateValue(value.date) }
+      case CertificateDataValueType.YEAR:
+        return { ...result, [field]: value.year }
       case CertificateDataValueType.DATE_RANGE:
         return {
           ...result,

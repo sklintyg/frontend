@@ -1,4 +1,4 @@
-import { CertificateDataElement, DatePickerCustom, getMaxDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
+import { CertificateDataElement, DatePickerCustom, getMaxDate, getMinDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
 import { ConfigUeDate } from '@frontend/common/src/types/certificate'
 import React, { useState } from 'react'
@@ -37,6 +37,7 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         setDate={handleChange}
         inputString={dateString}
         max={getMaxDate(question.validation, questionConfig.id)}
+        min={getMinDate(question.validation, questionConfig.id)}
         displayValidationErrorOutline={validationErrors.length > 0}
       />
       <ValidationWrapper>

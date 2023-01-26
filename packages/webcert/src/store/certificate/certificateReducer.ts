@@ -210,7 +210,7 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateValidationErrors, (state, action) => {
       for (const questionId in state.certificate?.data) {
         const question = state.certificate?.data[questionId]
-        if (!question || question.config.type === ConfigTypes.CATEGORY) {
+        if (!question) {
           continue
         }
 
