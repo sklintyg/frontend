@@ -139,9 +139,11 @@ export interface CertificateDataConfig {
   header?: string
   icon?: string
   text: string
+  label?: string
   description: string
   type: ConfigTypes
   accordion?: ConfigAccordion
+  list?: unknown
 }
 
 export interface ConfigAccordion {
@@ -606,7 +608,7 @@ export interface ValueViewTable extends Value {
 export interface ValueYear extends Value {
   type: CertificateDataValueType.YEAR
   id: string
-  year?: string
+  year?: number | string
 }
 
 // Validation

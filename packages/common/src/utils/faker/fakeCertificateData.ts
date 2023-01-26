@@ -57,6 +57,7 @@ import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
+import { ConfigUeViewTable, ConfigUeViewList } from '@frontend/common'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -648,7 +649,7 @@ export const fakeViewTextElement = (
   )
 
 export const fakeViewListElement = (
-  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewList>,
+  data?: PartialCertificateDataElement<ConfigUeViewList, ValueViewList>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -664,7 +665,7 @@ export const fakeViewListElement = (
   )
 
 export const fakeViewTableElement = (
-  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewTable>,
+  data?: PartialCertificateDataElement<ConfigUeViewTable, ValueViewTable>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(

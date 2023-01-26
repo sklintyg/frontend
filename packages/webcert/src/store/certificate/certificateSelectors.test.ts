@@ -79,12 +79,7 @@ describe('certificateSelectors', () => {
       )
 
       faker.datatype.array(4).forEach((_, index) => {
-        testStore.dispatch(
-          updateClientValidationError({
-            shouldBeRemoved: false,
-            validationError: fakeCertificateValidationError({ id: `client-${index}` }),
-          })
-        )
+        testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `client-${index}` })]))
       })
     })
 
@@ -167,12 +162,7 @@ describe('certificateSelectors', () => {
         )
       )
 
-      testStore.dispatch(
-        updateClientValidationError({
-          shouldBeRemoved: false,
-          validationError: fakeCertificateValidationError({ id: `id`, type: 'EMPTY' }),
-        })
-      )
+      testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `id`, type: 'EMPTY' })]))
 
       const result = getVisibleValidationErrors('id')(testStore.getState())
       expect(result).toMatchObject([

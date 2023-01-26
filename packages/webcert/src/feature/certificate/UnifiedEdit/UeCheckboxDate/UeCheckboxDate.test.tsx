@@ -1,9 +1,4 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-} from '@frontend/common/src/types/certificate'
+import { CertificateDataElement, CertificateDataValidationType, CertificateDataValueType } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -12,6 +7,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCheckboxDate from './UeCheckboxDate'
+import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
@@ -32,13 +28,12 @@ const question: CertificateDataElement = {
   visible: true,
   readOnly: false,
   value: { type: CertificateDataValueType.DATE },
-  config: {
+  config: fakeCertificateConfig.checkboxDate({
     text: '',
     id: DATE_CHECKBOX.id,
     label: DATE_CHECKBOX.label,
     description: '',
-    type: ConfigTypes.UE_CHECKBOX_DATE,
-  },
+  }),
   validation: [
     {
       type: CertificateDataValidationType.MANDATORY_VALIDATION,

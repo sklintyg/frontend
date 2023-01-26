@@ -9,6 +9,7 @@ import {
 } from '../../types/certificate'
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
+import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
 
 export const getBooleanElement = (): CertificateDataElement => {
   return {
@@ -18,14 +19,13 @@ export const getBooleanElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.radioBoolean({
       text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      type: ConfigTypes.UE_RADIO_BOOLEAN,
       id: 'harFunktionsnedsattning',
       selectedText: 'Ja',
       unselectedText: 'Nej',
-    },
+    }),
     value: {
       type: CertificateDataValueType.BOOLEAN,
       id: 'harFunktionsnedsattning',
@@ -54,12 +54,11 @@ export const getDateElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.date({
       text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      type: ConfigTypes.UE_DATE,
       id: 'dodsdatum',
-    },
+    }),
     value: {
       type: CertificateDataValueType.DATE,
       id: 'dodsdatum',
@@ -78,13 +77,12 @@ export const getTextElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.textArea({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      type: ConfigTypes.UE_TEXTAREA,
       id: 'funktionsnedsattning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.TEXT,
       id: 'funktionsnedsattning',
@@ -124,13 +122,12 @@ export const getIcfElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.icf({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      type: ConfigTypes.UE_ICF,
       id: 'funktionsnedsattning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.ICF,
       id: 'funktionsnedsattning',
@@ -160,12 +157,11 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.sickLeavePeriod({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
       type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
-      id: 'funktionsnedsattning',
       list: [
         {
           id: 'EN_FJARDEDEL',
@@ -184,7 +180,7 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
           label: '100 procent',
         },
       ],
-    },
+    }),
     value: {
       type: CertificateDataValueType.DATE_RANGE_LIST,
       id: 'funktionsnedsattning',
@@ -213,12 +209,11 @@ export const getAnotherTextElement = (): CertificateDataElement => {
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.textArea({
       text: 'En annan text',
       description: 'En annan beskrivning',
-      type: ConfigTypes.UE_TEXTAREA,
       id: 'annanFunktionsnedsattning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.TEXT,
       id: 'annanFunktionsnedsattning',
