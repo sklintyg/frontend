@@ -213,7 +213,7 @@ export const getDateRangeElement = (): CertificateDataElement => {
     mandatory: false,
     readOnly: false,
     config: {
-      type: ConfigTypes.UE_DATE,
+      type: ConfigTypes.UE_DATE_RANGE,
       text: 'text',
       description: 'description',
       id: 'sjukskrivningsgradPeriod',
