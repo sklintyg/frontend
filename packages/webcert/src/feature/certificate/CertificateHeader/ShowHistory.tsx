@@ -121,8 +121,7 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
             return (
               <>
                 Intyget är makulerat. Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna
-                  intyget</LinkWithMargin>
+                <LinkWithMargin to={`/certificate/${certificateMetadata.relations.parent?.certificateId}`}>Öppna intyget</LinkWithMargin>
               </>
             )
           }
