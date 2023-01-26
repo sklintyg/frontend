@@ -298,7 +298,7 @@ describe('Verify history events', () => {
       expect(screen.getByText('Öppna intyget')).toHaveAttribute('href', '/certificate/relatedCertificateId')
     })
 
-    it('Display revoke event when parent was replaced but isnt revoked', async () => {
+    it('should display correct revoked event for locked revoked draft', async () => {
       certificateMetadata.status = CertificateStatus.LOCKED_REVOKED
 
       const complementsHistoryEntry: CertificateEvent[] = [
