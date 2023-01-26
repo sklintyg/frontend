@@ -47,6 +47,7 @@ import {
   ValueViewList,
   ValueViewTable,
   ValueVisualAcuity,
+  ValueInteger,
 } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
@@ -136,7 +137,7 @@ const QuestionUvResolve: React.FC<{
       return <UvYear value={question.value} />
 
     case CertificateDataValueType.INTEGER:
-      return <UvInteger value={question.value} />
+      return <UvInteger value={question.value as ValueInteger} />
 
     default:
       return <Badge>Okänd datatyp</Badge>

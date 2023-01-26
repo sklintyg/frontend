@@ -24,7 +24,8 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState<string>('')
+  const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? '')
+
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'NUMBER'))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     const numberValue = Number(inputValue)
     isNumberValid(numberValue)
 
-    setNumber(event.target.value.replace(/[^0-9]/g, ''))
+    setNumber(event.target.value.replace(/[^0-9-]/g, ''))
 
     dispatch(
       updateCertificateDataElement({
@@ -76,7 +77,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
             onKeyDown={onKeyDown}
           />
         </div>
-        <p className="iu-mt-300 iu-fs-400">{questionConfig.unit}</p>
+        <p className="iu-mt-300 iu-fs-400">{questionConfig.unitOfMeasurement}</p>
       </div>
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />

@@ -24,6 +24,7 @@ import UeViewTable from '../UnifiedEdit/UeViewTable/UeViewTable'
 import UeViewText from '../UnifiedEdit/UeViewText/UeViewText'
 import UeVisualAcuity from '../UnifiedEdit/UeVisualAcuity/UeVisualAcuity'
 import UeYear from '../UnifiedEdit/UeYear/UeYear'
+import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
 
 interface Props {
   question: CertificateDataElement
@@ -78,6 +79,8 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeVisualAcuity {...commonProps} />
     case ConfigTypes.UE_VIEW_TEXT:
       return <UeViewText {...commonProps} />
+    case ConfigTypes.UE_INTEGER:
+      return <UeInteger {...commonProps} />
     case ConfigTypes.UE_VIEW_LIST:
       return <UeViewList {...commonProps} />
     case ConfigTypes.UE_VIEW_TABLE:
