@@ -17,8 +17,6 @@ import {
   _dateRegDashesOptional,
 } from '@frontend/common'
 
-import { useSelector } from 'react-redux'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { addDays, isValid } from 'date-fns'
 import styled from 'styled-components'
 
@@ -65,10 +63,10 @@ interface Props {
   value: ValueDateRange
   onChange: (value: ValueDateRange) => void
   getPeriodStartingDate: () => string
-  hasValidationError: boolean
   disabled: boolean
   baseWorkHours: string
-  questionId: string
+  validationErrors: ValidationError[]
+  hasValidationError: boolean
 }
 
 const DateRangePicker: React.FC<Props> = ({
@@ -77,16 +75,15 @@ const DateRangePicker: React.FC<Props> = ({
   value,
   onChange,
   getPeriodStartingDate,
-  hasValidationError,
   disabled,
   baseWorkHours,
-  questionId,
+  validationErrors,
+  hasValidationError,
 }) => {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
-  const validationErrors = useSelector(getVisibleValidationErrors(questionId, field))
 
   const updateWorkingPeriod = useCallback(
     (fromDateString: string | null, toDateString: string | null) => {
@@ -180,7 +177,7 @@ const DateRangePicker: React.FC<Props> = ({
     if (id) {
       return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
     }
-    return validationErrors.length > 0
+    return hasValidationError
   }
 
   return (

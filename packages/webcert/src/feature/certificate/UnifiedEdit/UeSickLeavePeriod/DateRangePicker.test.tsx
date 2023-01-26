@@ -35,10 +35,10 @@ const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWo
         disabled={false}
         field="EN_FJARDEDEL"
         getPeriodStartingDate={() => formatDateToString(new Date())}
-        hasValidationError={false}
         label="25 procent"
-        questionId="questionId"
         value={fakeCertificateValue.dateRange({ from: fromDate, to: toDate })}
+        validationErrors={[]}
+        hasValidationError={false}
       />
     </Provider>
   )

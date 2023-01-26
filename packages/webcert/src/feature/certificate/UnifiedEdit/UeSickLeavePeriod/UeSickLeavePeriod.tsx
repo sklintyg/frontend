@@ -2,12 +2,10 @@ import {
   Accordion,
   AccordionHeader,
   CertificateDataElement,
-  ConfigUeCheckboxDateRange,
   ConfigUeSickLeavePeriod,
   formatDateToString,
   getLatestPeriodEndDate,
   getNumberOfSickLeavePeriodDays,
-  getPeriodHasOverlap,
   Icon,
   QuestionValidationTexts,
   Text,
@@ -17,7 +15,7 @@ import {
   CertificateDataValueType,
 } from '@frontend/common'
 import { addDays, isValid } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
@@ -67,7 +65,13 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const [valueList, setValueList] = useState<ValueDateRange[]>((question.value as ValueDateRangeList).list)
   const dispatch = useDispatch()
   const [totalSickDays, setTotalSickDays] = useState<number | null>(null)
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const config = question.config as ConfigUeSickLeavePeriod
+
+  const otherValiadtionErrors = useMemo(() => {
+    const fieldNames: string[] = config.list.map(({ id }) => [`from.${id}`, `tom.${id}`, `row.${id}`, id]).flat()
+    return validationErrors.filter(({ field }) => !fieldNames.includes(field))
+  }, [config.list, validationErrors])
 
   useEffect(() => {
     updateTotalSickDays((question.value as ValueDateRangeList).list)
@@ -112,13 +116,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
     return formatDateToString(new Date())
   }
 
-  const handleGetPeriodHaveOverlap = (periodId: string) => {
-    return getPeriodHasOverlap(valueList, periodId)
-  }
-
   if (!question) return null
-
-  const config = question.config as ConfigUeSickLeavePeriod
 
   const workingHoursError: ValidationError | undefined =
     parseInt(baseWorkHours) > 168
@@ -131,6 +129,8 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           showAlways: true,
         }
       : undefined
+
+  console.log(validationErrors)
 
   return (
     <div>
@@ -164,39 +164,37 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           </>
         )}
       </div>
-      <div className={'iu-pt-300'}>
-        {config.list.map((period: ConfigUeCheckboxDateRange) => {
-          return (
-            <DateRangePicker
-              baseWorkHours={baseWorkHours}
-              disabled={disabled}
-              hasValidationError={
-                (validationErrors.length > 0 && validationErrors.some((v) => v.type !== 'OVERLAP_ERROR')) ||
-                handleGetPeriodHaveOverlap(period.id)
-              }
-              getPeriodStartingDate={handleGetPeriodStartingDate}
-              key={period.id}
-              value={valueList.find((x) => x.id === period.id) ?? createEmptyDateRangeValue(period.id)}
-              label={period.label}
-              field={period.id}
-              questionId={question.id}
-              onChange={handleValueChanged}
-            />
-          )
-        })}
-        <div className={'iu-pb-500'}>
-          <QuestionValidationTexts validationErrors={validationErrors} />
-        </div>
-        {totalSickDays && !disabled && (
-          <div>
-            <p className="iu-color-main">
-              <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
-              Intyget motsvarar en period på {totalSickDays} dagar.{' '}
-            </p>
-          </div>
-        )}
-        <SickLeavePeriodWarning />
+      {config.list.map(({ id, label }, index) => {
+        const fieldValidationErrors = validationErrors.filter(
+          ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
+        )
+        return (
+          <DateRangePicker
+            baseWorkHours={baseWorkHours}
+            disabled={disabled}
+            getPeriodStartingDate={handleGetPeriodStartingDate}
+            key={index}
+            value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
+            label={label}
+            field={id}
+            hasValidationError={otherValiadtionErrors.length > 0 || fieldValidationErrors.length > 0}
+            validationErrors={fieldValidationErrors}
+            onChange={handleValueChanged}
+          />
+        )
+      })}
+      <div className={'iu-pb-300'}>
+        <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       </div>
+      {totalSickDays && !disabled && (
+        <div>
+          <p className="iu-color-main">
+            <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
+            Intyget motsvarar en period på {totalSickDays} dagar.{' '}
+          </p>
+        </div>
+      )}
+      <SickLeavePeriodWarning />
     </div>
   )
 }
