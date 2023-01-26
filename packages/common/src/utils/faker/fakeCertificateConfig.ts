@@ -33,6 +33,7 @@ import {
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigEyeAcuity,
+  ConfigUeYear,
 } from '../../types/certificate'
 import { PartialDeep } from 'type-fest'
 import faker from 'faker'
@@ -277,6 +278,13 @@ const fakeVisualAcuity = fakeDataElementConfig<ConfigUeVisualAcuity>((override) 
   binocular: fakeEyeAcuity(override?.binocular),
 }))
 
+const fakeYear = fakeDataElementConfig<ConfigUeYear>(() => ({
+  type: ConfigTypes.UE_YEAR,
+  id: faker.random.alpha({ count: 5 }),
+  minYear: undefined,
+  maxYear: undefined,
+}))
+
 export const fakeCertificateConfig = {
   category: fakeCategory,
   causeOfDeath: fakeCauseOfDeath,
@@ -306,4 +314,5 @@ export const fakeCertificateConfig = {
   viewTable: fakeViewTable,
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
+  year: fakeYear,
 }

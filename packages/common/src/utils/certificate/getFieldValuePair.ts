@@ -5,14 +5,15 @@ const getFieldValuePairFromList = (list: ValueType[]) =>
 
 export const getFieldValuePair = (value: ValueType): Record<string, ValueType> => {
   switch (value.type) {
-    case CertificateDataValueType.CODE:
     case CertificateDataValueType.BOOLEAN:
-    case CertificateDataValueType.DATE:
+    case CertificateDataValueType.CODE:
     case CertificateDataValueType.DATE_RANGE:
+    case CertificateDataValueType.DATE:
     case CertificateDataValueType.DIAGNOSIS:
+    case CertificateDataValueType.DOUBLE:
     case CertificateDataValueType.ICF:
     case CertificateDataValueType.TEXT:
-    case CertificateDataValueType.DOUBLE:
+    case CertificateDataValueType.YEAR:
       return { [value.id]: value }
     case CertificateDataValueType.CAUSE_OF_DEATH:
       return {

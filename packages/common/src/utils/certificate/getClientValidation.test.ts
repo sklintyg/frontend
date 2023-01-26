@@ -1,4 +1,4 @@
-import { fakeDateElement, fakeSickLeavePeriod } from '../faker/fakeCertificateData'
+import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker/fakeCertificateData'
 import { getClientValidationErrors } from './getClientValidationErrors'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 
@@ -142,6 +142,47 @@ describe('Validation based on value', () => {
           field: 'row.foo',
           type: 'INVALID_DATE_PERIOD',
           text: 'Ange ett slutdatum som infaller efter startdatumet.',
+          showAlways: true,
+        },
+      ])
+    })
+  })
+
+  describe(CertificateDataValueType.YEAR, () => {
+    it('Should return INVALID_YEAR_FORMAT for invalid date', () => {
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 'abc' } })['question']
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'field',
+          type: 'INVALID_YEAR_FORMAT',
+          text: 'Ange år i formatet åååå.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should return UNREASONABLE_YEAR for dates too far in the future', () => {
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: '3000' } })['question']
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'field',
+          type: 'UNREASONABLE_YEAR',
+          text: 'Ange ett år som inte ligger för långt fram eller tillbaka i tiden.',
+          showAlways: true,
+        },
+      ])
+    })
+
+    it('Should return UNREASONABLE_YEAR for dates too far in the past', () => {
+      const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: '1200' } })['question']
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'field',
+          type: 'UNREASONABLE_YEAR',
+          text: 'Ange ett år som inte ligger för långt fram eller tillbaka i tiden.',
           showAlways: true,
         },
       ])

@@ -433,11 +433,7 @@ export const fakeYearElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_YEAR,
-        ...data?.config,
-      },
-      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      config: fakeCertificateConfig.year(data?.config),
       value: fakeCertificateValue.year(data?.value),
       validation: [
         fakeCertificateDataValidation({

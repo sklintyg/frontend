@@ -12,7 +12,7 @@ import {
 import { CertificateDataConfigType, ConfigTypes } from '../../types/certificate'
 import { getFieldValuePair } from './getFieldValuePair'
 
-const INVALID_DATE_FORMAT_ERROR = {
+const INVALID_DATE_FORMAT = {
   type: 'INVALID_DATE_FORMAT',
   text: 'Ange datum i formatet åååå-mm-dd.',
   showAlways: true,
@@ -21,6 +21,18 @@ const INVALID_DATE_FORMAT_ERROR = {
 const UNREASONABLE_DATE = {
   type: 'UNREASONABLE_DATE',
   text: 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.',
+  showAlways: true,
+}
+
+const INVALID_YEAR_FORMAT = {
+  type: 'INVALID_YEAR_FORMAT',
+  text: 'Ange år i formatet åååå.',
+  showAlways: true,
+}
+
+const UNREASONABLE_YEAR = {
+  type: 'UNREASONABLE_YEAR',
+  text: 'Ange ett år som inte ligger för långt fram eller tillbaka i tiden.',
   showAlways: true,
 }
 
@@ -65,7 +77,7 @@ const isDateEmpty = (date?: string): boolean => {
 const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
   const validationErrorFactory = getValidationErrorFactory(id, field)
   if (isValueFormatIncorrect(date)) {
-    return validationErrorFactory(INVALID_DATE_FORMAT_ERROR)
+    return validationErrorFactory(INVALID_DATE_FORMAT)
   } else if (isValueUnreasonable(date)) {
     return validationErrorFactory(UNREASONABLE_DATE)
   }
@@ -79,6 +91,15 @@ const getErrorsFromValue = (id: string, value: Value | null): ValidationError[] 
     switch (value.type) {
       case CertificateDataValueType.DATE: {
         return result.concat(getDateValidationError(id, field, value.date) ?? [])
+      }
+      case CertificateDataValueType.YEAR: {
+        const year = value.year ? `${value.year}-01-01` : undefined
+        if (isValueFormatIncorrect(year)) {
+          return result.concat(getValidationErrorFactory(id, field)(INVALID_YEAR_FORMAT))
+        } else if (isValueUnreasonable(year)) {
+          return result.concat(getValidationErrorFactory(id, field)(UNREASONABLE_YEAR))
+        }
+        return result
       }
       case CertificateDataValueType.DATE_RANGE: {
         const validFromDate = getValidDate(value.from ?? '')
