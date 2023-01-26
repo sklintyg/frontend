@@ -9,7 +9,10 @@ export interface Props {
   displayMandatory: boolean
   questionId: string
 }
-
+const Wrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+`
 const HeaderErrorHighlight = styled.span<{ error?: boolean }>`
   border-bottom-width: 0.0625rem;
   border-bottom-style: solid;
@@ -27,13 +30,15 @@ const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, qu
       <Accordion>
         <AccordionHeader>
           <HeaderErrorHighlight error={validationErrors.length > 0}>
-            {config.icon && <Icon iconType={config.icon} includeTooltip={true} />}
             {displayMandatory && <MandatoryIcon />}
-            {config.header || !questionTypeIsCategory ? (
-              <h5 className="iu-fs-200 iu-lh-h4">{config.text}</h5>
-            ) : (
-              <h4 className="iu-fs-300">{config.text}</h4>
-            )}
+            <Wrapper>
+              {config.icon && <Icon iconType={config.icon} includeTooltip={true} />}
+              {config.header || !questionTypeIsCategory ? (
+                <h5 className="iu-fs-200 iu-lh-h4">{config.text}</h5>
+              ) : (
+                <h4 className="iu-fs-300">{config.text}</h4>
+              )}
+            </Wrapper>
           </HeaderErrorHighlight>
         </AccordionHeader>
         <Text className="iu-mb-300" dangerouslySetInnerHTML={sanitizeText(config.description)}></Text>
