@@ -562,6 +562,7 @@ export interface ValueYear extends Value {
 
 export interface ValueInteger extends Value {
   type: CertificateDataValueType.INTEGER
+  id: string
   value?: number | null
 }
 

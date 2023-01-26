@@ -10,11 +10,23 @@ import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePi
 import * as React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 const INVALID_NUMBER_PERIOD_ERROR = 'Ange ett värde mellan 0 och 100 %'
 
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+const StyledTextInput = styled(TextInput)`
+  width: 45px;
+  padding: 4px 4px;
+  height: 35px;
+  text-align: center;
+  margin-right: 0.625em;
+`
 export interface Props {
   question: CertificateDataElement
   disabled: boolean
@@ -31,9 +43,12 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
     const numberValue = Number(inputValue)
-    isNumberValid(numberValue)
 
     setNumber(event.target.value.replace(/[^0-9-]/g, ''))
+
+    if (numberValue) {
+      isNumberValid(numberValue)
+    }
 
     dispatch(
       updateCertificateDataElement({
@@ -64,21 +79,19 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div className="iu-grid-cols-12">
-        <div className="iu-fs-200 iu-grid-span-2">
-          <TextInput
-            disabled={disabled}
-            value={number === null ? '' : number}
-            id={questionConfig.id}
-            onChange={handleNumberOnChange}
-            hasValidationError={validationErrors.length > 0}
-            limit={3}
-            testId="testNumber"
-            onKeyDown={onKeyDown}
-          />
-        </div>
-        <p className="iu-mt-300 iu-fs-400">{questionConfig.unitOfMeasurement}</p>
-      </div>
+      <Wrapper>
+        <StyledTextInput
+          disabled={disabled}
+          value={number === null ? '' : number}
+          id={questionConfig.id}
+          onChange={handleNumberOnChange}
+          hasValidationError={validationErrors.length > 0}
+          limit={3}
+          testId="testNumber"
+          onKeyDown={onKeyDown}
+        />
+        <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
+      </Wrapper>
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
       </ValidationWrapper>
