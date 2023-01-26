@@ -99,33 +99,33 @@ export enum ConfigTypes {
 
 export type CertificateDataConfigType =
   | ConfigCategory
-  | ConfigUeTextArea
-  | ConfigUeTextField
-  | ConfigUeRadioBoolean
+  | ConfigUeCauseOfDeath
+  | ConfigUeCauseOfDeathList
   | ConfigUeCheckboxBoolean
-  | ConfigUeMessage
-  | ConfigUeTypeahead
+  | ConfigUeCheckboxDate
+  | ConfigUeCheckboxDateRange
   | ConfigUeCheckboxMultipleCodes
+  | ConfigUeCheckboxMultipleDate
+  | ConfigUeDate
+  | ConfigUeDiagnoses
+  | ConfigUeDropdown
+  | ConfigUeHeader
+  | ConfigUeIcf
+  | ConfigUeMedicalInvestigationList
+  | ConfigUeMessage
+  | ConfigUeRadioBoolean
   | ConfigUeRadioCode
   | ConfigUeRadioMultipleCodes
   | ConfigUeRadioMultipleCodesOptionalDropdown
-  | ConfigUeCheckboxDate
-  | ConfigUeCheckboxDateRange
-  | ConfigUeCheckboxMultipleDate
   | ConfigUeSickLeavePeriod
-  | ConfigUeDiagnoses
-  | ConfigUeDropdown
-  | ConfigUeDate
-  | ConfigUeIcf
-  | ConfigUeHeader
+  | ConfigUeTextArea
+  | ConfigUeTextField
+  | ConfigUeTypeahead
   | ConfigUeUncertainDate
-  | ConfigUeMedicalInvestigationList
-  | ConfigUeCauseOfDeath
-  | ConfigUeCauseOfDeathList
-  | ConfigUeVisualAcuity
-  | ConfigUeViewText
   | ConfigUeViewList
   | ConfigUeViewTable
+  | ConfigUeViewText
+  | ConfigUeVisualAcuity
 
 export enum MessageLevel {
   INFO = 'INFO',
