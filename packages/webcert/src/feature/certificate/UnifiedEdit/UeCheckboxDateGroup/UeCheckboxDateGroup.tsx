@@ -12,7 +12,9 @@ export interface Props {
 const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
   const values = (question.value as ValueDateList).list
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id)).filter(
+    ({ field }) => !checkboxes.map(({ id }) => id).includes(field)
+  )
 
   const getDate = (id: string) => {
     const index = values.findIndex((date: ValueDate) => date.id === id)
