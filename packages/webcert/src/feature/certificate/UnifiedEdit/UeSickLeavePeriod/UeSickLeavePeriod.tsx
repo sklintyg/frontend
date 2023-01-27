@@ -130,8 +130,6 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
         }
       : undefined
 
-  console.log(validationErrors)
-
   return (
     <div>
       <PreviousSickLeavePeriod previousSickLeavePeriod={config.previousSickLeavePeriod} />
