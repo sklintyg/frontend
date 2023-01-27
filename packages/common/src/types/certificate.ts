@@ -41,6 +41,7 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
 }
+
 export type CertificateData = Record<string, CertificateDataElement>
 
 export interface CertificateDataElement {
@@ -74,6 +75,7 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
   UE_DATE = 'UE_DATE',
+  UE_DATE_RANGE = 'UE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
@@ -95,6 +97,7 @@ export enum ConfigTypes {
   UE_VIEW_TEXT = 'UE_VIEW_TEXT',
   UE_VIEW_LIST = 'UE_VIEW_LIST',
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
+  UE_YEAR = 'UE_YEAR',
 }
 
 export enum MessageLevel {
@@ -336,6 +339,12 @@ export interface ConfigUeViewTable extends CertificateDataConfig {
   columns: ConfigViewColumn[]
 }
 
+export interface ConfigUeYear extends CertificateDataConfig {
+  id: string
+  minYear?: number
+  maxYear?: number
+}
+
 // Values
 export enum CertificateDataValueType {
   BOOLEAN = 'BOOLEAN',
@@ -363,6 +372,7 @@ export enum CertificateDataValueType {
   VIEW_LIST = 'VIEW_LIST',
   VIEW_ROW = 'VIEW_ROW',
   VIEW_TABLE = 'VIEW_TABLE',
+  YEAR = 'YEAR',
 }
 
 export type ValueType =
@@ -389,6 +399,8 @@ export type ValueType =
   | ValueViewText
   | ValueViewList
   | ValueViewTable
+  | ValueYear
+
 export interface Value {
   [propName: string]: unknown
 }
@@ -507,6 +519,7 @@ export interface ValueEyeAcuity {
   withCorrection: ValueDouble
   contactLenses?: ValueBoolean
 }
+
 export interface ValueVisualAcuity extends Value {
   type: CertificateDataValueType.VISUAL_ACUITIES
   rightEye: ValueEyeAcuity
@@ -532,6 +545,12 @@ export interface ValueTextRow extends Value {
 export interface ValueViewTable extends Value {
   type: CertificateDataValueType.VIEW_TABLE
   rows: ValueTextRow[]
+}
+
+export interface ValueYear extends Value {
+  type: CertificateDataValueType.YEAR
+  id: string
+  year?: number
 }
 
 // Validation
