@@ -11,20 +11,16 @@ const TextWithDynamicLinks: React.FC<Props> = ({ text }) => {
     if (!text) {
       return false
     }
-    return text.split('<LINK:').length > 1
+    return text.includes('<LINK:')
   }
 
-  const formatText = (text?: string) => {
+  const formatText = (text: string) => {
     if (!text) {
       return ''
     }
     const splitText = text.split('<LINK:')
     if (splitText.length > 1) {
-      let returnValue = (
-        <>
-          <span dangerouslySetInnerHTML={sanitizeText(splitText[0])}></span>
-        </>
-      )
+      let returnValue = <span dangerouslySetInnerHTML={sanitizeText(splitText[0])}></span>
 
       for (let i = 0; i < splitText.length - 1; i++) {
         const dynamicLinkKey = splitText[i + 1].split('>')[0]

@@ -1,16 +1,13 @@
 import { fakeCertificateMetaData } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import React from 'react'
 import * as redux from 'react-redux'
-import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import reducer from '../../../store/reducers'
 
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import AboutCertificatePanel from './AboutCertificatePanel'
 
 let testStore: EnhancedStore
@@ -24,14 +21,11 @@ const link1 = faker.lorem.word()
 const link2 = faker.lorem.word()
 
 const descriptionWithLinks = `${text1} <LINK:${link1}> ${text2} <LINK:${link2}> ${text3}`
-console.log(descriptionWithLinks)
 const renderComponent = () => {
   render(
-    <Provider store={testStore}>
-      <Router history={history}>
-        <AboutCertificatePanel headerHeight={500} />
-      </Router>
-    </Provider>
+    <Router history={history}>
+      <AboutCertificatePanel headerHeight={500} />
+    </Router>
   )
 }
 
@@ -39,11 +33,6 @@ describe('CertificateSidePanel', () => {
   beforeEach(() => {
     const useSelectorSpy = jest.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue(fakeCertificateMetaData({ description: descriptionWithLinks }))
-  })
-
-  testStore = configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
   })
 
   afterEach(() => {
