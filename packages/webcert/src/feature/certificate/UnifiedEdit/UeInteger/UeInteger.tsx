@@ -37,8 +37,13 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
   const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? '')
-
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'NUMBER'))
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === ' ') {
+      event.preventDefault()
+    }
+  }
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
@@ -46,21 +51,13 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
 
     setNumber(event.target.value.replace(/[^0-9-]/g, ''))
 
-    if (numberValue) {
-      isNumberValid(numberValue)
-    }
-
-    dispatch(
-      updateCertificateDataElement({
-        ...question,
-        value: { ...questionValue, value: numberValue },
-      })
-    )
-  }
-
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === ' ') {
-      event.preventDefault()
+    if (isNumberValid(numberValue) || number === '') {
+      dispatch(
+        updateCertificateDataElement({
+          ...question,
+          value: { ...questionValue, value: numberValue },
+        })
+      )
     }
   }
 
@@ -75,6 +72,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     }
     const shouldBeRemoved = number <= 100 && number >= 0
     dispatch(updateClientValidationError({ shouldBeRemoved, validationError: error }))
+    return number
   }
 
   return (
