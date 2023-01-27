@@ -1,5 +1,4 @@
 import { fakeCertificateMetaData } from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
@@ -9,8 +8,6 @@ import { Router } from 'react-router-dom'
 
 import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import AboutCertificatePanel from './AboutCertificatePanel'
-
-let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
