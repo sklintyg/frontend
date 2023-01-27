@@ -74,7 +74,7 @@ const isDateEmpty = (date?: string): boolean => {
   return Boolean(date == null || date.length === 0)
 }
 
-const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
+export const getDateValidationError = (id: string, field: string, date?: string): ValidationError | undefined => {
   const validationErrorFactory = getValidationErrorFactory(id, field)
   if (isValueFormatIncorrect(date)) {
     return validationErrorFactory(INVALID_DATE_FORMAT)
