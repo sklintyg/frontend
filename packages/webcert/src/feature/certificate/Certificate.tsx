@@ -36,18 +36,17 @@ const Wrapper = styled.div`
   .contentPaperWrapper {
     padding-left: 32px;
     padding-right: 32px;
-    padding-bottom: 20px;
   }
 `
 
 const CategoryWrapper = styled.div`
+  :not(:empty) {
+    background: #ffffff;
+    padding-bottom: 1rem;
+  }
   :not(:last-child) {
     margin-bottom: 16px;
   }
-`
-
-const ValidationErrorWrapper = styled.div`
-  padding: 0 2rem;
 `
 
 const Certificate: React.FC = () => {
@@ -118,11 +117,7 @@ const Certificate: React.FC = () => {
                         return <QuestionWithSubQuestions key={index} questionIds={[id, ...subQuestionIds]} />
                       }
                     })}
-                    {category && (
-                      <ValidationErrorWrapper>
-                        <QuestionValidationError id={category.id} />
-                      </ValidationErrorWrapper>
-                    )}
+                    {category && <QuestionValidationError id={category.id} />}
                   </CategoryWrapper>
                 )
               })}
