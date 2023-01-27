@@ -1,5 +1,5 @@
-import React from 'react'
 import { CertificateMetadata, isSigned, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
+import React from 'react'
 import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AvailableForPatientStatus: React.FC<Props> = ({ certificateMetadata }) => {
-  if (!isSigned(certificateMetadata)) return null
+  if (!isSigned(certificateMetadata) || certificateMetadata.type === 'db' || certificateMetadata.type === 'doi') return null
   const isLisjp = certificateMetadata.type === 'lisjp'
 
   return (

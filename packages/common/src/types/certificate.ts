@@ -41,6 +41,7 @@ export interface CertificateMetadata {
   latestMajorVersion: boolean
   responsibleHospName: string
 }
+
 export type CertificateData = Record<string, CertificateDataElement>
 
 export interface CertificateDataElement {
@@ -74,6 +75,7 @@ export enum ConfigTypes {
   UE_CHECKBOX_MULTIPLE_DATE = 'UE_CHECKBOX_MULTIPLE_DATE',
   UE_CHECKBOX_MULTIPLE_DATE_RANGE = 'UE_CHECKBOX_MULTIPLE_DATE_RANGE',
   UE_DATE = 'UE_DATE',
+  UE_DATE_RANGE = 'UE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
@@ -408,7 +410,7 @@ export type ValueType =
   | ValueViewTable
   | ValueYear
   | ValueInteger
-
+  
 export interface Value {
   [propName: string]: unknown
 }
@@ -527,6 +529,7 @@ export interface ValueEyeAcuity {
   withCorrection: ValueDouble
   contactLenses?: ValueBoolean
 }
+
 export interface ValueVisualAcuity extends Value {
   type: CertificateDataValueType.VISUAL_ACUITIES
   rightEye: ValueEyeAcuity
