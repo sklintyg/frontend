@@ -1,6 +1,5 @@
-import { CertificateDataElement, ConfigUeYear, DatePickerCustom, getValidDate, QuestionValidationTexts, ValueYear } from '@frontend/common'
+import { CertificateDataElement, ConfigUeYear, DatePickerCustom, QuestionValidationTexts, ValueYear } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
-import { isValid } from 'date-fns'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -22,14 +21,12 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
     const text = date.split('-')[0]
     setYearString(text)
 
-    if (isValid(getValidDate(date)) || date === '') {
-      dispatch(
-        updateCertificateDataElement({
-          ...question,
-          value: { ...questionValue, year: parseInt(text) },
-        })
-      )
-    }
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value: { ...questionValue, year: parseInt(text) },
+      })
+    )
   }
 
   return (
