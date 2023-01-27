@@ -7,17 +7,7 @@ interface Props {
 }
 
 const TextWithDynamicLinks: React.FC<Props> = ({ text }) => {
-  const hasDynamicLink = (text?: string): boolean => {
-    if (!text) {
-      return false
-    }
-    return text.includes('<LINK:')
-  }
-
   const formatText = (text: string) => {
-    if (!text) {
-      return ''
-    }
     const splitText = text.split('<LINK:')
     if (splitText.length > 1) {
       let returnValue = <span dangerouslySetInnerHTML={sanitizeText(splitText[0])}></span>
@@ -38,7 +28,7 @@ const TextWithDynamicLinks: React.FC<Props> = ({ text }) => {
     return text
   }
 
-  return <>{hasDynamicLink(text) ? formatText(text) : <span dangerouslySetInnerHTML={sanitizeText(text)}></span>}</>
+  return <>{text.includes('<LINK:') ? formatText(text) : <span dangerouslySetInnerHTML={sanitizeText(text)}></span>}</>
 }
 
 export default TextWithDynamicLinks
