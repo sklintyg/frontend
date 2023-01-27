@@ -410,7 +410,7 @@ export type ValueType =
   | ValueViewTable
   | ValueYear
   | ValueInteger
-  
+
 export interface Value {
   [propName: string]: unknown
 }
