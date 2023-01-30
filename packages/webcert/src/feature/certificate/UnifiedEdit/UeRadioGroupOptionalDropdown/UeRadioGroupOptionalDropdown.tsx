@@ -7,7 +7,7 @@ import {
   ValueCode,
 } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
 import Question from '../../Question/Question'
@@ -27,8 +27,7 @@ interface Props {
 const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list
   const [code, setCode] = useState(question.value?.code)
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = radiobuttons.length <= 2
 
@@ -66,7 +65,7 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
           label={radio.label}
           disabled={disabled}
           checked={radio.id === code}
-          hasValidationError={shouldDisplayValidationError}
+          hasValidationError={validationErrors.length > 0}
           onChange={handleChange}
           wrapperAdditionalStyles={
             !shouldBeHorizontal && !isLastRadiobutton(index) && !radio.dropdownQuestionId ? 'iu-pb-400 radio-dropdown' : 'radio-dropdown'
@@ -84,7 +83,7 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
   return (
     <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
       {renderRadioButtons()}
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </div>
   )
 }

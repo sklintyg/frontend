@@ -26,6 +26,7 @@ import {
   ValueIcf,
   ValueText,
   ValueYear,
+  ConfigUeCheckboxBoolean,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
@@ -119,13 +120,13 @@ describe('QuestionUvResolve', () => {
   it('displays no icf collections label if empty icf list', () => {
     const question = createQuestionWithIcfValue([])
     renderDefaultComponent(question)
-    expect(screen.queryByText(question.config.collectionsLabel as string)).not.toBeInTheDocument()
+    expect(screen.queryByText((question.config as ConfigUeIcf).collectionsLabel as string)).not.toBeInTheDocument()
   })
 
   it('displays icf collections label if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
     renderDefaultComponent(question)
-    expect(screen.getByText(question.config.collectionsLabel as string)).toBeInTheDocument()
+    expect(screen.getByText((question.config as ConfigUeIcf).collectionsLabel as string)).toBeInTheDocument()
   })
 
   it('displays icf values if icf list is not empty', () => {
@@ -238,7 +239,7 @@ export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement
     selected: true,
     id: '',
   }
-  const config: ConfigUeRadioBoolean = {
+  const config: ConfigUeCheckboxBoolean = {
     id: '',
     selectedText: 'Boolean value = true',
     unselectedText: 'Boolean value = false',
@@ -342,7 +343,6 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleCodes = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     layout: ConfigLayout.ROWS,
@@ -382,7 +382,6 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleDate = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
     list: [
@@ -432,7 +431,6 @@ export const createQuestionWithMultipleDateRanges = (): CertificateDataElement =
   }
   const config: ConfigUeSickLeavePeriod = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     previousSickLeavePeriod: '',
@@ -499,7 +497,6 @@ const createDropdownQuestion = () => {
 
   const config: ConfigUeDropdown = {
     description: '',
-    id: 'questionId',
     text: '',
     type: ConfigTypes.UE_DROPDOWN,
     list: [

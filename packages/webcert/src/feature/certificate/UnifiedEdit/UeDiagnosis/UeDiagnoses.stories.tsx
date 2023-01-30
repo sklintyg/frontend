@@ -4,6 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeDiagnoses, { Props } from './UeDiagnoses'
+import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 export default {
   title: 'Webcert/UeDiagnoses',
@@ -24,7 +25,7 @@ Default.args = {
     id: '6',
     parent: 'diagnos',
     index: 10,
-    config: {
+    config: fakeCertificateConfig.diagnoses({
       type: ConfigTypes.UE_DIAGNOSES,
       text: 'Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga',
       description:
@@ -50,7 +51,7 @@ Default.args = {
           id: '3',
         },
       ],
-    },
+    }),
     value: {
       type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: [],

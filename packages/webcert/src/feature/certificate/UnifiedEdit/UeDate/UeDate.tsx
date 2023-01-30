@@ -1,19 +1,9 @@
-import {
-  CertificateDataElement,
-  ConfigUeDate,
-  DatePickerCustom,
-  getMaxDate,
-  getMinDate,
-  getValidDate,
-  QuestionValidationTexts,
-  ValidationError,
-  ValueDate,
-} from '@frontend/common'
+import { CertificateDataElement, DatePickerCustom, getMaxDate, getMinDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
-import { isValid } from 'date-fns'
-import React, { useCallback, useState } from 'react'
+import { ConfigUeDate } from '@frontend/common/src/types/certificate'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
@@ -31,22 +21,13 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
   const handleChange = (date: string) => {
     setDateString(date)
 
-    if (isValid(getValidDate(date)) || date === '') {
-      dispatch(
-        updateCertificateDataElement({
-          ...question,
-          value: { ...questionValue, date },
-        })
-      )
-    }
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value: { ...questionValue, date },
+      })
+    )
   }
-
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
-    },
-    [dispatch]
-  )
 
   return (
     <>
@@ -55,12 +36,9 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         textInputOnChange={handleChange}
         setDate={handleChange}
         inputString={dateString}
-        questionId={question.id}
         max={getMaxDate(question.validation, questionConfig.id)}
         min={getMinDate(question.validation, questionConfig.id)}
         displayValidationErrorOutline={validationErrors.length > 0}
-        onDispatchValidationError={dispatchValidationError}
-        componentField={questionConfig.id}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />
