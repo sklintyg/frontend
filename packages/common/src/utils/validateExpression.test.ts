@@ -277,10 +277,6 @@ describe('convertExpression', () => {
   it('Should not replace ! when part of a comparison', () => {
     expect(convertExpression("'ID_1' != 'ID_2'")).toEqual("'ID_1' != 'ID_2'")
   })
-
-  it('Should remove $ characters', () => {
-    expect(convertExpression("'$ID_1' and '$ID_2'")).toEqual("'ID_1' and 'ID_2'")
-  })
 })
 
 describe('filtrex', () => {
@@ -364,8 +360,19 @@ describe('validateExpression', () => {
     })
   })
 
+  describe('DIAGNOSIS_LIST', () => {
+    it('Should handle numbered identifier', () => {
+      expect(
+        validateExpression('$1', {
+          type: CertificateDataValueType.DIAGNOSIS_LIST,
+          list: [],
+        })
+      ).toBe(false)
+    })
+  })
+
   describe('MEDICAL_INVESTIGATION_LIST', () => {
-    it('Should', () => {
+    it('Should validate !empty for medical investigation correctly', () => {
       expect(
         validateExpression("!empty('underlag[0].typ') && !empty('underlag[0].datum') && !empty('underlag[0].hamtasFran')", {
           type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,

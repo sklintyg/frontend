@@ -12,7 +12,7 @@ import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import Typeahead, { Suggestion } from '@frontend/common/src/components/Inputs/Typeahead'
 import { GetFilteredSuggestions } from '@frontend/common/src/utils/typeaheadUtils'
 import { css } from 'styled-components'
@@ -27,13 +27,12 @@ const wholeRowGrid = css`
 `
 
 const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const questionConfig = question.config as ConfigUeTypeahead
   const textValue = getTextValue(question)
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const [suggestions, setSuggestions] = useState([] as string[])
   const dispatch = useDispatch()
-  const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -48,25 +47,16 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     }, 2000)
   ).current
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newText = event.currentTarget.value
 
     if (newText !== text) {
       setText(newText)
 
-      setOpen(true)
       dispatchEditDraft(question, newText)
 
       if (newText === undefined || newText === null) {
         return []
-      }
-
-      if (newText.length === 0) {
-        setOpen(false)
       }
 
       const result = GetFilteredSuggestions(questionConfig.typeAhead, newText)
@@ -85,7 +75,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const onSuggestionSelected = (value: string) => {
-    setOpen(false)
     if (value !== text) {
       setText(value)
       dispatchEditDraft(question, value)
@@ -97,17 +86,16 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-6">
         <Typeahead
           disabled={disabled}
-          error={questionHasValidationError}
+          error={validationErrors.length > 0}
           onChange={handleChange}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
           placeholder={questionConfig.placeholder}
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
-          onClose={handleClose}
           listStyles={wholeRowGrid}
         />
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </div>
     </div>
   )

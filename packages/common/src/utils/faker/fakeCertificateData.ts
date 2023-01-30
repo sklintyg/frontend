@@ -28,8 +28,9 @@ import {
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
-  ConfigUeVisualAcuity,
   ConfigUeViewText,
+  ConfigUeVisualAcuity,
+  ConfigUeYear,
   Value,
   ValueBoolean,
   ValueCauseOfDeath,
@@ -45,15 +46,18 @@ import {
   ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
-  ValueVisualAcuity,
   ValueViewList,
   ValueViewTable,
   ValueViewText,
+  ValueVisualAcuity,
+  ValueYear,
 } from '../../types/certificate'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
+import { fakeCertificateConfig } from './fakeCertificateConfig'
+import { ConfigUeViewTable, ConfigUeViewList } from '@frontend/common'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -126,10 +130,7 @@ export const fakeCategoryElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.CATEGORY,
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.category(data?.config),
       value: {
         type: CertificateDataValueType.UNKNOWN,
         ...data?.value,
@@ -145,15 +146,7 @@ export const fakeCheckboxBooleanElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
-        label: faker.lorem.sentence(),
-        text: 'text',
-        description: 'description',
-        selectedText: 'Ja',
-        unselectedText: 'Nej',
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.checkboxBoolean(data?.config),
       value: fakeCertificateValue.boolean(data?.value),
     },
     children
@@ -166,16 +159,7 @@ export const fakeCheckboxMultipleCodeElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
-        label: faker.lorem.sentence(),
-        text: `text: ${faker.lorem.sentence()}`,
-        selectedText: 'Ja',
-        unselectedText: 'Nej',
-        layout: ConfigLayout.ROWS,
-        list: fakeList(10),
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.checkboxMultipleCodes(data?.config),
       value: fakeCertificateValue.codeList(data?.value),
     },
     children
@@ -188,10 +172,7 @@ export const fakeDiagnosesElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_DIAGNOSES,
-        text: faker.lorem.sentence(),
-        description: faker.lorem.sentence(),
+      config: fakeCertificateConfig.diagnoses({
         terminology: [
           {
             id: 'ICD_10_SE',
@@ -204,7 +185,7 @@ export const fakeDiagnosesElement = (
         ],
         list: fakeList(3),
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.diagnosisList(data?.value),
     },
     children
@@ -217,14 +198,13 @@ export const fakeICFDataElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_ICF,
+      config: fakeCertificateConfig.icf({
         header: `header: ${faker.lorem.sentence()}`,
         modalLabel: `modalLabel: ${faker.lorem.sentence()}`,
         collectionsLabel: `collectionsLabel: ${faker.lorem.sentence()}`,
         placeholder: `placeholder: ${faker.lorem.sentence()}`,
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.icf(data?.value),
     },
     children
@@ -237,28 +217,27 @@ export const fakeCheckboxMultipleDate = (
   fakeDataElement(
     {
       ...data,
-      config: {
+      config: fakeCertificateConfig.checkboxMultipleDate({
         type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
         list: fakeList(6),
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.dateList(data?.value),
     },
     children
   )
 
-export const fakeCheckboxDateRangeList = (
+export const fakeSickLeavePeriod = (
   data?: PartialCertificateDataElement<ConfigUeSickLeavePeriod, ValueDateRangeList>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
+      config: fakeCertificateConfig.sickLeavePeriod({
         list: fakeList(6),
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.dateRangeList(data?.value),
     },
     children
@@ -271,12 +250,11 @@ export const fakeRadioMultipleCodeElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_RADIO_MULTIPLE_CODE,
+      config: fakeCertificateConfig.radioMultipleCodes({
         list: fakeList(7),
         layout: ConfigLayout.ROWS,
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.codeList(data?.value),
     },
     children
@@ -289,10 +267,7 @@ export const fakeRadioBooleanElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_RADIO_BOOLEAN,
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.radioBoolean(data?.config),
       value: fakeCertificateValue.boolean(data?.value),
     },
     children
@@ -305,10 +280,7 @@ export const fakeTextAreaElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_TEXTAREA,
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.textArea(data?.config),
       value: fakeCertificateValue.text(data?.value),
     },
     children
@@ -321,10 +293,7 @@ export const fakeTextFieldElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_TEXTFIELD,
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.textField(data?.config),
       value: fakeCertificateValue.text(data?.value),
     },
     children
@@ -337,10 +306,10 @@ export const fakeDropdownElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
+      config: fakeCertificateConfig.dropdown({
         list: fakeList(5),
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.code(data?.value),
     },
     children
@@ -353,13 +322,11 @@ export const fakeTypeaheadElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_TYPE_AHEAD,
+      config: fakeCertificateConfig.typeahead({
         typeAhead: fakeCityList(),
-        list: fakeList(3),
         ...data?.config,
         placeholder: 'Kommun',
-      },
+      }),
       value: fakeCertificateValue.text(data?.value),
     },
     children
@@ -372,13 +339,12 @@ export const fakeUncertainDateElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_UNCERTAIN_DATE,
-        allowedYears: [new Date().getFullYear() - 1, new Date().getFullYear()],
+      config: fakeCertificateConfig.uncertainDate({
+        allowedYears: [`${new Date().getFullYear() - 1}`, `${new Date().getFullYear()}`],
         unknownYear: true,
         unknownMonth: true,
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.uncertainDate(data?.value),
     },
     children
@@ -422,8 +388,7 @@ export const fakeMedicalInvestigationListElement = (
   return fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_MEDICAL_INVESTIGATION,
+      config: fakeCertificateConfig.medicalInvestigationList({
         typeText: 'Ange utredning eller underlag',
         dateText: 'Datum',
         informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
@@ -431,7 +396,7 @@ export const fakeMedicalInvestigationListElement = (
           'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
         list: configList,
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.medicalInvestigationList({
         list: valueList,
         ...data?.value,
@@ -448,12 +413,29 @@ export const fakeDateElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_DATE,
-        ...data?.config,
-      },
-      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
+      config: fakeCertificateConfig.date(data?.config),
       value: fakeCertificateValue.date(data?.value),
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `'${data.id.toUpperCase()}'` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
+    },
+    children
+  )
+
+export const fakeYearElement = (
+  data?: PartialCertificateDataElement<ConfigUeYear, ValueYear>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: fakeCertificateConfig.year(data?.config),
+      value: fakeCertificateValue.year(data?.value),
       validation: [
         fakeCertificateDataValidation({
           type: CertificateDataValidationType.MAX_DATE_VALIDATION,
@@ -473,10 +455,7 @@ export const fakeHeaderElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_HEADER,
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.header(data?.config),
       value: { type: CertificateDataValueType.HEADER },
     },
     children
@@ -492,11 +471,10 @@ export const fakeCauseOfDeathElement = (
   return fakeDataElement(
     {
       ...data,
-      config: {
+      config: fakeCertificateConfig.causeOfDeath({
         description: 'Den diagnos eller det tillstånd som ledde till den terminala dödsorsaken',
         label: 'A',
         text: 'Den terminala dödsorsaken var',
-        type: ConfigTypes.UE_CAUSE_OF_DEATH,
         causeOfDeath: {
           id: faker.random.alpha({ count: 5 }),
           debutId: debutId,
@@ -509,7 +487,7 @@ export const fakeCauseOfDeathElement = (
           ...data?.config?.causeOfDeath,
         },
         ...data?.config,
-      },
+      }),
       value: {
         type: CertificateDataValueType.CAUSE_OF_DEATH,
         description: {
@@ -551,30 +529,32 @@ export const fakeCauseOfDeathListElement = (
   return fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_CAUSE_OF_DEATH_LIST,
+      config: fakeCertificateConfig.causeOfDeathList({
         text: 'Andra sjukdomar som kan ha bidragit till dödsfallet',
         ...data?.config,
-        list: data?.config?.list ?? questions.map((question) => question.config.causeOfDeath),
-      },
-      value: {
-        type: CertificateDataValueType.CAUSE_OF_DEATH_LIST,
+        list:
+          data?.config?.list ??
+          questions.map((question) => {
+            const config = question.config as ConfigUeCauseOfDeath
+            return config.causeOfDeath
+          }),
+      }),
+      value: fakeCertificateValue.causeOfDeathList({
         ...data?.value,
         list:
           data?.value?.list ??
-          questions
-            .map((question) => question.value as ValueCauseOfDeath)
-            .map((value, index) =>
-              index > 0
-                ? {
-                    ...value,
-                    description: { ...value.description, text: null },
-                    debut: { ...value.debut, date: undefined },
-                    specification: { ...value.specification, code: '' },
-                  }
-                : value
-            ),
-      },
+          questions.map((question, index) => {
+            const value = question.value as ValueCauseOfDeath
+            return index > 0
+              ? fakeCertificateValue.causeOfDeath({
+                  ...value,
+                  description: { ...value.description, text: null },
+                  debut: { ...value.debut, date: undefined },
+                  specification: { ...value.specification, code: '' },
+                })
+              : fakeCertificateValue.causeOfDeath(value)
+          }),
+      }),
     },
     children
   )
@@ -589,7 +569,7 @@ export const fakeVisualAcuityElement = (
   return fakeDataElement(
     {
       ...data,
-      config: {
+      config: fakeCertificateConfig.visualAcuity({
         description: 'Synskärpan på respektive öga och binokulärt',
         text: 'Synskärpa',
         type: ConfigTypes.UE_VISUAL_ACUITY,
@@ -614,7 +594,7 @@ export const fakeVisualAcuityElement = (
           withCorrectionId: `binocular_with_${id}`,
         },
         ...data?.config,
-      },
+      }),
       value: fakeCertificateValue.visualAcuity({
         rightEye: {
           withoutCorrection: {
@@ -669,7 +649,7 @@ export const fakeViewTextElement = (
   )
 
 export const fakeViewListElement = (
-  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewList>,
+  data?: PartialCertificateDataElement<ConfigUeViewList, ValueViewList>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(
@@ -685,7 +665,7 @@ export const fakeViewListElement = (
   )
 
 export const fakeViewTableElement = (
-  data?: PartialCertificateDataElement<ConfigUeViewText, ValueViewTable>,
+  data?: PartialCertificateDataElement<ConfigUeViewTable, ValueViewTable>,
   children?: CertificateData[]
 ): CertificateData =>
   fakeDataElement(

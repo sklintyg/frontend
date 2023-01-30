@@ -3,5 +3,5 @@ import { Badge } from '../Badge'
 import { ValueDate } from '../../../types/certificate'
 
 export const UvDate: React.FC<{ value: ValueDate }> = ({ value }) => (
-  <Badge label={typeof value.date === 'string' ? value.date : 'Ej angivet'} />
+  <Badge>{typeof value.date === 'string' && value.date.length > 0 ? value.date : 'Ej angivet'}</Badge>
 )

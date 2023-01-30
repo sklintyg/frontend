@@ -110,7 +110,7 @@ const WelcomeCertificateTypes: React.FC = () => {
     } else if (patientId.includes('-')) {
       return patientId.substring(0, 13)
     } else {
-      return patientId.substring(0, 8) + '-' + patientId.substring(8, 12)
+      return `${patientId.substring(0, 8)}-${patientId.substring(8, 12)}`
     }
   }
 
@@ -123,16 +123,13 @@ const WelcomeCertificateTypes: React.FC = () => {
             <div className="iu-grid-cols iu-grid-cols-6">
               <div className="iu-grid-span-3">
                 <label htmlFor="patient">Namn</label>
-                <Dropdown
-                  options={patients.map((patient) => (
+                <Dropdown onChange={handlePatientChange} id={'patient'} value={createCertificate.patientId}>
+                  {patients.map((patient) => (
                     <option key={patient.personId.id} value={patient.personId.id}>
                       {patient.fullName}
                     </option>
                   ))}
-                  onChange={handlePatientChange}
-                  id={'patient'}
-                  value={createCertificate.patientId}
-                />
+                </Dropdown>
               </div>
               <div className="iu-grid-span-3">
                 <label htmlFor="patientId">Personnummer</label>
@@ -156,7 +153,7 @@ const WelcomeCertificateTypes: React.FC = () => {
             <div key={value.internalType}>
               <RadioButton
                 key={value.internalType}
-                label={value.name + ' (' + value.type + ')'}
+                label={`${value.name} (${value.type})`}
                 value={value.internalType}
                 checked={value.internalType === createCertificate.certificateType}
                 id={value.internalType}
@@ -166,38 +163,38 @@ const WelcomeCertificateTypes: React.FC = () => {
               {value.internalType === createCertificate.certificateType && (
                 <div>
                   <Dropdown
-                    options={value.versions.map((version) => (
+                    onChange={handleVersionChange}
+                    id={`versions${value.internalType}`}
+                    key={`versions${value.internalType}`}
+                    value={createCertificate.certificateTypeVersion}>
+                    {value.versions.map((version) => (
                       <option key={version} value={version}>
                         {version}
                       </option>
                     ))}
-                    onChange={handleVersionChange}
-                    id={'versions' + value.internalType}
-                    key={'versions' + value.internalType}
-                    value={createCertificate.certificateTypeVersion}
-                  />
+                  </Dropdown>
                   <Dropdown
-                    options={value.statuses.map((status) => (
+                    onChange={handleStatusChange}
+                    id={`status${value.internalType}`}
+                    key={`status${value.internalType}`}
+                    value={createCertificate.status}>
+                    {value.statuses.map((status) => (
                       <option key={status} value={status}>
                         {status}
                       </option>
                     ))}
-                    onChange={handleStatusChange}
-                    id={'status' + value.internalType}
-                    key={'status' + value.internalType}
-                    value={createCertificate.status}
-                  />
+                  </Dropdown>
                   <Dropdown
-                    options={value.fillType.map((version) => (
+                    onChange={handleFilltypeChange}
+                    id={`fillType${value.internalType}`}
+                    key={`fillType${value.internalType}`}
+                    value={createCertificate.fillType}>
+                    {value.fillType.map((version) => (
                       <option key={version} value={version}>
                         {version}
                       </option>
                     ))}
-                    onChange={handleFilltypeChange}
-                    id={'fillType' + value.internalType}
-                    key={'fillType' + value.internalType}
-                    value={createCertificate.fillType}
-                  />
+                  </Dropdown>
                 </div>
               )}
             </div>

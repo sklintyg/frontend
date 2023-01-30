@@ -2,8 +2,8 @@ import { CertificateDataElement, ConfigUeDropdown, Dropdown, QuestionValidationT
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
   disabled?: boolean
@@ -14,9 +14,8 @@ const UeDropdown: React.FC<Props> = (props) => {
   const { question, disabled } = props
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const hasValidationError = useSelector(getQuestionHasValidationError(question.id))
   const [selected, setSelected] = React.useState((question.value as ValueCode).code)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const getUpdatedValue = (question: CertificateDataElement, selected: string) => {
     const updatedQuestion: CertificateDataElement = { ...question }
@@ -37,18 +36,18 @@ const UeDropdown: React.FC<Props> = (props) => {
     <>
       <Dropdown
         id={question.id}
-        label={question.config.label + ''}
-        options={config.list.map((item) => (
+        label={config.label}
+        disabled={disabled}
+        onChange={(event) => setSelected(event.currentTarget.value)}
+        value={selected}
+        error={validationErrors.length > 0}>
+        {config.list.map((item) => (
           <option key={item.id} value={item.id}>
             {item.label}
           </option>
         ))}
-        disabled={disabled}
-        onChange={(event) => setSelected(event.currentTarget.value)}
-        value={selected}
-        hasValidationError={hasValidationError}
-      />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+      </Dropdown>
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }

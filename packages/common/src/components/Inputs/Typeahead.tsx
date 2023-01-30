@@ -9,7 +9,7 @@ interface Props extends React.ComponentProps<typeof TextInput> {
   listStyles?: FlattenSimpleInterpolation
   suggestions: Suggestion[]
   onSuggestionSelected: (value: string) => void
-  onClose: () => void
+  onClose?: () => void
   getItemText?: (item: string, value: string | number | readonly string[] | undefined) => string
   moreResults?: boolean
 }
@@ -70,13 +70,14 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
       setCursor(-1)
       setHovered(-1)
       setOpen(false)
-      onClose()
+      onClose && onClose()
     }, [onClose])
 
     const onSelect = useCallback(
       (suggestion: Suggestion) => {
         if (!suggestion.disabled) {
           onSuggestionSelected(suggestion.label)
+          setOpen(false)
         }
       },
       [onSuggestionSelected]

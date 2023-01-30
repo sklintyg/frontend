@@ -28,11 +28,11 @@ export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidat
       <StyledTextInput
         onChange={onChange}
         value={value}
-        limit={2}
-        error={hasValidationError}
-        autoComplete="off"
+        limit={3}
+        hasValidationError={hasValidationError}
+        autoComplete={false}
         className="iu-mx-200 iu-fs-200"
-        data-testid="workingHours"
+        testId="workingHours"
         onKeyDown={onKeyDown}
       />
       <p className={'iu-fs-200 iu-fw-body'}>timmar/vecka</p>

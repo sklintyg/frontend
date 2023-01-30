@@ -1,15 +1,23 @@
-import { CertificateDataValidation, CertificateDataValidationType, MaxDateValidation, ValueDateRange } from './../types/certificate'
 import { addDays, areIntervalsOverlapping, differenceInCalendarDays, format, isAfter, isBefore, isSameDay, isValid, parse } from 'date-fns'
 import { ConfigUeCheckboxDateRange, replaceDecimalSeparator } from '..'
+import {
+  CertificateDataValidation,
+  CertificateDataValidationType,
+  MaxDateValidation,
+  MinDateValidation,
+  ValueDateRange,
+} from './../types/certificate'
 
-export const _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
-export const _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
+export const _dateReg = /[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
+export const _dateRegDashesOptional = /[1-9][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/
 
 export const _minAllowedDate = new Date(1900, 0, 2)
 export const _maxAllowedDate = new Date(2099, 11, 12)
 
 export const _format = 'yyyy-MM-dd'
 export const _parseformat = 'yyyyMMdd'
+
+export const _yearFormat = 'yyyy'
 
 export const dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i
 export const weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i
@@ -52,11 +60,11 @@ export const isValidDateIncludingSpecialDateCodes = (dateString: string | undefi
   return isValid(getValidDate(dateString)) || dayCodeReg.test(dateString) || weekCodeReg.test(dateString) || monthCodeReg.test(dateString)
 }
 
-export const formatDateToString = (date: Date) => {
+export const formatDateToString = (date: Date): string => {
   return format(date, _format)
 }
 
-export const parseDayCodes = (input: string) => {
+export const parseDayCodes = (input: string): number | null => {
   if (input) {
     let result = dayCodeReg.exec(input)
     if (result && result.length > 0) {
@@ -74,7 +82,7 @@ export const parseDayCodes = (input: string) => {
   return null
 }
 
-export const parseMonthCode = (input: string) => {
+export const parseMonthCode = (input: string): number | null => {
   if (input) {
     const result = monthCodeReg.exec(input)
     if (result && result.length > 0) {
@@ -84,7 +92,7 @@ export const parseMonthCode = (input: string) => {
   return null
 }
 
-export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], valueList: ValueDateRange[]) => {
+export const getLatestPeriodEndDate = (configList: ConfigUeCheckboxDateRange[], valueList: ValueDateRange[]): Date | undefined => {
   let maxDate: Date | undefined
 
   for (let i = 0; i < configList.length; i++) {
@@ -150,7 +158,7 @@ const calculatePeriodWorkHours = (hoursWorkingPerWeek: number, percentage: numbe
   return replaceDecimalSeparator(periodWorkHoursToString)
 }
 
-export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercentage: string) => {
+export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercentage: string): string | 0 => {
   if (sickLeavePercentage === SickLeavePeriods.EN_FJARDEDEL) {
     return calculatePeriodWorkHours(hoursWorkingPerWeek, 0.75)
   } else if (sickLeavePercentage === SickLeavePeriods.HALFTEN) {
@@ -164,11 +172,11 @@ export const getPeriodWorkHours = (hoursWorkingPerWeek: number, sickLeavePercent
   return 0
 }
 
-export const getPeriodWorkDays = (fromDate: Date, toDate: Date) => {
+export const getPeriodWorkDays = (fromDate: Date, toDate: Date): number => {
   return differenceInCalendarDays(toDate, fromDate) + 1
 }
 
-export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]) => {
+export const getNumberOfSickLeavePeriodDays = (periods: ValueDateRange[]): number => {
   let total = 0
 
   for (let i = 0; i < periods.length; i++) {
@@ -219,7 +227,7 @@ export const isDateBehindLimit = (date: string, limit: string): boolean => {
   return isValid(getValidDate(date)) && date < limit
 }
 
-export const formatDate = (value: string) => {
+export const formatDate = (value: string): string => {
   if (value) {
     const splitDate = value.toString().split('T')
     if (splitDate.length > 1) {
@@ -231,11 +239,20 @@ export const formatDate = (value: string) => {
   }
 }
 
-export const getMaxDate = (validation: CertificateDataValidation[], id: string) => {
+export const getMaxDate = (validation: CertificateDataValidation[], id: string): string => {
   const today = new Date()
   const maxDateValidation = validation.find(
     (v) => v.type === CertificateDataValidationType.MAX_DATE_VALIDATION && id === (v as MaxDateValidation).id
   )
 
   return maxDateValidation ? addDays(today, (maxDateValidation as MaxDateValidation).numberOfDays).toDateString() : ''
+}
+
+export const getMinDate = (validation: CertificateDataValidation[], id: string): string => {
+  const minDateValidation = validation.find(
+    (v) => v.type === CertificateDataValidationType.MIN_DATE_VALIDATION && id === (v as MinDateValidation).id
+  )
+
+  const minDate = minDateValidation ? (minDateValidation as MinDateValidation).minDate : undefined
+  return minDate ? minDate : ''
 }

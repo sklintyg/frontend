@@ -16,8 +16,8 @@ import {
   Unit,
   ValidationError,
   ValidationErrorSummary,
+  sortedValidationErrorSummary,
 } from '@frontend/common'
-import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
@@ -87,22 +87,6 @@ export const getUnit = () => (state: RootState): Unit => {
   return state.ui.uiCertificate.certificate.metadata.unit
 }
 
-export const getQuestionHasValidationError = (id: string) => (state: RootState): boolean => {
-  const {
-    ui: {
-      uiCertificate: { showValidationErrors, certificate },
-    },
-  } = state
-
-  if (!showValidationErrors || !certificate || !certificate.data[id].validationErrors) {
-    return false
-  }
-
-  const question = certificate.data[id]
-
-  return question.validationErrors.length > 0
-}
-
 export const getCertificateMetaData = (state: RootState): CertificateMetadata | null => {
   const { certificate } = state.ui.uiCertificate
   if (!certificate) {
@@ -136,7 +120,7 @@ export const getValidationErrorSummary = () => (state: RootState): ValidationErr
     return []
   }
 
-  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
+  return sortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
 }
 
 export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {

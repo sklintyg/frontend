@@ -3,13 +3,13 @@ body {
 }
 
 /*This is a temporary fix to position inputs correctly in certificate*/
-.ic-forms__checkbox + label,
-.ic-forms__radio + label {
+.ic-forms__checkbox+label,
+.ic-forms__radio+label {
   align-items: unset !important;
 }
 
-.ic-forms__checkbox + label:before,
-.ic-forms__radio + label:before {
+.ic-forms__checkbox+label:before,
+.ic-forms__radio+label:before {
   top: 3px !important;
 }
 
@@ -18,15 +18,15 @@ body {
   width: 0;
 }
 
-.ic-forms__radio:checked:disabled + label:before {
+.ic-forms__radio:checked:disabled+label:before {
   background: #c3bbb4 !important;
 }
 
-.ic-forms__radio:disabled + label:before {
+.ic-forms__radio:disabled+label:before {
   background: #f7f4f2 !important;
 }
 
-input:disabled + label,
+input:disabled+label,
 input:disabled::placeholder {
   font-style: italic;
 }
@@ -145,8 +145,16 @@ img {
   border-left-color: #b3b3b3 !important;
 }
 
-.react-datepicker__day--selected {
+.react-datepicker__day--selected,
+.react-datepicker__year--selected {
   background-color: #01a5a3 !important;
+}
+
+.react-datepicker__year-text {
+  border: 1px solid #ccc !important;
+  border-radius: 0.3rem !important;
+  padding: 5px 0 3px 0 !important;
+  width: 3.5rem !important;
 }
 
 .ic-page-header__inner {

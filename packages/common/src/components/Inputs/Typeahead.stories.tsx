@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react'
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, useState } from 'react'
 import Typeahead from './Typeahead'
 
 export default {
@@ -8,7 +8,20 @@ export default {
 }
 
 const Template: Story<Partial<ComponentProps<typeof Typeahead>>> = ({ ...args }) => {
-  return <Typeahead onChange={() => null} onClose={() => null} onSuggestionSelected={console.log} suggestions={[]} {...args} />
+  const [text, setText] = useState('')
+  return (
+    <Typeahead
+      onClose={() => null}
+      onSuggestionSelected={console.log}
+      suggestions={[]}
+      value={text}
+      onChange={(event) => {
+        console.log(event.currentTarget.value)
+        setText(event.currentTarget.value)
+      }}
+      {...args}
+    />
+  )
 }
 
 export const Default = Template.bind({})

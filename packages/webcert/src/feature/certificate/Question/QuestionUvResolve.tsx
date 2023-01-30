@@ -14,8 +14,23 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeViewTable,
   ConfigUeVisualAcuity,
+  UvBoolean,
+  UvCauseOfDeath,
+  UvCauseOfDeathList,
+  UvCode,
+  UvCodeList,
+  UvDate,
+  UvDateList,
+  UvDateRange,
+  UvDiagnosisList,
+  UvIcf,
+  UvMedicalInvestigationList,
   UvTable,
   UvText,
+  UvUncertainDate,
+  UvViewList,
+  UvVisualAcuity,
+  UvYear,
   ValueBoolean,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
@@ -31,20 +46,6 @@ import {
   ValueViewList,
   ValueViewTable,
   ValueVisualAcuity,
-  UvBoolean,
-  UvViewList,
-  UvCodeList,
-  UvDiagnosisList,
-  UvCode,
-  UvDateList,
-  UvDateRange,
-  UvIcf,
-  UvDate,
-  UvUncertainDate,
-  UvCauseOfDeath,
-  UvCauseOfDeathList,
-  UvMedicalInvestigationList,
-  UvVisualAcuity,
 } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
@@ -65,17 +66,12 @@ const QuestionUvResolve: React.FC<{
   const optionalDropdown = getOptionalDropdown()
   const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), _.isEqual)
 
-  if (
-    question.value === undefined ||
-    question.value === null ||
-    question.visible === false ||
-    question.style === CertificateDataElementStyleEnum.HIDDEN
-  ) {
-    return null
+  if (question.config.type === ConfigTypes.UE_MESSAGE && question.visible) {
+    return <UeMessage key={question.id} disabled={false} question={question} />
   }
 
-  if (question.config.type === ConfigTypes.UE_MESSAGE) {
-    return <UeMessage key={question.id} disabled={false} question={question} />
+  if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
+    return null
   }
 
   switch (question.value.type) {
@@ -135,8 +131,11 @@ const QuestionUvResolve: React.FC<{
     case CertificateDataValueType.VISUAL_ACUITIES:
       return <UvVisualAcuity value={question.value as ValueVisualAcuity} config={question.config as ConfigUeVisualAcuity} />
 
+    case CertificateDataValueType.YEAR:
+      return <UvYear value={question.value} />
+
     default:
-      return <Badge label="Okänd datatyp" />
+      return <Badge>Okänd datatyp</Badge>
   }
 }
 export default QuestionUvResolve
