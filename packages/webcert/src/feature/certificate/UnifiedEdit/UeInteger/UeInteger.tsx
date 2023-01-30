@@ -8,7 +8,7 @@ import {
 } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
@@ -36,8 +36,14 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState<string>('')
+  const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? '')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'NUMBER'))
+
+  useEffect(() => {
+    if (questionValue.value) {
+      isNumberValid(questionValue.value)
+    }
+  }, [questionValue.value])
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ' ') {
