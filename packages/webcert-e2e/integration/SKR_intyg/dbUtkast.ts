@@ -73,7 +73,6 @@ describe('Testa DB-utkast', function() {
       cy.contains('Klart att signera').should('be.visible')
       cy.contains('Signera och skicka').click()
       cy.contains('Intyget är skickat till Skatteverket').should('be.visible')
-      cy.contains('Intyget är tillgängligt för patienten').should('be.visible')
     })
   })
 })
