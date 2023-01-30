@@ -436,12 +436,7 @@ export const fakeDateRangeElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_DATE_RANGE,
-        fromLabel: 'Fr.o.m',
-        toLabel: 't.o.m',
-        ...data?.config,
-      },
+      config: fakeCertificateConfig.dateRange(data?.config),
       value: fakeCertificateValue.dateRange(data?.value),
       validation: [
         fakeCertificateDataValidation({

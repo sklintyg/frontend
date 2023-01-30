@@ -1,25 +1,21 @@
+import faker from 'faker'
+import { merge } from 'lodash'
+import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,
-  ConfigCategory,
-  ConfigTypes,
-  ConfigUeCauseOfDeath,
-  ConfigUeCodeItem,
-  ConfigUeCauseOfDeathList,
+  ConfigCategory, ConfigEyeAcuity, ConfigLayout, ConfigTypes,
+  ConfigUeCauseOfDeath, ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDate,
   ConfigUeCheckboxDateRange,
-  ConfigUeCheckboxMultipleCodes,
-  ConfigLayout,
-  ConfigUeCheckboxMultipleDate,
-  ConfigUeDate,
+  ConfigUeCheckboxMultipleCodes, ConfigUeCheckboxMultipleDate, ConfigUeCodeItem, ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
   ConfigUeMedicalInvestigationList,
-  ConfigUeMessage,
-  MessageLevel,
-  ConfigUeRadioBoolean,
+  ConfigUeMessage, ConfigUeRadioBoolean,
   ConfigUeRadioCode,
   ConfigUeRadioMultipleCodes,
   ConfigUeRadioMultipleCodesOptionalDropdown,
@@ -31,13 +27,8 @@ import {
   ConfigUeViewList,
   ConfigUeViewTable,
   ConfigUeViewText,
-  ConfigUeVisualAcuity,
-  ConfigEyeAcuity,
-  ConfigUeYear,
+  ConfigUeVisualAcuity, ConfigUeYear, MessageLevel
 } from '../../types/certificate'
-import { PartialDeep } from 'type-fest'
-import faker from 'faker'
-import { merge } from 'lodash'
 
 type FakeElementConfigCallback<T> = (config?: PartialDeep<T>) => T
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -115,6 +106,13 @@ const fakeCheckboxMultipleDate = fakeDataElementConfig<ConfigUeCheckboxMultipleD
 const fakeDate = fakeDataElementConfig<ConfigUeDate>(() => ({
   type: ConfigTypes.UE_DATE,
   id: faker.random.alpha({ count: 5 }),
+}))
+
+const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
+  type: ConfigTypes.UE_DATE_RANGE,
+  id: faker.random.alpha({ count: 5 }),  
+  fromLabel: 'Fr.o.m',
+  toLabel: 't.o.m',
 }))
 
 const fakeDiagnoses = fakeDataElementConfig<ConfigUeDiagnoses>((override) => ({
@@ -295,6 +293,7 @@ export const fakeCertificateConfig = {
   checkboxMultipleCodes: fakeCheckboxMultipleCodes,
   checkboxMultipleDate: fakeCheckboxMultipleDate,
   date: fakeDate,
+  dateRange: fakeDateRange,
   diagnoses: fakeDiagnoses,
   dropdown: fakeDropdown,
   header: fakeHeader,
