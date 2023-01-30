@@ -3,19 +3,27 @@ import { merge } from 'lodash'
 import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,
-  ConfigCategory, ConfigEyeAcuity, ConfigLayout, ConfigTypes,
-  ConfigUeCauseOfDeath, ConfigUeCauseOfDeathList,
+  ConfigCategory,
+  ConfigEyeAcuity,
+  ConfigLayout,
+  ConfigTypes,
+  ConfigUeCauseOfDeath,
+  ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDate,
   ConfigUeCheckboxDateRange,
-  ConfigUeCheckboxMultipleCodes, ConfigUeCheckboxMultipleDate, ConfigUeCodeItem, ConfigUeDate,
+  ConfigUeCheckboxMultipleCodes,
+  ConfigUeCheckboxMultipleDate,
+  ConfigUeCodeItem,
+  ConfigUeDate,
   ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
   ConfigUeMedicalInvestigationList,
-  ConfigUeMessage, ConfigUeRadioBoolean,
+  ConfigUeMessage,
+  ConfigUeRadioBoolean,
   ConfigUeRadioCode,
   ConfigUeRadioMultipleCodes,
   ConfigUeRadioMultipleCodesOptionalDropdown,
@@ -27,7 +35,9 @@ import {
   ConfigUeViewList,
   ConfigUeViewTable,
   ConfigUeViewText,
-  ConfigUeVisualAcuity, ConfigUeYear, MessageLevel
+  ConfigUeVisualAcuity,
+  ConfigUeYear,
+  MessageLevel,
 } from '../../types/certificate'
 
 type FakeElementConfigCallback<T> = (config?: PartialDeep<T>) => T
@@ -110,7 +120,7 @@ const fakeDate = fakeDataElementConfig<ConfigUeDate>(() => ({
 
 const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
   type: ConfigTypes.UE_DATE_RANGE,
-  id: faker.random.alpha({ count: 5 }),  
+  id: faker.random.alpha({ count: 5 }),
   fromLabel: 'Fr.o.m',
   toLabel: 't.o.m',
 }))
