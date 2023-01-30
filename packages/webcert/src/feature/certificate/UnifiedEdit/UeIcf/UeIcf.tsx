@@ -13,7 +13,7 @@ import {
   TextValidation,
 } from '@frontend/common'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import _ from 'lodash'
 import IcfDropdown from '../../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../../store/icf/icfSelectors'
@@ -27,16 +27,15 @@ interface Props {
 }
 
 const UeIcf: React.FC<Props> = ({ question, disabled }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
   const icfData = useSelector(getIcfData((question.value as ValueIcf).id), _.isEqual)
   const questionConfig = question.config as ConfigUeIcf
   const dispatch = useAppDispatch()
   const [text, setText] = useState(textValue != null ? textValue : '')
   const [chosenIcfValues, setChosenIcfValues] = useState<string[] | undefined>(getIcdCodesValue(question))
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const previousIcfValues = usePrevious(getIcfValueList(icfData))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const dispatchEditDraft = useRef(
     _.debounce((question: CertificateDataElement, textValue: string, icfCodeValues?: string[]) => {
@@ -99,14 +98,14 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
       <TextArea
         disabled={disabled}
         rowsMin={6}
-        hasValidationError={shouldDisplayValidationError}
+        hasValidationError={validationErrors.length > 0}
         onChange={handleTextChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
         limit={textValidation ? textValidation.limit : 3500}
         placeholder={getPlaceHolder()}
       />
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </div>
   )
 }

@@ -126,6 +126,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
               </>
             )
           }
+        } else if (certificateMetadata.status === CertificateStatus.LOCKED_REVOKED) {
+          return 'Utkastet är makulerat'
         } else {
           return 'Intyget är makulerat'
         }

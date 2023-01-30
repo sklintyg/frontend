@@ -20,5 +20,5 @@ const Template: Story<Props> = ({ ...args }) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  question: fakeYearElement({ id: '1' })['1'],
+  question: fakeYearElement({ id: '1', value: { year: 2021 } })['1'],
 }

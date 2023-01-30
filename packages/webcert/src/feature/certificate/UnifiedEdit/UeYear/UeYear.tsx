@@ -1,17 +1,8 @@
-import {
-  CertificateDataElement,
-  ConfigUeYear,
-  DatePickerCustom,
-  getValidDate,
-  QuestionValidationTexts,
-  ValidationError,
-  ValueYear,
-} from '@frontend/common'
+import { CertificateDataElement, ConfigUeYear, DatePickerCustom, QuestionValidationTexts, ValueYear } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
-import { isValid } from 'date-fns'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
@@ -30,22 +21,13 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
     const text = date.split('-')[0]
     setYearString(text)
 
-    if (isValid(getValidDate(date)) || date === '') {
-      dispatch(
-        updateCertificateDataElement({
-          ...question,
-          value: { ...questionValue, year: parseInt(text) },
-        })
-      )
-    }
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value: { ...questionValue, year: parseInt(text) },
+      })
+    )
   }
-
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
-    },
-    [dispatch]
-  )
 
   return (
     <>
@@ -54,12 +36,9 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
         textInputOnChange={handleChange}
         setDate={handleChange}
         inputString={yearString}
-        questionId={question.id}
         max={questionConfig.maxYear?.toString()}
         min={questionConfig.minYear ? (questionConfig.minYear - 1).toString() : ''}
         displayValidationErrorOutline={validationErrors.length > 0}
-        onDispatchValidationError={dispatchValidationError}
-        componentField={questionConfig.id}
         yearOnly={true}
       />
       <ValidationWrapper>

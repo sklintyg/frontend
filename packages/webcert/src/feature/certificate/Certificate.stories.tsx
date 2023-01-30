@@ -35,6 +35,7 @@ import { getCertificate } from '../../store/certificate/certificateSelectors'
 import reducer from '../../store/reducers'
 import Certificate from './Certificate'
 import { getCertificateSuccess } from '../../store/certificate/certificateActions'
+import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 export default {
   title: 'Webcert/Certificate',
@@ -280,13 +281,13 @@ DB.args = {
         mandatory: true,
       }),
       fakeDataElement({
-        config: {
+        config: fakeCertificateConfig.message({
           text: '',
           type: ConfigTypes.UE_MESSAGE,
           level: MessageLevel.INFO,
           message:
             'Du har angivit att en rättsmedicinsk undersökning ska göras. Detta kräver att en polisanmälan görs och fältet har därför förifyllts.',
-        },
+        }),
         validation: [
           fakeCertificateDataValidation({
             type: CertificateDataValidationType.SHOW_VALIDATION,
@@ -296,12 +297,12 @@ DB.args = {
         ],
       }),
       fakeDataElement({
-        config: {
+        config: fakeCertificateConfig.message({
           text: '',
           type: ConfigTypes.UE_MESSAGE,
           level: MessageLevel.OBSERVE,
           message: 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
-        },
+        }),
       }),
     ]),
   ]),

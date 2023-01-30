@@ -1,7 +1,7 @@
 import { CertificateDataElement, ConfigLayout, ConfigUeCheckboxMultipleCodes, QuestionValidationTexts } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
 import UeCheckbox from '../UeCheckbox/UeCheckbox'
@@ -14,8 +14,7 @@ export interface Props {
 const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeCheckboxMultipleCodes
   const checkboxes = config.list
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const noItems = checkboxes.length
 
@@ -33,14 +32,13 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
                 id={checkbox.id}
                 label={checkbox.label}
                 disabled={disabled || checkbox.disabled}
-                hasValidationError={shouldDisplayValidationError}
+                hasValidationError={validationErrors.length > 0}
                 question={question}
                 wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
               />
             </ItemWrapper>
           ))}
-
-          {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+          <QuestionValidationTexts validationErrors={validationErrors}></QuestionValidationTexts>
         </GroupWrapper>
       </div>
     )

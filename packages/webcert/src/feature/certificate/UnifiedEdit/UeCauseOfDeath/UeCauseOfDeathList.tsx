@@ -3,8 +3,6 @@ import {
   CertificateDataValueType,
   ConfigUeCauseOfDeathList,
   CustomButton,
-  formatDateToString,
-  getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
   ValueDate,
@@ -12,7 +10,6 @@ import {
 } from '@frontend/common'
 import add_row from '@frontend/common/src/images/add_circle.svg'
 import remove_row from '@frontend/common/src/images/remove_circle.svg'
-import { isValid } from 'date-fns'
 import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -97,10 +94,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
         ...question,
         value: {
           ...questionValue,
-          list: list.map(({ debut, ...val }) => {
-            const date = getValidDate(debut.date)
-            return { ...val, debut: { ...debut, date: date && isValid(date) ? formatDateToString(date) : '' } }
-          }),
+          list,
         },
       })
     )
@@ -117,7 +111,6 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
             return (
               config && (
                 <UeCauseOfDeathControl
-                  questionId={question.id}
                   config={config}
                   value={value}
                   key={config.id}
