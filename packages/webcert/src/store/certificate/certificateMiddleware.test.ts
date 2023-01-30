@@ -540,34 +540,14 @@ describe('Test certificate middleware', () => {
       category: 'category',
     }
 
-    it('should add validation message if it does not exist', () => {
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
+    it('Should add validation error', () => {
+      testStore.dispatch(updateClientValidationError([validationError]))
+      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toMatchObject([validationError])
     })
 
-    it('should remove validation message if remove flag is sent', () => {
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: true }))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(0)
-    })
-
-    it('should not add validation message if it already exists', () => {
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
-    })
-
-    it('should add several validation messages', () => {
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
-      testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: false }))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(2)
-    })
-
-    it('should remove only one validation message if flag is sent', () => {
-      testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: false }))
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
-      testStore.dispatch(updateClientValidationError({ validationError: otherValidationError, shouldBeRemoved: true }))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toHaveLength(1)
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors[0].type).toEqual('ERROR')
+    it('Should replace validation error list', () => {
+      testStore.dispatch(updateClientValidationError([otherValidationError]))
+      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toMatchObject([otherValidationError])
     })
   })
 
@@ -583,7 +563,7 @@ describe('Test certificate middleware', () => {
     it('should halt and display validation errors', () => {
       const certificate = getCertificateWithHiglightValidation(false)
       testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(updateClientValidationError({ validationError: validationError, shouldBeRemoved: false }))
+      testStore.dispatch(updateClientValidationError([validationError]))
 
       expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(false)
       testStore.dispatch(startSignCertificate())

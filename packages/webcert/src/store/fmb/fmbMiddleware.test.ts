@@ -4,9 +4,11 @@ import {
   CertificateDataConfig,
   CertificateDataElement,
   CertificateMetadata,
-  ConfigTypes,
   Patient,
   ResourceLinkType,
+  CertificateDataValueType,
+  ValueDateRangeList,
+  ValueDiagnosisList,
 } from '@frontend/common'
 import {
   FMBDiagnoseRequest,
@@ -23,7 +25,8 @@ import reducer from '../reducers'
 import apiMiddleware from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { CertificateDataValueType, ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src'
+
+import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -298,13 +301,11 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.diagnoses({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      type: ConfigTypes.UE_DIAGNOSES,
-      id: 'funktionsnedsattning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: [
@@ -330,13 +331,11 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {
+    config: fakeCertificateConfig.diagnoses({
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      type: ConfigTypes.UE_DIAGNOSES,
-      id: 'funktionsnedsattning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: codes.map((value, index) => ({

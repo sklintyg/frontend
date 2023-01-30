@@ -1,9 +1,9 @@
-import { sanitizeText } from '@frontend/common'
 import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import TextWithDynamicLinks from '../../../utils/TextWithDynamicLinks'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 
@@ -70,7 +70,11 @@ const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
               </>
             )}
           </p>
-          {certMetaData && <Description dangerouslySetInnerHTML={sanitizeText(certMetaData.description)} />}
+          {certMetaData?.description && (
+            <Description>
+              <TextWithDynamicLinks text={certMetaData.description} />
+            </Description>
+          )}
         </ContentWrapper>
       </Root>
       <AboutCertificatePanelFooter />

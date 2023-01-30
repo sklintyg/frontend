@@ -12,7 +12,6 @@ import reducer from '../../../../store/reducers'
 import UeDate from './UeDate'
 
 let testStore: EnhancedStore
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
 const QUESTION_ID = 'datepicker'
 
@@ -71,32 +70,6 @@ describe('DatePicker component', () => {
 
     userEvent.type(input, inputDate)
     expect(input).toHaveValue(expected)
-  })
-
-  it('should display error when input is not a complete date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, '2020-01')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should display error when input is not a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'test')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should not display error when input is a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '20200101')
-    userEvent.tab()
-    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
 
   it('renders component with correct default values', () => {

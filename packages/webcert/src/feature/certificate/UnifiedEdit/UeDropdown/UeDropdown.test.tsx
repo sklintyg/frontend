@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import * as redux from 'react-redux'
 import UeDropdown from './UeDropdown'
+import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },
@@ -24,13 +25,13 @@ const question: CertificateDataElement = {
   validation: [],
   validationErrors: [],
   value: { type: CertificateDataValueType.CODE },
-  config: {
+  config: fakeCertificateConfig.dropdown({
     text: '',
     description: '',
     type: ConfigTypes.UE_DROPDOWN,
     list: OPTIONS,
     label: LABEL,
-  },
+  }),
 }
 
 const renderComponent = () => {
