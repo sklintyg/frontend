@@ -18,7 +18,7 @@ const certificateMetadata: CertificateMetadata = fakeCertificateMetaData({
 })
 
 describe('Verify history events', () => {
-  it('displays history entries, nut hide available to patient for the death certificates', async () => {
+  it('displays history entries, but hide available to patient for the death certificates', async () => {
     const mockHistoryEntries: CertificateEvent[] = [
       {
         certificateId: 'xxxx',
