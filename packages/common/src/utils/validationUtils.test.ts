@@ -11,6 +11,7 @@ import {
   fakeCertificateDataValidation,
   fakeCheckboxMultipleCodeElement,
   formatDateToString,
+  getDateRangeElement,
   getIcfElement,
   getSickLeavePeriodElement,
   ResourceLink,
@@ -36,6 +37,8 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
+import { ValueDateRange } from '@frontend/common'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -137,7 +140,7 @@ describe('Validate show rule for boolean values', () => {
   })
 })
 
-describe('Validate show rule for date range values', () => {
+describe('Validate show rule for date range values for sickLeavePeriod element', () => {
   const sickLeavePeriodElement = getSickLeavePeriodElement()
   const SUT_ID = 'EN_FJARDEDEL'
 
@@ -171,6 +174,38 @@ describe('Validate show rule for date range values', () => {
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
+  })
+})
+
+describe('Validate show rule for date range values', () => {
+  const dateRangeElement = getDateRangeElement()
+  const SUT_ID = 'sjukskrivningsgradPeriod'
+
+  it('it should validate as false when difference from date.from & date.to is less than 14', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 5))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when difference from date.from & date.to is greater than 14 days', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 20))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as false when difference from date.from & date.to is equal', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 14))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 
@@ -281,12 +316,11 @@ describe('Validate mandatory rule for uncertain datet', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.uncertainDate({
       text: 'Osäkert dödsdatum',
       description: 'Datum då döden inträffade är osäkert',
-      type: ConfigTypes.UE_UNCERTAIN_DATE,
       id: 'osakertDodsDatum',
-    },
+    }),
     value: {
       type: CertificateDataValueType.UNCERTAIN_DATE,
       id: 'osakertDodsDatum',
@@ -522,7 +556,7 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.radioBoolean({
       text: 'Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?',
       description:
         'Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.',
@@ -530,7 +564,7 @@ describe('Validate multiple show rules', () => {
       id: 'harAktivitetsbegransning',
       selectedText: 'Ja',
       unselectedText: 'Nej',
-    },
+    }),
     value: {
       type: CertificateDataValueType.BOOLEAN,
       id: 'harAktivitetsbegransning',
@@ -558,13 +592,12 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.textArea({
       text: 'Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.',
       description:
         'Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera. Till exempel:\n\natt ta till sig en instruktion\natt ta reda på och förstå muntlig eller skriftlig information\natt kunna fokusera\natt kunna bära eller lyfta\natt kunna hantera statiskt arbete',
-      type: ConfigTypes.UE_TEXTAREA,
       id: 'aktivitetsbegransning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.TEXT,
       id: 'aktivitetsbegransning',
@@ -597,14 +630,13 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.radioBoolean({
       text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      type: ConfigTypes.UE_RADIO_BOOLEAN,
       id: 'harFunktionsnedsattning',
       selectedText: 'Ja',
       unselectedText: 'Nej',
-    },
+    }),
     value: {
       type: CertificateDataValueType.BOOLEAN,
       id: 'harFunktionsnedsattning',
@@ -902,39 +934,39 @@ describe('Validate disable rule for code list', () => {
           label: 'Övrigt',
         },
       ],
-      validation: [
-        {
-          type: CertificateDataValidationType.MANDATORY_VALIDATION,
-          questionId: '40',
-          expression:
-            '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-        },
-        {
-          type: CertificateDataValidationType.DISABLE_VALIDATION,
-          questionId: '40',
-          expression:
-            '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-          id: ['EJ_AKTUELLT'],
-        },
-        {
-          type: CertificateDataValidationType.DISABLE_VALIDATION,
-          questionId: '40',
-          expression: '$EJ_AKTUELLT',
-          id: [
-            'ARBETSTRANING',
-            'ARBETSANPASSNING',
-            'SOKA_NYTT_ARBETE',
-            'BESOK_ARBETSPLATS',
-            'ERGONOMISK',
-            'HJALPMEDEL',
-            'KONFLIKTHANTERING',
-            'KONTAKT_FHV',
-            'OMFORDELNING',
-            'OVRIGA_ATGARDER',
-          ],
-        },
-      ],
     },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '40',
+        expression:
+          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression:
+          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+        id: ['EJ_AKTUELLT'],
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression: '$EJ_AKTUELLT',
+        id: [
+          'ARBETSTRANING',
+          'ARBETSANPASSNING',
+          'SOKA_NYTT_ARBETE',
+          'BESOK_ARBETSPLATS',
+          'ERGONOMISK',
+          'HJALPMEDEL',
+          'KONFLIKTHANTERING',
+          'KONTAKT_FHV',
+          'OMFORDELNING',
+          'OVRIGA_ATGARDER',
+        ],
+      },
+    ],
   })['40']
 
   it('it should validate as true when code is in list', () => {

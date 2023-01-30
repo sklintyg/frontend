@@ -1,6 +1,7 @@
 import { add, differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
 import { compileExpression } from 'filtrex'
 import { CertificateDataValidationType, CertificateDataValueType, MaxDateValidation, ValueType } from '../types/certificate'
+import { getFieldValuePair } from './certificate/getFieldValuePair'
 import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
 
 /**
@@ -23,64 +24,38 @@ const parseDateRangeValue = (date?: string): string | undefined | number => {
   return dateObj ? differenceInDays(dateObj, new Date()) : undefined
 }
 
-const getKeyValuePairFromList = (list: ValueType[]) =>
-  list.reduce((result: Record<string, unknown>, value: ValueType) => Object.assign(result, getKeyValuePair(value)), {})
-
 export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
-  switch (value.type) {
-    case CertificateDataValueType.BOOLEAN:
-      return { [value.id]: value.selected }
-    case CertificateDataValueType.CAUSE_OF_DEATH:
-      return {
-        ...getKeyValuePair(value.debut),
-        ...getKeyValuePair(value.description),
-        ...getKeyValuePair(value.specification),
-      }
-    case CertificateDataValueType.CODE:
-      return { [value.id]: value.code }
-    case CertificateDataValueType.DATE:
-      return { [value.id]: parseDateValue(value.date) }
-    case CertificateDataValueType.YEAR:
-      return { [value.id]: value.year }
-    case CertificateDataValueType.MEDICAL_INVESTIGATION:
-      return {
-        ...getKeyValuePair(value.date),
-        ...getKeyValuePair(value.informationSource),
-        ...getKeyValuePair(value.investigationType),
-      }
-    case CertificateDataValueType.DATE_RANGE:
-      return {
-        [value.id]: isValid(getValidDate(value.from)) && isValid(getValidDate(value.to)),
-        // TODO: Can be simplified by replacing `ID.from >= 7` with `days(ID.from) <= 7`
-        [`${value.id}.from`]: parseDateRangeValue(value.from),
-        [`${value.id}.to`]: parseDateRangeValue(value.to),
-      }
-    // TODO: No need to convert uncertain date value if backend expressions are replaced with `uncertainDate(ID)`
-    case CertificateDataValueType.UNCERTAIN_DATE:
-      return { [value.id]: value.value ? isValidUncertainDate(value.value) : false }
-    case CertificateDataValueType.DIAGNOSIS:
-      return { [value.id]: value.code }
-    case CertificateDataValueType.ICF:
-    case CertificateDataValueType.TEXT:
-      return { [value.id]: value.text }
-    case CertificateDataValueType.DOUBLE:
-      return { [value.id]: value.value }
-    case CertificateDataValueType.VISUAL_ACUITIES:
-      return {
-        ...getKeyValuePair(value.rightEye),
-        ...getKeyValuePair(value.leftEye),
-        ...getKeyValuePair(value.binocular),
-      }
-    case CertificateDataValueType.VISUAL_ACUITY: {
-      return {
-        ...getKeyValuePair(value.withoutCorrection),
-        ...getKeyValuePair(value.withCorrection),
-        ...(value.contactLenses && getKeyValuePair(value.contactLenses)),
-      }
+  return Object.entries(getFieldValuePair(value)).reduce((result, [field, value]) => {
+    switch (value.type) {
+      case CertificateDataValueType.BOOLEAN:
+        return { ...result, [field]: value.selected }
+      case CertificateDataValueType.CODE:
+        return { ...result, [field]: value.code }
+      case CertificateDataValueType.DATE:
+        return { ...result, [field]: parseDateValue(value.date) }
+      case CertificateDataValueType.YEAR:
+        return { ...result, [field]: value.year }
+      case CertificateDataValueType.DATE_RANGE:
+        return {
+          ...result,
+          [field]: isValid(getValidDate(value.from)) && isValid(getValidDate(value.to)),
+          // TODO: Can be simplified by replacing `ID.from >= 7` with `days(ID.from) <= 7`
+          [`${field}.from`]: parseDateRangeValue(value.from),
+          [`${field}.to`]: parseDateRangeValue(value.to),
+        }
+      // TODO: No need to convert uncertain date value if backend expressions are replaced with `uncertainDate(ID)`
+      case CertificateDataValueType.UNCERTAIN_DATE:
+        return { ...result, [field]: value.value ? isValidUncertainDate(value.value) : false }
+      case CertificateDataValueType.DIAGNOSIS:
+        return { ...result, [field]: value.code }
+      case CertificateDataValueType.ICF:
+      case CertificateDataValueType.TEXT:
+        return { ...result, [field]: value.text }
+      case CertificateDataValueType.DOUBLE:
+        return { ...result, [field]: value.value }
     }
-    default:
-      return value.list instanceof Array ? getKeyValuePairFromList(value.list) : {}
-  }
+    return result
+  }, {})
 }
 
 export const maxDateToExpression = (validation: MaxDateValidation): string =>

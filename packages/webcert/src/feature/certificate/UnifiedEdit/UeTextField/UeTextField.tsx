@@ -13,7 +13,7 @@ import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
 export interface Props {
   question: CertificateDataElement
@@ -21,12 +21,11 @@ export interface Props {
 }
 
 const UeTextField: React.FC<Props> = ({ question, disabled }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextField
   const [text, setText] = useState(textValue != null ? textValue.text : '')
   const dispatch = useDispatch()
-  const questionHasValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -49,13 +48,13 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
         <TextInput
           className=""
           disabled={disabled}
-          hasValidationError={questionHasValidationError}
+          hasValidationError={validationErrors.length > 0}
           onChange={handleChange}
           name={questionConfig.id}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
         />
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}{' '}
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </div>
     </div>
   )

@@ -372,7 +372,7 @@ describe('validateExpression', () => {
   })
 
   describe('MEDICAL_INVESTIGATION_LIST', () => {
-    it('Should', () => {
+    it('Should validate !empty for medical investigation correctly', () => {
       expect(
         validateExpression("!empty('underlag[0].typ') && !empty('underlag[0].datum') && !empty('underlag[0].hamtasFran')", {
           type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST,
