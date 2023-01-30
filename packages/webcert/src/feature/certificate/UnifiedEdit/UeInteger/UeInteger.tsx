@@ -38,7 +38,6 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeInteger
   const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? '')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id, 'NUMBER'))
-
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ' ') {
       event.preventDefault()
@@ -48,7 +47,6 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
     const numberValue = Number(inputValue)
-
     setNumber(event.target.value.replace(/[^0-9-]/g, ''))
 
     if (isNumberValid(numberValue) || number === '') {
@@ -63,7 +61,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
 
   const isNumberValid = (number: number) => {
     const error: ValidationError = {
-      category: question.parent,
+      category: '',
       id: question.id,
       text: INVALID_NUMBER_PERIOD_ERROR,
       type: 'NUMBER_ERRORS',
@@ -72,7 +70,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     }
     const shouldBeRemoved = number <= 100 && number >= 0
     dispatch(updateClientValidationError({ shouldBeRemoved, validationError: error }))
-    return number
+    return shouldBeRemoved
   }
 
   return (
