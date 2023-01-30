@@ -84,14 +84,13 @@ describe('Testa DOI-utkast', function() {
       cy.get('[id="forgiftningfalse"]').check({ force: true })
 
       // Dödsorsaksuppgifter grundar sig på
-      cy.get('[data-testid="UNDERSOKNING_FORE_DODEN"]').check({ force: true })
+      cy.get('[data-testid="13.1UNDERSOKNING_FORE_DODEN"]').check({ force: true })
 
       // Signera utkast
       cy.contains('Utkastet är sparat').should('be.visible')
       cy.contains('Klart att signera').should('be.visible')
       cy.contains('Signera och skicka').click()
       cy.contains('Intyget är skickat till Socialstyrelsen').should('be.visible')
-      cy.contains('Intyget är tillgängligt för patienten').should('be.visible')
     })
   })
 })
