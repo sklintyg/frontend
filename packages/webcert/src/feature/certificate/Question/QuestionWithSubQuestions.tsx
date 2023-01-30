@@ -46,7 +46,7 @@ export const QuestionWithSubQuestions: React.FC<Props> = ({ questionIds }) => {
   const complements = useSelector(getComplementsForQuestions(questionIds), isEqual)
   const parentQuestion = useSelector(getQuestion(questionIds[0]), isEqual)
 
-  if (!parentQuestion) return null
+  if (!parentQuestion || !parentQuestion.visible) return null
 
   return (
     <Highlighted highlight={complements.length > 0}>
