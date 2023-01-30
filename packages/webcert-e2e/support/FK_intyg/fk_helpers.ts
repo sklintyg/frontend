@@ -26,7 +26,7 @@ export function skickaFraga(amne: string): void {
     .contains('Skicka')
     .click()
   cy.contains('skickar en fråga angående ' + amne).should('exist')
-  cy.contains('Hanterad').click()
+  cy.get('*[id^="checkbox_hanterad"]').check({ force: true })
 }
 
 export function signera(): void {
