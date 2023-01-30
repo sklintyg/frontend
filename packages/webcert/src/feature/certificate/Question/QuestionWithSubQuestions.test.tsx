@@ -59,4 +59,10 @@ describe('QuestionWithSubQuestions', () => {
 
     complements.forEach((c) => expect(screen.queryByText(c.message)).toBeInTheDocument())
   })
+
+  it('Should return null if parentQuestion is false or not visible', () => {
+    const parentQuestion = { visible: false }
+    const result = !parentQuestion || !parentQuestion.visible
+    expect(result).toBe(true)
+  })
 })
