@@ -46,7 +46,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
       case CertificateEventType.SIGNED:
         return 'Intyget är signerat'
       case CertificateEventType.AVAILABLE_FOR_PATIENT:
-        return 'Intyget är tillgängligt för patienten'
+        if (certificateMetadata.type === 'db' || certificateMetadata.type === 'doi') return
+        else return 'Intyget är tillgängligt för patienten'
       case CertificateEventType.REPLACED:
         switch (event.relatedCertificateStatus) {
           case CertificateStatus.UNSIGNED:
