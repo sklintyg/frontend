@@ -4,13 +4,13 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { hideValidationErrors, removeClientValidationError, showValidationErrors } from '../../../../store/certificate/certificateActions'
+import { hideValidationErrors, showValidationErrors } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
 import UeDateRange from './UeDateRange'
 
 const QUESTION_ID = 'Intervall'
 
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
+//const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 
 const question = fakeDateRangeElement({ id: QUESTION_ID, value: { date: '2022-09-29' } })[QUESTION_ID]
 
@@ -23,34 +23,11 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeDateRange>) => {
 }
 
 describe('Date range picker', () => {
-  afterEach(() => {
-    store.dispatch(removeClientValidationError(0))
-  })
-
   it('renders without crashing', () => {
     renderDefaultComponent({ disabled: false, question })
   })
 
   describe('Validation error', () => {
-    it('shows invalid text message', async () => {
-      renderDefaultComponent({ disabled: false, question })
-
-      const fromInput = screen.getByLabelText('Fr.o.m')
-      const tomInput = screen.getByLabelText('t.o.m')
-
-      userEvent.type(fromInput, 'x{enter}')
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-      userEvent.clear(fromInput)
-      fromInput.blur()
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-
-      userEvent.type(tomInput, 'x{enter}')
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-      userEvent.clear(tomInput)
-      tomInput.blur()
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-    })
-
     it('shows not complete date message when only from date is inserted', () => {
       renderDefaultComponent({ disabled: false, question })
       store.dispatch(showValidationErrors())
@@ -92,7 +69,6 @@ describe('Date range picker', () => {
       userEvent.type(screen.getByText('t.o.m'), 'yyyyyyyy')
       userEvent.click(screen.getByText('Fr.o.m'))
       expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
-      expect(screen.getByText('Ange datum i formatet åååå-mm-dd.')).toBeInTheDocument()
     })
 
     it('should not show complete date message when validation errors are hidden but from date is inserted', () => {

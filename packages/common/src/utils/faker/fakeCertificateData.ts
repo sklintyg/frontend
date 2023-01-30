@@ -1,3 +1,4 @@
+import { ConfigUeViewList, ConfigUeViewTable } from '@frontend/common'
 import faker from 'faker'
 import { merge } from 'lodash'
 import { Merge, PartialDeep } from 'type-fest'
@@ -54,12 +55,11 @@ import {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
+import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateConfig } from './fakeCertificateConfig'
-import { ConfigUeViewTable, ConfigUeViewList } from '@frontend/common'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -442,7 +442,6 @@ export const fakeDateRangeElement = (
         toLabel: 't.o.m',
         ...data?.config,
       },
-      // value: { type: CertificateDataValueType.DATE, date: '2022-09-29', ...data?.value },
       value: fakeCertificateValue.dateRange(data?.value),
       validation: [
         fakeCertificateDataValidation({

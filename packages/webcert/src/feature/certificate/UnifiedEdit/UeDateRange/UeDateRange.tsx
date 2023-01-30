@@ -5,8 +5,6 @@ import {
   dayCodeReg,
   formatDateToString,
   getValidDate,
-  isDateRangeValid,
-  isValidDateIncludingSpecialDateCodes,
   monthCodeReg,
   parseDayCodes,
   QuestionValidationTexts,
@@ -16,18 +14,40 @@ import {
   _dateReg,
   _dateRegDashesOptional,
 } from '@frontend/common'
-import { addDays, isBefore, isValid } from 'date-fns'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { addDays, isValid } from 'date-fns'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import usePrevious from '../../../../hooks/usePrevious'
-import { updateCertificateDataElement, updateClientValidationError } from '../../../../store/certificate/certificateActions'
+import styled from 'styled-components'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import { DateGrid, DatesWrapper } from './Styles'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
-const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
-const NOT_COMPLETE_DATE_ERROR_MESSAGE = 'Ange ett datum.'
+const DatesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-right: 8px;
+  }
+
+  label {
+    margin-right: 0.625em;
+  }
+
+  & + & {
+    margin-left: 8px;
+  }
+`
+const DateGrid = styled.div`
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: 1fr 1fr;
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+  }
+`
 
 export interface Props {
   disabled?: boolean
@@ -42,60 +62,54 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
 
-  const previousFromDateString = usePrevious(fromDateInput)
-  const previousToDateString = usePrevious(toDateInput)
   const dispatch = useDispatch()
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
-  useEffect(() => {
-    const shouldClearPreviousPeriod = (): boolean => isDateRangeValid(previousFromDateString ?? '', previousToDateString ?? '')
-
-    if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
-      if (isDateRangeValid(fromDateInput ?? '', toDateInput ?? '') || (!fromDateInput && toDateInput) || (fromDateInput && !toDateInput)) {
-        dispatch(
-          updateCertificateDataElement({
-            ...question,
-            value: { ...value, from: fromDateInput ?? undefined, to: toDateInput ?? undefined },
-          })
-        )
-      } else if (shouldClearPreviousPeriod()) {
-        dispatch(
-          updateCertificateDataElement({
-            ...question,
-            value: { ...value, from: undefined, to: undefined },
-          })
-        )
-      }
-    }
-  }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString, config.id, dispatch, question, value])
-
-  const handleFromTextInputChange = (value: string) => {
-    setFromDateInput(value ?? null)
+  const handleFromTextInputChange = (fromValue: string) => {
+    setFromDateInput(fromValue)
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value: { ...value, from: fromValue && fromValue.length > 0 ? fromValue : undefined, to: toDateInput ?? undefined },
+      })
+    )
   }
 
-  const handleDatePickerSelectFrom = (date: string) => {
-    setFromDateInput(date)
-    toggleShowValidationError(date, toDateInput)
-    tomTextInputRef.current?.focus()
-  }
-
-  const handleDatePickerSelectTo = (date: string) => {
-    setToDateInput(date)
-    toggleShowValidationError(fromDateInput, date)
-  }
-
-  const handleToTextInputChange = (value: string) => {
-    setToDateInput(value)
-  }
-
-  const handleFromTextInputOnBlur = () => {
-    toggleShowValidationError(fromDateInput, toDateInput)
+  const handleToTextInputChange = (toValue: string | null) => {
+    setToDateInput(toValue)
+    dispatch(
+      updateCertificateDataElement({
+        ...question,
+        value: { ...value, from: fromDateInput ?? undefined, to: toValue && toValue.length > 0 ? toValue : undefined },
+      })
+    )
   }
 
   const handleToTextInputOnBlur = () => {
-    formatToInputTextField()
-    const parsedToDate = getParsedToDateString(fromDateInput, toDateInput)
-    toggleShowValidationError(fromDateInput, parsedToDate ?? toDateInput)
+    if (!toDateInput || !fromDateInput || !getValidDate(fromDateInput)) {
+      handleToTextInputChange(tomTextInputRef.current?.value ?? null)
+      return
+    }
+
+    const fromDate = getValidDate(fromDateInput)
+
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateInput ?? ''))
+
+    if (inputMatchesRegex && fromDate) {
+      const numberOfDaysToAdd = parseDayCodes(toDateInput)
+
+      if (numberOfDaysToAdd) {
+        //Befintliga webcert drar bort en dag i beräkningen
+        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
+        handleToTextInputChange(formatDateToString(newDate))
+      }
+    } else if (_dateReg.test(toDateInput) || _dateRegDashesOptional.test(toDateInput)) {
+      const newDate = getValidDate(toDateInput)
+
+      if (newDate && isValid(newDate)) {
+        handleToTextInputChange(formatDateToString(newDate))
+      }
+    }
   }
 
   const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
@@ -111,91 +125,6 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
     }
   }
 
-  function isDateFormatValid(toDate: string | null, fromDate: string | null) {
-    return (toDate && isValidDateIncludingSpecialDateCodes(toDate)) || (fromDate && isValid(getValidDate(fromDate)))
-  }
-
-  const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
-    const validFromDate = getValidDate(fromDate ?? '')
-    const validToDate = getValidDate(toDate ?? '')
-    const invalidDatePeriod = !!validFromDate && !!validToDate && isBefore(validToDate, validFromDate)
-    const notCompleteDatePeriod = ((fromDate && !toDate) || (toDate && !fromDate)) && isDateFormatValid(toDate, fromDate)
-
-    dispatchValidationError(!invalidDatePeriod, {
-      category: '',
-      field: 'row.' + config.id,
-      id: question.id,
-      text: INVALID_DATE_PERIOD_ERROR,
-      type: 'INVALID_DATE_PERIOD',
-      showAlways: true,
-    })
-
-    let notCompleteDateField = ''
-    if (!notCompleteDatePeriod) {
-      notCompleteDateField = config.id
-    } else {
-      notCompleteDateField = !toDateInput ? 'tom.' + config.id : 'from.' + config.id
-    }
-    dispatchValidationError(!notCompleteDatePeriod, {
-      category: '',
-      field: notCompleteDateField,
-      id: question.id,
-      text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
-      type: 'NOT_COMPLETE_DATE',
-    })
-  }
-
-  const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
-    if (!toDateString || !fromDateString || !getValidDate(fromDateString)) {
-      return
-    }
-    const fromDate = getValidDate(fromDateString)
-
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateString))
-
-    if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(toDateString)
-
-      if (numberOfDaysToAdd) {
-        //Befintliga webcert drar bort en dag i beräkningen
-        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        return formatDateToString(newDate)
-      }
-    } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
-      const newDate = getValidDate(toDateString)
-
-      if (newDate && isValid(newDate)) {
-        return formatDateToString(newDate)
-      }
-    } else return null
-  }
-
-  const formatToInputTextField = () => {
-    if (!toDateInput || !fromDateInput || !getValidDate(fromDateInput)) {
-      return
-    }
-
-    const fromDate = getValidDate(fromDateInput)
-
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateInput))
-
-    if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(toDateInput)
-
-      if (numberOfDaysToAdd) {
-        //Befintliga webcert drar bort en dag i beräkningen
-        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        setToDateInput(formatDateToString(newDate))
-      }
-    } else if (_dateReg.test(toDateInput) || _dateRegDashesOptional.test(toDateInput)) {
-      const newDate = getValidDate(toDateInput)
-
-      if (newDate && isValid(newDate)) {
-        setToDateInput(formatDateToString(newDate))
-      }
-    }
-  }
-
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
     if (validationErrors.length > 0) {
       return true
@@ -206,13 +135,6 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
     return validationErrors.length > 0
   }
 
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
-    },
-    [dispatch]
-  )
-
   return (
     <>
       <DateGrid>
@@ -222,17 +144,13 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
             label={config.fromLabel}
             id={`from${config.id}`}
             textInputRef={fromTextInputRef}
-            textInputOnBlur={handleFromTextInputOnBlur}
             textInputOnKeyDown={handleFromTextInputOnKeyDown}
             textInputName={`from${config.id}`}
             inputString={fromDateInput}
-            setDate={handleDatePickerSelectFrom}
+            setDate={handleFromTextInputChange}
             textInputOnChange={handleFromTextInputChange}
             textInputDataTestId={`from${config.id}`}
             displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'from')}
-            componentField={'from.' + config.id}
-            questionId={question.id}
-            onDispatchValidationError={dispatchValidationError}
           />
         </DatesWrapper>
         <DatesWrapper>
@@ -243,15 +161,12 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
             textInputName={`tom${config.id}`}
             textInputRef={tomTextInputRef}
             inputString={toDateInput}
-            setDate={handleDatePickerSelectTo}
+            setDate={handleToTextInputChange}
             textInputOnChange={handleToTextInputChange}
             textInputOnBlur={handleToTextInputOnBlur}
             textInputOnKeyDown={handleToTextInputOnKeyDown}
             textInputDataTestId={`tom${config.id}`}
             displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(config.id, 'tom')}
-            componentField={'tom.' + config.id}
-            questionId={question.id}
-            onDispatchValidationError={dispatchValidationError}
           />
         </DatesWrapper>
       </DateGrid>

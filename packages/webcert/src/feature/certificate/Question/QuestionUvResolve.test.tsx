@@ -4,6 +4,7 @@ import {
   CertificateDataValueType,
   ConfigLayout,
   ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDateRange,
@@ -16,6 +17,7 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeYear,
+  fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
   Value,
@@ -28,7 +30,6 @@ import {
   ValueIcf,
   ValueText,
   ValueYear,
-  ConfigUeCheckboxBoolean,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
@@ -421,22 +422,19 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
 }
 
 export const createQuestionWithDateRange = (): CertificateDataElement => {
-  const value: ValueDateRange = {
-    type: CertificateDataValueType.DATE_RANGE,
-    id: 'DATE_1',
-    from: '2021-06-22',
-    to: '2021-06-25',
-  }
-  const config: ConfigUeDateRange = {
-    description: '',
-    id: '',
-    text: '',
-    type: ConfigTypes.UE_DATE_RANGE,
-    fromLabel: 'Fr.o.m',
-    toLabel: 't.o.m',
-  }
+  const question = fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  })['id']
 
-  return createQuestion(value, config)
+  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
 }
 
 export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
@@ -582,7 +580,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
+export function createQuestion(value: Value | ValueDateRange, config: CertificateDataConfig | ConfigUeDateRange): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,
