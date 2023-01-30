@@ -200,7 +200,27 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
     validationErrors: [],
   }
 }
-
+export const getDateRangeElement = (): CertificateDataElement => {
+  return {
+    id: '1.4',
+    parent: '1.1',
+    index: 1,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {
+      type: ConfigTypes.UE_DATE_RANGE,
+      text: 'text',
+      description: 'description',
+    },
+    value: {
+      type: CertificateDataValueType.DATE_RANGE,
+      id: 'sjukskrivningsgradPeriod',
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}
 export const getAnotherTextElement = (): CertificateDataElement => {
   return {
     id: '1.3',

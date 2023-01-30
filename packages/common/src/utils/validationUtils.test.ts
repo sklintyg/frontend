@@ -11,6 +11,7 @@ import {
   fakeCertificateDataValidation,
   fakeCheckboxMultipleCodeElement,
   formatDateToString,
+  getDateRangeElement,
   getIcfElement,
   getSickLeavePeriodElement,
   ResourceLink,
@@ -36,6 +37,7 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
+import { ValueDateRange } from '@frontend/common'
 import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
 
 describe('Validate mandatory rule for boolean values', () => {
@@ -138,7 +140,7 @@ describe('Validate show rule for boolean values', () => {
   })
 })
 
-describe('Validate show rule for date range values', () => {
+describe('Validate show rule for date range values for sickLeavePeriod element', () => {
   const sickLeavePeriodElement = getSickLeavePeriodElement()
   const SUT_ID = 'EN_FJARDEDEL'
 
@@ -172,6 +174,38 @@ describe('Validate show rule for date range values', () => {
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
+  })
+})
+
+describe('Validate show rule for date range values', () => {
+  const dateRangeElement = getDateRangeElement()
+  const SUT_ID = 'sjukskrivningsgradPeriod'
+
+  it('it should validate as false when difference from date.from & date.to is less than 14', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 5))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when difference from date.from & date.to is greater than 14 days', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 20))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as false when difference from date.from & date.to is equal', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 14))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 
