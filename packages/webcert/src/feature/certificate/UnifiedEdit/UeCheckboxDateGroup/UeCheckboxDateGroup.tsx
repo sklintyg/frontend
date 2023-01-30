@@ -1,8 +1,18 @@
-import { CertificateDataElement, ConfigUeCheckboxMultipleDate, QuestionValidationTexts, ValueDate, ValueDateList } from '@frontend/common'
-import React from 'react'
+import {
+  CertificateDataElement,
+  ConfigUeCheckboxMultipleDate,
+  QuestionValidationTexts,
+  ValueDate,
+  ValueDateList,
+  CertificateDataValueType,
+  getMaxDate,
+} from '@frontend/common'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import UeCheckboxDate from '../UeCheckboxDate/UeCheckboxDate'
+import { useAppDispatch } from '../../../../store/store'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { UeCheckboxDateItem } from './UeCheckboxDateItem'
 
 export interface Props {
   disabled: boolean
@@ -10,41 +20,43 @@ export interface Props {
 }
 
 const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
+  const dispatch = useAppDispatch()
   const checkboxes = (question.config as ConfigUeCheckboxMultipleDate).list
-  const values = (question.value as ValueDateList).list
-  const validationErrors = useSelector(getVisibleValidationErrors(question.id, question.id))
-
-  const getDate = (id: string) => {
-    const index = values.findIndex((date: ValueDate) => date.id === id)
-    if (index !== -1) {
-      return values[index].date
-    } else {
-      return null
-    }
-  }
-
-  const renderCheckboxes = () => {
-    if (!checkboxes) {
-      return null
-    }
-    return checkboxes.map((checkbox, index) => (
-      <UeCheckboxDate
-        id={checkbox.id}
-        key={index}
-        label={checkbox.label}
-        date={getDate(checkbox.id)}
-        disabled={disabled}
-        hasValidationError={validationErrors.length > 0}
-        question={question}
-      />
-    ))
-  }
+  const [value, setValue] = useState<ValueDateList>(question.value as ValueDateList)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const otherValidationErrors = validationErrors.filter(({ field }) => !checkboxes.map(({ id }) => id).includes(field))
 
   return (
     <div className="checkbox-group-wrapper iu-pt-500">
       <div>
-        <div className="checkbox-child">{renderCheckboxes()}</div>
-        <QuestionValidationTexts validationErrors={validationErrors} />
+        <div className="checkbox-child">
+          {checkboxes.map(({ id, label }, index) => (
+            <UeCheckboxDateItem
+              key={index}
+              id={`${question.id}_${id}`}
+              label={label}
+              value={value.list.find((date: ValueDate) => date.id === id) || { type: CertificateDataValueType.DATE, date: undefined, id }}
+              onChange={(newValue) => {
+                const list = value.list.filter((item) => item.id !== id).concat(newValue.date ? newValue : [])
+                setValue({ ...value, list })
+                dispatch(
+                  updateCertificateDataElement({
+                    ...question,
+                    value: {
+                      ...value,
+                      list,
+                    },
+                  })
+                )
+              }}
+              disabled={disabled}
+              maxDate={getMaxDate(question.validation, id)}
+              validationErrors={validationErrors.filter(({ field }) => field === id)}
+              hasValidationError={otherValidationErrors.length > 0}
+            />
+          ))}
+        </div>
+        <QuestionValidationTexts validationErrors={otherValidationErrors} />
       </div>
     </div>
   )

@@ -12,10 +12,9 @@ import reducer from '../../../../store/reducers'
 import UeYear from './UeYear'
 
 let testStore: EnhancedStore
-const INVALID_YEAR_MESSAGE = 'Ange år i formatet åååå.'
 const VALIDATION_ERROR = 'Ange ett år mellan patientens födelseår och aktuellt år.'
 const QUESTION_ID = 'yearpicker'
-const testYear = new Date().getFullYear() - 2
+const testYear = 2021
 const question = fakeYearElement({ id: QUESTION_ID, value: { year: testYear } })[QUESTION_ID]
 
 const renderComponent = (props: ComponentProps<typeof UeYear>) => {
@@ -60,23 +59,6 @@ describe('YearPicker component', () => {
     const button = screen.getByRole('button')
     expect(input).toBeDisabled()
     expect(button).toBeDisabled()
-  })
-
-  it('should display error when input is not a valid year', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'test')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_YEAR_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should not display error when input is a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '2021')
-    userEvent.tab()
-    expect(screen.queryByText(INVALID_YEAR_MESSAGE)).not.toBeInTheDocument()
   })
 
   it('renders component with correct default values', () => {

@@ -1,17 +1,17 @@
-import { InfoBox, Patient, ResourceLink, ResourceLinkType, sanitizeText, TextWithInfoModal } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as star } from '@fortawesome/free-regular-svg-icons'
 import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { InfoBox, Patient, ResourceLink, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
 import classnames from 'classnames'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import WCDynamicLink from '../../utils/WCDynamicLink'
-import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
-import { CreateCertificateButton } from './CreateCertificateButton'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
+import { MissingRelatedCertificateModal } from '../../feature/certificate/Modals/MissingRelatedCertificateModal'
 import { createNewCertificate } from '../../store/certificate/certificateActions'
 import { loadingCertificateTypes } from '../../store/patient/patientSelectors'
-import { DeathCertificateConfirmModal } from '../../feature/certificate/Modals/DeathCertificateConfirmModal'
+import TextWithDynamicLinks from '../../utils/TextWithDynamicLinks'
+import { CreateCertificateButton } from './CreateCertificateButton'
 
 interface Props {
   certificateName: string
@@ -42,34 +42,6 @@ const CertificateName = styled.div`
 const ModalContent = styled.div`
   white-space: pre-line;
 `
-
-const hasDynamicLink = (text?: string): boolean => {
-  if (!text) {
-    return false
-  }
-  return text.split('<LINK:').length > 1
-}
-
-const formatText = (text?: string) => {
-  if (!text) {
-    return ''
-  }
-  const splitText = text.split('<LINK:')
-  if (splitText.length > 1) {
-    const dynamicLinkKey = splitText[1].split('>')[0]
-    const textAfterLink = splitText[1].split('>')[1]
-    return (
-      <>
-        <p>
-          {splitText[0]}
-          <WCDynamicLink linkKey={dynamicLinkKey} />
-          {textAfterLink}
-        </p>
-      </>
-    )
-  }
-  return text
-}
 
 const CertificateListRow: React.FC<Props> = ({
   certificateName,
@@ -138,11 +110,9 @@ const CertificateListRow: React.FC<Props> = ({
             <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}
           </CertificateName>
           <TextWithInfoModal text="Om intyget" modalTitle={`Om ${certificateName}`} className="iu-mr-1rem">
-            {hasDynamicLink(certificateInfo) ? (
-              <ModalContent>{formatText(certificateInfo)}</ModalContent>
-            ) : (
-              <ModalContent dangerouslySetInnerHTML={sanitizeText(certificateInfo)} />
-            )}
+            <ModalContent>
+              <TextWithDynamicLinks text={certificateInfo} />
+            </ModalContent>
           </TextWithInfoModal>
           {patient && createCertificateLink && (
             <CreateCertificateButton
