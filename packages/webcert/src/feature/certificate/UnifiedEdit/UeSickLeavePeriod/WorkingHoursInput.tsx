@@ -28,7 +28,7 @@ export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidat
       <StyledTextInput
         onChange={onChange}
         value={value}
-        limit={2}
+        limit={3}
         hasValidationError={hasValidationError}
         autoComplete={false}
         className="iu-mx-200 iu-fs-200"

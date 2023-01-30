@@ -1,71 +1,89 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { addDays, isBefore, isValid } from 'date-fns'
 import {
-  _dateReg,
-  _dateRegDashesOptional,
   Checkbox,
   dayCodeReg,
-  formatDateToString,
   getPeriodWorkDays,
   getPeriodWorkHours,
   getValidDate,
-  isDateRangeValid,
-  isValidDateIncludingSpecialDateCodes,
   monthCodeReg,
-  parseDayCodes,
   QuestionValidationTexts,
   ValidationError,
   weekCodeReg,
   DatePickerCustom,
+  ValueDateRange,
+  parseDayCodes,
+  formatDateToString,
+  _dateReg,
+  _dateRegDashesOptional,
 } from '@frontend/common'
-import { DateGrid, DateRangeWrapper, DatesWrapper } from './Styles'
-import usePrevious from '../../../../hooks/usePrevious'
 
-import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
-import { useDispatch, useSelector } from 'react-redux'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { addDays, isValid } from 'date-fns'
+import styled from 'styled-components'
 
 const regexArray = [dayCodeReg, weekCodeReg, monthCodeReg]
 
-const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
-const NOT_COMPLETE_DATE_ERROR_MESSAGE = 'Ange ett datum.'
+const DatesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-right: 8px;
+  }
+
+  label {
+    margin-right: 0.625em;
+  }
+
+  & + & {
+    margin-left: 8px;
+  }
+`
+const DateRangeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  @media (max-width: 820px) {
+    flex-direction: column;
+  }
+`
+const DateGrid = styled.div`
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: 1fr 1fr;
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    grid-gap: 8px;
+  }
+`
 
 interface Props {
   label: string
-  periodId: string
-  fromDate: string | null
-  toDate: string | null
-  updateValue: (valueId: string, fromDate: string | null, toDate: string | null) => void
+  field: string
+  value: ValueDateRange
+  onChange: (value: ValueDateRange) => void
   getPeriodStartingDate: () => string
-  hasValidationError: boolean
   disabled: boolean
   baseWorkHours: string
-  questionId: string
+  validationErrors: ValidationError[]
+  hasValidationError: boolean
 }
 
 const DateRangePicker: React.FC<Props> = ({
   label,
-  periodId,
-  fromDate,
-  toDate,
-  updateValue,
+  field,
+  value,
+  onChange,
   getPeriodStartingDate,
-  hasValidationError,
   disabled,
   baseWorkHours,
-  questionId,
+  validationErrors,
+  hasValidationError,
 }) => {
-  const [dateChecked, setDateChecked] = useState(!!fromDate || !!toDate)
-  const [fromDateInput, setFromDateInput] = useState<string | null>(fromDate)
-  const [toDateInput, setToDateInput] = useState<string | null>(toDate)
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
   const [workDaysPerWeek, setWorkDaysPerWeek] = useState<null | number>(null)
-  const previousFromDateString = usePrevious(fromDateInput)
-  const previousToDateString = usePrevious(toDateInput)
-  const dispatch = useDispatch()
-  const validationErrors = useSelector(getVisibleValidationErrors(questionId, periodId))
 
   const updateWorkingPeriod = useCallback(
     (fromDateString: string | null, toDateString: string | null) => {
@@ -81,64 +99,19 @@ const DateRangePicker: React.FC<Props> = ({
       const toDate = getValidDate(toDateString)
 
       if (fromDate && toDate) {
-        const workingHoursPerWeek = getPeriodWorkHours(parseInt(baseWorkHours), periodId)
+        const workingHoursPerWeek = getPeriodWorkHours(parseInt(baseWorkHours), field)
         const periodWorkDays = getPeriodWorkDays(fromDate, toDate)
 
         setWorkHoursPerWeek(workingHoursPerWeek)
         setWorkDaysPerWeek(periodWorkDays)
       }
     },
-    [baseWorkHours, periodId]
+    [baseWorkHours, field]
   )
 
   useEffect(() => {
-    const updateCheckbox = (fromDateInput: string | null, toDateInput: string | null) => setDateChecked(!!fromDateInput || !!toDateInput)
-    const shouldClearPreviousPeriod = (): boolean => isDateRangeValid(previousFromDateString ?? '', previousToDateString ?? '')
-
-    if (previousFromDateString !== fromDateInput || previousToDateString !== toDateInput) {
-      updateCheckbox(fromDateInput, toDateInput)
-
-      if (isDateRangeValid(fromDateInput ?? '', toDateInput ?? '')) {
-        updateValue(periodId, fromDateInput, toDateInput)
-        updateWorkingPeriod(fromDateInput, toDateInput)
-      } else if (shouldClearPreviousPeriod()) {
-        updateValue(periodId, null, null)
-      }
-    }
-  }, [toDateInput, fromDateInput, previousFromDateString, previousToDateString, updateValue, periodId, updateWorkingPeriod])
-
-  useEffect(() => {
-    updateWorkingPeriod(fromDateInput, toDateInput)
-  }, [fromDateInput, toDateInput, updateWorkingPeriod])
-
-  const handleFromTextInputChange = (value: string) => {
-    setFromDateInput(value ?? null)
-  }
-
-  const handleDatePickerSelectFrom = (date: string) => {
-    setFromDateInput(date)
-    toggleShowValidationError(date, toDateInput)
-    tomTextInputRef.current?.focus()
-  }
-
-  const handleDatePickerSelectTo = (date: string) => {
-    setToDateInput(date)
-    toggleShowValidationError(fromDateInput, date)
-  }
-
-  const handleToTextInputChange = (value: string) => {
-    setToDateInput(value)
-  }
-
-  const handleFromTextInputOnBlur = () => {
-    toggleShowValidationError(fromDateInput, toDateInput)
-  }
-
-  const handleToTextInputOnBlur = () => {
-    formatToInputTextField()
-    const parsedToDate = getParsedToDateString(fromDateInput, toDateInput)
-    toggleShowValidationError(fromDateInput, parsedToDate ?? toDateInput)
-  }
+    updateWorkingPeriod(value.from ?? '', value.to ?? '')
+  }, [value.from, value.to, updateWorkingPeriod])
 
   const handleFromTextInputOnKeyDown = (event: React.KeyboardEvent) => {
     if (event.key.toLowerCase() === 'enter') {
@@ -153,134 +126,63 @@ const DateRangePicker: React.FC<Props> = ({
     }
   }
 
-  function isDateFormatValid(toDate: string | null, fromDate: string | null) {
-    return (toDate && isValidDateIncludingSpecialDateCodes(toDate)) || (fromDate && isValid(getValidDate(fromDate)))
-  }
-
-  const toggleShowValidationError = (fromDate: string | null, toDate: string | null) => {
-    const validFromDate = getValidDate(fromDate ?? '')
-    const validToDate = getValidDate(toDate ?? '')
-    const invalidDatePeriod = !!validFromDate && !!validToDate && isBefore(validToDate, validFromDate)
-    const notCompleteDatePeriod = ((fromDate && !toDate) || (toDate && !fromDate)) && isDateFormatValid(toDate, fromDate)
-
-    dispatchValidationError(!invalidDatePeriod, {
-      category: '',
-      field: 'row.' + periodId,
-      id: questionId,
-      text: INVALID_DATE_PERIOD_ERROR,
-      type: 'INVALID_DATE_PERIOD',
-      showAlways: true,
-    })
-
-    let notCompleteDateField = ''
-    if (!notCompleteDatePeriod) {
-      notCompleteDateField = periodId
-    } else {
-      notCompleteDateField = !toDateInput ? 'tom.' + periodId : 'from.' + periodId
-    }
-    dispatchValidationError(!notCompleteDatePeriod, {
-      category: '',
-      field: notCompleteDateField,
-      id: questionId,
-      text: NOT_COMPLETE_DATE_ERROR_MESSAGE,
-      type: 'NOT_COMPLETE_DATE',
-    })
-  }
-
-  const getParsedToDateString = (fromDateString: string | null, toDateString: string | null) => {
-    if (!toDateString || !fromDateString || !getValidDate(fromDateString)) {
+  const handleToTextInputOnBlur = () => {
+    if (!value.to || !value.from || !getValidDate(value.from)) {
       return
     }
-    const fromDate = getValidDate(fromDateString)
 
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateString))
+    const fromDate = getValidDate(value.from)
+
+    const inputMatchesRegex = regexArray.some((reg) => reg.test(value.to ?? ''))
 
     if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(toDateString)
+      const numberOfDaysToAdd = parseDayCodes(value.to)
 
       if (numberOfDaysToAdd) {
         //Befintliga webcert drar bort en dag i beräkningen
         const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        return formatDateToString(newDate)
+        handleToChanged(formatDateToString(newDate))
       }
-    } else if (_dateReg.test(toDateString) || _dateRegDashesOptional.test(toDateString)) {
-      const newDate = getValidDate(toDateString)
+    } else if (_dateReg.test(value.to) || _dateRegDashesOptional.test(value.to)) {
+      const newDate = getValidDate(value.to)
 
       if (newDate && isValid(newDate)) {
-        return formatDateToString(newDate)
+        handleToChanged(formatDateToString(newDate))
       }
-    } else return null
+    }
   }
 
-  const formatToInputTextField = () => {
-    if (!toDateInput || !fromDateInput || !getValidDate(fromDateInput)) {
-      return
-    }
-
-    const fromDate = getValidDate(fromDateInput)
-
-    const inputMatchesRegex = regexArray.some((reg) => reg.test(toDateInput))
-
-    if (inputMatchesRegex && fromDate) {
-      const numberOfDaysToAdd = parseDayCodes(toDateInput)
-
-      if (numberOfDaysToAdd) {
-        //Befintliga webcert drar bort en dag i beräkningen
-        const newDate = addDays(fromDate, numberOfDaysToAdd - 1)
-        setToDateInput(formatDateToString(newDate))
-      }
-    } else if (_dateReg.test(toDateInput) || _dateRegDashesOptional.test(toDateInput)) {
-      const newDate = getValidDate(toDateInput)
-
-      if (newDate && isValid(newDate)) {
-        setToDateInput(formatDateToString(newDate))
-      }
-    }
+  const handleFromChanged = (from: string) => {
+    onChange({ ...value, from })
+  }
+  const handleToChanged = (to: string) => {
+    onChange({ ...value, to })
   }
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       tomTextInputRef.current?.focus()
-      const fromDate = getPeriodStartingDate()
-      setFromDateInput(fromDate)
-      toggleShowValidationError(fromDate, toDateInput)
+      handleFromChanged(getPeriodStartingDate())
     } else {
-      reset()
-      toggleShowValidationError('', '')
+      onChange({ ...value, from: undefined, to: undefined })
+      setWorkHoursPerWeek(null)
+      setWorkDaysPerWeek(null)
     }
-  }
-
-  const reset = () => {
-    setFromDateInput(null)
-    setToDateInput(null)
-    setWorkHoursPerWeek(null)
-    setWorkDaysPerWeek(null)
   }
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
-    if (hasValidationError) {
-      return true
-    }
-    if (id) {
-      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
-    }
-    return validationErrors.length > 0
+    return hasValidationError === true
+      ? hasValidationError
+      : validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
   }
-
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved: shouldBeRemoved, validationError: validationError }))
-    },
-    [dispatch]
-  )
 
   return (
     <>
       <DateRangeWrapper className="iu-mb-400">
         <Checkbox
-          id={`${periodId}-checkbox`}
-          hasValidationError={hasValidationError}
-          checked={dateChecked}
+          id={`${field}-checkbox`}
+          hasValidationError={hasValidationError || validationErrors.length > 0}
+          checked={!!value.from || !!value.to}
           onChange={handleCheckboxClick}
           label={label}
           disabled={disabled}
@@ -290,38 +192,31 @@ const DateRangePicker: React.FC<Props> = ({
             <DatePickerCustom
               disabled={disabled}
               label={'Fr.o.m'}
-              id={`from${periodId}`}
+              id={`from${field}`}
               textInputRef={fromTextInputRef}
-              textInputOnBlur={handleFromTextInputOnBlur}
               textInputOnKeyDown={handleFromTextInputOnKeyDown}
-              textInputName={`from${periodId}`}
-              inputString={fromDateInput}
-              setDate={handleDatePickerSelectFrom}
-              textInputOnChange={handleFromTextInputChange}
-              textInputDataTestId={`from${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'from')}
-              componentField={'from.' + periodId}
-              questionId={questionId}
-              onDispatchValidationError={dispatchValidationError}
+              textInputName={`from${field}`}
+              inputString={value.from ?? ''}
+              setDate={handleFromChanged}
+              textInputOnChange={handleFromChanged}
+              textInputDataTestId={`from${field}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'from')}
             />
           </DatesWrapper>
           <DatesWrapper>
             <DatePickerCustom
               disabled={disabled}
               label={'t.o.m'}
-              id={`tom${periodId}`}
-              textInputName={`tom${periodId}`}
+              id={`tom${field}`}
+              textInputName={`tom${field}`}
               textInputRef={tomTextInputRef}
-              inputString={toDateInput}
-              setDate={handleDatePickerSelectTo}
-              textInputOnChange={handleToTextInputChange}
+              inputString={value.to ?? ''}
+              setDate={handleToChanged}
+              textInputOnChange={handleToChanged}
               textInputOnBlur={handleToTextInputOnBlur}
               textInputOnKeyDown={handleToTextInputOnKeyDown}
-              textInputDataTestId={`tom${periodId}`}
-              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(periodId, 'tom')}
-              componentField={'tom.' + periodId}
-              questionId={questionId}
-              onDispatchValidationError={dispatchValidationError}
+              textInputDataTestId={`tom${field}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')}
             />
           </DatesWrapper>
         </DateGrid>

@@ -63,8 +63,6 @@ const question: CertificateDataElement = {
   validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
 }
 
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
-
 const ComponentTestWrapper: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   const question = useSelector(getQuestion(QUESTION_ID))
   return question ? <UeCheckboxDateGroup question={question} disabled={disabled} /> : null
@@ -258,37 +256,6 @@ describe('CheckboxDateGroup component', () => {
   })
 
   describe('dispatching updated values', () => {
-    it('should display error message when input is not a correct date', () => {
-      renderComponent(false)
-      const inputs = screen.getAllByRole('textbox')
-      userEvent.type(inputs[0], '2020-01')
-      userEvent.tab()
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    })
-
-    it('should render error message when input is a text and not a date', () => {
-      renderComponent(false)
-      const inputs = screen.getAllByRole('textbox')
-      userEvent.type(inputs[1], 'test')
-      userEvent.tab()
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-    })
-
-    it('should not render error message when input is a date', () => {
-      renderComponent(false)
-      const inputs = screen.getAllByRole('textbox')
-      userEvent.type(inputs[2], '2021-01-01')
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-    })
-
-    it('should not render error message when value set by a checkbox being checked', () => {
-      renderComponent(false)
-      const checkbox = screen.getAllByRole('checkbox')
-      userEvent.click(checkbox[0])
-      userEvent.tab()
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-    })
-
     it('should update question values as expected', () => {
       jest.useFakeTimers('modern').setSystemTime(new Date('2022-09-15'))
 

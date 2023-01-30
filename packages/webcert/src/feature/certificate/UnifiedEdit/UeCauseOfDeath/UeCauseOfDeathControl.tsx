@@ -11,16 +11,13 @@ import {
   ValidationError,
   ValueCauseOfDeath,
 } from '@frontend/common'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
-import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
   config: ConfigUeCauseOfDeathControl
   disabled?: boolean
   isShowValidationError: boolean
-  questionId: string
   onChange: (value: ValueCauseOfDeath) => void
   oneLine?: boolean
   validation: CertificateDataValidation[]
@@ -60,7 +57,6 @@ const DateAndSpecInner = styled.div`
 `
 
 const UeCauseOfDeathControl: React.FC<Props> = ({
-  questionId,
   value,
   config,
   disabled = false,
@@ -71,7 +67,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   validationErrors,
   isShowValidationError,
 }) => {
-  const dispatch = useAppDispatch()
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -93,13 +88,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     const specificationId = config.specifications.find((s) => s.code === code)?.id ?? ''
     onChange({ ...value, specification: { ...value.specification, id: specificationId, code: code } })
   }
-
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
-    },
-    [dispatch]
-  )
 
   return (
     <>
@@ -137,10 +125,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               textInputOnChange={handleDateChange}
               setDate={handleDateChange}
               id={config.debutId}
-              questionId={questionId}
-              componentField={config.debutId}
               displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field.endsWith('.datum'))}
-              onDispatchValidationError={dispatchValidationError}
             />
           </DateAndSpecInner>
           <DateAndSpecInner>
