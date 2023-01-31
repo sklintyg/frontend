@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 const ValidationErrorWrapper = styled.div`
   :not(:last-child) {
-    margin-bottom: 1rem;
+    padding-bottom: 0.9375rem;
   }
 `
 

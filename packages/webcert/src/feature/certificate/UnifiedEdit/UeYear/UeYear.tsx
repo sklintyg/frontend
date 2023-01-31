@@ -24,7 +24,7 @@ const UeYear: React.FC<Props> = ({ question, disabled }) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, year: parseInt(text) },
+        value: { ...questionValue, year: text === '' ? undefined : parseInt(text) },
       })
     )
   }
