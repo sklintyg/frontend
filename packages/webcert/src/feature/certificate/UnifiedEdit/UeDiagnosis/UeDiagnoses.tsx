@@ -11,10 +11,10 @@ import UeDiagnosis from './UeDiagnosis'
 const RadioWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding-bottom: 10px;
+  padding-bottom: 0.9375rem;
 
   div {
-    padding-right: 10px;
+    padding-right: 0.9375rem;
   }
 `
 
