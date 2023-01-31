@@ -46,22 +46,12 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
     return updatedQuestion
   }
 
-  function shouldHaveItemPadding(index: number) {
-    return (
-      ((config.layout === ConfigLayout.ROWS && !shouldBeHorizontal) || config.layout === ConfigLayout.COLUMN) &&
-      index < radiobuttons.length - 1
-    )
-  }
-
   return (
     radiobuttons && (
       <>
-        <GroupWrapper
-          layout={config.layout}
-          role="radiogroup"
-          className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+        <GroupWrapper layout={config.layout} role="radiogroup">
           {radiobuttons.map((radio, index) => (
-            <ItemWrapper key={index} layout={config.layout} index={index} noItems={noItems}>
+            <ItemWrapper key={index} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
               <RadioButton
                 id={radio.id as string}
                 value={radio.id}
@@ -72,7 +62,6 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
                 checked={radio.id === code}
                 hasValidationError={validationErrors.length > 0}
                 onChange={handleChange}
-                wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
               />
             </ItemWrapper>
           ))}

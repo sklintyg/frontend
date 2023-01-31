@@ -4,8 +4,10 @@ import {
   CertificateDataValueType,
   ConfigLayout,
   ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeMessage,
@@ -15,17 +17,18 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeYear,
+  fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
   ValueYear,
-  ConfigUeCheckboxBoolean,
   ValueType,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
@@ -157,6 +160,13 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('Datum 2')).toBeInTheDocument()
     expect(screen.getByText('Datum 3')).toBeInTheDocument()
     expect(screen.getByText('Ej angivet')).toBeInTheDocument()
+  })
+
+  it('displays date range value', () => {
+    const question = createQuestionWithDateRange()
+    renderDefaultComponent(question)
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
   })
 
   it('displays several date range values', () => {
@@ -408,6 +418,22 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
     ],
   }
   return createQuestion(value, config)
+}
+
+export const createQuestionWithDateRange = (): CertificateDataElement => {
+  const question = fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  })['id']
+
+  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
 }
 
 export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {

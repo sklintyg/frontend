@@ -34,7 +34,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal iu-mt-200">
+      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal">
         <RadioButton
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}

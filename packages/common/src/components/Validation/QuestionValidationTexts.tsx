@@ -9,15 +9,13 @@ interface QuestionValidationTextsProps {
 }
 
 const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ validationErrors, additionalStyles }) => {
-  return (
+  return validationErrors && validationErrors.length > 0 ? (
     <div css={additionalStyles}>
-      {validationErrors &&
-        validationErrors.length > 0 &&
-        validationErrors.map((validationError, index) => (
-          <ValidationText key={index} id={validationError.id} message={validationError.text} />
-        ))}
+      {validationErrors.map((validationError, index) => (
+        <ValidationText key={index} id={validationError.id} message={validationError.text} />
+      ))}
     </div>
-  )
+  ) : null
 }
 
 export default QuestionValidationTexts

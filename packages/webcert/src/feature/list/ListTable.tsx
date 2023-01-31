@@ -118,7 +118,7 @@ export const ListTable: React.FC<Props> = ({
         {!isLoadingContent && isEmptyList && (
           <tr className="no-results">
             <td className="iu-border-white iu-bg-white">
-              <p className="iu-pt-200">Inga resultat att visa.</p>
+              <p>Inga resultat att visa.</p>
             </td>
           </tr>
         )}

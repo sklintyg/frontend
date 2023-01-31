@@ -13,6 +13,7 @@ import {
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
@@ -25,6 +26,8 @@ import {
   ConfigUeTextField,
   ConfigUeTypeahead,
   ConfigUeUncertainDate,
+  ConfigUeViewList,
+  ConfigUeViewTable,
   ConfigUeViewText,
   ConfigUeVisualAcuity,
   ConfigUeYear,
@@ -35,6 +38,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueHeader,
@@ -53,7 +57,7 @@ import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
-import { ConfigUeViewTable, ConfigUeViewList } from '@frontend/common'
+
 import { merge } from 'lodash'
 
 const fakeDataElement = <T extends CertificateDataConfigType, P extends ValueType | null>(
@@ -252,6 +256,11 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
 export const fakeDateElement = fakeDataElement<ConfigUeDate, ValueDate>((config, value) => ({
   config: fakeCertificateConfig.date(config),
   value: fakeCertificateValue.date(value),
+}))
+
+export const fakeDateRangeElement = fakeDataElement<ConfigUeDateRange, ValueDateRange>((config, value) => ({
+  config: fakeCertificateConfig.dateRange(config),
+  value: fakeCertificateValue.dateRange(value),
 }))
 
 export const fakeYearElement = fakeDataElement<ConfigUeYear, ValueYear>((config, value) => ({

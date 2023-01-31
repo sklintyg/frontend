@@ -17,7 +17,7 @@ import { useAppDispatch } from '../../../../store/store'
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
+  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 

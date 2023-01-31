@@ -1,24 +1,28 @@
+import faker from 'faker'
+import { merge } from 'lodash'
+import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,
   ConfigCategory,
+  ConfigEyeAcuity,
+  ConfigLayout,
   ConfigTypes,
   ConfigUeCauseOfDeath,
-  ConfigUeCodeItem,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDate,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleCodes,
-  ConfigLayout,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeCodeItem,
   ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
-  MessageLevel,
   ConfigUeRadioBoolean,
   ConfigUeRadioCode,
   ConfigUeRadioMultipleCodes,
@@ -32,13 +36,10 @@ import {
   ConfigUeViewTable,
   ConfigUeViewText,
   ConfigUeVisualAcuity,
-  ConfigEyeAcuity,
   ConfigUeYear,
+  MessageLevel,
   ConfigAccordion,
 } from '../../types/certificate'
-import { PartialDeep } from 'type-fest'
-import faker from 'faker'
-import { merge } from 'lodash'
 
 export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
   openText: faker.lorem.words(),
@@ -129,6 +130,13 @@ const fakeCheckboxMultipleDate = fakeDataElementConfig<ConfigUeCheckboxMultipleD
 const fakeDate = fakeDataElementConfig<ConfigUeDate>(() => ({
   type: ConfigTypes.UE_DATE,
   id: faker.random.alpha({ count: 5 }),
+}))
+
+const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
+  type: ConfigTypes.UE_DATE_RANGE,
+  id: faker.random.alpha({ count: 5 }),
+  fromLabel: 'Fr.o.m',
+  toLabel: 't.o.m',
 }))
 
 const fakeDiagnoses = fakeDataElementConfig<ConfigUeDiagnoses>((override) => ({
@@ -309,6 +317,7 @@ export const fakeCertificateConfig = {
   checkboxMultipleCodes: fakeCheckboxMultipleCodes,
   checkboxMultipleDate: fakeCheckboxMultipleDate,
   date: fakeDate,
+  dateRange: fakeDateRange,
   diagnoses: fakeDiagnoses,
   dropdown: fakeDropdown,
   header: fakeHeader,

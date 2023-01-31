@@ -41,14 +41,13 @@ const Wrapper = styled.div`
 
 const CategoryWrapper = styled.div`
   background: #ffffff;
-  padding-bottom: 1rem;
-  :not(:last-child) {
-    margin-bottom: 16px;
+  padding-bottom: 0.9375rem;
+  :empty {
+    display: none;
   }
-`
-
-const ValidationErrorWrapper = styled.div`
-  padding: 0 2rem;
+  :not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `
 
 const Certificate: React.FC = () => {
@@ -112,18 +111,14 @@ const Certificate: React.FC = () => {
                 const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
                 return (
                   <CategoryWrapper key={index}>
-                    {structure.map(({ id, subQuestionIds, component }) => {
+                    {structure.map(({ id, subQuestionIds, component }, index) => {
                       if (component === ConfigTypes.CATEGORY) {
                         return <Category key={index} id={id} />
                       } else {
                         return <QuestionWithSubQuestions key={index} questionIds={[id, ...subQuestionIds]} />
                       }
                     })}
-                    {category && (
-                      <ValidationErrorWrapper>
-                        <QuestionValidationError id={category.id} />
-                      </ValidationErrorWrapper>
-                    )}
+                    {category && <QuestionValidationError id={category.id} />}
                   </CategoryWrapper>
                 )
               })}

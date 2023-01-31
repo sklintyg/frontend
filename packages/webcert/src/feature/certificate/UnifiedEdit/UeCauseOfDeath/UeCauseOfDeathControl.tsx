@@ -17,7 +17,6 @@ import styled from 'styled-components/macro'
 export interface Props {
   config: ConfigUeCauseOfDeathControl
   disabled?: boolean
-  isShowValidationError: boolean
   onChange: (value: ValueCauseOfDeath) => void
   oneLine?: boolean
   validation: CertificateDataValidation[]
@@ -28,13 +27,13 @@ export interface Props {
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: auto max-content;
-  grid-column-gap: 20px;
+  grid-column-gap: 0.9375rem;
 `
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
+  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 const EmptyValidationWrapper = styled.div`
@@ -65,7 +64,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   onChange,
   validation,
   validationErrors,
-  isShowValidationError,
 }) => {
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
@@ -101,13 +99,13 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
+            hasValidationError={emptyValidationError != null}
             limit={textValidation ? textValidation.limit : 100}
-            className="iu-mb-1rem"
+            className="iu-mb-400"
           />
         </Description>
         <EmptyValidationWrapper>
-          {isShowValidationError && emptyValidationError && (
+          {emptyValidationError && (
             <ValidationWrapper>
               <QuestionValidationTexts validationErrors={[emptyValidationError]} />
             </ValidationWrapper>
@@ -116,7 +114,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
         <DateAndSpec oneLine={oneLine}>
           <DateAndSpecInner>
             <DatePickerCustom
-              additionalStyles="iu-mr-500"
+              additionalStyles="iu-mr-400"
               label="Ungefärlig debut"
               forbidFutureDates={true}
               vertical={true}
@@ -125,7 +123,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               textInputOnChange={handleDateChange}
               setDate={handleDateChange}
               id={config.debutId}
-              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field.endsWith('.datum'))}
+              displayValidationErrorOutline={validationErrors.some((v) => v.field.endsWith('.datum'))}
             />
           </DateAndSpecInner>
           <DateAndSpecInner>
@@ -148,7 +146,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           {children}
         </DateAndSpec>
       </Wrapper>
-      {isShowValidationError && nonEmptyValidationErrors && (
+      {nonEmptyValidationErrors && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={nonEmptyValidationErrors} />
         </ValidationWrapper>
