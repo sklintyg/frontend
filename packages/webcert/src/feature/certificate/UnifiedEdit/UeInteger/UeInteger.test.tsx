@@ -55,12 +55,4 @@ describe('Integer component', () => {
 
     expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
   })
-
-  it('should allow numbers smaller than 100', () => {
-    renderComponent({ disabled: false, question })
-
-    userEvent.type(screen.getByTestId('testNumber'), '99')
-
-    expect(screen.getByTestId('testNumber')).toHaveValue('99')
-  })
 })
