@@ -39,8 +39,8 @@ export const ComplementMessage = styled.div`
 `
 
 const QuestionWithMargin = styled(Question)`
-  & + & {
-    margin-top: 5px;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
   }
 `
 
