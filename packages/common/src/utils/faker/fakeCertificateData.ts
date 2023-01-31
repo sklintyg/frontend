@@ -480,11 +480,11 @@ export const fakeIntegerElement = (
   fakeDataElement(
     {
       ...data,
-      config: {
-        type: ConfigTypes.UE_INTEGER,
-        ...data?.config,
+      config: fakeCertificateConfig.integer(data?.config),
+      value: {
+        type: CertificateDataValueType.INTEGER,
+        ...data?.value,
       },
-      value: { type: CertificateDataValueType.INTEGER },
     },
     children
   )

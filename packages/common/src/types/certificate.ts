@@ -131,6 +131,7 @@ export type CertificateDataConfigType =
   | ConfigUeViewText
   | ConfigUeVisualAcuity
   | ConfigUeYear
+  | ConfigUeInteger
 
 export enum MessageLevel {
   INFO = 'INFO',
@@ -414,6 +415,7 @@ export interface ConfigUeYear extends CertificateDataConfig {
 }
 
 export interface ConfigUeInteger extends CertificateDataConfig {
+  type: ConfigTypes.UE_INTEGER
   id: string
   unitOfMeasurement?: string
   min?: number
