@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter'
 import {
   Certificate,
-  CertificateDataConfig,
   CertificateDataElement,
   CertificateMetadata,
   Patient,
@@ -9,6 +8,8 @@ import {
   CertificateDataValueType,
   ValueDateRangeList,
   ValueDiagnosisList,
+  fakeDiagnosesElement,
+  fakeSickLeavePeriod,
 } from '@frontend/common'
 import {
   FMBDiagnoseRequest,
@@ -22,7 +23,7 @@ import {
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
@@ -293,8 +294,8 @@ const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   }
 }
 
-export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement => {
-  return {
+export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
+  fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
     index: 6,
@@ -307,37 +308,30 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
     }),
     value: {
-      type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: [
         {
           code: 'code',
-          desc: 'desc',
           terminology: codeSystem,
           id: '1',
-          type: CertificateDataValueType.DIAGNOSIS,
         },
       ],
     },
-    validation: [],
-    validationErrors: [],
-  }
-}
+  })['6.1']
 
-export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement => {
-  return {
+export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
+  fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
     index: 6,
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: fakeCertificateConfig.diagnoses({
+    config: {
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-    }),
+    },
     value: {
-      type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: codes.map((value, index) => ({
         id: String(index + 1),
         terminology: 'icd10',
@@ -345,10 +339,7 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
         description: value.icd10Description,
       })),
     },
-    validation: [],
-    validationErrors: [],
-  }
-}
+  })['6.1']
 
 export const getDateRangeListValue = (): ValueDateRangeList => {
   const value: ValueDateRangeList = {
@@ -368,23 +359,20 @@ export const getDiagnosisListValue = (): ValueDiagnosisList => {
   return value
 }
 
-export const getDateRangeListElement = (): CertificateDataElement => {
-  return {
+export const getDateRangeListElement = (): CertificateDataElement =>
+  fakeSickLeavePeriod({
     id: '6.1',
     parent: '6',
     index: 6,
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {} as CertificateDataConfig,
     value: {
-      type: CertificateDataValueType.DATE_RANGE_LIST,
       list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
     },
     validation: [],
     validationErrors: [],
-  }
-}
+  })['6.1']
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
   return {

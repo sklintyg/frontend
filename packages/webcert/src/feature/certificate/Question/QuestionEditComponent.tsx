@@ -10,14 +10,17 @@ interface Props {
 
 const QuestionEditComponent: React.FC<Props> = ({ question, disabled }) => {
   const isAccordionOpen = useCallback(
-    () => (question.value != null ? validateExpression(`'${question.value.id}'`, question.value as ValueType) : false),
-    [question.value]
+    (value: { id?: string } & ValueType) => (value.id != null ? validateExpression(`'${value.id}'`, value) : false),
+    []
   )
 
   if (question.config.accordion) {
     return (
       <div id={question.id}>
-        <QuestionAccordion accordion={question.config.accordion} icon={question.config.icon} open={isAccordionOpen()}>
+        <QuestionAccordion
+          accordion={question.config.accordion}
+          icon={question.config.icon}
+          open={question.value != null && isAccordionOpen(question.value)}>
           <QuestionUeResolve question={question} disabled={disabled} />
         </QuestionAccordion>
       </div>

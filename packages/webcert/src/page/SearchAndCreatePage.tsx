@@ -1,5 +1,5 @@
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
-import React, { useCallback, useEffect } from 'react'
+import React, { ComponentProps, useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
@@ -14,7 +14,7 @@ import { getActiveListFilterValue, getActiveListConfig, getActiveListFilter, get
 import { getPatient, clearPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
-import { withResourceAccess } from '../utils/withResourceAccess'
+import { ResourceAccess } from '../utils/ResourceAccess'
 import { isFilterDefault } from '../feature/list/listUtils'
 import ListContainer from '../feature/list/ListContainer'
 import listImage from '@frontend/common/src/images/list.svg'
@@ -112,4 +112,8 @@ const SearchAndCreatePage: React.FC = () => {
     </>
   )
 }
-export const SearchAndCreatePageWithRedirect = withResourceAccess(SearchAndCreatePage)
+export const SearchAndCreatePageWithRedirect: React.FC<ComponentProps<typeof SearchAndCreatePage>> = (props) => (
+  <ResourceAccess>
+    <SearchAndCreatePage {...props} />
+  </ResourceAccess>
+)

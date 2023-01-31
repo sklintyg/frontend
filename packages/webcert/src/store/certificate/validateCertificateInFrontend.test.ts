@@ -3,7 +3,6 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   fakeCertificate,
-  fakeCertificateData,
   fakeCertificateDataValidation,
   fakeRadioBooleanElement,
   fakeTextAreaElement,
@@ -39,8 +38,8 @@ describe('Test certificate frontend validation', () => {
     describe('Show validation', () => {
       const showValidation = (selected: boolean, visible: boolean): Certificate =>
         fakeCertificate({
-          data: fakeCertificateData([
-            fakeRadioBooleanElement({
+          data: {
+            ...fakeRadioBooleanElement({
               id: '1.1',
               value: {
                 type: CertificateDataValueType.BOOLEAN,
@@ -48,7 +47,7 @@ describe('Test certificate frontend validation', () => {
                 id: 'haveValue',
               },
             }),
-            fakeTextAreaElement({
+            ...fakeTextAreaElement({
               id: '1.2',
               visible,
               validation: [
@@ -59,7 +58,7 @@ describe('Test certificate frontend validation', () => {
                 }),
               ],
             }),
-          ]),
+          },
         })
 
       it('should throw hide action when hidden', async () => {
@@ -142,8 +141,8 @@ describe('Test certificate frontend validation', () => {
     describe('Hide Validation', () => {
       const hideValidation = (selected: boolean, visible: boolean): Certificate =>
         fakeCertificate({
-          data: fakeCertificateData([
-            fakeRadioBooleanElement({
+          data: {
+            ...fakeRadioBooleanElement({
               id: '1.1',
               value: {
                 type: CertificateDataValueType.BOOLEAN,
@@ -151,7 +150,7 @@ describe('Test certificate frontend validation', () => {
                 id: 'haveValue',
               },
             }),
-            fakeTextAreaElement({
+            ...fakeTextAreaElement({
               id: '1.2',
               visible,
               validation: [
@@ -162,7 +161,7 @@ describe('Test certificate frontend validation', () => {
                 }),
               ],
             }),
-          ]),
+          },
         })
 
       it('should throw hide action when visible', async () => {
@@ -229,8 +228,8 @@ describe('Test certificate frontend validation', () => {
     describe('Show and Hide validation', () => {
       const showAndHideValidation = (selected: boolean, visible: boolean): Certificate =>
         fakeCertificate({
-          data: fakeCertificateData([
-            fakeRadioBooleanElement({
+          data: {
+            ...fakeRadioBooleanElement({
               id: '1.1',
               value: {
                 type: CertificateDataValueType.BOOLEAN,
@@ -238,7 +237,7 @@ describe('Test certificate frontend validation', () => {
                 id: 'haveValue',
               },
             }),
-            fakeTextAreaElement({
+            ...fakeTextAreaElement({
               id: '1.2',
               visible,
               validation: [
@@ -254,7 +253,7 @@ describe('Test certificate frontend validation', () => {
                 }),
               ],
             }),
-          ]),
+          },
         })
 
       it('should throw hide action when both hide and show is present and validates true', async () => {
@@ -318,8 +317,8 @@ describe('Test certificate frontend validation', () => {
   describe('Show and Hide validation', () => {
     const autoFillValidation = (selected: boolean, currentValue?: boolean): Certificate =>
       fakeCertificate({
-        data: fakeCertificateData([
-          fakeRadioBooleanElement({
+        data: {
+          ...fakeRadioBooleanElement({
             id: '1.1',
             value: {
               type: CertificateDataValueType.BOOLEAN,
@@ -327,7 +326,7 @@ describe('Test certificate frontend validation', () => {
               id: 'haveValue',
             },
           }),
-          fakeRadioBooleanElement({
+          ...fakeRadioBooleanElement({
             id: '1.2',
             value: {
               type: CertificateDataValueType.BOOLEAN,
@@ -357,7 +356,7 @@ describe('Test certificate frontend validation', () => {
               }),
             ],
           }),
-        ]),
+        },
       })
 
     it('should update state with autofill value true', async () => {

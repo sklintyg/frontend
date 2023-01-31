@@ -9,6 +9,7 @@ import {
   validateExpression,
   convertExpression,
 } from './validateExpression'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 const SYSTEM_DATE = new Date('2020-06-18')
 jest.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
@@ -71,15 +72,14 @@ describe('getKeyValuePair', () => {
 
   it('Should convert CODE_LIST to key-value pair', () => {
     expect(
-      getKeyValuePair({
-        type: CertificateDataValueType.CODE_LIST,
-        id: 'LIST',
-        list: Array.from({ length: 3 }, (_, index) => ({
-          type: CertificateDataValueType.CODE,
-          id: `LIST.${index + 1}`,
-          code: 'VALUE',
-        })),
-      })
+      getKeyValuePair(
+        fakeCertificateValue.codeList({
+          list: Array.from({ length: 3 }, (_, index) => ({
+            id: `LIST.${index + 1}`,
+            code: 'VALUE',
+          })),
+        })
+      )
     ).toEqual({ 'LIST.1': 'VALUE', 'LIST.2': 'VALUE', 'LIST.3': 'VALUE' })
   })
 
@@ -326,36 +326,35 @@ describe('validateExpression', () => {
   describe('CODE_LIST', () => {
     it('Should return true when every code item is available', () => {
       expect(
-        validateExpression('ITEM_1 and ITEM_2 ', {
-          type: CertificateDataValueType.CODE_LIST,
-          id: 'ITEM',
-          list: Array.from({ length: 3 }, (_, index) => ({
-            type: CertificateDataValueType.CODE,
-            id: `ITEM_${index + 1}`,
-            code: `ITEM_${index + 1}`,
-          })),
-        })
+        validateExpression(
+          'ITEM_1 and ITEM_2 ',
+          fakeCertificateValue.codeList({
+            list: Array.from({ length: 3 }, (_, index) => ({
+              id: `ITEM_${index + 1}`,
+              code: `ITEM_${index + 1}`,
+            })),
+          })
+        )
       ).toBe(true)
     })
 
     it('Should return true when any code item is available', () => {
       expect(
-        validateExpression('ITEM_1 or ITEM_2', {
-          type: CertificateDataValueType.CODE_LIST,
-          id: 'ITEM',
-          list: [
-            {
-              type: CertificateDataValueType.CODE,
-              id: `ITEM_1`,
-              code: `ITEM_1`,
-            },
-            {
-              type: CertificateDataValueType.CODE,
-              id: `ITEM_2`,
-              code: '',
-            },
-          ],
-        })
+        validateExpression(
+          'ITEM_1 or ITEM_2',
+          fakeCertificateValue.codeList({
+            list: [
+              {
+                id: `ITEM_1`,
+                code: `ITEM_1`,
+              },
+              {
+                id: `ITEM_2`,
+                code: '',
+              },
+            ],
+          })
+        )
       ).toBe(true)
     })
   })

@@ -26,7 +26,7 @@ interface Props {
 
 const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list
-  const [code, setCode] = useState(question.value?.code)
+  const [code, setCode] = useState((question.value as ValueCode)?.code)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = radiobuttons.length <= 2

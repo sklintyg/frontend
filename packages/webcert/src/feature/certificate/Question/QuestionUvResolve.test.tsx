@@ -17,7 +17,6 @@ import {
   ConfigUeYear,
   getCertificateWithQuestion,
   MessageLevel,
-  Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -27,6 +26,7 @@ import {
   ValueText,
   ValueYear,
   ConfigUeCheckboxBoolean,
+  ValueType,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
@@ -220,7 +220,6 @@ export function createQuestionWithTextValue(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeTextArea = {
@@ -523,7 +522,6 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeMessage = {
@@ -554,7 +552,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
+export function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

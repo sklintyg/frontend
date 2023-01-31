@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import { withResourceAccess } from './withResourceAccess'
+import { ResourceAccess } from './ResourceAccess'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
@@ -11,15 +11,15 @@ import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../sto
 import { throwError } from '../store/error/errorActions'
 
 let testStore: EnhancedStore
-const Component: React.FC = () => <p>Component</p>
 
 const renderComponent = () => {
-  const ComponentWithRedirect = withResourceAccess(Component)
   render(
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create/:patientId?">
-          <ComponentWithRedirect />
+          <ResourceAccess>
+            <p>Component</p>
+          </ResourceAccess>
         </Route>
       </MemoryRouter>
     </Provider>
