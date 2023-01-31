@@ -10,6 +10,7 @@ import UeDateRange from '../UnifiedEdit/UeDateRange/UeDateRange'
 import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
+import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
 import UeMedicalInvestigationList from '../UnifiedEdit/UeMedicalInvestigation/UeMedicalInvestigationList'
 import UeMessage from '../UnifiedEdit/UeMessage/UeMessage'
 import UeRadio from '../UnifiedEdit/UeRadio/UeRadio'
@@ -71,6 +72,8 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeDateRange {...commonProps} />
     case ConfigTypes.UE_YEAR:
       return <UeYear {...commonProps} />
+    case ConfigTypes.UE_INTEGER:
+      return <UeInteger {...commonProps} />
     case ConfigTypes.UE_CAUSE_OF_DEATH:
       return <UeCauseOfDeath {...commonProps} />
     case ConfigTypes.UE_CAUSE_OF_DEATH_LIST:
