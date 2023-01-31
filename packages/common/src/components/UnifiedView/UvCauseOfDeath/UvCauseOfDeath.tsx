@@ -14,7 +14,7 @@ export const UvCauseOfDeath: React.FC<{ value: ValueCauseOfDeath; config: Config
   const specification = chosenSpec?.label ?? 'Ej angivet'
   return (
     <>
-      {config.label && <div className="iu-fl iu-fs-700 iu-mr-400 iu-pt-200">{config.label}</div>}
+      {config.label && <div className="iu-fl iu-fs-700 iu-mr-400">{config.label}</div>}
 
       <CauseOfDeathWrapper>
         <div>
@@ -22,7 +22,7 @@ export const UvCauseOfDeath: React.FC<{ value: ValueCauseOfDeath; config: Config
           <Badge>{description}</Badge>
         </div>
         <div className="iu-flex">
-          <div className="iu-mr-600">
+          <div className=" iu-mr-400">
             <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>Ungefärlig debut</p>
             <Badge>{debut}</Badge>
           </div>

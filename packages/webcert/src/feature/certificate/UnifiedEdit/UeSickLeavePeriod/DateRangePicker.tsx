@@ -42,7 +42,9 @@ const DateRangeWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
   @media (max-width: 820px) {
     flex-direction: column;
   }
@@ -178,7 +180,7 @@ const DateRangePicker: React.FC<Props> = ({
 
   return (
     <>
-      <DateRangeWrapper className="iu-mb-400">
+      <DateRangeWrapper>
         <Checkbox
           id={`${field}-checkbox`}
           hasValidationError={hasValidationError || validationErrors.length > 0}
@@ -221,9 +223,7 @@ const DateRangePicker: React.FC<Props> = ({
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
-      <div className={'iu-pb-300'}>
-        <QuestionValidationTexts validationErrors={validationErrors} />
-      </div>
+      <QuestionValidationTexts validationErrors={validationErrors} />
       {workHoursPerWeek !== null && workDaysPerWeek && (
         <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}

@@ -93,7 +93,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="iu-pt-200 iu-grid-cols iu-grid-cols-12">
+    <div className="iu-grid-cols iu-grid-cols-12">
       <div className="iu-grid-span-6">
         <Typeahead
           disabled={disabled}

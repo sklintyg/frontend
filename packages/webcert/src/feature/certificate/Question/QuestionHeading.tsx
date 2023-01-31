@@ -43,7 +43,7 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, id,
     </>
   ) : questionTypeIsCategory ? (
     <>
-      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300 iu-pt-200`}>
+      <QuestionHeadline id={id} className={`iu-fw-heading iu-fs-300`}>
         {text}
       </QuestionHeadline>
       {readOnly && !hideLabel && (

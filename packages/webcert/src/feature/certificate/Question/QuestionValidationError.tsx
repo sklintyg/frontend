@@ -3,18 +3,19 @@ import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../store/certificate/certificateSelectors'
 import { isEqual } from 'lodash'
 import React, { ReactElement } from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const ValidationErrorWrapper = styled.div`
-  padding: 0 2rem;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
 `
-export const QuestionValidationError = ({ id }: { id: string }): ReactElement => {
+
+export const QuestionValidationError = ({ id }: { id: string }): ReactElement | null => {
   const validationErrors = useSelector(getVisibleValidationErrors(id), isEqual)
   return validationErrors.length > 0 ? (
     <ValidationErrorWrapper>
       <QuestionValidationTexts validationErrors={validationErrors} />
     </ValidationErrorWrapper>
-  ) : (
-    <></>
-  )
+  ) : null
 }

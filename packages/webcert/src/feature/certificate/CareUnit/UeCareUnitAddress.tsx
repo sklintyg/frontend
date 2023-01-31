@@ -51,6 +51,10 @@ const PhoneNumberInput = styled.input.attrs({
   max-width: 15em;
 `
 
+const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
+  line-height: 0;
+`
+
 const UeCareUnitAddress: React.FC = () => {
   const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getCareUnitValidationErrors(), _.isEqual)
@@ -103,7 +107,7 @@ const UeCareUnitAddress: React.FC = () => {
             {!careUnitInfo.address && <MandatoryIcon />}
             <label htmlFor="address">Postadress</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <TextArea
               hasValidationError={isShowValidationError && (!careUnitInfo.address || addressValidationErrors.length > 0)}
               limit={209}
@@ -118,13 +122,13 @@ const UeCareUnitAddress: React.FC = () => {
             {isShowValidationError && addressValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)} />
             )}
-          </div>
+          </InputWrapper>
 
           <div className="iu-grid-span-3">
             {!careUnitInfo.zipCode && <MandatoryIcon />}
             <label htmlFor="zipCode">Postnummer</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <ZipCodeInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
@@ -138,13 +142,13 @@ const UeCareUnitAddress: React.FC = () => {
             {isShowValidationError && zipCodeValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={zipCodeValidationErrors} />
             )}
-          </div>
+          </InputWrapper>
 
           <div className="iu-grid-span-3">
             {!careUnitInfo.city && <MandatoryIcon />}
             <label htmlFor="city">Postort</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <CityInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
@@ -158,13 +162,13 @@ const UeCareUnitAddress: React.FC = () => {
             {isShowValidationError && cityValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={cityValidationErrors} />
             )}
-          </div>
+          </InputWrapper>
 
           <div className="iu-grid-span-3">
             {!careUnitInfo.phoneNumber && <MandatoryIcon />}
             <label htmlFor="phoneNumber">Telefonnummer</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <PhoneNumberInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
@@ -178,7 +182,7 @@ const UeCareUnitAddress: React.FC = () => {
             {isShowValidationError && phoneNumberValidationErrors.length > 0 && (
               <QuestionValidationTexts validationErrors={phoneNumberValidationErrors} />
             )}
-          </div>
+          </InputWrapper>
         </Wrapper>
       </QuestionWrapper>
     </>

@@ -40,12 +40,13 @@ const Wrapper = styled.div`
 `
 
 const CategoryWrapper = styled.div`
-  :not(:empty) {
-    background: #ffffff;
-    padding-bottom: 1rem;
+  background: #ffffff;
+  padding-bottom: 0.9375rem;
+  :empty {
+    display: none;
   }
   :not(:last-child) {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 `
 
