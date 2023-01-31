@@ -1,3 +1,4 @@
+import { ConfigUeViewList, ConfigUeViewTable } from '@frontend/common'
 import faker from 'faker'
 import { merge } from 'lodash'
 import { Merge, PartialDeep } from 'type-fest'
@@ -16,6 +17,7 @@ import {
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
@@ -39,6 +41,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueHeader,
@@ -52,12 +55,11 @@ import {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
+import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateDataValidation, fakeCertificateValidationError } from './fakeCertificateDataValidation'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateConfig } from './fakeCertificateConfig'
-import { ConfigUeViewTable, ConfigUeViewList } from '@frontend/common'
 
 type PartialCertificateDataElement<T, P> = PartialDeep<Merge<CertificateDataElement, { config: T; value: P }>>
 
@@ -415,6 +417,27 @@ export const fakeDateElement = (
       ...data,
       config: fakeCertificateConfig.date(data?.config),
       value: fakeCertificateValue.date(data?.value),
+      validation: [
+        fakeCertificateDataValidation({
+          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
+          expression: data?.id ? `'${data.id.toUpperCase()}'` : undefined,
+          numberOfDays: 0,
+        }),
+        ...(data?.validation ?? []),
+      ],
+    },
+    children
+  )
+
+export const fakeDateRangeElement = (
+  data?: PartialCertificateDataElement<ConfigUeDateRange, ValueDateRange>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: fakeCertificateConfig.dateRange(data?.config),
+      value: fakeCertificateValue.dateRange(data?.value),
       validation: [
         fakeCertificateDataValidation({
           type: CertificateDataValidationType.MAX_DATE_VALIDATION,

@@ -22,7 +22,7 @@ export const UvCauseOfDeath: React.FC<{ value: ValueCauseOfDeath; config: Config
           <Badge>{description}</Badge>
         </div>
         <div className="iu-flex">
-          <div className=" iu-mr-600">
+          <div className="iu-mr-600">
             <p className={'iu-fs-200 iu-fw-bold iu-pb-200 iu-pt-300'}>Ungefärlig debut</p>
             <Badge>{debut}</Badge>
           </div>
