@@ -35,7 +35,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState<string>('')
+  const [number, setNumber] = useState<number>(null)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   useEffect(() => {
