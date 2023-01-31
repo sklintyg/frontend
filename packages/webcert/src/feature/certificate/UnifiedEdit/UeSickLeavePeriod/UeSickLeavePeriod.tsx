@@ -159,25 +159,27 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           </>
         )}
       </div>
-      {config.list.map(({ id, label }, index) => {
-        const fieldValidationErrors = validationErrors.filter(
-          ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
-        )
-        return (
-          <DateRangePicker
-            baseWorkHours={baseWorkHours}
-            disabled={disabled}
-            getPeriodStartingDate={handleGetPeriodStartingDate}
-            key={index}
-            value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
-            label={label}
-            field={id}
-            hasValidationError={otherValiadtionErrors.length > 0}
-            validationErrors={fieldValidationErrors}
-            onChange={handleValueChanged}
-          />
-        )
-      })}
+      <div>
+        {config.list.map(({ id, label }, index) => {
+          const fieldValidationErrors = validationErrors.filter(
+            ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
+          )
+          return (
+            <DateRangePicker
+              baseWorkHours={baseWorkHours}
+              disabled={disabled}
+              getPeriodStartingDate={handleGetPeriodStartingDate}
+              key={index}
+              value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
+              label={label}
+              field={id}
+              hasValidationError={otherValiadtionErrors.length > 0}
+              validationErrors={fieldValidationErrors}
+              onChange={handleValueChanged}
+            />
+          )
+        })}
+      </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       {totalSickDays && !disabled && (
         <div>

@@ -266,7 +266,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
           limit={textValidation ? textValidation.limit : 250}
         />
       </Wrapper>
-      {validationErrors.length > 0 && <QuestionValidationTexts validationErrors={validationErrors} />}
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }
