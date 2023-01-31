@@ -110,7 +110,7 @@ const Certificate: React.FC = () => {
                 const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
                 return (
                   <CategoryWrapper key={index}>
-                    {structure.map(({ id, subQuestionIds, component }) => {
+                    {structure.map(({ id, subQuestionIds, component }, index) => {
                       if (component === ConfigTypes.CATEGORY) {
                         return <Category key={index} id={id} />
                       } else {
