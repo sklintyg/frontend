@@ -27,38 +27,36 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   const otherValidationErrors = validationErrors.filter(({ field }) => !checkboxes.map(({ id }) => id).includes(field))
 
   return (
-    <div className="checkbox-group-wrapper iu-pt-500">
-      <div>
-        <div className="checkbox-child">
-          {checkboxes.map(({ id, label }, index) => (
-            <UeCheckboxDateItem
-              key={index}
-              id={`${question.id}_${id}`}
-              label={label}
-              value={value.list.find((date: ValueDate) => date.id === id) || { type: CertificateDataValueType.DATE, date: undefined, id }}
-              onChange={(newValue) => {
-                const list = value.list.filter((item) => item.id !== id).concat(newValue.date ? newValue : [])
-                setValue({ ...value, list })
-                dispatch(
-                  updateCertificateDataElement({
-                    ...question,
-                    value: {
-                      ...value,
-                      list,
-                    },
-                  })
-                )
-              }}
-              disabled={disabled}
-              maxDate={getMaxDate(question.validation, id)}
-              validationErrors={validationErrors.filter(({ field }) => field === id)}
-              hasValidationError={otherValidationErrors.length > 0}
-            />
-          ))}
-        </div>
-        <QuestionValidationTexts validationErrors={otherValidationErrors} />
+    <>
+      <div className="checkbox-child">
+        {checkboxes.map(({ id, label }, index) => (
+          <UeCheckboxDateItem
+            key={index}
+            id={`${question.id}_${id}`}
+            label={label}
+            value={value.list.find((date: ValueDate) => date.id === id) || { type: CertificateDataValueType.DATE, date: undefined, id }}
+            onChange={(newValue) => {
+              const list = value.list.filter((item) => item.id !== id).concat(newValue.date ? newValue : [])
+              setValue({ ...value, list })
+              dispatch(
+                updateCertificateDataElement({
+                  ...question,
+                  value: {
+                    ...value,
+                    list,
+                  },
+                })
+              )
+            }}
+            disabled={disabled}
+            maxDate={getMaxDate(question.validation, id)}
+            validationErrors={validationErrors.filter(({ field }) => field === id)}
+            hasValidationError={otherValidationErrors.length > 0}
+          />
+        ))}
       </div>
-    </div>
+      <QuestionValidationTexts validationErrors={otherValidationErrors} />
+    </>
   )
 }
 

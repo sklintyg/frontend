@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`
@@ -30,6 +30,30 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
   const tabList = useRef<HTMLUListElement | null>(null)
   const tabRefs = useRef<HTMLAnchorElement[]>([])
   const panels = useRef<HTMLDivElement[]>([])
+
+  const setTab = useCallback(
+    (index: number) => {
+      for (let i = 0; i < panels.current.length; i++) {
+        if (i === selectedTabIndex) {
+          continue
+        }
+        const tab = tabList.current?.querySelector(`#tab${i}`)
+        panels.current[i].hidden = true
+        tab?.removeAttribute('aria-selected')
+        tab?.setAttribute('tabindex', '-1')
+      }
+      const tab = tabList?.current?.querySelector(`#tab${index}`)
+
+      // Make the active tab focusable by the user (Tab key)
+      tab?.removeAttribute('tabindex')
+      // Set the selected state
+      tab?.setAttribute('aria-selected', 'true')
+      // Get the indices of the new and old tabs to find the correct
+      // tab panels to show and hide
+      panels.current[index].hidden = false
+    },
+    [selectedTabIndex]
+  )
 
   useEffect(() => {
     // Add the tablist role to the first <ul> in the .tabbed container
@@ -85,17 +109,17 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     panels.current[selectedTabIndex].hidden = false
 
     setTab(selectedTabIndex)
-  }, [])
+  }, [selectedTabIndex, setTab])
 
   useEffect(() => {
     setTab(selectedTabIndex)
-  }, [selectedTabIndex])
+  }, [selectedTabIndex, setTab])
 
   useEffect(() => {
     if (tabList.current) {
       setHeaderHeight(tabList.current?.clientHeight)
     }
-  }, [tabList.current])
+  }, [setHeaderHeight])
 
   // The tab switching function
   const switchTab = (oldTab: HTMLElement, newTab: HTMLElement) => {
@@ -114,34 +138,9 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     panels.current[index].hidden = false
   }
 
-  const setTab = (index: number) => {
-    clearFocus()
-    const tab = tabList?.current?.querySelector(`#tab${index}`)
-
-    // Make the active tab focusable by the user (Tab key)
-    tab?.removeAttribute('tabindex')
-    // Set the selected state
-    tab?.setAttribute('aria-selected', 'true')
-    // Get the indices of the new and old tabs to find the correct
-    // tab panels to show and hide
-    panels.current[index].hidden = false
-  }
-
-  const clearFocus = () => {
-    for (let i = 0; i < panels.current.length; i++) {
-      if (i === selectedTabIndex) {
-        continue
-      }
-      const tab = tabList.current?.querySelector(`#tab${i}`)
-      panels.current[i].hidden = true
-      tab?.removeAttribute('aria-selected')
-      tab?.setAttribute('tabindex', '-1')
-    }
-  }
-
   return (
     <Root ref={tabbed} className="ic-tabbed tabbed">
-      <Ul ref={tabList} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300 iu-pt-200">
+      <Ul ref={tabList} className="ic-tabbed__tabs iu-hide-sm iu-border-grey-300">
         {tabs.map((tab, i) => {
           return (
             <li key={i} className={`${i === 0 ? 'iu-pl-300' : ''}`}>

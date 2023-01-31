@@ -18,7 +18,7 @@ const CharacterCounter: React.FC<Props> = (props) => {
     return null
   }
 
-  return <Wrapper className={'iu-pb-200'}>Tecken kvar: {limit - (value ? value.length : 0)}</Wrapper>
+  return <Wrapper>Tecken kvar: {limit - (value ? value.length : 0)}</Wrapper>
 }
 
 export default CharacterCounter

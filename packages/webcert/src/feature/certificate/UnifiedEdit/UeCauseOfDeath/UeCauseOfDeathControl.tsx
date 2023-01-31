@@ -28,13 +28,13 @@ export interface Props {
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: auto max-content;
-  grid-column-gap: 20px;
+  grid-column-gap: 0.9375rem;
 `
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
+  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 const EmptyValidationWrapper = styled.div`
@@ -103,7 +103,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
             disabled={disabled}
             hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
             limit={textValidation ? textValidation.limit : 100}
-            className="iu-mb-1rem"
+            className="iu-mb-400"
           />
         </Description>
         <EmptyValidationWrapper>
@@ -116,7 +116,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
         <DateAndSpec oneLine={oneLine}>
           <DateAndSpecInner>
             <DatePickerCustom
-              additionalStyles="iu-mr-500"
+              additionalStyles="iu-mr-400"
               label="Ungefärlig debut"
               forbidFutureDates={true}
               vertical={true}

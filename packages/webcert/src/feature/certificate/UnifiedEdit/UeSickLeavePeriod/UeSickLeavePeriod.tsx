@@ -32,7 +32,6 @@ const AccodrionWrapper = styled.div`
 const DaysRangeWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 16px 0;
 
   > * + * {
     margin-left: 0.5rem;
@@ -156,9 +155,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                 </Accordion>
               </AccodrionWrapper>
             </DaysRangeWrapper>
-            <div className="iu-pb-500">
-              <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
-            </div>
+            <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
           </>
         )}
       </div>
@@ -181,9 +178,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           />
         )
       })}
-      <div className={'iu-pb-300'}>
-        <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
-      </div>
+      <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       {totalSickDays && !disabled && (
         <div>
           <p className="iu-color-main">

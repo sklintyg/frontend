@@ -125,11 +125,7 @@ const CertificateListRow: React.FC<Props> = ({
             />
           )}
         </div>
-        {message && (
-          <div className="iu-pt-200">
-            <InfoBox type="info">{message}</InfoBox>
-          </div>
-        )}
+        {message && <InfoBox type="info">{message}</InfoBox>}
       </Row>
     </>
   )

@@ -82,7 +82,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className={`iu-pt-200`}>
+    <>
       {!disabled && (
         <IcfDropdown
           id={question.id}
@@ -106,7 +106,7 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
         placeholder={getPlaceHolder()}
       />
       <QuestionValidationTexts validationErrors={validationErrors} />
-    </div>
+    </>
   )
 }
 

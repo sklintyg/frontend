@@ -8,12 +8,14 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
 `
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
   margin-top: 0;
 `
 

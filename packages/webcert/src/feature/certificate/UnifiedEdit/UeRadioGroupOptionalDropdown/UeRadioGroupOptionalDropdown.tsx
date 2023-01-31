@@ -5,6 +5,7 @@ import {
   QuestionValidationTexts,
   RadioButton,
   ValueCode,
+  ConfigLayout,
 } from '@frontend/common'
 import { useSelector } from 'react-redux'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
@@ -13,6 +14,7 @@ import { useAppDispatch } from '../../../../store/store'
 import Question from '../../Question/Question'
 import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 import QuestionWrapper from '../../Question/QuestionWrapper'
+import { ItemWrapper } from '../ItemWrapper'
 
 const dropDownStyles: FlattenSimpleInterpolation = css`
   padding: 0 !important;
@@ -48,29 +50,25 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
     return updatedQuestion
   }
 
-  function isLastRadiobutton(index: number) {
-    return index === radiobuttons.length - 1
-  }
-
   const renderRadioButtons = () => {
     if (!radiobuttons) {
       return null
     }
     return radiobuttons.map((radio, index) => (
       <React.Fragment key={index}>
-        <RadioButton
-          id={radio.id as string}
-          value={radio.id}
-          name={question.id}
-          label={radio.label}
-          disabled={disabled}
-          checked={radio.id === code}
-          hasValidationError={validationErrors.length > 0}
-          onChange={handleChange}
-          wrapperAdditionalStyles={
-            !shouldBeHorizontal && !isLastRadiobutton(index) && !radio.dropdownQuestionId ? 'iu-pb-400 radio-dropdown' : 'radio-dropdown'
-          }
-        />
+        <ItemWrapper layout={ConfigLayout.ROWS} index={index} noItems={radiobuttons.length}>
+          <RadioButton
+            id={radio.id as string}
+            value={radio.id}
+            name={question.id}
+            label={radio.label}
+            disabled={disabled}
+            checked={radio.id === code}
+            hasValidationError={validationErrors.length > 0}
+            onChange={handleChange}
+          />
+        </ItemWrapper>
+
         {radio.dropdownQuestionId && (
           <QuestionWrapper additionalStyles={dropDownStyles}>
             <Question key={radio.dropdownQuestionId} id={radio.dropdownQuestionId} />
