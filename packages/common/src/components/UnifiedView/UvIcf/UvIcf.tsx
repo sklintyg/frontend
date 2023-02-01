@@ -39,5 +39,9 @@ export const UvIcf: React.FC<{
       </Badge>
     )
   }
-  return null
+  return (
+    <Badge>
+      <p>Ej angivet</p>
+    </Badge>
+  )
 }
