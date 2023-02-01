@@ -410,6 +410,7 @@ export interface ConfigUeViewTable extends CertificateDataConfig {
 
 export interface ConfigUeYear extends CertificateDataConfig {
   id: string
+  type: ConfigTypes.UE_YEAR
   minYear?: number
   maxYear?: number
 }
