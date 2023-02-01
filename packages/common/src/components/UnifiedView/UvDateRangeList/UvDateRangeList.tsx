@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../..'
+import { Badge, ConfigUeSickLeavePeriod, ValueDateRangeList } from '../../..'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
 
 export const UvDateRangeList: React.FC<{
@@ -33,5 +33,9 @@ export const UvDateRangeList: React.FC<{
       </Table>
     )
   }
-  return null
+  return (
+    <Badge>
+      <p>Ej angivet</p>
+    </Badge>
+  )
 }
