@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import { GroupWrapper } from '../GroupWrappers'
 import { ItemWrapper } from '../ItemWrapper'
@@ -23,8 +23,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
   const [code, setCode] = useState(question.value?.code)
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = config.layout !== ConfigLayout.COLUMN && radiobuttons.length <= 2
 
@@ -47,22 +46,12 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
     return updatedQuestion
   }
 
-  function shouldHaveItemPadding(index: number) {
-    return (
-      ((config.layout === ConfigLayout.ROWS && !shouldBeHorizontal) || config.layout === ConfigLayout.COLUMN) &&
-      index < radiobuttons.length - 1
-    )
-  }
-
   return (
     radiobuttons && (
       <>
-        <GroupWrapper
-          layout={config.layout}
-          role="radiogroup"
-          className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+        <GroupWrapper layout={config.layout} role="radiogroup">
           {radiobuttons.map((radio, index) => (
-            <ItemWrapper key={index} layout={config.layout} index={index} noItems={noItems}>
+            <ItemWrapper key={index} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
               <RadioButton
                 id={radio.id as string}
                 value={radio.id}
@@ -71,14 +60,13 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
                 label={radio.label}
                 disabled={disabled}
                 checked={radio.id === code}
-                hasValidationError={shouldDisplayValidationError}
+                hasValidationError={validationErrors.length > 0}
                 onChange={handleChange}
-                wrapperAdditionalStyles={shouldHaveItemPadding(index) ? 'iu-pb-400' : ''}
               />
             </ItemWrapper>
           ))}
         </GroupWrapper>
-        {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </>
     )
   )

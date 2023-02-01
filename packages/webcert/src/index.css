@@ -2,14 +2,21 @@ body {
   font-size: 14px !important;
 }
 
+[class*='iu-grid-cols'] {
+  grid-row-gap: 0.9375rem !important;
+  row-gap: 0.9375rem !important;
+  grid-column-gap: 0.9375rem !important;
+  column-gap: 0.9375rem !important;
+}
+
 /*This is a temporary fix to position inputs correctly in certificate*/
-.ic-forms__checkbox+label,
-.ic-forms__radio+label {
+.ic-forms__checkbox + label,
+.ic-forms__radio + label {
   align-items: unset !important;
 }
 
-.ic-forms__checkbox+label:before,
-.ic-forms__radio+label:before {
+.ic-forms__checkbox + label:before,
+.ic-forms__radio + label:before {
   top: 3px !important;
 }
 
@@ -18,15 +25,15 @@ body {
   width: 0;
 }
 
-.ic-forms__radio:checked:disabled+label:before {
+.ic-forms__radio:checked:disabled + label:before {
   background: #c3bbb4 !important;
 }
 
-.ic-forms__radio:disabled+label:before {
+.ic-forms__radio:disabled + label:before {
   background: #f7f4f2 !important;
 }
 
-input:disabled+label,
+input:disabled + label,
 input:disabled::placeholder {
   font-style: italic;
 }

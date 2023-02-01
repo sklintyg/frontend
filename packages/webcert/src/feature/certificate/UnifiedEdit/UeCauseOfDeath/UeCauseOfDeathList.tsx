@@ -3,8 +3,6 @@ import {
   CertificateDataValueType,
   ConfigUeCauseOfDeathList,
   CustomButton,
-  formatDateToString,
-  getValidDate,
   ValueCauseOfDeath,
   ValueCauseOfDeathList,
   ValueDate,
@@ -12,13 +10,12 @@ import {
 } from '@frontend/common'
 import add_row from '@frontend/common/src/images/add_circle.svg'
 import remove_row from '@frontend/common/src/images/remove_circle.svg'
-import { isValid } from 'date-fns'
 import { merge } from 'lodash'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
@@ -64,7 +61,6 @@ const getValueList = (values: ValueCauseOfDeath[], config: ConfigUeCauseOfDeathL
 const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeCauseOfDeathList
   const questionValue = question.value as ValueCauseOfDeathList
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const [questionValueList, setQuestionValueList] = useState(getValueList(questionValue.list, questionConfig))
@@ -97,10 +93,7 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
         ...question,
         value: {
           ...questionValue,
-          list: list.map(({ debut, ...val }) => {
-            const date = getValidDate(debut.date)
-            return { ...val, debut: { ...debut, date: date && isValid(date) ? formatDateToString(date) : '' } }
-          }),
+          list,
         },
       })
     )
@@ -117,12 +110,10 @@ const UeCauseOfDeathList: React.FC<Props> = ({ question, disabled }) => {
             return (
               config && (
                 <UeCauseOfDeathControl
-                  questionId={question.id}
                   config={config}
                   value={value}
                   key={config.id}
                   disabled={disabled}
-                  isShowValidationError={isShowValidationError}
                   oneLine={true}
                   validation={question.validation}
                   onChange={handleChange}

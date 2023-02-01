@@ -1,9 +1,8 @@
-import { CertificateDataElement, ConfigUeCauseOfDeath, formatDateToString, getValidDate, ValueCauseOfDeath } from '@frontend/common'
-import { isValid } from 'date-fns'
+import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
@@ -16,17 +15,14 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeCauseOfDeath
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(question.value as ValueCauseOfDeath)
 
   const handleChange = (value: ValueCauseOfDeath) => {
     setCurrentValue(value)
-    const date = getValidDate(value.debut.date)
-    const debut = { ...value.debut, date: date && isValid(date) ? formatDateToString(date) : '' }
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...value, debut },
+        value,
       })
     )
   }
@@ -37,12 +33,10 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
       <div>
         {config.label && <div className="iu-fl iu-fs-700 iu-mr-400">{config.label}</div>}
         <UeCauseOfDeathControl
-          questionId={question.id}
           config={config.causeOfDeath}
           value={currentValue}
           disabled={disabled}
           onChange={handleChange}
-          isShowValidationError={isShowValidationError}
           validation={question.validation}
           validationErrors={validationErrors}
         />

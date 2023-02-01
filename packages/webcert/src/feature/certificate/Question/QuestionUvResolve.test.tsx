@@ -4,8 +4,10 @@ import {
   CertificateDataValueType,
   ConfigLayout,
   ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeMessage,
@@ -15,6 +17,7 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeYear,
+  fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
   Value,
@@ -22,6 +25,7 @@ import {
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
@@ -119,13 +123,13 @@ describe('QuestionUvResolve', () => {
   it('displays no icf collections label if empty icf list', () => {
     const question = createQuestionWithIcfValue([])
     renderDefaultComponent(question)
-    expect(screen.queryByText(question.config.collectionsLabel as string)).not.toBeInTheDocument()
+    expect(screen.queryByText((question.config as ConfigUeIcf).collectionsLabel as string)).not.toBeInTheDocument()
   })
 
   it('displays icf collections label if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
     renderDefaultComponent(question)
-    expect(screen.getByText(question.config.collectionsLabel as string)).toBeInTheDocument()
+    expect(screen.getByText((question.config as ConfigUeIcf).collectionsLabel as string)).toBeInTheDocument()
   })
 
   it('displays icf values if icf list is not empty', () => {
@@ -156,6 +160,13 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('Datum 2')).toBeInTheDocument()
     expect(screen.getByText('Datum 3')).toBeInTheDocument()
     expect(screen.getByText('Ej angivet')).toBeInTheDocument()
+  })
+
+  it('displays date range value', () => {
+    const question = createQuestionWithDateRange()
+    renderDefaultComponent(question)
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
   })
 
   it('displays several date range values', () => {
@@ -238,7 +249,7 @@ export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement
     selected: true,
     id: '',
   }
-  const config: ConfigUeRadioBoolean = {
+  const config: ConfigUeCheckboxBoolean = {
     id: '',
     selectedText: 'Boolean value = true',
     unselectedText: 'Boolean value = false',
@@ -342,7 +353,6 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleCodes = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     layout: ConfigLayout.ROWS,
@@ -382,7 +392,6 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleDate = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
     list: [
@@ -412,6 +421,22 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
+export const createQuestionWithDateRange = (): CertificateDataElement => {
+  const question = fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  })['id']
+
+  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
+}
+
 export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
   const value: ValueDateRangeList = {
     type: CertificateDataValueType.DATE_RANGE_LIST,
@@ -432,7 +457,6 @@ export const createQuestionWithMultipleDateRanges = (): CertificateDataElement =
   }
   const config: ConfigUeSickLeavePeriod = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     previousSickLeavePeriod: '',
@@ -499,7 +523,6 @@ const createDropdownQuestion = () => {
 
   const config: ConfigUeDropdown = {
     description: '',
-    id: 'questionId',
     text: '',
     type: ConfigTypes.UE_DROPDOWN,
     list: [
@@ -557,7 +580,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
+export function createQuestion(value: Value | ValueDateRange, config: CertificateDataConfig | ConfigUeDateRange): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

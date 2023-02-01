@@ -1,11 +1,4 @@
-import {
-  CertificateDataElement,
-  ConfigEyeAcuity,
-  ConfigUeVisualAcuity,
-  MandatoryIcon,
-  ValueEyeAcuity,
-  ValueVisualAcuity,
-} from '@frontend/common'
+import { CertificateDataElement, ConfigUeVisualAcuity, MandatoryIcon, ValueEyeAcuity, ValueVisualAcuity } from '@frontend/common'
 import React, { useState, useCallback } from 'react'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
@@ -24,9 +17,9 @@ const UeVisualAcuity: React.FC<Props> = ({ question, disabled }) => {
 
   const [currentValue, setCurrentValue] = useState<ValueVisualAcuity>(question.value as ValueVisualAcuity)
   const questionConfig = question.config as ConfigUeVisualAcuity
-  const rightConfig = questionConfig.rightEye as ConfigEyeAcuity
-  const leftConfig = questionConfig.leftEye as ConfigEyeAcuity
-  const binocularConfig = questionConfig.binocular as ConfigEyeAcuity
+  const rightConfig = questionConfig.rightEye
+  const leftConfig = questionConfig.leftEye
+  const binocularConfig = questionConfig.binocular
 
   const displayMandatory = (!question?.readOnly && question?.mandatory && !question.disabled) ?? false
 

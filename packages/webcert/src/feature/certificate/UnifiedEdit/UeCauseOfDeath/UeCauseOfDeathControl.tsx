@@ -11,16 +11,12 @@ import {
   ValidationError,
   ValueCauseOfDeath,
 } from '@frontend/common'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
-import { updateClientValidationError } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
   config: ConfigUeCauseOfDeathControl
   disabled?: boolean
-  isShowValidationError: boolean
-  questionId: string
   onChange: (value: ValueCauseOfDeath) => void
   oneLine?: boolean
   validation: CertificateDataValidation[]
@@ -31,13 +27,13 @@ export interface Props {
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: auto max-content;
-  grid-column-gap: 20px;
+  grid-column-gap: 0.9375rem;
 `
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
+  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 const EmptyValidationWrapper = styled.div`
@@ -60,7 +56,6 @@ const DateAndSpecInner = styled.div`
 `
 
 const UeCauseOfDeathControl: React.FC<Props> = ({
-  questionId,
   value,
   config,
   disabled = false,
@@ -69,9 +64,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
   onChange,
   validation,
   validationErrors,
-  isShowValidationError,
 }) => {
-  const dispatch = useAppDispatch()
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -94,13 +87,6 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     onChange({ ...value, specification: { ...value.specification, id: specificationId, code: code } })
   }
 
-  const dispatchValidationError = useCallback(
-    (shouldBeRemoved: boolean, validationError: ValidationError) => {
-      dispatch(updateClientValidationError({ shouldBeRemoved, validationError }))
-    },
-    [dispatch]
-  )
-
   return (
     <>
       <Wrapper>
@@ -113,13 +99,13 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={isShowValidationError && validationErrors.some((v) => v.type === 'EMPTY')}
+            hasValidationError={emptyValidationError != null}
             limit={textValidation ? textValidation.limit : 100}
-            className="iu-mb-1rem"
+            className="iu-mb-400"
           />
         </Description>
         <EmptyValidationWrapper>
-          {isShowValidationError && emptyValidationError && (
+          {emptyValidationError && (
             <ValidationWrapper>
               <QuestionValidationTexts validationErrors={[emptyValidationError]} />
             </ValidationWrapper>
@@ -128,7 +114,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
         <DateAndSpec oneLine={oneLine}>
           <DateAndSpecInner>
             <DatePickerCustom
-              additionalStyles="iu-mr-500"
+              additionalStyles="iu-mr-400"
               label="Ungefärlig debut"
               forbidFutureDates={true}
               vertical={true}
@@ -137,10 +123,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               textInputOnChange={handleDateChange}
               setDate={handleDateChange}
               id={config.debutId}
-              questionId={questionId}
-              componentField={config.debutId}
-              displayValidationErrorOutline={isShowValidationError && validationErrors.some((v) => v.field.endsWith('.datum'))}
-              onDispatchValidationError={dispatchValidationError}
+              displayValidationErrorOutline={validationErrors.some((v) => v.field.endsWith('.datum'))}
             />
           </DateAndSpecInner>
           <DateAndSpecInner>
@@ -163,7 +146,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           {children}
         </DateAndSpec>
       </Wrapper>
-      {isShowValidationError && nonEmptyValidationErrors && (
+      {nonEmptyValidationErrors && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={nonEmptyValidationErrors} />
         </ValidationWrapper>
