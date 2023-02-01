@@ -92,7 +92,7 @@ const getErrorsFromValue = (id: string, value: ValueType | null): ValidationErro
         return result.concat(getDateValidationError(id, field, value.date) ?? [])
       }
       case CertificateDataValueType.YEAR: {
-        const year = value.year != null ? `${value.year}-01-01` : undefined
+        const year = value.year ? `${value.year}-01-01` : undefined
         if (isValueFormatIncorrect(year)) {
           return result.concat(getValidationErrorFactory(id, field)(INVALID_YEAR_FORMAT))
         } else if (isValueUnreasonable(year)) {

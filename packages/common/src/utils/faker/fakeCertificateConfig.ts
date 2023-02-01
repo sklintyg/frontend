@@ -21,6 +21,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
   ConfigUeRadioBoolean,
@@ -307,6 +308,13 @@ const fakeYear = fakeDataElementConfig<ConfigUeYear>(() => ({
   maxYear: undefined,
 }))
 
+const fakeInteger = fakeDataElementConfig<ConfigUeInteger>(() => ({
+  type: ConfigTypes.UE_INTEGER,
+  id: faker.random.alpha({ count: 5 }),
+  min: undefined,
+  max: undefined,
+}))
+
 export const fakeCertificateConfig = {
   category: fakeCategory,
   causeOfDeath: fakeCauseOfDeath,
@@ -338,4 +346,5 @@ export const fakeCertificateConfig = {
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
   year: fakeYear,
+  integer: fakeInteger,
 }

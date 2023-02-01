@@ -18,6 +18,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
@@ -43,6 +44,7 @@ import {
   ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueInteger,
   ValueMedicalInvestigationList,
   ValueText,
   ValueType,
@@ -266,6 +268,11 @@ export const fakeDateRangeElement = fakeDataElement<ConfigUeDateRange, ValueDate
 export const fakeYearElement = fakeDataElement<ConfigUeYear, ValueYear>((config, value) => ({
   config: fakeCertificateConfig.year(config),
   value: fakeCertificateValue.year(value),
+}))
+
+export const fakeIntegerElement = fakeDataElement<ConfigUeInteger, ValueInteger>((config, value) => ({
+  config: fakeCertificateConfig.integer(config),
+  value: fakeCertificateValue.integer(value),
 }))
 
 export const fakeHeaderElement = fakeDataElement<ConfigUeHeader, ValueHeader>((config, value) => ({
