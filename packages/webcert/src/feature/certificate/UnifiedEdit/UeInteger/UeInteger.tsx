@@ -42,12 +42,14 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value
-
+    let inputValue = event.target.value
     if (/^[a-zA-Z]+$/.test(inputValue)) {
-      return null
+      return
     }
-    setNumber(event.target.value.replace(/[^0-9-]/g, ''))
+    if (inputValue.indexOf('-') > 0) {
+      inputValue = inputValue.replace('-', '')
+    }
+    setNumber(inputValue.replace(/[^0-9-]/g, ''))
     dispatch(
       updateCertificateDataElement({
         ...question,
