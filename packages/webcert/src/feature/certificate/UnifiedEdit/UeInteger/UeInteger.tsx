@@ -1,7 +1,7 @@
 import { CertificateDataElement, ConfigUeInteger, QuestionValidationTexts, TextInput, ValueInteger } from '@frontend/common'
 import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -26,14 +26,8 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState<string>('')
+  const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? '')
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-
-  useEffect(() => {
-    if (questionValue.value) {
-      setNumber(questionValue.value.toString())
-    }
-  }, [questionValue.value])
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ' ') {
@@ -42,18 +36,15 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   }
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = event.target.value
-    if (/^[a-zA-Z]+$/.test(inputValue)) {
+    if (!/^-?\d*$/.test(event.target.value)) {
       return
     }
-    if (inputValue.indexOf('-') > 0) {
-      inputValue = inputValue.replace('-', '')
-    }
-    setNumber(inputValue.replace(/[^0-9-]/g, ''))
+    const inputValue = event.target.value === '' ? null : parseInt(event.target.value)
+    setNumber(inputValue == null ? null : isNaN(inputValue) ? event.target.value : inputValue.toString())
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: inputValue },
+        value: { ...questionValue, value: inputValue == null || isNaN(inputValue) ? null : inputValue },
       })
     )
   }
