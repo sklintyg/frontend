@@ -30,7 +30,6 @@ let testStore: EnhancedStore
 const history = createMemoryHistory()
 
 const location: Location = window.location
-delete window.location
 window.location = {
   ...location,
   reload: jest.fn(),

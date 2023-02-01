@@ -4,7 +4,7 @@ import {
   CertificateDataElement,
   CertificateDataValidation,
   CertificateDataValidationType,
-  Value,
+  ValueType,
 } from '@frontend/common'
 import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
@@ -38,7 +38,7 @@ export const handleValidateCertificateInFrontEnd: Middleware<Dispatch> = ({ disp
   )
 }
 
-function getAutoFillValidation(validation: CertificateDataValidation): Value {
+function getAutoFillValidation(validation: CertificateDataValidation): ValueType {
   const autoFillValidation = validation as AutoFillValidation
   return autoFillValidation.fillValue
 }

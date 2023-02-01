@@ -10,7 +10,6 @@ import {
   ModalData,
   ValidationError,
   ValueBoolean,
-  ValueCode,
   ValueText,
 } from '@frontend/common'
 import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
@@ -298,9 +297,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       const question = state.certificate.data[action.payload]
 
       question.disabled = true
-      if (question?.value?.code) {
-        ;(question.value as ValueCode).id = ''
-        ;(question.value as ValueCode).code = ''
+      if (question.value && question.value.type === CertificateDataValueType.CODE) {
+        question.value.id = ''
+        question.value.code = ''
       }
     })
     .addCase(updateCertificateAsDeleted, (state) => {
