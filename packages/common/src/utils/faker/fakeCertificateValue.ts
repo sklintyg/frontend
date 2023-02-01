@@ -17,6 +17,7 @@ import {
   ValueEyeAcuity,
   ValueHeader,
   ValueIcf,
+  ValueInteger,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
   ValueText,
@@ -94,6 +95,12 @@ const fakeDiagnosisList = fakeDataElementValue<ValueDiagnosisList>((override) =>
 
 const fakeDouble = fakeDataElementValue<ValueDouble>(() => ({
   type: CertificateDataValueType.DOUBLE,
+  id: faker.random.alpha({ count: 5 }),
+  value: null,
+}))
+
+const fakeInteger = fakeDataElementValue<ValueInteger>(() => ({
+  type: CertificateDataValueType.INTEGER,
   id: faker.random.alpha({ count: 5 }),
   value: null,
 }))
@@ -214,4 +221,5 @@ export const fakeCertificateValue = {
   viewTable: fakeViewTable,
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
+  integer: fakeInteger,
 }

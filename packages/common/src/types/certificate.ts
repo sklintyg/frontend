@@ -98,6 +98,7 @@ export enum ConfigTypes {
   UE_VIEW_LIST = 'UE_VIEW_LIST',
   UE_VIEW_TABLE = 'UE_VIEW_TABLE',
   UE_YEAR = 'UE_YEAR',
+  UE_INTEGER = 'UE_INTEGER',
 }
 
 export type CertificateDataConfigType =
@@ -110,6 +111,7 @@ export type CertificateDataConfigType =
   | ConfigUeCheckboxMultipleCodes
   | ConfigUeCheckboxMultipleDate
   | ConfigUeDate
+  | ConfigUeDateRange
   | ConfigUeDiagnoses
   | ConfigUeDropdown
   | ConfigUeHeader
@@ -130,6 +132,7 @@ export type CertificateDataConfigType =
   | ConfigUeViewText
   | ConfigUeVisualAcuity
   | ConfigUeYear
+  | ConfigUeInteger
 
 export enum MessageLevel {
   INFO = 'INFO',
@@ -299,6 +302,7 @@ export interface ConfigUeDate extends CertificateDataConfig {
 
 export interface ConfigUeDateRange extends CertificateDataConfig {
   id: string
+  type: ConfigTypes.UE_DATE_RANGE
   fromLabel: string
   toLabel: string
 }
@@ -408,8 +412,17 @@ export interface ConfigUeViewTable extends CertificateDataConfig {
 
 export interface ConfigUeYear extends CertificateDataConfig {
   id: string
+  type: ConfigTypes.UE_YEAR
   minYear?: number
   maxYear?: number
+}
+
+export interface ConfigUeInteger extends CertificateDataConfig {
+  type: ConfigTypes.UE_INTEGER
+  id: string
+  unitOfMeasurement?: string
+  min?: number
+  max?: number
 }
 
 // Values
@@ -440,6 +453,7 @@ export enum CertificateDataValueType {
   VIEW_ROW = 'VIEW_ROW',
   VIEW_TABLE = 'VIEW_TABLE',
   YEAR = 'YEAR',
+  INTEGER = 'INTEGER',
 }
 
 export type ValueType =
@@ -467,6 +481,7 @@ export type ValueType =
   | ValueViewList
   | ValueViewTable
   | ValueYear
+  | ValueInteger
 
 export interface Value {
   [propName: string]: unknown
@@ -618,6 +633,12 @@ export interface ValueYear extends Value {
   type: CertificateDataValueType.YEAR
   id: string
   year?: number | string
+}
+
+export interface ValueInteger extends Value {
+  type: CertificateDataValueType.INTEGER
+  id: string
+  value: number | null
 }
 
 // Validation
