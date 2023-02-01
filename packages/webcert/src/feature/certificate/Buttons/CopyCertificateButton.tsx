@@ -1,5 +1,4 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
 import { useDispatch } from 'react-redux'
 import { copyCertificate } from '../../../store/certificate/certificateActions'
@@ -16,11 +15,10 @@ interface Props extends FunctionDisabled {
 }
 
 const CopyCertificateButton: React.FC<Props> = ({ name, description, body, enabled, functionDisabled }) => {
-  const history = useHistory()
   const dispatch = useDispatch()
 
   const handleConfirm = () => {
-    return () => dispatch(copyCertificate(history))
+    return () => dispatch(copyCertificate())
   }
 
   return (

@@ -14,11 +14,10 @@ import {
   SigningMethod,
   ValidationError,
 } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { apiMiddleware } from '../api/apiMiddleware'
-import reducer from '../reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
 import {
@@ -54,6 +53,7 @@ import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
 import { getSessionStatusError } from '../session/sessionActions'
 import { utilsMiddleware } from '../utils/utilsMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -68,11 +68,7 @@ describe('Test certificate middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware, utilsMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware, utilsMiddleware])
   })
 
   afterEach(() => {
@@ -266,8 +262,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificate({ message: '', history: mockHistory }))
+      testStore.dispatch(complementCertificate({ message: '' }))
 
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
@@ -277,18 +272,13 @@ describe('Test certificate middleware', () => {
   describe('Handle ComplementCertificateSuccess', () => {
     beforeEach(() => {
       fakeAxios = new MockAdapter(axios)
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) =>
-          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
-      })
+      testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
     })
 
     xit('shall update certificate on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
       const updateCertificateDispatchFound = dispatchedActions.some((action) => updateCertificate.match(action))
 
@@ -298,8 +288,7 @@ describe('Test certificate middleware', () => {
     xit('shall validate certificate on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
       const validateAction = dispatchedActions.find((action) => validateCertificate.match(action))
@@ -309,8 +298,7 @@ describe('Test certificate middleware', () => {
     it('shall hide spinner on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
       const updateCertificateDispatchFound = dispatchedActions.some((action) => hideSpinner.match(action))
 
@@ -321,8 +309,7 @@ describe('Test certificate middleware', () => {
       mockHistory.push.mockClear()
       const certificateToComplement = getCertificate('id')
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
       expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/id`)
@@ -331,8 +318,7 @@ describe('Test certificate middleware', () => {
     xit('shall get certificate events on success', async () => {
       const certificateToComplement = getCertificate('id')
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement, history: mockHistory }))
+      testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
       expect(fakeAxios.history.get.some((req) => req.url?.includes('events'))).toBeTruthy()
@@ -427,7 +413,7 @@ describe('Test certificate middleware', () => {
     xit('shall call api to show related certificate', async () => {
       const certificate = getCertificate('certificateId')
       // @ts-expect-error mocking history
-      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id, history: mockHistory }))
+      testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id }))
 
       await flushPromises()
       expect(fakeAxios.history.get.length).toBe(1)
@@ -462,8 +448,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
       const isDeleted = testStore.getState().ui.uiCertificate.isDeleted
@@ -475,8 +460,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
       const spinnerActive = testStore.getState().ui.uiCertificate.spinner
@@ -495,8 +479,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
       const routedFromDeletedCertificate = testStore.getState().ui.uiCertificate.routedFromDeletedCertificate
@@ -515,8 +498,7 @@ describe('Test certificate middleware', () => {
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
-      // @ts-expect-error mocking history
-      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id, history: mockHistory }))
+      testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
       expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
