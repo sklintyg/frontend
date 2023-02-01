@@ -13,7 +13,6 @@ import {
   fakeRadioBooleanElement,
   getUser,
   SigningMethod,
-  ValidationError,
 } from '@frontend/common'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
@@ -44,7 +43,6 @@ import {
   SigningData,
   startSignCertificate,
   updateCertificate,
-  updateClientValidationError,
   updateValidationErrors,
   validateCertificate,
   validateCertificateInFrontEnd,
@@ -524,52 +522,7 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Update client validation errors', () => {
-    const validationError: ValidationError = {
-      type: 'ERROR',
-      text: 'test',
-      field: 'field',
-      id: 'id',
-      category: 'category',
-    }
-    const otherValidationError: ValidationError = {
-      type: 'ERROR_2',
-      text: 'test',
-      field: 'field',
-      id: 'id',
-      category: 'category',
-    }
-
-    it('Should add validation error', () => {
-      testStore.dispatch(updateClientValidationError([validationError]))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toMatchObject([validationError])
-    })
-
-    it('Should replace validation error list', () => {
-      testStore.dispatch(updateClientValidationError([otherValidationError]))
-      expect(testStore.getState().ui.uiCertificate.clientValidationErrors).toMatchObject([otherValidationError])
-    })
-  })
-
   describe('Handle sign certificate', () => {
-    const validationError: ValidationError = {
-      type: 'ERROR',
-      text: 'test',
-      field: 'field',
-      id: '0',
-      category: 'category',
-    }
-
-    it('should halt and display validation errors', () => {
-      const certificate = getCertificateWithHiglightValidation(false)
-      testStore.dispatch(updateCertificate(certificate))
-      testStore.dispatch(updateClientValidationError([validationError]))
-
-      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(false)
-      testStore.dispatch(startSignCertificate())
-      expect(testStore.getState().ui.uiCertificate.showValidationErrors).toBe(true)
-    })
-
     it('should halt and display careUnitValidationErrors', () => {
       const certificate = getCertificateWithHiglightValidation(false)
       testStore.dispatch(updateCertificate(certificate))
