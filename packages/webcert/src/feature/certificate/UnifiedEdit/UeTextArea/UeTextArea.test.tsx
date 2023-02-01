@@ -4,10 +4,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
 import UeTextArea from './UeTextArea'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import reducers from '../../../../store/reducers'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -21,10 +21,7 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeTextArea>) => {
 
 describe('UeTextArea', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders a textarea which has correct value after typing in it', async () => {

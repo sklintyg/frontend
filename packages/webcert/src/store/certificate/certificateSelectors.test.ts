@@ -1,20 +1,17 @@
 import { fakeCertificate, fakeCategoryElement, fakeTextFieldElement, fakeCertificateValidationError } from '@frontend/common'
 import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { certificateMiddleware } from './certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
 import { updateCertificate, showValidationErrors, updateClientValidationError } from './certificateActions'
 import faker from 'faker'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 let testStore: EnhancedStore
 
 describe('certificateSelectors', () => {
   describe('getCertificateDataElements', () => {
     beforeEach(() => {
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-      })
+      testStore = configureApplicationStore([certificateMiddleware])
 
       testStore.dispatch(
         updateCertificate(
@@ -56,10 +53,7 @@ describe('certificateSelectors', () => {
   describe('getVisibleValidationErrors', () => {
     beforeEach(() => {
       faker.seed(12345)
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-      })
+      testStore = configureApplicationStore([certificateMiddleware])
 
       testStore.dispatch(
         updateCertificate(

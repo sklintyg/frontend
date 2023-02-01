@@ -1,12 +1,12 @@
 import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import reducer from '../../../store/reducers'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import Category from './Category'
 
@@ -23,10 +23,7 @@ const renderComponent = () => {
 describe('Category', () => {
   beforeEach(() => {
     clearDispatchedActions()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
   it('should render description', () => {

@@ -1,5 +1,4 @@
-import { AnyAction, configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { errorMiddleware } from './errorMiddleware'
 import { setActiveCertificateId, throwError } from './errorActions'
@@ -7,6 +6,7 @@ import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
 import { updateCertificate } from '../certificate/certificateActions'
 import { getCertificate } from '@frontend/common'
 import { apiCallBegan } from '../api/apiActions'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -14,10 +14,7 @@ describe('Test error middleware', () => {
   let testStore: EnhancedStore
 
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {

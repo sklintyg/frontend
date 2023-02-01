@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React, { createRef } from 'react'
-import reducer from '../../store/reducers'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 import apiMiddleware from '../../store/api/apiMiddleware'
@@ -16,6 +15,7 @@ import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfAction
 import userEvent from '@testing-library/user-event'
 import { getIcfData } from './icfTestUtils'
 import { CertificateContext } from '../../feature/certificate/CertificateContext'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -60,10 +60,7 @@ const renderComponent = (
 describe('IcfDropdown', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, icfMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
   afterEach(() => {

@@ -1,13 +1,13 @@
 import MockAdapter from 'axios-mock-adapter'
-import { AnyAction, configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import reducer from '../reducers'
 import apiMiddleware from './apiMiddleware'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { throwError } from '../error/errorActions'
 import { ErrorType } from '../error/errorReducer'
 import { FunctionDisabler } from '../../utils/functionDisablerUtils'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -17,10 +17,7 @@ describe('Test API middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([apiMiddleware, dispatchHelperMiddleware])
   })
 
   describe('Handle API calls that leads to errors', () => {

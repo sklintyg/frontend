@@ -1,4 +1,4 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
@@ -6,7 +6,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { certificateMiddleware } from '../store/certificate/certificateMiddleware'
-import reducer from '../store/reducers'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateDynamicLinks } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
@@ -34,11 +34,7 @@ const renderComponent = () => {
 }
 describe('TextWithDynamicLinks', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware, utilsMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware, utilsMiddleware])
 
     testStore.dispatch(
       updateDynamicLinks({

@@ -18,8 +18,13 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore, history } from '../configureApplicationStore'
+import { throwError } from '../error/errorActions'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { updateUser } from '../user/userActions'
+import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
@@ -49,18 +54,8 @@ import {
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
 
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
-import { getSessionStatusError } from '../session/sessionActions'
-import { utilsMiddleware } from '../utils/utilsMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
-
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
-
-const mockHistory = {
-  push: jest.fn(),
-}
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
@@ -306,13 +301,13 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route to the new certificate', async () => {
-      mockHistory.push.mockClear()
       const certificateToComplement = getCertificate('id')
+      const pushSpy = jest.spyOn(history, 'push')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
 
-      expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/id`)
+      expect(pushSpy).toHaveBeenCalledWith(`/certificate/id`)
     })
 
     xit('shall get certificate events on success', async () => {
@@ -468,7 +463,6 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall set routedFromDeletedCertificate to true if parent certificate exists', async () => {
-      mockHistory.push.mockClear()
       const parentCertificate: CertificateRelation = {
         certificateId: 'parent',
         type: CertificateRelationType.RENEW,
@@ -487,7 +481,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route user after successful deletion if parent certificate exists', async () => {
-      mockHistory.push.mockClear()
+      const pushSpy = jest.spyOn(history, 'push')
       const parentCertificate: CertificateRelation = {
         certificateId: 'parent',
         type: CertificateRelationType.RENEW,
@@ -501,7 +495,7 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(deleteCertificate({ certificateId: certificate.metadata.id }))
       await flushPromises()
 
-      expect(mockHistory.push).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
+      expect(pushSpy).toHaveBeenCalledWith(`/certificate/${parentCertificate.certificateId}`)
     })
   })
 

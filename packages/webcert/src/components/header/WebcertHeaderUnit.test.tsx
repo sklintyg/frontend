@@ -9,13 +9,13 @@ import {
   getUserWithInactiveUnit,
 } from '@frontend/common'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
 import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
 import userEvent from '@testing-library/user-event'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -29,10 +29,7 @@ const renderComponent = () => {
 
 describe('Webcert header unit', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
   })
 
   afterEach(() => {

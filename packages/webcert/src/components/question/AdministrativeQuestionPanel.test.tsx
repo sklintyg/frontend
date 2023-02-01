@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { Question, QuestionType } from '@frontend/common'
 import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -31,10 +31,7 @@ const renderDefaultComponent = (questions: Question[], isQuestionFormVisible: bo
 
 describe('QuestionPanel', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
-    })
+    testStore = configureApplicationStore([questionMiddleware])
 
     testStore.dispatch(updateIsLoadingQuestions(false))
   })

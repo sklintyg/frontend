@@ -2,11 +2,11 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import ForwardCertificateButton from '../ForwardCertificateButton'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import dispatchHelperMiddleware from '../../../../store/test/dispatchHelperMiddleware'
-import reducer from '../../../../store/reducers'
 import { ResourceLinkType } from '@frontend/common'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 const NAME = 'Forward button name'
 const DESCRIPTION = 'Forward button description'
@@ -39,10 +39,7 @@ describe('Forward certificate button', () => {
   beforeEach(() => {
     location = window.location
     jest.spyOn(window, 'location', 'get').mockRestore()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
   afterEach(() => {
