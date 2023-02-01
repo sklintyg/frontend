@@ -43,7 +43,7 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className="iu-pt-200 iu-grid-cols-12">
+    <div className="iu-grid-cols-12">
       <div className="iu-grid-span-6">
         <TextInput
           className=""

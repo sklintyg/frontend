@@ -11,16 +11,10 @@ import UeDiagnosis from './UeDiagnosis'
 const RadioWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding-bottom: 10px;
+  padding-bottom: 0.9375rem;
 
   div {
-    padding-right: 10px;
-  }
-`
-
-const DiagnosesWrapper = styled.div`
-  > * {
-    padding-bottom: 5px;
+    padding-right: 0.9375rem;
   }
 `
 
@@ -73,7 +67,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
         })}
       </RadioWrapper>
       <p>Diagnoskod enligt ICD-10 SE</p>
-      <DiagnosesWrapper>
+      <div>
         {questionConfig.list.map((diagnosis, index) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)
           return (
@@ -88,7 +82,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
             />
           )
         })}
-      </DiagnosesWrapper>
+      </div>
       {validationErrors.length === 1 && (
         <QuestionValidationTexts validationErrors={validationErrors.filter((error) => !fields.includes(error.field))} />
       )}

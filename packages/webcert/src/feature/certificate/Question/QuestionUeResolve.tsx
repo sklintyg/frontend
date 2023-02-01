@@ -6,6 +6,7 @@ import UeCheckbox from '../UnifiedEdit/UeCheckbox/UeCheckbox'
 import UeCheckboxDateGroup from '../UnifiedEdit/UeCheckboxDateGroup/UeCheckboxDateGroup'
 import UeCheckboxGroup from '../UnifiedEdit/UeCheckboxGroup/UeCheckboxGroup'
 import UeDate from '../UnifiedEdit/UeDate/UeDate'
+import UeDateRange from '../UnifiedEdit/UeDateRange/UeDateRange'
 import UeDiagnoses from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
@@ -66,6 +67,8 @@ const QuestionUeResolve: React.FC<Props> = ({ question, disabled }) => {
       return <UeTextField {...commonProps} />
     case ConfigTypes.UE_DATE:
       return <UeDate {...commonProps} />
+    case ConfigTypes.UE_DATE_RANGE:
+      return <UeDateRange {...commonProps} />
     case ConfigTypes.UE_YEAR:
       return <UeYear {...commonProps} />
     case ConfigTypes.UE_CAUSE_OF_DEATH:

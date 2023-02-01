@@ -1,51 +1,69 @@
 import React from 'react'
-import { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../..'
+import {
+  Badge,
+  ConfigUeMedicalInvestigation,
+  ConfigUeMedicalInvestigationList,
+  ValueMedicalInvestigation,
+  ValueMedicalInvestigationList,
+} from '../../..'
 import { Table, TableHeader, TableRow, TableCell } from '../../Table'
 
+const getMedicalValue = (value: ValueMedicalInvestigationList, medicalConfig: ConfigUeMedicalInvestigation) => {
+  return value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
+}
+
+const getCodeValue = (medicalConfig: ConfigUeMedicalInvestigation, medicalValue: ValueMedicalInvestigation | undefined) => {
+  return medicalConfig.typeOptions.find((value) => value.code === medicalValue?.investigationType.code)
+}
+
+const isMedicalInvestigationListEmpty = (config: ConfigUeMedicalInvestigationList, value: ValueMedicalInvestigationList) => {
+  config.list.forEach((medicalConfig) => {
+    const medicalValue = getMedicalValue(value, medicalConfig)
+    const codeValue = getCodeValue(medicalConfig, medicalValue)
+    if (codeValue && medicalValue && medicalValue.informationSource.text) {
+      return false
+    }
+  })
+  return true
+}
 export const UvMedicalInvestigationList: React.FC<{
   value: ValueMedicalInvestigationList
   config: ConfigUeMedicalInvestigationList
-}> = ({ value, config }) => {
-  let hasCells = false
-
-  config.list.forEach((medicalConfig) => {
-    const medicalValue = value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
-    const codeValue = medicalConfig.typeOptions.find((value) => value.code === medicalValue?.investigationType.code)
-    if (codeValue && medicalValue && medicalValue.informationSource.text) {
-      hasCells = true
-    }
-  })
-
-  return (
+}> = ({ value, config }) =>
+  isMedicalInvestigationListEmpty(config, value) ? (
+    <div>
+      <h4>{config.typeText}</h4>
+      <Badge>
+        <p>Ej angivet</p>
+      </Badge>
+    </div>
+  ) : (
     <div className={'iu-p-none'}>
-      {hasCells && (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableCell>{config.typeText}</TableCell>
-              <TableCell>{config.dateText}</TableCell>
-              <TableCell>{config.informationSourceText}</TableCell>
-            </TableRow>
-          </TableHeader>
-          <tbody>
-            {config.list.map((medicalConfig) => {
-              const medicalValue = value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)
-              const codeValue = medicalConfig.typeOptions.find((value) => value.code === medicalValue?.investigationType.code)
-              return (
-                codeValue &&
-                medicalValue &&
-                medicalValue.informationSource.text && (
-                  <TableRow key={medicalValue.investigationType.id}>
-                    {codeValue.label && <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>}
-                    {medicalValue.date.date && <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>}
-                    {medicalValue.informationSource.text && <TableCell>{medicalValue.informationSource.text}</TableCell>}
-                  </TableRow>
-                )
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableCell>{config.typeText}</TableCell>
+            <TableCell>{config.dateText}</TableCell>
+            <TableCell>{config.informationSourceText}</TableCell>
+          </TableRow>
+        </TableHeader>
+        <tbody>
+          {config.list.map((medicalConfig) => {
+            const medicalValue = getMedicalValue(value, medicalConfig)
+            const codeValue = getCodeValue(medicalConfig, medicalValue)
+            return (
+              codeValue &&
+              medicalValue &&
+              medicalValue.informationSource.text && (
+                <TableRow key={medicalValue.investigationType.id}>
+                  <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
+                  <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
+                  <TableCell>{medicalValue.informationSource.text}</TableCell>
+                </TableRow>
               )
-            })}
-          </tbody>
-        </Table>
-      )}
+            )
+          })}
+        </tbody>
+      </Table>
     </div>
   )
-}

@@ -65,7 +65,7 @@ const CertificateHeader: React.FC = () => {
 
   return (
     <Wrapper>
-      <div className="ic-container iu-pt-200">
+      <div className="ic-container">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <CandidateWithMessageModal resourceLink={candidateWithMessageResourceLink} />
         <SignCertificateModal />

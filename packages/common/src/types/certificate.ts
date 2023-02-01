@@ -297,6 +297,12 @@ export interface ConfigUeDate extends CertificateDataConfig {
   id: string
 }
 
+export interface ConfigUeDateRange extends CertificateDataConfig {
+  id: string
+  fromLabel: string
+  toLabel: string
+}
+
 export interface ConfigUeIcf extends CertificateDataConfig {
   type: ConfigTypes.UE_ICF
   id: string
