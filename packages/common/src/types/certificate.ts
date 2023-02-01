@@ -301,6 +301,7 @@ export interface ConfigUeDate extends CertificateDataConfig {
 
 export interface ConfigUeDateRange extends CertificateDataConfig {
   id: string
+  type: ConfigTypes.UE_DATE_RANGE
   fromLabel: string
   toLabel: string
 }
