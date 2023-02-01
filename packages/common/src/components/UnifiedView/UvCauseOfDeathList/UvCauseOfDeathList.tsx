@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../..'
+import { Badge, ConfigUeCauseOfDeathList, ValueCauseOfDeathList } from '../../..'
 import { Table, TableHeader, TableRow, TableCell, TableBody } from '../../Table'
 
 export const UvCauseOfDeathList: React.FC<{
@@ -21,7 +21,11 @@ export const UvCauseOfDeathList: React.FC<{
   }, [config.list, value.list])
 
   if (rows.length === 0) {
-    return null
+    return (
+      <Badge>
+        <p>Ej angivet</p>
+      </Badge>
+    )
   }
 
   return (
