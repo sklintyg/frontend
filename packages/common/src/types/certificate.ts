@@ -636,7 +636,7 @@ export interface ValueYear {
   year?: number | string
 }
 
-export interface ValueInteger extends Value {
+export interface ValueInteger {
   type: CertificateDataValueType.INTEGER
   id: string
   value: number | null
