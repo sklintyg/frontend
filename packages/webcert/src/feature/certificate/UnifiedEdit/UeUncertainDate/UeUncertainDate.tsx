@@ -57,7 +57,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   const handleValueChanged = useCallback(
     (year: string, month: string) => {
       const value = `${year}-${month}-00`
-      if (question.value?.value !== value) {
+      if ((question.value as ValueUncertainDate)?.value !== value) {
         dispatch(
           updateCertificateDataElement({
             ...question,

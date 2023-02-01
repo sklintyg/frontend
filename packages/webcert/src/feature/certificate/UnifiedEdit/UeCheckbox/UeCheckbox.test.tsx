@@ -1,4 +1,5 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
+import { CertificateDataElement } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,55 +9,30 @@ import UeCheckbox from './UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'
 const CHECKBOX_LABEL_BOOLEAN = 'Another Example Label 0123!'
-const questionBoolean: CertificateDataElement = {
+const questionBoolean: CertificateDataElement = fakeCheckboxBooleanElement({
   id: 'checkbox',
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  validation: [],
-  validationErrors: [],
-  value: { type: CertificateDataValueType.BOOLEAN },
   config: {
     text: '',
     label: CHECKBOX_LABEL_BOOLEAN,
     description: '',
-    type: ConfigTypes.UE_CHECKBOX_BOOLEAN,
   },
-}
+})['checkbox']
 
-const questionCode: CertificateDataElement = {
+const questionCode: CertificateDataElement = fakeCheckboxCodeElement({
   id: 'checkbox',
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  validation: [],
-  validationErrors: [],
-  value: { type: CertificateDataValueType.CODE },
   config: {
     text: '',
     label: CHECKBOX_LABEL_CODE,
     description: '',
-    type: ConfigTypes.UE_CHECKBOX_CODE,
   },
-}
+})['checkbox']
+
 const renderBooleanComponent = () => {
-  render(
-    <>
-      <UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />
-    </>
-  )
+  render(<UeCheckbox question={questionBoolean} disabled={false} id={'checkbox'} />)
 }
 
 const renderCodeComponent = () => {
-  render(
-    <>
-      <UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />
-    </>
-  )
+  render(<UeCheckbox question={questionCode} disabled={false} id={'checkbox'} />)
 }
 
 beforeEach(() => {

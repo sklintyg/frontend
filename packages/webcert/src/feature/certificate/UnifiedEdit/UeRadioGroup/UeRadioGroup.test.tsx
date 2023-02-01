@@ -1,4 +1,5 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import { CertificateDataElement, ConfigTypes } from '@frontend/common/src/types/certificate'
+import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -21,7 +22,7 @@ const question: CertificateDataElement = {
   readOnly: false,
   validation: [],
   validationErrors: [],
-  value: { type: CertificateDataValueType.CODE },
+  value: fakeCertificateValue.code(),
   config: {
     text: '',
     description: '',

@@ -3,7 +3,6 @@ import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  Value,
   ValueCode,
   ValueDate,
   ValueText,
@@ -76,13 +75,11 @@ describe('Cause of death component', () => {
     const description: ValueText = { type: CertificateDataValueType.TEXT, id: '1', text: 'Description text' }
     const debut: ValueDate = { type: CertificateDataValueType.DATE, id: '1', date: '2020-02-20' }
     const specification: ValueCode = { type: CertificateDataValueType.CODE, id: '1', code: '' }
-
     renderComponent({
       disabled: false,
-      question: {
-        ...question,
+      question: fakeCauseOfDeathListElement({
+        id: QUESTION_ID,
         value: {
-          ...(question.value as Value),
           list: [
             {
               description,
@@ -91,7 +88,7 @@ describe('Cause of death component', () => {
             },
           ],
         },
-      },
+      })[QUESTION_ID],
     })
 
     expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')

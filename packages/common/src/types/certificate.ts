@@ -53,7 +53,7 @@ export interface CertificateDataElement {
   readOnly: boolean
   mandatory: boolean
   config: CertificateDataConfig
-  value: Value | null
+  value: ValueType | null
   validation: CertificateDataValidation[]
   validationErrors: ValidationError[]
   style?: CertificateDataElementStyleEnum
@@ -482,47 +482,48 @@ export type ValueType =
   | ValueViewTable
   | ValueYear
   | ValueInteger
+  | ValueUnknown
 
-export interface Value {
-  [propName: string]: unknown
+export interface ValueUnknown {
+  type: CertificateDataValueType.UNKNOWN
 }
 
-export interface ValueBoolean extends Value {
+export interface ValueBoolean {
   type: CertificateDataValueType.BOOLEAN
   id: string
   selected: boolean | null | undefined
 }
 
-export interface ValueCode extends Value {
+export interface ValueCode {
   type: CertificateDataValueType.CODE
   id: string
   code: string
 }
 
-export interface ValueDate extends Value {
+export interface ValueDate {
   type: CertificateDataValueType.DATE
   id: string
   date?: string
 }
 
-export interface ValueDateList extends Value {
+export interface ValueDateList {
   type: CertificateDataValueType.DATE_LIST
   list: ValueDate[]
 }
 
-export interface ValueDateRange extends Value {
+export interface ValueDateRange {
   type: CertificateDataValueType.DATE_RANGE
   id: string
   from?: string
   to?: string
 }
 
-export interface ValueDateRangeList extends Value {
+export interface ValueDateRangeList {
   type: CertificateDataValueType.DATE_RANGE_LIST
   list: ValueDateRange[]
 }
 
-export interface ValueDiagnosis extends Value {
+export interface ValueDiagnosis {
   type: CertificateDataValueType.DIAGNOSIS
   id: string
   terminology: string
@@ -530,35 +531,35 @@ export interface ValueDiagnosis extends Value {
   description: string
 }
 
-export interface ValueDiagnosisList extends Value {
+export interface ValueDiagnosisList {
   type: CertificateDataValueType.DIAGNOSIS_LIST
   list: ValueDiagnosis[]
 }
 
-export interface ValueCodeList extends Value {
+export interface ValueCodeList {
   type: CertificateDataValueType.CODE_LIST
   list: ValueCode[]
 }
 
-export interface ValueText extends Value {
+export interface ValueText {
   type: CertificateDataValueType.TEXT
   text: string | null
   id: string
 }
 
-export interface ValueDouble extends Value {
+export interface ValueDouble {
   type: CertificateDataValueType.DOUBLE
   value: number | null
   id: string
 }
 
-export interface ValueUncertainDate extends Value {
+export interface ValueUncertainDate {
   type: CertificateDataValueType.UNCERTAIN_DATE
   id: string
   value: string | null
 }
 
-export interface ValueCauseOfDeath extends Value {
+export interface ValueCauseOfDeath {
   type: CertificateDataValueType.CAUSE_OF_DEATH
   id: string
   description: ValueText
@@ -566,31 +567,31 @@ export interface ValueCauseOfDeath extends Value {
   specification: ValueCode
 }
 
-export interface ValueCauseOfDeathList extends Value {
+export interface ValueCauseOfDeathList {
   type: CertificateDataValueType.CAUSE_OF_DEATH_LIST
   list: ValueCauseOfDeath[]
 }
 
-export interface ValueIcf extends Value {
+export interface ValueIcf {
   type: CertificateDataValueType.ICF
   id: string
   icfCodes?: string[]
   text: string | null
 }
 
-export interface ValueHeader extends Value {
+export interface ValueHeader {
   type: CertificateDataValueType.HEADER
   id: string
 }
 
-export interface ValueMedicalInvestigation extends Value {
+export interface ValueMedicalInvestigation {
   type: CertificateDataValueType.MEDICAL_INVESTIGATION
   investigationType: ValueCode
   date: ValueDate
   informationSource: ValueText
 }
 
-export interface ValueMedicalInvestigationList extends Value {
+export interface ValueMedicalInvestigationList {
   type: CertificateDataValueType.MEDICAL_INVESTIGATION_LIST
   list: ValueMedicalInvestigation[]
 }
@@ -602,40 +603,40 @@ export interface ValueEyeAcuity {
   contactLenses?: ValueBoolean
 }
 
-export interface ValueVisualAcuity extends Value {
+export interface ValueVisualAcuity {
   type: CertificateDataValueType.VISUAL_ACUITIES
   rightEye: ValueEyeAcuity
   leftEye: ValueEyeAcuity
   binocular: ValueEyeAcuity
 }
 
-export interface ValueViewText extends Value {
+export interface ValueViewText {
   type: CertificateDataValueType.VIEW_TEXT
   text: string
 }
 
-export interface ValueViewList extends Value {
+export interface ValueViewList {
   type: CertificateDataValueType.VIEW_LIST
   list: ValueViewText[]
 }
 
-export interface ValueTextRow extends Value {
+export interface ValueTextRow {
   type: CertificateDataValueType.VIEW_ROW
   columns: ValueText[]
 }
 
-export interface ValueViewTable extends Value {
+export interface ValueViewTable {
   type: CertificateDataValueType.VIEW_TABLE
   rows: ValueTextRow[]
 }
 
-export interface ValueYear extends Value {
+export interface ValueYear {
   type: CertificateDataValueType.YEAR
   id: string
   year?: number | string
 }
 
-export interface ValueInteger extends Value {
+export interface ValueInteger {
   type: CertificateDataValueType.INTEGER
   id: string
   value: number | null
@@ -671,7 +672,7 @@ export interface CertificateDataValidation {
 
 export interface AutoFillValidation extends CertificateDataValidation {
   id: string
-  fillValue: Value
+  fillValue: ValueType
 }
 
 export interface TextValidation extends CertificateDataValidation {

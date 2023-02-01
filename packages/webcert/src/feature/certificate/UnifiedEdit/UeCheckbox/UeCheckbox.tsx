@@ -29,7 +29,6 @@ export interface Props {
 const UeCheckbox: React.FC<Props> = (props) => {
   const { label, id, question, checked, hasValidationError, disabled } = props
   const dispatch = useAppDispatch()
-  const values = (question.value as ValueCodeList).list
   const isShowValidationError = useSelector(getShowValidationErrors)
   const isSingleCheckbox = question.config.type !== ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE
 
@@ -45,9 +44,9 @@ const UeCheckbox: React.FC<Props> = (props) => {
   }
 
   const getChecked = (): boolean => {
-    if (question.config.type === ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE) {
-      return values.some((x) => x.code === id)
-    } else if (question.config.type === ConfigTypes.UE_CHECKBOX_BOOLEAN && question.value) {
+    if (question.value?.type === CertificateDataValueType.CODE_LIST) {
+      return question.value.list.some((x) => x.code === id)
+    } else if (question.value?.type === CertificateDataValueType.BOOLEAN) {
       return question.value.selected === true
     }
     return false

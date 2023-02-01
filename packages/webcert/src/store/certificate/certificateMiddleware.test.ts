@@ -7,7 +7,6 @@ import {
   CertificateRelationType,
   CertificateStatus,
   fakeCertificate,
-  fakeCertificateData,
   fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeRadioBooleanElement,
@@ -609,17 +608,15 @@ export const getCertificate = (
 
 const getCertificateWithHiglightValidation = (selected: boolean): Certificate =>
   fakeCertificate({
-    data: fakeCertificateData([
-      fakeRadioBooleanElement({
-        id: '0',
-        value: { id: 'val', selected },
-        validation: [
-          fakeCertificateDataValidation({
-            questionId: '0',
-            type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
-            expression: '$val',
-          }),
-        ],
-      }),
-    ]),
+    data: fakeRadioBooleanElement({
+      id: '0',
+      value: { id: 'val', selected },
+      validation: [
+        fakeCertificateDataValidation({
+          questionId: '0',
+          type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+          expression: '$val',
+        }),
+      ],
+    }),
   })

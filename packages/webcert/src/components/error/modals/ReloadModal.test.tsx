@@ -16,12 +16,7 @@ let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-const location: Location = window.location
-delete window.location
-window.location = {
-  ...location,
-  reload: jest.fn(),
-}
+let location: Location
 
 const renderComponent = (errorData: ErrorData) => {
   render(
@@ -35,6 +30,8 @@ const renderComponent = (errorData: ErrorData) => {
 
 describe('ReloadModal', () => {
   beforeEach(() => {
+    location = window.location
+    jest.spyOn(window, 'location', 'get').mockRestore()
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
@@ -42,6 +39,7 @@ describe('ReloadModal', () => {
   })
 
   afterEach(() => {
+    jest.resetAllMocks()
     clearDispatchedActions()
   })
 
@@ -50,6 +48,10 @@ describe('ReloadModal', () => {
   })
 
   it('shall reload page on confirm', () => {
+    jest.spyOn(window, 'location', 'get').mockReturnValue({
+      ...location,
+      reload: jest.fn(),
+    })
     renderComponent(createError())
 
     userEvent.click(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT))
