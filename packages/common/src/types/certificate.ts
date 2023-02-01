@@ -111,6 +111,7 @@ export type CertificateDataConfigType =
   | ConfigUeCheckboxMultipleCodes
   | ConfigUeCheckboxMultipleDate
   | ConfigUeDate
+  | ConfigUeDateRange
   | ConfigUeDiagnoses
   | ConfigUeDropdown
   | ConfigUeHeader
