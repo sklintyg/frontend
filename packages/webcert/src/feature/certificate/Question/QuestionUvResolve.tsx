@@ -26,6 +26,7 @@ import {
   UvDateRangeList,
   UvDiagnosisList,
   UvIcf,
+  UvInteger,
   UvMedicalInvestigationList,
   UvTable,
   UvText,
@@ -44,6 +45,7 @@ import {
   ValueDateRangeList,
   ValueDiagnosisList,
   ValueIcf,
+  ValueInteger,
   ValueMedicalInvestigationList,
   ValueUncertainDate,
   ValueViewList,
@@ -140,6 +142,8 @@ const QuestionUvResolve: React.FC<{
     case CertificateDataValueType.YEAR:
       return <UvYear value={question.value} />
 
+    case CertificateDataValueType.INTEGER:
+      return <UvInteger value={question.value as ValueInteger} />
     default:
       return <Badge>Okänd datatyp</Badge>
   }

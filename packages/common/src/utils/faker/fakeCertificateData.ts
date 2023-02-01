@@ -22,6 +22,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
@@ -46,6 +47,7 @@ import {
   ValueDiagnosisList,
   ValueHeader,
   ValueIcf,
+  ValueInteger,
   ValueMedicalInvestigationList,
   ValueText,
   ValueUncertainDate,
@@ -467,6 +469,22 @@ export const fakeYearElement = (
         }),
         ...(data?.validation ?? []),
       ],
+    },
+    children
+  )
+
+export const fakeIntegerElement = (
+  data?: PartialCertificateDataElement<ConfigUeInteger, ValueInteger>,
+  children?: CertificateData[]
+): CertificateData =>
+  fakeDataElement(
+    {
+      ...data,
+      config: fakeCertificateConfig.integer(data?.config),
+      value: {
+        type: CertificateDataValueType.INTEGER,
+        ...data?.value,
+      },
     },
     children
   )

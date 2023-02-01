@@ -35,6 +35,8 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
         return { ...result, [field]: parseDateValue(value.date) }
       case CertificateDataValueType.YEAR:
         return { ...result, [field]: value.year }
+      case CertificateDataValueType.INTEGER:
+        return { ...result, [field]: value.value }
       case CertificateDataValueType.DATE_RANGE:
         return {
           ...result,
