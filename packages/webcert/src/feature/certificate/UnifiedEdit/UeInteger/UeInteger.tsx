@@ -59,9 +59,13 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           id={questionConfig.id}
           onChange={handleNumberOnChange}
           hasValidationError={validationErrors.length > 0}
-          limit={3}
           testId="testNumber"
           onKeyDown={onKeyDown}
+          limit={
+            questionConfig.max && questionConfig.min
+              ? Math.max(questionConfig.min.toString().length, questionConfig.max.toString().length)
+              : 17
+          }
         />
         <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
       </Wrapper>
