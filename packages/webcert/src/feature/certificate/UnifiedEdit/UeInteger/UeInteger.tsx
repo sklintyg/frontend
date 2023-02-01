@@ -49,6 +49,10 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       })
     )
   }
+  const limit =
+    typeof questionConfig.max === 'number' && typeof questionConfig.min === 'number'
+      ? Math.max(questionConfig.min.toString().length, questionConfig.max.toString().length)
+      : 17
 
   return (
     <>
@@ -61,11 +65,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           hasValidationError={validationErrors.length > 0}
           testId="testNumber"
           onKeyDown={onKeyDown}
-          limit={
-            questionConfig.max && questionConfig.min
-              ? Math.max(questionConfig.min.toString().length, questionConfig.max.toString().length)
-              : 17
-          }
+          limit={limit}
         />
         <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
       </Wrapper>
