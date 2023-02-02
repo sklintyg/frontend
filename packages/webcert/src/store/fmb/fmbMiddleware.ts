@@ -111,7 +111,7 @@ const hasValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
   return sickLeaveValue.list.some((value) => value.from && value.to && isDateRangeValid(value.from, value.to))
 }
 
-export const getValidationForSickLeavePeriod = (
+const getValidationForSickLeavePeriod = (
   personId: string,
   sickLeaveValue: ValueDateRangeList,
   diagnoses: ValueDiagnosisList,
