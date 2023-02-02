@@ -30,6 +30,8 @@ import {
   ValueText,
   ValueYear,
   ValueType,
+  ValueInteger,
+  ConfigUeInteger,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
@@ -222,6 +224,19 @@ describe('QuestionUvResolve', () => {
     question.visible = true
     renderDefaultComponent(question)
     expect(screen.getByText(/2020/i)).toBeInTheDocument()
+  })
+
+  it('Displaying integer value if visible is true', () => {
+    const question = createQuestionWithIntegerValue()
+    question.visible = true
+    renderDefaultComponent(question)
+    expect(screen.getByText(/2020/i)).toBeInTheDocument()
+  })
+
+  it('Displays the correct value and unit of measurement', () => {
+    const question = createQuestionWithIntegerValue()
+    renderDefaultComponent(question)
+    expect(screen.getByText('50%')).toBeInTheDocument()
   })
 })
 
@@ -557,6 +572,23 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
     level: MessageLevel.OBSERVE,
     message: 'Hello from UE_MESSAGE',
     id: '1.1',
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithIntegerValue(): CertificateDataElement {
+  const value: ValueInteger = {
+    type: CertificateDataValueType.INTEGER,
+    id: '',
+    value: 50,
+  }
+  const config: ConfigUeInteger = {
+    type: ConfigTypes.UE_INTEGER,
+    id: '',
+    unitOfMeasurement: '%',
+    text: '',
+    description: '',
   }
 
   return createQuestion(value, config)
