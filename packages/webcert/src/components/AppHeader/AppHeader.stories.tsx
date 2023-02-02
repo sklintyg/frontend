@@ -9,7 +9,7 @@ import AppHeaderLink from './AppHeaderLink'
 import AppHeaderTitle from './AppHeaderTitle'
 
 export default {
-  title: 'Components/AppHeader',
+  title: 'Webcert/AppHeader',
   component: AppHeader,
 }
 
