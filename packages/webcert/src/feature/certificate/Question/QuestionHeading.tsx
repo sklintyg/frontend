@@ -33,8 +33,6 @@ const QuestionHeading: React.FC<QuestionHeadingProps> = ({ readOnly, header, que
   const parent = useSelector(getQuestion(questionParent))
   const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
 
-  console.log(questionId)
-
   return header ? (
     <>
       <QuestionHeadline id={questionId} className={`iu-fw-heading iu-fs-300 iu-mb-200`}>
