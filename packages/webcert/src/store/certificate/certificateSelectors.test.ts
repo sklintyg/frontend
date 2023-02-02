@@ -1,10 +1,10 @@
-import { fakeCertificate, fakeCategoryElement, fakeTextFieldElement, fakeCertificateValidationError } from '@frontend/common'
-import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
+import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { certificateMiddleware } from './certificateMiddleware'
-import { updateCertificate, showValidationErrors, updateClientValidationError } from './certificateActions'
 import faker from 'faker'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { showValidationErrors, updateCertificate } from './certificateActions'
+import { certificateMiddleware } from './certificateMiddleware'
+import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
 
 let testStore: EnhancedStore
 
@@ -71,10 +71,6 @@ describe('certificateSelectors', () => {
           })
         )
       )
-
-      faker.datatype.array(4).forEach((_, index) => {
-        testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `client-${index}` })]))
-      })
     })
 
     it('Should return list of server-side errors', () => {
@@ -86,14 +82,6 @@ describe('certificateSelectors', () => {
         { id: 'server-1-2' },
         { id: 'server-1-3' },
       ])
-    })
-
-    it('Should return list of client-side errors', () => {
-      testStore.dispatch(showValidationErrors())
-      testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `client-1` })]))
-      const result = getVisibleValidationErrors('client-1')(testStore.getState())
-
-      expect(result).toMatchObject([{ id: 'client-1' }])
     })
 
     it('Should return empty list if showValidationErrors is false', () => {
@@ -135,36 +123,6 @@ describe('certificateSelectors', () => {
         )
       )
       expect(getVisibleValidationErrors('3')(testStore.getState()).length).toEqual(1)
-    })
-
-    it('Should remove errors with type EMPTY when clientErrors are present', () => {
-      testStore.dispatch(showValidationErrors())
-      testStore.dispatch(
-        updateCertificate(
-          fakeCertificate({
-            data: {
-              ...fakeTextFieldElement({
-                id: 'id',
-                validationErrors: faker.datatype.array(4).map((_, index) =>
-                  fakeCertificateValidationError({
-                    id: `server-1-${index}`,
-                    type: index % 2 === 0 ? 'OTHER' : 'EMPTY',
-                  })
-                ),
-              }),
-            },
-          })
-        )
-      )
-
-      testStore.dispatch(updateClientValidationError([fakeCertificateValidationError({ id: `id`, type: 'EMPTY' })]))
-
-      const result = getVisibleValidationErrors('id')(testStore.getState())
-      expect(result).toMatchObject([
-        { id: 'id', type: 'EMPTY' },
-        { id: 'server-1-0', type: 'OTHER' },
-        { id: 'server-1-2', type: 'OTHER' },
-      ])
     })
 
     it('Should match return all errors if field is empty string', () => {
