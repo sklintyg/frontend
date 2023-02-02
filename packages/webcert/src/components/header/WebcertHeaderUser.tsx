@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeaderUser, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
+import { ExpandableBox, ResourceLinkType, User } from '@frontend/common'
 import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
@@ -8,6 +8,7 @@ import userImage from '@frontend/common/src/images/user-image.svg'
 import lock from '@frontend/common/src/images/lock-closed.svg'
 import styled from 'styled-components'
 import { getConfig } from '../../store/utils/utilsSelectors'
+import AppHeaderUser from '../AppHeader/AppHeaderUser'
 
 const Wrapper = styled.div`
   display: flex;

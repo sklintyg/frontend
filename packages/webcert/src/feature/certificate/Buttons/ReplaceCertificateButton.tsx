@@ -1,7 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
-import { useHistory } from 'react-router-dom'
 import { ButtonWithConfirmModal, InfoBox } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
@@ -15,7 +14,6 @@ interface Props extends FunctionDisabled {
 }
 
 const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled, functionDisabled }) => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const certificateMetadata = useSelector(getCertificateMetaData)
   const isDodsbevis = certificateMetadata?.type === 'db'
@@ -23,7 +21,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled,
   const certificate = isDodsbevis ? 'dödsbevis' : 'dödsorsaksintyg'
 
   const handleConfirm = () => {
-    dispatch(replaceCertificate(history))
+    dispatch(replaceCertificate())
   }
 
   return (

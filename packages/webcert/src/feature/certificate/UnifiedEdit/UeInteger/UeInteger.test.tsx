@@ -1,5 +1,5 @@
 import { fakeIntegerElement } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,7 +7,7 @@ import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import UeInteger from './UeInteger'
-import reducer from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const QUESTION_ID = 'number'
@@ -25,10 +25,7 @@ const renderComponent = (props: ComponentProps<typeof UeInteger>) => {
 }
 describe('Integer component', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {

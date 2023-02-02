@@ -1,14 +1,14 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { ResourceAccess } from './ResourceAccess'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import reducer from '../store/reducers'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { throwError } from '../store/error/errorActions'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -53,10 +53,7 @@ const getUser = (): User => {
 
 describe('withAccessResource', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
   afterEach(() => {

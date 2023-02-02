@@ -35,13 +35,13 @@ import {
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -56,10 +56,7 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 
 describe('QuestionUvResolve', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {

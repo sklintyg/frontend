@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../../store/reducers'
 import userEvent from '@testing-library/user-event'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
 import { clearError } from '../../../store/error/errorActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -32,10 +32,7 @@ describe('ReloadModal', () => {
   beforeEach(() => {
     location = window.location
     jest.spyOn(window, 'location', 'get').mockRestore()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {

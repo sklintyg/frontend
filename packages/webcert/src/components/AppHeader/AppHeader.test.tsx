@@ -4,10 +4,10 @@ import { render, screen } from '@testing-library/react'
 import AppHeader from './AppHeader'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { userMiddleware } from '@frontend/webcert/src/store/user/userMiddleware'
-import SystemBanner from '../utils/SystemBanner'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -49,10 +49,7 @@ const renderComponentWithSubMenuBanners = (subMenuBanners: React.ReactNode[]) =>
 
 describe('App header', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(userMiddleware),
-    })
+    testStore = configureApplicationStore([userMiddleware])
   })
 
   it('displays primary items', (): void => {

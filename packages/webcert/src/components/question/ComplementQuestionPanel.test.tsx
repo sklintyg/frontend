@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
 import { updateIsLoadingQuestions } from '../../store/question/questionActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -31,10 +31,7 @@ const renderComponent = (questions: Question[], isDisplayingCertificateDraft: bo
 
 describe('ComplementQuestionPanel', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
-    })
+    testStore = configureApplicationStore([questionMiddleware])
 
     testStore.dispatch(updateIsLoadingQuestions(false))
   })

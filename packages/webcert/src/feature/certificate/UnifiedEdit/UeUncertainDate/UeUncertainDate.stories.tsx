@@ -1,11 +1,10 @@
 import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
-import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import reducers from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
 
 export default {
@@ -14,10 +13,7 @@ export default {
 }
 
 const Template: Story<ComponentProps<typeof UeUncertainDate>> = ({ question, ...args }) => {
-  const store = configureStore({
-    reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-  })
+  const store = configureApplicationStore([certificateMiddleware])
 
   store.dispatch(
     updateCertificate(

@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
 import { CertificateType, fakePatient, fakeResourceLink, ResourceLink, ResourceLinkType, User } from '@frontend/common'
-import reducer from '../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import CertificateList from './CertificateList'
 import { userMiddleware } from '../../store/user/userMiddleware'
@@ -14,6 +13,7 @@ import { createBrowserHistory } from 'history'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
 import { patientMiddleware } from '../../store/patient/patientMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 const createType = ({
   description = '',
@@ -60,10 +60,7 @@ const renderComponent = (): HTMLElement => {
 
 describe('CertificateList', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, userMiddleware, patientMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, userMiddleware, patientMiddleware])
 
     types = [
       createType({

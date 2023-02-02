@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../store/reducers'
 import ErrorPage from './ErrorPage'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -29,10 +29,7 @@ const ERROR_ID = 'ERROR_ID'
 
 describe('ErrorPage', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
   afterEach(() => {

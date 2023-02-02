@@ -1,29 +1,25 @@
 import { render, screen } from '@testing-library/react'
-import { AnyAction, configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionItem from './QuestionItem'
 import { Complement, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 import { gotoComplement, updateAnswerDraftSaved } from '../../store/question/questionActions'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { isEqual } from 'lodash'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-const setupStore = () =>
-  configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, questionMiddleware),
-  })
+const setupStore = () => configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, questionMiddleware])
 
 const renderComponent = (question: Question) => {
   render(
@@ -631,12 +627,19 @@ const createQuestion = (): Question => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const actionHasSimilarPayload = (action: AnyAction | undefined, payload: any) => {
   if (!action || !action.payload) return false
 
   let similar = true
   for (const prop in payload) {
-    if (!(payload.hasOwnProperty(prop) && action.payload.hasOwnProperty(prop) && isEqual(action.payload[prop], payload[prop]))) {
+    if (
+      !(
+        Object.prototype.hasOwnProperty.call(payload, prop) &&
+        Object.prototype.hasOwnProperty.call(action.payload, prop) &&
+        isEqual(action.payload[prop], payload[prop])
+      )
+    ) {
       similar = false
       break
     }

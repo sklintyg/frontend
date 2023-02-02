@@ -1,14 +1,14 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import reducer from '../../../store/reducers'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
 import { Complement, getCertificate } from '@frontend/common'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 window.scrollTo = jest.fn()
@@ -31,10 +31,7 @@ const createComplement = ({ questionId = '', message = '' }): Complement => ({
 describe('QuestionWithSubQuestions', () => {
   beforeEach(() => {
     clearDispatchedActions()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
     testStore.dispatch(updateCertificate(getCertificate()))
     renderComponent()
   })

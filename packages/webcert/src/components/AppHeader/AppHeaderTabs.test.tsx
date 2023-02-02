@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import AppHeaderTabs from './AppHeaderTabs'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { UserTab } from '../../types/utils'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { userMiddleware } from '@frontend/webcert/src/store/user/userMiddleware'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import userEvent from '@testing-library/user-event'
+import { UserTab } from '@frontend/common'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -42,10 +42,7 @@ const renderComponent = (url: string, matchedUrl: string) => {
 
 describe('AppHeaderTabs', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(userMiddleware),
-    })
+    testStore = configureApplicationStore([userMiddleware])
   })
 
   it('should show tab title', () => {

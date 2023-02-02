@@ -13,10 +13,10 @@ import {
 } from './listTestUtils'
 import { Provider } from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const onChange = jest.fn()
@@ -31,10 +31,7 @@ const renderComponent = (config: ListFilterConfig) => {
 
 describe('ListFilterComponent', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listMiddleware),
-    })
+    testStore = configureApplicationStore([listMiddleware])
   })
 
   describe('Display filters', () => {

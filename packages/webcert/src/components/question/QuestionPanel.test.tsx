@@ -1,5 +1,5 @@
 import { Certificate, CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -7,9 +7,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { updateCertificate } from '../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setErrorId, updateIsLoadingQuestions, updateQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import reducer from '../../store/reducers'
 import QuestionPanel from './QuestionPanel'
 
 let testStore: EnhancedStore
@@ -28,10 +28,7 @@ const renderDefaultComponent = () => {
 
 describe('QuestionPanel', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
-    })
+    testStore = configureApplicationStore([questionMiddleware])
   })
 
   it('renders without crashing', () => {

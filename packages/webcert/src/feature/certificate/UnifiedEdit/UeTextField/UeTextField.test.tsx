@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
 import UeTextField from './UeTextField'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import UeTextArea from '../UeTextArea/UeTextArea'
-import reducers from '../../../../store/reducers'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
 
@@ -24,10 +24,7 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeTextField>) => {
 
 describe('UeTextArea', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders component with correct default values', () => {
