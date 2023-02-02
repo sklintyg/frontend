@@ -1,6 +1,5 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import reducer from '../../../store/reducers'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate, updateValidationErrors } from '../../../store/certificate/certificateActions'
 import { ResourceLinkType, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '@frontend/common'
@@ -8,6 +7,7 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import React from 'react'
 import { CertificateFooter } from './CertificateFooter'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
@@ -22,10 +22,7 @@ describe('CertificateFooter', () => {
 
   beforeEach(() => {
     clearDispatchedActions()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
     renderComponent()
   })
 

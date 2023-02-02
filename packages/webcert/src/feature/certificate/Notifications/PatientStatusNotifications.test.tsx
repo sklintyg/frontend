@@ -3,10 +3,10 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Certificate, CertificateMetadata, Patient, PersonId } from '@frontend/common'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import reducer from '../../../store/reducers'
 import PatientStatusNotifications from './PatientStatusNotifications'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -28,10 +28,7 @@ const INFO_TEXT_RESERVE_ID = 'Patienten har samordningsnummer kopplat till reser
 
 describe('PatientStatusNotifications', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    })
+    testStore = configureApplicationStore([])
   })
 
   it('shall render deceased status if set', () => {

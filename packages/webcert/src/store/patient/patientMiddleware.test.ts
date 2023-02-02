@@ -1,11 +1,11 @@
 import { CertificateType, PatientStatus } from '@frontend/common/src/types/patient'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { createPatient } from '../../components/patient/patientTestUtils'
 import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
 import { ErrorCode } from '../error/errorReducer'
-import reducer from '../reducers'
 import { getSessionStatusError } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import { getCertificateTypes, getPatient, GetPatientResponse, updateCertificateTypes } from './patientActions'
@@ -31,10 +31,7 @@ describe('Test patient middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, patientMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, patientMiddleware])
   })
 
   afterEach(() => {

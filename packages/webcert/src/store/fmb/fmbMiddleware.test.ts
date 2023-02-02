@@ -21,13 +21,13 @@ import {
   updateFMBPanelActive,
 } from './fmbActions'
 import axios from 'axios'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -38,10 +38,7 @@ describe('Test FMB middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, fmbMiddleware),
-    })
+    testStore = configureApplicationStore([apiMiddleware, fmbMiddleware])
   })
 
   describe('Handle GetFMBDiagnosisCodeInfo', () => {

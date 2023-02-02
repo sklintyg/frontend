@@ -7,10 +7,10 @@ import { Provider } from 'react-redux'
 import { updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import SignAndSendButton from '../SignAndSendButton'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import reducers from '../../../../store/reducers'
 import { fakeCertificate, fakeTextAreaElement } from '@frontend/common'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 const commonProps = {
   body: 'Sign modal body',
@@ -34,10 +34,7 @@ const renderDefaultComponent = (props: ComponentProps<typeof SignAndSendButton>)
 
 describe('Sign certificate without confirmation modal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
   it('Enabled Sign button and no modal', () => {
@@ -62,10 +59,7 @@ describe('Sign certificate without confirmation modal', () => {
 
 describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
     testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
     testStore.dispatch(updateValidationErrors([]))
     clearDispatchedActions()

@@ -13,7 +13,6 @@ import {
 } from '@frontend/common'
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 import { createAction } from '@reduxjs/toolkit'
-import { History, LocationState } from 'history'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { ApiError, ApiGenericError } from '../api/apiActions'
 import { ErrorData } from '../error/errorReducer'
@@ -238,7 +237,6 @@ export const getCertificateEventsCompleted = createAction(GET_CERTIFICATE_EVENTS
 
 export interface DeleteCertificate {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const deleteCertificate = createAction<DeleteCertificate>(DELETE_CERTIFICATE)
@@ -247,7 +245,6 @@ export const deleteCertificateStarted = createAction(DELETE_CERTIFICATE_STARTED)
 
 export interface DeleteCertificateSuccess {
   parentCertificateId: string
-  history: History<LocationState>
 }
 
 export const deleteCertificateSuccess = createAction<DeleteCertificateSuccess>(DELETE_CERTIFICATE_SUCCESS)
@@ -346,13 +343,12 @@ export const revokeCertificateError = createAction<string>(REVOKE_CERTIFICATE_ER
 
 export const revokeCertificateCompleted = createAction(REVOKE_CERTIFICATE_COMPLETED)
 
-export const replaceCertificate = createAction<History<LocationState>>(REPLACE_CERTIFICATE)
+export const replaceCertificate = createAction(REPLACE_CERTIFICATE)
 
 export const replaceCertificateStarted = createAction(REPLACE_CERTIFICATE_STARTED)
 
 export interface ReplaceCertificateSuccess {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const replaceCertificateSuccess = createAction<ReplaceCertificateSuccess>(REPLACE_CERTIFICATE_SUCCESS)
@@ -363,7 +359,6 @@ export const replaceCertificateCompleted = createAction(REPLACE_CERTIFICATE_COMP
 
 export interface ComplementCertificate {
   message: string
-  history: History<LocationState>
 }
 
 export const complementCertificate = createAction<ComplementCertificate>(COMPLEMENT_CERTIFICATE)
@@ -372,7 +367,6 @@ export const complementCertificateStarted = createAction(COMPLEMENT_CERTIFICATE_
 
 export interface ComplementCertificateSuccess {
   certificate: Certificate
-  history: History<LocationState>
 }
 
 export const complementCertificateSuccess = createAction<ComplementCertificateSuccess>(COMPLEMENT_CERTIFICATE_SUCCESS)
@@ -395,7 +389,6 @@ export const renewCertificateStarted = createAction(RENEW_CERTIFICATE_STARTED)
 
 export interface RenewCertificate {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const renewCertificateSuccess = createAction<RenewCertificate>(RENEW_CERTIFICATE_SUCCESS)
@@ -410,7 +403,6 @@ export const showRelatedCertificateStarted = createAction(SHOW_RELATED_CERTIFICA
 
 export interface ShowRelatedCertificate {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const showRelatedCertificateSuccess = createAction<ShowRelatedCertificate>(SHOW_RELATED_CERTIFICATE_SUCCESS)
@@ -419,11 +411,11 @@ export const showRelatedCertificateError = createAction<string>(SHOW_RELATED_CER
 
 export const showRelatedCertificateCompleted = createAction(SHOW_RELATED_CERTIFICATE_COMPLETED)
 
-export const copyCertificate = createAction<History<LocationState>>(COPY_CERTIFICATE)
+export const copyCertificate = createAction(COPY_CERTIFICATE)
 
 export const copyCertificateStarted = createAction(COPY_CERTIFICATE_STARTED)
 
-export const createCertificateFromTemplate = createAction<History<LocationState>>(CREATE_CERTIFICATE_FROM_TEMPLATE)
+export const createCertificateFromTemplate = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE)
 
 export const createCertificateFromTemplateStarted = createAction(CREATE_CERTIFICATE_FROM_TEMPLATE_STARTED)
 
@@ -435,7 +427,6 @@ export const createCertificateFromTemplateError = createAction<string>(CREATE_CE
 
 export interface CreateCertificateFromTemplateSuccess {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const createCertificateFromCandidate = createAction(CREATE_CERTIFICATE_FROM_CANDIDATE)
@@ -468,7 +459,6 @@ export interface CreateCertificateFromCandidateWithMessageSuccess {
 
 export interface CopyCertificateSuccess {
   certificateId: string
-  history: History<LocationState>
 }
 
 export const copyCertificateSuccess = createAction<CopyCertificateSuccess>(COPY_CERTIFICATE_SUCCESS)

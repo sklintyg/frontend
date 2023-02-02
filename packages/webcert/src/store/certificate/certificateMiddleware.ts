@@ -1,6 +1,7 @@
 import { CertificateSignStatus, CertificateStatus, getCertificateToSave, SigningMethod, getClientValidationErrors } from '@frontend/common'
 import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
+import { push } from 'connected-react-router'
 import _ from 'lodash'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan, apiGenericError } from '../api/apiActions'
@@ -222,7 +223,7 @@ const handleDeleteCertificate: Middleware<Dispatch> = ({ dispatch, getState }: M
 const handleDeleteCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   if (action.payload.metadata.relations?.parent?.certificateId) {
     dispatch(updateRoutedFromDeletedCertificate(true))
-    action.payload.history.push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`)
+    dispatch(push(`/certificate/${action.payload.metadata.relations.parent.certificateId}`))
   } else {
     dispatch(updateCertificateAsDeleted())
     dispatch(hideSpinner())
@@ -537,7 +538,6 @@ const handleComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState 
       onStart: complementCertificateStarted.type,
       onSuccess: complementCertificateSuccess.type,
       onError: certificateApiGenericError.type,
-      onArgs: { history: action.payload.history },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
@@ -547,7 +547,7 @@ const handleComplementCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: 
   action: AnyAction
 ): void => {
   dispatch(hideSpinner())
-  action.payload.history.push(`/certificate/${action.payload.certificate.metadata.id}`)
+  dispatch(push(`/certificate/${action.payload.certificate.metadata.id}`))
 }
 
 const handleAnswerComplementCertificate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -618,7 +618,7 @@ const handleReplaceCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Mid
 ): void => {
   dispatch(hideSpinner())
   dispatch(replaceCertificateCompleted())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(push(`/certificate/${action.payload.certificateId}`))
 }
 
 const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -633,7 +633,6 @@ const handleRenewCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAP
       onStart: renewCertificateStarted.type,
       onSuccess: renewCertificateSuccess.type,
       onError: certificateApiGenericError.type,
-      onArgs: { history: action.payload.history },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
@@ -644,7 +643,7 @@ const handleRenewCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middl
 ): void => {
   dispatch(hideSpinner())
   dispatch(renewCertificateCompleted())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(push(`/certificate/${action.payload.certificateId}`))
 }
 
 const handleShowRelatedCertificate: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -659,7 +658,6 @@ const handleShowRelatedCertificate: Middleware<Dispatch> = ({ dispatch }: Middle
       onStart: showRelatedCertificateStarted.type,
       onSuccess: showRelatedCertificateSuccess.type,
       onError: certificateApiGenericError.type,
-      onArgs: { history: action.payload.history },
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
@@ -670,7 +668,7 @@ const handleShowRelatedCertificateSuccess: Middleware<Dispatch> = ({ dispatch }:
 ): void => {
   dispatch(hideSpinner())
   dispatch(showRelatedCertificateCompleted())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(push(`/certificate/${action.payload.certificateId}`))
 }
 
 const handleCreateCertificateFromTemplate: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -701,7 +699,7 @@ const handleCreateCertificateFromTemplateSuccess: Middleware<Dispatch> = ({ disp
   action: AnyAction
 ): void => {
   dispatch(hideSpinner())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(push(`/certificate/${action.payload.certificateId}`))
 }
 
 const handleCreateCertificateFromCandidate: Middleware<Dispatch> = ({
@@ -799,7 +797,7 @@ const handleCopyCertificateSuccess: Middleware<Dispatch> = ({ dispatch }: Middle
 ): void => {
   dispatch(hideSpinner())
   dispatch(copyCertificateCompleted())
-  action.payload.history.push(`/certificate/${action.payload.certificateId}`)
+  dispatch(push(`/certificate/${action.payload.certificateId}`))
 }
 
 const handleGenericCertificateApiError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {

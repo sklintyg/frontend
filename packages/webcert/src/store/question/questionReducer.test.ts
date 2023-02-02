@@ -1,17 +1,14 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
 import { resetState, toggleQuestionFunctionDisabler } from './questionActions'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 describe('Test question middleware', () => {
   let testStore: EnhancedStore
 
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
   // If the state is being reset before any api-calls has been completed, a function disabler will be incorrectly

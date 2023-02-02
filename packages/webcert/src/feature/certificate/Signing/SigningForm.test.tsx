@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import SigningForm from './SigningForm'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { SigningData, updateCertificateSigningData } from '../../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -22,10 +22,7 @@ const renderDefaultComponent = () => {
 describe('SigningForm', () => {
   beforeEach(() => {
     window.HTMLFormElement.prototype.submit = mockSubmit
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {

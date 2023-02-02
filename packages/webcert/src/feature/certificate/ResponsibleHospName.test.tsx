@@ -1,13 +1,13 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Certificate, CertificateStatus, User } from '@frontend/common'
 import { updateCertificate } from '../../store/certificate/certificateActions'
-import reducer from '../../store/reducers'
 import ResponsibleHospName from './ResponsibleHospName'
 import { updateUser } from '../../store/user/userActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -27,10 +27,7 @@ const NOT_SPECIFIED = 'Ej angivet'
 
 describe('ResponsibleHospName', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    })
+    testStore = configureApplicationStore([])
   })
 
   it('shall not render responsible certificate issuer when user role doctor', () => {
