@@ -10,6 +10,7 @@ import {
   ConfigUeCheckboxMultipleDate,
   ConfigUeDateRange,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
@@ -143,7 +144,7 @@ const QuestionUvResolve: React.FC<{
       return <UvYear value={question.value} />
 
     case CertificateDataValueType.INTEGER:
-      return <UvInteger value={question.value as ValueInteger} />
+      return <UvInteger value={question.value as ValueInteger} config={question.config as ConfigUeInteger} />
     default:
       return <Badge>Okänd datatyp</Badge>
   }
