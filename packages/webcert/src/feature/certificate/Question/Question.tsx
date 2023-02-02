@@ -36,7 +36,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       return (
         <QuestionHeading
           readOnly={question.readOnly}
-          id={question.id}
+          questionId={question.id}
           hideLabel={hideLabel}
           questionParent={question.parent}
           {...question.config}
