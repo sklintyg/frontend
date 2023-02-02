@@ -1,11 +1,4 @@
-import {
-  CertificateSignStatus,
-  CertificateStatus,
-  getCertificateToSave,
-  SigningMethod,
-  ValidationError,
-  getClientValidationErrors,
-} from '@frontend/common'
+import { CertificateSignStatus, CertificateStatus, getCertificateToSave, SigningMethod, getClientValidationErrors } from '@frontend/common'
 import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
@@ -125,7 +118,7 @@ import {
   validateCertificateStarted,
   validateCertificateSuccess,
   updateModalData,
-  updateClientValidationError,
+  setValidationErrorsForQuestion,
 } from './certificateActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
@@ -333,10 +326,9 @@ const handleStartSignCertificate: Middleware<Dispatch> = ({
 
   for (const questionId in certificate?.data) {
     if (
-      (certificate.data[questionId].visible &&
-        certificate.data[questionId].validationErrors &&
-        certificate.data[questionId].validationErrors.length > 0) ||
-      getState().ui.uiCertificate.clientValidationErrors.some((v: ValidationError) => v.id === questionId)
+      certificate.data[questionId].visible &&
+      certificate.data[questionId].validationErrors &&
+      certificate.data[questionId].validationErrors.length > 0
     ) {
       dispatch(showValidationErrors())
       return
@@ -819,20 +811,16 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch, ge
   action: ReturnType<typeof updateCertificateDataElement>
 ): void => {
   const certificate = getState().ui.uiCertificate.certificate
-  if (!certificate) {
-    return
-  }
+  if (certificate) {
+    const clientValidationErrors = getClientValidationErrors(action.payload)
+    dispatch(setValidationErrorsForQuestion({ questionId: action.payload.id, validationErrors: clientValidationErrors }))
 
-  const otherClientValidationErrors = [...getState().ui.uiCertificate.clientValidationErrors].filter(({ id }) => id !== action.payload.id)
-  const clientValidationErrors = getClientValidationErrors(action.payload)
-
-  dispatch(updateClientValidationError([...otherClientValidationErrors, ...clientValidationErrors]))
-
-  if (clientValidationErrors.length === 0) {
-    dispatch(setCertificateDataElement(action.payload))
-    dispatch(validateCertificateInFrontEnd(action.payload))
-    dispatch(validateCertificate(certificate))
-    dispatch(autoSaveCertificate(certificate))
+    if (clientValidationErrors.length === 0) {
+      dispatch(setCertificateDataElement(action.payload))
+      dispatch(validateCertificateInFrontEnd(action.payload))
+      dispatch(validateCertificate(certificate))
+      dispatch(autoSaveCertificate(certificate))
+    }
   }
 }
 

@@ -185,7 +185,6 @@ const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
 const APPLY_CERTIFICATE_DATAELEMENT_AUTO_FILL = `${CERTIFICATE} Apply data element auto fill`
 const API_CERTIFICATE_GENERIC_ERROR = `${CERTIFICATE} Api certificate generic error`
 
-const UPDATE_CLIENT_VALIDATION_ERROR = `${CERTIFICATE} Update client validation error`
 const SET_VALIDATION_ERRORS_FOR_QUESTION = `${CERTIFICATE} Set validation errors for question`
 
 const SHOW_RELATED_CERTIFICATE = `${CERTIFICATE} Show related certificate`
@@ -610,8 +609,6 @@ export interface UpdateValidationError {
 }
 
 export const toggleCertificateFunctionDisabler = createAction<FunctionDisabler>(`${CERTIFICATE} ${TOGGLE_FUNCTION_DISABLER}`)
-
-export const updateClientValidationError = createAction<ValidationError[]>(UPDATE_CLIENT_VALIDATION_ERROR)
 
 export const setValidationErrorsForQuestion = createAction<ModifyValidationErrors>(SET_VALIDATION_ERRORS_FOR_QUESTION)
 

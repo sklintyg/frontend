@@ -3,7 +3,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store
 import reducer from '../../../store/reducers'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate, updateValidationErrors } from '../../../store/certificate/certificateActions'
-import { Certificate, getCertificate, ResourceLinkType } from '@frontend/common'
+import { ResourceLinkType, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import React from 'react'
@@ -11,7 +11,6 @@ import { CertificateFooter } from './CertificateFooter'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
-  let certificate: Certificate
 
   const renderComponent = () => {
     render(
@@ -33,8 +32,7 @@ describe('CertificateFooter', () => {
   describe('Ready for signing', () => {
     describe('Ready for signing or Sign certificate when resource link doesnt exists', () => {
       beforeEach(() => {
-        certificate = getCertificate()
-        testStore.dispatch(updateCertificate(certificate))
+        testStore.dispatch(updateCertificate(fakeCertificate()))
       })
 
       it('shall not show readyForSign button when certificate isValidForSigning is true', () => {
@@ -52,11 +50,14 @@ describe('CertificateFooter', () => {
 
     describe('Ready for signing when resource link exists and certificate is not set as ready to sign', () => {
       beforeEach(() => {
-        certificate = getCertificate()
-        certificate.links = [
-          { type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true },
-        ]
-        testStore.dispatch(updateCertificate(certificate))
+        testStore.dispatch(
+          updateCertificate(
+            fakeCertificate({
+              data: fakeTextFieldElement({ id: 'id' }),
+              links: [{ type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true }],
+            })
+          )
+        )
       })
 
       it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is true', () => {
@@ -85,12 +86,15 @@ describe('CertificateFooter', () => {
 
     describe('Ready for signing when resource link exists and certificate is already set as ready to sign', () => {
       beforeEach(() => {
-        certificate = getCertificate()
-        certificate.links = [
-          { type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true },
-        ]
-        certificate.metadata.readyForSign = new Date().toISOString()
-        testStore.dispatch(updateCertificate(certificate))
+        testStore.dispatch(
+          updateCertificate(
+            fakeCertificate({
+              data: fakeTextFieldElement({ id: 'id' }),
+              metadata: fakeCertificateMetaData({ readyForSign: new Date().toISOString() }),
+              links: [{ type: ResourceLinkType.READY_FOR_SIGN, name: 'Ready For sign', description: 'RFS description', enabled: true }],
+            })
+          )
+        )
       })
 
       it('shall NOT show readyForSign button when resourcelink exists and certificate isValidForSigning is true', () => {
@@ -121,11 +125,13 @@ describe('CertificateFooter', () => {
 
   describe('Signing when resource link exists and certificate can be signed but no confirmation is needed', () => {
     beforeEach(() => {
-      certificate = getCertificate()
-      certificate.links = [
-        { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
-      ]
-      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            links: [{ type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true }],
+          })
+        )
+      )
     })
 
     it('Sign button active', () => {
@@ -137,18 +143,22 @@ describe('CertificateFooter', () => {
 
   describe('Signing when resource link exists and certificate can be signed and confirmation is needed', () => {
     beforeEach(() => {
-      certificate = getCertificate()
-      certificate.links = [
-        { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
-        {
-          type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
-          name: 'Sign certificate',
-          description: 'Sign description',
-          body: 'Body for signing modal',
-          enabled: true,
-        },
-      ]
-      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            links: [
+              { type: ResourceLinkType.SIGN_CERTIFICATE, name: 'Sign certificate', description: 'Sign description', enabled: true },
+              {
+                type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+                name: 'Sign certificate',
+                description: 'Sign description',
+                body: 'Body for signing modal',
+                enabled: true,
+              },
+            ],
+          })
+        )
+      )
     })
 
     it('Sign button active', () => {
@@ -160,17 +170,21 @@ describe('CertificateFooter', () => {
 
   describe('Signing when resource link exists and certificate can not be signed but confirmation modal is to be displayed', () => {
     beforeEach(() => {
-      certificate = getCertificate()
-      certificate.links = [
-        {
-          type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
-          name: 'Sign certificate',
-          description: 'Sign description',
-          body: 'Body for signing modal',
-          enabled: true,
-        },
-      ]
-      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            links: [
+              {
+                type: ResourceLinkType.SIGN_CERTIFICATE_CONFIRMATION,
+                name: 'Sign certificate',
+                description: 'Sign description',
+                body: 'Body for signing modal',
+                enabled: true,
+              },
+            ],
+          })
+        )
+      )
     })
 
     it('Sign button active', () => {
