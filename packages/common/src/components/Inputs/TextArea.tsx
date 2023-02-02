@@ -27,7 +27,6 @@ const Root = styled.textarea<RootProps>`
 
   &:focus-within {
     box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
-    background-color: #fbf2f4;
   }
 `
 
