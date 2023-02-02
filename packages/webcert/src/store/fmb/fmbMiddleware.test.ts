@@ -22,7 +22,7 @@ import {
 import axios from 'axios'
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import reducer from '../reducers'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
@@ -169,6 +169,18 @@ describe('Test FMB middleware', () => {
       await flushPromises()
 
       expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
+    })
+
+    it('shall not fetch sick leave period warning if updated element is incomplete date range list', async () => {
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
+      testStore.dispatch(updateCertificateDataElement(getIncompleteDateRangeListElement()))
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
+      expect(fakeAxios.history.get.length).toBe(0)
     })
 
     it('shall not fetch FMB recommendations if code system is different than icd10', async () => {
@@ -351,21 +363,17 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
 }
 
 export const getDateRangeListValue = (): ValueDateRangeList => {
-  const value: ValueDateRangeList = {
+  return {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
   }
-
-  return value
 }
 
 export const getDiagnosisListValue = (): ValueDiagnosisList => {
-  const value: ValueDiagnosisList = {
+  return {
     type: CertificateDataValueType.DIAGNOSIS_LIST,
     list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
   }
-
-  return value
 }
 
 export const getDateRangeListElement = (): CertificateDataElement => {
@@ -380,6 +388,24 @@ export const getDateRangeListElement = (): CertificateDataElement => {
     value: {
       type: CertificateDataValueType.DATE_RANGE_LIST,
       list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
+    },
+    validation: [],
+    validationErrors: [],
+  }
+}
+
+export const getIncompleteDateRangeListElement = (): CertificateDataElement => {
+  return {
+    id: '6.1',
+    parent: '6',
+    index: 6,
+    visible: true,
+    mandatory: false,
+    readOnly: false,
+    config: {} as CertificateDataConfig,
+    value: {
+      type: CertificateDataValueType.DATE_RANGE_LIST,
+      list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }],
     },
     validation: [],
     validationErrors: [],

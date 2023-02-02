@@ -2,6 +2,7 @@ import {
   CertificateDataValueType,
   FMBDiagnosisCodeInfo,
   getResourceLink,
+  isDateRangeValid,
   ResourceLinkType,
   Value,
   ValueDateRangeList,
@@ -106,13 +107,17 @@ function getDiagnosisCodes(diagnoses: ValueDiagnosisList) {
   return diagnosisCodes
 }
 
-function getValidationForSickLeavePeriod(
+const hasValidSickLeaveValue = (sickLeaveValue: ValueDateRangeList) => {
+  return sickLeaveValue.list.some((value) => value.from && value.to && isDateRangeValid(value.from, value.to))
+}
+
+export const getValidationForSickLeavePeriod = (
   personId: string,
   sickLeaveValue: ValueDateRangeList,
   diagnoses: ValueDiagnosisList,
-  dispatch: Dispatch<AnyAction>
-): void {
-  if (sickLeaveValue && diagnoses && sickLeaveValue.list.length > 0 && diagnoses.list.length > 0) {
+  dispatch: Dispatch
+): void => {
+  if (sickLeaveValue && diagnoses && hasValidSickLeaveValue(sickLeaveValue) && diagnoses.list.length > 0) {
     dispatch(
       validateSickLeavePeriod({
         icd10Codes: getDiagnosisCodes(diagnoses),
