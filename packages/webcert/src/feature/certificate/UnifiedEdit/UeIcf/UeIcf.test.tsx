@@ -1,6 +1,6 @@
 import { CertificateDataElement, ConfigUeIcf, FMBDiagnosisCodeInfo, ValueIcf } from '@frontend/common'
 import { CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
@@ -10,10 +10,10 @@ import { Router } from 'react-router-dom'
 import { getIcfData } from '../../../../components/icf/icfTestUtils'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../../../store/icf/icfActions'
 import { icfMiddleware } from '../../../../store/icf/icfMiddleware'
-import reducer from '../../../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { CertificateContext } from '../../CertificateContext'
 import UeIcf from './UeIcf'
@@ -45,10 +45,7 @@ const PLACEHOLDER = 'placeholder'
 describe('UeIcf', () => {
   beforeEach(() => {
     jest.useFakeTimers('modern')
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, icfMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
   afterEach(() => {

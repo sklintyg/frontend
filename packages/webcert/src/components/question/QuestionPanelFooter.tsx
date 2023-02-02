@@ -4,7 +4,6 @@ import { ButtonWithConfirmModal, CustomButton, getResourceLink, Question, Resour
 import { useDispatch, useSelector } from 'react-redux'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
-import { useHistory } from 'react-router-dom'
 import speechBubble from '@frontend/common/src/images/speech-bubble.svg'
 import edit from '@frontend/common/src/images/edit.svg'
 import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
@@ -17,18 +16,17 @@ interface Props {
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
   const certificateMetadata = useSelector(getCertificateMetaData)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
 
-  const onComplementClick = () => dispatch(complementCertificate({ message: '', history: history }))
+  const onComplementClick = () => dispatch(complementCertificate({ message: '' }))
 
   const onCannotComplementClick = () => {
     if (!cannotComplement) return
 
     if (cannotComplement.answerWithCertificate) {
-      dispatch(complementCertificate({ message: cannotComplement.message, history: history }))
+      dispatch(complementCertificate({ message: cannotComplement.message }))
     } else {
       dispatch(answerComplementCertificate(cannotComplement.message))
     }

@@ -2,11 +2,11 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { updateConfig } from '../../store/utils/utilsActions'
 import SystemBanners from './SystemBanners'
 import { Configuration } from '../../store/utils/utilsReducer'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -22,10 +22,7 @@ const INFO_TEXT = 'Detta är ett informationsmeddelande.'
 
 describe('SystemBanners', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    })
+    testStore = configureApplicationStore([])
   })
 
   it('shall render banner if it exists in state', () => {

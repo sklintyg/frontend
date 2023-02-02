@@ -1,8 +1,7 @@
 import MockAdapter from 'axios-mock-adapter'
 import { getIcfCodes, IcfRequest, IcfResponse, updateIcfCodes } from './icfActions'
 import axios from 'axios'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import apiMiddleware from '../api/apiMiddleware'
 import { icfMiddleware } from './icfMiddleware'
 import { Icd10Code, IcfCode } from './icfReducer'
@@ -13,6 +12,7 @@ import {
   getCodeElement,
   getDiagnosisElementWithCodeSystem,
 } from '../../components/icf/icfTestUtils'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -23,10 +23,7 @@ describe('Test ICF middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, icfMiddleware),
-    })
+    testStore = configureApplicationStore([apiMiddleware, icfMiddleware])
   })
 
   describe('Handle getIcfCodes', () => {

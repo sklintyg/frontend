@@ -82,7 +82,6 @@ const CertificatePage: React.FC = () => {
               patient={patient}
               setOpen={setShowDeathCertificateModal}
               open={showDeathCertificateModal}
-              history={history}
             />
           )}
           <Columns className="iu-grid-cols iu-grid-cols-12 iu-grid-no-gap">

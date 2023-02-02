@@ -3,14 +3,14 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import ReadyForSignButton from '../ReadyForSignButton'
 import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { getCertificate } from '@frontend/common'
-import { CustomTooltip } from '@frontend/common/src'
+import { getCertificate, CustomTooltip } from '@frontend/common'
+
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 const NAME = 'ReadyForSign button name'
 const DESCRIPTION = 'ReadyForSign button description'
@@ -20,10 +20,7 @@ describe('ReadyForSign button', () => {
 
   beforeEach(() => {
     clearDispatchedActions()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
   const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean, functionDisabled = false) => {

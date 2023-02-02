@@ -2,8 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { LoggedInUserRedirect } from './LoggedInUserRedirect'
-import reducer from '../store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { apiMiddleware } from '../store/api/apiMiddleware'
 import { userMiddleware } from '../store/user/userMiddleware'
@@ -11,6 +10,7 @@ import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()
@@ -52,10 +52,7 @@ const getDummyUser = (role: string): User => {
 
 describe('LoggedInUserRedirect', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
     testStore.dispatch(updateIsLoadingUser(false))
   })
 

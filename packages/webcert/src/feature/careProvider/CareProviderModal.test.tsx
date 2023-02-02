@@ -14,8 +14,7 @@ import {
 } from '@frontend/common'
 import CareProviderModal from './CareProviderModal'
 import userEvent from '@testing-library/user-event'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import MockAdapter from 'axios-mock-adapter'
@@ -23,6 +22,7 @@ import axios from 'axios'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { createMemoryHistory } from 'history'
 import { START_URL_FOR_DOCTORS } from '../../constants'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -44,10 +44,7 @@ const renderComponent = () => {
 describe('Care provider modal', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
   })
 
   afterEach(() => clearDispatchedActions())

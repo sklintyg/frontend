@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import CertificatePage from './page/CertificatePage'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Welcome from './page/Welcome'
 import 'inera-core-css/src/themes/inera-master.scss'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
@@ -24,6 +24,8 @@ import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormal
 import CertificateDraftsPage from './page/CertificateDraftsPage'
 import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
 import SignedCertificatesPage from './page/SignedCertificatesPage'
+import { ConnectedRouter } from 'connected-react-router'
+import { history } from './store/configureApplicationStore'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -53,7 +55,7 @@ function App(): JSX.Element {
 
   return (
     <Backdrop open={isLoadingInitialState} spinnerText="Laddar...">
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
           <ErrorComponent />
           <CareProviderModal />
@@ -70,7 +72,7 @@ function App(): JSX.Element {
             <Route path="/list/unhandledcertificates" render={() => <UnhandledCertificatesPage />} />
           </Switch>
         </ErrorBoundary>
-      </BrowserRouter>
+      </ConnectedRouter>
     </Backdrop>
   )
 }

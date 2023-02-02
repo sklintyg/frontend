@@ -14,16 +14,15 @@ import {
   ResourceLink,
   ResourceLinkType,
 } from '@frontend/common'
-import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import faker from 'faker'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../store/certificate/certificateMiddleware'
 import { getCertificate } from '../../store/certificate/certificateSelectors'
-import reducer from '../../store/reducers'
 import Certificate from './Certificate'
 import { getCertificateSuccess } from '../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 export default {
   title: 'Webcert/Certificate',
@@ -39,10 +38,7 @@ interface Props {
 }
 
 const Template: Story<Props> = ({ metadata = undefined, data, links = [] }) => {
-  const store = configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-  })
+  const store = configureApplicationStore([certificateMiddleware])
 
   if (links.length === 0) {
     links = [

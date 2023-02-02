@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeader, Banner, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
+import { Banner, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
 import logo from './webcert_logo.png'
 import WebcertHeaderUser from './WebcertHeaderUser'
 import WebcertHeaderUnit from './WebcertHeaderUnit'
@@ -13,6 +13,7 @@ import { getUserTabs } from '../../utils/userTabsUtils'
 import { resetPatientState } from '../../store/patient/patientActions'
 import { resetListState } from '../../store/list/listActions'
 import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
+import AppHeader from '../AppHeader/AppHeader'
 
 const InfoModal = styled(TextWithInfoModal)`
   text-decoration: none;

@@ -1,13 +1,13 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import PatientAddress from './PatientAddress'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import reducer from '../../../store/reducers'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { Certificate, getCertificate, ResourceLinkType } from '@frontend/common'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
@@ -23,10 +23,7 @@ describe('CertificateFooter', () => {
 
   beforeEach(() => {
     clearDispatchedActions()
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
   describe('Patient address component', () => {

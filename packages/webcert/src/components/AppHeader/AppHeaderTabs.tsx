@@ -1,9 +1,9 @@
 import React from 'react'
-import { UserTab } from '../../types/utils'
 import styled from 'styled-components'
 import { Link, useRouteMatch } from 'react-router-dom'
-import { NumberCircle } from '../utils/NumberCircle'
 import classNames from 'classnames'
+import { UserTab } from '@frontend/common'
+import { NumberCircle } from '@frontend/common/src/components/utils/NumberCircle'
 
 const Wrapper = styled.nav`
   button {

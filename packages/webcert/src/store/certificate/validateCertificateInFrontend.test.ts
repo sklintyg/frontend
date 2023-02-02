@@ -16,18 +16,15 @@ import {
   validateCertificateInFrontEnd,
 } from './certificateActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { certificateMiddleware } from './certificateMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 describe('Test certificate frontend validation', () => {
   let testStore: EnhancedStore
 
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
   })
 
   afterEach(() => {
