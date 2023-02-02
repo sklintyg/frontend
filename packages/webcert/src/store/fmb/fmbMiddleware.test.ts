@@ -174,7 +174,11 @@ describe('Test FMB middleware', () => {
       fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
 
       testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
-      testStore.dispatch(updateCertificateDataElement(getIncompleteDateRangeListElement()))
+      testStore.dispatch(
+        updateCertificateDataElement(
+          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } })['id']
+        )
+      )
 
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
@@ -378,24 +382,6 @@ export const getDateRangeListElement = (): CertificateDataElement =>
     validation: [],
     validationErrors: [],
   })['6.1']
-
-export const getIncompleteDateRangeListElement = (): CertificateDataElement => {
-  return {
-    id: '6.1',
-    parent: '6',
-    index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: {} as CertificateDataConfig,
-    value: {
-      type: CertificateDataValueType.DATE_RANGE_LIST,
-      list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }],
-    },
-    validation: [],
-    validationErrors: [],
-  }
-}
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
   return {
