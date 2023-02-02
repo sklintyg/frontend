@@ -223,13 +223,6 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText(/2020/i)).toBeInTheDocument()
   })
 
-  it('Displaying integer value if visible is true', () => {
-    const question = createQuestionWithIntegerValue()
-    question.visible = true
-    renderDefaultComponent(question)
-    expect(screen.getByText(/2020/i)).toBeInTheDocument()
-  })
-
   it('Displays the correct value and unit of measurement', () => {
     const question = createQuestionWithIntegerValue()
     renderDefaultComponent(question)
