@@ -9,7 +9,6 @@ import ListItemContent from './ListItemContent'
 import { ResourceLink } from '@frontend/common'
 import styled from 'styled-components/macro'
 import { ListTable } from './ListTable'
-import { head } from 'lodash'
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -60,7 +59,6 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
   }
 
   const updateSortingOfList = (event: React.MouseEvent<HTMLTableCellElement>) => {
-    console.log(event.currentTarget.innerHTML)
     if (event.currentTarget.innerHTML) {
       dispatch(
         updateActiveListFilterValue({
@@ -94,7 +92,6 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
         {list.map((listItem, count) => (
           <tr key={'listItem-' + count}>
             {config.tableHeadings.map((heading) => {
-              console.log(listItem.values[heading.id])
               return (
                 <ListItemContent
                   key={heading.id}

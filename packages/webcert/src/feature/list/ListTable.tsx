@@ -10,7 +10,7 @@ interface Props {
   caption?: string
   children: React.ReactNode
   headings: TableHeading[]
-  onTableHeadClick: (event: React.MouseEvent<HTMLTableCellElement>) => void
+  onTableHeadClick: (event: React.MouseEvent<HTMLTableHeaderCellElement>) => void
   orderBy: string
   ascending: boolean
   isLoadingContent: boolean
