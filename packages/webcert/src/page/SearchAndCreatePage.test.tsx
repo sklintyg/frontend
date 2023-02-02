@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import React from 'react'
-import reducer from '../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { SearchAndCreatePageWithRedirect } from './SearchAndCreatePage'
 import { resetCertificateState } from '../store/certificate/certificateActions'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
 import { LoginMethod, ResourceLinkType, SigningMethod, Unit, User } from '@frontend/common'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -29,10 +29,7 @@ const renderComponent = () => {
 
 describe('SearchAndCreatePage', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware])
 
     testStore.dispatch(updateIsLoadingUser(false))
     testStore.dispatch(updateUser(getUser()))

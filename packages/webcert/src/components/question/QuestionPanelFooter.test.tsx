@@ -1,8 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { getForwardResourceLink, getUnit, Question, QuestionType, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
@@ -12,6 +11,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } f
 import userEvent from '@testing-library/user-event'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
 import { getCertificate } from '../../store/certificate/certificateMiddleware.test'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -32,10 +32,7 @@ const renderComponent = (questions: Question[]) => {
 
 describe('', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, questionMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, questionMiddleware])
   })
 
   afterEach(() => {

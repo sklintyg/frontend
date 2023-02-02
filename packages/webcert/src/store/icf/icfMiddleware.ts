@@ -1,4 +1,4 @@
-import { CertificateDataValueType, Value, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, ValueType, ValueDiagnosisList } from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
 import { apiCallBegan } from '../api/apiActions'
@@ -41,7 +41,7 @@ const handleGetIcfCodesError: Middleware<Dispatch> = ({ dispatch }) => () => (ac
   dispatch(throwError(createSilentErrorRequestFromApiError(action.payload.error)))
 }
 
-function handleUpdateIcfState(value: Value, dispatch: Dispatch<AnyAction>) {
+function handleUpdateIcfState(value: ValueType, dispatch: Dispatch<AnyAction>) {
   const icdCodes = getIcdCodesFromQuestionValue(value)
 
   if (icdCodes) {
@@ -63,7 +63,7 @@ const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: 
   handleUpdateIcfState(action.payload.value, dispatch)
 }
 
-function getIcdCodesFromQuestionValue(value: Value | null): string[] | undefined {
+function getIcdCodesFromQuestionValue(value: ValueType | null): string[] | undefined {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
     return (value as ValueDiagnosisList).list.filter((code) => code.terminology.toLowerCase().includes('icd')).map((code) => code.code)
   } else {

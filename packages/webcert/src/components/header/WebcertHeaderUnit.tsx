@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppHeaderUserUnit, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
+import { ExpandableBox, ResourceLinkType, User } from '@frontend/common'
 import {
   getTotalDraftsAndUnhandledQuestionsOnOtherUnits,
   getUser,
@@ -10,6 +10,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import AlertCircle from '@frontend/common/src/images/AlertCircle'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
+import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
 
 const Wrapper = styled.div`
   display: flex;

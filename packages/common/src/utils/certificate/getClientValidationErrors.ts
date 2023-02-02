@@ -6,7 +6,6 @@ import {
   getValidDate,
   getValidDateFormat,
   ValidationError,
-  Value,
   ValueType,
 } from '../..'
 import { CertificateDataConfigType, ConfigTypes } from '../../types/certificate'
@@ -83,11 +82,11 @@ export const getDateValidationError = (id: string, field: string, date?: string)
   }
 }
 
-const getErrorsFromValue = (id: string, value: Value | null): ValidationError[] => {
+const getErrorsFromValue = (id: string, value: ValueType | null): ValidationError[] => {
   if (value == null) {
     return []
   }
-  return Object.entries(getFieldValuePair(value as ValueType)).reduce<ValidationError[]>((result, [field, value]) => {
+  return Object.entries(getFieldValuePair(value)).reduce<ValidationError[]>((result, [field, value]) => {
     switch (value.type) {
       case CertificateDataValueType.DATE: {
         return result.concat(getDateValidationError(id, field, value.date) ?? [])
@@ -139,5 +138,5 @@ const getErrorsFromConfig = (id: string, config: CertificateDataConfigType, valu
 }
 
 export const getClientValidationErrors = ({ id, value, config }: CertificateDataElement): ValidationError[] => {
-  return [...getErrorsFromValue(id, value), ...getErrorsFromConfig(id, config as CertificateDataConfigType, value as ValueType)]
+  return [...getErrorsFromValue(id, value), ...getErrorsFromConfig(id, config as CertificateDataConfigType, value)]
 }

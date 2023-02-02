@@ -4,7 +4,7 @@ import {
   getResourceLink,
   isDateRangeValid,
   ResourceLinkType,
-  Value,
+  ValueType,
   ValueDateRangeList,
   ValueDiagnosisList,
 } from '@frontend/common'
@@ -50,7 +50,7 @@ export const handleGetFMBDiagnosisCodeInfoSuccess: Middleware<Dispatch> = ({ dis
   dispatch(updateFMBDiagnosisCodeInfo(action.payload))
 }
 
-const isIcdCodeSystemChosen = (value: Value) => {
+const isIcdCodeSystemChosen = (value: ValueType) => {
   if (!value || value.type !== CertificateDataValueType.DIAGNOSIS_LIST) {
     return true
   }
@@ -91,11 +91,11 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch, getState }) =
   )
 }
 
-function isValueDiagnoses(value: Value | null) {
+function isValueDiagnoses(value: ValueType | null) {
   return value && value.type === CertificateDataValueType.DIAGNOSIS_LIST
 }
 
-function isValueDateRangeList(value: Value | null) {
+function isValueDateRangeList(value: ValueType | null) {
   return value && value.type === CertificateDataValueType.DATE_RANGE_LIST
 }
 
@@ -162,7 +162,7 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
   }
 }
 
-function getFMBDiagnosisCodes(value: Value | null, existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[], dispatch: Dispatch): void {
+function getFMBDiagnosisCodes(value: ValueType | null, existingFMBDiagnosisCodeInfo: FMBDiagnosisCodeInfo[], dispatch: Dispatch): void {
   if (value && value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
     const valueDiagnosisList = value as ValueDiagnosisList
     removeFMBForRemovedDiagnosisCodes(existingFMBDiagnosisCodeInfo, valueDiagnosisList, dispatch)

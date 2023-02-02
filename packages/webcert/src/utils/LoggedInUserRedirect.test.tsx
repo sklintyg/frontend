@@ -1,28 +1,26 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { withLoggedInUserRedirect } from './withLoggedInUserRedirect'
-import reducer from '../store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { LoggedInUserRedirect } from './LoggedInUserRedirect'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import apiMiddleware from '../store/api/apiMiddleware'
+import { apiMiddleware } from '../store/api/apiMiddleware'
 import { userMiddleware } from '../store/user/userMiddleware'
 import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
+import { configureApplicationStore } from '../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()
 testHistory.replace = jest.fn()
-const Dummy: React.FC = () => <>Test</>
 
 const renderComponent = () => {
-  const DummyWithRedirect = withLoggedInUserRedirect(Dummy)
   render(
     <Provider store={testStore}>
       <Router history={testHistory}>
-        <DummyWithRedirect />
+        <LoggedInUserRedirect>Test</LoggedInUserRedirect>
       </Router>
     </Provider>
   )
@@ -52,12 +50,9 @@ const getDummyUser = (role: string): User => {
   } as User
 }
 
-describe('withLoggedInUserRedirect', () => {
+describe('LoggedInUserRedirect', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
     testStore.dispatch(updateIsLoadingUser(false))
   })
 

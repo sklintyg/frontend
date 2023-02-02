@@ -2,7 +2,6 @@ import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@fron
 import fileIcon from '@frontend/common/src/images/file.svg'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 
 interface Props {
@@ -16,10 +15,9 @@ interface Props {
 
 const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, description, enabled, body }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const handleConfirm = () => {
-    dispatch(createCertificateFromTemplate(history))
+    dispatch(createCertificateFromTemplate())
   }
 
   return (

@@ -1,5 +1,5 @@
 import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common/src'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { CreateCertificateFromCandidateWithMessageSuccess, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import reducer from '../../../store/reducers'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import CreateCertificateFromCandidateWithMessageModal from './CreateCertificateFromCandidateWithMessageModal'
 
@@ -49,10 +49,7 @@ describe('Create certificate from candidate modal', () => {
     modal: { title: 'Test title', message: 'test message' },
   }
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
     certificate = getCertificate()
     testStore.dispatch(updateCertificate(certificate))
     fakeAxios = new MockAdapter(axios)

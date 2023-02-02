@@ -20,7 +20,6 @@ import {
   fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
-  Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
@@ -30,16 +29,17 @@ import {
   ValueIcf,
   ValueText,
   ValueYear,
+  ValueType,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -54,10 +54,7 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 
 describe('QuestionUvResolve', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {
@@ -230,7 +227,6 @@ export function createQuestionWithTextValue(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeTextArea = {
@@ -549,7 +545,6 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeMessage = {
@@ -580,7 +575,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value | ValueDateRange, config: CertificateDataConfig | ConfigUeDateRange): CertificateDataElement {
+export function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

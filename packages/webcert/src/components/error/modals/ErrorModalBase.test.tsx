@@ -1,23 +1,22 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../../store/reducers'
 import userEvent from '@testing-library/user-event'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
 import { clearError } from '../../../store/error/errorActions'
 import ErrorModalBase from './ErrorModalBase'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
 const location: Location = window.location
-delete window.location
 window.location = {
   ...location,
   reload: jest.fn(),
@@ -46,10 +45,7 @@ const renderComponent = (
 
 describe('ErrorModalBase', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {
