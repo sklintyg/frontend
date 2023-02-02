@@ -3,13 +3,14 @@ import '@testing-library/jest-dom'
 import { getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
-import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
-import { updateValidationErrors } from '../../../../store/certificate/certificateActions'
-import store from '../../../../store/store'
+import { updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import SignAndSendButton from '../SignAndSendButton'
-
-const mockDispatchFn = jest.fn()
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import reducers from '../../../../store/reducers'
+import { fakeCertificate, fakeTextAreaElement } from '@frontend/common'
 
 const commonProps = {
   body: 'Sign modal body',
@@ -21,20 +22,24 @@ const commonProps = {
   type: ResourceLinkType.SIGN_CERTIFICATE,
 }
 
+let testStore: EnhancedStore
+
 const renderDefaultComponent = (props: ComponentProps<typeof SignAndSendButton>) => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <SignAndSendButton {...props} />
     </Provider>
   )
 }
 
-beforeEach(() => {
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(mockDispatchFn)
-})
-
 describe('Sign certificate without confirmation modal', () => {
+  beforeEach(() => {
+    testStore = configureStore({
+      reducer: reducers,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
+    })
+  })
+
   it('Enabled Sign button and no modal', () => {
     renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
@@ -51,13 +56,23 @@ describe('Sign certificate without confirmation modal', () => {
     renderDefaultComponent({ ...commonProps })
     const button = screen.getByRole('button')
     userEvent.click(button)
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+    expect(dispatchedActions).toHaveLength(1)
   })
 })
 
 describe('Sign certificate with confirmation modal', () => {
   beforeEach(() => {
-    store.dispatch(updateValidationErrors([]))
+    testStore = configureStore({
+      reducer: reducers,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, certificateMiddleware),
+    })
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: fakeTextAreaElement({ id: 'id' }) })))
+    testStore.dispatch(updateValidationErrors([]))
+    clearDispatchedActions()
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
   })
 
   it('Enabled Sign button and no modal', () => {
@@ -95,7 +110,7 @@ describe('Sign certificate with confirmation modal', () => {
     const cancelButton = getByText(modalBody, 'Avbryt')
     userEvent.click(cancelButton)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(mockDispatchFn).toHaveBeenCalledTimes(0)
+    expect(dispatchedActions).toHaveLength(0)
   })
 
   it('Click Sign button and modal confirm', () => {
@@ -106,11 +121,11 @@ describe('Sign certificate with confirmation modal', () => {
     const modalBody = document.querySelector("[role='dialog'] .ic-button-group") as HTMLDivElement
     const confirmButton = getByText(modalBody, commonProps.name)
     userEvent.click(confirmButton)
-    expect(mockDispatchFn).toHaveBeenCalledTimes(1)
+    expect(dispatchedActions).toHaveLength(1)
   })
 
   it('Should not display confirmation modal when there are unresolved validation errors', () => {
-    store.dispatch(
+    testStore.dispatch(
       updateValidationErrors([
         {
           category: 'category',

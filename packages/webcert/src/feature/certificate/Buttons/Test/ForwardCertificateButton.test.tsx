@@ -16,6 +16,8 @@ const CERTIFICATE_ID = 'xxx'
 
 let testStore: EnhancedStore
 
+let location: Location
+
 const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWARD_CERTIFICATE) =>
   render(
     <Provider store={testStore}>
@@ -34,47 +36,45 @@ const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWAR
   )
 
 describe('Forward certificate button', () => {
-  const oldOpen = window.open
-
-  beforeAll(() => {
-    window.open = jest.fn()
-  })
-
   beforeEach(() => {
+    location = window.location
+    jest.spyOn(window, 'location', 'get').mockRestore()
     testStore = configureStore({
       reducer,
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware),
     })
   })
 
-  afterAll(() => {
-    window.open = oldOpen
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it('opens email with text about draft', () => {
+    const openSpy = jest.spyOn(window, 'open')
+    openSpy.mockImplementation(jest.fn())
     renderDefaultComponent()
     screen.getByText(NAME).click()
-    expect(window.open).toHaveBeenCalledWith(expect.stringContaining('utkast'), '_blank')
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('utkast'), '_blank')
   })
 
   it('opens email with text about question', () => {
+    const openSpy = jest.spyOn(window, 'open')
+    openSpy.mockImplementation(jest.fn())
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
-    expect(window.open).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
   })
 
   it('opens email with link based on current host', () => {
-    const location: Location = window.location
-    delete window.location
-    window.location = {
+    const openSpy = jest.spyOn(window, 'open')
+    openSpy.mockImplementation(jest.fn())
+    jest.spyOn(window, 'location', 'get').mockReturnValue({
       ...location,
       host: 'host',
-    }
+    })
 
     renderDefaultComponent()
     screen.getByText(NAME).click()
-    expect(window.open).toHaveBeenCalledWith(expect.stringContaining('http%3A%2F%2Fhost'), '_blank')
-
-    window.location = location
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('http%3A%2F%2Fhost'), '_blank')
   })
 })

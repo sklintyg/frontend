@@ -1,4 +1,4 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import { CertificateDataElement, ConfigTypes } from '@frontend/common/src/types/certificate'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -6,6 +6,7 @@ import React from 'react'
 import * as redux from 'react-redux'
 import UeDropdown from './UeDropdown'
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
+import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
 
 const OPTIONS = [
   { label: 'Option1', id: 'Option_1' },
@@ -24,7 +25,7 @@ const question: CertificateDataElement = {
   readOnly: false,
   validation: [],
   validationErrors: [],
-  value: { type: CertificateDataValueType.CODE },
+  value: fakeCertificateValue.code(),
   config: fakeCertificateConfig.dropdown({
     text: '',
     description: '',

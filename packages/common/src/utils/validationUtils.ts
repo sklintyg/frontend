@@ -15,7 +15,6 @@ import {
   ValueCodeList,
 } from '..'
 import { maxDateToExpression, validateExpression } from './validateExpression'
-import { ValueType } from '../types/certificate'
 
 export const parseExpression = (
   expression: string,
@@ -25,7 +24,7 @@ export const parseExpression = (
   if (!element.visible || element.value == null) {
     return false
   }
-  return validateExpression(expression, element.value as ValueType, validationType)
+  return validateExpression(expression, element.value, validationType)
 }
 
 export interface ValidationResult {

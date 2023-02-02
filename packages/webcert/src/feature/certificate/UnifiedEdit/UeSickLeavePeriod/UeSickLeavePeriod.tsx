@@ -91,7 +91,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       updateCertificateDataElement({
         ...question,
         value: { ...question.value, list: updatedList },
-      })
+      } as CertificateDataElement)
     )
   }
 

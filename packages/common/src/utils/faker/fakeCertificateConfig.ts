@@ -21,6 +21,7 @@ import {
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
   ConfigUeRadioBoolean,
@@ -38,14 +39,28 @@ import {
   ConfigUeVisualAcuity,
   ConfigUeYear,
   MessageLevel,
+  ConfigAccordion,
 } from '../../types/certificate'
+
+export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
+  openText: faker.lorem.words(),
+  closeText: faker.lorem.words(),
+  header: faker.lorem.words(),
+  ...data,
+})
 
 type FakeElementConfigCallback<T> = (config?: PartialDeep<T>) => T
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 const fakeDataElementConfig = <T extends CertificateDataConfigType>(
   callback: FakeElementConfigCallback<Optional<T, 'text' | 'description'>>
-) => (override?: PartialDeep<T>): T => merge(callback(override), { text: 'test', description: 'description', ...override }) as T
+) => (override?: PartialDeep<T>): T =>
+  merge(callback(override), {
+    text: 'test',
+    description: 'description',
+    accordion: fakeConfigAccordion(override?.accordion),
+    ...override,
+  }) as T
 
 const fakeCategory = fakeDataElementConfig<ConfigCategory>(() => ({
   type: ConfigTypes.CATEGORY,
@@ -293,6 +308,13 @@ const fakeYear = fakeDataElementConfig<ConfigUeYear>(() => ({
   maxYear: undefined,
 }))
 
+const fakeInteger = fakeDataElementConfig<ConfigUeInteger>(() => ({
+  type: ConfigTypes.UE_INTEGER,
+  id: faker.random.alpha({ count: 5 }),
+  min: undefined,
+  max: undefined,
+}))
+
 export const fakeCertificateConfig = {
   category: fakeCategory,
   causeOfDeath: fakeCauseOfDeath,
@@ -324,4 +346,5 @@ export const fakeCertificateConfig = {
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
   year: fakeYear,
+  integer: fakeInteger,
 }

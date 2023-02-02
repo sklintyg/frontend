@@ -22,7 +22,7 @@ export interface Props {
 const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeRadioMultipleCodes
   const radiobuttons = config.list
-  const [code, setCode] = useState(question.value?.code)
+  const [code, setCode] = useState((question.value as ValueCode)?.code)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = config.layout !== ConfigLayout.COLUMN && radiobuttons.length <= 2

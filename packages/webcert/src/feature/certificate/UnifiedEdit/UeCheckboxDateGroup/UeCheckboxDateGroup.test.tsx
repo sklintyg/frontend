@@ -263,22 +263,24 @@ describe('CheckboxDateGroup component', () => {
 
       userEvent.click(screen.getByText(DATE_CHECKBOXES[0].label))
 
-      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
-        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
-      ])
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value).toMatchObject({
+        list: [{ date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' }],
+      })
 
       userEvent.click(screen.getByText(DATE_CHECKBOXES[1].label))
 
-      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
-        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
-        { date: '2022-09-15', id: 'telefonkontaktMedPatienten', type: 'DATE' },
-      ])
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value).toMatchObject({
+        list: [
+          { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
+          { date: '2022-09-15', id: 'telefonkontaktMedPatienten', type: 'DATE' },
+        ],
+      })
 
       userEvent.click(screen.getByText(DATE_CHECKBOXES[1].label))
 
-      expect(getQuestion(QUESTION_ID)(store.getState())?.value?.list).toEqual([
-        { date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' },
-      ])
+      expect(getQuestion(QUESTION_ID)(store.getState())?.value).toMatchObject({
+        list: [{ date: '2022-09-15', id: 'undersokningAvPatienten', type: 'DATE' }],
+      })
     })
   })
 
