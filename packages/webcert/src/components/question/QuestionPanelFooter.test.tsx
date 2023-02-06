@@ -10,7 +10,7 @@ import QuestionPanelFooter from './QuestionPanelFooter'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import userEvent from '@testing-library/user-event'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
-import { getCertificate } from '../../store/certificate/certificateMiddleware.test'
+import { getTestCertificate } from '../../store/certificate/certificateMiddleware.test'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
@@ -91,7 +91,7 @@ describe('', () => {
     it('display forward button if resource link is available', () => {
       const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
       const unit = getUnit()
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       certificate.links = resourceLinks
       certificate.metadata.unit = unit
       certificate.metadata.careProvider = unit

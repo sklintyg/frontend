@@ -39,6 +39,7 @@ import {
   CreateCertificateResponse,
   createNewCertificate,
   deleteCertificate,
+  getCertificate,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
@@ -51,7 +52,6 @@ import {
   validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
-
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -163,7 +163,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle StartSignCertificate', () => {
     it('Should call correct endpoint for fake signin', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.FAKE }))
@@ -178,7 +178,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('Should call correct endpoint for DSS signin', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       certificate.metadata.type = 'certificateType'
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
@@ -193,7 +193,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('Should call correct endpoint for bankid signin', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       certificate.metadata.type = 'certificateType'
       certificate.metadata.version = 12345
       testStore.dispatch(updateCertificate(certificate))
@@ -210,7 +210,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle ReadyForSign', () => {
     it('shall call api to make the certificate ready for sign', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
       testStore.dispatch(readyForSign())
@@ -223,11 +223,11 @@ describe('Test certificate middleware', () => {
 
   describe('Handle ReadyForSignSuccess', () => {
     it('shall update readyForSign', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
       const expectedReadyForSign = new Date().toISOString()
-      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', 99, expectedReadyForSign)
+      const readyForSignCertificate = getTestCertificate('certificateId', 'lisjp', 99, expectedReadyForSign)
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
       await flushPromises()
@@ -235,11 +235,11 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall update version', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
       const expectedVersion = 99
-      const readyForSignCertificate = getCertificate('certificateId', 'lisjp', expectedVersion, new Date().toISOString())
+      const readyForSignCertificate = getTestCertificate('certificateId', 'lisjp', expectedVersion, new Date().toISOString())
       testStore.dispatch(readyForSignSuccess({ certificate: readyForSignCertificate }))
 
       await flushPromises()
@@ -249,8 +249,8 @@ describe('Test certificate middleware', () => {
 
   describe('Handle ComplementCertificate', () => {
     xit('shall update certificate when complemented', async () => {
-      const certificateToComplement = getCertificate('originalCertificateId')
-      const expectedCertificate = getCertificate('newCertificateId')
+      const certificateToComplement = getTestCertificate('originalCertificateId')
+      const expectedCertificate = getTestCertificate('newCertificateId')
       const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
@@ -269,7 +269,7 @@ describe('Test certificate middleware', () => {
     })
 
     xit('shall update certificate on success', async () => {
-      const certificateToComplement = getCertificate('id')
+      const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
@@ -279,7 +279,7 @@ describe('Test certificate middleware', () => {
     })
 
     xit('shall validate certificate on success', async () => {
-      const certificateToComplement = getCertificate('id')
+      const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
@@ -289,7 +289,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall hide spinner on success', async () => {
-      const certificateToComplement = getCertificate('id')
+      const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
@@ -299,7 +299,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route to the new certificate', async () => {
-      const certificateToComplement = getCertificate('id')
+      const certificateToComplement = getTestCertificate('id')
       const pushSpy = jest.spyOn(history, 'push')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
@@ -309,7 +309,7 @@ describe('Test certificate middleware', () => {
     })
 
     xit('shall get certificate events on success', async () => {
-      const certificateToComplement = getCertificate('id')
+      const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
@@ -320,8 +320,8 @@ describe('Test certificate middleware', () => {
 
   describe('Handle AnswerComplementCertificate', () => {
     it('shall update certificate when complemented', async () => {
-      const certificateToComplement = getCertificate('originalCertificateId')
-      const expectedCertificate = getCertificate('updatedCertificateId')
+      const certificateToComplement = getTestCertificate('originalCertificateId')
+      const expectedCertificate = getTestCertificate('updatedCertificateId')
       const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/answercomplement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
@@ -336,7 +336,7 @@ describe('Test certificate middleware', () => {
   describe('Handle startSigningCertificate', () => {
     it('shall update signing data when successfully starting the signing process', async () => {
       const expectedSigningData = { id: 'testId', signRequest: 'signRequest', actionUrl: 'actionUrl' } as SigningData
-      const certificate = getCertificate('id', 'lisjp', 2)
+      const certificate = getTestCertificate('id', 'lisjp', 2)
       testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
       testStore.dispatch(updateCertificate(certificate))
 
@@ -353,7 +353,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall make a signing request to DSS when users signing method is DSS', async () => {
-      const certificate = getCertificate('id', 'lisjp', 2)
+      const certificate = getTestCertificate('id', 'lisjp', 2)
       testStore.dispatch(updateUser({ ...getUser(), signingMethod: SigningMethod.DSS }))
 
       testStore.dispatch(updateCertificate(certificate))
@@ -366,7 +366,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle CreateCertificateFromCandidate', () => {
     it('shall return certificate filled in certificate from candidate', async () => {
-      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const expectedCertificate = getTestCertificate('newCertificateId', 'ag7804')
       const createCertificateFromCandidateSuccess: CreateCertificateFromCandidateSuccess = {
         certificateId: expectedCertificate.metadata.id,
       }
@@ -383,7 +383,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle CreateCertificateFromCandidateWithMessage', () => {
     it('shall return message', async () => {
-      const expectedCertificate = getCertificate('newCertificateId', 'ag7804')
+      const expectedCertificate = getTestCertificate('newCertificateId', 'ag7804')
       const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
         modal: { title: 'Test title', message: 'test message' },
       }
@@ -404,7 +404,7 @@ describe('Test certificate middleware', () => {
 
   describe('Handle Show Related Certificate', async () => {
     xit('shall call api to show related certificate', async () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       // @ts-expect-error mocking history
       testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id }))
 
@@ -437,7 +437,7 @@ describe('Test certificate middleware', () => {
 
   describe('handleDeleteCertificate', () => {
     it('shall set isDeleted true on successful deletion', async () => {
-      const certificate = getCertificate('test', '', 0, '', undefined)
+      const certificate = getTestCertificate('test', '', 0, '', undefined)
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -449,7 +449,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall hide spinner on successful deletion', async () => {
-      const certificate = getCertificate('test', '', 0, '', undefined)
+      const certificate = getTestCertificate('test', '', 0, '', undefined)
       testStore.dispatch(updateCertificate(certificate))
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
 
@@ -467,7 +467,7 @@ describe('Test certificate middleware', () => {
         created: '',
         status: CertificateStatus.SIGNED,
       }
-      const certificate = getCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
+      const certificate = getTestCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -486,7 +486,7 @@ describe('Test certificate middleware', () => {
         created: '',
         status: CertificateStatus.SIGNED,
       }
-      const certificate = getCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
+      const certificate = getTestCertificate('test', '', 0, '', { parent: parentCertificate, children: [] })
       fakeAxios.onDelete(`/api/certificate/${certificate.metadata.id}/${certificate.metadata.version}`).reply(200)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -551,7 +551,7 @@ describe('Test certificate middleware', () => {
 
   describe('Should handle failed session poll request', () => {
     it('Should reset certificate information on session error', () => {
-      const certificate = getCertificate('certificateId')
+      const certificate = getTestCertificate('certificateId')
       testStore.dispatch(updateCertificate(certificate))
 
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(certificate)
@@ -569,9 +569,41 @@ describe('Test certificate middleware', () => {
       expect(testStore.getState().ui.uiCertificate.certificate).toBeUndefined()
     })
   })
+
+  describe('Should handle GetCertificateError', () => {
+    it('shall throw error if get certificate replies with error', async () => {
+      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
+
+      testStore.dispatch(getCertificate('certificateId'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction).toBeTruthy()
+    })
+
+    it('shall throw route error if get certificate replies with error', async () => {
+      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
+
+      testStore.dispatch(getCertificate('certificateId'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
+    it('shall throw GET_CERTIFICATE_PROBLEM error if get certificate replies with error', async () => {
+      fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
+
+      testStore.dispatch(getCertificate('certificateId'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
+    })
+  })
 })
 
-export const getCertificate = (
+export const getTestCertificate = (
   id: string,
   type?: string,
   version?: number,
