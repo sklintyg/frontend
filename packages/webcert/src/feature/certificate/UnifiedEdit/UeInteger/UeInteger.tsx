@@ -26,7 +26,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState(questionValue.value?.toString() ?? '')
+  const [number, setNumber] = useState<string | null>(questionValue.value?.toString() ?? null)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,14 +38,15 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!/^-?\d*$/.test(event.target.value) || (event.target.value.length >= 2 && event.target.value.startsWith('0'))) {
+    if (!/^-?\d*$/.test(event.target.value)) {
       return
     }
-    setNumber(event.target.value)
+    const inputValue = toIntegerValue(event.target.value)
+    setNumber(inputValue?.toString())
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: toIntegerValue(event.target.value) },
+        value: { ...questionValue, value: inputValue },
       })
     )
   }
