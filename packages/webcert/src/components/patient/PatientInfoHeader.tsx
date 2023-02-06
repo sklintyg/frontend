@@ -1,13 +1,13 @@
-import React from 'react'
 import { CustomButton, Patient } from '@frontend/common'
+import swap from '@frontend/common/src/images/swap.svg'
 import userImage from '@frontend/common/src/images/user-image.svg'
 import { BoxShadowContainer } from '@frontend/common/src/styles/styledComponents'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { clearPatient } from '../../store/patient/patientActions'
 import styled from 'styled-components/macro'
+import { clearPatient } from '../../store/patient/patientActions'
 import PatientStatuses from '../notification/PatientStatuses'
-import swap from '@frontend/common/src/images/swap.svg'
 
 interface Props {
   patient: Patient
@@ -23,7 +23,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
 
   const onSwitchPatient = () => {
     dispatch(clearPatient())
-    history.push('/create')
+    history.push('/search')
   }
 
   return (

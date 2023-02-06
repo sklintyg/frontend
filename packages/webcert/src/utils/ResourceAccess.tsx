@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
 import { Backdrop, ResourceLinkType } from '@frontend/common'
-import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom'
-import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { throwError } from '../store/error/errorActions'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import { getUser, getUserResourceLinks, selectIsLoadingUser } from '../store/user/userSelectors'
 
 export const ResourceAccess: React.FC = ({ children }) => {
   const isLoadingUser = useSelector(selectIsLoadingUser)
@@ -14,6 +14,7 @@ export const ResourceAccess: React.FC = ({ children }) => {
   const match = useRouteMatch()
   const resourceAccessMap = new Map<string, ResourceLinkType>([
     ['/create/:patientId?', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
+    ['/search', ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE],
     ['/list/draft', ResourceLinkType.ACCESS_DRAFT_LIST],
     ['/list/certificate', ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST],
     ['/list/unhandledcertificates', ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES],
