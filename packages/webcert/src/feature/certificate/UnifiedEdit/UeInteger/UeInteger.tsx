@@ -38,7 +38,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!/^-?\d*$/.test(event.target.value)) {
+    if (!/^-?\d*$/.test(event.target.value) || (event.target.value.length >= 2 && event.target.value.startsWith('0'))) {
       return
     }
     setNumber(event.target.value)
@@ -49,6 +49,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       })
     )
   }
+
   const limit =
     typeof questionConfig.max === 'number' && typeof questionConfig.min === 'number'
       ? Math.max(questionConfig.min.toString().length, questionConfig.max.toString().length)
