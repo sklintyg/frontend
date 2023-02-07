@@ -463,7 +463,7 @@ const handleFakeSignCertificate: Middleware<Dispatch> = ({
       method: 'POST',
       data: certificate,
       onSuccess: fakeSignCertificateSuccess.type,
-      onError: signCertificateStatusError.type,
+      onError: certificateApiGenericError.type,
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
