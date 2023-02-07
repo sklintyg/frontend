@@ -17,14 +17,15 @@ const getCodeValue = (medicalConfig: ConfigUeMedicalInvestigation, medicalValue:
 }
 
 const isMedicalInvestigationListEmpty = (config: ConfigUeMedicalInvestigationList, value: ValueMedicalInvestigationList) => {
+  let isEmpty = true
   config.list.forEach((medicalConfig) => {
     const medicalValue = getMedicalValue(value, medicalConfig)
     const codeValue = getCodeValue(medicalConfig, medicalValue)
     if (codeValue && medicalValue && medicalValue.informationSource.text) {
-      return false
+      isEmpty = false
     }
   })
-  return true
+  return isEmpty
 }
 export const UvMedicalInvestigationList: React.FC<{
   value: ValueMedicalInvestigationList
@@ -32,13 +33,14 @@ export const UvMedicalInvestigationList: React.FC<{
 }> = ({ value, config }) =>
   isMedicalInvestigationListEmpty(config, value) ? (
     <div>
-      <h4>{config.typeText}</h4>
+      <h4 className="iu-mb-300">{config.typeText}</h4>
       <Badge>
         <p>Ej angivet</p>
       </Badge>
     </div>
   ) : (
-    <div className={'iu-p-none'}>
+    <>
+      <h4 className="iu-mb-300">{config.typeText}</h4>
       <Table>
         <TableHeader>
           <TableRow>
@@ -65,5 +67,5 @@ export const UvMedicalInvestigationList: React.FC<{
           })}
         </tbody>
       </Table>
-    </div>
+    </>
   )
