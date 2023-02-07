@@ -18,15 +18,17 @@ const StyledTextInput = styled(TextInput)`
   text-align: center;
   margin-right: 0.625em;
 `
+
 export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }
+
 const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
   const questionConfig = question.config as ConfigUeInteger
-  const [number, setNumber] = useState(questionValue.value?.toString() ?? '')
+  const [number, setNumber] = useState(questionValue.value?.toString() ?? undefined)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,17 +40,32 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!/^-?\d*$/.test(event.target.value)) {
+    const inputValue = event.target.value
+
+    if (!/^-?\d*$/.test(inputValue)) {
       return
     }
-    setNumber(event.target.value)
+
+    const newValue = toIntegerValue(event.target.value)
+
+    if (inputValue.length >= 2 && inputValue.startsWith('0')) {
+      setNumber(newValue?.toString())
+    } else if (inputValue.length >= 3 && inputValue.startsWith('-0')) {
+      let number = inputValue
+      number = '-' + inputValue.slice(2)
+      setNumber(number?.toString())
+    } else {
+      setNumber(inputValue)
+    }
+
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: toIntegerValue(event.target.value) },
+        value: { ...questionValue, value: newValue },
       })
     )
   }
+
   const limit =
     typeof questionConfig.max === 'number' && typeof questionConfig.min === 'number'
       ? Math.max(questionConfig.min.toString().length, questionConfig.max.toString().length)
@@ -75,4 +92,5 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     </>
   )
 }
+
 export default UeInteger
