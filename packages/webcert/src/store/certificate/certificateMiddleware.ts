@@ -154,27 +154,24 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
 }
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
-  if (action.payload.error.errorCode === ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString()) {
-    dispatch(
-      throwError({
-        type: ErrorType.ROUTE,
-        errorCode: ErrorCode.GET_CERTIFICATE_PROBLEM,
-        message: action.payload.error.message,
-        certificateId: action.payload.certificateId,
-      })
-    )
-  } else if (action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()) {
-    dispatch(
-      throwError({
-        type: ErrorType.ROUTE,
-        errorCode: ErrorCode.DATA_NOT_FOUND,
-        message: action.payload.error.message,
-        certificateId: action.payload.certificateId,
-      })
-    )
+  let errorCode
+  if (
+    action.payload.error.errorCode === ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString() ||
+    action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()
+  ) {
+    errorCode = action.payload.error.errorCode
   } else {
-    dispatch(apiGenericError(action.payload))
+    errorCode = ErrorCode.GET_CERTIFICATE_PROBLEM
   }
+
+  dispatch(
+    throwError({
+      type: ErrorType.ROUTE,
+      errorCode: errorCode,
+      message: action.payload.error.message,
+      certificateId: action.payload.certificateId,
+    })
+  )
 }
 
 const handleGetCertificateEvents: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -466,7 +463,7 @@ const handleFakeSignCertificate: Middleware<Dispatch> = ({
       method: 'POST',
       data: certificate,
       onSuccess: fakeSignCertificateSuccess.type,
-      onError: certificateApiGenericError.type,
+      onError: signCertificateStatusError.type,
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
