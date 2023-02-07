@@ -14,7 +14,7 @@ import {
 import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 import { createAction } from '@reduxjs/toolkit'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { ApiError, ApiGenericError } from '../api/apiActions'
+import { ApiError } from '../api/apiActions'
 import { ErrorData } from '../error/errorReducer'
 
 const CERTIFICATE = '[CERTIFICATE]'
@@ -217,7 +217,7 @@ export interface GetCertificateSuccess {
 
 export const getCertificateSuccess = createAction<GetCertificateSuccess>(GET_CERTIFICATE_SUCCESS)
 
-export const getCertificateError = createAction<ApiGenericError>(GET_CERTIFICATE_ERROR)
+export const getCertificateError = createAction<CertificateApiGenericError>(GET_CERTIFICATE_ERROR)
 
 export const getCertificateCompleted = createAction(GET_CERTIFICATE_COMPLETED)
 
@@ -584,6 +584,7 @@ export const applyCertificateDataElementAutoFill = createAction<ValidationResult
 
 export interface CertificateApiGenericError {
   error: ApiError
+  certificateId: string
 }
 
 export const certificateApiGenericError = createAction<CertificateApiGenericError>(API_CERTIFICATE_GENERIC_ERROR)
