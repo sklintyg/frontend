@@ -40,6 +40,7 @@ import {
   createNewCertificate,
   deleteCertificate,
   getCertificate,
+  getCertificateError,
   hideSpinner,
   readyForSign,
   readyForSignSuccess,
@@ -595,6 +596,74 @@ describe('Test certificate middleware', () => {
       fakeAxios.onPost('/api/certificate/certificateId').reply(500, null)
 
       testStore.dispatch(getCertificate('certificateId'))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
+    })
+
+    it('shall throw DATA_NOT_FOUND error', async () => {
+      const expectedError = {
+        error: {
+          api: 'POST /api/call',
+          errorCode: 'DATA_NOT_FOUND',
+          message: 'This is the message',
+        },
+        certificateId: 'certificateId',
+      }
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.DATA_NOT_FOUND)
+    })
+
+    it('shall throw AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET error', async () => {
+      const expectedError = {
+        error: {
+          api: 'POST /api/call',
+          errorCode: 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET',
+          message: 'This is the message',
+        },
+        certificateId: 'certificateId',
+      }
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET)
+    })
+
+    it('shall throw GET_CERTIFICATE_PROBLEM error', async () => {
+      const expectedError = {
+        error: {
+          api: 'POST /api/call',
+          errorCode: 'GET_CERTIFICATE_PROBLEM',
+          message: 'This is the message',
+        },
+        certificateId: 'certificateId',
+      }
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.GET_CERTIFICATE_PROBLEM)
+    })
+
+    it('shall throw GET_CERTIFICATE_PROBLEM error if id does not match any specific error code', async () => {
+      const expectedError = {
+        error: {
+          api: 'POST /api/call',
+          errorCode: 'INTERNAL_PROBLEM',
+          message: 'This is the message',
+        },
+        certificateId: 'certificateId',
+      }
+
+      testStore.dispatch(getCertificateError(expectedError))
 
       await flushPromises()
       const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
