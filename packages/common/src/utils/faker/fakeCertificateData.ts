@@ -255,57 +255,6 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
   }
 )
 
-export const fakeEmptyMedicalInvestigationListElement = fakeDataElement<ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList>(
-  (config, value) => {
-    const typeOptions = [
-      { id: '1', label: 'Neuropsykiatriskt utlåtande', code: 'CODE_2' },
-      { id: '2', label: 'Underlag från habiliteringen', code: 'CODE_3' },
-      { id: '3', label: 'Underlag från arbetsterapeut', code: 'CODE_4' },
-    ]
-    const valueList = Array.from({ length: 3 }, () =>
-      fakeCertificateValue.medicalInvestigation({
-        investigationType: {
-          id: faker.random.alpha({ count: 5 }),
-          code: faker.random.arrayElement(typeOptions.map((option) => option.code)),
-        },
-        date: {
-          id: faker.random.alpha({ count: 5 }),
-          date: faker.date
-            .past()
-            .toISOString()
-            .split('T')[0],
-        },
-        informationSource: {
-          id: faker.random.alpha({ count: 5 }),
-          text: faker.lorem.words(),
-        },
-      })
-    )
-    const configList = valueList.map(({ investigationType, informationSource, date }) => ({
-      investigationTypeId: investigationType.id,
-      informationSourceId: informationSource.id,
-      dateId: date.id,
-      typeOptions,
-    }))
-
-    return {
-      config: fakeCertificateConfig.medicalInvestigationList({
-        typeText: 'Ange utredning eller underlag',
-        dateText: 'Datum',
-        informationSourceText: 'Från vilken vårdgivare kan Försäkringskassan hämta information om utredningen/underlaget?',
-        informationSourceDescription:
-          'Skriv exempelvis Neuropsykiatriska kliniken på X-stads sjukhus eller om patienten själv kommer att bifoga utredningen till sin ansökan.',
-        list: configList,
-        ...config,
-      }),
-      value: fakeCertificateValue.medicalInvestigationList({
-        list: [],
-        ...value,
-      }),
-    }
-  }
-)
-
 export const fakeDateElement = fakeDataElement<ConfigUeDate, ValueDate>((config, value) => ({
   config: fakeCertificateConfig.date(config),
   value: fakeCertificateValue.date(value),

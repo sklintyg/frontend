@@ -4,7 +4,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { fakeEmptyMedicalInvestigationListElement, fakeMedicalInvestigationListElement } from '../../../utils/faker/fakeCertificateData'
+import { fakeMedicalInvestigationListElement } from '../../../utils/faker/fakeCertificateData'
 import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'
 import { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
 import { configureApplicationStore } from '@frontend/webcert/src/store/configureApplicationStore'
@@ -19,9 +19,7 @@ const question: CertificateDataElement = fakeMedicalInvestigationListElement({
   id: QUESTION_ID,
 })[QUESTION_ID]
 
-const emptyQuestion: CertificateDataElement = fakeEmptyMedicalInvestigationListElement({
-  id: QUESTION_ID,
-})[QUESTION_ID]
+const emptyQuestion: CertificateDataElement = fakeMedicalInvestigationListElement({ value: { list: [] }, id: QUESTION_ID })[QUESTION_ID]
 
 const value = question.value as ValueMedicalInvestigationList
 const config = question.config as ConfigUeMedicalInvestigationList
