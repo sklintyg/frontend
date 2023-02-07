@@ -82,6 +82,6 @@ describe('UV Medical investigation list', () => {
 
   it('renders investigation type if question value is not empty', () => {
     renderComponent({ value: value, config: config })
-    expect(screen.getAllByText('Underlag från habiliteringen').length > 0).toBeTruthy()
+    expect(screen.getAllByTestId('informationSource').length > 0).toBeTruthy()
   })
 })

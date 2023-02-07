@@ -60,7 +60,7 @@ export const UvMedicalInvestigationList: React.FC<{
                 <TableRow key={medicalValue.investigationType.id}>
                   <TableCell style={{ minWidth: '8rem' }}>{codeValue.label}</TableCell>
                   <TableCell style={{ minWidth: '8rem' }}>{medicalValue.date.date}</TableCell>
-                  <TableCell>{medicalValue.informationSource.text}</TableCell>
+                  <TableCell data-testid="informationSource">{medicalValue.informationSource.text}</TableCell>
                 </TableRow>
               )
             )
