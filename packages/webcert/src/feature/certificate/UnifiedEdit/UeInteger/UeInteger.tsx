@@ -38,15 +38,27 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!/^-?\d*$/.test(event.target.value)) {
+    const inputValue = event.target.value
+
+    if (!/^-?\d*$/.test(inputValue)) {
       return
     }
-    const inputValue = toIntegerValue(event.target.value)
-    setNumber(inputValue?.toString())
+
+    const newValue = toIntegerValue(event.target.value)
+
+    if (inputValue.length >= 2 && inputValue.startsWith('0')) {
+      setNumber(newValue?.toString())
+    } else if (inputValue.length >= 2 && inputValue.startsWith('-')) {
+      const res = inputValue.replace(inputValue[1], '1')
+      setNumber(res?.toString())
+    } else {
+      setNumber(inputValue)
+    }
+
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: inputValue },
+        value: { ...questionValue, value: newValue },
       })
     )
   }
