@@ -1,10 +1,12 @@
-import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
+import { IcfState } from '../../store/icf/icfReducer'
 import {
   Certificate,
   CertificateDataElement,
   CertificateDataValueType,
   ConfigTypes,
   fakeDiagnosesElement,
+  Icd10Code,
+  IcfCode,
   ResourceLinkType,
 } from '@frontend/common/src'
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'

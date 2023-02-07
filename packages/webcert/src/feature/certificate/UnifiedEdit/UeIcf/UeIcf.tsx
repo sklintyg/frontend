@@ -43,18 +43,6 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
     [currentValue, dispatchValue]
   )
 
-  const handleTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
-    updateValue({ text: event.currentTarget.value })
-  }
-
-  const handleAddIcfCodeValue = (icfCodeToAdd: string) => {
-    updateValue({ icfCodes: (currentValue.icfCodes ?? []).concat(icfCodeToAdd) })
-  }
-
-  const handleRemoveIcfCodeValue = (icfCodeToRemove: string) => {
-    updateValue({ icfCodes: (currentValue.icfCodes ?? []).filter((code) => code !== icfCodeToRemove) })
-  }
-
   useEffect(() => {
     const newIcfCodes = getIcfValueList(icfData)
     if (!isEqual(previousIcfCodes, newIcfCodes)) {
@@ -72,15 +60,17 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
           modalLabel={questionConfig.modalLabel}
           collectionsLabel={questionConfig.collectionsLabel}
           icfData={icfData}
-          onAddCode={handleAddIcfCodeValue}
-          onRemoveCode={handleRemoveIcfCodeValue}
+          onAddCode={(icfCodeToAdd) => updateValue({ icfCodes: (currentValue.icfCodes ?? []).concat(icfCodeToAdd) })}
+          onRemoveCode={(icfCodeToRemove) =>
+            updateValue({ icfCodes: (currentValue.icfCodes ?? []).filter((code) => code !== icfCodeToRemove) })
+          }
         />
       )}
       <TextArea
         disabled={disabled}
         rowsMin={6}
         hasValidationError={validationErrors.length > 0}
-        onChange={handleTextChange}
+        onChange={(event) => updateValue({ text: event.currentTarget.value })}
         name={questionConfig.id}
         value={currentValue.text ?? ''}
         limit={textValidation ? textValidation.limit : 3500}

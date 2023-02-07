@@ -113,7 +113,7 @@ const fakeHeader = fakeDataElementValue<ValueHeader>(() => ({
 const fakeICF = fakeDataElementValue<ValueIcf>(() => ({
   type: CertificateDataValueType.ICF,
   id: faker.random.alpha({ count: 5 }),
-  // icfCodes: [],
+  icfCodes: undefined,
   text: null,
 }))
 
