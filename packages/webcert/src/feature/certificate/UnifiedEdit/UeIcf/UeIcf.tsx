@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   CertificateDataElement,
@@ -11,11 +10,13 @@ import {
   TextValidation,
 } from '@frontend/common'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import _ from 'lodash'
+import { debounce, isEqual } from 'lodash'
 import IcfDropdown from '../../../../components/icf/IcfDropdown'
 import { getIcfData } from '../../../../store/icf/icfSelectors'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { useAppDispatch } from '../../../../store/store'
+import usePrevious from '../../../../hooks/usePrevious'
+import { getFilteredIcfValues, getIcfValueList } from '../../../../components/icf/IcfUtils'
 
 interface Props {
   question: CertificateDataElement
@@ -24,28 +25,42 @@ interface Props {
 
 const UeIcf: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
-  const icfData = useSelector(getIcfData((question.value as ValueIcf).id), _.isEqual)
+  const valueId = (question.value as ValueIcf).id
+  const icfData = useSelector(getIcfData(valueId), isEqual)
+  const previousIcfCodes = usePrevious(getIcfValueList(icfData))
   const questionConfig = question.config as ConfigUeIcf
   const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
-  const updateValue = (value: ValueIcf) => {
-    setCurrentValue(value)
-    dispatch(updateCertificateDataElement({ ...question, value }))
-  }
+  const dispatchValue = useRef(debounce((value: ValueIcf) => dispatch(updateCertificateDataElement({ ...question, value })), 1000)).current
+
+  const updateValue = useCallback(
+    (value: Partial<ValueIcf>) => {
+      setCurrentValue({ ...currentValue, ...value })
+      dispatchValue({ ...currentValue, ...value })
+    },
+    [currentValue, dispatchValue]
+  )
 
   const handleTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
-    updateValue({ ...currentValue, text: event.currentTarget.value })
+    updateValue({ text: event.currentTarget.value })
   }
 
   const handleAddIcfCodeValue = (icfCodeToAdd: string) => {
-    updateValue({ ...currentValue, icfCodes: (currentValue.icfCodes ?? []).concat(icfCodeToAdd) })
+    updateValue({ icfCodes: (currentValue.icfCodes ?? []).concat(icfCodeToAdd) })
   }
 
   const handleRemoveIcfCodeValue = (icfCodeToRemove: string) => {
-    updateValue({ ...currentValue, icfCodes: (currentValue.icfCodes ?? []).filter((code) => code !== icfCodeToRemove) })
+    updateValue({ icfCodes: (currentValue.icfCodes ?? []).filter((code) => code !== icfCodeToRemove) })
   }
+
+  useEffect(() => {
+    const newIcfCodes = getIcfValueList(icfData)
+    if (!isEqual(previousIcfCodes, newIcfCodes)) {
+      updateValue({ icfCodes: getFilteredIcfValues(currentValue.icfCodes, previousIcfCodes, newIcfCodes) })
+    }
+  }, [currentValue.icfCodes, icfData, previousIcfCodes, updateValue])
 
   return (
     <>
