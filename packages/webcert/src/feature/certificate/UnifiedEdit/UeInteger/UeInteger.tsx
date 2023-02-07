@@ -18,10 +18,12 @@ const StyledTextInput = styled(TextInput)`
   text-align: center;
   margin-right: 0.625em;
 `
+
 export interface Props {
   question: CertificateDataElement
   disabled: boolean
 }
+
 const UeInteger: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useDispatch()
   const questionValue = question.value as ValueInteger
@@ -48,9 +50,10 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
 
     if (inputValue.length >= 2 && inputValue.startsWith('0')) {
       setNumber(newValue?.toString())
-    } else if (inputValue.length >= 2 && inputValue.startsWith('-')) {
-      const res = inputValue.replace(inputValue[1], '1')
-      setNumber(res?.toString())
+    } else if (inputValue.length >= 3 && inputValue.startsWith('-0')) {
+      let number = inputValue
+      number = '-' + inputValue.slice(2)
+      setNumber(number?.toString())
     } else {
       setNumber(inputValue)
     }
@@ -89,4 +92,5 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     </>
   )
 }
+
 export default UeInteger
