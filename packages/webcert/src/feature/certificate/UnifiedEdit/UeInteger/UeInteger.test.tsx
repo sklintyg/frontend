@@ -52,4 +52,12 @@ describe('Integer component', () => {
 
     expect(screen.getByTestId('testNumber')).not.toHaveValue('ABC')
   })
+
+  it('should not allow strings starting with numbers and containing other characters', () => {
+    renderComponent({ disabled: false, question })
+
+    userEvent.type(screen.getByTestId('testNumber'), '012')
+
+    expect(screen.getByTestId('testNumber')).not.toHaveValue('012')
+  })
 })
