@@ -11,7 +11,7 @@ import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
 import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
-import { ApiGenericError } from '@frontend/webcert/src/store/api/apiActions'
+import { CertificateApiGenericError } from '@frontend/webcert/src/store/certificate/certificateActions'
 
 export const getBooleanElement = (): CertificateDataElement => {
   return {
@@ -538,12 +538,13 @@ export const getQuestions = (handled: boolean, type: QuestionType): Question[] =
   return [{ type: type, handled: handled } as Question]
 }
 
-export const getExpectedError = (errorCode: string): ApiGenericError => {
+export const getExpectedError = (errorCode: string): CertificateApiGenericError => {
   return {
     error: {
       api: 'POST /api/call',
       errorCode: errorCode,
       message: 'This is the message',
     },
+    certificateId: 'certificateId',
   }
 }
