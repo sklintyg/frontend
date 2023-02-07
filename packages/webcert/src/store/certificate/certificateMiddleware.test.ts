@@ -10,6 +10,7 @@ import {
   fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeRadioBooleanElement,
+  getExpectedError,
   getUser,
   SigningMethod,
 } from '@frontend/common'
@@ -70,14 +71,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle certificateApiGenericError', () => {
-    const expectedError = {
-      error: {
-        api: 'POST /api/call',
-        errorCode: 'AUTHORIZATION_PROBLEM',
-        message: 'This is the message',
-      },
-      certificateId: 'certificateId',
-    }
+    const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
 
     it('shall throw error', async () => {
       testStore.dispatch(certificateApiGenericError(expectedError))
@@ -121,13 +115,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle autoSave error', () => {
-    const expectedError = {
-      error: {
-        api: 'POST /api/call',
-        errorCode: 'UNKNOWN_INTERNAL_PROBLEM',
-        message: 'This is the message',
-      },
-    }
+    const expectedError = getExpectedError(ErrorCode.UNKNOWN_INTERNAL_PROBLEM.toString())
 
     it('shall throw error if autosave fails', async () => {
       testStore.dispatch(autoSaveCertificateError(expectedError))
@@ -603,14 +591,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw DATA_NOT_FOUND error', async () => {
-      const expectedError = {
-        error: {
-          api: 'POST /api/call',
-          errorCode: 'DATA_NOT_FOUND',
-          message: 'This is the message',
-        },
-        certificateId: 'certificateId',
-      }
+      const expectedError = getExpectedError(ErrorCode.DATA_NOT_FOUND.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 
@@ -620,14 +601,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET error', async () => {
-      const expectedError = {
-        error: {
-          api: 'POST /api/call',
-          errorCode: 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET',
-          message: 'This is the message',
-        },
-        certificateId: 'certificateId',
-      }
+      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 
@@ -637,14 +611,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw GET_CERTIFICATE_PROBLEM error', async () => {
-      const expectedError = {
-        error: {
-          api: 'POST /api/call',
-          errorCode: 'GET_CERTIFICATE_PROBLEM',
-          message: 'This is the message',
-        },
-        certificateId: 'certificateId',
-      }
+      const expectedError = getExpectedError(ErrorCode.GET_CERTIFICATE_PROBLEM.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 
@@ -654,14 +621,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall throw GET_CERTIFICATE_PROBLEM error if id does not match any specific error code', async () => {
-      const expectedError = {
-        error: {
-          api: 'POST /api/call',
-          errorCode: 'INTERNAL_PROBLEM',
-          message: 'This is the message',
-        },
-        certificateId: 'certificateId',
-      }
+      const expectedError = getExpectedError(ErrorCode.INTERNAL_PROBLEM.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
 

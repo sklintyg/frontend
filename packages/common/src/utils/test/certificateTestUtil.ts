@@ -536,3 +536,14 @@ export const getCertificateWithQuestion = (question: CertificateDataElement): Ce
 export const getQuestions = (handled: boolean, type: QuestionType): Question[] => {
   return [{ type: type, handled: handled } as Question]
 }
+
+export const getExpectedError = (errorCode: string) => {
+  return {
+    error: {
+      api: 'POST /api/call',
+      errorCode: errorCode,
+      message: 'This is the message',
+    },
+    certificateId: 'certificateId',
+  }
+}
