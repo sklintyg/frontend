@@ -11,7 +11,7 @@ import { configureApplicationStore } from '@frontend/webcert/src/store/configure
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 
-const QUESTION_ID = 'visualAcuity'
+const QUESTION_ID = 'questionId'
 
 let testStore: EnhancedStore
 
