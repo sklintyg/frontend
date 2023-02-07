@@ -1,7 +1,12 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import ListFilterComponent from '../filter/ListFilterComponent'
 import { ListFilterConfig, ListFilterType } from '@frontend/common/src/types/list'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateActiveListFilterValue } from '../../../store/list/listActions'
+import { listMiddleware } from '../../../store/list/listMiddleware'
+import ListFilterComponent from '../filter/ListFilterComponent'
 import {
   getBooleanFilter,
   getDateRangeFilter,
@@ -11,12 +16,6 @@ import {
   getSelectFilter,
   getTextFilter,
 } from './listTestUtils'
-import { Provider } from 'react-redux'
-import userEvent from '@testing-library/user-event'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { listMiddleware } from '../../../store/list/listMiddleware'
-import { updateActiveListFilterValue } from '../../../store/list/listActions'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const onChange = jest.fn()

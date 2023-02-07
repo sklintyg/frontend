@@ -3,7 +3,6 @@ import { ListType } from '@frontend/common/src/types/list'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import List from './List'
 import { getListConfig, performListSearch, updateActiveListType, updateListConfig } from '../../store/list/listActions'
 import {
   getActiveList,
@@ -13,6 +12,7 @@ import {
   getIsLoadingListConfig,
   getListError,
 } from '../../store/list/listSelectors'
+import List from './List'
 
 import ReactTooltip from 'react-tooltip'
 import DisplayError from '../../components/error/DisplayError'
