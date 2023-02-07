@@ -14,6 +14,7 @@ import ModuleProblem from './modals/ModuleProblem'
 import CertificateRevoked from './modals/CertificateRevoked'
 import GeneralErrorReload from './modals/GeneralErrorReload'
 import { NETWORK_ERROR, messageSubstring } from './modals/errorUtils'
+import SignCertificateError from './modals/SignCertificateError'
 
 export interface ErrorRoute {
   errorCode: string
@@ -51,7 +52,8 @@ const ErrorComponent: React.FC = () => {
         return <CertificateRevoked errorData={activeError} />
       case ErrorCode.MISSING_PARAMETER:
         return <GeneralErrorReload errorData={activeError} />
-
+      case ErrorCode.SIGN_CERTIFICATE_ERROR:
+        return <SignCertificateError errorData={activeError} />
       default:
         return <GeneralErrorReload errorData={activeError} />
     }

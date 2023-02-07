@@ -83,7 +83,6 @@ import {
   sendCertificateSuccess,
   setCertificateDataElement,
   setCertificatePatientData,
-  setCertificateSigningErrorData,
   setCertificateUnitData,
   setReadyForSign,
   showRelatedCertificate,
@@ -415,8 +414,13 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> = ({ dispatch, ge
 const handleSignCertificateStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) => () => (
   action
 ): void => {
-  dispatch(setCertificateSigningErrorData(action.payload.error))
-  dispatch(updateCertificateSignStatus(CertificateSignStatus.FAILED))
+  const error = action.payload.error
+  error.errorCode = ErrorCode.SIGN_CERTIFICATE_ERROR
+  error.type = ErrorType.MODAL
+
+  dispatch(throwError(action.payload.error))
+  dispatch(hideSpinner())
+  dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 }
 
 const handleStartSignCertificateSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI<AppDispatch, RootState>) => () => (
@@ -463,7 +467,7 @@ const handleFakeSignCertificate: Middleware<Dispatch> = ({
       method: 'POST',
       data: certificate,
       onSuccess: fakeSignCertificateSuccess.type,
-      onError: certificateApiGenericError.type,
+      onError: signCertificateStatusError.type,
       functionDisablerType: toggleCertificateFunctionDisabler.type,
     })
   )
