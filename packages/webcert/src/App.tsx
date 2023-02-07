@@ -1,31 +1,32 @@
-import React, { useEffect } from 'react'
-import CertificatePage from './page/CertificatePage'
-import { Route, Switch } from 'react-router-dom'
-import Welcome from './page/Welcome'
-import 'inera-core-css/src/themes/inera-master.scss'
+import { Backdrop } from '@frontend/common'
+import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
-import { useAppDispatch } from './store/store'
-import { cancelLogout, getUser, getUserStatistics, triggerLogout } from './store/user/userActions'
-import ErrorComponent from './components/error/ErrorComponent'
-import ErrorPage from './page/ErrorPage'
-import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
+import 'inera-core-css/src/themes/inera-master.scss'
+import { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { useSelector } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+import ErrorComponent from './components/error/ErrorComponent'
+import CareProviderModal from './feature/careProvider/CareProviderModal'
+import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
+import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
+import CertificateDraftsPage from './page/CertificateDraftsPage'
+import CertificatePage from './page/CertificatePage'
+import { CreatePageWithRedirect } from './page/CreatePage'
+import ErrorPage from './page/ErrorPage'
+import { SearchPageWithRedirect } from './page/SearchPage'
+import SignedCertificatesPage from './page/SignedCertificatesPage'
+import { StartPageWithRedirect } from './page/StartPage'
+import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
+import Welcome from './page/Welcome'
+import { history } from './store/configureApplicationStore'
 import { throwError } from './store/error/errorActions'
 import { createErrorRequest } from './store/error/errorCreator'
 import { ErrorCode, ErrorType } from './store/error/errorReducer'
-import { SearchAndCreatePageWithRedirect } from './page/SearchAndCreatePage'
-import { StartPageWithRedirect } from './page/StartPage'
-import { Backdrop } from '@frontend/common'
-import { useSelector } from 'react-redux'
+import { useAppDispatch } from './store/store'
+import { cancelLogout, getUser, getUserStatistics, triggerLogout } from './store/user/userActions'
+import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
-import CareProviderModal from './feature/careProvider/CareProviderModal'
-import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
-import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
-import CertificateDraftsPage from './page/CertificateDraftsPage'
-import UnhandledCertificatesPage from './page/UnhandledCertificatesPage'
-import SignedCertificatesPage from './page/SignedCertificatesPage'
-import { ConnectedRouter } from 'connected-react-router'
-import { history } from './store/configureApplicationStore'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -66,7 +67,8 @@ function App(): JSX.Element {
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
             <Route path="/welcome" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
-            <Route path="/create/:patientId?" render={() => <SearchAndCreatePageWithRedirect />} />
+            <Route path="/create/:patientId?" render={() => <CreatePageWithRedirect />} />
+            <Route path="/search" render={() => <SearchPageWithRedirect />} />
             <Route path="/list/draft" render={() => <CertificateDraftsPage />} />
             <Route path="/list/certificate" render={() => <SignedCertificatesPage />} />
             <Route path="/list/unhandledcertificates" render={() => <UnhandledCertificatesPage />} />
