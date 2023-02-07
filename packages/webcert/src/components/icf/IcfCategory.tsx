@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Icd10Code, IcfCode } from '../../store/icf/icfReducer'
 import styled from 'styled-components/macro'
 import IcfRow from './IcfRow'
 import ReactTooltip from 'react-tooltip'
@@ -7,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
 import _ from 'lodash'
 import InfoCircle from '@frontend/common/src/images/InfoCircle'
+import { Icd10Code, IcfCode } from '@frontend/common'
 
 const IcdWrapper = styled.div`
   strong {

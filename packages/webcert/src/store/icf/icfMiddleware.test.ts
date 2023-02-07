@@ -1,18 +1,17 @@
-import MockAdapter from 'axios-mock-adapter'
-import { getIcfCodes, IcfRequest, IcfResponse, updateIcfCodes } from './icfActions'
-import axios from 'axios'
+import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import apiMiddleware from '../api/apiMiddleware'
-import { icfMiddleware } from './icfMiddleware'
-import { Icd10Code, IcfCode } from './icfReducer'
-import { Certificate, CertificateStatus, IcfTitles } from '@frontend/common'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import {
   getCertificateWithDiagnosisElementWithCodeSystem,
   getCodeElement,
   getDiagnosisElementWithCodeSystem,
 } from '../../components/icf/icfTestUtils'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { getIcfCodes, IcfRequest, IcfResponse, updateIcfCodes } from './icfActions'
+import { icfMiddleware } from './icfMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

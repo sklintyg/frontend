@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { IcfCode } from '../../store/icf/icfReducer'
-import { Checkbox } from '@frontend/common'
+import { Checkbox, IcfCode } from '@frontend/common'
 import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
 import { useCertificateContext } from '../../feature/certificate/CertificateContext'
