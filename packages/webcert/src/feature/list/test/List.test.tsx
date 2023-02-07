@@ -1,11 +1,10 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import List from '../List'
-import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
 import { CertificateListItem, ListFilter, ListType } from '@frontend/common/src/types/list'
-import store from '../../../store/store'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../../store/list/listActions'
+import store from '../../../store/store'
+import List from '../List'
+import { getConfigWithTextFilter, getDefaultList } from './listTestUtils'
 
 const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalCount = 1, isLoadingList = false) => {
   store.dispatch(updateTotalCount(totalCount))

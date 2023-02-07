@@ -1,15 +1,14 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import { getDateRangeFilter } from './listTestUtils'
-import { Provider } from 'react-redux'
-import DateRangeFilter from '../filter/DateRangeFilter'
-import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { ListFilterType } from '@frontend/common/src/types/list'
-import userEvent from '@testing-library/user-event'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { listMiddleware } from '../../../store/list/listMiddleware'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
+import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateActiveListFilterValue } from '../../../store/list/listActions'
+import { listMiddleware } from '../../../store/list/listMiddleware'
+import DateRangeFilter from '../filter/DateRangeFilter'
+import { getDateRangeFilter } from './listTestUtils'
 
 const onChange = jest.fn()
 
