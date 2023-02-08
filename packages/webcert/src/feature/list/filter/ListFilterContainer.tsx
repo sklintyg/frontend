@@ -9,7 +9,7 @@ import {
 } from '@frontend/common'
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
 import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
 import ListFilterButtons from '../ListFilterButtons'

@@ -2,7 +2,7 @@ import { CustomButton, isPersonIdValid, PersonIdInput, useKeyPress } from '@fron
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import PatientSearchError from './PatientSearchError'
 

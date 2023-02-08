@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'index.ts'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'common',
       formats: ['es', 'umd'],
       fileName: (format) => `common.${format}.js`,

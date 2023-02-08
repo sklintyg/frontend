@@ -2,7 +2,7 @@ import { getValidationErrors, MandatoryIcon, QuestionValidationTexts, TextArea, 
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,

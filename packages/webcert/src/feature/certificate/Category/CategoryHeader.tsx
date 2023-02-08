@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 const Wrapper = styled.div`
   border-bottom-left-radius: 0;

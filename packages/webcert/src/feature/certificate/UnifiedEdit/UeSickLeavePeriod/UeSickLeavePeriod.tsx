@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionHeader,
   CertificateDataElement,
+  CertificateDataValueType,
   ConfigUeSickLeavePeriod,
   formatDateToString,
   getLatestPeriodEndDate,
@@ -9,21 +10,20 @@ import {
   Icon,
   QuestionValidationTexts,
   Text,
+  ValidationError,
   ValueDateRange,
   ValueDateRangeList,
-  ValidationError,
-  CertificateDataValueType,
 } from '@frontend/common'
 import { addDays, isValid } from 'date-fns'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DateRangePicker from './DateRangePicker'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { WorkingHoursInput } from './WorkingHoursInput'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 
 const AccodrionWrapper = styled.div`
   flex: 0 0 100%;

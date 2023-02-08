@@ -2,7 +2,7 @@ import { BoxShadowContainer, CustomButton, Patient, swapImage, userImage } from 
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearPatient } from '../../store/patient/patientActions'
 import PatientStatuses from '../notification/PatientStatuses'
 

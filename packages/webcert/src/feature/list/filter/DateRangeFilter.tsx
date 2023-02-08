@@ -13,7 +13,7 @@ import {
 } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
 import { updateValidationError } from '../../../store/list/listActions'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'

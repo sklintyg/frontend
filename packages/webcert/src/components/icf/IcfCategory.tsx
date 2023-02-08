@@ -3,7 +3,7 @@ import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
 import IcfRow from './IcfRow'
 

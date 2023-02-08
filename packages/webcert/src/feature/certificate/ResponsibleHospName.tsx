@@ -1,7 +1,7 @@
 import { userImage } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
 import { isCareAdministrator } from '../../store/user/userSelectors'
 

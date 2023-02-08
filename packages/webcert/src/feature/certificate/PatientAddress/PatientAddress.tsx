@@ -11,7 +11,7 @@ import {
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getIsEditable,
