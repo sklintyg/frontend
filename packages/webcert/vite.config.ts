@@ -17,7 +17,5 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy,
-  },
+  server: { proxy },
 })
