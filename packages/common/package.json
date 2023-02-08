@@ -2,9 +2,6 @@
   "name": "@frontend/common",
   "version": "0.1.0",
   "private": true,
-  "files": [
-    "dist"
-  ],
   "main": "./dist/common.umd.js",
   "module": "./dist/common.es.js",
   "types": "./dist/index.d.ts",
@@ -12,6 +9,10 @@
     ".": {
       "import": "./dist/common.es.js",
       "require": "./dist/common.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
     }
   },
   "scripts": {
@@ -35,7 +36,7 @@
     "faker": "5.5.3",
     "filtrex": "^2.2.0",
     "focus-trap-react": "^8.8.1",
-    "react-datepicker": "^4.3.0",
+    "react-datepicker": "^4.10.0",
     "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.6"
   },

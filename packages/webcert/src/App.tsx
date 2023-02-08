@@ -1,4 +1,5 @@
 import { SpinnerBackdrop } from '@frontend/common'
+import '@frontend/common/dist/style.css'
 import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import 'inera-core-css/src/themes/inera-master.scss'

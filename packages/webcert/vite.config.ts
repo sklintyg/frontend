@@ -18,4 +18,12 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
 export default defineConfig({
   plugins: [react()],
   server: { proxy },
+  optimizeDeps: {
+    include: ['@frontend/common'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@frontend\/common/, /node_modules/],
+    },
+  },
 })
