@@ -4,7 +4,6 @@ import { getActiveError } from '../../store/error/errorSelectors'
 import { Redirect } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import ConcurrentModification from './modals/ConcurrentModification'
-import InvalidState from './modals/InvalidState'
 import InvalidStateReplaced from './modals/InvalidStateReplaced'
 import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
 import PuProblem from './modals/PuProblem'
@@ -33,8 +32,6 @@ const ErrorComponent: React.FC = () => {
     switch (activeError.errorCode) {
       case ErrorCode.CONCURRENT_MODIFICATION:
         return <ConcurrentModification errorData={activeError} />
-      case ErrorCode.INVALID_STATE:
-        return <InvalidState errorData={activeError} />
       case ErrorCode.INVALID_STATE_REPLACED:
         return <InvalidStateReplaced errorData={activeError} />
       case ErrorCode.COMPLEMENT_INTYG_EXISTS:
