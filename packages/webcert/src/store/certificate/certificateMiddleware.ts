@@ -1,4 +1,4 @@
-import { CertificateSignStatus, CertificateStatus, getCertificateToSave, SigningMethod, getClientValidationErrors } from '@frontend/common'
+import { CertificateSignStatus, CertificateStatus, getCertificateToSave, getClientValidationErrors, SigningMethod } from '@frontend/common'
 import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
@@ -85,6 +85,7 @@ import {
   setCertificatePatientData,
   setCertificateUnitData,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showRelatedCertificate,
   showRelatedCertificateCompleted,
   showRelatedCertificateStarted,
@@ -109,6 +110,7 @@ import {
   updateCertificateVersion,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
+  updateModalData,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
@@ -117,8 +119,6 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
-  updateModalData,
-  setValidationErrorsForQuestion,
 } from './certificateActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 
@@ -414,12 +414,15 @@ const handleSignCertificateStatusSuccess: Middleware<Dispatch> = ({ dispatch, ge
 const handleSignCertificateStatusError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<AppDispatch, RootState>) => () => (
   action
 ): void => {
-  const error = action.payload.error
-  error.errorCode = ErrorCode.SIGN_CERTIFICATE_ERROR
-  error.type = ErrorType.MODAL
-
-  dispatch(throwError(action.payload.error))
   dispatch(hideSpinner())
+  dispatch(
+    throwError({
+      type: ErrorType.MODAL,
+      errorCode: ErrorCode.SIGN_CERTIFICATE_ERROR,
+      message: action.payload.error.message,
+      certificateId: action.payload.certificateId,
+    })
+  )
   dispatch(updateCertificateSignStatus(CertificateSignStatus.INITIAL))
 }
 

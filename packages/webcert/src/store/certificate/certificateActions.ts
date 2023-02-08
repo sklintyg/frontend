@@ -319,7 +319,7 @@ export const updateCertificateSignStatus = createAction<CertificateSignStatus>(U
 
 export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
 
-export const signCertificateStatusError = createAction(SIGN_CERTIFICATE_STATUS_ERROR)
+export const signCertificateStatusError = createAction<CertificateApiGenericError>(SIGN_CERTIFICATE_STATUS_ERROR)
 
 export interface RevokeCertificateReason {
   reason: string
