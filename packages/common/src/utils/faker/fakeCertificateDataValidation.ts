@@ -1,6 +1,5 @@
-import { CertificateDataValidation, CertificateDataValidationType } from '@frontend/common'
 import faker from 'faker'
-import { ValidationError } from '../../types/certificate'
+import { CertificateDataValidation, CertificateDataValidationType, ValidationError } from '../../types/certificate'
 import { PartialDeep } from 'type-fest'
 
 export const fakeCertificateDataValidation = (data?: PartialDeep<CertificateDataValidation>): CertificateDataValidation => {

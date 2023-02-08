@@ -1,7 +1,6 @@
-import { ConfigViewColumn, ValueText, ValueTextRow } from '@frontend/common'
 import React from 'react'
 import { TableHeader, TableRow, TableCell, TableBody, Table } from '../../Table'
-import { ValueViewTable, ConfigUeViewTable } from '../../..'
+import { ValueViewTable, ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow } from '../../..'
 
 export const UvTable: React.FC<{
   value: ValueViewTable

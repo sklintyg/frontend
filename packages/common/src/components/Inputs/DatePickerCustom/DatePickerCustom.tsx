@@ -1,4 +1,3 @@
-import { formatDateToString, getValidDate, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
@@ -9,7 +8,7 @@ import styled, { CSSProp } from 'styled-components'
 import calendar from '../../../images/calendar.svg'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
 import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
-import { _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
+import { formatDateToString, getValidDate, _format, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
 
 const Logo = styled.img`
   width: 20px;
@@ -19,7 +18,7 @@ const Logo = styled.img`
 registerLocale('sv', sv)
 setDefaultLocale('sv')
 
-export interface Props {
+interface Props {
   disabled?: boolean
   label?: string
   setDate: (date: string) => void

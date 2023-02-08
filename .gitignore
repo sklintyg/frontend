@@ -12,6 +12,10 @@ junit.xml
 # production
 build
 
+# development
+dist
+.turbo
+
 # misc
 .DS_Store
 .env.local

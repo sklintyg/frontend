@@ -1,9 +1,7 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
-  },
   "extends": "../../tsconfig.json",
-  "include": ["src"]
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "exclude": ["dist", "node_modules", "**/*test*", "**/*stories*"]
 }

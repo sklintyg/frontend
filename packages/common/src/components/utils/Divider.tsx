@@ -12,5 +12,3 @@ const Hr = styled.hr`
 export const Divider = () => {
   return <Hr />
 }
-
-export default Divider

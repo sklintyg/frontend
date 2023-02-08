@@ -1,5 +1,5 @@
-import { DynamicLinkData } from '@frontend/common'
 import faker from 'faker'
+import { DynamicLinkData } from '../../types/utils'
 
 export const fakeDynamicLink = (data?: Partial<DynamicLinkData>): DynamicLinkData => {
   return {

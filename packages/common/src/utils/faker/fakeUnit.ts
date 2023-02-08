@@ -1,5 +1,5 @@
-import { Unit } from '@frontend/common'
 import faker from 'faker'
+import { Unit } from '../../types/certificate'
 
 export const fakeUnit = (data?: Partial<Unit>): Unit => {
   return {
