@@ -1,5 +1,6 @@
 import {
   getResourceLink,
+  getValidationErrors,
   MandatoryIcon,
   Patient,
   QuestionValidationTexts,
@@ -7,7 +8,6 @@ import {
   ResourceLinkType,
   TextArea,
 } from '@frontend/common'
-import { getValidationErrors } from '@frontend/common/src/utils/validationUtils'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

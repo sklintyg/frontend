@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   CertificateListItemValueType,
   ListConfig,
@@ -7,15 +6,16 @@ import {
   ListFilterType,
   ListFilterValue,
   ListFilterValueNumber,
-} from '@frontend/common/src/types/list'
-import ListFilterComponent from './ListFilterComponent'
+} from '@frontend/common'
+import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ListFilterButtons from '../ListFilterButtons'
-import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
 import styled from 'styled-components/macro'
+import { performListSearch, updateActiveListFilterValue, updateDefaultListFilterValues } from '../../../store/list/listActions'
+import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
+import ListFilterButtons from '../ListFilterButtons'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 import { getTooltip } from '../listUtils'
-import { getActiveListFilterValue, getHasValidationErrors, getListTotalCount } from '../../../store/list/listSelectors'
+import ListFilterComponent from './ListFilterComponent'
 
 const Root = styled.div`
   padding-top: 24px;

@@ -1,10 +1,10 @@
+import { Checkbox, CustomButton, InfoBox, ModalBase } from '@frontend/common'
 import React, { ChangeEvent, useState } from 'react'
-import { Checkbox, CustomButton, InfoBox, ModalBase } from '@frontend/common/src'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserPreference } from '../../../store/user/userActions'
-import { isDoctor } from '../../../store/user/userSelectors'
 import { throwError } from '../../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../../store/error/errorReducer'
+import { setUserPreference } from '../../../store/user/userActions'
+import { isDoctor } from '../../../store/user/userSelectors'
 
 interface Props {
   showModal: boolean

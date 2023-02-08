@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "react-jsx"
   },
-  "exclude": ["dist", "node_modules", "**/*test*", "**/*stories*"]
+  "exclude": ["dist", "node_modules", "**/*test*.*", "**/*stories*"]
 }

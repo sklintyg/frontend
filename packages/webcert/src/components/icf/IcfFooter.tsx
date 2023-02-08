@@ -1,7 +1,6 @@
-import { ButtonWrapper, Footer } from './Styles'
-import { CustomButton } from '@frontend/common'
+import { CustomButton, ExternalLinkIcon } from '@frontend/common'
 import React from 'react'
-import ExternalLinkIcon from '@frontend/common/src/components/image/ExternalLinkIcon'
+import { ButtonWrapper, Footer } from './Styles'
 
 interface IcfFooterProps {
   handleToggleDropdownButtonClick: () => void

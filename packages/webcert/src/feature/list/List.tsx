@@ -1,14 +1,13 @@
+import { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListType, ResourceLink } from '@frontend/common'
 import * as React from 'react'
-import { CertificateListItem, ListConfig, ListFilter, ListFilterType, ListType } from '@frontend/common/src/types/list'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
 import { performListSearch, updateActiveListFilterValue, updateIsSortingList } from '../../store/list/listActions'
-import ListPagination from './pagination/ListPagination'
 import { getIsLoadingList, getIsSortingList } from '../../store/list/listSelectors'
 import ListFilterContainer from './filter/ListFilterContainer'
 import ListItemContent from './ListItemContent'
-import { ResourceLink } from '@frontend/common'
-import styled from 'styled-components/macro'
 import { ListTable } from './ListTable'
+import ListPagination from './pagination/ListPagination'
 
 const ContentWrapper = styled.div`
   width: 100%;

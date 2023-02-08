@@ -1,5 +1,4 @@
-import { CertificateSignStatus, CustomButton, LoginMethod, ModalBase, SigningMethod, Spinner } from '@frontend/common'
-import bankIDLogo from '@frontend/common/src/images/BankID_logo.svg'
+import { bankIdLogoImage, CertificateSignStatus, CustomButton, LoginMethod, ModalBase, SigningMethod, Spinner } from '@frontend/common'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -162,7 +161,7 @@ export const SignCertificateModal: React.FC = () => {
         <>
           {signingMethod === SigningMethod.BANK_ID && (
             <div className="iu-flex-center">
-              <BankIDLogo src={bankIDLogo} alt="BankID Logo" />
+              <BankIDLogo src={bankIdLogoImage} alt="BankID Logo" />
             </div>
           )}
 

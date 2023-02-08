@@ -1,13 +1,13 @@
 import {
   CertificateDataElement,
-  Dropdown,
+  ConfigUeDropdownItem,
   ConfigUeUncertainDate,
+  Dropdown,
   QuestionValidationTexts,
-  ValueUncertainDate,
   TextInput,
+  ValueUncertainDate,
 } from '@frontend/common'
-import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'

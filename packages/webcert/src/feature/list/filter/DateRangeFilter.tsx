@@ -1,20 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
-import { useDispatch, useSelector } from 'react-redux'
-import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import styled from 'styled-components/macro'
 import {
   DatePickerCustom,
+  getDateValidationError,
   isDateBehindLimit,
   isDateRangeValidOrIncomplete,
   isFutureDate,
+  ListFilterDateConfig,
+  ListFilterDateRangeConfig,
+  ListFilterValue,
+  ListFilterValueDateRange,
+  questionImage,
   ValidationError,
-  getDateValidationError,
 } from '@frontend/common'
-import { FilterWrapper } from './filterStyles'
-import questionImage from '@frontend/common/src/images/question.svg'
-import { updateValidationError } from '../../../store/list/listActions'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
 import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
+import { updateValidationError } from '../../../store/list/listActions'
+import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { FilterWrapper } from './filterStyles'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resultat.'

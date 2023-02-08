@@ -1,14 +1,13 @@
 import { isBefore, isValid } from 'date-fns'
 import {
+  CertificateDataConfigType,
   CertificateDataElement,
   CertificateDataValueType,
-  getPeriodHasOverlap,
-  getValidDate,
-  getValidDateFormat,
+  ConfigTypes,
   ValidationError,
   ValueType,
-} from '../..'
-import { CertificateDataConfigType, ConfigTypes } from '../../types/certificate'
+} from '../../types/certificate'
+import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUtils'
 import { getFieldValuePair } from './getFieldValuePair'
 
 const INVALID_DATE_FORMAT = {

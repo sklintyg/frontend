@@ -1,9 +1,8 @@
+import { ButtonWithConfirmModal, CertificateMetadata, CustomButton, isDraft, isLocked, printImage, sanitizeText } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { printCertificate } from '../../../store/certificate/certificateActions'
-import { CertificateMetadata, CustomButton, sanitizeText, ButtonWithConfirmModal, isDraft, isLocked } from '@frontend/common'
 import styled from 'styled-components'
-import print from '@frontend/common/src/images/print.svg'
+import { printCertificate } from '../../../store/certificate/certificateActions'
 
 interface Props {
   name: string
@@ -29,7 +28,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
         buttonStyle="primary"
         name={name}
         modalTitle={isDraft(certificateMetadata) || isLocked(certificateMetadata) ? 'Skriv ut utkast' : 'Skriv ut intyg'}
-        startIcon={<img src={print} alt="Skriva ut" />}
+        startIcon={<img src={printImage} alt="Skriva ut" />}
         onConfirm={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
         confirmButtonText={'Skriv ut'}
         buttonTestId="print-certificate-button">
@@ -42,7 +41,7 @@ const PrintCertificateButton: React.FC<Props> = ({ name, description, enabled, c
         buttonStyle="primary"
         data-testid="print-certificate-button"
         text={name}
-        startIcon={<img src={print} alt="Skriva ut" />}
+        startIcon={<img src={printImage} alt="Skriva ut" />}
         onClick={() => dispatch(printCertificate({ ...certificateMetadata, iframe }))}
       />
     )

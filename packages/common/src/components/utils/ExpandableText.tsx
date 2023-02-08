@@ -56,5 +56,3 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
     </>
   )
 }
-
-export default ExpandableText

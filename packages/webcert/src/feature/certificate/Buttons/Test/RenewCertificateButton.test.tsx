@@ -1,11 +1,9 @@
-import React from 'react'
+import { CertificateMetadata, CustomTooltip, Unit, User } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { CustomTooltip, Unit, User } from '@frontend/common/src'
-import { CertificateMetadata } from '@frontend/common'
+import RenewCertificateButton from '../RenewCertificateButton'
 
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'

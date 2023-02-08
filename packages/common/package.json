@@ -20,7 +20,8 @@
     "preview": "vite preview",
     "test": "jest",
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
-    "typescript": "tsc --noEmit"
+    "typescript": "tsc --noEmit",
+    "index-list": "ctix create -pw ./tsconfig.json"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "jest --bail --findRelatedTests"

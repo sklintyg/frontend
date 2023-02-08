@@ -1,4 +1,4 @@
-import { getFilter } from '@frontend/common/src/utils/getFilters'
+import { getFilter } from '@frontend/common'
 import styled from 'styled-components'
 
 export const Root = styled.div`

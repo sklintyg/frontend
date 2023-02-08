@@ -1,6 +1,5 @@
+import { LoginMethod, ResourceLink, User } from '@frontend/common'
 import React from 'react'
-import { ResourceLink, User } from '@frontend/common'
-import { LoginMethod } from '@frontend/common/src/types/user'
 import styled from 'styled-components'
 
 const StyledLink = styled.a`

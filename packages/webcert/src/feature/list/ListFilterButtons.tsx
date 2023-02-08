@@ -1,5 +1,5 @@
+import { CustomButton } from '@frontend/common'
 import * as React from 'react'
-import { CustomButton } from '@frontend/common/src/components'
 import styled from 'styled-components/macro'
 
 interface Props {

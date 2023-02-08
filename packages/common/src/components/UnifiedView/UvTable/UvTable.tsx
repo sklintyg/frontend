@@ -1,6 +1,6 @@
 import React from 'react'
-import { TableHeader, TableRow, TableCell, TableBody, Table } from '../../Table'
-import { ValueViewTable, ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow } from '../../..'
+import { ConfigUeViewTable, ConfigViewColumn, ValueText, ValueTextRow, ValueViewTable } from '../../../types'
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
 
 export const UvTable: React.FC<{
   value: ValueViewTable

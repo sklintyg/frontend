@@ -1,5 +1,11 @@
-import { CertificateSignStatus, CertificateStatus, getCertificateToSave, SigningMethod, getClientValidationErrors } from '@frontend/common'
-import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
+import {
+  CertificateSignStatus,
+  CertificateStatus,
+  decorateCertificateWithInitialValues,
+  getCertificateToSave,
+  getClientValidationErrors,
+  SigningMethod,
+} from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
 import _ from 'lodash'
@@ -86,6 +92,7 @@ import {
   setCertificateSigningErrorData,
   setCertificateUnitData,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showRelatedCertificate,
   showRelatedCertificateCompleted,
   showRelatedCertificateStarted,
@@ -110,6 +117,7 @@ import {
   updateCertificateVersion,
   updateCreatedCertificateId,
   updateGotoCertificateDataElement,
+  updateModalData,
   updateRoutedFromDeletedCertificate,
   updateValidationErrors,
   validateCertificate,
@@ -118,8 +126,6 @@ import {
   validateCertificateInFrontEnd,
   validateCertificateStarted,
   validateCertificateSuccess,
-  updateModalData,
-  setValidationErrorsForQuestion,
 } from './certificateActions'
 import { handleValidateCertificateInFrontEnd } from './validateCertificateInFrontend'
 

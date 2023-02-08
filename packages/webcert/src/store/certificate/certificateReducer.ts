@@ -1,4 +1,5 @@
 import {
+  autoFillElement,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -7,11 +8,12 @@ import {
   CertificateSignStatus,
   Complement,
   ConfigTypes,
+  isShowAlways,
   ModalData,
+  setDisableForChildElement,
   ValueBoolean,
   ValueText,
 } from '@frontend/common'
-import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   applyCertificateDataElementAutoFill,
@@ -31,6 +33,7 @@ import {
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -57,7 +60,6 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-  setValidationErrorsForQuestion,
 } from './certificateActions'
 
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'

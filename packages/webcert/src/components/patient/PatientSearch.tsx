@@ -1,7 +1,4 @@
-import { CustomButton } from '@frontend/common'
-import PersonIdInput from '@frontend/common/src/components/Inputs/PersonIdInput'
-import { isPersonIdValid } from '@frontend/common/src/utils/personIdValidatorUtils'
-import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
+import { CustomButton, isPersonIdValid, PersonIdInput, useKeyPress } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'

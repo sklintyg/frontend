@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-  Badge,
   ConfigUeMedicalInvestigation,
   ConfigUeMedicalInvestigationList,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
-} from '../../..'
-import { Table, TableHeader, TableRow, TableCell } from '../../Table'
+} from '../../../types'
+import { Table, TableCell, TableHeader, TableRow } from '../../Table'
+import { Badge } from '../Badge'
 
 const getMedicalValue = (value: ValueMedicalInvestigationList, medicalConfig: ConfigUeMedicalInvestigation) => {
   return value.list.find((item) => item.investigationType.id === medicalConfig.investigationTypeId)

@@ -1,8 +1,7 @@
-import React from 'react'
+import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
-import { ResourceLink, ResourceLinkType } from '@frontend/common/src'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
 
 const NAME = 'Name'

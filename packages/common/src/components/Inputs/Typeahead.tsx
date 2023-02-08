@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { Element, scroller } from 'react-scroll'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
@@ -99,13 +99,13 @@ const Typeahead: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
     setCursor(-1)
     setHovered(-1)
     onClose()
-  })
+  }, [])
 
   const onClick = useCallback((suggestion: Suggestion) => {
     if (!suggestion.disabled) {
       onSuggestionSelected(suggestion.label)
     }
-  })
+  }, [])
 
   useEffect(() => {
     setCursor(suggestions.length > 0 && open ? 0 : -1)

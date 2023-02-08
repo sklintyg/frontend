@@ -4,9 +4,9 @@ import {
   CertificateDataElement,
   CertificateDataValidation,
   CertificateDataValidationType,
+  validateExpressions,
   ValueType,
 } from '@frontend/common'
-import { validateExpressions } from '@frontend/common/src/utils/validationUtils'
 import { AnyAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'

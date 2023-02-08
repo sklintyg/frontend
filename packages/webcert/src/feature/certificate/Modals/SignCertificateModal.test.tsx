@@ -1,7 +1,5 @@
-import { LoginMethod, SigningMethod } from '@frontend/common'
-import { CertificateSignStatus } from '@frontend/common/src/types/certificate'
+import { CertificateSignStatus, LoginMethod, SigningMethod } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { ErrorCode } from '../../../store/error/errorReducer'

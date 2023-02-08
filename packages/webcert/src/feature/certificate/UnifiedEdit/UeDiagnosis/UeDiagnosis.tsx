@@ -5,11 +5,11 @@ import {
   Diagnosis,
   QuestionValidationTexts,
   TextValidation,
+  Typeahead,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '@frontend/common'
-import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
