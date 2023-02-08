@@ -6,10 +6,10 @@ import { getValidDate, ValueDateRange, formatDateToString } from '@frontend/comm
 import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
-import reducers from '../../../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -46,10 +46,7 @@ const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWo
 
 describe('Date range picker', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {

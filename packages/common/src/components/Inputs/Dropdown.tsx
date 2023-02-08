@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react'
 import classNames from 'classnames'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 
 const DropdownDiv = styled.div`
@@ -18,7 +18,7 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string
 }
 
-const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, disabled, title, label, ...props }, ref) => (
+const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, disabled, title, label, value, ...props }, ref) => (
   <>
     {label !== null ? <label htmlFor={id}>{label}</label> : null}
     <DropdownDiv
@@ -28,7 +28,7 @@ const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, di
         dropdown: !error,
         'ic-forms__select--disabled': disabled,
       })}>
-      <DropdownSelect ref={ref} id={id} disabled={disabled} {...props}>
+      <DropdownSelect ref={ref} id={id} disabled={disabled} value={value ?? ''} {...props}>
         {children}
       </DropdownSelect>
     </DropdownDiv>

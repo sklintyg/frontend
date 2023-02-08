@@ -1,9 +1,9 @@
 import { CertificateDataElement, ConfigUeDropdown, Dropdown, QuestionValidationTexts, ValueCode } from '@frontend/common'
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
   disabled?: boolean
@@ -14,23 +14,15 @@ const UeDropdown: React.FC<Props> = (props) => {
   const { question, disabled } = props
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeDropdown
-  const [selected, setSelected] = React.useState((question.value as ValueCode).code)
+  const [currentValue, setCurrentValue] = useState(question.value as ValueCode)
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
-  const getUpdatedValue = (question: CertificateDataElement, selected: string) => {
-    const updatedQuestion: CertificateDataElement = { ...question }
-    const updatedQuestionValue = { ...(updatedQuestion.value as ValueCode) }
-    updatedQuestionValue.id = selected
-    updatedQuestionValue.code = selected
-    updatedQuestion.value = updatedQuestionValue
-    return updatedQuestion
-  }
+  const dispatchValue = (value: ValueCode) => dispatch(updateCertificateDataElement({ ...question, value }))
 
-  useEffect(() => {
-    if (disabled === false && selected != null) {
-      dispatch(updateCertificateDataElement(getUpdatedValue(question, selected)))
-    }
-  }, [disabled, selected, question, dispatch])
+  const updateValue = (value: Partial<ValueCode>) => {
+    setCurrentValue({ ...currentValue, ...value })
+    dispatchValue({ ...currentValue, ...value })
+  }
 
   return (
     <>
@@ -38,8 +30,8 @@ const UeDropdown: React.FC<Props> = (props) => {
         id={question.id}
         label={config.label}
         disabled={disabled}
-        onChange={(event) => setSelected(event.currentTarget.value)}
-        value={selected}
+        onChange={(event) => updateValue({ id: event.currentTarget.value, code: event.currentTarget.value })}
+        value={currentValue.code}
         error={validationErrors.length > 0}>
         {config.list.map((item) => (
           <option key={item.id} value={item.id}>
@@ -51,4 +43,5 @@ const UeDropdown: React.FC<Props> = (props) => {
     </>
   )
 }
+
 export default UeDropdown

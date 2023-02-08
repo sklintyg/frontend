@@ -3,19 +3,16 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
 import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const WARNING = 'warning string'
 
 beforeEach(() => {
-  testStore = configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(fmbMiddleware),
-  })
+  testStore = configureApplicationStore([fmbMiddleware])
 })
 
 const renderComponent = () => {

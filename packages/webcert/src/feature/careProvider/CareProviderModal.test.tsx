@@ -1,28 +1,29 @@
-import React from 'react'
+import {
+  fakePatient,
+  getChangeUnitResourceLink,
+  getChooseUnitResourceLink,
+  getUser,
+  getUserStatistics,
+  getUserStatisticsForOneCareUnit,
+  getUserWithEmptyCareUnitWithoutUnits,
+  getUserWithEmptyUnit,
+} from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
-import {
-  getUserWithEmptyUnit,
-  getUserStatistics,
-  getUser,
-  getUserWithEmptyCareUnitWithoutUnits,
-  getUserStatisticsForOneCareUnit,
-  getChooseUnitResourceLink,
-  getChangeUnitResourceLink,
-} from '@frontend/common'
-import CareProviderModal from './CareProviderModal'
-import userEvent from '@testing-library/user-event'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
-import { apiMiddleware } from '../../store/api/apiMiddleware'
-import { userMiddleware } from '../../store/user/userMiddleware'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { createMemoryHistory } from 'history'
 import { START_URL_FOR_DOCTORS } from '../../constants'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { setPatient } from '../../store/patient/patientActions'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { updateIsCareProviderModalOpen, updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import CareProviderModal from './CareProviderModal'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -44,10 +45,7 @@ const renderComponent = () => {
 describe('Care provider modal', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
   })
 
   afterEach(() => clearDispatchedActions())
@@ -113,18 +111,21 @@ describe('Care provider modal', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     })
 
-    it('should close modal when unit is chosen', async () => {
+    it('should clear patient and close modal when unit is chosen', async () => {
       testStore.dispatch(updateUserResourceLinks(getChooseUnitResourceLink()))
-
+      testStore.dispatch(setPatient(fakePatient()))
       fakeAxios.onPost('/api/user/unit/1234a').reply(200, { user: getUser() })
 
       renderComponent()
+
+      expect(testStore.getState().ui.uiPatient.patient).not.toBeUndefined()
 
       userEvent.click(screen.getByText('Care unit'))
 
       await flushPromises()
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(testStore.getState().ui.uiPatient.patient).toBeUndefined()
     })
 
     it('should show care units when care provider modal is open', () => {

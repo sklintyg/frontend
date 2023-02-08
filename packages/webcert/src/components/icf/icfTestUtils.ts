@@ -1,5 +1,14 @@
-import { Icd10Code, IcfCode, IcfState } from '../../store/icf/icfReducer'
-import { Certificate, CertificateDataElement, CertificateDataValueType, ConfigTypes, ResourceLinkType } from '@frontend/common/src'
+import { IcfState } from '../../store/icf/icfReducer'
+import {
+  Certificate,
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigTypes,
+  fakeDiagnosesElement,
+  Icd10Code,
+  IcfCode,
+  ResourceLinkType,
+} from '@frontend/common/src'
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 export const getIcfData = (): IcfState => {
@@ -88,36 +97,26 @@ export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: str
   }
 }
 
-export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement => {
-  return {
+export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
+  fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
     index: 6,
-    visible: true,
-    mandatory: false,
-    readOnly: false,
-    config: fakeCertificateConfig.diagnoses({
+    config: {
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-      type: ConfigTypes.UE_DIAGNOSES,
-    }),
+    },
     value: {
-      type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: [
         {
           code: 'code',
-          desc: 'desc',
           terminology: codeSystem,
           id: '1',
-          type: CertificateDataValueType.DIAGNOSIS,
         },
       ],
     },
-    validation: [],
-    validationErrors: [],
-  }
-}
+  })['6.1']
 
 export const getCodeElement = (): CertificateDataElement => {
   return {

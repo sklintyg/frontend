@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter'
 import {
   Certificate,
-  CertificateDataConfig,
   CertificateDataElement,
   CertificateMetadata,
   Patient,
@@ -9,6 +8,8 @@ import {
   CertificateDataValueType,
   ValueDateRangeList,
   ValueDiagnosisList,
+  fakeDiagnosesElement,
+  fakeSickLeavePeriod,
 } from '@frontend/common'
 import {
   FMBDiagnoseRequest,
@@ -20,13 +21,13 @@ import {
   updateFMBPanelActive,
 } from './fmbActions'
 import axios from 'axios'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../reducers'
-import apiMiddleware from '../api/apiMiddleware'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
 import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -37,10 +38,7 @@ describe('Test FMB middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, fmbMiddleware),
-    })
+    testStore = configureApplicationStore([apiMiddleware, fmbMiddleware])
   })
 
   describe('Handle GetFMBDiagnosisCodeInfo', () => {
@@ -171,6 +169,22 @@ describe('Test FMB middleware', () => {
       expect(testStore.getState().ui.uiFMB.sickLeavePeriodWarning).toEqual(response.message)
     })
 
+    it('shall not fetch sick leave period warning if updated element is incomplete date range list', async () => {
+      const response = { message: 'warning message' }
+      fakeAxios.onPost('/api/fmb/validateSickLeavePeriod').reply(200, response)
+
+      testStore.dispatch(setDiagnosisListValue(getDiagnosisListValue()))
+      testStore.dispatch(
+        updateCertificateDataElement(
+          fakeSickLeavePeriod({ id: 'id', value: { list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '' }] } })['id']
+        )
+      )
+
+      await flushPromises()
+      expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
+      expect(fakeAxios.history.get.length).toBe(0)
+    })
+
     it('shall not fetch FMB recommendations if code system is different than icd10', async () => {
       testStore.dispatch(updateCertificateDataElement(getDiagnosisElementWithCodeSystem('unknown')))
 
@@ -293,8 +307,8 @@ const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   }
 }
 
-export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement => {
-  return {
+export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
+  fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
     index: 6,
@@ -307,37 +321,30 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
     }),
     value: {
-      type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: [
         {
           code: 'code',
-          desc: 'desc',
           terminology: codeSystem,
           id: '1',
-          type: CertificateDataValueType.DIAGNOSIS,
         },
       ],
     },
-    validation: [],
-    validationErrors: [],
-  }
-}
+  })['6.1']
 
-export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement => {
-  return {
+export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
+  fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
     index: 6,
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: fakeCertificateConfig.diagnoses({
+    config: {
       text: 'Beskriv de funktionsnedsättningar som har observerats (undersökningsfynd). Ange, om möjligt, varaktighet.',
       description:
         'Ange de nedsättningar som har framkommit vid undersökning eller utredning.\n\nTill exempel:\nMedvetenhet, uppmärksamhet, orienteringsförmåga\nSocial interaktion, agitation\nKognitiva störningar som t ex minnessvårigheter\nStörningar på sinnesorganen som t ex syn- och hörselnedsättning, balansrubbningar\nSmärta i rörelseorganen\nRörelseinskränkning, rörelseomfång, smidighet\nUthållighet, koordination\n\nMed varaktighet menas permanent eller övergående. Ange i så fall tidsangivelse vid övergående.',
-    }),
+    },
     value: {
-      type: CertificateDataValueType.DIAGNOSIS_LIST,
       list: codes.map((value, index) => ({
         id: String(index + 1),
         terminology: 'icd10',
@@ -345,46 +352,36 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
         description: value.icd10Description,
       })),
     },
-    validation: [],
-    validationErrors: [],
-  }
-}
+  })['6.1']
 
 export const getDateRangeListValue = (): ValueDateRangeList => {
-  const value: ValueDateRangeList = {
+  return {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
   }
-
-  return value
 }
 
 export const getDiagnosisListValue = (): ValueDiagnosisList => {
-  const value: ValueDiagnosisList = {
+  return {
     type: CertificateDataValueType.DIAGNOSIS_LIST,
     list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
   }
-
-  return value
 }
 
-export const getDateRangeListElement = (): CertificateDataElement => {
-  return {
+export const getDateRangeListElement = (): CertificateDataElement =>
+  fakeSickLeavePeriod({
     id: '6.1',
     parent: '6',
     index: 6,
     visible: true,
     mandatory: false,
     readOnly: false,
-    config: {} as CertificateDataConfig,
     value: {
-      type: CertificateDataValueType.DATE_RANGE_LIST,
       list: [{ id: 'EN_FJARDEDEL', to: '2022-12-12', from: '2020-12-12' }],
     },
     validation: [],
     validationErrors: [],
-  }
-}
+  })['6.1']
 
 export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
   return {

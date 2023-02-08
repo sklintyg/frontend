@@ -1,20 +1,24 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import { getDateRangeFilter } from './listTestUtils'
-import store from '../../../store/store'
-import { Provider } from 'react-redux'
-import DateRangeFilter from '../filter/DateRangeFilter'
-import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { ListFilterType } from '@frontend/common/src/types/list'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { addDays } from 'date-fns'
+import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateActiveListFilterValue } from '../../../store/list/listActions'
+import { listMiddleware } from '../../../store/list/listMiddleware'
+import DateRangeFilter from '../filter/DateRangeFilter'
+import { getDateRangeFilter } from './listTestUtils'
 
 const onChange = jest.fn()
 
 const config = getDateRangeFilter()
 
+let testStore: EnhancedStore
+
 const renderComponent = () => {
   render(
-    <Provider store={store}>
+    <Provider store={testStore}>
       <DateRangeFilter config={config} onChange={onChange} />
     </Provider>
   )
@@ -22,16 +26,23 @@ const renderComponent = () => {
 
 describe('DateRangeFilter', () => {
   beforeEach(() => {
-    store.dispatch(updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } }))
+    testStore = configureApplicationStore([listMiddleware])
+    testStore.dispatch(updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: '' } }))
   })
 
   describe('Validation', () => {
     it('should display future dates validation error', () => {
-      const date = new Date()
-      date.setDate(date.getDate() + 1)
-      const dateString = date.toISOString().slice(0, 10)
-      store.dispatch(
-        updateActiveListFilterValue({ id: config.id, filterValue: { type: ListFilterType.DATE_RANGE, to: '', from: dateString } })
+      testStore.dispatch(
+        updateActiveListFilterValue({
+          id: config.id,
+          filterValue: {
+            type: ListFilterType.DATE_RANGE,
+            to: '',
+            from: addDays(new Date(), 2)
+              .toISOString()
+              .slice(0, 10),
+          },
+        })
       )
 
       renderComponent()
@@ -40,7 +51,7 @@ describe('DateRangeFilter', () => {
     })
 
     it('should display invalid date period validation error', () => {
-      store.dispatch(
+      testStore.dispatch(
         updateActiveListFilterValue({
           id: config.id,
           filterValue: { type: ListFilterType.DATE_RANGE, to: '2020-01-01', from: '2020-01-05' },

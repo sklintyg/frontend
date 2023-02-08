@@ -1,4 +1,4 @@
-import { isEqual } from 'date-fns'
+import { addDays } from 'date-fns'
 import {
   CertificateDataValueType,
   ConfigUeCheckboxDateRange,
@@ -119,7 +119,7 @@ describe('Date utils tests', () => {
     const expectedDate = getValidDate(toDate)
 
     expect(date).toBeTruthy()
-    expect(isEqual(date!, expectedDate!)).toBeTruthy()
+    expect(date).toEqual(expectedDate)
   })
 
   it('gets correct period end date with multiple prior periods', () => {
@@ -142,7 +142,7 @@ describe('Date utils tests', () => {
     const expectedDate = getValidDate(secondPeriod.to)
 
     expect(date).toBeTruthy()
-    expect(isEqual(date!, expectedDate!)).toBeTruthy()
+    expect(date).toEqual(expectedDate)
   })
 })
 
@@ -231,21 +231,21 @@ it('Calculates uneven number sick leave correctly', () => {
 })
 
 it('Calculates 1 week of sick days correctly', () => {
-  const fromDate = getValidDate('2021-06-20')
-  const toDate = getValidDate('2021-06-26')
+  const fromDate = new Date('2021-06-20')
+  const toDate = new Date('2021-06-26')
 
   const expected = 7
-  const actual = getPeriodWorkDays(fromDate!, toDate!)
+  const actual = getPeriodWorkDays(fromDate, toDate)
 
   expect(actual).toBe(expected)
 })
 
 it('Calculates 1 sick day correctly', () => {
-  const fromDate = getValidDate('2021-06-20')
-  const toDate = getValidDate('2021-06-20')
+  const fromDate = new Date('2021-06-20')
+  const toDate = new Date('2021-06-20')
 
   const expected = 1
-  const actual = getPeriodWorkDays(fromDate!, toDate!)
+  const actual = getPeriodWorkDays(fromDate, toDate)
 
   expect(actual).toBe(expected)
 })
@@ -281,13 +281,13 @@ it('Filters date range value list correctly', () => {
       type: CertificateDataValueType.DATE_RANGE,
     },
     {
-      from: null!,
+      from: undefined,
       to: '2021-05-20',
       id: '',
       type: CertificateDataValueType.DATE_RANGE,
     },
     {
-      from: undefined!,
+      from: undefined,
       to: '',
       id: '',
       type: CertificateDataValueType.DATE_RANGE,
@@ -359,10 +359,9 @@ describe('isFutureDate', () => {
   })
 
   it('should return true if date is in future', () => {
-    const date = new Date()
-    date.setDate(date.getDate() + 1)
-    const dateString = date.toISOString().slice(0, 10)
-
+    const dateString = addDays(new Date(), 2)
+      .toISOString()
+      .slice(0, 10)
     const actual = isFutureDate(dateString)
 
     expect(actual).toBeTruthy()

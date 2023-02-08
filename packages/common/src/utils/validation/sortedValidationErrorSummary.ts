@@ -7,7 +7,7 @@ export interface ValidationErrorSummary {
   index: number
 }
 
-const getCategoryValidationErrors = (data: CertificateData, clientValidationErrors: ValidationError[]): ValidationErrorSummary[] => {
+const getCategoryValidationErrors = (data: CertificateData): ValidationErrorSummary[] => {
   const getCategory = (element: CertificateDataElement): CertificateDataElement | undefined => {
     while (element != null) {
       if (element.config.type === ConfigTypes.CATEGORY) {
@@ -19,9 +19,7 @@ const getCategoryValidationErrors = (data: CertificateData, clientValidationErro
   }
 
   return Object.values(data)
-    .filter(
-      ({ id, validationErrors }) => (validationErrors && validationErrors.length > 0) || clientValidationErrors.some((v) => v.id === id)
-    )
+    .filter(({ validationErrors }) => validationErrors && validationErrors.length > 0)
     .reduce<ValidationErrorSummary[]>((result, element) => {
       const category = getCategory(element)
       if (category && !result.find(({ id }) => id === category.id)) {
@@ -58,13 +56,10 @@ function getPatientValidationErrors(patientValidationErrors?: ValidationError[])
   return []
 }
 
-export const sortedValidationErrorSummary = (
-  certificate: Certificate,
-  clientValidationErrors: ValidationError[]
-): ValidationErrorSummary[] => {
+export const sortedValidationErrorSummary = (certificate: Certificate): ValidationErrorSummary[] => {
   return [
     ...getPatientValidationErrors(certificate.metadata.patientValidationErrors),
-    ...getCategoryValidationErrors(certificate.data, clientValidationErrors),
+    ...getCategoryValidationErrors(certificate.data),
     ...getCareUnitValidationErrors(certificate.metadata.careUnitValidationErrors),
   ]
 }

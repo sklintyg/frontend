@@ -58,7 +58,7 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
     return defaultSortOrder
   }
 
-  const updateSortingOfList = (event: React.MouseEvent<HTMLTableHeaderCellElement>) => {
+  const updateSortingOfList = (event: React.MouseEvent<HTMLTableCellElement>) => {
     if (event.currentTarget.innerHTML) {
       dispatch(
         updateActiveListFilterValue({

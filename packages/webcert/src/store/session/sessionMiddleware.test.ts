@@ -1,7 +1,6 @@
 import MockAdapter from 'axios-mock-adapter'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import reducer from '../reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import apiMiddleware from '../api/apiMiddleware'
 import { sessionMiddleware } from './sessionMiddleware'
@@ -19,6 +18,7 @@ import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutS
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'
+import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -29,10 +29,7 @@ describe('Test session middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, sessionMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, sessionMiddleware])
   })
 
   afterEach(() => {

@@ -1,5 +1,5 @@
 import { CertificateDataElement, ConfigUeVisualAcuity, fakeCertificate, fakeVisualAcuityElement } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,7 +7,7 @@ import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import reducers from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeVisualAcuity from './UeVisualAcuity'
 
 const QUESTION_ID = 'visualAcuity'
@@ -28,10 +28,7 @@ const renderComponent = (props: ComponentProps<typeof UeVisualAcuity>) => {
 
 describe('Visual Acuity component', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
 
     testStore.dispatch(
       updateCertificate(

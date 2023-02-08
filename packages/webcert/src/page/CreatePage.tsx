@@ -1,5 +1,7 @@
+import listImage from '@frontend/common/src/images/list.svg'
+import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import { ListFilterType, ListType } from '@frontend/common/src/types/list'
-import React, { useCallback, useEffect } from 'react'
+import React, { ComponentProps, useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
@@ -7,18 +9,15 @@ import CertificateList from '../components/certificateList/CertificateList'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import PatientInfoHeader from '../components/patient/PatientInfoHeader'
-import PatientSearch from '../components/patient/PatientSearch'
+import ListContainer from '../feature/list/ListContainer'
+import { isFilterDefault } from '../feature/list/listUtils'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
-import { getActiveListFilterValue, getActiveListConfig, getActiveListFilter, getListTotalCount } from '../store/list/listSelectors'
-import { getPatient, clearPatient } from '../store/patient/patientActions'
+import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
+import { clearPatient, getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
-import { withResourceAccess } from '../utils/withResourceAccess'
-import { isFilterDefault } from '../feature/list/listUtils'
-import ListContainer from '../feature/list/ListContainer'
-import listImage from '@frontend/common/src/images/list.svg'
-import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
 interface Params {
   patientId: string
@@ -27,7 +26,7 @@ interface Params {
 /**
  * Certificate page for a specific patient.
  */
-const SearchAndCreatePage: React.FC = () => {
+const CreatePage: React.FC = () => {
   const { patientId } = useParams<Params>()
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig, shallowEqual)
@@ -92,7 +91,7 @@ const SearchAndCreatePage: React.FC = () => {
     <>
       {user && (
         <CommonLayout header={<WebcertHeader />} subHeader={patient && <PatientInfoHeader patient={patient} />}>
-          {isPatientLoaded() && patient ? (
+          {isPatientLoaded() && patient && (
             <>
               <CertificateList />
               <div className="iu-mt-800">
@@ -104,12 +103,14 @@ const SearchAndCreatePage: React.FC = () => {
                 />
               </div>
             </>
-          ) : (
-            <PatientSearch />
           )}
         </CommonLayout>
       )}
     </>
   )
 }
-export const SearchAndCreatePageWithRedirect = withResourceAccess(SearchAndCreatePage)
+export const CreatePageWithRedirect: React.FC<ComponentProps<typeof CreatePage>> = (props) => (
+  <ResourceAccess>
+    <CreatePage {...props} />
+  </ResourceAccess>
+)

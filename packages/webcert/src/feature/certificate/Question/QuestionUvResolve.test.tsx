@@ -4,8 +4,10 @@ import {
   CertificateDataValueType,
   ConfigLayout,
   ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeMessage,
@@ -15,28 +17,31 @@ import {
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeYear,
+  fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
-  Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
   ValueYear,
-  ConfigUeCheckboxBoolean,
+  ValueType,
+  ValueInteger,
+  ConfigUeInteger,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -51,10 +56,7 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 
 describe('QuestionUvResolve', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {
@@ -159,6 +161,13 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('Ej angivet')).toBeInTheDocument()
   })
 
+  it('displays date range value', () => {
+    const question = createQuestionWithDateRange()
+    renderDefaultComponent(question)
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
+  })
+
   it('displays several date range values', () => {
     const question = createQuestionWithMultipleDateRanges()
     renderDefaultComponent(question)
@@ -213,6 +222,12 @@ describe('QuestionUvResolve', () => {
     renderDefaultComponent(question)
     expect(screen.getByText(/2020/i)).toBeInTheDocument()
   })
+
+  it('Displays the correct value and unit of measurement', () => {
+    const question = createQuestionWithIntegerValue()
+    renderDefaultComponent(question)
+    expect(screen.getByText('50%')).toBeInTheDocument()
+  })
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
@@ -220,7 +235,6 @@ export function createQuestionWithTextValue(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeTextArea = {
@@ -411,6 +425,22 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
+export const createQuestionWithDateRange = (): CertificateDataElement => {
+  const question = fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  })['id']
+
+  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
+}
+
 export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
   const value: ValueDateRangeList = {
     type: CertificateDataValueType.DATE_RANGE_LIST,
@@ -523,7 +553,6 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeMessage = {
@@ -533,6 +562,23 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
     level: MessageLevel.OBSERVE,
     message: 'Hello from UE_MESSAGE',
     id: '1.1',
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithIntegerValue(): CertificateDataElement {
+  const value: ValueInteger = {
+    type: CertificateDataValueType.INTEGER,
+    id: '',
+    value: 50,
+  }
+  const config: ConfigUeInteger = {
+    type: ConfigTypes.UE_INTEGER,
+    id: '',
+    unitOfMeasurement: '%',
+    text: '',
+    description: '',
   }
 
   return createQuestion(value, config)
@@ -554,7 +600,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
+export function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

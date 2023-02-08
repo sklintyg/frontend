@@ -1,14 +1,14 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
-import reducer from '../../../store/reducers'
 import WarningNormalOriginModal from './WarningNormalOriginModal'
 import { getResourceLinkWithType, getUser, ResourceLinkType } from '@frontend/common'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import userEvent from '@testing-library/user-event'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const INFO_BOX = 'Du har loggat in i fristående Webcert istället för direkt via ditt journalsystem'
@@ -23,10 +23,7 @@ const renderComponent = () => {
 
 describe('WarningNormalOriginModal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(utilsMiddleware),
-    })
+    testStore = configureApplicationStore([utilsMiddleware])
   })
 
   it('should not render modal if resource link is not set', () => {

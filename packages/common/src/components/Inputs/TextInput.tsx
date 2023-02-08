@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled from 'styled-components'
 
 interface Props {
   expanded?: boolean
@@ -21,6 +22,12 @@ interface Props {
   className?: string
   testId?: string
 }
+
+const Input = styled.input`
+  &:focus-within {
+    box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
+  }
+`
 
 const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const {
@@ -45,7 +52,7 @@ const TextInput: React.FC<Props & { ref?: React.Ref<HTMLInputElement> }> = React
   return (
     <>
       {label ? <label htmlFor={id}>{label}</label> : ''}
-      <input
+      <Input
         ref={ref}
         aria-expanded={expanded}
         css={additionalStyles}

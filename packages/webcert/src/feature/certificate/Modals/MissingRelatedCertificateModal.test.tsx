@@ -1,10 +1,9 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import reducer from '../../../store/reducers'
 import { createPatient } from '../../../components/patient/patientTestUtils'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
@@ -12,6 +11,7 @@ import userEvent from '@testing-library/user-event'
 import { createNewCertificate } from '../../../store/certificate/certificateActions'
 import { MissingRelatedCertificateModal } from './MissingRelatedCertificateModal'
 import { fakeResourceLink, ResourceLinkType } from '@frontend/common'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -45,10 +45,7 @@ const renderComponent = (isOpen: boolean) => {
 
 describe('MissingRelatedCertificateModal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {

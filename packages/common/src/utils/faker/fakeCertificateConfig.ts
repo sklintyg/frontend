@@ -1,24 +1,29 @@
+import faker from 'faker'
+import { merge } from 'lodash'
+import { PartialDeep } from 'type-fest'
 import {
   CertificateDataConfigType,
   ConfigCategory,
+  ConfigEyeAcuity,
+  ConfigLayout,
   ConfigTypes,
   ConfigUeCauseOfDeath,
-  ConfigUeCodeItem,
   ConfigUeCauseOfDeathList,
   ConfigUeCheckboxBoolean,
   ConfigUeCheckboxDate,
   ConfigUeCheckboxDateRange,
   ConfigUeCheckboxMultipleCodes,
-  ConfigLayout,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeCodeItem,
   ConfigUeDate,
+  ConfigUeDateRange,
   ConfigUeDiagnoses,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
   ConfigUeMessage,
-  MessageLevel,
   ConfigUeRadioBoolean,
   ConfigUeRadioCode,
   ConfigUeRadioMultipleCodes,
@@ -32,19 +37,30 @@ import {
   ConfigUeViewTable,
   ConfigUeViewText,
   ConfigUeVisualAcuity,
-  ConfigEyeAcuity,
   ConfigUeYear,
+  MessageLevel,
+  ConfigAccordion,
 } from '../../types/certificate'
-import { PartialDeep } from 'type-fest'
-import faker from 'faker'
-import { merge } from 'lodash'
+
+export const fakeConfigAccordion = (data?: Partial<ConfigAccordion>): ConfigAccordion => ({
+  openText: faker.lorem.words(),
+  closeText: faker.lorem.words(),
+  header: faker.lorem.words(),
+  ...data,
+})
 
 type FakeElementConfigCallback<T> = (config?: PartialDeep<T>) => T
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 const fakeDataElementConfig = <T extends CertificateDataConfigType>(
   callback: FakeElementConfigCallback<Optional<T, 'text' | 'description'>>
-) => (override?: PartialDeep<T>): T => merge(callback(override), { text: 'test', description: 'description', ...override }) as T
+) => (override?: PartialDeep<T>): T =>
+  merge(callback(override), {
+    text: 'test',
+    description: 'description',
+    accordion: fakeConfigAccordion(override?.accordion),
+    ...override,
+  }) as T
 
 const fakeCategory = fakeDataElementConfig<ConfigCategory>(() => ({
   type: ConfigTypes.CATEGORY,
@@ -115,6 +131,13 @@ const fakeCheckboxMultipleDate = fakeDataElementConfig<ConfigUeCheckboxMultipleD
 const fakeDate = fakeDataElementConfig<ConfigUeDate>(() => ({
   type: ConfigTypes.UE_DATE,
   id: faker.random.alpha({ count: 5 }),
+}))
+
+const fakeDateRange = fakeDataElementConfig<ConfigUeDateRange>(() => ({
+  type: ConfigTypes.UE_DATE_RANGE,
+  id: faker.random.alpha({ count: 5 }),
+  fromLabel: 'Fr.o.m',
+  toLabel: 't.o.m',
 }))
 
 const fakeDiagnoses = fakeDataElementConfig<ConfigUeDiagnoses>((override) => ({
@@ -285,6 +308,13 @@ const fakeYear = fakeDataElementConfig<ConfigUeYear>(() => ({
   maxYear: undefined,
 }))
 
+const fakeInteger = fakeDataElementConfig<ConfigUeInteger>(() => ({
+  type: ConfigTypes.UE_INTEGER,
+  id: faker.random.alpha({ count: 5 }),
+  min: undefined,
+  max: undefined,
+}))
+
 export const fakeCertificateConfig = {
   category: fakeCategory,
   causeOfDeath: fakeCauseOfDeath,
@@ -295,6 +325,7 @@ export const fakeCertificateConfig = {
   checkboxMultipleCodes: fakeCheckboxMultipleCodes,
   checkboxMultipleDate: fakeCheckboxMultipleDate,
   date: fakeDate,
+  dateRange: fakeDateRange,
   diagnoses: fakeDiagnoses,
   dropdown: fakeDropdown,
   header: fakeHeader,
@@ -315,4 +346,5 @@ export const fakeCertificateConfig = {
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
   year: fakeYear,
+  integer: fakeInteger,
 }
