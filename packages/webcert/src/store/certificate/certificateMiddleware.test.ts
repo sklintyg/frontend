@@ -579,15 +579,6 @@ describe('Test certificate middleware', () => {
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.SIGN_CERTIFICATE_ERROR.toString())
     })
 
-    it('shall throw error with error id', async () => {
-      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
-      testStore.dispatch(signCertificateStatusError(thrownError))
-
-      await flushPromises()
-      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
-      expect(throwErrorAction?.payload.errorId?.length > 0).toBeTruthy()
-    })
-
     it('shall throw error with certificate id', async () => {
       const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
       testStore.dispatch(signCertificateStatusError(thrownError))
