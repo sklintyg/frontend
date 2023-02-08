@@ -16,14 +16,10 @@
     ]
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "start": "lerna run start --stream",
+    "start": "turbo dev",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx -f checkstyle > lint-result.xml",
     "merge-reports": "jrm combined.xml \"results/*.xml\"",
     "prepare": "husky install",
-    "startwc": "yarn workspace @frontend/webcert start",
-    "testwc": "yarn workspace @frontend/webcert test",
-    "testcm": "yarn workspace @frontend/common test",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
