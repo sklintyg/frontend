@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from 'react'
 import { CertificateStatus, ImageCentered, InfoBox, Question, Spinner } from '@frontend/common'
-import QuestionItem from './QuestionItem'
 import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import React, { useCallback, useState } from 'react'
+import QuestionItem from './QuestionItem'
 
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
+import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const Root = styled.div`
   height: 100%;
@@ -26,6 +26,10 @@ const Wrapper = styled.div<StyledProps>`
 
   > *:not(:last-child) {
     border-bottom: 10px solid #f7f4f2;
+  }
+
+  > *:last-child {
+    padding-bottom: 50px;
   }
 `
 
