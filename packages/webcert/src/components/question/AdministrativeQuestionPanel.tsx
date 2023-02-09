@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react'
 import { ImageCentered, Question, Spinner } from '@frontend/common'
+import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import React, { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
-import styled from 'styled-components'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
-import { useSelector } from 'react-redux'
-import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 
 const Root = styled.div`
   overflow-y: auto;
@@ -21,6 +21,10 @@ interface StyledProps {
 const Wrapper = styled.div<StyledProps>`
   height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   overflow-y: auto;
+
+  > *:last-child {
+    padding-bottom: 50px;
+  }
 `
 
 interface Props {

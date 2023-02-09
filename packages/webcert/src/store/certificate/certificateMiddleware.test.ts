@@ -46,6 +46,7 @@ import {
   readyForSign,
   readyForSignSuccess,
   showRelatedCertificate,
+  signCertificateStatusError,
   SigningData,
   startSignCertificate,
   updateCertificate,
@@ -556,6 +557,35 @@ describe('Test certificate middleware', () => {
       )
 
       expect(testStore.getState().ui.uiCertificate.certificate).toBeUndefined()
+    })
+  })
+
+  describe('Should handle sign certificate error', () => {
+    it('shall throw error with type modal', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
+    })
+
+    it('shall throw error with code SIGN_CERTIFICATE_ERROR', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.SIGN_CERTIFICATE_ERROR.toString())
+    })
+
+    it('shall throw error with certificate id', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.certificateId).toEqual(thrownError.certificateId)
     })
   })
 
