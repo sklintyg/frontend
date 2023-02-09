@@ -51,16 +51,12 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
   }
 
   const handleInformationSourceChange = (text: string) => {
-    const informationSource = { ...value.informationSource }
-
-    informationSource.text = text || null
-
     onChange({
       ...value,
       informationSource: {
         ...value.informationSource,
         id: config.informationSourceId,
-        text: informationSource.text,
+        text: text || null,
       },
     })
   }

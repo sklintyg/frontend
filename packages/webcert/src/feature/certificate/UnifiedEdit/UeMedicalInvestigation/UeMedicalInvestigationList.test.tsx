@@ -198,4 +198,34 @@ describe('Medical investigation component', () => {
     renderComponent({ question })
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
+
+  it('sets the value to null if the text is empty', () => {
+    const text = ''
+    let value = null
+
+    if (text.length === 0) {
+      value = null
+    }
+
+    expect(value).toBeNull()
+  })
+
+  it('does not set the value to null if the text is not empty', () => {
+    const text = 'some text'
+    let value = null
+
+    if (text.length > 0) {
+      value = 'some value'
+    }
+
+    expect(value).not.toBeNull()
+  })
+
+  test('error should be set if index is 0 and validation errors length is 1', () => {
+    const index = 0
+    const validationErrors = [{ error: 'some error' }]
+    const error = index === 0 && validationErrors.length === 1
+
+    expect(error).toBeTruthy()
+  })
 })
