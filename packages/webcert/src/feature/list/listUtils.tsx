@@ -12,7 +12,7 @@ import {
   ListFilterValue,
   ListFilterValueDateRange,
   ListFilterValues,
-} from '@frontend/common/src/types/list'
+} from '@frontend/common'
 import { isEqual } from 'lodash'
 
 export const getListFilterDefaultValue = (filter: ListFilterConfig): ListFilterValue => {

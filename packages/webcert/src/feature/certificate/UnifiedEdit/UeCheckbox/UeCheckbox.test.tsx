@@ -1,9 +1,7 @@
-import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
-import { CertificateDataElement } from '@frontend/common/src/types/certificate'
+import { CertificateDataElement, fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeCheckbox from './UeCheckbox'
 

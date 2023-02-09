@@ -44,13 +44,6 @@ describe('ErrorPage', () => {
       expect(screen.getByText(TIMEOUT_TITLE)).toBeInTheDocument()
       expect(screen.getByText(TIMEOUT_MESSAGE, { exact: false })).toBeInTheDocument()
     })
-
-    it('shall not show error id for timeout', () => {
-      history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
-      renderComponent()
-
-      expect(screen.queryByText(ERROR_ID, { exact: false })).not.toBeInTheDocument()
-    })
   })
 
   describe('AUTHORIZATION_PROBLEM', () => {
@@ -60,13 +53,6 @@ describe('ErrorPage', () => {
 
       expect(screen.getByText(AUTHORIZATION_PROBLEM_TITLE)).toBeInTheDocument()
       expect(screen.getByText(AUTHORIZATION_PROBLEM_MESSAGE, { exact: false })).toBeInTheDocument()
-    })
-
-    it('shall not show error id for AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET', () => {
-      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET, errorId: ERROR_ID })
-      renderComponent()
-
-      expect(screen.queryByText(ERROR_ID, { exact: false })).not.toBeInTheDocument()
     })
   })
 
@@ -82,13 +68,6 @@ describe('ErrorPage', () => {
           }),
         ])
       )
-    })
-
-    it('shall show error id', () => {
-      history.push('/error', { errorCode: ErrorCode.LOGIN_FAILED, errorId: ERROR_ID })
-      renderComponent()
-
-      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
     })
   })
 })

@@ -1,6 +1,6 @@
+import { listImage } from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import list from '@frontend/common/src/images/list.svg'
 
 const StyledIcon = styled.img`
   display: inline;
@@ -48,7 +48,7 @@ const ErrorCopyText: React.FC<Props> = ({ errorId }) => {
       <p>
         Ange fel-ID för snabbare hantering:
         <br />
-        {errorId} <StyledIcon src={list} alt="Kopiera text" onClick={handleCopyClick} />
+        {errorId} <StyledIcon src={listImage} alt="Kopiera text" onClick={handleCopyClick} />
       </p>
       {displayCopyMessage && <SuccessMessage>Fel-id kopierat till urklipp.</SuccessMessage>}
     </Root>

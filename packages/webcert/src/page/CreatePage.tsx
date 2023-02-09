@@ -1,6 +1,4 @@
-import listImage from '@frontend/common/src/images/list.svg'
-import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
-import { ListFilterType, ListType } from '@frontend/common/src/types/list'
+import { ListFilterType, listImage, ListType, noDraftsImage } from '@frontend/common'
 import React, { ComponentProps, useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'

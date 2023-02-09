@@ -1,4 +1,4 @@
-import { CertificateType, PatientStatus } from '@frontend/common/src/types/patient'
+import { CertificateType, PatientStatus } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

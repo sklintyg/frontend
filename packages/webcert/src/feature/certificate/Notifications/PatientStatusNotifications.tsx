@@ -1,5 +1,10 @@
+import { PersonId } from '@frontend/common'
 import * as React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import PatientDeceasedStatus from '../../../components/notification/PatientDeceasedStatus'
+import PatientTestIndicatedStatus from '../../../components/notification/PatientTestIndicatedStatus'
+import ProtectedPatientStatus from '../../../components/notification/ProtectedPatientStatus'
 import {
   getIsPatientDeceased,
   getIsPatientIdChanged,
@@ -10,13 +15,8 @@ import {
   getPatient,
   getPreviousPatientId,
 } from '../../../store/certificate/certificateSelectors'
-import styled from 'styled-components'
 import PatientStatusNotification from './PatientStatusNotification'
 import PatientStatusNotificationWithModal from './PatientStatusNotificationWithModal'
-import { PersonId } from '@frontend/common/src'
-import PatientDeceasedStatus from '../../../components/notification/PatientDeceasedStatus'
-import ProtectedPatientStatus from '../../../components/notification/ProtectedPatientStatus'
-import PatientTestIndicatedStatus from '../../../components/notification/PatientTestIndicatedStatus'
 
 const Wrapper = styled.div`
   display: flex;

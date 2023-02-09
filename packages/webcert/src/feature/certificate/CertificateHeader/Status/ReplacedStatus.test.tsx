@@ -1,12 +1,11 @@
-import React from 'react'
+import { CertificateRelationType, CertificateStatus } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
+import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata, createCertificateMetadataWithChildRelation } from './statusTestUtils'
-import { CertificateRelationType, CertificateStatus } from '@frontend/common/src'
 
 const renderComponent = (childStatus?: CertificateStatus) => {
   render(

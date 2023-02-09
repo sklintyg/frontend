@@ -1,4 +1,4 @@
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
+import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'

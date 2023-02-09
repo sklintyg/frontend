@@ -1,11 +1,9 @@
+import { Dropdown, ListFilterSelectConfig, ListFilterType, ListFilterValue, ListFilterValueSelect, sanitizeText } from '@frontend/common'
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import { ListFilterSelectConfig, ListFilterType, ListFilterValue, ListFilterValueSelect } from '@frontend/common/src/types/list'
 import { useSelector } from 'react-redux'
-import { Dropdown } from '@frontend/common/src/components'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'
-import { sanitizeText } from '@frontend/common'
 
 interface Props {
   /** Contains all filter options that should be displayed. */
@@ -41,9 +39,9 @@ const SelectFilter: React.FC<Props> = ({ config, onChange, isHighlighted }) => {
         label={config.title}
         id={config.id}
         value={value ? (value as ListFilterValueSelect).value : ''}>
-        {config.values.map((configValue) => (
+        {config.values.map((configValue, index) => (
           <option
-            key={configValue.id}
+            key={index}
             id={configValue.id}
             value={configValue.id}
             defaultValue={configValue.defaultValue ? configValue.id : ''}

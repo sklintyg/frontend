@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react'
-import styled from 'styled-components/macro'
 import { TextInput } from '@frontend/common'
+import React, { ChangeEvent } from 'react'
+import styled from 'styled-components'
 
 const StyledTextInput = styled(TextInput)`
   width: 40px;

@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components/macro'
-import IcfRow from './IcfRow'
-import ReactTooltip from 'react-tooltip'
-import { useSelector } from 'react-redux'
-import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
+import { Icd10Code, IcfCode, InfoCircle } from '@frontend/common'
 import _ from 'lodash'
-import InfoCircle from '@frontend/common/src/images/InfoCircle'
-import { Icd10Code, IcfCode } from '@frontend/common'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
+import { getOriginalIcd10Codes } from '../../store/icf/icfSelectors'
+import IcfRow from './IcfRow'
 
 const IcdWrapper = styled.div`
   strong {

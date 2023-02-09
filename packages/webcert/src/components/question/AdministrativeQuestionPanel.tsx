@@ -1,12 +1,11 @@
+import { ImageCentered, noQuestionImage, Question, Spinner } from '@frontend/common'
 import React, { useCallback, useState } from 'react'
-import { ImageCentered, Question, Spinner } from '@frontend/common'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 import QuestionForm from './QuestionForm'
 import QuestionItem from './QuestionItem'
-import styled from 'styled-components'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
-import { useSelector } from 'react-redux'
-import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 
 const Root = styled.div`
   overflow-y: auto;
@@ -46,7 +45,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
   const getNoQuestionsMessage = () => {
     return (
       <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
           <p>Det finns inga administrativa frågor för detta intyg.</p>
         </ImageCentered>
       </div>

@@ -1,8 +1,8 @@
-import protectedPersonIcon from '@frontend/common/src/images/lock-closed.svg'
-import deceasedIcon from '@frontend/common/src/images/warning.svg'
-import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
+import protectedPersonIcon from '../../images/lock-closed.svg'
+import deceasedIcon from '../../images/warning.svg'
 import React from 'react'
 import styled from 'styled-components'
+import { getFilter } from '../../utils/getFilters'
 
 interface StyledIcon {
   activateIconWrap: boolean
@@ -29,7 +29,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   border-radius: ${(props) => (props.squared ? '0' : '')};
 `
 
-export interface Props {
+interface Props {
   type: 'info' | 'error' | 'success' | 'observe' | 'protected_person' | 'deceased'
   additionalStyles?: string
   additionalWrapperStyles?: string

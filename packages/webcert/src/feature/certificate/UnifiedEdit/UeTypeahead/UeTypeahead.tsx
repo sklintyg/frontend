@@ -3,19 +3,20 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigUeTypeahead,
+  GetFilteredSuggestions,
   QuestionValidationTexts,
+  Suggestion,
   TextValidation,
+  Typeahead,
   ValueText,
 } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { css } from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import Typeahead, { Suggestion } from '@frontend/common/src/components/Inputs/Typeahead'
-import { GetFilteredSuggestions } from '@frontend/common/src/utils/typeaheadUtils'
-import { css } from 'styled-components'
 
 export interface Props {
   question: CertificateDataElement

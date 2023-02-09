@@ -1,4 +1,4 @@
-import { ListFilterConfig, ListFilterType } from '@frontend/common/src/types/list'
+import { ListFilterConfig, ListFilterType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

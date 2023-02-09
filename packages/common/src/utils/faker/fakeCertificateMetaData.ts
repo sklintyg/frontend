@@ -1,5 +1,5 @@
-import { CertificateMetadata, CertificateStatus } from '@frontend/common'
 import faker from 'faker'
+import { CertificateMetadata, CertificateStatus } from '../../types/certificate'
 import { fakePatient } from './fakePatient'
 import { fakeStaff } from './fakeStaff'
 import { fakeUnit } from './fakeUnit'

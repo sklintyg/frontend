@@ -4,7 +4,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { sanitizeText } from '@frontend/common'
+import { sanitizeText } from '../../utils/sanitizeText'
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -56,5 +56,3 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
     </>
   )
 }
-
-export default ExpandableText

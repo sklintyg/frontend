@@ -1,5 +1,5 @@
-import { CertificateDataConfig } from '@frontend/common'
 import faker from 'faker'
+import { CertificateDataConfig } from '../../types/certificate'
 
 interface ListItem extends Omit<CertificateDataConfig, 'type'> {
   id: string

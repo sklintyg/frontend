@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType, InfoBox } from '@frontend/common'
-import styled from 'styled-components/macro'
-import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
-import FMBPanelRelatedDiagnoses from './FMBPanelRelatedDiagnoses'
+import React, { useCallback, useState } from 'react'
+import styled from 'styled-components'
 import FMBPanelDiagnosisHeader from './FMBPanelDiagnosisHeader'
-import FMBPanelGuidanceSection from './FMBPanelGuidanceSection'
 import FMBPanelDiagnosisInfoLink from './FMBPanelDiagnosisInfoLink'
+import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
+import FMBPanelGuidanceSection from './FMBPanelGuidanceSection'
+import FMBPanelRelatedDiagnoses from './FMBPanelRelatedDiagnoses'
 
 const Root = styled.div`
   height: 100%;

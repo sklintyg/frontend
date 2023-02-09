@@ -10,6 +10,7 @@ import {
   ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
@@ -27,19 +28,16 @@ import {
   ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
-  ValueText,
-  ValueYear,
-  ValueType,
   ValueInteger,
-  ConfigUeInteger,
+  ValueText,
+  ValueType,
+  ValueYear,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import 'jest-styled-components'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'

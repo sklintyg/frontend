@@ -1,13 +1,12 @@
+import { CertificateStatus, ImageCentered, InfoBox, noQuestionImage, Question, Spinner } from '@frontend/common'
 import React, { useCallback, useState } from 'react'
-import { CertificateStatus, ImageCentered, InfoBox, Question, Spinner } from '@frontend/common'
 import QuestionItem from './QuestionItem'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
 
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
+import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
 const Root = styled.div`
   height: 100%;
@@ -46,7 +45,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   const getNoQuestionsMessage = () => {
     return (
       <div>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
           <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
         </ImageCentered>
       </div>

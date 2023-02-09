@@ -1,14 +1,14 @@
+import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
+import _ from 'lodash'
 import React, { useState } from 'react'
-import FMBPanelFooter from './FMBPanelFooter'
-import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
-import noDiagnosisIcon from './fmb_no_diagnosis.svg'
-import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
-import _ from 'lodash'
-import styled from 'styled-components/macro'
+import FMBPanelFooter from './FMBPanelFooter'
+import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 
 export const Italic = styled.p`
   font-style: italic;

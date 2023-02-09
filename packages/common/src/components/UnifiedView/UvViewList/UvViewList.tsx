@@ -1,5 +1,5 @@
 import React from 'react'
-import { ValueViewList } from '../../..'
+import { ValueViewList } from '../../../types'
 import { Badge } from '../Badge'
 
 export const UvViewList: React.FC<{

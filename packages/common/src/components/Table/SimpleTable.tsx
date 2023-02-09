@@ -1,7 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '.'
-import { Spinner } from '../index'
+import { Spinner } from '../utils'
+import { Table } from './Table'
+import { TableBody } from './TableBody'
+import { TableCell } from './TableCell'
+import { TableHeader } from './TableHeader'
+import { TableRow } from './TableRow'
 
 interface Headings {
   title: string

@@ -1,4 +1,6 @@
+import { FMBDiagnosisCodeInfo, sortByIndex, ValueDateRangeList, ValueDiagnosisList } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   removeFMBDiagnosisCodes,
   setDiagnosisListValue,
@@ -9,9 +11,6 @@ import {
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
 } from './fmbActions'
-import { FMBDiagnosisCodeInfo, sortByIndex } from '@frontend/common'
-import { ValueDateRangeList, ValueDiagnosisList } from '@frontend/common/src/types/certificate'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
 interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]

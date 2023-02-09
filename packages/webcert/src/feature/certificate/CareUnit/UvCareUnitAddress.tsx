@@ -1,13 +1,13 @@
+import { calendarImage } from '@frontend/common'
+import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { css } from 'styled-components'
+import { WhiteLogo } from '../../../components/icf/Styles'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
-import { css } from 'styled-components'
-import _ from 'lodash'
-import calendar from '@frontend/common/src/images/calendar.svg'
-import { WhiteLogo } from '../../../components/icf/Styles'
 
 const additionalHeaderStyles = css`
   display: flex;
@@ -54,7 +54,7 @@ const UvCareUnitAddress: React.FC = () => {
       <CategoryHeader additionalStyles={additionalHeaderStyles}>
         <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
         <div className={'iu-flex iu-flex-center'}>
-          <WhiteLogo src={calendar} alt="Kalender" />
+          <WhiteLogo src={calendarImage} alt="Kalender" />
           <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
         </div>
       </CategoryHeader>
