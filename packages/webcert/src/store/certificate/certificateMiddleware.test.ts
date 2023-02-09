@@ -10,7 +10,6 @@ import {
   fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeRadioBooleanElement,
-  getExpectedError,
   getUser,
   SigningMethod,
 } from '@frontend/common'
@@ -28,6 +27,7 @@ import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
+  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
@@ -56,6 +56,17 @@ import {
 import { certificateMiddleware } from './certificateMiddleware'
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+
+const getExpectedError = (errorCode: string): CertificateApiGenericError => {
+  return {
+    error: {
+      api: 'POST /api/call',
+      errorCode: errorCode,
+      message: 'This is the message',
+    },
+    certificateId: 'certificateId',
+  }
+}
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter

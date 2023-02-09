@@ -16,6 +16,8 @@ export default defineConfig({
     }),
   ],
   build: {
+    emptyOutDir: false,
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'common',
