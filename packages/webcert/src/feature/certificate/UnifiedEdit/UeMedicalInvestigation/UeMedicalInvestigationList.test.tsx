@@ -1,9 +1,16 @@
-import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
+import {
+  fakeMedicalInvestigationListElement,
+  ConfigUeMedicalInvestigationList,
+  fakeCertificate,
+  ValueText,
+  CertificateDataValueType,
+} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
@@ -199,33 +206,57 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  it('sets the value to null if the text is empty', () => {
-    const text = ''
-    let value = null
-
-    if (text.length === 0) {
-      value = null
-    }
-
-    expect(value).toBeNull()
-  })
-
-  it('does not set the value to null if the text is not empty', () => {
-    const text = 'some text'
-    let value = null
-
-    if (text.length > 0) {
-      value = 'some value'
-    }
-
-    expect(value).not.toBeNull()
-  })
-
   test('error should be set if index is 0 and validation errors length is 1', () => {
     const index = 0
     const validationErrors = [{ error: 'some error' }]
     const error = index === 0 && validationErrors.length === 1
 
     expect(error).toBeTruthy()
+  })
+
+  it('Should not set the value to null if the text is not empty', () => {
+    const text = 'Text value'
+    const informationSource: ValueText = {
+      type: CertificateDataValueType.TEXT,
+      id: '1',
+      text: text || null,
+    }
+    renderComponent({
+      question: fakeMedicalInvestigationListElement({
+        id: QUESTION_ID,
+        value: {
+          list: [
+            {
+              informationSource,
+            },
+          ],
+        },
+      })[QUESTION_ID],
+    })
+    expect(informationSource.text).toBe(text)
+  })
+
+  it('Sets the value to null if the text is empty', () => {
+    const text = ''
+    const informationSource: ValueText = {
+      type: CertificateDataValueType.TEXT,
+      id: '1',
+      text: text || null,
+    }
+    renderComponent({
+      question: fakeMedicalInvestigationListElement({
+        id: QUESTION_ID,
+        value: {
+          list: [
+            {
+              informationSource,
+            },
+          ],
+        },
+      })[QUESTION_ID],
+    })
+    const inputs = screen.getAllByRole('textbox')
+    userEvent.type(inputs[2], text)
+    expect(informationSource.text).toBeNull()
   })
 })
