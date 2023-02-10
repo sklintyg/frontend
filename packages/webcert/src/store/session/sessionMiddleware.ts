@@ -57,6 +57,7 @@ const handleGetSessionStatus: Middleware<Dispatch> = ({ dispatch, getState }) =>
 const handleGetSessionStatusSuccess: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   dispatch(setSessionStatusPending(false))
   dispatch(setSessionStatus(action.payload))
+  console.log(action.payload)
 
   if (!action.payload.authenticated) {
     dispatch(stopPoll())

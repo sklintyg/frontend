@@ -481,6 +481,22 @@ describe('QuestionItem', () => {
       expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
     })
   })
+
+  describe('forwarded', () => {
+    it('should show forwarded status for forwarded question', () => {
+      const question = createQuestion()
+      question.forwarded = true
+      renderComponent(question)
+      expect(screen.getByText('Vidarebefordrad')).toBeInTheDocument()
+    })
+
+    it('should not show forwarded status for not forwarded question', () => {
+      const question = createQuestion()
+      question.forwarded = false
+      renderComponent(question)
+      expect(screen.queryByText('Vidarebefordrad')).not.toBeInTheDocument()
+    })
+  })
 })
 
 const addAnswerDraftToQuestion = (question: Question, message: string): Question => {
