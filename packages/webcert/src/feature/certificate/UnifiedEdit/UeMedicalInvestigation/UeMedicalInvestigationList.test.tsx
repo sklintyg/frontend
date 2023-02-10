@@ -4,26 +4,17 @@ import {
   fakeCertificate,
   ValueText,
   CertificateDataValueType,
-  CertificateDataElement,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import _ from 'lodash'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { PartialObjectDeep } from 'type-fest/source/partial-deep'
-import {
-  showValidationErrors,
-  updateValidationErrors,
-  updateCertificate,
-  updateCertificateDataElement,
-} from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import store from '../../../../store/store'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
 
 faker.seed(10)
@@ -238,11 +229,11 @@ describe('Medical investigation component', () => {
   })
 
   it('Sets the value to null if the text is empty', () => {
-    const text = ''
-    const informationSource: ValueText = {
+    const text = 'Text value'
+    let informationSource: ValueText = {
       type: CertificateDataValueType.TEXT,
       id: '1',
-      text: text || null,
+      text: text,
     }
     renderComponent({
       question: fakeMedicalInvestigationListElement({
@@ -256,9 +247,16 @@ describe('Medical investigation component', () => {
         },
       })[QUESTION_ID],
     })
-    const inputs = screen.getAllByRole('textbox')
-    userEvent.type(inputs[2], text)
-    expect(informationSource.text).toBeNull()
+    const input = screen.getAllByRole('textbox')[0]
+    const newValue = ''
+
+    userEvent.type(input, newValue)
+    informationSource = {
+      type: CertificateDataValueType.TEXT,
+      id: '1',
+      text: newValue === '' ? null : text,
+    }
+    expect(informationSource.text === null).toBeTruthy()
   })
 
   it('Sets the value not to null if the text is not empty', async () => {
