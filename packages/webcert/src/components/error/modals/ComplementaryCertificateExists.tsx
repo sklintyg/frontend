@@ -1,8 +1,8 @@
 import React from 'react'
 import ErrorModalBase from './ErrorModalBase'
 import { ModalProps } from './errorUtils'
-import { INVALID_STATE_TITLE } from './InvalidState'
 
+export const INVALID_STATE_TITLE = 'Funktionen är inte giltig'
 export const COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE = 'Intyget har blivit kompletterat av ett senare intyg.'
 
 const ComplementaryCertificateExists: React.FC<ModalProps> = ({ errorData }) => {

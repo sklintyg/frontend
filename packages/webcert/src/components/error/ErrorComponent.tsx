@@ -1,19 +1,18 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getActiveError } from '../../store/error/errorSelectors'
 import { Redirect } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
-import ConcurrentModification from './modals/ConcurrentModification'
-import InvalidState from './modals/InvalidState'
-import InvalidStateReplaced from './modals/InvalidStateReplaced'
-import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
-import PuProblem from './modals/PuProblem'
-import IndeterminateIdentity from './modals/IndeterminateIdentity'
-import ExternalSystemProblem from './modals/ExternalSystemProblem'
-import ModuleProblem from './modals/ModuleProblem'
+import { getActiveError } from '../../store/error/errorSelectors'
 import CertificateRevoked from './modals/CertificateRevoked'
+import ComplementaryCertificateExists from './modals/ComplementaryCertificateExists'
+import ConcurrentModification from './modals/ConcurrentModification'
+import { messageSubstring, NETWORK_ERROR } from './modals/errorUtils'
+import ExternalSystemProblem from './modals/ExternalSystemProblem'
 import GeneralErrorReload from './modals/GeneralErrorReload'
-import { NETWORK_ERROR, messageSubstring } from './modals/errorUtils'
+import IndeterminateIdentity from './modals/IndeterminateIdentity'
+import InvalidStateReplaced from './modals/InvalidStateReplaced'
+import ModuleProblem from './modals/ModuleProblem'
+import PuProblem from './modals/PuProblem'
 import SignCertificateError from './modals/SignCertificateError'
 
 export interface ErrorRoute {
@@ -34,8 +33,6 @@ const ErrorComponent: React.FC = () => {
     switch (activeError.errorCode) {
       case ErrorCode.CONCURRENT_MODIFICATION:
         return <ConcurrentModification errorData={activeError} />
-      case ErrorCode.INVALID_STATE:
-        return <InvalidState errorData={activeError} />
       case ErrorCode.INVALID_STATE_REPLACED:
         return <InvalidStateReplaced errorData={activeError} />
       case ErrorCode.COMPLEMENT_INTYG_EXISTS:

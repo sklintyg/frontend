@@ -1,15 +1,14 @@
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import ErrorPage from './ErrorPage'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { ErrorCode, ErrorType } from '../store/error/errorReducer'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 import { configureApplicationStore } from '../store/configureApplicationStore'
+import { ErrorCode, ErrorType } from '../store/error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import ErrorPage from './ErrorPage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -44,6 +43,13 @@ describe('ErrorPage', () => {
       expect(screen.getByText(TIMEOUT_TITLE)).toBeInTheDocument()
       expect(screen.getByText(TIMEOUT_MESSAGE, { exact: false })).toBeInTheDocument()
     })
+
+    it('shall not show error id for timeout', () => {
+      history.push('/error', { errorCode: ErrorCode.TIMEOUT, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.queryByText(ERROR_ID, { exact: false })).not.toBeInTheDocument()
+    })
   })
 
   describe('AUTHORIZATION_PROBLEM', () => {
@@ -53,6 +59,13 @@ describe('ErrorPage', () => {
 
       expect(screen.getByText(AUTHORIZATION_PROBLEM_TITLE)).toBeInTheDocument()
       expect(screen.getByText(AUTHORIZATION_PROBLEM_MESSAGE, { exact: false })).toBeInTheDocument()
+    })
+
+    it('shall not show error id for AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET', () => {
+      history.push('/error', { errorCode: ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.queryByText(ERROR_ID, { exact: false })).not.toBeInTheDocument()
     })
   })
 
@@ -68,6 +81,13 @@ describe('ErrorPage', () => {
           }),
         ])
       )
+    })
+
+    it('shall show error id', () => {
+      history.push('/error', { errorCode: ErrorCode.LOGIN_FAILED, errorId: ERROR_ID })
+      renderComponent()
+
+      expect(screen.getByText(ERROR_ID, { exact: false })).toBeInTheDocument()
     })
   })
 })
