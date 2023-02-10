@@ -7,22 +7,24 @@ import TextWithDynamicLinks from '../../../utils/TextWithDynamicLinks'
 import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 
-const Root = styled.div`
-  height: 100%;
+const Content = styled.div`
   overflow-y: auto;
-`
-
-const ContentWrapper = styled.div`
+  flex-grow: 1;
   padding: 16px;
-  overflow-y: auto;
-  margin-top: 0;
 
   ul {
     margin: 8px 0 8px 0;
   }
+
   p:last-of-type {
     padding-bottom: 50px;
   }
+`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 `
 
 const Description = styled.p`
@@ -40,29 +42,27 @@ const AboutCertificatePanel: React.FC = () => {
   const certMetaData = useSelector(getCertificateMetaData, _.isEqual)
 
   return (
-    <>
+    <Wrapper>
       <PanelHeader description="Om intyget" />
-      <Root>
-        <ContentWrapper className="iu-border-grey-300">
-          <p className="iu-fw-heading">
-            {certMetaData && (
-              <>
-                {certMetaData.name}
-                <CertificateVersion>
-                  {certMetaData.typeName ? certMetaData.typeName : certMetaData.type} {certMetaData.typeVersion}
-                </CertificateVersion>
-              </>
-            )}
-          </p>
-          {certMetaData?.description && (
-            <Description>
-              <TextWithDynamicLinks text={certMetaData.description} />
-            </Description>
+      <Content className="iu-border-grey-300">
+        <p className="iu-fw-heading">
+          {certMetaData && (
+            <>
+              {certMetaData.name}
+              <CertificateVersion>
+                {certMetaData.typeName ? certMetaData.typeName : certMetaData.type} {certMetaData.typeVersion}
+              </CertificateVersion>
+            </>
           )}
-        </ContentWrapper>
-      </Root>
+        </p>
+        {certMetaData?.description && (
+          <Description>
+            <TextWithDynamicLinks text={certMetaData.description} />
+          </Description>
+        )}
+      </Content>
       <AboutCertificatePanelFooter />
-    </>
+    </Wrapper>
   )
 }
 

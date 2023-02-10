@@ -8,11 +8,6 @@ import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
 import QuestionItem from './QuestionItem'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
-const Root = styled.div`
-  height: 100%;
-  overflow-y: auto;
-`
-
 const Wrapper = styled.div`
   background-color: white;
   overflow-y: auto;
@@ -63,21 +58,19 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   }
 
   return (
-    <Root>
-      <Wrapper>
-        {isLoadingQuestions ? (
-          <Spinner className="iu-m-500" />
-        ) : (
-          <>
-            {!isDisplayingCertificateDraft && getContinueOnDraft()}
-            {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
-              <QuestionItem key={complementQuestion.id} question={complementQuestion} />
-            ))}
-            {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
-          </>
-        )}
-      </Wrapper>
-    </Root>
+    <Wrapper>
+      {isLoadingQuestions ? (
+        <Spinner className="iu-m-500" />
+      ) : (
+        <>
+          {!isDisplayingCertificateDraft && getContinueOnDraft()}
+          {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
+            <QuestionItem key={complementQuestion.id} question={complementQuestion} />
+          ))}
+          {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+        </>
+      )}
+    </Wrapper>
   )
 }
 
