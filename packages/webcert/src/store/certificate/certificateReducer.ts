@@ -29,7 +29,6 @@ import {
   resetCertificateState,
   setCertificateDataElement,
   setCertificatePatientData,
-  setCertificateSigningErrorData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
@@ -313,9 +312,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateCertificateSigningData, (state, action) => {
       state.signingData = action.payload
-    })
-    .addCase(setCertificateSigningErrorData, (state, action) => {
-      state.signingError = action.payload
     })
     .addCase(updateCertificateSignStatus, (state, action) => {
       state.signingStatus = action.payload

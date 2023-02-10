@@ -15,7 +15,6 @@ import {
 import { createAction } from '@reduxjs/toolkit'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { ApiError } from '../api/apiActions'
-import { ErrorData } from '../error/errorReducer'
 
 const CERTIFICATE = '[CERTIFICATE]'
 
@@ -177,7 +176,6 @@ const ENABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Enable certificate data 
 const DISABLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Disable certificate data element`
 
 const SET_CERTIFICATE_SIGNING = `${CERTIFICATE} Set certificate signing`
-const SET_CERTIFICATE_SIGNING_ERROR = `${CERTIFICATE} Set signing error`
 
 const HIGHLIGHT_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Highlight data element`
 const UNSTYLE_CERTIFICATE_DATA_ELEMENT = `${CERTIFICATE} Unstyle data element`
@@ -321,7 +319,7 @@ export const updateCertificateSignStatus = createAction<CertificateSignStatus>(U
 
 export const signCertificateStatusSuccess = createAction(SIGN_CERTIFICATE_STATUS_SUCCESS)
 
-export const signCertificateStatusError = createAction(SIGN_CERTIFICATE_STATUS_ERROR)
+export const signCertificateStatusError = createAction<CertificateApiGenericError>(SIGN_CERTIFICATE_STATUS_ERROR)
 
 export interface RevokeCertificateReason {
   reason: string
@@ -573,9 +571,6 @@ export interface SigningData {
 }
 
 export const updateCertificateSigningData = createAction<SigningData>(SET_CERTIFICATE_SIGNING)
-
-export const setCertificateSigningErrorData = createAction<ErrorData | undefined>(SET_CERTIFICATE_SIGNING_ERROR)
-
 export const highlightCertificateDataElement = createAction<string>(HIGHLIGHT_CERTIFICATE_DATA_ELEMENT)
 
 export const unstyleCertificateDataElement = createAction<string>(UNSTYLE_CERTIFICATE_DATA_ELEMENT)

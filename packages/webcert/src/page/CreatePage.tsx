@@ -82,7 +82,7 @@ const CreatePage: React.FC = () => {
 
   if (history.action === 'POP') {
     dispatch(clearPatient())
-    history.push('/create')
+    history.push('/search')
   }
 
   return (

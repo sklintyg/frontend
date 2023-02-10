@@ -1,4 +1,4 @@
-import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
+import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common/src'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -19,7 +19,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel headerHeight={0} />
+        <FMBPanel />
       </Router>
     </Provider>
   )
@@ -30,7 +30,7 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel headerHeight={0} />
+        <FMBPanel />
       </Router>
     </Provider>
   )

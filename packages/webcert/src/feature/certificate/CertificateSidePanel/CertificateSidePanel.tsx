@@ -4,19 +4,11 @@ import { getResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useState } from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanel from './AboutCertificatePanel'
-
-const Root = styled.div`
-  overflow-y: hidden;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
@@ -25,7 +17,6 @@ const CertificateSidePanel: React.FC = () => {
   const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
   const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
   const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
-  const [headerHeight, setHeaderHeight] = useState(0)
 
   if (showSpinner) return null
 
@@ -44,7 +35,7 @@ const CertificateSidePanel: React.FC = () => {
         </div>
       )
 
-      tabsContentArray.push(<QuestionPanel headerHeight={headerHeight} />)
+      tabsContentArray.push(<QuestionPanel />)
     }
 
     if (questionsNotAvailablePanelActive) {
@@ -67,7 +58,7 @@ const CertificateSidePanel: React.FC = () => {
         </div>
       )
 
-      tabsContentArray.push(<FMBPanel headerHeight={headerHeight} />)
+      tabsContentArray.push(<FMBPanel />)
     }
 
     tabsArray.push(
@@ -76,7 +67,7 @@ const CertificateSidePanel: React.FC = () => {
       </div>
     )
 
-    tabsContentArray.push(<AboutCertificatePanel headerHeight={headerHeight} />)
+    tabsContentArray.push(<AboutCertificatePanel />)
 
     return {
       getTabsArray: () => tabsArray,
@@ -85,17 +76,12 @@ const CertificateSidePanel: React.FC = () => {
   }
 
   return (
-    <Root className={'iu-border-secondary-light'}>
-      <Tabs
-        setHeaderHeight={(height: number) => {
-          setHeaderHeight(height)
-        }}
-        selectedTabIndex={selectedTabIndex}
-        setSelectedTabIndex={handleTabChange}
-        tabs={getTabs().getTabsArray()}
-        tabsContent={getTabs().getTabsContentArray()}
-      />
-    </Root>
+    <Tabs
+      selectedTabIndex={selectedTabIndex}
+      setSelectedTabIndex={handleTabChange}
+      tabs={getTabs().getTabsArray()}
+      tabsContent={getTabs().getTabsContentArray()}
+    />
   )
 }
 

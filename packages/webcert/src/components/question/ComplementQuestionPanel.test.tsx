@@ -1,15 +1,14 @@
-import { render, screen } from '@testing-library/react'
+import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { CertificateRelation, CertificateRelationType, CertificateStatus, Question, QuestionType, ResourceLinkType } from '@frontend/common'
 import ComplementQuestionPanel from './ComplementQuestionPanel'
 import { COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE } from './QuestionItem'
-import { updateIsLoadingQuestions } from '../../store/question/questionActions'
-import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -19,11 +18,7 @@ const renderComponent = (questions: Question[], isDisplayingCertificateDraft: bo
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <ComplementQuestionPanel
-          complementQuestions={questions}
-          isDisplayingCertificateDraft={isDisplayingCertificateDraft}
-          headerHeight={0}
-        />
+        <ComplementQuestionPanel complementQuestions={questions} isDisplayingCertificateDraft={isDisplayingCertificateDraft} />
       </Router>
     </Provider>
   )

@@ -1,7 +1,6 @@
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
 import { ErrorCode } from '../../../store/error/errorReducer'
 import { SignCertificateModal } from './SignCertificateModal'
 
@@ -41,11 +40,6 @@ const getTestState = (
       },
     },
   },
-})
-
-const getSigningError = (errorCode: ErrorCode = ErrorCode.PU_PROBLEM, message = ''): SigninError => ({
-  errorCode,
-  message,
 })
 
 afterEach(() => {
@@ -120,107 +114,6 @@ describe('SingCertificateModal', () => {
       render(<SignCertificateModal />)
       expect(screen.queryByText(/Mobilt BankID-servern får ej kontakt/i)).toBeInTheDocument()
       expect(screen.queryByText(/BankID-servern får ej kontakt med ditt BankID säkerhetsprogram/i)).not.toBeInTheDocument()
-    })
-  })
-
-  describe('Failed state', () => {
-    beforeEach(() => {
-      mockedUseSelector.mockImplementation((callback) => callback(getTestState(CertificateSignStatus.FAILED)))
-    })
-
-    it('Should display correct title', () => {
-      render(<SignCertificateModal />)
-      expect(screen.queryByText('Signering misslyckad')).toBeInTheDocument()
-    })
-
-    it('Should have a close buttons', () => {
-      render(<SignCertificateModal />)
-      expect(screen.getByTestId('modal-buttons')).not.toBeEmptyDOMElement()
-      expect(screen.queryByText('Stäng')).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.PU_PROBLEM', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.PU_PROBLEM)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Personuppgiftstjänsten svarar inte/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.DATA_NOT_FOUND', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.DATA_NOT_FOUND)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Intyget finns inte/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.INVALID_STATE', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.INVALID_STATE)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Signeringen kunde inte slutföras/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.SIGN_NETID_ERROR', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.SIGN_NETID_ERROR)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Detta beror antingen på ett tekniskt fel/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.CONCURRENT_MODIFICATION', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.CONCURRENT_MODIFICATION)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Utkastet har ändrats av en annan användare/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.AUTHORIZATION_PROBLEM', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.AUTHORIZATION_PROBLEM)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/Du saknar behörighet att signera detta intyg/i)).toBeInTheDocument()
-    })
-
-    it('Should display text for ErrorCode.INDETERMINATE_IDENTITY', () => {
-      mockedUseSelector.mockImplementation((callback) =>
-        callback(getTestState(CertificateSignStatus.FAILED, LoginMethod.BANK_ID, getSigningError(ErrorCode.INDETERMINATE_IDENTITY)))
-      )
-      render(
-        <BrowserRouter>
-          <SignCertificateModal />
-        </BrowserRouter>
-      )
-      expect(screen.queryByText(/valt en annan identitet att signera med än den du loggade in med/i)).toBeInTheDocument()
     })
   })
 })
