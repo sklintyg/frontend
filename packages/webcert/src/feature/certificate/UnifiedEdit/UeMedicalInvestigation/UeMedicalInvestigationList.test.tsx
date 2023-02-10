@@ -4,17 +4,26 @@ import {
   fakeCertificate,
   ValueText,
   CertificateDataValueType,
+  CertificateDataElement,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
+import _ from 'lodash'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { PartialObjectDeep } from 'type-fest/source/partial-deep'
+import {
+  showValidationErrors,
+  updateValidationErrors,
+  updateCertificate,
+  updateCertificateDataElement,
+} from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import store from '../../../../store/store'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
 
 faker.seed(10)
@@ -206,34 +215,26 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  test('error should be set if index is 0 and validation errors length is 1', () => {
-    const index = 0
-    const validationErrors = [{ error: 'some error' }]
-    const error = index === 0 && validationErrors.length === 1
-
-    expect(error).toBeTruthy()
-  })
-
-  it('Should not set the value to null if the text is not empty', () => {
-    const text = 'Text value'
-    const informationSource: ValueText = {
-      type: CertificateDataValueType.TEXT,
-      id: '1',
-      text: text || null,
-    }
-    renderComponent({
-      question: fakeMedicalInvestigationListElement({
-        id: QUESTION_ID,
-        value: {
-          list: [
-            {
-              informationSource,
-            },
-          ],
+  it.each(config.list)('Should set error if index is 0 and validation errors length is 1 for date field %#', ({ dateId }) => {
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: dateId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
         },
-      })[QUESTION_ID],
-    })
-    expect(informationSource.text).toBe(text)
+      ])
+    )
+    renderComponent({ question })
+
+    const validationErrors = testStore.getState().validationErrors
+    if (validationErrors && validationErrors.length === 1 && validationErrors[0].field === dateId) {
+      expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    } else {
+      expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
+    }
   })
 
   it('Sets the value to null if the text is empty', () => {
@@ -258,5 +259,29 @@ describe('Medical investigation component', () => {
     const inputs = screen.getAllByRole('textbox')
     userEvent.type(inputs[2], text)
     expect(informationSource.text).toBeNull()
+  })
+
+  it('Sets the value not to null if the text is not empty', async () => {
+    const informationSource: ValueText = {
+      type: CertificateDataValueType.TEXT,
+      id: '1',
+      text: '',
+    }
+    renderComponent({
+      question: fakeMedicalInvestigationListElement({
+        id: QUESTION_ID,
+        value: {
+          list: [
+            {
+              informationSource,
+            },
+          ],
+        },
+      })[QUESTION_ID],
+    })
+    const inputs = screen.getAllByRole('textbox')
+    const newValue = 'text'
+    userEvent.type(inputs[0], newValue)
+    expect(inputs[0]).toHaveValue(newValue)
   })
 })
