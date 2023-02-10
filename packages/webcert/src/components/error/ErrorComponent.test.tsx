@@ -23,6 +23,7 @@ import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './
 import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { GENERAL_ERROR_MESSAGE, GENERAL_ERROR_TITLE } from './modals/GeneralErrorReload'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { SIGN_CERTIFICATE_ERROR_TITLE } from './modals/SignCertificateError'
 
 let testStore: EnhancedStore
 
@@ -130,6 +131,13 @@ describe('ErrorComponent', () => {
 
       expect(screen.getByText(GENERAL_ERROR_TITLE)).toBeInTheDocument()
       expect(screen.getByText(GENERAL_ERROR_MESSAGE, { exact: false })).toBeInTheDocument()
+    })
+
+    it('shall display ErrorCode.SIGN_CERTIFICATE_PROBLEM information', () => {
+      setErrorState(ErrorType.MODAL, ErrorCode.SIGN_CERTIFICATE_ERROR)
+      renderComponent()
+
+      expect(screen.getByText(SIGN_CERTIFICATE_ERROR_TITLE)).toBeInTheDocument()
     })
   })
 

@@ -15,6 +15,10 @@ const Wrapper = styled.div`
   > *:not(:last-child) {
     border-bottom: 10px solid #f7f4f2;
   }
+
+  > *:last-child {
+    padding-bottom: 50px;
+  }
 `
 
 interface Props {

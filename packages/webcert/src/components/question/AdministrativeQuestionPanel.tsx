@@ -15,6 +15,10 @@ const Root = styled.div`
 
 const Wrapper = styled.div`
   overflow-y: auto;
+
+  > *:last-child {
+    padding-bottom: 50px;
+  }
 `
 
 interface Props {
