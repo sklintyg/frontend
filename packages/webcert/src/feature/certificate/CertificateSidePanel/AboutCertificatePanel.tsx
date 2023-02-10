@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
@@ -12,14 +12,8 @@ const Root = styled.div`
   overflow-y: auto;
 `
 
-interface StyledProps {
-  shouldLimitHeight: boolean
-  headerHeight: number
-}
-
-const ContentWrapper = styled.div<StyledProps>`
+const ContentWrapper = styled.div`
   padding: 16px;
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
   overflow-y: auto;
   margin-top: 0;
 
@@ -33,7 +27,6 @@ const ContentWrapper = styled.div<StyledProps>`
 
 const Description = styled.p`
   white-space: pre-line;
-  margin-top: 8px;
 `
 
 const CertificateVersion = styled.span`
@@ -43,23 +36,14 @@ const CertificateVersion = styled.span`
   text-transform: uppercase;
 `
 
-interface Props {
-  headerHeight: number
-}
-
-const AboutCertificatePanel: React.FC<Props> = ({ headerHeight }) => {
+const AboutCertificatePanel: React.FC = () => {
   const certMetaData = useSelector(getCertificateMetaData, _.isEqual)
-  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
-
-  const contentRef = useCallback((node: HTMLDivElement) => {
-    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
-  }, [])
 
   return (
     <>
       <PanelHeader description="Om intyget" />
       <Root>
-        <ContentWrapper ref={contentRef} className={`iu-border-grey-300`} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
+        <ContentWrapper className="iu-border-grey-300">
           <p className="iu-fw-heading">
             {certMetaData && (
               <>

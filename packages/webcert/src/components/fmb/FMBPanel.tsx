@@ -1,24 +1,20 @@
+import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
+import _ from 'lodash'
 import React, { useState } from 'react'
-import FMBPanelFooter from './FMBPanelFooter'
-import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
+import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
 import { getDiagnosisListValue, getFMBDiagnosisCodes } from '../../store/fmb/fmbSelectors'
 import FMBPanelDiagnoses from './FMBPanelDiagnoses'
-import noDiagnosisIcon from './fmb_no_diagnosis.svg'
-import { FMBDiagnosisCodeInfo, ImageCentered } from '@frontend/common'
 import FMBPanelDiagnosisInfo from './FMBPanelDiagnosisInfo'
-import _ from 'lodash'
-import styled from 'styled-components/macro'
+import FMBPanelFooter from './FMBPanelFooter'
+import noDiagnosisIcon from './fmb_no_diagnosis.svg'
 
 export const Italic = styled.p`
   font-style: italic;
 `
 
-interface Props {
-  headerHeight: number
-}
-
-const FMBPanel: React.FC<Props> = ({ headerHeight }) => {
+const FMBPanel: React.FC = () => {
   const fmbDiagnosisCodes = useSelector(getFMBDiagnosisCodes, _.isEqual)
   const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<FMBDiagnosisCodeInfo>()
   const diagnosisValue = useSelector(getDiagnosisListValue, _.isEqual)
@@ -77,11 +73,7 @@ const FMBPanel: React.FC<Props> = ({ headerHeight }) => {
             onDiagnosisSelect={onDiagnosisSelect}
           />
           {selectedDiagnosisCode && (
-            <FMBPanelDiagnosisInfo
-              fmbDiagnosisCodeInfo={selectedDiagnosisCode}
-              hasSeveralDiagnoses={hasSeveralDiagnoses()}
-              headerHeight={headerHeight}
-            />
+            <FMBPanelDiagnosisInfo fmbDiagnosisCodeInfo={selectedDiagnosisCode} hasSeveralDiagnoses={hasSeveralDiagnoses()} />
           )}
         </>
       )}
