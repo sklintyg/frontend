@@ -154,7 +154,6 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   let errorCode
-  console.log(action.payload.error)
   if (
     action.payload.error.errorCode === ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString() ||
     action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()
