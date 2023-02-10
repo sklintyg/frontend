@@ -113,6 +113,11 @@ const CheckboxStyles = css`
   margin-left: auto;
 `
 
+const FlexEndDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
 export const COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE = 'Kompletteringsbegäran har besvarats med ett meddelande.'
 
 interface Props {
@@ -291,6 +296,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
+      {question.forwarded && (
+        <FlexEndDiv>
+          <StatusWithIcon icon={'CheckIcon'} additionalTextStyles={'iu-fs-200'}>
+            Vidarebefordrad
+          </StatusWithIcon>
+        </FlexEndDiv>
+      )}
       <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
         {isComplementQuestion() ? (
           <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
