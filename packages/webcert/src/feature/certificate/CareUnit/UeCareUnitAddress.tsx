@@ -53,6 +53,9 @@ const PhoneNumberInput = styled.input.attrs({
 
 const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   line-height: 0;
+  .ic-forms__error-message {
+    line-height: 1.64;
+  }
 `
 
 const UeCareUnitAddress: React.FC = () => {
