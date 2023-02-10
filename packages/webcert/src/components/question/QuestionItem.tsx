@@ -14,9 +14,9 @@ import {
   ResourceLinkType,
   StatusWithIcon,
   TextArea,
+  userImage,
 } from '@frontend/common'
 import CheckIcon from '@frontend/common/src/images/CheckIcon'
-import userImage from '@frontend/common/src/images/user-image.svg'
 import { format } from 'date-fns'
 import _ from 'lodash'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'

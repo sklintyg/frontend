@@ -1,5 +1,4 @@
-import { CertificateStatus, ImageCentered, InfoBox, Question, Spinner } from '@frontend/common'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import { CertificateStatus, ImageCentered, InfoBox, noQuestionImage, Question, Spinner } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -32,7 +31,7 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   const getNoQuestionsMessage = () => {
     return (
       <div>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
           <p>Det finns ingen kompletteringsbegäran på detta intyg.</p>
         </ImageCentered>
       </div>

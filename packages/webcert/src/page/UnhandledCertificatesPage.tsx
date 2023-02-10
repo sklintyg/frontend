@@ -1,18 +1,15 @@
-import { ListHeader } from '@frontend/common/src'
-import { ListType } from '@frontend/common/src/types/list'
+import { ListHeader, ListType, noQuestionImage, speechBubbleImage } from '@frontend/common'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import ListContainer from '../feature/list/ListContainer'
-import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
-import noQuestionsImage from '@frontend/common/src/images/no-questions-image.svg'
-import questionImage from '@frontend/common/src/images/speech-bubble.svg'
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import ListContainer from '../feature/list/ListContainer'
 import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
+import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
 
 /**
@@ -41,7 +38,7 @@ const UnhandledCertificatsPage: React.FC = () => {
           <WebcertHeader />
           {(!isLoadingListConfig || hasUpdatedConfig) && (
             <ListHeader
-              icon={questionImage}
+              icon={speechBubbleImage}
               title={config?.title ? config.title : ''}
               description={config?.description ? config.description : ''}
             />
@@ -53,7 +50,7 @@ const UnhandledCertificatsPage: React.FC = () => {
         type={ListType.UNHANDLED_CERTIFICATES}
         showMessageForEmptyList={nbrOfQuestionsOnUnit === 0}
         icon={undefined}
-        emptyListIcon={noQuestionsImage}
+        emptyListIcon={noQuestionImage}
       />
     </CommonLayout>
   )

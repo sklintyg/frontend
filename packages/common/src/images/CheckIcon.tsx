@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import styled from 'styled-components'
-import check from '@frontend/common/src/images/check.svg'
+import check from '../images/check.svg'
 
 const Logo = styled.img`
   height: 15px;

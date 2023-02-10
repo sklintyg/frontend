@@ -1,5 +1,4 @@
-import { ImageCentered, Question, Spinner } from '@frontend/common'
-import noQuestionsImg from '@frontend/common/src/images/no-questions-image.svg'
+import { ImageCentered, noQuestionImage, Question, Spinner } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -33,7 +32,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions,
   const getNoQuestionsMessage = () => {
     return (
       <div className={isQuestionFormVisible ? 'iu-mt-300' : ''}>
-        <ImageCentered imgSrc={noQuestionsImg} alt={'Inga frågor'}>
+        <ImageCentered imgSrc={noQuestionImage} alt={'Inga frågor'}>
           <p>Det finns inga administrativa frågor för detta intyg.</p>
         </ImageCentered>
       </div>

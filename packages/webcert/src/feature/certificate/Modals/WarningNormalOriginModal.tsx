@@ -1,4 +1,4 @@
-import { CustomButton, InfoBox, ModalBase, ResourceLinkType } from '@frontend/common/src'
+import { CustomButton, InfoBox, ModalBase, ResourceLinkType } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getUser, getUserResourceLink } from '../../../store/user/userSelectors'

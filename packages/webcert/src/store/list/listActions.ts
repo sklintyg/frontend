@@ -1,4 +1,4 @@
-import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListFilterValue, ListType } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
 import { ErrorData } from '../error/errorReducer'
 

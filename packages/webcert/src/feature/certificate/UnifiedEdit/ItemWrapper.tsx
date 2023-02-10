@@ -1,4 +1,4 @@
-import { ConfigLayout } from '@frontend/common/'
+import { ConfigLayout } from '@frontend/common'
 import styled, { css } from 'styled-components'
 
 interface Props {

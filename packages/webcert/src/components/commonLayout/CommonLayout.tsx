@@ -1,7 +1,7 @@
 import { CustomTooltip, DatePickerBoundryContext } from '@frontend/common'
 import classnames from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const Root = styled.div`
   height: 100vh;

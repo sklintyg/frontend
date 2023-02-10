@@ -1,25 +1,84 @@
-import { formatDateToString, getValidDate, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
 import calendar from '../../../images/calendar.svg'
+import { formatDateToString, getValidDate, _format, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../../utils'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
-import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
-import { _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../..'
 
 const Logo = styled.img`
   width: 20px;
   height: 20px;
 `
 
+const DatePickerWrapper = styled.div<{
+  vertical?: boolean
+}>`
+  display: ${(props) => (props.vertical === true ? 'block' : 'flex')};
+  align-items: center;
+`
+
+const StyledButton = styled.button<{
+  displayValidationError: boolean
+}>`
+  min-width: 0;
+  padding: 0 !important;
+  width: 55px;
+  height: 3rem;
+  box-shadow: none;
+  background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
+  color: #000000;
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top: ${(props) => (props.displayValidationError ? '1px solid rgb(193, 33, 67)' : '1px solid rgb(141, 141, 141)')};
+  border-right: ${(props) => (props.displayValidationError ? '1px solid rgb(193, 33, 67)' : '1px solid rgb(141, 141, 141)')};
+  border-bottom: ${(props) => (props.displayValidationError ? '2px solid rgb(193, 33, 67)' : '0.125rem solid #01a5a3')};
+
+  &:hover {
+    background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
+    color: #000000;
+  }
+`
+
+const TextInput = styled.input`
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  max-width: 15ch;
+  border-right: 0 !important;
+  min-width: 124px;
+  min-height: unset !important;
+
+  &:focus {
+    box-shadow: none;
+  }
+`
+
+export const ValidationWrapper = styled.div`
+  flex-basis: 100%;
+`
+
+const Wrapper = styled.div`
+  display: inline-block;
+`
+const FocusWrapper = styled.div`
+  display: flex;
+  height: 3rem;
+
+  &:focus-within {
+    box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
+    border-radius: 0.1875rem;
+    width: 99%;
+  }
+`
 registerLocale('sv', sv)
 setDefaultLocale('sv')
 
-export interface Props {
+interface Props {
   disabled?: boolean
   label?: string
   setDate: (date: string) => void

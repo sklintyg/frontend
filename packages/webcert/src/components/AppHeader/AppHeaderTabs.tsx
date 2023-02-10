@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { NumberCircle, UserTab } from '@frontend/common'
 import classNames from 'classnames'
-import { UserTab } from '@frontend/common'
-import { NumberCircle } from '@frontend/common/src/components/utils/NumberCircle'
+import React from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Wrapper = styled.nav`
   button {

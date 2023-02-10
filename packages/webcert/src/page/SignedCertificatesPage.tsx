@@ -1,5 +1,4 @@
-import { ListHeader } from '@frontend/common/src'
-import { ListType } from '@frontend/common/src/types/list'
+import { epostImage, ListHeader, ListType, noDraftsImage } from '@frontend/common'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -12,8 +11,6 @@ import {
   getListTotalCount,
 } from '../store/list/listSelectors'
 
-import letterImage from '@frontend/common/src/images/epost.svg'
-import noDraftsImage from '@frontend/common/src/images/no-drafts-image.svg'
 import ReactTooltip from 'react-tooltip'
 import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
@@ -49,7 +46,7 @@ const SignedCertificatesPage: React.FC = () => {
           <WebcertHeader />
           {(!isLoadingListConfig || hasUpdatedConfig) && (
             <ListHeader
-              icon={letterImage}
+              icon={epostImage}
               title={config?.title ? config.title : ''}
               description={config?.description ? config.description : ''}
             />

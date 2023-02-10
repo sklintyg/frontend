@@ -1,5 +1,4 @@
-import { CustomButton, ModalBase, ModalData, ResourceLink, sanitizeText } from '@frontend/common'
-import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
+import { CustomButton, ModalBase, ModalData, ResourceLink, sanitizeText, useKeyPress } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createCertificateFromCandidateWithMessage } from '../../../store/certificate/certificateActions'

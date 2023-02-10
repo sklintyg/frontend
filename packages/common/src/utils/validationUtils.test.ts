@@ -22,6 +22,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
@@ -37,7 +38,6 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { ValueDateRange } from '@frontend/common'
 import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
 import { fakeCertificateValue } from './faker/fakeCertificateValue'
 

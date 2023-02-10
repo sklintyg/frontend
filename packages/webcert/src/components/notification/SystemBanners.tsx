@@ -1,8 +1,7 @@
+import { Banner, SystemBanner } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { getBanners } from '../../store/utils/utilsSelectors'
-import { Banner } from '@frontend/common'
-import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
 
 const SystemBanners: React.FC = () => {
   const banners: Banner[] = useSelector(getBanners)

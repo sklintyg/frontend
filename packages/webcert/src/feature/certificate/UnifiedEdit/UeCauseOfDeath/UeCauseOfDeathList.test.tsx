@@ -1,16 +1,16 @@
-import { fakeCauseOfDeathListElement } from '@frontend/common'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  fakeCauseOfDeathListElement,
   ValueCode,
   ValueDate,
   ValueText,
-} from '@frontend/common/src/types/certificate'
+} from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'

@@ -1,11 +1,8 @@
-import { CustomButton, Patient } from '@frontend/common'
-import swap from '@frontend/common/src/images/swap.svg'
-import userImage from '@frontend/common/src/images/user-image.svg'
-import { BoxShadowContainer } from '@frontend/common/src/styles/styledComponents'
+import { BoxShadowContainer, CustomButton, Patient, swapImage, userImage } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearPatient } from '../../store/patient/patientActions'
 import PatientStatuses from '../notification/PatientStatuses'
 
@@ -43,7 +40,7 @@ const PatientInfoHeader: React.FC<Props> = ({ patient }) => {
                 onClick={onSwitchPatient}
                 className="iu-ml-500"
                 tooltip="Byt patient att skriva och söka intyg för."
-                startIcon={<img src={swap} alt="Byt patient" />}
+                startIcon={<img src={swapImage} alt="Byt patient" />}
               />
             </ButtonWrapper>
           </div>

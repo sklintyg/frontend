@@ -1,8 +1,10 @@
-import { ImageCentered, InfoBox } from '@frontend/common/src'
-import { ListType } from '@frontend/common/src/types/list'
+import { ImageCentered, InfoBox, ListType } from '@frontend/common'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
+import DisplayError from '../../components/error/DisplayError'
+import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
 import { getListConfig, performListSearch, updateActiveListType, updateListConfig } from '../../store/list/listActions'
 import {
   getActiveList,
@@ -12,12 +14,8 @@ import {
   getIsLoadingListConfig,
   getListError,
 } from '../../store/list/listSelectors'
-import List from './List'
-
-import ReactTooltip from 'react-tooltip'
-import DisplayError from '../../components/error/DisplayError'
-import { updateShouldRouteAfterDelete } from '../../store/certificate/certificateActions'
 import { getLoggedInUnit } from '../../store/user/userSelectors'
+import List from './List'
 
 interface Props {
   /** Determine what should be dispatch. */

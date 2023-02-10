@@ -2,7 +2,7 @@ import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, Stat
 import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import {
   getCertificateMetaData,
   getIsValidForSigning,

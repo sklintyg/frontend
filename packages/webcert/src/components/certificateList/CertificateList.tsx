@@ -1,4 +1,4 @@
-import fileIcon from '@frontend/common/src/images/file.svg'
+import { fileImage } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -81,7 +81,7 @@ const CertificateList: React.FC = () => {
   return (
     <div className="iu-flex">
       <div className="iu-mr-gutter">
-        <img src={fileIcon} alt="Ikon för skapa intyg" className="iu-height-600" />
+        <img src={fileImage} alt="Ikon för skapa intyg" className="iu-height-600" />
       </div>
       <FlexWrapper>
         <h3 className="iu-mb-05rem">Skapa intyg</h3>
