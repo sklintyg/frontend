@@ -1,24 +1,13 @@
-import React, { useCallback, useState } from 'react'
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType, InfoBox } from '@frontend/common'
+import React from 'react'
 import styled from 'styled-components/macro'
-import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
-import FMBPanelRelatedDiagnoses from './FMBPanelRelatedDiagnoses'
 import FMBPanelDiagnosisHeader from './FMBPanelDiagnosisHeader'
-import FMBPanelGuidanceSection from './FMBPanelGuidanceSection'
 import FMBPanelDiagnosisInfoLink from './FMBPanelDiagnosisInfoLink'
+import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'
+import FMBPanelGuidanceSection from './FMBPanelGuidanceSection'
+import FMBPanelRelatedDiagnoses from './FMBPanelRelatedDiagnoses'
 
-const Root = styled.div`
-  height: 100%;
-  overflow-y: auto;
-`
-
-interface StyledProps {
-  shouldLimitHeight: boolean
-  headerHeight: number
-}
-
-const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
+const Wrapper = styled.div`
   overflow-y: auto;
 `
 
@@ -34,16 +23,9 @@ const EmptyWrapper = styled.div`
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo
   hasSeveralDiagnoses: boolean
-  headerHeight: number
 }
 
-const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses, headerHeight }) => {
-  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
-
-  const contentRef = useCallback((node: HTMLDivElement) => {
-    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
-  }, [])
-
+const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSeveralDiagnoses }) => {
   if (!fmbDiagnosisCodeInfo.diagnosTitle) {
     return (
       <EmptyWrapper className="iu-m-none">
@@ -59,38 +41,34 @@ const FMBPanelDiagnosisInfo: React.FC<Props> = ({ fmbDiagnosisCodeInfo, hasSever
   }
 
   return (
-    <>
-      <Root className={'iu-m-none'}>
-        <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
-          <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-          <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
-          <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-          <FMBPanelDiagnosisInfoSection
-            header={'Funktionsnedsättning'}
-            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DISABILITY)}
-          />
-          <FMBPanelDiagnosisInfoSection
-            header={'Aktivitetsbegränsning'}
-            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_ACTIVITY_LIMITATION)}
-          />
-          <FMBPanelDiagnosisInfoSection
-            header={'Information om rehabilitering'}
-            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_REHABILITATION_INFORMATION)}
-          />
-          <FMBPanelDiagnosisInfoSection
-            header={'Försäkringsmedicinsk information'}
-            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
-            contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_GENERAL_INFO}
-          />
-          <FMBPanelDiagnosisInfoSection
-            header={'Symtom, prognos, behandling'}
-            form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
-            contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_SYMPTOM_PROGNOSIS_TREATMENT}
-          />
-          <FMBPanelDiagnosisInfoLink fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
-        </Wrapper>
-      </Root>
-    </>
+    <Wrapper>
+      <FMBPanelGuidanceSection fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+      <FMBPanelDiagnosisHeader title={fmbDiagnosisCodeInfo.diagnosTitle} />
+      <FMBPanelRelatedDiagnoses fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+      <FMBPanelDiagnosisInfoSection
+        header={'Funktionsnedsättning'}
+        form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DISABILITY)}
+      />
+      <FMBPanelDiagnosisInfoSection
+        header={'Aktivitetsbegränsning'}
+        form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_ACTIVITY_LIMITATION)}
+      />
+      <FMBPanelDiagnosisInfoSection
+        header={'Information om rehabilitering'}
+        form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_REHABILITATION_INFORMATION)}
+      />
+      <FMBPanelDiagnosisInfoSection
+        header={'Försäkringsmedicinsk information'}
+        form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
+        contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_GENERAL_INFO}
+      />
+      <FMBPanelDiagnosisInfoSection
+        header={'Symtom, prognos, behandling'}
+        form={fmbDiagnosisCodeInfo.forms?.find((form) => form.name === FMBDiagnosisCodeInfoFormType.FMB_DIAGNOSIS)}
+        contentHeader={FMBDiagnosisCodeInfoFormContentHeading.FMB_SYMPTOM_PROGNOSIS_TREATMENT}
+      />
+      <FMBPanelDiagnosisInfoLink fmbDiagnosisCodeInfo={fmbDiagnosisCodeInfo} />
+    </Wrapper>
   )
 }
 
