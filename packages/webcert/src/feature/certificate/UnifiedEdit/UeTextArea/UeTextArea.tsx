@@ -38,7 +38,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   ).current
 
   if (!textValue) {
-    return <div className={`iu-pt-200`}>Value not supported!</div>
+    return <div>Value not supported!</div>
   }
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
@@ -47,7 +47,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   }
 
   return (
-    <div className={`iu-pt-200`}>
+    <>
       <TextArea
         disabled={disabled}
         rowsMin={6}
@@ -55,9 +55,10 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
         onChange={handleChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 3500}></TextArea>
+        limit={textValidation ? textValidation.limit : 3500}
+      />
       <QuestionValidationTexts validationErrors={validationErrors} />
-    </div>
+    </>
   )
 }
 

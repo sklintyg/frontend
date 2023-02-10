@@ -1,13 +1,12 @@
+import { ExpandableBox, lockClosedImage, ResourceLinkType, User, userImage } from '@frontend/common'
 import React from 'react'
-import { AppHeaderUser, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
-import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { shallowEqual, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
-import userImage from '@frontend/common/src/images/user-image.svg'
-import lock from '@frontend/common/src/images/lock-closed.svg'
-import styled from 'styled-components'
+import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
+import AppHeaderUser from '../AppHeader/AppHeaderUser'
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,7 +61,7 @@ const WebcertHeaderUser: React.FC = () => {
   return (
     <>
       <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal as boolean} preferenceKey={protectedUserApprovalKey} />
-      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lock : userImage} />
+      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lockClosedImage : userImage} />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { fakeCertificate, fakeUncertainDateElement } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -7,7 +7,7 @@ import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import reducer from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeUncertainDate from './UeUncertainDate'
 
 const YEARS = ['2020', '2021', '2022']
@@ -46,10 +46,7 @@ const renderComponent = (props: ComponentProps<typeof UeUncertainDate>) => {
 
 describe('UeUncertainDate', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('Renders element', () => {

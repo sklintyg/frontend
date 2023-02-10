@@ -1,18 +1,17 @@
-import React from 'react'
+import { Certificate, CustomTooltip, fakeCertificate, fakeCertificateMetaData, QuestionType } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { Certificate, CustomTooltip, fakeCertificate, fakeCertificateMetaData, QuestionType } from '@frontend/common/src'
-import RevokeCertificateButton from '../RevokeCertificateButton'
-import store from '../../../../store/store'
-import reducer from '../../../../store/reducers'
-import { updateQuestions } from '../../../../store/question/questionActions'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
+import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import { updateQuestions } from '../../../../store/question/questionActions'
+import store from '../../../../store/store'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import RevokeCertificateButton from '../RevokeCertificateButton'
 
 const NAME = 'Revoke button name'
 const DESCRIPTION = 'Revoke button description'
@@ -202,11 +201,7 @@ describe('Revoke continue button', () => {
     const createCertificate = (): Certificate => fakeCertificate({ metadata: fakeCertificateMetaData({ type: 'db' }) })
 
     beforeEach(() => {
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) =>
-          getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
-      })
+      testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
 
       const certificate = createCertificate()
       testStore.dispatch(updateCertificate(certificate))

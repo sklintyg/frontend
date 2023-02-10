@@ -10,6 +10,7 @@ import {
 import { Question, QuestionType } from '../../types/question'
 import { ResourceLink } from '../../types/resourceLink'
 import { fakeCertificateConfig } from '../faker/fakeCertificateConfig'
+import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 
 export const getBooleanElement = (): CertificateDataElement => {
   return {
@@ -181,10 +182,7 @@ export const getSickLeavePeriodElement = (): CertificateDataElement => {
         },
       ],
     }),
-    value: {
-      type: CertificateDataValueType.DATE_RANGE_LIST,
-      id: 'funktionsnedsattning',
-    },
+    value: fakeCertificateValue.dateRangeList(),
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
@@ -297,16 +295,14 @@ export const getCheckBoxElement = (): CertificateDataElement => {
         },
       ],
     },
-    value: {
-      type: CertificateDataValueType.CODE_LIST,
+    value: fakeCertificateValue.codeList({
       list: [
         {
           code: 'NUVARANDE_ARBETE',
           id: 'NUVARANDE_ARBETE',
-          type: 'CODE',
         },
       ],
-    },
+    }),
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,

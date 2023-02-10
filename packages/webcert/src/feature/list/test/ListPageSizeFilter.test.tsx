@@ -1,9 +1,8 @@
+import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
-import ListPageSizeFilter from '../ListPageSizeFilter'
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
+import ListPageSizeFilter from '../ListPageSizeFilter'
 
 const onFilterChange = jest.fn()
 const TITLE = 'title for filter pagesize'

@@ -1,13 +1,13 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
-import reducer from '../../../store/reducers'
 import AboutWebcertModalContent from './AboutWebcertModalContent'
 import { updateConfig } from '../../../store/utils/utilsActions'
 import { Configuration } from '../../../store/utils/utilsReducer'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -26,10 +26,7 @@ const setFakeVersion = () => {
 
 describe('AboutWebcertModalContent', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(utilsMiddleware),
-    })
+    testStore = configureApplicationStore([utilsMiddleware])
   })
 
   it('should render version', () => {

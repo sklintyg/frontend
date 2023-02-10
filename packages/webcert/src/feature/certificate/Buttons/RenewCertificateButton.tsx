@@ -30,11 +30,11 @@ const RenewCertificateButton: React.FC<Props> = ({ name, description, enabled, b
     if (checked) {
       dispatch(setUserPreference({ key: dontShowFornyaDialog, value: 'true' }))
     }
-    dispatch(renewCertificate({ certificateId: certificateId, history: history }))
+    dispatch(renewCertificate({ certificateId: certificateId }))
   }
 
   const handleClick = () => {
-    dispatch(renewCertificate({ certificateId: certificateId, history: history }))
+    dispatch(renewCertificate({ certificateId: certificateId }))
   }
 
   const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {

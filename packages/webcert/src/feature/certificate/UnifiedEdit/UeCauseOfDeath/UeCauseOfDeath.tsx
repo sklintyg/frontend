@@ -2,7 +2,7 @@ import { CertificateDataElement, ConfigUeCauseOfDeath, ValueCauseOfDeath } from 
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getShowValidationErrors, getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import UeCauseOfDeathControl from './UeCauseOfDeathControl'
 
@@ -15,7 +15,6 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
   const dispatch = useAppDispatch()
   const config = question.config as ConfigUeCauseOfDeath
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const [currentValue, setCurrentValue] = useState<ValueCauseOfDeath>(question.value as ValueCauseOfDeath)
 
   const handleChange = (value: ValueCauseOfDeath) => {
@@ -38,7 +37,6 @@ const UeCauseOfDeath: React.FC<Props> = ({ disabled, question }) => {
           value={currentValue}
           disabled={disabled}
           onChange={handleChange}
-          isShowValidationError={isShowValidationError}
           validation={question.validation}
           validationErrors={validationErrors}
         />

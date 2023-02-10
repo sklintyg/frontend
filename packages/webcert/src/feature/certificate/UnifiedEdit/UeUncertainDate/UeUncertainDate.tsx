@@ -1,15 +1,15 @@
 import {
   CertificateDataElement,
-  Dropdown,
+  ConfigUeDropdownItem,
   ConfigUeUncertainDate,
+  Dropdown,
   QuestionValidationTexts,
-  ValueUncertainDate,
   TextInput,
+  ValueUncertainDate,
 } from '@frontend/common'
-import { ConfigUeDropdownItem } from '@frontend/common/src/types/certificate'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
@@ -17,7 +17,7 @@ import { useAppDispatch } from '../../../../store/store'
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
+  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 
@@ -57,7 +57,7 @@ const UeUncertainDate: React.FC<Props> = ({ question, disabled }) => {
   const handleValueChanged = useCallback(
     (year: string, month: string) => {
       const value = `${year}-${month}-00`
-      if (question.value?.value !== value) {
+      if ((question.value as ValueUncertainDate)?.value !== value) {
         dispatch(
           updateCertificateDataElement({
             ...question,

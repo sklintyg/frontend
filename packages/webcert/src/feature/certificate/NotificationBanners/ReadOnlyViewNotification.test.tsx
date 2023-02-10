@@ -4,10 +4,10 @@ import { render, screen } from '@testing-library/react'
 import { Certificate, CertificateMetadata, Unit, User } from '@frontend/common'
 import ReadOnlyViewNotification from './ReadOnlyViewNotification'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import reducer from '../../../store/reducers'
 import { updateUser } from '../../../store/user/userActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -30,10 +30,7 @@ const INFO_TEXT = `Utfärdat på: ${CARE_PROVIDER_NAME} - ${CARE_UNIT_NAME}`
 
 describe('ReadOnlyViewNotification', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    })
+    testStore = configureApplicationStore([])
   })
 
   it('shall render a banner if care provider id is same but not unit id', () => {

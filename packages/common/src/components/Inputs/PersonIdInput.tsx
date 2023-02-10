@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { TextInput } from '../index'
 import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
 import { formatPersonId, isPersonIdValid } from '../../utils/personIdValidatorUtils'
 import styled, { css } from 'styled-components'
+import TextInput from './TextInput'
 
 interface Props {
   label?: string

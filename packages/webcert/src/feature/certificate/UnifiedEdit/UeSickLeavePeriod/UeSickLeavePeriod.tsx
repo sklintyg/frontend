@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionHeader,
   CertificateDataElement,
+  CertificateDataValueType,
   ConfigUeSickLeavePeriod,
   formatDateToString,
   getLatestPeriodEndDate,
@@ -9,21 +10,20 @@ import {
   Icon,
   QuestionValidationTexts,
   Text,
+  ValidationError,
   ValueDateRange,
   ValueDateRangeList,
-  ValidationError,
-  CertificateDataValueType,
 } from '@frontend/common'
 import { addDays, isValid } from 'date-fns'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import DateRangePicker from './DateRangePicker'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 import { WorkingHoursInput } from './WorkingHoursInput'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 
 const AccodrionWrapper = styled.div`
   flex: 0 0 100%;
@@ -32,7 +32,6 @@ const AccodrionWrapper = styled.div`
 const DaysRangeWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 16px 0;
 
   > * + * {
     margin-left: 0.5rem;
@@ -92,7 +91,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       updateCertificateDataElement({
         ...question,
         value: { ...question.value, list: updatedList },
-      })
+      } as CertificateDataElement)
     )
   }
 
@@ -156,34 +155,32 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
                 </Accordion>
               </AccodrionWrapper>
             </DaysRangeWrapper>
-            <div className="iu-pb-500">
-              <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
-            </div>
+            <QuestionValidationTexts validationErrors={workingHoursError ? [workingHoursError] : []} />
           </>
         )}
       </div>
-      {config.list.map(({ id, label }, index) => {
-        const fieldValidationErrors = validationErrors.filter(
-          ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
-        )
-        return (
-          <DateRangePicker
-            baseWorkHours={baseWorkHours}
-            disabled={disabled}
-            getPeriodStartingDate={handleGetPeriodStartingDate}
-            key={index}
-            value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
-            label={label}
-            field={id}
-            hasValidationError={otherValiadtionErrors.length > 0}
-            validationErrors={fieldValidationErrors}
-            onChange={handleValueChanged}
-          />
-        )
-      })}
-      <div className={'iu-pb-300'}>
-        <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
+      <div>
+        {config.list.map(({ id, label }, index) => {
+          const fieldValidationErrors = validationErrors.filter(
+            ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
+          )
+          return (
+            <DateRangePicker
+              baseWorkHours={baseWorkHours}
+              disabled={disabled}
+              getPeriodStartingDate={handleGetPeriodStartingDate}
+              key={index}
+              value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
+              label={label}
+              field={id}
+              hasValidationError={otherValiadtionErrors.length > 0}
+              validationErrors={fieldValidationErrors}
+              onChange={handleValueChanged}
+            />
+          )
+        })}
       </div>
+      <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       {totalSickDays && !disabled && (
         <div>
           <p className="iu-color-main">

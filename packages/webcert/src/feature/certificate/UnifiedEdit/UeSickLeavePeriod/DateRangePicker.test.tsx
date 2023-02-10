@@ -1,15 +1,14 @@
-import React, { ComponentProps, useState } from 'react'
+import { fakeCertificateValue, formatDateToString, getValidDate, ValueDateRange } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { getValidDate, ValueDateRange, formatDateToString } from '@frontend/common'
-import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
-import reducers from '../../../../store/reducers'
+import React, { ComponentProps, useState } from 'react'
 import { Provider } from 'react-redux'
-import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import DateRangePicker from './DateRangePicker'
 
 let testStore: EnhancedStore
 
@@ -46,10 +45,7 @@ const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWo
 
 describe('Date range picker', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {

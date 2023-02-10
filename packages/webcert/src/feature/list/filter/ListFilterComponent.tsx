@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   ListFilterConfig,
   ListFilterDateRangeConfig,
@@ -6,16 +5,17 @@ import {
   ListFilterSelectConfig,
   ListFilterType,
   ListFilterValue,
-} from '@frontend/common/src/types/list'
+} from '@frontend/common'
+import { isEqual } from 'lodash'
+import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { getListFilterDefaultValue } from '../listUtils'
-import { isEqual } from 'lodash'
 import DateRangeFilter from './DateRangeFilter'
-import SelectFilter from './SelectFilter'
 import PersonIdFilter from './PersonIdFilter'
-import TextFilter from './TextFilter'
 import RadioFilter from './RadioFilter'
+import SelectFilter from './SelectFilter'
+import TextFilter from './TextFilter'
 
 interface Props {
   /** For this filter and sub-components */

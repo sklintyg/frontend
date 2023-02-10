@@ -1,14 +1,14 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import React from 'react'
 import NavigateBackButton from './NavigateBackButton'
-import reducer from '../../../store/reducers'
 import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { userMiddleware } from '../../../store/user/userMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import { getNavigateBackButtonLink, getUser } from '@frontend/common'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -30,10 +30,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('NavigateBackButton', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
   })
 
   it('should show navigate back button if link is available', () => {

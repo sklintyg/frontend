@@ -1,21 +1,20 @@
 import {
-  AutoFillValidation,
-  Certificate,
-  CertificateData,
   CertificateDataElement,
-  CertificateDataElementStyleEnum,
-  CertificateDataValidation,
   CertificateDataValidationType,
+  CertificateDataValidation,
+  CertificateData,
+  MaxDateValidation,
+  Certificate,
+  ValidationError,
   CertificateMetadata,
   CertificateStatus,
-  ConfigUeCheckboxMultipleCodes,
-  MaxDateValidation,
   ResourceLinkType,
-  ValidationError,
+  ConfigUeCheckboxMultipleCodes,
   ValueCodeList,
-} from '..'
+  AutoFillValidation,
+  CertificateDataElementStyleEnum,
+} from '../types'
 import { maxDateToExpression, validateExpression } from './validateExpression'
-import { ValueType } from '../types/certificate'
 
 export const parseExpression = (
   expression: string,
@@ -25,7 +24,7 @@ export const parseExpression = (
   if (!element.visible || element.value == null) {
     return false
   }
-  return validateExpression(expression, element.value as ValueType, validationType)
+  return validateExpression(expression, element.value, validationType)
 }
 
 export interface ValidationResult {

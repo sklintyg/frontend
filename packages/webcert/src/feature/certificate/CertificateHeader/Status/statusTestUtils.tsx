@@ -1,4 +1,4 @@
-import { CertificateMetadata, CertificateRelationType, CertificateStatus, fakeCertificateMetaData } from '@frontend/common/src'
+import { CertificateMetadata, CertificateRelationType, CertificateStatus, fakeCertificateMetaData } from '@frontend/common'
 
 export const createCertificateMetadata = (status: CertificateStatus, isSent: boolean, type?: string): CertificateMetadata => {
   return fakeCertificateMetaData({

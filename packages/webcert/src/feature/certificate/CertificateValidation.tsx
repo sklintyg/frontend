@@ -1,10 +1,10 @@
+import { InfoBox } from '@frontend/common'
+import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 import { Link } from 'react-scroll'
-import { InfoBox } from '@frontend/common'
-import { css } from 'styled-components/macro'
-import _ from 'lodash'
+import { css } from 'styled-components'
+import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 
 const linkStyles = css`
   cursor: pointer;

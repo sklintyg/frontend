@@ -4,9 +4,9 @@ import { render, screen } from '@testing-library/react'
 import { Certificate } from '@frontend/common'
 import MajorVersionNotification from './MajorVersionNotification'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import reducer from '../../../store/reducers'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -22,10 +22,7 @@ const INFO_TEXT = 'Du kan inte använda alla funktioner, intyget är av en äldr
 
 describe('MajorVersionNotification', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    })
+    testStore = configureApplicationStore([])
   })
 
   it('shall render a banner if not latest major version', () => {

@@ -22,6 +22,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
@@ -37,8 +38,8 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { ValueDateRange } from '@frontend/common'
 import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -321,10 +322,9 @@ describe('Validate mandatory rule for uncertain datet', () => {
       description: 'Datum då döden inträffade är osäkert',
       id: 'osakertDodsDatum',
     }),
-    value: {
-      type: CertificateDataValueType.UNCERTAIN_DATE,
+    value: fakeCertificateValue.uncertainDate({
       id: 'osakertDodsDatum',
-    },
+    }),
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
@@ -855,9 +855,7 @@ describe('Validate enable rule for code values', () => {
         },
       ],
     },
-    value: {
-      type: CertificateDataValueType.CODE,
-    },
+    value: fakeCertificateValue.code(),
     validation: [
       {
         type: CertificateDataValidationType.ENABLE_VALIDATION,
@@ -1366,7 +1364,7 @@ describe('Validate expressions only when visible', () => {
 describe('autoFillElement', () => {
   it('Should handle boolean values', () => {
     const radioBooleanElement = fakeRadioBooleanElement({ id: '1', value: { selected: true } })['1']
-    expect(radioBooleanElement?.value?.selected).toEqual(true)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(true)
 
     autoFillElement(
       fakeCertificateDataValidation({
@@ -1379,7 +1377,7 @@ describe('autoFillElement', () => {
       radioBooleanElement
     )
 
-    expect(radioBooleanElement?.value?.selected).toEqual(false)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(false)
 
     autoFillElement(
       fakeCertificateDataValidation({
@@ -1392,7 +1390,7 @@ describe('autoFillElement', () => {
       radioBooleanElement
     )
 
-    expect(radioBooleanElement?.value?.selected).toEqual(true)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(true)
   })
 })
 

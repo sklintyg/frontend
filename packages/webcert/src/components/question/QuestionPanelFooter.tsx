@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
-import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
-import { ButtonWithConfirmModal, CustomButton, getResourceLink, Question, ResourceLink, ResourceLinkType } from '@frontend/common'
-import { useDispatch, useSelector } from 'react-redux'
-import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
-import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
-import { useHistory } from 'react-router-dom'
-import speechBubble from '@frontend/common/src/images/speech-bubble.svg'
-import edit from '@frontend/common/src/images/edit.svg'
-import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
-import { getCertificateMetaData, getResourceLinks } from '../../store/certificate/certificateSelectors'
+import {
+  ButtonWithConfirmModal,
+  CustomButton,
+  editImage,
+  getResourceLink,
+  Question,
+  ResourceLink,
+  ResourceLinkType,
+  speechBubbleImage,
+} from '@frontend/common'
 import _ from 'lodash'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
+import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
+import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
+import { getCertificateMetaData, getResourceLinks } from '../../store/certificate/certificateSelectors'
+import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 
 interface Props {
   questions: Question[]
@@ -17,18 +23,17 @@ interface Props {
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
   const certificateMetadata = useSelector(getCertificateMetaData)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
 
-  const onComplementClick = () => dispatch(complementCertificate({ message: '', history: history }))
+  const onComplementClick = () => dispatch(complementCertificate({ message: '' }))
 
   const onCannotComplementClick = () => {
     if (!cannotComplement) return
 
     if (cannotComplement.answerWithCertificate) {
-      dispatch(complementCertificate({ message: cannotComplement.message, history: history }))
+      dispatch(complementCertificate({ message: cannotComplement.message }))
     } else {
       dispatch(answerComplementCertificate(cannotComplement.message))
     }
@@ -62,7 +67,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         disabled={!complementResourceLink.enabled}
         buttonStyle="primary"
         text={complementResourceLink.name}
-        startIcon={<img src={edit} alt="Komplettera" />}
+        startIcon={<img src={editImage} alt="Komplettera" />}
         onClick={onComplementClick}
       />
     )
@@ -84,7 +89,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         name={cannotComplementResourceLink.name}
         description={cannotComplementResourceLink.description}
         buttonClasses="iu-mr-200"
-        startIcon={<img src={speechBubble} alt="Kan ej komplettera" />}>
+        startIcon={<img src={speechBubbleImage} alt="Kan ej komplettera" />}>
         <CannotComplementModalContent onChange={(data) => setCannotComplement(data)} />
       </ButtonWithConfirmModal>
     )

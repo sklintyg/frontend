@@ -1,5 +1,5 @@
 import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
@@ -7,7 +7,7 @@ import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import reducers from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
 
 faker.seed(10)
@@ -27,10 +27,7 @@ const renderComponent = (props: ComponentProps<typeof UeMedicalInvestigationList
 }
 describe('Medical investigation component', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
 
     testStore.dispatch(
       updateCertificate(

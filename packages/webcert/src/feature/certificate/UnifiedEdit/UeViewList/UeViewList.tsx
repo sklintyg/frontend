@@ -10,7 +10,7 @@ const UeViewList: React.FC<Props> = ({ question }) => {
   const questionConfig = question.config as ConfigUeViewList
 
   return (
-    <div className="iu-pt-200 iu-grid-cols-12">
+    <div className="iu-grid-cols-12">
       <div className="iu-grid-span-6">
         {questionConfig.label ? <label>{questionConfig.label}</label> : ''}
         <Badge>

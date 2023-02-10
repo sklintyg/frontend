@@ -1,22 +1,24 @@
-import { CertificateDataElement, ConfigUeIcf, FMBDiagnosisCodeInfo, ValueIcf } from '@frontend/common'
-import { CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { CertificateDataElement, fakeCertificateValue, fakeIcf, fakeICFDataElement } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
-import React, { createRef } from 'react'
+import { last } from 'lodash'
+import { ComponentProps, createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import { getIcfData } from '../../../../components/icf/icfTestUtils'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateFMBDiagnosisCodeInfo } from '../../../../store/fmb/fmbActions'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../../../store/icf/icfActions'
 import { icfMiddleware } from '../../../../store/icf/icfMiddleware'
-import reducer from '../../../../store/reducers'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import { CertificateContext } from '../../CertificateContext'
 import UeIcf from './UeIcf'
+
+const QUESTION_ID = 'questionid'
+const PLACEHOLDER = 'placeholder'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
@@ -27,28 +29,55 @@ const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
 
-const renderComponent = (question: CertificateDataElement, disabled = false) => {
+const renderComponent = (props: ComponentProps<typeof UeIcf>) => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
         <CertificateContext.Provider value={mockContext}>
-          <UeIcf question={question} disabled={disabled} />
+          <UeIcf {...props} />
         </CertificateContext.Provider>
       </Router>
     </Provider>
   )
 }
 
-const QUESTION_ID = 'questionid'
-const PLACEHOLDER = 'placeholder'
+const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
+  return fakeICFDataElement({
+    id: QUESTION_ID,
+    value: { icfCodes },
+    config: {
+      id: QUESTION_ID,
+      label: 'test',
+      modalLabel: 'test',
+      collectionsLabel: 'test',
+      description: 'test',
+      placeholder: PLACEHOLDER,
+    },
+  })[QUESTION_ID]
+}
+
+const setDefaultIcfState = () => {
+  const group = fakeIcf.group({ icfCodes: Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `title ${index}` })) })
+  testStore.dispatch(
+    updateIcfCodes({
+      activityLimitation: fakeIcf.collection({ commonCodes: group, uniqueCodes: [group] }),
+      disability: fakeIcf.collection({ commonCodes: group, uniqueCodes: [group] }),
+    })
+  )
+  testStore.dispatch(setOriginalIcd10Codes(['A02', 'U071']))
+  testStore.dispatch(
+    updateFMBDiagnosisCodeInfo({
+      icd10Code: 'A02',
+      icd10Description: 'description',
+      index: 0,
+    })
+  )
+}
 
 describe('UeIcf', () => {
   beforeEach(() => {
     jest.useFakeTimers('modern')
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, icfMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
   afterEach(() => {
@@ -56,31 +85,33 @@ describe('UeIcf', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(createQuestion())
+    renderComponent({ question: createQuestion(), disabled: false })
   })
 
-  it('shall dispatch updateCertificateDataElement when clicking icf value', () => {
+  it('Should dispatch updateCertificateDataElement when clicking icf value', () => {
     setDefaultIcfState()
 
-    const icfData = getIcfData()
     const question = createQuestion()
-    const expectedIcfValueTitle = icfData.activityLimitation?.commonCodes.icfCodes[0].title
-    const expectedValue = createValue([expectedIcfValueTitle!], '')
+    const expectedIcfValueTitle = 'title 0'
+    const expectedValue = fakeCertificateValue.icf({ icfCodes: [expectedIcfValueTitle], text: '' })
 
-    renderAndOpenDropdown(question)
-    userEvent.click(screen.getByText(`${expectedIcfValueTitle}`))
+    renderComponent({ question, disabled: false })
+    userEvent.click(screen.getByText('Ta hjälp av ICF'))
+
+    screen.debug()
+
+    userEvent.click(screen.getByLabelText(expectedIcfValueTitle))
     jest.advanceTimersByTime(2000)
 
     flushPromises()
-    const actions = dispatchedActions.filter((action) => updateCertificateDataElement.match(action))
-    const updateCertificateDataElementAction = actions[actions.length - 1]
+    const updateCertificateDataElementAction = last(dispatchedActions.filter((action) => updateCertificateDataElement.match(action)))
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValue.icfCodes)
   })
 
-  it('shall dispatch updateCertificateDataElement when entering text value', () => {
+  it('Should dispatch updateCertificateDataElement when entering text value', () => {
     setDefaultIcfState()
     const question = createQuestion()
-    renderComponent(question)
+    renderComponent({ question, disabled: false })
     const expectedTextValue = 'Det här är ett meddelande'
 
     const messageField = screen.getByRole('textbox')
@@ -92,11 +123,11 @@ describe('UeIcf', () => {
     expect(updateCertificateDataElementAction?.payload.value.text).toEqual(expectedTextValue)
   })
 
-  it('shall dispatch updateCertificateDataElement and clear chosen values when fetching updated empty icf data', () => {
+  it('Should dispatch updateCertificateDataElement and clear chosen values when fetching updated empty icf data', () => {
     setDefaultIcfState()
     const initialValues = ['1', '2', '3']
     const question = createQuestion(initialValues)
-    renderComponent(question)
+    renderComponent({ question, disabled: false })
 
     testStore.dispatch(updateIcfCodes({ disability: undefined, activityLimitation: undefined }))
     jest.advanceTimersByTime(10000)
@@ -106,19 +137,20 @@ describe('UeIcf', () => {
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual([])
   })
 
-  it('shall dispatch updateCertificateDataElement and filter chosen values when fetching updated icf data', () => {
+  it('Should dispatch updateCertificateDataElement and filter chosen values when fetching updated icf data', () => {
     setDefaultIcfState()
-    const icfData = getIcfData()
-    const icfCodes = icfData.disability?.commonCodes.icfCodes
-    const initialValues = [icfCodes![0].title, icfCodes![1].title, icfCodes![2].title]
-    const expectedValues = [icfCodes![0].title, icfCodes![1].title]
+    const newIcfGroup = fakeIcf.group({ icfCodes: Array.from({ length: 2 }, (_, index) => fakeIcf.code({ title: `title ${index}` })) })
+    const initialValues = ['title 0', 'title 1', 'title 2']
+    const expectedValues = ['title 0', 'title 1']
     const question = createQuestion(initialValues)
-    renderComponent(question)
+    renderComponent({ question, disabled: false })
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    icfData.disability!.commonCodes.icfCodes = [{ title: icfCodes![0].title }, { title: icfCodes![1].title }]
-    testStore.dispatch(updateIcfCodes(icfData))
+    testStore.dispatch(
+      updateIcfCodes({
+        disability: { commonCodes: newIcfGroup, uniqueCodes: [newIcfGroup] },
+        activityLimitation: { commonCodes: newIcfGroup, uniqueCodes: [newIcfGroup] },
+      })
+    )
     jest.advanceTimersByTime(10000)
 
     flushPromises()
@@ -126,93 +158,28 @@ describe('UeIcf', () => {
     expect(updateCertificateDataElementAction?.payload.value.icfCodes).toEqual(expectedValues)
   })
 
-  it('shall not display placeholder if no chosen icf values', () => {
+  it('Should not display placeholder if no chosen icf values', () => {
     const question = createQuestion()
-    renderComponent(question)
+    renderComponent({ question, disabled: false })
 
     expect(screen.queryByText(PLACEHOLDER)).not.toBeInTheDocument()
   })
 
-  it('shall display placeholder if chosen icf values', () => {
+  it('Should display placeholder if chosen icf values', () => {
     const question = createQuestion(['test'])
-    renderComponent(question)
+    renderComponent({ question, disabled: false })
     expect(screen.getByPlaceholderText(PLACEHOLDER)).toBeInTheDocument()
   })
 
-  it('shall display button when question is enabled', () => {
+  it('Should display button when question is enabled', () => {
     const question = createQuestion()
-    renderComponent(question, false)
+    renderComponent({ question, disabled: false })
     expect(screen.getByText('Ta hjälp av ICF')).toBeInTheDocument()
   })
 
-  it('shall not display button when question is disabled', () => {
+  it('Should not display button when question is disabled', () => {
     const question = createQuestion()
-    renderComponent(question, true)
+    renderComponent({ question, disabled: true })
     expect(screen.queryByText('Ta hjälp av ICF')).not.toBeInTheDocument()
   })
 })
-
-const createQuestion = (icfCodes?: string[]): CertificateDataElement => {
-  return {
-    id: QUESTION_ID,
-    mandatory: true,
-    index: 0,
-    parent: '',
-    visible: true,
-    readOnly: false,
-    validation: [],
-    validationErrors: [],
-    value: { type: CertificateDataValueType.ICF, icfCodes: icfCodes } as ValueIcf,
-    config: {
-      id: QUESTION_ID,
-      label: 'test',
-      modalLabel: 'test',
-      collectionsLabel: 'test',
-      description: 'test',
-      type: ConfigTypes.UE_ICF,
-      placeholder: PLACEHOLDER,
-    } as ConfigUeIcf,
-  } as CertificateDataElement
-}
-
-const createValue = (icfCodes: string[], text: string) => {
-  return {
-    id: QUESTION_ID,
-    type: CertificateDataValueType.ICF,
-    icfCodes: icfCodes,
-    text: text,
-  } as ValueIcf
-}
-
-const renderAndOpenDropdown = (question: CertificateDataElement, disabled = false) => {
-  renderComponent(question, disabled)
-  setDefaultIcfState()
-  toggleIcfDropdown()
-}
-
-const setDefaultIcfState = () => {
-  const icfData = getIcfData()
-  testStore.dispatch(updateIcfCodes(icfData))
-  updateOriginalIcd10Codes()
-  setDefaultFmb()
-}
-
-const toggleIcfDropdown = () => {
-  userEvent.click(screen.getByText('Ta hjälp av ICF'))
-}
-
-const setDefaultFmb = () => {
-  const codeInfo: FMBDiagnosisCodeInfo = {
-    icd10Code: 'A02',
-    icd10Description: 'description',
-    index: 0,
-  }
-
-  testStore.dispatch(updateFMBDiagnosisCodeInfo(codeInfo))
-}
-
-const updateOriginalIcd10Codes = () => {
-  const codeInfo: string[] = ['A02', 'U071']
-
-  testStore.dispatch(setOriginalIcd10Codes(codeInfo))
-}

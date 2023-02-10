@@ -1,5 +1,5 @@
-import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import faker from 'faker'
+import { ResourceLink, ResourceLinkType } from '../../types/resourceLink'
 
 export const fakeResourceLink = (data?: Partial<ResourceLink>): ResourceLink => {
   const type = data?.type ?? ResourceLinkType.EDIT_CERTIFICATE

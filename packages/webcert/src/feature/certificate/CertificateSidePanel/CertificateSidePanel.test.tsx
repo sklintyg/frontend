@@ -1,8 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import React from 'react'
-import reducer from '../../../store/reducers'
 import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
@@ -14,6 +13,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -35,10 +35,7 @@ const renderComponent = () => {
 describe('CertificateSidePanel', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, certificateMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
   })
 
   afterEach(() => {

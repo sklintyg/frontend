@@ -1,10 +1,9 @@
-import { ModalProps } from './errorUtils'
 import React from 'react'
 import ErrorModalBase from './ErrorModalBase'
-import { INVALID_STATE_TITLE } from './InvalidState'
+import { ModalProps } from './errorUtils'
 
-export const COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE =
-  'Intyget kunde inte förnyas eftersom det har blivit kompletterat av ett senare intyg.'
+export const INVALID_STATE_TITLE = 'Funktionen är inte giltig'
+export const COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE = 'Intyget har blivit kompletterat av ett senare intyg.'
 
 const ComplementaryCertificateExists: React.FC<ModalProps> = ({ errorData }) => {
   return (

@@ -5,11 +5,11 @@ import {
   Diagnosis,
   QuestionValidationTexts,
   TextValidation,
+  Typeahead,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '@frontend/common'
-import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
@@ -29,12 +29,14 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  padding-top: 15px;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
   display: grid;
   align-items: flex-start;
   grid-template-columns: 120px repeat(3, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: 10px;
+  grid-column-gap: 0.9375rem;
   grid-template-areas:
     'code diagnosis diagnosis diagnosis'
     'codeError descError descError descError';

@@ -1,9 +1,9 @@
-import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType } from '@frontend/common'
+import { CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
@@ -21,10 +21,10 @@ import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
+import { QuestionValidationError } from './Question/QuestionValidationError'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
-import { QuestionValidationError } from './Question/QuestionValidationError'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -41,14 +41,13 @@ const Wrapper = styled.div`
 
 const CategoryWrapper = styled.div`
   background: #ffffff;
-  padding-bottom: 1rem;
-  :not(:last-child) {
-    margin-bottom: 16px;
+  padding-bottom: 0.9375rem;
+  :empty {
+    display: none;
   }
-`
-
-const ValidationErrorWrapper = styled.div`
-  padding: 0 2rem;
+  :not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `
 
 const Certificate: React.FC = () => {
@@ -82,7 +81,7 @@ const Certificate: React.FC = () => {
   }
 
   return (
-    <Backdrop open={showSpinner} spinnerText={spinnerText}>
+    <SpinnerBackdrop open={showSpinner} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
           <InfoBox type="info" additionalStyles="iu-mt-400">
@@ -112,18 +111,14 @@ const Certificate: React.FC = () => {
                 const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
                 return (
                   <CategoryWrapper key={index}>
-                    {structure.map(({ id, subQuestionIds, component }) => {
+                    {structure.map(({ id, subQuestionIds, component }, index) => {
                       if (component === ConfigTypes.CATEGORY) {
                         return <Category key={index} id={id} />
                       } else {
                         return <QuestionWithSubQuestions key={index} questionIds={[id, ...subQuestionIds]} />
                       }
                     })}
-                    {category && (
-                      <ValidationErrorWrapper>
-                        <QuestionValidationError id={category.id} />
-                      </ValidationErrorWrapper>
-                    )}
+                    {category && <QuestionValidationError id={category.id} />}
                   </CategoryWrapper>
                 )
               })}
@@ -133,7 +128,7 @@ const Certificate: React.FC = () => {
         <CertificateFooter />
         <SigningForm />
       </Wrapper>
-    </Backdrop>
+    </SpinnerBackdrop>
   )
 }
 

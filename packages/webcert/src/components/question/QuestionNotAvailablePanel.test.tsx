@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../store/reducers'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import QuestionNotAvailablePanel from './QuestionNotAvailablePanel'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -24,10 +24,7 @@ const renderDefaultComponent = () => {
 
 describe('QuestionNotAvailablePanel', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(questionMiddleware),
-    })
+    testStore = configureApplicationStore([questionMiddleware])
   })
 
   it('renders without crashing', () => {

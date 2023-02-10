@@ -12,7 +12,7 @@ import {
   ListFilterTextConfig,
   ListFilterType,
   ListType,
-} from '@frontend/common/src/types/list'
+} from '@frontend/common'
 
 export const getPageSizeFilter = (): ListFilterPageSizeConfig => {
   return {

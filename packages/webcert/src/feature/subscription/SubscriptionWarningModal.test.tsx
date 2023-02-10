@@ -1,8 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
@@ -10,6 +9,7 @@ import SubscriptionWarningModal from './SubscriptionWarningModal'
 import { updateUserResourceLinks } from '../../store/user/userActions'
 import { getSubscriptionWarningResourceLink } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -23,10 +23,7 @@ const renderComponent = () => {
 
 describe('Subscription warning modal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, userMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, userMiddleware])
   })
 
   afterEach(() => clearDispatchedActions())

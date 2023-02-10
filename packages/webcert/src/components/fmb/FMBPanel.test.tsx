@@ -1,15 +1,14 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import FMBPanel from './FMBPanel'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import reducer from '../../store/reducers'
-import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
-import { Provider } from 'react-redux'
-import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
-import { updateDynamicLinks } from '../../store/utils/utilsActions'
 import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common/src'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { setDiagnosisListValue, updateFMBDiagnosisCodeInfo } from '../../store/fmb/fmbActions'
+import { fmbMiddleware } from '../../store/fmb/fmbMiddleware'
+import { updateDynamicLinks } from '../../store/utils/utilsActions'
+import FMBPanel from './FMBPanel'
 
 let testStore: EnhancedStore
 
@@ -20,7 +19,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel headerHeight={0} />
+        <FMBPanel />
       </Router>
     </Provider>
   )
@@ -31,7 +30,7 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <FMBPanel headerHeight={0} />
+        <FMBPanel />
       </Router>
     </Provider>
   )
@@ -39,10 +38,7 @@ const renderDefaultComponentWithoutDiagnosisValue = () => {
 
 describe('FMBPanel', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(fmbMiddleware),
-    })
+    testStore = configureApplicationStore([fmbMiddleware])
   })
 
   it('shall display empty panel when no diagnoses are selected', async () => {

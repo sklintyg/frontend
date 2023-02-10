@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ConfigUeIcf, ValueIcf } from '../../../types/certificate'
+import { ConfigUeIcf, ValueIcf } from '../../../types'
 import { Badge } from '../Badge'
 
 const IcfCode = styled.p`
@@ -39,5 +39,9 @@ export const UvIcf: React.FC<{
       </Badge>
     )
   }
-  return null
+  return (
+    <Badge>
+      <p>Ej angivet</p>
+    </Badge>
+  )
 }

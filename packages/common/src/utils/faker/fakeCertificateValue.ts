@@ -17,6 +17,7 @@ import {
   ValueEyeAcuity,
   ValueHeader,
   ValueIcf,
+  ValueInteger,
   ValueMedicalInvestigation,
   ValueMedicalInvestigationList,
   ValueText,
@@ -98,6 +99,12 @@ const fakeDouble = fakeDataElementValue<ValueDouble>(() => ({
   value: null,
 }))
 
+const fakeInteger = fakeDataElementValue<ValueInteger>(() => ({
+  type: CertificateDataValueType.INTEGER,
+  id: faker.random.alpha({ count: 5 }),
+  value: null,
+}))
+
 const fakeHeader = fakeDataElementValue<ValueHeader>(() => ({
   type: CertificateDataValueType.HEADER,
   id: faker.random.alpha({ count: 5 }),
@@ -106,7 +113,7 @@ const fakeHeader = fakeDataElementValue<ValueHeader>(() => ({
 const fakeICF = fakeDataElementValue<ValueIcf>(() => ({
   type: CertificateDataValueType.ICF,
   id: faker.random.alpha({ count: 5 }),
-  // icfCodes: [],
+  icfCodes: undefined,
   text: null,
 }))
 
@@ -214,4 +221,5 @@ export const fakeCertificateValue = {
   viewTable: fakeViewTable,
   viewText: fakeViewText,
   visualAcuity: fakeVisualAcuity,
+  integer: fakeInteger,
 }

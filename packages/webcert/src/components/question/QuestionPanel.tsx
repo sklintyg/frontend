@@ -25,21 +25,23 @@ const HeaderButtons = styled.div`
 `
 
 const Wrapper = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 `
 
-interface Props {
-  headerHeight: number
-}
+const Content = styled.div`
+  overflow-y: auto;
+  flex-grow: 1;
+`
 
-const QuestionPanel: React.FC<Props> = (props) => {
+const QuestionPanel: React.FC = () => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-  return isLoadingQuestions ? null : <QuestionPanelInner {...props} />
+  return isLoadingQuestions ? null : <QuestionPanelInner />
 }
 
-const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
+const QuestionPanelInner: React.FC = () => {
   const questions = useSelector(getQuestions, _.isEqual)
   const questionDraft = useSelector(getQuestionDraft, _.isEqual)
   const isQuestionFormVisible = useSelector(isCreateQuestionsAvailable)
@@ -56,53 +58,6 @@ const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
     if (!isSigned) return undefined
     return getNumberOfUnhandledQuestions(questions)
   }
-
-  const getHeaderButtons = () => {
-    return (
-      <HeaderButtons>
-        <CustomButton
-          text="Kompletteringsbegäran"
-          number={getButtonNumber(complementQuestions)}
-          buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
-          rounded={true}
-          onClick={() => setIsComplementSelected(true)}
-          buttonClasses="iu-height-800"
-        />
-        <CustomButton
-          text="Administrativa frågor"
-          number={getButtonNumber(administrativeQuestions)}
-          buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
-          rounded={true}
-          onClick={() => setIsComplementSelected(false)}
-          buttonClasses="iu-height-800 iu-ml-300"
-        />
-      </HeaderButtons>
-    )
-  }
-
-  const getPanel = () => {
-    return (
-      <>
-        <PanelHeaderCustomized content={getHeaderButtons()} />
-        {isComplementSelected ? (
-          <ComplementQuestionPanel
-            complementQuestions={complementQuestions}
-            isDisplayingCertificateDraft={isCertificateDraft}
-            headerHeight={headerHeight}
-          />
-        ) : (
-          <AdministrativeQuestionPanel
-            administrativeQuestions={administrativeQuestions}
-            isQuestionFormVisible={isQuestionFormVisible}
-            administrativeQuestionDraft={questionDraft}
-            headerHeight={headerHeight}
-          />
-        )}
-        <QuestionPanelFooter questions={questions} />
-      </>
-    )
-  }
-
   return (
     <Wrapper className="iu-bg-light-grey">
       {errorId ? (
@@ -111,7 +66,42 @@ const QuestionPanelInner: React.FC<Props> = ({ headerHeight }) => {
           <FetchQuestionsProblem errorId={errorId} />
         </>
       ) : (
-        getPanel()
+        <>
+          <PanelHeaderCustomized
+            content={
+              <HeaderButtons>
+                <CustomButton
+                  text="Kompletteringsbegäran"
+                  number={getButtonNumber(complementQuestions)}
+                  buttonStyle={isComplementSelected ? 'primary' : 'secondary'}
+                  rounded={true}
+                  onClick={() => setIsComplementSelected(true)}
+                  buttonClasses="iu-height-800"
+                />
+                <CustomButton
+                  text="Administrativa frågor"
+                  number={getButtonNumber(administrativeQuestions)}
+                  buttonStyle={!isComplementSelected ? 'primary' : 'secondary'}
+                  rounded={true}
+                  onClick={() => setIsComplementSelected(false)}
+                  buttonClasses="iu-height-800 iu-ml-300"
+                />
+              </HeaderButtons>
+            }
+          />
+          <Content>
+            {isComplementSelected ? (
+              <ComplementQuestionPanel complementQuestions={complementQuestions} isDisplayingCertificateDraft={isCertificateDraft} />
+            ) : (
+              <AdministrativeQuestionPanel
+                administrativeQuestions={administrativeQuestions}
+                isQuestionFormVisible={isQuestionFormVisible}
+                administrativeQuestionDraft={questionDraft}
+              />
+            )}
+          </Content>
+          <QuestionPanelFooter questions={questions} />
+        </>
       )}
     </Wrapper>
   )

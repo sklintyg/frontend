@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import styled from 'styled-components'
-import infoCircle from '@frontend/common/src/images/alert.svg'
+import infoCircle from '../images/alert.svg'
 
 const Logo = styled.img`
   height: 15px;

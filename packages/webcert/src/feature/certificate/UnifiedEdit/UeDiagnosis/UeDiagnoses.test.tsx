@@ -1,11 +1,11 @@
 import { fakeDiagnosesElement } from '@frontend/common'
-import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import reducers from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
 import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import { getDiagnosisTypeaheadResult } from '../../../../store/utils/utilsSelectors'
@@ -46,10 +46,7 @@ const checkThatInputsAreEmpty = (indexToSkip: number, input: HTMLElement[]) => {
 
 describe('Diagnoses component', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer: reducers,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(utilsMiddleware),
-    })
+    testStore = configureApplicationStore([utilsMiddleware])
     testStore.dispatch(updateDiagnosisTypeahead({ diagnoser: DIAGNOSES, resultat: 'OK', moreResults: false }))
   })
 

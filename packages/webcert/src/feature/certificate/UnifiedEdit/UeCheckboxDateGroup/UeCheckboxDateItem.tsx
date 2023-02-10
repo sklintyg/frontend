@@ -1,19 +1,21 @@
-import { Checkbox, DatePickerCustom, QuestionValidationTexts, ValueDate, _format, ValidationError } from '@frontend/common'
+import { Checkbox, DatePickerCustom, QuestionValidationTexts, ValidationError, ValueDate, _format } from '@frontend/common'
 import { format } from 'date-fns'
 import React from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
 `
 
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 16px;
   margin-top: 0;
 `
 

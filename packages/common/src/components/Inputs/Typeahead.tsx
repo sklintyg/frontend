@@ -1,8 +1,8 @@
-import { sanitizeText } from '@frontend/common'
 import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
 import { Element, scroller } from 'react-scroll'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { sanitizeText } from '../../utils/sanitizeText'
 import TextInput from './TextInput'
 
 interface Props extends React.ComponentProps<typeof TextInput> {
