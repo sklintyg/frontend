@@ -87,7 +87,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-6">
         <Typeahead
           disabled={disabled}
-          error={validationErrors.length > 0}
+          hasValidationError={validationErrors.length > 0}
           onChange={handleChange}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
