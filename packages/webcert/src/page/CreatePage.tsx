@@ -12,7 +12,7 @@ import { isFilterDefault } from '../feature/list/listUtils'
 import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { performListSearch, updateActiveListFilterValue } from '../store/list/listActions'
 import { getActiveListConfig, getActiveListFilter, getActiveListFilterValue, getListTotalCount } from '../store/list/listSelectors'
-import { clearPatient, getPatient } from '../store/patient/patientActions'
+import { getPatient } from '../store/patient/patientActions'
 import { getActivePatient } from '../store/patient/patientSelectors'
 import { getUser } from '../store/user/userSelectors'
 import { ResourceAccess } from '../utils/ResourceAccess'
@@ -78,11 +78,6 @@ const CreatePage: React.FC = () => {
 
   if (patient && !patientId) {
     history.push(`/create/${patient.personId.id}`)
-  }
-
-  if (history.action === 'POP') {
-    dispatch(clearPatient())
-    history.push('/search')
   }
 
   return (
