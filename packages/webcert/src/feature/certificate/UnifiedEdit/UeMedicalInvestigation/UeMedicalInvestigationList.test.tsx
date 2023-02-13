@@ -1,10 +1,4 @@
-import {
-  fakeMedicalInvestigationListElement,
-  ConfigUeMedicalInvestigationList,
-  fakeCertificate,
-  ValueText,
-  CertificateDataValueType,
-} from '@frontend/common'
+import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -229,57 +223,19 @@ describe('Medical investigation component', () => {
   })
 
   it('Sets the value to null if the text is empty', () => {
-    const text = 'Text value'
-    let informationSource: ValueText = {
-      type: CertificateDataValueType.TEXT,
-      id: '1',
-      text: text,
-    }
-    renderComponent({
-      question: fakeMedicalInvestigationListElement({
-        id: QUESTION_ID,
-        value: {
-          list: [
-            {
-              informationSource,
-            },
-          ],
-        },
-      })[QUESTION_ID],
-    })
-    const input = screen.getAllByRole('textbox')[0]
-    const newValue = ''
-
-    userEvent.type(input, newValue)
-    informationSource = {
-      type: CertificateDataValueType.TEXT,
-      id: '1',
-      text: newValue === '' ? null : text,
-    }
-    expect(informationSource.text === null).toBeTruthy()
+    renderComponent({ question, disabled: false })
+    const input = screen.queryAllByRole('textbox')
+    userEvent.clear(input[1])
+    userEvent.type(input[1], '')
+    expect(input[1]).toHaveValue('')
   })
 
   it('Sets the value not to null if the text is not empty', async () => {
-    const informationSource: ValueText = {
-      type: CertificateDataValueType.TEXT,
-      id: '1',
-      text: '',
-    }
-    renderComponent({
-      question: fakeMedicalInvestigationListElement({
-        id: QUESTION_ID,
-        value: {
-          list: [
-            {
-              informationSource,
-            },
-          ],
-        },
-      })[QUESTION_ID],
-    })
+    renderComponent({ disabled: false, question })
     const inputs = screen.getAllByRole('textbox')
     const newValue = 'text'
-    userEvent.type(inputs[0], newValue)
-    expect(inputs[0]).toHaveValue(newValue)
+    userEvent.clear(inputs[1])
+    userEvent.type(inputs[1], newValue)
+    expect(inputs[1]).toHaveValue(newValue)
   })
 })

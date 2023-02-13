@@ -61,6 +61,7 @@ import { fakeList } from './fakeList'
 import { fakeCertificateConfig } from './fakeCertificateConfig'
 
 import { merge } from 'lodash'
+import { text } from '@fortawesome/fontawesome-svg-core'
 
 const fakeDataElement = <T extends CertificateDataConfigType, P extends ValueType | null>(
   callback: (config?: PartialDeep<T>, value?: PartialDeep<P>) => { config: T; value: P }
@@ -230,6 +231,7 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
         },
       })
     )
+
     const configList = valueList.map(({ investigationType, informationSource, date }) => ({
       investigationTypeId: investigationType.id,
       informationSourceId: informationSource.id,
