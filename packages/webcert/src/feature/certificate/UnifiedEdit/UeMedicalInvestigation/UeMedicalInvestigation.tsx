@@ -59,7 +59,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
       informationSource: {
         ...value.informationSource,
         id: config.informationSourceId,
-        text,
+        text: text || null,
       },
     })
   }
