@@ -1,17 +1,16 @@
-import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
-import { Element, scroller } from 'react-scroll'
+import { findIndex, findLastIndex } from 'lodash'
+import React, { KeyboardEventHandler, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { sanitizeText } from '../../utils/sanitizeText'
 import TextInput from './TextInput'
 
 interface Props extends React.ComponentProps<typeof TextInput> {
-  listStyles?: FlattenSimpleInterpolation
   suggestions: Suggestion[]
   onSuggestionSelected: (value: string) => void
   onClose?: () => void
   getItemText?: (item: string, value: string | number | readonly string[] | undefined) => string
   moreResults?: boolean
+  'data-testid'?: string
 }
 
 export interface Suggestion {
@@ -20,28 +19,34 @@ export interface Suggestion {
   title: string | null
 }
 
-const SuggestionsList = styled.ul`
-  list-style-type: none;
-  text-align: left;
-  position: absolute;
-  margin: 0;
-  padding: 5px 0;
-  border-top: 1px solid gray;
+const Root = styled.div`
+  position: relative;
+`
+
+const SuggestionListWrapper = styled.div`
+  background: #fff;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px 1px rgba(0, 0, 0, 0.18);
+  border-top: 1px solid gray;
+  z-index: 100000;
+  position: absolute;
   left: 0;
   right: 0;
-  z-index: 100000;
-  background-color: white;
-  max-height: 350px;
+  min-width: 20rem;
+`
+
+const SuggestionList = styled.ul`
+  list-style-type: none;
+  text-align: left;
+  max-height: 20rem;
   overflow-y: auto;
-  flex: 1;
-  grid-area: ul;
+  scroll-behavior: smooth;
+  padding: 5px 0;
 
   .disabled {
     cursor: not-allowed !important;
   }
 `
-const SuggestionsListItem = styled.li`
+const SuggestionListItem = styled.li`
   padding: 3px 20px;
   cursor: pointer;
 
@@ -51,16 +56,15 @@ const SuggestionsListItem = styled.li`
   }
 `
 
-const MoreResultsListItem = styled.li`
-  padding: 7px 3px;
+const MoreResultsListItem = styled.div`
+  padding: 7px 20px;
+  font-style: italic;
+  border-bottom: 1px solid #bbbbbb;
   cursor: auto;
 `
 
 const Typeahead = React.forwardRef<HTMLInputElement, Props>(
-  (
-    { listStyles, suggestions, onSuggestionSelected, onClose, onChange, onBlur, onKeyDown, onClick, moreResults, getItemText, ...props },
-    ref
-  ) => {
+  ({ suggestions, onSuggestionSelected, onClose, onChange, onBlur, onKeyDown, onClick, moreResults, getItemText, ...props }, ref) => {
     const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
     const [hovered, setHovered] = useState<number>(-1)
     const typeaheadList = useRef<null | HTMLUListElement>(null)
@@ -83,22 +87,46 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
       [onSuggestionSelected]
     )
 
+    const scrollToItem = useCallback((index: number) => {
+      const element = typeaheadList.current
+      if (index >= 0 && element != null && element.children[index] != null) {
+        element.children[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' })
+      }
+    }, [])
+
     const handleKeyDown: KeyboardEventHandler = useCallback(
       (event) => {
         if (open) {
           switch (event.key) {
-            case 'ArrowDown':
-              setCursor((prevState) => (prevState + 1) % suggestions.length)
+            case 'ArrowDown': {
+              if (suggestions.some((val) => val.disabled === false)) {
+                let index = findIndex(suggestions, ({ disabled }) => disabled === false, (cursor + 1) % suggestions.length)
+                if (index === -1) {
+                  index = findIndex(suggestions, ({ disabled }) => disabled === false, 0)
+                }
+                setCursor(index)
+                scrollToItem(index)
+              }
               event.preventDefault()
               break
-            case 'ArrowUp':
-              setCursor((prevState) => (prevState - 1) % suggestions.length)
+            }
+            case 'ArrowUp': {
+              if (suggestions.some((val) => val.disabled === false)) {
+                const startIndex = cursor === 0 ? suggestions.length - 1 : cursor - 1
+                let index = findLastIndex(suggestions, ({ disabled }) => disabled === false, startIndex % suggestions.length)
+                if (index === -1) {
+                  index = findLastIndex(suggestions, ({ disabled }) => disabled === false, suggestions.length - 1)
+                }
+                setCursor(index)
+                scrollToItem(index)
+              }
               event.preventDefault()
               break
+            }
             case 'Tab':
             case 'Enter':
               if (suggestions.length >= cursor && cursor >= 0) {
-                onSelect(suggestions[cursor])
+                suggestions[cursor] && onSelect(suggestions[cursor])
               }
               event.preventDefault()
               break
@@ -108,23 +136,8 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
           }
         }
       },
-      [cursor, handleClose, onSelect, open, suggestions]
+      [cursor, handleClose, onSelect, open, scrollToItem, suggestions]
     )
-
-    useEffect(() => {
-      if (cursor >= 0 && suggestions[cursor].label.length > 0 && cursor !== hovered) {
-        const element = typeaheadList.current
-        if (element !== null && element !== undefined) {
-          scroller.scrollTo(`typeahead-item-${cursor}`, {
-            duration: 0,
-            delay: 0,
-            smooth: false,
-            containerId: 'typeahead-list',
-            offset: -300,
-          })
-        }
-      }
-    }, [cursor, hovered, suggestions])
 
     const updateHovered = (i: number) => {
       setHovered(i)
@@ -144,7 +157,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
     }
 
     return (
-      <>
+      <Root>
         <TextInput
           ref={ref}
           onClick={(evt) => {
@@ -166,32 +179,29 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
           arial-activedescendant={cursor >= 0 && open ? `typeahead-list-option-${cursor}` : undefined}
           {...props}
         />
-        <div css={listStyles}>
-          {open && suggestions.length > 0 && (
-            <SuggestionsList id={'typeahead-list'} ref={typeaheadList}>
-              {moreResults && (
-                <MoreResultsListItem>Det finns fler träffar än vad som kan visas i listan, förfina sökningen.</MoreResultsListItem>
-              )}
+        {open && suggestions.length > 0 && (
+          <SuggestionListWrapper>
+            {moreResults && (
+              <MoreResultsListItem>Det finns fler träffar än vad som kan visas i listan, förfina sökningen.</MoreResultsListItem>
+            )}
+            <SuggestionList data-testid={`${props['data-testid'] ?? 'typeahead'}-list`} ref={typeaheadList}>
               {suggestions.map((item, index) => (
-                <SuggestionsListItem
-                  id={`typeahead-list-option-${index}`}
-                  key={item.label}
+                <SuggestionListItem
+                  data-testid={`${props['data-testid'] ?? 'typeahead'}-list-option-${index}`}
+                  key={index}
                   role="option"
                   title={item.title ?? 'unknown-title'}
                   className={getItemClassName(item, index)}
                   onMouseDown={() => onSelect(item)}
                   onMouseEnter={() => updateHovered(index)}
-                  onMouseLeave={() => setHovered(-1)}>
-                  <Element
-                    name={`typeahead-item-${index}`}
-                    dangerouslySetInnerHTML={sanitizeText(getItemText ? getItemText(item.label, props.value) : item.label)}
-                  />
-                </SuggestionsListItem>
+                  onMouseLeave={() => setHovered(-1)}
+                  dangerouslySetInnerHTML={sanitizeText(getItemText ? getItemText(item.label, props.value) : item.label)}
+                />
               ))}
-            </SuggestionsList>
-          )}
-        </div>
-      </>
+            </SuggestionList>
+          </SuggestionListWrapper>
+        )}
+      </Root>
     )
   }
 )

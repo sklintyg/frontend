@@ -14,7 +14,6 @@ import _ from 'lodash'
 import * as React from 'react'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { css } from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 
@@ -22,10 +21,6 @@ export interface Props {
   question: CertificateDataElement
   disabled?: boolean
 }
-
-const wholeRowGrid = css`
-  position: relative;
-`
 
 const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
   const questionConfig = question.config as ConfigUeTypeahead
@@ -94,7 +89,6 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
           placeholder={questionConfig.placeholder}
           suggestions={getSuggestions()}
           onSuggestionSelected={onSuggestionSelected}
-          listStyles={wholeRowGrid}
         />
         <QuestionValidationTexts validationErrors={validationErrors} />
       </div>
