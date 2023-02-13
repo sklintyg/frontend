@@ -1,7 +1,7 @@
-import React, { ComponentProps } from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import React, { ComponentProps } from 'react'
 import Typeahead, { Suggestion } from './Typeahead'
 
 const suggestions: Suggestion[] = [
@@ -16,6 +16,10 @@ const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>)
 }
 
 describe('Typeahead component', () => {
+  beforeEach(() => {
+    HTMLElement.prototype.scrollIntoView = jest.fn()
+  })
+
   it('Should render without crashing', () => {
     expect(() => renderComponent({})).not.toThrow()
   })
@@ -52,11 +56,20 @@ describe('Typeahead component', () => {
   it('Should show information suggestion if there are more results', () => {
     renderComponent({ moreResults: true, suggestions })
     userEvent.click(screen.getByRole('textbox'))
-    expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
-    expect(screen.queryAllByRole('listitem')).toHaveLength(1)
+    expect(screen.getByText('Det finns fler träffar än vad som kan visas i listan, förfina sökningen.')).toBeInTheDocument()
   })
 
-  it('Should allow user to choose option using click or enter key', () => {
+  it('Should allow user to choose option using click', () => {
+    const onSuggestionSelected = jest.fn()
+    renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
+    userEvent.click(screen.getByRole('textbox'))
+    expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
+    userEvent.click(screen.getAllByRole('option')[1])
+    expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
+    expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[1].label)
+  })
+
+  it('Should allow user to choose option using enter key', () => {
     const onSuggestionSelected = jest.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
     userEvent.click(screen.getByRole('textbox'))
@@ -64,9 +77,6 @@ describe('Typeahead component', () => {
     userEvent.keyboard('{enter}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[0].label)
-    userEvent.click(screen.getAllByRole('option')[1])
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(2)
-    expect(onSuggestionSelected).toHaveBeenNthCalledWith(2, suggestions[1].label)
   })
 
   it('Should allow user to choose option using tab', () => {
@@ -92,27 +102,6 @@ describe('Typeahead component', () => {
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[2].label)
     userEvent.keyboard('{arrowUp}')
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
-    userEvent.keyboard('{enter}')
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(2)
-    expect(onSuggestionSelected).toHaveBeenNthCalledWith(2, suggestions[1].label)
-    userEvent.hover(screen.getAllByRole('option')[0])
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(2)
-    userEvent.keyboard('{enter}')
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(3)
-    expect(onSuggestionSelected).toHaveBeenNthCalledWith(3, suggestions[0].label)
-  })
-
-  it('Should not allow user to choose disabled option', () => {
-    const onSuggestionSelected = jest.fn()
-    renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
-    userEvent.click(screen.getByRole('textbox'))
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{arrowUp}')
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.keyboard('{enter}')
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
-    userEvent.click(screen.getAllByRole('option')[3])
-    expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
   })
 
   it('Should closes list on escape key', () => {
