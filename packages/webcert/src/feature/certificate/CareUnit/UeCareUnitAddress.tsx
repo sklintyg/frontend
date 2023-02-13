@@ -1,9 +1,8 @@
-import { MandatoryIcon, QuestionValidationTexts, TextArea, Unit } from '@frontend/common'
-import { getValidationErrors } from '@frontend/common/src/utils/validationUtils'
+import { getValidationErrors, MandatoryIcon, QuestionValidationTexts, TextArea, Unit } from '@frontend/common'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificateUnit } from '../../../store/certificate/certificateActions'
 import {
   getCareUnitValidationErrors,
@@ -53,6 +52,9 @@ const PhoneNumberInput = styled.input.attrs({
 
 const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   line-height: 0;
+  .ic-forms__error-message {
+    line-height: 1.64;
+  }
 `
 
 const UeCareUnitAddress: React.FC = () => {

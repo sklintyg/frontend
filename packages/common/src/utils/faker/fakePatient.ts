@@ -1,6 +1,6 @@
-import { Patient } from '@frontend/common'
 import faker from 'faker'
 import { PartialDeep } from 'type-fest'
+import { Patient } from '../../types/patient'
 
 export const fakePatient = (data?: PartialDeep<Patient>): Patient => {
   const firstName = faker.name.firstName()

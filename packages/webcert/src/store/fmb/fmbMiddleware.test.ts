@@ -1,16 +1,22 @@
-import MockAdapter from 'axios-mock-adapter'
 import {
   Certificate,
   CertificateDataElement,
-  CertificateMetadata,
-  Patient,
-  ResourceLinkType,
   CertificateDataValueType,
-  ValueDateRangeList,
-  ValueDiagnosisList,
+  CertificateMetadata,
+  fakeCertificateConfig,
   fakeDiagnosesElement,
   fakeSickLeavePeriod,
+  Patient,
+  ResourceLinkType,
+  ValueDateRangeList,
+  ValueDiagnosisList,
 } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
+import { configureApplicationStore } from '../configureApplicationStore'
 import {
   FMBDiagnoseRequest,
   getFMBDiagnosisCodeInfo,
@@ -20,14 +26,7 @@ import {
   updateFMBDiagnosisCodeInfo,
   updateFMBPanelActive,
 } from './fmbActions'
-import axios from 'axios'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { apiMiddleware } from '../api/apiMiddleware'
 import { fmbMiddleware } from './fmbMiddleware'
-import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-
-import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
-import { configureApplicationStore } from '../configureApplicationStore'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

@@ -1,13 +1,16 @@
-import { Dropdown, TextInput, DatePickerCustom, QuestionValidationTexts } from '@frontend/common'
 import {
-  ValueMedicalInvestigation,
+  CertificateDataValidation,
+  CertificateDataValidationType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
-  CertificateDataValidation,
-  ValidationError,
-  CertificateDataValidationType,
+  DatePickerCustom,
+  Dropdown,
+  QuestionValidationTexts,
+  TextInput,
   TextValidation,
-} from '@frontend/common/src/types/certificate'
+  ValidationError,
+  ValueMedicalInvestigation,
+} from '@frontend/common'
 import React from 'react'
 import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 

@@ -1,7 +1,6 @@
+import { ExternalLinkIcon, FMBDiagnosisCodeInfo } from '@frontend/common'
 import React from 'react'
-import { FMBDiagnosisCodeInfo } from '@frontend/common'
 import { Link } from 'react-router-dom'
-import ExternalLinkIcon from '@frontend/common/src/components/image/ExternalLinkIcon'
 
 interface Props {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo

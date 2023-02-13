@@ -1,8 +1,8 @@
-import { sanitizeText } from '@frontend/common'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Element, scroller } from 'react-scroll'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { sanitizeText } from '../../utils/sanitizeText'
 import { useKeyPress } from '../../utils/userFunctionUtils'
 import TextInput from './TextInput'
 

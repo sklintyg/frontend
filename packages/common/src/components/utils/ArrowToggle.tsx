@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import arrow from '@frontend/common/src/images/arrow-down.svg'
+import arrow from '../../images/arrow-down.svg'
 
 const StyledButton = styled.button`
   border: none;

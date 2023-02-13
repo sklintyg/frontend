@@ -1,11 +1,11 @@
+import { Dropdown, RadioButton, SpinnerBackdrop } from '@frontend/common'
+import { isEqual } from 'lodash'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
-import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
+import styled from 'styled-components'
 import { useDeepCompareEffect } from '../../hooks/useDeepCompareEffect'
-import { Backdrop, Dropdown, RadioButton } from '@frontend/common'
-import styled from 'styled-components/macro'
-import { isEqual } from 'lodash'
+import { getCertificateTypes, getPatients, updateCreateCertificate } from '../../store/welcome/welcomeActions'
+import { getAvailableCertificateTypes, getAvailablePatients, getCreateCertificate } from '../../store/welcome/welcomeSelectors'
 
 const PatientWrapper = styled.div`
   max-width: 600px;
@@ -116,7 +116,7 @@ const WelcomeCertificateTypes: React.FC = () => {
 
   return (
     <>
-      <Backdrop open={!certificateTypes} spinnerText={'Hämtar intygstyper'}>
+      <SpinnerBackdrop open={!certificateTypes} spinnerText={'Hämtar intygstyper'}>
         {certificateTypes && (
           <PatientWrapper>
             <h3>Patient: </h3>
@@ -199,7 +199,7 @@ const WelcomeCertificateTypes: React.FC = () => {
               )}
             </div>
           ))}
-      </Backdrop>
+      </SpinnerBackdrop>
     </>
   )
 }

@@ -1,18 +1,22 @@
-import * as React from 'react'
 import {
   CertificateListItemValueType,
+  checkImage,
+  CustomButton,
+  formatDate,
   ForwardedListInfo,
   ListButtonTooltips,
   ListType,
   PatientListInfo,
-} from '@frontend/common/src/types/list'
-import { CustomButton, formatDate, PatientListInfoContent, ResourceLink, ResourceLinkType } from '@frontend/common'
-import check from '@frontend/common/src/images/check.svg'
+  PatientListInfoContent,
+  readImage,
+  ResourceLink,
+  ResourceLinkType,
+} from '@frontend/common'
+import * as React from 'react'
 import { useHistory } from 'react-router-dom'
-import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../certificate/Buttons/ForwardCertificateButton'
-import read from '@frontend/common/src/images/read.svg'
+import RenewCertificateButton from '../certificate/Buttons/RenewCertificateButton'
 
 export const StyledIcon = styled.img`
   width: 14px;
@@ -45,7 +49,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
               tooltips[CertificateListItemValueType.OPEN_BUTTON] ? tooltips[CertificateListItemValueType.OPEN_BUTTON] : link.description
             }
             buttonStyle="primary"
-            startIcon={<img src={read} alt={'Logo Öppna intyg'} />}
+            startIcon={<img src={readImage} alt={'Logo Öppna intyg'} />}
             onClick={() => openCertificate(certificateId)}>
             {link.name}
           </CustomButton>
@@ -129,7 +133,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
         return value ? (
           <td>
             <StyledIcon
-              src={check}
+              src={checkImage}
               data-tip={tooltips[CertificateListItemValueType.FORWARD]}
               alt={tooltips[CertificateListItemValueType.FORWARD]}
             />

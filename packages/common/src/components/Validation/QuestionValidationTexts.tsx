@@ -1,7 +1,7 @@
 import React from 'react'
-import { ValidationError } from '../..'
-import ValidationText from './ValidationText'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { ValidationError } from '../../types'
+import ValidationText from './ValidationText'
 
 interface QuestionValidationTextsProps {
   validationErrors: ValidationError[]

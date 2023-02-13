@@ -1,4 +1,5 @@
 import {
+  autoFillElement,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -7,11 +8,12 @@ import {
   CertificateSignStatus,
   Complement,
   ConfigTypes,
+  isShowAlways,
   ModalData,
+  setDisableForChildElement,
   ValueBoolean,
   ValueText,
 } from '@frontend/common'
-import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
   applyCertificateDataElementAutoFill,
@@ -27,10 +29,10 @@ import {
   resetCertificateState,
   setCertificateDataElement,
   setCertificatePatientData,
-  setCertificateSigningErrorData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -57,7 +59,6 @@ import {
   updateValidationErrors,
   validateCertificateCompleted,
   validateCertificateStarted,
-  setValidationErrorsForQuestion,
 } from './certificateActions'
 
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
@@ -311,9 +312,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateCertificateSigningData, (state, action) => {
       state.signingData = action.payload
-    })
-    .addCase(setCertificateSigningErrorData, (state, action) => {
-      state.signingError = action.payload
     })
     .addCase(updateCertificateSignStatus, (state, action) => {
       state.signingStatus = action.payload

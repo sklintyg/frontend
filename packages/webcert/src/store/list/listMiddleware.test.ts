@@ -1,4 +1,4 @@
-import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -13,8 +13,8 @@ import {
   getDrafts,
   getPreviousCertificatesList,
   getPreviousCertificatesListConfig,
-  getUnhandledCertificatesListConfig,
   getUnhandledCertificates,
+  getUnhandledCertificatesListConfig,
   ListResponse,
   updateActiveListConfig,
   updateActiveListType,

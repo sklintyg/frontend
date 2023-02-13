@@ -1,7 +1,6 @@
+import { ListFilterConfig, ListFilterType, ListFilterValue, ListFilterValueText, TextInput } from '@frontend/common'
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import { ListFilterConfig, ListFilterType, ListFilterValue, ListFilterValueText } from '@frontend/common/src/types/list'
-import TextInput from '@frontend/common/src/components/Inputs/TextInput'
 import { useSelector } from 'react-redux'
 import { getActiveListFilterValue } from '../../../store/list/listSelectors'
 import { FilterWrapper } from './filterStyles'

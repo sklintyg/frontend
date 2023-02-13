@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
 import {
   CertificateDataElement,
+  ConfigLayout,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   QuestionValidationTexts,
   RadioButton,
   ValueCode,
-  ConfigLayout,
 } from '@frontend/common'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { css, FlattenSimpleInterpolation } from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import Question from '../../Question/Question'
-import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 import QuestionWrapper from '../../Question/QuestionWrapper'
 import { ItemWrapper } from '../ItemWrapper'
 

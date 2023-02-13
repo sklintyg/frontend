@@ -1,27 +1,30 @@
 import { addDays } from 'date-fns'
-import {
-  CertificateDataValueType,
-  ConfigUeCheckboxDateRange,
-  getLatestPeriodEndDate,
-  getPeriodHasOverlap,
-  getPeriodWorkHours,
-  getValidDateFormat,
-  getValidDate,
-  isDateRangeValid,
-  isDateRangeValidOrIncomplete,
-  isFutureDate,
-  ValueDateRange,
-} from '@frontend/common'
+
 import {
   filterDateRangeValueList,
   formatDate,
+  getLatestPeriodEndDate,
   getMaxDate,
   getMinDate,
   getNumberOfSickLeavePeriodDays,
+  getPeriodHasOverlap,
   getPeriodWorkDays,
+  getPeriodWorkHours,
+  getValidDate,
+  getValidDateFormat,
+  isDateRangeValid,
+  isDateRangeValidOrIncomplete,
+  isFutureDate,
   SickLeavePeriods,
 } from './dateUtils'
-import { CertificateDataValidationType, MaxDateValidation, MinDateValidation } from '../types/certificate'
+import {
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
+  MaxDateValidation,
+  MinDateValidation,
+  ValueDateRange,
+} from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'

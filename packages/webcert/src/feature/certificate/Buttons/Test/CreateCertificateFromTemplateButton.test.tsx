@@ -1,11 +1,9 @@
-import React from 'react'
+import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { CertificateMetadata } from '@frontend/common'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
-import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'

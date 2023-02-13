@@ -1,10 +1,8 @@
-import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes } from '@frontend/common'
+import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes, fakeCertificateConfig } from '@frontend/common'
 import { Story } from '@storybook/react'
-import React from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeDiagnoses, { Props } from './UeDiagnoses'
-import { fakeCertificateConfig } from '@frontend/common/src/utils/faker/fakeCertificateConfig'
 
 export default {
   title: 'Webcert/UeDiagnoses',

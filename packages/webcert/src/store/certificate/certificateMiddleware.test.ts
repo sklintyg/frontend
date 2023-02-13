@@ -10,7 +10,6 @@ import {
   fakeCertificateDataValidation,
   fakeCertificateMetaData,
   fakeRadioBooleanElement,
-  getExpectedError,
   getUser,
   SigningMethod,
 } from '@frontend/common'
@@ -28,6 +27,7 @@ import { utilsMiddleware } from '../utils/utilsMiddleware'
 import {
   answerComplementCertificate,
   autoSaveCertificateError,
+  CertificateApiGenericError,
   certificateApiGenericError,
   complementCertificate,
   complementCertificateSuccess,
@@ -46,6 +46,7 @@ import {
   readyForSign,
   readyForSignSuccess,
   showRelatedCertificate,
+  signCertificateStatusError,
   SigningData,
   startSignCertificate,
   updateCertificate,
@@ -56,6 +57,17 @@ import {
 import { certificateMiddleware } from './certificateMiddleware'
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+
+const getExpectedError = (errorCode: string): CertificateApiGenericError => {
+  return {
+    error: {
+      api: 'POST /api/call',
+      errorCode: errorCode,
+      message: 'This is the message',
+    },
+    certificateId: 'certificateId',
+  }
+}
 
 describe('Test certificate middleware', () => {
   let fakeAxios: MockAdapter
@@ -385,7 +397,7 @@ describe('Test certificate middleware', () => {
 
       await flushPromises()
       setTimeout(() => {
-        expect(testStore.getState().ui.uiUtils.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
+        expect(testStore.getState().ui.certificate.modalData).toEqual(createCertificateFromCandidateWithMessageSuccess)
         expect(fakeAxios.history.post.length).toBe(1)
       }, 200)
     })
@@ -556,6 +568,35 @@ describe('Test certificate middleware', () => {
       )
 
       expect(testStore.getState().ui.uiCertificate.certificate).toBeUndefined()
+    })
+  })
+
+  describe('Should handle sign certificate error', () => {
+    it('shall throw error with type modal', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.MODAL)
+    })
+
+    it('shall throw error with code SIGN_CERTIFICATE_ERROR', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.SIGN_CERTIFICATE_ERROR.toString())
+    })
+
+    it('shall throw error with certificate id', async () => {
+      const thrownError = getExpectedError(ErrorCode.PU_PROBLEM)
+      testStore.dispatch(signCertificateStatusError(thrownError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.certificateId).toEqual(thrownError.certificateId)
     })
   })
 

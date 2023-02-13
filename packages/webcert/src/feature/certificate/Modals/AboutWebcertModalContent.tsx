@@ -1,9 +1,9 @@
+import { InfoBox } from '@frontend/common'
 import React from 'react'
-import { InfoBox } from '@frontend/common/src'
-import styled from 'styled-components'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { shallowEqual, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { getConfig } from '../../../store/utils/utilsSelectors'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 const Wrapper = styled.div`
   p,

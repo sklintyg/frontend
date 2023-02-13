@@ -1,6 +1,13 @@
-import { CertificateDataElement, DatePickerCustom, getMaxDate, getMinDate, QuestionValidationTexts, ValueDate } from '@frontend/common'
-import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
-import { ConfigUeDate } from '@frontend/common/src/types/certificate'
+import {
+  CertificateDataElement,
+  ConfigUeDate,
+  DatePickerCustom,
+  getMaxDate,
+  getMinDate,
+  QuestionValidationTexts,
+  ValidationWrapper,
+  ValueDate,
+} from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'

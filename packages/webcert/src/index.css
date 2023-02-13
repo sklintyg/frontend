@@ -2,6 +2,10 @@ body {
   font-size: 14px !important;
 }
 
+.ic-text > * {
+  margin-top: inherit !important;
+}
+
 [class*='iu-grid-cols'] {
   grid-row-gap: 0.9375rem !important;
   row-gap: 0.9375rem !important;

@@ -1,9 +1,9 @@
-import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType } from '@frontend/common'
+import { CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
@@ -21,10 +21,10 @@ import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
+import { QuestionValidationError } from './Question/QuestionValidationError'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
-import { QuestionValidationError } from './Question/QuestionValidationError'
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -81,7 +81,7 @@ const Certificate: React.FC = () => {
   }
 
   return (
-    <Backdrop open={showSpinner} spinnerText={spinnerText}>
+    <SpinnerBackdrop open={showSpinner} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
           <InfoBox type="info" additionalStyles="iu-mt-400">
@@ -128,7 +128,7 @@ const Certificate: React.FC = () => {
         <CertificateFooter />
         <SigningForm />
       </Wrapper>
-    </Backdrop>
+    </SpinnerBackdrop>
   )
 }
 

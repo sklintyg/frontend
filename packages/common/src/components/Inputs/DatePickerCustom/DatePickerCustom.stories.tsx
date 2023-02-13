@@ -1,13 +1,19 @@
 import { Story } from '@storybook/react'
-import React, { useState } from 'react'
-import DatePickerCustom, { Props } from './DatePickerCustom'
+import React, { ComponentProps, useState } from 'react'
+import DatePickerCustom from './DatePickerCustom'
 
 export default {
   title: 'Components/DatePickerCustom',
   component: DatePickerCustom,
 }
 
-const Template: Story<Props> = ({ textInputOnChange, inputString, setDate, displayValidationErrorOutline, ...args }) => {
+const Template: Story<ComponentProps<typeof DatePickerCustom>> = ({
+  textInputOnChange,
+  inputString,
+  setDate,
+  displayValidationErrorOutline,
+  ...args
+}) => {
   const [date, setDateState] = useState(inputString ?? '')
   const [isValid, setIsValidState] = useState(true)
 

@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 const Root = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 
 const Section = styled.section`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
 `
 
 const Ul = styled.ul`
@@ -22,10 +23,9 @@ interface Props {
   tabsContent: React.ReactNode[]
   setSelectedTabIndex: (index: number) => void
   selectedTabIndex: number
-  setHeaderHeight: (height: number) => void
 }
 
-export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex, setHeaderHeight }) => {
+export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, selectedTabIndex }) => {
   const tabbed = useRef<HTMLDivElement | null>(null)
   const tabList = useRef<HTMLUListElement | null>(null)
   const tabRefs = useRef<HTMLAnchorElement[]>([])
@@ -115,12 +115,6 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     setTab(selectedTabIndex)
   }, [selectedTabIndex, setTab])
 
-  useEffect(() => {
-    if (tabList.current) {
-      setHeaderHeight(tabList.current?.clientHeight)
-    }
-  }, [setHeaderHeight])
-
   // The tab switching function
   const switchTab = (oldTab: HTMLElement, newTab: HTMLElement) => {
     newTab.focus()
@@ -166,5 +160,3 @@ export const Tabs: React.FC<Props> = ({ tabs, tabsContent, setSelectedTabIndex, 
     </Root>
   )
 }
-
-export default Tabs

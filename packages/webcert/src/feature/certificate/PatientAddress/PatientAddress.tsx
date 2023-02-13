@@ -1,5 +1,6 @@
 import {
   getResourceLink,
+  getValidationErrors,
   MandatoryIcon,
   Patient,
   QuestionValidationTexts,
@@ -7,11 +8,10 @@ import {
   ResourceLinkType,
   TextArea,
 } from '@frontend/common'
-import { getValidationErrors } from '@frontend/common/src/utils/validationUtils'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getIsEditable,
@@ -53,6 +53,9 @@ const CityInput = styled.input.attrs({
 
 const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
   line-height: 0;
+  .ic-forms__error-message {
+    line-height: 1.64;
+  }
 `
 
 const PatientAddress: React.FC = () => {

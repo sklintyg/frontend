@@ -1,5 +1,4 @@
-import { ButtonWithConfirmModal, CustomButton } from '@frontend/common'
-import check from '@frontend/common/src/images/check.svg'
+import { ButtonWithConfirmModal, checkImage, CustomButton } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
@@ -26,7 +25,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled
       disabled={!enabled}
       description={description}
       name={title ?? name}
-      startIcon={<img src={check} alt="Check" />}
+      startIcon={<img src={checkImage} alt="Check" />}
       modalTitle="Markera utkast klart för signering"
       onConfirm={() => dispatch(readyForSign())}
       confirmButtonText="Markera klart för signering"
@@ -47,7 +46,7 @@ const ReadyForSignButton: React.FC<Props> = ({ name, title, description, enabled
       buttonStyle="primary"
       text={name}
       data-testid="ready-for-sign-certificate-button"
-      startIcon={<img src={check} alt="Check" />}
+      startIcon={<img src={checkImage} alt="Check" />}
       onClick={() => dispatch(readyForSign())}
     />
   )

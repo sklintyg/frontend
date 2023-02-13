@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Spinner, TableHeading } from '@frontend/common'
+import React, { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
-import { TableHeading } from '@frontend/common/src/types/list'
-import { Spinner } from '@frontend/common'
+import styled from 'styled-components'
 
 interface Props {
   caption?: string
