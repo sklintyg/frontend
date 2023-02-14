@@ -59,7 +59,7 @@ describe('QuestionUvResolve', () => {
 
   it('renders without crashing', () => {
     const question = createQuestionWithTextValue()
-    renderDefaultComponent(question)
+    expect(() => renderDefaultComponent(question)).not.toThrow()
   })
 
   it('displaying text value', () => {

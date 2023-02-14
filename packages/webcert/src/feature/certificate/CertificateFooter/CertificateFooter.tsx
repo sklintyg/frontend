@@ -1,19 +1,20 @@
-import { getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
+import { CertificateSignStatus, getResourceLink, InfoBox, resourceLinksAreEqual, ResourceLinkType, StatusWithIcon } from '@frontend/common'
 import _ from 'lodash'
 import * as React from 'react'
+
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
   getCertificateMetaData,
   getIsValidForSigning,
   getResourceLinks,
+  getSigningStatus,
   isCertificateFunctionDisabled,
 } from '../../../store/certificate/certificateSelectors'
 import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
-
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
@@ -34,7 +35,7 @@ export const CertificateFooter: React.FC = () => {
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
   const isValidForSigning = useSelector(getIsValidForSigning)
   const functionDisabled = useSelector(isCertificateFunctionDisabled)
-
+  const isSigned = useSelector(getSigningStatus) === CertificateSignStatus.SIGNED
   if (!certificateMetadata || !resourceLinks) return null
 
   const canSign = resourceLinks.some((link) => resourceLinksAreEqual(link.type, ResourceLinkType.SIGN_CERTIFICATE))
@@ -45,7 +46,7 @@ export const CertificateFooter: React.FC = () => {
 
   return (
     <Wrapper>
-      {(canSign || canSignConfirm) && (
+      {!isSigned && (canSign || canSignConfirm) && (
         <div className={'iu-flex'}>
           <SignAndSendButton
             functionDisabled={functionDisabled}
@@ -75,7 +76,7 @@ export const CertificateFooter: React.FC = () => {
         </div>
       )}
 
-      {canReadyForSign && !isReadyForSign && (
+      {!isSigned && canReadyForSign && !isReadyForSign && (
         <div className={'iu-flex'}>
           <ReadyForSignButton
             functionDisabled={functionDisabled}
@@ -85,7 +86,7 @@ export const CertificateFooter: React.FC = () => {
         </div>
       )}
 
-      {canReadyForSign && isReadyForSign && (
+      {!isSigned && canReadyForSign && isReadyForSign && (
         <InfoBox type={'success'}>
           <p>Utkastet är sparat och markerat klart för signering.</p>
         </InfoBox>

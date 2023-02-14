@@ -49,7 +49,7 @@ describe('Date range picker', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('Fr.o.m has a valid value after checkbox is clicked', () => {

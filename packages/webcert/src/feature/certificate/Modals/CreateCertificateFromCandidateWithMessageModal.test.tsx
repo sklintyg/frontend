@@ -56,7 +56,7 @@ describe('Create certificate from candidate modal', () => {
   })
 
   it('shall render without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('shall show modal if enabled', () => {

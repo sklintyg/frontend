@@ -42,7 +42,7 @@ describe('Medical investigation component', () => {
   })
 
   it('Renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders all components', () => {

@@ -48,7 +48,7 @@ describe('TextWithDynamicLinks', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
   it('renders with description', () => {
     renderComponent()

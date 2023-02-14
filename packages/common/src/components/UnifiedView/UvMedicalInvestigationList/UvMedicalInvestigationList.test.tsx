@@ -24,7 +24,7 @@ const renderComponent = (props: ComponentProps<typeof UvMedicalInvestigationList
 
 describe('UV Medical investigation list', () => {
   it('renders without crashing', () => {
-    renderComponent({ value: value, config: config })
+    expect(() => renderComponent({ value: value, config: config })).not.toThrow()
   })
 
   it('renders question text if value is not empty', () => {
