@@ -20,8 +20,10 @@ import {
   ConfigUeIcf,
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
+  ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
+  ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
   ConfigUeTextField,
@@ -55,10 +57,10 @@ import {
   ValueVisualAcuity,
   ValueYear,
 } from '../../types/certificate'
+import { fakeCertificateConfig } from './fakeCertificateConfig'
 import { fakeCertificateValue } from './fakeCertificateValue'
 import { fakeCityList } from './fakeCity'
 import { fakeList } from './fakeList'
-import { fakeCertificateConfig } from './fakeCertificateConfig'
 
 import { merge } from 'lodash'
 
@@ -456,4 +458,16 @@ export const fakeViewListElement = fakeDataElement<ConfigUeViewList, ValueViewLi
 export const fakeViewTableElement = fakeDataElement<ConfigUeViewTable, ValueViewTable>((config, value) => ({
   config: fakeCertificateConfig.viewTable(config),
   value: fakeCertificateValue.viewTable(value),
+}))
+
+export const fakeRadioMultipleCodesOptionalDropdownElement = fakeDataElement<ConfigUeRadioMultipleCodesOptionalDropdown, ValueCode>(
+  (config, value) => ({
+    config: fakeCertificateConfig.radioMultipleCodesOptionalDropdown(config),
+    value: fakeCertificateValue.code(value),
+  })
+)
+
+export const fakeMessageElement = fakeDataElement<ConfigUeMessage, null>((config) => ({
+  config: fakeCertificateConfig.message(config),
+  value: null,
 }))

@@ -1,13 +1,12 @@
+import { Certificate, fakeCertificate, fakeCertificateMetaData, fakePatient, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import PatientAddress from './PatientAddress'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { Certificate, getCertificate, ResourceLinkType } from '@frontend/common'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import PatientAddress from './PatientAddress'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
@@ -28,15 +27,23 @@ describe('CertificateFooter', () => {
 
   describe('Patient address component', () => {
     beforeEach(() => {
-      certificate = getCertificate()
-      certificate.links = [
-        {
-          type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE,
-          name: 'Patient adddress',
-          description: 'RFS description',
-          enabled: false,
-        },
-      ]
+      certificate = fakeCertificate({
+        metadata: fakeCertificateMetaData({
+          patient: fakePatient({
+            street: 'Street 1',
+            zipCode: '12345',
+            city: 'City',
+          }),
+        }),
+        links: [
+          {
+            type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE,
+            name: 'Patient adddress',
+            description: 'RFS description',
+            enabled: false,
+          },
+        ],
+      })
       testStore.dispatch(updateCertificate(certificate))
       renderComponent()
     })
@@ -63,17 +70,21 @@ describe('CertificateFooter', () => {
 
   describe('Patient address editable', () => {
     beforeEach(() => {
-      certificate = getCertificate()
-      certificate.links = [
-        {
-          type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE,
-          name: 'Patient adddress',
-          description: 'RFS description',
-          enabled: true,
-        },
-        { type: ResourceLinkType.EDIT_CERTIFICATE, name: 'Certificate editable', description: 'RFS description', enabled: true },
-      ]
-      testStore.dispatch(updateCertificate(certificate))
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            links: [
+              {
+                type: ResourceLinkType.DISPLAY_PATIENT_ADDRESS_IN_CERTIFICATE,
+                name: 'Patient adddress',
+                description: 'RFS description',
+                enabled: true,
+              },
+              { type: ResourceLinkType.EDIT_CERTIFICATE, name: 'Certificate editable', description: 'RFS description', enabled: true },
+            ],
+          })
+        )
+      )
       renderComponent()
     })
 

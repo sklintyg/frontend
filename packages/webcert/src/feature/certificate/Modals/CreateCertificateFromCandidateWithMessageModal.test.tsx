@@ -1,4 +1,4 @@
-import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common'
+import { Certificate, fakeCertificate, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -49,7 +49,7 @@ describe('Create certificate from candidate modal', () => {
   }
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
-    certificate = getCertificate()
+    certificate = fakeCertificate()
     testStore.dispatch(updateCertificate(certificate))
     fakeAxios = new MockAdapter(axios)
     fakeAxios.onPost(`/api/certificate/${certificate.metadata.id}/candidate`).reply(200, createCertificateFromCandidateWithMessageSuccess)

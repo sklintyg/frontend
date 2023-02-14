@@ -1,13 +1,13 @@
 import { fakeCertificate } from '../faker/fakeCertificate'
 import {
-  fakeTextFieldElement,
-  fakeTextAreaElement,
-  fakeCheckboxBooleanElement,
   fakeCategoryElement,
+  fakeCheckboxBooleanElement,
   fakeRadioBooleanElement,
+  fakeTextAreaElement,
+  fakeTextFieldElement,
 } from '../faker/fakeCertificateData'
-import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 import { fakeCertificateValidationError } from '../faker/fakeCertificateDataValidation'
+import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 
 const getCertificate = () =>
   fakeCertificate({
@@ -24,14 +24,14 @@ const getCertificate = () =>
   })
 
 it('Should return empty validation error summary', () => {
-  const certificate = getCertificate()
+  const certificate = fakeCertificate()
   const result = sortedValidationErrorSummary(certificate)
 
   expect(result.length).toBe(0)
 })
 
 describe('Sorted validation error', () => {
-  const certificate = getCertificate()
+  const certificate = fakeCertificate()
   certificate.data['1.2'].validationErrors.push(fakeCertificateValidationError())
   certificate.data['28'].validationErrors.push(fakeCertificateValidationError())
   certificate.metadata.careUnitValidationErrors = [fakeCertificateValidationError()]

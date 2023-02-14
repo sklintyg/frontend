@@ -8,19 +8,15 @@ import {
   CertificateStatus,
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
+  fakeCertificate,
   fakeCertificateDataValidation,
   fakeCheckboxMultipleCodeElement,
   formatDateToString,
-  getDateRangeElement,
-  getIcfElement,
-  getSickLeavePeriodElement,
-  ResourceLink,
   ResourceLinkType,
   ValidationError,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
-  ValueDate,
   ValueDateList,
   ValueDateRange,
   ValueDateRangeList,
@@ -28,8 +24,19 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
-import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
-import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
+import {
+  fakeCategoryElement,
+  fakeCauseOfDeathElement,
+  fakeCheckboxCodeElement,
+  fakeDateElement,
+  fakeDateRangeElement,
+  fakeICFDataElement,
+  fakeRadioBooleanElement,
+  fakeSickLeavePeriod,
+  fakeTextFieldElement,
+} from './faker/fakeCertificateData'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 import {
   autoFillElement,
   decorateCertificateWithInitialValues,
@@ -38,11 +45,9 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 describe('Validate mandatory rule for boolean values', () => {
-  const booleanElement = getBooleanElement()
+  const booleanElement = fakeRadioBooleanElement({ id: 'id' })['id']
 
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
@@ -67,7 +72,7 @@ describe('Validate mandatory rule for boolean values', () => {
 })
 
 describe('Validate mandatory rule for text values', () => {
-  const textElement = getTextElement()
+  const textElement = fakeTextFieldElement({ id: 'id' })['id']
 
   it('it should validate as false when text is null', () => {
     const valueText = textElement.value as ValueText
@@ -92,7 +97,7 @@ describe('Validate mandatory rule for text values', () => {
 })
 
 describe('Validate mandatory rule for icf values', () => {
-  const icfElement = getIcfElement()
+  const icfElement = fakeICFDataElement({ id: 'id' })['id']
 
   it('it should validate as false when text is null', () => {
     const valueIcf = icfElement.value as ValueIcf
@@ -117,7 +122,7 @@ describe('Validate mandatory rule for icf values', () => {
 })
 
 describe('Validate show rule for boolean values', () => {
-  const booleanElement = getBooleanElement()
+  const booleanElement = fakeRadioBooleanElement({ id: 'id' })['id']
 
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
@@ -142,7 +147,7 @@ describe('Validate show rule for boolean values', () => {
 })
 
 describe('Validate show rule for date range values for sickLeavePeriod element', () => {
-  const sickLeavePeriodElement = getSickLeavePeriodElement()
+  const sickLeavePeriodElement = fakeSickLeavePeriod({ id: 'id' })['id']
   const SUT_ID = 'EN_FJARDEDEL'
 
   it('it should validate as false when from date is less than -7 days from todays date', () => {
@@ -179,7 +184,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
 })
 
 describe('Validate show rule for date range values', () => {
-  const dateRangeElement = getDateRangeElement()
+  const dateRangeElement = fakeDateRangeElement({ id: 'id' })['id']
   const SUT_ID = 'sjukskrivningsgradPeriod'
 
   it('it should validate as false when difference from date.from & date.to is less than 14', () => {
@@ -211,7 +216,7 @@ describe('Validate show rule for date range values', () => {
 })
 
 describe('Validate mandatory rule for date range values', () => {
-  const sickLeavePeriodElement = getSickLeavePeriodElement()
+  const sickLeavePeriodElement = fakeSickLeavePeriod({ id: 'id' })['id']
   const SUT_ID = 'EN_FJARDEDEL'
 
   it('it should validate as false when from date is invalid', () => {
@@ -995,15 +1000,134 @@ describe('Validate disable rule for code list', () => {
 })
 
 describe('Set initial values to a certificate', () => {
-  const certificate = getCertificate()
+  const certificate = fakeCertificate({
+    data: {
+      ...fakeRadioBooleanElement({
+        id: '1.1',
+        mandatory: true,
+        validation: [
+          {
+            type: CertificateDataValidationType.MANDATORY_VALIDATION,
+            questionId: '1.1',
+            expression: '$harFunktionsnedsattning',
+          },
+          {
+            type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
+            questionId: '1.1',
+            expression: '$harFunktionsnedsattning',
+          },
+        ],
+      }),
+      ...fakeTextFieldElement({
+        id: '1.2',
+        validation: [
+          {
+            type: CertificateDataValidationType.MANDATORY_VALIDATION,
+            questionId: '1.2',
+            expression: '$funktionsnedsattning',
+          },
+          {
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            questionId: '1.1',
+            expression: '$harFunktionsnedsattning',
+          },
+          {
+            type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+            questionId: '1.1',
+            expression: '$harFunktionsnedsattning',
+            fillValue: {
+              type: CertificateDataValueType.TEXT,
+              id: 'funktionsnedsattning',
+              text: 'Detta är autoifyllt!',
+            },
+          },
+        ],
+      }),
+      ...fakeTextFieldElement({
+        id: '1.3',
+        validation: [
+          {
+            type: CertificateDataValidationType.SHOW_VALIDATION,
+            questionId: '1.2',
+            expression: '$funktionsnedsattning',
+          },
+          {
+            type: CertificateDataValidationType.HIDE_VALIDATION,
+            questionId: '1.1',
+            expression: '$harFunktionsnedsattning',
+          },
+          {
+            type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+            questionId: '1.1',
+            expression: '!$harFunktionsnedsattning',
+            fillValue: {
+              type: CertificateDataValueType.TEXT,
+              id: 'annanFunktionsnedsattning',
+              text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+            },
+          },
+        ],
+      }),
+      ...fakeCheckboxCodeElement({
+        id: '28',
+        config: {
+          list: [
+            {
+              id: 'NUVARANDE_ARBETE',
+              label: 'Nuvarande arbete',
+            },
+            {
+              id: 'ARBETSSOKANDE',
+              label: 'Arbetssökande - att utföra sådant arbete som är normalt förekommande på arbetsmarknaden',
+            },
+            {
+              id: 'FORALDRALEDIG',
+              label: 'Föräldraledighet för vård av barn',
+            },
+            {
+              id: 'STUDIER',
+              label: 'Studier',
+            },
+          ],
+        },
+        value: {
+          list: [
+            {
+              code: 'NUVARANDE_ARBETE',
+              id: 'NUVARANDE_ARBETE',
+            },
+          ],
+        },
+        validation: [
+          {
+            type: CertificateDataValidationType.MANDATORY_VALIDATION,
+            questionId: '28',
+            expression: '$NUVARANDE_ARBETE || $ARBETSSOKANDE || $FORALDRALEDIG || $STUDIER',
+          },
+          {
+            type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+            questionId: '28',
+            expression: '$NUVARANDE_ARBETE',
+            id: ['ARBETSSOKANDE'],
+          },
+          {
+            type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
+            questionId: '28',
+            expression: '$ARBETSSOKANDE',
+            id: ['NUVARANDE_ARBETE'],
+          },
+        ],
+      }),
+    },
+  })
 
-  it('Shall set mandatory to true on boolean element if empty', () => {
+  it('Should set mandatory to true on boolean element if empty', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect(certificate.data['1.1'].mandatory).toBe(true)
   })
 
-  it('Shall set mandatory to true on boolean element if undefined', () => {
+  it('Should set mandatory to true on boolean element if undefined', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     // Test when selected is undefined when arriving from backend.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -1015,7 +1139,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.1'].mandatory).toBe(true)
   })
 
-  it('Shall set mandatory to false on boolean element if it is true', () => {
+  it('Should set mandatory to false on boolean element if it is true', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = true
 
@@ -1024,7 +1148,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.1'].mandatory).toBe(false)
   })
 
-  it('Shall set mandatory to false on boolean element if it is false', () => {
+  it('Should set mandatory to false on boolean element if it is false', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
@@ -1033,13 +1157,13 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.1'].mandatory).toBe(false)
   })
 
-  it('Shall set visible to false on boolean element if empty', () => {
+  it('Should set visible to false on boolean element if empty', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect(certificate.data['1.2'].visible).toBe(false)
   })
 
-  it('Shall set visible to false on boolean element if undefined', () => {
+  it('Should set visible to false on boolean element if undefined', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     // Test when selected is undefined when arriving from backend.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -1051,7 +1175,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.2'].visible).toBe(false)
   })
 
-  it('Shall set visible to true on boolean element if it is true', () => {
+  it('Should set visible to true on boolean element if it is true', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = true
 
@@ -1060,7 +1184,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.2'].visible).toBe(true)
   })
 
-  it('Shall set visible to false on boolean element if it is false', () => {
+  it('Should set visible to false on boolean element if it is false', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
@@ -1069,7 +1193,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.2'].visible).toBe(false)
   })
 
-  it('Shall set visible to false if show rule not valid, even if hide rule is not valid', () => {
+  it('Should set visible to false if show rule not valid, even if hide rule is not valid', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
@@ -1078,7 +1202,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.3'].visible).toBe(false)
   })
 
-  it('Shall set visible to true if show rule valid, even if hide rule is not valid', () => {
+  it('Should set visible to true if show rule valid, even if hide rule is not valid', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
@@ -1092,7 +1216,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.3'].visible).toBe(true)
   })
 
-  it('Shall set visible to false if hide rule valid, even if show rule is valid', () => {
+  it('Should set visible to false if hide rule valid, even if show rule is valid', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = true
 
@@ -1104,7 +1228,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.3'].visible).toBe(false)
   })
 
-  it('should set highlight if validation is true', () => {
+  it('Should set highlight if validation is true', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = true
 
@@ -1113,7 +1237,7 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.HIGHLIGHTED)
   })
 
-  it('should unstyle element if validation is false', () => {
+  it('Should unstyle element if validation is false', () => {
     const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
     booleanValue.selected = false
 
@@ -1122,22 +1246,56 @@ describe('Set initial values to a certificate', () => {
     expect(certificate.data['1.1'].style).toBe(CertificateDataElementStyleEnum.NORMAL)
   })
 
-  it('should disable child element if validation is true', () => {
+  it('Should disable child element if validation is true', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[1].disabled).toBeTruthy()
   })
 
-  it('should enable child element if validation is false', () => {
+  it('Should enable child element if validation is false', () => {
     decorateCertificateWithInitialValues(certificate)
 
     expect((certificate.data['28'].config as ConfigUeCheckboxMultipleCodes).list[0].disabled).toBeFalsy()
   })
 
   describe('Intialize values for autoFill validation', () => {
-    const certificate = getCertificate()
+    const certificate = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({ id: '1.1', value: { id: 'harFunktionsnedsattning' } }),
+        ...fakeTextFieldElement({
+          id: '1.2',
+          validation: [
+            {
+              type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+              questionId: '1.1',
+              expression: '$harFunktionsnedsattning',
+              fillValue: {
+                type: CertificateDataValueType.TEXT,
+                id: 'funktionsnedsattning',
+                text: 'Detta är autoifyllt!',
+              },
+            },
+          ],
+        }),
+        ...fakeTextFieldElement({
+          id: '1.3',
+          validation: [
+            {
+              type: CertificateDataValidationType.AUTO_FILL_VALIDATION,
+              questionId: '1.1',
+              expression: '!$harFunktionsnedsattning',
+              fillValue: {
+                type: CertificateDataValueType.TEXT,
+                id: 'annanFunktionsnedsattning',
+                text: 'Detta skall inte autoifyllas eftersom villkoret är falskt!',
+              },
+            },
+          ],
+        }),
+      },
+    })
 
-    it('should autoFill value if validation is true', () => {
+    it('Should autoFill value if validation is true', () => {
       const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
@@ -1146,7 +1304,7 @@ describe('Set initial values to a certificate', () => {
       expect((certificate.data['1.2'].value as ValueText).text).toBe('Detta är autoifyllt!')
     })
 
-    it('should not autoFill value if validation is false', () => {
+    it('Should not autoFill value if validation is false', () => {
       const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
@@ -1157,7 +1315,13 @@ describe('Set initial values to a certificate', () => {
   })
 
   describe('Intialize values when certificate is not UNSIGNED', () => {
-    const certificate = getCertificate()
+    const certificate = fakeCertificate({
+      data: {
+        ...fakeRadioBooleanElement({ id: '1.1' }),
+        ...fakeTextFieldElement({ id: '1.2' }),
+        ...fakeTextFieldElement({ id: '1.3', visible: false }),
+      },
+    })
 
     const clearValues = () => {
       for (const id in certificate.data) {
@@ -1167,7 +1331,7 @@ describe('Set initial values to a certificate', () => {
       }
     }
 
-    it('Shall set all data elements as disabled when certificate is LOCKED but still validate rules', () => {
+    it('Should set all data elements as disabled when certificate is LOCKED but still validate rules', () => {
       const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
@@ -1183,7 +1347,7 @@ describe('Set initial values to a certificate', () => {
       expect(certificate.data['1.3'].visible).toBe(false)
     })
 
-    it('Shall set all data elements as disabled when certificate is LOCKED_REVOKED but still validate rules', () => {
+    it('Should set all data elements as disabled when certificate is LOCKED_REVOKED but still validate rules', () => {
       const booleanValue: ValueBoolean = certificate.data['1.1'].value as ValueBoolean
       booleanValue.selected = true
 
@@ -1199,7 +1363,7 @@ describe('Set initial values to a certificate', () => {
       expect(certificate.data['1.3'].visible).toBe(false)
     })
 
-    it('Shall set all data elements as readOnly when certificate is SIGNED', () => {
+    it('Should set all data elements as readOnly when certificate is SIGNED', () => {
       clearValues()
       certificate.metadata.status = CertificateStatus.SIGNED
 
@@ -1211,7 +1375,7 @@ describe('Set initial values to a certificate', () => {
       expect(certificate.data['1.2'].visible).toBe(true)
     })
 
-    it('Shall set all data elements as readOnly when certificate is REVOKED', () => {
+    it('Should set all data elements as readOnly when certificate is REVOKED', () => {
       clearValues()
       certificate.metadata.status = CertificateStatus.REVOKED
 
@@ -1224,7 +1388,7 @@ describe('Set initial values to a certificate', () => {
     })
   })
 
-  it('should return validation errors from field', () => {
+  it('Should return validation errors from field', () => {
     const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
@@ -1235,7 +1399,7 @@ describe('Set initial values to a certificate', () => {
     expect(result[0].field).toBe('grunddata.skapadAv.vardenhet.postadress')
   })
 
-  it('should return empty array on non existing field', () => {
+  it('Should return empty array on non existing field', () => {
     const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
@@ -1245,7 +1409,7 @@ describe('Set initial values to a certificate', () => {
     expect(result.length).toBe(0)
   })
 
-  it('should return empty array on non existing field', () => {
+  it('Should return empty array on non existing field', () => {
     const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
@@ -1255,7 +1419,7 @@ describe('Set initial values to a certificate', () => {
     expect(result.length).toBe(0)
   })
 
-  it('should return validation errors from field', () => {
+  it('Should return validation errors from field', () => {
     const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
@@ -1266,8 +1430,8 @@ describe('Set initial values to a certificate', () => {
     expect(result[0].field).toBe('grunddata.patient.postadress')
   })
 
-  it('should disable all categories if no edit link', () => {
-    const certificate = getCertificate()
+  it('Should disable all categories if no edit link', () => {
+    const certificate = fakeCertificate()
 
     decorateCertificateWithInitialValues(certificate)
 
@@ -1276,14 +1440,21 @@ describe('Set initial values to a certificate', () => {
     })
   })
 
-  it('should not disable all categories if there is an edit link', () => {
-    const editLink: ResourceLink = {
-      type: ResourceLinkType.EDIT_CERTIFICATE,
-      name: '',
-      description: '',
-      enabled: false,
-    }
-    const certificate = getCertificate({ links: [editLink] })
+  it('Should not disable all categories if there is an edit link', () => {
+    const certificate = fakeCertificate({
+      data: {
+        ...fakeTextFieldElement({ id: '1.1' }),
+        ...fakeCategoryElement({ id: 'category' }),
+      },
+      links: [
+        {
+          type: ResourceLinkType.EDIT_CERTIFICATE,
+          name: '',
+          description: '',
+          enabled: false,
+        },
+      ],
+    })
 
     decorateCertificateWithInitialValues(certificate)
 
@@ -1294,69 +1465,128 @@ describe('Set initial values to a certificate', () => {
 })
 
 describe('isShowAlways', () => {
-  it('should return true if validation error is of type other', () => {
+  it('Should return true if validation error is of type other', () => {
     const result = isShowAlways(getValidationError('OTHER'))
     expect(result).toBeTruthy()
   })
 
-  it('should return true if validation error is of type other', () => {
+  it('Should return true if validation error is of type other', () => {
     const result = isShowAlways(getValidationError('INVALID_FORMAT'))
     expect(result).toBeTruthy()
   })
 
-  it('should return false if validation error is of other type than other or invalid format', () => {
+  it('Should return false if validation error is of other type than other or invalid format', () => {
     const result = isShowAlways(getValidationError('TEST'))
     expect(result).toBeFalsy()
   })
 })
 
 describe('Validate expressions based on DateValue', () => {
-  const element = getDateElement()
-
-  it('should return true if date has a value', () => {
-    ;(element.value as ValueDate).date = '2022-01-01'
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return true if date has a value', () => {
+    const result = parseExpression(
+      '$dodsdatum',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: '2022-01-01',
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(true)
   })
 
-  it('should return false if date is missing a value', () => {
-    ;(element.value as ValueDate).date = undefined
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return false if date is missing a value', () => {
+    const result = parseExpression(
+      '$dodsdatum',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: undefined,
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(false)
   })
 
-  it('should return true if EpochDay is within 28 days', () => {
-    ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDay <= 19013', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return true if EpochDay is within 28 days', () => {
+    const result = parseExpression(
+      '$dodsdatum.toEpochDay <= 19013',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: '2022-01-01',
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(true)
   })
 
-  it('should return false if EpochDay is not within 28 days', () => {
-    ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDay <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return false if EpochDay is not within 28 days', () => {
+    const result = parseExpression(
+      '$dodsdatum.toEpochDay <= 18992',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: '2022-01-01', // 18993
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(false)
   })
-  it('should return false if EpochDay is not set', () => {
-    ;(element.value as ValueDate).date = undefined
-    const result = parseExpression('$dodsdatum.toEpochDay > 18992', element, CertificateDataValidationType.SHOW_VALIDATION)
+
+  it('Should return false if EpochDay is not set', () => {
+    const result = parseExpression(
+      '$dodsdatum.toEpochDay > 18992',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: undefined,
+        },
+      })['id'],
+      CertificateDataValidationType.SHOW_VALIDATION
+    )
     expect(result).toBe(false)
   })
 })
 
 describe('Validate expressions only when visible', () => {
-  const element = getDateElement()
-
-  it('should return true if date has a value and element is visible', () => {
-    ;(element.value as ValueDate).date = '2022-01-01'
-    element.visible = true
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return true if date has a value and element is visible', () => {
+    const result = parseExpression(
+      '$dodsdatum',
+      fakeDateElement({
+        id: 'id',
+        value: {
+          id: 'dodsdatum',
+          date: '2022-01-01',
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(true)
   })
 
-  it('should return false if date has a value and element is not visible', () => {
-    ;(element.value as ValueDate).date = '2022-01-01'
-    element.visible = false
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+  it('Should return false if date has a value and element is not visible', () => {
+    const result = parseExpression(
+      '$dodsdatum',
+      fakeDateElement({
+        id: 'id',
+        visible: false,
+        value: {
+          id: 'dodsdatum',
+          date: '2022-01-01',
+        },
+      })['id'],
+      CertificateDataValidationType.DISABLE_VALIDATION
+    )
     expect(result).toBe(false)
   })
 })
@@ -1395,24 +1625,24 @@ describe('autoFillElement', () => {
 })
 
 describe('Validate expressions with boolean values set to null or undefined should not be showed', () => {
-  const element = getBooleanElement()
+  const element = fakeRadioBooleanElement({ id: 'id' })['id']
 
-  it('should return true if selected is undefined for negative expression', () => {
+  it('Should return true if selected is undefined for negative expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
     const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
-  it('should return false if selected is undefined for positive expression', () => {
+  it('Should return false if selected is undefined for positive expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
     const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)
   })
-  it('should return true if selected is null for negative expression', () => {
+  it('Should return true if selected is null for negative expression', () => {
     ;(element.value as ValueBoolean).selected = null
     const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
   })
-  it('should return false if selected is null for positive expression', () => {
+  it('Should return false if selected is null for positive expression', () => {
     ;(element.value as ValueBoolean).selected = null
     const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(false)

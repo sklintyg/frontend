@@ -1,14 +1,13 @@
-import React from 'react'
+import { CustomTooltip, fakeCertificate } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import ReadyForSignButton from '../ReadyForSignButton'
 import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
-import { getCertificate, CustomTooltip } from '@frontend/common'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import ReadyForSignButton from '../ReadyForSignButton'
 
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
@@ -24,7 +23,7 @@ describe('ReadyForSign button', () => {
   })
 
   const renderDefaultComponent = (enabled: boolean, isValidForSigning: boolean, functionDisabled = false) => {
-    testStore.dispatch(updateCertificate(getCertificate()))
+    testStore.dispatch(updateCertificate(fakeCertificate()))
     render(
       <Provider store={testStore}>
         <CustomTooltip />

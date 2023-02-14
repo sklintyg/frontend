@@ -1,21 +1,19 @@
-import React from 'react'
+import {
+  CertificateDataElement,
+  CertificateDataValueType,
+  ConfigUeSickLeavePeriod,
+  fakeCertificate,
+  fakeSickLeavePeriod,
+  getValidDate,
+} from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-  ConfigUeSickLeavePeriod,
-  getValidDate,
-  getCertificateWithQuestion,
-} from '@frontend/common'
-import { Provider } from 'react-redux'
 import { addDays, isEqual } from 'date-fns'
-import { UeSickLeavePeriod } from './UeSickLeavePeriod'
-import store from '../../../../store/store'
+import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import store from '../../../../store/store'
+import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const QUESTION_ID = 'Test'
 
@@ -31,17 +29,11 @@ const TRE_FJARDEDEL_LABEL = '75 procent'
 const HELT_NEDSATT_ID = 'HELT_NEDSATT'
 const HELT_NEDSATT_LABEL = '100 procent'
 
-const defaultQuestion: CertificateDataElement = {
+const defaultQuestion = fakeSickLeavePeriod({
   id: QUESTION_ID,
-  parent: 'bedomning',
-  index: 18,
-  visible: true,
-  readOnly: false,
-  mandatory: true,
   config: {
     text: 'Min bedömning av patientens nedsättning av arbetsförmågan',
     description: 'Utgångspunkten är att patientens arbetsförmåga ska bedömas i förhållande till hens normala arbetstid.',
-    type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     list: [
       {
         id: EN_FJARDEDEL_ID,
@@ -61,19 +53,7 @@ const defaultQuestion: CertificateDataElement = {
       },
     ],
   },
-  value: {
-    type: CertificateDataValueType.DATE_RANGE_LIST,
-    list: [],
-  },
-  validation: [
-    {
-      type: CertificateDataValidationType.MANDATORY_VALIDATION,
-      questionId: QUESTION_ID,
-      expression: `$${EN_FJARDEDEL_ID} || $${HALFTEN_ID} || $${TRE_FJARDEDEL_ID} || $${HELT_NEDSATT_ID}`,
-    },
-  ],
-  validationErrors: [],
-}
+})[QUESTION_ID]
 
 const renderDefaultComponent = (question?: CertificateDataElement, disabled?: boolean) => {
   render(
@@ -218,9 +198,8 @@ describe('UeSickLeavePeriod', () => {
 
   it('does display validation error if child has no client validation errors', () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
-    const question: CertificateDataElement = {
-      ...defaultQuestion,
-      id: 'questionId',
+    const question = fakeSickLeavePeriod({
+      id: 'id',
       validationErrors: [
         {
           category: defaultQuestion.parent,
@@ -230,11 +209,11 @@ describe('UeSickLeavePeriod', () => {
           text: expectedValidationMessage,
         },
       ],
-    }
+    })
 
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: question })))
     store.dispatch(showValidationErrors())
-    renderDefaultComponent(question)
+    renderDefaultComponent(question['id'])
 
     expect(screen.getByText(expectedValidationMessage)).toBeInTheDocument()
   })

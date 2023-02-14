@@ -1,65 +1,102 @@
-import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '@frontend/common'
+import { fakeCategoryElement, fakeCertificate } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import Category from './Category'
 
 let testStore: EnhancedStore
+const CATEGORY_ID = 'categoryId'
 
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <Category id="funktionsnedsattning" />
+      <Category id={CATEGORY_ID} />
     </Provider>
   )
 }
 
 describe('Category', () => {
   beforeEach(() => {
-    clearDispatchedActions()
-    testStore = configureApplicationStore([dispatchHelperMiddleware, certificateMiddleware])
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('should render description', () => {
-    const question = getCategoryFunktionsnedsattning()
-
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: fakeCategoryElement({
+            id: CATEGORY_ID,
+            config: {
+              text: 'Sjukdomens konsekvenser',
+              description: 'En annan beskrivning',
+            },
+          }),
+        })
+      )
+    )
     renderComponent()
 
-    expect(screen.queryByText('En annan beskrivning')).not.toBeNull()
+    expect(screen.getByText('En annan beskrivning')).toBeInTheDocument()
   })
 
   it('should not render description if question is disabled', () => {
-    const question = getCategoryFunktionsnedsattning()
-    question.disabled = true
-
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: fakeCategoryElement({
+            id: CATEGORY_ID,
+            disabled: true,
+            config: {
+              text: 'Sjukdomens konsekvenser',
+              description: 'En annan beskrivning',
+            },
+          }),
+        })
+      )
+    )
     renderComponent()
 
     expect(screen.queryByText('En annan beskrivning')).toBeNull()
   })
 
   it('should not render description if question is read only', () => {
-    const question = getCategoryFunktionsnedsattning()
-    question.readOnly = true
-
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: fakeCategoryElement({
+            id: CATEGORY_ID,
+            readOnly: true,
+            config: {
+              text: 'Sjukdomens konsekvenser',
+              description: 'En annan beskrivning',
+            },
+          }),
+        })
+      )
+    )
     renderComponent()
 
     expect(screen.queryByText('En annan beskrivning')).toBeNull()
   })
 
   it('should not render description if description is missing', () => {
-    const question = getCategoryFunktionsnedsattning()
-    question.config.description = ''
-
-    testStore.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    testStore.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          data: fakeCategoryElement({
+            id: CATEGORY_ID,
+            config: {
+              text: 'Sjukdomens konsekvenser',
+              description: '',
+            },
+          }),
+        })
+      )
+    )
     renderComponent()
 
     expect(screen.queryByText('En annan beskrivning')).toBeNull()

@@ -1,12 +1,12 @@
+import { fakeCertificate } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { errorMiddleware } from './errorMiddleware'
-import { setActiveCertificateId, throwError } from './errorActions'
-import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
-import { updateCertificate } from '../certificate/certificateActions'
-import { getCertificate } from '@frontend/common'
 import { apiCallBegan } from '../api/apiActions'
+import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { setActiveCertificateId, throwError } from './errorActions'
+import { errorMiddleware } from './errorMiddleware'
+import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -188,7 +188,7 @@ describe('Test error middleware', () => {
   describe('Handle update certificate', () => {
     it('shall store currently active certificate id', async () => {
       const expectedCertificateId = 'expectedCertificateId'
-      const certificate = getCertificate()
+      const certificate = fakeCertificate()
       certificate.metadata.id = expectedCertificateId
       testStore.dispatch(updateCertificate(certificate))
 

@@ -1,10 +1,4 @@
-import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigTypes,
-  getCertificateWithQuestion,
-} from '@frontend/common'
+import { CertificateDataValidationType, fakeCertificate, fakeCheckboxMultipleDate } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -39,19 +33,10 @@ const DATE_CHECKBOXES = [
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'checkbox'
 
-const question: CertificateDataElement = {
+const question = fakeCheckboxMultipleDate({
   id: QUESTION_ID,
-  mandatory: true,
-  index: 0,
-  parent: '',
-  visible: true,
-  readOnly: false,
-  value: { type: CertificateDataValueType.DATE_LIST, list: [] },
   config: {
-    text: '',
     list: DATE_CHECKBOXES,
-    description: '',
-    type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
   },
   validation: [
     {
@@ -61,7 +46,7 @@ const question: CertificateDataElement = {
     },
   ],
   validationErrors: [{ category: 'category', field: QUESTION_ID, text: VALIDATION_ERROR, id: QUESTION_ID, type: 'type' }],
-}
+})[QUESTION_ID]
 
 const ComponentTestWrapper: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   const question = useSelector(getQuestion(QUESTION_ID))
@@ -78,7 +63,7 @@ const renderComponent = (disabled: boolean) => {
 
 describe('CheckboxDateGroup component', () => {
   beforeEach(() => {
-    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
   })
 
   it('renders without crashing', () => {
