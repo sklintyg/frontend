@@ -84,7 +84,13 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
               <UeMedicalInvestigation
                 config={config}
                 disabled={disabled}
-                error={index === 0 && validationErrors.length === 1 && validationErrors.some((v) => v.field === fieldIfEmptyFirstRow)}
+                error={
+                  index === 0 &&
+                  validationErrors.length === 1 &&
+                  !validationErrors.some(({ field }) =>
+                    [config.investigationTypeId, config.dateId, config.informationSourceId].includes(field)
+                  )
+                }
                 key={index}
                 onChange={handleChange(index)}
                 validation={question.validation}
