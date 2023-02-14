@@ -4,8 +4,8 @@ import {
   formatAcuity,
   QuestionValidationTexts,
   TextInput,
-  ValueEyeAcuity,
   ValidationError,
+  ValueEyeAcuity,
 } from '@frontend/common'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -71,7 +71,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, valid
         <AcuityInput
           disabled={disabled}
           id={config.withoutCorrectionId}
-          testId={config.withoutCorrectionId}
+          data-testid={config.withoutCorrectionId}
           value={noCorrection}
           limit={3}
           onChange={(event) => {
@@ -84,7 +84,7 @@ const UeEyeAcuity: React.FC<Props> = ({ disabled, config, value, onChange, valid
         <AcuityInput
           disabled={disabled}
           id={config.withCorrectionId}
-          testId={config.withCorrectionId}
+          data-testid={config.withCorrectionId}
           value={correction}
           limit={3}
           onChange={(event) => {

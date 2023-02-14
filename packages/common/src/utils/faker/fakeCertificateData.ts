@@ -230,6 +230,7 @@ export const fakeMedicalInvestigationListElement = fakeDataElement<ConfigUeMedic
         },
       })
     )
+
     const configList = valueList.map(({ investigationType, informationSource, date }) => ({
       investigationTypeId: investigationType.id,
       informationSourceId: informationSource.id,

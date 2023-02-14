@@ -1,7 +1,10 @@
 import { CertificateDataValidationType, CertificateDataValueType, ConfigTypes, fakeCertificateConfig } from '@frontend/common'
 import { Story } from '@storybook/react'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import { updateDiagnosisTypeahead } from '../../../../store/utils/utilsActions'
+import { utilsMiddleware } from '../../../../store/utils/utilsMiddleware'
 import UeDiagnoses, { Props } from './UeDiagnoses'
 
 export default {
@@ -10,6 +13,24 @@ export default {
 }
 
 const Template: Story<Props> = ({ ...args }) => {
+  const store = configureApplicationStore([utilsMiddleware, certificateMiddleware])
+  store.dispatch(
+    updateDiagnosisTypeahead({
+      resultat: 'OK',
+      diagnoser: [
+        { kod: 'F50', beskrivning: 'Ätstörningar' },
+        { kod: 'F500', beskrivning: 'Anorexia nervosa' },
+        { kod: 'F501', beskrivning: 'Atypisk anorexia nervosa' },
+        { kod: 'F502', beskrivning: 'Bulimia nervosa' },
+        { kod: 'F503', beskrivning: 'Atypisk bulimia nervosa' },
+        { kod: 'F504', beskrivning: 'Överdrivet ätande sammanhängande med andra psykiska störningar' },
+        { kod: 'F505', beskrivning: 'Kräkningar sammanhängande med andra psykiska störningar' },
+        { kod: 'F508', beskrivning: 'Andra specificerade ätstörningar' },
+        { kod: 'F509', beskrivning: 'Ätstörning, ospecificerad' },
+      ],
+      moreResults: true,
+    })
+  )
   return (
     <Provider store={store}>
       <UeDiagnoses {...args} />
