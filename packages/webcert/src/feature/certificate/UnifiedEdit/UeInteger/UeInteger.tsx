@@ -86,7 +86,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           id={questionConfig.id}
           onChange={handleNumberOnChange}
           hasValidationError={validationErrors.length > 0}
-          testId="testNumber"
+          data-testid="testNumber"
           onKeyDown={onKeyDown}
           limit={limit}
         />
