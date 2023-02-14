@@ -2,27 +2,29 @@ import { calendarImage } from '@frontend/common'
 import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { css } from 'styled-components'
+import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
-import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
-import QuestionWrapper from '../Question/QuestionWrapper'
 
-const additionalHeaderStyles = css`
+const CareUnitHeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white !important;
   background-color: rgb(1, 165, 163) !important;
   border-bottom: 1px solid rgb(0, 112, 110);
-
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   h3 {
     color: white;
   }
 `
+const InnerWrapper = styled.div`
+  padding: 16px 0;
+`
 
-const additionalContentStyles = css`
+const CareUnitAddress = styled.section`
   background-color: rgb(1, 165, 163) !important;
   color: white;
   padding: 20px;
@@ -51,14 +53,16 @@ const UvCareUnitAddress: React.FC = () => {
 
   return (
     <>
-      <CategoryHeader additionalStyles={additionalHeaderStyles}>
-        <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
-        <div className={'iu-flex iu-flex-center'}>
-          <WhiteLogo src={calendarImage} alt="Kalender" />
-          <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
-        </div>
-      </CategoryHeader>
-      <QuestionWrapper additionalStyles={additionalContentStyles}>
+      <CareUnitHeaderWrapper className="iu-radius-sm">
+        <InnerWrapper className="contentPaperWrapper">
+          <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
+          <div className={'iu-flex iu-flex-center'}>
+            <WhiteLogo src={calendarImage} alt="Kalender" />
+            <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
+          </div>
+        </InnerWrapper>
+      </CareUnitHeaderWrapper>
+      <CareUnitAddress className={`contentPaperWrapper questionWrapper`}>
         <h4 className="iu-mb-200 iu-color-white iu-fs-300">Namn och kontaktuppgifter till vårdenheten</h4>
         <p>{metadata?.issuedBy?.fullName}</p>
         <p>{metadata.unit.unitName}</p>
@@ -67,7 +71,7 @@ const UvCareUnitAddress: React.FC = () => {
           {metadata.unit.zipCode} {metadata.unit.city}
         </p>
         <p>{metadata.unit.phoneNumber}</p>
-      </QuestionWrapper>
+      </CareUnitAddress>
     </>
   )
 }
