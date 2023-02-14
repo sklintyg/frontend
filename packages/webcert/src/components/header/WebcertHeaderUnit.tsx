@@ -1,6 +1,7 @@
-import { AlertCircle, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
-import React from 'react'
+import { AlertCircle, ResourceLinkType, User } from '@frontend/common'
+import React, { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
 import {
@@ -11,11 +12,11 @@ import {
 } from '../../store/user/userSelectors'
 import AppHeaderUserUnit from '../AppHeader/AppHeaderUserUnit'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<Props>`
   display: flex;
   align-items: center;
+  cursor: ${(props) => (props.changeUnitLinkPointer ? 'pointer' : 'default')};
 `
-
 const Italic = styled.span`
   font-style: italic;
   font-size: 12px;
@@ -29,7 +30,11 @@ const InactiveUnit = styled.span`
   font-size: 12px;
 `
 
-const WebcertHeaderUnit: React.FC = () => {
+interface Props {
+  changeUnitLinkPointer: boolean
+}
+
+const WebcertHeaderUnit: React.FC<Props> = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
@@ -38,13 +43,17 @@ const WebcertHeaderUnit: React.FC = () => {
   const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
   const privatePractitioner = useSelector(isPrivatePractitioner)
 
+  useEffect(() => {
+    ReactTooltip.rebuild()
+  })
+
   const openModal = () => {
     dispatch(updateIsCareProviderModalOpen(true))
   }
 
   const toString = (user: User): React.ReactNode => {
     return (
-      <Wrapper>
+      <Wrapper changeUnitLinkPointer={!!changeUnitLink} onClick={changeUnitLink ? openModal : undefined} data-tip={changeUnitLink?.name}>
         <span>
           {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
           <br />
@@ -62,7 +71,7 @@ const WebcertHeaderUnit: React.FC = () => {
             <span className="iu-ml-200">Inaktiv enhet</span>
           </InactiveUnit>
         )}
-        {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}
+        {/* {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />} */}
       </Wrapper>
     )
   }
