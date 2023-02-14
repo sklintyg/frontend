@@ -1,5 +1,4 @@
-import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
-import letter from '@frontend/common/src/images/epost.svg'
+import { ButtonWithConfirmModal, CertificateMetadata, epostImage, sanitizeText } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { sendCertificate } from '../../../store/certificate/certificateActions'
@@ -23,7 +22,7 @@ const SendCertificateButton: React.FC<Props> = ({ name, title, description, enab
       description={description}
       name={name}
       modalTitle={title ?? name}
-      startIcon={<img src={letter} alt="Skicka intyget" />}
+      startIcon={<img src={epostImage} alt="Skicka intyget" />}
       onConfirm={() => {
         dispatch(sendCertificate(certificateMetadata.id))
       }}

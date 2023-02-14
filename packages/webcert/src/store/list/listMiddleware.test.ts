@@ -1,10 +1,10 @@
-import { CertificateListItem, ListType } from '@frontend/common/src/types/list'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { CertificateListItem, ListType } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { getConfigWithTextFilter, getDefaultList, getFilter } from '../../feature/list/test/listTestUtils'
 import { apiMiddleware } from '../api/apiMiddleware'
-import reducer from '../reducers'
+import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
   getCertificateList,
@@ -13,8 +13,8 @@ import {
   getDrafts,
   getPreviousCertificatesList,
   getPreviousCertificatesListConfig,
-  getUnhandledCertificatesListConfig,
   getUnhandledCertificates,
+  getUnhandledCertificatesListConfig,
   ListResponse,
   updateActiveListConfig,
   updateActiveListType,
@@ -29,10 +29,7 @@ describe('Test list middleware', () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, apiMiddleware, listMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, listMiddleware])
 
     testStore.dispatch(updateActiveListConfig(getConfigWithTextFilter()))
   })

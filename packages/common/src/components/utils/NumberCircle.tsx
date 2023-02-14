@@ -23,5 +23,3 @@ export const NumberCircle: React.FC<Props> = ({ number, type, className }) => {
     </Wrapper>
   )
 }
-
-export default NumberCircle

@@ -1,8 +1,7 @@
+import { Checkbox, IcfCode } from '@frontend/common'
 import React, { useState } from 'react'
-import { IcfCode } from '../../store/icf/icfReducer'
-import { Checkbox } from '@frontend/common'
-import styled from 'styled-components/macro'
 import { scroller } from 'react-scroll'
+import styled from 'styled-components'
 import { useCertificateContext } from '../../feature/certificate/CertificateContext'
 
 const TitleWrapper = styled.div`
@@ -53,7 +52,7 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
     setDisplayDescription(!displayDescription)
   }
   return (
-    <div className={`${backgroundStyle} iu-pt-200 iu-pb-200 iu-pl-200 iu-pr-200`}>
+    <div className={`${backgroundStyle} iu-pb-400 iu-pl-200 iu-pr-200`}>
       <TitleWrapper>
         <Checkbox
           id={icfCode.title}

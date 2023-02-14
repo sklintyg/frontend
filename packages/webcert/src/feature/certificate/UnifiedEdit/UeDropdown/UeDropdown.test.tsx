@@ -1,8 +1,7 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
+import { CertificateDataElement, ConfigTypes, fakeCertificateConfig, fakeCertificateValue } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeDropdown from './UeDropdown'
 
@@ -23,14 +22,14 @@ const question: CertificateDataElement = {
   readOnly: false,
   validation: [],
   validationErrors: [],
-  value: { type: CertificateDataValueType.CODE },
-  config: {
+  value: fakeCertificateValue.code(),
+  config: fakeCertificateConfig.dropdown({
     text: '',
     description: '',
     type: ConfigTypes.UE_DROPDOWN,
     list: OPTIONS,
     label: LABEL,
-  },
+  }),
 }
 
 const renderComponent = () => {

@@ -1,8 +1,6 @@
-import { ButtonWithConfirmModal, CertificateMetadata, sanitizeText } from '@frontend/common'
-import fileIcon from '@frontend/common/src/images/file.svg'
+import { ButtonWithConfirmModal, CertificateMetadata, fileImage, sanitizeText } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { createCertificateFromTemplate } from '../../../store/certificate/certificateActions'
 
 interface Props {
@@ -16,10 +14,9 @@ interface Props {
 
 const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, description, enabled, body }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const handleConfirm = () => {
-    dispatch(createCertificateFromTemplate(history))
+    dispatch(createCertificateFromTemplate())
   }
 
   return (
@@ -30,7 +27,7 @@ const CreateCertificateFromTemplateButton: React.FC<Props> = ({ name, title, des
       confirmButtonText={name}
       name={name}
       description={description}
-      startIcon={<img src={fileIcon} alt="Skapa utkast" />}
+      startIcon={<img src={fileImage} alt="Skapa utkast" />}
       buttonTestId="create-certificate-from-template-button">
       <div className={'iu-pb-400'} dangerouslySetInnerHTML={sanitizeText(body as string)}></div>
     </ButtonWithConfirmModal>

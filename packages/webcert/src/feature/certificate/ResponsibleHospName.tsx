@@ -1,9 +1,9 @@
+import { userImage } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import userImage from '@frontend/common/src/images/user-image.svg'
+import styled from 'styled-components'
 import { getIsUnsigned, getResponsibleHospName } from '../../store/certificate/certificateSelectors'
 import { isCareAdministrator } from '../../store/user/userSelectors'
-import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
   margin-top: 16px;

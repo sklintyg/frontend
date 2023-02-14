@@ -1,20 +1,11 @@
+import { IcfCode } from '@frontend/common'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 
-export const getIcfValueList = (icfData: AvailableIcfCodes | undefined): string[] => {
-  if (!icfData || (!icfData.uniqueCodes && !icfData.commonCodes)) return []
-
-  const uniqueCodes = icfData.uniqueCodes?.map((code) => code.icfCodes?.map((icfCode) => icfCode.title)).flat()
-  const commonCodes = icfData.commonCodes?.icfCodes?.map((icfCode) => icfCode.title)
-
-  let result: string[] = []
-
-  if (uniqueCodes) {
-    result = [...uniqueCodes]
-  }
-  if (commonCodes) {
-    result = result.concat(commonCodes)
-  }
-  return result
+export const getIcfValueList = (icfData?: AvailableIcfCodes): string[] => {
+  return [
+    ...(icfData?.uniqueCodes ?? []).map((code) => code.icfCodes?.map((icfCode) => icfCode.title)).flat(),
+    ...(icfData?.commonCodes?.icfCodes ?? []).map((icfCode: IcfCode) => icfCode.title),
+  ]
 }
 
 export const getFilteredIcfValues = (
@@ -26,9 +17,4 @@ export const getFilteredIcfValues = (
 
   const removedIcfValues = oldValues.filter((oldValue) => !newValues.some((newValue) => oldValue === newValue))
   return chosenIcfValues?.filter((val) => !removedIcfValues.includes(val))
-}
-
-export const isOldListIncludedInNewList = (oldList?: string[], newList?: string[]): boolean => {
-  if (!oldList || !newList) return false
-  return oldList.some((oldVal) => !newList.includes(oldVal))
 }

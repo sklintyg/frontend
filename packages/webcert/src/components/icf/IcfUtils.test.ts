@@ -1,5 +1,6 @@
-import { getFilteredIcfValues, getIcfValueList, isOldListIncludedInNewList } from './IcfUtils'
-import { AvailableIcfCodes, IcfCode } from '../../store/icf/icfReducer'
+import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { fakeIcf } from '@frontend/common'
 
 describe('IcfUtils', () => {
   describe('getIcfValues', () => {
@@ -33,34 +34,12 @@ describe('IcfUtils', () => {
       expect(actual).toEqual(newIcfValues)
     })
   })
-
-  describe('getHasNewIcfValues', () => {
-    it('shall return false if no difference in arrays', () => {
-      const oldIcfValues = ['0', '1']
-      const newIcfValues = ['0', '1']
-
-      const actual = isOldListIncludedInNewList(oldIcfValues, newIcfValues)
-
-      expect(actual).toBe(false)
-    })
-
-    it('shall return true if difference in arrays', () => {
-      const oldIcfValues = ['0', '1', '2']
-      const newIcfValues = ['1', '2']
-
-      const actual = isOldListIncludedInNewList(oldIcfValues, newIcfValues)
-
-      expect(actual).toBe(true)
-    })
-  })
 })
 
 function getIcfData(): AvailableIcfCodes {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const icfCodes: IcfCode[] = [{ title: '0' }, { title: '1' }, { title: '2' }]
-  return {
-    uniqueCodes: [{ icfCodes: icfCodes }],
-    commonCodes: { icfCodes: icfCodes },
-  } as AvailableIcfCodes
+  const icfCodes = Array.from({ length: 3 }, (_, index) => fakeIcf.code({ title: `${index}` }))
+  return fakeIcf.collection({
+    commonCodes: fakeIcf.group({ icfCodes }),
+    uniqueCodes: [fakeIcf.group({ icfCodes })],
+  })
 }

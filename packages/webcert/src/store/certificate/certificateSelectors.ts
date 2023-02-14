@@ -16,8 +16,8 @@ import {
   Unit,
   ValidationError,
   ValidationErrorSummary,
+  sortedValidationErrorSummary,
 } from '@frontend/common'
-import { getSortedValidationErrorSummary } from '@frontend/common/src/utils/validationUtils'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'
 import { structureCertificate } from '../../utils/structureCertificate'
@@ -31,7 +31,12 @@ export const getSpinnerText = (state: RootState): string => state.ui.uiCertifica
 
 export const getIsValidating = (state: RootState): boolean => state.ui.uiCertificate.validationInProgress
 
-export const getIsValidForSigning = (state: RootState): boolean => state.ui.uiCertificate.isValidForSigning
+export const getIsValidForSigning = (state: RootState): boolean =>
+  state.ui.uiCertificate.certificate != null
+    ? Object.values(state.ui.uiCertificate.certificate.data)
+        .map(({ validationErrors }) => validationErrors)
+        .flat().length === 0
+    : false
 
 export const getShowValidationErrors = (state: RootState): boolean => state.ui.uiCertificate.showValidationErrors
 
@@ -87,22 +92,6 @@ export const getUnit = () => (state: RootState): Unit => {
   return state.ui.uiCertificate.certificate.metadata.unit
 }
 
-export const getQuestionHasValidationError = (id: string) => (state: RootState): boolean => {
-  const {
-    ui: {
-      uiCertificate: { showValidationErrors, certificate },
-    },
-  } = state
-
-  if (!showValidationErrors || !certificate || !certificate.data[id].validationErrors) {
-    return false
-  }
-
-  const question = certificate.data[id]
-
-  return question.validationErrors.length > 0
-}
-
 export const getCertificateMetaData = (state: RootState): CertificateMetadata | null => {
   const { certificate } = state.ui.uiCertificate
   if (!certificate) {
@@ -136,7 +125,7 @@ export const getValidationErrorSummary = () => (state: RootState): ValidationErr
     return []
   }
 
-  return getSortedValidationErrorSummary(state.ui.uiCertificate.certificate, state.ui.uiCertificate.clientValidationErrors)
+  return sortedValidationErrorSummary(state.ui.uiCertificate.certificate)
 }
 
 export const getCareUnitValidationErrors = () => (state: RootState): ValidationError[] => {
@@ -159,9 +148,6 @@ const doesFieldsMatch = (payloadField: string, validationField: string) => {
   return !validationField || validationField.includes(payloadField)
 }
 
-const getQuestionClientValidationErrors = (questionId: string) => (state: RootState): ValidationError[] =>
-  state.ui.uiCertificate.clientValidationErrors.filter((v) => v.id === questionId)
-
 const getQuestionServerValidationErrors = (questionId: string) => (state: RootState): ValidationError[] => {
   const question = getQuestion(questionId)(state)
   return question?.validationErrors ?? []
@@ -169,13 +155,9 @@ const getQuestionServerValidationErrors = (questionId: string) => (state: RootSt
 
 export const getVisibleValidationErrors = (questionId: string, field?: string) => (state: RootState): ValidationError[] => {
   const showValidationErrors = getShowValidationErrors(state)
-  const clientValidationErrors = getQuestionClientValidationErrors(questionId)(state)
-  const serverValidationErrors = getQuestionServerValidationErrors(questionId)(state).filter((v) =>
-    clientValidationErrors.length > 0 ? v.type !== 'EMPTY' : true
-  )
 
   return uniqWith<ValidationError>(
-    [...clientValidationErrors, ...serverValidationErrors]
+    getQuestionServerValidationErrors(questionId)(state)
       .filter((v) => showValidationErrors || v.showAlways)
       .filter((v) => (field != null ? doesFieldsMatch(field, v.field) : true)),
     (a, b) => `${a.field}_${a.type}` === `${b.field}_${b.type}`

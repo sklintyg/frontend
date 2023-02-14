@@ -1,27 +1,22 @@
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import React from 'react'
-import reducer from '../../../store/reducers'
 import userEvent from '@testing-library/user-event'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
 import { clearError } from '../../../store/error/errorActions'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
-const location: Location = window.location
-delete window.location
-window.location = {
-  ...location,
-  reload: jest.fn(),
-}
+let location: Location
 
 const renderComponent = (errorData: ErrorData) => {
   render(
@@ -35,13 +30,13 @@ const renderComponent = (errorData: ErrorData) => {
 
 describe('ReloadModal', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    location = window.location
+    jest.spyOn(window, 'location', 'get').mockRestore()
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {
+    jest.resetAllMocks()
     clearDispatchedActions()
   })
 
@@ -50,6 +45,10 @@ describe('ReloadModal', () => {
   })
 
   it('shall reload page on confirm', () => {
+    jest.spyOn(window, 'location', 'get').mockReturnValue({
+      ...location,
+      reload: jest.fn(),
+    })
     renderComponent(createError())
 
     userEvent.click(screen.getByText(RELOAD_CONFIRM_BUTTON_TEXT))

@@ -12,7 +12,7 @@ import {
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const LinkWithMargin = styled(Link)`
   margin-left: 3px;
@@ -125,6 +125,8 @@ const ShowHistory: React.FC<Props> = ({ historyEntries, certificateMetadata }) =
               </>
             )
           }
+        } else if (certificateMetadata.status === CertificateStatus.LOCKED_REVOKED) {
+          return 'Utkastet är makulerat'
         } else {
           return 'Intyget är makulerat'
         }

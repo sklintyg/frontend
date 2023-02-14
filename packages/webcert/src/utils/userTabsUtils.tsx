@@ -50,7 +50,7 @@ const getLink = (links: ResourceLink[], linkType: ResourceLinkType) => {
 const getSearchCreateTab = (link: ResourceLink): UserTab => {
   return {
     title: link.name,
-    url: '/create',
+    url: '/search',
     matchedUrls: ['/certificate'],
   }
 }

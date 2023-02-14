@@ -1,7 +1,6 @@
 import { Checkbox, ConfirmModal, InfoBox, Patient } from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { deleteCertificate } from '../../../store/certificate/certificateActions'
 
@@ -10,7 +9,6 @@ interface Props {
   certificateId: string
   setOpen: (val: boolean) => void
   open: boolean
-  history: RouteComponentProps['history']
 }
 
 const ContentWrapper = styled.div`
@@ -19,7 +17,7 @@ const ContentWrapper = styled.div`
   gap: 1em;
 `
 
-export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patient, certificateId, setOpen, open, history }) => {
+export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patient, certificateId, setOpen, open }) => {
   const dispatch = useDispatch()
   const [disabled, setDisabled] = useState(true)
 
@@ -34,7 +32,7 @@ export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patien
       open={open}
       onConfirm={() => null}
       onClose={() => {
-        dispatch(deleteCertificate({ certificateId, history }))
+        dispatch(deleteCertificate({ certificateId }))
       }}
       closeOnBackdropClick={false}>
       <InfoBox type="info">

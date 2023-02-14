@@ -1,20 +1,17 @@
-import { fakeCertificate, fakeCategoryElement, fakeTextFieldElement, fakeCertificateValidationError } from '@frontend/common'
-import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
-import { certificateMiddleware } from './certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { updateCertificate, showValidationErrors, updateClientValidationError } from './certificateActions'
+import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import faker from 'faker'
+import { configureApplicationStore } from '../configureApplicationStore'
+import { showValidationErrors, updateCertificate } from './certificateActions'
+import { certificateMiddleware } from './certificateMiddleware'
+import { getCertificateDataElements, getVisibleValidationErrors } from './certificateSelectors'
 
 let testStore: EnhancedStore
 
 describe('certificateSelectors', () => {
   describe('getCertificateDataElements', () => {
     beforeEach(() => {
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-      })
+      testStore = configureApplicationStore([certificateMiddleware])
 
       testStore.dispatch(
         updateCertificate(
@@ -56,10 +53,7 @@ describe('certificateSelectors', () => {
   describe('getVisibleValidationErrors', () => {
     beforeEach(() => {
       faker.seed(12345)
-      testStore = configureStore({
-        reducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-      })
+      testStore = configureApplicationStore([certificateMiddleware])
 
       testStore.dispatch(
         updateCertificate(
@@ -77,15 +71,6 @@ describe('certificateSelectors', () => {
           })
         )
       )
-
-      faker.datatype.array(4).forEach((_, index) => {
-        testStore.dispatch(
-          updateClientValidationError({
-            shouldBeRemoved: false,
-            validationError: fakeCertificateValidationError({ id: `client-${index}` }),
-          })
-        )
-      })
     })
 
     it('Should return list of server-side errors', () => {
@@ -97,13 +82,6 @@ describe('certificateSelectors', () => {
         { id: 'server-1-2' },
         { id: 'server-1-3' },
       ])
-    })
-
-    it('Should return list of client-side errors', () => {
-      testStore.dispatch(showValidationErrors())
-      const result = getVisibleValidationErrors('client-1')(testStore.getState())
-
-      expect(result).toMatchObject([{ id: 'client-1' }])
     })
 
     it('Should return empty list if showValidationErrors is false', () => {
@@ -145,41 +123,6 @@ describe('certificateSelectors', () => {
         )
       )
       expect(getVisibleValidationErrors('3')(testStore.getState()).length).toEqual(1)
-    })
-
-    it('Should remove errors with type EMPTY when clientErrors are present', () => {
-      testStore.dispatch(showValidationErrors())
-      testStore.dispatch(
-        updateCertificate(
-          fakeCertificate({
-            data: {
-              ...fakeTextFieldElement({
-                id: 'id',
-                validationErrors: faker.datatype.array(4).map((field, index) =>
-                  fakeCertificateValidationError({
-                    id: `server-1-${index}`,
-                    type: index % 2 === 0 ? `${field}`.toUpperCase() : 'EMPTY',
-                  })
-                ),
-              }),
-            },
-          })
-        )
-      )
-
-      testStore.dispatch(
-        updateClientValidationError({
-          shouldBeRemoved: false,
-          validationError: fakeCertificateValidationError({ id: `id`, type: 'EMPTY' }),
-        })
-      )
-
-      const result = getVisibleValidationErrors('id')(testStore.getState())
-      expect(result).toMatchObject([
-        { id: 'id', type: 'EMPTY' },
-        { id: 'server-1-0', type: '33529' },
-        { id: 'server-1-2', type: 'TEX1JPDOLT' },
-      ])
     })
 
     it('Should match return all errors if field is empty string', () => {

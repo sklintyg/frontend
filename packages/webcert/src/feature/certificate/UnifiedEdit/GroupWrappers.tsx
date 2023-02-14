@@ -1,4 +1,4 @@
-import { ConfigLayout } from '@frontend/common/'
+import { ConfigLayout } from '@frontend/common'
 import styled, { css } from 'styled-components'
 
 interface Props {
@@ -11,7 +11,7 @@ export const GroupWrapper = styled.div<Props>`
       return css`
         display: grid;
         grid-template-columns: 1fr 1fr;
-        row-gap: 15px;
+        row-gap: 0.9375rem;
       `
     }
   }}

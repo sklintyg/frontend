@@ -4,36 +4,42 @@ import {
   CertificateDataValueType,
   ConfigLayout,
   ConfigTypes,
+  ConfigUeCheckboxBoolean,
   ConfigUeCheckboxMultipleCodes,
   ConfigUeCheckboxMultipleDate,
+  ConfigUeDateRange,
   ConfigUeDropdown,
   ConfigUeIcf,
+  ConfigUeInteger,
   ConfigUeMessage,
   ConfigUeRadioBoolean,
   ConfigUeRadioMultipleCodes,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   ConfigUeSickLeavePeriod,
   ConfigUeTextArea,
+  ConfigUeYear,
+  fakeDateRangeElement,
   getCertificateWithQuestion,
   MessageLevel,
-  Value,
   ValueBoolean,
   ValueCode,
   ValueCodeList,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
+  ValueInteger,
   ValueText,
+  ValueType,
+  ValueYear,
 } from '@frontend/common'
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
-import reducer from '@frontend/webcert/src/store/reducers'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import 'jest-styled-components'
-import React from 'react'
 import { Provider } from 'react-redux'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'
 
 let testStore: EnhancedStore
@@ -48,10 +54,7 @@ const renderDefaultComponent = (question: CertificateDataElement) => {
 
 describe('QuestionUvResolve', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {
@@ -117,13 +120,13 @@ describe('QuestionUvResolve', () => {
   it('displays no icf collections label if empty icf list', () => {
     const question = createQuestionWithIcfValue([])
     renderDefaultComponent(question)
-    expect(screen.queryByText(question.config.collectionsLabel as string)).not.toBeInTheDocument()
+    expect(screen.queryByText((question.config as ConfigUeIcf).collectionsLabel as string)).not.toBeInTheDocument()
   })
 
   it('displays icf collections label if icf list is not empty', () => {
     const question = createQuestionWithIcfValue(['test', 'test 2'])
     renderDefaultComponent(question)
-    expect(screen.getByText(question.config.collectionsLabel as string)).toBeInTheDocument()
+    expect(screen.getByText((question.config as ConfigUeIcf).collectionsLabel as string)).toBeInTheDocument()
   })
 
   it('displays icf values if icf list is not empty', () => {
@@ -156,6 +159,13 @@ describe('QuestionUvResolve', () => {
     expect(screen.getByText('Ej angivet')).toBeInTheDocument()
   })
 
+  it('displays date range value', () => {
+    const question = createQuestionWithDateRange()
+    renderDefaultComponent(question)
+    expect(screen.getByText('2021-06-22')).toBeInTheDocument()
+    expect(screen.getByText('2021-06-25')).toBeInTheDocument()
+  })
+
   it('displays several date range values', () => {
     const question = createQuestionWithMultipleDateRanges()
     renderDefaultComponent(question)
@@ -183,6 +193,39 @@ describe('QuestionUvResolve', () => {
     renderDefaultComponent(question)
     expect(screen.queryByText(/Hello from UE_MESSAGE/i)).not.toBeInTheDocument()
   })
+
+  it('displaying year value', () => {
+    const question = createQuestionWithYearValue()
+    renderDefaultComponent(question)
+    expect(screen.getByText(/2020/i)).toBeInTheDocument()
+  })
+
+  it('displaying empty year value', () => {
+    const question = createQuestionWithYearValue()
+    ;(question.value as ValueYear).year = undefined
+    renderDefaultComponent(question)
+    expect(screen.getByText(/Ej angivet/i)).toBeInTheDocument()
+  })
+
+  it('Not displaying year value if visible is false', () => {
+    const question = createQuestionWithYearValue()
+    question.visible = false
+    renderDefaultComponent(question)
+    expect(screen.queryByText(/2020/i)).not.toBeInTheDocument()
+  })
+
+  it('Displaying year value if visible is true', () => {
+    const question = createQuestionWithYearValue()
+    question.visible = true
+    renderDefaultComponent(question)
+    expect(screen.getByText(/2020/i)).toBeInTheDocument()
+  })
+
+  it('Displays the correct value and unit of measurement', () => {
+    const question = createQuestionWithIntegerValue()
+    renderDefaultComponent(question)
+    expect(screen.getByText('50%')).toBeInTheDocument()
+  })
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
@@ -190,7 +233,6 @@ export function createQuestionWithTextValue(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeTextArea = {
@@ -209,7 +251,7 @@ export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement
     selected: true,
     id: '',
   }
-  const config: ConfigUeRadioBoolean = {
+  const config: ConfigUeCheckboxBoolean = {
     id: '',
     selectedText: 'Boolean value = true',
     unselectedText: 'Boolean value = false',
@@ -313,7 +355,6 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleCodes = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
     layout: ConfigLayout.ROWS,
@@ -353,7 +394,6 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   }
   const config: ConfigUeCheckboxMultipleDate = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_CHECKBOX_MULTIPLE_DATE,
     list: [
@@ -383,6 +423,22 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
+export const createQuestionWithDateRange = (): CertificateDataElement => {
+  const question = fakeDateRangeElement({
+    id: 'id',
+    value: {
+      id: 'DATE_1',
+      from: '2021-06-22',
+      to: '2021-06-25',
+    },
+    config: {
+      id: 'DATE_1',
+    },
+  })['id']
+
+  return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
+}
+
 export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
   const value: ValueDateRangeList = {
     type: CertificateDataValueType.DATE_RANGE_LIST,
@@ -403,7 +459,6 @@ export const createQuestionWithMultipleDateRanges = (): CertificateDataElement =
   }
   const config: ConfigUeSickLeavePeriod = {
     description: '',
-    id: '',
     text: '',
     type: ConfigTypes.UE_SICK_LEAVE_PERIOD,
     previousSickLeavePeriod: '',
@@ -470,7 +525,6 @@ const createDropdownQuestion = () => {
 
   const config: ConfigUeDropdown = {
     description: '',
-    id: 'questionId',
     text: '',
     type: ConfigTypes.UE_DROPDOWN,
     list: [
@@ -497,7 +551,6 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
-    limit: 50,
     id: '',
   }
   const config: ConfigUeMessage = {
@@ -512,7 +565,40 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: Value, config: CertificateDataConfig): CertificateDataElement {
+export function createQuestionWithIntegerValue(): CertificateDataElement {
+  const value: ValueInteger = {
+    type: CertificateDataValueType.INTEGER,
+    id: '',
+    value: 50,
+  }
+  const config: ConfigUeInteger = {
+    type: ConfigTypes.UE_INTEGER,
+    id: '',
+    unitOfMeasurement: '%',
+    text: '',
+    description: '',
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestionWithYearValue(): CertificateDataElement {
+  const value: ValueYear = {
+    type: CertificateDataValueType.YEAR,
+    year: 2020,
+    id: '',
+  }
+  const config: ConfigUeYear = {
+    description: '',
+    text: '',
+    id: '',
+    type: ConfigTypes.UE_YEAR,
+  }
+
+  return createQuestion(value, config)
+}
+
+export function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

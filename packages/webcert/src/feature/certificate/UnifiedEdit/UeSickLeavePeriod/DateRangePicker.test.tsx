@@ -1,41 +1,51 @@
-import React from 'react'
+import { fakeCertificateValue, formatDateToString, getValidDate, ValueDateRange } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { formatDateToString, getValidDate } from '@frontend/common'
-import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
+import React, { ComponentProps, useState } from 'react'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
-import { hideValidationErrors, removeClientValidationError, showValidationErrors } from '../../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import DateRangePicker from './DateRangePicker'
 
-const CHECKBOX_LABEL = '25 procent'
-const QUESTION_ID = 'EN_FJARDEDEL'
+let testStore: EnhancedStore
 
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
+const DateRangePickerWrapper: React.FC<Omit<ComponentProps<typeof DateRangePicker>, 'onChange'>> = ({ value, ...props }) => {
+  const [val, setValue] = useState<ValueDateRange>(value)
 
-const renderDefaultComponent = (fromDate = null, toDate = null, baseWorkHours = '0') => {
+  return (
+    <DateRangePicker
+      onChange={(val) => {
+        setValue(val)
+      }}
+      value={val}
+      {...props}
+    />
+  )
+}
+
+const renderDefaultComponent = (fromDate = undefined, toDate = undefined, baseWorkHours = '0') => {
   render(
-    <Provider store={store}>
-      <DateRangePicker
+    <Provider store={testStore}>
+      <DateRangePickerWrapper
         baseWorkHours={baseWorkHours}
         disabled={false}
-        hasValidationError={false}
-        updateValue={jest.fn()}
+        field="EN_FJARDEDEL"
         getPeriodStartingDate={() => formatDateToString(new Date())}
-        label={CHECKBOX_LABEL}
-        fromDate={fromDate}
-        toDate={toDate}
-        periodId={QUESTION_ID}
-        questionId={'questionId'}
+        label="25 procent"
+        value={fakeCertificateValue.dateRange({ from: fromDate, to: toDate })}
+        validationErrors={[]}
+        hasValidationError={false}
       />
     </Provider>
   )
 }
 
 describe('Date range picker', () => {
-  afterEach(() => {
-    store.dispatch(removeClientValidationError(0))
+  beforeEach(() => {
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {
@@ -137,102 +147,6 @@ describe('Date range picker', () => {
     expect(differenceInDays).toBe(30)
   })
 
-  describe('Validation error', () => {
-    it('shows invalid text message', async () => {
-      renderDefaultComponent()
-
-      const fromInput = screen.getByLabelText('Fr.o.m')
-      const tomInput = screen.getByLabelText('t.o.m')
-
-      userEvent.type(fromInput, 'x{enter}')
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-      userEvent.clear(fromInput)
-      fromInput.blur()
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-
-      userEvent.type(tomInput, 'x{enter}')
-      expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-      userEvent.clear(tomInput)
-      tomInput.blur()
-      expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
-    })
-
-    it('shows not complete date message when only from date is inserted', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(showValidationErrors())
-
-      const input = screen.getByLabelText('Fr.o.m')
-
-      userEvent.type(input, '20210202')
-      userEvent.click(screen.getByText('t.o.m'))
-      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
-    })
-
-    it('shows not complete date message when only tom date is inserted', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(showValidationErrors())
-
-      const input = screen.getByLabelText('t.o.m')
-
-      userEvent.type(input, '20210202')
-      userEvent.click(screen.getByText('Fr.o.m'))
-      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
-    })
-
-    it('shows not complete date message when tom date is inserted following fast input rules', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(showValidationErrors())
-
-      const input = screen.getByLabelText('t.o.m')
-
-      userEvent.type(input, 'd12')
-      userEvent.click(screen.getByText('Fr.o.m'))
-      expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
-    })
-
-    it('should not show not complete date message if invalid date is inserted in other field', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(showValidationErrors())
-
-      userEvent.type(screen.getByLabelText('Fr.o.m'), '20210202')
-      userEvent.type(screen.getByText('t.o.m'), 'yyyyyyyy')
-      userEvent.click(screen.getByText('Fr.o.m'))
-      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
-      expect(screen.getByText('Ange datum i formatet åååå-mm-dd.')).toBeInTheDocument()
-    })
-
-    it('should not show complete date message when validation errors are hidden but from date is inserted', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(hideValidationErrors())
-
-      const input = screen.getByLabelText('Fr.o.m')
-
-      userEvent.type(input, '20210202')
-      userEvent.click(screen.getByText('t.o.m'))
-      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
-    })
-
-    it('should not show complete date message when validation errors are hidden but tom date is inserted', () => {
-      renderDefaultComponent(null, null, '0')
-      store.dispatch(hideValidationErrors())
-
-      const input = screen.getByLabelText('t.o.m')
-
-      userEvent.type(input, '20210202')
-      userEvent.click(screen.getByText('Fr.o.m'))
-      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
-    })
-
-    it('should not show complete date message if complete dates are inserted', () => {
-      renderDefaultComponent(null, null, '0')
-
-      userEvent.type(screen.getByLabelText('Fr.o.m'), '20210202')
-      userEvent.type(screen.getByLabelText('t.o.m'), '20210202')
-      userEvent.click(screen.getByText('Fr.o.m'))
-      expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
-    })
-  })
-
   it('displays correct number of sick hours and days for one week', () => {
     renderDefaultComponent(undefined, undefined, '40')
 
@@ -274,19 +188,5 @@ describe('Date range picker', () => {
     userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
     expect(screen.queryByText('Arbetstid:', { exact: false })).not.toBeInTheDocument()
-  })
-
-  it('should not complete date message if checkbox is clicked to remove date', () => {
-    renderDefaultComponent(null, null, '0')
-    store.dispatch(showValidationErrors())
-
-    const input = screen.getByLabelText('Fr.o.m')
-
-    userEvent.type(input, '20210202')
-    userEvent.click(screen.getByText('t.o.m'))
-    expect(screen.getByText('Ange ett datum.')).toBeInTheDocument()
-
-    userEvent.click(screen.getByRole('checkbox'))
-    expect(screen.queryByText('Ange ett datum.')).not.toBeInTheDocument()
   })
 })

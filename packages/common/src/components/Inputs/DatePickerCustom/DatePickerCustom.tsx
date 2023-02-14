@@ -1,25 +1,84 @@
-import { formatDateToString, getValidDateFormat, getValidDate, _dateReg, _format } from '@frontend/common'
 import classNames from 'classnames'
 import { isValid, parse } from 'date-fns'
 import sv from 'date-fns/locale/sv'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled, { CSSProp } from 'styled-components'
-import { ValidationError } from '../../..'
 import calendar from '../../../images/calendar.svg'
+import { formatDateToString, getValidDate, _format, _maxAllowedDate, _minAllowedDate, _yearFormat } from '../../../utils'
 import { DatePickerBoundryContext } from './DatePickerBoundryContext'
-import { DatePickerWrapper, FocusWrapper, StyledButton, TextInput, Wrapper } from './Styles'
 
 const Logo = styled.img`
   width: 20px;
   height: 20px;
 `
 
+const DatePickerWrapper = styled.div<{
+  vertical?: boolean
+}>`
+  display: ${(props) => (props.vertical === true ? 'block' : 'flex')};
+  align-items: center;
+`
+
+const StyledButton = styled.button<{
+  displayValidationError: boolean
+}>`
+  min-width: 0;
+  padding: 0 !important;
+  width: 55px;
+  height: 3rem;
+  box-shadow: none;
+  background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
+  color: #000000;
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top: ${(props) => (props.displayValidationError ? '1px solid rgb(193, 33, 67)' : '1px solid rgb(141, 141, 141)')};
+  border-right: ${(props) => (props.displayValidationError ? '1px solid rgb(193, 33, 67)' : '1px solid rgb(141, 141, 141)')};
+  border-bottom: ${(props) => (props.displayValidationError ? '2px solid rgb(193, 33, 67)' : '0.125rem solid #01a5a3')};
+
+  &:hover {
+    background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
+    color: #000000;
+  }
+`
+
+const TextInput = styled.input`
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  max-width: 15ch;
+  border-right: 0 !important;
+  min-width: 124px;
+  min-height: unset !important;
+
+  &:focus {
+    box-shadow: none;
+  }
+`
+
+export const ValidationWrapper = styled.div`
+  flex-basis: 100%;
+`
+
+const Wrapper = styled.div`
+  display: inline-block;
+`
+const FocusWrapper = styled.div`
+  display: flex;
+  height: 3rem;
+
+  &:focus-within {
+    box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
+    border-radius: 0.1875rem;
+    width: 99%;
+  }
+`
 registerLocale('sv', sv)
 setDefaultLocale('sv')
 
-export interface Props {
+interface Props {
   disabled?: boolean
   label?: string
   setDate: (date: string) => void
@@ -33,26 +92,12 @@ export interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline: boolean
   additionalStyles?: string
-  componentField?: string
-  questionId?: string
-  onDispatchValidationError?: (shouldBeRemoved: boolean, validationError: ValidationError) => void
   forbidFutureDates?: boolean
   max?: string
   min?: string
   vertical?: boolean
   inputCss?: CSSProp | undefined
-}
-
-const INVALID_DATE_FORMAT_ERROR = 'Ange datum i formatet åååå-mm-dd.'
-
-const UNREASONABLE_DATE = 'Ange ett datum som inte ligger för långt fram eller tillbaka i tiden.'
-
-const isValueFormatIncorrect = (value: string | null) => {
-  return value && value.length > 0 && !isValid(getValidDateFormat(value))
-}
-
-const isValueUnreasonable = (value: string | null) => {
-  return value && value.length > 0 && !isValid(getValidDate(value))
+  yearOnly?: boolean
 }
 
 const DatePickerCustom: React.FC<Props> = ({
@@ -69,122 +114,42 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
-  componentField,
-  questionId,
-  onDispatchValidationError,
   forbidFutureDates,
   max,
   min,
   vertical,
   inputCss,
+  yearOnly,
 }) => {
   const [open, setOpen] = useState(false)
-  const [displayFormattingError, setDisplayFormattingError] = useState(false)
-  const [displayUnreasonableDateError, setDisplayUnreasonableDateError] = useState(false)
-  const toggleFormattingError = useCallback(() => {
-    if (onDispatchValidationError) {
-      onDispatchValidationError(!displayFormattingError, {
-        category: '',
-        field: componentField ? componentField : '',
-        id: questionId ? questionId : '',
-        text: INVALID_DATE_FORMAT_ERROR,
-        type: 'INVALID_DATE_FORMAT',
-        showAlways: true,
-      })
-    }
-  }, [displayFormattingError, onDispatchValidationError, componentField, questionId])
-
-  const toggleUnreasonableDateError = useCallback(() => {
-    if (onDispatchValidationError) {
-      onDispatchValidationError(!displayUnreasonableDateError, {
-        category: '',
-        field: componentField ? componentField : '',
-        id: questionId ? questionId : '',
-        text: UNREASONABLE_DATE,
-        type: 'UNREASONABLE_DATE',
-        showAlways: true,
-      })
-    }
-  }, [displayUnreasonableDateError, onDispatchValidationError, componentField, questionId])
-
   const boundryRef = useContext(DatePickerBoundryContext)
 
-  const getValidDateForPicker = (dateString: string) => {
-    if (_dateReg.test(dateString)) {
-      dateString = dateString.replace(/-/g, '')
+  const getValidDateForPicker = (dateString: string | null) => {
+    if (dateString) {
+      const date = parse(dateString, _format, new Date())
+
+      if (isValid(date)) {
+        return date
+      }
     }
-
-    const date = parse(dateString, 'yyyyMMdd', new Date())
-
-    if (isValid(date)) return date
 
     return new Date()
-  }
-
-  let date: Date
-
-  useEffect(() => {
-    toggleFormattingError()
-  }, [displayFormattingError, toggleFormattingError])
-
-  useEffect(() => {
-    toggleUnreasonableDateError()
-  }, [displayUnreasonableDateError, toggleUnreasonableDateError])
-
-  useEffect(() => {
-    if (displayFormattingError || displayUnreasonableDateError) {
-      updateFormattingValidation(inputString)
-    }
-  }, [inputString, displayFormattingError])
-
-  if (inputString) {
-    date = getValidDateForPicker(inputString)
-  } else {
-    date = new Date()
-  }
-
-  const handleTextInputOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value
-
-    const parsedDate = getValidDate(value)
-    const isValueValid = isValid(parsedDate)
-
-    if (parsedDate && isValueValid) {
-      value = formatDateToString(parsedDate)
-    }
-
-    textInputOnChange(value, isValueValid)
-  }
-
-  const handleTextInputOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    updateFormattingValidation(inputString)
-    textInputOnBlur?.(event)
-  }
-
-  const updateFormattingValidation = (value: string | null) => {
-    setDisplayUnreasonableDateError(false)
-    if (isValueFormatIncorrect(value)) {
-      setDisplayFormattingError(true)
-    } else {
-      setDisplayFormattingError(false)
-      updateUnreasonableValidation(value)
-    }
-  }
-  const updateUnreasonableValidation = (value: string | null) => {
-    if (isValueUnreasonable(value)) {
-      setDisplayUnreasonableDateError(true)
-    } else {
-      setDisplayUnreasonableDateError(false)
-    }
   }
 
   const getMaxDate = () => {
     if (forbidFutureDates) {
       return new Date()
     } else if (max) {
-      return new Date(max)
-    } else return undefined
+      return new Date(getFullDate(max) as string)
+    } else return _maxAllowedDate
   }
+
+  const getFullDate = useCallback(
+    (value: string | null) => {
+      return value && `${value}${yearOnly ? '-01-02' : ''}`
+    },
+    [yearOnly]
+  )
 
   return (
     <Wrapper>
@@ -200,12 +165,22 @@ const DatePickerCustom: React.FC<Props> = ({
             id={id}
             name={textInputName}
             type="text"
-            maxLength={10}
+            maxLength={yearOnly ? 4 : 10}
             className={classNames('ic-textfield', { 'ic-textfield--error error': displayValidationErrorOutline })}
-            onChange={handleTextInputOnChange}
-            onBlur={handleTextInputOnBlur}
+            onChange={(event) => {
+              const value = event.target.value
+              const parsedDate = getValidDate(value)
+              const isValueValid = isValid(parsedDate)
+
+              if (parsedDate && isValueValid) {
+                textInputOnChange(formatDateToString(parsedDate), isValueValid)
+              } else {
+                textInputOnChange(value, isValueValid)
+              }
+            }}
+            onBlur={textInputOnBlur}
             onKeyDown={textInputOnKeyDown}
-            placeholder="åååå-mm-dd"
+            placeholder={yearOnly ? 'åååå' : 'åååå-mm-dd'}
             value={inputString ?? ''}
             ref={textInputRef}
             data-testid={textInputDataTestId}
@@ -219,7 +194,7 @@ const DatePickerCustom: React.FC<Props> = ({
             onChange={() => {
               /*Empty*/
             }}
-            dateFormat={_format}
+            dateFormat={yearOnly ? _yearFormat : _format}
             customInput={
               <StyledButton
                 aria-label="Öppna kalendern"
@@ -232,12 +207,13 @@ const DatePickerCustom: React.FC<Props> = ({
             }
             onClickOutside={() => setOpen(false)}
             open={open}
-            selected={date}
+            selected={getValidDateForPicker(getFullDate(inputString))}
             onSelect={(date: Date) => {
               setOpen(false)
               setDate(formatDateToString(date))
             }}
             showWeekNumbers
+            showYearPicker={yearOnly}
             portalId="root"
             popperPlacement="bottom-end"
             popperModifiers={[
@@ -267,7 +243,7 @@ const DatePickerCustom: React.FC<Props> = ({
               },
             ]}
             maxDate={getMaxDate()}
-            minDate={min ? new Date(min) : undefined}
+            minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
           />
         </FocusWrapper>
       </DatePickerWrapper>

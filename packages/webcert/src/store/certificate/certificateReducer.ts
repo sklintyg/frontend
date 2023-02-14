@@ -1,4 +1,5 @@
 import {
+  autoFillElement,
   Certificate,
   CertificateDataElementStyleEnum,
   CertificateDataValidationType,
@@ -7,16 +8,14 @@ import {
   CertificateSignStatus,
   Complement,
   ConfigTypes,
+  isShowAlways,
   ModalData,
-  ValidationError,
+  setDisableForChildElement,
   ValueBoolean,
-  ValueCode,
   ValueText,
 } from '@frontend/common'
-import { autoFillElement, isShowAlways, setDisableForChildElement } from '@frontend/common/src/utils/validationUtils'
 import { createReducer } from '@reduxjs/toolkit'
 import {
-  addClientValidationError,
   applyCertificateDataElementAutoFill,
   clearGotoCertificateDataElement,
   disableCertificateDataElement,
@@ -27,14 +26,13 @@ import {
   hideSpinner,
   hideValidationErrors,
   highlightCertificateDataElement,
-  removeClientValidationError,
   resetCertificateState,
   setCertificateDataElement,
   setCertificatePatientData,
-  setCertificateSigningErrorData,
   setCertificateUnitData,
   setDisabledCertificateDataChild,
   setReadyForSign,
+  setValidationErrorsForQuestion,
   showCertificateDataElement,
   showCertificateDataElementMandatory,
   showSpinner,
@@ -73,14 +71,12 @@ interface CertificateState {
   spinnerText: string
   validationInProgress: boolean
   showValidationErrors: boolean
-  isValidForSigning: boolean
   isDeleted: boolean
   complements: Complement[]
   gotoCertificateDataElement?: GotoCertificateDataElement
   signingData?: SigningData
   routedFromDeletedCertificate: boolean
   functionDisablers: FunctionDisabler[]
-  clientValidationErrors: ValidationError[]
   createdCertificateId: string
   shouldRouteAfterDelete: boolean
   signingStatus: CertificateSignStatus
@@ -95,12 +91,10 @@ const getInitialState = (): CertificateState => {
     spinnerText: '',
     validationInProgress: false,
     showValidationErrors: false,
-    isValidForSigning: false,
     isDeleted: false,
     complements: [],
     routedFromDeletedCertificate: false,
     functionDisablers: [],
-    clientValidationErrors: [],
     createdCertificateId: '',
     shouldRouteAfterDelete: false,
     signingStatus: CertificateSignStatus.INITIAL,
@@ -209,38 +203,31 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       state.validationInProgress = false
     })
     .addCase(updateValidationErrors, (state, action) => {
-      for (const questionId in state.certificate?.data) {
-        const question = state.certificate?.data[questionId]
-        if (!question || question.config.type === ConfigTypes.CATEGORY) {
-          continue
-        }
-
-        // TODO: Only update validationErrors for questions that have changed.
-        question.validationErrors = []
-        for (const validationError of action.payload) {
-          validationError.showAlways = isShowAlways(validationError)
-          if (validationError.id === questionId) {
-            question.validationErrors.push(validationError)
-          }
-        }
-      }
+      action.payload = action.payload.map((validationError) => ({ ...validationError, showAlways: isShowAlways(validationError) }))
 
       if (state.certificate) {
-        state.certificate.metadata.careUnitValidationErrors = []
-        for (const validationError of action.payload) {
-          if (validationError.category === CARE_UNIT_CATEGORY_NAME) {
-            state.certificate.metadata.careUnitValidationErrors.push(validationError)
+        for (const questionId in state.certificate.data) {
+          const question = state.certificate.data[questionId]
+          if (!question) {
+            continue
           }
-        }
-        state.certificate.metadata.patientValidationErrors = []
-        for (const validationError of action.payload) {
-          if (validationError.category === PATIENT_CATEGORY_NAME) {
-            state.certificate.metadata.patientValidationErrors.push(validationError)
-          }
-        }
-      }
 
-      state.isValidForSigning = action.payload.length === 0 && state.clientValidationErrors.length === 0
+          question.validationErrors = action.payload.filter(({ id }) => id === questionId)
+        }
+
+        state.certificate.metadata.careUnitValidationErrors = action.payload.filter(({ category }) => category === CARE_UNIT_CATEGORY_NAME)
+        state.certificate.metadata.patientValidationErrors = action.payload.filter(({ category }) => category === PATIENT_CATEGORY_NAME)
+      }
+    })
+    .addCase(setValidationErrorsForQuestion, (state, action) => {
+      if (state.certificate) {
+        const question = state.certificate.data[action.payload.questionId]
+        if (!question) {
+          return
+        }
+
+        question.validationErrors = action.payload.validationErrors
+      }
     })
     .addCase(showValidationErrors, (state) => {
       state.showValidationErrors = true
@@ -299,9 +286,9 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
       const question = state.certificate.data[action.payload]
 
       question.disabled = true
-      if (question?.value?.code) {
-        ;(question.value as ValueCode).id = ''
-        ;(question.value as ValueCode).code = ''
+      if (question.value && question.value.type === CertificateDataValueType.CODE) {
+        question.value.id = ''
+        question.value.code = ''
       }
     })
     .addCase(updateCertificateAsDeleted, (state) => {
@@ -325,9 +312,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateCertificateSigningData, (state, action) => {
       state.signingData = action.payload
-    })
-    .addCase(setCertificateSigningErrorData, (state, action) => {
-      state.signingError = action.payload
     })
     .addCase(updateCertificateSignStatus, (state, action) => {
       state.signingStatus = action.payload
@@ -370,14 +354,6 @@ const certificateReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(toggleCertificateFunctionDisabler, (state, action) => {
       state.functionDisablers = toggleFunctionDisabler(state.functionDisablers, action.payload)
-    })
-    .addCase(addClientValidationError, (state, action) => {
-      state.clientValidationErrors.push(action.payload)
-    })
-    .addCase(removeClientValidationError, (state, action) => {
-      const clientValidationErrors = [...state.clientValidationErrors]
-      clientValidationErrors.splice(action.payload, 1)
-      state.clientValidationErrors = clientValidationErrors
     })
     .addCase(updateCreatedCertificateId, (state, action) => {
       state.createdCertificateId = action.payload

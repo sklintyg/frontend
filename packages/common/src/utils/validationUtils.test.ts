@@ -11,6 +11,7 @@ import {
   fakeCertificateDataValidation,
   fakeCheckboxMultipleCodeElement,
   formatDateToString,
+  getDateRangeElement,
   getIcfElement,
   getSickLeavePeriodElement,
   ResourceLink,
@@ -21,6 +22,7 @@ import {
   ValueCodeList,
   ValueDate,
   ValueDateList,
+  ValueDateRange,
   ValueDateRangeList,
   ValueIcf,
   ValueText,
@@ -30,19 +32,14 @@ import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCe
 import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
   autoFillElement,
-  CARE_UNIT_ADDRESS_CATEGORY_TITLE,
-  CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID,
-  CARE_UNIT_ADDRESS_FIELD,
   decorateCertificateWithInitialValues,
-  getSortedValidationErrorSummary,
   getValidationErrors,
   isShowAlways,
   parseExpression,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_STREET_FIELD,
   validateExpressions,
 } from './validationUtils'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -144,7 +141,7 @@ describe('Validate show rule for boolean values', () => {
   })
 })
 
-describe('Validate show rule for date range values', () => {
+describe('Validate show rule for date range values for sickLeavePeriod element', () => {
   const sickLeavePeriodElement = getSickLeavePeriodElement()
   const SUT_ID = 'EN_FJARDEDEL'
 
@@ -178,6 +175,38 @@ describe('Validate show rule for date range values', () => {
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
     expect(result).toBe(true)
+  })
+})
+
+describe('Validate show rule for date range values', () => {
+  const dateRangeElement = getDateRangeElement()
+  const SUT_ID = 'sjukskrivningsgradPeriod'
+
+  it('it should validate as false when difference from date.from & date.to is less than 14', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 5))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
+  })
+
+  it('it should validate as true when difference from date.from & date.to is greater than 14 days', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 20))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(true)
+  })
+
+  it('it should validate as false when difference from date.from & date.to is equal', () => {
+    const value = dateRangeElement.value as ValueDateRange
+    value.from = formatDateToString(new Date())
+    value.to = formatDateToString(addDays(new Date(), 14))
+
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    expect(result).toBe(false)
   })
 })
 
@@ -288,16 +317,14 @@ describe('Validate mandatory rule for uncertain datet', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.uncertainDate({
       text: 'Osäkert dödsdatum',
       description: 'Datum då döden inträffade är osäkert',
-      type: ConfigTypes.UE_UNCERTAIN_DATE,
       id: 'osakertDodsDatum',
-    },
-    value: {
-      type: CertificateDataValueType.UNCERTAIN_DATE,
+    }),
+    value: fakeCertificateValue.uncertainDate({
       id: 'osakertDodsDatum',
-    },
+    }),
     validation: [
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
@@ -529,7 +556,7 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.radioBoolean({
       text: 'Leder funktionsnedsättningarna till aktivitetsbegränsningar i relation till arbete eller studier?',
       description:
         'Aktivitet innebär personens möjlighet att genomföra en uppgift eller handling. Aktivitetsbegränsning ska bedömas utifrån de begränsningar personen har kopplat till att kunna söka arbete, genomföra en arbetsuppgift/arbetsuppgifter, kunna studera eller delta i aktivitet hos Arbetsförmedlingen.',
@@ -537,7 +564,7 @@ describe('Validate multiple show rules', () => {
       id: 'harAktivitetsbegransning',
       selectedText: 'Ja',
       unselectedText: 'Nej',
-    },
+    }),
     value: {
       type: CertificateDataValueType.BOOLEAN,
       id: 'harAktivitetsbegransning',
@@ -565,13 +592,12 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.textArea({
       text: 'Ange vilka aktivitetsbegränsningar? Ange hur och om möjligt varaktighet/prognos.',
       description:
         'Ge konkreta exempel på aktivitetsbegränsningar utifrån personens planerade insatser hos Arbetsförmedlingen eller personens möjlighet att söka arbete, genomföra en arbetsuppgift/arbetsuppgifter eller studera. Till exempel:\n\natt ta till sig en instruktion\natt ta reda på och förstå muntlig eller skriftlig information\natt kunna fokusera\natt kunna bära eller lyfta\natt kunna hantera statiskt arbete',
-      type: ConfigTypes.UE_TEXTAREA,
       id: 'aktivitetsbegransning',
-    },
+    }),
     value: {
       type: CertificateDataValueType.TEXT,
       id: 'aktivitetsbegransning',
@@ -604,14 +630,13 @@ describe('Validate multiple show rules', () => {
     visible: true,
     readOnly: false,
     mandatory: true,
-    config: {
+    config: fakeCertificateConfig.radioBoolean({
       text: 'Finns besvär på grund av sjukdom eller skada som medför funktionsnedsättning?',
       description: 'Med besvär avses sådant som påverkar psykiska, psykosociala eller kroppsliga funktioner.',
-      type: ConfigTypes.UE_RADIO_BOOLEAN,
       id: 'harFunktionsnedsattning',
       selectedText: 'Ja',
       unselectedText: 'Nej',
-    },
+    }),
     value: {
       type: CertificateDataValueType.BOOLEAN,
       id: 'harFunktionsnedsattning',
@@ -830,9 +855,7 @@ describe('Validate enable rule for code values', () => {
         },
       ],
     },
-    value: {
-      type: CertificateDataValueType.CODE,
-    },
+    value: fakeCertificateValue.code(),
     validation: [
       {
         type: CertificateDataValidationType.ENABLE_VALIDATION,
@@ -909,39 +932,39 @@ describe('Validate disable rule for code list', () => {
           label: 'Övrigt',
         },
       ],
-      validation: [
-        {
-          type: CertificateDataValidationType.MANDATORY_VALIDATION,
-          questionId: '40',
-          expression:
-            '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-        },
-        {
-          type: CertificateDataValidationType.DISABLE_VALIDATION,
-          questionId: '40',
-          expression:
-            '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-          id: ['EJ_AKTUELLT'],
-        },
-        {
-          type: CertificateDataValidationType.DISABLE_VALIDATION,
-          questionId: '40',
-          expression: '$EJ_AKTUELLT',
-          id: [
-            'ARBETSTRANING',
-            'ARBETSANPASSNING',
-            'SOKA_NYTT_ARBETE',
-            'BESOK_ARBETSPLATS',
-            'ERGONOMISK',
-            'HJALPMEDEL',
-            'KONFLIKTHANTERING',
-            'KONTAKT_FHV',
-            'OMFORDELNING',
-            'OVRIGA_ATGARDER',
-          ],
-        },
-      ],
     },
+    validation: [
+      {
+        type: CertificateDataValidationType.MANDATORY_VALIDATION,
+        questionId: '40',
+        expression:
+          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression:
+          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
+        id: ['EJ_AKTUELLT'],
+      },
+      {
+        type: CertificateDataValidationType.DISABLE_VALIDATION,
+        questionId: '40',
+        expression: '$EJ_AKTUELLT',
+        id: [
+          'ARBETSTRANING',
+          'ARBETSANPASSNING',
+          'SOKA_NYTT_ARBETE',
+          'BESOK_ARBETSPLATS',
+          'ERGONOMISK',
+          'HJALPMEDEL',
+          'KONFLIKTHANTERING',
+          'KONTAKT_FHV',
+          'OMFORDELNING',
+          'OVRIGA_ATGARDER',
+        ],
+      },
+    ],
   })['40']
 
   it('it should validate as true when code is in list', () => {
@@ -1202,18 +1225,18 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return validation errors from field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
-    const result = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
+    const result = getValidationErrors(validationErrors, 'grunddata.skapadAv.vardenhet.postadress')
 
     expect(result.length).toBe(1)
-    expect(result[0].field).toBe(CARE_UNIT_ADDRESS_FIELD)
+    expect(result[0].field).toBe('grunddata.skapadAv.vardenhet.postadress')
   })
 
   it('should return empty array on non existing field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.skapadAv.vardenhet.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
@@ -1223,7 +1246,7 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return empty array on non existing field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
@@ -1233,51 +1256,14 @@ describe('Set initial values to a certificate', () => {
   })
 
   it('should return validation errors from field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: PATIENT_STREET_FIELD, type: '', text: '' }
+    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
     const validationErrors: ValidationError[] = []
     validationErrors.push(validationError)
 
-    const result = getValidationErrors(validationErrors, PATIENT_STREET_FIELD)
+    const result = getValidationErrors(validationErrors, 'grunddata.patient.postadress')
 
     expect(result.length).toBe(1)
-    expect(result[0].field).toBe(PATIENT_STREET_FIELD)
-  })
-
-  it('should return empty validation error summary', () => {
-    const result = getSortedValidationErrorSummary(certificate, [])
-
-    expect(result.length).toBe(0)
-  })
-
-  it('should return sorted validation error summary including patient and care unit address', () => {
-    const certificate = getCertificate()
-    const validationError: ValidationError = { id: '', category: '', field: '', type: '', text: '' }
-    certificate.data['1.2'].validationErrors.push(validationError)
-    certificate.data['28'].validationErrors.push(validationError)
-    certificate.metadata.careUnitValidationErrors = []
-    certificate.metadata.careUnitValidationErrors.push(validationError)
-    certificate.metadata.patientValidationErrors = []
-    certificate.metadata.patientValidationErrors.push(validationError)
-
-    const result = getSortedValidationErrorSummary(certificate, [])
-
-    expect(result.length).toBe(4)
-    expect(result[0].id).toBe(PATIENT_ADDRESS_CATEGORY_TITLE_ID)
-    expect(result[0].text).toBe(PATIENT_ADDRESS_CATEGORY_TITLE)
-    expect(result[1].id).toBe('sysselsattning')
-    expect(result[1].text).toBe('Sysselsättning')
-    expect(result[1].index).toBe(6)
-    expect(result[2].id).toBe('funktionsnedsattning')
-    expect(result[2].text).toBe('Sjukdomens konsekvenser')
-    expect(result[2].index).toBe(11)
-    expect(result[3].id).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE_ID)
-    expect(result[3].text).toBe(CARE_UNIT_ADDRESS_CATEGORY_TITLE)
-  })
-
-  it('should include client validation errors in result', () => {
-    const certificate = getCertificate()
-    const result = getSortedValidationErrorSummary(certificate, [{ id: '1.2', category: '', field: '', type: '', text: '' }])
-    expect(result.length).toBe(1)
+    expect(result[0].field).toBe('grunddata.patient.postadress')
   })
 
   it('should disable all categories if no edit link', () => {
@@ -1378,7 +1364,7 @@ describe('Validate expressions only when visible', () => {
 describe('autoFillElement', () => {
   it('Should handle boolean values', () => {
     const radioBooleanElement = fakeRadioBooleanElement({ id: '1', value: { selected: true } })['1']
-    expect(radioBooleanElement?.value?.selected).toEqual(true)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(true)
 
     autoFillElement(
       fakeCertificateDataValidation({
@@ -1391,7 +1377,7 @@ describe('autoFillElement', () => {
       radioBooleanElement
     )
 
-    expect(radioBooleanElement?.value?.selected).toEqual(false)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(false)
 
     autoFillElement(
       fakeCertificateDataValidation({
@@ -1404,7 +1390,7 @@ describe('autoFillElement', () => {
       radioBooleanElement
     )
 
-    expect(radioBooleanElement?.value?.selected).toEqual(true)
+    expect((radioBooleanElement.value as ValueBoolean).selected).toEqual(true)
   })
 })
 

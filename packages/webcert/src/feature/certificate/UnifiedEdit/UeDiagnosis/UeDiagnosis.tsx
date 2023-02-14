@@ -5,11 +5,11 @@ import {
   Diagnosis,
   QuestionValidationTexts,
   TextValidation,
+  Typeahead,
   ValidationError,
   ValueDiagnosis,
   ValueDiagnosisList,
 } from '@frontend/common'
-import Typeahead from '@frontend/common/src/components/Inputs/Typeahead'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
@@ -29,12 +29,14 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-  padding-top: 15px;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
   display: grid;
   align-items: flex-start;
   grid-template-columns: 120px repeat(3, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: 10px;
+  grid-column-gap: 0.9375rem;
   grid-template-areas:
     'code diagnosis diagnosis diagnosis'
     'codeError descError descError descError';
@@ -44,33 +46,18 @@ const codeAdditionalStyles = css`
   grid-area: code;
 `
 
-const descriptionAdditionalStyles = css`
+const DescriptionAdditional = styled.div`
   grid-area: diagnosis;
-`
-
-const wholeRowGrid = css`
-  position: relative;
-  grid-column-end: diagnosis;
-  grid-column-start: code;
-`
-
-const descriptionListStyles = css`
-  position: relative;
-  grid-column-end: diagnosis;
-  grid-column-start: diagnosis;
 `
 
 const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, question, validationErrors, hasValidationError }) => {
   const savedDiagnosis = (question.value as ValueDiagnosisList).list.find((item) => item && item.id === id)
   const [description, setDescription] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.description : '')
   const [code, setCode] = React.useState(savedDiagnosis !== undefined ? savedDiagnosis.code : '')
-  const [openDescription, setOpenDescription] = React.useState(false)
-  const [openCode, setOpenCode] = React.useState(false)
   const [codeChanged, setCodeChanged] = React.useState(false)
   const typeaheadResult = useSelector(getDiagnosisTypeaheadResult(), shallowEqual)
   const dispatch = useAppDispatch()
   const codeInput = React.createRef<HTMLInputElement>()
-  const diagnosisInput = React.createRef<HTMLInputElement>()
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
@@ -97,8 +84,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
 
   const handleClose = (diagnosisSelected: boolean) => {
     const isCodeInputFocused = document.activeElement === codeInput.current
-    setOpenCode(false)
-    setOpenDescription(false)
     if (codeChanged && !diagnosisSelected && !isCodeInputFocused) {
       setCode('')
     }
@@ -126,7 +111,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCode = event.currentTarget.value
     setCode(newCode)
-    setOpenCode(true)
     setCodeChanged(true)
     if (newCode === undefined || newCode === '') {
       setDescription('')
@@ -140,7 +124,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
   const handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newDescription = event.currentTarget.value
     setDescription(newDescription)
-    setOpenDescription(true)
     setCodeChanged(false)
     if (newDescription === '') {
       setCode('')
@@ -162,24 +145,6 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
       updateSavedDiagnosis(question, code, description, selectedCodeSystem)
     }, 500)
   ).current
-
-  const getSuggestions = () => {
-    if (typeaheadResult === undefined || typeaheadResult === null || typeaheadResult.resultat !== 'OK') {
-      return []
-    }
-    return typeaheadResult.diagnoser
-      .filter((diagnosis) => {
-        return !(question.value as ValueDiagnosisList).list.find((value) => value.code === diagnosis.kod)
-      })
-      .map((diagnosis: Diagnosis) => {
-        const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
-        return {
-          label: `${diagnosis.kod} ${DIAGNOSIS_DIVIDER} ${diagnosis.beskrivning}`,
-          disabled: isDisabled,
-          title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
-        }
-      })
-  }
 
   const getCodeFromString = (diagnosis: string) => {
     return diagnosis.indexOf(DIAGNOSIS_DIVIDER) !== -1 ? diagnosis.split(DIAGNOSIS_DIVIDER)[0].trim() : diagnosis
@@ -213,56 +178,66 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     }
   }
 
-  const getItemText = (item: string, searched: string | undefined) => {
-    if (searched !== undefined) {
+  const getItemText = (item: string, value: string | number | readonly string[] | undefined) => {
+    if (value !== undefined) {
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
-      const regex = new RegExp(`(${searched})`, 'ig')
+      const regex = new RegExp(`(${value})`, 'ig')
       return `${itemCode} ${DIAGNOSIS_DIVIDER} ${itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')}`
     } else return item
   }
 
   const isShortPsychologicalDiagnosis = (code: string) => {
-    const isPsychologicalDiagnosis = code.substr(0, 3) === 'Z73' || code.substr(0, 1) === 'F'
+    const isPsychologicalDiagnosis = code.slice(0, 3) === 'Z73' || code.slice(0, 1) === 'F'
     return code.length < 4 && isPsychologicalDiagnosis
   }
+
+  const suggestions = (typeaheadResult?.diagnoser ?? [])
+    .filter((diagnosis) => {
+      return !(question.value as ValueDiagnosisList).list.find((value) => value.code === diagnosis.kod)
+    })
+    .map((diagnosis: Diagnosis) => {
+      const isDisabled = isShortPsychologicalDiagnosis(diagnosis.kod)
+      return {
+        label: `${diagnosis.kod} ${DIAGNOSIS_DIVIDER} ${diagnosis.beskrivning}`,
+        disabled: isDisabled,
+        title: isDisabled ? 'Diagnoskod måste anges på fyrställig nivå' : null,
+      }
+    })
 
   return (
     <>
       <Wrapper key={`${id}-wrapper`}>
         <Typeahead
           ref={codeInput}
-          suggestions={getSuggestions()}
-          inputStyles={codeAdditionalStyles}
-          listStyles={wholeRowGrid}
+          suggestions={suggestions}
+          css={codeAdditionalStyles}
           placeholder="Kod"
+          data-testid={`${id}-code`}
           disabled={disabled}
           hasValidationError={hasValidationError}
           onSuggestionSelected={onDiagnosisSelected}
           value={code}
-          open={openCode}
           onChange={handleCodeChange}
           onClose={onClose}
           moreResults={typeaheadResult?.moreResults}
         />
-        <Typeahead
-          ref={diagnosisInput}
-          suggestions={getSuggestions()}
-          placeholder="Diagnos"
-          disabled={disabled}
-          inputStyles={descriptionAdditionalStyles}
-          listStyles={descriptionListStyles}
-          hasValidationError={hasValidationError}
-          onSuggestionSelected={onDiagnosisSelected}
-          value={description}
-          onChange={handleDescriptionChange}
-          open={openDescription}
-          highlighted={true}
-          onClose={onClose}
-          getItemText={getItemText}
-          moreResults={typeaheadResult?.moreResults}
-          limit={textValidation ? textValidation.limit : 250}
-        />
+        <DescriptionAdditional>
+          <Typeahead
+            suggestions={suggestions}
+            placeholder="Diagnos"
+            data-testid={`${id}-diagnos`}
+            disabled={disabled}
+            hasValidationError={hasValidationError}
+            onSuggestionSelected={onDiagnosisSelected}
+            value={description}
+            onChange={handleDescriptionChange}
+            onClose={onClose}
+            getItemText={getItemText}
+            moreResults={typeaheadResult?.moreResults}
+            limit={textValidation ? textValidation.limit : 250}
+          />
+        </DescriptionAdditional>
       </Wrapper>
       <QuestionValidationTexts validationErrors={validationErrors} />
     </>

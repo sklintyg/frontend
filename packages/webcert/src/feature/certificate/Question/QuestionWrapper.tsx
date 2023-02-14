@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
 
 interface WrapperProps {
   highlighted: boolean
@@ -8,8 +8,15 @@ interface WrapperProps {
 const Wrapper = styled.section<WrapperProps>`
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  padding-bottom: 16px;
-  background-color: ${(props) => (props.highlighted ? '#FFF8E0' : '')} !important;
+  :not(:last-child) {
+    padding-bottom: 0.9375rem;
+  }
+  ${({ highlighted }) =>
+    highlighted &&
+    css`
+      background-color: #fff8e0 !important;
+      padding: 0.9375rem 0;
+    `}
 `
 
 interface Props {

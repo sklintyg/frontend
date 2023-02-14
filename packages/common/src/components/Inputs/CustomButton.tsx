@@ -1,8 +1,8 @@
-import { getFilter } from '@frontend/webcert/src/components/icf/Styles'
 import React, { useEffect } from 'react'
 import ReactTooltip, { Place } from 'react-tooltip'
 import styled from 'styled-components'
-import NumberCircle from '../utils/NumberCircle'
+import { getFilter } from '../../utils/getFilters'
+import { NumberCircle } from '../utils/NumberCircle'
 
 interface WrapperProps {
   filter: string
@@ -100,5 +100,3 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
     </Wrapper>
   )
 })
-
-export default CustomButton

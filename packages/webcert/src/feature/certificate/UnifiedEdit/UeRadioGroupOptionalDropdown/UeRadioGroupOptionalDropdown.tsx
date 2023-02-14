@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
 import {
   CertificateDataElement,
+  ConfigLayout,
   ConfigUeRadioMultipleCodesOptionalDropdown,
   QuestionValidationTexts,
   RadioButton,
   ValueCode,
 } from '@frontend/common'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { css, FlattenSimpleInterpolation } from 'styled-components'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import Question from '../../Question/Question'
-import { css, FlattenSimpleInterpolation } from 'styled-components/macro'
 import QuestionWrapper from '../../Question/QuestionWrapper'
+import { ItemWrapper } from '../ItemWrapper'
 
 const dropDownStyles: FlattenSimpleInterpolation = css`
   padding: 0 !important;
@@ -26,9 +28,8 @@ interface Props {
 
 const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) => {
   const radiobuttons = (question.config as ConfigUeRadioMultipleCodesOptionalDropdown).list
-  const [code, setCode] = useState(question.value?.code)
-  const isShowValidationError = useSelector(getShowValidationErrors)
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const [code, setCode] = useState((question.value as ValueCode)?.code)
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
   const dispatch = useAppDispatch()
   const shouldBeHorizontal = radiobuttons.length <= 2
 
@@ -49,43 +50,35 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
     return updatedQuestion
   }
 
-  function isLastRadiobutton(index: number) {
-    return index === radiobuttons.length - 1
-  }
-
-  const renderRadioButtons = () => {
-    if (!radiobuttons) {
-      return null
-    }
-    return radiobuttons.map((radio, index) => (
-      <React.Fragment key={index}>
-        <RadioButton
-          id={radio.id as string}
-          value={radio.id}
-          name={question.id}
-          label={radio.label}
-          disabled={disabled}
-          checked={radio.id === code}
-          hasValidationError={shouldDisplayValidationError}
-          onChange={handleChange}
-          wrapperAdditionalStyles={
-            !shouldBeHorizontal && !isLastRadiobutton(index) && !radio.dropdownQuestionId ? 'iu-pb-400 radio-dropdown' : 'radio-dropdown'
-          }
-        />
-        {radio.dropdownQuestionId && (
-          <QuestionWrapper additionalStyles={dropDownStyles}>
-            <Question key={radio.dropdownQuestionId} id={radio.dropdownQuestionId} />
-          </QuestionWrapper>
-        )}
-      </React.Fragment>
-    ))
-  }
-
   return (
-    <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
-      {renderRadioButtons()}
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors} />}
-    </div>
+    <>
+      <div role="radiogroup" className={`radio-group-wrapper ${shouldBeHorizontal ? 'ic-radio-group-horizontal' : ''}`}>
+        {radiobuttons &&
+          radiobuttons.map((radio, index) => (
+            <React.Fragment key={index}>
+              <ItemWrapper layout={ConfigLayout.ROWS} index={index} noItems={radiobuttons.length}>
+                <RadioButton
+                  id={radio.id as string}
+                  value={radio.id}
+                  name={question.id}
+                  label={radio.label}
+                  disabled={disabled}
+                  checked={radio.id === code}
+                  hasValidationError={validationErrors.length > 0}
+                  onChange={handleChange}
+                />
+              </ItemWrapper>
+
+              {radio.dropdownQuestionId && (
+                <QuestionWrapper additionalStyles={dropDownStyles}>
+                  <Question key={radio.dropdownQuestionId} id={radio.dropdownQuestionId} />
+                </QuestionWrapper>
+              )}
+            </React.Fragment>
+          ))}
+      </div>
+      <QuestionValidationTexts validationErrors={validationErrors} />
+    </>
   )
 }
 

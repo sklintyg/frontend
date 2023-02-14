@@ -1,17 +1,16 @@
-import { fakeCauseOfDeathListElement } from '@frontend/common'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
-  Value,
+  fakeCauseOfDeathListElement,
   ValueCode,
   ValueDate,
   ValueText,
-} from '@frontend/common/src/types/certificate'
+} from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
@@ -76,13 +75,11 @@ describe('Cause of death component', () => {
     const description: ValueText = { type: CertificateDataValueType.TEXT, id: '1', text: 'Description text' }
     const debut: ValueDate = { type: CertificateDataValueType.DATE, id: '1', date: '2020-02-20' }
     const specification: ValueCode = { type: CertificateDataValueType.CODE, id: '1', code: '' }
-
     renderComponent({
       disabled: false,
-      question: {
-        ...question,
+      question: fakeCauseOfDeathListElement({
+        id: QUESTION_ID,
         value: {
-          ...(question.value as Value),
           list: [
             {
               description,
@@ -91,7 +88,7 @@ describe('Cause of death component', () => {
             },
           ],
         },
-      },
+      })[QUESTION_ID],
     })
 
     expect(screen.getAllByLabelText(DEBUT_LABEL)[0]).toHaveValue('2020-02-20')

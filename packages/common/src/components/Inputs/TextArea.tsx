@@ -24,13 +24,16 @@ const Root = styled.textarea<RootProps>`
   cursor: auto;
   overflow-y: ${(props) => (props.hideOverflow ? 'hidden' : '')};
   height: ${(props) => props.rows === 1 && '3rem !important'};
+
+  &:focus-within {
+    box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
+  }
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
   const {
     hasValidationError,
     additionalStyles,
-    children,
     disabled,
     name,
     onChange,
@@ -54,7 +57,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     if (autoResize && textareaRef && textareaRef.current) {
       textareaRef.current.style.height = '0px'
       const scrollHeight = textareaRef.current.scrollHeight
-      textareaRef.current.style.height = scrollHeight + 'px'
+      textareaRef.current.style.height = `${scrollHeight}px`
     }
   }, [autoResize, value])
 

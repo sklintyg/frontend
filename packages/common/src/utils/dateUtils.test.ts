@@ -1,26 +1,30 @@
-import { isEqual } from 'date-fns'
-import {
-  CertificateDataValueType,
-  ConfigUeCheckboxDateRange,
-  getLatestPeriodEndDate,
-  getPeriodHasOverlap,
-  getPeriodWorkHours,
-  getValidDateFormat,
-  getValidDate,
-  isDateRangeValid,
-  isDateRangeValidOrIncomplete,
-  isFutureDate,
-  ValueDateRange,
-} from '@frontend/common'
+import { addDays } from 'date-fns'
+
 import {
   filterDateRangeValueList,
   formatDate,
+  getLatestPeriodEndDate,
   getMaxDate,
+  getMinDate,
   getNumberOfSickLeavePeriodDays,
+  getPeriodHasOverlap,
   getPeriodWorkDays,
+  getPeriodWorkHours,
+  getValidDate,
+  getValidDateFormat,
+  isDateRangeValid,
+  isDateRangeValidOrIncomplete,
+  isFutureDate,
   SickLeavePeriods,
 } from './dateUtils'
-import { CertificateDataValidationType, MaxDateValidation } from '../types/certificate'
+import {
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
+  MaxDateValidation,
+  MinDateValidation,
+  ValueDateRange,
+} from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'
@@ -118,7 +122,7 @@ describe('Date utils tests', () => {
     const expectedDate = getValidDate(toDate)
 
     expect(date).toBeTruthy()
-    expect(isEqual(date!, expectedDate!)).toBeTruthy()
+    expect(date).toEqual(expectedDate)
   })
 
   it('gets correct period end date with multiple prior periods', () => {
@@ -141,7 +145,7 @@ describe('Date utils tests', () => {
     const expectedDate = getValidDate(secondPeriod.to)
 
     expect(date).toBeTruthy()
-    expect(isEqual(date!, expectedDate!)).toBeTruthy()
+    expect(date).toEqual(expectedDate)
   })
 })
 
@@ -230,21 +234,21 @@ it('Calculates uneven number sick leave correctly', () => {
 })
 
 it('Calculates 1 week of sick days correctly', () => {
-  const fromDate = getValidDate('2021-06-20')
-  const toDate = getValidDate('2021-06-26')
+  const fromDate = new Date('2021-06-20')
+  const toDate = new Date('2021-06-26')
 
   const expected = 7
-  const actual = getPeriodWorkDays(fromDate!, toDate!)
+  const actual = getPeriodWorkDays(fromDate, toDate)
 
   expect(actual).toBe(expected)
 })
 
 it('Calculates 1 sick day correctly', () => {
-  const fromDate = getValidDate('2021-06-20')
-  const toDate = getValidDate('2021-06-20')
+  const fromDate = new Date('2021-06-20')
+  const toDate = new Date('2021-06-20')
 
   const expected = 1
-  const actual = getPeriodWorkDays(fromDate!, toDate!)
+  const actual = getPeriodWorkDays(fromDate, toDate)
 
   expect(actual).toBe(expected)
 })
@@ -280,13 +284,13 @@ it('Filters date range value list correctly', () => {
       type: CertificateDataValueType.DATE_RANGE,
     },
     {
-      from: null!,
+      from: undefined,
       to: '2021-05-20',
       id: '',
       type: CertificateDataValueType.DATE_RANGE,
     },
     {
-      from: undefined!,
+      from: undefined,
       to: '',
       id: '',
       type: CertificateDataValueType.DATE_RANGE,
@@ -358,10 +362,9 @@ describe('isFutureDate', () => {
   })
 
   it('should return true if date is in future', () => {
-    const date = new Date()
-    date.setDate(date.getDate() + 1)
-    const dateString = date.toISOString().slice(0, 10)
-
+    const dateString = addDays(new Date(), 2)
+      .toISOString()
+      .slice(0, 10)
     const actual = isFutureDate(dateString)
 
     expect(actual).toBeTruthy()
@@ -528,5 +531,70 @@ describe('GetMaxDate', () => {
     const result = getMaxDate(validation, 'second_id')
 
     expect(new Date().toString()).toContain(result)
+  })
+})
+
+describe('GetMinDate', () => {
+  it('should return date when date is present', () => {
+    const date = '2023-01-19'
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: date,
+      },
+    ]
+
+    const result = getMinDate(validation, 'id')
+    expect(result).toEqual(date)
+  })
+
+  it('should return empty string when no minDate is present', () => {
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+      },
+    ]
+
+    const result = getMinDate(validation, 'id')
+    expect(result).toEqual('')
+  })
+
+  it('should return empty string if id does not match', () => {
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: '2023-01-19',
+      },
+    ]
+
+    const result = getMinDate(validation, 'id1')
+    expect(result).toEqual('')
+  })
+
+  it('should validate if more than one min validation in same array', () => {
+    const date = '2023-01-19'
+    const validation: MinDateValidation[] = [
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'id',
+        minDate: '2023-01-10',
+      },
+      {
+        questionId: 'VALIDATION',
+        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
+        id: 'second_id',
+        minDate: date,
+      },
+    ]
+
+    const result = getMinDate(validation, 'second_id')
+    expect(result).toEqual(date)
   })
 })

@@ -36,7 +36,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
       return (
         <QuestionHeading
           readOnly={question.readOnly}
-          id={question.id}
+          questionId={question.id}
           hideLabel={hideLabel}
           questionParent={question.parent}
           {...question.config}
@@ -47,7 +47,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
     if (!readOnly && config.description) {
       return (
         <div id={question.id}>
-          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} />
+          <QuestionHeaderAccordion config={question.config} displayMandatory={displayMandatory} questionId={question.parent} />
         </div>
       )
     }
@@ -59,7 +59,7 @@ const Question: React.FC<QuestionProps> = ({ id, className }) => {
         {
           <QuestionHeading
             readOnly={question.readOnly}
-            id={question.id}
+            questionId={question.id}
             hideLabel={hideLabel}
             questionParent={question.parent}
             {...question.config}

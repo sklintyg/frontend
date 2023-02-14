@@ -1,5 +1,6 @@
 import {
   getResourceLink,
+  getValidationErrors,
   MandatoryIcon,
   Patient,
   QuestionValidationTexts,
@@ -7,18 +8,10 @@ import {
   ResourceLinkType,
   TextArea,
 } from '@frontend/common'
-import {
-  getValidationErrors,
-  PATIENT_ADDRESS_CATEGORY_TITLE,
-  PATIENT_ADDRESS_CATEGORY_TITLE_ID,
-  PATIENT_CITY_FIELD,
-  PATIENT_STREET_FIELD,
-  PATIENT_ZIP_CODE_FIELD,
-} from '@frontend/common/src/utils/validationUtils'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { updateCertificatePatient } from '../../../store/certificate/certificateActions'
 import {
   getIsEditable,
@@ -31,6 +24,12 @@ import {
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+
+export const PATIENT_STREET_FIELD = 'grunddata.patient.postadress'
+export const PATIENT_ZIP_CODE_FIELD = 'grunddata.patient.postnummer'
+export const PATIENT_CITY_FIELD = 'grunddata.patient.postort'
+export const PATIENT_ADDRESS_CATEGORY_TITLE_ID = 'patientensadress'
+export const PATIENT_ADDRESS_CATEGORY_TITLE = 'Patientens adressuppgifter'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -50,6 +49,13 @@ const CityInput = styled.input.attrs({
   maxLength: 30,
 })`
   max-width: 20em;
+`
+
+const InputWrapper = styled.div.attrs({ className: 'iu-grid-span-9' })`
+  line-height: 0;
+  .ic-forms__error-message {
+    line-height: 1.64;
+  }
 `
 
 const PatientAddress: React.FC = () => {
@@ -113,7 +119,7 @@ const PatientAddress: React.FC = () => {
             {!disabled && !patientInfo.street && <MandatoryIcon />}
             <label htmlFor="patientAddress">Postadress</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <TextArea
               hasValidationError={isShowValidationError && (!patientInfo.street || streetValidationErrors.length > 0)}
               disabled={disabled || !editable}
@@ -125,16 +131,14 @@ const PatientAddress: React.FC = () => {
               disableCounter={true}
               autoResize={true}
             />
-            {isShowValidationError && streetValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={streetValidationErrors} />
-            )}
-          </div>
+            <QuestionValidationTexts validationErrors={streetValidationErrors} />
+          </InputWrapper>
 
           <div className="iu-grid-span-3">
             {!disabled && !patientInfo.zipCode && <MandatoryIcon />}
             <label htmlFor="patientZipCode">Postnummer</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <ZipCodeInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
@@ -145,16 +149,14 @@ const PatientAddress: React.FC = () => {
               id="zipCode"
               value={patientInfo.zipCode}
             />
-            {isShowValidationError && zipCodeValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={zipCodeValidationErrors} />
-            )}
-          </div>
+            <QuestionValidationTexts validationErrors={zipCodeValidationErrors} />
+          </InputWrapper>
 
           <div className="iu-grid-span-3">
             {!disabled && !patientInfo.city && <MandatoryIcon />}
             <label htmlFor="patientCity">Postort</label>
           </div>
-          <div className="iu-grid-span-9">
+          <InputWrapper>
             <CityInput
               disabled={disabled || !editable}
               className={`ic-textfield ${
@@ -165,10 +167,8 @@ const PatientAddress: React.FC = () => {
               id="city"
               value={patientInfo.city}
             />
-            {isShowValidationError && cityValidationErrors.length > 0 && (
-              <QuestionValidationTexts validationErrors={cityValidationErrors} />
-            )}
-          </div>
+            <QuestionValidationTexts validationErrors={cityValidationErrors} />
+          </InputWrapper>
         </Wrapper>
       </QuestionWrapper>
     </>

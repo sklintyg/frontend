@@ -1,9 +1,9 @@
-import { Backdrop, CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType } from '@frontend/common'
+import { CertificateDataElementStyleEnum, ConfigTypes, InfoBox, ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { scroller } from 'react-scroll'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { clearGotoCertificateDataElement } from '../../store/certificate/certificateActions'
 import {
   CertificateStructure,
@@ -21,6 +21,7 @@ import { CertificateContext } from './CertificateContext'
 import { CertificateFooter } from './CertificateFooter/CertificateFooter'
 import CertificateValidation from './CertificateValidation'
 import PatientAddressInfo from './PatientAddress/PatientAddressInfo'
+import { QuestionValidationError } from './Question/QuestionValidationError'
 import { QuestionWithSubQuestions } from './Question/QuestionWithSubQuestions'
 import ResponsibleHospName from './ResponsibleHospName'
 import SigningForm from './Signing/SigningForm'
@@ -39,8 +40,13 @@ const Wrapper = styled.div`
 `
 
 const CategoryWrapper = styled.div`
+  background: #ffffff;
+  padding-bottom: 0.9375rem;
+  :empty {
+    display: none;
+  }
   :not(:last-child) {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 `
 
@@ -75,7 +81,7 @@ const Certificate: React.FC = () => {
   }
 
   return (
-    <Backdrop open={showSpinner} spinnerText={spinnerText}>
+    <SpinnerBackdrop open={showSpinner} spinnerText={spinnerText}>
       <Wrapper id={certificateContainerId} ref={certificateContainerRef} className="iu-bg-grey-300">
         {isComplementingCertificate && (
           <InfoBox type="info" additionalStyles="iu-mt-400">
@@ -95,22 +101,24 @@ const Certificate: React.FC = () => {
               .reduce((result, data) => {
                 const last = result[result.length - 1]
                 if (data.component === ConfigTypes.CATEGORY) {
-                  result.push([data])
+                  return [...result, [data]]
                 } else if (last) {
-                  result[result.length - 1] = last.concat(data)
+                  return [...result.slice(0, -1), [...last, data]]
                 }
                 return result
               }, [] as CertificateStructure[][])
               .map((structure, index) => {
+                const category = structure[0].component === ConfigTypes.CATEGORY ? structure[0] : null
                 return (
                   <CategoryWrapper key={index}>
-                    {structure.map((data) => {
-                      if (data.component === ConfigTypes.CATEGORY) {
-                        return <Category key={data.id} id={data.id} />
+                    {structure.map(({ id, subQuestionIds, component }, index) => {
+                      if (component === ConfigTypes.CATEGORY) {
+                        return <Category key={index} id={id} />
                       } else {
-                        return <QuestionWithSubQuestions key={data.id} questionIds={[data.id, ...data.subQuestionIds]} />
+                        return <QuestionWithSubQuestions key={index} questionIds={[id, ...subQuestionIds]} />
                       }
                     })}
+                    {category && <QuestionValidationError id={category.id} />}
                   </CategoryWrapper>
                 )
               })}
@@ -120,7 +128,7 @@ const Certificate: React.FC = () => {
         <CertificateFooter />
         <SigningForm />
       </Wrapper>
-    </Backdrop>
+    </SpinnerBackdrop>
   )
 }
 

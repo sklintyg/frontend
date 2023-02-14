@@ -1,36 +1,34 @@
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import reducer from '../../store/reducers'
-import ErrorComponent, { ErrorRoute } from './ErrorComponent'
-import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
-import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
-import { INVALID_STATE_MESSAGE, INVALID_STATE_TITLE } from './modals/InvalidState'
-import { INVALID_STATE_REPLACED_MESSAGE } from './modals/InvalidStateReplaced'
+import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import ErrorComponent, { ErrorRoute } from './ErrorComponent'
+import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE } from './modals/ComplementaryCertificateExists'
-import { PU_PROBLEM_MESSAGE, PU_PROBLEM_MESSAGE_2, PU_PROBLEM_TITLE } from './modals/PuProblem'
+import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
 import {
   EXTERNAL_SYSTEM_PROBLEM_MESSAGE,
   EXTERNAL_SYSTEM_PROBLEM_MESSAGE_2,
   EXTERNAL_SYSTEM_PROBLEM_TITLE,
 } from './modals/ExternalSystemProblem'
-import { MODULE_PROBLEM_MESSAGE, MODULE_PROBLEM_TITLE } from './modals/ModuleProblem'
-import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './modals/IndeterminateIdentity'
-import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { GENERAL_ERROR_MESSAGE, GENERAL_ERROR_TITLE } from './modals/GeneralErrorReload'
+import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './modals/IndeterminateIdentity'
+import { INVALID_STATE_REPLACED_MESSAGE, INVALID_STATE_TITLE } from './modals/InvalidStateReplaced'
+import { MODULE_PROBLEM_MESSAGE, MODULE_PROBLEM_TITLE } from './modals/ModuleProblem'
+import { PU_PROBLEM_MESSAGE, PU_PROBLEM_MESSAGE_2, PU_PROBLEM_TITLE } from './modals/PuProblem'
+import { SIGN_CERTIFICATE_ERROR_TITLE } from './modals/SignCertificateError'
 
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
 
 const location: Location = window.location
-delete window.location
 window.location = {
   ...location,
   reload: jest.fn(),
@@ -48,10 +46,7 @@ const renderComponent = () => {
 
 describe('ErrorComponent', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(dispatchHelperMiddleware, errorMiddleware),
-    })
+    testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {
@@ -69,14 +64,6 @@ describe('ErrorComponent', () => {
 
       expect(screen.getByText(CONCURRENT_MODIFICATION_ERROR_TITLE)).toBeInTheDocument()
       expect(screen.getByText(CONCURRENT_MODIFICATION_ERROR_MESSAGE)).toBeInTheDocument()
-    })
-
-    it('shall display ErrorCode.INVALID_STATE information', () => {
-      setErrorState(ErrorType.MODAL, ErrorCode.INVALID_STATE)
-      renderComponent()
-
-      expect(screen.getByText(INVALID_STATE_TITLE)).toBeInTheDocument()
-      expect(screen.getByText(INVALID_STATE_MESSAGE)).toBeInTheDocument()
     })
 
     it('shall display ErrorCode.INVALID_STATE_REPLACED information', () => {
@@ -143,6 +130,13 @@ describe('ErrorComponent', () => {
 
       expect(screen.getByText(GENERAL_ERROR_TITLE)).toBeInTheDocument()
       expect(screen.getByText(GENERAL_ERROR_MESSAGE, { exact: false })).toBeInTheDocument()
+    })
+
+    it('shall display ErrorCode.SIGN_CERTIFICATE_PROBLEM information', () => {
+      setErrorState(ErrorType.MODAL, ErrorCode.SIGN_CERTIFICATE_ERROR)
+      renderComponent()
+
+      expect(screen.getByText(SIGN_CERTIFICATE_ERROR_TITLE)).toBeInTheDocument()
     })
   })
 

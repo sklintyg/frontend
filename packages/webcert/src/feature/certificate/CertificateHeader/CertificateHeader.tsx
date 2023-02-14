@@ -1,7 +1,7 @@
 import { Divider, resourceLinksAreEqual, ResourceLinkType } from '@frontend/common'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import {
   getCertificateEvents,
   getCertificateMetaData,
@@ -19,9 +19,9 @@ import ShowHistory from './ShowHistory'
 
 import _ from 'lodash'
 import { getQuestions } from '../../../store/question/questionSelectors'
-import { SignCertificateModal } from '../Modals/SignCertificateModal'
 import NavigateBackButton from './NavigateBackButton'
 import CertificateHeaderStatuses from './Status/CertificateHeaderStatuses'
+import { SignCertificateModal } from '../Modals/SignCertificateModal'
 
 const Wrapper = styled.div`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -65,7 +65,7 @@ const CertificateHeader: React.FC = () => {
 
   return (
     <Wrapper>
-      <div className="ic-container iu-pt-200">
+      <div className="ic-container">
         <CreateCertificateFromCandidateModal resourceLink={candidateResourceLink} />
         <CandidateWithMessageModal resourceLink={candidateWithMessageResourceLink} />
         <SignCertificateModal />

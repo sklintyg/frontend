@@ -2,6 +2,17 @@ body {
   font-size: 14px !important;
 }
 
+.ic-text > * {
+  margin-top: inherit !important;
+}
+
+[class*='iu-grid-cols'] {
+  grid-row-gap: 0.9375rem !important;
+  row-gap: 0.9375rem !important;
+  grid-column-gap: 0.9375rem !important;
+  column-gap: 0.9375rem !important;
+}
+
 /*This is a temporary fix to position inputs correctly in certificate*/
 .ic-forms__checkbox + label,
 .ic-forms__radio + label {
@@ -145,8 +156,16 @@ img {
   border-left-color: #b3b3b3 !important;
 }
 
-.react-datepicker__day--selected {
+.react-datepicker__day--selected,
+.react-datepicker__year--selected {
   background-color: #01a5a3 !important;
+}
+
+.react-datepicker__year-text {
+  border: 1px solid #ccc !important;
+  border-radius: 0.3rem !important;
+  padding: 5px 0 3px 0 !important;
+  width: 3.5rem !important;
 }
 
 .ic-page-header__inner {
@@ -169,4 +188,8 @@ img {
 
 .ic-tabbed__tab {
   font-family: 'Open Sans' !important;
+}
+
+.ic-textarea--error {
+  background-color: #fbf2f4 !important;
 }

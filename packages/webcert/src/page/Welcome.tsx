@@ -2,7 +2,13 @@ import { CustomButton, RadioButton, TextArea } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
+import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
+import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
+import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
+import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
+import { triggerLogoutNow } from '../store/user/userActions'
+import { getConfig } from '../store/utils/utilsSelectors'
 import {
   clearWelcome,
   createNewCertificate,
@@ -12,14 +18,8 @@ import {
   updateCreateCertificate,
   updateNavigateToCertificate,
 } from '../store/welcome/welcomeActions'
-import WelcomeCertificateTypes from '../components/welcome/WelcomeCertificateTypes'
-import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
-import { triggerLogoutNow } from '../store/user/userActions'
-import WelcomeDeepIntegration from '../components/welcome/WelcomeDeepIntegration'
 import { MockUser } from '../store/welcome/welcomeReducer'
-import WelcomeIntegrationParameters from '../components/welcome/WelcomeIntegrationParameters'
-import { useDeepCompareEffect } from '../hooks/useDeepCompareEffect'
-import { getConfig } from '../store/utils/utilsSelectors'
+import { getAvailableUsers, getCertificateId, getCreateCertificate, getNavigateToCertificate } from '../store/welcome/welcomeSelectors'
 
 interface JsonUser extends MockUser {
   origin: string
@@ -105,7 +105,7 @@ const Welcome: React.FC = () => {
 
     if (certificateId.length === 0) {
       if (jsonUser.legitimeradeYrkesgrupper?.some((s) => s.toLowerCase() === 'läkare')) {
-        history.push('/create')
+        history.push('/search')
       } else {
         history.push('/list/unhandledcertificates')
       }

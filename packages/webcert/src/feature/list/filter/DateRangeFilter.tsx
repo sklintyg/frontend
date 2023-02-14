@@ -1,13 +1,23 @@
+import {
+  DatePickerCustom,
+  getDateValidationError,
+  isDateBehindLimit,
+  isDateRangeValidOrIncomplete,
+  isFutureDate,
+  ListFilterDateConfig,
+  ListFilterDateRangeConfig,
+  ListFilterValue,
+  ListFilterValueDateRange,
+  questionImage,
+  ValidationError,
+} from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ListFilterDateConfig, ListFilterDateRangeConfig, ListFilterValue, ListFilterValueDateRange } from '@frontend/common/src/types/list'
 import { useDispatch, useSelector } from 'react-redux'
-import { getActiveListFilterValue } from '../../../store/list/listSelectors'
-import styled from 'styled-components/macro'
-import { DatePickerCustom, isDateBehindLimit, isDateRangeValidOrIncomplete, isFutureDate, ValidationError } from '@frontend/common'
-import { FilterWrapper } from './filterStyles'
-import questionImage from '@frontend/common/src/images/question.svg'
-import { updateValidationError } from '../../../store/list/listActions'
+import styled from 'styled-components'
 import { useDeepCompareEffect } from '../../../hooks/useDeepCompareEffect'
+import { updateValidationError } from '../../../store/list/listActions'
+import { getActiveListFilterValue } from '../../../store/list/listSelectors'
+import { FilterWrapper } from './filterStyles'
 
 const INVALID_DATE_PERIOD_ERROR = 'Ange ett slutdatum som infaller efter startdatumet.'
 const FUTURE_DATES_ERROR = 'Ange ett giltigt datum. Framtida datum ger inga resultat.'
@@ -46,8 +56,6 @@ const Label = styled.label`
 const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   const dispatch = useDispatch()
   const filterValue = useSelector(getActiveListFilterValue(config.id)) as ListFilterValueDateRange
-  const configFrom = config.from
-  const configTo = config.to
   const [savedValue, setSavedValue] = useState<ListFilterValueDateRange>(filterValue)
   const [toValidationError, setToValidationError] = useState<ValidationError | null>(null)
   const [fromValidationError, setFromValidationError] = useState<ValidationError | null>(null)
@@ -83,10 +91,14 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     (
       value: string,
       config: ListFilterDateConfig,
-      saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void,
-      currentValidationError: ValidationError | null
+      saveValidationError: (value: React.SetStateAction<ValidationError | null>) => void
     ): boolean => {
-      if (isFutureDate(value)) {
+      const dateValidationError = getDateValidationError(config.id, config.id, value)
+      if (dateValidationError) {
+        saveValidationError(dateValidationError)
+        dispatch(updateValidationError({ id: config.id, value: true }))
+        return true
+      } else if (isFutureDate(value)) {
         saveValidationError({
           category: '',
           field: '',
@@ -108,11 +120,9 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         })
         dispatch(updateValidationError({ id: config.id, value: true }))
         return true
-      } else if (currentValidationError && currentValidationError.type !== 'INVALID_DATE_FORMAT') {
-        saveValidationError(null)
-        dispatch(updateValidationError({ id: config.id, value: false }))
-        return false
       }
+      saveValidationError(null)
+      dispatch(updateValidationError({ id: config.id, value: false }))
       return false
     },
     [dispatch]
@@ -125,10 +135,10 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
   useDeepCompareEffect(() => {
     if (savedValue) {
       toggleValidationError(savedValue.to, savedValue.from)
-      toggleSpecificValidationError(savedValue.to, configTo, setToValidationError, toValidationError)
-      toggleSpecificValidationError(savedValue.from, configFrom, setFromValidationError, fromValidationError)
+      toggleSpecificValidationError(savedValue.to, config.to, setToValidationError)
+      toggleSpecificValidationError(savedValue.from, config.from, setFromValidationError)
     }
-  }, [configFrom, configTo, fromValidationError, savedValue, toValidationError, toggleSpecificValidationError, toggleValidationError])
+  }, [config.from, config.to, fromValidationError, savedValue, toValidationError, toggleSpecificValidationError, toggleValidationError])
 
   useEffect(() => {
     dispatch(updateValidationError({ id: config.id, value: !!globalValidationError || !!toValidationError || !!fromValidationError }))
@@ -136,7 +146,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
 
   const onFromDateFilterChange = (date: string, isValueValid?: boolean) => {
     const hasGlobalValidationError = toggleValidationError(savedValue.to, date)
-    const hasSpecificValidationError = toggleSpecificValidationError(date, configFrom, setFromValidationError, fromValidationError)
+    const hasSpecificValidationError = toggleSpecificValidationError(date, config.from, setFromValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, from: date }
     if (isValueValid !== false || date === '') {
       if (!hasGlobalValidationError && !hasSpecificValidationError) {
@@ -148,7 +158,7 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
 
   const onToDateFilterChange = (date: string, isValueValid?: boolean) => {
     const hasGlobalValidationError = toggleValidationError(date, savedValue.from)
-    const hasSpecificValidationError = toggleSpecificValidationError(date, configTo, setToValidationError, toValidationError)
+    const hasSpecificValidationError = toggleSpecificValidationError(date, config.to, setToValidationError)
     const updatedValue: ListFilterValueDateRange = { ...savedValue, to: date }
     if (isValueValid !== false || date === '') {
       if (!hasGlobalValidationError && !hasSpecificValidationError) {
@@ -166,19 +176,6 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
     return savedValue ? savedValue.to : ''
   }
 
-  const onValidationError = useCallback(
-    (isInactive: boolean, validationError: ValidationError) => {
-      if (validationError.field === configTo.id) {
-        setToValidationError(isInactive ? null : validationError)
-        dispatch(updateValidationError({ id: configTo.id, value: !isInactive }))
-      } else {
-        setFromValidationError(isInactive ? null : validationError)
-        dispatch(updateValidationError({ id: configFrom.id, value: !isInactive }))
-      }
-    },
-    [configFrom.id, configTo.id, dispatch]
-  )
-
   return (
     <div>
       <Label>
@@ -187,17 +184,15 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
       <DateRangeWrapper>
         <FilterWrapper highlighted={!!getFromValue() || config.alwaysHighlighted}>
           <DatePickerCustom
-            label={configFrom.title}
+            label={config.from.title}
             setDate={onFromDateFilterChange}
             inputString={getFromValue()}
             textInputOnChange={onFromDateFilterChange}
-            id={`${config.id}-${configFrom.id}`}
+            id={`${config.id}-${config.from.id}`}
             forbidFutureDates={config.forbidFutureDates}
-            onDispatchValidationError={onValidationError}
-            componentField={configFrom.id}
             displayValidationErrorOutline={!!fromValidationError || !!globalValidationError}
-            max={configFrom.max}
-            min={configFrom.min}
+            max={config.from.max}
+            min={config.from.min}
           />
           {!globalValidationError && fromValidationError && (
             <ValidationErrorContainer className="iu-color-error">{fromValidationError.text}</ValidationErrorContainer>
@@ -205,17 +200,15 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
         </FilterWrapper>
         <FilterWrapper highlighted={!!getToValue() || config.alwaysHighlighted}>
           <DatePickerCustom
-            label={configTo.title}
+            label={config.to.title}
             setDate={onToDateFilterChange}
             inputString={getToValue()}
             textInputOnChange={onToDateFilterChange}
-            id={`${config.id}-${configTo.id}`}
+            id={`${config.id}-${config.to.id}`}
             forbidFutureDates={config.forbidFutureDates}
-            onDispatchValidationError={onValidationError}
-            componentField={configTo.id}
             displayValidationErrorOutline={!!toValidationError || !!globalValidationError}
-            max={configTo.max}
-            min={configTo.min}
+            max={config.to.max}
+            min={config.to.min}
           />
           {!globalValidationError && toValidationError && (
             <ValidationErrorContainer className="iu-color-error">{toValidationError.text}</ValidationErrorContainer>

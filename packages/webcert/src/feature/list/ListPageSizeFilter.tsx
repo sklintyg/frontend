@@ -1,9 +1,8 @@
+import { Dropdown, ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common'
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common/src/types/list'
-import { Dropdown } from '@frontend/common/src/components'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
 import { useDispatch } from 'react-redux'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
 
 interface Props {
   filter: ListFilterPageSizeConfig | undefined

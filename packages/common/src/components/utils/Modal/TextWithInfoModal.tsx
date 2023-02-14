@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import { CustomButton, ModalBase } from '../..'
-import { useKeyPress } from '../../../utils/userFunctionUtils'
 import classnames from 'classnames'
-import { LinkButton } from '../../..'
+import React, { useEffect } from 'react'
+import { LinkButton } from '../../../styles'
+import { useKeyPress } from '../../../utils/userFunctionUtils'
+import { CustomButton } from '../../Inputs'
+import ModalBase from './ModalBase'
 
 interface Props {
   text: string

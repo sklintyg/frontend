@@ -1,9 +1,8 @@
+import { ListFilterType, ListFilterValueNumber, PaginationContainer } from '@frontend/common'
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
 import { performListSearch, updateActiveListFilterValue } from '../../../store/list/listActions'
-import { ListFilterType, ListFilterValueNumber } from '@frontend/common/src/types/list'
-import PaginationContainer from '@frontend/common/src/components/Pagination/PaginationContainer'
+import { getActiveListFilterValue, getListTotalCount } from '../../../store/list/listSelectors'
 
 const ListPagination: React.FC = () => {
   const pageSize = useSelector(getActiveListFilterValue('PAGESIZE')) as ListFilterValueNumber

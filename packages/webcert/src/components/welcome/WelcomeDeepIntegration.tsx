@@ -1,7 +1,7 @@
+import { SpinnerBackdrop } from '@frontend/common'
 import React, { useEffect, useRef } from 'react'
-import { Backdrop } from '@frontend/common'
-import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 import { useSelector } from 'react-redux'
+import { getIntegrationParameters, getIntegrationParametersDisablers } from '../../store/welcome/welcomeSelectors'
 
 interface Props {
   certificateId: string
@@ -24,7 +24,7 @@ const WelcomeDeepIntegration: React.FC<Props> = ({ certificateId, unitId }) => {
 
   return (
     <>
-      <Backdrop open={true} spinnerText={'Hoppar till Webcert!'} />
+      <SpinnerBackdrop open={true} spinnerText={'Hoppar till Webcert!'} />
       <form ref={formRef} action={url} method="POST">
         <input hidden={true} type="text" name="enhet" value={integrationParameters.unitId ? integrationParameters.unitId : unitId} />
         {!integrationParametersDisablers.firstName && (

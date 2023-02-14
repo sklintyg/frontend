@@ -9,7 +9,7 @@ import {
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { getQuestionHasValidationError, getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
 
 export interface Props {
@@ -18,11 +18,10 @@ export interface Props {
 }
 
 const UeRadio: React.FC<Props> = ({ question, disabled }) => {
-  const isShowValidationError = useSelector(getShowValidationErrors)
   const booleanValue = getBooleanValue(question)
   const questionConfig = question.config as ConfigUeRadioBoolean
   const dispatch = useAppDispatch()
-  const shouldDisplayValidationError = useSelector(getQuestionHasValidationError(question.id))
+  const validationErrors = useSelector(getVisibleValidationErrors(question.id))
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const updatedValue = getUpdatedValue(question, event.currentTarget.value === 'true')
@@ -35,10 +34,10 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal iu-mt-200">
+      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal">
         <RadioButton
           disabled={disabled}
-          hasValidationError={shouldDisplayValidationError}
+          hasValidationError={validationErrors.length > 0}
           label={questionConfig.selectedText}
           id={questionConfig.id + 'true'}
           name={questionConfig.id + 'radio'}
@@ -48,7 +47,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
         />
         <RadioButton
           disabled={disabled}
-          hasValidationError={shouldDisplayValidationError}
+          hasValidationError={validationErrors.length > 0}
           label={questionConfig.unselectedText}
           id={questionConfig.id + 'false'}
           name={questionConfig.id + 'radio'}
@@ -57,7 +56,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleChange}
         />
       </div>
-      {isShowValidationError && <QuestionValidationTexts validationErrors={question.validationErrors}></QuestionValidationTexts>}
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }

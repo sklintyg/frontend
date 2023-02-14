@@ -8,16 +8,16 @@ import WCDynamicLink from '../../utils/WCDynamicLink'
 const ModalContent = () => {
   return (
     <div>
-      <p className="iu-mb-1rem">Du ser detta meddelande för att du eller din verksamhet saknar abonnemang.</p>
+      <p className="iu-mb-400">Du ser detta meddelande för att du eller din verksamhet saknar abonnemang.</p>
 
-      <p className="iu-mb-1rem">
+      <p className="iu-mb-400">
         För att kunna skriva intyg i Webcert behöver du eller din verksamhet teckna kundavtal med Inera samt beställa abonnemang för
         tjänsten.
       </p>
 
-      <p className="iu-mb-1rem">Utan abonnemang kan du endast läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.</p>
+      <p className="iu-mb-400">Utan abonnemang kan du endast läsa, skriva ut och makulera eventuella tidigare utfärdade intyg.</p>
 
-      <p className="iu-mb-1rem">
+      <p className="iu-mb-400">
         Läs mer om Webcert och hur du beställer <WCDynamicLink linkKey="ineraIntygstjansterWebcert" />.
       </p>
 

@@ -1,11 +1,10 @@
-import React from 'react'
+import { CertificateStatus } from '@frontend/common'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { CertificateStatus } from '@frontend/common/src'
 import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (isSigned: boolean, type?: string) => {
@@ -52,6 +51,16 @@ describe('Available for patient status', () => {
 
   it('should not render status if certificate is unsigned', () => {
     renderComponent(false)
+    expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
+  })
+
+  it('should not render status if certificate is death certificate', () => {
+    renderComponent(true, 'db')
+    expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
+  })
+
+  it('should not render status if certificate is cause of death certificate', () => {
+    renderComponent(true, 'doi')
     expect(screen.queryByText('Intyget är tillgängligt för patienten')).not.toBeInTheDocument()
   })
 

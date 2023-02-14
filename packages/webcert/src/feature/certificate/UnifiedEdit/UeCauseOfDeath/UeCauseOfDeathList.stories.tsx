@@ -1,12 +1,11 @@
 import { fakeCauseOfDeathListElement, fakeCertificateMetaData } from '@frontend/common'
-import { configureStore } from '@reduxjs/toolkit'
 import { Story } from '@storybook/react'
 import React, { ComponentProps } from 'react'
 import { Provider, useSelector } from 'react-redux'
 import { updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
-import reducers from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
 export default {
@@ -20,10 +19,7 @@ const ComponentWrapper: React.FC<ComponentProps<typeof UeCauseOfDeathList>> = ({
 }
 
 const Template: Story<ComponentProps<typeof UeCauseOfDeathList>> = ({ ...args }) => {
-  const store = configureStore({
-    reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-  })
+  const store = configureApplicationStore([certificateMiddleware])
 
   store.dispatch(
     updateCertificate({

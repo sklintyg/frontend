@@ -1,5 +1,5 @@
 import { fakeCertificate, fakeDateElement } from '@frontend/common'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,11 +8,10 @@ import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
-import reducer from '../../../../store/reducers'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeDate from './UeDate'
 
 let testStore: EnhancedStore
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const VALIDATION_ERROR = 'Ange ett datum, samma som eller tidigare än "Dödsdatum".'
 const QUESTION_ID = 'datepicker'
 
@@ -30,10 +29,7 @@ const renderComponent = (props: ComponentProps<typeof UeDate>) => {
 
 describe('DatePicker component', () => {
   beforeEach(() => {
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(certificateMiddleware),
-    })
+    testStore = configureApplicationStore([certificateMiddleware])
   })
 
   it('renders without crashing', () => {
@@ -71,32 +67,6 @@ describe('DatePicker component', () => {
 
     userEvent.type(input, inputDate)
     expect(input).toHaveValue(expected)
-  })
-
-  it('should display error when input is not a complete date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, '2020-01')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should display error when input is not a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'test')
-    userEvent.tab()
-    expect(screen.getByText(INVALID_DATE_MESSAGE)).toBeInTheDocument()
-  })
-
-  it('should not display error when input is a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const input = screen.getByRole('textbox')
-    userEvent.type(input, '20200101')
-    userEvent.tab()
-    expect(screen.queryByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument()
   })
 
   it('renders component with correct default values', () => {

@@ -1,11 +1,14 @@
+import { Question, QuestionType } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import reducer from '../../store/reducers'
-import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
   createQuestion,
   deleteQuestion,
@@ -16,13 +19,9 @@ import {
   updateSendingQuestion,
   validateQuestion,
 } from '../../store/question/questionActions'
-import apiMiddleware from '../../store/api/apiMiddleware'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
-import QuestionForm from './QuestionForm'
-import userEvent from '@testing-library/user-event'
-import { Question, QuestionType } from '@frontend/common/src'
+import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
+import QuestionForm from './QuestionForm'
 
 let testStore: EnhancedStore
 let fakeAxios: MockAdapter
@@ -45,10 +44,7 @@ const renderComponent = (questionDraft?: Question) => {
 describe('QuestionForm', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureStore({
-      reducer,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(apiMiddleware, questionMiddleware),
-    })
+    testStore = configureApplicationStore([apiMiddleware, questionMiddleware])
   })
 
   afterEach(() => {

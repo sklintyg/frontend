@@ -1,12 +1,11 @@
-import { ButtonWithConfirmModal, CertificateStatus } from '@frontend/common'
-import React, { useState } from 'react'
-import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
-import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { ButtonWithConfirmModal, CertificateStatus, trashImage } from '@frontend/common'
 import _ from 'lodash'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { revokeCertificate, RevokeCertificateReason } from '../../../store/certificate/certificateActions'
+import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
-import trash from '@frontend/common/src/images/trash.svg'
+import { RevokeCertificateModalContent } from './RevokeCertificateModalContent'
 import { RevokeDBAndDOIModalContent } from './RevokeDBAndDOIModalContent'
 
 interface Props extends FunctionDisabled {
@@ -55,7 +54,7 @@ const RevokeCertificateButton: React.FC<Props> = ({ name, description, enabled, 
       name={name}
       disabled={!enabled}
       description={description}
-      startIcon={<img src={trash} alt="Makulera" />}
+      startIcon={<img src={trashImage} alt="Makulera" />}
       modalTitle={metadata?.status === CertificateStatus.LOCKED ? 'Makulera låst utkast' : 'Makulera intyg'}
       onConfirm={handleDispatch}
       confirmButtonText="Makulera"
