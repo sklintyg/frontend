@@ -2,23 +2,19 @@ import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, Reso
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import apiMiddleware from '../../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
 
-let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 const history = createMemoryHistory()
 
 const renderComponent = () => {
@@ -33,7 +29,6 @@ const renderComponent = () => {
 
 describe('CertificateSidePanel', () => {
   beforeEach(() => {
-    fakeAxios = new MockAdapter(axios)
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
   })
 
