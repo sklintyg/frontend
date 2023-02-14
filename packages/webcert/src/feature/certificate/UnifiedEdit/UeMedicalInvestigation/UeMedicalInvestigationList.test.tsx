@@ -1,4 +1,4 @@
-import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
+import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
@@ -215,7 +215,7 @@ describe('Medical investigation component', () => {
     renderComponent({ question })
 
     const validationErrors = testStore.getState().validationErrors
-    if (validationErrors && validationErrors.length === 1 && validationErrors[0].field === dateId) {
+    if (validationErrors && validationErrors.length > 0 && validationErrors[0].field === dateId) {
       expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
     } else {
       expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
