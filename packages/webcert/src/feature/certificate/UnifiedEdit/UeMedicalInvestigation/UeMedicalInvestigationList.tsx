@@ -35,7 +35,6 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
-  const fieldIfEmptyFirstRow = 'underlag'
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
   const fields = questionConfig.list
