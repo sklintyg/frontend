@@ -49,7 +49,7 @@ beforeEach(() => {
 
 describe('UeRadioGroupOptionalDropdown', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('allows user to switch radio button', () => {

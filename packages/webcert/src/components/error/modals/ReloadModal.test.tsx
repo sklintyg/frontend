@@ -41,7 +41,7 @@ describe('ReloadModal', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(createError())
+    expect(() => renderComponent(createError())).not.toThrow()
   })
 
   it('shall reload page on confirm', () => {

@@ -1,21 +1,20 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
   ConfigUeSickLeavePeriod,
-  getValidDate,
   getCertificateWithQuestion,
+  getValidDate,
 } from '@frontend/common'
-import { Provider } from 'react-redux'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { addDays, isEqual } from 'date-fns'
-import { UeSickLeavePeriod } from './UeSickLeavePeriod'
-import store from '../../../../store/store'
+import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import store from '../../../../store/store'
+import { UeSickLeavePeriod } from './UeSickLeavePeriod'
 
 const QUESTION_ID = 'Test'
 
@@ -85,7 +84,7 @@ const renderDefaultComponent = (question?: CertificateDataElement, disabled?: bo
 
 describe('UeSickLeavePeriod', () => {
   it('Renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('Gets a correct starting date with no prior date period', async () => {

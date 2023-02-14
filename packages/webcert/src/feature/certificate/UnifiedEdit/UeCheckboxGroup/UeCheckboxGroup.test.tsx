@@ -46,7 +46,7 @@ beforeEach(() => {
 
 describe('Checkbox group component', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('disables correctly all checkboxes', () => {

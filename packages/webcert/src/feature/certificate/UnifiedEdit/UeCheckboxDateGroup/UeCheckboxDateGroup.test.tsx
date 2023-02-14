@@ -82,7 +82,7 @@ describe('CheckboxDateGroup component', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(false)
+    expect(() => renderComponent(false)).not.toThrow()
   })
 
   it('renders all components', () => {

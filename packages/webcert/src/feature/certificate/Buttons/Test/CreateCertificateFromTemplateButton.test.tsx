@@ -34,7 +34,7 @@ beforeEach(() => {
 
 describe('Create certificate from template button', () => {
   it('shall render without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('shall disable button', () => {
