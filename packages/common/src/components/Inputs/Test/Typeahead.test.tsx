@@ -1,7 +1,7 @@
-import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
 import Typeahead from '../Typeahead'
 
 const suggestions = [
@@ -46,7 +46,7 @@ const renderWithSuggestions = (open: boolean, moreResults: boolean) => {
 
 describe('Typeahead component', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('does not render suggestions when array is empty', () => {

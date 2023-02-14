@@ -45,7 +45,7 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeathList>) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders all components', () => {

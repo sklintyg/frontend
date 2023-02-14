@@ -34,7 +34,7 @@ beforeEach(() => {
 
 describe('Show related certificate button', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('correctly disables button', () => {

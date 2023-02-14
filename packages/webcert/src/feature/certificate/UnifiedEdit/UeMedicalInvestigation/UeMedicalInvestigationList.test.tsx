@@ -1,11 +1,11 @@
-import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
+import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
@@ -41,7 +41,7 @@ describe('Medical investigation component', () => {
   })
 
   it('Renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders all components', () => {

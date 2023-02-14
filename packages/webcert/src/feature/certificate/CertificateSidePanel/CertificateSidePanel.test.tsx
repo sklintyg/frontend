@@ -1,19 +1,18 @@
-import { render, screen, waitFor } from '@testing-library/react'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
-import React from 'react'
 import { Certificate, CertificateMetadata, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
-import CertificateSidePanel from './CertificateSidePanel'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
-import apiMiddleware from '../../../store/api/apiMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import apiMiddleware from '../../../store/api/apiMiddleware'
+import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import CertificateSidePanel from './CertificateSidePanel'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -43,7 +42,7 @@ describe('CertificateSidePanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   describe('spinner', () => {

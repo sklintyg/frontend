@@ -31,7 +31,7 @@ describe('QuestionPanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('displays header for complement questions', () => {

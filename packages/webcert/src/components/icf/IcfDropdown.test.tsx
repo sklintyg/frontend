@@ -72,7 +72,7 @@ describe('IcfDropdown', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('display disabled button if no icd codes', () => {

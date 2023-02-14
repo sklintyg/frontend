@@ -3,11 +3,11 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import UeInteger from './UeInteger'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import UeInteger from './UeInteger'
 
 let testStore: EnhancedStore
 const QUESTION_ID = 'number'
@@ -29,7 +29,7 @@ describe('Integer component', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders textinput ', () => {
