@@ -1,88 +1,90 @@
 skr = {
-    "grundFörMedicinsktUnderlag": {
-        "intygetÄrBaseratPå": {
-            "minUndersökning": true,
-            "minTelefonkontakt": true,
-            "journaluppgifter": true,
-            "annat": true,
-            "annatText": "Utlåtande från barnmorska"
-        }
+  grundFörMedicinsktUnderlag: {
+    intygetÄrBaseratPå: {
+      minUndersökning: true,
+      minTelefonkontakt: true,
+      journaluppgifter: true,
+      annat: true,
+      annatText: 'Utlåtande från barnmorska',
     },
+  },
 
-    "sysselsättning": {
-        "iRelationTillVilkenSysselsättningBedömerDuArbetsförmågan": {
-            "nuvarandeArbete": true,
-            "yrkeOchArbetsuppgifter": "Snickare. Tunga lyft, arbete på stege, hantera maskinverktyg, mycket gående",
-            "arbetssökande": true,
-            "föräldraledighet": true,
-            "studier": true
-        }
+  sysselsättning: {
+    iRelationTillVilkenSysselsättningBedömerDuArbetsförmågan: {
+      nuvarandeArbete: true,
+      yrkeOchArbetsuppgifter: 'Snickare. Tunga lyft, arbete på stege, hantera maskinverktyg, mycket gående',
+      arbetssökande: true,
+      föräldraledighet: true,
+      studier: true,
     },
+  },
 
-    "diagnos": {
-        "formedlaDiagnos": true,
-        "rad1": {
-            "kod": "O267",
-            "text": "Symfyseolys under graviditet, förlossning och barnsängstid"
-        },
-        "rad2": {
-            "kod": "O470",
-            "text": "Förvärkar och hotande förtidsbörd före utgången av graviditetsvecka 37"
-        },
-        "rad3": {
-            "kod": "O210",
-            "text": "Lätta graviditetskräkningar"
-        }
+  diagnos: {
+    formedlaDiagnos: true,
+    rad1: {
+      kod: 'O267',
+      text: 'Symfyseolys under graviditet, förlossning och barnsängstid',
     },
-
-
-    "sjukdomensKonsekvenserFörPatienten": {
-        "funktionsnedsättning": "Uttalade besvär från bäcken, svår smärta vid lägesförändring, hälta, instabilitet bäcken",
-        "aktivitetsbegränsning": "starka bäckensmärtor som ger uttalad aktivitetsbegränsning vid fysisk aktivitet och kontorsarbete samt koncentrationssvårigheter"
+    rad2: {
+      kod: 'O470',
+      text: 'Förvärkar och hotande förtidsbörd före utgången av graviditetsvecka 37',
     },
-
-    "medicinskBehandling": {
-        "pågåendeBehandling": "Sjukgymnastik och rörelseprogram för att lindra bäckenuppluckring",
-        "planeradeBehandling": "Specialist, ultraljudskontroller"
+    rad3: {
+      kod: 'O210',
+      text: 'Lätta graviditetskräkningar',
     },
+  },
 
-    "bedömning": {
-        "minBedömningAvPatientensNedsättningAvArbetsförmågan": {
-            "enFjärdedel": true,
-            "hälften": true,
-            "treFjärdedel": true,
-            "hel": true
-        },
-        "längreNedsattArbetsförmåga": "Haft tidigare bäckeninsufficens vid graviditet, haft tidigare missfall och kräver nu fler kontroller och avlastning",
-        "förläggaArbetstidOlika": {
-            "ja": true,
-            "arbetstidsförläggningstext": "Har lättare kontorsarbete på måndagar som hon klarar av med nuvarande besvär om ingen försämring sker."
-        },
-        "resorTillOchFrånArbete": true,
-        "prognosFörArbetsförmågaUtifrånAktuelltUndersökningstillfälle": {
-            "återgåHeltEfterSjukskrivning": true
-        }
+  sjukdomensKonsekvenserFörPatienten: {
+    funktionsnedsättning: 'Uttalade besvär från bäcken, svår smärta vid lägesförändring, hälta, instabilitet bäcken',
+    aktivitetsbegränsning:
+      'starka bäckensmärtor som ger uttalad aktivitetsbegränsning vid fysisk aktivitet och kontorsarbete samt koncentrationssvårigheter',
+  },
+
+  medicinskBehandling: {
+    pågåendeBehandling: 'Sjukgymnastik och rörelseprogram för att lindra bäckenuppluckring',
+    planeradeBehandling: 'Specialist, ultraljudskontroller',
+  },
+
+  bedömning: {
+    minBedömningAvPatientensNedsättningAvArbetsförmågan: {
+      enFjärdedel: true,
+      hälften: true,
+      treFjärdedel: true,
+      hel: true,
     },
-
-    "åtgärder": {
-        "inteAktuellt": false,
-        "arbetsträning": true,
-        "arbetsanspassning": true,
-        "besökPåArbetsplatsen": true,
-        "ergonomiskBedömning": true,
-        "hjälpmedel": true,
-        "kontaktMedFöretagshälsovård": true,
-        "omfördelningAvArbetsuppgifter": true,
-        "övrigt": true,
-        "flerÅtgärder": "Om anpassningar till lättare uppgifter utan tunga lyft och mycket gående kan ordnas kvarstår arbetsförmåga under en tid framöver."
+    längreNedsattArbetsförmåga:
+      'Haft tidigare bäckeninsufficens vid graviditet, haft tidigare missfall och kräver nu fler kontroller och avlastning',
+    förläggaArbetstidOlika: {
+      ja: true,
+      arbetstidsförläggningstext: 'Har lättare kontorsarbete på måndagar som hon klarar av med nuvarande besvär om ingen försämring sker.',
     },
-
-    "övrigt": {
-        "text": "Planerad partus 2020-09-11"
+    resorTillOchFrånArbete: true,
+    prognosFörArbetsförmågaUtifrånAktuelltUndersökningstillfälle: {
+      återgåHeltEfterSjukskrivning: true,
     },
+  },
 
-    "kontakt": {
-        "ja": true,
-        "text": "För att diskutera sjukskrivningsperiod och tydliggörande kring besvärsbilden samt framtida arbetsförmåga."
-    }
+  åtgärder: {
+    inteAktuellt: false,
+    arbetsträning: true,
+    arbetsanspassning: true,
+    besökPåArbetsplatsen: true,
+    ergonomiskBedömning: true,
+    hjälpmedel: true,
+    kontaktMedFöretagshälsovård: true,
+    omfördelningAvArbetsuppgifter: true,
+    övrigt: true,
+    flerÅtgärder:
+      'Om anpassningar till lättare uppgifter utan tunga lyft och mycket gående kan ordnas kvarstår arbetsförmåga under en tid framöver.',
+  },
+
+  övrigt: {
+    text: 'Planerad partus 2020-09-11',
+  },
+
+  kontakt: {
+    ja: true,
+    text: 'För att diskutera sjukskrivningsperiod och tydliggörande kring besvärsbilden samt framtida arbetsförmåga.',
+  },
 }
