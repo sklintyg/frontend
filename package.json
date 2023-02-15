@@ -144,8 +144,7 @@
       "prettier/react",
       "plugin:jsdoc/recommended",
       "plugin:prettier/recommended",
-      "plugin:storybook/recommended",
-      "plugin:jest/recommended"
+      "plugin:storybook/recommended"
     ],
     "plugins": [
       "unused-imports"
@@ -182,12 +181,13 @@
       ],
       "react/self-closing-comp": "error",
       "react/prop-types": "off",
-      "prefer-template": "warn"
+      "prefer-template": "warn",
+      "jest/no-disabled-tests": "off"
     },
     "overrides": [
       {
         "files": [
-          "packages/webcert-e2e/**/*.js"
+          "packages/webcert-e2e/**/*.@(ts|js)"
         ],
         "extends": [
           "plugin:cypress/recommended"
@@ -196,8 +196,18 @@
           "no-undef": "off",
           "@typescript-eslint/no-var-requires": "off",
           "@typescript-eslint/explicit-module-boundary-types": "off",
-          "no-unused-expressions": "off"
+          "no-unused-expressions": "off",
+          "@typescript-eslint/no-unused-expressions": "off"
         }
+      },
+      {
+        "files": [
+          "pacakges/webcert/**/*.@(ts|tsx|js|jsx)",
+          "pacakges/common/**/*.@(ts|tsx|js|jsx)"
+        ],
+        "extends": [
+          "plugin:jest/recommended"
+        ]
       },
       {
         "files": [
