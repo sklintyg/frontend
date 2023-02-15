@@ -32,7 +32,7 @@ describe('ComplementQuestionPanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent([], false)
+    expect(() => renderComponent([], false)).not.toThrow()
   })
 
   it('displays text when there are no questions', () => {

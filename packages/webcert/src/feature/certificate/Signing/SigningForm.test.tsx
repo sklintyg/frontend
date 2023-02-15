@@ -1,11 +1,10 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import { Provider } from 'react-redux'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import SigningForm from './SigningForm'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { SigningData, updateCertificateSigningData } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import SigningForm from './SigningForm'
 
 let testStore: EnhancedStore
 
@@ -26,7 +25,7 @@ describe('SigningForm', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('displays nothing when empty signingData state', () => {

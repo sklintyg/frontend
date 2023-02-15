@@ -40,7 +40,7 @@ describe('QuestionItem', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(createQuestion())
+    expect(() => renderComponent(createQuestion())).not.toThrow()
   })
 
   it('display answer button if the question has answer resource link', () => {

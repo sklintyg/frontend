@@ -1,16 +1,16 @@
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import userEvent from '@testing-library/user-event'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
 import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
-import { clearError } from '../../../store/error/errorActions'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ErrorModalBase from './ErrorModalBase'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 
@@ -27,7 +27,7 @@ const CLOSE_BUTTON_TEXT = 'CLOSE_BUTTON_TEXT'
 
 const renderComponent = (
   errorData: ErrorData,
-  onConfirm = () => {},
+  onConfirm = jest.fn(),
   confirmButtonText = CONFIRM_BUTTON_TEXT,
   closeButtonText = CLOSE_BUTTON_TEXT,
   children?: React.ReactFragment
@@ -53,7 +53,7 @@ describe('ErrorModalBase', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(createError())
+    expect(() => renderComponent(createError())).not.toThrow()
   })
 
   it('shall display confirm button text', () => {

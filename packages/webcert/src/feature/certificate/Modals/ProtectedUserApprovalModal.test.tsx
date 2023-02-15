@@ -1,11 +1,10 @@
-import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 import { Provider } from 'react-redux'
 import store from '../../../store/store'
-import userEvent from '@testing-library/user-event'
+import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 
 const renderDefaultComponent = (showModal: boolean) => {
   render(
@@ -25,7 +24,7 @@ beforeEach(() => {
 
 describe('Create certificate from candidate modal', () => {
   it('shall render without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('shall show modal if enabled', () => {
