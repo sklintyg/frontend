@@ -78,18 +78,13 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
           const itemValidationErrors = validationErrors.filter(({ field }) =>
             [config.investigationTypeId, config.dateId, config.informationSourceId].includes(field)
           )
+          const emptyField = validationErrors.some((v) => v.field === 'underlag')
           return (
             value && (
               <UeMedicalInvestigation
                 config={config}
                 disabled={disabled}
-                error={
-                  index === 0 &&
-                  validationErrors.length === 1 &&
-                  !validationErrors.some(({ field }) =>
-                    [config.investigationTypeId, config.dateId, config.informationSourceId].includes(field)
-                  )
-                }
+                error={index === 0 && validationErrors.length === 1 && emptyField}
                 key={index}
                 onChange={handleChange(index)}
                 validation={question.validation}
