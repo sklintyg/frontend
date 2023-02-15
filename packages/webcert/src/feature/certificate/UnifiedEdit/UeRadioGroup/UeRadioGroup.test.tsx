@@ -46,7 +46,7 @@ beforeEach(() => {
 
 describe('Radio group component', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('allows user to switch radio button', () => {

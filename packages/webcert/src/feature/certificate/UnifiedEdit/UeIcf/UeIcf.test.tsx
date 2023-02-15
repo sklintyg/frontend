@@ -76,7 +76,7 @@ const setDefaultIcfState = () => {
 
 describe('UeIcf', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    jest.useFakeTimers('modern')
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
@@ -85,7 +85,7 @@ describe('UeIcf', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent({ question: createQuestion(), disabled: false })
+    expect(() => renderComponent({ question: createQuestion(), disabled: false })).not.toThrow()
   })
 
   it('Should dispatch updateCertificateDataElement when clicking icf value', () => {

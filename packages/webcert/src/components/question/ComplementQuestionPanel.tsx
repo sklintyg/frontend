@@ -1,46 +1,32 @@
 import { CertificateStatus, ImageCentered, InfoBox, noQuestionImage, Question, Spinner } from '@frontend/common'
-import React, { useCallback, useState } from 'react'
-import QuestionItem from './QuestionItem'
-
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
+import QuestionItem from './QuestionItem'
 import { getQuestionsOrderedByLastUpdatedAndHandled } from './questionUtils'
 
-const Root = styled.div`
-  height: 100%;
-  overflow-y: auto;
-`
-
-interface StyledProps {
-  shouldLimitHeight: boolean
-  headerHeight: number
-}
-
-const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
+const Wrapper = styled.div`
   background-color: white;
   overflow-y: auto;
 
   > *:not(:last-child) {
     border-bottom: 10px solid #f7f4f2;
   }
+
+  > *:last-child {
+    padding-bottom: 50px;
+  }
 `
 
 interface Props {
   complementQuestions: Question[]
   isDisplayingCertificateDraft: boolean
-  headerHeight: number
 }
 
-const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft, headerHeight }) => {
-  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDisplayingCertificateDraft }) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-
-  const contentRef = useCallback((node: HTMLDivElement) => {
-    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
-  }, [])
 
   const getNoQuestionsMessage = () => {
     return (
@@ -75,21 +61,19 @@ const ComplementQuestionPanel: React.FC<Props> = ({ complementQuestions, isDispl
   }
 
   return (
-    <Root>
-      <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
-        {isLoadingQuestions ? (
-          <Spinner className="iu-m-500" />
-        ) : (
-          <>
-            {!isDisplayingCertificateDraft && getContinueOnDraft()}
-            {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
-              <QuestionItem key={complementQuestion.id} question={complementQuestion} />
-            ))}
-            {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
-          </>
-        )}
-      </Wrapper>
-    </Root>
+    <Wrapper>
+      {isLoadingQuestions ? (
+        <Spinner className="iu-m-500" />
+      ) : (
+        <>
+          {!isDisplayingCertificateDraft && getContinueOnDraft()}
+          {getQuestionsOrderedByLastUpdatedAndHandled(complementQuestions).map((complementQuestion) => (
+            <QuestionItem key={complementQuestion.id} question={complementQuestion} />
+          ))}
+          {complementQuestions && complementQuestions.length === 0 && getNoQuestionsMessage()}
+        </>
+      )}
+    </Wrapper>
   )
 }
 

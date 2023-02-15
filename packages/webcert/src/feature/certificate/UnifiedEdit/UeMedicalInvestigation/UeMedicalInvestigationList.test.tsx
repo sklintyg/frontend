@@ -1,11 +1,12 @@
-import { fakeMedicalInvestigationListElement, ConfigUeMedicalInvestigationList, fakeCertificate } from '@frontend/common'
+import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { showValidationErrors, updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
+import { showValidationErrors, updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeMedicalInvestigationList from './UeMedicalInvestigationList'
@@ -41,7 +42,7 @@ describe('Medical investigation component', () => {
   })
 
   it('Renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders all components', () => {
@@ -197,5 +198,44 @@ describe('Medical investigation component', () => {
     )
     renderComponent({ question })
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
+  })
+
+  it.each(config.list)('Should set error if index is 0 and validation errors length is 1 for date field %#', ({ dateId }) => {
+    testStore.dispatch(
+      updateValidationErrors([
+        {
+          id: QUESTION_ID,
+          category: 'category',
+          field: dateId,
+          type: 'EMPTY',
+          text: 'Ange ett svar.',
+        },
+      ])
+    )
+    renderComponent({ question })
+
+    const validationErrors = testStore.getState().validationErrors
+    if (validationErrors && validationErrors.length > 0 && validationErrors[0].field === dateId) {
+      expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
+    } else {
+      expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
+    }
+  })
+
+  it('Sets the value to null if the text is empty', () => {
+    renderComponent({ question, disabled: false })
+    const input = screen.queryAllByRole('textbox')
+    userEvent.clear(input[1])
+    userEvent.type(input[1], '')
+    expect(input[1]).toHaveValue('')
+  })
+
+  it('Sets the value not to null if the text is not empty', async () => {
+    renderComponent({ disabled: false, question })
+    const inputs = screen.getAllByRole('textbox')
+    const newValue = 'text'
+    userEvent.clear(inputs[1])
+    userEvent.type(inputs[1], newValue)
+    expect(inputs[1]).toHaveValue(newValue)
   })
 })

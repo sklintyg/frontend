@@ -1,1 +1,1 @@
-export * from './UvYear';
+export * from './UvYear'

@@ -1,1 +1,1 @@
-export * from './UvVisualAcuity';
+export * from './UvVisualAcuity'

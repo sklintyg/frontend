@@ -1,1 +1,1 @@
-export * from './UvTable';
+export * from './UvTable'

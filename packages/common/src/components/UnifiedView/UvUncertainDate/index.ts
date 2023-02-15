@@ -1,1 +1,1 @@
-export * from './UvUncertainDate';
+export * from './UvUncertainDate'

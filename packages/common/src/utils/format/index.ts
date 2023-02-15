@@ -1,1 +1,1 @@
-export * from './formatAcuity';
+export * from './formatAcuity'

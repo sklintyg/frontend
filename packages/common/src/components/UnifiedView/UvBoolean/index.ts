@@ -1,1 +1,1 @@
-export * from './UvBoolean';
+export * from './UvBoolean'

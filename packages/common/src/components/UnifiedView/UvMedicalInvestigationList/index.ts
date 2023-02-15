@@ -1,1 +1,1 @@
-export * from './UvMedicalInvestigationList';
+export * from './UvMedicalInvestigationList'

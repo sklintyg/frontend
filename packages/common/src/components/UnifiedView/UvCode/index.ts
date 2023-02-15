@@ -1,1 +1,1 @@
-export * from './UvCode';
+export * from './UvCode'

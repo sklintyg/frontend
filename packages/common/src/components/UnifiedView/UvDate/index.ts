@@ -1,1 +1,1 @@
-export * from './UvDate';
+export * from './UvDate'

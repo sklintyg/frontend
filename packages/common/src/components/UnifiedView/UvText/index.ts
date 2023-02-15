@@ -1,1 +1,1 @@
-export * from './UvText';
+export * from './UvText'

@@ -1,5 +1,5 @@
 import { ImageCentered, noQuestionImage, Question, Spinner } from '@frontend/common'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getIsLoadingQuestions } from '../../store/question/questionSelectors'
@@ -12,35 +12,22 @@ const Root = styled.div`
   height: 100%;
 `
 
-interface StyledProps {
-  shouldLimitHeight: boolean
-  headerHeight: number
-}
-
-const Wrapper = styled.div<StyledProps>`
-  height: ${(props) => (props.shouldLimitHeight ? `calc(100% -  ${props.headerHeight}px);` : '100%;')};
+const Wrapper = styled.div`
   overflow-y: auto;
+
+  > *:last-child {
+    padding-bottom: 50px;
+  }
 `
 
 interface Props {
   administrativeQuestions: Question[]
   isQuestionFormVisible: boolean
   administrativeQuestionDraft: Question
-  headerHeight: number
 }
 
-const AdministrativeQuestionPanel: React.FC<Props> = ({
-  administrativeQuestions,
-  isQuestionFormVisible,
-  administrativeQuestionDraft,
-  headerHeight,
-}) => {
-  const [shouldLimitHeight, setShouldLimitHeight] = useState(false)
+const AdministrativeQuestionPanel: React.FC<Props> = ({ administrativeQuestions, isQuestionFormVisible, administrativeQuestionDraft }) => {
   const isLoadingQuestions = useSelector(getIsLoadingQuestions)
-
-  const contentRef = useCallback((node: HTMLDivElement) => {
-    setShouldLimitHeight(node ? node.scrollHeight > node.clientHeight : false)
-  }, [])
 
   const getNoQuestionsMessage = () => {
     return (
@@ -54,7 +41,7 @@ const AdministrativeQuestionPanel: React.FC<Props> = ({
 
   return (
     <Root>
-      <Wrapper ref={contentRef} headerHeight={headerHeight} shouldLimitHeight={shouldLimitHeight}>
+      <Wrapper>
         {isQuestionFormVisible && <QuestionForm questionDraft={administrativeQuestionDraft} />}
         {isLoadingQuestions && <Spinner className="iu-m-500" />}
         <div className={'iu-bg-light-grey'}>

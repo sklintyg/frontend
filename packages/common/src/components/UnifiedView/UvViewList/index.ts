@@ -1,1 +1,1 @@
-export * from './UvViewList';
+export * from './UvViewList'

@@ -33,7 +33,8 @@ export const DeathCertificateConfirmModalIntegrated: React.FC<Props> = ({ patien
       onConfirm={() => null}
       onClose={() => {
         dispatch(deleteCertificate({ certificateId }))
-      }}>
+      }}
+      closeOnBackdropClick={false}>
       <InfoBox type="info">
         <p>Du är på väg att utfärda ett dödsbevis för</p>
         <p className="iu-fw-bold">

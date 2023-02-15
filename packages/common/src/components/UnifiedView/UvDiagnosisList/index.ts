@@ -1,1 +1,1 @@
-export * from './UvDiagnosisList';
+export * from './UvDiagnosisList'

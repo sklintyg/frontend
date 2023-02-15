@@ -8,8 +8,7 @@ import {
   Question,
   QuestionType,
 } from '../types'
-import { ResourceLinkType } from '../types/resourceLink'
-import { ResourceLink } from './../types/resourceLink'
+import { ResourceLinkType, ResourceLink } from '../types/resourceLink'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 

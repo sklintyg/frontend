@@ -2,7 +2,6 @@ import { fakeCertificateMetaData } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import React from 'react'
 import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
 
@@ -21,7 +20,7 @@ const descriptionWithLinks = `${text1} <LINK:${link1}> ${text2} <LINK:${link2}> 
 const renderComponent = () => {
   render(
     <Router history={history}>
-      <AboutCertificatePanel headerHeight={500} />
+      <AboutCertificatePanel />
     </Router>
   )
 }
@@ -37,7 +36,7 @@ describe('CertificateSidePanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('renders with description', () => {

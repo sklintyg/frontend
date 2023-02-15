@@ -7,7 +7,7 @@ import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
   createQuestion,
@@ -52,7 +52,7 @@ describe('QuestionForm', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   describe('with default values', () => {

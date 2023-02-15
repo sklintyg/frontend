@@ -1,1 +1,1 @@
-export * from './UvIcf';
+export * from './UvIcf'

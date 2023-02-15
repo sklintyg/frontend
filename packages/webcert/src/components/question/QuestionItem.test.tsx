@@ -40,7 +40,7 @@ describe('QuestionItem', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(createQuestion())
+    expect(() => renderComponent(createQuestion())).not.toThrow()
   })
 
   it('display answer button if the question has answer resource link', () => {
@@ -478,6 +478,22 @@ describe('QuestionItem', () => {
     it('should not show expandable text for messages that are longer than the limit but not a complement', () => {
       renderComponent(createQuestionWithLongText())
       expect(screen.queryByText('Visa mer')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('forwarded', () => {
+    it('should show forwarded status for forwarded question', () => {
+      const question = createQuestion()
+      question.forwarded = true
+      renderComponent(question)
+      expect(screen.getByText('Vidarebefordrad')).toBeInTheDocument()
+    })
+
+    it('should not show forwarded status for not forwarded question', () => {
+      const question = createQuestion()
+      question.forwarded = false
+      renderComponent(question)
+      expect(screen.queryByText('Vidarebefordrad')).not.toBeInTheDocument()
     })
   })
 })

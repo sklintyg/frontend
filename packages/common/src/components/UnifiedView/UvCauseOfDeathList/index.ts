@@ -1,1 +1,1 @@
-export * from './UvCauseOfDeathList';
+export * from './UvCauseOfDeathList'

@@ -1,1 +1,1 @@
-export * from './UvDateRangeList';
+export * from './UvDateRangeList'

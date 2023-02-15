@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import AppHeader from '../components/AppHeader/AppHeader'
 import DisplayError from '../components/error/DisplayError'
 import { ErrorRoute } from '../components/error/ErrorComponent'
@@ -35,6 +35,12 @@ const ErrorPage: React.FC = () => {
   let errorCode: string | undefined
   let errorId: string | undefined
 
+  const excludeErrorId = [ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET, ErrorCode.TIMEOUT]
+
+  const shouldExcludeErrorId = () => {
+    return excludeErrorId.some((code) => code.toString() === errorCode)
+  }
+
   if (location.state) {
     const state = location.state as ErrorRoute
     errorCode = state.errorCode
@@ -58,7 +64,7 @@ const ErrorPage: React.FC = () => {
           <DisplayError errorCode={errorCode} />
         </CenteredImageWithContent>
       </TextWrapper>
-      {errorId && <ErrorCopyText errorId={errorId} />}
+      {!shouldExcludeErrorId() && errorId && <ErrorCopyText errorId={errorId} />}
     </Root>
   )
 }

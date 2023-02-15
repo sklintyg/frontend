@@ -1,1 +1,1 @@
-export * from './sortedValidationErrorSummary';
+export * from './sortedValidationErrorSummary'

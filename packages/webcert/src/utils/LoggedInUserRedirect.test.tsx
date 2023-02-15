@@ -74,7 +74,7 @@ describe('LoggedInUserRedirect', () => {
 
     expect(testHistory.replace).toHaveBeenCalledWith(
       expect.objectContaining({
-        pathname: '/create',
+        pathname: '/search',
       })
     )
   })

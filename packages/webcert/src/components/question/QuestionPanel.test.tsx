@@ -3,7 +3,6 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { updateCertificate } from '../../store/certificate/certificateActions'
@@ -20,7 +19,7 @@ const renderDefaultComponent = () => {
   render(
     <Provider store={testStore}>
       <Router history={history}>
-        <QuestionPanel headerHeight={0} />
+        <QuestionPanel />
       </Router>
     </Provider>
   )
@@ -32,7 +31,7 @@ describe('QuestionPanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('displays header for complement questions', () => {
