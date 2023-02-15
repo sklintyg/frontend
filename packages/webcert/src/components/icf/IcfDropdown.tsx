@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CustomButton, InfoCircle, useKeyPress } from '@frontend/common'
 import FocusTrap from 'focus-trap-react'
 import _ from 'lodash'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
@@ -40,6 +40,12 @@ const IcfDropdown: React.FC<Props> = ({
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const functionDisabled = useSelector(isIcfFunctionDisabled)
   const escapePress = useKeyPress('Escape')
+  const clickedOutsideDropdown = useCallback(
+    (e: Event) => {
+      return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
+    },
+    [btnRef, rootRef]
+  )
 
   useEffect(() => {
     if (functionDisabled) {
@@ -58,17 +64,13 @@ const IcfDropdown: React.FC<Props> = ({
     return () => {
       document.removeEventListener('mousedown', handleClick)
     }
-  }, [])
+  }, [clickedOutsideDropdown])
 
   useEffect(() => {
     if (displayDropdown && escapePress) {
       setDisplayDropdown(false)
     }
   }, [escapePress, displayDropdown])
-
-  const clickedOutsideDropdown = (e: Event) => {
-    return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
-  }
 
   const getTooltip = () => {
     return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd.' : ''
