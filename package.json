@@ -181,8 +181,7 @@
       ],
       "react/self-closing-comp": "error",
       "react/prop-types": "off",
-      "prefer-template": "warn",
-      "jest/no-disabled-tests": "off"
+      "prefer-template": "warn"
     },
     "overrides": [
       {
@@ -207,7 +206,10 @@
         ],
         "extends": [
           "plugin:jest/recommended"
-        ]
+        ],
+        "rules": {
+          "jest/no-disabled-tests": "off"
+        }
       },
       {
         "files": [
