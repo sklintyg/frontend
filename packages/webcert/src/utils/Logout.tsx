@@ -1,5 +1,5 @@
 import { LoginMethod, ResourceLink, User } from '@frontend/common'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledLink = styled.button`
@@ -18,21 +18,8 @@ interface Props {
 }
 
 const Logout: React.FC<Props> = ({ link, user }) => {
-  const [logout, setLogout] = useState(false)
-
-  useEffect(() => {
-    if (logout) {
-      ;(document.getElementById('logoutForm') as HTMLFormElement)?.submit()
-      setLogout(false)
-    }
-  }, [logout])
-
   if (!link) {
     return null
-  }
-
-  const submitLogOut = () => {
-    setLogout(true)
   }
 
   const getLogoutPath = () => {
@@ -44,12 +31,9 @@ const Logout: React.FC<Props> = ({ link, user }) => {
   }
 
   return (
-    <>
-      <StyledLink onClick={submitLogOut} className="ic-link">
-        {link.name}
-      </StyledLink>
-      {logout && <form action={getLogoutPath()} method="POST" id="logoutForm" />}
-    </>
+    <form action={getLogoutPath()} method="POST" id="logoutForm">
+      <StyledLink className="ic-link">{link.name}</StyledLink>
+    </form>
   )
 }
 

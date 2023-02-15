@@ -5,7 +5,7 @@ const querystring = require('querystring')
 
 module.exports = function(app) {
   app.use(
-    ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp'],
+    ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'],
     createProxyMiddleware({
       target: env.API_TARGET,
       cookieDomainRewrite: { '*': '' },
