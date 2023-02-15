@@ -52,7 +52,7 @@ describe('QuestionForm', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   describe('with default values', () => {

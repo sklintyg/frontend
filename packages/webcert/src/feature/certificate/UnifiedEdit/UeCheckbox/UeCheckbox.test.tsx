@@ -61,8 +61,8 @@ const testClickOnCheckbox = (label?: string) => {
 
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
-    renderBooleanComponent()
-    renderCodeComponent()
+    expect(() => renderBooleanComponent()).not.toThrow()
+    expect(() => renderCodeComponent()).not.toThrow()
   })
 
   it('sets the label given in question object', () => {

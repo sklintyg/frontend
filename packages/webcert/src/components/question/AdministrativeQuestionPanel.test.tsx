@@ -1,14 +1,13 @@
-import { render, screen } from '@testing-library/react'
+import { Question, QuestionType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import { questionMiddleware } from '../../store/question/questionMiddleware'
-import { Question, QuestionType } from '@frontend/common'
-import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
-import { updateIsLoadingQuestions } from '../../store/question/questionActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { updateIsLoadingQuestions } from '../../store/question/questionActions'
+import { questionMiddleware } from '../../store/question/questionMiddleware'
+import AdministrativeQuestionPanel from './AdministrativeQuestionPanel'
 
 let testStore: EnhancedStore
 
@@ -36,7 +35,7 @@ describe('QuestionPanel', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent([], true, testStore.getState().ui.uiQuestion.questionDraft)
+    expect(() => renderDefaultComponent([], true, testStore.getState().ui.uiQuestion.questionDraft)).not.toThrow()
   })
 
   it('displays text when there are no questions', () => {

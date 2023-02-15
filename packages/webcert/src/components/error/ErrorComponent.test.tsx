@@ -54,7 +54,7 @@ describe('ErrorComponent', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   describe('ErrorType.MODAL, ', () => {
