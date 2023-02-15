@@ -2,8 +2,14 @@ import { LoginMethod, ResourceLink, User } from '@frontend/common'
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledLink = styled.a`
+const StyledLink = styled.button`
   text-align: center;
+  background: none;
+  border: none;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  text-decoration: none;
 `
 
 interface Props {
@@ -25,9 +31,9 @@ const Logout: React.FC<Props> = ({ link, user }) => {
   }
 
   return (
-    <StyledLink target="_self" href={getLogoutPath()}>
-      {link.name}
-    </StyledLink>
+    <form action={getLogoutPath()} method="POST" id="logoutForm">
+      <StyledLink className="ic-link">{link.name}</StyledLink>
+    </form>
   )
 }
 
