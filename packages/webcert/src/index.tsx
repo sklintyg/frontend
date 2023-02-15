@@ -5,6 +5,8 @@ import App from './App'
 import './index.css'
 import store from './store/store'
 
+console.log('running?')
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

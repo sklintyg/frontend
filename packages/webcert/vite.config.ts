@@ -1,7 +1,9 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, ProxyOptions } from 'vite'
 
-const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp'].reduce<Record<string, string | ProxyOptions>>(
+const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
+  Record<string, string | ProxyOptions>
+>(
   (result, route) => ({
     ...result,
     [route]: {
@@ -17,7 +19,7 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
 
 export default defineConfig({
   plugins: [react()],
-  server: { proxy },
+  server: { proxy, port: 3000 },
   optimizeDeps: {
     include: ['@frontend/common'],
   },
