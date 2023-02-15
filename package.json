@@ -202,8 +202,8 @@
       },
       {
         "files": [
-          "pacakges/webcert/**/*.@(ts|tsx|js|jsx)",
-          "pacakges/common/**/*.@(ts|tsx|js|jsx)"
+          "packages/webcert/**/*.@(ts|tsx|js|jsx)",
+          "packages/common/**/*.@(ts|tsx|js|jsx)"
         ],
         "extends": [
           "plugin:jest/recommended"
