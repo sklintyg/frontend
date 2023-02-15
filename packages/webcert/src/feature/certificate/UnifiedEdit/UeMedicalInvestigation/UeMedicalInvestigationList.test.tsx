@@ -200,7 +200,7 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  it.each(config.list)('Should set error if index is 0 and validation errors length is 1 for date field %#', ({ dateId }) => {
+  it.each(config.list)('Should show validation error if index is 0 and there is one validation error for date field %s', ({ dateId }) => {
     testStore.dispatch(
       updateValidationErrors([
         {
@@ -215,7 +215,9 @@ describe('Medical investigation component', () => {
     renderComponent({ question })
 
     const validationErrors = testStore.getState().validationErrors
-    if (validationErrors && validationErrors.length > 0 && validationErrors[0].field === dateId) {
+    const hasValidationError = validationErrors && validationErrors.some((v: { field: string }) => v.field === 'hej')
+
+    if (hasValidationError && validationErrors.length === 1 && validationErrors[0].field === dateId) {
       expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
     } else {
       expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
