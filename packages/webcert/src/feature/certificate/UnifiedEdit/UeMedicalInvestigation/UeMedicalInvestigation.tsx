@@ -75,7 +75,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
             onChange={(event) => {
               handleInvestigationTypeChange(event.currentTarget.value)
             }}
-            error={error && validationErrors.some((v) => v.field === config.investigationTypeId)}>
+            error={error || validationErrors.some((v) => v.field === config.investigationTypeId)}>
             {typeOptions.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
@@ -91,7 +91,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
             textInputOnChange={handleDateChange}
             disabled={disabled}
             setDate={handleDateChange}
-            displayValidationErrorOutline={error && validationErrors.some((v) => v.field === config.dateId)}
+            displayValidationErrorOutline={error || validationErrors.some((v) => v.field === config.dateId)}
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
               handleInformationSourceChange(event.currentTarget.value)
             }}
             id={config.informationSourceId}
-            hasValidationError={error && validationErrors.some((v) => v.field === config.informationSourceId)}
+            hasValidationError={error || validationErrors.some((v) => v.field === config.informationSourceId)}
             value={value.informationSource.text ?? ''}
             limit={textValidation ? textValidation.limit : 100}
             disabled={disabled}
