@@ -36,7 +36,6 @@ import {
 import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'

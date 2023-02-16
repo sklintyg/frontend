@@ -1,5 +1,4 @@
 import { ResourceLink, ResourceLinkType } from '@frontend/common'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'

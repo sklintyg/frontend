@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import Pagination from './Pagination'
-import userEvent from '@testing-library/user-event'
 
 const handlePageChange = jest.fn()
 const handlePageTupleChange = jest.fn()
