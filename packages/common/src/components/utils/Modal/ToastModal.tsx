@@ -29,7 +29,7 @@ const ToastModal: React.FC<Props> = ({ children, onClose }) => {
       setOpen(false)
       onClose?.()
     }, 2000)
-  }, [])
+  }, [onClose])
 
   if (!open) return null
 

@@ -1,17 +1,17 @@
 af = {
-    "funktionsnedsättning": {
-        "finnsBesvärPågrundAvSjukdom": false,
-    },
+  funktionsnedsättning: {
+    finnsBesvärPågrundAvSjukdom: false,
+  },
 
-    "utredning och behandling": {
-        "finnsPågåendeEllerPplaneradeUtredningar": false,
-        },
+  'utredning och behandling': {
+    finnsPågåendeEllerPplaneradeUtredningar: false,
+  },
 
-    "arbetetsPåverkanPåSjukdom": {
-        "kanSjukdomenFörvärras": false,
-    },
+  arbetetsPåverkanPåSjukdom: {
+    kanSjukdomenFörvärras: false,
+  },
 
-    "övrigt": {
-        "text": ""
-    }
+  övrigt: {
+    text: '',
+  },
 }
