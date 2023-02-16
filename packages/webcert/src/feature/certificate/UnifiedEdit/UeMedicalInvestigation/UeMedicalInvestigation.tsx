@@ -63,7 +63,6 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
       },
     })
   }
-
   return (
     <>
       <UeMedicalInvestigationGrid>

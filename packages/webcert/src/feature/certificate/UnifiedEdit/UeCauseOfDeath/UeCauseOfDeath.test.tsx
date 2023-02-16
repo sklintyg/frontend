@@ -35,7 +35,7 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeath>) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders, textinput, calendar button and drop down', () => {
