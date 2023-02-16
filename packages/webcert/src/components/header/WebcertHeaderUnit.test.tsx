@@ -49,7 +49,7 @@ describe('Webcert header unit', () => {
 
     testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
 
-    userEvent.click(screen.getByLabelText('Fäll ut/in innehåll'))
+    userEvent.click(screen.getAllByTestId('arrowToggle')[0])
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
 
