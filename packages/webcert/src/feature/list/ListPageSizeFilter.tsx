@@ -18,7 +18,7 @@ const PageSizeWrapper = styled.div`
   justify-content: end;
   position: relative;
   z-index: 1;
-  margin-bottom: -2.5rem;
+  top: 2.5rem;
 `
 const PageSizeInnerWrapper = styled.div`
   min-width: 18ch;
