@@ -36,18 +36,19 @@ const RelativeDiv = styled.div`
 interface Props {
   linkText: string
   onClickLink: () => void
+  isExpanded: boolean
 }
 
-const ExpandableBox: React.FC<Props> = ({ linkText, onClickLink }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
+const ExpandableBox: React.FC<Props> = ({ isExpanded, linkText, onClickLink }) => {
+  const [isExpandedBox, setIsExpandedBox] = useState(false)
 
   const handleToggle = () => {
-    setIsExpanded(!isExpanded)
+    setIsExpandedBox(!isExpandedBox)
   }
 
   const handleClick = () => {
     onClickLink()
-    setIsExpanded(false)
+    setIsExpandedBox(false)
   }
 
   return (

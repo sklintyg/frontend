@@ -64,8 +64,8 @@ function App(): JSX.Element {
           <WarningNormalOriginModal />
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
-            {/* <Route path="/certificate/:certificateId" render={() => <CertificatePage />} /> */}
-            <Route path="/welcome" render={() => <Welcome />} />
+            <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+            <Route path="/welcome(.html)?" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
             <Route path="/create/:patientId?" render={() => <CreatePageWithRedirect />} />
             <Route path="/search" render={() => <SearchPageWithRedirect />} />
