@@ -57,7 +57,10 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <ExpandableBoxWrapper onClick={changeUnitLink ? handleClick : undefined} changeUnitLinkPointer={!!changeUnitLink}>
+        <ExpandableBoxWrapper
+          onClick={changeUnitLink ? handleClick : undefined}
+          changeUnitLinkPointer={!!changeUnitLink}
+          data-testId="expandableBox">
           <span>
             {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
             <br />

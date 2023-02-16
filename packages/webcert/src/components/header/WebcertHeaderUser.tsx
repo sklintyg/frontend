@@ -52,7 +52,7 @@ const WebcertHeaderUser: React.FC<Props> = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <ExpandableBoxWrapper onClick={handleClick} changeLinkPointer={!!privatePractitionerPortal}>
+        <ExpandableBoxWrapper onClick={handleClick} changeLinkPointer={!!privatePractitionerPortal} data-testId="expandableBox">
           <UserWrapper>
             <span>{`${user.name} - ${user.role}`}</span>
             {user.protectedPerson && (
