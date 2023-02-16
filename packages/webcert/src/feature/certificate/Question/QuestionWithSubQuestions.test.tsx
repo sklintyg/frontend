@@ -1,14 +1,12 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { Complement, getCertificate } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
-import { updateCertificate, updateCertificateComplements } from '../../../store/certificate/certificateActions'
-import { Complement, getCertificate } from '@frontend/common'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
 
 let testStore: EnhancedStore
 window.scrollTo = jest.fn()

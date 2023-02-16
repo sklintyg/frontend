@@ -1,13 +1,11 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
 import { Certificate, CertificateMetadata, Unit, User } from '@frontend/common'
-import ReadOnlyViewNotification from './ReadOnlyViewNotification'
-import { Provider } from 'react-redux'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { updateUser } from '../../../store/user/userActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateUser } from '../../../store/user/userActions'
+import ReadOnlyViewNotification from './ReadOnlyViewNotification'
 
 let testStore: EnhancedStore
 
