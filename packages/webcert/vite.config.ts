@@ -26,15 +26,15 @@ export default defineConfig({
     // strictPort: true,
     // hmr: { clientPort: 443, host: 'wc2.wc.localtest.me', protocol: 'wss' },
   },
-  define: {
-    'process.env': {},
+  test: {
+    environment: 'jsdom',
   },
-  optimizeDeps: {
-    include: ['@frontend/common'],
-  },
-  build: {
-    commonjsOptions: {
-      include: [/@frontend\/common/, /node_modules/],
-    },
-  },
+  // optimizeDeps: {
+  //   include: ['@frontend/common'],
+  // },
+  // build: {
+  //   commonjsOptions: {
+  //     include: [/@frontend\/common/, /node_modules/],
+  //   },
+  // },
 })
