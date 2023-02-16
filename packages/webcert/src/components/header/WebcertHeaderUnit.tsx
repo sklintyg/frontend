@@ -1,5 +1,5 @@
 import { AlertCircle, ExpandableBox, ResourceLinkType, User } from '@frontend/common'
-import React from 'react'
+import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateIsCareProviderModalOpen } from '../../store/user/userActions'
@@ -15,7 +15,11 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `
-
+const ExpandableBoxWrapper = styled.div<Props>`
+  display: flex;
+  align-items: center;
+  cursor: ${(props) => (props.changeUnitLinkPointer ? 'pointer' : 'default')};
+`
 const Italic = styled.span`
   font-style: italic;
   font-size: 12px;
@@ -28,8 +32,11 @@ const InactiveUnit = styled.span`
   cursor: default;
   font-size: 12px;
 `
+interface Props {
+  changeUnitLinkPointer?: boolean
+}
 
-const WebcertHeaderUnit: React.FC = () => {
+const WebcertHeaderUnit: React.FC<Props> = () => {
   const dispatch = useDispatch()
   const user = useSelector(getUser, shallowEqual)
   const totalDraftsAndUnhandledQuestionsOnOtherUnits = useSelector(getTotalDraftsAndUnhandledQuestionsOnOtherUnits)
@@ -38,6 +45,11 @@ const WebcertHeaderUnit: React.FC = () => {
   const showUnhandledQuestionsInfo = !!changeUnitLink && totalDraftsAndUnhandledQuestionsOnOtherUnits > 0
   const privatePractitioner = useSelector(isPrivatePractitioner)
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const handleClick = () => {
+    setIsExpanded(!isExpanded)
+  }
   const openModal = () => {
     dispatch(updateIsCareProviderModalOpen(true))
   }
@@ -45,24 +57,29 @@ const WebcertHeaderUnit: React.FC = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <span>
-          {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
-          <br />
-          {showUnhandledQuestionsInfo && (
-            <Italic>
-              {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
-            </Italic>
+        <ExpandableBoxWrapper
+          onClick={changeUnitLink ? handleClick : undefined}
+          changeUnitLinkPointer={!!changeUnitLink}
+          data-testId="expandableBox">
+          <span>
+            {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
+            <br />
+            {showUnhandledQuestionsInfo && (
+              <Italic>
+                {totalDraftsAndUnhandledQuestionsOnOtherUnits} ej hanterade ärenden och ej signerade utkast på andra vårdenheter.
+              </Italic>
+            )}
+          </span>
+          {user.loggedInUnit.isInactive && (
+            <InactiveUnit
+              className="iu-ml-400"
+              data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
+              <AlertCircle />
+              <span className="iu-ml-200">Inaktiv enhet</span>
+            </InactiveUnit>
           )}
-        </span>
-        {user.loggedInUnit.isInactive && (
-          <InactiveUnit
-            className="iu-ml-400"
-            data-tip="Enheten är markerad som inaktiv i journalsystemet, vilket innebär att viss funktionalitet ej är tillgänglig.">
-            <AlertCircle />
-            <span className="iu-ml-200">Inaktiv enhet</span>
-          </InactiveUnit>
-        )}
-        {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} />}
+          {changeUnitLink && <ExpandableBox linkText={changeUnitLink.name} onClickLink={openModal} isExpanded={isExpanded} />}
+        </ExpandableBoxWrapper>
       </Wrapper>
     )
   }
