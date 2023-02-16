@@ -9,7 +9,7 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
     [route]: {
       target: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
       cookieDomainRewrite: { '*': '' },
-      protocolRewrite: 'http',
+      protocolRewrite: 'https',
       changeOrigin: true,
       autoRewrite: true,
     },
@@ -19,7 +19,16 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
 
 export default defineConfig({
   plugins: [react()],
-  server: { proxy, port: 3000 },
+  server: {
+    proxy,
+    port: 3000,
+    host: 'wc2.wc.localtest.me',
+    // strictPort: true,
+    // hmr: { clientPort: 443, host: 'wc2.wc.localtest.me', protocol: 'wss' },
+  },
+  define: {
+    'process.env': {},
+  },
   optimizeDeps: {
     include: ['@frontend/common'],
   },

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import AppHeader from '../components/AppHeader/AppHeader'
 import DisplayError from '../components/error/DisplayError'
 import { ErrorRoute } from '../components/error/ErrorComponent'

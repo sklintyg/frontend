@@ -1,9 +1,7 @@
-module.exports = {
+export default {
   clearMocks: true,
-  // testEnvironment: 'jest-environment-jsdom',
-  // preset: 'ts-jest',
+  testEnvironment: 'jest-environment-jsdom',
   transform: {
     '^.+\\.tsx?$': 'esbuild-jest',
   },
-  testEnvironment: 'jsdom',
 }

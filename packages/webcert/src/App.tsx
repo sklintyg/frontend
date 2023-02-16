@@ -12,7 +12,6 @@ import CareProviderModal from './feature/careProvider/CareProviderModal'
 import WarningNormalOriginModal from './feature/certificate/Modals/WarningNormalOriginModal'
 import SubscriptionWarningModal from './feature/subscription/SubscriptionWarningModal'
 import CertificateDraftsPage from './page/CertificateDraftsPage'
-import CertificatePage from './page/CertificatePage'
 import { CreatePageWithRedirect } from './page/CreatePage'
 import ErrorPage from './page/ErrorPage'
 import { SearchPageWithRedirect } from './page/SearchPage'
@@ -65,7 +64,7 @@ function App(): JSX.Element {
           <WarningNormalOriginModal />
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
-            <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
+            {/* <Route path="/certificate/:certificateId" render={() => <CertificatePage />} /> */}
             <Route path="/welcome" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
             <Route path="/create/:patientId?" render={() => <CreatePageWithRedirect />} />

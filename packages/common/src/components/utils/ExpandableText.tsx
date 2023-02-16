@@ -1,9 +1,8 @@
-import React, { MouseEvent, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 import { sanitizeText } from '../../utils/sanitizeText'
 
 const StyledLink = styled(Link)`

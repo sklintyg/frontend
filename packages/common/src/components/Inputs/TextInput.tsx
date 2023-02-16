@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
