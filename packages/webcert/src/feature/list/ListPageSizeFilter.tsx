@@ -2,6 +2,7 @@ import { Dropdown, ListFilterPageSizeConfig, ListFilterType, ListFilterValue, Li
 import * as React from 'react'
 import { ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { updateActiveListFilterValue } from '../../store/list/listActions'
 
 interface Props {
@@ -10,6 +11,18 @@ interface Props {
   onFilterChange: (value: ListFilterValue, id: string) => void
   value: ListFilterValueNumber
 }
+
+const PageSizeWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  position: relative;
+  z-index: 1;
+  margin-bottom: -2.5rem;
+`
+const PageSizeInnerWrapper = styled.div`
+  min-width: 18ch;
+`
 
 const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value }) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
@@ -47,20 +60,22 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
 
   const getFilterComponent = () => {
     return (
-      <div className="iu-pb-300">
-        <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
-          {pageSizes.map((number) =>
-            totalCount >= number ? (
-              <option id={`${filter.id}-${number}`} value={number} key={`${filter.id}-${number}`}>
-                {number}
-              </option>
-            ) : null
-          )}
-          <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
-            alla
-          </option>
-        </Dropdown>
-      </div>
+      <PageSizeWrapper className="iu-pr-300">
+        <PageSizeInnerWrapper>
+          <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
+            {pageSizes.map((number) =>
+              totalCount >= number ? (
+                <option id={`${filter.id}-${number}`} value={number} key={`${filter.id}-${number}`}>
+                  {number}
+                </option>
+              ) : null
+            )}
+            <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
+              alla
+            </option>
+          </Dropdown>
+        </PageSizeInnerWrapper>
+      </PageSizeWrapper>
     )
   }
 
