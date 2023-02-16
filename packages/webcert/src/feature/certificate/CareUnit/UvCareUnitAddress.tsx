@@ -8,20 +8,20 @@ import { getCertificateMetaData } from '../../../store/certificate/certificateSe
 import CategoryTitle from '../Category/CategoryTitle'
 
 const CareUnitHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   color: white !important;
   background-color: rgb(1, 165, 163) !important;
   border-bottom: 1px solid rgb(0, 112, 110);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  h3 {
-    color: white;
-  }
 `
 const InnerWrapper = styled.div`
   padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  h3 {
+    color: white;
+  }
 `
 
 const CareUnitAddress = styled.section`
