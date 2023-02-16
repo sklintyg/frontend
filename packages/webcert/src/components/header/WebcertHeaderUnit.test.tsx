@@ -53,6 +53,17 @@ describe('Webcert header unit', () => {
     expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
   })
 
+  it('should expand/collapse when clicked on expandableBox', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getChangeUnitResourceLink()))
+    renderComponent()
+    const expandableBox = screen.getByTestId('expandableBox')
+    userEvent.click(expandableBox)
+    expect(screen.getByText(/Byt vårdenhet/i)).toBeInTheDocument()
+    userEvent.click(expandableBox)
+    expect(screen.queryByText(/Byt vårdenhet/i)).not.toBeInTheDocument()
+  })
+
   it('should not display care provider name for private practitioner', (): void => {
     const user = getUser()
     const careProvider = { ...user.loggedInCareProvider }

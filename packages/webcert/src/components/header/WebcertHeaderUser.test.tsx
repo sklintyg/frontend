@@ -117,4 +117,15 @@ describe('WebcertHeaderUser', () => {
     userEvent.click(screen.getByTestId('arrowToggle'))
     expect(screen.getByText('Min sida')).toBeInTheDocument()
   })
+
+  it('should expand/collapse when clicked on expandableBox', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getPrivatePractitionerPortalResourceLink()))
+    renderComponent()
+    const expandableBox = screen.getByTestId('expandableBox')
+    userEvent.click(expandableBox)
+    expect(screen.getByText('Min sida')).toBeInTheDocument()
+    userEvent.click(expandableBox)
+    expect(screen.queryByText('Min sida')).not.toBeInTheDocument()
+  })
 })
