@@ -14,7 +14,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "react-app-rewired test --verbose --bail --watchAll=false --findRelatedTests"
+    "*.{js,jsx,ts,tsx}": "vitest related"
   },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.15.4",

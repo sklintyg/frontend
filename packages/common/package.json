@@ -28,21 +28,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "jest --bail --findRelatedTests"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "setupFilesAfterEnv": [
-      "./setupTests.ts"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "collectCoverageFrom": [
-      "/src/**/*.{js,jsx,ts,tsx}"
-    ]
+    "*.{js,jsx,ts,tsx}": "vitest related"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -57,11 +43,10 @@
     "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.1",
     "@types/dompurify": "^2.3.3",
-    "@types/enzyme-adapter-react-16": "^1.0.5",
-    "@types/enzyme": "^3.10.5",
     "@types/faker": "^5.5.9",
     "@types/lodash": "^4.14.191",
     "@types/node": "^14.14.31",
@@ -71,19 +56,18 @@
     "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-react": "^3.1.0",
     "ctix": "^1.8.2",
-    "enzyme-to-json": "^3.4.3",
     "lodash": "^4.17.21",
-    "react-dom": "^17.0.2",
     "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "styled-components": "^5.3.6",
     "type-fest": "^1.4.0",
-    "vite-plugin-dts": "^1.7.1",
     "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.1",
     "vitest": "^0.28.5"
   },
   "peerDependencies": {
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "styled-components": "^5.3.6",
-    "lodash": "^4.17.21"
+    "styled-components": "^5.3.6"
   }
 }
