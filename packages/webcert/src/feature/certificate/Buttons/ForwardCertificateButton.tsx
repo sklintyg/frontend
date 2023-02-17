@@ -1,4 +1,4 @@
-import { faReply } from '@fortawesome/free-solid-svg-icons'
+import { faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ButtonWithConfirmModal, CustomButton, ResourceLinkType } from '@frontend/common'
 import React from 'react'
@@ -60,7 +60,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
         onClick={handleEmailSend}
         tooltip={description}
         data-testid="forward-certificate-button"
-        startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}>
+        startIcon={<FontAwesomeIcon size="lg" icon={faShare} />}>
         {name}
       </CustomButton>
     )
@@ -71,7 +71,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<FontAwesomeIcon size="lg" icon={faReply} />}
+      startIcon={<FontAwesomeIcon size="lg" icon={faShare} />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate({ certificateId: certificateId, forward: true }))}
       onClick={handleEmailSend}
