@@ -1,9 +1,9 @@
-import React from 'react'
 import { CertificateMetadata, CertificateRelationType, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
-import WCDynamicLink from '../../../../utils/WCDynamicLink'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
-import { useSelector } from 'react-redux'
+import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {
   certificateMetadata: CertificateMetadata
@@ -51,7 +51,9 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     <>
       {' '}
       {isLocked ? (
-        <StatusWithIcon icon={'ErrorOutlineIcon'}>Utkastet är makulerat</StatusWithIcon>
+        <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+          Utkastet är makulerat
+        </StatusWithIcon>
       ) : (
         <StatusWithIcon icon={'ErrorOutlineIcon'} isModal={true}>
           <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat">
@@ -61,7 +63,11 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
           </TextWithInfoModal>
         </StatusWithIcon>
       )}
-      {revokedStatus && <StatusWithIcon icon={'ErrorOutlineIcon'}>{revokedStatus}</StatusWithIcon>}
+      {revokedStatus && (
+        <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+          {revokedStatus}
+        </StatusWithIcon>
+      )}
     </>
   )
 }
