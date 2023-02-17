@@ -13,7 +13,7 @@ const LockedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       Utkastet är makulerat
     </StatusWithIcon>
   ) : (
-    <StatusWithIcon icon={'ErrorOutlineIcon'} isModal additionalTextStyles={'iu-color-error'}>
+    <StatusWithIcon icon={'ErrorOutlineIcon'} isModal>
       <TextWithInfoModal text="Utkastet är låst" modalTitle="Utkastet är låst" className="iu-color-error">
         <p>Det har gått fler än fjorton dagar sedan det här utkastet skapades. Det har därför låsts.</p>
         <p>
