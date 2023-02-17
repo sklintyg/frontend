@@ -42,8 +42,11 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       event.preventDefault()
     }
   }
-
-  const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
+  const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key.length === 1 && !/^-?\d*$/.test(event.key)) {
+      event.preventDefault()
+    }
+  }
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
@@ -52,14 +55,15 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       return
     }
 
-    const newValue = toIntegerValue(event.target.value)
+    let newValue = inputValue
 
     if (inputValue.length >= 2 && inputValue.startsWith('0')) {
-      setNumber(newValue?.toString())
+      newValue = parseInt(inputValue).toString()
+      setNumber(newValue)
     } else if (inputValue.length >= 3 && inputValue.startsWith('-0')) {
-      let number = inputValue
-      number = '-' + inputValue.slice(2)
-      setNumber(number?.toString())
+      let number = '-' + inputValue.slice(2)
+      setNumber(number)
+      newValue = parseInt(number).toString()
     } else {
       setNumber(inputValue)
     }
@@ -67,7 +71,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: newValue },
+        value: { ...questionValue, value: newValue.toString() },
       })
     )
   }
@@ -87,8 +91,9 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleNumberOnChange}
           hasValidationError={validationErrors.length > 0}
           data-testid="testNumber"
-          onKeyDown={onKeyDown}
           limit={limit}
+          onKeyDown={onKeyDown}
+          onKeyPress={onKeyPress}
         />
         <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
       </Wrapper>
