@@ -2,8 +2,6 @@ import {
   CertificateDataElement,
   ConfigUeDate,
   DatePickerCustom,
-  getMaxDate,
-  getMinDate,
   QuestionValidationTexts,
   ValidationWrapper,
   ValueDate,
@@ -43,8 +41,8 @@ const UeDate: React.FC<Props> = ({ question, disabled }) => {
         textInputOnChange={handleChange}
         setDate={handleChange}
         inputString={dateString}
-        max={getMaxDate(question.validation, questionConfig.id)}
-        min={getMinDate(question.validation, questionConfig.id)}
+        max={questionConfig.maxDate}
+        min={questionConfig.minDate}
         displayValidationErrorOutline={validationErrors.length > 0}
       />
       <ValidationWrapper>
