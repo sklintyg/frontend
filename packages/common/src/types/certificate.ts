@@ -346,6 +346,8 @@ export interface ConfigUeMedicalInvestigation {
   informationSourceId: string
   dateId: string
   typeOptions: ConfigUeCodeItem[]
+  maxDate?: string
+  minDate?: string
 }
 
 export interface ConfigUeMedicalInvestigationList extends CertificateDataConfig {
@@ -362,6 +364,8 @@ export interface ConfigUeCauseOfDeathControl {
   descriptionId: string
   debutId: string
   specifications: ConfigUeCodeItem[]
+  maxDate?: string
+  minDate?: string
 }
 
 export interface ConfigUeCauseOfDeath extends CertificateDataConfig {

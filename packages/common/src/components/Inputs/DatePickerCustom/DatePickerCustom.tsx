@@ -92,7 +92,7 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline: boolean
   additionalStyles?: string
-  forbidFutureDates?: boolean
+  // forbidFutureDates?: boolean
   max?: string
   min?: string
   vertical?: boolean
@@ -114,7 +114,7 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
-  forbidFutureDates,
+  // forbidFutureDates,
   max,
   min,
   vertical,
@@ -134,14 +134,6 @@ const DatePickerCustom: React.FC<Props> = ({
     }
 
     return new Date()
-  }
-
-  const getMaxDate = () => {
-    if (forbidFutureDates) {
-      return new Date()
-    } else if (max) {
-      return new Date(getFullDate(max) as string)
-    } else return _maxAllowedDate
   }
 
   const getFullDate = useCallback(
@@ -242,7 +234,7 @@ const DatePickerCustom: React.FC<Props> = ({
                 },
               },
             ]}
-            maxDate={getMaxDate()}
+            maxDate={max ? new Date(getFullDate(max) as string) : _maxAllowedDate}
             minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
           />
         </FocusWrapper>
