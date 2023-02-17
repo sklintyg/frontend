@@ -27,7 +27,11 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     }
   }
 
-  return <StatusWithIcon icon={'ErrorOutlineIcon'}>{getText()}</StatusWithIcon>
+  return (
+    <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+      {getText()}
+    </StatusWithIcon>
+  )
 }
 
 export default ReplacedStatus
