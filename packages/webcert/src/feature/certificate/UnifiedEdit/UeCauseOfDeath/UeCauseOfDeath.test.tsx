@@ -1,5 +1,5 @@
 import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
 import { ComponentProps } from 'react'
@@ -110,5 +110,26 @@ describe('Cause of death component', () => {
     userEvent.type(input, '20200101')
     userEvent.tab()
     setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument(), 100)
+  })
+
+  it('Should disable options past max date', async () => {
+    renderComponent({
+      disabled: false,
+      question: fakeCauseOfDeathElement({
+        id: 'id',
+        config: {
+          causeOfDeath: {
+            maxDate: '2023-02-17',
+          },
+        },
+        value: { debut: { date: '2023-02-17' } },
+      })['id'],
+    })
+
+    await act(async () => {
+      userEvent.click(screen.getByLabelText('Öppna kalendern'))
+    })
+
+    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
 })
