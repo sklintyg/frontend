@@ -28,7 +28,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "vitest related"
+    "*.{js,jsx,ts,tsx}": "vitest related --run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",

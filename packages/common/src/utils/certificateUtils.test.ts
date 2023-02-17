@@ -1,7 +1,8 @@
-import { getCertificate, getQuestions } from './test/certificateTestUtil'
+import { describe, expect, it } from 'vitest'
 import { ValueBoolean, ValueText } from '../types/certificate'
-import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
 import { QuestionType } from '../types/question'
+import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'
+import { getCertificate, getQuestions } from './test/certificateTestUtil'
 
 describe('Clean certificate before saving', () => {
   const certificate = getCertificate()

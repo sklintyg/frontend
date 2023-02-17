@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { formatAcuity } from './formatAcuity'
 
 describe('formatAcuity', () => {

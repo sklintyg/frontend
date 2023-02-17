@@ -1,5 +1,14 @@
 import { addDays } from 'date-fns'
+import { describe, expect, it } from 'vitest'
 
+import {
+  CertificateDataValidationType,
+  CertificateDataValueType,
+  ConfigUeCheckboxDateRange,
+  MaxDateValidation,
+  MinDateValidation,
+  ValueDateRange,
+} from '../types/certificate'
 import {
   filterDateRangeValueList,
   formatDate,
@@ -17,14 +26,6 @@ import {
   isFutureDate,
   SickLeavePeriods,
 } from './dateUtils'
-import {
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeCheckboxDateRange,
-  MaxDateValidation,
-  MinDateValidation,
-  ValueDateRange,
-} from '../types/certificate'
 
 const EN_FJARDEDEL_ID = 'EN_FJARDEDEL'
 const EN_FJARDEDEL_LABEL = '25 procent'

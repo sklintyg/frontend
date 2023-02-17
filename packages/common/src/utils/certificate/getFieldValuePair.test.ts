@@ -1,7 +1,8 @@
-import { startOfToday, format } from 'date-fns'
-import { getFieldValuePair } from './getFieldValuePair'
+import { format, startOfToday } from 'date-fns'
+import { expect, it } from 'vitest'
 import { CertificateDataValueType } from '../../types/certificate'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
+import { getFieldValuePair } from './getFieldValuePair'
 
 it('Should convert list of MEDICAL_INVESTIGATION to key-value pair', () => {
   const date = startOfToday()

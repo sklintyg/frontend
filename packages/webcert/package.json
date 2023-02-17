@@ -14,7 +14,7 @@
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "vitest related"
+    "*.{js,jsx,ts,tsx}": "vitest related --run"
   },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.15.4",

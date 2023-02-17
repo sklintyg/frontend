@@ -1,18 +1,19 @@
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
-import { CertificateDataValidationType, CertificateDataValueType } from '../types/certificate'
 import { compileExpression } from 'filtrex'
+import { describe, expect, it, vi } from 'vitest'
+import { CertificateDataValidationType, CertificateDataValueType } from '../types/certificate'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 import {
+  convertExpression,
   differenceInDays,
   getKeyValuePair,
   maxDateToExpression,
   parseDateValue,
   validateExpression,
-  convertExpression,
 } from './validateExpression'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 const SYSTEM_DATE = new Date('2020-06-18')
-jest.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
+vi.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
 
 describe('getKeyValuePair', () => {
   it('Should convert BOOLEAN to key-value pair', () => {

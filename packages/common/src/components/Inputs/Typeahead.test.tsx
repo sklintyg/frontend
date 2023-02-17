@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ComponentProps } from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Typeahead, { Suggestion } from './Typeahead'
 
 const suggestions: Suggestion[] = [
@@ -11,12 +12,12 @@ const suggestions: Suggestion[] = [
 ]
 
 const renderComponent = ({ ...args }: Partial<ComponentProps<typeof Typeahead>>) => {
-  return render(<Typeahead onSuggestionSelected={jest.fn()} suggestions={[]} onClose={jest.fn()} {...args} />)
+  return render(<Typeahead onSuggestionSelected={vi.fn()} suggestions={[]} onClose={vi.fn()} {...args} />)
 }
 
 describe('Typeahead component', () => {
   beforeEach(() => {
-    HTMLElement.prototype.scrollIntoView = jest.fn()
+    HTMLElement.prototype.scrollIntoView = vi.fn()
   })
 
   it('Should render without crashing', () => {
@@ -43,7 +44,7 @@ describe('Typeahead component', () => {
   })
 
   it("Should close list if input doesn't have focus", () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     renderComponent({ onClose })
     render(<button></button>)
     expect(onClose).toHaveBeenCalledTimes(0)
@@ -59,7 +60,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should allow user to choose option using click', () => {
-    const onSuggestionSelected = jest.fn()
+    const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
     userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
@@ -69,7 +70,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should allow user to choose option using enter key', () => {
-    const onSuggestionSelected = jest.fn()
+    const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
     userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
@@ -79,7 +80,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should allow user to choose option using tab', () => {
-    const onSuggestionSelected = jest.fn()
+    const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
     userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
@@ -89,7 +90,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should allow user to navigate list through hover or arrow keys', () => {
-    const onSuggestionSelected = jest.fn()
+    const onSuggestionSelected = vi.fn()
     renderComponent({ moreResults: false, suggestions, onSuggestionSelected })
     userEvent.click(screen.getByRole('textbox'))
     expect(onSuggestionSelected).toHaveBeenCalledTimes(0)
@@ -104,7 +105,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should closes list on escape key', () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     renderComponent({ moreResults: false, suggestions, onClose })
     userEvent.click(screen.getByRole('textbox'))
     expect(onClose).toHaveBeenCalledTimes(0)
@@ -116,7 +117,7 @@ describe('Typeahead component', () => {
   })
 
   it('Should calls on change when user types in textbox', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     renderComponent({ moreResults: false, suggestions, onChange })
     expect(onChange).toHaveBeenCalledTimes(0)
     userEvent.type(screen.getByRole('textbox'), 'test')
