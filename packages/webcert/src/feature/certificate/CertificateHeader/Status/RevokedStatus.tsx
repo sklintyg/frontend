@@ -56,7 +56,7 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
         </StatusWithIcon>
       ) : (
         <StatusWithIcon icon={'ErrorOutlineIcon'} isModal={true}>
-          <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat">
+          <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat" className="iu-color-error">
             <p>
               Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <WCDynamicLink linkKey="minaintyg" />.
             </p>
