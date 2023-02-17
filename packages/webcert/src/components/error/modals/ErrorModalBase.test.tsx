@@ -5,6 +5,7 @@ import { createMemoryHistory } from 'history'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { clearError } from '../../../store/error/errorActions'
 import { errorMiddleware } from '../../../store/error/errorMiddleware'
@@ -19,7 +20,7 @@ const history = createMemoryHistory()
 const location: Location = window.location
 window.location = {
   ...location,
-  reload: jest.fn(),
+  reload: vi.fn(),
 }
 
 const CONFIRM_BUTTON_TEXT = 'CONFIRM_BUTTON_TEXT'
@@ -27,7 +28,7 @@ const CLOSE_BUTTON_TEXT = 'CLOSE_BUTTON_TEXT'
 
 const renderComponent = (
   errorData: ErrorData,
-  onConfirm = jest.fn(),
+  onConfirm = vi.fn(),
   confirmButtonText = CONFIRM_BUTTON_TEXT,
   closeButtonText = CLOSE_BUTTON_TEXT,
   children?: React.ReactFragment
@@ -76,7 +77,7 @@ describe('ErrorModalBase', () => {
   })
 
   it('shall call onConfirm function when clicking confirm button', () => {
-    const onConfirm = jest.fn()
+    const onConfirm = vi.fn()
     const expectedId = 'test'
     renderComponent(createError(expectedId), onConfirm, CONFIRM_BUTTON_TEXT)
 

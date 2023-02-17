@@ -2,6 +2,7 @@ import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import UeCheckboxGroup from './UeCheckboxGroup'
 
 const CHECKBOXES = [
@@ -37,10 +38,10 @@ const renderDefaultComponent = () => {
 }
 
 beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
-  useSelectorSpy.mockReturnValue(jest.fn())
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
+  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(vi.fn())
+  useSelectorSpy.mockReturnValue(vi.fn())
 })
 
 describe('Checkbox group component', () => {

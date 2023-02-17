@@ -1,11 +1,10 @@
-import React from 'react'
+import { CertificateMetadata } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
 import UvCareUnitAddress from './UvCareUnitAddress'
-import { CertificateMetadata } from '@frontend/common'
 
 it('displays all care unit info', (): void => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
 
   const mockData = {
     issuedBy: {

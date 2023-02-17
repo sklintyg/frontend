@@ -256,7 +256,7 @@ describe('CheckboxDateGroup component', () => {
 
   describe('dispatching updated values', () => {
     it('should update question values as expected', () => {
-      jest.useFakeTimers('modern').setSystemTime(new Date('2022-09-15'))
+      vi.useFakeTimers('modern').setSystemTime(new Date('2022-09-15'))
 
       renderComponent(false)
 

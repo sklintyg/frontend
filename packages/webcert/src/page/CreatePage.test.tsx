@@ -4,6 +4,7 @@ import { render } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { resetCertificateState } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
@@ -12,7 +13,7 @@ import { CreatePageWithRedirect } from './CreatePage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-history.replace = jest.fn()
+history.replace = vi.fn()
 
 const renderComponent = () => {
   render(

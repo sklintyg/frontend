@@ -1,19 +1,18 @@
-import { render, screen } from '@testing-library/react'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
-import React from 'react'
 import { CertificateType, fakePatient, fakeResourceLink, ResourceLink, ResourceLinkType, User } from '@frontend/common'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import CertificateList from './CertificateList'
-import { userMiddleware } from '../../store/user/userMiddleware'
-import { updateUser, updateUserPreference } from '../../store/user/userActions'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
+import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
 import { updateCreatedCertificateId } from '../../store/certificate/certificateActions'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setPatient, updateCertificateTypes } from '../../store/patient/patientActions'
 import { patientMiddleware } from '../../store/patient/patientMiddleware'
-import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserPreference } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import CertificateList from './CertificateList'
 
 const createType = ({
   description = '',
@@ -45,7 +44,7 @@ let testStore: EnhancedStore
 let types: CertificateType[]
 let container: HTMLElement
 const testHistory = createBrowserHistory()
-testHistory.push = jest.fn()
+testHistory.push = vi.fn()
 
 const renderComponent = (): HTMLElement => {
   const { container } = render(

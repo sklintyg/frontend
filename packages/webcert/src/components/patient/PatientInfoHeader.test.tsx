@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import React from 'react'
+import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import { describe, expect, it } from 'vitest'
+import store from '../../store/store'
 import PatientInfoHeader from './PatientInfoHeader'
 import { createPatient } from './patientTestUtils'
-import { Provider } from 'react-redux'
-import store from '../../store/store'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
 
 const EXPECTED_PATIENT = createPatient('patientId')
 

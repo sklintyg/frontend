@@ -1,10 +1,11 @@
 import { ListFilterPageSizeConfig, ListFilterType, ListFilterValueNumber } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { describe, expect, it, vi } from 'vitest'
 import store from '../../../store/store'
 import ListPageSizeFilter from '../ListPageSizeFilter'
 
-const onFilterChange = jest.fn()
+const onFilterChange = vi.fn()
 const TITLE = 'title for filter pagesize'
 const pageSizes = [10, 20, 50, 100]
 

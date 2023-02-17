@@ -1,4 +1,5 @@
 import { fakeCategoryElement, fakeCheckboxBooleanElement } from '@frontend/common'
+import { describe, expect, it } from 'vitest'
 import { structureCertificate } from './structureCertificate'
 
 describe('structureCertificate', () => {

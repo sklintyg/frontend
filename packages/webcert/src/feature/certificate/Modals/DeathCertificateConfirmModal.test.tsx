@@ -1,18 +1,17 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { DeathCertificateConfirmModal } from './DeathCertificateConfirmModal'
-import { createMemoryHistory } from 'history'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
+import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { createPatient } from '../../../components/patient/patientTestUtils'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import userEvent from '@testing-library/user-event'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { errorMiddleware } from '../../../store/error/errorMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { DeathCertificateConfirmModal } from './DeathCertificateConfirmModal'
 
-const mockDispatchFn = jest.fn()
+const mockDispatchFn = vi.fn()
 let testStore: EnhancedStore
 const history = createMemoryHistory()
 const PERSON_ID = '191212121212'
@@ -84,7 +83,7 @@ describe('Confirm button', () => {
   })
 
   it('should dispatch create new certificate on proceed', () => {
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)
@@ -105,7 +104,7 @@ describe('Cancel button', () => {
   })
 
   it('Cancelling shall not create certificate', () => {
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
 
     renderComponent(true)

@@ -19,7 +19,7 @@ const renderComponent = (list: CertificateListItem[], filter: ListFilter, totalC
 
 describe('List', () => {
   beforeEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     store.dispatch(updateIsLoadingList(false))
   })
 

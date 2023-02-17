@@ -1,11 +1,11 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
 import { CertificateMetadata, CertificateRelationType, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
-import HeaderButtons from './HeaderButtons'
-import { Provider } from 'react-redux'
-import store from '../../../store/store'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { Provider } from 'react-redux'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
+import store from '../../../store/store'
+import HeaderButtons from './HeaderButtons'
 
 describe('Verify header buttons', () => {
   const resourceLinks: ResourceLink[] = []
@@ -14,8 +14,8 @@ describe('Verify header buttons', () => {
 
   beforeEach(() => {
     resourceLinks.length = 0
-    jest.restoreAllMocks()
-    jest.resetAllMocks()
+    vi.restoreAllMocks()
+    vi.resetAllMocks()
   })
 
   const renderComponent = () =>
@@ -55,7 +55,7 @@ describe('Verify header buttons', () => {
 
   it('shall include print certificate button when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
+    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
     expect(await screen.findByRole('button', { name: expectedButton })).toBeInTheDocument()
@@ -63,7 +63,7 @@ describe('Verify header buttons', () => {
 
   it('shall include print certificate button with modal when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
+    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
     resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
     renderComponent()
     await screen.findByRole('button', { name: expectedButton })

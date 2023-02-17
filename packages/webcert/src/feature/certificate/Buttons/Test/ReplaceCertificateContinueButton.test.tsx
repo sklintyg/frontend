@@ -29,7 +29,7 @@ const renderDefaultComponent = (enabled: boolean) => {
 
 describe('Replace certificate continue button', () => {
   beforeEach(() => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue(getMetadata())
   })
 
@@ -66,7 +66,7 @@ describe('Replace certificate continue button', () => {
   })
 
   it("shall navigate to draft when dialog button 'continue' is clicked", () => {
-    const pushSpy = jest.spyOn(history, 'push')
+    const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
     userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     userEvent.click(screen.getByText('Fortsätt på utkast'))
@@ -74,7 +74,7 @@ describe('Replace certificate continue button', () => {
   })
 
   it("shall not navigate to draft when dialog button 'cancelled' is clicked", () => {
-    const pushSpy = jest.spyOn(history, 'push')
+    const pushSpy = vi.spyOn(history, 'push')
     renderDefaultComponent(true)
     userEvent.click(screen.queryByRole('button') as HTMLButtonElement)
     userEvent.click(screen.getByText('Avbryt'))

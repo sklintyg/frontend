@@ -36,34 +36,34 @@ const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWAR
 describe('Forward certificate button', () => {
   beforeEach(() => {
     location = window.location
-    jest.spyOn(window, 'location', 'get').mockRestore()
+    vi.spyOn(window, 'location', 'get').mockRestore()
     testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
   afterEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
   })
 
   it('opens email with text about draft', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
+    openSpy.mockImplementation(vi.fn())
     renderDefaultComponent()
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('utkast'), '_blank')
   })
 
   it('opens email with text about question', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
+    openSpy.mockImplementation(vi.fn())
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
   })
 
   it('opens email with link based on current host', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
-    jest.spyOn(window, 'location', 'get').mockReturnValue({
+    const openSpy = vi.spyOn(window, 'open')
+    openSpy.mockImplementation(vi.fn())
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
       ...location,
       host: 'host',
     })

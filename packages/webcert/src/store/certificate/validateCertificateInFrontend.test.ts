@@ -7,6 +7,10 @@ import {
   fakeRadioBooleanElement,
   fakeTextAreaElement,
 } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {
   autoSaveCertificate,
   hideCertificateDataElement,
@@ -15,10 +19,7 @@ import {
   validateCertificate,
   validateCertificateInFrontEnd,
 } from './certificateActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { EnhancedStore } from '@reduxjs/toolkit'
 import { certificateMiddleware } from './certificateMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
 
 describe('Test certificate frontend validation', () => {
   let testStore: EnhancedStore

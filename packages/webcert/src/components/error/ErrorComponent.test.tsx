@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
@@ -31,7 +32,7 @@ const history = createMemoryHistory()
 const location: Location = window.location
 window.location = {
   ...location,
-  reload: jest.fn(),
+  reload: vi.fn(),
 }
 
 const renderComponent = () => {

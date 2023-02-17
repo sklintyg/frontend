@@ -1,14 +1,14 @@
+import { getNavigateBackButtonLink, getUser } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import React from 'react'
-import NavigateBackButton from './NavigateBackButton'
-import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
-import { userMiddleware } from '../../../store/user/userMiddleware'
-import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
-import { getNavigateBackButtonLink, getUser } from '@frontend/common'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware from '../../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
+import { userMiddleware } from '../../../store/user/userMiddleware'
+import NavigateBackButton from './NavigateBackButton'
 
 let testStore: EnhancedStore
 
@@ -20,10 +20,10 @@ const renderComponent = () => {
   )
 }
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+vi.mock('react-router-dom', () => ({
+  ...vi.requireActual('react-router-dom'),
   useHistory: () => ({
-    push: jest.fn(),
+    push: vi.fn(),
     length: 1,
   }),
 }))

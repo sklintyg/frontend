@@ -17,8 +17,8 @@ const renderDefaultComponent = (showModal: boolean) => {
 // @ts-ignore
 let useDispatchSpy
 beforeEach(() => {
-  useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
+  useDispatchSpy = vi.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(vi.fn())
 })
 
 describe('Create certificate from candidate modal', () => {

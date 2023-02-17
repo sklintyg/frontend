@@ -1,21 +1,21 @@
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
+import { createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React, { createRef } from 'react'
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
+import { CertificateContext } from '../../feature/certificate/CertificateContext'
 import apiMiddleware from '../../store/api/apiMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import IcfDropdown from './IcfDropdown'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
-import userEvent from '@testing-library/user-event'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import IcfDropdown from './IcfDropdown'
 import { getIcfData } from './icfTestUtils'
-import { CertificateContext } from '../../feature/certificate/CertificateContext'
-import { configureApplicationStore } from '../../store/configureApplicationStore'
 
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
@@ -29,7 +29,7 @@ const COLLECTIONS_LABEL = 'collectionsLabel'
 
 const mockContext = { certificateContainerId: '', certificateContainerRef: createRef<HTMLDivElement>() }
 
-window.scrollTo = jest.fn()
+window.scrollTo = vi.fn()
 
 const renderComponent = (
   infoText = 'infoText test',
@@ -68,7 +68,7 @@ describe('IcfDropdown', () => {
   })
 
   afterAll(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('renders without crashing', () => {

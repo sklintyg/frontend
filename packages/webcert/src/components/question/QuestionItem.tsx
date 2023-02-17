@@ -17,7 +17,6 @@ import {
   TextArea,
   userImage,
 } from '@frontend/common'
-import CheckIcon from '@frontend/common/src/images/CheckIcon'
 import { format } from 'date-fns'
 import _ from 'lodash'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'

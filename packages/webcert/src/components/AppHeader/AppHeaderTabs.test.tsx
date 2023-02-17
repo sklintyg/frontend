@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { userMiddleware } from '../../store/user/userMiddleware'
 import AppHeaderTabs from './AppHeaderTabs'
@@ -24,7 +25,7 @@ const getTabs = (url: string, matchedUrl: string): UserTab[] => {
   ]
 }
 
-const onSwitchTab = jest.fn()
+const onSwitchTab = vi.fn()
 
 const renderComponent = (url: string, matchedUrl: string) => {
   render(

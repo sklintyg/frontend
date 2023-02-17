@@ -37,10 +37,10 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
 }
 
 beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
+  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
   useSelectorSpy.mockReturnValue(user)
-  useDispatchSpy.mockReturnValue(jest.fn())
+  useDispatchSpy.mockReturnValue(vi.fn())
 })
 
 describe('Renew certificate button', () => {

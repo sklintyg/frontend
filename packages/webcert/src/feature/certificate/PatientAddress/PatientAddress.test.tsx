@@ -1,13 +1,13 @@
+import { Certificate, getCertificate, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import PatientAddress from './PatientAddress'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
-import { Certificate, getCertificate, ResourceLinkType } from '@frontend/common'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import PatientAddress from './PatientAddress'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore

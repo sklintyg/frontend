@@ -301,7 +301,7 @@ describe('Test certificate middleware', () => {
 
     it('shall route to the new certificate', async () => {
       const certificateToComplement = getTestCertificate('id')
-      const pushSpy = jest.spyOn(history, 'push')
+      const pushSpy = vi.spyOn(history, 'push')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
       await flushPromises()
@@ -480,7 +480,7 @@ describe('Test certificate middleware', () => {
     })
 
     it('shall route user after successful deletion if parent certificate exists', async () => {
-      const pushSpy = jest.spyOn(history, 'push')
+      const pushSpy = vi.spyOn(history, 'push')
       const parentCertificate: CertificateRelation = {
         certificateId: 'parent',
         type: CertificateRelationType.RENEW,

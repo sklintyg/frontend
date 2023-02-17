@@ -7,7 +7,7 @@ import ReplaceCertificateButton from '../ReplaceCertificateButton'
 const NAME = 'Replace button name'
 const DESCRIPTION = 'Replace button description'
 
-const mockDispatchFn = jest.fn()
+const mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
@@ -20,10 +20,10 @@ const renderDefaultComponent = (enabled: boolean) => {
 
 describe('Replace continue button', () => {
   beforeEach(() => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue({})
 
-    const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+    const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
     useDispatchSpy.mockReturnValue(mockDispatchFn)
   })
 

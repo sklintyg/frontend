@@ -2,6 +2,7 @@ import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
 
 const NAME = 'Template button name'
@@ -27,8 +28,8 @@ const renderDefaultComponent = (enabled: boolean) => {
 }
 
 beforeEach(() => {
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
+  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(vi.fn())
 })
 
 describe('Create certificate from template button', () => {

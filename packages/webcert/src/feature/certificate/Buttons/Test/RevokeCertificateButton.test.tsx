@@ -81,7 +81,7 @@ describe('Revoke certificate with unhandled questions', () => {
 
 describe('Revoke continue button', () => {
   beforeEach(() => {
-    store.dispatch = jest.fn()
+    store.dispatch = vi.fn()
   })
 
   it('shall enable button when enabled is true', () => {

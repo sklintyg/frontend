@@ -1,13 +1,14 @@
-import MockAdapter from 'axios-mock-adapter'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import apiMiddleware from './apiMiddleware'
-import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { throwError } from '../error/errorActions'
-import { ErrorType } from '../error/errorReducer'
+import MockAdapter from 'axios-mock-adapter'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { FunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
+import { throwError } from '../error/errorActions'
+import { ErrorType } from '../error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
+import apiMiddleware from './apiMiddleware'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 

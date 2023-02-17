@@ -24,6 +24,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
+    "test:no-watch": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest --ci --reporters=default --reporters=vitest-junit",
     "typescript": "tsc --noEmit"
   },
@@ -31,9 +33,10 @@
     "*.{js,jsx,ts,tsx}": "vitest related --run"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "date-fns": "^2.16.1",
     "dompurify": "^2.3.6",
     "faker": "5.5.3",
@@ -50,6 +53,7 @@
     "@types/faker": "^5.5.9",
     "@types/lodash": "^4.14.191",
     "@types/node": "^14.14.31",
+    "@types/react": "17.0.39",
     "@types/react-datepicker": "^4.3.2",
     "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.26",

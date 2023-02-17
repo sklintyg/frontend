@@ -4,13 +4,14 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { Provider } from 'react-redux'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import DateRangeFilter from '../filter/DateRangeFilter'
 import { getDateRangeFilter } from './listTestUtils'
 
-const onChange = jest.fn()
+const onChange = vi.fn()
 
 const config = getDateRangeFilter()
 

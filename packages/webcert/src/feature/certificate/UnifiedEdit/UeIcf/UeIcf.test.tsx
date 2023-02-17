@@ -22,7 +22,7 @@ const PLACEHOLDER = 'placeholder'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-window.scrollTo = jest.fn()
+window.scrollTo = vi.fn()
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -76,7 +76,7 @@ const setDefaultIcfState = () => {
 
 describe('UeIcf', () => {
   beforeEach(() => {
-    jest.useFakeTimers('modern')
+    vi.useFakeTimers('modern')
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
@@ -101,7 +101,7 @@ describe('UeIcf', () => {
     screen.debug()
 
     userEvent.click(screen.getByLabelText(expectedIcfValueTitle))
-    jest.advanceTimersByTime(2000)
+    vi.advanceTimersByTime(2000)
 
     flushPromises()
     const updateCertificateDataElementAction = last(dispatchedActions.filter((action) => updateCertificateDataElement.match(action)))
@@ -116,7 +116,7 @@ describe('UeIcf', () => {
 
     const messageField = screen.getByRole('textbox')
     userEvent.type(messageField, expectedTextValue)
-    jest.advanceTimersByTime(2000)
+    vi.advanceTimersByTime(2000)
 
     flushPromises()
     const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
@@ -130,7 +130,7 @@ describe('UeIcf', () => {
     renderComponent({ question, disabled: false })
 
     testStore.dispatch(updateIcfCodes({ disability: undefined, activityLimitation: undefined }))
-    jest.advanceTimersByTime(10000)
+    vi.advanceTimersByTime(10000)
 
     flushPromises()
     const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))
@@ -151,7 +151,7 @@ describe('UeIcf', () => {
         activityLimitation: { commonCodes: newIcfGroup, uniqueCodes: [newIcfGroup] },
       })
     )
-    jest.advanceTimersByTime(10000)
+    vi.advanceTimersByTime(10000)
 
     flushPromises()
     const updateCertificateDataElementAction = dispatchedActions.find((action) => updateCertificateDataElement.match(action))

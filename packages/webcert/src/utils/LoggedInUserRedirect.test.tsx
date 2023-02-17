@@ -1,20 +1,20 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { LoggedInUserRedirect } from './LoggedInUserRedirect'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
-import { apiMiddleware } from '../store/api/apiMiddleware'
-import { userMiddleware } from '../store/user/userMiddleware'
-import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
 import { SigningMethod, Unit, User } from '@frontend/common'
-import { Router } from 'react-router-dom'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { createBrowserHistory } from 'history'
+import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { apiMiddleware } from '../store/api/apiMiddleware'
 import { configureApplicationStore } from '../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/dispatchHelperMiddleware'
+import { updateIsLoadingUser, updateUser } from '../store/user/userActions'
+import { userMiddleware } from '../store/user/userMiddleware'
+import { LoggedInUserRedirect } from './LoggedInUserRedirect'
 
 let testStore: EnhancedStore
 const testHistory = createBrowserHistory()
-testHistory.replace = jest.fn()
+testHistory.replace = vi.fn()
 
 const renderComponent = () => {
   render(

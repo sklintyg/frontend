@@ -192,13 +192,13 @@ describe('QuestionItem', () => {
     })
 
     xit('writes a message', () => {
-      jest.useFakeTimers('modern')
+      vi.useFakeTimers('modern')
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
-      jest.advanceTimersByTime(10000)
+      vi.advanceTimersByTime(10000)
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 

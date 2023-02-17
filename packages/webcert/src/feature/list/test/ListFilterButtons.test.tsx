@@ -5,8 +5,8 @@ import ListFilterButtons from '../ListFilterButtons'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
 const TOOLTIP_RESET = 'Återställ sökfilter.'
-const onSearch = jest.fn()
-const onReset = jest.fn()
+const onSearch = vi.fn()
+const onReset = vi.fn()
 
 const renderComponent = (isSearchEnabled: boolean) => {
   render(

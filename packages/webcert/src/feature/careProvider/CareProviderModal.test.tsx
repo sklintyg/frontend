@@ -28,7 +28,7 @@ import CareProviderModal from './CareProviderModal'
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-history.push = jest.fn()
+history.push = vi.fn()
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 

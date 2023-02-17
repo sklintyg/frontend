@@ -1,4 +1,5 @@
 import { Question } from '@frontend/common'
+import { describe, expect, it } from 'vitest'
 import { getNumberOfUnhandledQuestions, getQuestionsOrderedByLastUpdatedAndHandled, getShouldComplementedBeActive } from './questionUtils'
 
 describe('questionUtils', () => {

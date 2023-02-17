@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AUTHORIZATION_PROBLEM_MESSAGE, AUTHORIZATION_PROBLEM_TITLE } from '../components/error/errorPageContent/AuthorizationProblem'
 import { TIMEOUT_MESSAGE, TIMEOUT_TITLE } from '../components/error/errorPageContent/Timeout'
 import { configureApplicationStore } from '../store/configureApplicationStore'
@@ -12,7 +13,7 @@ import ErrorPage from './ErrorPage'
 
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-history.replace = jest.fn()
+history.replace = vi.fn()
 
 const renderComponent = () => {
   render(

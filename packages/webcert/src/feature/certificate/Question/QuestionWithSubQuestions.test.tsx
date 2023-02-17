@@ -9,7 +9,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store
 import { QuestionWithSubQuestions } from './QuestionWithSubQuestions'
 
 let testStore: EnhancedStore
-window.scrollTo = jest.fn()
+window.scrollTo = vi.fn()
 
 const renderComponent = () => {
   render(

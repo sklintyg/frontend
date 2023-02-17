@@ -1,9 +1,14 @@
-import MockAdapter from 'axios-mock-adapter'
+import { SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import MockAdapter from 'axios-mock-adapter'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import apiMiddleware from '../api/apiMiddleware'
-import { sessionMiddleware } from './sessionMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import { throwError } from '../error/errorActions'
+import { ErrorCode, ErrorType } from '../error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
 import {
   getSessionStatus,
   getSessionStatusError,
@@ -14,11 +19,7 @@ import {
   startPoll,
   stopPoll,
 } from './sessionActions'
-import { getUserSuccess, setUnitSuccess, triggerLogoutNowStarted, triggerLogoutStarted } from '../user/userActions'
-import { SigningMethod, Unit, User } from '@frontend/common'
-import { throwError } from '../error/errorActions'
-import { ErrorCode, ErrorType } from '../error/errorReducer'
-import { configureApplicationStore } from '../configureApplicationStore'
+import { sessionMiddleware } from './sessionMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

@@ -6,7 +6,7 @@ import UeTypeahead from './UeTypeahead'
 
 const question = fakeTypeaheadElement({ id: '1' })['1']
 
-const mockDispatchFn = jest.fn()
+const mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = () => {
   render(
@@ -25,8 +25,8 @@ const renderWithSuggestions = () => {
 }
 
 beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
+  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
   useSelectorSpy.mockReturnValue({})
   useDispatchSpy.mockReturnValue(mockDispatchFn)
 })

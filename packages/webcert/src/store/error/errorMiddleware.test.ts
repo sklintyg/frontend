@@ -1,12 +1,13 @@
-import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { errorMiddleware } from './errorMiddleware'
-import { setActiveCertificateId, throwError } from './errorActions'
-import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
-import { updateCertificate } from '../certificate/certificateActions'
 import { getCertificate } from '@frontend/common'
+import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { apiCallBegan } from '../api/apiActions'
+import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
+import { setActiveCertificateId, throwError } from './errorActions'
+import { errorMiddleware } from './errorMiddleware'
+import { ErrorCode, ErrorData, ErrorRequest, ErrorType } from './errorReducer'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
