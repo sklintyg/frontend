@@ -1,30 +1,26 @@
 import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValidation,
-  CertificateData,
-  MaxDateValidation,
+  AutoFillValidation,
   Certificate,
-  ValidationError,
+  CertificateData,
+  CertificateDataElement,
+  CertificateDataElementStyleEnum,
+  CertificateDataValidation,
+  CertificateDataValidationType,
   CertificateMetadata,
   CertificateStatus,
-  ResourceLinkType,
   ConfigUeCheckboxMultipleCodes,
+  MaxDateValidation,
+  ResourceLinkType,
+  ValidationError,
   ValueCodeList,
-  AutoFillValidation,
-  CertificateDataElementStyleEnum,
 } from '../types'
 import { maxDateToExpression, validateExpression } from './validateExpression'
 
-export const parseExpression = (
-  expression: string,
-  element: CertificateDataElement,
-  validationType: CertificateDataValidationType
-): boolean => {
+export const parseExpression = (expression: string, element: CertificateDataElement): boolean => {
   if (!element.visible || element.value == null) {
     return false
   }
-  return validateExpression(expression, element.value, validationType)
+  return validateExpression(expression, element.value)
 }
 
 export interface ValidationResult {
@@ -51,11 +47,11 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
 
   if (question) {
     if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-      return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
+      return parseExpression(maxDateToExpression(validation as MaxDateValidation), question)
     }
 
     if (validation.expression != null) {
-      return parseExpression(validation.expression, question, validation.type)
+      return parseExpression(validation.expression, question)
     }
   }
 

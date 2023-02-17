@@ -36,7 +36,7 @@ export const getBooleanElement = (): CertificateDataElement => {
       {
         type: CertificateDataValidationType.MANDATORY_VALIDATION,
         questionId: '1.1',
-        expression: '$harFunktionsnedsattning',
+        expression: 'exists($harFunktionsnedsattning)',
       },
       {
         type: CertificateDataValidationType.HIGHLIGHT_VALIDATION,
