@@ -1,10 +1,8 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
 import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
-import CertificateHeaderStatuses from './CertificateHeaderStatuses'
-import { Provider } from 'react-redux'
 import store from '@frontend/webcert/src/store/store'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
 
 const renderComponent = (certificateMetadata: CertificateMetadata, questions: Question[]) => {

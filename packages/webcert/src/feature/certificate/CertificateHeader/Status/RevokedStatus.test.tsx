@@ -1,5 +1,4 @@
 import { CertificateStatus } from '@frontend/common'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'

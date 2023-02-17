@@ -1,14 +1,12 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import AppHeaderTabs from './AppHeaderTabs'
-import { MemoryRouter, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import userEvent from '@testing-library/user-event'
 import { UserTab } from '@frontend/common'
-import { userMiddleware } from '../../store/user/userMiddleware'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { MemoryRouter, Route } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import AppHeaderTabs from './AppHeaderTabs'
 
 let testStore: EnhancedStore
 
