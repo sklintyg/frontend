@@ -1,11 +1,9 @@
-import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common/src'
+import { Certificate, getCertificate, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { CreateCertificateFromCandidateWithMessageSuccess, updateCertificate } from '../../../store/certificate/certificateActions'
@@ -57,7 +55,7 @@ describe('Create certificate from candidate modal', () => {
   })
 
   it('shall render without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('shall show modal if enabled', () => {

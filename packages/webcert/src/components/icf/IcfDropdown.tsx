@@ -1,19 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { CustomButton } from '@frontend/common'
+import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import IcfCategory from './IcfCategory'
+import { CustomButton, InfoCircle, useKeyPress } from '@frontend/common'
+import FocusTrap from 'focus-trap-react'
+import _ from 'lodash'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
-import { CategoryWrapper, Root, ScrollDiv } from './Styles'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
-import IcfFooter from './IcfFooter'
+import IcfCategory from './IcfCategory'
 import IcfChosenValues from './IcfChosenValues'
-import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
-import _ from 'lodash'
-import FocusTrap from 'focus-trap-react'
-import { useKeyPress } from '@frontend/common/src/utils/userFunctionUtils'
-import InfoCircle from '@frontend/common/src/images/InfoCircle'
+import IcfFooter from './IcfFooter'
+import { CategoryWrapper, Root, ScrollDiv } from './Styles'
 
 interface Props {
   modalLabel: string
@@ -42,6 +40,12 @@ const IcfDropdown: React.FC<Props> = ({
   const [displayDropdown, setDisplayDropdown] = useState(false)
   const functionDisabled = useSelector(isIcfFunctionDisabled)
   const escapePress = useKeyPress('Escape')
+  const clickedOutsideDropdown = useCallback(
+    (e: Event) => {
+      return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
+    },
+    [btnRef, rootRef]
+  )
 
   useEffect(() => {
     if (functionDisabled) {
@@ -60,17 +64,13 @@ const IcfDropdown: React.FC<Props> = ({
     return () => {
       document.removeEventListener('mousedown', handleClick)
     }
-  }, [])
+  }, [clickedOutsideDropdown])
 
   useEffect(() => {
     if (displayDropdown && escapePress) {
       setDisplayDropdown(false)
     }
   }, [escapePress, displayDropdown])
-
-  const clickedOutsideDropdown = (e: Event) => {
-    return !rootRef.current?.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)
-  }
 
   const getTooltip = () => {
     return icd10Codes.length === 0 ? 'Ange minst en diagnos för att få ICF-stöd.' : ''

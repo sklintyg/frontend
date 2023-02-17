@@ -1,11 +1,8 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { CertificateMetadata } from '@frontend/common'
 import CreateCertificateFromTemplateButton from '../CreateCertificateFromTemplateButton'
-import { CustomTooltip } from '@frontend/common/src'
 
 const NAME = 'Template button name'
 const DESCRIPTION = 'Template button description'
@@ -36,7 +33,7 @@ beforeEach(() => {
 
 describe('Create certificate from template button', () => {
   it('shall render without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('shall disable button', () => {

@@ -1,6 +1,5 @@
+import { CertificateType, Patient, PatientStatus } from '@frontend/common'
 import { createAction } from '@reduxjs/toolkit'
-import { CertificateType, Patient } from '@frontend/common'
-import { PatientStatus } from '@frontend/common/src/types/patient'
 import { ErrorRequest } from '../error/errorReducer'
 
 const PATIENT = '[Patient]'

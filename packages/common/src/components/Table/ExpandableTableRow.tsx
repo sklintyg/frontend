@@ -1,5 +1,5 @@
-import ArrowToggle from '@frontend/common/src/components/utils/ArrowToggle'
 import React, { Fragment, useState } from 'react'
+import ArrowToggle from '../utils/ArrowToggle'
 
 interface Props {
   rowContent: string[]

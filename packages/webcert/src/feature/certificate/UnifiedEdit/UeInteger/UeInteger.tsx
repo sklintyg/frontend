@@ -1,5 +1,11 @@
-import { CertificateDataElement, ConfigUeInteger, QuestionValidationTexts, TextInput, ValueInteger } from '@frontend/common'
-import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
+import {
+  CertificateDataElement,
+  ConfigUeInteger,
+  QuestionValidationTexts,
+  TextInput,
+  ValidationWrapper,
+  ValueInteger,
+} from '@frontend/common'
 import * as React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -80,7 +86,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           id={questionConfig.id}
           onChange={handleNumberOnChange}
           hasValidationError={validationErrors.length > 0}
-          testId="testNumber"
+          data-testid="testNumber"
           onKeyDown={onKeyDown}
           limit={limit}
         />

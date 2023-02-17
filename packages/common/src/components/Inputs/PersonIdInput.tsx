@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { TextInput } from '../index'
-import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
-import { formatPersonId, isPersonIdValid } from '../../utils/personIdValidatorUtils'
 import styled, { css } from 'styled-components'
+import { formatPersonId, isPersonIdValid } from '../../utils/personIdValidatorUtils'
+import InvalidPersonIdMessage from '../Validation/InvalidPersonIdMessage'
+import TextInput from './TextInput'
 
 interface Props {
   label?: string
@@ -56,14 +56,14 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           onChange={onChange}
           placeholder="ååååmmdd-nnnn"
           value={value}
-          additionalStyles={TextInputStyles}
+          css={TextInputStyles}
           limit={13}
           onBlur={() => {
             setDisplayError(true)
           }}
           onFocus={handleFocus}
           hasValidationError={displayError && hasValidationError()}
-          autoComplete={false}
+          autoComplete="off"
         />
         <InvalidPersonIdMessage display={displayError && hasValidationError()} />
       </Wrapper>

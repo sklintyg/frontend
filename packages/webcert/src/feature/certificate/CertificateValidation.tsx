@@ -1,12 +1,12 @@
+import { InfoBox } from '@frontend/common'
+import _ from 'lodash'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 import { Link } from 'react-scroll'
-import { InfoBox } from '@frontend/common'
-import { css } from 'styled-components/macro'
-import _ from 'lodash'
+import styled from 'styled-components'
+import { getShowValidationErrors, getValidationErrorSummary } from '../../store/certificate/certificateSelectors'
 
-const linkStyles = css`
+const ErrorLink = styled(Link)`
   cursor: pointer;
 
   &:first-letter {
@@ -29,8 +29,7 @@ const CertificateValidation: React.FC = () => {
         {Array.from(new Set(validationErrors)).map((validation, i) => {
           return (
             <p key={i} className={'iu-mt-none'}>
-              <Link
-                css={linkStyles}
+              <ErrorLink
                 className={'iu-color-error iu-fs-300'}
                 duration={250}
                 smooth
@@ -38,7 +37,7 @@ const CertificateValidation: React.FC = () => {
                 containerId="questions-container"
                 to={`${validation.id}`}>
                 {validation.text}
-              </Link>
+              </ErrorLink>
             </p>
           )
         })}

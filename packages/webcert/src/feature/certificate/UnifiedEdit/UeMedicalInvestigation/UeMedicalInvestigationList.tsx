@@ -27,6 +27,7 @@ const StyledAccordionHeader = styled(AccordionHeader)`
   padding: 0 !important;
   margin: 0 !important;
   padding-right: 1.625rem !important;
+
   &:after {
     right: 0 !important;
   }
@@ -34,7 +35,6 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 
 const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => {
   const dispatch = useAppDispatch()
-
   const questionValue = question.value as ValueMedicalInvestigationList
   const questionConfig = question.config as ConfigUeMedicalInvestigationList
   const fields = questionConfig.list
@@ -78,12 +78,13 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
           const itemValidationErrors = validationErrors.filter(({ field }) =>
             [config.investigationTypeId, config.dateId, config.informationSourceId].includes(field)
           )
+          const emptyField = validationErrors.some((v) => v.field === 'underlag')
           return (
             value && (
               <UeMedicalInvestigation
                 config={config}
                 disabled={disabled}
-                error={index === 0 && validationErrors.length > 0}
+                error={index === 0 && validationErrors.length === 1 && emptyField}
                 key={index}
                 onChange={handleChange(index)}
                 validation={question.validation}

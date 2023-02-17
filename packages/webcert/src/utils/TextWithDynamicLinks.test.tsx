@@ -2,7 +2,6 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { certificateMiddleware } from '../store/certificate/certificateMiddleware'
@@ -49,7 +48,7 @@ describe('TextWithDynamicLinks', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
   it('renders with description', () => {
     renderComponent()

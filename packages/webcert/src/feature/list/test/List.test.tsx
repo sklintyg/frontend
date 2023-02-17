@@ -1,4 +1,4 @@
-import { CertificateListItem, ListFilter, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListFilter, ListType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { updateIsLoadingList, updateIsLoadingListConfig, updateTotalCount } from '../../../store/list/listActions'

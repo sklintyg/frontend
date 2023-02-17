@@ -1,4 +1,4 @@
-import { Backdrop, ResourceLinkType } from '@frontend/common'
+import { ResourceLinkType, SpinnerBackdrop } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom'
@@ -30,8 +30,8 @@ export const ResourceAccess: React.FC = ({ children }) => {
   }, [isLoadingUser, user, linkType, userLinks, dispatch])
 
   return (
-    <Backdrop open={showSpinner} spinnerText="Laddar...">
+    <SpinnerBackdrop open={showSpinner} spinnerText="Laddar...">
       {children}
-    </Backdrop>
+    </SpinnerBackdrop>
   )
 }

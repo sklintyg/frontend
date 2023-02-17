@@ -1,4 +1,4 @@
-import { Backdrop } from '@frontend/common'
+import { SpinnerBackdrop } from '@frontend/common'
 import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import 'inera-core-css/src/themes/inera-master.scss'
@@ -55,7 +55,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <Backdrop open={isLoadingInitialState} spinnerText="Laddar...">
+    <SpinnerBackdrop open={isLoadingInitialState} spinnerText="Laddar...">
       <ConnectedRouter history={history}>
         <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
           <ErrorComponent />
@@ -65,7 +65,7 @@ function App(): JSX.Element {
           <Switch>
             <Route path="/" exact render={() => <StartPageWithRedirect />} />
             <Route path="/certificate/:certificateId" render={() => <CertificatePage />} />
-            <Route path="/welcome" render={() => <Welcome />} />
+            <Route path="/welcome(.html)?" render={() => <Welcome />} />
             <Route path="/error(.jsp)?" render={() => <ErrorPage />} />
             <Route path="/create/:patientId?" render={() => <CreatePageWithRedirect />} />
             <Route path="/search" render={() => <SearchPageWithRedirect />} />
@@ -75,7 +75,7 @@ function App(): JSX.Element {
           </Switch>
         </ErrorBoundary>
       </ConnectedRouter>
-    </Backdrop>
+    </SpinnerBackdrop>
   )
 }
 

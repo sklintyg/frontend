@@ -1,5 +1,11 @@
-import { CertificateDataElement, ConfigUeYear, DatePickerCustom, QuestionValidationTexts, ValueYear } from '@frontend/common'
-import { ValidationWrapper } from '@frontend/common/src/components/Inputs/DatePickerCustom/Styles'
+import {
+  CertificateDataElement,
+  ConfigUeYear,
+  DatePickerCustom,
+  QuestionValidationTexts,
+  ValidationWrapper,
+  ValueYear,
+} from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'

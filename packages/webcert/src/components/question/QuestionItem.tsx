@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import styled, { css } from 'styled-components'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Answer,
   ButtonWithConfirmModal,
@@ -14,12 +14,16 @@ import {
   ResourceLinkType,
   StatusWithIcon,
   TextArea,
+  userImage,
 } from '@frontend/common'
+import CheckIcon from '@frontend/common/src/images/CheckIcon'
 import { format } from 'date-fns'
-import fkImg from './fk.png'
-import userImage from '@frontend/common/src/images/user-image.svg'
-import arrowLeft from '../../images/arrow-left.svg'
+import _ from 'lodash'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+import arrowLeft from '../../images/arrow-left.svg'
 import {
   createAnswer,
   deleteAnswer,
@@ -29,12 +33,8 @@ import {
   sendAnswer,
   updateAnswerDraftSaved,
 } from '../../store/question/questionActions'
-import _ from 'lodash'
 import { isAnswerDraftSaved, isQuestionFunctionDisabled } from '../../store/question/questionSelectors'
-import { Link } from 'react-router-dom'
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CheckIcon from '@frontend/common/src/images/CheckIcon'
+import fkImg from './fk.png'
 
 // TODO: Replace color with var(--color-grey-400)
 const QuestionHeader = styled.div`
@@ -113,6 +113,11 @@ const CheckboxStyles = css`
   margin-left: auto;
 `
 
+const FlexEndDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
 export const COMPLEMENTARY_QUESTIONS_HAS_BEEN_ANSWERED_MESSAGE = 'Kompletteringsbegäran har besvarats med ett meddelande.'
 
 interface Props {
@@ -123,12 +128,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
   const dispatch = useDispatch()
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message
-  const [message, setMessage] = useState(question.answer?.message ?? '')
+  const incommingMessage = question.answer?.message ?? ''
+  const [message, setMessage] = useState(incommingMessage)
   const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
 
   useEffect(() => {
-    setMessage(question.answer?.message ?? '')
-  }, [question.answer?.message])
+    setMessage(incommingMessage)
+  }, [incommingMessage])
 
   const dispatchEditAnswer = useRef(
     _.debounce((question: Question, value: string) => {
@@ -290,6 +296,13 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
             </Reminder>
           </div>
         ))}
+      {question.forwarded && (
+        <FlexEndDiv>
+          <StatusWithIcon icon={'CheckIcon'} additionalTextStyles={'iu-fs-200'}>
+            Vidarebefordrad
+          </StatusWithIcon>
+        </FlexEndDiv>
+      )}
       <div className={question.message ? (isComplementsVisible() ? 'iu-mb-300' : 'iu-mb-800') : 'iu-mb-200'}>
         {isComplementQuestion() ? (
           <ExpandableText text={question.message} maxLength={230} additionalStyles={FormattedTextStyles} />
@@ -371,7 +384,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
               </Wrapper>
             </div>
           </QuestionHeader>
-          <p className={'iu-mb-800'}>{question.answer.message}</p>
+          <p className={'iu-mb-400'}>{question.answer.message}</p>
         </>
       )}
       {isAnsweredByCertificate(question) && getAnsweredByCertificate(question)}

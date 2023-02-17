@@ -1,12 +1,10 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
-import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
-import { Provider } from 'react-redux'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
-import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import { setSickLeavePeriodWarning } from '../../../../store/fmb/fmbActions'
+import { fmbMiddleware } from '../../../../store/fmb/fmbMiddleware'
+import { SickLeavePeriodWarning } from './SickLeavePeriodWarning'
 
 let testStore: EnhancedStore
 const WARNING = 'warning string'
@@ -25,7 +23,7 @@ const renderComponent = () => {
 
 describe('Sick leave period warning', () => {
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('does not display warning', () => {

@@ -1,15 +1,13 @@
-import React, { ComponentProps, useState } from 'react'
-import '@testing-library/jest-dom'
+import { fakeCertificateValue, formatDateToString, getValidDate, ValueDateRange } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { getValidDate, ValueDateRange, formatDateToString } from '@frontend/common'
-import DateRangePicker from './DateRangePicker'
 import { differenceInCalendarDays, isEqual } from 'date-fns'
-import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import React, { ComponentProps, useState } from 'react'
 import { Provider } from 'react-redux'
-import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
+import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import DateRangePicker from './DateRangePicker'
 
 let testStore: EnhancedStore
 
@@ -50,7 +48,7 @@ describe('Date range picker', () => {
   })
 
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('Fr.o.m has a valid value after checkbox is clicked', () => {

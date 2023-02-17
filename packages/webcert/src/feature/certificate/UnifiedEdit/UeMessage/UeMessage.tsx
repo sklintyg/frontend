@@ -1,6 +1,5 @@
+import { CertificateDataElement, ConfigUeMessage, InfoBox, MessageLevel, Text } from '@frontend/common'
 import * as React from 'react'
-import { CertificateDataElement, ConfigUeMessage, InfoBox } from '@frontend/common'
-import { MessageLevel } from '@frontend/common/src/types/certificate'
 
 interface Props {
   question: CertificateDataElement
@@ -20,10 +19,9 @@ const messageLevelToInfoBoxLevel = (level: MessageLevel): 'info' | 'error' | 'ob
 
 const UeMessage: React.FC<Props> = ({ question }) => {
   const questionConfig = question.config as ConfigUeMessage
-
   return (
     <InfoBox type={messageLevelToInfoBoxLevel(questionConfig.level)}>
-      <p>{questionConfig.message}</p>
+      <Text>{questionConfig.message}</Text>
     </InfoBox>
   )
 }

@@ -1,18 +1,35 @@
+import { Dropdown, ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common'
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import { ListFilterPageSizeConfig, ListFilterType, ListFilterValue, ListFilterValueNumber } from '@frontend/common/src/types/list'
-import { Dropdown } from '@frontend/common/src/components'
-import { updateActiveListFilterValue } from '../../store/list/listActions'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { updateActiveListFilterValue } from '../../store/list/listActions'
 
 interface Props {
   filter: ListFilterPageSizeConfig | undefined
   totalCount: number
   onFilterChange: (value: ListFilterValue, id: string) => void
   value: ListFilterValueNumber
+  tableHasCaption?: boolean
 }
 
-const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value }) => {
+interface WrapperProps {
+  hasCaption?: boolean
+}
+const PageSizeWrapper = styled.div<WrapperProps>`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  position: relative;
+  z-index: 1;
+  margin-top: ${(props) => (props.hasCaption ? '0' : '-3rem')};
+  margin-bottom: ${(props) => (props.hasCaption ? '-2.5rem' : '0.5rem')};
+`
+const PageSizeInnerWrapper = styled.div`
+  min-width: 18ch;
+`
+
+const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value, tableHasCaption }) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
   const SHOW_ALL = 'show-all'
   const dispatch = useDispatch()
@@ -48,20 +65,22 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
 
   const getFilterComponent = () => {
     return (
-      <div className="iu-pb-300">
-        <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
-          {pageSizes.map((number) =>
-            totalCount >= number ? (
-              <option id={`${filter.id}-${number}`} value={number} key={`${filter.id}-${number}`}>
-                {number}
-              </option>
-            ) : null
-          )}
-          <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
-            alla
-          </option>
-        </Dropdown>
-      </div>
+      <PageSizeWrapper className="iu-pr-300" hasCaption={tableHasCaption}>
+        <PageSizeInnerWrapper>
+          <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
+            {pageSizes.map((number) =>
+              totalCount >= number ? (
+                <option id={`${filter.id}-${number}`} value={number} key={`${filter.id}-${number}`}>
+                  {number}
+                </option>
+              ) : null
+            )}
+            <option id={SHOW_ALL} value={totalCount} key={SHOW_ALL}>
+              alla
+            </option>
+          </Dropdown>
+        </PageSizeInnerWrapper>
+      </PageSizeWrapper>
     )
   }
 

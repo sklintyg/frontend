@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import { Checkbox, IcfCode } from '@frontend/common'
-import styled from 'styled-components/macro'
+import React, { useState } from 'react'
 import { scroller } from 'react-scroll'
+import styled from 'styled-components'
 import { useCertificateContext } from '../../feature/certificate/CertificateContext'
 
 const TitleWrapper = styled.div`

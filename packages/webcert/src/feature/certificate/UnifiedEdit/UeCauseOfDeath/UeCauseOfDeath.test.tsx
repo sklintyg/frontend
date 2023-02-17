@@ -1,10 +1,8 @@
-import { fakeCauseOfDeathElement } from '@frontend/common'
-import { CertificateDataElement, CertificateDataValidationType } from '@frontend/common/src/types/certificate'
-import '@testing-library/jest-dom'
+import { CertificateDataElement, CertificateDataValidationType, fakeCauseOfDeathElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
@@ -36,7 +34,7 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeath>) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders, textinput, calendar button and drop down', () => {

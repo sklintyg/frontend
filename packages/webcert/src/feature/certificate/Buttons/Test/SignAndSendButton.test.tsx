@@ -1,16 +1,14 @@
-import { ResourceLinkType } from '@frontend/common/src/types/resourceLink'
-import '@testing-library/jest-dom'
+import { fakeCertificate, fakeTextAreaElement, ResourceLinkType } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { updateValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
-import SignAndSendButton from '../SignAndSendButton'
+import { updateCertificate, updateValidationErrors } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
-import { fakeCertificate, fakeTextAreaElement } from '@frontend/common'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
+import SignAndSendButton from '../SignAndSendButton'
 
 const commonProps = {
   body: 'Sign modal body',

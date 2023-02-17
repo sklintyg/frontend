@@ -1,11 +1,10 @@
-import { getCertificateWithQuestion } from '@frontend/common/src'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
-} from '@frontend/common/src/types/certificate'
-import '@testing-library/jest-dom'
+  getCertificateWithQuestion,
+} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
@@ -82,7 +81,7 @@ describe('CheckboxDateGroup component', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent(false)
+    expect(() => renderComponent(false)).not.toThrow()
   })
 
   it('renders all components', () => {

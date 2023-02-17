@@ -10,8 +10,8 @@ import {
   Patient,
   Unit,
   ValidationError,
+  ValidationResult,
 } from '@frontend/common'
-import { ValidationResult } from '@frontend/common/src/utils/validationUtils'
 import { createAction } from '@reduxjs/toolkit'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { ApiError } from '../api/apiActions'

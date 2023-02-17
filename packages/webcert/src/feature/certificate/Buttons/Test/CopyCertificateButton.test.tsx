@@ -1,10 +1,8 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import CopyCertificateButton from '../CopyCertificateButton'
 import * as redux from 'react-redux'
-import { CertificateMetadata, CustomTooltip } from '@frontend/common'
+import CopyCertificateButton from '../CopyCertificateButton'
 
 const NAME = 'Copy button name'
 const DESCRIPTION = 'Copy button description'
@@ -35,7 +33,7 @@ beforeEach(() => {
 
 describe('Copy certificate button', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('correctly disables button', () => {

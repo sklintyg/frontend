@@ -1,8 +1,6 @@
 import { fakeTypeaheadElement } from '@frontend/common'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeTypeahead from './UeTypeahead'
 
@@ -44,8 +42,9 @@ const checkListVisibility = (visible: boolean) => {
 
 describe('Typeahead component', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
+
   it('does not render suggestions when array is empty', () => {
     renderDefaultComponent()
     const list = screen.queryByRole('list')
@@ -57,6 +56,7 @@ describe('Typeahead component', () => {
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled()
   })
+
   it('shows results when users types text', () => {
     renderDefaultComponent()
     const testinput = 'Ö'

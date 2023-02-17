@@ -1,7 +1,5 @@
-import { ResourceLink, ResourceLinkType } from '@frontend/common/src'
-import '@testing-library/jest-dom'
+import { ResourceLink, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import * as redux from 'react-redux'
 import CreateCertificateFromCandidateModal from './CreateCertificateFromCandidateModal'
 
@@ -35,7 +33,7 @@ beforeEach(() => {
 
 describe('Create certificate from candidate modal', () => {
   it('shall render without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('shall show modal if enabled', () => {

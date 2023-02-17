@@ -1,19 +1,10 @@
-import { CertificateDataElement, fakeCertificate } from '@frontend/common'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import React, { ComponentProps } from 'react'
-import { Provider } from 'react-redux'
+import { CertificateDataElement, ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
 import { fakeMedicalInvestigationListElement } from '../../../utils/faker/fakeCertificateData'
 import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'
-import { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
-import { configureApplicationStore } from '@frontend/webcert/src/store/configureApplicationStore'
-import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
-import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
 
 const QUESTION_ID = 'questionId'
-
-let testStore: EnhancedStore
 
 const question: CertificateDataElement = fakeMedicalInvestigationListElement({
   id: QUESTION_ID,
@@ -27,30 +18,12 @@ const emptyValue = emptyQuestion.value as ValueMedicalInvestigationList
 const emptyConfig = emptyQuestion.config as ConfigUeMedicalInvestigationList
 
 const renderComponent = (props: ComponentProps<typeof UvMedicalInvestigationList>) => {
-  render(
-    <Provider store={testStore}>
-      <UvMedicalInvestigationList {...props} />
-    </Provider>
-  )
+  render(<UvMedicalInvestigationList {...props} />)
 }
 
 describe('UV Medical investigation list', () => {
-  beforeEach(() => {
-    testStore = configureApplicationStore([certificateMiddleware])
-
-    testStore.dispatch(
-      updateCertificate(
-        fakeCertificate({
-          data: {
-            [QUESTION_ID]: question,
-          },
-        })
-      )
-    )
-  })
-
   it('renders without crashing', () => {
-    renderComponent({ value: value, config: config })
+    expect(() => renderComponent({ value: value, config: config })).not.toThrow()
   })
 
   it('renders question text if value is not empty', () => {

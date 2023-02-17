@@ -1,6 +1,7 @@
 import React from 'react'
-import { Badge, ValueDiagnosisList } from '../../..'
+import { ValueDiagnosisList } from '../../../types'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../../Table'
+import { Badge } from '../Badge'
 
 export const UvDiagnosisList: React.FC<{
   value: ValueDiagnosisList

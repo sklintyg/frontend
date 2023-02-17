@@ -1,13 +1,11 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { CertificateStatus } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import store from '../../../../store/store'
 import { BrowserRouter } from 'react-router-dom'
+import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
-import { CertificateStatus } from '@frontend/common/src'
 
 const renderComponent = (isRevoked: boolean) => {
   render(

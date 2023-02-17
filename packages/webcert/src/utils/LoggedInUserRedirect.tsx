@@ -1,4 +1,4 @@
-import { Backdrop } from '@frontend/common'
+import { SpinnerBackdrop } from '@frontend/common'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -15,7 +15,7 @@ export const LoggedInUserRedirect: React.FC = ({ children }) => {
   const isCareAdministrator = useSelector(selectIsCareAdministrator)
 
   if (isLoadingUser) {
-    return <Backdrop open spinnerText="Laddar..." />
+    return <SpinnerBackdrop open spinnerText="Laddar..." />
   }
 
   if (isDoctor) {

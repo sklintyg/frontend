@@ -1,11 +1,8 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { CertificateMetadata, CustomTooltip, Unit, User } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import RenewCertificateButton from '../RenewCertificateButton'
 import * as redux from 'react-redux'
-import { CustomTooltip, Unit, User } from '@frontend/common/src'
-import { CertificateMetadata } from '@frontend/common'
+import RenewCertificateButton from '../RenewCertificateButton'
 
 const NAME = 'Renew button name'
 const DESCRIPTION = 'Renew button description'
@@ -48,7 +45,7 @@ beforeEach(() => {
 
 describe('Renew certificate button', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent(true)
+    expect(() => renderDefaultComponent(true)).not.toThrow()
   })
 
   it('correctly disables button', () => {

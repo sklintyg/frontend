@@ -1,5 +1,3 @@
-import React from 'react'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { PreviousSickLeavePeriod } from './PreviousSickLeavePeriod'
 
@@ -9,7 +7,7 @@ const renderComponent = (previousSickLeavePeriod: string) => {
 
 describe('Previous Sick leave period', () => {
   it('renders without crashing', () => {
-    renderComponent('Text')
+    expect(() => renderComponent('Text')).not.toThrow()
   })
 
   it('does not display previous sick leave period if empty', () => {

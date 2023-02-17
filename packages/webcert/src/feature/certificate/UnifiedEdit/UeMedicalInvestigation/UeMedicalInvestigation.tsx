@@ -1,13 +1,16 @@
-import { Dropdown, TextInput, DatePickerCustom, QuestionValidationTexts } from '@frontend/common'
 import {
-  ValueMedicalInvestigation,
+  CertificateDataValidation,
+  CertificateDataValidationType,
   ConfigUeCodeItem,
   ConfigUeMedicalInvestigation,
-  CertificateDataValidation,
-  ValidationError,
-  CertificateDataValidationType,
+  DatePickerCustom,
+  Dropdown,
+  QuestionValidationTexts,
+  TextInput,
   TextValidation,
-} from '@frontend/common/src/types/certificate'
+  ValidationError,
+  ValueMedicalInvestigation,
+} from '@frontend/common'
 import React from 'react'
 import { UeMedicalInvestigationGrid } from './UeMedicalInvestigationGrid'
 
@@ -56,11 +59,10 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
       informationSource: {
         ...value.informationSource,
         id: config.informationSourceId,
-        text,
+        text: text || null,
       },
     })
   }
-
   return (
     <>
       <UeMedicalInvestigationGrid>

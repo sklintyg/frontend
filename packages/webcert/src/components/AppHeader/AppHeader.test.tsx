@@ -1,13 +1,12 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { SystemBanner } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import AppHeader from './AppHeader'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import SystemBanner from '@frontend/common/src/components/utils/SystemBanner'
-import { userMiddleware } from '../../store/user/userMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import AppHeader from './AppHeader'
 
 let testStore: EnhancedStore
 

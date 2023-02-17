@@ -1,13 +1,12 @@
-import { fakeTextAreaElement, fakeCertificateDataValidation, CertificateDataValidationType } from '@frontend/common'
-import '@testing-library/jest-dom'
+import { CertificateDataValidationType, fakeCertificateDataValidation, fakeTextAreaElement } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
-import UeTextArea from './UeTextArea'
-import { EnhancedStore } from '@reduxjs/toolkit'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
+import UeTextArea from './UeTextArea'
 
 let testStore: EnhancedStore
 

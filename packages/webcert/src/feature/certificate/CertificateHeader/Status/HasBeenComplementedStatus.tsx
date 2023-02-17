@@ -1,5 +1,5 @@
+import { CertificateRelation, CertificateStatus, StatusWithIcon } from '@frontend/common'
 import React from 'react'
-import { CertificateRelation, CertificateStatus, StatusWithIcon } from '@frontend/common/src'
 import { Link } from 'react-router-dom'
 
 interface Props {

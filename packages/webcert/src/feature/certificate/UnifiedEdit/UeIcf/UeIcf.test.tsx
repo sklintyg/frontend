@@ -1,11 +1,10 @@
-import { CertificateDataElement, fakeIcf, fakeICFDataElement } from '@frontend/common'
-import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
+import { CertificateDataElement, fakeCertificateValue, fakeIcf, fakeICFDataElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { last } from 'lodash'
-import React, { ComponentProps, createRef } from 'react'
+import { ComponentProps, createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
@@ -86,7 +85,7 @@ describe('UeIcf', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent({ question: createQuestion(), disabled: false })
+    expect(() => renderComponent({ question: createQuestion(), disabled: false })).not.toThrow()
   })
 
   it('Should dispatch updateCertificateDataElement when clicking icf value', () => {

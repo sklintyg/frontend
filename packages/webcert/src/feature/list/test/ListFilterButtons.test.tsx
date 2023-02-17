@@ -1,4 +1,4 @@
-import { CustomTooltip } from '@frontend/common/src'
+import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ListFilterButtons from '../ListFilterButtons'

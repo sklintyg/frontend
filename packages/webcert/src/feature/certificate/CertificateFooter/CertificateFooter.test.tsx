@@ -1,13 +1,12 @@
+import { CertificateSignStatus, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
-import { updateCertificate, updateValidationErrors } from '../../../store/certificate/certificateActions'
-import { ResourceLinkType, fakeCertificate, fakeCertificateMetaData, fakeTextFieldElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import React from 'react'
-import { CertificateFooter } from './CertificateFooter'
+import { updateCertificate, updateCertificateSignStatus, updateValidationErrors } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { CertificateFooter } from './CertificateFooter'
 
 describe('CertificateFooter', () => {
   let testStore: EnhancedStore
@@ -43,6 +42,13 @@ describe('CertificateFooter', () => {
         const button = screen.queryByText('Sign certificate')
         expect(button).not.toBeInTheDocument()
       })
+
+      it('No sign button if certificate already signed', () => {
+        testStore.dispatch(updateValidationErrors([]))
+        testStore.dispatch(updateCertificateSignStatus(CertificateSignStatus.SIGNED))
+        const button = screen.queryByText('Sign certificate')
+        expect(button).not.toBeInTheDocument()
+      })
     })
 
     describe('Ready for signing when resource link exists and certificate is not set as ready to sign', () => {
@@ -61,6 +67,13 @@ describe('CertificateFooter', () => {
         testStore.dispatch(updateValidationErrors([]))
         const button = screen.queryByText('Ready For sign')
         expect(button).toBeEnabled()
+      })
+
+      it('shall not show readyForSign button when certificate is already signed', () => {
+        testStore.dispatch(updateValidationErrors([]))
+        testStore.dispatch(updateCertificateSignStatus(CertificateSignStatus.SIGNED))
+        const button = screen.queryByText('Ready For sign')
+        expect(button).not.toBeInTheDocument()
       })
 
       it('shall show readyForSign button when resourcelink exists and certificate isValidForSigning is false', () => {

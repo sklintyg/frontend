@@ -1,16 +1,15 @@
-import { fakeCauseOfDeathListElement } from '@frontend/common'
 import {
   CertificateDataElement,
   CertificateDataValidationType,
   CertificateDataValueType,
+  fakeCauseOfDeathListElement,
   ValueCode,
   ValueDate,
   ValueText,
-} from '@frontend/common/src/types/certificate'
-import '@testing-library/jest-dom'
+} from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
@@ -45,7 +44,7 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeathList>) => {
 
 describe('Cause of death component', () => {
   it('renders without crashing', () => {
-    renderComponent({ disabled: false, question })
+    expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
   it('renders all components', () => {

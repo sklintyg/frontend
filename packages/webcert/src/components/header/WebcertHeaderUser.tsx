@@ -1,18 +1,21 @@
-import React from 'react'
-import { ExpandableBox, ResourceLinkType, User } from '@frontend/common'
-import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
+import { ExpandableBox, lockClosedImage, ResourceLinkType, User, userImage } from '@frontend/common'
+import React, { useState } from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import ProtectedPersonDoctorModal from '../../feature/certificate/Modals/ProtectedPersonDoctorModal'
 import ProtectedUserApprovalModal from '../../feature/certificate/Modals/ProtectedUserApprovalModal'
-import userImage from '@frontend/common/src/images/user-image.svg'
-import lock from '@frontend/common/src/images/lock-closed.svg'
-import styled from 'styled-components'
+import { getUser, getUserResourceLinks } from '../../store/user/userSelectors'
 import { getConfig } from '../../store/utils/utilsSelectors'
 import AppHeaderUser from '../AppHeader/AppHeaderUser'
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+`
+const ExpandableBoxWrapper = styled.div<Props>`
+  display: flex;
+  align-items: center;
+  cursor: ${(props) => (props.changeLinkPointer ? 'pointer' : 'default')};
 `
 
 const UserWrapper = styled.div`
@@ -26,15 +29,22 @@ const StyledSpan = styled.span`
     font-style: italic;
   }
 `
+interface Props {
+  changeLinkPointer?: boolean
+}
 
-const WebcertHeaderUser: React.FC = () => {
+const WebcertHeaderUser: React.FC<Props> = () => {
   const user = useSelector(getUser, shallowEqual)
   const userLinks = useSelector(getUserResourceLinks)
   const { ppHost } = useSelector(getConfig)
   const protectedUserApprovalKey = 'wc.vardperson.sekretess.approved'
   const showProtectedUserApprovalModal = user?.preferences?.[protectedUserApprovalKey] !== 'true' && user?.protectedPerson
   const privatePractitionerPortal = userLinks?.find((link) => link.type === ResourceLinkType.PRIVATE_PRACTITIONER_PORTAL)
+  const [isExpanded, setIsExpanded] = useState(false)
 
+  const handleClick = () => {
+    setIsExpanded(!isExpanded)
+  }
   const goToPrivatePractitionerPortal = () => {
     window.open(`${ppHost}?from=${window.location.href}`, '_blank')
   }
@@ -42,18 +52,19 @@ const WebcertHeaderUser: React.FC = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <UserWrapper>
-          <span>{`${user.name} - ${user.role}`}</span>
-          {user.protectedPerson && (
-            <StyledSpan>
-              <ProtectedPersonDoctorModal />
-            </StyledSpan>
+        <ExpandableBoxWrapper onClick={handleClick} changeLinkPointer={!!privatePractitionerPortal} data-testId="expandableBox">
+          <UserWrapper>
+            <span>{`${user.name} - ${user.role}`}</span>
+            {user.protectedPerson && (
+              <StyledSpan>
+                <ProtectedPersonDoctorModal />
+              </StyledSpan>
+            )}
+          </UserWrapper>
+          {privatePractitionerPortal && (
+            <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} isExpanded={isExpanded} />
           )}
-        </UserWrapper>
-
-        {privatePractitionerPortal && (
-          <ExpandableBox linkText={privatePractitionerPortal.name} onClickLink={goToPrivatePractitionerPortal} />
-        )}
+        </ExpandableBoxWrapper>
       </Wrapper>
     )
   }
@@ -63,7 +74,7 @@ const WebcertHeaderUser: React.FC = () => {
   return (
     <>
       <ProtectedUserApprovalModal showModal={showProtectedUserApprovalModal as boolean} preferenceKey={protectedUserApprovalKey} />
-      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lock : userImage} />
+      <AppHeaderUser items={toString(user)} image={user?.protectedPerson ? lockClosedImage : userImage} />
     </>
   )
 }

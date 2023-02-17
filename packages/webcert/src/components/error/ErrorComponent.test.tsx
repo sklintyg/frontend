@@ -1,28 +1,27 @@
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import ErrorComponent, { ErrorRoute } from './ErrorComponent'
-import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
-import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
-import { INVALID_STATE_REPLACED_MESSAGE, INVALID_STATE_TITLE } from './modals/InvalidStateReplaced'
+import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import ErrorComponent, { ErrorRoute } from './ErrorComponent'
+import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { COMPLEMENTARY_CERTIFICATE_EXISTS_MESSAGE } from './modals/ComplementaryCertificateExists'
-import { PU_PROBLEM_MESSAGE, PU_PROBLEM_MESSAGE_2, PU_PROBLEM_TITLE } from './modals/PuProblem'
+import { CONCURRENT_MODIFICATION_ERROR_MESSAGE, CONCURRENT_MODIFICATION_ERROR_TITLE } from './modals/ConcurrentModification'
 import {
   EXTERNAL_SYSTEM_PROBLEM_MESSAGE,
   EXTERNAL_SYSTEM_PROBLEM_MESSAGE_2,
   EXTERNAL_SYSTEM_PROBLEM_TITLE,
 } from './modals/ExternalSystemProblem'
-import { MODULE_PROBLEM_MESSAGE, MODULE_PROBLEM_TITLE } from './modals/ModuleProblem'
-import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './modals/IndeterminateIdentity'
-import { CERTIFICATE_REVOKED_MESSAGE, CERTIFICATE_REVOKED_TITLE } from './modals/CertificateRevoked'
 import { GENERAL_ERROR_MESSAGE, GENERAL_ERROR_TITLE } from './modals/GeneralErrorReload'
-import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { INDETERMINATE_IDENTITY_MESSAGE, INDETERMINATE_IDENTITY_TITLE } from './modals/IndeterminateIdentity'
+import { INVALID_STATE_REPLACED_MESSAGE, INVALID_STATE_TITLE } from './modals/InvalidStateReplaced'
+import { MODULE_PROBLEM_MESSAGE, MODULE_PROBLEM_TITLE } from './modals/ModuleProblem'
+import { PU_PROBLEM_MESSAGE, PU_PROBLEM_MESSAGE_2, PU_PROBLEM_TITLE } from './modals/PuProblem'
 import { SIGN_CERTIFICATE_ERROR_TITLE } from './modals/SignCertificateError'
 
 let testStore: EnhancedStore
@@ -55,7 +54,7 @@ describe('ErrorComponent', () => {
   })
 
   it('renders without crashing', () => {
-    renderComponent()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   describe('ErrorType.MODAL, ', () => {

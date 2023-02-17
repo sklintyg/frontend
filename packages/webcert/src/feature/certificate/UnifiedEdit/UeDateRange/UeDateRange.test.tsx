@@ -1,8 +1,7 @@
 import { fakeDateRangeElement } from '@frontend/common'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React, { ComponentProps } from 'react'
+import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors } from '../../../../store/certificate/certificateActions'
 import store from '../../../../store/store'
@@ -22,7 +21,7 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeDateRange>) => {
 
 describe('Date range picker', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent({ disabled: false, question })
+    expect(() => renderDefaultComponent({ disabled: false, question })).not.toThrow()
   })
 
   describe('Validation error', () => {

@@ -1,8 +1,6 @@
-import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common/src/types/certificate'
-import '@testing-library/jest-dom'
+import { CertificateDataElement, CertificateDataValueType, ConfigTypes } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeCheckboxGroup from './UeCheckboxGroup'
 
@@ -47,7 +45,7 @@ beforeEach(() => {
 
 describe('Checkbox group component', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('disables correctly all checkboxes', () => {

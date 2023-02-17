@@ -1,5 +1,5 @@
+import { InfoBox, TextWithInfoModal } from '@frontend/common'
 import React from 'react'
-import { InfoBox, TextWithInfoModal } from '@frontend/common/src'
 import { useSelector } from 'react-redux'
 import { isDoctor } from '../../../store/user/userSelectors'
 

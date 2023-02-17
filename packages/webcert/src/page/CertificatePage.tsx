@@ -1,26 +1,26 @@
+import { ResourceLinkType } from '@frontend/common'
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
+import CommonLayout from '../components/commonLayout/CommonLayout'
+import WebcertHeader from '../components/header/WebcertHeader'
 import Certificate from '../feature/certificate/Certificate'
 import CertificateHeader from '../feature/certificate/CertificateHeader/CertificateHeader'
-import { getCertificate } from '../store/certificate/certificateActions'
 import CertificateSidePanel from '../feature/certificate/CertificateSidePanel/CertificateSidePanel'
-import styled from 'styled-components/macro'
+import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
-import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
+import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
+import { getCertificate } from '../store/certificate/certificateActions'
 import {
   getCertificateMetaData,
   getIsCertificateDeleted,
   getIsRoutedFromDeletedCertificate,
   getResourceLinks,
 } from '../store/certificate/certificateSelectors'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getUserStatistics } from '../store/user/userActions'
-import CommonLayout from '../components/commonLayout/CommonLayout'
-import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/Modals/DeathCertificateConfirmModalIntegrated'
-import { ResourceLinkType } from '@frontend/common'
 
 const OverflowScroll = styled.div`
   overflow-y: auto;

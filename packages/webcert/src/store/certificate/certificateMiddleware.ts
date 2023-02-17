@@ -1,5 +1,11 @@
-import { CertificateSignStatus, CertificateStatus, getCertificateToSave, getClientValidationErrors, SigningMethod } from '@frontend/common'
-import { decorateCertificateWithInitialValues } from '@frontend/common/src/utils/validationUtils'
+import {
+  CertificateSignStatus,
+  CertificateStatus,
+  decorateCertificateWithInitialValues,
+  getCertificateToSave,
+  getClientValidationErrors,
+  SigningMethod,
+} from '@frontend/common'
 import { AnyAction } from '@reduxjs/toolkit'
 import { push } from 'connected-react-router'
 import _ from 'lodash'

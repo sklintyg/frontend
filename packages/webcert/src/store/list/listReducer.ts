@@ -1,4 +1,4 @@
-import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common/src/types/list'
+import { CertificateListItem, ListConfig, ListFilter, ListType } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
 import { ErrorData } from '../error/errorReducer'
 import {
@@ -108,12 +108,11 @@ const listReducer = createReducer(getInitialState(), (builder) =>
       state.validationErrors[action.payload.id] = action.payload.value
     })
     .addCase(updateListItemAsForwarded, (state, action) => {
-      const index = state.activeList.findIndex((item) => item.values['CERTIFICATE_ID'] === action.payload)
-      if (index > -1) {
-        const updatedValue = state.activeList[index]
-        updatedValue.values['FORWARDED'] = true
-        state.activeList[index] = updatedValue
-      }
+      state.activeList.forEach((item) => {
+        if (item.values['CERTIFICATE_ID'] === action.payload) {
+          item.values['FORWARDED'] = true
+        }
+      })
     })
     .addCase(updateHasUpdatedConfig, (state, action) => {
       state.hasUpdatedConfig = action.payload

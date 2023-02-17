@@ -1,9 +1,6 @@
-import { CertificateDataElement, ConfigTypes } from '@frontend/common/src/types/certificate'
-import { fakeCertificateValue } from '@frontend/common/src/utils/faker/fakeCertificateValue'
-import '@testing-library/jest-dom'
+import { CertificateDataElement, ConfigTypes, fakeCertificateValue } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeRadioGroup from '../UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from './UeRadioGroupOptionalDropdown'
@@ -51,7 +48,7 @@ beforeEach(() => {
 
 describe('UeRadioGroupOptionalDropdown', () => {
   it('renders without crashing', () => {
-    renderDefaultComponent()
+    expect(() => renderDefaultComponent()).not.toThrow()
   })
 
   it('allows user to switch radio button', () => {

@@ -1,9 +1,6 @@
-import { fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
-import { CertificateDataElement } from '@frontend/common/src/types/certificate'
-import '@testing-library/jest-dom'
+import { CertificateDataElement, fakeCheckboxBooleanElement, fakeCheckboxCodeElement } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import * as redux from 'react-redux'
 import UeCheckbox from './UeCheckbox'
 
@@ -63,8 +60,8 @@ const testClickOnCheckbox = (label?: string) => {
 
 describe('Checkbox component', () => {
   it('renders without crashing', () => {
-    renderBooleanComponent()
-    renderCodeComponent()
+    expect(() => renderBooleanComponent()).not.toThrow()
+    expect(() => renderCodeComponent()).not.toThrow()
   })
 
   it('sets the label given in question object', () => {
