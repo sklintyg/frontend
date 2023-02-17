@@ -671,6 +671,26 @@ describe('Test certificate middleware', () => {
       expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
     })
 
+    it('shall throw AUTHORIZATION_PROBLEM error', async () => {
+      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
+    })
+
+    it('shall throw DATA_NOT_FOUND error with type Route', async () => {
+      const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
+
+      testStore.dispatch(getCertificateError(expectedError))
+
+      await flushPromises()
+      const throwErrorAction = dispatchedActions.find((action) => throwError.match(action))
+      expect(throwErrorAction?.payload.type).toEqual(ErrorType.ROUTE)
+    })
+
     it('shall throw GET_CERTIFICATE_PROBLEM error', async () => {
       const expectedError = getExpectedError(ErrorCode.GET_CERTIFICATE_PROBLEM.toString())
 
