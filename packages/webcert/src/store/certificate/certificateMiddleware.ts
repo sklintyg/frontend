@@ -154,10 +154,12 @@ const handleGetCertificateSuccess: Middleware<Dispatch> = ({ dispatch }) => () =
 
 const handleGetCertificateError: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
   let errorCode
-  if (
-    action.payload.error.errorCode === ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET.toString() ||
-    action.payload.error.errorCode === ErrorCode.DATA_NOT_FOUND.toString()
-  ) {
+  const errorCodesToMapToOriginal = [
+    ErrorCode.AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET,
+    ErrorCode.AUTHORIZATION_PROBLEM,
+    ErrorCode.DATA_NOT_FOUND,
+  ]
+  if (errorCodesToMapToOriginal.some((code) => code.toString() === action.payload.error.errorCode)) {
     errorCode = action.payload.error.errorCode
   } else {
     errorCode = ErrorCode.GET_CERTIFICATE_PROBLEM
