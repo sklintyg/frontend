@@ -92,7 +92,6 @@ interface Props {
   textInputDataTestId?: string
   displayValidationErrorOutline: boolean
   additionalStyles?: string
-  // forbidFutureDates?: boolean
   max?: string
   min?: string
   vertical?: boolean
@@ -114,7 +113,6 @@ const DatePickerCustom: React.FC<Props> = ({
   displayValidationErrorOutline,
   disabled,
   additionalStyles,
-  // forbidFutureDates,
   max,
   min,
   vertical,
