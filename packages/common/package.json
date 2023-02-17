@@ -23,8 +23,8 @@
     "dev": "vite build -w -m development",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
+    "test": "vitest",
+    "test:ci": "vitest --ci --reporters=default --reporters=vitest-junit",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -57,32 +57,29 @@
     "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.1",
     "@types/dompurify": "^2.3.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/enzyme": "^3.10.5",
     "@types/faker": "^5.5.9",
-    "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.191",
     "@types/node": "^14.14.31",
     "@types/react-datepicker": "^4.3.2",
     "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.26",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-react": "^3.1.0",
     "ctix": "^1.8.2",
     "enzyme-to-json": "^3.4.3",
-    "jest-junit": "^12.0.0",
-    "jest": "26.6.0",
     "lodash": "^4.17.21",
     "react-dom": "^17.0.2",
     "react": "^17.0.2",
     "styled-components": "^5.3.6",
-    "ts-jest": "^26.5.4",
     "type-fest": "^1.4.0",
+    "vite-plugin-dts": "^1.7.1",
     "vite": "^4.1.1",
-    "vite-plugin-dts": "^1.7.1"
+    "vitest": "^0.28.5"
   },
   "peerDependencies": {
     "react": "^17.0.2",

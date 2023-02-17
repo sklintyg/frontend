@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["@types/testing-library__jest-dom"]
   },
   "exclude": ["dist", "node_modules", "**/*test*.*", "**/*stories*"]
 }

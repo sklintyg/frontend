@@ -28,13 +28,17 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    deps: {
+      inline: [/common\/dist/],
+    },
+    setupFiles: ['src/setupTests.ts'],
   },
-  // optimizeDeps: {
-  //   include: ['@frontend/common'],
-  // },
-  // build: {
-  //   commonjsOptions: {
-  //     include: [/@frontend\/common/, /node_modules/],
-  //   },
-  // },
+  optimizeDeps: {
+    include: ['@frontend/common'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@frontend\/common/, /node_modules/],
+    },
+  },
 })
