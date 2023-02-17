@@ -120,6 +120,7 @@ const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
         value={pageSizeValue as ListFilterValueNumber}
         totalCount={totalCount ? totalCount : 0}
         onFilterChange={onUpdateList}
+        tableHasCaption={!!config.title}
       />
     </>
   )
