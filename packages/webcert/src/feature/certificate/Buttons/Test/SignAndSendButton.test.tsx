@@ -1,6 +1,5 @@
 import { fakeCertificate, fakeTextAreaElement, ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import '@testing-library/jest-dom'
 import { getByText, queryByText, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'

@@ -1,7 +1,5 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
 import * as utils from '@frontend/common/src/utils/certificateUtils'
+import { render, screen } from '@testing-library/react'
 import CategoryTitle from './CategoryTitle'
 
 it('displays the correct title', () => {

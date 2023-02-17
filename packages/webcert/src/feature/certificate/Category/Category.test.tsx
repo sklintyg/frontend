@@ -1,8 +1,6 @@
 import { getCategoryFunktionsnedsattning, getCertificateWithQuestion } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
 import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'

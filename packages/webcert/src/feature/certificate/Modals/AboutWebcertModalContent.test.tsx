@@ -1,13 +1,11 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
-import AboutWebcertModalContent from './AboutWebcertModalContent'
-import { updateConfig } from '../../../store/utils/utilsActions'
-import { Configuration } from '../../../store/utils/utilsReducer'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { updateConfig } from '../../../store/utils/utilsActions'
+import { utilsMiddleware } from '../../../store/utils/utilsMiddleware'
+import { Configuration } from '../../../store/utils/utilsReducer'
+import AboutWebcertModalContent from './AboutWebcertModalContent'
 
 let testStore: EnhancedStore
 

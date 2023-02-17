@@ -1,12 +1,10 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
 import { Certificate } from '@frontend/common'
-import MajorVersionNotification from './MajorVersionNotification'
-import { Provider } from 'react-redux'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import MajorVersionNotification from './MajorVersionNotification'
 
 let testStore: EnhancedStore
 

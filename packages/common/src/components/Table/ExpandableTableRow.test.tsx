@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import ExpandableTableRow from './ExpandableTableRow'
-import userEvent from '@testing-library/user-event'
 
 const renderComponent = () => {
   const rowContent = ['Click here', '4', '6']

@@ -1,12 +1,10 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { updateConfig } from '../../store/utils/utilsActions'
-import SystemBanners from './SystemBanners'
-import { Configuration } from '../../store/utils/utilsReducer'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { updateConfig } from '../../store/utils/utilsActions'
+import { Configuration } from '../../store/utils/utilsReducer'
+import SystemBanners from './SystemBanners'
 
 let testStore: EnhancedStore
 

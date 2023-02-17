@@ -1,13 +1,11 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { Provider } from 'react-redux'
+import { Certificate, CertificateStatus, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import { Certificate, CertificateStatus, User } from '@frontend/common'
+import { Provider } from 'react-redux'
 import { updateCertificate } from '../../store/certificate/certificateActions'
-import ResponsibleHospName from './ResponsibleHospName'
-import { updateUser } from '../../store/user/userActions'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import { updateUser } from '../../store/user/userActions'
+import ResponsibleHospName from './ResponsibleHospName'
 
 let testStore: EnhancedStore
 

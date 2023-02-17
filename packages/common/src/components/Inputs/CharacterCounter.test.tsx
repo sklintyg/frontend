@@ -1,6 +1,5 @@
-import React from 'react'
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import React from 'react'
 import CharacterCounter from './CharacterCounter'
 
 const TEXT = 'Tecken kvar:'
