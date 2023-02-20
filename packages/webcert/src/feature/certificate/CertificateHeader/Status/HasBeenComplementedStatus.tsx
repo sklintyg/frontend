@@ -35,7 +35,10 @@ const HasBeenComplementedStatus: React.FC<Props> = ({ relation }) => {
 
   return (
     <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
-      {getText()} <Link to={`/certificate/${relation.certificateId}`}>{getLink()}</Link>
+      {getText()}{' '}
+      <Link className={'iu-color-error'} to={`/certificate/${relation.certificateId}`}>
+        {getLink()}
+      </Link>
     </StatusWithIcon>
   )
 }
