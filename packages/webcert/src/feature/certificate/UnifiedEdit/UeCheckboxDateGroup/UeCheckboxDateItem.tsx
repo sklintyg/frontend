@@ -25,10 +25,11 @@ export const UeCheckboxDateItem: React.FC<{
   disabled: boolean
   validationErrors: ValidationError[]
   hasValidationError: boolean
-  maxDate: string
+  maxDate?: string
+  minDate?: string
   label: string
   id: string
-}> = ({ value, onChange, disabled, validationErrors, hasValidationError, maxDate, label, id }) => {
+}> = ({ value, onChange, disabled, validationErrors, hasValidationError, maxDate, minDate, label, id }) => {
   const handleDatepickerChange = (date: string) => onChange({ ...value, date })
 
   return (
@@ -51,6 +52,7 @@ export const UeCheckboxDateItem: React.FC<{
         inputString={value.date ? value.date : null}
         displayValidationErrorOutline={hasValidationError || validationErrors.length > 0}
         max={maxDate}
+        min={minDate}
       />
       <ValidationWrapper>
         <QuestionValidationTexts validationErrors={validationErrors} />

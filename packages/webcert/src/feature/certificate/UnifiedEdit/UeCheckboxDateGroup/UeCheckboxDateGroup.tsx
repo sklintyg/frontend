@@ -1,17 +1,16 @@
 import {
   CertificateDataElement,
+  CertificateDataValueType,
   ConfigUeCheckboxMultipleDate,
   QuestionValidationTexts,
   ValueDate,
   ValueDateList,
-  CertificateDataValueType,
-  getMaxDate,
 } from '@frontend/common'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { useAppDispatch } from '../../../../store/store'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
 import { UeCheckboxDateItem } from './UeCheckboxDateItem'
 
 export interface Props {
@@ -29,7 +28,7 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
   return (
     <>
       <div className="checkbox-child">
-        {checkboxes.map(({ id, label }, index) => (
+        {checkboxes.map(({ id, label, maxDate, minDate }, index) => (
           <UeCheckboxDateItem
             key={index}
             id={`${question.id}_${id}`}
@@ -49,7 +48,8 @@ const UeCheckboxDateGroup: React.FC<Props> = ({ question, disabled }) => {
               )
             }}
             disabled={disabled}
-            maxDate={getMaxDate(question.validation, id)}
+            maxDate={maxDate}
+            minDate={minDate}
             validationErrors={validationErrors.filter(({ field }) => field === id)}
             hasValidationError={otherValidationErrors.length > 0}
           />
