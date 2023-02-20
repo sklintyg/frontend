@@ -100,8 +100,6 @@ describe.skip('UeIcf', () => {
     renderComponent({ question, disabled: false })
     userEvent.click(screen.getByText('Ta hjälp av ICF'))
 
-    screen.debug()
-
     userEvent.click(screen.getByLabelText(expectedIcfValueTitle))
     vi.advanceTimersByTime(2000)
 

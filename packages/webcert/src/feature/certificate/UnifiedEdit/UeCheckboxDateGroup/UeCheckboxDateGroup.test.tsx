@@ -3,9 +3,12 @@ import {
   CertificateDataValidationType,
   CertificateDataValueType,
   ConfigTypes,
+  fakeCertificateConfig,
+  fakeCertificateValue,
+  fakeCheckboxMultipleDate,
   getCertificateWithQuestion,
 } from '@frontend/common'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import React from 'react'
@@ -97,6 +100,31 @@ describe('CheckboxDateGroup component', () => {
     DATE_CHECKBOXES.forEach((checkboxDate) => {
       expect(screen.getByText(checkboxDate.label)).toBeInTheDocument()
     })
+  })
+
+  it('Should disable options past max date', async () => {
+    store.dispatch(
+      updateCertificate(
+        getCertificateWithQuestion(
+          fakeCheckboxMultipleDate({
+            id: QUESTION_ID,
+            config: fakeCertificateConfig.checkboxMultipleDate({
+              list: [{ id: 'item', maxDate: '2023-02-17' }],
+            }),
+            value: fakeCertificateValue.dateList({
+              list: [{ id: 'item', date: '2023-02-17' }],
+            }),
+          })[QUESTION_ID]
+        )
+      )
+    )
+    renderComponent(false)
+
+    await act(async () => {
+      userEvent.click(screen.getByLabelText('Öppna kalendern'))
+    })
+
+    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
 
   describe('disables component correctly', () => {

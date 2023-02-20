@@ -1,6 +1,6 @@
 import { ConfigUeMedicalInvestigationList, fakeCertificate, fakeMedicalInvestigationListElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import { ComponentProps } from 'react'
@@ -239,5 +239,22 @@ describe('Medical investigation component', () => {
     userEvent.clear(inputs[1])
     userEvent.type(inputs[1], newValue)
     expect(inputs[1]).toHaveValue(newValue)
+  })
+
+  it('Should disable options past max date', async () => {
+    renderComponent({
+      disabled: false,
+      question: fakeMedicalInvestigationListElement({
+        id: 'id',
+        config: { list: [{ dateId: 'date', maxDate: '2023-02-17' }] },
+        value: { list: [{ id: 'date', date: '2023-02-17' }] },
+      })['id'],
+    })
+
+    await act(async () => {
+      userEvent.click(screen.getByLabelText('Öppna kalendern'))
+    })
+
+    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
 })

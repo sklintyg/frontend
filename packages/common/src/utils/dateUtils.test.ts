@@ -1,6 +1,7 @@
 import { addDays } from 'date-fns'
 import { describe, expect, it } from 'vitest'
 
+import { CertificateDataValueType, ConfigUeCheckboxDateRange, ValueDateRange } from '../types/certificate'
 import {
   CertificateDataValidationType,
   CertificateDataValueType,
@@ -13,8 +14,6 @@ import {
   filterDateRangeValueList,
   formatDate,
   getLatestPeriodEndDate,
-  getMaxDate,
-  getMinDate,
   getNumberOfSickLeavePeriodDays,
   getPeriodHasOverlap,
   getPeriodWorkDays,
@@ -437,165 +436,5 @@ describe('Format date', () => {
     const date = '2020-02-02T00:00:00'
     const actual = formatDate(date)
     expect(actual).toEqual('2020-02-02 00:00')
-  })
-})
-
-describe('GetMaxDate', () => {
-  it('should return todays date if number of days is set to 0', () => {
-    const validation: MaxDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: 0,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'id',
-        expression: '',
-      },
-    ]
-
-    const result = getMaxDate(validation, 'id')
-
-    expect(new Date().toString()).toContain(result)
-  })
-
-  it('should return empty string if id does not match', () => {
-    const validation: MaxDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: 0,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'id',
-        expression: '',
-      },
-    ]
-
-    const result = getMaxDate(validation, 'id1')
-
-    expect(result).toEqual('')
-  })
-
-  it('should return tomorrow if number of days is set to 1', () => {
-    const validation: MaxDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: 1,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'id',
-        expression: '',
-      },
-    ]
-
-    const tomorrow = new Date()
-    tomorrow.setDate(new Date().getDate() + 1)
-
-    const result = getMaxDate(validation, 'id')
-
-    expect(tomorrow.toDateString()).toContain(result)
-  })
-
-  it('should return yesterday if number of days is set to 1', () => {
-    const validation: MaxDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: -1,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'id',
-        expression: '',
-      },
-    ]
-
-    const yesterday = new Date()
-    yesterday.setDate(new Date().getDate() - 1)
-
-    const result = getMaxDate(validation, 'id')
-
-    expect(yesterday.toDateString()).toContain(result)
-  })
-
-  it('should validate if more than one max validation in same array', () => {
-    const validation: MaxDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: 0,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'id',
-        expression: '',
-      },
-      {
-        questionId: 'VALIDATION',
-        numberOfDays: 0,
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        id: 'second_id',
-        expression: '',
-      },
-    ]
-
-    const result = getMaxDate(validation, 'second_id')
-
-    expect(new Date().toString()).toContain(result)
-  })
-})
-
-describe('GetMinDate', () => {
-  it('should return date when date is present', () => {
-    const date = '2023-01-19'
-    const validation: MinDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
-        id: 'id',
-        minDate: date,
-      },
-    ]
-
-    const result = getMinDate(validation, 'id')
-    expect(result).toEqual(date)
-  })
-
-  it('should return empty string when no minDate is present', () => {
-    const validation: MinDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
-        id: 'id',
-      },
-    ]
-
-    const result = getMinDate(validation, 'id')
-    expect(result).toEqual('')
-  })
-
-  it('should return empty string if id does not match', () => {
-    const validation: MinDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
-        id: 'id',
-        minDate: '2023-01-19',
-      },
-    ]
-
-    const result = getMinDate(validation, 'id1')
-    expect(result).toEqual('')
-  })
-
-  it('should validate if more than one min validation in same array', () => {
-    const date = '2023-01-19'
-    const validation: MinDateValidation[] = [
-      {
-        questionId: 'VALIDATION',
-        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
-        id: 'id',
-        minDate: '2023-01-10',
-      },
-      {
-        questionId: 'VALIDATION',
-        type: CertificateDataValidationType.MIN_DATE_VALIDATION,
-        id: 'second_id',
-        minDate: date,
-      },
-    ]
-
-    const result = getMinDate(validation, 'second_id')
-    expect(result).toEqual(date)
   })
 })
