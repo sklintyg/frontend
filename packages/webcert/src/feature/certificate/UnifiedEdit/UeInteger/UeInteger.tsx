@@ -54,6 +54,10 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     if (!/^-?\d*$/.test(inputValue)) {
       return
     }
+    if (inputValue === '-') {
+      setNumber('-')
+      return
+    }
 
     let newValue = inputValue
 
