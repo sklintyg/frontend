@@ -1,20 +1,19 @@
 import {
-  CertificateDataElement,
-  CertificateDataValidationType,
-  CertificateDataValidation,
-  CertificateData,
-  MaxDateValidation,
+  AutoFillValidation,
   Certificate,
-  ValidationError,
+  CertificateData,
+  CertificateDataElement,
+  CertificateDataElementStyleEnum,
+  CertificateDataValidation,
+  CertificateDataValidationType,
   CertificateMetadata,
   CertificateStatus,
-  ResourceLinkType,
   ConfigUeCheckboxMultipleCodes,
+  ResourceLinkType,
+  ValidationError,
   ValueCodeList,
-  AutoFillValidation,
-  CertificateDataElementStyleEnum,
 } from '../types'
-import { maxDateToExpression, validateExpression } from './validateExpression'
+import { validateExpression } from './validateExpression'
 
 export const parseExpression = (
   expression: string,
@@ -38,25 +37,14 @@ export interface ValidationResult {
 const getResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
   let question = data[validation.questionId]
 
-  // TODO: remove hack for missing questionId in MAX_DATE_VALIDATION validation
-  if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-    question = data[questionId]
-  }
-
   if (validation.questions != null) {
     return validation.expressionType === 'OR'
       ? validation.questions.some((v) => getResult(v, data, questionId))
       : validation.questions.every((v) => getResult(v, data, questionId))
   }
 
-  if (question) {
-    if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-      return parseExpression(maxDateToExpression(validation as MaxDateValidation), question, validation.type)
-    }
-
-    if (validation.expression != null) {
-      return parseExpression(validation.expression, question, validation.type)
-    }
+  if (question && validation.expression != null) {
+    return parseExpression(validation.expression, question, validation.type)
   }
 
   return false
