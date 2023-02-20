@@ -9,12 +9,11 @@ import {
   CertificateMetadata,
   CertificateStatus,
   ConfigUeCheckboxMultipleCodes,
-  MaxDateValidation,
   ResourceLinkType,
   ValidationError,
   ValueCodeList,
 } from '../types'
-import { maxDateToExpression, validateExpression } from './validateExpression'
+import { validateExpression } from './validateExpression'
 
 export const parseExpression = (expression: string, element: CertificateDataElement): boolean => {
   if (!element.visible || element.value == null) {
@@ -32,12 +31,7 @@ export interface ValidationResult {
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
-  let question = data[validation.questionId]
-
-  // TODO: remove hack for missing questionId in MAX_DATE_VALIDATION validation
-  if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-    question = data[questionId]
-  }
+  const question = data[validation.questionId]
 
   if (validation.questions != null) {
     return validation.expressionType === 'OR'
@@ -45,14 +39,8 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
       : validation.questions.every((v) => getResult(v, data, questionId))
   }
 
-  if (question) {
-    if (validation.type === CertificateDataValidationType.MAX_DATE_VALIDATION) {
-      return parseExpression(maxDateToExpression(validation as MaxDateValidation), question)
-    }
-
-    if (validation.expression != null) {
-      return parseExpression(validation.expression, question)
-    }
+  if (question && validation.expression != null) {
+    return parseExpression(validation.expression, question)
   }
 
   return false

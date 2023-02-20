@@ -1,15 +1,8 @@
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
 import { compileExpression } from 'filtrex'
-import { CertificateDataValidationType, CertificateDataValueType } from '../types/certificate'
+import { CertificateDataValueType } from '../types/certificate'
 import { fakeCertificateValue } from './faker/fakeCertificateValue'
-import {
-  convertExpression,
-  differenceInDays,
-  getKeyValuePair,
-  maxDateToExpression,
-  parseDateValue,
-  validateExpression,
-} from './validateExpression'
+import { convertExpression, differenceInDays, getKeyValuePair, parseDateValue, validateExpression } from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')
 jest.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
@@ -178,68 +171,6 @@ describe('getKeyValuePair', () => {
       'underlag[0].hamtasFran': 'loremIpsum',
       'underlag[0].typ': 'ARBETSTERAPEUT',
     })
-  })
-})
-
-describe('maxDateToExpression', () => {
-  it('Should convert validation to expression', () => {
-    const expected = getUnixTime(addDays(new Date(SYSTEM_DATE), 2))
-    expect(
-      maxDateToExpression({
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        numberOfDays: 2,
-        id: 'ID',
-        questionId: '',
-      })
-    ).toEqual(`ID <= ${expected}`)
-  })
-
-  it('Should convert validation to expression for negative value', () => {
-    const expected = getUnixTime(subDays(new Date(SYSTEM_DATE), 2))
-    expect(
-      maxDateToExpression({
-        type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-        numberOfDays: -2,
-        id: 'ID',
-        questionId: '',
-      })
-    ).toEqual(`ID <= ${expected}`)
-  })
-
-  it('Should return true for date below max date', () => {
-    expect(
-      validateExpression(
-        maxDateToExpression({
-          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-          numberOfDays: 2,
-          id: 'ID',
-          questionId: '',
-        }),
-        {
-          type: CertificateDataValueType.DATE,
-          id: 'ID',
-          date: '2020-01-03',
-        }
-      )
-    ).toBe(true)
-  })
-
-  it('Should return false for date over max date', () => {
-    expect(
-      validateExpression(
-        maxDateToExpression({
-          type: CertificateDataValidationType.MAX_DATE_VALIDATION,
-          numberOfDays: 2,
-          id: 'ID',
-          questionId: '',
-        }),
-        {
-          type: CertificateDataValueType.DATE,
-          id: 'ID',
-          date: format(addDays(new Date(SYSTEM_DATE), 3), 'yyyy-MM-dd'),
-        }
-      )
-    ).toBe(false)
   })
 })
 

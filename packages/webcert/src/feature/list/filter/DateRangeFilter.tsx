@@ -189,9 +189,8 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             inputString={getFromValue()}
             textInputOnChange={onFromDateFilterChange}
             id={`${config.id}-${config.from.id}`}
-            forbidFutureDates={config.forbidFutureDates}
+            max={config.forbidFutureDates ? new Date().toDateString() : config.from.max}
             displayValidationErrorOutline={!!fromValidationError || !!globalValidationError}
-            max={config.from.max}
             min={config.from.min}
           />
           {!globalValidationError && fromValidationError && (
@@ -205,9 +204,8 @@ const DateRangeFilter: React.FC<Props> = ({ config, onChange }) => {
             inputString={getToValue()}
             textInputOnChange={onToDateFilterChange}
             id={`${config.id}-${config.to.id}`}
-            forbidFutureDates={config.forbidFutureDates}
+            max={config.forbidFutureDates ? new Date().toDateString() : config.to.max}
             displayValidationErrorOutline={!!toValidationError || !!globalValidationError}
-            max={config.to.max}
             min={config.to.min}
           />
           {!globalValidationError && toValidationError && (
