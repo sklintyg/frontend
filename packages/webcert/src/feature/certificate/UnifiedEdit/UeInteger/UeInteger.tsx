@@ -42,11 +42,14 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       event.preventDefault()
     }
   }
+
   const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key.length === 1 && !/^-?\d*$/.test(event.key)) {
       event.preventDefault()
     }
   }
+
+  const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
@@ -54,20 +57,15 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     if (!/^-?\d*$/.test(inputValue)) {
       return
     }
-    if (inputValue === '-') {
-      setNumber('-')
-      return
-    }
 
-    let newValue = inputValue
+    const newValue = toIntegerValue(event.target.value)
 
     if (inputValue.length >= 2 && inputValue.startsWith('0')) {
-      newValue = parseInt(inputValue).toString()
-      setNumber(newValue)
+      setNumber(newValue?.toString())
     } else if (inputValue.length >= 3 && inputValue.startsWith('-0')) {
-      const number = '-' + inputValue.slice(2)
-      setNumber(number)
-      newValue = parseInt(number).toString()
+      let number = inputValue
+      number = '-' + inputValue.slice(2)
+      setNumber(number?.toString())
     } else {
       setNumber(inputValue)
     }
@@ -75,7 +73,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: parseInt(newValue) },
+        value: { ...questionValue, value: newValue },
       })
     )
   }
@@ -95,9 +93,9 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleNumberOnChange}
           hasValidationError={validationErrors.length > 0}
           data-testid="testNumber"
-          limit={limit}
           onKeyDown={onKeyDown}
           onKeyPress={onKeyPress}
+          limit={limit}
         />
         <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
       </Wrapper>
