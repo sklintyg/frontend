@@ -75,7 +75,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     dispatch(
       updateCertificateDataElement({
         ...question,
-        value: { ...questionValue, value: newValue.toString() },
+        value: { ...questionValue, value: parseInt(newValue) },
       })
     )
   }
