@@ -1,6 +1,6 @@
 import { fakeCertificate, fakeDateElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
@@ -111,5 +111,22 @@ describe('DatePicker component', () => {
 
     testStore.dispatch(showValidationErrors())
     expect(screen.getByText(VALIDATION_ERROR)).toBeInTheDocument()
+  })
+
+  it('Should disable options past max date', async () => {
+    renderComponent({
+      disabled: false,
+      question: fakeDateElement({
+        id: 'id',
+        config: { maxDate: '2023-02-17' },
+        value: { date: '2023-02-17' },
+      })['id'],
+    })
+
+    await act(async () => {
+      userEvent.click(screen.getByLabelText('Öppna kalendern'))
+    })
+
+    expect(screen.getAllByLabelText(/Not available .* februari 2023/)).toHaveLength(11)
   })
 })
