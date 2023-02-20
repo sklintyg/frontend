@@ -13,7 +13,7 @@ import {
 } from './validateExpression'
 
 const SYSTEM_DATE = new Date('2020-06-18')
-vi.useFakeTimers('modern').setSystemTime(SYSTEM_DATE)
+vi.useFakeTimers().setSystemTime(SYSTEM_DATE)
 
 describe('getKeyValuePair', () => {
   it('Should convert BOOLEAN to key-value pair', () => {

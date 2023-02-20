@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ReplaceCertificateContinueButton from '../ReplaceCertificateContinueButton'
 
 const NAME = 'Replace continue button name'

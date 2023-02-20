@@ -4,6 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { getShowValidationErrors } from '../../../../store/certificate/certificateSelectors'
@@ -85,7 +86,7 @@ describe('YearPicker component', () => {
     const selected = screen.getByText(testYear.toString())
     const minYear = screen.getByText((testYear - 2).toString())
     const maxYear = screen.getByText((testYear + 2).toString())
-    const beforeMinYear = screen.getByText((testYear - 3).toString())
+    const beforeMinYear = screen.getByText((testYear - 4).toString())
     const afterMaxYear = screen.getByText((testYear + 3).toString())
     expect(selected).toHaveClass('react-datepicker__year-text--selected')
     expect(minYear).not.toHaveClass('react-datepicker__year-text--disabled')

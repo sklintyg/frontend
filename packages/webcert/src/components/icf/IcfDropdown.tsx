@@ -148,7 +148,13 @@ const IcfDropdown: React.FC<Props> = ({
         <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} size="sm" className="iu-ml-200" />
       </CustomButton>
       {shouldRenderDropdown() && displayDropdown && (
-        <FocusTrap focusTrapOptions={{ initialFocus: false }}>
+        <FocusTrap
+          focusTrapOptions={{
+            initialFocus: false,
+            tabbableOptions: {
+              displayCheck: 'none',
+            },
+          }}>
           <Root ref={rootRef} id={'icfDropdown-' + id}>
             <div className="iu-border-black iu-radius-sm">
               <p className="iu-bg-main iu-color-white iu-p-300">

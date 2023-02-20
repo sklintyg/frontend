@@ -1,11 +1,10 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { MouseEvent, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import styled, { FlattenSimpleInterpolation } from 'styled-components'
 import { sanitizeText } from '../../utils/sanitizeText'
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   display: flex;
   align-items: bottom;
 `
@@ -36,7 +35,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
       {!expand && text && text.length > maxLength ? (
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(trimToLastCompleteWord(text, maxLength))} css={additionalStyles} />
-          <StyledLink to="#" onClick={onReadLessOrMore}>
+          <StyledLink href="#" onClick={onReadLessOrMore}>
             Visa mer
             <FontAwesomeIcon icon={faAngleDown} className={'iu-mt-200 iu-ml-200'} />
           </StyledLink>
@@ -45,7 +44,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(text)} css={additionalStyles} />
           {text && text.length > maxLength && (
-            <StyledLink to="#" onClick={onReadLessOrMore}>
+            <StyledLink href="#" onClick={onReadLessOrMore}>
               Visa mindre
               <FontAwesomeIcon icon={faAngleDown} rotation={180} className={'iu-mt-200 iu-ml-200'} />
             </StyledLink>

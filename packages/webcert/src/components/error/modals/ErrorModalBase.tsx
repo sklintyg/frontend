@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
 import { CustomButton } from '@frontend/common'
 import FocusTrap from 'focus-trap-react'
-import { clearError } from '../../../store/error/errorActions'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { clearError } from '../../../store/error/errorActions'
 import { ErrorData } from '../../../store/error/errorReducer'
 import ErrorCopyText from '../ErrorCopyText'
-import styled from 'styled-components'
 
 const Modal = styled.div`
   z-index: 9999;
@@ -42,7 +42,13 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
   }
 
   return (
-    <FocusTrap active={open}>
+    <FocusTrap
+      active={open}
+      focusTrapOptions={{
+        tabbableOptions: {
+          displayCheck: 'none',
+        },
+      }}>
       <div>
         <div className="ic-backdrop" onClick={handleClose} />
         <Modal role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">

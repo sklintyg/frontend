@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import React from 'react'
 import { Provider, useSelector } from 'react-redux'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { hideValidationErrors, showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { getQuestion } from '../../../../store/certificate/certificateSelectors'
 import store from '../../../../store/store'
@@ -256,7 +257,7 @@ describe('CheckboxDateGroup component', () => {
 
   describe('dispatching updated values', () => {
     it('should update question values as expected', () => {
-      vi.useFakeTimers('modern').setSystemTime(new Date('2022-09-15'))
+      vi.useFakeTimers().setSystemTime(new Date('2022-09-15'))
 
       renderComponent(false)
 

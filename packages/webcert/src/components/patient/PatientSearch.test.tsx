@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import React from 'react'
-import PatientSearch from './PatientSearch'
-import { Provider } from 'react-redux'
-import store from '../../store/store'
 import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { describe, expect, it } from 'vitest'
+import store from '../../store/store'
+import PatientSearch from './PatientSearch'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 

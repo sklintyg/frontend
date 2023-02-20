@@ -1,6 +1,7 @@
 import { CertificateMetadata } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
+import { expect, it, vi } from 'vitest'
 import UvCareUnitAddress from './UvCareUnitAddress'
 
 it('displays all care unit info', (): void => {

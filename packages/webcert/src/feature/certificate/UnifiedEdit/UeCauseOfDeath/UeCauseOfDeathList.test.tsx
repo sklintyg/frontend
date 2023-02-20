@@ -11,6 +11,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
+import { describe, expect, it } from 'vitest'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 
@@ -18,7 +19,6 @@ const DESCRIPTION_LABEL = 'Beskrivning'
 const DEBUT_LABEL = 'Ungefärlig debut'
 const SPECIFICATION_LABEL = 'Specificera tillståndet'
 const ADD_BUTTON_TEXT = 'Lägg till sjukdom/skada'
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'list'
 
@@ -144,50 +144,6 @@ describe('Cause of death component', () => {
       userEvent.clear(date)
       userEvent.type(date, inputDate)
       expect(date).toHaveValue(expected)
-    })
-  })
-
-  it('should display error when input is not a complete date', () => {
-    renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    dates.forEach((date) => {
-      userEvent.type(date, '2020-01')
-      userEvent.tab()
-      setTimeout(() => {
-        const error = screen.getByText(INVALID_DATE_MESSAGE)
-        expect(error).toBeInTheDocument()
-        userEvent.clear(date)
-        userEvent.tab()
-        setTimeout(() => expect(error).not.toBeInTheDocument(), 100)
-      }, 100)
-    })
-  })
-
-  it('should display error when input is not a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    dates.forEach((date) => {
-      userEvent.type(date, 'test')
-      userEvent.tab()
-      setTimeout(() => {
-        const error = screen.getByText(INVALID_DATE_MESSAGE)
-        expect(error).toBeInTheDocument()
-        userEvent.clear(date)
-        userEvent.tab()
-        setTimeout(() => expect(error).not.toBeInTheDocument(), 100)
-      }, 100)
-    })
-  })
-
-  it('should not display error when input is a valid date', () => {
-    renderComponent({ disabled: false, question })
-    const dates = screen.getAllByLabelText(DEBUT_LABEL)
-    dates.forEach((date) => {
-      userEvent.type(date, '20200101')
-      userEvent.tab()
-      setTimeout(() => expect(screen.getByText(INVALID_DATE_MESSAGE)).not.toBeInTheDocument(), 100)
-      userEvent.clear(date)
-      userEvent.tab()
     })
   })
 

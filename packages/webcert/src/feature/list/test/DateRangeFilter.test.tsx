@@ -11,7 +11,7 @@ import { listMiddleware } from '../../../store/list/listMiddleware'
 import DateRangeFilter from '../filter/DateRangeFilter'
 import { getDateRangeFilter } from './listTestUtils'
 
-const onChange = vi.fn()
+let onChange = vi.fn()
 
 const config = getDateRangeFilter()
 
@@ -32,6 +32,10 @@ describe('DateRangeFilter', () => {
   })
 
   describe('Validation', () => {
+    beforeEach(() => {
+      onChange = vi.fn()
+    })
+
     it('should display future dates validation error', () => {
       testStore.dispatch(
         updateActiveListFilterValue({

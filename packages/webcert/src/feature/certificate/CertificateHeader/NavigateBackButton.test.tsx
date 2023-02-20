@@ -20,13 +20,14 @@ const renderComponent = () => {
   )
 }
 
-vi.mock('react-router-dom', () => ({
-  ...vi.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: vi.fn(),
-    length: 1,
-  }),
-}))
+vi.mock('react-router-dom', () => {
+  return {
+    useHistory: () => ({
+      push: vi.fn(),
+      length: 1,
+    }),
+  }
+})
 
 describe('NavigateBackButton', () => {
   beforeEach(() => {

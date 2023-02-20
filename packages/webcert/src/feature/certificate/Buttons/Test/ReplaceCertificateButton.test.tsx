@@ -2,12 +2,13 @@ import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ReplaceCertificateButton from '../ReplaceCertificateButton'
 
 const NAME = 'Replace button name'
 const DESCRIPTION = 'Replace button description'
 
-const mockDispatchFn = vi.fn()
+let mockDispatchFn = vi.fn()
 
 const renderDefaultComponent = (enabled: boolean) => {
   render(
@@ -20,6 +21,7 @@ const renderDefaultComponent = (enabled: boolean) => {
 
 describe('Replace continue button', () => {
   beforeEach(() => {
+    mockDispatchFn = vi.fn()
     const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue({})
 

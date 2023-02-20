@@ -68,8 +68,7 @@ describe('Create certificate from template button', () => {
 
   it('renders modal when button is clicked', () => {
     renderDefaultComponent(true)
-    const button = screen.queryByRole('button') as HTMLButtonElement
-    userEvent.click(button)
+    userEvent.click(screen.getByLabelText('Template button name'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText(BODY)).toBeInTheDocument()
   })

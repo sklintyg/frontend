@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import UeRadioGroup from '../UeRadioGroup/UeRadioGroup'
 import UeRadioGroupOptionalDropdown from './UeRadioGroupOptionalDropdown'
 
-window.scrollTo = vi.fn()
+Object.defineProperty(global.window, 'scrollTo', { value: vi.fn() })
 
 const CODES = [
   { label: 'Option1', id: 'Option_1' },

@@ -1,6 +1,7 @@
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import { ErrorCode } from '../../../store/error/errorReducer'
 import { SignCertificateModal } from './SignCertificateModal'
 
@@ -9,7 +10,7 @@ vi.mock('react-redux', () => ({
   useDispatch: vi.fn(),
 }))
 
-const mockedUseSelector = useSelector as vi.Mock
+const mockedUseSelector = useSelector as Mock
 
 type SigninError = { errorCode: ErrorCode; message: string }
 

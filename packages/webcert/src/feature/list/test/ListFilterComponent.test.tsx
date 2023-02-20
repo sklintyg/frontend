@@ -19,7 +19,7 @@ import {
 } from './listTestUtils'
 
 let testStore: EnhancedStore
-const onChange = vi.fn()
+let onChange = vi.fn()
 
 const renderComponent = (config: ListFilterConfig) => {
   render(
@@ -108,6 +108,10 @@ describe('ListFilterComponent', () => {
   })
 
   describe('Update values', () => {
+    beforeEach(() => {
+      onChange = vi.fn()
+    })
+
     it('should update text filter value', () => {
       renderComponent(getTextFilter())
       const component = screen.getByRole('textbox')

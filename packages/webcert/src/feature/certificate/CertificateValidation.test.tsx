@@ -1,6 +1,7 @@
 import { ValidationErrorSummary } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
+import { describe, expect, it, vi } from 'vitest'
 import CertificateValidation from './CertificateValidation'
 
 const GRUND_FOR_MEDICINSKT_UNDERLAG = 'Grund för medicinskt underlag'

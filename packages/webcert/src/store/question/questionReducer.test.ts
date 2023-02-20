@@ -1,8 +1,9 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
-import { resetState, toggleQuestionFunctionDisabler } from './questionActions'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { generateFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
+import { resetState, toggleQuestionFunctionDisabler } from './questionActions'
 
 describe('Test question middleware', () => {
   let testStore: EnhancedStore

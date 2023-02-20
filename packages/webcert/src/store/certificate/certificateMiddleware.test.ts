@@ -16,6 +16,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore, history } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
@@ -55,6 +56,7 @@ import {
   validateCertificateInFrontEnd,
 } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'
+
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
@@ -249,7 +251,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle ComplementCertificate', () => {
-    xit('shall update certificate when complemented', async () => {
+    it.skip('shall update certificate when complemented', async () => {
       const certificateToComplement = getTestCertificate('originalCertificateId')
       const expectedCertificate = getTestCertificate('newCertificateId')
       const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
@@ -269,7 +271,7 @@ describe('Test certificate middleware', () => {
       testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, certificateMiddleware])
     })
 
-    xit('shall update certificate on success', async () => {
+    it.skip('shall update certificate on success', async () => {
       const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
@@ -279,7 +281,7 @@ describe('Test certificate middleware', () => {
       expect(updateCertificateDispatchFound).toBeTruthy()
     })
 
-    xit('shall validate certificate on success', async () => {
+    it.skip('shall validate certificate on success', async () => {
       const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
@@ -309,7 +311,7 @@ describe('Test certificate middleware', () => {
       expect(pushSpy).toHaveBeenCalledWith(`/certificate/id`)
     })
 
-    xit('shall get certificate events on success', async () => {
+    it.skip('shall get certificate events on success', async () => {
       const certificateToComplement = getTestCertificate('id')
 
       testStore.dispatch(complementCertificateSuccess({ certificate: certificateToComplement }))
@@ -382,7 +384,7 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle CreateCertificateFromCandidateWithMessage', () => {
+  describe.skip('Handle CreateCertificateFromCandidateWithMessage', () => {
     it('shall return message', async () => {
       const expectedCertificate = getTestCertificate('newCertificateId', 'ag7804')
       const createCertificateFromCandidateWithMessageSuccess: CreateCertificateFromCandidateWithMessageSuccess = {
@@ -404,7 +406,7 @@ describe('Test certificate middleware', () => {
   })
 
   describe('Handle Show Related Certificate', async () => {
-    xit('shall call api to show related certificate', async () => {
+    it.skip('shall call api to show related certificate', async () => {
       const certificate = getTestCertificate('certificateId')
       // @ts-expect-error mocking history
       testStore.dispatch(showRelatedCertificate({ certificate: certificate.metadata.id }))

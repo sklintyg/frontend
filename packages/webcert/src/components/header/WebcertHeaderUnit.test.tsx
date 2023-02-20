@@ -1,6 +1,3 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
 import {
   getChangeUnitResourceLink,
   getUser,
@@ -8,14 +5,17 @@ import {
   getUserStatisticsWithNoDraftsOnOtherUnits,
   getUserWithInactiveUnit,
 } from '@frontend/common'
-import WebcertHeaderUnit from './WebcertHeaderUnit'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import { apiMiddleware } from '../../store/api/apiMiddleware'
-import { userMiddleware } from '../../store/user/userMiddleware'
-import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserResourceLinks, updateUserStatistics } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import WebcertHeaderUnit from './WebcertHeaderUnit'
 
 let testStore: EnhancedStore
 
