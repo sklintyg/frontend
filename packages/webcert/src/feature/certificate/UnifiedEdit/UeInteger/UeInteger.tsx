@@ -65,7 +65,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
       newValue = parseInt(inputValue).toString()
       setNumber(newValue)
     } else if (inputValue.length >= 3 && inputValue.startsWith('-0')) {
-      let number = '-' + inputValue.slice(2)
+      const number = '-' + inputValue.slice(2)
       setNumber(number)
       newValue = parseInt(number).toString()
     } else {
