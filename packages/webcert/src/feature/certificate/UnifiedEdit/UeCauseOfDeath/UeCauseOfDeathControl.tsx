@@ -116,7 +116,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
             <DatePickerCustom
               additionalStyles="iu-mr-400"
               label="Ungefärlig debut"
-              forbidFutureDates={true}
+              max={config.maxDate}
+              min={config.minDate}
               vertical={true}
               inputString={value.debut.date ?? ''}
               disabled={disabled}
