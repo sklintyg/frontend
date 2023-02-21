@@ -13,6 +13,7 @@
     "outDir": "./dist",
     "declaration": true,
     "inlineSourceMap": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@frontend/common": ["./packages/common/src/index.ts"]
     }

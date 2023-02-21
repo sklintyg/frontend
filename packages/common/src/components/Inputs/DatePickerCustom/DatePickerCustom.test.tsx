@@ -1,16 +1,16 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import DatePickerCustom from './DatePickerCustom'
 
 describe('DatePickerCustom', () => {
   it('Should disable options past max date', async () => {
     render(
       <DatePickerCustom
-        setDate={jest.fn()}
+        setDate={vi.fn()}
         inputString={'1974-04-01'}
-        textInputOnChange={jest.fn()}
+        textInputOnChange={vi.fn()}
         displayValidationErrorOutline={false}
         max={'1974-04-06'}
       />
