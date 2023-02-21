@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import React, { ComponentProps } from 'react'
-import { describe, expect, it } from 'vitest'
 import { CertificateDataElement, ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../types/certificate'
 import { fakeMedicalInvestigationListElement } from '../../../utils/faker/fakeCertificateData'
 import { UvMedicalInvestigationList } from './UvMedicalInvestigationList'

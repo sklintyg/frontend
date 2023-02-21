@@ -1,6 +1,6 @@
 import { addDays, addHours, format, fromUnixTime, getUnixTime, startOfToday, subDays, subHours } from 'date-fns'
 import { compileExpression } from 'filtrex'
-import { describe, expect, it, vi } from 'vitest'
+import { vi } from 'vitest'
 import { CertificateDataValueType } from '../types/certificate'
 import { fakeCertificateValue } from './faker/fakeCertificateValue'
 import { convertExpression, differenceInDays, getKeyValuePair, parseDateValue, validateExpression } from './validateExpression'

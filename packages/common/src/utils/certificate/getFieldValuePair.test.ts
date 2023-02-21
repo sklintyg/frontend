@@ -1,5 +1,4 @@
 import { format, startOfToday } from 'date-fns'
-import { expect, it } from 'vitest'
 import { CertificateDataValueType } from '../../types/certificate'
 import { fakeCertificateValue } from '../faker/fakeCertificateValue'
 import { getFieldValuePair } from './getFieldValuePair'

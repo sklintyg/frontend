@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { fakeCertificate } from '../faker/fakeCertificate'
 import {
   fakeCategoryElement,

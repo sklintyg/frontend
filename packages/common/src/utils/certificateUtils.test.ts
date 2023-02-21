@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { ValueBoolean, ValueText } from '../types/certificate'
 import { QuestionType } from '../types/question'
 import { getCertificateToSave, hasUnhandledComplementQuestions } from './certificateUtils'

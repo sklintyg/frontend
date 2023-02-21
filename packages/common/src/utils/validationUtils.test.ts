@@ -1,5 +1,4 @@
 import { addDays } from 'date-fns'
-import { describe, expect, it } from 'vitest'
 import {
   Certificate,
   CertificateDataElement,

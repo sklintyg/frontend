@@ -1,15 +1,6 @@
 import { addDays } from 'date-fns'
-import { describe, expect, it } from 'vitest'
 
 import { CertificateDataValueType, ConfigUeCheckboxDateRange, ValueDateRange } from '../types/certificate'
-import {
-  CertificateDataValidationType,
-  CertificateDataValueType,
-  ConfigUeCheckboxDateRange,
-  MaxDateValidation,
-  MinDateValidation,
-  ValueDateRange,
-} from '../types/certificate'
 import {
   filterDateRangeValueList,
   formatDate,

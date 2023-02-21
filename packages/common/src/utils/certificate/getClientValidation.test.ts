@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
 import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker/fakeCertificateData'
 import { getClientValidationErrors } from './getClientValidationErrors'
