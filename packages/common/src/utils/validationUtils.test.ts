@@ -1,4 +1,5 @@
 import { addDays } from 'date-fns'
+import { describe, expect, it } from 'vitest'
 import {
   Certificate,
   CertificateDataElement,
@@ -28,7 +29,9 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
 import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
   autoFillElement,
@@ -38,8 +41,6 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
