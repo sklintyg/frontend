@@ -1,6 +1,6 @@
-import { add, differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
+import { differenceInHours, fromUnixTime, getUnixTime, isValid, startOfDay, startOfToday } from 'date-fns'
 import { compileExpression } from 'filtrex'
-import { CertificateDataValidationType, CertificateDataValueType, MaxDateValidation, ValueType } from '../types/certificate'
+import { CertificateDataValidationType, CertificateDataValueType, ValueType } from '../types/certificate'
 import { getFieldValuePair } from './certificate/getFieldValuePair'
 import { epochDaysAdjustedToTimezone, getValidDate, isValidUncertainDate } from './dateUtils'
 
@@ -59,9 +59,6 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
     return result
   }, {})
 }
-
-export const maxDateToExpression = (validation: MaxDateValidation): string =>
-  validation.expression ?? `${validation.id} <= ${getUnixTime(add(new Date(), { days: validation.numberOfDays }))}`
 
 /** convert expression to be compatible with filtrex */
 export const convertExpression = (expression: string): string =>

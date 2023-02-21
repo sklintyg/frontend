@@ -10,21 +10,26 @@ interface Props {
   totalCount: number
   onFilterChange: (value: ListFilterValue, id: string) => void
   value: ListFilterValueNumber
+  tableHasCaption?: boolean
 }
 
-const PageSizeWrapper = styled.div`
+interface WrapperProps {
+  hasCaption?: boolean
+}
+const PageSizeWrapper = styled.div<WrapperProps>`
   width: 100%;
   display: flex;
   justify-content: end;
   position: relative;
   z-index: 1;
-  margin-bottom: -2.5rem;
+  margin-top: ${(props) => (props.hasCaption ? '0' : '-3rem')};
+  margin-bottom: ${(props) => (props.hasCaption ? '-2.5rem' : '0.5rem')};
 `
 const PageSizeInnerWrapper = styled.div`
   min-width: 18ch;
 `
 
-const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value }) => {
+const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChange, value, tableHasCaption }) => {
   const pageSizes: number[] = filter ? filter.pageSizes : []
   const SHOW_ALL = 'show-all'
   const dispatch = useDispatch()
@@ -60,7 +65,7 @@ const ListPageSizeFilter: React.FC<Props> = ({ filter, totalCount, onFilterChang
 
   const getFilterComponent = () => {
     return (
-      <PageSizeWrapper className="iu-pr-300">
+      <PageSizeWrapper className="iu-pr-300" hasCaption={tableHasCaption}>
         <PageSizeInnerWrapper>
           <Dropdown onChange={handleFilterChange} label={filter.title} id={filter.id} value={value ? value.value.toString() : ''}>
             {pageSizes.map((number) =>
