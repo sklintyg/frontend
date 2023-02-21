@@ -43,6 +43,12 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
     }
   }
 
+  const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key.length === 1 && !/^-?\d*$/.test(event.key)) {
+      event.preventDefault()
+    }
+  }
+
   const toIntegerValue = (val: string): number | null => (isNaN(parseInt(val)) ? null : parseInt(val))
 
   const handleNumberOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +94,7 @@ const UeInteger: React.FC<Props> = ({ question, disabled }) => {
           hasValidationError={validationErrors.length > 0}
           data-testid="testNumber"
           onKeyDown={onKeyDown}
+          onKeyPress={onKeyPress}
           limit={limit}
         />
         <p className="iu-fs-200 iu-fw-body">{questionConfig.unitOfMeasurement}</p>
