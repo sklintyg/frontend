@@ -8,9 +8,9 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
   (result, route) => ({
     ...result,
     [route]: {
-      target: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
+      target: process.env.API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
       cookieDomainRewrite: { '*': '' },
-      protocolRewrite: 'https',
+      protocolRewrite: process.env.HTTPS ? 'https' : 'http',
       changeOrigin: true,
       autoRewrite: true,
     },
@@ -23,7 +23,7 @@ export default defineConfig({
   server: {
     proxy,
     port: 3000,
-    host: 'wc2.wc.localtest.me',
+    host: process.env.HOST ?? 'wc2.wc.localtest.me',
     // strictPort: true,
     // hmr: { clientPort: 443, host: 'wc2.wc.localtest.me', protocol: 'wss' },
   },

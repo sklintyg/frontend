@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env.development vite -w -m development",
+    "dev": "env-cmd -f .env.development vite -m development",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
