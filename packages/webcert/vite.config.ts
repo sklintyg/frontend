@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig, ProxyOptions } from 'vite'
+import { ProxyOptions } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
   Record<string, string | ProxyOptions>

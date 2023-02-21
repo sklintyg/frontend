@@ -1,5 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit'
 import { CertificateType, Patient, PatientStatus } from '@frontend/common'
+import { createReducer } from '@reduxjs/toolkit'
+import { ErrorRequest } from '../error/errorReducer'
 import {
   clearPatient,
   clearPatientError,
@@ -10,9 +11,8 @@ import {
   setStatus,
   updateCertificateTypes,
 } from './patientActions'
-import { ErrorRequest } from '../error/errorReducer'
 
-interface PatientState {
+export interface PatientState {
   patient: Patient | undefined
   status: PatientStatus | undefined
   error: ErrorRequest | undefined
