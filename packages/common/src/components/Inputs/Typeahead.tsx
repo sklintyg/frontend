@@ -71,16 +71,11 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
     const [open, setOpen] = useState(false)
 
     const handleClose = useCallback(() => {
-      setCursor(-1)
+      setCursor(suggestions.length > 0 ? 0 : -1)
       setHovered(-1)
       setOpen(false)
       onClose && onClose()
     }, [onClose])
-
-    const handleOpen = () => {
-      setOpen(true)
-      setCursor(0)
-    }
 
     const onSelect = useCallback(
       (suggestion: Suggestion) => {
@@ -166,11 +161,11 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
         <TextInput
           ref={ref}
           onClick={(evt) => {
-            handleOpen()
+            setOpen(true)
             onClick && onClick(evt)
           }}
           onChange={(evt) => {
-            handleOpen()
+            setOpen(true)
             onChange && onChange(evt)
           }}
           onBlur={(evt) => {
