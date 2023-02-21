@@ -25,7 +25,7 @@ interface Props {
 
 const ArrowToggle: React.FC<Props> = ({ onClick, className, isUp, label = 'Fäll ut/in innehåll' }) => {
   return (
-    <StyledButton onClick={onClick} tabIndex={0} className={className} data-testid="arrowToggle" aria-expanded={isUp} aria-label={label}>
+    <StyledButton onClick={onClick} tabIndex={-1} className={className} data-testid="arrowToggle" aria-expanded={isUp} aria-label={label}>
       {isUp ? <ArrowUp src={arrow} alt="" /> : <ArrowDown src={arrow} alt="" />}
       <span className="iu-sr-only" aria-hidden="true">
         {label}
