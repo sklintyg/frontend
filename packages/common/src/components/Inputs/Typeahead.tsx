@@ -71,7 +71,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
     const [open, setOpen] = useState(false)
 
     const handleClose = useCallback(() => {
-      setCursor(-1)
+      setCursor(suggestions.length > 0 ? 0 : -1)
       setHovered(-1)
       setOpen(false)
       onClose && onClose()
