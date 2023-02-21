@@ -15,15 +15,11 @@ import {
 } from '../types'
 import { validateExpression } from './validateExpression'
 
-export const parseExpression = (
-  expression: string,
-  element: CertificateDataElement,
-  validationType: CertificateDataValidationType
-): boolean => {
+export const parseExpression = (expression: string, element: CertificateDataElement): boolean => {
   if (!element.visible || element.value == null) {
     return false
   }
-  return validateExpression(expression, element.value, validationType)
+  return validateExpression(expression, element.value)
 }
 
 export interface ValidationResult {
@@ -35,7 +31,7 @@ export interface ValidationResult {
 }
 
 const getResult = (validation: CertificateDataValidation, data: CertificateData, questionId: string): boolean => {
-  let question = data[validation.questionId]
+  const question = data[validation.questionId]
 
   if (validation.questions != null) {
     return validation.expressionType === 'OR'
@@ -44,7 +40,7 @@ const getResult = (validation: CertificateDataValidation, data: CertificateData,
   }
 
   if (question && validation.expression != null) {
-    return parseExpression(validation.expression, question, validation.type)
+    return parseExpression(validation.expression, question)
   }
 
   return false
