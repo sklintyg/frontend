@@ -26,7 +26,7 @@ RUN yarn install
 # Copy the source
 COPY . .
 
-RUN yarn turbo build
+RUN yarn build
 
 # Make nginx image
 FROM nginx:1.19.0
