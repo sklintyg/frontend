@@ -86,7 +86,8 @@ const UeMedicalInvestigation: React.FC<Props> = ({ disabled, config, value, vali
         <div>
           <DatePickerCustom
             id={config.dateId}
-            forbidFutureDates={true}
+            max={config.maxDate}
+            min={config.minDate}
             inputString={value.date.date ?? ''}
             textInputOnChange={handleDateChange}
             disabled={disabled}

@@ -64,7 +64,7 @@ const UeCheckbox: React.FC<Props> = (props) => {
         vertical={true}
         disabled={disabled}
         onChange={handleChange}
-        hasValidationError={hasValidationError}
+        hasValidationError={!disabled && hasValidationError}
         wrapperAdditionalStyles={props.wrapperAdditionalStyles}
       />
       {isShowValidationError && isSingleCheckbox && (
