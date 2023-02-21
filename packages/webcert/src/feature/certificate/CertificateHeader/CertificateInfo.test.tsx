@@ -1,7 +1,6 @@
 import { CertificateMetadata, Patient, PersonId } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { describe, expect, it } from 'vitest'
 import store from '../../../store/store'
 import CertificateInfo from './CertificateInfo'
 

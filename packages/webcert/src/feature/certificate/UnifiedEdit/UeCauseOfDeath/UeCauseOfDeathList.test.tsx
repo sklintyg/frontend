@@ -11,7 +11,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { describe, expect, it } from 'vitest'
 import store from '../../../../store/store'
 import UeCauseOfDeathList from './UeCauseOfDeathList'
 

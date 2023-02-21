@@ -2,7 +2,7 @@ import { CertificateDataElement, CertificateDataValueType, ConfigUeRadioBoolean,
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { expect, it, vi } from 'vitest'
+import { vi } from 'vitest'
 import UeRadio from './UeRadio'
 
 it('displays two radio buttons that toggle checked mode correctly', async () => {

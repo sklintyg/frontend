@@ -2,7 +2,6 @@ import { Certificate, CertificateStatus, Icd10Code, IcfCode, IcfTitles } from '@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { beforeEach, describe, expect, it } from 'vitest'
 import {
   getCertificateWithDiagnosisElementWithCodeSystem,
   getCodeElement,

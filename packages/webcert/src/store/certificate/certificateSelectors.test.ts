@@ -1,7 +1,6 @@
 import { fakeCategoryElement, fakeCertificate, fakeCertificateValidationError, fakeTextFieldElement } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import faker from 'faker'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { showValidationErrors, updateCertificate } from './certificateActions'
 import { certificateMiddleware } from './certificateMiddleware'

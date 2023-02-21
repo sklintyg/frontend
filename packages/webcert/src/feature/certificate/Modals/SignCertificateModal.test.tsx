@@ -1,7 +1,7 @@
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
-import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
+import { Mock, vi } from 'vitest'
 import { ErrorCode } from '../../../store/error/errorReducer'
 import { SignCertificateModal } from './SignCertificateModal'
 

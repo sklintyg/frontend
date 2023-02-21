@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event'
 import _ from 'lodash'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { describe, expect, it } from 'vitest'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
 

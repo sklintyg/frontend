@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import { expect, it } from 'vitest'
 import CategoryTitle from './CategoryTitle'
 
 it('displays the correct title', () => {

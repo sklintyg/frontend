@@ -2,7 +2,6 @@ import { Certificate, CertificateMetadata, Patient, PersonId } from '@frontend/c
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import PatientStatusNotifications from './PatientStatusNotifications'

@@ -1,6 +1,5 @@
 import { getCertificate } from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { apiCallBegan } from '../api/apiActions'
 import { updateCertificate } from '../certificate/certificateActions'
 import { configureApplicationStore } from '../configureApplicationStore'

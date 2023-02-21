@@ -8,7 +8,6 @@ import {
   fakeTextAreaElement,
 } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import {

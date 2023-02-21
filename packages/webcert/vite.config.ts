@@ -28,6 +28,7 @@ export default defineConfig({
     // hmr: { clientPort: 443, host: 'wc2.wc.localtest.me', protocol: 'wss' },
   },
   test: {
+    globals: true,
     environment: 'jsdom',
     deps: {
       inline: [/common\/dist/],

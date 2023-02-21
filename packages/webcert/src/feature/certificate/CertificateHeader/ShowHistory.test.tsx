@@ -9,7 +9,6 @@ import {
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
 import ShowHistory from './ShowHistory'
 
 const certificateMetadata: CertificateMetadata = fakeCertificateMetaData({

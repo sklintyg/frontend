@@ -1,7 +1,7 @@
 import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { vi } from 'vitest'
 import ListFilterButtons from '../ListFilterButtons'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'

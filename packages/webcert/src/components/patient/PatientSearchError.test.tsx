@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { describe, expect, it } from 'vitest'
 import { ErrorCode, ErrorRequest, ErrorType } from '../../store/error/errorReducer'
 import { setPatientError } from '../../store/patient/patientActions'
 import store from '../../store/store'

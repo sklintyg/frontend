@@ -2,7 +2,7 @@ import { CertificateDataElement, fakeCheckboxBooleanElement, fakeCheckboxCodeEle
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { vi } from 'vitest'
 import UeCheckbox from './UeCheckbox'
 
 const CHECKBOX_LABEL_CODE = 'Example Label 0123!'

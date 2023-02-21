@@ -1,5 +1,4 @@
 import { fakeIcf } from '@frontend/common'
-import { describe, expect, it } from 'vitest'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
 
