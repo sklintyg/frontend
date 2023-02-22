@@ -37,7 +37,10 @@ const CareUnitAddress = styled.section`
 const UvCareUnitAddress: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
   const signedCertificate = useSelector(getCertificateEvents, _.isEqual)
-  const signedCertificateDate = signedCertificate.reduce((acc, obj) => (obj && obj.timestamp ? obj.timestamp : acc), '')
+  const signedCertificateDate = signedCertificate
+    .filter((obj) => obj && obj.type === 'SIGNED')
+    .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+    .reduce((acc, obj) => (obj && obj.timestamp ? obj.timestamp : acc), '')
 
   if (!metadata) return null
 

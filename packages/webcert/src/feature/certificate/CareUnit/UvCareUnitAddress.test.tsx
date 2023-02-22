@@ -17,7 +17,11 @@ it('displays all care unit info', (): void => {
     },
   } as CertificateMetadata
 
-  const mockEventData = [{ timestamp: '2023-02-20' }, { timestamp: '2023-02-21' }, { timestamp: '2023-02-22' }]
+  const mockEventData = [
+    { timestamp: '2023-02-20' },
+    { timestamp: '2023-02-21', type: 'SIGNED' },
+    { timestamp: '2023-02-22', type: 'REVOKED' },
+  ]
   const useSelectorSpy = jest.spyOn(redux, 'useSelector')
   useSelectorSpy.mockReturnValueOnce(mockData).mockReturnValueOnce(mockEventData)
 
@@ -30,5 +34,5 @@ it('displays all care unit info', (): void => {
   expect(screen.getByText(/Test city/i)).toBeInTheDocument()
   expect(screen.getByText(/phone/i)).toBeInTheDocument()
   expect(screen.getByText(/zipcode/i)).toBeInTheDocument()
-  expect(screen.getByText(/2023-02-22/)).toBeInTheDocument()
+  expect(screen.getByText(/2023-02-21/)).toBeInTheDocument()
 })
