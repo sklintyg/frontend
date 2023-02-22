@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { WhiteLogo } from '../../../components/icf/Styles'
-import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { getCertificateEvents, getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import CategoryTitle from '../Category/CategoryTitle'
 
 const CareUnitHeaderWrapper = styled.div`
@@ -36,6 +36,11 @@ const CareUnitAddress = styled.section`
 
 const UvCareUnitAddress: React.FC = () => {
   const metadata = useSelector(getCertificateMetaData, _.isEqual)
+  const signedCertificate = useSelector(getCertificateEvents, _.isEqual)
+  const signedCertificateDate = signedCertificate
+    .filter((obj) => obj && obj.type === 'SIGNED')
+    .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+    .reduce((acc, obj) => (obj && obj.timestamp ? obj.timestamp : acc), '')
 
   if (!metadata) return null
 
@@ -58,7 +63,7 @@ const UvCareUnitAddress: React.FC = () => {
           <CategoryTitle textColor="iu-color-white">Ovanstående uppgifter och bedömningar bekräftas</CategoryTitle>
           <div className={'iu-flex iu-flex-center'}>
             <WhiteLogo src={calendarImage} alt="Kalender" />
-            <p className={'iu-ml-200'}>{formatDate(metadata.created)}</p>
+            <p className={'iu-ml-200'}>{formatDate(signedCertificateDate)}</p>
           </div>
         </InnerWrapper>
       </CareUnitHeaderWrapper>
