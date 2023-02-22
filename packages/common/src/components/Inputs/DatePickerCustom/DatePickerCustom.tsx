@@ -52,14 +52,11 @@ const StyledButton = styled.button<{
 const TextInput = styled.input`
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  //max-width: 15ch;
   border-right: 0 !important;
   min-width: 124px;
   min-height: unset !important;
   width: 100%;
   &:focus {
-    /* box-shadow: none;
-    outline: none; */
     outline: 2px solid #a1958a;
     outline-offset: 4px;
     border-radius: 0.1875rem;
@@ -76,13 +73,6 @@ const Wrapper = styled.div`
 const FocusWrapper = styled.div`
   display: flex;
   height: 3rem;
-
-  /* &:focus-within {
-    outline: 2px solid #a1958a;
-    outline-offset: 4px;
-    border-radius: 0.1875rem;
-    width: 100%;
-  } */
 `
 registerLocale('sv', sv)
 setDefaultLocale('sv')
