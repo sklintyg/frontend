@@ -21,23 +21,29 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateRelationType.COMPLEMENTED:
         return (
           <>
-            Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       case CertificateRelationType.RENEW:
       case CertificateRelationType.EXTENDED:
         return (
           <>
-            Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.{' '}
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       case CertificateRelationType.REPLACED:
         return (
           <>
             Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       default:

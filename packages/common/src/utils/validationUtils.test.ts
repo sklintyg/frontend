@@ -9,7 +9,6 @@ import {
   ConfigTypes,
   ConfigUeCheckboxMultipleCodes,
   fakeCertificateDataValidation,
-  fakeCheckboxMultipleCodeElement,
   formatDateToString,
   getDateRangeElement,
   getIcfElement,
@@ -19,7 +18,6 @@ import {
   ValidationError,
   ValueBoolean,
   ValueCode,
-  ValueCodeList,
   ValueDate,
   ValueDateList,
   ValueDateRange,
@@ -28,7 +26,9 @@ import {
   ValueText,
   ValueUncertainDate,
 } from '..'
+import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
 import { fakeCauseOfDeathElement, fakeRadioBooleanElement } from './faker/fakeCertificateData'
+import { fakeCertificateValue } from './faker/fakeCertificateValue'
 import { getBooleanElement, getCertificate, getDateElement, getTextElement } from './test/certificateTestUtil'
 import {
   autoFillElement,
@@ -38,8 +38,6 @@ import {
   parseExpression,
   validateExpressions,
 } from './validationUtils'
-import { fakeCertificateConfig } from './faker/fakeCertificateConfig'
-import { fakeCertificateValue } from './faker/fakeCertificateValue'
 
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
@@ -47,21 +45,21 @@ describe('Validate mandatory rule for boolean values', () => {
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = null
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when selected is false', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = false
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
     expect(result).toBe(true)
   })
 
   it('it should validate as true when selected is true', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
     expect(result).toBe(true)
   })
 })
@@ -72,21 +70,21 @@ describe('Validate mandatory rule for text values', () => {
   it('it should validate as false when text is null', () => {
     const valueText = textElement.value as ValueText
     valueText.text = null
-    const result = parseExpression('$funktionsnedsattning', textElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', textElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when text is empty', () => {
     const valueText = textElement.value as ValueText
     valueText.text = ''
-    const result = parseExpression('$funktionsnedsattning', textElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', textElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when text is at least one character long', () => {
     const valueText = textElement.value as ValueText
     valueText.text = 'Här är en text'
-    const result = parseExpression('$funktionsnedsattning', textElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', textElement)
     expect(result).toBe(true)
   })
 })
@@ -97,21 +95,21 @@ describe('Validate mandatory rule for icf values', () => {
   it('it should validate as false when text is null', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = null
-    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', icfElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when text is empty', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = ''
-    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', icfElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when text is at least one character long', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = 'Här är en text'
-    const result = parseExpression('$funktionsnedsattning', icfElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$funktionsnedsattning', icfElement)
     expect(result).toBe(true)
   })
 })
@@ -122,21 +120,21 @@ describe('Validate show rule for boolean values', () => {
   it('it should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = null
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$harFunktionsnedsattning', booleanElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when selected is false', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = false
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$harFunktionsnedsattning', booleanElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when selected is true', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
-    const result = parseExpression('$harFunktionsnedsattning', booleanElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$harFunktionsnedsattning', booleanElement)
     expect(result).toBe(true)
   })
 })
@@ -149,7 +147,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(new Date())
     value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
@@ -157,7 +155,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(new Date())
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
@@ -165,7 +163,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(addDays(new Date(), -7))
     value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`$${SUT_ID}.from <= -7`, sickLeavePeriodElement)
     expect(result).toBe(true)
   })
 
@@ -173,7 +171,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(addDays(new Date(), -7))
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`$${SUT_ID}.to <= -7`, sickLeavePeriodElement)
     expect(result).toBe(true)
   })
 })
@@ -187,7 +185,7 @@ describe('Validate show rule for date range values', () => {
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 5))
 
-    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement)
     expect(result).toBe(false)
   })
 
@@ -196,7 +194,7 @@ describe('Validate show rule for date range values', () => {
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 20))
 
-    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement)
     expect(result).toBe(true)
   })
 
@@ -205,7 +203,7 @@ describe('Validate show rule for date range values', () => {
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 14))
 
-    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression(`${SUT_ID}.to - ${SUT_ID}.from > 14`, dateRangeElement)
     expect(result).toBe(false)
   })
 })
@@ -217,21 +215,21 @@ describe('Validate mandatory rule for date range values', () => {
   it('it should validate as false when from date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when to date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when from and to date are valid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE }]
-    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
     expect(result).toBe(true)
   })
 })
@@ -285,8 +283,7 @@ describe('Validate mandatory rule for date list', () => {
   it('it should validate as false when list is empty', () => {
     const result = parseExpression(
       '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
-      dateListElement,
-      CertificateDataValidationType.MANDATORY_VALIDATION
+      dateListElement
     )
     expect(result).toBe(false)
   })
@@ -302,8 +299,7 @@ describe('Validate mandatory rule for date list', () => {
     ]
     const result = parseExpression(
       '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
-      dateListElement,
-      CertificateDataValidationType.MANDATORY_VALIDATION
+      dateListElement
     )
     expect(result).toBe(true)
   })
@@ -338,35 +334,35 @@ describe('Validate mandatory rule for uncertain datet', () => {
   it('it should validate as false when no date is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = ''
-    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as false when no valid date is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '0000--00'
-    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement)
     expect(result).toBe(false)
   })
 
   it('it should validate as true when unknown year is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '0000-00-00'
-    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement)
     expect(result).toBe(true)
   })
 
   it('it should validate as true when unknown month is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '2022-00-00'
-    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement)
     expect(result).toBe(true)
   })
 
   it('it should validate as true when year and month are set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '2022-04-00'
-    const result = parseExpression('$osakertDodsDatum', uncertainDateElement, CertificateDataValidationType.MANDATORY_VALIDATION)
+    const result = parseExpression('$osakertDodsDatum', uncertainDateElement)
     expect(result).toBe(true)
   })
 })
@@ -375,8 +371,7 @@ describe('Validate mandatory rule for cause of death', () => {
   it('Should validate as false when text is null', () => {
     const result = parseExpression(
       'dodsorsak',
-      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: null } } })[1],
-      CertificateDataValidationType.MANDATORY_VALIDATION
+      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: null } } })[1]
     )
     expect(result).toBe(false)
   })
@@ -384,8 +379,7 @@ describe('Validate mandatory rule for cause of death', () => {
   it('Should validate as false when text is empty', () => {
     const result = parseExpression(
       'dodsorsak',
-      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: '' } } })[1],
-      CertificateDataValidationType.MANDATORY_VALIDATION
+      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: '' } } })[1]
     )
     expect(result).toBe(false)
   })
@@ -393,133 +387,7 @@ describe('Validate mandatory rule for cause of death', () => {
   it('Should validate as true when text is at least one character long', () => {
     const result = parseExpression(
       'dodsorsak',
-      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: 'Här är en text' } } })[1],
-      CertificateDataValidationType.MANDATORY_VALIDATION
-    )
-    expect(result).toBe(true)
-  })
-})
-
-describe('Validate disable rule for code list', () => {
-  const codeListElement: CertificateDataElement = {
-    id: '40',
-    parent: 'atgarder',
-    index: 27,
-    visible: true,
-    readOnly: false,
-    mandatory: true,
-    config: {
-      text: 'Här kan du ange åtgärder som du tror skulle göra det lättare för patienten att återgå i arbete',
-      description: '',
-      type: ConfigTypes.UE_CHECKBOX_MULTIPLE_CODE,
-      list: [
-        {
-          id: 'EJ_AKTUELLT',
-          label: 'Inte aktuellt',
-        },
-        {
-          id: 'ARBETSTRANING',
-          label: 'Arbetsträning',
-        },
-        {
-          id: 'ARBETSANPASSNING',
-          label: 'Arbetsanpassning',
-        },
-        {
-          id: 'SOKA_NYTT_ARBETE',
-          label: 'Söka nytt arbete',
-        },
-        {
-          id: 'BESOK_ARBETSPLATS',
-          label: 'Besök på arbetsplatsen',
-        },
-        {
-          id: 'ERGONOMISK',
-          label: 'Ergonomisk bedömning',
-        },
-        {
-          id: 'HJALPMEDEL',
-          label: 'Hjälpmedel',
-        },
-        {
-          id: 'KONFLIKTHANTERING',
-          label: 'Konflikthantering',
-        },
-        {
-          id: 'KONTAKT_FHV',
-          label: 'Kontakt med företagshälsovård',
-        },
-        {
-          id: 'OMFORDELNING',
-          label: 'Omfördelning av arbetsuppgifter',
-        },
-        {
-          id: 'OVRIGA_ATGARDER',
-          label: 'Övrigt',
-        },
-      ],
-    },
-    value: {
-      type: CertificateDataValueType.CODE_LIST,
-      list: [],
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '40',
-        expression:
-          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-        questionId: '40',
-        expression:
-          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS ||$ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-        id: ['EJ_AKTUELLT'],
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION,
-        questionId: '40',
-        expression: '$EJ_AKTUELLT',
-        id: [
-          'ARBETSTRANING',
-          'ARBETSANPASSNING',
-          'SOKA_NYTT_ARBETE',
-          'BESOK_ARBETSPLATS',
-          'ERGONOMISK',
-          'HJALPMEDEL',
-          'KONFLIKTHANTERING',
-          'KONTAKT_FHV',
-          'OMFORDELNING',
-          'OVRIGA_ATGARDER',
-        ],
-      },
-    ],
-    validationErrors: [],
-  }
-
-  it('it should validate as true when code is in list', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
-    expect(result).toBe(true)
-  })
-
-  it('it should validate as false when code is not in list', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list = []
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
-    expect(result).toBe(false)
-  })
-
-  it('it should validate as true if several codes are chosen', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
-    const result = parseExpression(
-      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-      codeListElement,
-      CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
+      fakeCauseOfDeathElement({ id: '1', value: { description: { id: 'dodsorsak', text: 'Här är en text' } } })[1]
     )
     expect(result).toBe(true)
   })
@@ -869,7 +737,7 @@ describe('Validate enable rule for code values', () => {
   it('it should validate as false when code is not set', () => {
     const value = codeElement.value as ValueCode
     value.code = ''
-    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
+    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement)
     expect(result).toBe(false)
   })
 
@@ -877,119 +745,7 @@ describe('Validate enable rule for code values', () => {
     const value = codeElement.value as ValueCode
     value.id = 'ATER_X_ANTAL_DGR'
     value.code = 'ATER_X_ANTAL_DGR'
-    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement, CertificateDataValidationType.ENABLE_VALIDATION)
-    expect(result).toBe(true)
-  })
-})
-
-describe('Validate disable rule for code list', () => {
-  const codeListElement = fakeCheckboxMultipleCodeElement({
-    id: '40',
-    config: {
-      list: [
-        {
-          id: 'EJ_AKTUELLT',
-          label: 'Inte aktuellt',
-        },
-        {
-          id: 'ARBETSTRANING',
-          label: 'Arbetsträning',
-        },
-        {
-          id: 'ARBETSANPASSNING',
-          label: 'Arbetsanpassning',
-        },
-        {
-          id: 'SOKA_NYTT_ARBETE',
-          label: 'Söka nytt arbete',
-        },
-        {
-          id: 'BESOK_ARBETSPLATS',
-          label: 'Besök på arbetsplatsen',
-        },
-        {
-          id: 'ERGONOMISK',
-          label: 'Ergonomisk bedömning',
-        },
-        {
-          id: 'HJALPMEDEL',
-          label: 'Hjälpmedel',
-        },
-        {
-          id: 'KONFLIKTHANTERING',
-          label: 'Konflikthantering',
-        },
-        {
-          id: 'KONTAKT_FHV',
-          label: 'Kontakt med företagshälsovård',
-        },
-        {
-          id: 'OMFORDELNING',
-          label: 'Omfördelning av arbetsuppgifter',
-        },
-        {
-          id: 'OVRIGA_ATGARDER',
-          label: 'Övrigt',
-        },
-      ],
-    },
-    validation: [
-      {
-        type: CertificateDataValidationType.MANDATORY_VALIDATION,
-        questionId: '40',
-        expression:
-          '$EJ_AKTUELLT || $ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
-        questionId: '40',
-        expression:
-          '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-        id: ['EJ_AKTUELLT'],
-      },
-      {
-        type: CertificateDataValidationType.DISABLE_VALIDATION,
-        questionId: '40',
-        expression: '$EJ_AKTUELLT',
-        id: [
-          'ARBETSTRANING',
-          'ARBETSANPASSNING',
-          'SOKA_NYTT_ARBETE',
-          'BESOK_ARBETSPLATS',
-          'ERGONOMISK',
-          'HJALPMEDEL',
-          'KONFLIKTHANTERING',
-          'KONTAKT_FHV',
-          'OMFORDELNING',
-          'OVRIGA_ATGARDER',
-        ],
-      },
-    ],
-  })['40']
-
-  it('it should validate as true when code is in list', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'EJ_AKTUELLT', id: 'EJ_AKTUELLT' })
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
-    expect(result).toBe(true)
-  })
-
-  it('it should validate as false when code is not in list', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list = []
-    const result = parseExpression('$EJ_AKTUELLT', codeListElement, CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION)
-    expect(result).toBe(false)
-  })
-
-  it('it should validate as true if several codes are chosen', () => {
-    const value = codeListElement.value as ValueCodeList
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'ERGONOMISK', id: 'ERGONOMISK' })
-    value.list.push({ type: CertificateDataValueType.CODE, code: 'ARBETSANPASSNING', id: 'ARBETSANPASSNING' })
-    const result = parseExpression(
-      '$ARBETSTRANING || $ARBETSANPASSNING || $SOKA_NYTT_ARBETE || $BESOK_ARBETSPLATS || $ERGONOMISK || $HJALPMEDEL || $KONFLIKTHANTERING || $KONTAKT_FHV || $OMFORDELNING || $OVRIGA_ATGARDER',
-      codeListElement,
-      CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION
-    )
+    const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement)
     expect(result).toBe(true)
   })
 })
@@ -1315,30 +1071,30 @@ describe('Validate expressions based on DateValue', () => {
 
   it('should return true if date has a value', () => {
     ;(element.value as ValueDate).date = '2022-01-01'
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum', element)
     expect(result).toBe(true)
   })
 
   it('should return false if date is missing a value', () => {
     ;(element.value as ValueDate).date = undefined
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum', element)
     expect(result).toBe(false)
   })
 
   it('should return true if EpochDay is within 28 days', () => {
     ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDay <= 19013', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('epochDay($dodsdatum) <= 19013', element)
     expect(result).toBe(true)
   })
 
   it('should return false if EpochDay is not within 28 days', () => {
     ;(element.value as ValueDate).date = '2022-01-01' // 18993
-    const result = parseExpression('$dodsdatum.toEpochDay <= 18992', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('epochDay($dodsdatum) <= 18992', element)
     expect(result).toBe(false)
   })
   it('should return false if EpochDay is not set', () => {
     ;(element.value as ValueDate).date = undefined
-    const result = parseExpression('$dodsdatum.toEpochDay > 18992', element, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('epochDay($dodsdatum) > 18992', element)
     expect(result).toBe(false)
   })
 })
@@ -1349,14 +1105,14 @@ describe('Validate expressions only when visible', () => {
   it('should return true if date has a value and element is visible', () => {
     ;(element.value as ValueDate).date = '2022-01-01'
     element.visible = true
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum', element)
     expect(result).toBe(true)
   })
 
   it('should return false if date has a value and element is not visible', () => {
     ;(element.value as ValueDate).date = '2022-01-01'
     element.visible = false
-    const result = parseExpression('$dodsdatum', element, CertificateDataValidationType.DISABLE_VALIDATION)
+    const result = parseExpression('$dodsdatum', element)
     expect(result).toBe(false)
   })
 })
@@ -1399,22 +1155,22 @@ describe('Validate expressions with boolean values set to null or undefined shou
 
   it('should return true if selected is undefined for negative expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
-    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('!$dodsdatumSakert', element)
     expect(result).toBe(true)
   })
   it('should return false if selected is undefined for positive expression', () => {
     ;(element.value as ValueBoolean).selected = undefined
-    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$dodsdatumSakert', element)
     expect(result).toBe(false)
   })
   it('should return true if selected is null for negative expression', () => {
     ;(element.value as ValueBoolean).selected = null
-    const result = parseExpression('!$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('!$dodsdatumSakert', element)
     expect(result).toBe(true)
   })
   it('should return false if selected is null for positive expression', () => {
     ;(element.value as ValueBoolean).selected = null
-    const result = parseExpression('$dodsdatumSakert', element, CertificateDataValidationType.SHOW_VALIDATION)
+    const result = parseExpression('$dodsdatumSakert', element)
     expect(result).toBe(false)
   })
 })
