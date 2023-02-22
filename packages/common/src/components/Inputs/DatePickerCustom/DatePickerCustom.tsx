@@ -23,7 +23,7 @@ const DatePickerWrapper = styled.div<{
 `
 const PickerWrapper = styled.div`
   position: absolute;
-  right: 1px;
+  right: 0px;
 `
 const StyledButton = styled.button<{
   displayValidationError: boolean
@@ -47,6 +47,9 @@ const StyledButton = styled.button<{
     background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
     color: #000000;
   }
+  &:focus {
+    border-top-left-radius: 0.1875rem;
+  }
 `
 
 const TextInput = styled.input`
@@ -57,9 +60,8 @@ const TextInput = styled.input`
   min-height: unset !important;
   width: 100%;
   &:focus {
-    outline: 2px solid #a1958a;
-    outline-offset: 4px;
-    border-radius: 0.1875rem;
+    border-top-left-radius: 0.1875rem;
+    border-top-right-radius: 0.1875rem;
   }
 `
 
