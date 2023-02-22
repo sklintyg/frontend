@@ -19,6 +19,9 @@ const ExpandableBoxWrapper = styled.div<Props>`
   display: flex;
   align-items: center;
   cursor: ${(props) => (props.changeUnitLinkPointer ? 'pointer' : 'default')};
+  &:focus {
+    outline: 2px solid #a1958a;
+  }
 `
 const Italic = styled.span`
   font-style: italic;
@@ -47,6 +50,12 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
 
   const [isExpanded, setIsExpanded] = useState(false)
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      handleClick()
+    }
+  }
+
   const handleClick = () => {
     setIsExpanded(!isExpanded)
   }
@@ -60,7 +69,9 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
         <ExpandableBoxWrapper
           onClick={changeUnitLink ? handleClick : undefined}
           changeUnitLinkPointer={!!changeUnitLink}
-          data-testId="expandableBox">
+          data-testId="expandableBox"
+          tabIndex={changeUnitLink ? 0 : -1}
+          onKeyDown={changeUnitLink ? handleKeyDown : undefined}>
           <span>
             {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
             <br />

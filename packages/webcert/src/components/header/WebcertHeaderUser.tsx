@@ -16,6 +16,9 @@ const ExpandableBoxWrapper = styled.div<Props>`
   display: flex;
   align-items: center;
   cursor: ${(props) => (props.changeLinkPointer ? 'pointer' : 'default')};
+  &:focus {
+    outline: 2px solid #a1958a;
+  }
 `
 
 const UserWrapper = styled.div`
@@ -45,6 +48,12 @@ const WebcertHeaderUser: React.FC<Props> = () => {
   const handleClick = () => {
     setIsExpanded(!isExpanded)
   }
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      handleClick()
+    }
+  }
+
   const goToPrivatePractitionerPortal = () => {
     window.open(`${ppHost}?from=${window.location.href}`, '_blank')
   }
@@ -52,7 +61,12 @@ const WebcertHeaderUser: React.FC<Props> = () => {
   const toString = (user: User): React.ReactNode => {
     return (
       <Wrapper>
-        <ExpandableBoxWrapper onClick={handleClick} changeLinkPointer={!!privatePractitionerPortal} data-testId="expandableBox">
+        <ExpandableBoxWrapper
+          onClick={handleClick}
+          changeLinkPointer={!!privatePractitionerPortal}
+          data-testId="expandableBox"
+          tabIndex={privatePractitionerPortal ? 0 : -1}
+          onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}>
           <UserWrapper>
             <span>{`${user.name} - ${user.role}`}</span>
             {user.protectedPerson && (
