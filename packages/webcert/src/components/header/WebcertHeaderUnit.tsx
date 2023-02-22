@@ -70,8 +70,8 @@ const WebcertHeaderUnit: React.FC<Props> = () => {
           onClick={changeUnitLink ? handleClick : undefined}
           changeUnitLinkPointer={!!changeUnitLink}
           data-testId="expandableBox"
-          tabIndex={0}
-          onKeyDown={handleKeyDown}>
+          tabIndex={changeUnitLink ? 0 : -1}
+          onKeyDown={changeUnitLink ? handleKeyDown : undefined}>
           <span>
             {!privatePractitioner && `${user.loggedInCareProvider.unitName} - `} {user.loggedInUnit.unitName}
             <br />

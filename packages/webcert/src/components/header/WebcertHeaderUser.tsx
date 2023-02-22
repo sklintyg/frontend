@@ -65,8 +65,8 @@ const WebcertHeaderUser: React.FC<Props> = () => {
           onClick={handleClick}
           changeLinkPointer={!!privatePractitionerPortal}
           data-testId="expandableBox"
-          tabIndex={0}
-          onKeyDown={handleKeyDown}>
+          tabIndex={privatePractitionerPortal ? 0 : -1}
+          onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}>
           <UserWrapper>
             <span>{`${user.name} - ${user.role}`}</span>
             {user.protectedPerson && (
