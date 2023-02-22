@@ -14,20 +14,29 @@ const ReplacedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateStatus.SIGNED:
         return (
           <>
-            Intyget har ersatts av <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>detta intyg</Link>
+            Intyget har ersatts av{' '}
+            <Link className={'iu-color-error'} to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>
+              detta intyg
+            </Link>
           </>
         )
       case CertificateStatus.UNSIGNED:
         return (
           <>
             Det finns redan ett påbörjat utkast som ska ersätta detta intyg.{' '}
-            <Link to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>Öppna utkastet</Link>
+            <Link className={'iu-color-error'} to={`/certificate/${certificateMetadata.relations.children[0].certificateId}`}>
+              Öppna utkastet
+            </Link>
           </>
         )
     }
   }
 
-  return <StatusWithIcon icon={'ErrorOutlineIcon'}>{getText()}</StatusWithIcon>
+  return (
+    <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+      {getText()}
+    </StatusWithIcon>
+  )
 }
 
 export default ReplacedStatus
