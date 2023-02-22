@@ -16,9 +16,13 @@ const ExpandableBoxWrapper = styled.div<Props>`
   display: flex;
   align-items: center;
   cursor: ${(props) => (props.changeLinkPointer ? 'pointer' : 'default')};
-  &:focus {
-    outline: 2px solid #a1958a;
-  }
+  ${(props) =>
+    props.changeLinkPointer &&
+    `
+    &:focus {
+      outline: 2px solid #a1958a;
+    }
+  `}
 `
 
 const UserWrapper = styled.div`

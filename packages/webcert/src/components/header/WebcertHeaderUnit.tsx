@@ -19,9 +19,13 @@ const ExpandableBoxWrapper = styled.div<Props>`
   display: flex;
   align-items: center;
   cursor: ${(props) => (props.changeUnitLinkPointer ? 'pointer' : 'default')};
-  &:focus {
-    outline: 2px solid #a1958a;
-  }
+  ${(props) =>
+    props.changeUnitLinkPointer &&
+    `
+    &:focus {
+      outline: 2px solid #a1958a;
+    }
+  `}
 `
 const Italic = styled.span`
   font-style: italic;
