@@ -139,7 +139,6 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               <AccodrionWrapper id={'workHours'}>
                 <Accordion>
                   <AccordionHeader>
-                    <Icon iconType={'lightbulb_outline'} includeTooltip={true} size={'sm'} />
                     <WorkingHoursInput
                       onChange={(event) => setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
                       value={baseWorkHours}

@@ -1,8 +1,4 @@
-import { faStar as star } from '@fortawesome/free-regular-svg-icons'
-import { faStar as starChecked } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { InfoBox, Patient, ResourceLink, ResourceLinkType, TextWithInfoModal } from '@frontend/common'
-import classnames from 'classnames'
+import { InfoBox, Patient, ResourceLink, ResourceLinkType, StarFilledIcon, StarIcon, TextWithInfoModal } from '@frontend/common'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -101,10 +97,7 @@ const CertificateListRow: React.FC<Props> = ({
       <Row className="iu-flex iu-flex-column iu-p-400">
         <div className="iu-flex iu-flex-center">
           <Star className="iu-mr-1rem" onClick={onPreferenceClick} data-tip={favoriteText} aria-label={favoriteText}>
-            <FontAwesomeIcon
-              icon={favorite ? starChecked : star}
-              className={classnames({ 'iu-color-information': favorite, 'iu-color-muted': !favorite })}
-            />
+            {favorite ? <StarFilledIcon className="iu-color-information" /> : <StarIcon className="iu-color-muted" />}
           </Star>
           <CertificateName>
             <span className="iu-fw-bold">{certificateName}</span> {issuerTypeId}

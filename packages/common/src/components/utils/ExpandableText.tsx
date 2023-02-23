@@ -1,9 +1,8 @@
-import React, { MouseEvent, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { ChevronDownIcon, ChevronUpIcon } from '../../images/ChevronDownIcon'
 import { sanitizeText } from '../../utils/sanitizeText'
 
 const StyledLink = styled(Link)`
@@ -24,10 +23,6 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
     setExpand(false)
   }, [text])
 
-  const onReadLessOrMore = (event: MouseEvent) => {
-    setExpand(!expand)
-  }
-
   const trimToLastCompleteWord = (text: string, maxLength: number) => {
     return text.substr(0, text.lastIndexOf(' ', maxLength))
   }
@@ -37,18 +32,18 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
       {!expand && text && text.length > maxLength ? (
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(trimToLastCompleteWord(text, maxLength))} css={additionalStyles} />
-          <StyledLink to="#" onClick={onReadLessOrMore}>
+          <StyledLink to="#" onClick={() => setExpand(!expand)}>
             Visa mer
-            <FontAwesomeIcon icon={faAngleDown} className={'iu-mt-200 iu-ml-200'} />
+            <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
           </StyledLink>
         </div>
       ) : (
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(text)} css={additionalStyles} />
           {text && text.length > maxLength && (
-            <StyledLink to="#" onClick={onReadLessOrMore}>
+            <StyledLink to="#" onClick={() => setExpand(!expand)}>
               Visa mindre
-              <FontAwesomeIcon icon={faAngleDown} rotation={180} className={'iu-mt-200 iu-ml-200'} />
+              <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
             </StyledLink>
           )}
         </div>
