@@ -74,7 +74,7 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
   }
 }
 
-const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
+const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
   const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   if (listType === ListType.DRAFTS) {
@@ -90,13 +90,10 @@ const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: Middl
 }
 
 const handleUpdateListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
-  const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   const config = getState().ui.uiList.activeListConfig
-  if (listType === ListType.UNHANDLED_CERTIFICATES) {
-    const chosenUnit = filter.values?.UNIT?.value ?? ''
-    dispatch(updateUnhandledCertificatesListConfig({ config: config, unitId: chosenUnit }))
-  }
+  const chosenUnit = filter.values?.UNIT?.value ?? ''
+  dispatch(updateUnhandledCertificatesListConfig({ config: config, unitId: chosenUnit }))
 }
 
 const handleGetDrafts: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
@@ -239,9 +236,11 @@ const handleUpdateUnhandledCertificatesListConfig: Middleware<Dispatch> = ({ dis
   )
 }
 
-const handleUpdateListConfigSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
-  dispatch(updateActiveListConfig(action.payload))
-  dispatch(updateHasUpdatedConfig(false))
+const handleUpdateListConfigSuccess: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+  if (getState().ui.uiList.activeListType === ListType.UNHANDLED_CERTIFICATES) {
+    dispatch(updateActiveListConfig(action.payload))
+    dispatch(updateHasUpdatedConfig(false))
+  }
 }
 const handleGetListConfigStarted = (listType: ListType): Middleware<Dispatch> => ({
   dispatch,
