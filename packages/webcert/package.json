@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env.development vite -m development",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
@@ -12,7 +12,6 @@
     "test": "vitest",
     "test:no-watch": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "start:test": "env-cmd -f .env.test vite",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -30,13 +29,13 @@
     "date-fns": "^2.16.1",
     "inera-core-css": "git+https://bitbucket.org/ineraservices/inera-core-css.git#75f597de378ebb76d95ed2d5b4ecd649d8e57bf2",
     "lodash": "^4.17.21",
+    "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scroll": "^1.8.1",
     "react-tooltip": "^4.2.21",
-    "react": "^17.0.2",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
@@ -54,9 +53,9 @@
     "@types/react-scroll": "^1.8.0",
     "@types/styled-components": "^5.1.26",
     "@types/testing-library__jest-dom": "^5.14.5",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "axios-mock-adapter": "^1.19.0",
-    "env-cmd": "^10.1.0",
     "esbuild": "^0.17.6",
     "eslint": "^8.34.0",
     "eslint-config-custom": "*",

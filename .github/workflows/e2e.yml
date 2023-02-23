@@ -7,12 +7,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v4
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
         with:
           working-directory: 'packages/webcert-e2e'
           install-command: yarn --frozen-lockfile --silent
-          build: yarn turbo build
-          start: yarn workspace @frontend/webcert start:test
-          wait-on: 'http://127.0.0.1:3000'
+          build: yarn workspace @frontend/common build
+          start: yarn workspace @frontend/webcert dev -m test
+          wait-on: 'https://127.0.0.1:3000'
           command: yarn workspace @frontend/webcert-e2e cypress run
-            --config baseUrl=http://127.0.0.1:3000,screenshotOnRunFailure=false
+            --config baseUrl=https://127.0.0.1:3000,screenshotOnRunFailure=false
             --env grepTags=@react,grepFilterSpecs=true
