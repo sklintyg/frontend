@@ -1,11 +1,9 @@
+import { ButtonWithConfirmModal, DoubleArrowIcon, InfoBox } from '@frontend/common'
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
-import { ButtonWithConfirmModal, InfoBox } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceCertificate } from '../../../store/certificate/certificateActions'
-import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
+import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
   name: string
@@ -29,7 +27,7 @@ const ReplaceCertificateButton: React.FC<Props> = ({ name, description, enabled,
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon size="lg" icon={faExchangeAlt} />}
+      startIcon={<DoubleArrowIcon size="lg" />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm}
       confirmButtonText={'Ersätt'}

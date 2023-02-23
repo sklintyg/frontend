@@ -1,6 +1,4 @@
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
+import { getResourceLink, LightbulpIcon, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -52,7 +50,7 @@ const CertificateSidePanel: React.FC = () => {
       tabsArray.push(
         <div data-tip={fmbInfoPanelActive.description}>
           <p>
-            <FontAwesomeIcon icon={faLightbulb} className="iu-mr-200" />
+            <LightbulpIcon className="iu-mr-200" />
             {fmbInfoPanelActive.name}
           </p>
         </div>
