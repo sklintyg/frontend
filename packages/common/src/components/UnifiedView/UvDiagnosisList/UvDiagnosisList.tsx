@@ -12,7 +12,7 @@ export const UvDiagnosisList: React.FC<{
         <Table>
           <TableHeader>
             <TableRow>
-              <TableCell>Diagnoskod enligt ICD-10 SE (eller KSH97-P)</TableCell>
+              <TableCell>Diagnoskod enligt ICD-10 SE</TableCell>
               <TableCell />
             </TableRow>
           </TableHeader>
