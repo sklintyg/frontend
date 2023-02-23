@@ -77,7 +77,7 @@ const UeRadioGroupOptionalDropdown: React.FC<Props> = ({ question, disabled }) =
             </React.Fragment>
           ))}
       </div>
-      <QuestionValidationTexts validationErrors={validationErrors} />
+      <QuestionValidationTexts validationErrors={validationErrors} spacing />
     </>
   )
 }

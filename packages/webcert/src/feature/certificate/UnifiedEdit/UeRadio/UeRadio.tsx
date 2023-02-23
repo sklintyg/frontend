@@ -56,7 +56,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleChange}
         />
       </div>
-      <QuestionValidationTexts validationErrors={validationErrors} />
+      <QuestionValidationTexts validationErrors={validationErrors} spacing />
     </>
   )
 }

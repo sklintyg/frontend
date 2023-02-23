@@ -179,7 +179,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </div>
-      <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
+      <QuestionValidationTexts validationErrors={otherValiadtionErrors} spacing />
       {totalSickDays && !disabled && (
         <div>
           <p className="iu-color-main">

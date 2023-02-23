@@ -66,7 +66,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
             </ItemWrapper>
           ))}
         </GroupWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
+        <QuestionValidationTexts validationErrors={validationErrors} spacing />
       </>
     )
   )

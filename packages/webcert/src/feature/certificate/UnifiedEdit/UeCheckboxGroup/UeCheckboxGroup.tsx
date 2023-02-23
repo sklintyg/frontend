@@ -34,7 +34,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
             </ItemWrapper>
           ))}
         </GroupWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors}></QuestionValidationTexts>
+        <QuestionValidationTexts validationErrors={validationErrors} spacing></QuestionValidationTexts>
       </>
     )
   )
