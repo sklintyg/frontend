@@ -1,4 +1,4 @@
-import { ButtonWithConfirmModal, CustomButton, ReplyIcon, ResourceLinkType } from '@frontend/common'
+import { ButtonWithConfirmModal, CustomButton, ResourceLinkType, ShareIcon } from '@frontend/common'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { forwardCertificate } from '../../../store/certificate/certificateActions'
@@ -58,7 +58,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
         onClick={handleEmailSend}
         tooltip={description}
         data-testid="forward-certificate-button"
-        startIcon={<ReplyIcon size="lg" />}>
+        startIcon={<ShareIcon size="lg" />}>
         {name}
       </CustomButton>
     )
@@ -69,7 +69,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
       disabled={!enabled}
       description={description}
       name={name}
-      startIcon={<ReplyIcon size="lg" />}
+      startIcon={<ShareIcon size="lg" />}
       modalTitle="Markera som vidarebefordrad?"
       onConfirm={() => dispatch(forwardCertificate({ certificateId: certificateId, forward: true }))}
       onClick={handleEmailSend}
