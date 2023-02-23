@@ -10,6 +10,7 @@ const DropdownSelect = styled.select`
   height: 3rem !important;
   padding-right: 3.15rem !important;
   text-overflow: ellipsis;
+  cursor: pointer;
 `
 
 interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
