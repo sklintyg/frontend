@@ -74,7 +74,7 @@ const handlePerformListSearch: Middleware<Dispatch> = ({ dispatch, getState }: M
   }
 }
 
-const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (action: AnyAction): void => {
+const handleGetListConfig: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (): void => {
   const listType = getState().ui.uiList.activeListType
   const filter = getState().ui.uiList.activeListFilter
   if (listType === ListType.DRAFTS) {
