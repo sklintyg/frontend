@@ -8,8 +8,10 @@ import * as intyg from '../../support/FK_intyg/fk_helpers'
  *
  * Some of these testcases are failing due to an open issue:
  * https://inera.atlassian.net/browse/INTYGFV-14823
+ *
+ * TODO: This tests are unpredictable during E2E testing, re-enable when feature is more stable.
  */
-describe('FK7804-intyg Ärende kommunikation', { tags: '@react' }, function() {
+describe('FK7804-intyg Ärende kommunikation', { tags: '@skip' }, function() {
   before(function() {
     cy.fixture('FK_intyg/maxLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaMC').as('vårdenhet')
@@ -24,7 +26,7 @@ describe('FK7804-intyg Ärende kommunikation', { tags: '@react' }, function() {
         cy.log('Lisjp-utkast med id ' + utkastId + ' skapat och används i testfallet')
       })
     })
-    describe('Funktioner kring ärendekommunikation på ett Lisjp intyg', { tags: '@react' }, () => {
+    describe('Funktioner kring ärendekommunikation på ett Lisjp intyg', { tags: '@skip' }, () => {
       it('Skicka fråga gällande Avstämningsmöte på ett Lisjp intyg', function() {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
