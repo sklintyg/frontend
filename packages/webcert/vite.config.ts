@@ -2,6 +2,9 @@ import react from '@vitejs/plugin-react'
 import { ProxyOptions } from 'vite'
 import { defineConfig } from 'vitest/config'
 
+const https = process.env.HTTPS === 'true'
+const hmr = !(process.env.HMR_DISABLED === 'true')
+
 const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
   Record<string, string | ProxyOptions>
 >(
@@ -10,7 +13,7 @@ const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', 
     [route]: {
       target: process.env.API_TARGET ?? 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
       cookieDomainRewrite: { '*': '' },
-      protocolRewrite: process.env.HTTPS ? 'https' : 'http',
+      protocolRewrite: https ? 'https' : 'http',
       changeOrigin: true,
       autoRewrite: true,
     },
@@ -22,6 +25,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy,
+    https,
+    hmr,
     port: 3000,
     host: process.env.HOST ?? 'wc2.wc.localtest.me',
     // strictPort: true,
