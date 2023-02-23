@@ -1,4 +1,4 @@
-import { TextInput } from '@frontend/common'
+import { Icon, TextInput } from '@frontend/common'
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 
@@ -24,7 +24,10 @@ export const WorkingHoursInput: React.FC<Props> = ({ onChange, value, hasValidat
 
   return (
     <>
-      <p className={'iu-fs-200 iu-fw-body'}>Patienten arbetar i snitt</p>
+      <p className={'iu-fs-200 iu-fw-body'}>
+        <Icon iconType={'lightbulb_outline'} includeTooltip={true} size={'sm'} />
+        Patienten arbetar i snitt
+      </p>
       <StyledTextInput
         onChange={onChange}
         value={value}

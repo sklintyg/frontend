@@ -1,8 +1,6 @@
+import { ButtonWithConfirmModal, CertificateMetadata, CopyIcon } from '@frontend/common'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata } from '@frontend/common'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
@@ -24,7 +22,7 @@ const CopyCertificateContinueButton: React.FC<Props> = ({ name, description, ena
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon icon={faCopy} size="lg" />}
+      startIcon={<CopyIcon style={{ height: '1.33rem', width: 'auto' }} />}
       modalTitle="Kopiera låst utkast"
       onConfirm={handleConfirm()}
       confirmButtonText={'Fortsätt på utkast'}
