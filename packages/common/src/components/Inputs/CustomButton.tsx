@@ -92,7 +92,11 @@ export const CustomButton: React.FC<Props & { ref?: React.Ref<HTMLButtonElement>
         onClick={onClick}
         data-testid={props['data-testid']}
         inline={props.inline}>
-        {props.startIcon ? <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>{props.startIcon}</span> : null}
+        {props.startIcon ? (
+          <span className="iu-mr-200 iu-flex buttonIcon" style={{ fontSize: '1rem' }}>
+            {props.startIcon}
+          </span>
+        ) : null}
         {props.children} {props.text}{' '}
         {props.number && <NumberCircle type={props.buttonStyle === 'secondary' ? 'secondary' : 'primary'} number={props.number} />}
       </Button>
