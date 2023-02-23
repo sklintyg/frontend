@@ -11,6 +11,7 @@ import {
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
@@ -20,6 +21,12 @@ import { CannotComplementData, CannotComplementModalContent } from './CannotComp
 interface Props {
   questions: Question[]
 }
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+`
 
 const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
@@ -122,9 +129,11 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
 
   return (
     <SidePanelFooter additionalStyles="iu-m-none">
-      {getComplementButton()}
-      {getCannotComplementButton()}
-      {getForwardButton()}
+      <ButtonsWrapper>
+        {getComplementButton()}
+        {getCannotComplementButton()}
+        {getForwardButton()}
+      </ButtonsWrapper>
     </SidePanelFooter>
   )
 }

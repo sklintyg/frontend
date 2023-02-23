@@ -1,8 +1,7 @@
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Answer,
   ButtonWithConfirmModal,
+  calendarImage,
   CertificateStatus,
   Checkbox,
   CheckboxWithConfirmModal,
@@ -336,7 +335,7 @@ const QuestionItem: React.FC<Props> = ({ question }) => {
         ))}
       {isLastDateToReplyVisible() && (
         <p className={'iu-mb-300 iu-color-text iu-fs-200'}>
-          <FontAwesomeIcon className={'iu-mr-200'} icon={faCalendarAlt} />
+          <img src={calendarImage} alt="kalender" className="iu-mr-200" style={{ display: 'inline', maxHeight: '1rem' }} />
           Svara senast: {question.lastDateToReply}
         </p>
       )}

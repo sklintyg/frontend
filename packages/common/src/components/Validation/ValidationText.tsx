@@ -7,7 +7,7 @@ interface Props {
 
 const ValidationText: React.FC<Props> = ({ id, message }) => {
   return (
-    <p id={id} aria-live="polite" className="ic-forms__error-message">
+    <p id={id} aria-live="polite" className="iu-color-error">
       {message}
     </p>
   )

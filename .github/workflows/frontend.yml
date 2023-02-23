@@ -20,7 +20,7 @@ jobs:
           node-version: '14.x'
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - uses: reviewdog/action-eslint@v1
+      - uses: reviewdog/action-eslint@v1.17.0
 
   build:
     name: Build and Test

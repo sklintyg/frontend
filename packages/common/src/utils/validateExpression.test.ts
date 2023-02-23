@@ -245,7 +245,7 @@ describe('validateExpression', () => {
   })
 
   // Skip until code is refactored to work as every other value
-  describe.skip('CODE', () => {
+  describe('CODE', () => {
     it('Should return true when code is not empty', () => {
       expect(validateExpression('ID', { type: CertificateDataValueType.CODE, id: 'ID', code: 'ID' })).toBe(true)
     })
@@ -259,7 +259,7 @@ describe('validateExpression', () => {
     it('Should return true when every code item is available', () => {
       expect(
         validateExpression(
-          'ITEM_1 and ITEM_2 ',
+          'exists(ITEM_1) and exists(ITEM_2)',
           fakeCertificateValue.codeList({
             list: Array.from({ length: 3 }, (_, index) => ({
               id: `ITEM_${index + 1}`,
@@ -273,7 +273,7 @@ describe('validateExpression', () => {
     it('Should return true when any code item is available', () => {
       expect(
         validateExpression(
-          'ITEM_1 or ITEM_2',
+          'exists(ITEM_1) || exists(ITEM_2)',
           fakeCertificateValue.codeList({
             list: [
               {

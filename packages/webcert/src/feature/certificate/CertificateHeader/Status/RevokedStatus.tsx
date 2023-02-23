@@ -1,9 +1,9 @@
-import React from 'react'
 import { CertificateMetadata, CertificateRelationType, StatusWithIcon, TextWithInfoModal } from '@frontend/common'
-import WCDynamicLink from '../../../../utils/WCDynamicLink'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getIsLocked } from '../../../../store/certificate/certificateSelectors'
-import { useSelector } from 'react-redux'
+import WCDynamicLink from '../../../../utils/WCDynamicLink'
 
 interface Props {
   certificateMetadata: CertificateMetadata
@@ -21,23 +21,29 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
       case CertificateRelationType.COMPLEMENTED:
         return (
           <>
-            Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras.{' '}
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       case CertificateRelationType.RENEW:
       case CertificateRelationType.EXTENDED:
         return (
           <>
-            Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras.{' '}
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       case CertificateRelationType.REPLACED:
         return (
           <>
             Intyget ersatte ett tidigare intyg som också kan behöva makuleras.{' '}
-            <Link to={`/certificate/${parent.certificateId}`}>Öppna intyget</Link>
+            <Link className={'iu-color-error'} to={`/certificate/${parent.certificateId}`}>
+              Öppna intyget
+            </Link>
           </>
         )
       default:
@@ -51,17 +57,24 @@ const RevokedStatus: React.FC<Props> = ({ certificateMetadata }) => {
     <>
       {' '}
       {isLocked ? (
-        <StatusWithIcon icon={'ErrorOutlineIcon'}>Utkastet är makulerat</StatusWithIcon>
+        <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+          Utkastet är makulerat
+        </StatusWithIcon>
       ) : (
         <StatusWithIcon icon={'ErrorOutlineIcon'} isModal={true}>
-          <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat">
+          <TextWithInfoModal text="Intyget är makulerat" modalTitle="Intyget är makulerat" className="iu-color-error">
             <p>
-              Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <WCDynamicLink linkKey="minaintyg" />.
+              Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via{' '}
+              <WCDynamicLink css={'iu-color-error'} linkKey="minaintyg" />.
             </p>
           </TextWithInfoModal>
         </StatusWithIcon>
       )}
-      {revokedStatus && <StatusWithIcon icon={'ErrorOutlineIcon'}>{revokedStatus}</StatusWithIcon>}
+      {revokedStatus && (
+        <StatusWithIcon icon={'ErrorOutlineIcon'} additionalTextStyles={'iu-color-error'}>
+          {revokedStatus}
+        </StatusWithIcon>
+      )}
     </>
   )
 }

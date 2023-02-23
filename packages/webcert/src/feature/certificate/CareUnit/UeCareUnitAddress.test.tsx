@@ -11,10 +11,10 @@ import UeCareUnitAddress, {
 } from './UeCareUnitAddress'
 
 const getValidationErrors = (): ValidationError[] => {
-  const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: '' }
-  const zipCode: ValidationError = { id: '', category: '', field: CARE_UNIT_ZIP_CODE_FIELD, type: '', text: '' }
-  const city: ValidationError = { id: '', category: '', field: CARE_UNIT_CITY_FIELD, type: '', text: '' }
-  const phoneNumber: ValidationError = { id: '', category: '', field: CARE_UNIT_PHONE_NUMBER_FIELD, type: '', text: '' }
+  const address: ValidationError = { id: '', category: '', field: CARE_UNIT_ADDRESS_FIELD, type: '', text: 'Valideringstext' }
+  const zipCode: ValidationError = { id: '', category: '', field: CARE_UNIT_ZIP_CODE_FIELD, type: '', text: 'Valideringstext' }
+  const city: ValidationError = { id: '', category: '', field: CARE_UNIT_CITY_FIELD, type: '', text: 'Valideringstext' }
+  const phoneNumber: ValidationError = { id: '', category: '', field: CARE_UNIT_PHONE_NUMBER_FIELD, type: '', text: 'Valideringstext' }
   return [address, zipCode, city, phoneNumber]
 }
 
@@ -48,7 +48,7 @@ describe('CareUnitAddress component', () => {
     expect(screen.getByRole('textbox', { name: /postort/i })).toBeInTheDocument()
     expect(screen.getByText(/telefonnummer/i)).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /telefonnummer/i })).toBeInTheDocument()
-    expect(container.getElementsByClassName('ic-forms__error-message').length).toBe(0)
+    expect(screen.queryAllByText('Valideringstext')).toHaveLength(0)
     expect(screen.queryAllByText(/\*/i)).toHaveLength(4)
   })
 
@@ -69,10 +69,9 @@ describe('CareUnitAddress component', () => {
       })
     )
 
-    const { container } = render(<UeCareUnitAddress />)
+    render(<UeCareUnitAddress />)
 
-    expect(container.getElementsByClassName('ic-forms__error-message').length).toBe(4)
-
+    expect(screen.queryAllByText('Valideringstext')).toHaveLength(4)
     expect(screen.getByRole('textbox', { name: /postadress/i })).toHaveClass('ic-textarea--error')
     expect(screen.getByRole('textbox', { name: /postnummer/i })).toHaveClass('ic-textfield--error')
     expect(screen.getByRole('textbox', { name: /postort/i })).toHaveClass('ic-textfield--error')
@@ -80,9 +79,9 @@ describe('CareUnitAddress component', () => {
   })
 
   it('display no validation errors', (): void => {
-    const { container } = render(<UeCareUnitAddress />)
+    render(<UeCareUnitAddress />)
 
-    expect(container.getElementsByClassName('ic-forms__error-message').length).toBe(0)
+    expect(screen.queryAllByText('Valideringstext')).toHaveLength(0)
   })
 
   it('do not display mandatory', (): void => {
