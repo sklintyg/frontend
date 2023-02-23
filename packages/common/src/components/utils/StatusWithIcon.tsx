@@ -1,9 +1,7 @@
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import styled from 'styled-components'
+import { ArrowLeftIcon, AttentionIcon } from '../../images'
 import CheckIcon from '../../images/CheckIcon'
-import ErrorCircle from '../../images/ErrorCircle'
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,9 +27,9 @@ const StatusWithIcon: React.FC<Props> = ({ isModal, icon, children, additionalWr
       case 'CheckIcon':
         return <CheckIcon />
       case 'ErrorOutlineIcon':
-        return <ErrorCircle />
+        return <AttentionIcon className={additionalTextStyles} />
       case 'ArrowLeft':
-        return <FontAwesomeIcon icon={faArrowLeft} />
+        return <ArrowLeftIcon className={additionalTextStyles} />
       case undefined:
         return null
     }

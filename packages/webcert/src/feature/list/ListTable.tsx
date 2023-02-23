@@ -1,6 +1,4 @@
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Spinner, TableHeading } from '@frontend/common'
+import { ChevronDownIcon, ChevronUpIcon, Spinner, TableHeading } from '@frontend/common'
 import React, { useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
@@ -46,6 +44,9 @@ const SortingButton = styled.button`
   border: none;
   padding: 0 !important;
   color: #5f5f5f;
+  font-size: 0.68em;
+  vertical-align: 0.165em;
+  min-width: 2em;
 `
 
 export const ListTable: React.FC<Props> = ({
@@ -69,18 +70,18 @@ export const ListTable: React.FC<Props> = ({
     if (id === orderBy) {
       return ascending ? (
         <SortingButton aria-label="Byt till att sortera fallande">
-          <FontAwesomeIcon icon={faAngleUp} className={'iu-color-main'} aria-label="Kolumnen sorteras stigande" />
+          <ChevronUpIcon size="sm" className={'iu-color-main'} aria-label="Kolumnen sorteras stigande" />
         </SortingButton>
       ) : (
         <SortingButton aria-label="Byt till att sortera stigande">
-          <FontAwesomeIcon icon={faAngleDown} className={'iu-color-main'} aria-label="Kolumnen sorteras fallande" />
+          <ChevronDownIcon size="sm" className={'iu-color-main'} aria-label="Kolumnen sorteras fallande" />
         </SortingButton>
       )
     } else {
       return (
         <SortingButton aria-label="Sortera på kolumn">
-          <FontAwesomeIcon icon={faAngleUp} />
-          <FontAwesomeIcon icon={faAngleDown} />
+          <ChevronUpIcon size="sm" />
+          <ChevronDownIcon size="sm" />
         </SortingButton>
       )
     }
