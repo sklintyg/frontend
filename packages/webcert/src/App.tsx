@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import 'inera-core-css/src/icons/inera/fontello/style.scss'
 import 'inera-core-css/src/themes/inera-master.scss'
 import { useEffect } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import ErrorComponent from './components/error/ErrorComponent'
@@ -28,6 +28,8 @@ import { useAppDispatch } from './store/store'
 import { cancelLogout, getUser, getUserStatistics, triggerLogout } from './store/user/userActions'
 import { getAllDynamicLinks, getConfig } from './store/utils/utilsActions'
 import { selectIsLoadingInitialState } from './store/utils/utilsSelectors'
+
+const ErrorMessage = ({ error }: FallbackProps) => <>Ett fel har inträffat: {error.message}</>
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -58,7 +60,7 @@ function App(): JSX.Element {
   return (
     <SpinnerBackdrop open={isLoadingInitialState} spinnerText="Laddar...">
       <ConnectedRouter history={history}>
-        <ErrorBoundary fallbackRender={({ error }) => <>Ett fel har inträffat: {error.message}</>} onError={onError}>
+        <ErrorBoundary fallbackRender={ErrorMessage} onError={onError}>
           <ErrorComponent />
           <CareProviderModal />
           <SubscriptionWarningModal />

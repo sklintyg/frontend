@@ -76,12 +76,12 @@ const WebcertHeader: React.FC<Props> = ({ isEmpty = false }) => {
     <AppHeader
       logo={logo}
       alt={'Logo Webcert'}
-      primaryItems={isEmpty ? [] : [<WebcertHeaderUser />, <WebcertHeaderUnit />]}
+      primaryItems={isEmpty ? [] : [<WebcertHeaderUser key="user" />, <WebcertHeaderUnit key="header" />]}
       secondaryItems={getSecondaryItems()}
       banners={[<SystemBanners key="system-banners" />]}
       tabs={tabs}
       onSwitchTab={onSwitchTab}
-      subMenuBanners={missingSubscription() ? [<SystemBanner banner={subscriptionWarning} />] : []}
+      subMenuBanners={missingSubscription() ? [<SystemBanner key="system-banner" banner={subscriptionWarning} />] : []}
     />
   )
 }

@@ -10,6 +10,7 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../store/test/
 import { updateDynamicLinks } from '../store/utils/utilsActions'
 import { utilsMiddleware } from '../store/utils/utilsMiddleware'
 import TextWithDynamicLinks from './TextWithDynamicLinks'
+
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()

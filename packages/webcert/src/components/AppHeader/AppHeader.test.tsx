@@ -52,19 +52,19 @@ describe('App header', () => {
   })
 
   it('displays primary items', (): void => {
-    renderComponent([<p>Test</p>], [])
+    renderComponent([<p key="id">Test</p>], [])
     expect(screen.getByText(/Test/i)).toBeInTheDocument()
   })
 
   it('displays secondary items', (): void => {
-    renderComponent([], [<p>Test test</p>])
+    renderComponent([], [<p key="id">Test test</p>])
     expect(screen.getByText(/Test test/i)).toBeInTheDocument()
   })
 
   it('displays several primary items', (): void => {
     renderComponent(
       [
-        <div>
+        <div key="id">
           <p>Test</p>
           <span>My text</span>
         </div>,
@@ -84,7 +84,7 @@ describe('App header', () => {
   it('displays primary and secondary items', (): void => {
     renderComponent(
       [
-        <div>
+        <div key="id">
           <p>Primary items</p>
           <span>My text</span>
         </div>,
@@ -109,6 +109,7 @@ describe('App header', () => {
 
     renderComponentWithSubMenuBanners([
       <SystemBanner
+        key="id"
         banner={{
           message: BANNER_TEXT,
           priority: 'MEDEL',
