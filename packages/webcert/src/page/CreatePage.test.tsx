@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router-dom'
-import { resetCertificateState } from '../store/certificate/certificateActions'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { configureApplicationStore } from '../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../store/test/dispatchHelperMiddleware'
 import { updateIsLoadingUser, updateUser, updateUserResourceLinks } from '../store/user/userActions'
@@ -39,6 +39,12 @@ describe('SearchAndCreatePage', () => {
 
   afterEach(() => {
     clearDispatchedActions()
+  })
+
+  it('should dispatch resetCertificateState and updateShouldRouteAfterDelete actions on mount', () => {
+    renderComponent()
+    expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
+    expect(dispatchedActions.find((action) => updateShouldRouteAfterDelete.match(action))).toBeDefined()
   })
 
   it('should reset state when page is loaded', () => {
