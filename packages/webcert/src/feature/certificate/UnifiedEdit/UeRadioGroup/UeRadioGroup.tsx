@@ -49,7 +49,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
   return (
     radiobuttons && (
       <>
-        <GroupWrapper layout={config.layout} role="radiogroup">
+        <GroupWrapper layout={config.layout} role="radiogroup" className={`${validationErrors.length > 0 ? 'iu-mb-300' : ''}`}>
           {radiobuttons.map((radio, index) => (
             <ItemWrapper key={index} layout={shouldBeHorizontal ? ConfigLayout.INLINE : config.layout} index={index} noItems={noItems}>
               <RadioButton
@@ -66,7 +66,7 @@ const UeRadioGroup: React.FC<Props> = ({ question, disabled }) => {
             </ItemWrapper>
           ))}
         </GroupWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} spacing />
+        <QuestionValidationTexts validationErrors={validationErrors} />
       </>
     )
   )

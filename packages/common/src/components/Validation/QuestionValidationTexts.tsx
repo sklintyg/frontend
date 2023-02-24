@@ -6,12 +6,11 @@ import ValidationText from './ValidationText'
 interface QuestionValidationTextsProps {
   validationErrors: ValidationError[]
   additionalStyles?: FlattenSimpleInterpolation
-  spacing?: boolean
 }
 
-const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ validationErrors, additionalStyles, spacing }) => {
+const QuestionValidationTexts: React.FC<QuestionValidationTextsProps> = ({ validationErrors, additionalStyles }) => {
   return validationErrors && validationErrors.length > 0 ? (
-    <div css={additionalStyles} className={`${spacing ? 'iu-mt-300' : 'iu-mt-100'}`}>
+    <div css={additionalStyles}>
       {validationErrors.map((validationError, index) => (
         <ValidationText key={index} id={validationError.id} message={validationError.text} />
       ))}

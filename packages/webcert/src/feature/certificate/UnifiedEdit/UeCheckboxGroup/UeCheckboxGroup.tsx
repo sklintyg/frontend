@@ -21,7 +21,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
   return (
     checkboxes && (
       <>
-        <GroupWrapper layout={config.layout}>
+        <GroupWrapper layout={config.layout} className={`${validationErrors.length > 0 ? 'iu-mb-300' : ''}`}>
           {checkboxes.map((checkbox, index) => (
             <ItemWrapper key={index} layout={config.layout} index={index} noItems={noItems}>
               <UeCheckbox
@@ -34,7 +34,7 @@ const UeCheckboxGroup: React.FC<Props> = ({ question, disabled }) => {
             </ItemWrapper>
           ))}
         </GroupWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} spacing></QuestionValidationTexts>
+        <QuestionValidationTexts validationErrors={validationErrors}></QuestionValidationTexts>
       </>
     )
   )
