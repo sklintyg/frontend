@@ -47,7 +47,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
   const handleEmailSend = () => {
     const certificateUrl = `${window.location.protocol}//${window.location.host.replace(
       'wc2',
-      'wc'
+      ''
     )}/webcert/web/user/basic-certificate/${certificateType}/${certificateId}/questions`
     const subject = getSubject(unitName, careProviderName)
     const body = getBody(certificateUrl)
