@@ -30,6 +30,7 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 
   &:after {
     right: 0 !important;
+    top: 4px !important;
   }
 `
 
