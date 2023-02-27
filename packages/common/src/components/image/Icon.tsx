@@ -1,23 +1,19 @@
 import React from 'react'
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
+import styled from 'styled-components'
+import { LightbulpIcon } from '../../images'
 
 interface Props {
   iconType: string
   includeTooltip?: boolean
-  size?: FontAwesomeIconProps['size']
+  size?: 'sm' | 'lg'
 }
 
-const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
-  const getIconName = (id: string) => {
-    switch (id) {
-      case 'lightbulb_outline':
-        return faLightbulb
-      default:
-        return undefined
-    }
-  }
+const StyledLightbulpIcon = styled(LightbulpIcon)`
+  height: 1rem;
+  width: 1rem;
+`
 
+const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
   const getIconTooltip = (id: string) => {
     switch (id) {
       case 'lightbulb_outline':
@@ -27,20 +23,18 @@ const Icon: React.FC<Props> = ({ iconType, includeTooltip, size }) => {
     }
   }
 
-  const icon = getIconName(iconType)
-
-  if (!icon) {
-    return null
+  switch (iconType) {
+    case 'lightbulb_outline':
+      return (
+        <StyledLightbulpIcon
+          className={`iu-color-main ${size === 'sm' ? 'iu-mr-200' : 'iu-mr-300'}`}
+          size={size}
+          data-tip={includeTooltip ? getIconTooltip(iconType) : ''}
+        />
+      )
+    default:
+      return null
   }
-
-  return (
-    <FontAwesomeIcon
-      icon={icon}
-      className={`iu-color-main iu-mr-300 ${size === 'sm' ? 'iu-mt-200' : ''}`}
-      size={size ? size : 'lg'}
-      data-tip={includeTooltip ? getIconTooltip(iconType) : ''}
-    />
-  )
 }
 
 export default Icon

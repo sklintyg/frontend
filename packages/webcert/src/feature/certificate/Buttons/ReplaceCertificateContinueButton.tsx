@@ -1,8 +1,6 @@
+import { ButtonWithConfirmModal, CertificateMetadata, DoubleArrowIcon, InfoBox } from '@frontend/common'
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
 import { useHistory } from 'react-router-dom'
-import { ButtonWithConfirmModal, CertificateMetadata, InfoBox } from '@frontend/common'
 import { FunctionDisabled } from '../../../utils/functionDisablerUtils'
 
 interface Props extends FunctionDisabled {
@@ -24,7 +22,7 @@ const ReplaceCertificateContinueButton: React.FC<Props> = ({ name, description, 
       name={name}
       description={description}
       disabled={!enabled}
-      startIcon={<FontAwesomeIcon size="lg" icon={faExchangeAlt} />}
+      startIcon={<DoubleArrowIcon size="lg" />}
       modalTitle="Ersätt intyg"
       onConfirm={handleConfirm}
       confirmButtonText={'Fortsätt på utkast'}

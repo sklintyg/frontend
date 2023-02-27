@@ -16,7 +16,7 @@ import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { isFilterDefault } from '../feature/list/listUtils'
-import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 
 /**
@@ -33,6 +33,7 @@ const SignedCertificatesPage: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
+    dispatch(resetCertificateState())
   })
 
   useEffect(() => {

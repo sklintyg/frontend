@@ -66,7 +66,7 @@ const UeDiagnoses: React.FC<Props> = ({ question, disabled }) => {
           )
         })}
       </RadioWrapper>
-      <p>Diagnoskod enligt ICD-10 SE</p>
+      <p className={'iu-mb-200'}>Diagnoskod enligt ICD-10 SE</p>
       <div>
         {questionConfig.list.map((diagnosis, index) => {
           const diagnosisValidationErrors = validationErrors.filter((validation) => validation.field === diagnosis.id)

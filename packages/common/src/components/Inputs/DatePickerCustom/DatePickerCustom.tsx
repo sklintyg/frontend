@@ -19,8 +19,12 @@ const DatePickerWrapper = styled.div<{
 }>`
   display: ${(props) => (props.vertical === true ? 'block' : 'flex')};
   align-items: center;
+  position: relative;
 `
-
+const PickerWrapper = styled.div`
+  position: absolute;
+  right: 0px;
+`
 const StyledButton = styled.button<{
   displayValidationError: boolean
 }>`
@@ -43,18 +47,21 @@ const StyledButton = styled.button<{
     background-color: ${(props) => (props.displayValidationError ? '#fbf2f4' : '#f7f4f2')};
     color: #000000;
   }
+  &:focus {
+    border-top-left-radius: 0.1875rem;
+  }
 `
 
 const TextInput = styled.input`
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  max-width: 15ch;
   border-right: 0 !important;
   min-width: 124px;
   min-height: unset !important;
-
+  width: 100%;
   &:focus {
-    box-shadow: none;
+    border-top-left-radius: 0.1875rem;
+    border-top-right-radius: 0.1875rem;
   }
 `
 
@@ -68,12 +75,6 @@ const Wrapper = styled.div`
 const FocusWrapper = styled.div`
   display: flex;
   height: 3rem;
-
-  &:focus-within {
-    box-shadow: 0 0 0.9375rem 0 rgb(27 27 27 / 40%);
-    border-radius: 0.1875rem;
-    width: 99%;
-  }
 `
 registerLocale('sv', sv)
 setDefaultLocale('sv')
@@ -177,64 +178,66 @@ const DatePickerCustom: React.FC<Props> = ({
             autoComplete="off"
             css={inputCss}
           />
-          <DatePicker
-            calendarStartDay={1}
-            disabled={disabled}
-            shouldCloseOnSelect={true}
-            onChange={() => {
-              /*Empty*/
-            }}
-            dateFormat={yearOnly ? _yearFormat : _format}
-            customInput={
-              <StyledButton
-                aria-label="Öppna kalendern"
-                displayValidationError={displayValidationErrorOutline}
-                onClick={() => setOpen(true)}
-                className={classNames('ic-button', { error: displayValidationErrorOutline })}
-                onClickCapture={() => setOpen(!open)}>
-                <Logo src={calendar} alt="Kalender" />
-              </StyledButton>
-            }
-            onClickOutside={() => setOpen(false)}
-            open={open}
-            selected={getValidDateForPicker(getFullDate(inputString))}
-            onSelect={(date: Date) => {
-              setOpen(false)
-              setDate(formatDateToString(date))
-            }}
-            showWeekNumbers
-            showYearPicker={yearOnly}
-            portalId="root"
-            popperPlacement="bottom-end"
-            popperModifiers={[
-              {
-                name: 'preventOverflow',
-                options: {
-                  rootBoundary: 'viewport',
-                  boundary: boundryRef?.current ?? 'clippingParents',
-                  tether: false,
-                  altAxis: true,
+          <PickerWrapper>
+            <DatePicker
+              calendarStartDay={1}
+              disabled={disabled}
+              shouldCloseOnSelect={true}
+              onChange={() => {
+                /*Empty*/
+              }}
+              dateFormat={yearOnly ? _yearFormat : _format}
+              customInput={
+                <StyledButton
+                  aria-label="Öppna kalendern"
+                  displayValidationError={displayValidationErrorOutline}
+                  onClick={() => setOpen(true)}
+                  className={classNames('ic-button', { error: displayValidationErrorOutline })}
+                  onClickCapture={() => setOpen(!open)}>
+                  <Logo src={calendar} alt="Kalender" />
+                </StyledButton>
+              }
+              onClickOutside={() => setOpen(false)}
+              open={open}
+              selected={getValidDateForPicker(getFullDate(inputString))}
+              onSelect={(date: Date) => {
+                setOpen(false)
+                setDate(formatDateToString(date))
+              }}
+              showWeekNumbers
+              showYearPicker={yearOnly}
+              portalId="root"
+              popperPlacement="bottom-end"
+              popperModifiers={[
+                {
+                  name: 'preventOverflow',
+                  options: {
+                    rootBoundary: 'viewport',
+                    boundary: boundryRef?.current ?? 'clippingParents',
+                    tether: false,
+                    altAxis: true,
+                  },
                 },
-              },
-              {
-                name: 'updateReferenceHiddenAttribute',
-                enabled: true,
-                phase: 'main',
-                requiresIfExists: ['offset'],
-                fn({ state }) {
-                  const isReferenceHidden = state.attributes.popper['data-popper-reference-hidden']
-                  if (typeof isReferenceHidden !== 'string' && isReferenceHidden) {
-                    state.elements.popper.dataset.popperReferenceHidden = ''
-                  } else {
-                    delete state.elements.popper.dataset.popperReferenceHidden
-                  }
-                  return state
+                {
+                  name: 'updateReferenceHiddenAttribute',
+                  enabled: true,
+                  phase: 'main',
+                  requiresIfExists: ['offset'],
+                  fn({ state }) {
+                    const isReferenceHidden = state.attributes.popper['data-popper-reference-hidden']
+                    if (typeof isReferenceHidden !== 'string' && isReferenceHidden) {
+                      state.elements.popper.dataset.popperReferenceHidden = ''
+                    } else {
+                      delete state.elements.popper.dataset.popperReferenceHidden
+                    }
+                    return state
+                  },
                 },
-              },
-            ]}
-            maxDate={max ? new Date(getFullDate(max) as string) : _maxAllowedDate}
-            minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
-          />
+              ]}
+              maxDate={max ? new Date(getFullDate(max) as string) : _maxAllowedDate}
+              minDate={min ? new Date(getFullDate(min) as string) : _minAllowedDate}
+            />
+          </PickerWrapper>
         </FocusWrapper>
       </DatePickerWrapper>
     </Wrapper>
