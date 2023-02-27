@@ -24,6 +24,7 @@ const Root = styled.textarea<RootProps>`
   cursor: auto;
   overflow-y: ${(props) => (props.hideOverflow ? 'hidden' : '')};
   height: ${(props) => props.rows === 1 && '3rem !important'};
+  vertical-align: top;
 `
 
 const TextArea: React.FC<TextAreaProps> = (props) => {

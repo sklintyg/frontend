@@ -33,7 +33,6 @@ const Wrapper = styled.div`
 const ValidationWrapper = styled.div`
   flex: 0 !important;
   flex-basis: 100% !important;
-  padding-bottom: 0.9375rem;
   margin-top: 0;
 `
 const EmptyValidationWrapper = styled.div`
@@ -69,8 +68,8 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
 
-  const emptyValidationError = validationErrors ? (validationErrors.find((e) => e.type === 'EMPTY') as ValidationError) : undefined
-  const nonEmptyValidationErrors = validationErrors ? validationErrors.filter((e) => e.type !== 'EMPTY') : undefined
+  const emptyValidationError = validationErrors.filter((e) => e.type === 'EMPTY')
+  const nonEmptyValidationErrors = validationErrors.filter((e) => e.type !== 'EMPTY')
 
   const specifications: ConfigUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
 
@@ -89,7 +88,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
 
   return (
     <>
-      <Wrapper>
+      <Wrapper className={`${oneLine ? 'iu-mb-400' : ''}`}>
         <Description oneLine={oneLine}>
           <TextInput
             label="Beskrivning"
@@ -99,19 +98,18 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
               handleDescriptionChange(event.currentTarget.value)
             }}
             disabled={disabled}
-            hasValidationError={emptyValidationError != null}
+            hasValidationError={emptyValidationError.length > 0}
             limit={textValidation ? textValidation.limit : 100}
-            className="iu-mb-400"
           />
         </Description>
-        <EmptyValidationWrapper>
-          {emptyValidationError && (
+        {emptyValidationError.length > 0 && (
+          <EmptyValidationWrapper>
             <ValidationWrapper>
-              <QuestionValidationTexts validationErrors={[emptyValidationError]} />
+              <QuestionValidationTexts validationErrors={emptyValidationError} />
             </ValidationWrapper>
-          )}
-        </EmptyValidationWrapper>
-        <DateAndSpec oneLine={oneLine}>
+          </EmptyValidationWrapper>
+        )}
+        <DateAndSpec oneLine={oneLine} className={`${!oneLine ? 'iu-mt-400' : ''}`}>
           <DateAndSpecInner>
             <DatePickerCustom
               additionalStyles="iu-mr-400"
@@ -147,7 +145,7 @@ const UeCauseOfDeathControl: React.FC<Props> = ({
           {children}
         </DateAndSpec>
       </Wrapper>
-      {nonEmptyValidationErrors && (
+      {nonEmptyValidationErrors.length > 0 && (
         <ValidationWrapper>
           <QuestionValidationTexts validationErrors={nonEmptyValidationErrors} />
         </ValidationWrapper>
