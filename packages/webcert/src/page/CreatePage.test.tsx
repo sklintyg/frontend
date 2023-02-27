@@ -51,6 +51,16 @@ describe('SearchAndCreatePage', () => {
     renderComponent()
     expect(dispatchedActions.find((action) => resetCertificateState.match(action))).toBeDefined()
   })
+
+  it('should dispatch resetCertificateState before updateShouldRouteAfterDelete', () => {
+    renderComponent()
+
+    const resetCertificateStateIndex = dispatchedActions.findIndex((action) => resetCertificateState.match(action))
+
+    const updateShouldRouteAfterDeleteIndex = dispatchedActions.findIndex((action) => updateShouldRouteAfterDelete.match(action))
+
+    expect(resetCertificateStateIndex).toBeLessThan(updateShouldRouteAfterDeleteIndex)
+  })
 })
 
 const getUser = (): User => {
