@@ -34,7 +34,10 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
 
   return (
     <>
-      <div role="radiogroup" aria-label="Radiogrupp" className="ic-radio-group-horizontal">
+      <div
+        role="radiogroup"
+        aria-label="Radiogrupp"
+        className={`ic-radio-group-horizontal ${validationErrors.length > 0 ? 'iu-mb-300' : ''}`}>
         <RadioButton
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}
@@ -56,7 +59,7 @@ const UeRadio: React.FC<Props> = ({ question, disabled }) => {
           onChange={handleChange}
         />
       </div>
-      <QuestionValidationTexts validationErrors={validationErrors} spacing />
+      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }
