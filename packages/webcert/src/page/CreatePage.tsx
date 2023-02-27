@@ -36,8 +36,8 @@ const CreatePage: React.FC = () => {
   const history = useHistory()
 
   useEffect(() => {
-    dispatch(updateShouldRouteAfterDelete(true))
     dispatch(resetCertificateState())
+    dispatch(updateShouldRouteAfterDelete(true))
   })
 
   const isPatientLoaded = () => {
