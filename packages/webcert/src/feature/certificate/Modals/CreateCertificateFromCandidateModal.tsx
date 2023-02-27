@@ -1,4 +1,4 @@
-import { CustomButton, ModalBase, ResourceLink, sanitizeText, useKeyPress } from '@frontend/common'
+import { CopyIcon, CustomButton, ModalBase, ResourceLink, sanitizeText, useKeyPress } from '@frontend/common'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { createCertificateFromCandidate } from '../../../store/certificate/certificateActions'
@@ -45,7 +45,10 @@ const CreateCertificateFromCandidateModal: React.FC<Props> = ({ resourceLink }) 
       buttons={
         <>
           <CustomButton onClick={handleClose} buttonStyle="default" text="Avbryt" />
-          <CustomButton onClick={handleConfirm} buttonStyle={'primary'} text={'Kopiera'} />
+          <CustomButton onClick={handleConfirm} buttonStyle={'primary'}>
+            <CopyIcon className="iu-mr-200" />
+            Kopiera
+          </CustomButton>
         </>
       }
     />

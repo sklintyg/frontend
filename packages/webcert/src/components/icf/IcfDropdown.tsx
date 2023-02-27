@@ -1,11 +1,9 @@
-import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CustomButton, InfoCircle, useKeyPress } from '@frontend/common'
+import { ChevronDownIcon, CustomButton, InfoCircle, LightbulpIcon, useKeyPress } from '@frontend/common'
 import FocusTrap from 'focus-trap-react'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { getOriginalIcd10Codes, isIcfFunctionDisabled } from '../../store/icf/icfSelectors'
 import IcfCategory from './IcfCategory'
@@ -23,6 +21,16 @@ interface Props {
   disabled: boolean
   id: string
 }
+
+const StyledLightbulpIcon = styled(LightbulpIcon)`
+  height: 1rem;
+  width: 1rem;
+`
+
+const StyledChevronDownIcon = styled(ChevronDownIcon)`
+  width: 0.875em;
+  font-size: 0.875em;
+`
 
 const IcfDropdown: React.FC<Props> = ({
   modalLabel,
@@ -143,9 +151,9 @@ const IcfDropdown: React.FC<Props> = ({
         tooltip={getTooltip()}
         disabled={shouldDropdownButtonBeDisabled()}
         onClick={handleToggleDropdownButtonClick}>
-        <FontAwesomeIcon size="lg" icon={faLightbulb} className="iu-mr-300" />
+        <StyledLightbulpIcon className="iu-mr-200" />
         Ta hjälp av ICF
-        <FontAwesomeIcon icon={faChevronDown} flip={displayDropdown ? 'vertical' : undefined} size="sm" className="iu-ml-200" />
+        <StyledChevronDownIcon className="iu-ml-200" />
       </CustomButton>
       {shouldRenderDropdown() && displayDropdown && (
         <FocusTrap focusTrapOptions={{ initialFocus: false }}>

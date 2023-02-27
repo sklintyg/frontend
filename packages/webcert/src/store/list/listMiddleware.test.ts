@@ -16,8 +16,10 @@ import {
   getUnhandledCertificates,
   getUnhandledCertificatesListConfig,
   ListResponse,
+  resetListState,
   updateActiveListConfig,
   updateActiveListType,
+  updateListConfig,
 } from './listActions'
 import { listMiddleware } from './listMiddleware'
 
@@ -264,7 +266,7 @@ describe('Test list middleware', () => {
       })
     })
 
-    describe('questions', () => {
+    describe('unhandled certificates', () => {
       it('shall call api to get config', async () => {
         testStore.dispatch(getUnhandledCertificatesListConfig('UNIT_ID'))
 
@@ -282,6 +284,30 @@ describe('Test list middleware', () => {
 
         await flushPromises()
         expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
+      })
+
+      it('shall save updated config if type is unhandled certificates', async () => {
+        const expectedConfig = getConfigWithTextFilter()
+        testStore.dispatch(resetListState())
+        testStore.dispatch(updateActiveListType(ListType.UNHANDLED_CERTIFICATES))
+        fakeAxios.onPost('/api/list/config/question/update').reply(200, expectedConfig)
+
+        testStore.dispatch(updateListConfig())
+
+        await flushPromises()
+        expect(testStore.getState().ui.uiList.activeListConfig).toEqual(expectedConfig)
+      })
+
+      it('shall not save updated config if type is not unhandled certificates', async () => {
+        const expectedConfig = getConfigWithTextFilter()
+        testStore.dispatch(resetListState())
+        testStore.dispatch(updateActiveListType(ListType.DRAFTS))
+        fakeAxios.onPost('/api/list/config/question/update').reply(200, expectedConfig)
+
+        testStore.dispatch(updateListConfig())
+
+        await flushPromises()
+        expect(testStore.getState().ui.uiList.activeListConfig).not.toEqual(expectedConfig)
       })
     })
   })
