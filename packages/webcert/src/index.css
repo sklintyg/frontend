@@ -107,7 +107,7 @@ img {
 }
 
 .ic-card.ic-expandable .ic-expandable-button:after {
-  top: 5px !important;
+  top: 8px;
   right: 0;
 }
 
