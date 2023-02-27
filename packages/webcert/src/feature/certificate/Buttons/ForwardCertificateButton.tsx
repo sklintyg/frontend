@@ -13,6 +13,7 @@ interface Props extends FunctionDisabled {
   forwarded: boolean
   certificateId: string
   type: ResourceLinkType
+  certificateType: string
 }
 
 const ForwardCertificateButton: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const ForwardCertificateButton: React.FC<Props> = ({
   careProviderName,
   forwarded,
   certificateId,
+  certificateType,
   type,
 }) => {
   const dispatch = useDispatch()
@@ -43,7 +45,10 @@ const ForwardCertificateButton: React.FC<Props> = ({
     )
 
   const handleEmailSend = () => {
-    const certificateUrl = `${window.location.protocol}//${window.location.host}/certificate/${certificateId}`
+    const certificateUrl = `${window.location.protocol}//${window.location.host.replace(
+      'wc2',
+      'wc'
+    )}/webcert/web/user/basic-certificate/${certificateType}/${certificateId}/questions`
     const subject = getSubject(unitName, careProviderName)
     const body = getBody(certificateUrl)
     const href = `mailto:?subject=${subject}&body=${body}`

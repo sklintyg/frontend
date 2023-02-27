@@ -31,7 +31,7 @@ interface Props {
 /**
  * Generates a table with filtering options and sorting.
  */
-const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
+const List: React.FC<Props> = ({ icon, config, list, filter, title }) => {
   const dispatch = useDispatch()
   const isLoadingList = useSelector(getIsLoadingList)
   const isSortingList = useSelector(getIsSortingList)
@@ -99,7 +99,6 @@ const List: React.FC<Props> = ({ icon, config, list, filter, title, type }) => {
                   tooltips={config.buttonTooltips}
                   links={listItem.values['LINKS'] as ResourceLink[]}
                   certificateId={listItem.values['CERTIFICATE_ID'] as string}
-                  listType={type}
                 />
               )
             })}
