@@ -68,7 +68,7 @@ const WebcertHeaderUser: React.FC<Props> = () => {
         <ExpandableBoxWrapper
           onClick={handleClick}
           changeLinkPointer={!!privatePractitionerPortal}
-          data-testId="expandableBox"
+          data-testid="expandableBox"
           tabIndex={privatePractitionerPortal ? 0 : -1}
           onKeyDown={privatePractitionerPortal ? handleKeyDown : undefined}>
           <UserWrapper>
