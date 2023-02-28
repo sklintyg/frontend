@@ -7,7 +7,7 @@ import CommonLayout from '../components/commonLayout/CommonLayout'
 import WebcertHeader from '../components/header/WebcertHeader'
 import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import ListContainer from '../feature/list/ListContainer'
-import { updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
+import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/certificate/certificateActions'
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
@@ -25,6 +25,7 @@ const UnhandledCertificatsPage: React.FC = () => {
 
   useEffect(() => {
     ReactTooltip.rebuild()
+    dispatch(resetCertificateState())
   })
 
   useEffect(() => {

@@ -16,6 +16,7 @@ const AccordionHeader = styled.summary.attrs({
     outline-style: solid;
     outline-color: #a1958a;
     outline-offset: 3px;
+    margin-bottom: 0.625rem !important;
   }
 `
 

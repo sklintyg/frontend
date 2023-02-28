@@ -14,7 +14,7 @@ const ValidationErrorWrapper = styled.div`
 export const QuestionValidationError = ({ id }: { id: string }): ReactElement | null => {
   const validationErrors = useSelector(getVisibleValidationErrors(id), isEqual)
   return validationErrors.length > 0 ? (
-    <ValidationErrorWrapper>
+    <ValidationErrorWrapper className="contentPaperWrapper">
       <QuestionValidationTexts validationErrors={validationErrors} />
     </ValidationErrorWrapper>
   ) : null
