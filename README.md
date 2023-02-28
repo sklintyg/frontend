@@ -21,7 +21,7 @@
 
 1. Install dependencies with `yarn install`
 2. Execute a build with `yarn build`
-3. Start development environment and watchers with `yarn dev`
+3. Start development environment and watchers with `yarn start`
 
 ## Configure Editor
 
@@ -66,7 +66,7 @@ Detailed instructions for building and running the backend apps can be found in 
    - Open terminal in `sklintyg/webcert/`
    - Run command `gradlew appRun` (or `./gradlew appRun` in Git Bash)
 5. Run the app in the development mode. React will hot-reload changes made in the app as well as in common.
-   - Start webcert in development: `yarn dev`
+   - Start webcert in development: `yarn start`
 6. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
 
 ## OpenShift Build Pipeline
