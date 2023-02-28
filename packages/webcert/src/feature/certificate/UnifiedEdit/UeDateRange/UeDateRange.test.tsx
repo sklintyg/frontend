@@ -1,4 +1,4 @@
-import { fakeCertificate, fakeDateRangeElement } from '@frontend/common'
+import { fakeCertificate, fakeDateRangeElement, ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
@@ -30,15 +30,24 @@ const getValidationErrors = (field: string) => {
   ]
 }
 
+const getQuestion = (validationErrors: ValidationError[]) => {
+  return fakeDateRangeElement({
+    id: QUESTION_ID,
+    value: { date: '2022-09-29' },
+    config: { id: 'jsonid' },
+    validationErrors: validationErrors,
+  })[QUESTION_ID]
+}
+
 describe('Date range picker', () => {
   it('renders without crashing', () => {
-    const question = fakeDateRangeElement({ id: QUESTION_ID, value: { date: '2022-09-29' } })[QUESTION_ID]
+    const question = getQuestion([])
     expect(() => renderDefaultComponent({ disabled: false, question })).not.toThrow()
   })
 
   describe('Validation error', () => {
     it('shows date range error when end date is before start date', () => {
-      const question = fakeDateRangeElement({ id: QUESTION_ID, value: { date: '2022-09-29' } })[QUESTION_ID]
+      const question = getQuestion([])
       renderDefaultComponent({ disabled: false, question })
       store.dispatch(showValidationErrors())
 
@@ -61,12 +70,7 @@ describe('Date range picker', () => {
 
     it('should show validation error of type id.field', () => {
       const validationErrors = getValidationErrors('jsonid.tom')
-      const question = fakeDateRangeElement({
-        id: QUESTION_ID,
-        value: { date: '2022-09-29' },
-        config: { id: 'jsonid' },
-        validationErrors: validationErrors,
-      })[QUESTION_ID]
+      const question = getQuestion(validationErrors)
       store.dispatch(showValidationErrors())
       store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
 
@@ -77,12 +81,7 @@ describe('Date range picker', () => {
 
     it('should show validation error of type field.id', () => {
       const validationErrors = getValidationErrors('tom.jsonid')
-      const question = fakeDateRangeElement({
-        id: QUESTION_ID,
-        value: { date: '2022-09-29' },
-        config: { id: 'jsonid' },
-        validationErrors: validationErrors,
-      })[QUESTION_ID]
+      const question = getQuestion(validationErrors)
       store.dispatch(showValidationErrors())
       store.dispatch(updateCertificate(fakeCertificate({ data: { QUESTION_ID: question } })))
 
