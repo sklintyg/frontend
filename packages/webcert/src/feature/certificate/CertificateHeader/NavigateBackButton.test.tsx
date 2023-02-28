@@ -1,5 +1,5 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import React from 'react'
 import NavigateBackButton from './NavigateBackButton'
@@ -9,24 +9,20 @@ import { userMiddleware } from '../../../store/user/userMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../../store/user/userActions'
 import { getNavigateBackButtonLink, getUser } from '@frontend/common'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { createMemoryHistory } from 'history'
+import { Router } from 'react-router-dom'
 
 let testStore: EnhancedStore
-
+const history = createMemoryHistory()
 const renderComponent = () => {
   render(
     <Provider store={testStore}>
-      <NavigateBackButton />
+      <Router history={history}>
+        <NavigateBackButton />
+      </Router>
     </Provider>
   )
 }
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn(),
-    length: 1,
-  }),
-}))
 
 describe('NavigateBackButton', () => {
   beforeEach(() => {
@@ -44,5 +40,35 @@ describe('NavigateBackButton', () => {
     testStore.dispatch(updateUser(getUser()))
     renderComponent()
     expect(screen.queryByText('Tillbaka')).not.toBeInTheDocument()
+  })
+
+  it('should navigate back to start page if action is POP', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getNavigateBackButtonLink()))
+    history.push('/some-page')
+    history.push('/some-page1')
+    history.action = 'POP'
+
+    renderComponent()
+
+    const backButton = screen.getByRole('button')
+    fireEvent.click(backButton)
+
+    expect(history.location.pathname).toBe('/')
+  })
+
+  it('should use history.getBack() if action is not POP', () => {
+    testStore.dispatch(updateUser(getUser()))
+    testStore.dispatch(updateUserResourceLinks(getNavigateBackButtonLink()))
+    history.push('/some-page')
+    history.push('/some-page1')
+    history.action = 'PUSH'
+
+    renderComponent()
+
+    const backButton = screen.getByRole('button')
+    fireEvent.click(backButton)
+
+    expect(history.location.pathname).toBe('/some-page')
   })
 })
