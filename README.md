@@ -19,32 +19,35 @@
 
 ## Setup
 
-- Clone the repo. `git clone https://github.com/sklintyg/frontend.git`
-- Open terminal in `sklintyg/frontend/` and install packages with `yarn install`
-- Configure preferred IDE
-  - IntelliJ
-    - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
-    - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
-  - VS Code
-    - Install plugin `ESLint`
-    - Install plugin `vscode-styled-components`
-    - Install plugin `Prettier - Code formatter`
-    - Enable auto format on save
-      - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
-      - Add the following properties
-        ```json
-        {
-          "editor.defaultFormatter": "esbenp.prettier-vscode",
-          "editor.formatOnSave": true
-        }
-        ```
-      - Add the following properties (_optional_)
-        ```json
-        "editor.codeActionsOnSave": {
-          "source.organizeImports": true,
-          "source.fixAll": true
-        }
-        ```
+1. Install dependencies with `yarn install`
+2. Execute a build with `yarn build`
+3. Start development environment and watchers with `yarn dev`
+
+## Configure Editor
+
+- IntelliJ
+  - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
+  - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
+- VS Code
+  - Install plugin `ESLint`
+  - Install plugin `vscode-styled-components`
+  - Install plugin `Prettier - Code formatter`
+  - Enable auto format on save
+    - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
+    - Add the following properties
+      ```json
+      {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+      }
+      ```
+    - Add the following properties (_optional_)
+      ```json
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll": true
+      }
+      ```
 
 ## Run Webcert backend and frontend client
 
@@ -63,7 +66,7 @@ Detailed instructions for building and running the backend apps can be found in 
    - Open terminal in `sklintyg/webcert/`
    - Run command `gradlew appRun` (or `./gradlew appRun` in Git Bash)
 5. Run the app in the development mode. React will hot-reload changes made in the app as well as in common.
-   - Start webcert in development: `yarn workspace @frontend/webcert start`
+   - Start webcert in development: `yarn dev`
 6. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
 
 ## OpenShift Build Pipeline
@@ -97,13 +100,11 @@ Storybook can be used to develop and test components within the common package. 
 
 ## Running tests
 
-Jest is used for executing tests.
+vitest is used for executing tests.
 
-To run tests in Webcert: `yarn workspace @frontend/webcert test`
+To run tests in all packages `yarn test`
 
-To run tests in Common: `yarn workspace @frontend/common test` (add `--watchAll` if you want the test runner to run the tests for any change you make.)
-
-See [Jest CLI Options](https://jestjs.io/docs/en/cli) for more info what you can do when executing tests.
+To run tests in a perticular workspace `yarn workspace <name of workspace> test`
 
 ## Writing tests
 
@@ -113,9 +114,8 @@ Smoke test that checks if the component can be rendered without crashing. Ex:
 
 ```javascript
 it('renders without crashing', () => {
-  const question = createQuestionWithTextValue()
-  const div = document.createElement('div')
-  ReactDOM.render(<UvText question={question} />, div)
+  const question = fakeTextElement({ id: 'id' })
+  expect(render(<UvText question={question['id']} />)).not.toThrow()
 })
 ```
 
@@ -123,8 +123,8 @@ Tests that verifies the components behavior from a user perspective. Use React T
 
 ```javascript
 it('displaying empty value', () => {
-  const question = createQuestion({ type: CertificateDataValueType.TEXT })
-  const { getByText } = render(<UvText question={question} />)
+  const question = fakeTextElement({ id: 'id' })
+  const { getByText } = render(<UvText question={question['id']} />)
   getByText(/Ej angivet/i)
 })
 ```
