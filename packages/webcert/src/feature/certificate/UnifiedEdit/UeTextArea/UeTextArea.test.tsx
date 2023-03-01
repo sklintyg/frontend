@@ -49,6 +49,6 @@ describe('UeTextArea', () => {
       ],
     })['1']
     renderDefaultComponent({ question: mockQuestion, disabled: false })
-    expect(screen.getByText('Tecken kvar:', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('100 av 100 tecken', { exact: false })).toBeInTheDocument()
   })
 })
