@@ -127,7 +127,11 @@ const UeDateRange: React.FC<Props> = ({ question, disabled }) => {
 
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
     if (id) {
-      return validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
+      return (
+        validationErrors.filter(
+          (v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes(id + '.' + field) || v.field.includes('row.' + id)
+        ).length > 0
+      )
     }
     return validationErrors.length > 0
   }
