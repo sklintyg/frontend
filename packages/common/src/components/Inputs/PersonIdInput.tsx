@@ -25,7 +25,14 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onFormattedChange(formatPersonId(event.currentTarget.value))
+    const inputValue = event.currentTarget.value
+    const formattedValue = inputValue.replace(/\D/g, '')
+
+    if (formattedValue.length === 12) {
+      onFormattedChange(formatPersonId(formattedValue))
+    } else {
+      onFormattedChange(inputValue)
+    }
   }
 
   useEffect(() => {
