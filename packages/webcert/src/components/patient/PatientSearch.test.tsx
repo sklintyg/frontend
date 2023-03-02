@@ -4,20 +4,47 @@ import PatientSearch from './PatientSearch'
 import { Provider } from 'react-redux'
 import store from '../../store/store'
 import userEvent from '@testing-library/user-event'
+import { setPatient } from '../../store/patient/patientActions'
+import { fakePatient } from '@frontend/common'
+import { createBrowserHistory } from 'history'
+import { Router } from 'react-router-dom'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
 const renderComponent = () => {
   render(
     <Provider store={store}>
-      <PatientSearch />
+      <Router history={history}>
+        <PatientSearch />
+      </Router>
     </Provider>
   )
 }
 
+const history = createBrowserHistory()
+history.push = jest.fn()
+
 describe('PatientSearch', () => {
   it('should render component', () => {
     renderComponent()
+  })
+
+  it('should not route if patient is not set', () => {
+    renderComponent()
+    userEvent.type(screen.getByRole('textbox'), '191212121212')
+    userEvent.click(screen.getByText('Fortsätt'))
+    store.dispatch(setPatient(undefined))
+
+    expect(history.push).not.toHaveBeenCalled()
+  })
+
+  it('should route if patient is set', () => {
+    renderComponent()
+    userEvent.type(screen.getByRole('textbox'), '191212121212')
+    store.dispatch(setPatient(fakePatient()))
+    userEvent.click(screen.getByText('Fortsätt'))
+
+    expect(history.push).toHaveBeenCalled()
   })
 
   describe('Input', () => {
