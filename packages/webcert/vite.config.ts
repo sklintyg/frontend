@@ -31,6 +31,7 @@ export default ({ mode }: UserConfig) => {
       proxy,
       https,
       hmr,
+      strictPort: true,
       port: 3000,
       host: process.env.VITE_HOST ?? 'localhost',
       // strictPort: true,
