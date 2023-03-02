@@ -54,6 +54,12 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
     return value !== '' && !isPersonIdValid(value)
   }
 
+  const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!/^-?\d*$/.test(event.key)) {
+      event.preventDefault()
+    }
+  }
+
   return (
     <>
       <Wrapper>
@@ -71,6 +77,7 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           onFocus={handleFocus}
           hasValidationError={displayError && hasValidationError()}
           autoComplete="off"
+          onKeyPress={onKeyPress}
         />
         <InvalidPersonIdMessage display={displayError && hasValidationError()} />
       </Wrapper>
