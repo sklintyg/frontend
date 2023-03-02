@@ -1,4 +1,4 @@
-import { ListHeader, ListType, noQuestionImage, speechBubbleImage } from '@frontend/common'
+import { ListHeader, ListType, noQuestionImage, ResourceLinkType, speechBubbleImage } from '@frontend/common'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ const UnhandledCertificatsPage: React.FC = () => {
   })
 
   return (
-    <ResourceAccess>
+    <ResourceAccess linkType={ResourceLinkType.ACCESS_UNHANDLED_CERTIFICATES}>
       <CommonLayout
         header={
           <>

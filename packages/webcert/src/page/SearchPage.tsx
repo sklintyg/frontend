@@ -5,6 +5,7 @@ import WebcertHeader from '../components/header/WebcertHeader'
 import PatientSearch from '../components/patient/PatientSearch'
 import { getUser } from '../store/user/userSelectors'
 import { ResourceAccess } from '../utils/ResourceAccess'
+import { ResourceLinkType } from '@frontend/common'
 
 const SearchPage: React.FC = () => {
   const user = useSelector(getUser)
@@ -20,7 +21,7 @@ const SearchPage: React.FC = () => {
   )
 }
 export const SearchPageWithRedirect: React.FC<ComponentProps<typeof SearchPage>> = () => (
-  <ResourceAccess>
+  <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
     <SearchPage />
   </ResourceAccess>
 )

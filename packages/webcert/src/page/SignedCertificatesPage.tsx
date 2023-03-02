@@ -1,4 +1,4 @@
-import { epostImage, ListHeader, ListType, noDraftsImage } from '@frontend/common'
+import { epostImage, ListHeader, ListType, noDraftsImage, ResourceLinkType } from '@frontend/common'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -39,7 +39,7 @@ const SignedCertificatesPage: React.FC = () => {
   })
 
   return (
-    <ResourceAccess>
+    <ResourceAccess linkType={ResourceLinkType.ACCESS_SIGNED_CERTIFICATES_LIST}>
       <CommonLayout
         header={
           <>
