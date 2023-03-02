@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const AccordionHeader = styled.summary.attrs({
   tabIndex: 0,
-  className: 'ic-expandable-button  iu-focus ic-inner ic-expandable-button--chevron iu-fs-400 iu-mb-200',
+  className: 'ic-expandable-button  iu-focus ic-expandable-button--chevron iu-fs-400 iu-mb-300',
 })`
   justify-content: flex-start;
   align-items: flex-start;
