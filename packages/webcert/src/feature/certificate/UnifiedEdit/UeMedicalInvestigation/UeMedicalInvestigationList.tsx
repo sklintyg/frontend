@@ -27,7 +27,7 @@ const StyledAccordionHeader = styled(AccordionHeader)`
   padding: 0 !important;
   margin: 0 !important;
   padding-right: 1.625rem !important;
-
+  margin-bottom: 0.625rem !important;
   &:after {
     right: 0 !important;
     top: 4px !important;
@@ -70,7 +70,7 @@ const UeMedicalInvestigationList: React.FC<Props> = ({ question, disabled }) => 
           <StyledAccordionHeader>
             <h4 className={'iu-fs-300'}>{questionConfig.informationSourceText}</h4>
           </StyledAccordionHeader>
-          <Text className={'iu-mb-400'} dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
+          <Text dangerouslySetInnerHTML={sanitizeText(questionConfig.informationSourceDescription)}></Text>
         </Accordion>
       </UeMedicalInvestigationGrid>
       <div className="ic-forms__group iu-grid-rows">

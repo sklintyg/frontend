@@ -1,4 +1,3 @@
-import { InfoBox } from '@frontend/common'
 import React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -17,9 +16,6 @@ const AboutWebcertModalContent: React.FC = () => {
 
   return (
     <Wrapper>
-      <InfoBox type={'observe'}>
-        <WCDynamicLink linkKey={'ineraIntygsskola'} />
-      </InfoBox>
       <p className={'iu-pt-400'}>Webcert är en tjänst som drivs av Inera AB.</p>
 
       <p>Nuvarande version är {version}.</p>
