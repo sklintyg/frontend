@@ -13,7 +13,7 @@ interface HighlightedProps {
 
 export const Highlighted = styled.div<HighlightedProps>`
   :not(:last-child) {
-    padding-bottom: 0.9375rem;
+    margin-bottom: 0.625rem;
   }
   :empty {
     display: none;
@@ -24,6 +24,7 @@ export const Highlighted = styled.div<HighlightedProps>`
       border-radius: 0.1875px;
       outline: 1.5px solid #01a5a3;
       margin-top: 1.5px;
+      padding: 0.3125rem 0.3125rem;
     `}
 `
 
