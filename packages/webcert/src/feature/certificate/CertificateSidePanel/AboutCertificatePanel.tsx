@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCertificateMetaData } from '../../../store/certificate/certificateSelectors'
 import TextWithDynamicLinks from '../../../utils/TextWithDynamicLinks'
-import AboutCertificatePanelFooter from './AboutCertificatePanelFooter'
 import PanelHeader from './PanelHeader'
 
 const Content = styled.div`
@@ -14,10 +13,6 @@ const Content = styled.div`
 
   ul {
     margin: 8px 0 8px 0;
-  }
-
-  p:last-of-type {
-    padding-bottom: 50px;
   }
 `
 const Wrapper = styled.div`
@@ -61,7 +56,6 @@ const AboutCertificatePanel: React.FC = () => {
           </Description>
         )}
       </Content>
-      <AboutCertificatePanelFooter />
     </Wrapper>
   )
 }
