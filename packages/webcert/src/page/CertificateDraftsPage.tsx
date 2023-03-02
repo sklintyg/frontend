@@ -11,10 +11,8 @@ import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/ce
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
 import { getNumberOfDraftsOnUnit } from '../store/user/userSelectors'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
-/**
- * Page for certificate drafts containing a list with filter options, sorting etc..
- */
 const CertificateDraftPage: React.FC = () => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig, shallowEqual)
@@ -33,27 +31,29 @@ const CertificateDraftPage: React.FC = () => {
   })
 
   return (
-    <CommonLayout
-      header={
-        <>
-          <WebcertHeader />
-          {(!isLoadingListConfig || hasUpdatedConfig) && (
-            <ListHeader
-              icon={epostImage}
-              title={config?.title ? config.title : ''}
-              description={config?.description ? config.description : ''}
-            />
-          )}
-        </>
-      }>
-      <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-      <ListContainer
-        type={ListType.DRAFTS}
-        showMessageForEmptyList={nbrOfDraftsOnUnit === 0}
-        icon={undefined}
-        emptyListIcon={noDraftsImage}
-      />
-    </CommonLayout>
+    <ResourceAccess>
+      <CommonLayout
+        header={
+          <>
+            <WebcertHeader />
+            {(!isLoadingListConfig || hasUpdatedConfig) && (
+              <ListHeader
+                icon={epostImage}
+                title={config?.title ? config.title : ''}
+                description={config?.description ? config.description : ''}
+              />
+            )}
+          </>
+        }>
+        <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+        <ListContainer
+          type={ListType.DRAFTS}
+          showMessageForEmptyList={nbrOfDraftsOnUnit === 0}
+          icon={undefined}
+          emptyListIcon={noDraftsImage}
+        />
+      </CommonLayout>
+    </ResourceAccess>
   )
 }
 

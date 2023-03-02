@@ -11,10 +11,8 @@ import { resetCertificateState, updateShouldRouteAfterDelete } from '../store/ce
 import { getIsRoutedFromDeletedCertificate } from '../store/certificate/certificateSelectors'
 import { getActiveListConfig, getHasUpdatedConfig, getIsLoadingListConfig } from '../store/list/listSelectors'
 import { getNumberOfQuestionsOnUnit } from '../store/user/userSelectors'
+import { ResourceAccess } from '../utils/ResourceAccess'
 
-/**
- * Page for unhandled certificates containing a list with filter options, sorting etc.
- */
 const UnhandledCertificatsPage: React.FC = () => {
   const dispatch = useDispatch()
   const config = useSelector(getActiveListConfig, shallowEqual)
@@ -33,27 +31,29 @@ const UnhandledCertificatsPage: React.FC = () => {
   })
 
   return (
-    <CommonLayout
-      header={
-        <>
-          <WebcertHeader />
-          {(!isLoadingListConfig || hasUpdatedConfig) && (
-            <ListHeader
-              icon={speechBubbleImage}
-              title={config?.title ? config.title : ''}
-              description={config?.description ? config.description : ''}
-            />
-          )}
-        </>
-      }>
-      <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
-      <ListContainer
-        type={ListType.UNHANDLED_CERTIFICATES}
-        showMessageForEmptyList={nbrOfQuestionsOnUnit === 0}
-        icon={undefined}
-        emptyListIcon={noQuestionImage}
-      />
-    </CommonLayout>
+    <ResourceAccess>
+      <CommonLayout
+        header={
+          <>
+            <WebcertHeader />
+            {(!isLoadingListConfig || hasUpdatedConfig) && (
+              <ListHeader
+                icon={speechBubbleImage}
+                title={config?.title ? config.title : ''}
+                description={config?.description ? config.description : ''}
+              />
+            )}
+          </>
+        }>
+        <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
+        <ListContainer
+          type={ListType.UNHANDLED_CERTIFICATES}
+          showMessageForEmptyList={nbrOfQuestionsOnUnit === 0}
+          icon={undefined}
+          emptyListIcon={noQuestionImage}
+        />
+      </CommonLayout>
+    </ResourceAccess>
   )
 }
 
