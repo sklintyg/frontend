@@ -305,7 +305,7 @@ describe('Validate mandatory rule for date list', () => {
   })
 })
 
-describe('Validate mandatory rule for uncertain datet', () => {
+describe('Validate mandatory rule for uncertain date', () => {
   const uncertainDateElement: CertificateDataElement = {
     id: '1',
     parent: 'grundformu',
