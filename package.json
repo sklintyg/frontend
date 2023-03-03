@@ -17,9 +17,10 @@
     "typescript": "turbo typescript"
   },
   "devDependencies": {
-    "eslint": "^8.34.0",
     "eslint-config-custom": "*",
+    "eslint": "^8.34.0",
     "husky": "^7.0.4",
+    "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
     "prettier": "^1.18.2",
     "turbo": "^1.7.4",
