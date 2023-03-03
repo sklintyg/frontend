@@ -5,7 +5,6 @@ import {
   formatDate,
   ForwardedListInfo,
   ListButtonTooltips,
-  ListType,
   PatientListInfo,
   PatientListInfoContent,
   readImage,
@@ -29,10 +28,9 @@ interface Props {
   tooltips: ListButtonTooltips
   links: ResourceLink[]
   certificateId: string
-  listType: ListType
 }
 
-const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId, listType }) => {
+const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, certificateId }) => {
   const history = useHistory()
 
   const openCertificate = (id: string) => {
@@ -102,6 +100,7 @@ const ListItemContent: React.FC<Props> = ({ value, valueType, tooltips, links, c
             unitName={info.unitName}
             careProviderName={info.careProviderName}
             certificateId={certificateId}
+            certificateType={info.certificateType}
             type={link.type}
           />
         </td>

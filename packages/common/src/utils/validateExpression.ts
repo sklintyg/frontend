@@ -45,9 +45,8 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
           [`${field}.from`]: parseDateRangeValue(value.from),
           [`${field}.to`]: parseDateRangeValue(value.to),
         }
-      // TODO: No need to convert uncertain date value if backend expressions are replaced with `uncertainDate(ID)`
       case CertificateDataValueType.UNCERTAIN_DATE:
-        return { ...result, [field]: value.value ? isValidUncertainDate(value.value) : false }
+        return { ...result, [field]: value.value }
       case CertificateDataValueType.DIAGNOSIS:
         return { ...result, [field]: value.code }
       case CertificateDataValueType.ICF:
