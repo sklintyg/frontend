@@ -130,7 +130,7 @@ describe('Validation based on value', () => {
       ])
     })
 
-    it('Should return EMPTY_DATE for row if both dates are empty', () => {
+    it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
@@ -144,13 +144,27 @@ describe('Validation based on value', () => {
       ])
     })
 
-    it('Should return EMPTY_DATE for date if one date is empty', () => {
+    it('Should return EMPTY_DATE for date if tom date is empty', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2020-02-02', to: '' }] } })['question']
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
           field: 'tom.foo',
+          type: 'EMPTY_DATE',
+          text: 'Ange datum.',
+          showAlways: false,
+        },
+      ])
+    })
+
+    it('Should return EMPTY_DATE for date if for date is empty', () => {
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', to: '2020-02-02', from: '' }] } })['question']
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'from.foo',
           type: 'EMPTY_DATE',
           text: 'Ange datum.',
           showAlways: false,
