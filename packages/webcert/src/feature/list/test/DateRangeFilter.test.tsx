@@ -4,13 +4,14 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { addDays } from 'date-fns'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
 import DateRangeFilter from '../filter/DateRangeFilter'
 import { getDateRangeFilter } from './listTestUtils'
 
-const onChange = jest.fn()
+let onChange = vi.fn()
 
 const config = getDateRangeFilter()
 
@@ -31,6 +32,10 @@ describe('DateRangeFilter', () => {
   })
 
   describe('Validation', () => {
+    beforeEach(() => {
+      onChange = vi.fn()
+    })
+
     it('should display future dates validation error', () => {
       testStore.dispatch(
         updateActiveListFilterValue({

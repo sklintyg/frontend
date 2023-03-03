@@ -15,6 +15,7 @@ import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
+
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
@@ -62,6 +63,7 @@ export const CertificateFooter: React.FC = () => {
         <div className={'iu-flex'}>
           <ForwardCertificateButton
             certificateId={certificateMetadata.id}
+            certificateType={certificateMetadata.type}
             unitName={certificateMetadata.unit.unitName}
             careProviderName={certificateMetadata.careProvider.unitName}
             forwarded={certificateMetadata.forwarded}

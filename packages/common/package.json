@@ -2,35 +2,78 @@
   "name": "@frontend/common",
   "version": "0.1.0",
   "private": true,
-  "main": "src/index.ts",
-  "devDependencies": {
-    "@babel/core": "^7.18.9"
-  },
-  "peerDependencies": {
-    "@types/jest": "24.0.19",
-    "@types/node": "12.11.1",
-    "@types/react": "16.9.9",
-    "@types/react-dom": "16.9.2",
-    "customize-cra": "^0.8.0",
-    "enzyme": "^3.10.0",
-    "filtrex": "^2.2.0",
-    "jest": "^26.4.2",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4"
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/common.umd.js",
+  "module": "./dist/common.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/common.es.js",
+      "require": "./dist/common.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
   },
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
-    "typescript": "tsc"
+    "build": "vite build",
+    "dev": "vite build -w -m development",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
+    "test:coverage": "vitest run --coverage",
+    "test:no-watch": "vitest run",
+    "test": "vitest",
+    "typescript": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "jest --bail --findRelatedTests"
+    "*.{js,jsx,ts,tsx}": "vitest related --run"
   },
   "dependencies": {
-    "babel-plugin-styled-components": "^1.12.0",
-    "focus-trap-react": "^8.8.1"
+    "classnames": "^2.3.2",
+    "date-fns": "^2.16.1",
+    "dompurify": "^2.3.6",
+    "filtrex": "^2.2.0",
+    "focus-trap-react": "^10.1.0",
+    "react-datepicker": "^4.10.0",
+    "react-tooltip": "^4.2.21",
+    "type-fest": "^1.4.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.1",
+    "@types/dompurify": "^2.3.3",
+    "@types/faker": "^5.5.9",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^14.14.31",
+    "@types/react-datepicker": "^4.3.2",
+    "@types/react-dom": "^17.0.11",
+    "@types/react": "17.0.39",
+    "@types/styled-components": "^5.1.26",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "@vitejs/plugin-react": "^3.1.0",
+    "ctix": "^1.8.2",
+    "eslint-config-react": "*",
+    "eslint": "^8.34.0",
+    "faker": "5.5.3",
+    "lodash": "^4.17.21",
+    "react-dom": "^17.0.2",
+    "react": "^17.0.2",
+    "styled-components": "^5.3.6",
+    "vite-plugin-dts": "^1.7.1",
+    "vite": "^4.1.1",
+    "vitest": "^0.28.5"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.6",
+    "focus-trap-react": "^10.1.0"
   }
 }

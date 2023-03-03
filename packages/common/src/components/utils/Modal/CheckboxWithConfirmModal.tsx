@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react'
-import ModalBase from './ModalBase'
+import { FlattenSimpleInterpolation } from 'styled-components'
 import { useKeyPress } from '../../../utils/userFunctionUtils'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import Checkbox from '../../Inputs/Checkbox'
 import { CustomButton } from '../../Inputs/CustomButton'
+import ModalBase from './ModalBase'
 
 interface Props {
   disabled: boolean

@@ -1,5 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit'
 import { Question, QuestionType } from '@frontend/common'
+import { createReducer } from '@reduxjs/toolkit'
+import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import {
   addAnswer,
   addQuestion,
@@ -24,9 +25,8 @@ import {
   updateQuestions,
   updateSendingQuestion,
 } from './questionActions'
-import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 
-interface QuestionState {
+export interface QuestionState {
   questions: Question[]
   questionDraft: Question
   certificateId: string

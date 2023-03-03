@@ -2,6 +2,7 @@ import { CertificateMetadata, CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
+import { vi } from 'vitest'
 import ShowRelatedCertificateButton from '../ShowRelatedCertificateButton'
 
 const NAME = 'Show related certificate button name'
@@ -25,10 +26,10 @@ const renderDefaultComponent = (enabled: boolean, functionDisabled = false) => {
 }
 
 beforeEach(() => {
-  const useSelectorSpy = jest.spyOn(redux, 'useSelector')
-  const useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useSelectorSpy.mockReturnValue(jest.fn())
-  useDispatchSpy.mockReturnValue(jest.fn())
+  const useSelectorSpy = vi.spyOn(redux, 'useSelector')
+  const useDispatchSpy = vi.spyOn(redux, 'useDispatch')
+  useSelectorSpy.mockReturnValue(vi.fn())
+  useDispatchSpy.mockReturnValue(vi.fn())
 })
 
 describe('Show related certificate button', () => {

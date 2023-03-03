@@ -1,4 +1,4 @@
-FROM node:12-alpine3.12 AS build-stage
+FROM node:14-alpine3.16 AS build-stage
 
 # RUN npm install -g yarn
 RUN apk update
@@ -18,7 +18,6 @@ WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
 COPY ./packages/common/package.json ./packages/common/package.json
-COPY ./packages/mockserver/package.json ./packages/mockserver/package.json
 COPY ./packages/webcert/package.json ./packages/webcert/package.json
 
 # Install all dependencies
@@ -26,9 +25,6 @@ RUN yarn install
 
 # Copy the source
 COPY . .
-
-# Change to webcert
-WORKDIR /app/packages/webcert
 
 RUN yarn build
 
@@ -41,7 +37,7 @@ WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
 RUN rm -rf ./*
 
-COPY --from=build-stage /app/packages/webcert/build/ .
+COPY --from=build-stage /app/packages/webcert/dist/ .
 
 COPY --from=build-stage /app/packages/webcert/nginx/templates /etc/nginx/templates/
 COPY --from=build-stage /app/packages/webcert/nginx/conf/nginx.conf /etc/nginx/nginx.conf

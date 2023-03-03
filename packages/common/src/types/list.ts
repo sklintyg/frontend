@@ -173,4 +173,5 @@ export interface ForwardedListInfo {
   forwarded: boolean
   unitName: string
   careProviderName: string
+  certificateType: string
 }

@@ -21,7 +21,7 @@ export interface Configuration {
   ppHost: string
 }
 
-interface UtilsState {
+export interface UtilsState {
   dynamicLinks: DynamicLinkMap
   diagnosisTypeahead: DiagnosisTypeahead | null
   config: Configuration

@@ -1,12 +1,13 @@
 import { CustomTooltip } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import ListFilterButtons from '../ListFilterButtons'
 
 const TOOLTIP_SEARCH = 'Tooltip for search button'
 const TOOLTIP_RESET = 'Återställ sökfilter.'
-const onSearch = jest.fn()
-const onReset = jest.fn()
+let onSearch = vi.fn()
+let onReset = vi.fn()
 
 const renderComponent = (isSearchEnabled: boolean) => {
   render(
@@ -24,6 +25,11 @@ const renderComponent = (isSearchEnabled: boolean) => {
 }
 
 describe('ListFilterButtons', () => {
+  beforeEach(() => {
+    onSearch = vi.fn()
+    onReset = vi.fn()
+  })
+
   it('should show search button', () => {
     renderComponent(true)
     expect(screen.getByText('Sök')).toBeInTheDocument()

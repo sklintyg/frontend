@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
-import uiReducers from './uiReducers'
 import { History } from 'history'
+import { combineReducers } from 'redux'
+import uiReducers from './uiReducers'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const createRootReducer = (history: History<unknown>) =>
   combineReducers({
     router: connectRouter(history),

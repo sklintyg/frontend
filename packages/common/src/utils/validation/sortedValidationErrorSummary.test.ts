@@ -1,13 +1,13 @@
 import { fakeCertificate } from '../faker/fakeCertificate'
 import {
-  fakeTextFieldElement,
-  fakeTextAreaElement,
-  fakeCheckboxBooleanElement,
   fakeCategoryElement,
+  fakeCheckboxBooleanElement,
   fakeRadioBooleanElement,
+  fakeTextAreaElement,
+  fakeTextFieldElement,
 } from '../faker/fakeCertificateData'
-import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 import { fakeCertificateValidationError } from '../faker/fakeCertificateDataValidation'
+import { sortedValidationErrorSummary } from './sortedValidationErrorSummary'
 
 const getCertificate = () =>
   fakeCertificate({

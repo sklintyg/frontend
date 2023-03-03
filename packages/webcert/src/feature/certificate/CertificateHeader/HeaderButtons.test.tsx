@@ -1,133 +1,116 @@
-import React from 'react'
+import { CertificateRelationType, CertificateStatus, fakeCertificateMetaData, ResourceLink, ResourceLinkType } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import { CertificateMetadata, CertificateRelationType, CertificateStatus, ResourceLink, ResourceLinkType } from '@frontend/common'
-import HeaderButtons from './HeaderButtons'
-import { Provider } from 'react-redux'
-import store from '../../../store/store'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { validateCertificateStarted } from '../../../store/certificate/certificateActions'
+import store from '../../../store/store'
+import HeaderButtons from './HeaderButtons'
 
 describe('Verify header buttons', () => {
-  const resourceLinks: ResourceLink[] = []
   const description = 'description'
   const enabled = true
 
-  beforeEach(() => {
-    resourceLinks.length = 0
-    jest.restoreAllMocks()
-    jest.resetAllMocks()
-  })
-
-  const renderComponent = () =>
+  const renderComponent = (resourceLinks: ResourceLink[]) =>
     render(
       <Provider store={store}>
-        <HeaderButtons functionDisabled={false} resourceLinks={resourceLinks} certificateMetadata={getMetadata()} />
+        <HeaderButtons
+          functionDisabled={false}
+          resourceLinks={resourceLinks}
+          certificateMetadata={fakeCertificateMetaData({
+            status: CertificateStatus.SIGNED,
+            relations: {
+              parent: null,
+              children: [
+                {
+                  certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
+                  type: CertificateRelationType.REPLACED,
+                  status: CertificateStatus.UNSIGNED,
+                  created: new Date().toISOString(),
+                },
+              ],
+            },
+          })}
+        />
       </Provider>
     )
 
-  it('shall include replace certificate button when its resource link type is available', () => {
+  it('Should include replace certificate button when its resource link type is available', () => {
     const expectedButton = 'Ersätt'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REPLACE_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REPLACE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include replace certificate continue button when its resource link type is available', () => {
+  it('Should include replace certificate continue button when its resource link type is available', () => {
     const expectedButton = 'Ersätt'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REPLACE_CERTIFICATE_CONTINUE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REPLACE_CERTIFICATE_CONTINUE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include send certificate button when its resource link type is available', () => {
+  it('Should include send certificate button when its resource link type is available', () => {
     const expectedButton = 'Skicka'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.SEND_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.SEND_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include copy certificate button when its resource link type is available', () => {
+  it('Should include copy certificate button when its resource link type is available', () => {
     const expectedButton = 'Kopiera'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.COPY_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.COPY_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include print certificate button when its resource link type is available', async () => {
+  it('Should include print certificate button when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
-    renderComponent()
+    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.PRINT_CERTIFICATE }])
     expect(await screen.findByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include print certificate button with modal when its resource link type is available', async () => {
+  it('Should include print certificate button with modal when its resource link type is available', async () => {
     const expectedButton = 'Skriv ut'
-    jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
-    resourceLinks.push({ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE })
-    renderComponent()
+    vi.spyOn(React, 'useRef').mockReturnValueOnce({ current: {} })
+    renderComponent([{ name: expectedButton, description, body: 'Expected body', enabled, type: ResourceLinkType.PRINT_CERTIFICATE }])
     await screen.findByRole('button', { name: expectedButton })
     userEvent.click(screen.getByText(expectedButton))
     expect(screen.getByText('Skriv ut intyg')).toBeInTheDocument()
     expect(screen.getByText('Expected body')).toBeInTheDocument()
   })
 
-  it('shall include renew certificate button when its resource link type is available', () => {
+  it('Should include renew certificate button when its resource link type is available', () => {
     const expectedButton = 'Förnya'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.RENEW_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.RENEW_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include remove certificate button when its resource link type is available', () => {
+  it('Should include remove certificate button when its resource link type is available', () => {
     const expectedButton = 'Radera'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall enable remove certificate button when not validating certificate', () => {
+  it('Should enable remove certificate button when not validating certificate', () => {
     const expectedButton = 'Radera'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeEnabled()
   })
 
-  it('shall disable remove certificate button when validating certificate', () => {
+  it('Should disable remove certificate button when validating certificate', () => {
     const expectedButton = 'Radera'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE })
     store.dispatch(validateCertificateStarted())
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REMOVE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeDisabled()
   })
 
-  it('shall include revoke certificate button when its resource link type is available', () => {
+  it('Should include revoke certificate button when its resource link type is available', () => {
     const expectedButton = 'Makulera'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REVOKE_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REVOKE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 
-  it('shall include create certificate from template button when its resource link type is available', () => {
+  it('Should include create certificate from template button when its resource link type is available', () => {
     const expectedButton = 'Skapa utkast'
-    resourceLinks.push({ name: expectedButton, description, enabled, type: ResourceLinkType.REVOKE_CERTIFICATE })
-    renderComponent()
+    renderComponent([{ name: expectedButton, description, enabled, type: ResourceLinkType.REVOKE_CERTIFICATE }])
     expect(screen.getByRole('button', { name: expectedButton })).toBeInTheDocument()
   })
 })
-
-const getMetadata = () => {
-  return {
-    relations: {
-      parent: null,
-      children: [
-        {
-          certificateId: 'xxxxxx-yyyyyyy-zzzzzz',
-          type: CertificateRelationType.REPLACED,
-          status: CertificateStatus.UNSIGNED,
-          created: new Date().toISOString(),
-        },
-      ],
-    },
-  } as CertificateMetadata
-}
