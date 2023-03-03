@@ -24,13 +24,9 @@ yarn lint
 echo "############### Posting Linting report ###############"
 curl -X POST -k -d @lint-result.xml $PIPELINE_CALLBACK_URL
 
-# Run common tests
+# Run tests
 echo "############### Testing Common ###############"
-CI=true yarn workspace @frontend/common test:ci
-
-# Run webcert tests
-echo "############### Testing Webcert ###############"
-CI=true yarn workspace @frontend/webcert test:ci
+CI=true yarn test
 
 # Copy test reports
 echo "############### Moving Testing Reports ###############"
@@ -50,15 +46,14 @@ curl -X POST -k -d @cobertura-coverage.xml $PIPELINE_CALLBACK_URL
 
 # Make a production build
 echo "############### Production Build ###############"
-#CI=true yarn workspace @frontend/webcert build
-yarn workspace @frontend/webcert build
+yarn build
 BUILD_RESULT=$?
 echo $BUILD_RESULT
 curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
-mv packages/webcert/build/* /tmp/artifacts/build
+mv packages/webcert/dist/* /tmp/artifacts/build
 
 # Copy the nginx configuration
 echo "############### Moving Nginx Configuration ###############"
