@@ -12,6 +12,7 @@ const DESCRIPTION = 'Forward button description'
 const UNIT_NAME = 'Vårdenhet'
 const CARE_PROVIDER_NAME = 'Vårdgivare'
 const CERTIFICATE_ID = 'xxx'
+const CERTIFICATE_TYPE = 'type'
 
 let testStore: EnhancedStore
 
@@ -27,6 +28,7 @@ const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWAR
         careProviderName={CARE_PROVIDER_NAME}
         certificateId={CERTIFICATE_ID}
         type={type}
+        certificateType={CERTIFICATE_TYPE}
         enabled={true}
         forwarded={false}
         functionDisabled={false}
@@ -67,5 +69,16 @@ describe('Forward certificate button', () => {
     screen.getByText(NAME).click()
 
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining(encodeURIComponent('http://host')), '_blank')
+  })
+
+  it('opens email with correct link', () => {
+    const openSpy = jest.spyOn(window, 'open')
+    openSpy.mockImplementation(jest.fn())
+    renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
+    screen.getByText(NAME).click()
+    expect(openSpy).toHaveBeenCalledWith(
+      expect.stringContaining('%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftype%2Fxxx%2Fquestions'),
+      '_blank'
+    )
   })
 })

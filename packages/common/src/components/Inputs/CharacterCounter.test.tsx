@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import CharacterCounter from './CharacterCounter'
 
-const TEXT = 'Tecken kvar:'
+const TEXT = 'tecken'
 
 const renderComponent = (limit: number | undefined, value: string) => {
   render(
@@ -15,22 +15,22 @@ const renderComponent = (limit: number | undefined, value: string) => {
 describe('Character Counter', () => {
   it('should not render text if limit is not set', () => {
     renderComponent(undefined, '')
-    expect(screen.queryByText(TEXT)).not.toBeInTheDocument()
+    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
   it('should not render text if limit is too low', () => {
     renderComponent(35, '')
-    expect(screen.queryByText(TEXT)).not.toBeInTheDocument()
+    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
   it('should not render text if limit is too low', () => {
     renderComponent(30, '')
-    expect(screen.queryByText(TEXT)).not.toBeInTheDocument()
+    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
   it('should not render text if limit is too high', () => {
     renderComponent(1001, '')
-    expect(screen.queryByText(TEXT)).not.toBeInTheDocument()
+    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
   it('should render text if limit is 1000', () => {
@@ -56,5 +56,10 @@ describe('Character Counter', () => {
   it('should correctly count number of chars left', () => {
     renderComponent(100, 'AA BB')
     expect(screen.getByText('95', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should print the correct text', () => {
+    renderComponent(100, 'AA BB')
+    expect(screen.getByText('95 av 100 tecken')).toBeInTheDocument()
   })
 })

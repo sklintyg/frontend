@@ -63,6 +63,7 @@ export const CertificateFooter: React.FC = () => {
         <div className={'iu-flex'}>
           <ForwardCertificateButton
             certificateId={certificateMetadata.id}
+            certificateType={certificateMetadata.type}
             unitName={certificateMetadata.unit.unitName}
             careProviderName={certificateMetadata.careProvider.unitName}
             forwarded={certificateMetadata.forwarded}

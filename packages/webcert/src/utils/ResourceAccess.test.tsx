@@ -16,7 +16,7 @@ const renderComponent = () => {
     <Provider store={testStore}>
       <MemoryRouter initialEntries={['/create']}>
         <Route path="/create/:patientId?">
-          <ResourceAccess>
+          <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
             <p>Component</p>
           </ResourceAccess>
         </Route>
