@@ -16,6 +16,13 @@ INIT_RESULT=$?
 echo $INIT_RESULT
 curl -X POST -k -d $INIT_RESULT $PIPELINE_CALLBACK_URL
 
+# Make a production build
+echo "############### Production Build ###############"
+yarn build
+BUILD_RESULT=$?
+echo $BUILD_RESULT
+curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
+
 # lint-check
 echo "############### Linting ###############"
 yarn lint
@@ -26,7 +33,7 @@ curl -X POST -k -d @lint-result.xml $PIPELINE_CALLBACK_URL
 
 # Run tests
 echo "############### Testing ###############"
-CI=true yarn test
+CI=true yarn test:ci
 
 # Copy test reports
 echo "############### Moving Testing Reports ###############"
@@ -43,13 +50,6 @@ yarn merge-reports
 echo "############### Posting Testing Reports ###############"
 curl -X POST -k -d @combined.xml $PIPELINE_CALLBACK_URL
 curl -X POST -k -d @cobertura-coverage.xml $PIPELINE_CALLBACK_URL
-
-# Make a production build
-echo "############### Production Build ###############"
-yarn build
-BUILD_RESULT=$?
-echo $BUILD_RESULT
-curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"

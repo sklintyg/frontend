@@ -20,14 +20,14 @@
     }
   },
   "scripts": {
-    "dev": "vite build -w -m development",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
+    "dev": "vite build -w -m development",
     "lint": "eslint .",
-    "test:no-watch": "vitest run",
+    "preview": "vite preview",
+    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest --ci --reporters=default --reporters=vitest-junit",
+    "test:no-watch": "vitest run",
+    "test": "vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {

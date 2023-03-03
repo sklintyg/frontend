@@ -4,14 +4,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vite",
     "lint": "eslint .",
+    "preview": "vite preview",
     "start": "yarn dev",
-    "test": "vitest",
-    "test:no-watch": "vitest run",
+    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
     "test:coverage": "vitest run --coverage",
+    "test:no-watch": "vitest run",
+    "test": "vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {

@@ -7,13 +7,14 @@
     ]
   },
   "scripts": {
-    "start": "turbo dev",
-    "test": "turbo test",
-    "typescript": "turbo typescript",
     "build": "turbo build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "merge-reports": "jrm combined.xml \"results/*.xml\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start": "turbo dev",
+    "test:ci": "turbo test:ci",
+    "test": "turbo test",
+    "typescript": "turbo typescript"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
