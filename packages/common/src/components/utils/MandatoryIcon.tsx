@@ -6,6 +6,7 @@ const Icon = styled.span`
   line-height: 1.5rem;
   position: absolute;
   margin-left: -16px;
+  font-weight: 400 !important;
 `
 
 const Wrapper = styled.span`
