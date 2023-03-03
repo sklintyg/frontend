@@ -1,6 +1,6 @@
-import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
-import { AvailableIcfCodes } from '../../store/icf/icfReducer'
 import { fakeIcf } from '@frontend/common'
+import { AvailableIcfCodes } from '../../store/icf/icfReducer'
+import { getFilteredIcfValues, getIcfValueList } from './IcfUtils'
 
 describe('IcfUtils', () => {
   describe('getIcfValues', () => {

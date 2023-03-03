@@ -12,6 +12,10 @@ junit.xml
 # production
 build
 
+# development
+dist
+.turbo
+
 # misc
 .DS_Store
 .env.local
@@ -28,3 +32,5 @@ yarn-error.log*
 /packages/webcert-e2e/videos/
 
 /.vscode/settings.json
+
+lint-result.xml

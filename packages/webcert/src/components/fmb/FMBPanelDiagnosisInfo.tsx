@@ -1,6 +1,6 @@
 import { FMBDiagnosisCodeInfo, FMBDiagnosisCodeInfoFormContentHeading, FMBDiagnosisCodeInfoFormType, InfoBox } from '@frontend/common'
 import React from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import FMBPanelDiagnosisHeader from './FMBPanelDiagnosisHeader'
 import FMBPanelDiagnosisInfoLink from './FMBPanelDiagnosisInfoLink'
 import FMBPanelDiagnosisInfoSection from './FMBPanelDiagnosisInfoSection'

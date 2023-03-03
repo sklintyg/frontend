@@ -1,4 +1,6 @@
+import { Patient } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
+import { mockUserData } from './mockUserData'
 import {
   clearWelcome,
   updateCertificateId,
@@ -9,8 +11,6 @@ import {
   updateNavigateToCertificate,
   updatePatients,
 } from './welcomeActions'
-import { Patient } from '@frontend/common'
-import { mockUserData } from './mockUserData'
 
 export interface CertificateType {
   type: string
@@ -66,7 +66,7 @@ export interface MockUser {
   legitimeradeYrkesgrupper?: string[]
 }
 
-interface WelcomeState {
+export interface WelcomeState {
   types: CertificateType[] | null
   patients: Patient[]
   createCertificate: CreateCertificate

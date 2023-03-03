@@ -15,6 +15,7 @@ import ForwardCertificateButton from '../Buttons/ForwardCertificateButton'
 import ReadyForSignButton from '../Buttons/ReadyForSignButton'
 import SignAndSendButton from '../Buttons/SignAndSendButton'
 import ShowValidationErrorsSwitch from './ShowValidationErrorsSwitch'
+
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;

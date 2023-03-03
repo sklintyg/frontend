@@ -1,13 +1,13 @@
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import PatientSearch from './PatientSearch'
-import { Provider } from 'react-redux'
-import store from '../../store/store'
-import userEvent from '@testing-library/user-event'
-import { setPatient } from '../../store/patient/patientActions'
 import { fakePatient } from '@frontend/common'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createBrowserHistory } from 'history'
+import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
+import { setPatient } from '../../store/patient/patientActions'
+import store from '../../store/store'
+import PatientSearch from './PatientSearch'
 
 const EXPECTED_VALIDATION_TEXT = 'Ange ett giltigt person- eller samordningsnummer.'
 
@@ -22,7 +22,7 @@ const renderComponent = () => {
 }
 
 const history = createBrowserHistory()
-history.push = jest.fn()
+history.push = vi.fn()
 
 describe('PatientSearch', () => {
   it('should render component', () => {

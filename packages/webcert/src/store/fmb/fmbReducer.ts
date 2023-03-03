@@ -12,7 +12,7 @@ import {
   updateFMBPanelActive,
 } from './fmbActions'
 
-interface FMBState {
+export interface FMBState {
   fmbDiagnosisCodeInfo: FMBDiagnosisCodeInfo[]
   fmbPanelActive: boolean
   sickLeavePeriodWarning: string

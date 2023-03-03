@@ -1,5 +1,7 @@
+import { ResourceLink, User, UserStatistics } from '@frontend/common'
 import { createReducer } from '@reduxjs/toolkit'
 import {
+  removeResourceLink,
   updateInactivateAutomaticLogout,
   updateIsCareProviderModalOpen,
   updateIsLoadingUser,
@@ -8,11 +10,9 @@ import {
   updateUserPreference,
   updateUserResourceLinks,
   updateUserStatistics,
-  removeResourceLink,
 } from './userActions'
-import { ResourceLink, User, UserStatistics } from '@frontend/common'
 
-interface UserState {
+export interface UserState {
   user: null | User
   links: ResourceLink[]
   inactiveAutomaticLogout: boolean

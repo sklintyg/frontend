@@ -1,12 +1,12 @@
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import apiMiddleware from '../api/apiMiddleware'
-import { utilsMiddleware } from './utilsMiddleware'
-import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
-import { Configuration } from './utilsReducer'
-import { getConfig } from './utilsActions'
 import { configureApplicationStore } from '../configureApplicationStore'
+import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
+import { getConfig } from './utilsActions'
+import { utilsMiddleware } from './utilsMiddleware'
+import { Configuration } from './utilsReducer'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

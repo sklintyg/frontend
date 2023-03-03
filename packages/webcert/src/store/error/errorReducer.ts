@@ -67,7 +67,7 @@ export interface ErrorLogRequest {
   stackTrace?: string
 }
 
-interface ErrorState {
+export interface ErrorState {
   error?: ErrorData
   activeCertificateId?: string
 }
