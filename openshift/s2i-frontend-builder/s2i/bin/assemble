@@ -25,7 +25,7 @@ echo "############### Posting Linting report ###############"
 curl -X POST -k -d @lint-result.xml $PIPELINE_CALLBACK_URL
 
 # Run tests
-echo "############### Testing Common ###############"
+echo "############### Testing ###############"
 CI=true yarn test
 
 # Copy test reports
