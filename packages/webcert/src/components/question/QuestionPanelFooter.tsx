@@ -118,6 +118,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
         unitName={certificateMetadata.unit.unitName}
         careProviderName={certificateMetadata.careProvider.unitName}
         certificateId={certificateMetadata.id}
+        certificateType={certificateMetadata.type}
         type={link.type}
       />
     )
