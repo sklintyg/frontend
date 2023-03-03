@@ -3,6 +3,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { apiMiddleware } from '../../../../store/api/apiMiddleware'
 import { revokeCertificate, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
@@ -81,7 +82,7 @@ describe('Revoke certificate with unhandled questions', () => {
 
 describe('Revoke continue button', () => {
   beforeEach(() => {
-    store.dispatch = jest.fn()
+    store.dispatch = vi.fn()
   })
 
   it('shall enable button when enabled is true', () => {

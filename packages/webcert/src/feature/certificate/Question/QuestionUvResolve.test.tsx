@@ -33,11 +33,11 @@ import {
   ValueType,
   ValueYear,
 } from '@frontend/common'
-import { updateCertificate } from '@frontend/webcert/src/store/certificate/certificateActions'
-import { certificateMiddleware } from '@frontend/webcert/src/store/certificate/certificateMiddleware'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
+import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionUvResolve from './QuestionUvResolve'
 

@@ -3,6 +3,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import { updateActiveListFilterValue } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
@@ -18,7 +19,7 @@ import {
 } from './listTestUtils'
 
 let testStore: EnhancedStore
-const onChange = jest.fn()
+let onChange = vi.fn()
 
 const renderComponent = (config: ListFilterConfig) => {
   render(
@@ -107,6 +108,10 @@ describe('ListFilterComponent', () => {
   })
 
   describe('Update values', () => {
+    beforeEach(() => {
+      onChange = vi.fn()
+    })
+
     it('should update text filter value', () => {
       renderComponent(getTextFilter())
       const component = screen.getByRole('textbox')

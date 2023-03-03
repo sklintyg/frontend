@@ -1,4 +1,5 @@
 import { ListFilterType } from '@frontend/common'
+
 import { getListFilterDefaultValue, isFilterValueDefault } from '../listUtils'
 import {
   getBooleanFilter,

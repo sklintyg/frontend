@@ -44,7 +44,13 @@ const ModalBase: React.FC<Props> = ({
   }
 
   return createPortal(
-    <FocusTrap active={open && focusTrap}>
+    <FocusTrap
+      active={open && focusTrap}
+      focusTrapOptions={{
+        tabbableOptions: {
+          displayCheck: 'none',
+        },
+      }}>
       <div tabIndex={0}>
         <div
           className="ic-backdrop iu-lh-body"

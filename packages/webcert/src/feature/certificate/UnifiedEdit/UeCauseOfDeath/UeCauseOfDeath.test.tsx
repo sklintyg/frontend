@@ -7,8 +7,6 @@ import { Provider } from 'react-redux'
 import store from '../../../../store/store'
 import UeCauseOfDeath from './UeCauseOfDeath'
 
-const INVALID_DATE_MESSAGE = 'Ange datum i formatet åååå-mm-dd.'
-
 const VALIDATION_ERROR = 'Ange ett svar'
 const QUESTION_ID = 'causeOfDeath'
 

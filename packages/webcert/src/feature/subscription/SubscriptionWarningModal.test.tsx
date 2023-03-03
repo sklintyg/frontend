@@ -1,15 +1,14 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { apiMiddleware } from '../../store/api/apiMiddleware'
-import { userMiddleware } from '../../store/user/userMiddleware'
-import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
-import SubscriptionWarningModal from './SubscriptionWarningModal'
-import { updateUserResourceLinks } from '../../store/user/userActions'
 import { getSubscriptionWarningResourceLink } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/test/dispatchHelperMiddleware'
+import { updateUserResourceLinks } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import SubscriptionWarningModal from './SubscriptionWarningModal'
 
 let testStore: EnhancedStore
 

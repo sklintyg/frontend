@@ -1,10 +1,11 @@
 import { CustomButton, isPersonIdValid, PersonIdInput, useKeyPress } from '@frontend/common'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearPatientError, getPatient } from '../../store/patient/patientActions'
 import PatientSearchError from './PatientSearchError'
+import { getActivePatient } from '../../store/patient/patientSelectors'
 
 const FormWrapper = styled.div`
   display: flex;
@@ -13,20 +14,26 @@ const FormWrapper = styled.div`
 
 const PatientSearch: React.FC = () => {
   const [patientId, setPatientId] = useState('')
+  const patient = useSelector(getActivePatient)
   const dispatch = useDispatch()
   const enterPress = useKeyPress('Enter')
   const history = useHistory()
 
   const onSubmit = useCallback(() => {
     dispatch(getPatient(patientId))
-    history.push(`/create/${patientId}`)
-  }, [dispatch, history, patientId])
+  }, [dispatch, patientId])
 
   useEffect(() => {
     if (enterPress && isPersonIdValid(patientId)) {
       onSubmit()
     }
   }, [enterPress, onSubmit, patientId])
+
+  useEffect(() => {
+    if (patient) {
+      history.push(`/create/${patientId}`)
+    }
+  }, [patient, history, patientId])
 
   const onChange = (formattedPatientId: string) => {
     dispatch(clearPatientError())

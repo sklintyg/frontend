@@ -1,7 +1,7 @@
+import { DynamicLink } from '@frontend/common'
 import React from 'react'
 import { shallowEqual, useSelector } from 'react-redux'
-import { getDynamicLink } from '@frontend/webcert/src/store/utils/utilsSelectors'
-import { DynamicLink } from '@frontend/common'
+import { getDynamicLink } from '../store/utils/utilsSelectors'
 
 interface Props {
   linkKey: string

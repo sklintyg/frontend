@@ -11,7 +11,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
     return
   }
 
-  const { url, method, data, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
+  const { url, method, data, headers, onStart, onSuccess, onError, onArgs, functionDisablerType } = action.payload
   const functionDisabler: FunctionDisabler = generateFunctionDisabler()
 
   if (onStart) {
@@ -28,7 +28,7 @@ const handleApiCallBegan: Middleware = ({ dispatch }: MiddlewareAPI) => () => as
       method,
       data,
       withCredentials: true,
-      headers: getHeaders(),
+      headers: { ...getHeaders(), ...headers },
     })
 
     dispatch(apiCallSuccess(response.data))

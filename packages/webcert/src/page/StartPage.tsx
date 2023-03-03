@@ -1,13 +1,13 @@
 import React, { ComponentProps } from 'react'
-import logo from '../components/header/webcert_logo.png'
-import image from '../images/webcert_bild_react.png'
-import styled from 'styled-components'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import AppHeader from '../components/AppHeader/AppHeader'
+import { WebcertFooter } from '../components/footer/WebcertFooter'
+import logo from '../components/header/webcert_logo.png'
+import SystemBanners from '../components/notification/SystemBanners'
+import image from '../images/webcert_bild_react.png'
 import { getConfig, selectIsLoadingConfig } from '../store/utils/utilsSelectors'
 import { LoggedInUserRedirect } from '../utils/LoggedInUserRedirect'
-import SystemBanners from '../components/notification/SystemBanners'
-import { WebcertFooter } from '../components/footer/WebcertFooter'
-import AppHeader from '../components/AppHeader/AppHeader'
 
 const Root = styled.div`
   height: 100vh;
@@ -41,7 +41,12 @@ export const StartPage: React.FC = () => {
 
   return (
     <Root>
-      <AppHeader logo={logo} alt="Webcert" secondaryItems={[<CreateAccount />]} banners={[<SystemBanners key="system-banners" />]} />
+      <AppHeader
+        logo={logo}
+        alt="Webcert"
+        secondaryItems={[<CreateAccount key="create-account" />]}
+        banners={[<SystemBanners key="system-banners" />]}
+      />
       <Content className="ic-container iu-mt-gutter iu-mb-gutter">
         <div className="iu-grid-cols iu-grid-cols-12">
           <div className="iu-grid-span-6">

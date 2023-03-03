@@ -1,8 +1,18 @@
-import MockAdapter from 'axios-mock-adapter'
-import axios from 'axios'
+import {
+  getSubscriptionWarningResourceLink,
+  getUser,
+  getUserStatistics as statistics,
+  getUserWithLaunchId,
+  ResourceLink,
+  ResourceLinkType,
+} from '@frontend/common'
 import { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import { apiMiddleware } from '../api/apiMiddleware'
+import { configureApplicationStore } from '../configureApplicationStore'
+import { stopPoll } from '../session/sessionActions'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
-import { userMiddleware } from './userMiddleware'
 import {
   acknowledgeSubscription,
   getUserStatistics,
@@ -13,17 +23,7 @@ import {
   updateIsCareProviderModalOpen,
   updateUserResourceLinks,
 } from './userActions'
-import {
-  getSubscriptionWarningResourceLink,
-  getUser,
-  getUserWithLaunchId,
-  getUserStatistics as statistics,
-  ResourceLink,
-  ResourceLinkType,
-} from '@frontend/common'
-import { stopPoll } from '../session/sessionActions'
-import { apiMiddleware } from '../api/apiMiddleware'
-import { configureApplicationStore } from '../configureApplicationStore'
+import { userMiddleware } from './userMiddleware'
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))

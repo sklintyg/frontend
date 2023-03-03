@@ -23,7 +23,7 @@ import {
   updateValidationError,
 } from './listActions'
 
-interface ListState {
+export interface ListState {
   activeList: CertificateListItem[]
   activeListConfig: ListConfig | undefined
   activeListFilter: ListFilter

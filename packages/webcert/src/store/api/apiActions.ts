@@ -4,6 +4,7 @@ export interface ApiCall {
   url: string
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   data?: any
+  headers?: Record<string, string>
   onStart?: string
   onSuccess?: string
   onError?: string

@@ -1,15 +1,16 @@
 import { CertificateSignStatus, LoginMethod, SigningMethod } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
+import { Mock, vi } from 'vitest'
 import { ErrorCode } from '../../../store/error/errorReducer'
 import { SignCertificateModal } from './SignCertificateModal'
 
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-  useDispatch: jest.fn(),
+vi.mock('react-redux', () => ({
+  useSelector: vi.fn(),
+  useDispatch: vi.fn(),
 }))
 
-const mockedUseSelector = useSelector as jest.Mock
+const mockedUseSelector = useSelector as Mock
 
 type SigninError = { errorCode: ErrorCode; message: string }
 

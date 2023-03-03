@@ -1,13 +1,13 @@
 import { ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import { useSelector } from 'react-redux'
+import { Mock, vi } from 'vitest'
 import UeCareUnitAddress, {
   CARE_UNIT_ADDRESS_FIELD,
-  CARE_UNIT_ZIP_CODE_FIELD,
   CARE_UNIT_CITY_FIELD,
   CARE_UNIT_PHONE_NUMBER_FIELD,
+  CARE_UNIT_ZIP_CODE_FIELD,
 } from './UeCareUnitAddress'
 
 const getValidationErrors = (): ValidationError[] => {
@@ -18,12 +18,12 @@ const getValidationErrors = (): ValidationError[] => {
   return [address, zipCode, city, phoneNumber]
 }
 
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-  useDispatch: jest.fn(),
+vi.mock('react-redux', () => ({
+  useSelector: vi.fn(),
+  useDispatch: vi.fn(),
 }))
 
-const mockedUseSelector = useSelector as jest.Mock
+const mockedUseSelector = useSelector as Mock
 
 describe('CareUnitAddress component', () => {
   beforeEach(() => {

@@ -64,7 +64,7 @@ import {
 import { FunctionDisabler, toggleFunctionDisabler } from '../../utils/functionDisablerUtils'
 import { ErrorData } from '../error/errorReducer'
 
-interface CertificateState {
+export interface CertificateState {
   certificate?: Certificate
   certificateEvents: CertificateEvent[]
   spinner: boolean

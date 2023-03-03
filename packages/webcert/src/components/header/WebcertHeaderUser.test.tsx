@@ -1,15 +1,14 @@
-import React from 'react'
+import { getPrivatePractitionerPortalResourceLink, getUser } from '@frontend/common'
+import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
-import WebcertHeaderUser from './WebcertHeaderUser'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
 import apiMiddleware from '../../store/api/apiMiddleware'
-import { userMiddleware } from '../../store/user/userMiddleware'
-import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
-import { getPrivatePractitionerPortalResourceLink, getUser } from '@frontend/common'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
+import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
+import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
+import { userMiddleware } from '../../store/user/userMiddleware'
+import WebcertHeaderUser from './WebcertHeaderUser'
 
 let testStore: EnhancedStore
 

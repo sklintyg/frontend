@@ -16,6 +16,7 @@ import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import { START_URL_FOR_DOCTORS } from '../../constants'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -28,7 +29,7 @@ import CareProviderModal from './CareProviderModal'
 let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 const history = createMemoryHistory()
-history.push = jest.fn()
+history.push = vi.fn()
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
