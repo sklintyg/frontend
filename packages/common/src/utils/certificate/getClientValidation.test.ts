@@ -1,6 +1,6 @@
-import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker/fakeCertificateData'
+import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker'
 import { getClientValidationErrors } from './getClientValidationErrors'
-import { CertificateDataValueType, ConfigTypes } from '../../types/certificate'
+import { CertificateDataValueType, ConfigTypes } from '../../types'
 
 describe('Validation based on value', () => {
   describe(CertificateDataValueType.DATE, () => {
@@ -109,10 +109,10 @@ describe('Validation based on value', () => {
       ])
     })
 
-    it('Should return EMPTY_DATE for empty date', () => {
+    it('Should not return EMPTY_DATE for each field if row is empty', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
 
-      expect(getClientValidationErrors(dataElement)).toMatchObject([
+      expect(getClientValidationErrors(dataElement)).not.toMatchObject([
         {
           id: 'question',
           field: 'from.foo',
@@ -120,6 +120,34 @@ describe('Validation based on value', () => {
           text: 'Ange datum.',
           showAlways: false,
         },
+        {
+          id: 'question',
+          field: 'tom.foo',
+          type: 'EMPTY_DATE',
+          text: 'Ange datum.',
+          showAlways: false,
+        },
+      ])
+    })
+
+    it('Should return EMPTY_DATE for row if both dates are empty', () => {
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'row.foo',
+          type: 'EMPTY_PERIOD',
+          text: 'Ange period.',
+          showAlways: false,
+        },
+      ])
+    })
+
+    it('Should return EMPTY_DATE for date if one date is empty', () => {
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2020-02-02', to: '' }] } })['question']
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
           field: 'tom.foo',
