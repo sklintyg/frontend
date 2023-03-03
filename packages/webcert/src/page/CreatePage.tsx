@@ -1,4 +1,4 @@
-import { ListFilterType, listImage, ListType, noDraftsImage } from '@frontend/common'
+import { ListFilterType, listImage, ListType, noDraftsImage, ResourceLinkType } from '@frontend/common'
 import React, { ComponentProps, useCallback, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
@@ -103,7 +103,7 @@ const CreatePage: React.FC = () => {
   )
 }
 export const CreatePageWithRedirect: React.FC<ComponentProps<typeof CreatePage>> = (props) => (
-  <ResourceAccess>
+  <ResourceAccess linkType={ResourceLinkType.ACCESS_SEARCH_CREATE_PAGE}>
     <CreatePage {...props} />
   </ResourceAccess>
 )
