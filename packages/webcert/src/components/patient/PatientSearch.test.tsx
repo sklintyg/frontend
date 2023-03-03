@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import { setPatient } from '../../store/patient/patientActions'
 import store from '../../store/store'
 import PatientSearch from './PatientSearch'
@@ -21,7 +22,7 @@ const renderComponent = () => {
 }
 
 const history = createBrowserHistory()
-history.push = jest.fn()
+history.push = vi.fn()
 
 describe('PatientSearch', () => {
   it('should render component', () => {

@@ -72,8 +72,7 @@ describe('Forward certificate button', () => {
   })
 
   it('opens email with correct link', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(
