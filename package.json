@@ -9,10 +9,10 @@
   "scripts": {
     "build": "turbo build",
     "lint": "eslint . -f checkstyle > lint-result.xml",
-    "merge-reports": "jrm combined.xml \"results/*.xml\"",
     "prepare": "husky install",
     "start": "turbo dev",
     "test:ci": "turbo test:ci",
+    "posttest:ci": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test": "turbo test",
     "typescript": "turbo typescript"
   },
