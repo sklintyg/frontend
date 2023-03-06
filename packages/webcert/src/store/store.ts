@@ -12,6 +12,7 @@ import { errorMiddleware } from './error/errorMiddleware'
 import { patientMiddleware } from './patient/patientMiddleware'
 import { listMiddleware } from './list/listMiddleware'
 import { configureApplicationStore } from './configureApplicationStore'
+import { srsMiddleware } from './srs/srsMiddleware'
 
 const store = configureApplicationStore([
   apiMiddleware,
@@ -26,6 +27,7 @@ const store = configureApplicationStore([
   errorMiddleware,
   patientMiddleware,
   listMiddleware,
+  srsMiddleware,
 ])
 
 export type RootState = ReturnType<typeof store.getState>
