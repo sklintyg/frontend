@@ -1,1 +1,1 @@
-export * from './IDSAlertGlobal';
+export * from './IDSAlertGlobal'

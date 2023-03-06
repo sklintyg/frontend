@@ -1,1 +1,1 @@
-export * from './IDSExpandable';
+export * from './IDSExpandable'

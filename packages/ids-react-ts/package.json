@@ -20,7 +20,7 @@
     "build": "vite build",
     "dev": "vite build -w -m development",
     "typescript": "tsc --noEmit",
-    "index": "ctix create -a ./src  -p ./tsconfig.json -w --noBackup"
+    "index": "ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup"
   },
   "dependencies": {
     "@inera/ids-core": "^2.3.2",

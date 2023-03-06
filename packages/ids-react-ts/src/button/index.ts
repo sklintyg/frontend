@@ -1,1 +1,1 @@
-export * from './IDSButton';
+export * from './IDSButton'

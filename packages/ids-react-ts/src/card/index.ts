@@ -1,1 +1,1 @@
-export * from './IDSCard';
+export * from './IDSCard'

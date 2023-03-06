@@ -1,1 +1,1 @@
-export * from './IDSBreadcrumbs';
+export * from './IDSBreadcrumbs'

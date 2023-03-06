@@ -1,1 +1,1 @@
-export * from './IDSFooter';
+export * from './IDSFooter'

@@ -1,1 +1,1 @@
-export * from './IDSLink';
+export * from './IDSLink'

@@ -1,1 +1,1 @@
-export * from './IDSCarousel';
+export * from './IDSCarousel'

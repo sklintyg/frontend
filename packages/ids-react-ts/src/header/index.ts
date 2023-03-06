@@ -1,2 +1,2 @@
-export * from './IDSHeader';
-export * from './IDSHeaderItem';
+export * from './IDSHeader'
+export * from './IDSHeaderItem'

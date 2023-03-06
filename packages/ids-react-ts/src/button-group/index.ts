@@ -1,1 +1,1 @@
-export * from './IDSButtonGroup';
+export * from './IDSButtonGroup'

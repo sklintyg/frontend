@@ -1,1 +1,1 @@
-export * from './IDSBadge';
+export * from './IDSBadge'

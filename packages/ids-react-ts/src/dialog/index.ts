@@ -1,1 +1,1 @@
-export * from './IDSDialog';
+export * from './IDSDialog'
