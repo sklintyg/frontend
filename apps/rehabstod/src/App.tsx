@@ -5,7 +5,7 @@ export function App() {
     <>
       <IDSHeader type="inera-admin" className="ids-hide ids-show-inera-admin" brandText="Rehabstöd" />
       <main>
-        <IDSContainer>
+        <IDSContainer gutterless>
           <p className="ids-body">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             <IDSButton onClick={(e) => console.log(e)}>Test</IDSButton>
