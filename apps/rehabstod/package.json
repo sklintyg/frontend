@@ -15,7 +15,7 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@inera/ids-react": "^2.3.0",
+    "@frontend/ids-react-ts": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

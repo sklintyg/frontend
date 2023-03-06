@@ -582,21 +582,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@inera/ids-core@2.3.x":
+"@inera/ids-core@^2.3.2":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@inera/ids-core/-/ids-core-2.3.2.tgz#a60acd7d955af54c8f6df5becd6d871770b3fa74"
   integrity sha512-X4QFpyXiJE3nl8Hm9nIYIOybgp6YhW51D0JwGSO8kiKyp0eER0NOJOqOYlDOrj7F2AhYF3XQgtFtD99oJNNs4w==
   dependencies:
     lit "^2.0.0-rc.2"
     tslib "2.3.1"
-
-"@inera/ids-react@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@inera/ids-react/-/ids-react-2.3.0.tgz#fa1e905597b3a2a4898cedb6fd54985d5620ca44"
-  integrity sha512-wocUBN+iJ3d2G9xI0t7eLK+SbMRBrfP2Z9nps9Hr16ZJ0DvM6ZhlXPKP3d8tyMmwFsy/OVPrjK7l45SpAN9q2Q==
-  dependencies:
-    "@inera/ids-core" "2.3.x"
-    "@lit-labs/react" "^1.0.2"
 
 "@jest/expect-utils@^29.4.3":
   version "29.4.3"
@@ -675,7 +667,7 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@lit-labs/react@^1.0.2":
+"@lit-labs/react@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@lit-labs/react/-/react-1.1.1.tgz#88a4320d357dcdfd7c7e276f809e3453a124cbbc"
   integrity sha512-9TC+/ZWb6BJlWCyUr14FKFlaGnyKpeEDorufXozQgke/VoVrslUQNaL7nBmrAWdNrmzx5jWgi8lFmWwrxMjnlA==

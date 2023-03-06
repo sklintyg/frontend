@@ -1,6 +1,6 @@
-import { IDSContainer, IDSFooter, IDSHeader } from '@inera/ids-react'
+import { IDSButton, IDSContainer, IDSFooter, IDSHeader } from '@frontend/ids-react-ts'
 
-function App() {
+export function App() {
   return (
     <>
       <IDSHeader type="inera-admin" className="ids-hide ids-show-inera-admin" brandText="Rehabstöd" />
@@ -8,6 +8,7 @@ function App() {
         <IDSContainer>
           <p className="ids-body">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <IDSButton onClick={(e) => console.log(e)}>Test</IDSButton>
           </p>
         </IDSContainer>
       </main>
@@ -15,5 +16,3 @@ function App() {
     </>
   )
 }
-
-export default App
