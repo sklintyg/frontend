@@ -1,0 +1,34 @@
+{
+  "name": "@frontend/rehabstod",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
+    "test:coverage": "vitest run --coverage",
+    "test:no-watch": "vitest run",
+    "test": "vitest",
+    "typescript": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.1",
+    "@types/react-dom": "^18.0.10",
+    "@types/react": "^18.0.27",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint-config-react": "*",
+    "eslint": "^8.34.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.1",
+    "vitest": "^0.29.2"
+  }
+}
