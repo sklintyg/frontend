@@ -8,6 +8,7 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:jsdoc/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
     'turbo',
     'prettier',
   ],
@@ -17,7 +18,7 @@ module.exports = {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*'] },
+      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*'] },
     ],
     'jsdoc/require-jsdoc': 'off',
     'jsdoc/require-param': 'off',
@@ -26,4 +27,9 @@ module.exports = {
     'turbo/no-undeclared-env-vars': ['error', { allowList: ['^VITE_[A-Z_]+$'] }],
   },
   ignorePatterns: ['dist/**'],
+  settings: {
+    jest: {
+      version: 29,
+    },
+  },
 }

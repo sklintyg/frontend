@@ -79,14 +79,6 @@ describe('FMBPanelDiagnosisInfo', () => {
     ).toBeInTheDocument()
   })
 
-  it('shall display symptom information when diagnosis have FMB recommendations', async () => {
-    renderDefaultComponent(fmbDiagnosisCodeInfo, false)
-
-    expect(
-      screen.queryByText(/Anorexia nervosa \(med varianter\) är viljestyrd viktnedgång som vidmakthålls av en upplevelse/i)
-    ).toBeInTheDocument()
-  })
-
   it('shall display link where to get more information about the FMB recommendations', async () => {
     renderDefaultComponent(fmbDiagnosisCodeInfo, false)
 

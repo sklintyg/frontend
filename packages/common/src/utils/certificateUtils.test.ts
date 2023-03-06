@@ -36,7 +36,7 @@ describe('Clean certificate before saving', () => {
     expect(clearedCertificate.data['1.2'].value).toBeNull()
   })
 
-  it('Clean text value for element that is not visible', () => {
+  it('Clean text value for element that is visible', () => {
     const textValue = certificate.data['1.2'].value as ValueText
     textValue.text = 'Has text value'
     certificate.data['1.2'].visible = true

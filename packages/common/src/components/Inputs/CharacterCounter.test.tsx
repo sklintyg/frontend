@@ -23,11 +23,6 @@ describe('Character Counter', () => {
     expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('should not render text if limit is too low', () => {
-    renderComponent(30, '')
-    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
-  })
-
   it('should not render text if limit is too high', () => {
     renderComponent(1001, '')
     expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
@@ -43,17 +38,17 @@ describe('Character Counter', () => {
     expect(screen.getByText(TEXT, { exact: false })).toBeInTheDocument()
   })
 
-  it('should correctly count number of chars left', () => {
+  it('should correctly count number of chars left with A', () => {
     renderComponent(800, 'A')
     expect(screen.getByText('799', { exact: false })).toBeInTheDocument()
   })
 
-  it('should correctly count number of chars left', () => {
+  it('should correctly count number of chars left with AAA', () => {
     renderComponent(500, 'AAA')
     expect(screen.getByText('497', { exact: false })).toBeInTheDocument()
   })
 
-  it('should correctly count number of chars left', () => {
+  it('should correctly count number of chars left with spaces', () => {
     renderComponent(100, 'AA BB')
     expect(screen.getByText('95', { exact: false })).toBeInTheDocument()
   })

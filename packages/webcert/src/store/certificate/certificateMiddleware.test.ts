@@ -257,9 +257,7 @@ describe('Test certificate middleware', () => {
       const complementCertificateSuccess = { certificate: expectedCertificate } as ComplementCertificateSuccess
       fakeAxios.onPost(`/api/certificate/${certificateToComplement.metadata.id}/complement`).reply(200, complementCertificateSuccess)
       testStore.dispatch(updateCertificate(certificateToComplement))
-
       testStore.dispatch(complementCertificate({ message: '' }))
-
       await flushPromises()
       expect(testStore.getState().ui.uiCertificate.certificate).toEqual(expectedCertificate)
     })
@@ -405,7 +403,7 @@ describe('Test certificate middleware', () => {
     })
   })
 
-  describe('Handle Show Related Certificate', async () => {
+  describe('Handle Show Related Certificate', () => {
     it.skip('shall call api to show related certificate', async () => {
       const certificate = getTestCertificate('certificateId')
       // @ts-expect-error mocking history
@@ -683,7 +681,7 @@ describe('Test certificate middleware', () => {
       expect(throwErrorAction?.payload.errorCode).toEqual(ErrorCode.AUTHORIZATION_PROBLEM)
     })
 
-    it('shall throw DATA_NOT_FOUND error with type Route', async () => {
+    it('shall throw AUTHORIZATION_PROBLEM error with type Route', async () => {
       const expectedError = getExpectedError(ErrorCode.AUTHORIZATION_PROBLEM.toString())
 
       testStore.dispatch(getCertificateError(expectedError))
@@ -725,7 +723,7 @@ describe('Test certificate middleware', () => {
   })
 })
 
-export const getTestCertificate = (
+const getTestCertificate = (
   id: string,
   type?: string,
   version?: number,

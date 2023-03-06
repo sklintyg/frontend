@@ -3,7 +3,7 @@ import { fakeDateElement, fakeSickLeavePeriod, fakeYearElement } from '../faker/
 import { getClientValidationErrors } from './getClientValidationErrors'
 
 describe('Validation based on value', () => {
-  describe(CertificateDataValueType.DATE, () => {
+  describe(`${CertificateDataValueType.DATE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
       const dataElement = fakeDateElement({ id: 'question', value: { id: 'field', date: 'abc' } })['question']
       expect(getClientValidationErrors(dataElement)).toMatchObject([
@@ -44,7 +44,7 @@ describe('Validation based on value', () => {
     })
   })
 
-  describe(CertificateDataValueType.DATE_RANGE, () => {
+  describe(`${CertificateDataValueType.DATE_RANGE}`, () => {
     it('Should return INVALID_DATE_FORMAT for invalid date', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: 'abc', to: 'abc' }] } })['question']
       expect(getClientValidationErrors(dataElement)).toMatchObject([
@@ -147,7 +147,7 @@ describe('Validation based on value', () => {
     })
   })
 
-  describe(CertificateDataValueType.YEAR, () => {
+  describe(`${CertificateDataValueType.YEAR}`, () => {
     it('Should return INVALID_YEAR_FORMAT for invalid date', () => {
       const dataElement = fakeYearElement({ id: 'question', value: { id: 'field', year: 'abc' } })['question']
       expect(getClientValidationErrors(dataElement)).toMatchObject([
@@ -190,7 +190,7 @@ describe('Validation based on value', () => {
 })
 
 describe('Validation based on config', () => {
-  describe(ConfigTypes.UE_SICK_LEAVE_PERIOD, () => {
+  describe(`${ConfigTypes.UE_SICK_LEAVE_PERIOD}`, () => {
     it('Should return OVERLAP_ERROR for overlapping dates', () => {
       const dataElement = fakeSickLeavePeriod({
         id: 'question',
