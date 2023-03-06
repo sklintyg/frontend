@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 import dts from 'vite-plugin-dts'
@@ -34,5 +35,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['src/setupTests.ts'],
+    coverage: {
+      reporter: ['text', 'json'],
+      all: true,
+    },
   },
 })

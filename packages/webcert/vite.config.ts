@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import react from '@vitejs/plugin-react'
 import { loadEnv, ProxyOptions, UserConfig } from 'vite'
@@ -43,6 +44,10 @@ export default ({ mode }: UserConfig) => {
         inline: [/common\/dist/],
       },
       setupFiles: ['src/setupTests.ts'],
+      coverage: {
+        reporter: ['text', 'json'],
+        all: true,
+      },
     },
     optimizeDeps: {
       include: ['@frontend/common'],
