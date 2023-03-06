@@ -9,6 +9,7 @@ import SRSPanelFooter from './SRSPanelFooter'
 import { getSRSCodes } from '../../store/srs/srsActions'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
+
 const SRSPanel: React.FC = () => {
   const dispatch = useDispatch()
   const diagnosisListValue = useSelector(getDiagnosisListValue)
@@ -28,7 +29,7 @@ const SRSPanel: React.FC = () => {
       return ''
     }
 
-    const result = diagnosisCodes.find((code) => diagnosisListValue?.list.some((diagnosis) => diagnosis.code === code))
+    const result = diagnosisCodes.find((code) => diagnosisListValue?.list[0].code === code)
     return result ? result : ''
   }
 
