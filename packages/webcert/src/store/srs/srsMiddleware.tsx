@@ -13,7 +13,7 @@ import {
 import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
-export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
     apiCallBegan({
       url: '/api/srs/codes',
@@ -25,7 +25,7 @@ export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: Middleware
   )
 }
 
-export const handleGetSRSCodesError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+export const handleGetSRSCodesError: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(updateError(true))
 }
 
