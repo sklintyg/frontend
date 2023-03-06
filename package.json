@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "start": "turbo dev",
     "test:ci": "turbo test:ci",
-    "posttest:ci": "yarn test:report && test:coverage",
+    "posttest:ci": "yarn test:report && yarn test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
     "test:coverage": "coverage",
     "test": "turbo test",
