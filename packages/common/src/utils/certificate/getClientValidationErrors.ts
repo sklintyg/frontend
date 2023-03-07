@@ -53,10 +53,10 @@ const OVERLAP_ERROR = {
 }
 
 const getValidationErrorFactory = (id: string, field = '') => ({
-  text,
-  type,
-  showAlways,
-}: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
+                                                                 text,
+                                                                 type,
+                                                                 showAlways,
+                                                               }: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
   return { category: '', field, id, text, type, showAlways }
 }
 
@@ -105,11 +105,9 @@ const getErrorsFromValue = (id: string, value: ValueType | null): ValidationErro
         const invalidDatePeriod = !!validFromDate && !!validToDate && isBefore(validToDate, validFromDate)
 
         return result
-          .concat(getDateValidationError(id, `from.${field}`, value.from) ?? [])
-          .concat(getDateValidationError(id, `tom.${field}`, value.to) ?? [])
-          .concat(isDateEmpty(value.from) ? getValidationErrorFactory(id, `from.${field}`)(EMPTY_DATE) : [])
-          .concat(isDateEmpty(value.to) ? getValidationErrorFactory(id, `tom.${field}`)(EMPTY_DATE) : [])
-          .concat(invalidDatePeriod ? getValidationErrorFactory(id, `row.${field}`)(INVALID_DATE_PERIOD_ERROR) : [])
+        .concat(getDateValidationError(id, `from.${field}`, value.from) ?? [])
+        .concat(getDateValidationError(id, `tom.${field}`, value.to) ?? [])
+        .concat(invalidDatePeriod ? getValidationErrorFactory(id, `row.${field}`)(INVALID_DATE_PERIOD_ERROR) : [])
       }
       default:
         return result
