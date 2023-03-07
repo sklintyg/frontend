@@ -20,7 +20,7 @@ const CharacterCounter: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      {limit - (value ? value.length : 0)} av {limit} tecken
+      {value ? value.length : 0} av {limit} tecken
     </Wrapper>
   )
 }
