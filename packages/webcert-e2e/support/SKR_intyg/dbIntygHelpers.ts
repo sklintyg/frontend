@@ -33,14 +33,14 @@ export function skrivUt(typAvUtskrift: string, intygsId: string): void {
     case 'fullständigt':
       cy.request({
         method: 'GET',
-        url: 'moduleapi/intyg/db/' + intygsId + '/pdf',
+        url: `moduleapi/intyg/db/${  intygsId  }/pdf`,
       })
-      cy.log('Skriver ut ett ' + typAvUtskrift + ' intyg (via cy.request, ej grafiskt)')
+      cy.log(`Skriver ut ett ${  typAvUtskrift  } intyg (via cy.request, ej grafiskt)`)
       break
     case 'minimalt':
       cy.request({
         method: 'GET',
-        url: 'moduleapi/intyg/db/' + intygsId + '/pdf/arbetsgivarutskrift',
+        url: `moduleapi/intyg/db/${  intygsId  }/pdf/arbetsgivarutskrift`,
       })
       cy.log('Skriver ut ett minimalt intyg (via cy.request, ej grafiskt)')
       break
@@ -74,16 +74,16 @@ export function verifieraDoiMeddelande(): void {
     cy.contains('Dödsorsaksuppgifterna grundar sig på').should('exist')
   })
 }
-//Ersätt med DB
+// Ersätt med DB
 export function kompletteraLisjp(): void {
   fk.komplettera()
 }
 
 export function rensaIntyg(personnummer: string, personnummerKompakt: string): void {
-  cy.exec('curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/handelser/patient/' + personnummerKompakt)
-  cy.exec('curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/patient/' + personnummer)
+  cy.exec(`curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/handelser/patient/${  personnummerKompakt}`)
+  cy.exec(`curl -X DELETE https://webcert-devtest.intyg.nordicmedtest.se/testability/intyg/patient/${  personnummer}`)
   cy.exec(
-    'curl -X DELETE https://intygstjanst-devtest.intyg.nordicmedtest.se/inera-certificate/resources/certificate/citizen/' + personnummer
+    `curl -X DELETE https://intygstjanst-devtest.intyg.nordicmedtest.se/inera-certificate/resources/certificate/citizen/${  personnummer}`
   )
 }
 

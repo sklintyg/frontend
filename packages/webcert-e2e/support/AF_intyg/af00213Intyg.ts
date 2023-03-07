@@ -15,7 +15,7 @@ export {
   makulera,
   ersatta,
   kopieraUtkast,
-} from './../FK_intyg/fk_helpers'
+} from "../FK_intyg/fk_helpers"
 
 export function verifieraMeddelande(): void {
   cy.get('.iu-pt-400').within(() => {

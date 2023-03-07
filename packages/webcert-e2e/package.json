@@ -15,16 +15,18 @@
   "dependencies": {
     "@cypress/grep": "^3.1.0",
     "@cypress/react": "^5.9.1",
+    "cypress": "^12.1.0",
     "cypress-failed-log": "^2.9.2",
     "cypress-pipe": "^2.0.0",
     "cypress-react-selector": "^2.3.8",
-    "cypress": "^12.1.0",
-    "mocha-junit-reporter": "^1.23.3",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.23.3"
   },
   "devDependencies": {
+    "@types/node": "^18.14.6",
+    "eslint": "^8.34.0",
     "eslint-config-custom": "*",
     "eslint-plugin-cypress": "^2.12.1",
-    "eslint": "^8.34.0"
+    "typescript": "^4.9.5"
   }
 }

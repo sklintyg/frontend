@@ -88,14 +88,14 @@ export function skrivUt(typAvUtskrift: string, intygsId: string): void {
     case 'fullständigt':
       cy.request({
         method: 'GET',
-        url: 'moduleapi/intyg/lisjp/' + intygsId + '/pdf',
+        url: `moduleapi/intyg/lisjp/${  intygsId  }/pdf`,
       })
-      cy.log('Skriver ut ett ' + typAvUtskrift + ' intyg (via cy.request, ej grafiskt)')
+      cy.log(`Skriver ut ett ${  typAvUtskrift  } intyg (via cy.request, ej grafiskt)`)
       break
     case 'minimalt':
       cy.request({
         method: 'GET',
-        url: 'moduleapi/intyg/lisjp/' + intygsId + '/pdf/arbetsgivarutskrift',
+        url: `moduleapi/intyg/lisjp/${  intygsId  }/pdf/arbetsgivarutskrift`,
       })
       cy.log('Skriver ut ett minimalt intyg (via cy.request, ej grafiskt)')
       break
@@ -104,7 +104,7 @@ export function skrivUt(typAvUtskrift: string, intygsId: string): void {
   }
 }
 
-//--------------------Ställa fråga på intyg till FK------------------
+// --------------------Ställa fråga på intyg till FK------------------
 export function stallaFragaTillFK(typAvFraga: string): void {
   switch (typAvFraga) {
     case 'Administrativ':
@@ -113,11 +113,11 @@ export function stallaFragaTillFK(typAvFraga: string): void {
       cy.get('#new-question-topic-AVSTMN').click()
       cy.get('#arendeNewModelText')
         .click()
-        .type('Detta är en ' + typAvFraga + ' fråga')
+        .type(`Detta är en ${  typAvFraga  } fråga`)
       cy.get('#sendArendeBtn')
         .click()
         .then(() => {
-          cy.contains('Detta är en ' + typAvFraga + ' fråga')
+          cy.contains(`Detta är en ${  typAvFraga  } fråga`)
         })
       break
     default:

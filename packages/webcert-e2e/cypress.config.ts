@@ -1,7 +1,7 @@
-const { defineConfig } = require('cypress')
-const fs = require('fs')
+import { defineConfig } from 'cypress'
+import fs from 'fs'
 
-module.exports = defineConfig({
+export default defineConfig({
   env: {
     webcertUrl: 'https://webcert-devtest.intyg.nordicmedtest.se',
     intygMockBaseUrl: 'http://nmt-vs-tintyg.intyg.nordicmedtest.se',

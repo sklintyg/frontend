@@ -5,50 +5,50 @@ import * as intyg from '../../support/SKR_intyg/AG7804Intyg'
  * AG7804 = Läkarintyg om arbetsförmåga – arbetsgivaren, AG 7804
  */
 
-describe('AG7804-utkast tomt', { tags: '@react' }, function() {
-  before(function() {
+describe('AG7804-utkast tomt', { tags: '@react' }, () => {
+  before(() => {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
     cy.fixture('vPatienter/athenaAndersson').as('vårdtagare')
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  context('Användare har möjlighet att uföra följande med ett tomt AG7804-utkast ', function() {
-    beforeEach(function() {
-      //UNSIGNED AG FILLED
+  context('Användare har möjlighet att uföra följande med ett tomt AG7804-utkast ', () => {
+    beforeEach(() => {
+      // UNSIGNED AG FILLED
       cy.skapaIntygViaApi(this, 1, 2, true).then((utkastId) => {
         cy.wrap(utkastId).as('utkastId')
-        cy.log('AG7804-utkast med id ' + utkastId + ' skapat och används i testfallet')
+        cy.log(`AG7804-utkast med id ${utkastId} skapat och används i testfallet`)
       })
     })
 
     describe('Funktioner på ett tomt AG7804-utkast', { tags: '@react' }, () => {
-      it('Skapar en minimalt ifylld AG7804 och signerar', function() {
+      it('Skapar en minimalt ifylld AG7804 och signerar', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-        const önskadUrl = '/certificate/' + this.utkastId
+        const önskadUrl = `/certificate/${this.utkastId}`
         cy.visit(önskadUrl)
         intyg.signera()
         cy.contains('Intyget är tillgängligt för patienten')
       })
 
-      it('Det är möjligt att raderar ett ifyllt AG7804', function() {
+      it('Det är möjligt att raderar ett ifyllt AG7804', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-        const önskadUrl = '/certificate/' + this.utkastId
+        const önskadUrl = `/certificate/${this.utkastId}`
         cy.visit(önskadUrl)
         intyg.raderaUtkast()
         cy.contains(this.utkastId).should('not.exist')
       })
 
-      it('Skriva ut ett ifyllt AG7804', function() {
+      it('Skriva ut ett ifyllt AG7804', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-        const önskadUrl = '/certificate/' + this.utkastId
+        const önskadUrl = `/certificate/${this.utkastId}`
         cy.visit(önskadUrl)
-        intyg.skrivUt('utkast', this.utkastId, 'ag7804') //skriver ut via request
+        intyg.skrivUt('utkast', this.utkastId, 'ag7804') // skriver ut via request
       })
 
-      it('Det går inte att signera ett AG7804 utkast som inte innehåller alla obligatoriska fält', function() {
+      it('Det går inte att signera ett AG7804 utkast som inte innehåller alla obligatoriska fält', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-        const önskadUrl = '/certificate/' + this.utkastId
+        const önskadUrl = `/certificate/${this.utkastId}`
         cy.visit(önskadUrl)
         cy.contains('Klart att signera').should('exist')
         cy.get('label')

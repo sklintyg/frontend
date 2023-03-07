@@ -5,8 +5,8 @@ import * as intyg from '../../support/FK_intyg/lisjpIntyg'
  * LISJP = Läkarintyg för sjukpenning, FK 7804
  */
 
-describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
-  before(function() {
+describe('LISJP-intyg tomt', { tags: '@angular' }, () => {
+  before(() => {
     cy.fixture('FK_intyg/minLisjpData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhetNR1')
     cy.fixture('vPatienter/athenaAndersson').as('vårdtagare')
@@ -15,18 +15,18 @@ describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
     cy.fixture('vEnheter/betaVC').as('vårdenhet')
   })
 
-  context('Användare har möjlighet att uföra följande med ett tomt utkast ', function() {
-    beforeEach(function() {
-      //UNSIGNED LISJP EMPTY
+  context('Användare har möjlighet att uföra följande med ett tomt utkast ', () => {
+    beforeEach(() => {
+      // UNSIGNED LISJP EMPTY
       cy.skapaIntygViaApi(this, 0, 1, true, false).then((utkastId) => {
         cy.wrap(utkastId).as('utkastId')
-        cy.log('LISJP-utkast med id ' + utkastId + ' skapat och används i testfallet')
+        cy.log(`LISJP-utkast med id ${utkastId} skapat och används i testfallet`)
       })
     })
     describe('Funktioner då man loggar in på ett intyg från annan vårdgivare med sammanhållenjournal', { tags: '@angular' }, () => {
-      it('Ett LISJP-intyg ska kunna förnyas', function() {
+      it('Ett LISJP-intyg ska kunna förnyas', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId, true)
-        const önskadUrl = '/visa/intyg/' + this.utkastId + '?enhet=' + this.vårdenhetNR1.id + '&sjf=true'
+        const önskadUrl = `/visa/intyg/${this.utkastId}?enhet=${this.vårdenhetNR1.id}&sjf=true`
 
         cy.visit(önskadUrl)
         cy.contains(this.vårdpersonal.förnamn).should('exist')
@@ -39,9 +39,9 @@ describe('LISJP-intyg tomt', { tags: '@angular' }, function() {
         cy.contains(this.vårdpersonalNR1.förnamn).should('exist')
         cy.contains(this.vårdpersonal.förnamn).should('not.exist')
       })
-      it('Ett LISJP-intyg ska inte kunna makuleras/skickas/Ersättas och skrivas ut när en användare loggar på annan vårdgivare', function() {
+      it('Ett LISJP-intyg ska inte kunna makuleras/skickas/Ersättas och skrivas ut när en användare loggar på annan vårdgivare', () => {
         cy.loggaInVårdpersonalIntegrerat(this.vårdpersonalNR1, this.vårdenhetNR1, this.utkastId, true)
-        const önskadUrl = '/visa/intyg/' + this.utkastId + '?enhet=' + this.vårdenhetNR1.id + '&sjf=true'
+        const önskadUrl = `/visa/intyg/${this.utkastId}?enhet=${this.vårdenhetNR1.id}&sjf=true`
 
         cy.visit(önskadUrl)
         cy.contains(this.vårdpersonal.förnamn).should('exist')

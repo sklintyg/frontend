@@ -1,54 +1,54 @@
 /// <reference types="Cypress" />
 import * as db from '../../support/SKR_intyg/dbIntygHelpers'
 
-describe('Testa DOI-utkast', function() {
-  before(function() {
+describe('Testa DOI-utkast', () => {
+  before(() => {
     cy.fixture('SKR_intyg/dbData').as('intygsdata')
     cy.fixture('vEnheter/alfaVC').as('vårdenhet')
     cy.fixture('vPatienter/charlieOlsson').as('vårdtagare')
     cy.fixture('vPersonal/ajlaDoktor').as('vårdpersonal')
   })
 
-  beforeEach(function() {
-    //UNSIGNED DOI EMPTY
+  beforeEach(() => {
+    // UNSIGNED DOI EMPTY
     db.rensaIntyg(this.vårdtagare.personnummer, this.vårdtagare.personnummerKompakt)
     cy.skapaIntygViaApi(this, 1, 4, false).then((utkastId) => {
       cy.wrap(utkastId).as('utkastId')
-      cy.log('DOI-utkast med id ' + utkastId + ' skapat och används i testfallet')
+      cy.log(`DOI-utkast med id ${utkastId} skapat och används i testfallet`)
     })
   })
   describe('Funktioner på ett tomt DOI utkast', () => {
-    it('Ett icke ifylld DOI går ej att signera', function() {
+    it('Ett icke ifylld DOI går ej att signera', () => {
       cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
-      const önskadUrl = '/certificate/' + this.utkastId
+      const önskadUrl = `/certificate/${this.utkastId}`
       cy.visit(önskadUrl)
       cy.contains('Signera och skicka').click()
       db.verifieraDoiMeddelande()
       cy.contains('Utkastet är sparat').should('exist')
     })
 
-    it('Skriva ut ett icke ifyllt DOI', function() {
+    it('Skriva ut ett icke ifyllt DOI', () => {
       cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
-      const önskadUrl = '/certificate/' + this.utkastId
+      const önskadUrl = `/certificate/${this.utkastId}`
       cy.visit(önskadUrl)
-      db.skrivUt('utkast', this.utkastId, 'doi') //skriver ut via request
+      db.skrivUt('utkast', this.utkastId, 'doi') // skriver ut via request
     })
 
-    it('Radera ett icke ifyllt DOI', function() {
+    it('Radera ett icke ifyllt DOI', () => {
       cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
-      const önskadUrl = '/certificate/' + this.utkastId
+      const önskadUrl = `/certificate/${this.utkastId}`
       cy.visit(önskadUrl)
-      //Kontrollera namn och personnummer modal
+      // Kontrollera namn och personnummer modal
       db.raderaUtkast()
       cy.contains(this.utkastId).should('not.exist')
     })
 
-    it('Fyll i och signera ett DOI', function() {
+    it('Fyll i och signera ett DOI', () => {
       cy.loggaInVårdpersonalIntegrerat(this.vårdpersonal, this.vårdenhet, this.utkastId)
 
-      const önskadUrl = '/certificate/' + this.utkastId
+      const önskadUrl = `/certificate/${this.utkastId}`
       cy.visit(önskadUrl)
 
       // Kompletterande patientuppgifter

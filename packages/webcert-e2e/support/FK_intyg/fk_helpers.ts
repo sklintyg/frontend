@@ -20,12 +20,12 @@ export function signeraSkicka(): void {
 export function skickaFraga(amne: string): void {
   cy.contains('Administrativa frågor').click()
   cy.get('select').select(amne)
-  cy.get('.ic-textarea').type('skickar en fråga angående ' + amne)
+  cy.get('.ic-textarea').type(`skickar en fråga angående ${amne}`)
   cy.contains('Utkast sparat')
   cy.get('button')
     .contains('Skicka')
     .click()
-  cy.contains('skickar en fråga angående ' + amne).should('exist')
+  cy.contains(`skickar en fråga angående ${amne}`).should('exist')
   cy.contains('Hanterad').click()
 }
 
@@ -60,16 +60,16 @@ export function skrivUtUtkast(): void {
 
 // Generell utskriftsfunktion. Gäller inte för t.ex. LISJP
 export function skrivUt(typAvUtskrift: string, intygsId: string, intygsTyp: string): void {
-  const theUrl = 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/pdf' + typAvUtskrift
+  const theUrl = `moduleapi/intyg/${intygsTyp}/${intygsId}/pdf${typAvUtskrift}`
   switch (typAvUtskrift) {
     case 'utkast':
     case 'fullständigt':
       cy.request({
         method: 'GET',
-        url: 'moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/pdf',
+        url: `moduleapi/intyg/${intygsTyp}/${intygsId}/pdf`,
       })
       cy.log(theUrl)
-      cy.log('Skriver ut ett ' + typAvUtskrift + ' intyg (via cy.request, ej grafiskt)')
+      cy.log(`Skriver ut ett ${typAvUtskrift} intyg (via cy.request, ej grafiskt)`)
       break
     default:
       cy.log('Ingen korrekt typ av utskrift vald')
@@ -100,16 +100,16 @@ export function fornya(): void {
   cy.get('button')
     .contains('Förnya')
     .click()
-  //cy.get('#fornyaBtn').click();
-  //cy.get('.iu-pb-400').then
+  // cy.get('#fornyaBtn').click();
+  // cy.get('.iu-pb-400').then
 
   cy.get('.ic-modal').then((ele) => {
     if (ele.text().includes('Förnya intyg kan användas vid förlängning av en sjukskrivning')) {
-      //cy.get('.ic-button-group > :nth-child(1) > .ic-button')
+      // cy.get('.ic-button-group > :nth-child(1) > .ic-button')
       cy.get('.ic-button-group')
         .contains('Förnya')
         .click()
-      //cy.get('#button1fornya-dialog').click();
+      // cy.get('#button1fornya-dialog').click();
     }
   })
 }
@@ -117,16 +117,15 @@ export function fornya(): void {
 export function kopieraUtkast(): void {
   cy.contains('Kopiera')
     .click()
-    .then(() => {
-      cy.get('.ic-modal').then((ele) => {
-        if (ele.text().includes('Kopiera låst utkast')) {
-          cy.get('.ic-modal').within(() => {
-            cy.get('button')
-              .contains('Kopiera')
-              .click()
-          })
-        }
-      })
+    .then(() => cy.get('.ic-modal'))
+    .then((ele) => {
+      if (ele.text().includes('Kopiera låst utkast')) {
+        cy.get('.ic-modal').within(() => {
+          cy.get('button')
+            .contains('Kopiera')
+            .click()
+        })
+      }
     })
 }
 
@@ -145,7 +144,7 @@ export function svaraPaKomplettering(alternativ: string, meddelandeText: string)
   switch (alternativ) {
     case 'nyttIntyg':
       // cy.get('.ic-modal').within((modal)=>
-      //{
+      // {
       cy.contains('Komplettera').click()
       // });
       break
