@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as redux from 'react-redux'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import store from '../../../store/store'
 import ProtectedUserApprovalModal from './ProtectedUserApprovalModal'
 
@@ -17,8 +18,8 @@ const renderDefaultComponent = (showModal: boolean) => {
 // @ts-ignore
 let useDispatchSpy
 beforeEach(() => {
-  useDispatchSpy = jest.spyOn(redux, 'useDispatch')
-  useDispatchSpy.mockReturnValue(jest.fn())
+  useDispatchSpy = vi.spyOn(redux, 'useDispatch')
+  useDispatchSpy.mockReturnValue(vi.fn())
 })
 
 describe('Create certificate from candidate modal', () => {

@@ -13,10 +13,10 @@ import {
   PersonId,
   ResourceLink,
   ResourceLinkType,
+  sortedValidationErrorSummary,
   Unit,
   ValidationError,
   ValidationErrorSummary,
-  sortedValidationErrorSummary,
 } from '@frontend/common'
 import { createSelector } from '@reduxjs/toolkit'
 import { uniqWith } from 'lodash'
@@ -109,16 +109,9 @@ export interface CertificateStructure {
   style?: CertificateDataElementStyleEnum
 }
 
-export const getCertificateDataElements = createSelector<RootState, Certificate | undefined, CertificateStructure[]>(
-  getCertificate,
-  (certificate) => {
-    if (certificate == null) {
-      return []
-    }
-
-    return structureCertificate(certificate.data)
-  }
-)
+export const getCertificateDataElements = createSelector(getCertificate, (certificate) => {
+  return certificate == null ? [] : structureCertificate(certificate.data)
+})
 
 export const getValidationErrorSummary = () => (state: RootState): ValidationErrorSummary[] => {
   if (!state.ui.uiCertificate.certificate) {

@@ -1,7 +1,7 @@
 import { CertificateMetadata, CertificateStatus, Question, QuestionType } from '@frontend/common'
-import store from '@frontend/webcert/src/store/store'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import store from '../../../../store/store'
 import CertificateHeaderStatuses from './CertificateHeaderStatuses'
 import { createCertificateMetadata } from './statusTestUtils'
 

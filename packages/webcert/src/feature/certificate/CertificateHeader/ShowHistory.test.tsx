@@ -1,7 +1,3 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import ShowHistory from './ShowHistory'
-import userEvent from '@testing-library/user-event'
 import {
   CertificateEvent,
   CertificateEventType,
@@ -10,7 +6,10 @@ import {
   CertificateStatus,
   fakeCertificateMetaData,
 } from '@frontend/common'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
+import ShowHistory from './ShowHistory'
 
 const certificateMetadata: CertificateMetadata = fakeCertificateMetaData({
   type: 'lisjp',

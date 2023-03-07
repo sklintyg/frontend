@@ -7,6 +7,7 @@ import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import {
@@ -48,7 +49,7 @@ describe('QuestionForm', () => {
   })
 
   afterEach(() => {
-    jest.clearAllTimers()
+    vi.clearAllTimers()
   })
 
   it('renders without crashing', () => {
@@ -114,13 +115,13 @@ describe('QuestionForm', () => {
     })
 
     it('writes a message', () => {
-      jest.useFakeTimers('modern')
+      vi.useFakeTimers()
       renderComponent()
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
-      jest.advanceTimersByTime(2000)
+      vi.advanceTimersByTime(2000)
       flushPromises()
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
@@ -134,7 +135,7 @@ describe('QuestionForm', () => {
       expect(screen.getByText(/Avbryt/i)).toBeEnabled()
     })
 
-    xit('disable send and cancel when question draft has value and has not been saved', async () => {
+    it.skip('disable send and cancel when question draft has value and has not been saved', async () => {
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       testStore.dispatch(updateQuestionDraft(questionDraft))
       testStore.dispatch(updateQuestionDraftSaved(false))
@@ -239,7 +240,7 @@ describe('QuestionForm', () => {
     })
 
     it('shall delete question draft when delete is confirmed', async () => {
-      jest.useRealTimers()
+      vi.useRealTimers()
       const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, type: QuestionType.CONTACT }
       renderComponent(questionDraft)
       testStore.dispatch(updateQuestionDraftSaved(true))

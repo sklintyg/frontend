@@ -4,6 +4,7 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import * as redux from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import AboutCertificatePanel from './AboutCertificatePanel'
@@ -27,7 +28,7 @@ const renderComponent = () => {
 
 describe('CertificateSidePanel', () => {
   beforeEach(() => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue(fakeCertificateMetaData({ description: descriptionWithLinks }))
   })
 

@@ -1,4 +1,4 @@
-import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common/src'
+import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'

@@ -5,10 +5,9 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { readyForSign, updateCertificate } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
+import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../../store/test/dispatchHelperMiddleware'
 import ReadyForSignButton from '../ReadyForSignButton'
-
-import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 
 const NAME = 'ReadyForSign button name'
 const DESCRIPTION = 'ReadyForSign button description'

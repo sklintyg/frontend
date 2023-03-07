@@ -2,6 +2,7 @@ import { ResourceLinkType } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../../../store/test/dispatchHelperMiddleware'
 import ForwardCertificateButton from '../ForwardCertificateButton'
@@ -35,49 +36,43 @@ const renderDefaultComponent = (type: ResourceLinkType = ResourceLinkType.FORWAR
     </Provider>
   )
 
+Object.defineProperty(global.window, 'open', { value: vi.fn() })
+
 describe('Forward certificate button', () => {
   beforeEach(() => {
-    location = window.location
-    jest.spyOn(window, 'location', 'get').mockRestore()
     testStore = configureApplicationStore([dispatchHelperMiddleware])
   })
 
-  afterEach(() => {
-    jest.resetAllMocks()
-  })
-
   it('opens email with text about draft', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
     renderDefaultComponent()
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('utkast'), '_blank')
   })
 
   it('opens email with text about question', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('%A4rende'), '_blank')
   })
 
   it('opens email with link based on current host', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
-    jest.spyOn(window, 'location', 'get').mockReturnValue({
+    const openSpy = vi.spyOn(window, 'open')
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
       ...location,
+      protocol: 'http:',
       host: 'host',
     })
 
     renderDefaultComponent()
     screen.getByText(NAME).click()
-    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('http%3A%2F%2Fhost'), '_blank')
+
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining(encodeURIComponent('http://host')), '_blank')
   })
 
   it('opens email with correct link', () => {
-    const openSpy = jest.spyOn(window, 'open')
-    openSpy.mockImplementation(jest.fn())
+    const openSpy = vi.spyOn(window, 'open')
     renderDefaultComponent(ResourceLinkType.FORWARD_QUESTION)
     screen.getByText(NAME).click()
     expect(openSpy).toHaveBeenCalledWith(

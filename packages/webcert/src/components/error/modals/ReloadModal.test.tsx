@@ -1,16 +1,16 @@
-import { render, screen } from '@testing-library/react'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import React from 'react'
-import userEvent from '@testing-library/user-event'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { errorMiddleware } from '../../../store/error/errorMiddleware'
-import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
-import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
-import { clearError } from '../../../store/error/errorActions'
+import { vi } from 'vitest'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { clearError } from '../../../store/error/errorActions'
+import { errorMiddleware } from '../../../store/error/errorMiddleware'
+import { ErrorCode, ErrorData, ErrorType } from '../../../store/error/errorReducer'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import ReloadModal, { RELOAD_CLOSE_BUTTON_TEXT, RELOAD_CONFIRM_BUTTON_TEXT } from './ReloadModal'
 
 let testStore: EnhancedStore
 
@@ -31,12 +31,12 @@ const renderComponent = (errorData: ErrorData) => {
 describe('ReloadModal', () => {
   beforeEach(() => {
     location = window.location
-    jest.spyOn(window, 'location', 'get').mockRestore()
+    vi.spyOn(window, 'location', 'get').mockRestore()
     testStore = configureApplicationStore([dispatchHelperMiddleware, errorMiddleware])
   })
 
   afterEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     clearDispatchedActions()
   })
 
@@ -45,9 +45,9 @@ describe('ReloadModal', () => {
   })
 
   it('shall reload page on confirm', () => {
-    jest.spyOn(window, 'location', 'get').mockReturnValue({
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
       ...location,
-      reload: jest.fn(),
+      reload: vi.fn(),
     })
     renderComponent(createError())
 

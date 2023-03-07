@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "esnext",
     "module": "esnext",
+    "lib": ["esnext", "dom"],
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
     "resolveJsonModule": true,
-    "preserveSymlinks": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@frontend/common": ["./packages/common/src/index.ts"]
+    }
   },
-  "include": ["src"]
+  "exclude": ["**/dist/**", "dist", "./app/*/dist/**", "./app/*/*.d.ts", "./app/*/*.d.cts"]
 }

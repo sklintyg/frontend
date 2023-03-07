@@ -1,6 +1,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { vi } from 'vitest'
 import { SigningData, updateCertificateSigningData } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
@@ -8,7 +9,7 @@ import SigningForm from './SigningForm'
 
 let testStore: EnhancedStore
 
-const mockSubmit = jest.fn()
+const mockSubmit = vi.fn()
 
 const renderDefaultComponent = () => {
   render(

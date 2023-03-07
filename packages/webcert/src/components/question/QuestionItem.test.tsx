@@ -6,6 +6,7 @@ import { createMemoryHistory } from 'history'
 import { isEqual } from 'lodash'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { vi } from 'vitest'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
@@ -191,14 +192,14 @@ describe('QuestionItem', () => {
       clearDispatchedActions()
     })
 
-    xit('writes a message', () => {
-      jest.useFakeTimers('modern')
+    it.skip('writes a message', () => {
+      vi.useFakeTimers()
       renderComponent(addAnswerDraftToQuestion(createQuestion(), ''))
       const newMessage = 'Det här är ett meddelande'
       const messageField = screen.getByRole('textbox')
       userEvent.type(messageField, newMessage)
 
-      jest.advanceTimersByTime(10000)
+      vi.advanceTimersByTime(10000)
       expect(testStore.getState().ui.uiQuestion.questionDraft.message).toEqual(newMessage)
     })
 

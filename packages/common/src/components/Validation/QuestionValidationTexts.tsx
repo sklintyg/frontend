@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components/macro'
+import { FlattenSimpleInterpolation } from 'styled-components'
 import { ValidationError } from '../../types'
 import ValidationText from './ValidationText'
 

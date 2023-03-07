@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images/ChevronDownIcon'
 import { sanitizeText } from '../../utils/sanitizeText'
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   display: flex;
   align-items: bottom;
 `
@@ -32,7 +31,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
       {!expand && text && text.length > maxLength ? (
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(trimToLastCompleteWord(text, maxLength))} css={additionalStyles} />
-          <StyledLink to="#" onClick={() => setExpand(!expand)}>
+          <StyledLink href="#" onClick={() => setExpand(!expand)}>
             Visa mer
             <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
           </StyledLink>
@@ -41,7 +40,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
         <div>
           <p dangerouslySetInnerHTML={sanitizeText(text)} css={additionalStyles} />
           {text && text.length > maxLength && (
-            <StyledLink to="#" onClick={() => setExpand(!expand)}>
+            <StyledLink href="#" onClick={() => setExpand(!expand)}>
               Visa mindre
               <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
             </StyledLink>

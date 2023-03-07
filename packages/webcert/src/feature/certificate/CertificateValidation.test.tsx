@@ -1,7 +1,7 @@
-import React from 'react'
+import { ValidationErrorSummary } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
 import * as redux from 'react-redux'
-import { ValidationErrorSummary } from '@frontend/common'
+import { vi } from 'vitest'
 import CertificateValidation from './CertificateValidation'
 
 const GRUND_FOR_MEDICINSKT_UNDERLAG = 'Grund för medicinskt underlag'
@@ -18,7 +18,7 @@ const getValidationErrorSummary = (): ValidationErrorSummary[] => {
 
 describe('CertificateValidation component', () => {
   it('shall be null if no errors exist', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValue(false)
 
     const { container } = render(<CertificateValidation />)
@@ -27,7 +27,7 @@ describe('CertificateValidation component', () => {
   })
 
   it('shall display all validation errors', (): void => {
-    const useSelectorSpy = jest.spyOn(redux, 'useSelector')
+    const useSelectorSpy = vi.spyOn(redux, 'useSelector')
     useSelectorSpy.mockReturnValueOnce(true)
     useSelectorSpy.mockReturnValue(getValidationErrorSummary())
 

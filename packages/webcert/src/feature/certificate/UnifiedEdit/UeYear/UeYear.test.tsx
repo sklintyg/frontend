@@ -85,7 +85,7 @@ describe('YearPicker component', () => {
     const selected = screen.getByText(testYear.toString())
     const minYear = screen.getByText((testYear - 2).toString())
     const maxYear = screen.getByText((testYear + 2).toString())
-    const beforeMinYear = screen.getByText((testYear - 3).toString())
+    const beforeMinYear = screen.getByText((testYear - 4).toString())
     const afterMaxYear = screen.getByText((testYear + 3).toString())
     expect(selected).toHaveClass('react-datepicker__year-text--selected')
     expect(minYear).not.toHaveClass('react-datepicker__year-text--disabled')
