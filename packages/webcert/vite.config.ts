@@ -43,6 +43,10 @@ export default ({ mode }: UserConfig) => {
         inline: [/common\/dist/],
       },
       setupFiles: ['src/setupTests.ts'],
+      coverage: {
+        reporter: ['text', 'json'],
+        all: true,
+      },
     },
     optimizeDeps: {
       include: ['@frontend/common'],

@@ -6,7 +6,9 @@
 
 # Testing
 coverage
+.nyc_output
 junit.xml
+cobertura-coverage.xml
 
 # Production
 build
