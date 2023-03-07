@@ -48,9 +48,6 @@ export default ({ mode }: UserConfig) => {
         all: true,
       },
     },
-    optimizeDeps: {
-      include: ['@frontend/common'],
-    },
     build: {
       commonjsOptions: {
         include: [/@frontend\/common/, /node_modules/],
