@@ -12,19 +12,23 @@
     "prepare": "husky install",
     "start": "turbo dev",
     "test:ci": "turbo test:ci",
-    "posttest:ci": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
+    "posttest:ci": "yarn test:report && yarn test:coverage",
+    "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
+    "test:coverage": "coverage",
     "test": "turbo test",
     "typescript": "turbo typescript"
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
     "eslint": "^8.34.0",
+    "eslint-config-custom": "*",
     "husky": "^7.0.4",
     "junit-report-merger": "^2.2.2",
     "lint-staged": "^12.5.0",
+    "nyc": "^15.1.0",
     "prettier": "^1.18.2",
     "turbo": "^1.7.4",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "@frontend/combine-coverage": "*"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix"

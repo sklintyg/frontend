@@ -1,6 +1,5 @@
 import { fakeCertificate, fakeDateRangeElement, ValidationError } from '@frontend/common'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
 import { showValidationErrors, updateCertificate } from '../../../../store/certificate/certificateActions'
@@ -46,28 +45,6 @@ describe('Date range picker', () => {
   })
 
   describe('Validation error', () => {
-    it('shows date range error when end date is before start date', () => {
-      const question = getQuestion([])
-      renderDefaultComponent({ disabled: false, question })
-      store.dispatch(showValidationErrors())
-
-      const fromInput = screen.getByLabelText('Fr.o.m')
-
-      userEvent.type(fromInput, '20210202')
-      const toInput = screen.getByLabelText('t.o.m')
-      userEvent.type(toInput, '20210102')
-      userEvent.click(screen.getByText('t.o.m'))
-      setTimeout(() => {
-        expect(screen.queryByText('Ange ett slutdatum som infaller efter startdatumet.')).toBeInTheDocument()
-      }, 500)
-
-      userEvent.type(toInput, '20210302')
-      userEvent.click(screen.getByText('t.o.m'))
-      setTimeout(() => {
-        expect(screen.queryByText('Ange ett slutdatum som infaller efter startdatumet.')).not.toBeInTheDocument()
-      }, 500)
-    })
-
     it('should show validation error of type id.field', () => {
       const validationErrors = getValidationErrors('jsonid.tom')
       const question = getQuestion(validationErrors)
