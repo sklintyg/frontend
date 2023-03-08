@@ -104,10 +104,12 @@ pipeline {
                                 log "Waiting (max 1 min) for POST of coverage-report to ${s2iWebhook.getURL()}"
                                 def coverageReport = waitForWebhook(s2iWebhook)
 
-                                def coverageReportPath = 'cobertura-coverage.xml'
-                                writeFile file: coverageReportPath, text: coverageReport.replaceAll("/tmp/src", ".")
+                                if (coverageReport?.trim()) {
+                                    def coverageReportPath = 'cobertura-coverage.xml'
+                                    writeFile file: coverageReportPath, text: coverageReport.replaceAll("/tmp/src", ".")
 
-                                cobertura coberturaReportFile: coverageReportPath, enableNewApi: true, failUnhealthy: false, failUnstable: false, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+                                    cobertura coberturaReportFile: coverageReportPath, enableNewApi: true, failUnhealthy: false, failUnstable: false, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+                                }
                             }
                         }
                     }
