@@ -17,25 +17,14 @@ const SRSPanel: React.FC = () => {
   const hasError = useSelector(getHasError)
 
   const isEmpty = !diagnosisListValue || diagnosisListValue.list.length == 0
+  const supportedDiagnosisCode = diagnosisCodes.find((code) => diagnosisListValue?.list[0].code === code) ?? ''
+  const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
   useEffect(() => {
     if (!isEmpty && diagnosisCodes.length == 0) {
       dispatch(getSRSCodes())
     }
   }, [isEmpty, diagnosisCodes, dispatch])
-
-  const getSupportedDiagnosisCode = (): string => {
-    if (isEmpty || diagnosisCodes.length == 0) {
-      return ''
-    }
-
-    const result = diagnosisCodes.find((code) => diagnosisListValue?.list[0].code === code)
-    return result ? result : ''
-  }
-
-  const hasSupportedDiagnosisCode = (): boolean => {
-    return getSupportedDiagnosisCode().length > 0
-  }
 
   const getContent = () => {
     if (hasError) {
@@ -46,7 +35,7 @@ const SRSPanel: React.FC = () => {
       return <SRSPanelEmptyInfo />
     }
 
-    if (!hasSupportedDiagnosisCode()) {
+    if (!hasSupportedDiagnosisCode) {
       return <SRSPanelNoSupportInfo />
     }
 
@@ -57,7 +46,7 @@ const SRSPanel: React.FC = () => {
     <>
       <PanelHeader description={SRS_TITLE} />
       <div className="iu-border-grey-300 iu-p-500 iu-m-none">{getContent()}</div>
-      {hasSupportedDiagnosisCode() && <SRSPanelFooter diagnosisCode={getSupportedDiagnosisCode()} />}
+      {hasSupportedDiagnosisCode && <SRSPanelFooter diagnosisCode={supportedDiagnosisCode} />}
     </>
   )
 }

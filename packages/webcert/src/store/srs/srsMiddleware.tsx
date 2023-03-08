@@ -1,5 +1,5 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux'
-import { AnyAction } from '@reduxjs/toolkit'
+import { AnyAction, PayloadAction } from '@reduxjs/toolkit'
 import { apiCallBegan } from '../api/apiActions'
 import {
   getSRSCodes,
@@ -10,7 +10,7 @@ import {
   setDiagnosisListValue,
   updateError,
 } from './srsActions'
-import { CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
+import { Certificate, CertificateDataValueType, ValueDiagnosisList } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
 export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
@@ -29,25 +29,27 @@ export const handleGetSRSCodesError: Middleware<Dispatch> = ({ dispatch }: Middl
   dispatch(updateError(true))
 }
 
-export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: AnyAction): void => {
+export const handleGetSRSCodesSuccess: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
+  action: PayloadAction<Record<string, string>>
+): void => {
   dispatch(updateError(false))
   dispatch(setDiagnosisCodes(Object.values(action.payload)))
 }
 
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
-  action: AnyAction
+  action: PayloadAction<{ value: ValueDiagnosisList }>
 ): void => {
   if (action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-    dispatch(setDiagnosisListValue(action.payload.value as ValueDiagnosisList))
+    dispatch(setDiagnosisListValue(action.payload.value))
   }
 }
 
-const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: AnyAction): void => {
+const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (action: PayloadAction<Certificate>): void => {
   for (const questionId in action.payload.data) {
     if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {
       const question = action.payload.data[questionId]
       if (question.value?.type === CertificateDataValueType.DIAGNOSIS_LIST) {
-        dispatch(setDiagnosisListValue(question.value as ValueDiagnosisList))
+        dispatch(setDiagnosisListValue(question.value))
       }
     }
   }
