@@ -1,0 +1,39 @@
+{
+  "name": "@frontend/ids-react-ts",
+  "description": "Create react components from ids-core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ids-react-ts.umd.js",
+  "module": "./dist/ids-react-ts.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/ids-react-ts.es.js",
+      "require": "./dist/ids-react-ts.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build -w -m development",
+    "typescript": "tsc --noEmit",
+    "index": "ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup"
+  },
+  "dependencies": {
+    "@inera/ids-core": "^2.3.2",
+    "@lit-labs/react": "^1.1.1",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "*",
+    "eslint": "^8.34.0",
+    "vite-plugin-dts": "^1.7.1",
+    "vite": "^4.1.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
