@@ -14,7 +14,9 @@
     "declaration": true,
     "inlineSourceMap": true,
     "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "paths": {
+      "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"],
       "@frontend/common": ["./packages/common/src/index.ts"]
     }
   },
