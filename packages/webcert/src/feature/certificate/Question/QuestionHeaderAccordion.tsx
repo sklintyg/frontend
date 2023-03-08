@@ -26,10 +26,6 @@ const AccordionControl = styled(Accordion)<AccordionProps>`
   ${AccordionHeader}.ic-expandable-button {
     line-height: 0;
   }
-
-  ${AccordionHeader}.ic-expandable-button .iu-color-error {
-    font-weight: ${(props) => (props.h5Text ? '400' : 'inherit')};
-  }
 `
 const QuestionHeaderAccordion: React.FC<Props> = ({ config, displayMandatory, questionId }) => {
   const validationErrors = useSelector(getVisibleValidationErrors(questionId))

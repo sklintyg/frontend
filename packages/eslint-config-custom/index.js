@@ -19,6 +19,18 @@ module.exports = {
       'error',
       { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*'] },
     ],
+    'import/prefer-default-export': 'off',
+    'import/no-default-export': 'error',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
     'jsdoc/require-jsdoc': 'off',
     'jsdoc/require-param': 'off',
     'jsdoc/require-returns': 'off',
