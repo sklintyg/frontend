@@ -26,21 +26,35 @@ describe('Typeahead component', () => {
 
   it('Should not render suggestions when array is empty', () => {
     renderComponent({})
-    const list = screen.queryByRole('list')
-    expect(list).toBeNull()
+    expect(screen.queryByRole('list')).toBeNull()
   })
 
   it('Should not render suggestions when open is false', () => {
     renderComponent({ moreResults: false, suggestions })
-    const list = screen.queryByRole('list')
-    expect(list).toBeNull()
+    expect(screen.queryByRole('list')).toBeNull()
   })
 
-  it('Should renders suggestions when open is true', () => {
+  it('Should render suggestions when open is true', () => {
     renderComponent({ moreResults: false, suggestions })
     userEvent.click(screen.getByRole('textbox'))
     expect(screen.queryAllByRole('option')).toHaveLength(suggestions.length)
     suggestions.forEach((s) => expect(screen.queryByText(s.label)).not.toBeNull())
+  })
+
+  it('Should select first suggestion when opened', () => {
+    renderComponent({ moreResults: false, suggestions })
+    userEvent.click(screen.getByRole('textbox'))
+    expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
+  })
+
+  it('Should select first suggestion when re-opened', () => {
+    renderComponent({ moreResults: false, suggestions })
+    userEvent.click(screen.getByRole('textbox'))
+    userEvent.keyboard('{arrowDown}')
+    expect(screen.getByTestId('typeahead-list-option-1')).toHaveClass('iu-bg-main iu-color-white')
+    userEvent.keyboard('{esc}')
+    userEvent.click(screen.getByRole('textbox'))
+    expect(screen.getByTestId('typeahead-list-option-0')).toHaveClass('iu-bg-main iu-color-white')
   })
 
   it("Should close list if input doesn't have focus", () => {
@@ -87,6 +101,14 @@ describe('Typeahead component', () => {
     userEvent.tab()
     expect(onSuggestionSelected).toHaveBeenCalledTimes(1)
     expect(onSuggestionSelected).toHaveBeenNthCalledWith(1, suggestions[0].label)
+  })
+
+  it('Should allow user to tab when there are no suggestions', () => {
+    renderComponent({ moreResults: false, suggestions: [] })
+    userEvent.click(screen.getByRole('textbox'))
+    expect(screen.getByRole('textbox')).toHaveFocus()
+    userEvent.tab()
+    expect(screen.getByRole('textbox')).not.toHaveFocus()
   })
 
   it('Should allow user to navigate list through hover or arrow keys', () => {
