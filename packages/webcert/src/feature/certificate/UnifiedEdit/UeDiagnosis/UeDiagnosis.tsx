@@ -42,6 +42,10 @@ const Wrapper = styled.div`
     'codeError descError descError descError';
 `
 
+const ValidationErrorWrapper = styled.div`
+  grid-area: 2 / span 4;
+`
+
 const codeAdditionalStyles = css`
   grid-area: code;
 `
@@ -238,8 +242,10 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
             limit={textValidation ? textValidation.limit : 250}
           />
         </DescriptionAdditional>
+        <ValidationErrorWrapper>
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </ValidationErrorWrapper>
       </Wrapper>
-      <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )
 }
