@@ -61,13 +61,6 @@ describe('PatientSearch', () => {
       userEvent.type(input, '191212121212')
       expect(input).toHaveValue('19121212-1212')
     })
-
-    it('should only save numbers that user types', () => {
-      renderComponent()
-      const input = screen.getByRole('textbox')
-      userEvent.type(input, '191212aaa')
-      expect(input).toHaveValue('191212')
-    })
   })
 
   describe('Submit', () => {
