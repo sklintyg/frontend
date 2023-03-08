@@ -43,9 +43,10 @@ export default ({ mode }: UserConfig) => {
         inline: [/common\/dist/],
       },
       setupFiles: ['src/setupTests.ts'],
-    },
-    optimizeDeps: {
-      include: ['@frontend/common'],
+      coverage: {
+        reporter: ['text', 'json'],
+        all: true,
+      },
     },
     build: {
       commonjsOptions: {
