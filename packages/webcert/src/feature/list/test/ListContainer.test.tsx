@@ -12,7 +12,6 @@ import {
   updateIsLoadingListConfig,
 } from '../../../store/list/listActions'
 import { listMiddleware } from '../../../store/list/listMiddleware'
-import store from '../../../store/store'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import ListContainer from '../ListContainer'
 import { getConfig, getDefaultList, getFilter } from './listTestUtils'
@@ -36,20 +35,18 @@ const renderComponent = (showMessageForEmptyList: boolean) => {
 describe('List', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, listMiddleware])
-    store.dispatch(updateActiveList(getDefaultList()))
-    store.dispatch(updateActiveListConfig(getConfig()))
-    store.dispatch(updateActiveListFilter(getFilter()))
-    store.dispatch(updateIsLoadingListConfig(false))
+    testStore.dispatch(updateActiveList(getDefaultList()))
+    testStore.dispatch(updateActiveListConfig(getConfig()))
+    testStore.dispatch(updateActiveListFilter(getFilter()))
+    testStore.dispatch(updateIsLoadingListConfig(false))
   })
 
   afterEach(() => clearDispatchedActions())
 
   it('should show error message when error', () => {
-    store.dispatch(setListError(error))
-    setTimeout(() => {
-      renderComponent(false)
-      expect(screen.getByText('Sökningen kunde inte utföras')).toBeInTheDocument()
-    }, 100)
+    testStore.dispatch(setListError(error))
+    renderComponent(false)
+    expect(screen.getByText('Sökningen kunde inte utföras.')).toBeInTheDocument()
   })
 
   it('should show empty list when empty list flag is set', () => {

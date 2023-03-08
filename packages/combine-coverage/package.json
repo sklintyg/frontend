@@ -1,0 +1,10 @@
+{
+  "name": "@frontend/combine-coverage",
+  "version": "1.0.0",
+  "bin": {
+    "coverage": ".bin/coverage.js"
+  },
+  "dependencies": {
+    "glob": "^9.2.1"
+  }
+}
