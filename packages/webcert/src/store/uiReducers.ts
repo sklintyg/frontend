@@ -10,6 +10,7 @@ import sessionReducer from './session/sessionReducer'
 import userReducer from './user/userReducer'
 import utilsReducer from './utils/utilsReducer'
 import welcomeReducer from './welcome/welcomeReducer'
+import srsReducer from './srs/srsReducer'
 
 export default combineReducers({
   uiCertificate: certificateReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   uiError: errorReducer,
   uiPatient: patientReducer,
   uiList: listReducer,
+  uiSRS: srsReducer,
 })
