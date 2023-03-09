@@ -29,15 +29,15 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
   return (
     <>
       {!expand && text && text.length > maxLength ? (
-        <>
+        <div>
           <p dangerouslySetInnerHTML={sanitizeText(trimToLastCompleteWord(text, maxLength))} css={additionalStyles} />
           <StyledLink href="#" onClick={() => setExpand(!expand)}>
             Visa mer
             <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
           </StyledLink>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <p dangerouslySetInnerHTML={sanitizeText(text)} css={additionalStyles} />
           {text && text.length > maxLength && (
             <StyledLink href="#" onClick={() => setExpand(!expand)}>
@@ -45,7 +45,7 @@ export const ExpandableText: React.FC<Props> = ({ text, maxLength, additionalSty
               <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
             </StyledLink>
           )}
-        </>
+        </div>
       )}
     </>
   )
