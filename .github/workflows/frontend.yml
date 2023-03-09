@@ -23,7 +23,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          ref: origin/master
+          ref: master
 
       - name: Check out code
         uses: actions/checkout@v3
