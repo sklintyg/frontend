@@ -7,8 +7,9 @@ import {
   CertificateStatus,
   Question,
   QuestionType,
+  ResourceLink,
+  ResourceLinkType,
 } from '../types'
-import { ResourceLink, ResourceLinkType } from '../types'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 
