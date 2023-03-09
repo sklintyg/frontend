@@ -90,7 +90,7 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
-                            timeout(5) {
+                            timeout(10) {
                                 log "Waiting (max 5 min) for POST of test-report to ${s2iWebhook.getURL()}"
                                 def testReport = waitForWebhook(s2iWebhook)
 
