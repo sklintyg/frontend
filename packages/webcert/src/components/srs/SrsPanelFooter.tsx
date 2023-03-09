@@ -4,7 +4,7 @@ import { getDiagnosisCode, getDiagnosisDescription } from '../../store/srs/srsSe
 import { useSelector } from 'react-redux'
 import { ExternalLinkIcon } from '@frontend/common'
 
-const FMBPanelFooter: React.FC = () => {
+const SrsPanelFooter: React.FC = () => {
   const diagnosisDescription = useSelector(getDiagnosisDescription)
   const diagnosisCode = useSelector(getDiagnosisCode)
   const link = `http://skr.se/${diagnosisCode.replace('.', '').toLowerCase()}`
@@ -20,4 +20,4 @@ const FMBPanelFooter: React.FC = () => {
   )
 }
 
-export default FMBPanelFooter
+export default SrsPanelFooter
