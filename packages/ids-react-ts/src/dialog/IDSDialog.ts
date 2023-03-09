@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSDialog = createComponent({
+  displayName: 'IDSDialog',
   tagName: 'ids-dialog',
   elementClass: IDSDialogElement,
   react: React,
