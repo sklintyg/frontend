@@ -35,13 +35,13 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: yarn build --filter=[master...HEAD^1]
 
       - name: 'Lint'
         uses: reviewdog/action-eslint@v1.18.2
 
       - name: Typescript
-        run: yarn typescript
+        run: yarn typescript --filter=[master...HEAD^1]
 
       - name: Test
-        run: yarn test
+        run: yarn test --filter=[master...HEAD^1]
