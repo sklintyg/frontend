@@ -8,7 +8,7 @@ import {
   Question,
   QuestionType,
 } from '../types'
-import { ResourceLinkType, ResourceLink } from '../types/resourceLink'
+import { ResourceLink, ResourceLinkType } from '../types'
 
 export const isSigned = (certificateMetadata: CertificateMetadata) => certificateMetadata?.status === CertificateStatus.SIGNED
 
@@ -24,6 +24,13 @@ export const isReplaced = (certificateMetadata: CertificateMetadata) => {
   }
 
   return false
+}
+
+export const isRenewedChild = (certificateMetadata: CertificateMetadata) => {
+  return (
+    certificateMetadata.relations.parent?.type === CertificateRelationType.EXTENDED ||
+    certificateMetadata.relations.parent?.type === CertificateRelationType.RENEW
+  )
 }
 
 export const isReplacedByActiveChild = (certificateMetadata: CertificateMetadata) => {
