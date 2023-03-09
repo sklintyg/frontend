@@ -1,14 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  important: true,
   theme: {
     screens: {
       sm: '480px',
       md: '800px',
-      lg: '1280px',
-      xl: '1440px',
+      lg: '1024px',
+      xl: '1280px',
     },
     colors: {
+      white: '#FFF',
       primary: {
         30: 'var(--IDS-COLOR-PRIMARY-30)',
         40: 'var(--IDS-COLOR-PRIMARY-40)',

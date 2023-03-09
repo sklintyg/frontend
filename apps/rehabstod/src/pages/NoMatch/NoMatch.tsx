@@ -11,14 +11,10 @@ export function NoMatch() {
         webbplatsen.
       </p>
       <div className="bg-neutral-40 mb-5 block h-px w-12 md:hidden" />
-      <div className="grid grid-cols-1 gap-2 text-left md:inline-grid md:grid-cols-3 md:gap-8">
+      <div className="grid grid-cols-1 gap-2 text-left md:inline-grid md:grid-cols-2 md:gap-8">
         <IDSLink>
           <IDSIcon name="chevron" />
           <Link to="/">Till startsidan</Link>
-        </IDSLink>
-        <IDSLink>
-          <IDSIcon name="chevron" />
-          <Link to="/">Sök efter sidan</Link>
         </IDSLink>
         <IDSLink>
           <IDSIcon name="chevron" />
