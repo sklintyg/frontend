@@ -21,6 +21,7 @@ module.exports = {
     'import/no-useless-path-segments': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-default-export': 'off',
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/aria-activedescendant-has-tabindex': 'off',

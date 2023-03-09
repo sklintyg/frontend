@@ -1,5 +1,5 @@
 import { findIndex, findLastIndex } from 'lodash'
-import React, { KeyboardEventHandler, useCallback, useRef, useState } from 'react'
+import React, { KeyboardEventHandler, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { sanitizeText } from '../../utils/sanitizeText'
 import TextInput from './TextInput'
@@ -65,18 +65,12 @@ const MoreResultsListItem = styled.div`
 
 const Typeahead = React.forwardRef<HTMLInputElement, Props>(
   ({ suggestions, onSuggestionSelected, onClose, onChange, onBlur, onKeyDown, onClick, moreResults, getItemText, ...props }, ref) => {
-    const [cursor, setCursor] = useState(suggestions.length > 0 ? 0 : -1)
+    const [cursor, setCursor] = useState(-1)
     const [hovered, setHovered] = useState<number>(-1)
     const typeaheadList = useRef<null | HTMLUListElement>(null)
     const [open, setOpen] = useState(false)
 
-    const handleOpen = () => {
-      setCursor(0)
-      setOpen(true)
-    }
-
     const handleClose = useCallback(() => {
-      setCursor(suggestions.length > 0 ? 0 : -1)
       setHovered(-1)
       setOpen(false)
       onClose && onClose()
@@ -92,6 +86,10 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
       [onSuggestionSelected]
     )
 
+    useEffect(() => {
+      setCursor(suggestions.length > 0 ? 0 : -1)
+    }, [open, suggestions])
+
     const scrollToItem = useCallback((index: number) => {
       const element = typeaheadList.current
       if (index >= 0 && element != null && element.children[index] != null) {
@@ -101,7 +99,7 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
 
     const handleKeyDown: KeyboardEventHandler = useCallback(
       (event) => {
-        if (open) {
+        if (open && suggestions.length > 0) {
           switch (event.key) {
             case 'ArrowDown': {
               if (suggestions.some((val) => val.disabled === false)) {
@@ -166,11 +164,11 @@ const Typeahead = React.forwardRef<HTMLInputElement, Props>(
         <TextInput
           ref={ref}
           onClick={(evt) => {
-            handleOpen()
+            setOpen(true)
             onClick && onClick(evt)
           }}
           onChange={(evt) => {
-            handleOpen()
+            setOpen(true)
             onChange && onChange(evt)
           }}
           onBlur={(evt) => {

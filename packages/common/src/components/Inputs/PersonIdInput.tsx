@@ -25,7 +25,14 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
   const [displayError, setDisplayError] = useState(false)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onFormattedChange(formatPersonId(event.currentTarget.value))
+    const inputValue = event.currentTarget.value
+    const formattedValue = inputValue.replace(/\D/g, '')
+
+    if (formattedValue.length === 12) {
+      onFormattedChange(formatPersonId(formattedValue))
+    } else {
+      onFormattedChange(inputValue)
+    }
   }
 
   useEffect(() => {
@@ -47,6 +54,12 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
     return value !== '' && !isPersonIdValid(value)
   }
 
+  const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!/^-?\d*$/.test(event.key)) {
+      event.preventDefault()
+    }
+  }
+
   return (
     <>
       <Wrapper>
@@ -64,6 +77,7 @@ const PersonIdInput: React.FC<Props> = ({ label, onFormattedChange, value, id, o
           onFocus={handleFocus}
           hasValidationError={displayError && hasValidationError()}
           autoComplete="off"
+          onKeyPress={onKeyPress}
         />
         <InvalidPersonIdMessage display={displayError && hasValidationError()} />
       </Wrapper>
