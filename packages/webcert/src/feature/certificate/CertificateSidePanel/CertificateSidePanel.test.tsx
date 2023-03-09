@@ -11,6 +11,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
+import { SRS_TITLE } from '../../../components/srs/SRSPanel'
 
 let testStore: EnhancedStore
 
@@ -57,7 +58,7 @@ describe('CertificateSidePanel', () => {
   describe('resource links', () => {
     it('shall render FMB panel if FMB resource link exists', () => {
       const tabText = 'FMB'
-      renderFmbTab(tabText)
+      renderTab(tabText, ResourceLinkType.FMB)
       expect(screen.getByText(tabText)).toBeVisible()
     })
 
@@ -69,7 +70,7 @@ describe('CertificateSidePanel', () => {
 
     it('shall render Question panel if Question resource link exists', () => {
       const tabText = 'Questions'
-      renderQuestionTab(tabText)
+      renderTab(tabText, ResourceLinkType.QUESTIONS)
       expect(screen.getByText(tabText)).toBeVisible()
     })
 
@@ -81,12 +82,24 @@ describe('CertificateSidePanel', () => {
 
     it('shall render questions not available panel if questions not available resource link exists', () => {
       const tabText = 'Questions not available'
-      renderQuestionNotAvailableTab(tabText)
+      renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
       expect(screen.getByText(tabText)).toBeVisible()
     })
 
     it('shall not render questions not available panel if questions not available resource link is missing', () => {
       const tabText = 'Questions not available'
+      renderComponent()
+      expect(screen.queryByText(tabText)).not.toBeInTheDocument()
+    })
+
+    it('shall render SRS panel if SRS resource link exists', () => {
+      const tabText = 'SRS'
+      renderTab(tabText, ResourceLinkType.SRS)
+      expect(screen.getByText(tabText)).toBeVisible()
+    })
+
+    it('shall not render SRS panel if SRS resource link is missing', () => {
+      const tabText = 'SRS'
       renderComponent()
       expect(screen.queryByText(tabText)).not.toBeInTheDocument()
     })
@@ -96,7 +109,7 @@ describe('CertificateSidePanel', () => {
     it('shall show FMB content when clicking FMB tab', async () => {
       const tabText = 'FMB'
       const expectedContent = 'Ange minst en diagnos för att få FMB-stöd.'
-      renderFmbTab(tabText)
+      renderTab(tabText, ResourceLinkType.FMB)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
@@ -105,7 +118,7 @@ describe('CertificateSidePanel', () => {
       const tabText = 'Question'
       const expectedComplementText = 'Kompletteringsbegäran'
       const expectedAdministrativeText = 'Administrativa frågor'
-      renderQuestionTab(tabText)
+      renderTab(tabText, ResourceLinkType.QUESTIONS)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedComplementText)).toBeVisible()
       expect(screen.getByText(expectedAdministrativeText)).toBeVisible()
@@ -114,32 +127,23 @@ describe('CertificateSidePanel', () => {
     it('shall show Question not available content when clicking Question not available tab', async () => {
       const tabText = 'Question not available'
       const expectedContent = 'Intyget är inte skickat till Försäkringskassan.'
-      renderQuestionNotAvailableTab(tabText)
+      renderTab(tabText, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
+      await waitFor(() => userEvent.click(screen.getByText(tabText)))
+      expect(screen.getByText(expectedContent)).toBeVisible()
+    })
+
+    it('shall show SRS content when clicking SRS tab', async () => {
+      const tabText = 'SRS'
+      const expectedContent = SRS_TITLE
+      renderTab(tabText, ResourceLinkType.SRS)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
     })
   })
 })
 
-//Each one of these opens the about tab to have a default starting point for the tests opening other tabs
-const renderFmbTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.FMB, name: tabText } as ResourceLink]
-  const certificate = createCertificate(resourceLinks)
-  testStore.dispatch(updateCertificate(certificate))
-  renderComponent()
-  openAboutTab()
-}
-
-const renderQuestionTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS, name: tabText } as ResourceLink]
-  const certificate = createCertificate(resourceLinks)
-  testStore.dispatch(updateCertificate(certificate))
-  renderComponent()
-  openAboutTab()
-}
-
-const renderQuestionNotAvailableTab = (tabText: string) => {
-  const resourceLinks: ResourceLink[] = [{ type: ResourceLinkType.QUESTIONS_NOT_AVAILABLE, name: tabText } as ResourceLink]
+const renderTab = (tabText: string, resourceLinkType: ResourceLinkType) => {
+  const resourceLinks: ResourceLink[] = [{ type: resourceLinkType, name: tabText } as ResourceLink]
   const certificate = createCertificate(resourceLinks)
   testStore.dispatch(updateCertificate(certificate))
   renderComponent()
