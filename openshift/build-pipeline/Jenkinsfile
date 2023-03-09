@@ -91,7 +91,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             timeout(10) {
-                                log "Waiting (max 5 min) for POST of test-report to ${s2iWebhook.getURL()}"
+                                log "Waiting (max 10 min) for POST of test-report to ${s2iWebhook.getURL()}"
                                 def testReport = waitForWebhook(s2iWebhook)
 
                                 def testReportPath = 'junit.xml'
