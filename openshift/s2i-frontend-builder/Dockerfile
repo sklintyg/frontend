@@ -1,11 +1,7 @@
-FROM openshift/base-centos7
+FROM node:18-bullseye
 
-# Install required tools
-RUN yum -y update
-RUN curl -sL https://rpm.nodesource.com/setup_18.x | bash -
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-RUN yum install -y nodejs yarn xorg-x11-server-Xvfb gtk2-devel gtk3-devel libnotify-devel GConf2 nss libXScrnSaver alsa-lib
+ENV TZ=Europe/Stockholm
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Set required labels
 LABEL io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
