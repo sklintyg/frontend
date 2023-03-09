@@ -1,11 +1,11 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 
-export function PageHero({ type, icon, children }: { icon?: string; type?: 'error'; children?: ReactNode }) {
+export function PageHero({ type, icon, children }: { icon: string; type?: 'error'; children?: ReactNode }) {
   return (
     <div className="px-5 md:p-0">
       <div className="ids-content mx-auto max-w-screen-md py-24 text-center">
-        {icon && type === 'error' ? (
+        {type === 'error' ? (
           <div className="text-error-40 mb-10 inline-block">
             <IDSIcon name={icon} height="4.375rem" width="4.375rem" color="currentColor" color2="currentColor" />
           </div>
