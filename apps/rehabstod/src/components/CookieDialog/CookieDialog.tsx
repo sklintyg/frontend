@@ -1,8 +1,10 @@
 import { IDSDialog } from '@frontend/ids-react-ts'
+import { ReactNode } from 'react'
 
-export function CookieDialog({ onHide }: { onHide: () => void }) {
+export function CookieDialog({ children }: { children: ReactNode }) {
   return (
-    <IDSDialog dismissible headline="Om kakor (cookies)" show="true" hideDialog={onHide}>
+    <IDSDialog dismissible headline="Om kakor (cookies)">
+      {children}
       <div className="ids-content">
         <p className="ids-body">
           Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in accepterar du vår

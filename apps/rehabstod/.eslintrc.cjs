@@ -31,6 +31,7 @@ module.exports = {
         whitelist: ['ids\\-.*'],
       },
     ],
+    'react/no-unknown-property': ['error', { ignore: ['trigger'] }],
   },
   settings: {
     react: {

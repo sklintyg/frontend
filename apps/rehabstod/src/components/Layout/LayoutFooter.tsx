@@ -1,6 +1,7 @@
 import { IDSFooter, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { CookieDialog } from '../CookieDialog/CookieDialog'
 
-export function LayoutFooter({ showCookies }: { showCookies: React.Dispatch<React.SetStateAction<boolean>> }) {
+export function LayoutFooter() {
   return (
     <IDSFooter type="inera-admin" headline="Rehabstöd">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
@@ -18,6 +19,7 @@ export function LayoutFooter({ showCookies }: { showCookies: React.Dispatch<Reac
           <IDSIcon slot="append-icon" name="external" />
         </IDSLink>
       </p>
+
       <p slot="sub-footer-left">
         Rehabstöd drivs av{' '}
         <a className="underline decoration-white" href="//inera.se" target="_blank" rel="noreferrer">
@@ -32,9 +34,13 @@ export function LayoutFooter({ showCookies }: { showCookies: React.Dispatch<Reac
         <IDSIcon slot="append-icon" name="external" />
       </IDSLink>
 
-      <button className="text-sm text-white underline" type="button" slot="sub-footer-right" onClick={() => showCookies(true)}>
-        Hantering av kakor
-      </button>
+      <div slot="sub-footer-right" className="inline-block">
+        <CookieDialog>
+          <button className="text-sm text-white underline" trigger="" type="button">
+            Hantering av kakor
+          </button>
+        </CookieDialog>
+      </div>
     </IDSFooter>
   )
 }
