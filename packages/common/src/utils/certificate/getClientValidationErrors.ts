@@ -6,7 +6,7 @@ import {
   ConfigTypes,
   ValidationError,
   ValueType,
-} from '../../types/certificate'
+} from '../../types'
 import { getPeriodHasOverlap, getValidDate, getValidDateFormat } from '../dateUtils'
 import { getFieldValuePair } from './getFieldValuePair'
 
@@ -37,6 +37,12 @@ const UNREASONABLE_YEAR = {
 const EMPTY_DATE = {
   type: 'EMPTY_DATE',
   text: 'Ange datum.',
+  showAlways: false,
+}
+
+const EMPTY_PERIOD = {
+  type: 'EMPTY_PERIOD',
+  text: 'Ange period.',
   showAlways: false,
 }
 
@@ -102,13 +108,15 @@ const getErrorsFromValue = (id: string, value: ValueType | null): ValidationErro
       case CertificateDataValueType.DATE_RANGE: {
         const validFromDate = getValidDate(value.from ?? '')
         const validToDate = getValidDate(value.to ?? '')
+        const isBothEmpty = isDateEmpty(value.from) && isDateEmpty(value.to)
         const invalidDatePeriod = !!validFromDate && !!validToDate && isBefore(validToDate, validFromDate)
 
         return result
           .concat(getDateValidationError(id, `from.${field}`, value.from) ?? [])
           .concat(getDateValidationError(id, `tom.${field}`, value.to) ?? [])
-          .concat(isDateEmpty(value.from) ? getValidationErrorFactory(id, `from.${field}`)(EMPTY_DATE) : [])
-          .concat(isDateEmpty(value.to) ? getValidationErrorFactory(id, `tom.${field}`)(EMPTY_DATE) : [])
+          .concat(isBothEmpty ? getValidationErrorFactory(id, `row.${field}`)(EMPTY_PERIOD) : [])
+          .concat(!isBothEmpty && isDateEmpty(value.from) ? getValidationErrorFactory(id, `from.${field}`)(EMPTY_DATE) : [])
+          .concat(!isBothEmpty && isDateEmpty(value.to) ? getValidationErrorFactory(id, `tom.${field}`)(EMPTY_DATE) : [])
           .concat(invalidDatePeriod ? getValidationErrorFactory(id, `row.${field}`)(INVALID_DATE_PERIOD_ERROR) : [])
       }
       default:
