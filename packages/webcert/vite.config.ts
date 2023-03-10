@@ -29,16 +29,7 @@ export default ({ mode }: UserConfig) => {
   return defineConfig({
     plugins: [react()].concat(https ? [basicSsl()] : []),
     server: {
-      proxy: {
-        '/api/srs': {
-          target: 'https://wc2.webcert-devtest.intyg.nordicmedtest.se',
-          cookieDomainRewrite: { '*': '' },
-          protocolRewrite: https ? 'https' : 'http',
-          changeOrigin: true,
-          autoRewrite: true,
-        },
-        ...proxy,
-      },
+      proxy,
       https,
       host,
       strictPort: true,
