@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSAlert = createComponent({
+  displayName: 'IDSAlert',
   tagName: 'ids-alert',
   elementClass: IDSAlertElement,
   react: React,

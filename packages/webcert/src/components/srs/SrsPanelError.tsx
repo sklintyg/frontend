@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { throwError } from '../../store/error/errorActions'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 
-const SRSPanelError: React.FC = () => {
+const SrsPanelError: React.FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -24,4 +24,4 @@ const SRSPanelError: React.FC = () => {
   )
 }
 
-export default SRSPanelError
+export default SrsPanelError

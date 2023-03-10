@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSHeader = createComponent({
+  displayName: 'IDSHeader',
   tagName: 'ids-header',
   elementClass: IDSHeaderElement,
   react: React,

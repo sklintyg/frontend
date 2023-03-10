@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSTooltip = createComponent({
+  displayName: 'IDSTooltip',
   tagName: 'ids-tooltip',
   elementClass: IDSTooltipElement,
   react: React,

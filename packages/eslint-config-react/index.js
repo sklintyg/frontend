@@ -10,4 +10,7 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'prettier',
   ],
+  rules: {
+    'react/require-default-props': 'off',
+  },
 }

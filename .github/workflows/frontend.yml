@@ -23,25 +23,30 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
+          ref: master
+
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
           fetch-depth: 2
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: yarn build --filter=[origin/master...HEAD^1]
 
       - name: 'Lint'
-        uses: reviewdog/action-eslint@v1.17.0
+        uses: reviewdog/action-eslint@v1.18.2
 
       - name: Typescript
-        run: yarn typescript
+        run: yarn typescript --filter=[origin/master...HEAD^1]
 
       - name: Test
-        run: yarn test
+        run: yarn test --filter=[origin/master...HEAD^1]

@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSButton = createComponent({
+  displayName: 'IDSButton',
   tagName: 'ids-button',
   elementClass: IDSButtonElement,
   react: React,
