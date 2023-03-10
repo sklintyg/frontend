@@ -1,5 +1,8 @@
 name: End-To-End
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   cypress-run:
     runs-on: ubuntu-20.04

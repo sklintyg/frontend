@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSBreadcrumbs = createComponent({
+  displayName: 'IDSBreadcrumbs',
   tagName: 'ids-breadcrumbs',
   elementClass: IDSBreadcrumbsElement,
   react: React,

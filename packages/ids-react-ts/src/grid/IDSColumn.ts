@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSColumn = createComponent({
+  displayName: 'IDSColumn',
   tagName: 'ids-col',
   elementClass: IDSColumnElement,
   react: React,

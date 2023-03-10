@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSRow = createComponent({
+  displayName: 'IDSRow',
   tagName: 'ids-row',
   elementClass: IDSRowElement,
   react: React,

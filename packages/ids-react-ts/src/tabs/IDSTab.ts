@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSTab = createComponent({
+  displayName: 'IDSTab',
   tagName: 'ids-tab',
   elementClass: IDSTabElement,
   react: React,

@@ -1,6 +1,12 @@
-import { render } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { App } from './App'
+import { renderWithRouter } from './utils/renderWithRouter'
 
-it('Should render without error', () => {
-  expect(() => render(<App />)).not.toThrow()
+test('full app rendering/navigating', async () => {
+  const { user } = renderWithRouter(<App />)
+
+  expect(screen.getByText(/välkommen till rehabstöd/i)).toBeInTheDocument()
+
+  await user.click(screen.getByTestId('login-btn'))
+  expect(screen.getByText(/den här sidan hittades inte/i)).toBeInTheDocument()
 })
