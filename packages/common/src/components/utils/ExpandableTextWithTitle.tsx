@@ -7,6 +7,10 @@ const StyledLink = styled.a`
   white-space: nowrap;
 `
 
+const LinkWrapper = styled.div`
+  min-width: 100px;
+`
+
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -32,7 +36,7 @@ export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
     <Root>
       <TitleBox>
         <p>{title}</p>
-        <div>
+        <LinkWrapper>
           <StyledLink href="#" onClick={() => setExpanded(!expanded)}>
             <p>{expanded ? 'Visa mindre' : 'Visa mer'}</p>
             {expanded ? (
@@ -43,7 +47,7 @@ export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
               <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
             )}
           </StyledLink>
-        </div>
+        </LinkWrapper>
       </TitleBox>
       <div>{expanded && <p>{text}</p>}</div>
     </Root>
