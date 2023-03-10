@@ -1,20 +1,22 @@
 import { render, screen } from '@testing-library/react'
-import SRSPanel, { SRS_TITLE } from './SRSPanel'
+import SrsPanel, { SRS_TITLE } from './SrsPanel'
 import { Provider } from 'react-redux'
 import store from '../../store/store'
-import { setDiagnosisCodes, updateError } from '../../store/srs/srsActions'
+import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../store/srs/srsActions'
 import { updateCertificate } from '../../store/certificate/certificateActions'
-import { fakeCertificate, fakeDiagnosesElement } from '@frontend/common'
+import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
+import { SICKLEAVE_CHOICES_TEXTS } from './SrsSickLeaveChoices'
+import { SRS_OBSERVE_TITLE } from './SrsRecommendations'
 
 const renderComponent = () => {
   render(
     <Provider store={store}>
-      <SRSPanel />
+      <SrsPanel />
     </Provider>
   )
 }
 
-describe('SRSPanel', () => {
+describe('SrsPanel', () => {
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
   })
@@ -83,6 +85,23 @@ describe('SRSPanel', () => {
       store.dispatch(setDiagnosisCodes(['J20']))
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.getByText('Mer information')).toBeInTheDocument()
+    })
+
+    it('should show radio buttons if chosen diagnosis has support', () => {
+      renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      expect(screen.getByText(SICKLEAVE_CHOICES_TEXTS[0])).toBeInTheDocument()
+    })
+
+    it('should show recommendations if chosen diagnosis has support', () => {
+      renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      store.dispatch(updateSrsInfo(fakeSrsInfo()))
+      expect(screen.getByText(SRS_OBSERVE_TITLE)).toBeInTheDocument()
     })
   })
 })

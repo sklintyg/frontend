@@ -11,7 +11,7 @@ import { certificateMiddleware } from '../../../store/certificate/certificateMid
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
-import { SRS_TITLE } from '../../../components/srs/SRSPanel'
+import { SRS_TITLE } from '../../../components/srs/SrsPanel'
 
 let testStore: EnhancedStore
 
