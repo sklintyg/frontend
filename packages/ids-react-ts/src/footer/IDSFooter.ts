@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSFooter = createComponent({
+  displayName: 'IDSFooter',
   tagName: 'ids-footer',
   elementClass: IDSFooterElement,
   react: React,

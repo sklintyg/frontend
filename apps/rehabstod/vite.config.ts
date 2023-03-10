@@ -4,6 +4,9 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: 'rs2.rs.localtest.me',
+  },
   test: {
     globals: true,
     environment: 'jsdom',
