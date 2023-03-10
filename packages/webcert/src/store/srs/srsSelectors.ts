@@ -1,6 +1,7 @@
 import { RootState } from '../store'
-import { ValueDiagnosisList } from '@frontend/common'
+import { SrsInformationChoice, ValueDiagnosisList } from '@frontend/common'
 import { SrsInfoForDiagnosis } from '@frontend/common/src/types/srs'
+import srsInformationChoices from '../../components/srs/SrsInformationChoices'
 
 export const getDiagnosisListValue = (state: RootState): ValueDiagnosisList | null => state.ui.uiSRS.diagnosisListValue
 
@@ -18,8 +19,20 @@ export const getSickLeaveChoice = (state: RootState): string => state.ui.uiSRS.s
 
 export const getIsCertificateRenewed = (state: RootState): boolean => state.ui.uiSRS.isCertificateRenewed
 
-export const getDiagnosisDescription = (state: RootState): string =>
-  state.ui.uiSRS.srsInfo && state.ui.uiSRS.srsInfo.atgarderDiagnosisDescription ? state.ui.uiSRS.srsInfo.atgarderDiagnosisDescription : ''
+export const getDiagnosisDescription = (informationChoice: SrsInformationChoice) => (state: RootState): string => {
+  const srsInfo = state.ui.uiSRS.srsInfo
+  return srsInfo
+    ? informationChoice === SrsInformationChoice.STATISTICS
+      ? srsInfo.statistikDiagnosisDescription
+      : srsInfo.atgarderDiagnosisDescription
+    : ''
+}
 
-export const getDiagnosisCode = (state: RootState): string =>
-  state.ui.uiSRS.srsInfo && state.ui.uiSRS.srsInfo.atgarderDiagnosisCode ? state.ui.uiSRS.srsInfo.atgarderDiagnosisCode : ''
+export const getDiagnosisCode = (informationChoice: SrsInformationChoice) => (state: RootState): string => {
+  const srsInfo = state.ui.uiSRS.srsInfo
+  return srsInfo
+    ? informationChoice === SrsInformationChoice.RECOMMENDATIONS
+      ? srsInfo.atgarderDiagnosisCode
+      : srsInfo.statistikDiagnosisCode
+    : ''
+}

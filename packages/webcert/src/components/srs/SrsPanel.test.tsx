@@ -6,7 +6,10 @@ import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../store/srs/s
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
 import { SICKLEAVE_CHOICES_TEXTS } from './SrsSickLeaveChoices'
-import { SRS_OBSERVE_TITLE } from './SrsRecommendations'
+import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
+import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
+import userEvent from '@testing-library/user-event'
+import { SRS_STATISTICS_INFO, SRS_STATISTICS_TITLE } from './SrsNationalStatistics'
 
 const renderComponent = () => {
   render(
@@ -102,6 +105,48 @@ describe('SrsPanel', () => {
       store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
       expect(screen.getByText(SRS_OBSERVE_TITLE)).toBeInTheDocument()
+    })
+  })
+
+  describe('SRS Information Choices', () => {
+    it('should render recommendation choice', () => {
+      renderComponent()
+      expect(screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)).toBeInTheDocument()
+    })
+
+    it('should render statistics choice', () => {
+      renderComponent()
+      expect(screen.getByText(SRS_STATISTICS_BUTTON_TEXT)).toBeInTheDocument()
+    })
+
+    it('should set primary button style on clicked button', () => {
+      renderComponent()
+      const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
+      userEvent.click(button)
+      expect(button).toHaveClass('ic-button--primary')
+    })
+
+    it('should render statistics choice', () => {
+      renderComponent()
+      const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
+      expect(button).not.toHaveClass('ic-button--primary')
+      expect(button).toHaveClass('ic-button--secondary')
+    })
+
+    it('should render recommendations if that choice is chosen', () => {
+      renderComponent()
+      const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
+      userEvent.click(button)
+      expect(screen.getByText(SRS_RECOMMENDATIONS_TITLE)).toBeInTheDocument()
+      expect(screen.queryByText(SRS_STATISTICS_TITLE)).not.toBeInTheDocument()
+    })
+
+    it('should render statistics if that choice is chosen', () => {
+      renderComponent()
+      const button = screen.getByText(SRS_STATISTICS_BUTTON_TEXT)
+      userEvent.click(button)
+      expect(screen.queryByText(SRS_RECOMMENDATIONS_TITLE)).not.toBeInTheDocument()
+      expect(screen.getByText(SRS_STATISTICS_TITLE)).toBeInTheDocument()
     })
   })
 })
