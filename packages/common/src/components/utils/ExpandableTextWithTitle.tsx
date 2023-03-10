@@ -4,6 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 
 const StyledLink = styled.a`
   display: flex;
+  white-space: nowrap;
 `
 
 const TitleBox = styled.div`
@@ -31,18 +32,20 @@ export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
     <Root>
       <TitleBox>
         <p>{title}</p>
-        <StyledLink href="#" onClick={() => setExpanded(!expanded)}>
-          <p>{expanded ? 'Visa mindre' : 'Visa mer'}</p>
-          {expanded ? (
-            <>
-              <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
-            </>
-          ) : (
-            <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
-          )}
-        </StyledLink>
+        <div>
+          <StyledLink href="#" onClick={() => setExpanded(!expanded)}>
+            <p>{expanded ? 'Visa mindre' : 'Visa mer'}</p>
+            {expanded ? (
+              <>
+                <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
+              </>
+            ) : (
+              <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
+            )}
+          </StyledLink>
+        </div>
       </TitleBox>
-      <div className="iu-color-grey-300">{expanded && <p>{text}</p>}</div>
+      <div>{expanded && <p>{text}</p>}</div>
     </Root>
   )
 }

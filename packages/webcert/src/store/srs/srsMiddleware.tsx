@@ -52,7 +52,7 @@ export const handleGetRecommendations: Middleware<Dispatch> = ({ dispatch }: Mid
     apiCallBegan({
       url: `/api/srs/${action.payload.certificateId}/${action.payload.patientId}/${action.payload.code}?prediktion=false&atgard=true&statistik=true`,
       method: 'POST',
-      data: [{ questionId: '', answerId: '' }],
+      data: [{ questionId: 'empty', answerId: 'empty' }],
       onStart: getRecommendationsStarted.type,
       onSuccess: getRecommendationsSuccess.type,
       onError: getRecommendationsError.type,
