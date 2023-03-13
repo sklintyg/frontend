@@ -34,7 +34,7 @@ const SrsNationalStatistics: React.FC = () => {
       <XAxis
         type="number"
         dataKey="name"
-        ticks={[30, 90, 180, 365]}
+        ticks={xLabels}
         tickFormatter={(tick) => {
           return `${tick} dagar`
         }}
