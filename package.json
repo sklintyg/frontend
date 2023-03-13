@@ -51,7 +51,5 @@
     "jsxBracketSameLine": true,
     "arrowParens": "always"
   },
-  "dependencies": {
-    "recharts": "^2.4.3"
-  }
+  "dependencies": {}
 }
