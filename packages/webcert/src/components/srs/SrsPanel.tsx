@@ -18,7 +18,7 @@ import styled from 'styled-components'
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 
 const Wrapper = styled.div`
-  overflow: auto;
+  overflow-y: auto;
 `
 
 const SrsPanel: React.FC = () => {
@@ -29,10 +29,9 @@ const SrsPanel: React.FC = () => {
   const diagnosisCodes = useSelector(getDiagnosisCodes)
   const hasError = useSelector(getHasError)
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
-
-  const isEmpty = !diagnosisListValue || diagnosisListValue.list.length == 0
-  const isDiagnosisDefined = diagnosisListValue && diagnosisListValue.list && diagnosisListValue.list.length > 0
-  const supportedDiagnosisCode = diagnosisCodes.find((code) => isDiagnosisDefined && diagnosisListValue?.list[0].code === code) ?? ''
+  const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
+  const isEmpty = !mainDiagnosis
+  const supportedDiagnosisCode = diagnosisCodes.find((code) => mainDiagnosis && mainDiagnosis.code === code) ?? ''
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
   useEffect(() => {
@@ -51,14 +50,6 @@ const SrsPanel: React.FC = () => {
     }
   }, [supportedDiagnosisCode, certificateId, patientId, dispatch])
 
-  const updateInformationChoice = (choice: SrsInformationChoice) => {
-    setInformationChoice(choice)
-  }
-
-  const getMainContent = () => {
-    return informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations /> : <SrsNationalStatistics />
-  }
-
   const getContent = () => {
     if (hasError) {
       return <SrsPanelError />
@@ -73,19 +64,19 @@ const SrsPanel: React.FC = () => {
     }
 
     return (
-      <Wrapper>
+      <>
         <p className="iu-fw-bold">Riskberäkningen gäller:</p>
         <SRSSickleaveChoices />
-        <SrsInformationChoices onChange={updateInformationChoice} currentChoice={informationChoice} />
-        {getMainContent()}
-      </Wrapper>
+        <SrsInformationChoices onChange={setInformationChoice} currentChoice={informationChoice} />
+        {informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations /> : <SrsNationalStatistics />}
+      </>
     )
   }
 
   return (
     <>
       <PanelHeader description={SRS_TITLE} />
-      <div className="iu-border-grey-300 iu-p-500 iu-m-none">{getContent()}</div>
+      <Wrapper className="iu-border-grey-300 iu-p-500 iu-m-none">{getContent()}</Wrapper>
       {hasSupportedDiagnosisCode && <SRSPanelFooter informationChoice={informationChoice} />}
     </>
   )
