@@ -1,7 +1,6 @@
 import { RootState } from '../store'
 import { SrsInformationChoice, ValueDiagnosisList } from '@frontend/common'
 import { SrsInfoForDiagnosis } from '@frontend/common/src/types/srs'
-import srsInformationChoices from '../../components/srs/SrsInformationChoices'
 
 export const getDiagnosisListValue = (state: RootState): ValueDiagnosisList | null => state.ui.uiSRS.diagnosisListValue
 
