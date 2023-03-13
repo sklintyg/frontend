@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.ids-content .ids-heading-2,
+.ids-content .ids-heading-2.ids-small,
+.ids-content .ids-heading-3,
+.ids-content .ids-heading-4,
+.ids-content .ids-heading-5,
+.ids-content .ids-heading-6 {
+  margin-bottom: inherit;
+}
+
+.ids-content .ids-heading-1,
+.ids-content .ids-heading-1.ids-small {
+  margin-bottom: inherit;
+}
+
+.ids-content .ids-body {
+  margin-bottom: inherit;
+}
+
+.ids-content .ids-preamble {
+  margin-bottom: inherit;
+}
+
+.ids-content .ids-heading-2:not(:last-child),
+.ids-content .ids-heading-2.ids-small:not(:last-child),
+.ids-content .ids-heading-3:not(:last-child),
+.ids-content .ids-heading-4:not(:last-child),
+.ids-content .ids-heading-5:not(:last-child),
+.ids-content .ids-heading-6:not(:last-child) {
+  margin-bottom: 0.625rem;
+}
+
+.ids-content .ids-heading-1:not(:last-child),
+.ids-content .ids-heading-1.ids-small:not(:last-child) {
+  margin-bottom: 1.25rem;
+}
+
+.ids-content .ids-body:not(:last-child) {
+  margin-bottom: 1.875rem;
+}
+
+.ids-content .ids-preamble:not(:last-child) {
+  margin-bottom: 2.5rem;
+}

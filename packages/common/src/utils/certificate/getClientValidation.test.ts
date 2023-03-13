@@ -109,6 +109,21 @@ describe('Validation based on value', () => {
       ])
     })
 
+
+    it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
+      const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
+
+      expect(getClientValidationErrors(dataElement)).toMatchObject([
+        {
+          id: 'question',
+          field: 'row.foo',
+          type: 'EMPTY_PERIOD',
+          text: 'Ange period.',
+          showAlways: false,
+        },
+      ])
+    })
+
     it('Should return INVALID_DATE_PERIOD_ERROR for invalid periods', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] } })[
         'question'

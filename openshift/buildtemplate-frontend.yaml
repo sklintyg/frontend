@@ -23,7 +23,7 @@ parameters:
     required: true
   - name: BUILDER_IMAGE
     required: true
-    value: "s2i-frontend-builder:latest"
+    value: "s2i-frontend-builder:2"
   - name: PIPELINE_CALLBACK_URL
     required: true
 objects:

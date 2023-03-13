@@ -11,7 +11,7 @@ yarn cache dir
 
 # Install dependencies
 echo "############### Installing workspace ###############"
-yarn install
+yarn install --frozen-lockfile
 INIT_RESULT=$?
 echo $INIT_RESULT
 curl -X POST -k -d $INIT_RESULT $PIPELINE_CALLBACK_URL
