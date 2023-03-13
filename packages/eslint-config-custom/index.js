@@ -36,6 +36,8 @@ module.exports = {
     'jsdoc/require-returns': 'off',
     'no-use-before-define': 'off',
     'turbo/no-undeclared-env-vars': ['error', { allowList: ['^VITE_[A-Z_]+$'] }],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
   ignorePatterns: ['dist/**'],
 }
