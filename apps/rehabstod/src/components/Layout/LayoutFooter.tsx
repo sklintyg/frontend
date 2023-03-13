@@ -1,7 +1,11 @@
 import { IDSFooter, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { useGetLinksQuery } from '../../store/api'
 import { CookieDialog } from '../CookieDialog/CookieDialog'
+import { DynamicLink } from '../DynamicLink/DynamicLink'
 
 export function LayoutFooter() {
+  const { data: links } = useGetLinksQuery()
+
   return (
     <IDSFooter type="inera-admin" headline="Rehabstöd">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
@@ -12,27 +16,19 @@ export function LayoutFooter() {
           </a>
           <IDSIcon slot="append-icon" name="external" />
         </IDSLink>
-        <IDSLink>
-          <a href="//www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/" target="_blank" rel="noreferrer">
-            Inera Support
-          </a>
-          <IDSIcon slot="append-icon" name="external" />
-        </IDSLink>
+
+        {links?.ineraFelanmalanAnvandarstodSupport && <DynamicLink text="Inera Support" link={links.ineraFelanmalanAnvandarstodSupport} />}
       </p>
 
-      <p slot="sub-footer-left">
-        Rehabstöd drivs av{' '}
-        <a className="underline decoration-white" href="//inera.se" target="_blank" rel="noreferrer">
-          Inera AB.
-        </a>
-      </p>
+      {links?.ineraHomepage && (
+        <p slot="sub-footer-left">
+          Rehabstöd drivs av <DynamicLink className="underline decoration-white" link={links.ineraHomepage} text="Inera AB." />
+        </p>
+      )}
 
-      <IDSLink slot="sub-footer-right">
-        <a href="//www.inera.se/om-webbplatsen/behandling-av-personuppgifter/" target="_blank" rel="noreferrer">
-          Behandling av personuppgifter
-        </a>
-        <IDSIcon slot="append-icon" name="external" />
-      </IDSLink>
+      {links?.ineraPersonuppgifter && (
+        <DynamicLink slot="sub-footer-right" text="Behandling av personuppgifter" link={links.ineraPersonuppgifter} />
+      )}
 
       <div slot="sub-footer-right" className="inline-block">
         <CookieDialog>
