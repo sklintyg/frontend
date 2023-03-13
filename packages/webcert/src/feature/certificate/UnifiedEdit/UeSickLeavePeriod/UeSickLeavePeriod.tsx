@@ -42,6 +42,7 @@ const DaysRangeWrapper = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
+
   input[type='number'] {
     -moz-appearance: textfield;
   }
@@ -68,7 +69,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeSickLeavePeriod
 
   const otherValiadtionErrors = useMemo(() => {
-    const fieldNames: string[] = config.list.map(({ id }) => [`from.${id}`, `tom.${id}`, `row.${id}`, id]).flat()
+    const fieldNames: string[] = config.list.map(({ id }) => [`sjukskrivningar.period.${id}.tom`, `sjukskrivningar.period.${id}.from`, `${id}.tom`, `from.${id}`, `tom.${id}`, `row.${id}`, id]).flat()
     return validationErrors.filter(({ field }) => !fieldNames.includes(field))
   }, [config.list, validationErrors])
 
@@ -78,20 +79,20 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
 
   const handleValueChanged = (value: ValueDateRange) => {
     const updatedList = valueList
-      .filter(({ id }) => id !== value.id)
-      .concat({
-        ...value,
-        from: value.from && value.from.length > 0 ? value.from : undefined,
-        to: value.to && value.to.length > 0 ? value.to : undefined,
-      })
-      .filter(({ from, to }) => !(from == null && to == null))
+    .filter(({ id }) => id !== value.id)
+    .concat({
+      ...value,
+      from: value.from && value.from.length > 0 ? value.from : undefined,
+      to: value.to && value.to.length > 0 ? value.to : undefined,
+    })
+    .filter(({ from, to }) => !(from == null && to == null))
 
     setValueList(updatedList)
     dispatch(
       updateCertificateDataElement({
         ...question,
         value: { ...question.value, list: updatedList },
-      } as CertificateDataElement)
+      } as CertificateDataElement),
     )
   }
 
@@ -120,13 +121,13 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const workingHoursError: ValidationError | undefined =
     parseInt(baseWorkHours) > 168
       ? {
-          category: question.parent,
-          id: question.id,
-          text: 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.',
-          type: 'WORKING_HOURS_ERROR',
-          field: 'WORKING_HOURS',
-          showAlways: true,
-        }
+        category: question.parent,
+        id: question.id,
+        text: 'Ange ett giltigt antal arbetstimmar. Arbetstiden kan inte överstiga 168 timmar per vecka.',
+        type: 'WORKING_HOURS_ERROR',
+        field: 'WORKING_HOURS',
+        showAlways: true,
+      }
       : undefined
 
   return (
@@ -139,13 +140,10 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
               <AccodrionWrapper id={'workHours'}>
                 <Accordion>
                   <AccordionHeader>
-                    <WorkingHoursInput
-                      onChange={(event) => setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
-                      value={baseWorkHours}
-                      hasValidationError={workingHoursError != null}
-                    />
+                    <WorkingHoursInput onChange={(event) => setBaseWorkHours(event.target.value.replace(/[^0-9]/g, ''))}
+                                       value={baseWorkHours} hasValidationError={workingHoursError != null} />
                   </AccordionHeader>
-                  <Text className="iu-mb-400">
+                  <Text className='iu-mb-400'>
                     Ange hur många timmar patienten arbetar i snitt per vecka. Maximal arbetstid som kan anges är 168 timmar per vecka.
                     Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna
                     arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då
@@ -161,28 +159,20 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <div>
         {config.list.map(({ id, label }, index) => {
           const fieldValidationErrors = validationErrors.filter(
-            ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
+            ({ field }) => field && [`sjukskrivningar.period.${id}.tom`, `sjukskrivningar.period.${id}.from`, `from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field),
           )
           return (
-            <DateRangePicker
-              baseWorkHours={baseWorkHours}
-              disabled={disabled}
-              getPeriodStartingDate={handleGetPeriodStartingDate}
-              key={index}
-              value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)}
-              label={label}
-              field={id}
-              hasValidationError={otherValiadtionErrors.length > 0}
-              validationErrors={fieldValidationErrors}
-              onChange={handleValueChanged}
-            />
+            <DateRangePicker baseWorkHours={baseWorkHours} disabled={disabled} getPeriodStartingDate={handleGetPeriodStartingDate}
+                             key={index} value={valueList.find((x) => x.id === id) ?? createEmptyDateRangeValue(id)} label={label}
+                             field={id} hasValidationError={otherValiadtionErrors.length > 0} validationErrors={fieldValidationErrors}
+                             onChange={handleValueChanged} />
           )
         })}
       </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       {totalSickDays && !disabled && (
         <div>
-          <p className="iu-color-main">
+          <p className='iu-color-main'>
             <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
             Intyget motsvarar en period på {totalSickDays} dagar.{' '}
           </p>

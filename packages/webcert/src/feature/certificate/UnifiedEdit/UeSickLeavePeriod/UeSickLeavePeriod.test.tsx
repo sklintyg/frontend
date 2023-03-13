@@ -77,7 +77,7 @@ const renderDefaultComponent = (question?: CertificateDataElement, disabled?: bo
   render(
     <Provider store={store}>
       <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
-    </Provider>
+    </Provider>,
   )
 }
 
@@ -241,6 +241,12 @@ describe('UeSickLeavePeriod', () => {
     const expectedValidationMessage = 'Välj minst ett alternativ.'
     const question: CertificateDataElement = {
       ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: defaultQuestion.id, from: '2021-06-01', to: '12345', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
       validationErrors: [
         {
           category: defaultQuestion.parent,
@@ -251,11 +257,72 @@ describe('UeSickLeavePeriod', () => {
         },
       ],
     }
+    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(showValidationErrors())
 
     renderDefaultComponent(question)
 
     userEvent.click(screen.getAllByRole('checkbox')[0])
 
     expect(screen.queryByText(expectedValidationMessage)).not.toBeInTheDocument()
+  })
+  it('does display validation error if missing tom date', () => {
+    const expectedValidationMessage = 'Ange ett datum'
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: defaultQuestion.id, from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+      validationErrors: [
+        {
+          category: defaultQuestion.parent,
+          type: 'EMPTY',
+          id: defaultQuestion.id,
+          field: defaultQuestion.id,
+          text: expectedValidationMessage,
+        },
+      ],
+    }
+    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(showValidationErrors())
+
+    renderDefaultComponent(question)
+
+    userEvent.click(screen.getAllByRole('checkbox')[0])
+
+    expect(screen.queryByText(expectedValidationMessage)).toBeInTheDocument()
+  })
+
+  it('does display validation error if missing from date', () => {
+    const expectedValidationMessage = 'Ange ett datum'
+    const question: CertificateDataElement = {
+      ...defaultQuestion,
+      value: {
+        type: CertificateDataValueType.DATE_RANGE_LIST,
+        list: [
+          { id: defaultQuestion.id, from: '', to: '2021-06-01', type: CertificateDataValueType.DATE_RANGE },
+        ],
+      },
+      validationErrors: [
+        {
+          category: defaultQuestion.parent,
+          type: 'EMPTY',
+          id: defaultQuestion.id,
+          field: defaultQuestion.id,
+          text: expectedValidationMessage,
+        },
+      ],
+    }
+    store.dispatch(updateCertificate(getCertificateWithQuestion(question)))
+    store.dispatch(showValidationErrors())
+
+    renderDefaultComponent(question)
+
+    userEvent.click(screen.getAllByRole('checkbox')[0])
+
+    expect(screen.queryByText(expectedValidationMessage)).toBeInTheDocument()
   })
 })
