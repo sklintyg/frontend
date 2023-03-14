@@ -54,11 +54,11 @@ export const getDiagnosisCode = (informationChoice: SrsInformationChoice) => (st
 }
 
 export const getPredictionDiagnosisCode = (state: RootState): string => {
-  const predictions = state.ui.uiSRS.srsPredictions
+  const predictions = getSrsPredictions(state)
   return predictions && predictions.length > 0 ? predictions[0].diagnosisCode : ''
 }
 
 export const getPredictionDiagnosisDescription = (state: RootState): string => {
-  const predictions = state.ui.uiSRS.srsPredictions
+  const predictions = getSrsPredictions(state)
   return predictions && predictions.length > 0 ? predictions[0].diagnosisDescription : ''
 }

@@ -22,7 +22,7 @@ const fakeSrsRecommendation = (): SrsRecommendation => ({
   recommendationText: faker.lorem.sentence(),
 })
 
-const fakeSrsPrediction = (): SrsPrediction => ({
+export const fakeSrsPrediction = (): SrsPrediction => ({
   certificateId: faker.lorem.sentence(),
   diagnosisCode: faker.lorem.word(),
   diagnosisDescription: faker.lorem.sentence(),

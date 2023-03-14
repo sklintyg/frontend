@@ -53,7 +53,7 @@ export const setRiskOpinionSuccess = createAction<string>(`${SRS} Set risk opini
 
 export const updateError = createAction<boolean>(`${SRS} Update error`)
 
-export const updateSrsInfo = createAction<SrsInfoForDiagnosis>(`${SRS} Update recommendations for diagnosis`)
+export const updateSrsInfo = createAction<SrsInfoForDiagnosis | undefined>(`${SRS} Update recommendations for diagnosis`)
 
 export const updatePatientId = createAction<string>(`${SRS} Update patient id`)
 
