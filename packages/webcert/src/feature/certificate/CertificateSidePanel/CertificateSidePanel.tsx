@@ -1,20 +1,29 @@
-import { getResourceLink, LightbulpIcon, ResourceLinkType, Tabs } from '@frontend/common'
+import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useState } from 'react'
 import { useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
-import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
-import QuestionPanel from '../../../components/question/QuestionPanel'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanel from './AboutCertificatePanel'
+import QuestionPanel from '../../../components/question/QuestionPanel'
+import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
+import SrsPanel from '../../../components/srs/SrsPanel'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
-  const fmbInfoPanelActive = getResourceLink(resourceLinks, ResourceLinkType.FMB)
-  const questionsPanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS)
-  const questionsNotAvailablePanelActive = getResourceLink(resourceLinks, ResourceLinkType.QUESTIONS_NOT_AVAILABLE)
+  const resourceLinksForTabs = [
+    ResourceLinkType.SRS,
+    ResourceLinkType.FMB,
+    ResourceLinkType.QUESTIONS,
+    ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
+  ]
+
+  const availableTabs = resourceLinksForTabs.reduce<ResourceLink[]>((result, type) => {
+    const link = resourceLinks.find((link) => type === link.type)
+    return link ? [...result, link] : result
+  }, [])
 
   if (showSpinner) return null
 
@@ -22,54 +31,33 @@ const CertificateSidePanel: React.FC = () => {
     setSelectedTabIndex(value)
   }
 
-  const getTabs = () => {
-    const tabsArray: ReactNode[] = []
-    const tabsContentArray: ReactNode[] = []
-
-    if (questionsPanelActive) {
-      tabsArray.push(
-        <div data-tip={questionsPanelActive.description}>
-          <p>{questionsPanelActive.name}</p>
-        </div>
-      )
-
-      tabsContentArray.push(<QuestionPanel />)
-    }
-
-    if (questionsNotAvailablePanelActive) {
-      tabsArray.push(
-        <div data-tip={questionsNotAvailablePanelActive.description}>
-          <p>{questionsNotAvailablePanelActive.name}</p>
-        </div>
-      )
-
-      tabsContentArray.push(<QuestionNotAvailablePanel />)
-    }
-
-    if (fmbInfoPanelActive) {
-      tabsArray.push(
-        <div data-tip={fmbInfoPanelActive.description}>
-          <p>
-            <LightbulpIcon className="iu-mr-200" />
-            {fmbInfoPanelActive.name}
-          </p>
-        </div>
-      )
-
-      tabsContentArray.push(<FMBPanel />)
-    }
-
-    tabsArray.push(
-      <div data-tip={'Läs om intyget.'}>
-        <p>Om intyget</p>
+  const getTab = (name: string, description: string, icon?: ReactNode) => {
+    return (
+      <div data-tip={description}>
+        <p>
+          {icon && icon}
+          {name}
+        </p>
       </div>
     )
+  }
 
-    tabsContentArray.push(<AboutCertificatePanel />)
+  const getIcon = (type: ResourceLinkType) => {
+    if (type === ResourceLinkType.FMB || type === ResourceLinkType.SRS) {
+      return <LightbulpIcon className="iu-mr-200" />
+    }
+  }
 
-    return {
-      getTabsArray: () => tabsArray,
-      getTabsContentArray: () => tabsContentArray,
+  const getPanel = (type: ResourceLinkType) => {
+    switch (type) {
+      case ResourceLinkType.FMB:
+        return <FMBPanel />
+      case ResourceLinkType.QUESTIONS:
+        return <QuestionPanel />
+      case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
+        return <QuestionNotAvailablePanel />
+      case ResourceLinkType.SRS:
+        return <SrsPanel />
     }
   }
 
@@ -77,8 +65,11 @@ const CertificateSidePanel: React.FC = () => {
     <Tabs
       selectedTabIndex={selectedTabIndex}
       setSelectedTabIndex={handleTabChange}
-      tabs={getTabs().getTabsArray()}
-      tabsContent={getTabs().getTabsContentArray()}
+      tabs={[
+        ...availableTabs.map(({ type, name, description }) => getTab(name, description, getIcon(type))),
+        getTab('Om intyget', 'Läs om intyget'),
+      ]}
+      tabsContent={[...availableTabs.map(({ type }) => getPanel(type)), <AboutCertificatePanel key={'about'} />]}
     />
   )
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FlattenSimpleInterpolation } from 'styled-components/macro'
-import { ChevronDownIcon, ChevronUpIcon } from '../../images/ChevronDownIcon'
-import { sanitizeText } from '../../utils/sanitizeText'
+import { ChevronDownIcon, ChevronUpIcon } from '../../images'
+import { sanitizeText } from '../../utils'
 
 const StyledLink = styled.a`
   display: flex;
