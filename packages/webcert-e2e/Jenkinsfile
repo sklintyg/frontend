@@ -128,7 +128,7 @@ pipeline {
       archiveArtifacts artifacts: "${RESURSRAPPORTERINGSFIL_REL}", fingerprint: false
       // TODO: Använd variabler för att hämta JUnit-filer istället för hårdkodade pather
       //junit 'test/cypress/results/*.xml'
-      //junit 'packages/webcert\\-\\e2e/results/*.xml'
+      //junit 'apps/webcert\\-\\e2e/results/*.xml'
       junit allowEmptyResults: true, testResults: "${WORKSPACE}/test-results/*.xml"
     }
 

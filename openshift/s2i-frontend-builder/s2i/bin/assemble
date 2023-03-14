@@ -42,11 +42,11 @@ curl -X POST -k -d $BUILD_RESULT $PIPELINE_CALLBACK_URL
 
 # Copy the resulting artifacts
 echo "############### Moving Build Artifacts ###############"
-mv packages/webcert/dist/* /tmp/artifacts/build
+mv apps/webcert/dist/* /tmp/artifacts/build
 
 # Copy the nginx configuration
 echo "############### Moving Nginx Configuration ###############"
-mv packages/webcert/nginx/* /tmp/artifacts/nginx
+mv apps/webcert/nginx/* /tmp/artifacts/nginx
 
 # make writeable
 function make_writeable() {
