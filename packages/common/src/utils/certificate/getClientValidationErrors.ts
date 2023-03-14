@@ -34,12 +34,6 @@ const UNREASONABLE_YEAR = {
   showAlways: true,
 }
 
-const EMPTY_DATE = {
-  type: 'EMPTY_DATE',
-  text: 'Ange datum.',
-  showAlways: false,
-}
-
 const EMPTY_PERIOD = {
   type: 'EMPTY_PERIOD',
   text: 'Ange period.',
@@ -59,10 +53,10 @@ const OVERLAP_ERROR = {
 }
 
 const getValidationErrorFactory = (id: string, field = '') => ({
-                                                                 text,
-                                                                 type,
-                                                                 showAlways,
-                                                               }: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
+  text,
+  type,
+  showAlways,
+}: Pick<ValidationError, 'text' | 'type' | 'showAlways'>): ValidationError => {
   return { category: '', field, id, text, type, showAlways }
 }
 

@@ -77,7 +77,7 @@ const renderDefaultComponent = (question?: CertificateDataElement, disabled?: bo
   render(
     <Provider store={store}>
       <UeSickLeavePeriod disabled={disabled ?? false} question={question ?? defaultQuestion} />
-    </Provider>,
+    </Provider>
   )
 }
 
@@ -243,9 +243,7 @@ describe('UeSickLeavePeriod', () => {
       ...defaultQuestion,
       value: {
         type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [
-          { id: defaultQuestion.id, from: '2021-06-01', to: '12345', type: CertificateDataValueType.DATE_RANGE },
-        ],
+        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '12345', type: CertificateDataValueType.DATE_RANGE }],
       },
       validationErrors: [
         {
@@ -272,9 +270,7 @@ describe('UeSickLeavePeriod', () => {
       ...defaultQuestion,
       value: {
         type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [
-          { id: defaultQuestion.id, from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE },
-        ],
+        list: [{ id: defaultQuestion.id, from: '2021-06-01', to: '', type: CertificateDataValueType.DATE_RANGE }],
       },
       validationErrors: [
         {
@@ -302,9 +298,7 @@ describe('UeSickLeavePeriod', () => {
       ...defaultQuestion,
       value: {
         type: CertificateDataValueType.DATE_RANGE_LIST,
-        list: [
-          { id: defaultQuestion.id, from: '', to: '2021-06-01', type: CertificateDataValueType.DATE_RANGE },
-        ],
+        list: [{ id: defaultQuestion.id, from: '', to: '2021-06-01', type: CertificateDataValueType.DATE_RANGE }],
       },
       validationErrors: [
         {

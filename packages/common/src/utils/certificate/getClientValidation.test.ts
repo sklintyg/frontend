@@ -68,7 +68,7 @@ describe('Validation based on value', () => {
     it('Should return UNREASONABLE_DATE for dates too far in the future', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2099-12-13', to: '2099-12-13' }] } })[
         'question'
-        ]
+      ]
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -90,7 +90,7 @@ describe('Validation based on value', () => {
     it('Should return UNREASONABLE_DATE for dates too far in the past', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '1212-12-12', to: '1212-12-12' }] } })[
         'question'
-        ]
+      ]
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
           id: 'question',
@@ -109,7 +109,6 @@ describe('Validation based on value', () => {
       ])
     })
 
-
     it('Should return EMPTY_PERIOD for row if both dates are empty', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: undefined, to: '' }] } })['question']
 
@@ -127,7 +126,7 @@ describe('Validation based on value', () => {
     it('Should return INVALID_DATE_PERIOD_ERROR for invalid periods', () => {
       const dataElement = fakeSickLeavePeriod({ id: 'question', value: { list: [{ id: 'foo', from: '2022-01-12', to: '2022-01-11' }] } })[
         'question'
-        ]
+      ]
 
       expect(getClientValidationErrors(dataElement)).toMatchObject([
         {
