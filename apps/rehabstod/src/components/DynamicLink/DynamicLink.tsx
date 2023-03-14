@@ -1,20 +1,30 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { ComponentProps } from 'react'
+import { IDSIcon } from '@frontend/ids-react-ts'
 import { Link } from '../../store/types/link'
 
-export function DynamicLink({
-  text,
-  className,
-  link: { url, target, ...link },
-  ...props
-}: { link: Link; text?: string; className?: HTMLAnchorElement['className'] } & ComponentProps<typeof IDSLink>) {
+export type DynamicLinkType = 'regular' | 'footer' | 'sub-footer'
+
+export function DynamicLink({ type = 'regular', link: { url, target, text } }: { link: Link; type?: DynamicLinkType }) {
+  const size = type === 'sub-footer' ? '15px' : '0.875em'
+  const styles: Record<DynamicLinkType, string> = {
+    regular: 'text-accent-40 decoration-accent-40',
+    footer: 'text-neutral-20 decoration-neutral-20',
+    'sub-footer': 'text-white decoration-white',
+  }
+
   return (
-    <IDSLink {...props}>
-      <a href={url} target={target} className={className} rel={target === '_blank' ? 'noreferrer' : undefined}>
-        {text != null ? text : link.text}
-      </a>
-      {target === '_blank' && <IDSIcon slot="append-icon" name="external" />}
-    </IDSLink>
+    <a href={url} target={target} className={`${styles[type]} underline`} rel={target === '_blank' ? 'noreferrer' : undefined}>
+      {text}
+      {target === '_blank' && (
+        <IDSIcon
+          className="inline pl-2 align-middle"
+          width={size}
+          height={size}
+          slot="append-icon"
+          name="external"
+          color="currentColor"
+          color2="currentColor"
+        />
+      )}
+    </a>
   )
 }

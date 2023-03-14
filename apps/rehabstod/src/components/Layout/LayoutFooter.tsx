@@ -1,4 +1,4 @@
-import { IDSFooter, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSFooter } from '@frontend/ids-react-ts'
 import { useGetLinksQuery } from '../../store/api'
 import { CookieDialog } from '../CookieDialog/CookieDialog'
 import { DynamicLink } from '../DynamicLink/DynamicLink'
@@ -9,27 +9,21 @@ export function LayoutFooter() {
   return (
     <IDSFooter type="inera-admin" headline="Rehabstöd">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
-      <p slot="link-col-1">
-        <IDSLink>
-          <a href="//inera.atlassian.net/wiki/x/moiUG" target="_blank" rel="noreferrer">
-            Manual Rehabstöd
-          </a>
-          <IDSIcon slot="append-icon" name="external" />
-        </IDSLink>
 
-        {links?.ineraFelanmalanAnvandarstodSupport && <DynamicLink text="Inera Support" link={links.ineraFelanmalanAnvandarstodSupport} />}
+      <p slot="link-col-1">
+        {links?.ineraManualRehabstod && <DynamicLink type="footer" link={links.ineraManualRehabstod} />}
+        {links?.ineraNationellKundservice && <DynamicLink type="footer" link={links.ineraNationellKundservice} />}
       </p>
 
-      {links?.ineraHomepage && (
+      {links?.ineraMainPage && (
         <p slot="sub-footer-left">
-          Rehabstöd drivs av <DynamicLink className="underline decoration-white" link={links.ineraHomepage} text="Inera AB." />
+          Rehabstöd drivs av <DynamicLink type="sub-footer" link={links.ineraMainPage} />
         </p>
       )}
 
-      {links?.ineraPersonuppgifter && (
-        <DynamicLink slot="sub-footer-right" text="Behandling av personuppgifter" link={links.ineraPersonuppgifter} />
-      )}
-
+      <p slot="sub-footer-right" className="inline-block">
+        {links?.ineraPersonuppgifter && <DynamicLink type="sub-footer" link={links.ineraPersonuppgifter} />}
+      </p>
       <div slot="sub-footer-right" className="inline-block">
         <CookieDialog>
           <button className="text-sm text-white underline" trigger="" type="button">
