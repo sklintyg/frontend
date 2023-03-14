@@ -6,9 +6,10 @@ import { SrsInformationChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 
-const onChange = vi.fn()
+let onChange = () => {}
 
 const renderComponent = () => {
+  onChange = vi.fn()
   render(
     <Provider store={store}>
       <SrsInformationChoices onChange={onChange} currentChoice={SrsInformationChoice.RECOMMENDATIONS} />
