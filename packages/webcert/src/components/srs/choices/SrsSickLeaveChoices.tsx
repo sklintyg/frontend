@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from 'react'
 import { RadioButton, SrsSickLeaveChoice } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIsCertificateRenewed, getSickLeaveChoice } from '../../store/srs/srsSelectors'
-import { updateSickLeaveChoice } from '../../store/srs/srsActions'
-import { getSickLeaveChoicesLabel } from './srsUtils'
+import { getIsCertificateRenewed, getSickLeaveChoice } from '../../../store/srs/srsSelectors'
+import { updateSickLeaveChoice } from '../../../store/srs/srsActions'
+import { getSickLeaveChoicesLabel } from '../srsUtils'
 
 const SrsSickLeaveChoices: React.FC = () => {
   const buttons = [SrsSickLeaveChoice.NEW, SrsSickLeaveChoice.EXTENSION, SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS]

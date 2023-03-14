@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../store/srs/srsSelectors'
+import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
 import { ExpandableTextWithTitle, InfoBox, SrsInformationChoice, SrsRecommendation, SrsSickLeaveChoice } from '@frontend/common'
 import styled from 'styled-components'
 

@@ -3,7 +3,7 @@ import SrsRiskForm from './SrsRiskForm'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon, SrsSickLeaveChoice } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getSickLeaveChoice } from '../../store/srs/srsSelectors'
+import { getSickLeaveChoice } from '../../../store/srs/srsSelectors'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
 
@@ -27,6 +27,8 @@ const BottomBorder = styled.div`
   margin: 20px -20px;
 `
 
+export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
+
 const SrsRisk: React.FC = () => {
   const [expanded, setExpanded] = useState(false)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
@@ -34,9 +36,9 @@ const SrsRisk: React.FC = () => {
 
   const getIcon = () => {
     return expanded ? (
-      <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto', marginBottom: '4px' }} />
+      <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto', marginBottom: '4px' }} data-testid="chevron-up" />
     ) : (
-      <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
+      <ChevronDownIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} data-testid="chevron-down" />
     )
   }
 
@@ -48,7 +50,7 @@ const SrsRisk: React.FC = () => {
         className={`${isCalculatingRiskDisabled ? 'iu-bg-grey-200' : 'iu-bg-information-light'}`}
         onClick={() => setExpanded(!expanded)}
         disabled={isCalculatingRiskDisabled}>
-        Beräkna risk här {getIcon()}
+        {SRS_RISK_BUTTON_TEXT} {getIcon()}
       </StyledButton>
       {expanded && (
         <>

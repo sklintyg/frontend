@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../store/store'
+import store from '../../../store/store'
 import SrsSickLeaveChoices from './SrsSickLeaveChoices'
-import { updateCertificate } from '../../store/certificate/certificateActions'
+import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { CertificateRelationType, CertificateStatus, fakeCertificate, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
-import { SICKLEAVE_CHOICES_TEXTS } from './srsUtils'
+import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
 
 const renderComponent = () => {
   render(

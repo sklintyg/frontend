@@ -76,7 +76,7 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateSrsInfo, (state, action) => {
       state.srsInfo = action.payload
 
-      const predictions = action.payload.predictions
+      const predictions = action.payload ? action.payload.predictions : []
       if (predictions.length > 0) {
         const filteredPredictions = getFilteredPredictions(predictions)
         state.riskOpinion = filteredPredictions[0].physiciansOwnOpinionRisk

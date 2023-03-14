@@ -7,9 +7,9 @@ import {
   getRiskOpinion,
   getSickLeaveChoice,
   getSrsPredictions,
-} from '../../store/srs/srsSelectors'
+} from '../../../store/srs/srsSelectors'
 import { Bar, BarChart, CartesianGrid, Cell, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
-import { getCurrentRiskDataPoint, getFilteredPredictions, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from './srsUtils'
+import { getCurrentRiskDataPoint, getFilteredPredictions, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {

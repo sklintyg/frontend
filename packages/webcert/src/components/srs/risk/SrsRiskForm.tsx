@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCertificateId, getDiagnosisCode, getPatientId, getSrsQuestions } from '../../store/srs/srsSelectors'
+import { getCertificateId, getDiagnosisCode, getPatientId, getSrsQuestions } from '../../../store/srs/srsSelectors'
 import { CustomButton, SrsInformationChoice, SrsQuestion } from '@frontend/common'
-import { getPredictions } from '../../store/srs/srsActions'
+import { getPredictions } from '../../../store/srs/srsActions'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 
 const getDefaultOptionId = (question: SrsQuestion) => {

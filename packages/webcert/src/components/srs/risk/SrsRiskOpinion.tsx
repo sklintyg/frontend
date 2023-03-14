@@ -1,7 +1,7 @@
 import React from 'react'
 import { RadioButton } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { setRiskOpinion, updateRiskOpinion } from '../../store/srs/srsActions'
+import { setRiskOpinion, updateRiskOpinion } from '../../../store/srs/srsActions'
 import {
   getCareGiverId,
   getCertificateId,
@@ -10,8 +10,8 @@ import {
   getRiskOpinion,
   getSrsPredictions,
   getUnitId,
-} from '../../store/srs/srsSelectors'
-import { hasCurrentRiskDataPoint, SRS_OPINION_IDS, SRS_OPINION_LABELS } from './srsUtils'
+} from '../../../store/srs/srsSelectors'
+import { hasCurrentRiskDataPoint, SRS_OPINION_IDS, SRS_OPINION_LABELS } from '../srsUtils'
 
 export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 

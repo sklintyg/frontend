@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PanelHeader from '../../feature/certificate/CertificateSidePanel/PanelHeader'
+import PanelHeader from '../../../feature/certificate/CertificateSidePanel/PanelHeader'
 import SrsPanelError from './SrsPanelError'
 import SrsPanelNoSupportInfo from './SrsPanelNoSupportInfo'
 import SrsPanelEmptyInfo from './SrsPanelEmptyInfo'
@@ -11,17 +11,17 @@ import {
   getHasError,
   getLoading,
   getPatientId,
-} from '../../store/srs/srsSelectors'
+} from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes } from '../../store/srs/srsActions'
-import SRSSickleaveChoices from './SrsSickLeaveChoices'
-import SrsInformationChoices from './SrsInformationChoices'
+import { getQuestions, getRecommendations, getSRSCodes } from '../../../store/srs/srsActions'
+import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
+import SrsInformationChoices from '../choices/SrsInformationChoices'
 import { Spinner, SrsInformationChoice } from '@frontend/common'
-import SrsRecommendations from './SrsRecommendations'
-import SrsNationalStatistics from './SrsNationalStatistics'
+import SrsRecommendations from '../recommendations/SrsRecommendations'
+import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
-import SrsRisk from './SrsRisk'
+import SrsRisk from '../risk/SrsRisk'
 
 export const SRS_TITLE = 'Risk för sjukskrivning längre än 90 dagar'
 

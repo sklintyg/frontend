@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { SrsInfoForDiagnosis, SrsPrediction, SrsRecommendation } from '../../types'
+import { SrsAnswer, SrsAnswerOption, SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsRecommendation } from '../../types'
 
 export const fakeSrsInfo = (value?: Partial<SrsInfoForDiagnosis>): SrsInfoForDiagnosis => ({
   atgarderObs: fakeSrsRecommendationList(),
@@ -36,6 +36,26 @@ export const fakeSrsPrediction = (): SrsPrediction => ({
   questionsResponses: [],
   timestamp: new Date(),
   modelVersion: faker.lorem.word(),
+})
+
+export const fakeSrsAnswer = (): SrsAnswer => ({
+  questionId: faker.lorem.word(),
+  answerId: faker.lorem.word(),
+})
+
+export const fakeSrsQuestion = (answerOptions?: SrsAnswerOption[]): SrsQuestion => ({
+  questionId: faker.lorem.word(),
+  answerOptions: answerOptions ? answerOptions : [],
+  text: faker.lorem.sentence(),
+  helpText: faker.lorem.sentence(),
+  priority: 0,
+})
+
+export const fakeSrsAnswerOption = (defaultValue?: boolean): SrsAnswerOption => ({
+  id: faker.lorem.word(),
+  text: faker.lorem.sentence(),
+  priority: 0,
+  defaultValue: defaultValue ? defaultValue : false,
 })
 
 const fakeSrsRecommendationList = () => {

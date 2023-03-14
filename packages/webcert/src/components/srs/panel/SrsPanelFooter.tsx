@@ -1,6 +1,6 @@
 import React from 'react'
-import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
-import { getDiagnosisCode, getDiagnosisDescription } from '../../store/srs/srsSelectors'
+import SidePanelFooter from '../../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
+import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
 import { useSelector } from 'react-redux'
 import { ExternalLinkIcon, SrsInformationChoice } from '@frontend/common'
 

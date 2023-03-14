@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getDiagnosisCode, getDiagnosisDescription } from '../../store/srs/srsSelectors'
+import { getDiagnosisCode, getDiagnosisDescription } from '../../../store/srs/srsSelectors'
 import { SrsInformationChoice, InfoCircle } from '@frontend/common'
 import SrsNationalStatisticsLineChart from './SrsNationalStatisticsLineChart'
 
