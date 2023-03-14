@@ -24,6 +24,18 @@ const fakeSrsRecommendation = (): SrsRecommendation => ({
 
 const fakeSrsPrediction = (): SrsPrediction => ({
   certificateId: faker.lorem.sentence(),
+  diagnosisCode: faker.lorem.word(),
+  diagnosisDescription: faker.lorem.sentence(),
+  statusCode: faker.lorem.word(),
+  level: 1,
+  description: faker.lorem.sentence(),
+  physiciansOwnOpinionRisk: 'HOGRE',
+  daysIntoSickLeave: 15,
+  prevalence: 0.5,
+  probabilityOverLimit: 0.2,
+  questionsResponses: [],
+  timestamp: new Date(),
+  modelVersion: faker.lorem.word(),
 })
 
 const fakeSrsRecommendationList = () => {
