@@ -1,7 +1,11 @@
 import { IDSDialog } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
+import { useGetLinksQuery } from '../../store/api'
+import { DynamicLink } from '../DynamicLink/DynamicLink'
 
 export function CookieDialog({ children }: { children: ReactNode }) {
+  const { data: links } = useGetLinksQuery()
+
   return (
     <IDSDialog dismissible headline="Om kakor (cookies)">
       {children}
@@ -23,8 +27,10 @@ export function CookieDialog({ children }: { children: ReactNode }) {
           Vill du inte acceptera kakor kan din webbläsare ställas in så att du automatiskt nekar till lagring av kakor eller informeras
           varje gång en webbplats begär att få lagra en kaka. Genom webbläsaren kan också tidigare lagrade kakor raderas. Se webbläsarens
           hjälpsidor för mer information. Väljer du att inte acceptera kakor så kan du inte identifiera dig med e-legitimation i denna
-          e-tjänst. Mer information om kakor kan du finna på Kommunikationsmyndigheten PTS sida om kakor
+          e-tjänst.
         </p>
+        <p className="mb-2">Mer information om kakor kan du finna på Kommunikationsmyndigheten PTS sida om kakor </p>
+        {links?.ptsCookies && <DynamicLink link={links.ptsCookies} />}
       </div>
     </IDSDialog>
   )
