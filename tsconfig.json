@@ -16,8 +16,9 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "paths": {
-      "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"],
-      "@frontend/common": ["./packages/common/src/index.ts"]
+      "@frontend/common": ["./packages/common/src/index.ts"],
+      "@frontend/icons": ["./packages/icons/src/index.ts"],
+      "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"]
     }
   },
   "exclude": ["**/dist/**", "dist", "./app/*/dist/**", "./app/*/*.d.ts", "./app/*/*.d.cts"]

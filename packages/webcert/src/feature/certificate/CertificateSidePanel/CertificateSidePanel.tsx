@@ -1,4 +1,4 @@
-import { LightbulpIcon, ResourceLinkType, Tabs } from '@frontend/common'
+import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,7 +7,7 @@ import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/c
 import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
-import SRSPanel from '../../../components/srs/SRSPanel'
+import SrsPanel from '../../../components/srs/SrsPanel'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)
@@ -19,7 +19,11 @@ const CertificateSidePanel: React.FC = () => {
     ResourceLinkType.QUESTIONS,
     ResourceLinkType.QUESTIONS_NOT_AVAILABLE,
   ]
-  const availableTabs = resourceLinks.filter(({ type }) => resourceLinksForTabs.includes(type))
+
+  const availableTabs = resourceLinksForTabs.reduce<ResourceLink[]>((result, type) => {
+    const link = resourceLinks.find((link) => type === link.type)
+    return link ? [...result, link] : result
+  }, [])
 
   if (showSpinner) return null
 
@@ -53,7 +57,7 @@ const CertificateSidePanel: React.FC = () => {
       case ResourceLinkType.QUESTIONS_NOT_AVAILABLE:
         return <QuestionNotAvailablePanel />
       case ResourceLinkType.SRS:
-        return <SRSPanel />
+        return <SrsPanel />
     }
   }
 

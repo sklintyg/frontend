@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSPopover = createComponent({
+  displayName: 'IDSPopover',
   tagName: 'ids-popover',
   elementClass: IDSPopoverElement,
   react: React,

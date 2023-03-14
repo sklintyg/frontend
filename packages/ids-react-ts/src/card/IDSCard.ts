@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSCard = createComponent({
+  displayName: 'IDSCard',
   tagName: 'ids-card',
   elementClass: IDSCardElement,
   react: React,

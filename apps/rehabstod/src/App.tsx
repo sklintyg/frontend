@@ -1,18 +1,15 @@
-import { IDSButton, IDSContainer, IDSFooter, IDSHeader } from '@frontend/ids-react-ts'
+import { Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout/Layout'
+import { Home } from './pages/Home/Home'
+import { NoMatch } from './pages/NoMatch/NoMatch'
 
 export function App() {
   return (
-    <>
-      <IDSHeader type="inera-admin" className="ids-hide ids-show-inera-admin" brandText="Rehabstöd" />
-      <main>
-        <IDSContainer gutterless>
-          <p className="ids-body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            <IDSButton onClick={(e) => console.log(e)}>Test</IDSButton>
-          </p>
-        </IDSContainer>
-      </main>
-      <IDSFooter type="inera-admin" headline="Rehabstöd" />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="*" element={<NoMatch />} />
+      </Route>
+    </Routes>
   )
 }

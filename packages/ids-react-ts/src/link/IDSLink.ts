@@ -4,6 +4,7 @@ import { createComponent } from '@lit-labs/react'
 import React from 'react'
 
 export const IDSLink = createComponent({
+  displayName: 'IDSLink',
   tagName: 'ids-link',
   elementClass: IDSLinkElement,
   react: React,
