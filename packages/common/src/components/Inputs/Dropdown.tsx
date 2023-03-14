@@ -29,6 +29,8 @@ const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, di
     }
   }, [disabled])
 
+  const dropdownValue = disabled ? React.Children.toArray(children)[0].valueOf.name : value
+
   return (
     <>
       {label !== null ? <label htmlFor={id}>{label}</label> : null}
@@ -39,7 +41,7 @@ const Dropdown = forwardRef<HTMLSelectElement, Props>(({ children, id, error, di
           dropdown: !error,
           'ic-forms__select--disabled': disabled,
         })}>
-        <DropdownSelect ref={selectRef} id={id} disabled={disabled} value={value ?? ''} {...props}>
+        <DropdownSelect ref={selectRef} id={id} disabled={disabled} value={dropdownValue} {...props}>
           {children}
         </DropdownSelect>
       </DropdownDiv>
