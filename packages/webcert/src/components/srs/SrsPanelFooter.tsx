@@ -2,12 +2,15 @@ import React from 'react'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { getDiagnosisCode, getDiagnosisDescription } from '../../store/srs/srsSelectors'
 import { useSelector } from 'react-redux'
-import { ExternalLinkIcon } from '@frontend/common'
+import { ExternalLinkIcon, SrsInformationChoice } from '@frontend/common'
 
-const SrsPanelFooter: React.FC = () => {
-  const diagnosisDescription = useSelector(getDiagnosisDescription)
-  const diagnosisCode = useSelector(getDiagnosisCode)
-  const link = `http://skr.se/${diagnosisCode.replace('.', '').toLowerCase()}`
+interface Props {
+  informationChoice: SrsInformationChoice
+}
+const SrsPanelFooter: React.FC<Props> = ({ informationChoice }) => {
+  const diagnosisDescription = useSelector(getDiagnosisDescription(informationChoice))
+  const diagnosisCode = useSelector(getDiagnosisCode(informationChoice))
+  const link = `http://skr.se/${diagnosisCode ? diagnosisCode.replace('.', '').toLowerCase() : ''}}`
 
   return (
     <SidePanelFooter additionalStyles="iu-m-none">
