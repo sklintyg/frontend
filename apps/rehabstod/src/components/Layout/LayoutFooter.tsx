@@ -1,39 +1,29 @@
-import { IDSFooter, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSFooter } from '@frontend/ids-react-ts'
+import { useGetLinksQuery } from '../../store/api'
 import { CookieDialog } from '../CookieDialog/CookieDialog'
+import { DynamicLink } from '../DynamicLink/DynamicLink'
 
 export function LayoutFooter() {
+  const { data: links } = useGetLinksQuery()
+
   return (
     <IDSFooter type="inera-admin" headline="Rehabstöd">
       <p>Rehabstöd används av rehabkoordinatorer och läkare för att samordna och följa upp sjukskrivna patienters rehabilitering.</p>
+
       <p slot="link-col-1">
-        <IDSLink>
-          <a href="//inera.atlassian.net/wiki/x/moiUG" target="_blank" rel="noreferrer">
-            Manual Rehabstöd
-          </a>
-          <IDSIcon slot="append-icon" name="external" />
-        </IDSLink>
-        <IDSLink>
-          <a href="//www.inera.se/kontakta-oss/felanmalan-och-anvandarstod/" target="_blank" rel="noreferrer">
-            Inera Support
-          </a>
-          <IDSIcon slot="append-icon" name="external" />
-        </IDSLink>
+        {links?.ineraManualRehabstod && <DynamicLink type="footer" link={links.ineraManualRehabstod} />}
+        {links?.ineraNationellKundservice && <DynamicLink type="footer" link={links.ineraNationellKundservice} />}
       </p>
 
-      <p slot="sub-footer-left">
-        Rehabstöd drivs av{' '}
-        <a className="underline decoration-white" href="//inera.se" target="_blank" rel="noreferrer">
-          Inera AB.
-        </a>
+      {links?.ineraMainPage && (
+        <p slot="sub-footer-left">
+          Rehabstöd drivs av <DynamicLink type="sub-footer" link={links.ineraMainPage} />
+        </p>
+      )}
+
+      <p slot="sub-footer-right" className="inline-block">
+        {links?.ineraPersonuppgifter && <DynamicLink type="sub-footer" link={links.ineraPersonuppgifter} />}
       </p>
-
-      <IDSLink slot="sub-footer-right">
-        <a href="//www.inera.se/om-webbplatsen/behandling-av-personuppgifter/" target="_blank" rel="noreferrer">
-          Behandling av personuppgifter
-        </a>
-        <IDSIcon slot="append-icon" name="external" />
-      </IDSLink>
-
       <div slot="sub-footer-right" className="inline-block">
         <CookieDialog>
           <button className="text-sm text-white underline" trigger="" type="button">
