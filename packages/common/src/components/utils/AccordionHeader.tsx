@@ -8,7 +8,7 @@ const AccordionHeader = styled.summary.attrs({
   align-items: flex-start;
   padding-left: 0 !important;
   margin-bottom: 0.625rem !important;
-  padding-right: 20px !important;
+  padding-right: 40px !important;
 
   & ::after {
     top: 20px !important;
