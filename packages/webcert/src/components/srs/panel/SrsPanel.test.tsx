@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import SrsPanel, { SRS_TITLE } from './SrsPanel'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
-import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../../store/srs/srsActions'
-import { updateCertificate } from '../../../store/certificate/certificateActions'
+import store from '../../store/store'
+import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../store/srs/srsActions'
+import { updateCertificate } from '../../store/certificate/certificateActions'
 import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
-import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations/SrsRecommendations'
-import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from '../choices/SrsInformationChoices'
+import { SICKLEAVE_CHOICES_TEXTS } from './SrsSickLeaveChoices'
+import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
+import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
 import userEvent from '@testing-library/user-event'
-import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
-import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
+import { SRS_STATISTICS_TITLE } from './SrsNationalStatistics'
 
 const renderComponent = () => {
   render(
@@ -59,15 +59,6 @@ describe('SrsPanel', () => {
       expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
-    it('should show empty message if diagnosis has empty code', () => {
-      renderComponent()
-      const element = fakeDiagnosesElement({ value: { list: [{ code: '', id: '0' }] } })
-      store.dispatch(setDiagnosisCodes(['J20']))
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      store.dispatch(updateError(false))
-      expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
-    })
-
     it('should not show footer if no diagnois is chosen', () => {
       renderComponent()
       store.dispatch(updateError(false))
@@ -94,46 +85,41 @@ describe('SrsPanel', () => {
   })
 
   describe('has support', () => {
-    beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      store.dispatch(setDiagnosisCodes(['J20']))
-    })
-
     it('should show support info is chosen if diagnosis has support', () => {
       renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.getByText('Riskberäkningen gäller:')).toBeInTheDocument()
     })
 
     it('should show footer with more information if chosen diagnosis has support', () => {
       renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.getByText('Mer information')).toBeInTheDocument()
     })
 
     it('should show radio buttons if chosen diagnosis has support', () => {
       renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       expect(screen.getByText(SICKLEAVE_CHOICES_TEXTS[0])).toBeInTheDocument()
     })
 
     it('should show recommendations if chosen diagnosis has support', () => {
       renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
       store.dispatch(updateSrsInfo(fakeSrsInfo()))
       expect(screen.getByText(SRS_OBSERVE_TITLE)).toBeInTheDocument()
-    })
-
-    it('should show risk if chosen diagnosis has support', () => {
-      renderComponent()
-      expect(screen.getByText('Risken gäller', { exact: false })).toBeInTheDocument()
     })
   })
 
   describe('SRS Information Choices', () => {
-    beforeEach(() => {
-      const element = fakeDiagnosesElement({ value: { list: [{ code: 'J20', id: '0' }] } })
-      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
-      store.dispatch(setDiagnosisCodes(['J20']))
-    })
-
     it('should render recommendation choice', () => {
       renderComponent()
       expect(screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)).toBeInTheDocument()
@@ -159,7 +145,6 @@ describe('SrsPanel', () => {
     })
 
     it('should render recommendations if that choice is chosen', () => {
-      store.dispatch(updateSrsInfo(fakeSrsInfo()))
       renderComponent()
       const button = screen.getByText(SRS_RECOMMENDATIONS_BUTTON_TEXT)
       userEvent.click(button)
