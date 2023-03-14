@@ -20,7 +20,6 @@ dist-ssr
 *.local
 dist
 .turbo
-.iml
 
 # End-To-End
 /packages/webcert-e2e/results/
@@ -51,3 +50,4 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.iml
