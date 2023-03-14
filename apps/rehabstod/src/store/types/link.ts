@@ -3,5 +3,5 @@ export interface Link {
   url: string
   text: string
   tooltip: null | string
-  target?: HTMLAnchorElement['target']
+  target?: string
 }
