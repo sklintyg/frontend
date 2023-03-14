@@ -26,8 +26,8 @@ const SrsRecommendations: React.FC = () => {
 
   const EMPTY_TEXT = `För ${diagnosisCode ? diagnosisCode : 'vald diagnoskod'} finns ingen SRS-information för detta fält.`
 
-  const getInformationBox = (title: string, recommendations: SrsRecommendation[], key: string) => {
-    if (recommendations.length == 0 || info.atgarderStatusCode === 'INFORMATION_SAKNAS') {
+  const getInformationBox = (title: string, recommendations: SrsRecommendation[], key: string, showDiagnosis: boolean) => {
+    if (!recommendations || recommendations.length == 0 || info.atgarderStatusCode === 'INFORMATION_SAKNAS') {
       return (
         <>
           <h3 className="iu-fw-bold iu-mb-200">{title}</h3>
@@ -39,9 +39,7 @@ const SrsRecommendations: React.FC = () => {
     return (
       <>
         <h3 className="iu-fw-bold iu-mt-400">{title}</h3>
-        <p className="iu-fw-bold iu-mb-200">
-          {diagnosisCode} {diagnosisDescription}
-        </p>
+        <p className="iu-fw-bold iu-mb-200">{showDiagnosis && `${diagnosisCode} - ${diagnosisDescription}`}</p>
         <ul>
           {recommendations.map((recommendation, index) => {
             return (
@@ -60,9 +58,9 @@ const SrsRecommendations: React.FC = () => {
 
   return (
     <>
-      {isExtension && getInformationBox(SRS_EXTENSION_TITLE, info.atgarderFrl, 'EXT-')}
-      {getInformationBox(SRS_OBSERVE_TITLE, info.atgarderObs, 'OBS-')}
-      {getInformationBox(SRS_RECOMMENDATIONS_TITLE, info.atgarderRek, 'REC-')}
+      {isExtension && getInformationBox(SRS_EXTENSION_TITLE, info.atgarderFrl, 'EXT-', false)}
+      {getInformationBox(SRS_OBSERVE_TITLE, info.atgarderObs, 'OBS-', true)}
+      {getInformationBox(SRS_RECOMMENDATIONS_TITLE, info.atgarderRek, 'REC-', true)}
     </>
   )
 }

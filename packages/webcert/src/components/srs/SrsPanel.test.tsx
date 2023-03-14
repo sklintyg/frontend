@@ -5,11 +5,11 @@ import store from '../../store/store'
 import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../store/srs/srsActions'
 import { updateCertificate } from '../../store/certificate/certificateActions'
 import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
-import { SICKLEAVE_CHOICES_TEXTS } from './SrsSickLeaveChoices'
 import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
 import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
 import userEvent from '@testing-library/user-event'
 import { SRS_STATISTICS_TITLE } from './SrsNationalStatistics'
+import { SICKLEAVE_CHOICES_TEXTS } from './srsUtils'
 
 const renderComponent = () => {
   render(

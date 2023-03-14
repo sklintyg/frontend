@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ValueDiagnosisList } from '@frontend/common'
+import { SrsAnswer, SrsPrediction, SrsPredictionInfo, SrsQuestion, ValueDiagnosisList } from '@frontend/common'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
 import { SrsInfoForDiagnosis, SrsSickLeaveChoice } from '@frontend/common/src/types/srs'
 
@@ -17,12 +17,6 @@ export const getSRSCodesStarted = createAction<ValueDiagnosisList>(`${SRS} Get S
 export const getSRSCodesError = createAction<ValueDiagnosisList>(`${SRS} Get SRS codes error`)
 
 export const getSRSCodesSuccess = createAction<ValueDiagnosisList>(`${SRS} Get SRS codes success`)
-
-export interface RecommendationsRequest {
-  patientId: string
-  code: string
-  certificateId: string
-}
 export const getRecommendations = createAction<RecommendationsRequest>(`${SRS} Get recommendations`)
 
 export const getRecommendationsStarted = createAction<ValueDiagnosisList>(`${SRS} Get recommendations started`)
@@ -30,6 +24,32 @@ export const getRecommendationsStarted = createAction<ValueDiagnosisList>(`${SRS
 export const getRecommendationsError = createAction(`${SRS} Get recommendations error`)
 
 export const getRecommendationsSuccess = createAction<SrsInfoForDiagnosis>(`${SRS} Get recommendations success`)
+
+export const updateRiskOpinion = createAction<string>(`${SRS} Update risk opinion`)
+
+export const getQuestions = createAction<string>(`${SRS} Get questions`)
+
+export const getQuestionsStarted = createAction(`${SRS} Get questions started`)
+
+export const getQuestionsError = createAction(`${SRS} Get questions error`)
+
+export const getQuestionsSuccess = createAction<SrsQuestion[]>(`${SRS} Get questions success`)
+
+export const getPredictions = createAction<PredictionsRequest>(`${SRS} Get predictions`)
+
+export const getPredictionsStarted = createAction(`${SRS} Get predictions started`)
+
+export const getPredictionsError = createAction(`${SRS} Get predictions error`)
+
+export const getPredictionsSuccess = createAction<SrsPredictionInfo>(`${SRS} Get predictions success`)
+
+export const setRiskOpinion = createAction<RiskOpinionRequest>(`${SRS} Set risk opinion`)
+
+export const setRiskOpinionStarted = createAction(`${SRS} Set risk opinion started`)
+
+export const setRiskOpinionError = createAction(`${SRS} Set risk opinion error`)
+
+export const setRiskOpinionSuccess = createAction<string>(`${SRS} Set risk opinion success`)
 
 export const updateError = createAction<boolean>(`${SRS} Update error`)
 
@@ -39,6 +59,40 @@ export const updatePatientId = createAction<string>(`${SRS} Update patient id`)
 
 export const updateCertificateId = createAction<string>(`${SRS} Update certificate id`)
 
+export const updateUnitId = createAction<string>(`${SRS} Update unit id`)
+
+export const updateCareGiverId = createAction<string>(`${SRS} Update care giver id`)
+
 export const updateSickLeaveChoice = createAction<SrsSickLeaveChoice>(`${SRS} Update sick leave choice`)
 
 export const updateIsCertificateRenewed = createAction<boolean>(`${SRS} Update is certificate renewed`)
+
+export const updateSrsQuestions = createAction<SrsQuestion[]>(`${SRS} Update SRS questions`)
+
+export const updateSrsPredictions = createAction<SrsPrediction[]>(`${SRS} Update SRS predictions`)
+
+export const updateLoading = createAction<boolean>(`${SRS} Update loading`)
+
+export const resetState = createAction(`${SRS} Reset state`)
+
+export interface RecommendationsRequest {
+  patientId: string
+  code: string
+  certificateId: string
+}
+
+export interface PredictionsRequest {
+  patientId: string
+  code: string
+  certificateId: string
+  answers: SrsAnswer[]
+}
+
+export interface RiskOpinionRequest {
+  patientId: string
+  certificateId: string
+  unitId: string
+  careGiverId: string
+  code: string
+  riskOpinion: string
+}

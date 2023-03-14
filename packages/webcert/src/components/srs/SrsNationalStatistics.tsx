@@ -14,9 +14,11 @@ const SrsNationalStatistics: React.FC = () => {
 
   return (
     <>
-      <h3>{SRS_STATISTICS_TITLE}</h3>
+      <h3>
+        {SRS_STATISTICS_TITLE} {diagnosisCode}
+      </h3>
       <p className="iu-fw-bold iu-mb-200">
-        {diagnosisCode} {diagnosisDescription} <InfoCircle className="iu-ml-200" tooltip={infoTooltip} />
+        {diagnosisDescription} <InfoCircle className="iu-ml-200" tooltip={infoTooltip} />
       </p>
       <SrsNationalStatisticsLineChart />
       <p>{SRS_STATISTICS_INFO}</p>

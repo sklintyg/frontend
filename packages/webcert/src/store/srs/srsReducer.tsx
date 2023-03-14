@@ -10,35 +10,55 @@ import {
   updatePatientId,
   updateSrsInfo,
   updateSickLeaveChoice,
+  updateSrsQuestions,
+  updateSrsPredictions,
+  updateRiskOpinion,
+  updateUnitId,
+  updateCareGiverId,
+  resetState,
+  updateLoading,
 } from './srsActions'
-import { SrsInfoForDiagnosis, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import { SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
 
 export interface SRSState {
   diagnosisListValue: ValueDiagnosisList | null
   functionDisablers: FunctionDisabler[]
   diagnosisCodes: string[]
   srsInfo: SrsInfoForDiagnosis | undefined
+  srsQuestions: SrsQuestion[]
   error: boolean
   patientId: string
   certificateId: string
+  unitId: string
+  careGiverId: string
   sickLeaveChoice: SrsSickLeaveChoice
-
   isCertificateRenewed: boolean
+  srsPredictions: SrsPrediction[]
+  riskOpinion: string
+  loading: boolean
 }
 
-const initialState: SRSState = {
-  diagnosisListValue: null,
-  functionDisablers: [],
-  diagnosisCodes: [],
-  error: false,
-  srsInfo: undefined,
-  patientId: '',
-  certificateId: '',
-  sickLeaveChoice: SrsSickLeaveChoice.NEW,
-  isCertificateRenewed: false,
+const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
+  return {
+    diagnosisListValue: null,
+    functionDisablers: functionDisablers ? functionDisablers : [],
+    diagnosisCodes: [],
+    error: false,
+    srsInfo: undefined,
+    patientId: '',
+    certificateId: '',
+    unitId: '',
+    careGiverId: '',
+    sickLeaveChoice: SrsSickLeaveChoice.NEW,
+    isCertificateRenewed: false,
+    srsQuestions: [],
+    srsPredictions: [],
+    riskOpinion: '',
+    loading: false,
+  }
 }
 
-const srsReducer = createReducer(initialState, (builder) =>
+const srsReducer = createReducer(getInitialState(), (builder) =>
   builder
     .addCase(setDiagnosisListValue, (state, action) => {
       state.diagnosisListValue = action.payload
@@ -64,12 +84,31 @@ const srsReducer = createReducer(initialState, (builder) =>
     .addCase(updateSickLeaveChoice, (state, action) => {
       state.sickLeaveChoice = action.payload
     })
+    .addCase(updateSrsQuestions, (state, action) => {
+      state.srsQuestions = action.payload
+    })
+    .addCase(updateSrsPredictions, (state, action) => {
+      state.srsPredictions = action.payload
+    })
+    .addCase(updateRiskOpinion, (state, action) => {
+      state.riskOpinion = action.payload
+    })
+    .addCase(updateUnitId, (state, action) => {
+      state.unitId = action.payload
+    })
+    .addCase(updateCareGiverId, (state, action) => {
+      state.careGiverId = action.payload
+    })
+    .addCase(updateLoading, (state, action) => {
+      state.loading = action.payload
+    })
     .addCase(updateIsCertificateRenewed, (state, action) => {
       state.isCertificateRenewed = action.payload
       if (action.payload) {
         state.sickLeaveChoice = SrsSickLeaveChoice.EXTENSION
       }
     })
+    .addCase(resetState, (state) => getInitialState(state.functionDisablers))
 )
 
 export default srsReducer
