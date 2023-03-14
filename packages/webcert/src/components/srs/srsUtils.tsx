@@ -39,6 +39,15 @@ export const getRiskDataPoint = (
   }
 }
 
+export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
+  if (!(predictions && predictions.length > 0)) {
+    return []
+  }
+
+  const diagnosisCode = predictions && predictions.length > 0 ? predictions[0].diagnosisCode : ''
+  return predictions.filter((prediction) => prediction.diagnosisCode.includes(diagnosisCode))
+}
+
 export const getPreviousRiskDataPoint = (
   filteredPredictions: SrsPrediction[],
   totalNumberOfPredictions: number,
@@ -74,4 +83,9 @@ export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, fil
         riskOpinion,
         filteredPredictions[0].timestamp
       )
+}
+
+export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
+  const filteredPredictions = getFilteredPredictions(predictions)
+  return filteredPredictions && filteredPredictions[0] && filteredPredictions[0].probabilityOverLimit
 }

@@ -1,9 +1,17 @@
 import React from 'react'
-import { RadioButton, SrsInformationChoice } from '@frontend/common'
+import { RadioButton } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRiskOpinion, updateRiskOpinion } from '../../store/srs/srsActions'
-import { getCareGiverId, getCertificateId, getDiagnosisCode, getPatientId, getRiskOpinion, getUnitId } from '../../store/srs/srsSelectors'
-import { SRS_OPINION_IDS, SRS_OPINION_LABELS } from './srsUtils'
+import {
+  getCareGiverId,
+  getCertificateId,
+  getPatientId,
+  getPredictionDiagnosisCode,
+  getRiskOpinion,
+  getSrsPredictions,
+  getUnitId,
+} from '../../store/srs/srsSelectors'
+import { hasCurrentRiskDataPoint, SRS_OPINION_IDS, SRS_OPINION_LABELS } from './srsUtils'
 
 export const SRS_OPINION_TITLE = 'Enligt min läkarbedömning anser jag att patientens risk är'
 
@@ -14,7 +22,12 @@ const SrsRiskOpinion: React.FC = () => {
   const careGiverId = useSelector(getCareGiverId)
   const patientId = useSelector(getPatientId)
   const certificateId = useSelector(getCertificateId)
-  const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
+  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
+  const predictions = useSelector(getSrsPredictions)
+
+  if (!hasCurrentRiskDataPoint(predictions)) {
+    return null
+  }
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateRiskOpinion(event.currentTarget.value))

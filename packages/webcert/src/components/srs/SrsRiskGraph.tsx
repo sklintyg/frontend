@@ -1,8 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getIsCertificateRenewed, getRiskOpinion, getSickLeaveChoice, getSrsPredictions } from '../../store/srs/srsSelectors'
+import {
+  getIsCertificateRenewed,
+  getPredictionDiagnosisCode,
+  getPredictionDiagnosisDescription,
+  getRiskOpinion,
+  getSickLeaveChoice,
+  getSrsPredictions,
+} from '../../store/srs/srsSelectors'
 import { Bar, BarChart, CartesianGrid, Cell, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
-import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABEL_DISABLED, RISK_LABELS } from './srsUtils'
+import { getCurrentRiskDataPoint, getFilteredPredictions, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from './srsUtils'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
@@ -30,19 +37,17 @@ const getTooltipContent = (label: string, payload: any) => {
     return <p className={tooltipStyling}>{getTooltipText(label, payload[0].value, '%')}</p>
   }
 
-  if (label === RISK_LABELS[1] || label === RISK_LABEL_DISABLED) {
-    if (!payload[0].value) {
-      return <p className={tooltipStyling}>{getTooltipText(label, 'Ej beräknad')}</p>
-    }
-
-    return (
-      <div className={`${tooltipStyling} iu-flex-column`}>
-        {values.map((value, index) => {
-          return <div key={`tooltip-content-${index}`}>{value ? getTooltipText(tooltipLabels[index], value, units[index]) : ''}</div>
-        })}
-      </div>
-    )
+  if (!payload[0].value) {
+    return <p className={tooltipStyling}>{getTooltipText(label, 'Ej beräknad')}</p>
   }
+
+  return (
+    <div className={`${tooltipStyling} iu-flex-column`}>
+      {values.map((value, index) => {
+        return <div key={`tooltip-content-${index}`}>{value ? getTooltipText(tooltipLabels[index], value, units[index]) : ''}</div>
+      })}
+    </div>
+  )
 }
 
 const getTooltipText = (label: string, value: string, unit?: string) => {
@@ -56,13 +61,12 @@ const getTooltipText = (label: string, value: string, unit?: string) => {
 }
 
 const SrsRiskGraph: React.FC = () => {
-  const riskOpinion = useSelector(getRiskOpinion)
   const predictions = useSelector(getSrsPredictions)
+  const riskOpinion = useSelector(getRiskOpinion)
   const isCertificateRenewal = useSelector(getIsCertificateRenewed)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
-
-  const diagnosisCode = predictions && predictions.length > 0 ? predictions[0].diagnosisCode : ''
-  const diagnosisDescription = predictions && predictions.length > 0 ? predictions[0].diagnosisDescription : ''
+  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
+  const diagnosisDescription = useSelector(getPredictionDiagnosisDescription)
   const barColors = ['#00706e', '#01a5a3', '#a1958a']
 
   const getData = () => {
@@ -70,7 +74,7 @@ const SrsRiskGraph: React.FC = () => {
       return []
     }
 
-    const filteredPredictions = predictions.filter((prediction) => prediction.diagnosisCode.includes(diagnosisCode))
+    const filteredPredictions = getFilteredPredictions(predictions)
 
     const averageDataPoint = getRiskDataPoint(RISK_LABELS[0], predictions[0].prevalence, sickLeaveChoice)
     const currentDataPoint = getCurrentRiskDataPoint(sickLeaveChoice, filteredPredictions, riskOpinion)

@@ -19,6 +19,7 @@ import {
   updateLoading,
 } from './srsActions'
 import { SrsInfoForDiagnosis, SrsPrediction, SrsQuestion, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import { getFilteredPredictions } from '../../components/srs/srsUtils'
 
 export interface SRSState {
   diagnosisListValue: ValueDiagnosisList | null
@@ -74,6 +75,12 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     })
     .addCase(updateSrsInfo, (state, action) => {
       state.srsInfo = action.payload
+
+      const predictions = action.payload.predictions
+      if (predictions.length > 0) {
+        const filteredPredictions = getFilteredPredictions(predictions)
+        state.riskOpinion = filteredPredictions[0].physiciansOwnOpinionRisk
+      }
     })
     .addCase(updatePatientId, (state, action) => {
       state.patientId = action.payload
