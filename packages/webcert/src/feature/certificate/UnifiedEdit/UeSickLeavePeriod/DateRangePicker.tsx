@@ -74,16 +74,16 @@ interface Props {
 }
 
 const DateRangePicker: React.FC<Props> = ({
-                                            label,
-                                            field,
-                                            value,
-                                            onChange,
-                                            getPeriodStartingDate,
-                                            disabled,
-                                            baseWorkHours,
-                                            validationErrors,
-                                            hasValidationError,
-                                          }) => {
+  label,
+  field,
+  value,
+  onChange,
+  getPeriodStartingDate,
+  disabled,
+  baseWorkHours,
+  validationErrors,
+  hasValidationError,
+}) => {
   const fromTextInputRef = useRef<null | HTMLInputElement>(null)
   const tomTextInputRef = useRef<null | HTMLInputElement>(null)
   const [workHoursPerWeek, setWorkHoursPerWeek] = useState<null | number | string>(null)
@@ -110,7 +110,7 @@ const DateRangePicker: React.FC<Props> = ({
         setWorkDaysPerWeek(periodWorkDays)
       }
     },
-    [baseWorkHours, field],
+    [baseWorkHours, field]
   )
 
   useEffect(() => {
@@ -177,35 +177,62 @@ const DateRangePicker: React.FC<Props> = ({
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
     return hasValidationError === true
       ? hasValidationError
-      : validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)
-      || v.field.includes('sjukskrivningar.period.' + id + '.' + field)).length > 0
+      : validationErrors.filter(
+          (v: ValidationError) =>
+            v.field.includes(field + '.' + id) ||
+            v.field.includes('row.' + id) ||
+            v.field.includes('sjukskrivningar.period.' + id + '.' + field)
+        ).length > 0
   }
 
   return (
     <>
       <DateRangeWrapper>
-        <Checkbox id={`${field}-checkbox`} hasValidationError={hasValidationError || validationErrors.length > 0}
-                  checked={!!value.from || !!value.to} onChange={handleCheckboxClick} label={label} disabled={disabled} />
+        <Checkbox
+          id={`${field}-checkbox`}
+          hasValidationError={hasValidationError || validationErrors.length > 0}
+          checked={!!value.from || !!value.to}
+          onChange={handleCheckboxClick}
+          label={label}
+          disabled={disabled}
+        />
         <DateGrid>
-          <DatesWrapper id='fromWrapper'>
-            <DatePickerCustom disabled={disabled} label={'Fr.o.m'} id={`from${field}`} textInputRef={fromTextInputRef}
-                              textInputOnKeyDown={handleFromTextInputOnKeyDown} textInputName={`from${field}`}
-                              inputString={value.from ?? ''} setDate={handleFromChanged} textInputOnChange={handleFromChanged}
-                              textInputDataTestId={`from${field}`}
-                              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'from')} />
+          <DatesWrapper id="fromWrapper">
+            <DatePickerCustom
+              disabled={disabled}
+              label={'Fr.o.m'}
+              id={`from${field}`}
+              textInputRef={fromTextInputRef}
+              textInputOnKeyDown={handleFromTextInputOnKeyDown}
+              textInputName={`from${field}`}
+              inputString={value.from ?? ''}
+              setDate={handleFromChanged}
+              textInputOnChange={handleFromChanged}
+              textInputDataTestId={`from${field}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'from')}
+            />
           </DatesWrapper>
           <DatesWrapper>
-            <DatePickerCustom disabled={disabled} label={'t.o.m'} id={`tom${field}`} textInputName={`tom${field}`}
-                              textInputRef={tomTextInputRef} inputString={value.to ?? ''} setDate={handleToChanged}
-                              textInputOnChange={handleToChanged} textInputOnBlur={handleToTextInputOnBlur}
-                              textInputOnKeyDown={handleToTextInputOnKeyDown} textInputDataTestId={`tom${field}`}
-                              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')} />
+            <DatePickerCustom
+              disabled={disabled}
+              label={'t.o.m'}
+              id={`tom${field}`}
+              textInputName={`tom${field}`}
+              textInputRef={tomTextInputRef}
+              inputString={value.to ?? ''}
+              setDate={handleToChanged}
+              textInputOnChange={handleToChanged}
+              textInputOnBlur={handleToTextInputOnBlur}
+              textInputOnKeyDown={handleToTextInputOnKeyDown}
+              textInputDataTestId={`tom${field}`}
+              displayValidationErrorOutline={getShouldDisplayValidationErrorOutline(field, 'tom')}
+            />
           </DatesWrapper>
         </DateGrid>
       </DateRangeWrapper>
       <QuestionValidationTexts validationErrors={validationErrors} />
       {workHoursPerWeek !== null && workDaysPerWeek && (
-        <p className='iu-color-main'>
+        <p className="iu-color-main">
           Arbetstid: {workHoursPerWeek} timmar/vecka {workDaysPerWeek && workDaysPerWeek > 0 && <span>i {workDaysPerWeek} dagar.</span>}
         </p>
       )}
