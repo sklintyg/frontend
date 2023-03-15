@@ -1,7 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
-import { ExpandableTextWithTitle, InfoBox, SrsInformationChoice, SrsRecommendation, SrsSickLeaveChoice } from '@frontend/common'
+import {
+  ExpandableTextWithTitle,
+  ExpandableList,
+  InfoBox,
+  SrsInformationChoice,
+  SrsRecommendation,
+  SrsSickLeaveChoice,
+} from '@frontend/common'
 import styled from 'styled-components'
 
 export const SRS_OBSERVE_TITLE = 'Tänk på att'
@@ -41,19 +48,23 @@ const SrsRecommendations: React.FC = () => {
         <h3 className="iu-fw-bold iu-mt-400">{title}</h3>
         <p className="iu-fw-bold iu-mb-200">{showDiagnosis && `${diagnosisCode} - ${diagnosisDescription}`}</p>
         <ul>
-          {recommendations.map((recommendation, index) => {
-            return (
-              <StyledListItem key={`${key}${index}`}>
-                <ExpandableTextWithTitle
-                  text={recommendation.recommendationText ? recommendation.recommendationText : 'Text saknas'}
-                  title={recommendation.recommendationTitle ? recommendation.recommendationTitle : 'Titel saknas'}
-                />
-              </StyledListItem>
-            )
-          })}
+          <ExpandableList nbrOfVisibleItems={4} items={getInformationList(recommendations, key)} />
         </ul>
       </>
     )
+  }
+
+  const getInformationList = (recommendations: SrsRecommendation[], key: string) => {
+    return recommendations.map((recommendation, index) => {
+      return (
+        <StyledListItem key={`${key}${index}`}>
+          <ExpandableTextWithTitle
+            text={recommendation.recommendationText ? recommendation.recommendationText : 'Text saknas'}
+            title={recommendation.recommendationTitle ? recommendation.recommendationTitle : 'Titel saknas'}
+          />
+        </StyledListItem>
+      )
+    })
   }
 
   return (
