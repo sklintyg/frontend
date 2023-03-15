@@ -52,7 +52,6 @@ export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
 
 export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeaveChoice: SrsSickLeaveChoice) => {
   const filteredPredictions = getFilteredPredictions(predictions)
-
   const isParentCertificateAnExtension = predictions.length > 2
 
   if (filteredPredictions.length > 1) {

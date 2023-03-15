@@ -59,6 +59,15 @@ describe('SrsPanel', () => {
       expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
     })
 
+    it('should show empty message if diagnosis has empty code', () => {
+      renderComponent()
+      const element = fakeDiagnosesElement({ value: { list: [{ code: '', id: '0' }] } })
+      store.dispatch(setDiagnosisCodes(['J20']))
+      store.dispatch(updateCertificate(fakeCertificate({ data: element })))
+      store.dispatch(updateError(false))
+      expect(screen.getByText('Ange minst en diagnos för att få stöd för sjukskrivning.')).toBeInTheDocument()
+    })
+
     it('should not show footer if no diagnois is chosen', () => {
       renderComponent()
       store.dispatch(updateError(false))

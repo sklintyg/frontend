@@ -40,7 +40,7 @@ const SrsPanel: React.FC = () => {
 
   const [informationChoice, setInformationChoice] = useState(SrsInformationChoice.RECOMMENDATIONS)
   const mainDiagnosis = diagnosisListValue ? diagnosisListValue?.list.find((diagnosis) => diagnosis.id.includes('0')) : undefined
-  const isEmpty = !mainDiagnosis
+  const isEmpty = !mainDiagnosis || mainDiagnosis.code.length == 0
   const supportedDiagnosisCode = diagnosisCodes.find((code) => mainDiagnosis && mainDiagnosis.code === code) ?? ''
   const hasSupportedDiagnosisCode = supportedDiagnosisCode.length > 0
 
