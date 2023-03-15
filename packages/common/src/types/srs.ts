@@ -28,3 +28,23 @@ export enum SrsSickLeaveChoice {
   EXTENSION = 'EXTENSION',
   EXTENSION_AFTER_60_DAYS = 'EXTENSION_AFTER_60_DAYS',
 }
+
+export enum SrsInformationChoice {
+  STATISTICS = 'STATISTICS',
+  RECOMMENDATIONS = 'RECOMMENDATIONS',
+}
+
+export interface SrsQuestion {
+  questionId: string
+  text: string
+  helpText: string
+  priority: number
+  answerOptions: SrsAnswerOption[]
+}
+
+export interface SrsAnswerOption {
+  text: string
+  id: string
+  priority: number
+  defaultValue: boolean
+}

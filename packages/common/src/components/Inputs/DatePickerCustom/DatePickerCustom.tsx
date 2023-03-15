@@ -205,6 +205,7 @@ const DatePickerCustom: React.FC<Props> = ({
                 setDate(formatDateToString(date))
               }}
               showWeekNumbers
+              weekLabel="v."
               showYearPicker={yearOnly}
               portalId="root"
               popperPlacement="bottom-end"
