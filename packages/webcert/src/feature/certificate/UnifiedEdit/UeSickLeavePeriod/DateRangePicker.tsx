@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
+  _dateReg,
+  _dateRegDashesOptional,
   Checkbox,
+  DatePickerCustom,
   dayCodeReg,
+  formatDateToString,
   getPeriodWorkDays,
   getPeriodWorkHours,
   getValidDate,
   monthCodeReg,
+  parseDayCodes,
   QuestionValidationTexts,
   ValidationError,
-  weekCodeReg,
-  DatePickerCustom,
   ValueDateRange,
-  parseDayCodes,
-  formatDateToString,
-  _dateReg,
-  _dateRegDashesOptional,
+  weekCodeReg,
 } from '@frontend/common'
 
 import { addDays, isValid } from 'date-fns'
@@ -42,9 +42,11 @@ const DateRangeWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+
   :not(:last-child) {
     padding-bottom: 0.9375rem;
   }
+
   @media (max-width: 820px) {
     flex-direction: column;
   }
@@ -175,7 +177,12 @@ const DateRangePicker: React.FC<Props> = ({
   const getShouldDisplayValidationErrorOutline = (id: string, field: string) => {
     return hasValidationError === true
       ? hasValidationError
-      : validationErrors.filter((v: ValidationError) => v.field.includes(field + '.' + id) || v.field.includes('row.' + id)).length > 0
+      : validationErrors.filter(
+          (v: ValidationError) =>
+            v.field.includes(field + '.' + id) ||
+            v.field.includes('row.' + id) ||
+            v.field.includes('sjukskrivningar.period.' + id + '.' + field)
+        ).length > 0
   }
 
   return (
