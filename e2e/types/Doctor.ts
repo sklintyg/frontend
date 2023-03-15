@@ -1,7 +1,7 @@
 export interface Doctor {
-  förnamn: string
-  efternamn: string
+  forNamn: string
+  efterNamn: string
   hsaId: string
-  legitimeradeYrkesgrupper: string
+  legitimeradeYrkesgrupper: string[]
   titel: string
 }

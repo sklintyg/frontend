@@ -31,6 +31,9 @@ export default defineConfig({
       return config
     },
     baseUrl,
+    viewportWidth: 1440,
+    viewportHeight: 900,
+    supportFile: 'support/e2e.ts',
     specPattern: 'specs/webcert/**/*.{js,jsx,ts,tsx}',
   },
 })

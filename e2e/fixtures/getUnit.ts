@@ -6,14 +6,14 @@ function createUnits<T extends { [name: string]: Unit }>(unit: T) {
 
 const units = createUnits({
   AlfaVC: {
-    enhetsId: 'TSTNMT2321000156-ALVC',
-    enhetsNamn: 'Alfa Vårdcentral',
+    enhetId: 'TSTNMT2321000156-ALVC',
+    enhetNamn: 'Alfa Vårdcentral',
     vardgivareId: 'TSTNMT2321000156-ALFA',
     vardgivareNamn: 'Alfa Regionen',
   },
   AlfaMC: {
-    enhetsId: 'TSTNMT2321000156-ALMC',
-    enhetsNamn: 'Alfa-medicinklinik',
+    enhetId: 'TSTNMT2321000156-ALMC',
+    enhetNamn: 'Alfa-medicinklinik',
     vardgivareId: 'TSTNMT2321000156-ALFA',
     vardgivareNamn: 'Alfa Regionen',
   },

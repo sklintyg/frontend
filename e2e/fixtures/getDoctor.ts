@@ -6,10 +6,10 @@ function createDoctors<T extends { [name: string]: Doctor }>(doctor: T) {
 
 const doctors = createDoctors({
   Alja: {
-    förnamn: 'Ajla',
-    efternamn: 'Doktor',
+    forNamn: 'Ajla',
+    efterNamn: 'Doktor',
     hsaId: 'TSTNMT2321000156-DRAA',
-    legitimeradeYrkesgrupper: '["Läkare"]',
+    legitimeradeYrkesgrupper: ['Läkare'],
     titel: 'Läkare',
   },
 })

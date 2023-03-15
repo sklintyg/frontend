@@ -1,6 +1,6 @@
 export interface Unit {
-  enhetsId: string
-  enhetsNamn: string
+  enhetId: string
+  enhetNamn: string
   vardgivareId: string
   vardgivareNamn: string
 }

@@ -10,6 +10,7 @@ module.export = {
   rules: {
     'promise/catch-or-return': 'off',
     'promise/always-return': 'off',
+    'promise/no-nesting': 'off',
     'no-param-reassign': 'off',
   },
 }
