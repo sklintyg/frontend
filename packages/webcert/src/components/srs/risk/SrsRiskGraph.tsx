@@ -104,7 +104,7 @@ const SrsRiskGraph: React.FC = () => {
       <p className="iu-fw-bold">
         Risken gäller {diagnosisCode} {diagnosisDescription}
       </p>
-      <BarChart width={400} height={300} data={getData()}>
+      <BarChart width={500} height={300} data={getData()}>
         <CartesianGrid stroke="#ccc" vertical={false} />
         <XAxis dataKey="name" />
         <YAxis
