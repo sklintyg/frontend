@@ -12,12 +12,12 @@ module.exports = {
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*'] },
+      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*'] },
     ],
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
@@ -36,14 +36,8 @@ module.exports = {
     'jsdoc/require-returns': 'off',
     'no-use-before-define': 'off',
     'turbo/no-undeclared-env-vars': ['error', { allowList: ['^VITE_[A-Z_]+$'] }],
-    'prettier/prettier': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
   },
   ignorePatterns: ['dist/**'],
-  settings: {
-    jest: {
-      version: 29,
-    },
-  },
 }
