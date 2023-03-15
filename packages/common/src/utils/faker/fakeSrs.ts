@@ -22,9 +22,9 @@ const fakeSrsRecommendation = (): SrsRecommendation => ({
   recommendationText: faker.lorem.sentence(),
 })
 
-export const fakeSrsPrediction = (): SrsPrediction => ({
+export const fakeSrsPrediction = (diagnosisCode?: string): SrsPrediction => ({
   certificateId: faker.lorem.sentence(),
-  diagnosisCode: faker.lorem.word(),
+  diagnosisCode: diagnosisCode ? diagnosisCode : faker.lorem.word(),
   diagnosisDescription: faker.lorem.sentence(),
   statusCode: faker.lorem.word(),
   level: 1,

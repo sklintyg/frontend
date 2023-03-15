@@ -8,8 +8,8 @@ import {
   getSickLeaveChoice,
   getSrsPredictions,
 } from '../../../store/srs/srsSelectors'
-import { Bar, BarChart, CartesianGrid, Cell, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
-import { getCurrentRiskDataPoint, getFilteredPredictions, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, LabelProps, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
+import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
@@ -37,7 +37,7 @@ const getTooltipContent = (label: string, payload: any) => {
     return <p className={tooltipStyling}>{getTooltipText(label, payload[0].value, '%')}</p>
   }
 
-  if (!payload[0].value) {
+  if (!payload[0].value || payload[0].value === '-') {
     return <p className={tooltipStyling}>{getTooltipText(label, 'Ej beräknad')}</p>
   }
 
@@ -60,6 +60,24 @@ const getTooltipText = (label: string, value: string, unit?: string) => {
   )
 }
 
+const CustomizedLabel = (props: LabelProps) => {
+  const { x, y, stroke, value } = props
+
+  if (value && value > 0) {
+    return (
+      <text x={x} y={y} dy={-10} dx={50} fill={stroke} fontSize={12} textAnchor="middle">
+        {value}%
+      </text>
+    )
+  }
+
+  return (
+    <text x={x} y={y} dy={-10} dx={42} fill={stroke} fontSize={25} fontWeight={5} textAnchor="middle">
+      {value}
+    </text>
+  )
+}
+
 const SrsRiskGraph: React.FC = () => {
   const predictions = useSelector(getSrsPredictions)
   const riskOpinion = useSelector(getRiskOpinion)
@@ -74,11 +92,9 @@ const SrsRiskGraph: React.FC = () => {
       return []
     }
 
-    const filteredPredictions = getFilteredPredictions(predictions)
-
     const averageDataPoint = getRiskDataPoint(RISK_LABELS[0], predictions[0].prevalence, sickLeaveChoice)
-    const currentDataPoint = getCurrentRiskDataPoint(sickLeaveChoice, filteredPredictions, riskOpinion)
-    const previousDataPoint = getPreviousRiskDataPoint(filteredPredictions, predictions.length, sickLeaveChoice)
+    const currentDataPoint = getCurrentRiskDataPoint(sickLeaveChoice, predictions, riskOpinion)
+    const previousDataPoint = getPreviousRiskDataPoint(predictions, sickLeaveChoice)
 
     return isCertificateRenewal ? [averageDataPoint, previousDataPoint, currentDataPoint] : [averageDataPoint, currentDataPoint]
   }
@@ -97,10 +113,11 @@ const SrsRiskGraph: React.FC = () => {
             return `${tick}%`
           }}
         />
-        <Bar dataKey="risk" fill="#e0e0e0">
+        <Bar dataKey="risk" fill="#e0e0e0" isAnimationActive={false}>
           {getData().map((entry, index) => (
             <Cell key={`cell-${index}`} fill={barColors[index]} />
           ))}
+          <LabelList content={<CustomizedLabel />} />
         </Bar>
         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
       </BarChart>

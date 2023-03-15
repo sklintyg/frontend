@@ -40,24 +40,21 @@ export const getRiskDataPoint = (
 }
 
 export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
-  if (!(predictions && predictions.length > 0)) {
+  if (!predictions || predictions.length == 0) {
     return []
   }
 
-  const diagnosisCode = predictions && predictions.length > 0 ? predictions[0].diagnosisCode : ''
+  const diagnosisCode = predictions[0].diagnosisCode
   return predictions.filter((prediction) => prediction.diagnosisCode.includes(diagnosisCode))
 }
 
-export const getPreviousRiskDataPoint = (
-  filteredPredictions: SrsPrediction[],
-  totalNumberOfPredictions: number,
-  sickLeaveChoice: SrsSickLeaveChoice
-) => {
-  if (totalNumberOfPredictions < filteredPredictions.length) {
+export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeaveChoice: SrsSickLeaveChoice) => {
+  const filteredPredictions = getFilteredPredictions(predictions)
+  if (filteredPredictions.length < predictions.length) {
     getRiskDataPoint(RISK_LABELS[4], -1, sickLeaveChoice)
   }
 
-  const isParentCertificateAnExtension = totalNumberOfPredictions > 2
+  const isParentCertificateAnExtension = predictions.length > 2
 
   if (filteredPredictions.length > 1) {
     return getRiskDataPoint(
@@ -72,7 +69,8 @@ export const getPreviousRiskDataPoint = (
   return getRiskDataPoint(RISK_LABEL_MISSING, -1, sickLeaveChoice)
 }
 
-export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, filteredPredictions: SrsPrediction[], riskOpinion: string) => {
+export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, predictions: SrsPrediction[], riskOpinion: string) => {
+  const filteredPredictions = getFilteredPredictions(predictions)
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
   return isCalculatingRiskDisabled
     ? getRiskDataPoint(RISK_LABEL_DISABLED, -1, sickLeaveChoice)
@@ -87,5 +85,10 @@ export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, fil
 
 export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
   const filteredPredictions = getFilteredPredictions(predictions)
-  return filteredPredictions && filteredPredictions[0] && filteredPredictions[0].probabilityOverLimit
+  return (
+    filteredPredictions &&
+    filteredPredictions[0] &&
+    filteredPredictions[0].probabilityOverLimit &&
+    filteredPredictions[0].probabilityOverLimit > 0
+  )
 }

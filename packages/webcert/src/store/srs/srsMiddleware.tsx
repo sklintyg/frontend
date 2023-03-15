@@ -176,6 +176,7 @@ export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispa
 ): void => {
   if (action.payload.value.type === CertificateDataValueType.DIAGNOSIS_LIST) {
     dispatch(setDiagnosisListValue(action.payload.value))
+    dispatch(updateSrsPredictions([]))
   }
 }
 
