@@ -37,6 +37,8 @@ module.exports = {
     'no-use-before-define': 'off',
     'turbo/no-undeclared-env-vars': ['error', { allowList: ['^VITE_[A-Z_]+$'] }],
     'prettier/prettier': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
   },
   ignorePatterns: ['dist/**'],
 }
