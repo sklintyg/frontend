@@ -30,7 +30,7 @@ export interface SrsPrediction {
   statusCode: string
   level: number
   description: string
-  probabilityOverLimit: number
+  probabilityOverLimit?: number
   prevalence: number
   questionsResponses: SrsAnswer[]
   physiciansOwnOpinionRisk: string

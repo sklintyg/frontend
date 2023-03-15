@@ -4,11 +4,11 @@ import { RadioButton, SrsQuestion } from '@frontend/common'
 interface Props {
   question: SrsQuestion
   onChange: (questionId: string, answerId: string) => void
+  checkedOption: string
 }
 
-const SrsRiskFormQuestion: React.FC<Props> = ({ question, onChange }) => {
-  const defaultOption = question.answerOptions.find((option) => option.defaultValue)
-  const [currentValue, setCurrentValue] = useState(defaultOption ? defaultOption.id : '')
+const SrsRiskFormQuestion: React.FC<Props> = ({ question, onChange, checkedOption }) => {
+  const [currentValue, setCurrentValue] = useState(checkedOption ? checkedOption : '')
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(event.currentTarget.value)

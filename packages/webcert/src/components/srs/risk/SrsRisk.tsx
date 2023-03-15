@@ -3,7 +3,7 @@ import SrsRiskForm from './SrsRiskForm'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon, SrsSickLeaveChoice } from '@frontend/common'
 import { useSelector } from 'react-redux'
-import { getSickLeaveChoice } from '../../../store/srs/srsSelectors'
+import { getSickLeaveChoice, getSrsPredictions } from '../../../store/srs/srsSelectors'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
 
@@ -32,6 +32,8 @@ export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
 const SrsRisk: React.FC = () => {
   const [expanded, setExpanded] = useState(false)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
+  const predictions = useSelector(getSrsPredictions)
+  const previousAnswers = predictions.length > 0 ? predictions[0].questionsResponses : undefined
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   const getIcon = () => {
@@ -54,7 +56,7 @@ const SrsRisk: React.FC = () => {
       </StyledButton>
       {expanded && (
         <>
-          <SrsRiskForm />
+          <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} />
           <BottomBorder className="iu-bg-information-light" />
         </>
       )}

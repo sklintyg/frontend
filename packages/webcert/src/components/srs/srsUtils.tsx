@@ -3,9 +3,9 @@ import { SrsPrediction, SrsSickLeaveChoice } from '@frontend/common'
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']
 export const SRS_OPINION_LABELS = ['Högre', 'Korrekt', 'Lägre', 'Kan ej bedöma']
 export const SRS_OPINION_IDS = ['HOGRE', 'KORREKT', 'LAGRE', 'KAN_EJ_BEDOMA']
-export const RISK_LABELS = ['Genomsnittlig risk', 'Tidigare risk', 'Aktuell risk', 'Beräkna aktuell risk', 'Tidigare beräkning']
+export const RISK_LABELS = ['Genomsnittlig risk', 'Tidigare risk', 'Aktuell risk', 'Beräkna aktuell risk']
 export const RISK_LABEL_DISABLED = 'Kan ej beräknas'
-export const RISK_LABEL_MISSING = 'Beräknades inte'
+export const RISK_LABEL_NOT_AVAILABLE = 'Tidigare beräkning'
 
 export const getSickLeaveChoicesLabel = (choice: SrsSickLeaveChoice) => {
   switch (choice) {
@@ -25,14 +25,14 @@ export const getRiskOpinionLabel = (opinion: string) => {
 
 export const getRiskDataPoint = (
   label: string,
-  risk: number,
+  risk: number | undefined,
   sickLeaveChoice: SrsSickLeaveChoice,
   riskOpinion?: string,
   timestamp?: Date
 ) => {
   return {
     name: label,
-    risk: risk > 0 ? Math.round(risk * 100) : '-',
+    risk: risk && risk > 0 ? Math.round(risk * 100) : '-',
     timestamp: timestamp,
     sickLeaveChoice: getSickLeaveChoicesLabel(sickLeaveChoice),
     riskOpinion: getRiskOpinionLabel(riskOpinion ? riskOpinion : ''),
@@ -45,20 +45,19 @@ export const getFilteredPredictions = (predictions: SrsPrediction[]) => {
   }
 
   const diagnosisCode = predictions[0].diagnosisCode
-  return predictions.filter((prediction) => prediction.diagnosisCode.includes(diagnosisCode))
+  return predictions.filter(
+    (prediction) => prediction.diagnosisCode.includes(diagnosisCode) || diagnosisCode.includes(prediction.diagnosisCode)
+  )
 }
 
 export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeaveChoice: SrsSickLeaveChoice) => {
   const filteredPredictions = getFilteredPredictions(predictions)
-  if (filteredPredictions.length < predictions.length) {
-    getRiskDataPoint(RISK_LABELS[4], -1, sickLeaveChoice)
-  }
 
   const isParentCertificateAnExtension = predictions.length > 2
 
   if (filteredPredictions.length > 1) {
     return getRiskDataPoint(
-      RISK_LABELS[1],
+      filteredPredictions[1].probabilityOverLimit ? RISK_LABELS[1] : RISK_LABEL_NOT_AVAILABLE,
       filteredPredictions[1].probabilityOverLimit,
       isParentCertificateAnExtension ? SrsSickLeaveChoice.EXTENSION : SrsSickLeaveChoice.NEW,
       filteredPredictions[1].physiciansOwnOpinionRisk,
@@ -66,7 +65,7 @@ export const getPreviousRiskDataPoint = (predictions: SrsPrediction[], sickLeave
     )
   }
 
-  return getRiskDataPoint(RISK_LABEL_MISSING, -1, sickLeaveChoice)
+  return getRiskDataPoint(RISK_LABEL_NOT_AVAILABLE, -1, sickLeaveChoice)
 }
 
 export const getCurrentRiskDataPoint = (sickLeaveChoice: SrsSickLeaveChoice, predictions: SrsPrediction[], riskOpinion: string) => {

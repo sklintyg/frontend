@@ -1,11 +1,14 @@
 import { fakeSrsPrediction, SrsSickLeaveChoice } from '@frontend/common'
 import {
+  getCurrentRiskDataPoint,
   getFilteredPredictions,
   getPreviousRiskDataPoint,
   getRiskDataPoint,
   getRiskOpinionLabel,
   getSickLeaveChoicesLabel,
   hasCurrentRiskDataPoint,
+  RISK_LABEL_DISABLED,
+  RISK_LABEL_NOT_AVAILABLE,
   RISK_LABELS,
   SICKLEAVE_CHOICES_TEXTS,
   SRS_OPINION_IDS,
@@ -33,7 +36,7 @@ describe('SRS Utils', () => {
   describe('GetRiskOpinionLabel', () => {
     it.each(SRS_OPINION_IDS)('should return correct label for risk opinion choice', (id) => {
       const result = getRiskOpinionLabel(id)
-      const index = SRS_OPINION_IDS.findIndex((item) => item === id)
+      const index = SRS_OPINION_IDS.findIndex((item: string) => item === id)
       expect(result).toEqual(SRS_OPINION_LABELS[index])
     })
 
@@ -104,6 +107,20 @@ describe('SRS Utils', () => {
       expect(result[0]).toEqual(firstPrediction)
     })
 
+    it('should include predictions with sub diagnosis code', () => {
+      const firstPrediction = fakeSrsPrediction('F430')
+      const secondPrediction = fakeSrsPrediction('F43')
+      const result = getFilteredPredictions([firstPrediction, secondPrediction])
+      expect(result).toHaveLength(2)
+    })
+
+    it('should include predictions with parent diagnosis code', () => {
+      const firstPrediction = fakeSrsPrediction('F43')
+      const secondPrediction = fakeSrsPrediction('F430')
+      const result = getFilteredPredictions([firstPrediction, secondPrediction])
+      expect(result).toHaveLength(2)
+    })
+
     it('should return empty array if predictions is empty', () => {
       const result = getFilteredPredictions([])
       expect(result).toHaveLength(0)
@@ -111,17 +128,150 @@ describe('SRS Utils', () => {
   })
 
   describe('GetPreviousRiskDataPoint', () => {
-    it('should return not calculated if previous prediction for diagnosis code is missing', () => {
+    it('should return RISK_LABEL_NOT_AVAILABLE if previous prediction was for different diagnosis code', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('M79')
 
       const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
 
-      expect(result.name).toEqual(RISK_LABELS[4])
+      expect(result.name).toEqual(RISK_LABEL_NOT_AVAILABLE)
+    })
+
+    it('should return - as risk if previous risk is not available', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('M79')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.risk).toEqual('-')
+    })
+
+    it('should return RISK_LABEL_NOT_AVAILABLE if previous prediction is missing for second prediction', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      secondPrediction.probabilityOverLimit = undefined
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.name).toEqual(RISK_LABEL_NOT_AVAILABLE)
+    })
+
+    it('should return previous risk label if value is available', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.name).toEqual(RISK_LABELS[1])
+    })
+
+    it('should set probability over limit for second prediction as risk', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      secondPrediction.probabilityOverLimit = 0.5
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.risk).toEqual(50)
+    })
+
+    it('should set risk opinion if it exists', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.riskOpinion).toEqual(getRiskOpinionLabel(secondPrediction.physiciansOwnOpinionRisk))
+    })
+
+    it('should set timestamp if it exists', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+
+      expect(result.timestamp).toEqual(secondPrediction.timestamp)
+    })
+
+    it('should set sick leave choice as new if parent is not extension', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.NEW))
+    })
+
+    it('should set sick leave choice as new if parent is not extension', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      const thirdPrediction = fakeSrsPrediction('J20')
+
+      const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction, thirdPrediction], SrsSickLeaveChoice.NEW)
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION))
     })
   })
 
-  describe('GetCurrentRiskDataPoint', () => {})
+  describe('GetCurrentRiskDataPoint', () => {
+    it('should set label as current risk if sick leave choice is new', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.NEW))
+      expect(result.name).toEqual(RISK_LABELS[2])
+    })
+
+    it('should set label as current risk if sick leave choice is extension', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION, [firstPrediction, secondPrediction])
+
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION))
+      expect(result.name).toEqual(RISK_LABELS[2])
+    })
+
+    it('should set label as disabled if sick leave choice is extension after 60 days', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS, [firstPrediction, secondPrediction])
+
+      expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
+      expect(result.name).toEqual(RISK_LABEL_DISABLED)
+    })
+
+    it('should set risk as probability over limit for first prediction', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      firstPrediction.probabilityOverLimit = 0.5
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+
+      expect(result.risk).toEqual(50)
+    })
+
+    it('should set timestamp', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      firstPrediction.probabilityOverLimit = 0.5
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+
+      expect(result.timestamp).toEqual(firstPrediction.timestamp)
+    })
+
+    it('should set risk opinion', () => {
+      const firstPrediction = fakeSrsPrediction('J20')
+      const secondPrediction = fakeSrsPrediction('J20')
+      firstPrediction.probabilityOverLimit = 0.5
+
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction], 'LAGRE')
+
+      expect(result.riskOpinion).toEqual(getRiskOpinionLabel('LAGRE'))
+    })
+  })
 
   describe('HasCurrentDataPoint', () => {
     it('should return true if current data point exists', () => {
