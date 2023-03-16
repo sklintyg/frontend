@@ -61,19 +61,13 @@ const getTooltipText = (label: string, value: string, unit?: string) => {
 }
 
 const CustomizedLabel = (props: LabelProps) => {
-  const { x, y, stroke, value } = props
-
-  if (value && value > 0) {
-    return (
-      <text x={x} y={y} dy={-10} dx={50} fill={stroke} fontSize={12} textAnchor="middle">
-        {value}%
-      </text>
-    )
-  }
+  const { x, y, stroke, width, value } = props
+  const hasValue = value && value > 0
 
   return (
-    <text x={x} y={y} dy={-10} dx={42} fill={stroke} fontSize={25} fontWeight={5} textAnchor="middle">
+    <text x={x} y={y} dy={-10} dx={(width as number) / 2} fill={stroke} fontSize={hasValue ? 12 : 20} textAnchor="middle">
       {value}
+      {hasValue && '%'}
     </text>
   )
 }
