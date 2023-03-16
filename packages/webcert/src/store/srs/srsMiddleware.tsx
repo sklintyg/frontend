@@ -28,7 +28,7 @@ import {
   setRiskOpinionError,
   setRiskOpinionStarted,
   setRiskOpinionSuccess,
-  updateCareGiverId,
+  updateCareProviderId,
   updateCertificateId,
   updateError,
   updateIsCertificateRenewed,
@@ -187,7 +187,7 @@ const handleUpdateCertificate: Middleware<Dispatch> = ({ dispatch }) => () => (a
   dispatch(updateCertificateId(action.payload.metadata.id))
   dispatch(updateIsCertificateRenewed(isRenewedChild(action.payload.metadata)))
   dispatch(updateUnitId(action.payload.metadata.careUnit.unitId))
-  dispatch(updateCareGiverId(action.payload.metadata.careProvider.unitId))
+  dispatch(updateCareProviderId(action.payload.metadata.careProvider.unitId))
 
   for (const questionId in action.payload.data) {
     if (Object.prototype.hasOwnProperty.call(action.payload.data, questionId)) {

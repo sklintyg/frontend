@@ -90,9 +90,3 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
     filteredPredictions[0].probabilityOverLimit > 0
   )
 }
-
-export const convertPredictions = (predictions: SrsPrediction[]) => {
-  return predictions.map((prediction) => {
-    return { ...prediction, timestamp: prediction.timestamp.toString() }
-  })
-}
