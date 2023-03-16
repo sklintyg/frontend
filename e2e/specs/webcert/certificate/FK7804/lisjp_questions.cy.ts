@@ -4,6 +4,8 @@ import { getDoctor } from '../../../../fixtures/getDoctor'
 import { getUnit } from '../../../../fixtures/getUnit'
 import { createCertificate } from '../../../../helpers/createCertificate'
 import { createCertificateIssue } from '../../../../helpers/createCertificateIssue'
+import { deleteCertificate } from '../../../../helpers/deleteCertificate'
+import { deleteCertificateEvents } from '../../../../helpers/deleteCertificateEvents'
 import { fakeLogin } from '../../../../helpers/fakeLogin'
 import { getCertificateInfo } from '../../../../helpers/getCertificateInfo'
 
@@ -12,6 +14,7 @@ const { name, internalType, versions, type } = getCertificateInfo('lisjp')
 describe(`${name} questions`, () => {
   const unit = getUnit('AlfaMC')
   const doctor = getDoctor('Alja')
+  const patientId = '194011306125' // Athena React Andersson
   let certificateId: string
 
   beforeEach(() => {
@@ -20,7 +23,7 @@ describe(`${name} questions`, () => {
       certificateTypeVersion: versions.at(-1),
       status: 'SIGNED',
       fillType: 'MINIMAL',
-      patientId: '194011306125', // Athena React Andersson
+      patientId,
       personId: doctor.hsaId,
       unitId: unit.enhetId,
       sent: true,
@@ -29,6 +32,11 @@ describe(`${name} questions`, () => {
       fakeLogin(doctor, unit)
       cy.visit(`/certificate/${certificateId}`)
     })
+  })
+
+  afterEach(() => {
+    deleteCertificate(certificateId)
+    deleteCertificateEvents(certificateId)
   })
 
   it(`Skicka fråga gällande Avstämningsmöte på ett ${type} intyg`, () => {

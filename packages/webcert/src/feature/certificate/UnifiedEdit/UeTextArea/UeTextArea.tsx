@@ -49,6 +49,7 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   return (
     <>
       <TextArea
+        data-testid={`textarea-${question.id}`}
         disabled={disabled}
         rowsMin={6}
         hasValidationError={validationErrors.length > 0}

@@ -3,6 +3,8 @@
 import { getDoctor } from '../../../../fixtures/getDoctor'
 import { getUnit } from '../../../../fixtures/getUnit'
 import { createCertificate } from '../../../../helpers/createCertificate'
+import { deleteCertificate } from '../../../../helpers/deleteCertificate'
+import { deleteCertificateEvents } from '../../../../helpers/deleteCertificateEvents'
 import { fakeLogin } from '../../../../helpers/fakeLogin'
 import { getCertificateInfo } from '../../../../helpers/getCertificateInfo'
 import { printCertificate } from '../../../../helpers/printCertificate'
@@ -30,13 +32,18 @@ describe(`Tomt ${name} intyg`, () => {
     })
   })
 
+  afterEach(() => {
+    deleteCertificate(certificateId)
+    deleteCertificateEvents(certificateId)
+  })
+
   it(`Ett icke ifylld ${type} går ej att signera och skicka till AF`, () => {
     cy.contains('Obligatoriska uppgifter saknas').should('exist')
     cy.get('button')
       .contains('Signera och skicka')
       .click()
 
-    cy.get('.iu-pt-400').within(() => {
+    cy.get('[data-testid="certificate-validation"]').within(() => {
       cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist')
       cy.contains('Funktionsnedsättning').should('exist')
       cy.contains('Utredning och behandling').should('exist')

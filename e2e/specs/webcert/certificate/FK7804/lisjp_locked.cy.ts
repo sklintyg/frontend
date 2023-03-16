@@ -3,6 +3,8 @@
 import { getDoctor } from '../../../../fixtures/getDoctor'
 import { getUnit } from '../../../../fixtures/getUnit'
 import { createCertificate } from '../../../../helpers/createCertificate'
+import { deleteCertificate } from '../../../../helpers/deleteCertificate'
+import { deleteCertificateEvents } from '../../../../helpers/deleteCertificateEvents'
 import { fakeLogin } from '../../../../helpers/fakeLogin'
 import { getCertificateInfo } from '../../../../helpers/getCertificateInfo'
 import { printCertificate } from '../../../../helpers/printCertificate'
@@ -29,6 +31,11 @@ describe(`Låst ${name} intyg`, () => {
       cy.visit(`/certificate/${certificateId}`)
       cy.verifyLastCertificate()
     })
+  })
+
+  afterEach(() => {
+    deleteCertificate(certificateId)
+    deleteCertificateEvents(certificateId)
   })
 
   it(`Skriva ut ett låst ${type} utkast`, () => {

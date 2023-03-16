@@ -9,11 +9,12 @@ import { fakeLogin } from '../../../../helpers/fakeLogin'
 import { getCertificateInfo } from '../../../../helpers/getCertificateInfo'
 import { printCertificate } from '../../../../helpers/printCertificate'
 
-const { name, internalType, versions, type } = getCertificateInfo('lisjp')
+const { name, internalType, versions, type } = getCertificateInfo('ag7804')
 
-describe(`Minimal ${name} intyg`, () => {
+describe(`Tomt ${name} intyg`, () => {
   const unit = getUnit('AlfaVC')
   const doctor = getDoctor('Alja')
+  const patientId = '194011306125' // Athena React Andersson
   let certificateId: string
 
   beforeEach(() => {
@@ -22,7 +23,7 @@ describe(`Minimal ${name} intyg`, () => {
       certificateTypeVersion: versions.at(-1),
       status: 'UNSIGNED',
       fillType: 'MINIMAL',
-      patientId: '194011306125', // Athena React Andersson
+      patientId,
       personId: doctor.hsaId,
       unitId: unit.enhetId,
     }).then((data) => {
@@ -37,53 +38,38 @@ describe(`Minimal ${name} intyg`, () => {
     deleteCertificateEvents(certificateId)
   })
 
-  it(`Makulerar ett signerat ${type} intyg`, () => {
+  it(`Makulerar ett signerat ${type}-intyg`, () => {
     cy.signCertificate()
     cy.voidCertificate()
     cy.contains(certificateId).should('not.exist')
   })
 
-  it(`Skicka ett signerat ${type} intyg`, () => {
+  it(`Skicka ett signerat ${type}-intyg`, () => {
     cy.signCertificate()
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .click()
-    cy.get('.ic-button-group > :nth-child(1) > .ic-button').click() // detta behöver jag hjälp med
-
     cy.contains('Intyget är tillgängligt för patienten').should('exist')
   })
 
-  it(`Skriva ut ett signerat ${type} intyg`, () => {
+  it(`Skriva ut ett signerat ${type}-intyg`, () => {
     cy.signCertificate()
     printCertificate(certificateId, internalType)
   })
 
-  it(`Förnya ett ${type} intyg`, () => {
+  it(`Förnya ett ${type}-intyg`, () => {
     cy.signCertificate()
     cy.renewCertificate()
     cy.get('button')
-      .contains('Skicka till Försäkringskassan')
+      .contains('Intyget är tillgängligt för patienten')
       .should('not.exist')
     cy.contains(certificateId).should('not.exist')
   })
 
-  it(`Ersätta ett ${type} intyg`, () => {
+  it(`Ersätta ett ${type}-intyg`, () => {
     cy.signCertificate()
     cy.replaceCertificate()
-    cy.get('button')
-      .contains('Skicka till Försäkringskassan')
-      .should('not.exist')
     cy.contains(certificateId).should('not.exist')
   })
 
-  it('Skapar en minimalt ifylld FK7804 och skickar den till FK', () => {
-    cy.signCertificate()
-    cy.sendCertificateToFK()
-    cy.contains('Intyget är skickat till Försäkringskassan')
-    cy.contains('Intyget är tillgängligt för patienten')
-  })
-
-  it(`Det är möjligt att radera ett ifyllt ${type}`, () => {
+  it(`Det är möjligt att raderar ett ifyllt ${type}`, () => {
     cy.removeCertificate()
     cy.contains(certificateId).should('not.exist')
   })
@@ -93,7 +79,7 @@ describe(`Minimal ${name} intyg`, () => {
     cy.get('label')
       .contains('100 procent')
       .click()
-    cy.contains('Obligatoriska uppgifter saknas').should('exist')
-    cy.contains('Klart att signera').should('not.exist')
+    cy.contains('Obligatoriska uppgifter saknas', { timeout: 5000 }).should('exist')
+    cy.contains('Klart att signera', { timeout: 5000 }).should('not.exist')
   })
 })

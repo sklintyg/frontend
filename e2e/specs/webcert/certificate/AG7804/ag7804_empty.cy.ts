@@ -9,20 +9,21 @@ import { fakeLogin } from '../../../../helpers/fakeLogin'
 import { getCertificateInfo } from '../../../../helpers/getCertificateInfo'
 import { printCertificate } from '../../../../helpers/printCertificate'
 
-const { name, internalType, versions, type } = getCertificateInfo('af00213')
+const { name, internalType, versions, type } = getCertificateInfo('ag7804')
 
-describe(`Locked ${name} intyg`, () => {
+describe(`Tomt ${name} intyg`, () => {
   const unit = getUnit('AlfaVC')
   const doctor = getDoctor('Alja')
+  const patientId = '194011306125' // Athena React Andersson
   let certificateId: string
 
   beforeEach(() => {
     createCertificate({
       certificateType: internalType,
       certificateTypeVersion: versions.at(-1),
-      status: 'LOCKED',
-      fillType: 'MINIMAL',
-      patientId: '191212121212',
+      status: 'UNSIGNED',
+      fillType: 'EMPTY',
+      patientId,
       personId: doctor.hsaId,
       unitId: unit.enhetId,
     }).then((data) => {
@@ -37,23 +38,29 @@ describe(`Locked ${name} intyg`, () => {
     deleteCertificateEvents(certificateId)
   })
 
-  it(`Skriva ut ett låst ${type} utkast`, () => {
-    printCertificate(certificateId, internalType)
+  it(`Ett icke ifylld ${type} går ej att signera och skicka till FK`, () => {
+    cy.contains('Obligatoriska uppgifter saknas').should('exist')
+    cy.contains('Signera intyget').click()
+
+    cy.contains('Utkastet saknar uppgifter i följande avsnitt:').should('exist') // Nedan också
+    cy.contains('Grund för medicinskt underlag').should('exist')
+    cy.contains('Sysselsättning').should('exist')
+    cy.contains('Diagnos').should('exist')
+    cy.contains('Sjukdomens konsekvenser för patienten').should('exist')
+    cy.contains('Bedömning').should('exist')
+    cy.contains('Åtgärder').should('exist')
+
+    cy.get('button')
+      .contains('Skicka till Försäkringskassan')
+      .should('not.exist')
   })
 
-  it(`Makulerar ett låst ${type} utkast`, () => {
-    cy.voidCertificateDraft()
-    expect(cy.contains('Utkastet är makulerat'))
-  })
-
-  it(`Kopiera ett låst ${type} utkast så att det går att signera och skicka`, () => {
-    cy.copyCertificateDraft()
+  it(`Det är möjligt att raderar ett icke ifyllt ${type}`, () => {
+    cy.removeCertificateDraft()
     cy.contains(certificateId).should('not.exist')
-    cy.signAndSendCertificate()
   })
 
-  it(`Ett ${type} låst utkast ska  inte kunna editeras`, () => {
-    cy.get('.ic-textarea').should('be.disabled')
-    cy.contains('Utkastet är låst').should('exist')
+  it(`Skriva ut ett icke ifyllt ${type}`, () => {
+    printCertificate(certificateId, internalType)
   })
 })
