@@ -13,6 +13,11 @@ export interface SrsInfoForDiagnosis {
   statistikStatusCode: string
 }
 
+export interface SrsPredictionInfo {
+  predictions: SrsPrediction[]
+  extensionChain: SrsExtensionChain[]
+}
+
 export interface SrsRecommendation {
   recommendationTitle: string
   recommendationText: string
@@ -20,7 +25,22 @@ export interface SrsRecommendation {
 
 export interface SrsPrediction {
   certificateId: string
-  //implement in another jira
+  diagnosisCode: string
+  diagnosisDescription: string
+  statusCode: string
+  level: number
+  description: string
+  probabilityOverLimit?: number
+  prevalence: number
+  questionsResponses: SrsAnswer[]
+  physiciansOwnOpinionRisk: string
+  daysIntoSickLeave: number
+  modelVersion: string
+  timestamp: string
+}
+
+export interface SrsExtensionChain {
+  mainDiagnosisCode: string
 }
 
 export enum SrsSickLeaveChoice {
@@ -47,4 +67,9 @@ export interface SrsAnswerOption {
   id: string
   priority: number
   defaultValue: boolean
+}
+
+export interface SrsAnswer {
+  questionId: string
+  answerId: string
 }
