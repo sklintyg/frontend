@@ -38,13 +38,13 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   }
 
   const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    // scroller.scrollTo(event.currentTarget.id, {
-    //   duration: 0,
-    //   delay: 0,
-    //   smooth: false,
-    //   containerId: 'icfScrollContainer-' + parentId,
-    //   offset: 0,
-    // })
+    scroller.scrollTo(event.currentTarget.id, {
+      duration: 0,
+      delay: 0,
+      smooth: false,
+      containerId: 'icfScrollContainer-' + parentId,
+      offset: 0,
+    })
   }
 
   const handleShowMore = () => {
