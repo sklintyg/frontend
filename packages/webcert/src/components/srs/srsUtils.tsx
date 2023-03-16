@@ -92,6 +92,9 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
 }
 
 export const getMainDiagnosisCode = (value: ValueDiagnosisList) => {
+  if (!value) {
+    return ''
+  }
   const mainDiagnosis = value.list.find((diagnosis) => diagnosis.id.includes('0'))
   return mainDiagnosis ? mainDiagnosis.code : ''
 }

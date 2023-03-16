@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../../store/store'
 import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
-import { updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
+import { logSrsInteraction, updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import { fakeSrsInfo, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import { configureApplicationStore } from '../../../store/configureApplicationStore'
+import { EnhancedStore } from '@reduxjs/toolkit'
+import { srsMiddleware } from '../../../store/srs/srsMiddleware'
+
+let store: EnhancedStore
 
 const renderComponent = () => {
   render(
@@ -17,6 +22,14 @@ const renderComponent = () => {
 const srsInfo = fakeSrsInfo()
 
 describe('SRS Recommendations', () => {
+  beforeEach(() => {
+    store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
+  })
+
+  afterEach(() => {
+    clearDispatchedActions()
+  })
+
   beforeEach(() => {
     store.dispatch(updateSrsInfo(srsInfo))
     store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.NEW))
@@ -84,11 +97,28 @@ describe('SRS Recommendations', () => {
       expect(screen.getByText('Visa mindre')).toBeTruthy()
     })
 
+    it('should log when pressing show more', () => {
+      renderComponent()
+      userEvent.click(screen.getAllByText('Visa mer')[0])
+      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
+    })
+
     it('should show measure description if show more is pressed', () => {
       renderComponent()
       expect(screen.queryByText(srsInfo.atgarderObs[0].recommendationText)).not.toBeInTheDocument()
       userEvent.click(screen.getAllByText('Visa mer')[0])
       expect(screen.getByText(srsInfo.atgarderObs[0].recommendationText)).toBeInTheDocument()
+    })
+
+    it('should render show more recommendations if more than 4 in array', () => {
+      renderComponent()
+      expect(screen.getAllByText('Se fler').length > 0).toBeTruthy()
+    })
+
+    it('should log when pressing show more recommendations', () => {
+      renderComponent()
+      userEvent.click(screen.getAllByText('Se fler')[0])
+      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })
