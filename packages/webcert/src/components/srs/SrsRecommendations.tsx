@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../store/srs/srsSelectors'
-import { InfoBox, SrsSickLeaveChoice, SrsRecommendation, ExpandableTextWithTitle } from '@frontend/common'
+import { ExpandableTextWithTitle, InfoBox, SrsInformationChoice, SrsRecommendation, SrsSickLeaveChoice } from '@frontend/common'
 import styled from 'styled-components'
 
 export const SRS_OBSERVE_TITLE = 'Tänk på att'
@@ -16,21 +16,21 @@ const StyledListItem = styled.li`
 const SrsRecommendations: React.FC = () => {
   const info = useSelector(getSrsInfo)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
-  const diagnosisCode = useSelector(getDiagnosisCode)
-  const diagnosisDescription = useSelector(getDiagnosisDescription)
+  const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
+  const diagnosisDescription = useSelector(getDiagnosisDescription(SrsInformationChoice.RECOMMENDATIONS))
   const isExtension = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION || sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
   if (!info) {
     return null
   }
 
-  const EMPTY_TEXT = `För ${diagnosisCode} finns ingen SRS-information för detta fält.`
+  const EMPTY_TEXT = `För ${diagnosisCode ? diagnosisCode : 'vald diagnoskod'} finns ingen SRS-information för detta fält.`
 
   const getInformationBox = (title: string, recommendations: SrsRecommendation[], key: string) => {
     if (recommendations.length == 0 || info.atgarderStatusCode === 'INFORMATION_SAKNAS') {
       return (
         <>
-          <p className="iu-fw-bold">{title}</p>
+          <h3 className="iu-fw-bold iu-mb-200">{title}</h3>
           <InfoBox type="info">{EMPTY_TEXT}</InfoBox>
         </>
       )
@@ -38,7 +38,7 @@ const SrsRecommendations: React.FC = () => {
 
     return (
       <>
-        <p className="iu-fw-bold iu-mt-400">{title}</p>
+        <h3 className="iu-fw-bold iu-mt-400">{title}</h3>
         <p className="iu-fw-bold iu-mb-200">
           {diagnosisCode} {diagnosisDescription}
         </p>
