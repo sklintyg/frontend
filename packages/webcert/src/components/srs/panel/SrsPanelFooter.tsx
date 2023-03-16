@@ -16,7 +16,7 @@ const SrsPanelFooter: React.FC<Props> = ({ informationChoice }) => {
     <SidePanelFooter additionalStyles="iu-m-none">
       <div className="iu-flex-column">
         <p className="iu-fw-bold">Mer information</p>
-        <a href={link} target="_blank">
+        <a href={link} target="_blank" rel="noreferrer">
           Information om {diagnosisDescription} hos Rätt Sjukskrivning
         </a>
         <ExternalLinkIcon className="iu-ml-200 iu-fs-100" />
