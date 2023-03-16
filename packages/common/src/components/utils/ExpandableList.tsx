@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ChevronDownIcon, ChevronUpIcon } from '../../images'
 import { LinkButton } from '../../styles'
@@ -6,36 +6,31 @@ import { LinkButton } from '../../styles'
 const LinkWrapper = styled.div`
   min-width: 100px;
   margin-left: 10px;
-`
-
-const TitleBox = styled.div`
   display: flex;
-  justify-content: space-between;
-`
-
-const Root = styled.div`
-  width: 100%;
+  justify-content: space-around;
 `
 
 interface Props {
-  text: string
-  title: string
+  items: React.ReactNode[]
+  nbrOfVisibleItems: number
 }
 
-export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
+export const ExpandableList: React.FC<Props> = ({ items, nbrOfVisibleItems }) => {
   const [expanded, setExpanded] = useState(false)
 
-  useEffect(() => {
-    setExpanded(false)
-  }, [text])
-
   return (
-    <Root>
-      <TitleBox>
-        <p>{title}</p>
+    <>
+      {items.map((item, index) => {
+        if (index > nbrOfVisibleItems - 1) {
+          return <>{expanded && item}</>
+        }
+
+        return item
+      })}
+      {items.length > nbrOfVisibleItems && (
         <LinkWrapper>
           <LinkButton onClick={() => setExpanded(!expanded)} className="ic-link">
-            {expanded ? 'Visa mindre' : 'Visa mer'}
+            {expanded ? 'Se färre' : 'Se fler'}
             {expanded ? (
               <>
                 <ChevronUpIcon size="sm" className="iu-ml-200" style={{ height: 'auto' }} />
@@ -45,8 +40,7 @@ export const ExpandableTextWithTitle: React.FC<Props> = ({ text, title }) => {
             )}
           </LinkButton>
         </LinkWrapper>
-      </TitleBox>
-      <div>{expanded && <p>{text}</p>}</div>
-    </Root>
+      )}
+    </>
   )
 }
