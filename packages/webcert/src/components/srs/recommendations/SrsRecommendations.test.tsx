@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../store/store'
+import store from '../../../store/store'
 import SrsRecommendations, { SRS_EXTENSION_TITLE, SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from './SrsRecommendations'
-import { updateSickLeaveChoice, updateSrsInfo } from '../../store/srs/srsActions'
+import { updateSickLeaveChoice, updateSrsInfo } from '../../../store/srs/srsActions'
 import { fakeSrsInfo, SrsSickLeaveChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
 

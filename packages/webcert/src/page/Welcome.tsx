@@ -269,7 +269,7 @@ const Welcome: React.FC = () => {
             </div>
             <div className="iu-grid-span-5">
               <h3>Inloggningsprofil</h3>
-              <TextArea value={JSON.stringify(jsonUser, undefined, 4)} rowsMin={11} onChange={handleUserChange} />
+              <TextArea value={JSON.stringify(jsonUser, undefined, 4)} rows={11} onChange={handleUserChange} />
             </div>
           </div>
         </div>

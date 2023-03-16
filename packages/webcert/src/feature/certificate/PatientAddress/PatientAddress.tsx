@@ -127,8 +127,8 @@ const PatientAddress: React.FC = () => {
               onChange={handleChange}
               name="street"
               value={patientInfo.street}
-              limit={209}
-              rowsMin={1}
+              maxLength={209}
+              rows={1}
               disableCounter={true}
               autoResize={true}
             />
