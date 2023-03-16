@@ -61,7 +61,7 @@ export const updateCertificateId = createAction<string>(`${SRS} Update certifica
 
 export const updateUnitId = createAction<string>(`${SRS} Update unit id`)
 
-export const updateCareGiverId = createAction<string>(`${SRS} Update care giver id`)
+export const updateCareProviderId = createAction<string>(`${SRS} Update care giver id`)
 
 export const updateSickLeaveChoice = createAction<SrsSickLeaveChoice>(`${SRS} Update sick leave choice`)
 
