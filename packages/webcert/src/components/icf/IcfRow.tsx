@@ -28,7 +28,6 @@ interface Props {
 
 const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, parentId }) => {
   const [displayDescription, setDisplayDescription] = useState(false)
-  const { certificateContainerId, certificateContainerRef } = useCertificateContext()
 
   const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     if (event.target.checked) {
@@ -39,13 +38,13 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   }
 
   const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    scroller.scrollTo('icfDropdown-' + parentId, {
-      containerId: certificateContainerId,
-      ...(certificateContainerRef.current && { offset: certificateContainerRef.current.offsetTop }),
-    })
-    scroller.scrollTo(event.currentTarget.id, {
-      containerId: 'icfScrollContainer-' + parentId,
-    })
+    // scroller.scrollTo(event.currentTarget.id, {
+    //   duration: 0,
+    //   delay: 0,
+    //   smooth: false,
+    //   containerId: 'icfScrollContainer-' + parentId,
+    //   offset: 0,
+    // })
   }
 
   const handleShowMore = () => {
