@@ -2,7 +2,6 @@ import { Checkbox, IcfCode } from '@frontend/common'
 import React, { useState } from 'react'
 import { scroller } from 'react-scroll'
 import styled from 'styled-components'
-import { useCertificateContext } from '../../feature/certificate/CertificateContext'
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -28,7 +27,6 @@ interface Props {
 
 const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd, onCodeRemove, parentId }) => {
   const [displayDescription, setDisplayDescription] = useState(false)
-  const { certificateContainerId, certificateContainerRef } = useCertificateContext()
 
   const handleCheckbox: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     if (event.target.checked) {
@@ -39,12 +37,12 @@ const IcfRow: React.FC<Props> = ({ icfCode, backgroundStyle, checked, onCodeAdd,
   }
 
   const handleCheckboxFocus: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    scroller.scrollTo('icfDropdown-' + parentId, {
-      containerId: certificateContainerId,
-      ...(certificateContainerRef.current && { offset: certificateContainerRef.current.offsetTop }),
-    })
     scroller.scrollTo(event.currentTarget.id, {
+      duration: 500,
+      delay: 100,
+      smooth: true,
       containerId: 'icfScrollContainer-' + parentId,
+      offset: -100,
     })
   }
 
