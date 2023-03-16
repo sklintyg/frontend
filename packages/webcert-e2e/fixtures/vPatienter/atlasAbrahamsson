@@ -1,9 +1,0 @@
-patient = {
-    "förnamn": "Atlas",
-    "efternamn": "React Abrahamsson",
-    "personnummerKompakt": "194111299055",
-    "personnummer": "19411129-9055",
-    "postadress": "Atlasberget 90",
-    "postnummer": "65340",
-    "postort": "Karlstad"
-}
