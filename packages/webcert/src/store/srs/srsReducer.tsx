@@ -14,7 +14,7 @@ import {
   updateSrsPredictions,
   updateRiskOpinion,
   updateUnitId,
-  updateCareGiverId,
+  updateCareProviderId,
   resetState,
   updateLoading,
 } from './srsActions'
@@ -31,7 +31,7 @@ export interface SRSState {
   patientId: string
   certificateId: string
   unitId: string
-  careGiverId: string
+  careProviderId: string
   sickLeaveChoice: SrsSickLeaveChoice
   isCertificateRenewed: boolean
   srsPredictions: SrsPrediction[]
@@ -49,7 +49,7 @@ const getInitialState = (functionDisablers?: FunctionDisabler[]): SRSState => {
     patientId: '',
     certificateId: '',
     unitId: '',
-    careGiverId: '',
+    careProviderId: '',
     sickLeaveChoice: SrsSickLeaveChoice.NEW,
     isCertificateRenewed: false,
     srsQuestions: [],
@@ -103,8 +103,8 @@ const srsReducer = createReducer(getInitialState(), (builder) =>
     .addCase(updateUnitId, (state, action) => {
       state.unitId = action.payload
     })
-    .addCase(updateCareGiverId, (state, action) => {
-      state.careGiverId = action.payload
+    .addCase(updateCareProviderId, (state, action) => {
+      state.careProviderId = action.payload
     })
     .addCase(updateLoading, (state, action) => {
       state.loading = action.payload

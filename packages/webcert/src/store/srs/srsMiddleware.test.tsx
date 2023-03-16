@@ -6,8 +6,23 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../test/dispat
 import { utilsMiddleware } from '../utils/utilsMiddleware'
 import { apiMiddleware } from '../api/apiMiddleware'
 import { srsMiddleware } from './srsMiddleware'
-import { getRecommendations, getSRSCodes } from './srsActions'
-import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
+import {
+  getPredictions,
+  getRecommendations,
+  getSRSCodes,
+  PredictionsRequest,
+  RiskOpinionRequest,
+  setRiskOpinion,
+  updateSrsPredictions,
+} from './srsActions'
+import {
+  fakeCertificate,
+  fakeDiagnosesElement,
+  fakeRadioMultipleCodeElement,
+  fakeSrsAnswer,
+  fakeSrsInfo,
+  fakeSrsPrediction,
+} from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -64,6 +79,26 @@ describe('Test certificate middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.diagnosisListValue).toEqual(element['QUESTION_ID'].value)
     })
+
+    it('should reset predictions if certificate data element updates with diagnosis list', async () => {
+      const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
+      const prediction = fakeSrsPrediction()
+      testStore.dispatch(updateSrsPredictions([prediction]))
+      testStore.dispatch(updateCertificateDataElement(element['QUESTION_ID']))
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(0)
+    })
+
+    it('should not reset predictions if certificate data element updates with other element than diagnosis list', async () => {
+      const element = fakeRadioMultipleCodeElement({ id: 'QUESTION_ID' })
+      const prediction = fakeSrsPrediction()
+      testStore.dispatch(updateSrsPredictions([prediction]))
+      testStore.dispatch(updateCertificateDataElement(element['QUESTION_ID']))
+      await flushPromises()
+
+      expect(testStore.getState().ui.uiSRS.srsPredictions).toHaveLength(1)
+    })
   })
 
   describe('Handle get srs recommendations', () => {
@@ -96,6 +131,61 @@ describe('Test certificate middleware', () => {
     })
   })
 
+  describe('Handle get srs prediction', () => {
+    const request: PredictionsRequest = {
+      patientId: 'patientId',
+      code: 'code',
+      certificateId: 'certificateId',
+      answers: [fakeSrsAnswer()],
+    }
+
+    it('should set error if api error', async () => {
+      fakeAxios.onPost(`/api/srs/certificateId/patientId/code?prediktion=true&atgard=false&statistik=false`).reply(500, {})
+      testStore.dispatch(getPredictions(request))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.error).toBeTruthy()
+    })
+
+    it('should remove error if api success', async () => {
+      const expectedResponse = { predictions: fakeSrsPrediction(), extensionChain: [] }
+      fakeAxios.onPost(`/api/srs/certificateId/patientId/code?prediktion=true&atgard=false&statistik=false`).reply(200, expectedResponse)
+      testStore.dispatch(getPredictions(request))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.error).toBeFalsy()
+    })
+
+    it('should set predictions api success', async () => {
+      const expectedResponse = { predictions: fakeSrsPrediction(), extensionChain: [] }
+      fakeAxios.onPost(`/api/srs/certificateId/patientId/code?prediktion=true&atgard=false&statistik=false`).reply(200, expectedResponse)
+      testStore.dispatch(getPredictions(request))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.srsPredictions).toEqual(expectedResponse.predictions)
+    })
+  })
+
+  describe('Handle set risk opinion', () => {
+    const request: RiskOpinionRequest = {
+      patientId: 'patientId',
+      code: 'code',
+      certificateId: 'certificateId',
+      unitId: 'unitId',
+      careGiverId: 'careGiverId',
+      riskOpinion: 'HOGRE',
+    }
+
+    it('should perform api call when dispatched is made', async () => {
+      testStore.dispatch(setRiskOpinion(request))
+      await flushPromises()
+      expect(fakeAxios.history.put.length).toEqual(1)
+    })
+
+    it('should perform api call to correct endpoint', async () => {
+      testStore.dispatch(setRiskOpinion(request))
+      await flushPromises()
+      expect(fakeAxios.history.put[0].url).toEqual('/api/srs/opinion/patientId/careGiverId/unitId/certificateId/code')
+    })
+  })
+
   describe('Handle update certificate', () => {
     const element = fakeDiagnosesElement({ id: 'QUESTION_ID' })
     const certificate = fakeCertificate({ data: element })
@@ -116,6 +206,18 @@ describe('Test certificate middleware', () => {
       testStore.dispatch(updateCertificate(certificate))
       await flushPromises()
       expect(testStore.getState().ui.uiSRS.certificateId).toEqual(certificate.metadata.id)
+    })
+
+    it('should update unit id if certificate updates', async () => {
+      testStore.dispatch(updateCertificate(certificate))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.unitId).toEqual(certificate.metadata.careUnit.unitId)
+    })
+
+    it('should update care provider id if certificate updates', async () => {
+      testStore.dispatch(updateCertificate(certificate))
+      await flushPromises()
+      expect(testStore.getState().ui.uiSRS.careProviderId).toEqual(certificate.metadata.careProvider.unitId)
     })
   })
 })

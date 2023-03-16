@@ -16,7 +16,7 @@ export const getCertificateId = (state: RootState): string => state.ui.uiSRS.cer
 
 export const getUnitId = (state: RootState): string => state.ui.uiSRS.unitId
 
-export const getCareGiverId = (state: RootState): string => state.ui.uiSRS.careGiverId
+export const getCareGiverId = (state: RootState): string => state.ui.uiSRS.careProviderId
 
 export const getSickLeaveChoice = (state: RootState): SrsSickLeaveChoice => state.ui.uiSRS.sickLeaveChoice
 

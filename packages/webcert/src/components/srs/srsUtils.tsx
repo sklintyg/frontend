@@ -28,7 +28,7 @@ export const getRiskDataPoint = (
   risk: number | undefined,
   sickLeaveChoice: SrsSickLeaveChoice,
   riskOpinion?: string,
-  timestamp?: Date
+  timestamp?: string
 ) => {
   return {
     name: label,
@@ -89,4 +89,10 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
     filteredPredictions[0].probabilityOverLimit &&
     filteredPredictions[0].probabilityOverLimit > 0
   )
+}
+
+export const convertPredictions = (predictions: SrsPrediction[]) => {
+  return predictions.map((prediction) => {
+    return { ...prediction, timestamp: prediction.timestamp.toString() }
+  })
 }

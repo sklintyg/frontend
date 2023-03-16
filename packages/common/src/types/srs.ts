@@ -36,7 +36,7 @@ export interface SrsPrediction {
   physiciansOwnOpinionRisk: string
   daysIntoSickLeave: number
   modelVersion: string
-  timestamp: Date
+  timestamp: string
 }
 
 export interface SrsExtensionChain {

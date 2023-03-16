@@ -34,7 +34,7 @@ export const fakeSrsPrediction = (diagnosisCode?: string): SrsPrediction => ({
   prevalence: 0.5,
   probabilityOverLimit: 0.2,
   questionsResponses: [],
-  timestamp: new Date(),
+  timestamp: '2020-02-02',
   modelVersion: faker.lorem.word(),
 })
 
