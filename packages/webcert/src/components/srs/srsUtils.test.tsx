@@ -49,7 +49,7 @@ describe('SRS Utils', () => {
   describe('GetRiskDataPoint', () => {
     const label = 'label'
     const risk = 0.5
-    const timestamp = new Date()
+    const timestamp = '2020-02-02'
     const sickLeaveChoice = SrsSickLeaveChoice.NEW
     const riskOpinion = 'HOGRE'
 
@@ -60,7 +60,7 @@ describe('SRS Utils', () => {
 
     it('should return risk multiplied with 100', () => {
       const result = getRiskDataPoint(label, risk, sickLeaveChoice, riskOpinion, timestamp)
-      expect(result.risk).toEqual(50)
+      expect(result.risk).toEqual('50')
     })
 
     it('should - as risk if risk is negative', () => {
@@ -70,7 +70,7 @@ describe('SRS Utils', () => {
 
     it('should round risk to whole number', () => {
       const result = getRiskDataPoint(label, 0.3333, sickLeaveChoice, riskOpinion, timestamp)
-      expect(result.risk).toEqual(33)
+      expect(result.risk).toEqual('33')
     })
 
     it('should set timestamp as timestamp', () => {
@@ -172,7 +172,7 @@ describe('SRS Utils', () => {
 
       const result = getPreviousRiskDataPoint([firstPrediction, secondPrediction], SrsSickLeaveChoice.NEW)
 
-      expect(result.risk).toEqual(50)
+      expect(result.risk).toEqual('50')
     })
 
     it('should set risk opinion if it exists', () => {
@@ -216,7 +216,7 @@ describe('SRS Utils', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('J20')
 
-      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction], 'HOGRE')
 
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.NEW))
       expect(result.name).toEqual(RISK_LABELS[2])
@@ -226,7 +226,7 @@ describe('SRS Utils', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('J20')
 
-      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION, [firstPrediction, secondPrediction])
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION, [firstPrediction, secondPrediction], 'HOGRE')
 
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION))
       expect(result.name).toEqual(RISK_LABELS[2])
@@ -236,7 +236,7 @@ describe('SRS Utils', () => {
       const firstPrediction = fakeSrsPrediction('J20')
       const secondPrediction = fakeSrsPrediction('J20')
 
-      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS, [firstPrediction, secondPrediction])
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS, [firstPrediction, secondPrediction], 'HOGRE')
 
       expect(result.sickLeaveChoice).toEqual(getSickLeaveChoicesLabel(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
       expect(result.name).toEqual(RISK_LABEL_DISABLED)
@@ -247,9 +247,9 @@ describe('SRS Utils', () => {
       const secondPrediction = fakeSrsPrediction('J20')
       firstPrediction.probabilityOverLimit = 0.5
 
-      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction], 'HOGRE')
 
-      expect(result.risk).toEqual(50)
+      expect(result.risk).toEqual('50')
     })
 
     it('should set timestamp', () => {
@@ -257,7 +257,7 @@ describe('SRS Utils', () => {
       const secondPrediction = fakeSrsPrediction('J20')
       firstPrediction.probabilityOverLimit = 0.5
 
-      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction])
+      const result = getCurrentRiskDataPoint(SrsSickLeaveChoice.NEW, [firstPrediction, secondPrediction], 'HOGRE')
 
       expect(result.timestamp).toEqual(firstPrediction.timestamp)
     })

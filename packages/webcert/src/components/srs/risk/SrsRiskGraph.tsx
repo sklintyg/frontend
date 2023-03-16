@@ -10,8 +10,9 @@ import {
 } from '../../../store/srs/srsSelectors'
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, LabelProps, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
 import { getCurrentRiskDataPoint, getPreviousRiskDataPoint, getRiskDataPoint, RISK_LABELS } from '../srsUtils'
+import { Payload } from 'recharts/types/component/DefaultTooltipContent'
 
-const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload, label }: TooltipProps<string, string>) => {
   if (active && payload && payload.length) {
     return <div>{getTooltipContent(label, payload)}</div>
   }
@@ -19,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
   return null
 }
 
-const getTooltipContent = (label: string, payload: any) => {
+const getTooltipContent = (label: string, payload: Payload<string, string>[]) => {
   const tooltipLabels = ['Riskberäkningen gäller', label, 'Beräknades', 'Läkarens bedömning']
 
   const values = [
@@ -50,7 +51,7 @@ const getTooltipContent = (label: string, payload: any) => {
   )
 }
 
-const getTooltipText = (label: string, value: string, unit?: string) => {
+const getTooltipText = (label: string, value: string | number | undefined, unit?: string) => {
   return (
     <>
       <span className="iu-fw-bold">{label}: </span>
