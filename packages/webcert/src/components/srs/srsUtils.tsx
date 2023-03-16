@@ -32,7 +32,7 @@ export const getRiskDataPoint = (
 ) => {
   return {
     name: label,
-    risk: risk && risk > 0 ? Math.round(risk * 100) : '-',
+    risk: risk && risk > 0 ? Math.round(risk * 100).toString() : '-',
     timestamp: timestamp,
     sickLeaveChoice: getSickLeaveChoicesLabel(sickLeaveChoice),
     riskOpinion: getRiskOpinionLabel(riskOpinion ? riskOpinion : ''),
