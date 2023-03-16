@@ -113,11 +113,11 @@ const UeCareUnitAddress: React.FC = () => {
           <InputWrapper>
             <TextArea
               hasValidationError={isShowValidationError && (!careUnitInfo.address || addressValidationErrors.length > 0)}
-              limit={209}
+              maxLength={209}
               disabled={disabled || !editable}
               onChange={handleChange}
               name="address"
-              rowsMin={1}
+              rows={1}
               value={careUnitInfo.address}
               disableCounter={true}
               autoResize={true}
