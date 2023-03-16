@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   root: true,
   extends: ['custom', 'plugin:cypress/recommended'],
   parser: '@typescript-eslint/parser',
