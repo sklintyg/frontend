@@ -13,6 +13,7 @@
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "prepare": "husky install",
     "start": "turbo dev",
+    "start:test": "turbo dev -- -m test",
     "test:ci": "turbo test:ci",
     "posttest:ci": "yarn test:report && yarn test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",

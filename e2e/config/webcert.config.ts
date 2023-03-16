@@ -10,10 +10,6 @@ async function fetchCertificateTypes() {
   return (await axios.get<{ certificateTypes: CertificateType[] }>(`${baseUrl}/testability/certificate/types`)).data
 }
 
-async function fetchPatients() {
-  return (await axios.get(`${baseUrl}/testability/certificate/patients`)).data
-}
-
 export default defineConfig({
   chromeWebSecurity: false,
   retries: {
@@ -23,10 +19,8 @@ export default defineConfig({
   e2e: {
     async setupNodeEvents(on, config) {
       const { certificateTypes } = await fetchCertificateTypes()
-
       // eslint-disable-next-line no-param-reassign
       config.env.certificateTypes = certificateTypes
-      console.log(config.env.certificateTypes)
 
       return config
     },
@@ -35,5 +29,7 @@ export default defineConfig({
     viewportHeight: 900,
     supportFile: 'support/e2e.ts',
     specPattern: 'specs/webcert/**/*.{js,jsx,ts,tsx}',
+    screenshotOnRunFailure: false,
+    video: false,
   },
 })

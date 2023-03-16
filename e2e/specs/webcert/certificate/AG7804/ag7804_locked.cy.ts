@@ -1,5 +1,3 @@
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
 import { getDoctor } from '../../../../fixtures/getDoctor'
 import { getUnit } from '../../../../fixtures/getUnit'
 import { createCertificate } from '../../../../helpers/createCertificate'
@@ -54,7 +52,7 @@ describe(`Tomt ${name} intyg`, () => {
   })
 
   it(`Ett ${type} låst utkast ska  inte kunna editeras`, () => {
-    cy.get('.iu-pt-200 > #ovrigt').should('be.disabled')
+    cy.get('[data-testid="textarea-25"]').should('be.disabled')
     cy.contains('Utkastet är låst').should('exist')
   })
 })

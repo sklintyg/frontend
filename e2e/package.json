@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "webcert": "cypress open -C config/webcert.config.ts --config baseUrl=https://127.0.0.1:3000",
+    "webcert": "cypress open -C config/webcert.config.ts",
     "webcert:run": "cypress run -C config/webcert.config.ts",
     "rehabstod": "cypress open -C config/rehabstod.config.ts",
     "rehabstod:run": "cypress run -C config/rehabstod.config.ts"

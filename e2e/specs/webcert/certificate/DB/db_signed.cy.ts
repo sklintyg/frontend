@@ -1,5 +1,3 @@
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
 import { getDoctor } from '../../../../fixtures/getDoctor'
 import { getUnit } from '../../../../fixtures/getUnit'
 import { createCertificate } from '../../../../helpers/createCertificate'

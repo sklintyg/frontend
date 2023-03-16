@@ -1,6 +1,6 @@
-import { Doctor } from '../types/Doctor'
+import { Person } from '../types/Person'
 
-function createDoctors<T extends { [name: string]: Doctor }>(doctor: T) {
+function createDoctors<T extends { [name: string]: Person }>(doctor: T) {
   return doctor
 }
 

@@ -1,6 +1,3 @@
-/* eslint-disable promise/no-nesting */
-/* eslint-disable promise/always-return */
-/* eslint-disable promise/catch-or-return */
 /// <reference types="cypress" />
 
 Cypress.Commands.add('removeCertificate', () => {
@@ -144,7 +141,7 @@ Cypress.Commands.add('answerCertificateSupplement', (alternativ: 'nyttIntyg' | '
         cy.contains('Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget')
           .should('be.visible')
           .click()
-        cy.get('.ic-textarea').type(message)
+        cy.get('[data-testid="question-answer-textarea"]').type(message)
         cy.contains('Skicka svar').click()
       })
       cy.log('Svarar med meddelande')
@@ -157,7 +154,7 @@ Cypress.Commands.add('answerCertificateSupplement', (alternativ: 'nyttIntyg' | '
         cy.contains('Ingen ytterligare medicinsk information kan anges.')
           .should('be.visible')
           .click()
-        cy.get('.ic-textarea').type(message)
+        cy.get('[data-testid="question-answer-textarea"]').type(message)
         cy.contains('Skicka svar').click()
       })
       cy.log('Svarar med text')

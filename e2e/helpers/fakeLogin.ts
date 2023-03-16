@@ -1,8 +1,8 @@
-import { Doctor } from '../types/Doctor'
+import { Person } from '../types/Person'
 import { Unit } from '../types/Unit'
 
 export function fakeLogin(
-  { hsaId, forNamn, efterNamn, legitimeradeYrkesgrupper }: Doctor,
+  { hsaId, forNamn, efterNamn, legitimeradeYrkesgrupper }: Person,
   { enhetId }: Unit,
   origin: 'NORMAL' | 'DJUPINTEGRATION' = 'NORMAL'
 ) {
