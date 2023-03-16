@@ -7,8 +7,8 @@ import {
   getSrsPredictions,
   getSrsQuestions,
 } from '../../../store/srs/srsSelectors'
-import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
-import { getPredictions } from '../../../store/srs/srsActions'
+import { CustomButton, InfoBox, SrsAnswer, SrsQuestion, SrsEvent } from '@frontend/common'
+import { getPredictions, logSrsInteraction } from '../../../store/srs/srsActions'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 
 interface Props {
@@ -58,6 +58,8 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
         answers: answers,
       })
     )
+
+    dispatch(logSrsInteraction(SrsEvent.SRS_CALCULATE_CLICKED))
   }
 
   return (
