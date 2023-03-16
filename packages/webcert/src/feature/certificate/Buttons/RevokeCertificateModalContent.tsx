@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RevokeCertificateReason } from '../../../store/certificate/certificateActions'
 import { getIsLocked, getRecipient } from '../../../store/certificate/certificateSelectors'
-import WCDynamicLink from '../../../utils/WCDynamicLink'
 import { getHasUnhandledQuestions } from '../../../store/question/questionSelectors'
+import WCDynamicLink from '../../../utils/WCDynamicLink'
 
 interface Props {
   onChange: (obj: RevokeCertificateReason) => void
@@ -67,11 +67,11 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
           <div>
             <p className="iu-fw-bold iu-fs-200">Förtydliga vid behov</p>
             <TextArea
-              rowsMin={3}
+              rows={3}
               name={textArea.name}
               value={textArea.value}
               onChange={(e) => handleTextAreaChange(e, textLabel)}
-              limit={3500}
+              maxLength={3500}
             />
           </div>
         )}
@@ -90,11 +90,11 @@ export const RevokeCertificateModalContent: React.FC<Props> = ({ onChange, type 
               Ange orsaken till felet.
             </p>
             <TextArea
-              rowsMin={3}
+              rows={3}
               name={textArea.name}
               value={textArea.value}
               onChange={(e) => handleTextAreaChange(e, 'Annat allvarligt fel')}
-              limit={3500}
+              maxLength={3500}
             />
           </div>
         )}

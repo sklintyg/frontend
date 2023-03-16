@@ -34,12 +34,6 @@ const UNREASONABLE_YEAR = {
   showAlways: true,
 }
 
-const EMPTY_DATE = {
-  type: 'EMPTY_DATE',
-  text: 'Ange datum.',
-  showAlways: false,
-}
-
 const EMPTY_PERIOD = {
   type: 'EMPTY_PERIOD',
   text: 'Ange period.',
@@ -115,8 +109,6 @@ const getErrorsFromValue = (id: string, value: ValueType | null): ValidationErro
           .concat(getDateValidationError(id, `from.${field}`, value.from) ?? [])
           .concat(getDateValidationError(id, `tom.${field}`, value.to) ?? [])
           .concat(isBothEmpty ? getValidationErrorFactory(id, `row.${field}`)(EMPTY_PERIOD) : [])
-          .concat(!isBothEmpty && isDateEmpty(value.from) ? getValidationErrorFactory(id, `from.${field}`)(EMPTY_DATE) : [])
-          .concat(!isBothEmpty && isDateEmpty(value.to) ? getValidationErrorFactory(id, `tom.${field}`)(EMPTY_DATE) : [])
           .concat(invalidDatePeriod ? getValidationErrorFactory(id, `row.${field}`)(INVALID_DATE_PERIOD_ERROR) : [])
       }
       default:
