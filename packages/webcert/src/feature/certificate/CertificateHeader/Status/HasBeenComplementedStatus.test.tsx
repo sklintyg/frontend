@@ -71,7 +71,7 @@ describe('Has been complemented status', () => {
     expect(screen.queryByText(EXPECTED_UNSIGNED_TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('displays no status if revoked complementing certificate exists', () => {
+  it('displays no links if revoked complementing certificate exists', () => {
     renderComponent(CertificateStatus.REVOKED, true)
     expect(screen.queryByText(EXPECTED_SIGNED_LINK, { exact: false })).not.toBeInTheDocument()
     expect(screen.queryByText(EXPECTED_UNSIGNED_LINK, { exact: false })).not.toBeInTheDocument()

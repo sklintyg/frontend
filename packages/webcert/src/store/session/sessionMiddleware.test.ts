@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import { SigningMethod, Unit, User } from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import { throwError } from '../error/errorActions'
 import { ErrorCode, ErrorType } from '../error/errorReducer'

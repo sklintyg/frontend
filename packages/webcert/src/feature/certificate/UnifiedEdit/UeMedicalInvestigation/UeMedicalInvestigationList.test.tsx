@@ -199,30 +199,6 @@ describe('Medical investigation component', () => {
     expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
   })
 
-  it.each(config.list)('Should show validation error if index is 0 and there is one validation error for date field %s', ({ dateId }) => {
-    testStore.dispatch(
-      updateValidationErrors([
-        {
-          id: QUESTION_ID,
-          category: 'category',
-          field: dateId,
-          type: 'EMPTY',
-          text: 'Ange ett svar.',
-        },
-      ])
-    )
-    renderComponent({ question })
-
-    const validationErrors = testStore.getState().validationErrors
-    const hasValidationError = validationErrors && validationErrors.some((v: { field: string }) => v.field === 'hej')
-
-    if (hasValidationError && validationErrors.length === 1 && validationErrors[0].field === dateId) {
-      expect(screen.queryByText('Ange ett svar.')).toBeInTheDocument()
-    } else {
-      expect(screen.queryByText('Ange ett svar.')).not.toBeInTheDocument()
-    }
-  })
-
   it('Sets the value to null if the text is empty', () => {
     renderComponent({ question, disabled: false })
     const input = screen.queryAllByRole('textbox')

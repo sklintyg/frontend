@@ -952,8 +952,8 @@ const handleGotoComplement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI<
 const handlePrintCertificate: Middleware<Dispatch> = () => () => (action: AnyAction): void => {
   const printUrl = `/moduleapi/intyg/${action.payload.type}/${action.payload.id}/pdf`
   if (action.payload.iframe) {
-    action.payload.iframe.onload = function() {
-      setTimeout(function() {
+    action.payload.iframe.onload = () => {
+      setTimeout(() => {
         action.payload.iframe.focus()
         action.payload.iframe.contentWindow.print()
       }, 1)
