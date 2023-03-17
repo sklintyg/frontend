@@ -17,5 +17,5 @@ jobs:
           build: yarn build --filter=@frontend/webcert
           start: yarn workspace @frontend/webcert dev -m test
           wait-on: 'https://127.0.0.1:3000'
-          command: yarn workspace @frontend/e2e webcert:run
+          command: yarn workspace @frontend/e2e webcert
             --config baseUrl=https://127.0.0.1:3000

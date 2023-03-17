@@ -22,7 +22,7 @@ Start applications with devtest environment
 $ yarn start:test
 ```
 
-Run desired cypress configuration
+Run desirded cypress configuration
 
 ```
 $ yarn workspace @frontend/e2e webcert --config baseUrl=https://127.0.0.1:3000
