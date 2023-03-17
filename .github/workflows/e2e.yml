@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  cypress-run:
+  webcert-e2e:
     runs-on: ubuntu-20.04
     container: cypress/base:14.19.0
     steps:
@@ -13,11 +13,9 @@ jobs:
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         with:
-          working-directory: 'packages/webcert-e2e'
           install-command: yarn --frozen-lockfile --silent
-          build: yarn workspace @frontend/common build
+          build: yarn build --filter=@frontend/webcert
           start: yarn workspace @frontend/webcert dev -m test
           wait-on: 'https://127.0.0.1:3000'
-          command: yarn workspace @frontend/webcert-e2e cypress run
-            --config baseUrl=https://127.0.0.1:3000,screenshotOnRunFailure=false
-            --env grepTags=@react,grepFilterSpecs=true
+          command: yarn workspace @frontend/e2e webcert
+            --config baseUrl=https://127.0.0.1:3000
