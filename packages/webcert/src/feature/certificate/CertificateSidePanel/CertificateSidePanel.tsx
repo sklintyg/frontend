@@ -31,7 +31,7 @@ const CertificateSidePanel: React.FC = () => {
 
   const handleTabChange = (value: number): void => {
     setSelectedTabIndex(value)
-    if (availableTabs[value].type === ResourceLinkType.SRS) {
+    if (availableTabs[value] && availableTabs[value].type === ResourceLinkType.SRS) {
       dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
     }
   }
