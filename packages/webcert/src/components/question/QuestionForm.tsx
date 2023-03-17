@@ -1,4 +1,3 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import {
   ButtonWithConfirmModal,
   CustomButton,
@@ -9,10 +8,11 @@ import {
   TextArea,
   ValidationText,
 } from '@frontend/common'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import _ from 'lodash'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { deleteQuestion, editQuestion, sendQuestion, updateQuestionDraftSaved } from '../../store/question/questionActions'
 import {
   isDisplayValidationMessages,
   isQuestionDraftSaved,
@@ -120,7 +120,12 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
             )}
           </div>
           <div className="ic-forms__group">
-            <TextArea value={message} onChange={onTextAreaChange} hasValidationError={showMessageValidationError()} />
+            <TextArea
+              data-testid="question-textarea"
+              value={message}
+              onChange={onTextAreaChange}
+              hasValidationError={showMessageValidationError()}
+            />
             {showMessageValidationError() && (
               <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />
             )}
@@ -128,6 +133,7 @@ const QuestionForm: React.FC<Props> = ({ questionDraft }) => {
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton
+                data-testid="question-send-btn"
                 disabled={isFormEmpty || isFunctionDisabled || questionDraft.message !== message}
                 buttonStyle={'primary'}
                 onClick={handleSendQuestion}
