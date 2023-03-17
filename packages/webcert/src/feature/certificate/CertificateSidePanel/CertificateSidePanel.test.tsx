@@ -143,7 +143,6 @@ describe('CertificateSidePanel', () => {
 
     it('shall log SRS interaction when switching tab', async () => {
       const tabText = 'SRS'
-      const expectedContent = SRS_TITLE
       renderTab(tabText, ResourceLinkType.SRS)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
