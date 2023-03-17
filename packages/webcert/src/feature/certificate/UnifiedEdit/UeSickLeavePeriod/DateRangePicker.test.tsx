@@ -152,8 +152,8 @@ describe('Date range picker', () => {
     userEvent.click(screen.getByRole('checkbox'))
     userEvent.type(screen.getByLabelText('t.o.m'), '1v{enter}')
 
-    expect(screen.getByText('Arbetstid: 30 timmar/vecka'))
-    expect(screen.getByText('i 7 dagar.', { exact: false }))
+    expect(screen.getByText('Arbetstid: 30 timmar/vecka')).toBeInTheDocument()
+    expect(screen.getByText('i 7 dagar.', { exact: false })).toBeInTheDocument()
   })
 
   it('displays correct number of sick hours and days for one month', () => {

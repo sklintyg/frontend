@@ -63,17 +63,11 @@ describe('Create certificate from candidate modal', () => {
     expect(screen.getByText('Till Webcert')).toBeEnabled()
   })
 
-  it('shall enable confirm button if checkbox is checked', () => {
-    renderDefaultComponent(true)
-    userEvent.click(screen.getByRole('checkbox'))
-    expect(screen.getByText('Till Webcert')).toBeEnabled()
-  })
-
   it('shall dispatch error if cancel button is pressed', () => {
     renderDefaultComponent(true)
     userEvent.click(screen.getByText('Avbryt'))
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    expect(useDispatchSpy).toBeCalled()
+    expect(useDispatchSpy).toHaveBeenCalled()
   })
 })

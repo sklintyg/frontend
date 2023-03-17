@@ -58,7 +58,7 @@ describe('ErrorComponent', () => {
     expect(() => renderComponent()).not.toThrow()
   })
 
-  describe('ErrorType.MODAL, ', () => {
+  describe('ErrorType.MODAL,', () => {
     it('shall display ErrorCode.CONCURRENT_MODIFICATION information', () => {
       setErrorState(ErrorType.MODAL, ErrorCode.CONCURRENT_MODIFICATION)
       renderComponent()
