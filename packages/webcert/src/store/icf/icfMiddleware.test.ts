@@ -64,7 +64,7 @@ describe('Test ICF middleware', () => {
       expect(testStore.getState().ui.uiCertificate.certificate.icfTitles).toEqual(expectedIcfTitles)
     })
 
-    it('shall fetch icf codes when ', () => {
+    it('shall fetch icf codes when', () => {
       const expectedIcfTitles = getIcfTitles()
       const certificate = getCertificate(expectedIcfTitles)
 

@@ -212,7 +212,7 @@ describe('convertExpression', () => {
 })
 
 describe('filtrex', () => {
-  it('Should be able to pick out value when using "\'" ', () => {
+  it('Should be able to pick out value when using "\'"', () => {
     expect(
       compileExpression("'underlag[0].typ'")({
         'underlag[0].typ': 'lorem ipsum',

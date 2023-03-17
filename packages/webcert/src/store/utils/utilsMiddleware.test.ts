@@ -1,7 +1,7 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
 import dispatchHelperMiddleware from '../test/dispatchHelperMiddleware'
 import { getConfig } from './utilsActions'

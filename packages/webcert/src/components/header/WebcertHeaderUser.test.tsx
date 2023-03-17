@@ -3,7 +3,7 @@ import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import dispatchHelperMiddleware from '../../store/test/dispatchHelperMiddleware'
 import { updateUser, updateUserResourceLinks } from '../../store/user/userActions'
@@ -55,7 +55,7 @@ describe('WebcertHeaderUser', () => {
     expect(screen.getByText(/Du har skyddade personuppgifter/i)).toBeInTheDocument()
   })
 
-  it('should show protected person link when approval modal is closed', (): void => {
+  it('should show protected person link when approval modal gets closed', (): void => {
     testStore.dispatch(updateUser({ ...getUser(), protectedPerson: true }))
     renderComponent()
     userEvent.click(screen.getByRole('checkbox'))
