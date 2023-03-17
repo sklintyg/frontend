@@ -13,7 +13,7 @@ module.exports = {
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
@@ -37,6 +37,9 @@ module.exports = {
     'jsdoc/require-returns': 'off',
     'no-use-before-define': 'off',
     'turbo/no-undeclared-env-vars': ['error', { allowList: ['^VITE_[A-Z_]+$'] }],
+    'prettier/prettier': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
   },
   ignorePatterns: ['dist/**'],
   settings: {

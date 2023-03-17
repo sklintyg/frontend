@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getSrsInfo } from '../../store/srs/srsSelectors'
+import { getSrsInfo } from '../../../store/srs/srsSelectors'
 import { LineChart, Line, XAxis, CartesianGrid, YAxis, Tooltip, TooltipProps, LabelList, LabelProps } from 'recharts'
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {

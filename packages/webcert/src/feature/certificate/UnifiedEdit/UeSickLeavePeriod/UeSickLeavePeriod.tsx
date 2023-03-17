@@ -42,6 +42,7 @@ const DaysRangeWrapper = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
+
   input[type='number'] {
     -moz-appearance: textfield;
   }
@@ -68,7 +69,17 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
   const config = question.config as ConfigUeSickLeavePeriod
 
   const otherValiadtionErrors = useMemo(() => {
-    const fieldNames: string[] = config.list.map(({ id }) => [`from.${id}`, `tom.${id}`, `row.${id}`, id]).flat()
+    const fieldNames: string[] = config.list
+      .map(({ id }) => [
+        `sjukskrivningar.period.${id}.tom`,
+        `sjukskrivningar.period.${id}.from`,
+        `${id}.tom`,
+        `from.${id}`,
+        `tom.${id}`,
+        `row.${id}`,
+        id,
+      ])
+      .flat()
     return validationErrors.filter(({ field }) => !fieldNames.includes(field))
   }, [config.list, validationErrors])
 
@@ -161,7 +172,16 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       <div>
         {config.list.map(({ id, label }, index) => {
           const fieldValidationErrors = validationErrors.filter(
-            ({ field }) => field && [`from.${id}`, `tom.${id}`, `row.${id}`, id].includes(field)
+            ({ field }) =>
+              field &&
+              [
+                `sjukskrivningar.period.${id}.tom`,
+                `sjukskrivningar.period.${id}.from`,
+                `from.${id}`,
+                `tom.${id}`,
+                `row.${id}`,
+                id,
+              ].includes(field)
           )
           return (
             <DateRangePicker

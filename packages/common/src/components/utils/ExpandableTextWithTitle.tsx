@@ -5,6 +5,7 @@ import { LinkButton } from '../../styles'
 
 const LinkWrapper = styled.div`
   min-width: 100px;
+  margin-left: 10px;
 `
 
 const TitleBox = styled.div`

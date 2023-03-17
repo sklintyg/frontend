@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import store from '../../store/store'
+import store from '../../../store/store'
 import SrsInformationChoices, { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from './SrsInformationChoices'
 import { SrsInformationChoice } from '@frontend/common'
 import userEvent from '@testing-library/user-event'
