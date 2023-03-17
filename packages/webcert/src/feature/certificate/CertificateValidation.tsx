@@ -21,7 +21,7 @@ const CertificateValidation: React.FC = () => {
   if (!validationErrors || validationErrors.length === 0 || !isShowValidationError) return null
 
   return (
-    <div className={`iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper`}>
+    <div data-testid="certificate-validation" className={`iu-pt-400 iu-pb-400 iu-mt-400 iu-bg-white iu-radius-sm contentPaperWrapper`}>
       <InfoBox type="error">
         <p>Utkastet saknar uppgifter i följande avsnitt:</p>
       </InfoBox>

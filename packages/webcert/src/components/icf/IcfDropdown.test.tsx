@@ -1,15 +1,13 @@
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
 import { createMemoryHistory } from 'history'
 import { createRef } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { vi } from 'vitest'
 import { CertificateContext } from '../../feature/certificate/CertificateContext'
-import apiMiddleware from '../../store/api/apiMiddleware'
+import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { setOriginalIcd10Codes, updateIcfCodes } from '../../store/icf/icfActions'
 import { icfMiddleware } from '../../store/icf/icfMiddleware'
@@ -18,13 +16,9 @@ import dispatchHelperMiddleware, { clearDispatchedActions } from '../../store/te
 import IcfDropdown from './IcfDropdown'
 import { getIcfData } from './icfTestUtils'
 
-let fakeAxios: MockAdapter
 let testStore: EnhancedStore
 
 const history = createMemoryHistory()
-
-// https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 
 const COLLECTIONS_LABEL = 'collectionsLabel'
 
@@ -44,7 +38,7 @@ const renderComponent = (
         <CertificateContext.Provider value={mockContext}>
           <IcfDropdown
             modalLabel={infoText}
-            icfData={icfData!}
+            icfData={icfData}
             chosenIcfCodeValues={icfValues}
             collectionsLabel={COLLECTIONS_LABEL}
             disabled={disabled}
@@ -61,7 +55,6 @@ const renderComponent = (
 // Scroll library is not working correctly with jsdom
 describe.skip('IcfDropdown', () => {
   beforeEach(() => {
-    fakeAxios = new MockAdapter(axios)
     testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, icfMiddleware])
   })
 
@@ -124,8 +117,8 @@ describe.skip('IcfDropdown', () => {
   it('display icd codes after ICF button is clicked', () => {
     const icfData = getIcfData()
     renderAndOpenDropdown()
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icd10Codes[0].title)[0]).toBeInTheDocument()
-    expect(screen.getAllByText(icfData.activityLimitation!.commonCodes.icd10Codes[1].title)[0]).toBeInTheDocument()
+    expect(screen.getAllByText(icfData.activityLimitation?.commonCodes.icd10Codes[0].title ?? '')[0]).toBeInTheDocument()
+    expect(screen.getAllByText(icfData.activityLimitation?.commonCodes.icd10Codes[1].title ?? '')[0]).toBeInTheDocument()
   })
 
   it('display common icd codes after ICF button is clicked', () => {
@@ -148,9 +141,9 @@ describe.skip('IcfDropdown', () => {
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
+    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
 
-    expect(screen.getByText(expected!)).toBeInTheDocument()
+    expect(screen.getByText(`${expected}`)).toBeInTheDocument()
   })
 
   it('hides description when expanding and de-expanding show more', () => {
@@ -159,10 +152,10 @@ describe.skip('IcfDropdown', () => {
     const expected = sut?.description
     renderAndOpenDropdown()
 
-    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
-    userEvent.click(screen.getAllByTestId(sut!.title + '-showmore')[0])
+    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
+    userEvent.click(screen.getAllByTestId(sut?.title + '-showmore')[0])
 
-    expect(screen.queryByText(expected!)).not.toBeInTheDocument()
+    expect(screen.queryByText(`${expected}`)).not.toBeInTheDocument()
   })
 
   it('display link in footer to socialstyrelsen', () => {
@@ -178,7 +171,7 @@ describe.skip('IcfDropdown', () => {
   it('shall display close button in modal', () => {
     renderAndOpenDropdown()
 
-    expect(screen.getByRole('button', { name: /stäng/i }))
+    expect(screen.getByRole('button', { name: /stäng/i })).toBeInTheDocument()
   })
 
   it('checkbox is checked if icf id is passed to component', () => {

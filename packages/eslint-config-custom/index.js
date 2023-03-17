@@ -17,7 +17,7 @@ module.exports = {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*'] },
+      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*'] },
     ],
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
@@ -41,4 +41,9 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
   },
   ignorePatterns: ['dist/**'],
+  settings: {
+    jest: {
+      version: 29,
+    },
+  },
 }

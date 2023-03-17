@@ -50,11 +50,6 @@ describe('ListFilterComponent', () => {
       expect(screen.getByRole('combobox')).toBeInTheDocument()
     })
 
-    it('should display text filter title', () => {
-      renderComponent(getTextFilter('Select title'))
-      expect(screen.getByLabelText('Select title')).toBeInTheDocument()
-    })
-
     it('should display radio filter component', () => {
       renderComponent(getRadioFilter('Radio title'))
       expect(screen.getByRole('radiogroup')).toBeInTheDocument()

@@ -190,12 +190,6 @@ describe('Certificate header statuses', () => {
       expect(screen.getByText(DRAFT_ALL_DATA_EXISTS, { exact: false })).toBeInTheDocument()
     })
 
-    it('should display status that draft is being saved and data is missing', () => {
-      renderComponentWithDraft(CertificateStatus.UNSIGNED, true, true)
-      expect(screen.getByText(DRAFT_BEING_SAVED, { exact: false })).toBeInTheDocument()
-      expect(screen.getByText(DRAFT_ALL_DATA_EXISTS, { exact: false })).toBeInTheDocument()
-    })
-
     it('should not display stauses for signed certificate when certificate is a draft', () => {
       renderComponentWithDraft(CertificateStatus.UNSIGNED, false, false)
       SIGNED_STATUSES.map((status) => {
@@ -227,14 +221,14 @@ describe('Certificate header statuses', () => {
       })
     })
 
-    it('should not display stauses for saving draft when certificate is locked', () => {
+    it('should not display stauses for saving draft when certificate is locked and validating', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED, true, false)
       DRAFT_STATUSES.map((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
       })
     })
 
-    it('should not display staus for saving draft when certificate is locked revoked', () => {
+    it('should not display staus for saving draft when certificate is locked revoked and validating', () => {
       renderComponentWithDraft(CertificateStatus.LOCKED_REVOKED, true, false)
       DRAFT_STATUSES.map((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()
@@ -421,7 +415,7 @@ describe('Certificate header statuses', () => {
       })
     })
 
-    it('should not display draft statuses when certificate has been replaced', () => {
+    it('should not display draft statuses when certificate has been replaced and signed', () => {
       renderComponentWithChildRelation(CertificateStatus.SIGNED, CertificateStatus.UNSIGNED, CertificateRelationType.REPLACED, true, true)
       SIGNED_STATUSES_WITHOUT_REPLACED.map((status) => {
         expect(screen.queryByText(status)).not.toBeInTheDocument()

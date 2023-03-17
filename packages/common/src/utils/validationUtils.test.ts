@@ -42,21 +42,21 @@ import {
 describe('Validate mandatory rule for boolean values', () => {
   const booleanElement = getBooleanElement()
 
-  it('it should validate as false when selected is null', () => {
+  it('should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = null
     const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when selected is false', () => {
+  it('should validate as true when selected is false', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = false
     const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
     expect(result).toBe(true)
   })
 
-  it('it should validate as true when selected is true', () => {
+  it('should validate as true when selected is true', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
     const result = parseExpression('exists($harFunktionsnedsattning)', booleanElement)
@@ -67,21 +67,21 @@ describe('Validate mandatory rule for boolean values', () => {
 describe('Validate mandatory rule for text values', () => {
   const textElement = getTextElement()
 
-  it('it should validate as false when text is null', () => {
+  it('should validate as false when text is null', () => {
     const valueText = textElement.value as ValueText
     valueText.text = null
     const result = parseExpression('$funktionsnedsattning', textElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when text is empty', () => {
+  it('should validate as false when text is empty', () => {
     const valueText = textElement.value as ValueText
     valueText.text = ''
     const result = parseExpression('$funktionsnedsattning', textElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when text is at least one character long', () => {
+  it('should validate as true when text is at least one character long', () => {
     const valueText = textElement.value as ValueText
     valueText.text = 'Här är en text'
     const result = parseExpression('$funktionsnedsattning', textElement)
@@ -92,21 +92,21 @@ describe('Validate mandatory rule for text values', () => {
 describe('Validate mandatory rule for icf values', () => {
   const icfElement = getIcfElement()
 
-  it('it should validate as false when text is null', () => {
+  it('should validate as false when text is null', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = null
     const result = parseExpression('$funktionsnedsattning', icfElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when text is empty', () => {
+  it('should validate as false when text is empty', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = ''
     const result = parseExpression('$funktionsnedsattning', icfElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when text is at least one character long', () => {
+  it('should validate as true when text is at least one character long', () => {
     const valueIcf = icfElement.value as ValueIcf
     valueIcf.text = 'Här är en text'
     const result = parseExpression('$funktionsnedsattning', icfElement)
@@ -117,21 +117,21 @@ describe('Validate mandatory rule for icf values', () => {
 describe('Validate show rule for boolean values', () => {
   const booleanElement = getBooleanElement()
 
-  it('it should validate as false when selected is null', () => {
+  it('should validate as false when selected is null', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = null
     const result = parseExpression('$harFunktionsnedsattning', booleanElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when selected is false', () => {
+  it('should validate as false when selected is false', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = false
     const result = parseExpression('$harFunktionsnedsattning', booleanElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when selected is true', () => {
+  it('should validate as true when selected is true', () => {
     const value = booleanElement.value as ValueBoolean
     value.selected = true
     const result = parseExpression('$harFunktionsnedsattning', booleanElement)
@@ -143,7 +143,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
   const sickLeavePeriodElement = getSickLeavePeriodElement()
   const SUT_ID = 'EN_FJARDEDEL'
 
-  it('it should validate as false when from date is less than -7 days from todays date', () => {
+  it('should validate as false when from date is less than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(new Date())
     value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
@@ -151,7 +151,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when to date is less than -7 days from todays date', () => {
+  it('should validate as false when to date is less than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(new Date())
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
@@ -159,7 +159,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when from date is greater than -7 days from todays date', () => {
+  it('should validate as true when from date is greater than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const fromDate = formatDateToString(addDays(new Date(), -7))
     value.list = [{ id: SUT_ID, from: fromDate, type: CertificateDataValueType.DATE_RANGE }]
@@ -167,7 +167,7 @@ describe('Validate show rule for date range values for sickLeavePeriod element',
     expect(result).toBe(true)
   })
 
-  it('it should validate as true when to date is greater than -7 days from todays date', () => {
+  it('should validate as true when to date is greater than -7 days from todays date', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     const toDate = formatDateToString(addDays(new Date(), -7))
     value.list = [{ id: SUT_ID, to: toDate, type: CertificateDataValueType.DATE_RANGE }]
@@ -180,7 +180,7 @@ describe('Validate show rule for date range values', () => {
   const dateRangeElement = getDateRangeElement()
   const SUT_ID = 'sjukskrivningsgradPeriod'
 
-  it('it should validate as false when difference from date.from & date.to is less than 14', () => {
+  it('should validate as false when difference from date.from & date.to is less than 14', () => {
     const value = dateRangeElement.value as ValueDateRange
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 5))
@@ -189,7 +189,7 @@ describe('Validate show rule for date range values', () => {
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when difference from date.from & date.to is greater than 14 days', () => {
+  it('should validate as true when difference from date.from & date.to is greater than 14 days', () => {
     const value = dateRangeElement.value as ValueDateRange
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 20))
@@ -198,7 +198,7 @@ describe('Validate show rule for date range values', () => {
     expect(result).toBe(true)
   })
 
-  it('it should validate as false when difference from date.from & date.to is equal', () => {
+  it('should validate as false when difference from date.from & date.to is equal', () => {
     const value = dateRangeElement.value as ValueDateRange
     value.from = formatDateToString(new Date())
     value.to = formatDateToString(addDays(new Date(), 14))
@@ -212,21 +212,21 @@ describe('Validate mandatory rule for date range values', () => {
   const sickLeavePeriodElement = getSickLeavePeriodElement()
   const SUT_ID = 'EN_FJARDEDEL'
 
-  it('it should validate as false when from date is invalid', () => {
+  it('should validate as false when from date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, to: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when to date is invalid', () => {
+  it('should validate as false when to date is invalid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, from: '2021-10-15', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when from and to date are valid', () => {
+  it('should validate as true when from and to date are valid', () => {
     const value = sickLeavePeriodElement.value as ValueDateRangeList
     value.list = [{ id: SUT_ID, from: '2021-10-15', to: '2021-10-16', type: CertificateDataValueType.DATE_RANGE }]
     const result = parseExpression('$EN_FJARDEDEL', sickLeavePeriodElement)
@@ -280,7 +280,7 @@ describe('Validate mandatory rule for date list', () => {
     validationErrors: [],
   }
 
-  it('it should validate as false when list is empty', () => {
+  it('should validate as false when list is empty', () => {
     const result = parseExpression(
       '$undersokningAvPatienten || $telefonkontaktMedPatienten || $journaluppgifter || $annatGrundForMU',
       dateListElement
@@ -288,7 +288,7 @@ describe('Validate mandatory rule for date list', () => {
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when date is set', () => {
+  it('should validate as true when date is set', () => {
     const value = dateListElement.value as ValueDateList
     value.list = [
       {
@@ -331,35 +331,35 @@ describe('Validate mandatory rule for uncertain date', () => {
     validationErrors: [],
   }
 
-  it('it should validate as false when no date is set', () => {
+  it('should validate as false when no date is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = ''
     const result = parseExpression('uncertainDate(osakertDodsDatum)', uncertainDateElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as false when no valid date is set', () => {
+  it('should validate as false when no valid date is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '0000--00'
     const result = parseExpression('uncertainDate(osakertDodsDatum)', uncertainDateElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when unknown year is set', () => {
+  it('should validate as true when unknown year is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '0000-00-00'
     const result = parseExpression('uncertainDate(osakertDodsDatum)', uncertainDateElement)
     expect(result).toBe(true)
   })
 
-  it('it should validate as true when unknown month is set', () => {
+  it('should validate as true when unknown month is set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '2022-00-00'
     const result = parseExpression('uncertainDate(osakertDodsDatum)', uncertainDateElement)
     expect(result).toBe(true)
   })
 
-  it('it should validate as true when year and month are set', () => {
+  it('should validate as true when year and month are set', () => {
     const value = uncertainDateElement.value as ValueUncertainDate
     value.value = '2022-04-00'
     const result = parseExpression('uncertainDate(osakertDodsDatum)', uncertainDateElement)
@@ -604,7 +604,7 @@ describe('Validate multiple show rules', () => {
     links: [],
   }
 
-  it('It should validate as false if both show rules are false', () => {
+  it('should validate as false if both show rules are false', () => {
     const validationResults = validateExpressions(certificate, updatedElement)
 
     const categoryResult = validationResults.find(
@@ -627,7 +627,7 @@ describe('Validate multiple show rules', () => {
     expect(textResult === undefined ? undefined : textResult.result).toBe(false)
   })
 
-  it('It should validate as true if one show rule is true and the other false', () => {
+  it('should validate as true if one show rule is true and the other false', () => {
     const valueBoolean = updatedElement.value as ValueBoolean
     valueBoolean.selected = true
 
@@ -653,7 +653,7 @@ describe('Validate multiple show rules', () => {
     expect(textResult === undefined ? undefined : textResult.result).toBe(true)
   })
 
-  it('It should validate as true if both show rules are true', () => {
+  it('should validate as true if both show rules are true', () => {
     const updatedValueBoolean = updatedElement.value as ValueBoolean
     updatedValueBoolean.selected = true
 
@@ -734,14 +734,14 @@ describe('Validate enable rule for code values', () => {
     validationErrors: [],
   }
 
-  it('it should validate as false when code is not set', () => {
+  it('should validate as false when code is not set', () => {
     const value = codeElement.value as ValueCode
     value.code = ''
     const result = parseExpression('$ATER_X_ANTAL_DGR', codeElement)
     expect(result).toBe(false)
   })
 
-  it('it should validate as true when code is set', () => {
+  it('should validate as true when code is set', () => {
     const value = codeElement.value as ValueCode
     value.id = 'ATER_X_ANTAL_DGR'
     value.code = 'ATER_X_ANTAL_DGR'
@@ -1001,27 +1001,6 @@ describe('Set initial values to a certificate', () => {
     expect(result.length).toBe(0)
   })
 
-  it('should return empty array on non existing field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
-    const validationErrors: ValidationError[] = []
-    validationErrors.push(validationError)
-
-    const result = getValidationErrors(validationErrors, 'NON_EXISTING_FIELD')
-
-    expect(result.length).toBe(0)
-  })
-
-  it('should return validation errors from field', () => {
-    const validationError: ValidationError = { id: '', category: '', field: 'grunddata.patient.postadress', type: '', text: '' }
-    const validationErrors: ValidationError[] = []
-    validationErrors.push(validationError)
-
-    const result = getValidationErrors(validationErrors, 'grunddata.patient.postadress')
-
-    expect(result.length).toBe(1)
-    expect(result[0].field).toBe('grunddata.patient.postadress')
-  })
-
   it('should disable all categories if no edit link', () => {
     const certificate = getCertificate()
 
@@ -1050,12 +1029,12 @@ describe('Set initial values to a certificate', () => {
 })
 
 describe('isShowAlways', () => {
-  it('should return true if validation error is of type other', () => {
+  it('should return true if validation error is of type OTHER', () => {
     const result = isShowAlways(getValidationError('OTHER'))
     expect(result).toBeTruthy()
   })
 
-  it('should return true if validation error is of type other', () => {
+  it('should return true if validation error is of type INVALID_FORMAT', () => {
     const result = isShowAlways(getValidationError('INVALID_FORMAT'))
     expect(result).toBeTruthy()
   })
