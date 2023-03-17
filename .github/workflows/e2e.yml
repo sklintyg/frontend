@@ -1,9 +1,8 @@
 name: End-To-End
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    branches:
+      - master
 jobs:
   webcert-e2e:
     runs-on: ubuntu-20.04
