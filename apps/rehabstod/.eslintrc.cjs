@@ -5,7 +5,7 @@ const REACT_FC_MESSAGE = 'Please use JSX.Element instead. [React.FC](https://git
 
 module.exports = {
   root: true,
-  extends: ['react', 'plugin:tailwindcss/recommended'],
+  extends: ['react', 'plugin:jest/recommended', 'plugin:tailwindcss/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,

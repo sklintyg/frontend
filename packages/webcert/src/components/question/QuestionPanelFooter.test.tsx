@@ -1,4 +1,15 @@
-import { getForwardResourceLink, getUnit, Question, QuestionType, ResourceLink, ResourceLinkType } from '@frontend/common'
+import {
+  Certificate,
+  CertificateRelations,
+  fakeCertificate,
+  fakeCertificateMetaData,
+  getForwardResourceLink,
+  getUnit,
+  Question,
+  QuestionType,
+  ResourceLink,
+  ResourceLinkType,
+} from '@frontend/common'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -6,11 +17,21 @@ import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { answerComplementCertificate, complementCertificate, updateCertificate } from '../../store/certificate/certificateActions'
-import { getTestCertificate } from '../../store/certificate/certificateMiddleware.test'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import QuestionPanelFooter from './QuestionPanelFooter'
+
+const getTestCertificate = (
+  id: string,
+  type?: string,
+  version?: number,
+  readyForSign?: string,
+  relations?: CertificateRelations
+): Certificate =>
+  fakeCertificate({
+    metadata: fakeCertificateMetaData({ id, type, version, readyForSign, relations }),
+  })
 
 // https://stackoverflow.com/questions/53009324/how-to-wait-for-request-to-be-finished-with-axios-mock-adapter-like-its-possibl
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -29,7 +50,7 @@ const renderComponent = (questions: Question[]) => {
   )
 }
 
-describe('', () => {
+describe('QuestionPanelFooter', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([dispatchHelperMiddleware, questionMiddleware])
   })

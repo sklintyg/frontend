@@ -7,7 +7,7 @@ import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/c
 import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
-import SrsPanel from '../../../components/srs/SrsPanel'
+import SrsPanel from '../../../components/srs/panel/SrsPanel'
 
 const CertificateSidePanel: React.FC = () => {
   const showSpinner = useSelector(getIsShowSpinner)

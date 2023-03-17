@@ -78,7 +78,7 @@ describe('Test certificate frontend validation', () => {
         expect(showCertificateDataElementAction && showCertificateDataElementAction.payload).toBe('1.2')
       })
 
-      it('should trigger another frontend validation if the element is hidden ', async () => {
+      it('should trigger another frontend validation if the element is hidden', async () => {
         const certificate = showValidation(false, true)
         testStore.dispatch(updateCertificate(certificate))
 
@@ -90,7 +90,7 @@ describe('Test certificate frontend validation', () => {
         expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
       })
 
-      it('should trigger another frontend validation if the element is shown ', async () => {
+      it('should trigger another frontend validation if the element is shown', async () => {
         const certificate = showValidation(true, false)
         testStore.dispatch(updateCertificate(certificate))
 
@@ -181,7 +181,7 @@ describe('Test certificate frontend validation', () => {
         expect(showCertificateDataElementAction && showCertificateDataElementAction.payload).toBe('1.2')
       })
 
-      it('should trigger another frontend validation if the element is visible ', async () => {
+      it('should trigger another frontend validation if the element is visible', async () => {
         const certificate = hideValidation(true, true)
         testStore.dispatch(updateCertificate(certificate))
 
@@ -193,7 +193,7 @@ describe('Test certificate frontend validation', () => {
         expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
       })
 
-      it('should trigger another frontend validation if the element is shown ', async () => {
+      it('should trigger another frontend validation if the element is shown', async () => {
         const certificate = hideValidation(true, true)
         testStore.dispatch(updateCertificate(certificate))
 
@@ -374,7 +374,7 @@ describe('Test certificate frontend validation', () => {
       expect(testStore.getState().ui.uiCertificate.certificate.data['1.2'].value.selected).toBe(false)
     })
 
-    it('should trigger another frontend validation if the element is autofilled ', async () => {
+    it('should trigger another frontend validation if the element is autofilled', async () => {
       const certificate = autoFillValidation(true)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -386,7 +386,7 @@ describe('Test certificate frontend validation', () => {
       expect(numberOfValidateCertificateInFrontend[1].payload.id).toBe('1.2')
     })
 
-    it('should not trigger another frontend validation if the element already has the autofill value ', async () => {
+    it('should not trigger another frontend validation if the element already has the autofill value', async () => {
       const certificate = autoFillValidation(true, true)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -397,7 +397,7 @@ describe('Test certificate frontend validation', () => {
       expect(numberOfValidateCertificateInFrontend[0].payload.id).toBe('1.1')
     })
 
-    it('should trigger autoSave if the element is autofilled ', async () => {
+    it('should trigger autoSave if the element is autofilled', async () => {
       const certificate = autoFillValidation(true)
       testStore.dispatch(updateCertificate(certificate))
 
@@ -407,7 +407,7 @@ describe('Test certificate frontend validation', () => {
       expect(numberOfAutoSaveCertificate.length).toBe(1)
     })
 
-    it('should trigger validate if the element is autofilled ', async () => {
+    it('should trigger validate if the element is autofilled', async () => {
       const certificate = autoFillValidation(true)
       testStore.dispatch(updateCertificate(certificate))
 

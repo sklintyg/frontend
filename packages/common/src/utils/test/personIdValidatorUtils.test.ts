@@ -34,7 +34,7 @@ describe('patientIdValidatorUtils', () => {
       expect(isPersonIdValid('19121212-1212')).toBeTruthy()
     })
 
-    it('should validate as false if person id is not correct ', () => {
+    it('should validate as false if person id is not correct', () => {
       expect(isPersonIdValid('191212121213')).toBeFalsy()
     })
 
