@@ -12,14 +12,8 @@ import { DeathCertificateConfirmModalIntegrated } from '../feature/certificate/M
 import MajorVersionNotification from '../feature/certificate/NotificationBanners/MajorVersionNotification'
 import ReadOnlyViewNotification from '../feature/certificate/NotificationBanners/ReadOnlyViewNotification'
 import CertificateDeletedHandler from '../feature/certificate/RemovedCertificate/CertificateDeletedHandler'
-import CertificateDeletedModal from '../feature/certificate/RemovedCertificate/CertificateDeletedModal'
 import { getCertificate } from '../store/certificate/certificateActions'
-import {
-  getCertificateMetaData,
-  getIsCertificateDeleted,
-  getIsRoutedFromDeletedCertificate,
-  getResourceLinks,
-} from '../store/certificate/certificateSelectors'
+import { getCertificateMetaData, getIsCertificateDeleted, getResourceLinks } from '../store/certificate/certificateSelectors'
 import { getUserStatistics } from '../store/user/userActions'
 
 const OverflowScroll = styled.div`
@@ -43,7 +37,7 @@ const CertificatePage: React.FC = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const isCertificateDeleted = useSelector(getIsCertificateDeleted())
-  const routedFromDeletedCertificate = useSelector(getIsRoutedFromDeletedCertificate())
+
   const links = useSelector(getResourceLinks)
   const isDBIntegrated = links.find((link) => link.type === ResourceLinkType.WARNING_DODSBEVIS_INTEGRATED)
   const [showDeathCertificateModal, setShowDeathCertificateModal] = useState(true)
@@ -66,7 +60,6 @@ const CertificatePage: React.FC = () => {
             <MajorVersionNotification />
             <ReadOnlyViewNotification />
             <CertificateHeader />
-            <CertificateDeletedModal routedFromDeletedCertificate={routedFromDeletedCertificate} />
           </>
         )
       }
