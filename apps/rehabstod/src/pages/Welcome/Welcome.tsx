@@ -1,12 +1,24 @@
 import { IDSButton, IDSCard, IDSContainer } from '@frontend/ids-react-ts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWelcome } from './useWelcome'
 
 export function Welcome() {
   const [selectedLogin, setSelectedLogin] = useState<string>()
   const [selectedUnit, setSelectedUnit] = useState<string>()
-  const [selectedFilter, setSelectedFilter] = useState('all')
-  const { isLoading, fakeLogins } = useWelcome()
+  const [freeText, setFreetext] = useState<string | null>(null)
+  const { isLoading, fakeLogins, selectedFilter, setSelectedFilter } = useWelcome()
+
+  useEffect(() => {
+    if (fakeLogins.length > 0) {
+      if (!fakeLogins.find(({ hsaId }) => hsaId === selectedLogin)) {
+        setSelectedLogin(fakeLogins[0].hsaId)
+      }
+
+      if (!fakeLogins.find(({ forvaldEnhet }) => forvaldEnhet === selectedUnit)) {
+        setSelectedUnit(fakeLogins[0].forvaldEnhet)
+      }
+    }
+  }, [fakeLogins, selectedLogin, selectedUnit])
 
   if (isLoading) {
     return <>Loading</>
@@ -54,29 +66,31 @@ export function Welcome() {
                   const [hsaId, unitId] = select.children[select.selectedIndex].id.split('_')
                   setSelectedLogin(hsaId)
                   setSelectedUnit(unitId)
+                  setFreetext(null)
                 }}
                 className="border-accent-40 w-full rounded border p-2">
-                {fakeLogins
-                  .filter(({ env }) => (selectedFilter === 'all' ? true : selectedFilter === env))
-                  .map(({ hsaId, logins }) =>
-                    logins.map(({ forvaldEnhet, beskrivning }) => (
-                      <option key={`${hsaId}_${forvaldEnhet}`} id={`${hsaId}_${forvaldEnhet}`}>
-                        {beskrivning}
-                      </option>
-                    ))
-                  )}
+                {fakeLogins.map(({ hsaId, forvaldEnhet, beskrivning }) => (
+                  <option key={`${hsaId}_${forvaldEnhet}`} id={`${hsaId}_${forvaldEnhet}`}>
+                    {beskrivning}
+                  </option>
+                ))}
               </select>
             </label>
           </div>
           <div className="w-6/12 flex-auto">
-            <textarea
-              value={JSON.stringify({ hsaId: selectedLogin, enhetId: selectedUnit }, null, 2)}
-              className="border-accent-40 w-full whitespace-nowrap rounded border p-2"
-              rows={4}
-            />
+            <form id="loginForm" action="/fake" method="POST" acceptCharset="UTF-8">
+              <textarea
+                id="userJsonDisplay"
+                name="userJsonDisplay"
+                value={freeText != null ? freeText : JSON.stringify({ hsaId: selectedLogin, enhetId: selectedUnit }, null, 2)}
+                onChange={(event) => setFreetext(event.target.value)}
+                className="border-accent-40 w-full whitespace-nowrap rounded border p-2"
+                rows={4}
+              />
+              <IDSButton type="submit">Logga in</IDSButton>
+            </form>
           </div>
         </div>
-        <IDSButton>Logga in</IDSButton>
       </div>
     </IDSContainer>
   )
