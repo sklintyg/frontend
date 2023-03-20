@@ -1,11 +1,20 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
+import { useGetUserQuery } from '../../store/api'
 
 export function Home() {
+  const { isLoading, data: user } = useGetUserQuery()
   const navigate = useNavigate()
 
-  return (
+  return !isLoading && user ? (
+    <PageHero icon="user">
+      <p className="ids-preamble">Hej {user.namn}</p>
+      <form action="/logout" method="POST" id="logoutForm">
+        <IDSButton type="submit">Logga ut</IDSButton>
+      </form>
+    </PageHero>
+  ) : (
     <PageHero icon="user">
       <h1 className="ids-heading-1">Välkommen till Rehabstöd</h1>
       <p className="ids-preamble">

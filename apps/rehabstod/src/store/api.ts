@@ -9,8 +9,15 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getUser: builder.query<Record<string, User>, void>({
+    getUser: builder.query<User, void>({
       query: () => 'user',
+    }),
+    setUnit: builder.mutation<User, { id: string }>({
+      query: ({ id }) => ({
+        url: `user/andraenhet`,
+        method: 'POST',
+        body: { id },
+      }),
     }),
   }),
 })

@@ -34,9 +34,9 @@ export interface FakeProperties {
 }
 
 export enum AllowedInApplication {
-  Ib = 'IB',
-  Rs = 'RS',
-  Wc = 'WC',
+  IB = 'IB',
+  RS = 'RS',
+  WC = 'WC',
 }
 
 export enum Env {

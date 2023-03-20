@@ -9,7 +9,6 @@ module.exports = {
       lg: '1024px',
       xl: '1280px',
     },
-    fontFamily: 'var(--font-family_1)',
     colors: {
       white: '#FFF',
       primary: {

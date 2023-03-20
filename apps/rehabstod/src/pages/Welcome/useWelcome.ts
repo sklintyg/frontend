@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
 import { MedarbetarUppdrag } from '../../store/types/medarbertarUppdrag'
-import { Person } from '../../store/types/person'
+import { AllowedInApplication, Person } from '../../store/types/person'
 
 export function useWelcome() {
   const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()
@@ -27,6 +27,7 @@ export function useWelcome() {
     () =>
       missions
         .map(({ hsaId, fakeProperties }) => ({ hsaId, ...fakeProperties, logins: fakeProperties?.logins ?? [] }))
+        .filter(({ allowedInApplications }) => allowedInApplications?.includes(AllowedInApplication.RS))
         .filter(({ env }) => (selectedFilter === 'all' ? true : selectedFilter === env))
         .map(({ hsaId, logins }) => logins.map(({ forvaldEnhet, beskrivning }) => ({ hsaId, forvaldEnhet, beskrivning })))
         .flat(),
