@@ -7,7 +7,7 @@ import { throwError } from '../error/errorActions'
 import { ErrorType } from '../error/errorReducer'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../test/dispatchHelperMiddleware'
 import { apiCallBegan, apiGenericError, apiSilentGenericError } from './apiActions'
-import apiMiddleware from './apiMiddleware'
+import { apiMiddleware } from './apiMiddleware'
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
 

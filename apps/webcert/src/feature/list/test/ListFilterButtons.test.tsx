@@ -62,11 +62,6 @@ describe('ListFilterButtons', () => {
     expect(screen.getByText('Sök')).toBeDisabled()
   })
 
-  it('should have search disabled if filter does not validate', () => {
-    renderComponent(false)
-    expect(screen.getByText('Sök')).toBeDisabled()
-  })
-
   it('should perform search when clicking on button', () => {
     renderComponent(true)
     userEvent.click(screen.getByText('Sök'))

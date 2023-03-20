@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['react'],
+  extends: ['react', 'plugin:jest/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -24,6 +24,7 @@ module.exports = {
     'import/no-useless-path-segments': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',
+    'jest/no-disabled-tests': 'off',
     'import/no-default-export': 'off',
     'jsx-a11y/alt-text': 'off',
     'jsx-a11y/anchor-is-valid': 'off',

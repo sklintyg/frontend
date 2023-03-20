@@ -31,7 +31,7 @@ describe('Integer component', () => {
     expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
 
-  it('renders textinput ', () => {
+  it('renders textinput', () => {
     renderComponent({ disabled: false, question })
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
