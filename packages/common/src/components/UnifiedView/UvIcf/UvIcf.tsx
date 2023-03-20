@@ -28,7 +28,7 @@ export const UvIcf: React.FC<{
                 {icfCodes.map((code, i) => (
                   <React.Fragment key={code}>
                     <IcfCode>{code}</IcfCode>
-                    {i !== icfCodes.length - 1 && <label className={'iu-ml-200 iu-mr-200'}>-</label>}
+                    {i !== icfCodes.length - 1 && <span className="iu-ml-200 iu-mr-200">-</span>}
                   </React.Fragment>
                 ))}
               </IcfCodeWrapper>

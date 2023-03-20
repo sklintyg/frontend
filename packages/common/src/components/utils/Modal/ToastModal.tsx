@@ -41,7 +41,7 @@ const ToastModal: React.FC<Props> = ({ children, onClose }) => {
   }
 
   return (
-    <div className={'ic-backdrop'} onClick={handleClose}>
+    <div role="none" className={'ic-backdrop'} onClick={handleClose}>
       <AnimatedDiv role="dialog" className="ic-modal" aria-labelledby="demo-modal-content">
         <div className="ic-modal__body ic-text">{children}</div>
       </AnimatedDiv>
