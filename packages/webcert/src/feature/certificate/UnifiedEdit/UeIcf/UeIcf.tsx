@@ -1,22 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   CertificateDataElement,
+  CertificateDataValidationType,
   ConfigUeIcf,
   QuestionValidationTexts,
   TextArea,
-  ValueIcf,
-  CertificateDataValidationType,
   TextValidation,
+  ValueIcf,
 } from '@frontend/common'
-import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
 import { debounce, isEqual } from 'lodash'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import IcfDropdown from '../../../../components/icf/IcfDropdown'
-import { getIcfData } from '../../../../store/icf/icfSelectors'
-import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
-import { useAppDispatch } from '../../../../store/store'
-import usePrevious from '../../../../hooks/usePrevious'
 import { getFilteredIcfValues, getIcfValueList } from '../../../../components/icf/IcfUtils'
+import usePrevious from '../../../../hooks/usePrevious'
+import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
+import { getVisibleValidationErrors } from '../../../../store/certificate/certificateSelectors'
+import { getIcfData } from '../../../../store/icf/icfSelectors'
+import { useAppDispatch } from '../../../../store/store'
 
 interface Props {
   question: CertificateDataElement
@@ -68,12 +68,12 @@ const UeIcf: React.FC<Props> = ({ question, disabled }) => {
       )}
       <TextArea
         disabled={disabled}
-        rowsMin={6}
+        rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={(event) => updateValue({ text: event.currentTarget.value })}
         name={questionConfig.id}
         value={currentValue.text ?? ''}
-        limit={textValidation ? textValidation.limit : 3500}
+        maxLength={textValidation ? textValidation.limit : 3500}
         placeholder={(currentValue.icfCodes?.length ?? 0) > 0 ? questionConfig.placeholder : ''}
       />
       <QuestionValidationTexts validationErrors={validationErrors} />

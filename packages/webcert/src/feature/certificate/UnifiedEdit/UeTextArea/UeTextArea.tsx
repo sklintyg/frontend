@@ -49,13 +49,14 @@ const UeTextArea: React.FC<Props> = ({ question, disabled }) => {
   return (
     <>
       <TextArea
+        data-testid={`textarea-${question.id}`}
         disabled={disabled}
-        rowsMin={6}
+        rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={handleChange}
         name={questionConfig.id}
         value={text === null ? '' : text}
-        limit={textValidation ? textValidation.limit : 3500}
+        maxLength={textValidation ? textValidation.limit : 3500}
       />
       <QuestionValidationTexts validationErrors={validationErrors} />
     </>

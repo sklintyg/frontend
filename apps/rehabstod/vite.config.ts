@@ -19,6 +19,13 @@ export default ({ mode }: UserConfig) => {
           changeOrigin: true,
           autoRewrite: true,
         },
+        '/api': {
+          target: 'https://rehabstod-devtest.intyg.nordicmedtest.se',
+          cookieDomainRewrite: { '*': '' },
+          protocolRewrite: 'https',
+          changeOrigin: true,
+          autoRewrite: true,
+        },
       },
     },
     test: {

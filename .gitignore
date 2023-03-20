@@ -22,8 +22,8 @@ dist
 .turbo
 
 # End-To-End
-/packages/webcert-e2e/results/
-/packages/webcert-e2e/videos/
+/e2e/results/
+/e2e/videos/
 
 # Env
 .env.local
@@ -50,3 +50,4 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.iml

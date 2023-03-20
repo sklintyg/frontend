@@ -81,6 +81,7 @@ const UeTypeahead: React.FC<Props> = ({ question, disabled }) => {
     <div className="iu-grid-cols iu-grid-cols-12">
       <div className="iu-grid-span-6">
         <Typeahead
+          data-testid={`typeahead-${question.id}`}
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}
           onChange={handleChange}

@@ -11,7 +11,7 @@ import {
 import { EnhancedStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import apiMiddleware from '../api/apiMiddleware'
+import { apiMiddleware } from '../api/apiMiddleware'
 import { updateCertificate } from '../certificate/certificateActions'
 import { certificateMiddleware } from '../certificate/certificateMiddleware'
 import { configureApplicationStore } from '../configureApplicationStore'
@@ -321,7 +321,7 @@ describe('Test question middleware', () => {
       expect(testStore.getState().ui.uiQuestion.isQuestionMissingType).toBeTruthy()
     })
 
-    it('shall validate question type', async () => {
+    it('shall validate question message', async () => {
       const questionDraft = createQuestionDraft()
       questionDraft.message = ''
 

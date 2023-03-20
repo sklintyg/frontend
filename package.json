@@ -4,7 +4,8 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "packages/*"
+      "packages/*",
+      "e2e"
     ]
   },
   "scripts": {
@@ -12,6 +13,7 @@
     "lint": "eslint . -f checkstyle > lint-result.xml",
     "prepare": "husky install",
     "start": "turbo dev",
+    "start:test": "turbo dev -- -m test",
     "test:ci": "turbo test:ci",
     "posttest:ci": "yarn test:report && yarn test:coverage",
     "test:report": "jrm junit.xml \"packages/**/junit.xml\" \"apps/**/junit.xml\"",
@@ -20,6 +22,7 @@
     "typescript": "turbo typescript"
   },
   "devDependencies": {
+    "@frontend/combine-coverage": "*",
     "eslint": "^8.34.0",
     "eslint-config-custom": "*",
     "husky": "^7.0.4",
@@ -28,8 +31,7 @@
     "nyc": "^15.1.0",
     "prettier": "^1.18.2",
     "turbo": "^1.7.4",
-    "typescript": "^4.9.5",
-    "@frontend/combine-coverage": "*"
+    "typescript": "^4.9.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix"
@@ -50,5 +52,6 @@
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
     "arrowParens": "always"
-  }
+  },
+  "dependencies": {}
 }

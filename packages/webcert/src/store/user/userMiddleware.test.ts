@@ -145,7 +145,7 @@ describe('Test user middleware', () => {
     beforeEach(() => {
       sessionStorage.clear()
     })
-    it('should add launchId to sessionStorage if added on user', async function() {
+    it('should add launchId to sessionStorage if added on user', async () => {
       const data = {
         user: getUserWithLaunchId(),
         links: [],
@@ -156,7 +156,7 @@ describe('Test user middleware', () => {
 
       expect(sessionStorage.getItem('launchId')).toBe(data.user.launchId)
     })
-    it('should not add launchId to sessionStorage if not added on user', async function() {
+    it('should not add launchId to sessionStorage if not added on user', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -167,7 +167,7 @@ describe('Test user middleware', () => {
 
       expect(sessionStorage.getItem('launchId')).toBe(null)
     })
-    it('should dispatch updateUser action', async function() {
+    it('should dispatch updateUser action', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -180,7 +180,7 @@ describe('Test user middleware', () => {
 
       expect(didUpdateUser).toBeTruthy()
     })
-    it('should update the user with correct values', async function() {
+    it('should update the user with correct values', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -192,7 +192,7 @@ describe('Test user middleware', () => {
       const user = testStore.getState().ui.uiUser.user
       expect(user).toBe(data.user)
     })
-    it('should dispatch updateUserResources action', async function() {
+    it('should dispatch updateUserResources action', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -207,7 +207,7 @@ describe('Test user middleware', () => {
 
       expect(didUpdateResourceLinks).toBeTruthy()
     })
-    it('should update the user resourceLinks with correct values', async function() {
+    it('should update the user resourceLinks with correct values', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -220,7 +220,7 @@ describe('Test user middleware', () => {
 
       expect(resourceLink).toBe(data.links)
     })
-    it('should dispatch isLoadingUser action', async function() {
+    it('should dispatch isLoadingUser action', async () => {
       const data = {
         user: getUser(),
         links: [],
@@ -235,7 +235,7 @@ describe('Test user middleware', () => {
 
       expect(didUpdateIsLoadingUser).toBeTruthy()
     })
-    it('should update isLoadingUser to false', async function() {
+    it('should update isLoadingUser to false', async () => {
       const data = {
         user: getUser(),
         links: [],

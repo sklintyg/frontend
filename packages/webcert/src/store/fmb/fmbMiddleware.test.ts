@@ -306,7 +306,7 @@ const getEmptyFMBDiagnosisCodeInfoResult = (code: string, index: number) => {
   }
 }
 
-export const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
+const getDiagnosisElementWithCodeSystem = (codeSystem: string): CertificateDataElement =>
   fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
@@ -330,7 +330,7 @@ export const getDiagnosisElementWithCodeSystem = (codeSystem: string): Certifica
     },
   })['6.1']
 
-export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
+const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDataElement =>
   fakeDiagnosesElement({
     id: '6.1',
     parent: '6',
@@ -353,21 +353,21 @@ export const getDiagnosesElement = (codes: FMBDiagnoseRequest[]): CertificateDat
     },
   })['6.1']
 
-export const getDateRangeListValue = (): ValueDateRangeList => {
+const getDateRangeListValue = (): ValueDateRangeList => {
   return {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [{ type: CertificateDataValueType.DATE_RANGE, to: '2022-01-01', from: '2021-01-01', id: 'HALFTEN' }],
   }
 }
 
-export const getDiagnosisListValue = (): ValueDiagnosisList => {
+const getDiagnosisListValue = (): ValueDiagnosisList => {
   return {
     type: CertificateDataValueType.DIAGNOSIS_LIST,
     list: [{ type: CertificateDataValueType.DIAGNOSIS, code: 'F500', description: 'desc', id: '1', terminology: 'icd10' }],
   }
 }
 
-export const getDateRangeListElement = (): CertificateDataElement =>
+const getDateRangeListElement = (): CertificateDataElement =>
   fakeSickLeavePeriod({
     id: '6.1',
     parent: '6',
@@ -382,7 +382,7 @@ export const getDateRangeListElement = (): CertificateDataElement =>
     validationErrors: [],
   })['6.1']
 
-export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
+const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: string): Certificate => {
   return {
     links: [
       {
@@ -406,7 +406,7 @@ export const getCertificateWithDiagnosisElementWithCodeSystem = (codeSystem: str
   }
 }
 
-export const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
+const getCertificate = (codes: FMBDiagnoseRequest[], fmbActive?: boolean): Certificate => {
   return {
     links:
       fmbActive === undefined

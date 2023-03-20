@@ -99,5 +99,3 @@ export const apiMiddleware: Middleware<Dispatch> = (middlewareAPI: MiddlewareAPI
     middlewareMethods[action.type](middlewareAPI)(next)(action)
   }
 }
-
-export default apiMiddleware

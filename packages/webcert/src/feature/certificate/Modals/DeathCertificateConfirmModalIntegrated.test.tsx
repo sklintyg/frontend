@@ -96,7 +96,6 @@ describe('DeathCertificateConfirmModalIntegrated', () => {
       renderComponent(true)
       const confirmButton = screen.getByText('Gå vidare')
 
-      expect(confirmButton)
       expect(confirmButton).toBeDisabled()
     })
 
