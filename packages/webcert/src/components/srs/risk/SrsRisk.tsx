@@ -5,6 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon, SrsAnswer, SrsEvent, SrsSickLeaveChoice
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getCertificateId,
+  getDiagnosisListValue,
   getPatientId,
   getPredictionDiagnosisCode,
   getSickLeaveChoice,
@@ -13,6 +14,7 @@ import {
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
 import { getPredictions, logSrsInteraction } from '../../../store/srs/srsActions'
+import { getMainDiagnosisCode } from '../srsUtils'
 
 const StyledButton = styled.button`
   font-size: 1.375em;
@@ -45,6 +47,7 @@ const SrsRisk: React.FC = () => {
   const diagnosisCode = useSelector(getPredictionDiagnosisCode)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const predictions = useSelector(getSrsPredictions)
+  const valueDiagnosis = useSelector(getDiagnosisListValue)
 
   const previousAnswers = predictions.length > 0 ? predictions[0].questionsResponses : undefined
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
@@ -78,7 +81,7 @@ const SrsRisk: React.FC = () => {
       getPredictions({
         patientId: patientId,
         certificateId: certificateId,
-        code: diagnosisCode,
+        code: getMainDiagnosisCode(valueDiagnosis),
         answers: answers,
       })
     )
