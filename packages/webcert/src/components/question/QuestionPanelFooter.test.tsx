@@ -109,14 +109,17 @@ describe('QuestionPanelFooter', () => {
     })
 
     it('display forward button if resource link is available', () => {
+      flushPromises()
       const resourceLinks: ResourceLink[] = [getForwardResourceLink()]
       const unit = getUnit()
       const certificate = getTestCertificate('certificateId')
       certificate.links = resourceLinks
       certificate.metadata.unit = unit
       certificate.metadata.careProvider = unit
-
       testStore.dispatch(updateCertificate(certificate))
+      const question = createQuestion()
+      question.links.push(resourceLinks[0])
+      renderComponent([question])
 
       expect(screen.getByText('Vidarebefordra')).toBeInTheDocument()
     })
