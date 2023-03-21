@@ -7,7 +7,6 @@ import {
   getCertificateId,
   getDiagnosisListValue,
   getPatientId,
-  getPredictionDiagnosisCode,
   getSickLeaveChoice,
   getSrsPredictions,
 } from '../../../store/srs/srsSelectors'
@@ -44,7 +43,6 @@ const SrsRisk: React.FC = () => {
 
   const patientId = useSelector(getPatientId)
   const certificateId = useSelector(getCertificateId)
-  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const predictions = useSelector(getSrsPredictions)
   const valueDiagnosis = useSelector(getDiagnosisListValue)

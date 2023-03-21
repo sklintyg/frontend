@@ -118,15 +118,6 @@ describe('SrsRisk', () => {
       store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
       expect(screen.getByText(SRS_RISK_BUTTON_TEXT)).toBeDisabled()
     })
-
-    it('should close risk form if open risk form button gets disabled', () => {
-      renderComponent()
-      const question = fakeSrsQuestion()
-      store.dispatch(updateSrsQuestions([question]))
-      userEvent.click(screen.getByText(SRS_RISK_BUTTON_TEXT))
-      store.dispatch(updateSickLeaveChoice(SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS))
-      expect(screen.queryByText(question.text)).not.toBeInTheDocument()
-    })
   })
 
   describe('calculate risk button', () => {

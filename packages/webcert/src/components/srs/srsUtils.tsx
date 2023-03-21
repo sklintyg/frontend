@@ -91,7 +91,7 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
   )
 }
 
-export const getMainDiagnosisCode = (value: ValueDiagnosisList) => {
+export const getMainDiagnosisCode = (value: ValueDiagnosisList | null) => {
   if (!value) {
     return ''
   }
