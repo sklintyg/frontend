@@ -13,6 +13,7 @@ import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 
 interface Props {
   previousAnswers: SrsAnswer[]
+  onClick: (answers: SrsAnswer[]) => void
 }
 
 const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boolean, previousAnswers: SrsAnswer[]) => {
@@ -28,12 +29,8 @@ const getDefaultOptionId = (question: SrsQuestion, usesOldPredictionModel: boole
   return option ? option.id : ''
 }
 
-const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
-  const dispatch = useDispatch()
+const SrsRiskForm: React.FC<Props> = ({ previousAnswers, onClick }) => {
   const questions = useSelector(getSrsQuestions)
-  const patientId = useSelector(getPatientId)
-  const certificateId = useSelector(getCertificateId)
-  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
   const predictions = useSelector(getSrsPredictions)
   const usesOldPredictionModel = predictions.some((prediction) => prediction.modelVersion === '2.1')
 
@@ -47,19 +44,6 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
     const newAnswers = answers.filter((answer) => answer.questionId !== questionId)
     newAnswers.push({ questionId: questionId, answerId: answerId })
     setAnswers(newAnswers)
-  }
-
-  const onCalculateRisk = () => {
-    dispatch(
-      getPredictions({
-        patientId: patientId,
-        certificateId: certificateId,
-        code: diagnosisCode,
-        answers: answers,
-      })
-    )
-
-    dispatch(logSrsInteraction(SrsEvent.SRS_CALCULATE_CLICKED))
   }
 
   return (
@@ -80,7 +64,7 @@ const SrsRiskForm: React.FC<Props> = ({ previousAnswers }) => {
           />
         )
       })}
-      <CustomButton text="Beräkna" buttonStyle="secondary" onClick={() => onCalculateRisk()} />
+      <CustomButton text="Beräkna" buttonStyle="secondary" onClick={() => onClick(answers)} />
     </div>
   )
 }

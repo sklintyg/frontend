@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SrsRiskForm from './SrsRiskForm'
 import styled from 'styled-components'
-import { ChevronDownIcon, ChevronUpIcon, SrsEvent, SrsSickLeaveChoice } from '@frontend/common'
+import { ChevronDownIcon, ChevronUpIcon, SrsAnswer, SrsEvent, SrsSickLeaveChoice } from '@frontend/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSickLeaveChoice, getSrsPredictions } from '../../../store/srs/srsSelectors'
+import {
+  getCertificateId,
+  getPatientId,
+  getPredictionDiagnosisCode,
+  getSickLeaveChoice,
+  getSrsPredictions,
+} from '../../../store/srs/srsSelectors'
 import SrsRiskGraph from './SrsRiskGraph'
 import SrsRiskOpinion from './SrsRiskOpinion'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
+import { getPredictions, logSrsInteraction } from '../../../store/srs/srsActions'
 
 const StyledButton = styled.button`
   font-size: 1.375em;
@@ -33,8 +39,13 @@ export const SRS_RISK_BUTTON_TEXT = 'Beräkna risk här'
 const SrsRisk: React.FC = () => {
   const dispatch = useDispatch()
   const [expanded, setExpanded] = useState(false)
+
+  const patientId = useSelector(getPatientId)
+  const certificateId = useSelector(getCertificateId)
+  const diagnosisCode = useSelector(getPredictionDiagnosisCode)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const predictions = useSelector(getSrsPredictions)
+
   const previousAnswers = predictions.length > 0 ? predictions[0].questionsResponses : undefined
   const isCalculatingRiskDisabled = sickLeaveChoice === SrsSickLeaveChoice.EXTENSION_AFTER_60_DAYS
 
@@ -46,6 +57,12 @@ const SrsRisk: React.FC = () => {
     )
   }
 
+  useEffect(() => {
+    if (isCalculatingRiskDisabled) {
+      setExpanded(false)
+    }
+  }, [isCalculatingRiskDisabled])
+
   const onButtonClicked = () => {
     if (expanded) {
       dispatch(logSrsInteraction(SrsEvent.SRS_HIDE_QUESTIONS_CLICKED))
@@ -54,6 +71,20 @@ const SrsRisk: React.FC = () => {
     }
 
     setExpanded(!expanded)
+  }
+
+  const onCalculateRisk = (answers: SrsAnswer[]) => {
+    dispatch(
+      getPredictions({
+        patientId: patientId,
+        certificateId: certificateId,
+        code: diagnosisCode,
+        answers: answers,
+      })
+    )
+
+    dispatch(logSrsInteraction(SrsEvent.SRS_CALCULATE_CLICKED))
+    setExpanded(false)
   }
 
   return (
@@ -68,7 +99,7 @@ const SrsRisk: React.FC = () => {
       </StyledButton>
       {expanded && (
         <>
-          <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} />
+          <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} onClick={onCalculateRisk} />
           <BottomBorder className="iu-bg-information-light" />
         </>
       )}

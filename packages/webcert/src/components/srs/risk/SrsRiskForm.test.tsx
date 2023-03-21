@@ -14,7 +14,12 @@ let testStore: EnhancedStore
 const renderComponent = (previousAnswers?: SrsAnswer[]) => {
   render(
     <Provider store={testStore}>
-      <SrsRiskForm previousAnswers={previousAnswers ? previousAnswers : []} />
+      <SrsRiskForm
+        previousAnswers={previousAnswers ? previousAnswers : []}
+        onClick={() => {
+          return
+        }}
+      />
     </Provider>
   )
 }
