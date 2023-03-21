@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  getCertificateId,
-  getPatientId,
-  getPredictionDiagnosisCode,
-  getSrsPredictions,
-  getSrsQuestions,
-} from '../../../store/srs/srsSelectors'
-import { CustomButton, InfoBox, SrsAnswer, SrsQuestion, SrsEvent } from '@frontend/common'
-import { getPredictions, logSrsInteraction } from '../../../store/srs/srsActions'
+import { useSelector } from 'react-redux'
+import { getSrsPredictions, getSrsQuestions } from '../../../store/srs/srsSelectors'
+import { CustomButton, InfoBox, SrsAnswer, SrsQuestion } from '@frontend/common'
 import SrsRiskFormQuestion from './SrsRiskFormQuestion'
 
 interface Props {
