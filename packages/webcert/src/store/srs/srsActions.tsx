@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { SrsAnswer, SrsPrediction, SrsPredictionInfo, SrsQuestion, ValueDiagnosisList } from '@frontend/common'
 import { FunctionDisabler, TOGGLE_FUNCTION_DISABLER } from '../../utils/functionDisablerUtils'
-import { SrsInfoForDiagnosis, SrsSickLeaveChoice } from '@frontend/common/src/types/srs'
+import { SrsEvent, SrsInfoForDiagnosis, SrsSickLeaveChoice } from '@frontend/common/src/types/srs'
 
 const SRS = '[SRS]'
 export const setDiagnosisListValue = createAction<ValueDiagnosisList>(`${SRS} Set diagnosis list value`)
@@ -74,6 +74,14 @@ export const updateSrsPredictions = createAction<SrsPrediction[]>(`${SRS} Update
 export const updateLoading = createAction<boolean>(`${SRS} Update loading`)
 
 export const resetState = createAction(`${SRS} Reset state`)
+
+export const logSrsInteraction = createAction<SrsEvent>(`${SRS} Log SRS interaction`)
+
+export const logSrsInteractionStarted = createAction(`${SRS} Log SRS interaction started`)
+
+export const logSrsInteractionError = createAction(`${SRS} Log SRS interaction error`)
+
+export const logSrsInteractionSuccess = createAction<string>(`${SRS} Log SRS interaction success`)
 
 export interface RecommendationsRequest {
   patientId: string
