@@ -228,7 +228,7 @@ describe('QuestionUvResolve', () => {
 })
 
 // Helper functions... Probably a good idea to create some utilities that can be reused....
-export function createQuestionWithTextValue(): CertificateDataElement {
+function createQuestionWithTextValue(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
@@ -244,7 +244,7 @@ export function createQuestionWithTextValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement {
+function createQuestionWithCheckboxBooleanValue(): CertificateDataElement {
   const value: ValueBoolean = {
     type: CertificateDataValueType.BOOLEAN,
     selected: true,
@@ -263,7 +263,7 @@ export function createQuestionWithCheckboxBooleanValue(): CertificateDataElement
   return createQuestion(value, config)
 }
 
-export function createQuestionWithBooleanValue(): CertificateDataElement {
+function createQuestionWithBooleanValue(): CertificateDataElement {
   const value: ValueBoolean = {
     type: CertificateDataValueType.BOOLEAN,
     selected: true,
@@ -282,7 +282,7 @@ export function createQuestionWithBooleanValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataElement {
+function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataElement {
   const value: ValueIcf = {
     type: CertificateDataValueType.ICF,
     id: '',
@@ -303,7 +303,7 @@ export function createQuestionWithIcfValue(icfCodes: string[]): CertificateDataE
   return createQuestion(value, config)
 }
 
-export function createQuestionWithCodeValue(): CertificateDataElement {
+function createQuestionWithCodeValue(): CertificateDataElement {
   const value: ValueCode = {
     type: CertificateDataValueType.CODE,
     id: 'THIS_CODE',
@@ -336,7 +336,7 @@ export function createQuestionWithCodeValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
+function createQuestionWithMultipleCodeValues(): CertificateDataElement {
   const value: ValueCodeList = {
     type: CertificateDataValueType.CODE_LIST,
     list: [
@@ -375,7 +375,7 @@ export function createQuestionWithMultipleCodeValues(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithMultipleDates(): CertificateDataElement {
+function createQuestionWithMultipleDates(): CertificateDataElement {
   const value: ValueDateList = {
     type: CertificateDataValueType.DATE_LIST,
     list: [
@@ -422,7 +422,7 @@ export function createQuestionWithMultipleDates(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export const createQuestionWithDateRange = (): CertificateDataElement => {
+const createQuestionWithDateRange = (): CertificateDataElement => {
   const question = fakeDateRangeElement({
     id: 'id',
     value: {
@@ -438,7 +438,7 @@ export const createQuestionWithDateRange = (): CertificateDataElement => {
   return createQuestion(question.value as ValueDateRange, question.config as ConfigUeDateRange)
 }
 
-export const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
+const createQuestionWithMultipleDateRanges = (): CertificateDataElement => {
   const value: ValueDateRangeList = {
     type: CertificateDataValueType.DATE_RANGE_LIST,
     list: [
@@ -546,7 +546,7 @@ const createDropdownQuestion = () => {
     value,
   }
 }
-export function createQuestionWithUeMessageConfig(): CertificateDataElement {
+function createQuestionWithUeMessageConfig(): CertificateDataElement {
   const value: ValueText = {
     type: CertificateDataValueType.TEXT,
     text: 'Text',
@@ -564,7 +564,7 @@ export function createQuestionWithUeMessageConfig(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithIntegerValue(): CertificateDataElement {
+function createQuestionWithIntegerValue(): CertificateDataElement {
   const value: ValueInteger = {
     type: CertificateDataValueType.INTEGER,
     id: '',
@@ -581,7 +581,7 @@ export function createQuestionWithIntegerValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestionWithYearValue(): CertificateDataElement {
+function createQuestionWithYearValue(): CertificateDataElement {
   const value: ValueYear = {
     type: CertificateDataValueType.YEAR,
     year: 2020,
@@ -597,7 +597,7 @@ export function createQuestionWithYearValue(): CertificateDataElement {
   return createQuestion(value, config)
 }
 
-export function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
+function createQuestion(value: ValueType, config: CertificateDataConfig): CertificateDataElement {
   return {
     id: 'id',
     readOnly: true,

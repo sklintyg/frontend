@@ -63,7 +63,7 @@ describe('FMBPanel', () => {
     expect(screen.queryAllByText(/Vägledning för sjukskrivning/i)).toHaveLength(0)
   })
 
-  it('shall display enabled diagnosis description when a diagnosis is selected with FMB recommendation ', async () => {
+  it('shall display enabled diagnosis description when a diagnosis is selected with FMB recommendation', async () => {
     const fmbDiagnosisCodeInfoResult = getFMBDiagnosisCodeInfoResult('A01', 0)
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResult))
     renderDefaultComponent()
@@ -79,7 +79,7 @@ describe('FMBPanel', () => {
     expect(screen.getByLabelText('Description for A01', { exact: false })).toBeDisabled()
   })
 
-  it('shall select first diagnoses when two diagnoses are selected with FMB recommendation ', async () => {
+  it('shall select first diagnoses when two diagnoses are selected with FMB recommendation', async () => {
     const fmbDiagnosisCodeInfoResultOne = getFMBDiagnosisCodeInfoResult('A01', 0)
     const fmbDiagnosisCodeInfoResultTwo = getFMBDiagnosisCodeInfoResult('B01', 1)
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultOne))
@@ -101,7 +101,7 @@ describe('FMBPanel', () => {
     expect(screen.getByLabelText(/Description for B01/i)).toBeChecked()
   })
 
-  it('shall display FMB details of the second diagnoses after the user selects it ', async () => {
+  it('shall display FMB details of the second diagnoses after the user selects it', async () => {
     const fmbDiagnosisCodeInfoResultOne = getFMBDiagnosisCodeInfoResult('A01', 0)
     const fmbDiagnosisCodeInfoResultTwo = getFMBDiagnosisCodeInfoResult('B01', 1)
     testStore.dispatch(updateFMBDiagnosisCodeInfo(fmbDiagnosisCodeInfoResultOne))
@@ -157,7 +157,7 @@ describe('FMBPanel', () => {
     const diagnosisValue = getDiagnosisValueWithCodeSystem('unkown')
     testStore.dispatch(setDiagnosisListValue(diagnosisValue))
     renderDefaultComponentWithoutDiagnosisValue()
-    expect(screen.queryByText('FMB-stödet finns enbart för koder som ingår i ICD-10-SE.'))
+    expect(screen.queryByText('FMB-stödet finns enbart för koder som ingår i ICD-10-SE.')).not.toBeInTheDocument()
   })
 
   it('shall not select diagnosis without fmb support', async () => {

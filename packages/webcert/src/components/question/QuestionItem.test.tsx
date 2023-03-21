@@ -119,9 +119,7 @@ describe('QuestionItem', () => {
       renderComponent(question)
 
       expect(question.answer).toBeTruthy()
-      if (question.answer) {
-        expect(screen.getByText(question.answer.author)).toBeInTheDocument()
-      }
+      expect(screen.getByText(question.answer?.author ?? '')).toBeInTheDocument()
     })
 
     it('displays message of the answer', () => {
@@ -129,9 +127,7 @@ describe('QuestionItem', () => {
       renderComponent(question)
 
       expect(question.answer).toBeTruthy()
-      if (question.answer) {
-        expect(screen.getByText(question.answer.message)).toBeInTheDocument()
-      }
+      expect(screen.getByText(question.answer?.message ?? '')).toBeInTheDocument()
     })
 
     it('displays sent of the answer', () => {
@@ -139,9 +135,7 @@ describe('QuestionItem', () => {
       renderComponent(question)
 
       expect(question.answer).toBeTruthy()
-      if (question.answer) {
-        expect(screen.getByText(question.answer.sent, { exact: false })).toBeInTheDocument()
-      }
+      expect(screen.getByText(question.answer?.sent ?? '', { exact: false })).toBeInTheDocument()
     })
 
     it('displays subject of the answer', () => {
@@ -149,9 +143,7 @@ describe('QuestionItem', () => {
       renderComponent(question)
 
       expect(question.answer).toBeTruthy()
-      if (question.answer) {
-        expect(screen.getByText('Re: ' + question.subject)).toBeInTheDocument()
-      }
+      expect(screen.getByText('Re: ' + question.subject)).toBeInTheDocument()
     })
   })
 

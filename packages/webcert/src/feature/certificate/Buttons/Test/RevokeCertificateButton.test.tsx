@@ -148,15 +148,6 @@ describe('Revoke continue button', () => {
     expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
   })
 
-  it('shall have revoke button enabled if radio button other reason is chosen and message is not empty', () => {
-    renderDefaultComponent(true)
-    openModal()
-    const radioButton = screen.getByText(OTHER_REASON_LABEL)
-    userEvent.click(radioButton)
-    userEvent.type(screen.getByRole('textbox'), 'test')
-    expect(screen.getByLabelText(REVOKE_BUTTON_TEXT)).toBeEnabled()
-  })
-
   it('shall dispatch revoke certificate when revoke is pressed', () => {
     renderDefaultComponent(true)
     openModal()

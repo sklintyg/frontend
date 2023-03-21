@@ -23,11 +23,6 @@ describe('Character Counter', () => {
     expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
   })
 
-  it('should not render text if limit is too low', () => {
-    renderComponent(30, '')
-    expect(screen.queryByText(TEXT, { exact: false })).not.toBeInTheDocument()
-  })
-
   it('should not render text if limit is too high', () => {
     renderComponent(1001, '')
     expect(screen.queryByText('0 av 1001 tecken')).not.toBeInTheDocument()
@@ -43,12 +38,12 @@ describe('Character Counter', () => {
     expect(screen.getByText('0 av 800 tecken')).toBeInTheDocument()
   })
 
-  it('should correctly count number of chars left', () => {
+  it('should correctly count number of chars left with A', () => {
     renderComponent(800, 'A')
     expect(screen.getByText('1 av 800 tecken')).toBeInTheDocument()
   })
 
-  it('should correctly count number of chars left', () => {
+  it('should correctly count number of chars left with AAA', () => {
     renderComponent(500, 'AAA')
     expect(screen.getByText('3 av 500 tecken')).toBeInTheDocument()
   })

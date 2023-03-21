@@ -42,7 +42,7 @@ interface Props {
 /**
  * Generates a filter container to contain all filters for a specific table.
  */
-const ListFilterContainer: React.FC<Props> = ({ config, filter }) => {
+const ListFilterContainer: React.FC<Props> = ({ config }) => {
   const dispatch = useDispatch()
   const totalCount = useSelector(getListTotalCount)
   const hasValidationErrors = useSelector(getHasValidationErrors)

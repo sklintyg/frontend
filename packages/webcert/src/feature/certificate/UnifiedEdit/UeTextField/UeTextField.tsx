@@ -47,6 +47,7 @@ const UeTextField: React.FC<Props> = ({ question, disabled }) => {
       <div className="iu-grid-span-6">
         <TextInput
           className=""
+          data-testid={`textfield-${question.id}`}
           disabled={disabled}
           hasValidationError={validationErrors.length > 0}
           onChange={handleChange}

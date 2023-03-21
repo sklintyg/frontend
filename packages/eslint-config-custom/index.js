@@ -17,7 +17,7 @@ module.exports = {
     'import/no-relative-packages': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*'] },
+      { devDependencies: ['**/*.test.*', '**/*.spec.*', '**/*.stories.*', '**/*.config.*', '**/*setupTests.*', '**/*fake*'] },
     ],
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
@@ -39,6 +39,12 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
   ignorePatterns: ['dist/**'],
+  settings: {
+    jest: {
+      version: 29,
+    },
+  },
 }
