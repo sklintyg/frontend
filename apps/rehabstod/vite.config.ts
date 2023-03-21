@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
-const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout'].reduce<Record<string, string | ProxyOptions>>(
+const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html'].reduce<Record<string, string | ProxyOptions>>(
   (result, route) => ({
     ...result,
     [`/${route}`]: {

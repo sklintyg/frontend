@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { api } from './api'
+import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
 
 export const store = configureStore({
@@ -7,5 +8,5 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
     [hsaApi.reducerPath]: hsaApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware]),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([api.middleware, hsaApi.middleware, errorMiddleware]),
 })

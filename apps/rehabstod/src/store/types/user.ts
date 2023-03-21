@@ -5,8 +5,8 @@ export interface User {
   authenticationScheme: string
   vardgivare: Vardgivare[]
   befattningar: string[]
-  valdVardenhet: null
-  valdVardgivare: null
+  valdVardenhet: Vardenheter | null
+  valdVardgivare: Vardgivare | null
   roles: Roles
   totaltAntalVardenheter: number
   urval: string
