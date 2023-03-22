@@ -23,12 +23,17 @@ export function CurrentSickLeaves() {
   const { data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
 
+  const onSort = (index: number) => {
+    //dispatch sort
+  }
+
   return (
     <TableLayout
       title={CURRENT_SICK_LEAVES_TITLE}
       subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
       tableHeaders={CURRENT_SICK_LEAVES_TABLE_HEADERS}
       id="sickleave"
+      onSort={onSort}
       content={currentSickLeaves ? currentSickLeaves : []}
       filters={
         <CurrentSickLeavesFilters
