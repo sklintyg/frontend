@@ -1,11 +1,14 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { Link } from 'react-router-dom'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink, IDSHeaderNav, IDSHeaderNavItem } from '@frontend/ids-react-ts'
+import { Link, useNavigate } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
+import { useState } from 'react'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
+  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState(0)
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -46,6 +49,35 @@ export function LayoutHeader() {
           <Link to="login">Logga in</Link>
         </IDSHeaderItem>
       )}
+
+      <IDSHeaderNav>
+        {!isLoading && user && (
+          <>
+            <IDSHeaderNavItem link active={activeTab === 0}>
+              <a
+                href=""
+                onClick={(event) => {
+                  event.preventDefault()
+                  setActiveTab(0)
+                  navigate('/')
+                }}>
+                Översikt
+              </a>
+            </IDSHeaderNavItem>
+            <IDSHeaderNavItem link active={activeTab === 1}>
+              <a
+                href=""
+                onClick={(event) => {
+                  event.preventDefault()
+                  setActiveTab(1)
+                  navigate('/list/sickleaves')
+                }}>
+                Pågående sjukfall
+              </a>
+            </IDSHeaderNavItem>
+          </>
+        )}
+      </IDSHeaderNav>
     </IDSHeader>
   )
 }

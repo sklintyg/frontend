@@ -3,6 +3,7 @@ import { getCookie } from '../utils/cookies'
 import { Link } from './types/link'
 import { Ping } from './types/ping'
 import { User, Vardenheter, Vardgivare } from './types/user'
+import { SickLeaveInfo } from './types/sickLeave'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -47,7 +48,21 @@ export const api = createApi({
       query: () => 'config/links',
       providesTags: ['Links'],
     }),
+    getSickLeaves: builder.query<SickLeaveInfo[], number>({
+      query: (maxDaysBetweenCertificates) => ({
+        url: 'sjukfall',
+        method: 'POST',
+        body: { maxIntygsGlapp: maxDaysBetweenCertificates },
+      }),
+    }),
   }),
 })
 
-export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation } = api
+export const {
+  useGetSessionPingQuery,
+  useGetLinksQuery,
+  useGetUserQuery,
+  useChangeUnitMutation,
+  useGetSickLeavesQuery,
+  useLazyGetSickLeavesQuery,
+} = api
