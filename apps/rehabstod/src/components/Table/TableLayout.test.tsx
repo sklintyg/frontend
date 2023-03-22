@@ -1,10 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import { TableLayout } from './TableLayout'
-import { SickLeaveInfo } from '../../store/types/sickLeave'
+import userEvent from '@testing-library/user-event'
 
+let onSort: () => void
 const renderComponent = () => {
+  onSort = jest.fn()
+
   return render(
-    <TableLayout title="Title" subTitle="Sub title" tableHeaders={['H1', 'H2']} content={[]} id="id" filters={<p>Filters</p>} />
+    <TableLayout
+      title="Title"
+      subTitle="Sub title"
+      tableHeaders={['H1', 'H2']}
+      content={[]}
+      id="id"
+      filters={<p>Filters</p>}
+      onSort={onSort}
+      sortedColumn={0}
+      ascending={false}
+    />
   )
 }
 
@@ -31,5 +44,10 @@ describe('TableLayout', () => {
 
   it('should show filters', () => {
     expect(screen.getByText('Filters')).toBeInTheDocument()
+  })
+
+  it('should call on sort when pressing table header', () => {
+    userEvent.click(screen.getByText('H2'))
+    expect(onSort).toHaveBeenCaled()
   })
 })

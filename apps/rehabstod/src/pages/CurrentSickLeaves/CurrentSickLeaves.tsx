@@ -26,6 +26,7 @@ export function CurrentSickLeaves() {
   const defaultColumn = 5
   const [sortedColumn, setSortedColumn] = useState(defaultColumn)
   const [ascending, setAscending] = useState(false)
+  const [tableHeaders, setTableHeaders] = useState(CURRENT_SICK_LEAVES_TABLE_HEADERS)
 
   const onSort = (index: number) => {
     setAscending(index === sortedColumn ? !ascending : false)
@@ -38,11 +39,19 @@ export function CurrentSickLeaves() {
     setSortedColumn(defaultColumn)
   }
 
+  const onShowPersonalInformation = (isChecked: boolean) => {
+    if (isChecked) {
+      setTableHeaders(CURRENT_SICK_LEAVES_TABLE_HEADERS)
+    } else {
+      setTableHeaders(CURRENT_SICK_LEAVES_TABLE_HEADERS.filter((header) => header !== 'Personnummer' && header !== 'Namn'))
+    }
+  }
+
   return (
     <TableLayout
       title={CURRENT_SICK_LEAVES_TITLE}
       subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-      tableHeaders={CURRENT_SICK_LEAVES_TABLE_HEADERS}
+      tableHeaders={tableHeaders}
       id="sickleave"
       onSort={onSort}
       sortedColumn={sortedColumn}
@@ -54,6 +63,7 @@ export function CurrentSickLeaves() {
             triggerGetSickLeaves(5)
           }}
           onReset={handleReset}
+          onShowPersonalInformation={onShowPersonalInformation}
         />
       }
     />

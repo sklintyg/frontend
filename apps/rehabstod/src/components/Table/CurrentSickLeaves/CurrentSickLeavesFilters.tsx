@@ -1,8 +1,23 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
+import { Checkbox } from '../../Form/Checkbox'
 
-export function CurrentSickLeavesFilters({ onSearch, onReset }: { onSearch: () => void; onReset: () => void }) {
+export function CurrentSickLeavesFilters({
+  onSearch,
+  onReset,
+  onShowPersonalInformation,
+}: {
+  onSearch: () => void
+  onReset: () => void
+  onShowPersonalInformation: (isChecked: boolean) => void
+}) {
   const [expanded, setExpanded] = useState(true)
+  const [showPersonalInformation, setShowPersonalInformation] = useState(true)
+
+  const handleHidePersonalInformation = (event: ChangeEvent<HTMLInputElement>) => {
+    onShowPersonalInformation(event.currentTarget.checked)
+    setShowPersonalInformation(event.currentTarget.checked)
+  }
 
   return (
     <>
@@ -11,12 +26,19 @@ export function CurrentSickLeavesFilters({ onSearch, onReset }: { onSearch: () =
         <IDSIcon name="chevron" size="xs" rotate={expanded ? 270 : 90} colorpreset={1} className="inline ml-1" />
       </IDSButton>
       {expanded && (
-        <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
-          <IDSButton secondary onClick={onReset}>
-            Återställ
-          </IDSButton>
-          <IDSButton onClick={onSearch}>Sök</IDSButton>
-        </IDSButtonGroup>
+        <>
+          <Checkbox
+            label="Visa personuppgifter"
+            checked={showPersonalInformation}
+            onChange={(event) => handleHidePersonalInformation(event)}
+          />
+          <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
+            <IDSButton secondary onClick={onReset}>
+              Återställ
+            </IDSButton>
+            <IDSButton onClick={onSearch}>Sök</IDSButton>
+          </IDSButtonGroup>
+        </>
       )}
     </>
   )
