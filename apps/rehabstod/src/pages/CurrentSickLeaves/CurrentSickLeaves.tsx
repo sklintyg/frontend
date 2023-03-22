@@ -1,11 +1,12 @@
 import { TableLayout } from '../../components/Table/TableLayout'
 import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
-import { useLazyGetSickLeavesQuery } from '../../store/api'
+import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 
 export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
 
 export function CurrentSickLeaves() {
   //const { data: currentSickLeaves } = useGetSickLeavesQuery(5)
+  const { data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
 
   const TABLE_HEADERS = [
@@ -25,7 +26,7 @@ export function CurrentSickLeaves() {
   return (
     <TableLayout
       title={CURRENT_SICK_LEAVES_TITLE}
-      subTitle="Enhetsnamn"
+      subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
       tableHeaders={TABLE_HEADERS}
       id="sickleave"
       content={currentSickLeaves ? currentSickLeaves : []}

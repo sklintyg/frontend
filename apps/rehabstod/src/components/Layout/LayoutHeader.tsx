@@ -19,7 +19,7 @@ export function LayoutHeader() {
       {!isLoading && user && (
         <>
           <IDSHeaderItem type="inera-admin" icon="question">
-            <Link to="/">Om rehabstöd</Link>
+            <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
           <IDSHeaderAvatar type="inera-admin" username={user.namn}>
             <span slot="avatar-text">{user.valdVardenhet?.namn}</span>
