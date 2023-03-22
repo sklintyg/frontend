@@ -4,30 +4,30 @@ import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
 
 export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
 
+export const CURRENT_SICK_LEAVES_TABLE_HEADERS = [
+  'Personnummer',
+  'Ålder',
+  'Namn',
+  'Kön',
+  'Diagnos/er',
+  'Startdatum',
+  'Slutdatum',
+  'Längd',
+  'Intyg',
+  'Grad',
+  'Läkare',
+]
+
 export function CurrentSickLeaves() {
   //const { data: currentSickLeaves } = useGetSickLeavesQuery(5)
   const { data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
 
-  const TABLE_HEADERS = [
-    'Personnummer',
-    'Ålder',
-    'Namn',
-    'Kön',
-    'Diagnos/er',
-    'Startdatum',
-    'Slutdatum',
-    'Längd',
-    'Intyg',
-    'Grad',
-    'Läkare',
-  ]
-
   return (
     <TableLayout
       title={CURRENT_SICK_LEAVES_TITLE}
       subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-      tableHeaders={TABLE_HEADERS}
+      tableHeaders={CURRENT_SICK_LEAVES_TABLE_HEADERS}
       id="sickleave"
       content={currentSickLeaves ? currentSickLeaves : []}
       filters={
