@@ -1,6 +1,6 @@
 import { SickLeaveInfo } from '../../store/types/sickLeave'
 import { CurrentSickLeaveInfo } from './CurrentSickLeaves/CurrentSickLeaveInfo'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { Divider } from '@frontend/common'
 import { IDSIcon } from '@frontend/ids-react-ts'
 
@@ -12,6 +12,8 @@ export function TableLayout({
   id,
   filters,
   onSort,
+  sortedColumn,
+  ascending,
 }: {
   title: string
   subTitle: string
@@ -20,19 +22,12 @@ export function TableLayout({
   id: string
   filters: ReactNode
   onSort: (index: number) => void
+  sortedColumn: number
+  ascending: boolean
 }) {
-  const [sortedColumn, setSortedColumn] = useState(5)
-  const [ascending, setAscending] = useState(false)
-
-  const handleSortColumn = (index: number) => {
-    setAscending(index === sortedColumn ? !ascending : false)
-    setSortedColumn(index)
-    onSort(index)
-  }
-
   const getIcon = (index: number) => {
     if (index !== sortedColumn) {
-      return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => handleSortColumn(index)} className="inline ml-1" />
+      return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="inline ml-1" />
     } else {
       return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="inline ml-1" />
     }
@@ -50,7 +45,7 @@ export function TableLayout({
           <tr>
             {tableHeaders.map((header, index) => {
               return (
-                <th key={`${id}-table-header-${index}`} onClick={() => handleSortColumn(index)}>
+                <th key={`${id}-table-header-${index}`} onClick={() => onSort(index)}>
                   {header}
                   {getIcon(index)}
                 </th>

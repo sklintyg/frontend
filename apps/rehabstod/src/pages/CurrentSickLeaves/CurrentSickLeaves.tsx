@@ -1,6 +1,7 @@
 import { TableLayout } from '../../components/Table/TableLayout'
 import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
+import { useState } from 'react'
 
 export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
 
@@ -22,9 +23,19 @@ export function CurrentSickLeaves() {
   //const { data: currentSickLeaves } = useGetSickLeavesQuery(5)
   const { data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
+  const defaultColumn = 5
+  const [sortedColumn, setSortedColumn] = useState(defaultColumn)
+  const [ascending, setAscending] = useState(false)
 
   const onSort = (index: number) => {
+    setAscending(index === sortedColumn ? !ascending : false)
+    setSortedColumn(index)
     //dispatch sort
+  }
+
+  const handleReset = () => {
+    setAscending(false)
+    setSortedColumn(defaultColumn)
   }
 
   return (
@@ -34,12 +45,15 @@ export function CurrentSickLeaves() {
       tableHeaders={CURRENT_SICK_LEAVES_TABLE_HEADERS}
       id="sickleave"
       onSort={onSort}
+      sortedColumn={sortedColumn}
+      ascending={ascending}
       content={currentSickLeaves ? currentSickLeaves : []}
       filters={
         <CurrentSickLeavesFilters
           onSearch={() => {
             triggerGetSickLeaves(5)
           }}
+          onReset={handleReset}
         />
       }
     />
