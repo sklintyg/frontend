@@ -63,17 +63,17 @@ export function LayoutHeader() {
         {!isLoading && user && (
           <>
             {tabs.map((tab, index) => (
-                <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${index}`}>
-                  <a
-                    href=""
-                    onClick={(event) => {
-                      event.preventDefault()
-                      navigate(tab.url)
-                    }}>
-                    {tab.name}
-                  </a>
-                </IDSHeaderNavItem>
-              ))}
+              <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${index}`}>
+                <a
+                  href=""
+                  onClick={(event) => {
+                    event.preventDefault()
+                    navigate(tab.url)
+                  }}>
+                  {tab.name}
+                </a>
+              </IDSHeaderNavItem>
+            ))}
           </>
         )}
       </IDSHeaderNav>
