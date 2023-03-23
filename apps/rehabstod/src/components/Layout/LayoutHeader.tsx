@@ -62,8 +62,7 @@ export function LayoutHeader() {
       <IDSHeaderNav>
         {!isLoading && user && (
           <>
-            {tabs.map((tab, index) => {
-              return (
+            {tabs.map((tab, index) => (
                 <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${index}`}>
                   <a
                     href=""
@@ -74,8 +73,7 @@ export function LayoutHeader() {
                     {tab.name}
                   </a>
                 </IDSHeaderNavItem>
-              )
-            })}
+              ))}
           </>
         )}
       </IDSHeaderNav>
