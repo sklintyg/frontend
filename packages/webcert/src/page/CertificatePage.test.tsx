@@ -1,4 +1,3 @@
-import React from 'react'
 import CertificatePage from './CertificatePage'
 import { render } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
