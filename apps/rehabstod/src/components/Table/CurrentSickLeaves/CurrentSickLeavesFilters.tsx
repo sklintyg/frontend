@@ -33,6 +33,7 @@ export function CurrentSickLeavesFilters({
       {expanded && (
         <div className="flex" style={{ justifyContent: 'space-between' }}>
           <Checkbox
+            id="showPersonalInformationCheckbox"
             label="Visa personuppgifter"
             checked={showPersonalInformation}
             description="Visar eller döljer patienternas namn och personnummer i tabellen."

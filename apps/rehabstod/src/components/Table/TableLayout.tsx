@@ -34,7 +34,7 @@ export function TableLayout({
   return (
     <div className="ids-content py-10">
       <h1 className="ids-heading-2">{title}</h1>
-      <h2 className="ids-heading-3">{subTitle}</h2>
+      <h2 className="ids-heading-3 mb-10">{subTitle}</h2>
       <hr />
       <div>{filters}</div>
       <hr />

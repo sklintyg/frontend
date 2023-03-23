@@ -9,8 +9,6 @@ export function LayoutHeader() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const isTabActive = (index: number) => location.pathname === tabs[index].url
-
   const tabs = [
     {
       name: 'Översikt',
@@ -18,6 +16,8 @@ export function LayoutHeader() {
     },
     { name: 'Pågående sjukfall', url: '/list/sickleaves' },
   ]
+
+  const isTabActive = (index: number) => location.pathname === tabs[index].url
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -63,7 +63,7 @@ export function LayoutHeader() {
         {!isLoading && user && (
           <>
             {tabs.map((tab, index) => (
-              <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${index}`}>
+              <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${tab.name.replace(' ', '')}`}>
                 <a
                   href=""
                   onClick={(event) => {

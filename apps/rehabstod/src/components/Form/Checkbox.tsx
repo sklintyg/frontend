@@ -7,17 +7,19 @@ export function Checkbox({
   checked,
   onChange,
   description,
+  id,
 }: {
   label: string
   checked: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description: string
+  id: string
 }) {
   return (
     <div className="flex items-baseline">
       <IDSCheckbox>
-        <label>{label}</label>
-        <input type="checkbox" checked={checked} onChange={(event) => onChange(event)} />
+        <label htmlFor={id}>{label}</label>
+        <input id={id} type="checkbox" checked={checked} onChange={(event) => onChange(event)} />
       </IDSCheckbox>
       {description && <Icon description={description} type="question" size="s" />}
     </div>
