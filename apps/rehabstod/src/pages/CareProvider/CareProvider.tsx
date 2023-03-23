@@ -21,14 +21,14 @@ export function CareProvider() {
   }
 
   return user ? (
-    <div className="w-full md:w-1/2 px-4 md:px-0 my-16">
+    <div className="my-16 w-full px-4 md:w-1/2 md:px-0">
       <h1 className="ids-heading-1 pt-8 pb-4">Välj enhet</h1>
       <p className="ids-preamble my-5">
         Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter inloggning.
       </p>
       {user.roleSwitchPossible && (
         <IDSAlert className="mb-5">
-          <span className="flex items-cemter">
+          <span className="items-center flex">
             Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från Läkare
             till Rehabkoordinator när du väljer att logga in på en sådan enhet.
           </span>
@@ -42,19 +42,21 @@ export function CareProvider() {
               {unit.mottagningar && unit.mottagningar.length > 0 ? (
                 <details>
                   <summary className="flex items-center space-x-2 cursor-pointer ml-5">
-                    <IDSIcon name="chevron" className={`w-2 h-2 origin-center transform rotate-90`} />
+                    <IDSIcon name="chevron" className={'w-2 h-2 origin-center transform rotate-90'} />
                     {unit.namn}
                   </summary>
-                  {unit.mottagningar.map((reception) => (
-                    <IDSLink onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="block ml-10 my-2">
-                      <Link to="">{reception.namn}</Link>
-                    </IDSLink>
+                  {unit.mottagningar.map((reception, rIndex) => (
+                    <div key={rIndex}>
+                      <div onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="ml-10 my-2 block">
+                        <p className="cursor-pointer">{reception.namn}</p>
+                      </div>
+                    </div>
                   ))}
                 </details>
               ) : (
-                <IDSLink onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="block ml-10 my-2">
-                  <Link to="">{unit.namn}</Link>
-                </IDSLink>
+                <div onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="ml-10 my-2 block">
+                  <p className="cursor-pointer">{unit.namn}</p>
+                </div>
               )}
             </div>
           ))}
