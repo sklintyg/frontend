@@ -1,59 +1,68 @@
-import { IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useGetUserQuery } from '../../store/api'
-import { useDispatch } from 'react-redux'
+import { IDSAlert, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 
 export function CareProvider() {
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { data: user } = useGetUserQuery()
-  const [isChevronRotated, setIsChevronRotated] = useState(false)
+  const [changeUnit] = useChangeUnitMutation()
 
-  const handleChooseUnit = (event: React.MouseEvent) => {
-    const unitId = event.currentTarget.id
-    console.log(unitId)
-    // dispatch(setUnit(unitId))
-  }
-
-  const handleChevronClick = () => {
-    setIsChevronRotated(!isChevronRotated)
+  const handleChooseUnit = (event: React.MouseEvent, selectedCareProvider: any, selectedUnit: any) => {
+    if (!user) return
+    changeUnit({
+      vardgivare: selectedCareProvider,
+      vardenhet: {
+        ...selectedUnit,
+        id: event.currentTarget.id,
+      },
+    })
+    navigate('/')
   }
 
   return user ? (
-    <div className="grid grid-cols-1 gap-2 my-12">
-      <div>
+    <div className="grid grid-cols-1 gap-2 my-16">
+      <div className="w-full md:w-1/2 px-4 md:px-0">
         <h1 className="ids-heading-1 pt-8 pb-4">Välj enhet</h1>
-        <p className="ids-preamble my-4">
-          Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående <br />
-          sjukfall för. Du kan byta enhet även efter inloggning.
+        <p className="ids-preamble my-5">
+          Du har behörighet för flera olika enheter. Välj den enhet du vill se pågående sjukfall för. Du kan byta enhet även efter
+          inloggning.
         </p>
+        {user.roleSwitchPossible && (
+          <IDSAlert className="flex items-center mb-5 ids-mb-8">
+            <span className="flex justify-between">
+              Du har behörigheten Rehabkoordinator på någon/några av dina enheter. Var uppmärksam om att din roll kommer skifta från Läkare
+              till Rehabkoordinator när du väljer att logga in på en sådan enhet.
+            </span>
+          </IDSAlert>
+        )}
+        {user.vardgivare.map((provider, index) => (
+          <div key={index}>
+            <h4 className="ids-heading-4 my-2 pb-2 pb- border-b border-neutral-90">{provider.namn}</h4>
+            {provider.vardenheter.map((unit, pIndex) => (
+              <div key={pIndex}>
+                {unit.mottagningar && unit.mottagningar.length > 0 ? (
+                  <details>
+                    <summary className="flex items-center space-x-2 cursor-pointer ml-5">
+                      <IDSIcon name="chevron" className="w-2 h-2 transform rotate-90 origin-center" />
+                      {unit.namn}
+                    </summary>
+                    {unit.mottagningar.map((reception) => (
+                      <IDSLink onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="block ml-10 my-2">
+                        <Link to="">{reception.namn}</Link>
+                      </IDSLink>
+                    ))}
+                  </details>
+                ) : (
+                  <IDSLink onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="block ml-10 my-2">
+                    <Link to="">{unit.namn}</Link>
+                  </IDSLink>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
-      {user?.vardgivare.map((unit, index) => (
-        <React.Fragment key={index}>
-          <h3 className="ids-heading-3 text-lg">{unit.namn}</h3>
-          {unit.vardenheter.map((provider, pIndex) => (
-            <React.Fragment key={pIndex}>
-              {provider.mottagningar && provider.mottagningar.length > 0 ? (
-                <details>
-                  <summary className="flex items-center space-x-2 cursor-pointer" onClick={handleChevronClick}>
-                    <IDSIcon name="chevron" className={`w-2 h-2 transform ${isChevronRotated ? 'rotate-180' : 'rotate-90'}`} />
-                    {provider.namn}
-                  </summary>
-                  {provider.mottagningar.map((reception) => (
-                    <IDSLink onClick={handleChooseUnit} id={provider.id} className="block pb-2 ml-2">
-                      <Link to={provider.id}>{reception.namn}</Link>
-                    </IDSLink>
-                  ))}
-                </details>
-              ) : (
-                <IDSLink onClick={handleChooseUnit} id={provider.id} className="ml-2">
-                  <Link to={provider.id}>{provider.namn}</Link>
-                </IDSLink>
-              )}
-            </React.Fragment>
-          ))}
-        </React.Fragment>
-      ))}
     </div>
   ) : null
 }
