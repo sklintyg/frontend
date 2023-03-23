@@ -1,13 +1,12 @@
+import { Link, Ping, User, Vardenheter, Vardgivare } from '@frontend/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getCookie } from '../utils/cookies'
-import { Link } from './types/link'
-import { Ping } from './types/ping'
-import { User, Vardenheter, Vardgivare } from './types/user'
 
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/',
+    // baseUrl: 'http://localhost:5173/api/',
     prepareHeaders: (headers, { type }) => {
       if (type === 'mutation' && getCookie('XSRF-TOKEN')) {
         headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'))

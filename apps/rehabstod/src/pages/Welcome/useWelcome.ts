@@ -1,7 +1,6 @@
+import { AllowedInApplication, MedarbetarUppdrag, Person } from '@frontend/types'
 import { useMemo, useState } from 'react'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
-import { MedarbetarUppdrag } from '../../store/types/medarbertarUppdrag'
-import { AllowedInApplication, Person } from '../../store/types/person'
 
 export function useWelcome() {
   const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()

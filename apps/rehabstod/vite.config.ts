@@ -21,11 +21,20 @@ const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html']
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
 
+  const https = process.env.VITE_HTTPS === 'true'
+  const hmr = !(process.env.VITE_HMR === 'false')
+  const host = process.env.VITE_HOST ?? 'localhost'
+  const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
+
   return defineConfig({
     plugins: [react(), basicSsl()],
     server: {
-      host: 'rs2.rs.localtest.me',
+      host,
+      https,
+      port: 5173,
       proxy,
+      strictPort: true,
+      hmr: hmr ? { host, protocol: hmrProtocol } : false,
     },
     test: {
       globals: true,

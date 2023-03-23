@@ -1,5 +1,5 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { Link } from '../../store/types/link'
+import { Link } from '@frontend/types'
 
 export type DynamicLinkType = 'regular' | 'footer' | 'sub-footer'
 
