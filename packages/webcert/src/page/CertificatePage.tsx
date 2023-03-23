@@ -70,7 +70,7 @@ const CertificatePage: React.FC = () => {
         })
       )
     }
-  }, [dispatch, error])
+  }, [dispatch, error, certificateId])
 
   return (
     <CommonLayout
