@@ -19,6 +19,11 @@ export function CurrentSickLeavesFilters({
     setShowPersonalInformation(event.currentTarget.checked)
   }
 
+  const handleReset = () => {
+    setShowPersonalInformation(true)
+    onReset()
+  }
+
   return (
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
@@ -27,17 +32,18 @@ export function CurrentSickLeavesFilters({
       </IDSButton>
       {expanded && (
         <>
-          <Checkbox
-            label="Visa personuppgifter"
-            checked={showPersonalInformation}
-            onChange={(event) => handleHidePersonalInformation(event)}
-          />
           <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
-            <IDSButton secondary onClick={onReset}>
+            <IDSButton secondary onClick={handleReset}>
               Återställ
             </IDSButton>
             <IDSButton onClick={onSearch}>Sök</IDSButton>
           </IDSButtonGroup>
+          <Checkbox
+            label="Visa personuppgifter"
+            checked={showPersonalInformation}
+            description="Visar eller döljer patienternas namn och personnummer i tabellen."
+            onChange={(event) => handleHidePersonalInformation(event)}
+          />
         </>
       )}
     </>

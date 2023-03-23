@@ -1,14 +1,25 @@
 import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink, IDSHeaderNav, IDSHeaderNavItem } from '@frontend/ids-react-ts'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
-import { useState } from 'react'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState(0)
+  const location = useLocation()
+
+  const isTabActive = (index: number) => {
+    return location.pathname === tabs[index].url
+  }
+
+  const tabs = [
+    {
+      name: 'Översikt',
+      url: '/',
+    },
+    { name: 'Pågående sjukfall', url: '/list/sickleaves' },
+  ]
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -53,28 +64,20 @@ export function LayoutHeader() {
       <IDSHeaderNav>
         {!isLoading && user && (
           <>
-            <IDSHeaderNavItem link active={activeTab === 0}>
-              <a
-                href=""
-                onClick={(event) => {
-                  event.preventDefault()
-                  setActiveTab(0)
-                  navigate('/')
-                }}>
-                Översikt
-              </a>
-            </IDSHeaderNavItem>
-            <IDSHeaderNavItem link active={activeTab === 1}>
-              <a
-                href=""
-                onClick={(event) => {
-                  event.preventDefault()
-                  setActiveTab(1)
-                  navigate('/list/sickleaves')
-                }}>
-                Pågående sjukfall
-              </a>
-            </IDSHeaderNavItem>
+            {tabs.map((tab, index) => {
+              return (
+                <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${index}`}>
+                  <a
+                    href=""
+                    onClick={(event) => {
+                      event.preventDefault()
+                      navigate(tab.url)
+                    }}>
+                    {tab.name}
+                  </a>
+                </IDSHeaderNavItem>
+              )
+            })}
           </>
         )}
       </IDSHeaderNav>
