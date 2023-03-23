@@ -1,7 +1,6 @@
 import { SickLeaveInfo } from '../../store/types/sickLeave'
 import { CurrentSickLeaveInfo } from './CurrentSickLeaves/CurrentSickLeaveInfo'
 import { ReactNode } from 'react'
-import { Divider } from '@frontend/common'
 import { IDSIcon } from '@frontend/ids-react-ts'
 
 export function TableLayout({
@@ -37,9 +36,9 @@ export function TableLayout({
     <div className="ids-content py-10">
       <h1 className="ids-heading-2">{title}</h1>
       <h2 className="ids-heading-3">{subTitle}</h2>
-      <Divider />
+      <hr />
       <div>{filters}</div>
-      <Divider />
+      <hr />
       <table className="ids-table my-10 mx-0">
         <thead>
           <tr>

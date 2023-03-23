@@ -31,20 +31,20 @@ export function CurrentSickLeavesFilters({
         <IDSIcon name="chevron" size="xs" rotate={expanded ? 270 : 90} colorpreset={1} className="inline ml-1" />
       </IDSButton>
       {expanded && (
-        <>
-          <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
-            <IDSButton secondary onClick={handleReset}>
-              Återställ
-            </IDSButton>
-            <IDSButton onClick={onSearch}>Sök</IDSButton>
-          </IDSButtonGroup>
+        <div className="flex" style={{ justifyContent: 'space-between' }}>
           <Checkbox
             label="Visa personuppgifter"
             checked={showPersonalInformation}
             description="Visar eller döljer patienternas namn och personnummer i tabellen."
             onChange={(event) => handleHidePersonalInformation(event)}
           />
-        </>
+          <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
+            <IDSButton secondary onClick={handleReset}>
+              Återställ
+            </IDSButton>
+            <IDSButton onClick={onSearch}>Sök</IDSButton>
+          </IDSButtonGroup>
+        </div>
       )}
     </>
   )
