@@ -20,7 +20,7 @@ describe('CertificatePage', () => {
   afterEach(() => {
     clearDispatchedActions()
   })
-  it('renders an error message when error is set', async () => {
+  it('renders an error message when error is set', () => {
     render(
       <Provider store={testStore}>
         <MemoryRouter initialEntries={['/certificate/error}']}>
