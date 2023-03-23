@@ -34,19 +34,19 @@ export function CareProvider() {
           </span>
         </IDSAlert>
       )}
-      {user.vardgivare.map((provider, index) => (
-        <div key={index}>
-          <h4 className="ids-heading-4 my-2 pb-2 border-b border-neutral-90">{provider.namn}</h4>
-          {provider.vardenheter.map((unit, pIndex) => (
-            <div key={pIndex}>
+      {user.vardgivare.map((provider) => (
+        <div key={provider.id}>
+          <h4 className="ids-heading-4 border-neutral-90 my-2 border-b pb-2">{provider.namn}</h4>
+          {provider.vardenheter.map((unit) => (
+            <div key={unit.id}>
               {unit.mottagningar && unit.mottagningar.length > 0 ? (
                 <details>
-                  <summary className="flex items-center space-x-2 cursor-pointer ml-5">
-                    <IDSIcon name="chevron" className={'w-2 h-2 origin-center transform rotate-90'} />
+                  <summary className="ml-5 flex cursor-pointer items-center space-x-2">
+                    <IDSIcon name="chevron" className={'w-2 h-2 origin-center rotate-90'} />
                     {unit.namn}
                   </summary>
-                  {unit.mottagningar.map((reception, rIndex) => (
-                    <div key={rIndex}>
+                  {unit.mottagningar.map((reception) => (
+                    <div key={reception.id}>
                       <div onClick={(event) => handleChooseUnit(event, provider, unit)} id={unit.id} className="ml-10 my-2 block">
                         <p className="cursor-pointer">{reception.namn}</p>
                       </div>
