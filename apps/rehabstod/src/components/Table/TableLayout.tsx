@@ -55,7 +55,7 @@ export function TableLayout({
         <tbody>
           {content && content.length > 0 ? (
             content.map((item, index) => {
-              return <tr key={`${id}-table-row-${index}`}>{<CurrentSickLeaveInfo sickLeave={item} />}</tr>
+              return <tr key={`${id}-table-row-${index}`}><CurrentSickLeaveInfo sickLeave={item} /></tr>
             })
           ) : (
             <tr>
