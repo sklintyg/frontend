@@ -9,9 +9,7 @@ export function LayoutHeader() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const isTabActive = (index: number) => {
-    return location.pathname === tabs[index].url
-  }
+  const isTabActive = (index: number) => location.pathname === tabs[index].url
 
   const tabs = [
     {
