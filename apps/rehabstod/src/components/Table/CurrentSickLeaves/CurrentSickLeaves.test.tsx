@@ -5,9 +5,7 @@ import {
   CurrentSickLeaves,
 } from '../../../pages/CurrentSickLeaves/CurrentSickLeaves'
 
-const renderComponent = () => {
-  return render(<CurrentSickLeaves />)
-}
+const renderComponent = () => render(<CurrentSickLeaves />)
 
 describe('CurrentSickLeaves', () => {
   it('should render without problems', () => {
@@ -18,7 +16,7 @@ describe('CurrentSickLeaves', () => {
     expect(screen.getByText(CURRENT_SICK_LEAVES_TITLE)).toBeInTheDocument()
   })
 
-  xit('should show sub title', () => {
+  it.skip('should show sub title', () => {
     expect(screen.getByText('ENHETSNAMN')).toBeInTheDocument()
   })
 

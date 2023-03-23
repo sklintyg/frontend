@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { CurrentSickLeaves } from '../../../pages/CurrentSickLeaves/CurrentSickLeaves'
 import userEvent from '@testing-library/user-event'
+import { CurrentSickLeaves } from '../../../pages/CurrentSickLeaves/CurrentSickLeaves'
 
-const renderComponent = () => {
-  return render(<CurrentSickLeaves />)
-}
+const renderComponent = () => render(<CurrentSickLeaves />)
 
 describe('CurrentSickLeavesFilters', () => {
   it('should render without problems', () => {
