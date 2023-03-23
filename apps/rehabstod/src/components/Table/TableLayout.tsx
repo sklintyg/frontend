@@ -42,14 +42,12 @@ export function TableLayout({
       <table className="ids-table my-10 mx-0">
         <thead>
           <tr>
-            {tableHeaders.map((header, index) => {
-              return (
+            {tableHeaders.map((header, index) => (
                 <th key={`${id}-table-header-${index}`} onClick={() => onSort(index)}>
                   {header}
                   {getIcon(index)}
                 </th>
-              )
-            })}
+              ))}
           </tr>
         </thead>
         <tbody>
