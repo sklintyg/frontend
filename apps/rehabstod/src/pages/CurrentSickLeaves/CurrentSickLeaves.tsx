@@ -31,7 +31,7 @@ export function CurrentSickLeaves() {
   const onSort = (index: number) => {
     setAscending(index === sortedColumn ? !ascending : false)
     setSortedColumn(index)
-    //dispatch sort
+    // dispatch sort
   }
 
   const handleReset = () => {
