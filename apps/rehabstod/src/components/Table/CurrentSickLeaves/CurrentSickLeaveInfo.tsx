@@ -13,14 +13,12 @@ export function CurrentSickLeaveInfo({ sickLeave }: { sickLeave: SickLeaveInfo }
               {diagnosis.kod} {diagnosis.beskrivning}
             </>
           ))}
-        {sickLeave.biDiagnoser.map((code, index) => {
-          return (
+        {sickLeave.biDiagnoser.map((code, index) => (
             <>
               {code}
               {index !== sickLeave.biDiagnoser.length - 1 && ','}
             </>
-          )
-        })}
+          ))}
       </td>
       <td>{sickLeave.start}</td>
       <td>{sickLeave.slut}</td>
