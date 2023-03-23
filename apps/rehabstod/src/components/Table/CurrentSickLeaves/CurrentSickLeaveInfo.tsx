@@ -8,13 +8,11 @@ export function CurrentSickLeaveInfo({ sickLeave }: { sickLeave: SickLeaveInfo }
       <td>{sickLeave.patient.namn}</td>
       <td>{sickLeave.patient.kon}</td>
       <td>
-        {sickLeave.diagnos.map((diagnosis) => {
-          return (
+        {sickLeave.diagnos.map((diagnosis) => (
             <>
               {diagnosis.kod} {diagnosis.beskrivning}
             </>
-          )
-        })}
+          ))}
         {sickLeave.biDiagnoser.map((code, index) => {
           return (
             <>
