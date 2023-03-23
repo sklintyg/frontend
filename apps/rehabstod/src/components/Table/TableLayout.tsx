@@ -42,7 +42,7 @@ export function TableLayout({
         <thead>
           <tr>
             {tableHeaders.map((header, index) => (
-              <th key={`${id}-table-header-${index}`} onClick={() => onSort(index)}>
+              <th key={`${id}-table-header-${header}`} onClick={() => onSort(index)}>
                 {header}
                 {getIcon(index)}
               </th>
@@ -51,8 +51,8 @@ export function TableLayout({
         </thead>
         <tbody>
           {content && content.length > 0 ? (
-            content.map((item, index) => (
-              <tr key={`${id}-table-row-${index}`}>
+            content.map((item) => (
+              <tr key={`${id}-table-row`}>
                 <CurrentSickLeaveInfo sickLeave={item} />
               </tr>
             ))
