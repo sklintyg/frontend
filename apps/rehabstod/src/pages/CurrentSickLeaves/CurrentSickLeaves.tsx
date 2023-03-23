@@ -1,7 +1,7 @@
+import { useState } from 'react'
 import { TableLayout } from '../../components/Table/TableLayout'
 import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
 import { useGetUserQuery, useLazyGetSickLeavesQuery } from '../../store/api'
-import { useState } from 'react'
 
 export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
 
