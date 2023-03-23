@@ -27,9 +27,9 @@ export function TableLayout({
   const getIcon = (index: number) => {
     if (index !== sortedColumn) {
       return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="inline ml-1" />
-    } else {
+    } 
       return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="inline ml-1" />
-    }
+    
   }
 
   return (
