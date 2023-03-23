@@ -1,6 +1,6 @@
+import { ReactNode } from 'react'
 import { SickLeaveInfo } from '../../store/types/sickLeave'
 import { CurrentSickLeaveInfo } from './CurrentSickLeaves/CurrentSickLeaveInfo'
-import { ReactNode } from 'react'
 import { IDSIcon } from '@frontend/ids-react-ts'
 
 export function TableLayout({

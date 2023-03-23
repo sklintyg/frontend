@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { TableLayout } from './TableLayout'
 import userEvent from '@testing-library/user-event'
+import { TableLayout } from './TableLayout'
 
 let onSort: () => void
 const renderComponent = () => {

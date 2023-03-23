@@ -38,7 +38,7 @@ export function CurrentSickLeavesFilters({
             description="Visar eller döljer patienternas namn och personnummer i tabellen."
             onChange={(event) => handleHidePersonalInformation(event)}
           />
-          <IDSButtonGroup className="flex flex my-4" style={{ justifyContent: 'flex-end' }}>
+          <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
             <IDSButton secondary onClick={handleReset}>
               Återställ
             </IDSButton>
