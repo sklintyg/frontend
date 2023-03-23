@@ -26,9 +26,9 @@ export function TableLayout({
 }) {
   const getIcon = (index: number) => {
     if (index !== sortedColumn) {
-      return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="inline ml-1" />
-    } 
-      return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="inline ml-1" />
+      return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="ml-1 inline" />
+    }
+      return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="ml-1 inline" />
     
   }
 
@@ -43,18 +43,16 @@ export function TableLayout({
         <thead>
           <tr>
             {tableHeaders.map((header, index) => (
-                <th key={`${id}-table-header-${index}`} onClick={() => onSort(index)}>
-                  {header}
-                  {getIcon(index)}
-                </th>
-              ))}
+              <th key={`${id}-table-header-${index}`} onClick={() => onSort(index)}>
+                {header}
+                {getIcon(index)}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {content && content.length > 0 ? (
-            content.map((item, index) => {
-              return <tr key={`${id}-table-row-${index}`}><CurrentSickLeaveInfo sickLeave={item} /></tr>
-            })
+            content.map((item, index) => <tr key={`${id}-table-row-${index}`}><CurrentSickLeaveInfo sickLeave={item} /></tr>)
           ) : (
             <tr>
               <td colSpan={tableHeaders.length}>Inga resultat</td>
