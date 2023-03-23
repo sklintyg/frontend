@@ -56,7 +56,7 @@ export function CurrentSickLeaves() {
       onSort={onSort}
       sortedColumn={sortedColumn}
       ascending={ascending}
-      content={currentSickLeaves ? currentSickLeaves : []}
+      content={currentSickLeaves || []}
       filters={
         <CurrentSickLeavesFilters
           onSearch={() => {

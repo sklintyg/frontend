@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
+import { IDSIcon } from '@frontend/ids-react-ts'
 import { SickLeaveInfo } from '../../store/types/sickLeave'
 import { CurrentSickLeaveInfo } from './CurrentSickLeaves/CurrentSickLeaveInfo'
-import { IDSIcon } from '@frontend/ids-react-ts'
 
 export function TableLayout({
   title,
@@ -28,8 +28,7 @@ export function TableLayout({
     if (index !== sortedColumn) {
       return <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="ml-1 inline" />
     }
-      return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="ml-1 inline" />
-    
+    return <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="ml-1 inline" />
   }
 
   return (
@@ -52,7 +51,11 @@ export function TableLayout({
         </thead>
         <tbody>
           {content && content.length > 0 ? (
-            content.map((item, index) => <tr key={`${id}-table-row-${index}`}><CurrentSickLeaveInfo sickLeave={item} /></tr>)
+            content.map((item, index) => (
+              <tr key={`${id}-table-row-${index}`}>
+                <CurrentSickLeaveInfo sickLeave={item} />
+              </tr>
+            ))
           ) : (
             <tr>
               <td colSpan={tableHeaders.length}>Inga resultat</td>
