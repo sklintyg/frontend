@@ -20,7 +20,7 @@ export const CURRENT_SICK_LEAVES_TABLE_HEADERS = [
 ]
 
 export function CurrentSickLeaves() {
-  //const { data: currentSickLeaves } = useGetSickLeavesQuery(5)
+  // const { data: currentSickLeaves } = useGetSickLeavesQuery(5)
   const { data: user } = useGetUserQuery()
   const [triggerGetSickLeaves, { data: currentSickLeaves }] = useLazyGetSickLeavesQuery()
   const defaultColumn = 5
