@@ -1,3 +1,4 @@
+import { fakeUser } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'
@@ -22,8 +23,21 @@ describe('With user session', () => {
   })
 
   it('Should be able to logout', async () => {
+    server.use(
+      rest.get('/api/user', (req, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json(
+            fakeUser({
+              namn: 'Arnold Johansson',
+            })
+          )
+        )
+      )
+    )
+
     renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByText('Ortiz LLC')).toBeInTheDocument()
+    expect(await screen.findByText('Arnold Johansson')).toBeInTheDocument()
   })
 })
