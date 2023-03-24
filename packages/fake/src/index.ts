@@ -1,2 +1,2 @@
-export * from './hsa'
+export * from './factory'
 export * from './rehabstod'

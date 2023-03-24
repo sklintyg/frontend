@@ -1,15 +1,15 @@
 {
-  "name": "@frontend/types",
+  "name": "@frontend/fake",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/types.umd.js",
-  "module": "./dist/types.es.js",
+  "main": "./dist/fake.umd.js",
+  "module": "./dist/fake.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/types.es.js",
-      "require": "./dist/types.umd.js"
+      "import": "./dist/fake.es.js",
+      "require": "./dist/fake.umd.js"
     }
   },
   "scripts": {
@@ -19,13 +19,18 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
+    "@anatine/zod-mock": "^3.10.0",
+    "@faker-js/faker": "^7.6.0",
+    "@frontend/types": "*",
+    "lodash": "^4.17.21",
+    "type-fest": "^3.7.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
     "eslint": "^8.34.0",
+    "eslint-config-custom": "*",
     "typescript": "^4.9.3",
-    "vite-plugin-dts": "^1.7.1",
-    "vite": "^4.1.1"
+    "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.1"
   }
 }

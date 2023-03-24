@@ -14,9 +14,9 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'types',
+      name: 'fake',
       formats: ['es', 'umd'],
-      fileName: (format) => `types.${format}.js`,
+      fileName: (format) => `fake.${format}.js`,
     },
     rollupOptions: {
       external: ['react'],

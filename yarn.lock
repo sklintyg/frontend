@@ -22,13 +22,6 @@
   dependencies:
     randexp "^0.5.3"
 
-"@anatine/zod-mock@^3.9.0":
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/@anatine/zod-mock/-/zod-mock-3.9.0.tgz#a0d83f4fdc4620d729d04585e2e5e26b0f6ce7ce"
-  integrity sha512-MShwAONfTy5S63vp1/5xjU4OlYBcCH1E5Vt1i85bZ5rzbadnyoL6KsZGZkTtel56PGj36fftUf0cx9o07DZmKw==
-  dependencies:
-    randexp "^0.5.3"
-
 "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.18.6":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"
@@ -5426,7 +5419,7 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-msw@^1.1.1:
+msw@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/msw/-/msw-1.2.0.tgz#5337ed96cbd6582d2675403950e7d97333d4c43d"
   integrity sha512-2nbGxmG8Zk/eCiWCAFtgz5kwPE5YnTlOcRBggFkykqkBSPQE+kvlHJElOzrTG21Tb0ZGXWgn0PI5kyANnOpgug==
@@ -7270,11 +7263,6 @@ ts-dedent@^2.2.0:
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.2.0.tgz#39e4bd297cd036292ae2394eb3412be63f563bb5"
   integrity sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==
 
-ts-deepmerge@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/ts-deepmerge/-/ts-deepmerge-6.0.2.tgz#ba4eca07c855a8cc75a9b7dd337df16c00bd0d02"
-  integrity sha512-/GPCwZfJylLU3i00vFwHa36YYvKY9F1Es/VhRESre7betW2cvxF05qwAD0vGlsKl93FEAB+2DoN/QrUw9VyBcg==
-
 ts-morph@17.0.1, ts-morph@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/ts-morph/-/ts-morph-17.0.1.tgz#d85df4fcf9a1fcda1b331d52c00655f381c932d1"
@@ -7418,10 +7406,10 @@ type-fest@^3.5.3:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.6.0.tgz#827c36c0e7fcff0cb2d55d091a5c4cf586432b8a"
   integrity sha512-RqTRtKTzvPpNdDUp1dVkKQRunlPITk4mXeqFlAZoJsS+fLRn8AdPK0TcQDumGayhU7fjlBfiBjsq3pe3rIfXZQ==
 
-type-fest@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.6.1.tgz#cf8025edeebfd6cf48de73573a5e1423350b9993"
-  integrity sha512-htXWckxlT6U4+ilVgweNliPqlsVSSucbxVexRYllyMVJDtf5rTjv6kF/s+qAd4QSL1BZcnJPEJavYBPQiWuZDA==
+type-fest@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.7.0.tgz#32a38fb199857df6e92af5fbe3c804c314f9a901"
+  integrity sha512-A2qUJ/j8vkKIT+UorxayZjFJoEdNkIPZkjOJSWezoAbRQd7QEhnz2iJlfVy4Or0GuEnCXts5cNorQNUvdLkaSQ==
 
 typed-array-length@^1.0.4:
   version "1.0.4"

@@ -20,6 +20,7 @@
   "dependencies": {
     "@frontend/ids-react-ts": "*",
     "@frontend/types": "*",
+    "@frontend/fake": "*",
     "@reduxjs/toolkit": "^1.9.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -30,7 +31,7 @@
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
-    "@anatine/zod-mock": "^3.10.0",
+    "@faker-js/faker": "^7.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -44,11 +45,12 @@
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-tailwindcss": "^3.10.1",
     "jsdom": "^21.1.1",
-    "msw": "^1.1.1",
+    "msw": "^1.2.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.3",
     "vite": "^4.1.1",
-    "vitest": "^0.29.2"
+    "vitest": "^0.29.2",
+    "whatwg-fetch": "^3.6.2"
   }
 }

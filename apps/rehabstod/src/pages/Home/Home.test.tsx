@@ -6,7 +6,7 @@ it('Should render without error', () => {
   expect(() => renderWithRouter(<Home />)).not.toThrow()
 })
 
-it('Should present information', async () => {
+it('Should present user once logged in', async () => {
   const { user } = renderWithRouter(<Home />)
 
   await waitForElementToBeRemoved(document.querySelector('ids-spinner'))

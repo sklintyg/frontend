@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
 function fakeLogout() {
-  return fetch('/logout', {
-    body: new FormData(),
-    method: 'post',
-  })
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', '/logout', false)
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  xhr.send()
 }
 
 export function useLogout() {

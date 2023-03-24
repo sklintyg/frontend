@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { vardenheterSchema } from './vardenheterSchema'
+import { vardenhetSchema } from './vardenhetSchema'
 import { vardgivareSchema } from './vardgivareSchema'
 
-export const preferencesSchema = z.object({
+export const userPreferencesSchema = z.object({
   lakarutlatandeUnitTableColumns: z.string(),
   pdlConsentGiven: z.string(),
   patientTableColumns: z.string(),
@@ -26,11 +26,11 @@ export const lakareRoleSchema = z.object({
   privileges: z.array(z.string()),
 })
 
-export const roleSchema = z.object({
+export const userRoleSchema = z.object({
   LAKARE: lakareRoleSchema,
 })
 
-export const featureSchema = z.object({
+export const userFeatureSchema = z.object({
   SRS: srsFeatureSchema,
 })
 
@@ -41,20 +41,20 @@ export const userSchema = z.object({
   authenticationScheme: z.string(),
   vardgivare: z.array(vardgivareSchema),
   befattningar: z.array(z.string()),
-  valdVardenhet: vardenheterSchema.nullable(),
+  valdVardenhet: vardenhetSchema.nullable(),
   valdVardgivare: vardgivareSchema.nullable(),
-  roles: roleSchema,
+  roles: userRoleSchema,
   totaltAntalVardenheter: z.number(),
   urval: z.string(),
   pdlConsentGiven: z.boolean(),
   roleSwitchPossible: z.boolean(),
-  features: featureSchema,
-  preferences: preferencesSchema,
+  features: userFeatureSchema,
+  preferences: userPreferencesSchema,
 })
 
-export type Preferences = z.infer<typeof preferencesSchema>
+export type UserPreferences = z.infer<typeof userPreferencesSchema>
 export type SrsFeature = z.infer<typeof srsFeatureSchema>
 export type LakareRole = z.infer<typeof lakareRoleSchema>
-export type Role = z.infer<typeof roleSchema>
-export type Feature = z.infer<typeof featureSchema>
+export type UserRole = z.infer<typeof userRoleSchema>
+export type UserFeature = z.infer<typeof userFeatureSchema>
 export type User = z.infer<typeof userSchema>

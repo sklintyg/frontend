@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { AgandeFormEnum } from './enums'
 import { mottagningSchema } from './mottagningSchema'
 
-export const vardenheterSchema = z.object({
+export const vardenhetSchema = z.object({
   '@class': z.literal('se.inera.intyg.infra.integration.hsatk.model.legacy.Vardenhet'),
   id: z.string(),
   namn: z.string(),
@@ -21,4 +21,4 @@ export const vardenheterSchema = z.object({
   parentHsaId: z.string().optional(),
 })
 
-export type Vardenheter = z.infer<typeof vardenheterSchema>
+export type Vardenhet = z.infer<typeof vardenhetSchema>

@@ -1,19 +1,15 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { faker } from '@faker-js/faker'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
-// import 'whatwg-fetch'
-// import nodeFetch, { Request, Response } from 'node-fetch'
+import 'whatwg-fetch'
 import { server } from './mocks/server'
 import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
 import { store } from './store/store'
 
-// // @ts-ignore
-// global.fetch = nodeFetch
-// // @ts-ignore
-// global.Request = Request
-// // @ts-ignore
-// global.Response = Response
+// Set faker to use swedish locale and predictable seed
+faker.setLocale('sv')
+faker.seed(1234)
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
