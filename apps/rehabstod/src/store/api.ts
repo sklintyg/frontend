@@ -1,4 +1,4 @@
-import { Link, Ping, User, Vardenheter, Vardgivare } from '@frontend/types'
+import { Link, Ping, User, Vardenhet, Vardgivare } from '@frontend/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getCookie } from '../utils/cookies'
 
@@ -6,7 +6,6 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/',
-    // baseUrl: 'http://localhost:5173/api/',
     prepareHeaders: (headers, { type }) => {
       if (type === 'mutation' && getCookie('XSRF-TOKEN')) {
         headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'))
@@ -20,7 +19,7 @@ export const api = createApi({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenheter }>({
+    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
@@ -39,6 +38,16 @@ export const api = createApi({
         }
       },
     }),
+    fakeLogout: builder.mutation<void, void>({
+      query: () => ({
+        url: '../logout',
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+      }),
+      invalidatesTags: ['User'],
+    }),
     getSessionPing: builder.query<Ping, void>({
       query: () => 'session-auth-check/ping',
     }),
@@ -49,4 +58,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation } = api
+export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation, useFakeLogoutMutation } = api

@@ -1,13 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-
-function fakeLogout() {
-  const xhr = new XMLHttpRequest()
-  xhr.open('POST', '/logout', false)
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-  xhr.send()
-}
+import { useFakeLogoutMutation } from '../store/api'
 
 export function useLogout() {
+  const [fakeLogout] = useFakeLogoutMutation()
   const navigate = useNavigate()
 
   return {
