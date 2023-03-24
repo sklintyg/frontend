@@ -13,7 +13,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Links'],
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -53,7 +53,6 @@ export const api = createApi({
     }),
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
-      providesTags: ['Links'],
     }),
   }),
 })
