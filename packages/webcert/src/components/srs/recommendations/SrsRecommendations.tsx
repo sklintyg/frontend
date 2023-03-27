@@ -1,15 +1,17 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getDiagnosisCode, getDiagnosisDescription, getSickLeaveChoice, getSrsInfo } from '../../../store/srs/srsSelectors'
 import {
-  ExpandableTextWithTitle,
   ExpandableList,
+  ExpandableTextWithTitle,
   InfoBox,
   SrsInformationChoice,
   SrsRecommendation,
   SrsSickLeaveChoice,
+  SrsEvent,
 } from '@frontend/common'
 import styled from 'styled-components'
+import { logSrsInteraction } from '../../../store/srs/srsActions'
 
 export const SRS_OBSERVE_TITLE = 'Tänk på att'
 export const SRS_EXTENSION_TITLE = 'Tänk på att vid förlängning'
@@ -21,6 +23,7 @@ const StyledListItem = styled.li`
 `
 
 const SrsRecommendations: React.FC = () => {
+  const dispatch = useDispatch()
   const info = useSelector(getSrsInfo)
   const sickLeaveChoice = useSelector(getSickLeaveChoice)
   const diagnosisCode = useSelector(getDiagnosisCode(SrsInformationChoice.RECOMMENDATIONS))
@@ -48,10 +51,20 @@ const SrsRecommendations: React.FC = () => {
         <h3 className="iu-fw-bold iu-mt-400">{title}</h3>
         <p className="iu-fw-bold iu-mb-200">{showDiagnosis && `${diagnosisCode} - ${diagnosisDescription}`}</p>
         <ul>
-          <ExpandableList nbrOfVisibleItems={4} items={getInformationList(recommendations, key)} />
+          <ExpandableList
+            nbrOfVisibleItems={4}
+            items={getInformationList(recommendations, key)}
+            onClick={(currentExpanded: boolean) => logInteraction(SrsEvent.SRS_MEASURES_SHOW_MORE_CLICKED, currentExpanded)}
+          />
         </ul>
       </>
     )
+  }
+
+  const logInteraction = (event: SrsEvent, shouldLog: boolean) => {
+    if (shouldLog) {
+      dispatch(logSrsInteraction(event))
+    }
   }
 
   const getInformationList = (recommendations: SrsRecommendation[], key: string) => {
@@ -61,6 +74,7 @@ const SrsRecommendations: React.FC = () => {
           <ExpandableTextWithTitle
             text={recommendation.recommendationText ? recommendation.recommendationText : 'Text saknas'}
             title={recommendation.recommendationTitle ? recommendation.recommendationTitle : 'Titel saknas'}
+            onClick={(currentExpanded: boolean) => logInteraction(SrsEvent.SRS_MEASURES_EXPAND_ONE_CLICKED, currentExpanded)}
           />
         </StyledListItem>
       )
