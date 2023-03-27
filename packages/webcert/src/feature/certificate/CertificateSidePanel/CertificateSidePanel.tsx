@@ -1,17 +1,15 @@
-import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs, SrsEvent } from '@frontend/common'
+import { LightbulpIcon, ResourceLink, ResourceLinkType, Tabs } from '@frontend/common'
 import _ from 'lodash'
 import React, { ReactNode, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import FMBPanel from '../../../components/fmb/FMBPanel'
 import { getIsShowSpinner, getResourceLinks } from '../../../store/certificate/certificateSelectors'
 import AboutCertificatePanel from './AboutCertificatePanel'
 import QuestionPanel from '../../../components/question/QuestionPanel'
 import QuestionNotAvailablePanel from '../../../components/question/QuestionNotAvailablePanel'
 import SrsPanel from '../../../components/srs/panel/SrsPanel'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
 
 const CertificateSidePanel: React.FC = () => {
-  const dispatch = useDispatch()
   const showSpinner = useSelector(getIsShowSpinner)
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
   const resourceLinks = useSelector(getResourceLinks, _.isEqual)
@@ -31,9 +29,6 @@ const CertificateSidePanel: React.FC = () => {
 
   const handleTabChange = (value: number): void => {
     setSelectedTabIndex(value)
-    if (availableTabs[value] && availableTabs[value].type === ResourceLinkType.SRS) {
-      dispatch(logSrsInteraction(SrsEvent.SRS_PANEL_ACTIVATED))
-    }
   }
 
   const getTab = (name: string, description: string, icon?: ReactNode) => {

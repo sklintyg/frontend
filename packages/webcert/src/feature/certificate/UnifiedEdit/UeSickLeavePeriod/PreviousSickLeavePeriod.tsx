@@ -1,5 +1,5 @@
-import { InfoBox } from '@frontend/common'
 import React from 'react'
+import { InfoBox } from '@frontend/common'
 
 interface Props {
   previousSickLeavePeriod: string
@@ -11,10 +11,8 @@ export const PreviousSickLeavePeriod: React.FC<Props> = ({ previousSickLeavePeri
   }
 
   return (
-    <div className="iu-mb-400">
-      <InfoBox type={'observe'} activateIconWrap>
-        <p>{previousSickLeavePeriod}</p>
-      </InfoBox>
-    </div>
+    <InfoBox type={'observe'} additionalStyles="iu-mt-400" activateIconWrap>
+      <p>{previousSickLeavePeriod}</p>
+    </InfoBox>
   )
 }

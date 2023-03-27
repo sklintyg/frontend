@@ -1,22 +1,8 @@
 /* eslint-disable import/no-default-export */
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import react from '@vitejs/plugin-react'
-import { loadEnv, ProxyOptions } from 'vite'
+import { loadEnv } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
-
-const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html'].reduce<Record<string, string | ProxyOptions>>(
-  (result, route) => ({
-    ...result,
-    [`/${route}`]: {
-      target: process.env.VITE_API_TARGET ?? 'https://rehabstod-devtest.intyg.nordicmedtest.se',
-      cookieDomainRewrite: { '*': '' },
-      protocolRewrite: 'https',
-      changeOrigin: true,
-      autoRewrite: true,
-    },
-  }),
-  {}
-)
 
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
@@ -24,8 +10,16 @@ export default ({ mode }: UserConfig) => {
   return defineConfig({
     plugins: [react(), basicSsl()],
     server: {
-      host: '0.0.0.0',
-      proxy,
+      host: 'rs2.rs.localtest.me',
+      proxy: {
+        '/api': {
+          target: 'https://rehabstod-devtest.intyg.nordicmedtest.se',
+          cookieDomainRewrite: { '*': '' },
+          protocolRewrite: 'https',
+          changeOrigin: true,
+          autoRewrite: true,
+        },
+      },
     },
     test: {
       globals: true,

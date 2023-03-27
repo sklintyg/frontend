@@ -201,7 +201,7 @@ export const UeSickLeavePeriod: React.FC<Props> = ({ question, disabled }) => {
       </div>
       <QuestionValidationTexts validationErrors={otherValiadtionErrors} />
       {totalSickDays && !disabled && (
-        <div className="iu-mb-400">
+        <div>
           <p className="iu-color-main">
             <Icon iconType={'lightbulb_outline'} includeTooltip={true} />
             Intyget motsvarar en period på {totalSickDays} dagar.{' '}

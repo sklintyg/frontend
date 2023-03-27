@@ -39,7 +39,6 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
   ignorePatterns: ['dist/**'],
   settings: {

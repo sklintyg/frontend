@@ -18,10 +18,6 @@ import {
   getSRSCodesError,
   getSRSCodesStarted,
   getSRSCodesSuccess,
-  logSrsInteraction,
-  logSrsInteractionError,
-  logSrsInteractionStarted,
-  logSrsInteractionSuccess,
   PredictionsRequest,
   RecommendationsRequest,
   resetState,
@@ -50,10 +46,8 @@ import {
   SrsInfoForDiagnosis,
   isRenewedChild,
   SrsQuestion,
-  SrsEvent,
 } from '@frontend/common'
 import { updateCertificate, updateCertificateDataElement } from '../certificate/certificateActions'
-import { getMainDiagnosisCode } from '../../components/srs/srsUtils'
 
 export const handleGetSRSCodes: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (): void => {
   dispatch(
@@ -108,8 +102,6 @@ export const handleGetRecommendationsSuccess: Middleware<Dispatch> = ({ dispatch
 ): void => {
   dispatch(updateError(false))
   dispatch(updateSrsInfo(action.payload))
-  dispatch(logSrsInteraction(SrsEvent.SRS_LOADED))
-  dispatch(logSrsInteraction(SrsEvent.SRS_MEASURES_DISPLAYED))
 }
 
 export const handleGetQuestions: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (action: PayloadAction<string>): void => {
@@ -179,31 +171,6 @@ export const handleSetRiskOpinion: Middleware<Dispatch> = ({ dispatch }: Middlew
   )
 }
 
-export const handleLogSrsInteraction: Middleware<Dispatch> = ({ dispatch, getState }: MiddlewareAPI) => () => (
-  action: PayloadAction<SrsEvent>
-): void => {
-  const srsState = getState().ui.uiSRS
-  dispatch(
-    apiCallBegan({
-      url: `/api/jslog/srs`,
-      method: 'POST',
-      data: {
-        event: action.payload,
-        info: {
-          careUnitId: srsState.unitId,
-          caregiverId: srsState.careProviderId,
-          intygId: srsState.certificateId,
-          mainDiagnosisCode: getMainDiagnosisCode(srsState.diagnosisListValue),
-          userClientContext: 'SRS_UTK',
-        },
-      },
-      onStart: logSrsInteractionStarted.type,
-      onSuccess: logSrsInteractionSuccess.type,
-      onError: logSrsInteractionError.type,
-    })
-  )
-}
-
 export const handleUpdateCertificateDataElement: Middleware<Dispatch> = ({ dispatch }: MiddlewareAPI) => () => (
   action: PayloadAction<{ value: ValueDiagnosisList }>
 ): void => {
@@ -247,7 +214,6 @@ const middlewareMethods = {
   [getPredictionsSuccess.type]: handleGetPredictionsSuccess,
   [getQuestionsSuccess.type]: handleGetQuestionsSuccess,
   [setRiskOpinion.type]: handleSetRiskOpinion,
-  [logSrsInteraction.type]: handleLogSrsInteraction,
   [updateCertificateDataElement.type]: handleUpdateCertificateDataElement,
   [updateCertificate.type]: handleUpdateCertificate,
 }

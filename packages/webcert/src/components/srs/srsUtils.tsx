@@ -1,4 +1,4 @@
-import { SrsPrediction, SrsSickLeaveChoice, ValueDiagnosisList } from '@frontend/common'
+import { SrsPrediction, SrsSickLeaveChoice } from '@frontend/common'
 
 export const SICKLEAVE_CHOICES_TEXTS = ['Ny sjukskrivning', 'Förlängning', 'Förlängning efter 60 dagar']
 export const SRS_OPINION_LABELS = ['Högre', 'Korrekt', 'Lägre', 'Kan ej bedöma']
@@ -89,12 +89,4 @@ export const hasCurrentRiskDataPoint = (predictions: SrsPrediction[]) => {
     filteredPredictions[0].probabilityOverLimit &&
     filteredPredictions[0].probabilityOverLimit > 0
   )
-}
-
-export const getMainDiagnosisCode = (value: ValueDiagnosisList | null) => {
-  if (!value) {
-    return ''
-  }
-  const mainDiagnosis = value.list.find((diagnosis) => diagnosis.id.includes('0'))
-  return mainDiagnosis ? mainDiagnosis.code : ''
 }

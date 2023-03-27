@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import SrsPanel, { SRS_TITLE } from './SrsPanel'
 import { Provider } from 'react-redux'
-import { logSrsInteraction, setDiagnosisCodes, updateError, updateSrsInfo } from '../../../store/srs/srsActions'
+import store from '../../../store/store'
+import { setDiagnosisCodes, updateError, updateSrsInfo } from '../../../store/srs/srsActions'
 import { updateCertificate } from '../../../store/certificate/certificateActions'
 import { fakeCertificate, fakeDiagnosesElement, fakeSrsInfo } from '@frontend/common'
 import { SRS_OBSERVE_TITLE, SRS_RECOMMENDATIONS_TITLE } from '../recommendations/SrsRecommendations'
@@ -9,10 +10,6 @@ import { SRS_RECOMMENDATIONS_BUTTON_TEXT, SRS_STATISTICS_BUTTON_TEXT } from '../
 import userEvent from '@testing-library/user-event'
 import { SRS_STATISTICS_TITLE } from '../statistics/SrsNationalStatistics'
 import { SICKLEAVE_CHOICES_TEXTS } from '../srsUtils'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
-import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import { EnhancedStore } from '@reduxjs/toolkit'
-import { srsMiddleware } from '../../../store/srs/srsMiddleware'
 
 const renderComponent = () => {
   render(
@@ -22,17 +19,7 @@ const renderComponent = () => {
   )
 }
 
-let store: EnhancedStore
-
 describe('SrsPanel', () => {
-  beforeEach(() => {
-    store = configureApplicationStore([dispatchHelperMiddleware, srsMiddleware])
-  })
-
-  afterEach(() => {
-    clearDispatchedActions()
-  })
-
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
   })
@@ -186,12 +173,6 @@ describe('SrsPanel', () => {
       userEvent.click(button)
       expect(screen.queryByText(SRS_RECOMMENDATIONS_TITLE)).not.toBeInTheDocument()
       expect(screen.getByText(SRS_STATISTICS_TITLE)).toBeInTheDocument()
-    })
-
-    it('should log when pressing statistics button', () => {
-      renderComponent()
-      userEvent.click(screen.getByText(SRS_STATISTICS_BUTTON_TEXT))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

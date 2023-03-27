@@ -9,10 +9,9 @@ import { apiMiddleware } from '../../../store/api/apiMiddleware'
 import { hideSpinner, showSpinner, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
-import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
+import dispatchHelperMiddleware, { clearDispatchedActions } from '../../../store/test/dispatchHelperMiddleware'
 import CertificateSidePanel from './CertificateSidePanel'
 import { SRS_TITLE } from '../../../components/srs/panel/SrsPanel'
-import { logSrsInteraction } from '../../../store/srs/srsActions'
 
 let testStore: EnhancedStore
 
@@ -139,13 +138,6 @@ describe('CertificateSidePanel', () => {
       renderTab(tabText, ResourceLinkType.SRS)
       await waitFor(() => userEvent.click(screen.getByText(tabText)))
       expect(screen.getByText(expectedContent)).toBeVisible()
-    })
-
-    it('shall log SRS interaction when switching tab', async () => {
-      const tabText = 'SRS'
-      renderTab(tabText, ResourceLinkType.SRS)
-      await waitFor(() => userEvent.click(screen.getByText(tabText)))
-      expect(dispatchedActions.find((a) => a.type === logSrsInteraction.type)).not.toBeUndefined()
     })
   })
 })

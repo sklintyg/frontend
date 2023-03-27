@@ -13,10 +13,10 @@ import {
   getPatientId,
 } from '../../../store/srs/srsSelectors'
 import SRSPanelFooter from './SrsPanelFooter'
-import { getQuestions, getRecommendations, getSRSCodes, logSrsInteraction } from '../../../store/srs/srsActions'
+import { getQuestions, getRecommendations, getSRSCodes } from '../../../store/srs/srsActions'
 import SRSSickleaveChoices from '../choices/SrsSickLeaveChoices'
 import SrsInformationChoices from '../choices/SrsInformationChoices'
-import { Spinner, SrsInformationChoice, SrsEvent } from '@frontend/common'
+import { Spinner, SrsInformationChoice } from '@frontend/common'
 import SrsRecommendations from '../recommendations/SrsRecommendations'
 import SrsNationalStatistics from '../statistics/SrsNationalStatistics'
 import ReactTooltip from 'react-tooltip'
@@ -61,13 +61,6 @@ const SrsPanel: React.FC = () => {
     }
   }, [supportedDiagnosisCode, certificateId, patientId, dispatch])
 
-  const updateInformationChoice = (choice: SrsInformationChoice) => {
-    setInformationChoice(choice)
-    if (choice === SrsInformationChoice.STATISTICS) {
-      dispatch(logSrsInteraction(SrsEvent.SRS_STATISTICS_ACTIVATED))
-    }
-  }
-
   const getContent = () => {
     if (isLoading) {
       return <Spinner />
@@ -90,7 +83,7 @@ const SrsPanel: React.FC = () => {
         <p className="iu-fw-bold">Riskberäkningen gäller:</p>
         <SRSSickleaveChoices />
         <SrsRisk />
-        <SrsInformationChoices onChange={updateInformationChoice} currentChoice={informationChoice} />
+        <SrsInformationChoices onChange={setInformationChoice} currentChoice={informationChoice} />
         {informationChoice === SrsInformationChoice.RECOMMENDATIONS ? <SrsRecommendations /> : <SrsNationalStatistics />}
       </>
     )

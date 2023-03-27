@@ -694,10 +694,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@inera/ids-core@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@inera/ids-core/-/ids-core-2.4.0.tgz#c2a6901051dad9eb951137e78deda0e7be9e048b"
-  integrity sha512-dc1KiY2H583DMiXAS6pcnEyXfSGGfv+FLU9UJtubPdVIsFD6USx2HtJ1CVvfXHmdBZ8LRb8tMVd+lPWlaIz5IA==
+"@inera/ids-core@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@inera/ids-core/-/ids-core-2.3.2.tgz#a60acd7d955af54c8f6df5becd6d871770b3fa74"
+  integrity sha512-X4QFpyXiJE3nl8Hm9nIYIOybgp6YhW51D0JwGSO8kiKyp0eER0NOJOqOYlDOrj7F2AhYF3XQgtFtD99oJNNs4w==
   dependencies:
     lit "^2.0.0-rc.2"
     tslib "2.3.1"

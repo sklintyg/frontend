@@ -8,13 +8,14 @@ import {
   ResourceLinkType,
   speechBubbleImage,
 } from '@frontend/common'
+import _ from 'lodash'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ForwardCertificateButton from '../../feature/certificate/Buttons/ForwardCertificateButton'
 import SidePanelFooter from '../../feature/certificate/CertificateSidePanel/Footer/SidePanelFooter'
 import { answerComplementCertificate, complementCertificate } from '../../store/certificate/certificateActions'
-import { getCertificateMetaData } from '../../store/certificate/certificateSelectors'
+import { getCertificateMetaData, getResourceLinks } from '../../store/certificate/certificateSelectors'
 import { CannotComplementData, CannotComplementModalContent } from './CannotComplementModalContent'
 
 interface Props {
@@ -31,6 +32,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const dispatch = useDispatch()
   const [cannotComplement, setCannotComplement] = useState<CannotComplementData | null>(null)
   const certificateMetadata = useSelector(getCertificateMetaData)
+  const resourceLinks = useSelector(getResourceLinks, _.isEqual)
 
   const onComplementClick = () => dispatch(complementCertificate({ message: '' }))
 
@@ -57,7 +59,7 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   const showQuestionPanelFooter = () =>
     getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE) ||
     getResourceLinkIfExists(ResourceLinkType.CANNOT_COMPLEMENT_CERTIFICATE) ||
-    getResourceLinkIfExists(ResourceLinkType.FORWARD_QUESTION)
+    resourceLinks.find((resourceLink) => resourceLink.type === ResourceLinkType.FORWARD_QUESTION)
 
   const getComplementButton = () => {
     const complementResourceLink = getResourceLinkIfExists(ResourceLinkType.COMPLEMENT_CERTIFICATE)
@@ -101,14 +103,10 @@ const QuestionPanelFooter: React.FC<Props> = ({ questions }) => {
   }
 
   const getForwardButton = () => {
-    const question = questions.find((question) =>
-      question.links.find((resourceLink) => resourceLink.type === ResourceLinkType.FORWARD_QUESTION)
-    )
-    if (!question || !certificateMetadata) {
+    const link = resourceLinks.find((resourceLink) => resourceLink.type === ResourceLinkType.FORWARD_QUESTION)
+    if (!link || !certificateMetadata) {
       return null
     }
-
-    const link = getResourceLink(question.links, ResourceLinkType.FORWARD_QUESTION)
 
     return (
       <ForwardCertificateButton
