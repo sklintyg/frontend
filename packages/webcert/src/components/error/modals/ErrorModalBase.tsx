@@ -11,6 +11,14 @@ const Modal = styled.div`
   z-index: 9999;
 `
 
+const ButtonGroup = styled.div`
+  margin-top: 1.875rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
 interface ErrorModalProps {
   onConfirm?: () => void
   confirmButtonText?: string
@@ -32,15 +40,6 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
     setOpen(false)
   }
 
-  const getButtons = () => {
-    return (
-      <>
-        {confirmButtonText && <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />}
-        <CustomButton onClick={handleClose} text={closeButtonText} />
-      </>
-    )
-  }
-
   return (
     <FocusTrap
       active={open}
@@ -53,7 +52,10 @@ const ErrorModalBase: React.FC<ErrorModalProps> = ({ onConfirm, confirmButtonTex
         <div className="ic-backdrop" onClick={handleClose} />
         <Modal role="alertdialog" className="ic-modal ic-modal--error" aria-labelledby="demo-modal-content">
           <div className="ic-modal__body">{children}</div>
-          <div className="ic-button-group ic-button-group--center">{getButtons()}</div>
+          <ButtonGroup className={confirmButtonText ? 'ic-button-group ic-button-group--center' : ''}>
+            {confirmButtonText && <CustomButton onClick={handleConfirm} text={confirmButtonText} buttonStyle={'primary'} />}
+            <CustomButton onClick={handleClose} text={closeButtonText} />
+          </ButtonGroup>
           <ErrorCopyText errorId={errorData.errorId} />
         </Modal>
       </div>
