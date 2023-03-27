@@ -1,11 +1,13 @@
 import { AllowedInApplication, MedarbetarUppdrag, Person } from '@frontend/types'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
+import { RootState } from '../../store/store'
 
 export function useWelcome() {
+  const { selectedFilter } = useSelector((state: RootState) => state.welcome)
   const { isLoading: isLoadingMedarbetarUppdrag, data: medarbetarUppdrag } = useGetMedarbetarUppdragQuery()
   const { isLoading: isLoadingPerson, data: people } = useGetPersonQuery()
-  const [selectedFilter, setSelectedFilter] = useState('all')
   const isLoading = isLoadingMedarbetarUppdrag || isLoadingPerson
 
   const missions = useMemo(
@@ -33,5 +35,5 @@ export function useWelcome() {
     [missions, selectedFilter]
   )
 
-  return { isLoading, fakeLogins, missions, selectedFilter, setSelectedFilter }
+  return { isLoading, fakeLogins, missions }
 }

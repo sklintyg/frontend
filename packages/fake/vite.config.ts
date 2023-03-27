@@ -18,13 +18,5 @@ export default defineConfig({
       formats: ['es', 'umd'],
       fileName: (format) => `fake.${format}.js`,
     },
-    rollupOptions: {
-      external: ['react'],
-      output: {
-        globals: {
-          react: 'React',
-        },
-      },
-    },
   },
 })

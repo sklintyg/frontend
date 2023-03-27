@@ -8,7 +8,8 @@ export const stringMap = {
   namn: faker.name.fullName,
   fornamn: faker.name.firstName,
   efternamn: faker.name.lastName,
-  hsaId: faker.datatype.uuid,
+  hsaId: () =>
+    `${faker.random.alpha({ count: 6, casing: 'upper' })}${faker.datatype.number({ min: 1e9 })}-${faker.datatype.number({ min: 1e3 })}`,
   stad: faker.address.city,
   postadress: faker.address.streetAddress,
   postnummer: faker.address.zipCode,
