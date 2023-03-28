@@ -1,8 +1,8 @@
 export interface SickLeaveInfo {
   aktivGrad: number
-  biDiagnoser: string[]
+  biDiagnoser: SickLeaveDiagnosis[]
   dagar: number
-  diagnos: SickLeaveDiagnosis[]
+  diagnos: SickLeaveDiagnosis
   grader: number[]
   intyg: number
   lakare: UserInfo
@@ -18,6 +18,10 @@ export interface SickLeaveInfo {
   vardEnhetNamn: string
   vardGivareId: string
   vardGivareNamn: string
+}
+
+export interface ActiveSickLeavesResponse {
+  content: SickLeaveInfo[]
 }
 
 export interface SickLeaveDiagnosis {

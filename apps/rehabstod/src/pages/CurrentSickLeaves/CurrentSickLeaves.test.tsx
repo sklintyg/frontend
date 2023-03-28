@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import {
-  CURRENT_SICK_LEAVES_TABLE_HEADERS,
-  CURRENT_SICK_LEAVES_TITLE,
-  CurrentSickLeaves,
-} from '../../../pages/CurrentSickLeaves/CurrentSickLeaves'
+import { CURRENT_SICK_LEAVES_TABLE_HEADERS, CURRENT_SICK_LEAVES_TITLE, CurrentSickLeaves } from './CurrentSickLeaves'
 
 const renderComponent = () => render(<CurrentSickLeaves />)
 
 describe('CurrentSickLeaves', () => {
+  beforeEach(() => {
+    renderComponent()
+  })
+
   it('should render without problems', () => {
     expect(() => renderComponent()).not.toThrow()
   })
