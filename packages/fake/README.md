@@ -1,6 +1,6 @@
 # `@frontend/fake`
 
-Package with function for generating fake mock data using zod schemas and fakerjs
+Generate fake mock data using zod schemas and fakerjs functions
 
 ## Usage
 

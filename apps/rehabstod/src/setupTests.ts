@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@frontend/fake'
 import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import 'whatwg-fetch'
@@ -7,15 +7,22 @@ import { api } from './store/api'
 import { hsaApi } from './store/hsaApi'
 import { store } from './store/store'
 
-// Set faker to use swedish locale and predictable seed
-faker.setLocale('sv')
-faker.seed(1234)
-
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
 
 // Establish API mocking before all tests.
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeAll(() => {
+  // Set faker to use swedish locale
+  faker.setLocale('sv')
+
+  // Start MSW server
+  server.listen({ onUnhandledRequest: 'error' })
+})
+
+beforeEach(() => {
+  // Set faker to be predictable
+  faker.seed(1234)
+})
 
 afterEach(() => {
   // runs a cleanup after each test case (e.g. clearing jsdom)

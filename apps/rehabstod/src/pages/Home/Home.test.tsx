@@ -7,9 +7,9 @@ it('Should render without error', () => {
 })
 
 it('Should present user once logged in', async () => {
-  const { user } = renderWithRouter(<Home />)
+  renderWithRouter(<Home />)
 
   await waitForElementToBeRemoved(document.querySelector('ids-spinner'))
 
-  expect(screen.getByText('Hej Arnold Johansson')).toBeInTheDocument()
+  expect(screen.getByText('Hej Edvin Lundqvist')).toBeInTheDocument()
 })

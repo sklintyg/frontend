@@ -1,4 +1,5 @@
 import { act, screen } from '@testing-library/react'
+import { rest } from 'msw'
 import { Route, Routes } from 'react-router-dom'
 import { vi } from 'vitest'
 import { server } from '../mocks/server'
@@ -18,49 +19,47 @@ function TestComponent() {
 describe('useSession', () => {
   beforeEach(() => {
     vi.useFakeTimers()
-    vi.fn()
   })
 
-  // afterEach(() => {
-  //   vi.restoreAllMocks()
-  // })
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
 
   it('Should check session every 30 seconds', async () => {
     const requests = new Map()
-    // const pendingUserRequest = waitForRequest('GET', '/api/user')
-    // const pendingSessionRequest = waitForRequest('GET', '/api/session-auth-check/ping')
-    server.events.on('request:start', (req) => {
-      console.log('woop', req)
-      requests.set(req.id, req)
-    })
+    server.events.on('request:start', (req) => requests.set(req.id, req))
 
-    act(() => {
-      renderWithRouter(<TestComponent />)
-    })
+    renderWithRouter(<TestComponent />)
+
+    await act(async () => vi.runOnlyPendingTimersAsync())
 
     expect(screen.getByText('Start')).toBeInTheDocument()
 
-    vi.runAllTimers()
+    expect(requests.size).toBe(2)
 
-    // await waitForRequest('GET', '/api/user')
-    // await waitForRequest('GET', '/api/session-auth-check/ping')
+    await act(async () => vi.advanceTimersByTimeAsync(30e3))
 
-    // vi.advanceTimersToNextTimer()
-    //   .advanceTimersToNextTimer()
-    //   .advanceTimersToNextTimer()
-    //   .advanceTimersToNextTimer()
-    //   .advanceTimersToNextTimer()
-    //   .advanceTimersToNextTimer()
-
-    // const userRequest = await pendingUserRequest
-    // const sessionRequest = await pendingSessionRequest
-
-    // console.log(userRequest, sessionRequest)
-
-    // console.log(userRequest, sessionRequest)
-
-    expect(requests.size).toBe(1)
+    expect(requests.size).toBe(3)
   })
 
-  // it('Should call /logout once session is over', () => {})
+  it('Should logout once session is over', async () => {
+    vi.useRealTimers()
+    server.use(
+      rest.get('/api/session-auth-check/ping', (_, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json({
+            hasSession: false,
+            secondsUntilExpire: 0,
+            authenticated: false,
+          })
+        )
+      )
+    )
+    renderWithRouter(<TestComponent />)
+
+    expect(screen.getByText('Start')).toBeInTheDocument()
+
+    expect(await screen.findByText('Welcome')).toBeInTheDocument()
+  })
 })

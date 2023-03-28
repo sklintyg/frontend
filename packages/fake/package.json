@@ -3,18 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/fake.umd.js",
-  "module": "./dist/fake.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/fake.es.js",
-      "require": "./dist/fake.umd.js"
-    }
-  },
+  "files": [
+    "./dist"
+  ],
   "scripts": {
-    "build": "vite build",
-    "dev": "vite build -w -m development",
+    "build": "rimraf dist && rollup -c",
+    "dev": "rollup -c --watch",
     "test": "vitest",
     "lint": "eslint .",
     "typescript": "tsc --noEmit"
@@ -23,19 +20,23 @@
     "@anatine/zod-mock": "^3.10.0",
     "@faker-js/faker": "^7.6.0",
     "@frontend/types": "*",
+    "deepmerge-ts": "^5.0.0",
     "lodash": "^4.17.21",
-    "type-fest": "^3.7.0",
+    "ts-essentials": "^9.3.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
     "eslint-config-custom": "*",
     "typescript": "^4.9.3",
-    "vite": "^4.1.1",
-    "vite-plugin-dts": "^1.7.1",
     "vitest": "^0.29.7"
   },
   "peerDependencies": {
-    "@faker-js/faker": "^7"
+    "@anatine/zod-mock": "^3",
+    "@faker-js/faker": "^7",
+    "@frontend/types": "*",
+    "lodash": "^4",
+    "type-fest": "^3",
+    "zod": "^3"
   }
 }

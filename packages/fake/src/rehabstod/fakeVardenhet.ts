@@ -1,9 +1,17 @@
 import { faker } from '@faker-js/faker'
-import { vardenhetSchema } from '@frontend/types'
-import { fakerFromSchema } from '../factory'
+import { mottagningSchema, vardenhetSchema } from '@frontend/types'
+import { fakerFromSchema, fakerFromSchemaFactory } from '../factory'
 
-export const fakeVardenhet = fakerFromSchema(vardenhetSchema, {
-  stringMap: {
-    namn: faker.company.name,
+const fakeMottagning = fakerFromSchema(mottagningSchema)
+
+export const fakeVardenhet = fakerFromSchemaFactory(
+  vardenhetSchema,
+  {
+    mottagningar: Array.from({ length: faker.datatype.number({ max: 3 }) }, fakeMottagning),
   },
-})
+  {
+    stringMap: {
+      namn: faker.company.name,
+    },
+  }
+)

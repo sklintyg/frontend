@@ -18,7 +18,7 @@ export function Welcome() {
       }
 
       if (!fakeLogins.find(({ forvaldEnhet }) => forvaldEnhet === selectedUnit)) {
-        dispatch(selectUnit(fakeLogins[0].hsaId))
+        dispatch(selectUnit(fakeLogins[0].forvaldEnhet))
       }
     }
   }, [dispatch, fakeLogins, selectedLogin, selectedUnit])
@@ -64,9 +64,9 @@ export function Welcome() {
               Login
               <select
                 id="fakelogin"
-                onChange={(event) => {
-                  const select = event.target
-                  const [hsaId, unitId] = select.children[select.selectedIndex].id.split('_')
+                onChange={({ target }) => {
+                  const selected = target.children[target.selectedIndex]
+                  const [hsaId, unitId] = selected.id.split('_')
                   dispatch(selectLogin(hsaId))
                   dispatch(selectUnit(unitId))
                   dispatch(updateFreetext(null))
