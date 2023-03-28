@@ -1,14 +1,15 @@
-import { fakeUser } from '@frontend/fake'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
-import { server } from '../../mocks/server'
+import { server, waitForRequest } from '../../mocks/server'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { LayoutHeader } from './LayoutHeader'
 
 describe('Without user session', () => {
-  it('Should display login button', async () => {
+  beforeEach(() => {
     server.use(rest.get('/api/user', (req, res, ctx) => res(ctx.status(403))))
+  })
 
+  it('Should display login button', async () => {
     renderWithRouter(<LayoutHeader />)
 
     expect(await screen.findByText('Logga in')).toBeInTheDocument()
@@ -23,21 +24,13 @@ describe('With user session', () => {
   })
 
   it('Should be able to logout', async () => {
-    server.use(
-      rest.get('/api/user', (req, res, ctx) =>
-        res(
-          ctx.status(200),
-          ctx.json(
-            fakeUser({
-              namn: 'Arnold Johansson',
-            })
-          )
-        )
-      )
-    )
+    const { user } = renderWithRouter(<LayoutHeader />)
 
-    renderWithRouter(<LayoutHeader />)
+    expect(await screen.findByText('Logga ut')).toBeInTheDocument()
 
-    expect(await screen.findByText('Arnold Johansson')).toBeInTheDocument()
+    const pendingRequest = waitForRequest('POST', '/logout')
+    user.click(screen.getByText('Logga ut'))
+
+    expect(await pendingRequest).toBeTruthy()
   })
 })
