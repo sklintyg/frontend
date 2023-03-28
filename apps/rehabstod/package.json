@@ -8,10 +8,10 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:ci": "vitest --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
-    "test:coverage": "vitest run --coverage",
-    "test:no-watch": "vitest run",
-    "test": "vitest",
+    "test:ci": "yarn test --reporter=default --reporter=junit --outputFile.junit=./junit.xml",
+    "test:coverage": "yarn test run --coverage",
+    "test:no-watch": "yarn test run",
+    "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
     "typescript": "tsc --noEmit"
   },
   "lint-staged": {
@@ -41,6 +41,7 @@
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "deepmerge-ts": "^5.0.0",
     "eslint": "^8.34.0",
     "eslint-config-react": "*",
