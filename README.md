@@ -3,21 +3,10 @@
 ![End-To-End](https://github.com/sklintyg/frontend/actions/workflows/e2e.yml/badge.svg)
 ![Frontend CI](https://github.com/sklintyg/frontend/actions/workflows/frontend.yml/badge.svg)
 
-## Pre-requisites
-
-- Install Java OpenJDK 11
-  - Goto https://jdk.java.net/archive/ and download zip
-  - Unpack to folder of your choice
-  - Add path to `bin` folder to the `Path` environment variable
-- In order to be able to build the backend apps you need to add the following environment variable
-  `JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8`
-- Setup the development environment (Follow instructions in `develop/` on https://github.com/sklintyg/devops)
-- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
-- Install [Node v14](https://nodejs.org/en/download/releases/) (via [nvm](https://github.com/nvm-sh/nvm) as a suggestion)
-  - Node v14 is needed as it's the version that supports `node-sass` v4, using a newer version will generate error relating to missing python package when running `npm install`
-- Make sure you have the VPN client Cisco AnyConnect installed
-
 ## Setup
+
+- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
+- Install [Node v18](https://nodejs.org/en/download/releases/) (via [nvm](https://github.com/nvm-sh/nvm) as a suggestion)
 
 1. Install dependencies with `yarn install`
 2. Execute a build with `yarn build`
@@ -52,6 +41,17 @@
 ## Run Webcert backend and frontend client
 
 Detailed instructions for building and running the backend apps can be found in https://github.com/sklintyg/devops and https://github.com/sklintyg/common.
+
+### Pre-requisites
+
+- Install Java OpenJDK 11
+  - Goto https://jdk.java.net/archive/ and download zip
+  - Unpack to folder of your choice
+  - Add path to `bin` folder to the `Path` environment variable
+- In order to be able to build the backend apps you need to add the following environment variable
+  `JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8`
+- Setup the development environment (Follow instructions in `develop/` on https://github.com/sklintyg/devops)
+- Make sure you have the VPN client Cisco AnyConnect installed
 
 1. Build backend apps by opening a terminal i repo and running command `gradlew build install -x test` (or `./gradlew build install -x test` in Git Bash) in the follwing order
    - Refdata
@@ -91,12 +91,6 @@ To create a frontend-pipeline using the template, you make sure to first login t
 ```
 `oc process -f pipelinetemplate-build-frontend.yaml -p APP_NAME=webcert-frontend -p RELEASE_VERSION=2021-2 -p GIT_URL=https://github.com/sklintyg/frontend.git -p GIT_CI_BRANCH=master | oc apply  -f -`
 ```
-
-## Running storybook
-
-Storybook can be used to develop and test components within the common package. Storybook will hot-reload changes in common.
-
-- Start storybook: `yarn storybook`
 
 ## Running tests
 
