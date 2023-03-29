@@ -44,16 +44,16 @@ describe('CurrentSickLeavesFilters', () => {
 
   describe('Show personal information', () => {
     it('should show hide personal information', () => {
-      expect(screen.getByText('Visa personuppgifter')).toBeInTheDocument()
+      expect(screen.getByText('Visa personuppgifter', { exact: false })).toBeInTheDocument()
     })
 
     it('should check hide personal information checkbox as default', () => {
-      const checkbox = screen.getByLabelText('Visa personuppgifter')
+      const checkbox = screen.getByLabelText('Visa personuppgifter', { exact: false })
       expect(checkbox).toBeChecked()
     })
 
     it('should uncheck hide personal information checkbox if clicked', async () => {
-      const checkbox = screen.getByLabelText('Visa personuppgifter')
+      const checkbox = screen.getByLabelText('Visa personuppgifter', { exact: false })
       await userEvent.click(checkbox)
       expect(checkbox).not.toBeChecked()
     })
