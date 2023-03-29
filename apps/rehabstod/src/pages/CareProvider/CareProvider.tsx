@@ -59,7 +59,9 @@ export function CareProvider() {
                       <div className="flex w-full justify-between">
                         <label
                           htmlFor={unit.id}
-                          className={`flex items-center ${selectedRadio === unit.id ? 'font-bold' : ''} w-full justify-between`}>
+                          className={`flex cursor-pointer items-center ${
+                            selectedRadio === unit.id ? 'font-bold' : ''
+                          } w-full justify-between`}>
                           <span>{unit.namn}</span>
                           <IDSRadio>
                             <input
@@ -77,7 +79,9 @@ export function CareProvider() {
                     {unit.mottagningar.map((reception) => (
                       <div key={reception.id}>
                         <div className="flex">
-                          <label htmlFor={unit.id} className="ml-10">
+                          <label
+                            htmlFor={reception.id}
+                            className={`ml-10 cursor-pointer ${selectedRadio === reception.id ? 'font-bold' : ''} `}>
                             {reception.namn}
                           </label>
                           <div className="ml-auto">
@@ -89,7 +93,7 @@ export function CareProvider() {
                                 id={reception.id}
                                 onChange={(event) => handleChooseUnit(event, provider, unit)}
                               />
-                              <label htmlFor={`${provider.id}-${unit.id}`} />
+                              <label htmlFor={reception.id} />
                             </IDSRadio>
                           </div>
                         </div>
@@ -98,7 +102,9 @@ export function CareProvider() {
                   </details>
                 ) : (
                   <div className="flex items-center justify-between">
-                    <p className="ml-10">{unit.namn}</p>
+                    <label htmlFor={unit.id} className={`ml-10 cursor-pointer ${selectedRadio === unit.id ? 'font-bold' : ''} `}>
+                      {unit.namn}
+                    </label>
                     <div>
                       <IDSRadio>
                         <input
