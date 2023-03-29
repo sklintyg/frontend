@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TableLayout } from '../../components/Table/TableLayout'
+import { TableLayout } from '../../components/Table/Layout/TableLayout'
 import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { CurrentSickLeavesTableInfo } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesTableInfo'

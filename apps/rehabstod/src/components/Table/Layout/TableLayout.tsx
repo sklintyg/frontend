@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
-import { IDSIcon, IDSSpinner } from '@frontend/ids-react-ts'
-import { SickLeaveInfo } from '../../store/types/sickLeave'
-import { getSickLeaveContent } from '../../utils/listUtils'
+import { IDSIcon } from '@frontend/ids-react-ts'
+import { SickLeaveInfo } from '../../../store/types/sickLeave'
+import { TableLayoutBody } from './TableLayoutBody'
 
 export function TableLayout({
   title,
@@ -35,38 +35,6 @@ export function TableLayout({
       <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="ml-1 inline" />
     )
 
-  const getTableBody = () => {
-    if (isLoading) {
-      return (
-        <tr>
-          <td colSpan={tableHeaders.length}>
-            <IDSSpinner />
-          </td>
-        </tr>
-      )
-    }
-
-    if (content && content.length > 0) {
-      return content.map((item, index) => (
-        <tr key={`${id}-table-row-${index}`}>
-          {tableHeaders.map((header) => (
-            <td>{getSickLeaveContent(header, item)}</td>
-          ))}
-        </tr>
-      ))
-    }
-
-    return (
-      <tr>
-        <td colSpan={tableHeaders.length}>
-          {!content
-            ? `Tryck på Sök för att visa alla dina ${title.toLowerCase()} för enheten, eller ange filterval och tryck på Sök för att visa urval av dina ${title.toLowerCase()}.`
-            : 'Inga resultat'}
-        </td>
-      </tr>
-    )
-  }
-
   return (
     <div className="ids-content py-10">
       <h1 className="ids-heading-2">{title}</h1>
@@ -86,7 +54,9 @@ export function TableLayout({
             ))}
           </tr>
         </thead>
-        <tbody>{getTableBody()}</tbody>
+        <tbody>
+          <TableLayoutBody isLoading={isLoading} title={title} id={id} tableHeaders={tableHeaders} content={content} />
+        </tbody>
       </table>
     </div>
   )

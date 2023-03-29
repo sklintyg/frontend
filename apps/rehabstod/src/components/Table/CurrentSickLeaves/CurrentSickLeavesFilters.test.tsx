@@ -11,7 +11,7 @@ const renderComponent = () => {
   onReset = vi.fn()
   onShow = vi.fn()
 
-  render(<CurrentSickLeavesFilters onSearch={onSearch} onReset={onReset} onShowPersonalInformation={onShow} />)
+  render(<CurrentSickLeavesFilters onSearch={onSearch} onReset={onReset} />)
 }
 
 describe('CurrentSickLeavesFilters', () => {
