@@ -18,10 +18,11 @@ export function Checkbox({
   return (
     <div className="flex items-baseline">
       <IDSCheckbox>
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={id}>
+          {label} {description && <Icon description={description} type="question" size="s" />}
+        </label>
         <input id={id} type="checkbox" checked={checked} onChange={(event) => onChange(event)} />
       </IDSCheckbox>
-      {description && <Icon description={description} type="question" size="s" />}
     </div>
   )
 }
