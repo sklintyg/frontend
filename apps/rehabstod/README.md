@@ -2,6 +2,23 @@
 
 Rehabstod application
 
+## Application structure
+
+```
+src
+.
+├── components
+├── hooks
+├── pages
+│   ├── SomePage
+│   │   ├── components
+│   │   ├── hooks
+│   │   └── utils
+│   └── SomePage.tsx
+├── store
+└── utils
+```
+
 ## Configure frontend for local backend
 
 Create a `.env.development.local` in the same folder as `.env.development`. This file will hold our configuration overrides and will be ignored by git. Add the following or change settings to fit your need:
