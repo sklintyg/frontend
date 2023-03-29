@@ -1,4 +1,4 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink, IDSHeaderNav, IDSHeaderNavItem } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSHeaderNavItem, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
@@ -64,6 +64,7 @@ export function LayoutHeader() {
           <>
             {tabs.map((tab, index) => (
               <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${tab.name.replace(' ', '')}`}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                   href=""
                   onClick={(event) => {
