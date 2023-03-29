@@ -8,7 +8,7 @@ export function CurrentSickLeavesFilters({ onSearch, onReset }: { onSearch: () =
     <>
       <IDSButton tertiary size="s" onClick={() => setExpanded(!expanded)} className="my-4">
         {expanded ? 'Dölj sökfilter' : 'Visa sökfilter'}
-        <IDSIcon name="chevron" size="xs" rotate={expanded ? 270 : 90} colorpreset={1} className="ml-1 inline" />
+        <IDSIcon name="chevron" size="xs" rotate={expanded ? '270' : '90'} colorpreset={1} className="ml-1 inline" />
       </IDSButton>
       {expanded && (
         <div className="flex justify-end">

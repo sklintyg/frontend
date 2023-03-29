@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
 import { IDSIcon } from '@frontend/ids-react-ts'
+import { ReactNode } from 'react'
 import { SickLeaveInfo } from '../../../store/types/sickLeave'
 import { TableLayoutBody } from './TableLayoutBody'
 import { TableLayoutHeader } from './TableLayoutHeader'
@@ -33,9 +33,9 @@ export function TableLayout({
 }) {
   const getIcon = (index: number) =>
     index !== sortedColumn ? (
-      <IDSIcon name="swap" rotate={90} colorpreset={3} size="s" onClick={() => onSort(index)} className="ml-1 inline" />
+      <IDSIcon name="swap" rotate="90" colorpreset={3} size="s" onClick={() => onSort(index)} className="ml-1 inline" />
     ) : (
-      <IDSIcon name="arrow" rotate={ascending ? 270 : 90} colorpreset={3} size="xs" className="ml-1 inline" />
+      <IDSIcon name="arrow" rotate={ascending ? '270' : '90'} colorpreset={3} size="xs" className="ml-1 inline" />
     )
 
   return (
