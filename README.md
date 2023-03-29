@@ -6,68 +6,50 @@
 ## Setup
 
 - Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
-- Install [Node v18](https://nodejs.org/en/download/releases/) (via [nvm](https://github.com/nvm-sh/nvm) as a suggestion)
+- Install [Node v18](https://nodejs.org/en/download/releases/)
+  - Or via [nvm](https://github.com/nvm-sh/nvm) (optional)
 
 1. Install dependencies with `yarn install`
 2. Execute a build with `yarn build`
 3. Start development environment and watchers with `yarn start`
+4. Run tests with `yarn test`
+
+## Applications
+
+This repo holds multiple applications, read more about getting started with each application in their respective README.
+
+- [webcert](packages/webcert/README.md)
+- [rehabstod](packages/rehabstod/README.md)
 
 ## Configure Editor
 
-- IntelliJ
-  - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
-  - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
-- VS Code
-  - Install plugin `ESLint`
-  - Install plugin `vscode-styled-components`
-  - Install plugin `Prettier - Code formatter`
-  - Enable auto format on save
-    - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
-    - Add the following properties
-      ```json
-      {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-      }
-      ```
-    - Add the following properties (_optional_)
-      ```json
-      "editor.codeActionsOnSave": {
-        "source.organizeImports": true,
-        "source.fixAll": true
-      }
-      ```
+### IntelliJ
 
-## Run Webcert backend and frontend client
+- Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
+- Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
+- Make sure ESLint is enabled and enable "fix on save".
 
-Detailed instructions for building and running the backend apps can be found in https://github.com/sklintyg/devops and https://github.com/sklintyg/common.
+### VS Code
 
-### Pre-requisites
-
-- Install Java OpenJDK 11
-  - Goto https://jdk.java.net/archive/ and download zip
-  - Unpack to folder of your choice
-  - Add path to `bin` folder to the `Path` environment variable
-- In order to be able to build the backend apps you need to add the following environment variable
-  `JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8`
-- Setup the development environment (Follow instructions in `develop/` on https://github.com/sklintyg/devops)
-- Make sure you have the VPN client Cisco AnyConnect installed
-
-1. Build backend apps by opening a terminal i repo and running command `gradlew build install -x test` (or `./gradlew build install -x test` in Git Bash) in the follwing order
-   - Refdata
-   - Infra
-   - Common
-2. Build Webcert with command `gradlew build -x test` (or `./gradlew build -x test` in Git Bash)
-3. Start the development environment (Follow instructions in `develop/` on https://github.com/sklintyg/devops)
-   - Open terminal in `sklintyg/devops/develop/docker-compose/`
-   - Run command `docker-compose up -d` (start as daemon)
-   - alt. run command `docker-compose up` (will lock console and use it to print container logs)
-4. Start Webcert
-   - Open terminal in `sklintyg/webcert/`
-   - Run command `gradlew appRun` (or `./gradlew appRun` in Git Bash)
-5. Run the app in the development mode. React will hot-reload changes made in the app as well as in common.
-   - Start webcert in development: `yarn start`
-6. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
+- Install plugin `ESLint`
+- Install plugin `vscode-styled-components`
+- Install plugin `Prettier - Code formatter`
+- Enable auto format on save
+  - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
+  - Add the following properties
+    ```json
+    {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    }
+    ```
+  - Add the following properties (_optional_)
+    ```json
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll": true
+    }
+    ```
 
 ## OpenShift Build Pipeline
 

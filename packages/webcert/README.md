@@ -2,6 +2,12 @@
 
 Webcert application.
 
+## Getting started
+
+By default webcert will communicate with a shared and deployed test backend. This will work in most cases but there are instances where a local backend installation is needed.
+
+`yarn workspace @frontend/webcert dev`
+
 ## Run Webcert backend and frontend client
 
 Detailed instructions for building and running the backend apps can be found in https://github.com/sklintyg/devops and https://github.com/sklintyg/common.
@@ -29,6 +35,19 @@ Detailed instructions for building and running the backend apps can be found in 
 4. Start Webcert
    - Open terminal in `sklintyg/webcert/`
    - Run command `gradlew appRun` (or `./gradlew appRun` in Git Bash)
-5. Run the app in the development mode. React will hot-reload changes made in the app as well as in common.
-   - Start webcert in development: `yarn start`
-6. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
+
+## Configure frontend for local backend
+
+Create a `.env.development.local` in the same folder as `.env.development`. This file will hold our configuration overrides and will be ignored by git. Add the following or change settings to fit your need:
+
+```
+VITE_API_TARGET=http://localhost:8020
+VITE_HTTPS=false
+VITE_WS_PROTOCOL='wss'
+```
+
+- `VITE_API_TARGET` tells the application that our backend is on localhost:8020.
+- `VITE_HTTPS` make sure that we don't use ssl, when used behind a reverse proxy.
+- `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl when behind reverse proxy.
+
+Start the application with `yarn workspace @frontend/webcert dev` for only webcert or `yarn start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
