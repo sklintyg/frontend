@@ -9,7 +9,6 @@ export default ({ mode }: UserConfig) => {
   const https = process.env.VITE_HTTPS === 'true'
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
-  const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
 
   const proxy = ['/fake', '/api', '/moduleapi', '/testability', '/visa', '/saml', '/error.jsp', '/logout'].reduce<
     Record<string, string | ProxyOptions>
@@ -30,12 +29,12 @@ export default ({ mode }: UserConfig) => {
   return defineConfig({
     plugins: [react()].concat(https ? [basicSsl()] : []),
     server: {
-      host,
-      https,
-      port: 3000,
       proxy,
+      https,
+      host,
       strictPort: true,
-      hmr: hmr ? { host, protocol: hmrProtocol } : false,
+      port: 3000,
+      hmr: hmr ? { host, protocol: https ? 'wss' : 'ws' } : false,
     },
     test: {
       globals: true,
