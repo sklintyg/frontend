@@ -5,11 +5,9 @@ import { CurrentSickLeavesFilters } from './CurrentSickLeavesFilters'
 
 let onSearch: () => void
 let onReset: () => void
-let onShow: () => void
 const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
-  onShow = vi.fn()
 
   render(<CurrentSickLeavesFilters onSearch={onSearch} onReset={onReset} />)
 }
@@ -32,13 +30,18 @@ describe('CurrentSickLeavesFilters', () => {
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
-  it('should show show filters button after pressing hide', () => {
-    userEvent.click(screen.getByText('Dölj sökfilter'))
+  it('should show show filters button after pressing hide', async () => {
+    await userEvent.click(screen.getByText('Dölj sökfilter'))
     expect(screen.getByText('Visa sökfilter')).toBeInTheDocument()
   })
 
-  it('should call on search when pressing search button', () => {
-    userEvent.click(screen.getByText('Sök'))
+  it('should call on search when pressing search button', async () => {
+    await userEvent.click(screen.getByText('Sök'))
     expect(onSearch).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call on reset when pressing search button', async () => {
+    await userEvent.click(screen.getByText('Återställ'))
+    expect(onReset).toHaveBeenCalledTimes(1)
   })
 })

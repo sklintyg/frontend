@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import { CurrentSickLeavesTableInfo } from './CurrentSickLeavesTableInfo'
 
 const LIST_LENGTH = 10
@@ -49,6 +50,12 @@ describe('CurrentSickLeavesFilters', () => {
     it('should check hide personal information checkbox as default', () => {
       const checkbox = screen.getByLabelText('Visa personuppgifter')
       expect(checkbox).toBeChecked()
+    })
+
+    it('should uncheck hide personal information checkbox if clicked', async () => {
+      const checkbox = screen.getByLabelText('Visa personuppgifter')
+      await userEvent.click(checkbox)
+      expect(checkbox).not.toBeChecked()
     })
   })
 })
