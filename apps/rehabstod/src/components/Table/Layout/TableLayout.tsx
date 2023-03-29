@@ -2,11 +2,13 @@ import { ReactNode } from 'react'
 import { IDSIcon } from '@frontend/ids-react-ts'
 import { SickLeaveInfo } from '../../../store/types/sickLeave'
 import { TableLayoutBody } from './TableLayoutBody'
+import { TableLayoutHeader } from './TableLayoutHeader'
 
 export function TableLayout({
   title,
   subTitle,
   tableHeaders,
+  tableHeaderDescriptions,
   content,
   id,
   filters,
@@ -19,6 +21,7 @@ export function TableLayout({
   title: string
   subTitle: string
   tableHeaders: string[]
+  tableHeaderDescriptions: string[]
   content: SickLeaveInfo[] | undefined
   id: string
   filters: ReactNode
@@ -47,10 +50,14 @@ export function TableLayout({
         <thead>
           <tr>
             {tableHeaders.map((header, index) => (
-              <th key={`${id}-table-header-${header}`} onClick={() => onSort(index)} className="whitespace-nowrap">
-                {header}
-                {getIcon(index)}
-              </th>
+              <TableLayoutHeader
+                key={`${id}-table-header-${header}`}
+                header={header}
+                index={index}
+                onSort={onSort}
+                icon={getIcon(index)}
+                description={tableHeaderDescriptions[index]}
+              />
             ))}
           </tr>
         </thead>

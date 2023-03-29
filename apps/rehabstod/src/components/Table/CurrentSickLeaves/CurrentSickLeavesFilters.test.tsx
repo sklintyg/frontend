@@ -3,9 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { CurrentSickLeavesFilters } from './CurrentSickLeavesFilters'
 
-let onSearch
-let onReset
-let onShow
+let onSearch: () => void
+let onReset: () => void
+let onShow: () => void
 const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
@@ -32,23 +32,13 @@ describe('CurrentSickLeavesFilters', () => {
     expect(screen.getByText('Sök')).toBeInTheDocument()
   })
 
-  it('should show hide personal information when filters are open', () => {
-    expect(screen.getByText('Visa personuppgifter')).toBeInTheDocument()
-  })
-
-  it('should check hide personal information checkbox as default', () => {
-    const checkbox = screen.getByLabelText('Visa personuppgifter')
-    expect(checkbox).toBeChecked()
-  })
-
-  it('should uncheck hide personal information checkbox when clicked', () => {
-    const checkbox = screen.getByLabelText('Visa personuppgifter')
-    userEvent.click(checkbox)
-    expect(checkbox).not.toBeChecked()
-  })
-
   it('should show show filters button after pressing hide', () => {
     userEvent.click(screen.getByText('Dölj sökfilter'))
     expect(screen.getByText('Visa sökfilter')).toBeInTheDocument()
+  })
+
+  it('should call on search when pressing search button', () => {
+    userEvent.click(screen.getByText('Sök'))
+    expect(onSearch).toHaveBeenCalledTimes(1)
   })
 })

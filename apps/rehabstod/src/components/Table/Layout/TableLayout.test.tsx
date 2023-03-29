@@ -1,14 +1,15 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { TableLayout } from './TableLayout'
 
-let onSort: () => void
+const onSort = vi.fn()
 const renderComponent = () =>
   render(
     <TableLayout
       title="Title"
       subTitle="Sub title"
       tableHeaders={['H1', 'H2']}
+      tableHeaderDescriptions={['Desc1,', 'Desc2']}
       content={[]}
       id="id"
       filters={<p>Filters</p>}
@@ -49,8 +50,7 @@ describe('TableLayout', () => {
     expect(screen.getByText('Filters')).toBeInTheDocument()
   })
 
-  it.skip('should call on sort when pressing table header', () => {
-    userEvent.click(screen.getByText('H2'))
-    expect(onSort).toHaveBeenCaled()
+  it('should show info bar', () => {
+    expect(screen.getByText('Infobar')).toBeInTheDocument()
   })
 })

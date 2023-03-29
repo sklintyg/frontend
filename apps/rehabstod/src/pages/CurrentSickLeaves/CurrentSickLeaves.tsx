@@ -4,7 +4,11 @@ import { TableLayout } from '../../components/Table/Layout/TableLayout'
 import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { CurrentSickLeavesTableInfo } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesTableInfo'
-import { CURRENT_SICK_LEAVES_TABLE_HEADERS, getCurrentSickLeavesSortFunction } from '../../utils/listUtils'
+import {
+  CURRENT_SICK_LEAVES_TABLE_HEADERS,
+  getCurrentSickLeavesSortFunction,
+  getCurrentSickLeavesTableHeaderDescription,
+} from '../../utils/listUtils'
 
 export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
 
@@ -18,7 +22,18 @@ export function CurrentSickLeaves() {
   const [ascending, setAscending] = useState(false)
   const [tableHeaders, setTableHeaders] = useState(CURRENT_SICK_LEAVES_TABLE_HEADERS)
 
+  const tableHeaderDescriptions = user
+    ? tableHeaders.map((header) =>
+        getCurrentSickLeavesTableHeaderDescription(
+          header,
+          user.valdVardenhet ? user.valdVardenhet.id : '',
+          user.preferences.maxAntalDagarMellanIntyg
+        )
+      )
+    : []
+
   const onSort = (index: number) => {
+    setAscending(index === sortedColumn ? !ascending : false)
     setAscending(index === sortedColumn ? !ascending : false)
     setSortedColumn(index)
   }
@@ -57,6 +72,7 @@ export function CurrentSickLeaves() {
       subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
       isLoading={isLoading}
       tableHeaders={tableHeaders}
+      tableHeaderDescriptions={tableHeaderDescriptions}
       id="sickleave"
       onSort={onSort}
       sortedColumn={sortedColumn}
