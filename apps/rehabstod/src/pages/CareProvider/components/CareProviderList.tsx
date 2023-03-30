@@ -36,6 +36,12 @@ export function CareProviderList({
                             value={unit.namn}
                             id={unit.id}
                             onChange={(event) => handleChooseUnit(event, provider, unit)}
+                            onClick={(e) => {
+                              const detailsEl = e.currentTarget.closest('details')
+                              if (detailsEl) {
+                                detailsEl.setAttribute('open', '')
+                              }
+                            }}
                           />
                           <label htmlFor={unit.id} />
                         </IDSRadio>
@@ -44,7 +50,7 @@ export function CareProviderList({
                   </summary>
                   {unit.mottagningar.map((reception) => (
                     <div key={reception.id}>
-                      <div className="flex">
+                      <div className="flex items-center">
                         <label
                           htmlFor={reception.id}
                           className={`ml-10 cursor-pointer ${selectedRadio === reception.id ? 'font-bold' : ''} `}>
