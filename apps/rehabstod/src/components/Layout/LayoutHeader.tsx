@@ -23,7 +23,7 @@ export function LayoutHeader() {
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
                 <IDSIcon height="20" width="20" name="swap" />
-                <Link to="/">Byt vårdenhet</Link>
+                <Link to="/enhet">Byt vårdenhet</Link>
               </IDSLink>
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 text-primary-40">
                 <IDSIcon height="20" width="20" name="cog" />
