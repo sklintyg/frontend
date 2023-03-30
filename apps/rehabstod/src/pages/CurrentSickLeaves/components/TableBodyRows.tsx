@@ -31,13 +31,13 @@ export function TableBodyRows({
   }
 
   if (sickLeaves.length === 0) {
-    ;<MaxColspanRow>Inga resultat</MaxColspanRow>
+    return <MaxColspanRow>Inga resultat</MaxColspanRow>
   }
 
   return (
     <>
       {sickLeaves.map((sickLeave) => (
-        <tr key={sickLeave.patient.id}>
+        <tr key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)}</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}

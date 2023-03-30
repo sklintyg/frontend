@@ -34,10 +34,6 @@ export interface SickLeaveInfo {
   vardGivareNamn: string
 }
 
-export interface ActiveSickLeavesResponse {
-  content: SickLeaveInfo[]
-}
-
 export interface SickLeaveDiagnosis {
   beskrivning: string
   intygsVarde: string
