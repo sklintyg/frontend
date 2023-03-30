@@ -16,8 +16,6 @@ export function CurrentSickLeaves() {
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
 
-  console.log(currentSickLeaves)
-
   useEffect(
     () => () => {
       dispatch(reset)
