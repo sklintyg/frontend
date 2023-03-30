@@ -1,6 +1,6 @@
 import { IDSCheckbox } from '@frontend/ids-react-ts'
 import { ChangeEvent } from 'react'
-import { Icon } from '../Icon/Icon'
+import { TooltipIcon } from '../TooltipIcon/TooltipIcon'
 
 export function Checkbox({
   label,
@@ -19,9 +19,9 @@ export function Checkbox({
     <div className="flex items-baseline">
       <IDSCheckbox>
         <label htmlFor={id}>
-          {label} {description && <Icon description={description} type="question" size="s" />}
+          {label} {description && <TooltipIcon description={description} name="question" size="s" />}
         </label>
-        <input id={id} type="checkbox" checked={checked} onChange={(event) => onChange(event)} />
+        <input id={id} type="checkbox" checked={checked} onChange={onChange} />
       </IDSCheckbox>
     </div>
   )
