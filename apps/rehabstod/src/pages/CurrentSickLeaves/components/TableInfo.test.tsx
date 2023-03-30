@@ -44,12 +44,12 @@ describe('Show personal information', () => {
   })
 
   it('should check hide personal information checkbox as default', () => {
-    const checkbox = screen.getByLabelText('Visa personuppgifter')
+    const checkbox = screen.getByLabelText('Visa personuppgifter', { exact: false })
     expect(checkbox).toBeChecked()
   })
 
   it('should uncheck hide personal information checkbox if clicked', async () => {
-    const checkbox = screen.getByLabelText('Visa personuppgifter')
+    const checkbox = screen.getByLabelText('Visa personuppgifter', { exact: false })
     await userEvent.click(checkbox)
     expect(checkbox).not.toBeChecked()
   })
