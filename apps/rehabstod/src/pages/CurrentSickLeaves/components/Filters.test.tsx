@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { CurrentSickLeavesFilters } from './CurrentSickLeavesFilters'
+import { Filters } from './Filters'
 
 let onSearch: () => void
 let onReset: () => void
@@ -9,7 +9,7 @@ const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
 
-  render(<CurrentSickLeavesFilters onSearch={onSearch} onReset={onReset} />)
+  render(<Filters onSearch={onSearch} onReset={onReset} />)
 }
 
 describe('CurrentSickLeavesFilters', () => {

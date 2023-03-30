@@ -1,93 +1,77 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { TableLayout } from '../../components/Table/Layout/TableLayout'
-import { CurrentSickLeavesFilters } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesFilters'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
-import { CurrentSickLeavesTableInfo } from '../../components/Table/CurrentSickLeaves/CurrentSickLeavesTableInfo'
-import {
-  CURRENT_SICK_LEAVES_TABLE_HEADERS,
-  getCurrentSickLeavesSortFunction,
-  getCurrentSickLeavesTableHeaderDescription,
-} from '../../utils/listUtils'
-
-export const CURRENT_SICK_LEAVES_TITLE = 'Pågående sjukfall'
+import { RootState, useAppDispatch } from '../../store/store'
+import { Filters } from './components/Filters'
+import { TableBodyRows } from './components/TableBodyRows'
+import { TableHeaderRow } from './components/TableHeaderRow'
+import { TableInfo } from './components/TableInfo'
+import { reset, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
+import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
-  const navigate = useNavigate()
-  const { data: user } = useGetUserQuery()
-  const [triggerGetSickLeaves, { isLoading, data: sickLeavesResponse }] = useGetSickLeavesMutation()
-  const currentSickLeaves = sickLeavesResponse ? sickLeavesResponse.content : undefined
-  const defaultColumn = 5
-  const [sortedColumn, setSortedColumn] = useState(defaultColumn)
-  const [ascending, setAscending] = useState(false)
-  const [tableHeaders, setTableHeaders] = useState(CURRENT_SICK_LEAVES_TABLE_HEADERS)
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
+  const { isLoading: userLoading, data: user } = useGetUserQuery()
+  const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
+  const dispatch = useAppDispatch()
+  const isLoading = userLoading || currentSickLeaveLoading
 
-  const tableHeaderDescriptions = user
-    ? tableHeaders.map((header) =>
-        getCurrentSickLeavesTableHeaderDescription(
-          header,
-          user.valdVardenhet ? user.valdVardenhet.id : '',
-          user.preferences.maxAntalDagarMellanIntyg
-        )
-      )
-    : []
+  console.log(currentSickLeaves)
 
-  const onSort = (index: number) => {
-    setAscending(index === sortedColumn ? !ascending : false)
-    setAscending(index === sortedColumn ? !ascending : false)
-    setSortedColumn(index)
-  }
-
-  const handleReset = () => {
-    setAscending(false)
-    setSortedColumn(defaultColumn)
-  }
-
-  const onShowPersonalInformation = (isChecked: boolean) => {
-    if (isChecked) {
-      setTableHeaders(CURRENT_SICK_LEAVES_TABLE_HEADERS)
-    } else {
-      setTableHeaders(CURRENT_SICK_LEAVES_TABLE_HEADERS.filter((header) => header !== 'Personnummer' && header !== 'Namn'))
-    }
-  }
-
-  const getSortedSickLeaves = () => {
-    if (!currentSickLeaves) {
-      return []
-    }
-    const sorted = currentSickLeaves
-      .slice()
-      .sort((a, b) => getCurrentSickLeavesSortFunction(CURRENT_SICK_LEAVES_TABLE_HEADERS[sortedColumn], a, b))
-
-    return ascending ? sorted.reverse() : sorted
-  }
-
-  if (!user) {
-    navigate('/')
-  }
+  useEffect(
+    () => () => {
+      dispatch(reset)
+    },
+    [dispatch]
+  )
 
   return (
-    <TableLayout
-      title={CURRENT_SICK_LEAVES_TITLE}
-      subTitle={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-      isLoading={isLoading}
-      tableHeaders={tableHeaders}
-      tableHeaderDescriptions={tableHeaderDescriptions}
-      id="sickleave"
-      onSort={onSort}
-      sortedColumn={sortedColumn}
-      ascending={ascending}
-      content={currentSickLeaves ? getSortedSickLeaves() : undefined}
-      infoBar={
-        <CurrentSickLeavesTableInfo
-          onShowPersonalInformation={onShowPersonalInformation}
-          totalNumber={!currentSickLeaves ? 0 : currentSickLeaves.length}
-          listLength={!currentSickLeaves ? 0 : currentSickLeaves.length}
-          daysAfterSickLeaveEnd={!user ? '' : user.preferences.maxAntalDagarMellanIntyg}
-          daysBetweenCertificates={!user ? '' : user.preferences.maxAntalDagarSedanSjukfallAvslut}
-        />
-      }
-      filters={<CurrentSickLeavesFilters onSearch={() => triggerGetSickLeaves()} onReset={handleReset} />}
-    />
+    <div className="ids-content py-10">
+      <h1 className="ids-heading-2">Pågående sjukfall</h1>
+      <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
+      <hr className="opacity-40" />
+
+      <Filters
+        onSearch={() => triggerGetSickLeaves()}
+        onReset={() => {
+          dispatch(reset)
+        }}
+      />
+
+      <TableInfo
+        onShowPersonalInformationChange={(checked) => {
+          dispatch(updateShowPersonalInformation(checked))
+        }}
+        showPersonalInformation={showPersonalInformation}
+        totalNumber={(currentSickLeaves ?? []).length}
+        listLength={(currentSickLeaves ?? []).length}
+        daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
+        daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
+      />
+
+      <table className="ids-table overflow-visible rounded-md">
+        <thead>
+          <TableHeaderRow
+            ascending={ascending}
+            currentColumn={currentColumn}
+            showPersonalInformation={showPersonalInformation}
+            onColumnSort={(column) => {
+              if (currentColumn !== column) {
+                dispatch(sortOnColumn(column))
+              } else {
+                dispatch(toggleAscending())
+              }
+            }}
+          />
+        </thead>
+        <tbody>
+          <TableBodyRows
+            isLoading={isLoading}
+            showPersonalInformation={showPersonalInformation}
+            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves ?? [], ascending, currentColumn) : undefined}
+          />
+        </tbody>
+      </table>
+    </div>
   )
 }

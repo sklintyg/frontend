@@ -1,3 +1,17 @@
+export enum SickLeaveColumn {
+  Personnummer = 'personnummer',
+  Ålder = 'ålder',
+  Namn = 'namn',
+  Kön = 'kön',
+  Diagnos = 'diagnos/er',
+  Startdatum = 'startdatum',
+  Slutdatum = 'slutdatum',
+  Längd = 'längd',
+  Intyg = 'intyg',
+  Grad = 'grad',
+  Läkare = 'läkare',
+}
+
 export interface SickLeaveInfo {
   aktivGrad: number
   biDiagnoser: SickLeaveDiagnosis[]

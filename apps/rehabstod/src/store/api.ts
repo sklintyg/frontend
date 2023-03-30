@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getCookie } from '../utils/cookies'
 import { Link } from './types/link'
 import { Ping } from './types/ping'
+import { SickLeaveInfo } from './types/sickLeave'
 import { User, Vardenheter, Vardgivare } from './types/user'
-import { ActiveSickLeavesResponse } from './types/sickLeave'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -48,11 +48,12 @@ export const api = createApi({
       query: () => 'config/links',
       providesTags: ['Links'],
     }),
-    getSickLeaves: builder.mutation<ActiveSickLeavesResponse, void>({
+    getSickLeaves: builder.mutation<SickLeaveInfo[], void>({
       query: () => ({
         url: 'sickleaves/active',
         method: 'POST',
       }),
+      transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
   }),
 })

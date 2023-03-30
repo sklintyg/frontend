@@ -1,23 +1,12 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSHeaderNavItem, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
+import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const tabs = [
-    {
-      name: 'Översikt',
-      url: '/',
-    },
-    { name: 'Pågående sjukfall', url: '/list/sickleaves' },
-  ]
-
-  const isTabActive = (index: number) => location.pathname === tabs[index].url
 
   return (
     <IDSHeader type="inera-admin" unresponsive>
@@ -50,6 +39,11 @@ export function LayoutHeader() {
               </button>
             </div>
           </IDSHeaderAvatar>
+
+          <IDSHeaderNav type="inera-admin">
+            <LayoutHeaderTab title="Översikt" to="/" />
+            <LayoutHeaderTab title="Pågående sjukfall" to="/pagaende-sjukfall" />
+          </IDSHeaderNav>
         </>
       )}
 
@@ -58,26 +52,6 @@ export function LayoutHeader() {
           <Link to="login">Logga in</Link>
         </IDSHeaderItem>
       )}
-
-      <IDSHeaderNav>
-        {!isLoading && user && (
-          <>
-            {tabs.map((tab, index) => (
-              <IDSHeaderNavItem link active={isTabActive(index)} key={`tab-${tab.name.replace(' ', '')}`}>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
-                  href=""
-                  onClick={(event) => {
-                    event.preventDefault()
-                    navigate(tab.url)
-                  }}>
-                  {tab.name}
-                </a>
-              </IDSHeaderNavItem>
-            ))}
-          </>
-        )}
-      </IDSHeaderNav>
     </IDSHeader>
   )
 }

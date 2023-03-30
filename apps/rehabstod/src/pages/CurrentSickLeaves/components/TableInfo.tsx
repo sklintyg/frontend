@@ -1,27 +1,21 @@
-import { ChangeEvent, useState } from 'react'
 import { IDSButton } from '@frontend/ids-react-ts'
-import { Checkbox } from '../../Form/Checkbox'
+import { Checkbox } from '../../../components/Form/Checkbox'
 
-export function CurrentSickLeavesTableInfo({
-  onShowPersonalInformation,
+export function TableInfo({
+  onShowPersonalInformationChange,
   listLength,
   totalNumber,
   daysBetweenCertificates,
   daysAfterSickLeaveEnd,
+  showPersonalInformation,
 }: {
-  onShowPersonalInformation: (isChecked: boolean) => void
+  onShowPersonalInformationChange: (checked: boolean) => void
+  showPersonalInformation: boolean
   listLength: number
   totalNumber: number
   daysBetweenCertificates: string
   daysAfterSickLeaveEnd: string
 }) {
-  const [showPersonalInformation, setShowPersonalInformation] = useState(true)
-
-  const handleHidePersonalInformation = (event: ChangeEvent<HTMLInputElement>) => {
-    onShowPersonalInformation(event.currentTarget.checked)
-    setShowPersonalInformation(event.currentTarget.checked)
-  }
-
   return (
     <div className="mb-5">
       <Checkbox
@@ -29,7 +23,9 @@ export function CurrentSickLeavesTableInfo({
         label="Visa personuppgifter"
         checked={showPersonalInformation}
         description="Visar eller döljer patienternas namn och personnummer i tabellen."
-        onChange={(event) => handleHidePersonalInformation(event)}
+        onChange={({ currentTarget: { checked } }) => {
+          onShowPersonalInformationChange(checked)
+        }}
       />
       <div className="flex">
         <p>
