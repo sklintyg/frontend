@@ -12,7 +12,6 @@ export function CareProvider() {
   const [selectedUnit, setSelectedUnit] = useState<Vardenheter | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
   const [selectedRadio, setSelectedRadio] = useState<string | null>(null)
-  const [detailsOpen, setDetailsOpen] = useState(false)
 
   const handleClick = () => {
     if (!user || !selectedUnit || !selectedProvider) return
@@ -31,7 +30,6 @@ export function CareProvider() {
     setSelectedProvider(provider)
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
-    setDetailsOpen(true)
   }
 
   return !isLoading && user ? (

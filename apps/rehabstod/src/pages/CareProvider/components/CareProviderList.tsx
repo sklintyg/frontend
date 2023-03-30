@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
 import { User, Vardenheter, Vardgivare } from '../../../store/types/user'
 
