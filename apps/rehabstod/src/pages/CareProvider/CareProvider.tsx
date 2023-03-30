@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
 import { Vardenheter, Vardgivare } from '../../store/types/user'
-import { CareProviderList } from './components/CareProviderList'
+import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ export function CareProvider() {
     navigate('/')
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenheter) => {
+  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenheter) => {
     setSelectedProvider(provider)
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)
@@ -48,7 +48,9 @@ export function CareProvider() {
             </span>
           </IDSAlert>
         )}
-        <CareProviderList user={user} handleChooseUnit={handleChooseUnit} selectedRadio={selectedRadio} />
+        {user.vardgivare.map((provider) => (
+          <CareProviderItem key={provider.id} provider={provider} handleChooseUnit={handleChooseUnit} selectedRadio={selectedRadio} />
+        ))}
       </div>
 
       <IDSButtonGroup>
