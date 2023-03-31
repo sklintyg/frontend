@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
-import { useGetSessionPingQuery } from '../store/api'
+import { useGetSessionPingQuery, useGetUserQuery } from '../store/api'
 import { useLogout } from './useLogout'
 
 export function useSession() {
+  const { data: user } = useGetUserQuery()
   const { data: session } = useGetSessionPingQuery(undefined, {
     pollingInterval: 30e3,
   })
   const { logout } = useLogout()
 
   useEffect(() => {
-    if (session && !session.authenticated) {
+    if (user && session && !session.authenticated) {
       logout()
     }
-  }, [session, logout])
+  }, [user, session, logout])
 }
