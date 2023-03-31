@@ -18,8 +18,8 @@ export function CareProviderAccordion({
 }) {
   return (
     <details className="group">
-      <summary className="ml-5 flex cursor-pointer items-center space-x-2">
-        <span className="group-open:rotate-270 inline-block h-3 w-3 origin-center rotate-90">
+      <summary role="button" className="ml-5 flex cursor-pointer items-center space-x-2">
+        <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
           <IDSIcon name="chevron" width="100%" height="100%" className="h-full w-full" />
         </span>
         <div className="flex w-full justify-between">
