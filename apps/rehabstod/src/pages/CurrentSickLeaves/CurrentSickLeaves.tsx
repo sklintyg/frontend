@@ -6,7 +6,7 @@ import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
+import { reset, resetFilters, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
@@ -30,9 +30,9 @@ export function CurrentSickLeaves() {
       <hr className="opacity-40" />
 
       <Filters
-        onSearch={() => triggerGetSickLeaves()}
+        onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {
-          dispatch(reset())
+          dispatch(resetFilters())
         }}
       />
 
@@ -66,7 +66,7 @@ export function CurrentSickLeaves() {
           <TableBodyRows
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
-            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves ?? [], ascending, currentColumn) : undefined}
+            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
           />
         </tbody>
       </table>

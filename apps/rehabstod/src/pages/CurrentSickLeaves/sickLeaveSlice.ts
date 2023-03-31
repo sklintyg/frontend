@@ -21,6 +21,10 @@ const sickLeaveSlice = createSlice({
     reset() {
       return initialState
     },
+    resetFilters(state) {
+      state.ascending = initialState.ascending
+      state.currentColumn = initialState.currentColumn
+    },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
       state.showPersonalInformation = payload
     },
@@ -34,6 +38,6 @@ const sickLeaveSlice = createSlice({
   },
 })
 
-export const { reset, updateShowPersonalInformation, toggleAscending, sortOnColumn } = sickLeaveSlice.actions
+export const { reset, resetFilters, updateShowPersonalInformation, toggleAscending, sortOnColumn } = sickLeaveSlice.actions
 export const sickLeaveReducer = sickLeaveSlice.reducer
 export const sickLeaveReducerPath = sickLeaveSlice.name
