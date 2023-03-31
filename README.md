@@ -7,7 +7,7 @@
 
 - Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
 - Install [Node v18](https://nodejs.org/en/download/releases/)
-  - Or via [nvm](https://github.com/nvm-sh/nvm) (optional)
+  - Alternatively via [nvm](https://github.com/nvm-sh/nvm)
 
 1. Install dependencies with `yarn install`
 2. Execute a build with `yarn build`
@@ -67,6 +67,11 @@ This is the invisioned structure for the future.
       "source.fixAll": true
     }
     ```
+
+## Resources
+
+- [ESlint](https://eslint.org/)
+- [Turbo Repo](https://turbo.build/repo)
 
 ## OpenShift Build Pipeline
 
