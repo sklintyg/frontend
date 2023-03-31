@@ -54,26 +54,19 @@ This is the invisioned structure for the future.
 - Enable auto format on save
   - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
   - Add the following properties
-    #```json
-    #{
-
-# "editor.defaultFormatter": "esbenp.prettier-vscode",
-
-# "editor.formatOnSave": true
-
-#}
-#```
-
-- Add the following properties (_optional_)
-  #```json
-  #"editor.codeActionsOnSave": {
-
-# "source.organizeImports": true,
-
-# "source.fixAll": true
-
-#}
-#```
+    ```json
+    {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    }
+    ```
+  - Add the following properties (_optional_)
+    ```json
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll": true
+    }
+    ```
 
 ## OpenShift Build Pipeline
 
