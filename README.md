@@ -21,6 +21,23 @@ This repo holds multiple applications, read more about getting started with each
 - [webcert](packages/webcert/README.md)
 - [rehabstod](packages/rehabstod/README.md)
 
+## Repository structure
+
+This is the invisioned structure for the future.
+
+```
+.
+├── apps ─ End products
+│   ├── rehabstod
+│   └── webcert
+├── e2e ─ Integration tests for all applications
+└── packages ─ Shared between applications and libraries
+    ├── components
+    ├── eslint-config ─ Linting configuration
+    ├── utils ─ Utility functions
+    └── types ─ Typescript definitions
+```
+
 ## Configure Editor
 
 ### IntelliJ
@@ -37,19 +54,26 @@ This repo holds multiple applications, read more about getting started with each
 - Enable auto format on save
   - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
   - Add the following properties
-    ```json
-    {
-      "editor.defaultFormatter": "esbenp.prettier-vscode",
-      "editor.formatOnSave": true
-    }
-    ```
-  - Add the following properties (_optional_)
-    ```json
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true,
-      "source.fixAll": true
-    }
-    ```
+    #```json
+    #{
+
+# "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+# "editor.formatOnSave": true
+
+#}
+#```
+
+- Add the following properties (_optional_)
+  #```json
+  #"editor.codeActionsOnSave": {
+
+# "source.organizeImports": true,
+
+# "source.fixAll": true
+
+#}
+#```
 
 ## OpenShift Build Pipeline
 

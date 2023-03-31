@@ -7,16 +7,16 @@ Rehabstod application
 ```
 src
 .
-├── components
-├── hooks
+├── components ─ Shared components
+├── hooks ─ General purpos hooks
 ├── pages
 │   ├── SomePage
-│   │   ├── components
-│   │   ├── hooks
-│   │   └── utils
-│   └── SomePage.tsx
-├── store
-└── utils
+│   │   ├── components ─ Page specific components
+│   │   ├── hooks ─ Page speicific hooks
+│   │   └── utils ─ Page speicific utils
+│   └── SomePage.tsx ─ Page
+├── store ─ Redux store
+└── utils ─ Shared utils
 ```
 
 ## Configure frontend for local backend
