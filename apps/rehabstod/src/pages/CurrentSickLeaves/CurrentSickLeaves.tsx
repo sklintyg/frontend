@@ -18,7 +18,7 @@ export function CurrentSickLeaves() {
 
   useEffect(
     () => () => {
-      dispatch(reset)
+      dispatch(reset())
     },
     [dispatch]
   )
@@ -32,7 +32,7 @@ export function CurrentSickLeaves() {
       <Filters
         onSearch={() => triggerGetSickLeaves()}
         onReset={() => {
-          dispatch(reset)
+          dispatch(reset())
         }}
       />
 
