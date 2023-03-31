@@ -36,7 +36,7 @@ Detailed instructions for building and running the backend apps can be found in 
    - Open terminal in `sklintyg/webcert/`
    - Run command `gradlew appRun` (or `./gradlew appRun` in Git Bash)
 
-## Configure frontend for local backend
+### Configure frontend
 
 Create a `.env.development.local` in the same folder as `.env.development`. This file will hold our configuration overrides and will be ignored by git. Add the following or change settings to fit your need:
 
@@ -51,3 +51,15 @@ VITE_WS_PROTOCOL='wss'
 - `VITE_WS_PROTOCOL` make sure that websocket communication uses ssl.
 
 Start the application with `yarn workspace @frontend/webcert dev` for only webcert or `yarn start` for all watchers. Navigate to Webcert-frontend in a chromium-browser: https://wc2.wc.localtest.me/welcome
+
+## Resources
+
+- [React](https://react.dev/) ─ Components
+- [Inera CSS](https://css.inera.se/) ─ Inera styling
+- [Styled Components](https://styled-components.com/) ─ Inera styling
+- [React Router v5](https://v5.reactrouter.com/) ─ Application routing
+- [Redux](https://redux.js.org/) ─ State management and data fetching
+- [Redux Toolkit](https://redux-toolkit.js.org/) ─ Utility functions for redux
+- [Vite](https://vitejs.dev/) ─ Application bundling
+- [Vitest](https://vitest.dev/) ─ Unit testing framework
+- [Testing Library](https://testing-library.com/) ─ Unit testing library

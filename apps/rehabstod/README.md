@@ -19,6 +19,8 @@ src
 └── utils ─ Shared utils
 ```
 
+Top layer holds components and functions shared by every page. Parts that are shared between applications should be in `packages` in the [monorepo](/README.md#repository-structure).
+
 ## Local backend
 
 Default configuration will communicate with a deployed and share test API that works in most cases but in some scenarious it's required to have a local backend.
@@ -50,12 +52,13 @@ Read more about environment files over at [Vite](https://vitejs.dev/guide/env-an
 
 ## Resources
 
+- [React](https://react.dev/) ─ Components
 - [Inera Design System](https://design.inera.se/) ─ Inera components and styling
 - [TailwindCSS](https://tailwindcss.com/) ─ Styling with utility classes
+- [React Router v6](https://reactrouter.com/en/main) ─ Application routing
 - [Redux Toolkit](https://redux-toolkit.js.org/) ─ State management and data fetching
 - [Vite](https://vitejs.dev/) ─ Application bundling
-- [React Router](https://reactrouter.com/en/main) ─ Application routing
 - [MSW](https://mswjs.io/) ─ API mocks
 - [zod](https://zod.dev/) ─ Schema definitions and mocking
-- [vitest](https://vitest.dev/) ─ Unit testing framework
+- [Vitest](https://vitest.dev/) ─ Unit testing framework
 - [Testing Library](https://testing-library.com/) ─ Unit testing library
