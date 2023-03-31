@@ -19,8 +19,7 @@ export function LayoutHeader() {
           <IDSHeaderItem type="inera-admin" icon="question">
             <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
-          <IDSHeaderAvatar type="inera-admin" username={user.namn}>
-            <span slot="avatar-text">{user.valdVardenhet?.namn}</span>
+          <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn}>
             <div slot="dropdown">
               <IDSLink color="var(--IDS-COLOR-PRIMARY-40)" block className="ids-mb-5 ids-mt-2 ">
                 <IDSIcon height="20" width="20" name="swap" />
