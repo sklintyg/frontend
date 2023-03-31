@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { CurrentSickLeaves } from './pages/CurrentSickLeaves/CurrentSickLeaves'
+import { CareProvider } from './pages/CareProvider/CareProvider'
 import { Home } from './pages/Home/Home'
 import { NoMatch } from './pages/NoMatch/NoMatch'
 import { Welcome } from './pages/Welcome/Welcome'
@@ -13,6 +14,7 @@ export function App() {
         <Route index element={<Home />} />
         <Route path="/pagaende-sjukfall" element={<CurrentSickLeaves />} />
         <Route path="*" element={<NoMatch />} />
+        <Route path="/enhet" element={<CareProvider />} />
       </Route>
     </Routes>
   )
