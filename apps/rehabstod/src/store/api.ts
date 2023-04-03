@@ -1,10 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { getCookie } from '../utils/cookies'
-import { Link } from './types/link'
-import { Ping } from './types/ping'
 import { SickLeaveInfo } from './types/sickLeave'
-import { User, Vardenheter, Vardgivare } from './types/user'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -68,4 +65,11 @@ export const api = createApi({
   }),
 })
 
-export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation, useFakeLogoutMutation, useGetSickLeavesMutation } = api
+export const {
+  useGetSessionPingQuery,
+  useGetLinksQuery,
+  useGetUserQuery,
+  useChangeUnitMutation,
+  useGetSickLeavesMutation,
+  useGetDoctorsWithActiveSickLeavesQuery,
+} = api
