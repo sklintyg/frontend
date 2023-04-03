@@ -38,7 +38,6 @@ export function LayoutHeader() {
               </button>
             </div>
           </IDSHeaderAvatar>
-
           <IDSHeaderNav type="inera-admin">
             <LayoutHeaderTab title="Översikt" to="/" />
             <LayoutHeaderTab title="Pågående sjukfall" to="/pagaende-sjukfall" />
