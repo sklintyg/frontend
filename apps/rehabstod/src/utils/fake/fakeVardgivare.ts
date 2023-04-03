@@ -1,6 +1,5 @@
-import { faker } from '@faker-js/faker'
-import { vardgivareSchema } from '@frontend/types'
-import { fakerFromSchemaFactory } from '../factory'
+import { faker, fakerFromSchemaFactory } from '@frontend/fake'
+import { vardgivareSchema } from '../../schemas'
 import { fakeVardenhet } from './fakeVardenhet'
 
 export const fakeVardgivare = fakerFromSchemaFactory(

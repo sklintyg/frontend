@@ -1,6 +1,6 @@
-import { AllowedInApplication, MedarbetarUppdrag, Person } from '@frontend/types'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { AllowedInApplication, MedarbetarUppdrag, Person } from '../../schemas/hsa'
 import { useGetMedarbetarUppdragQuery, useGetPersonQuery } from '../../store/hsaApi'
 import { RootState } from '../../store/store'
 

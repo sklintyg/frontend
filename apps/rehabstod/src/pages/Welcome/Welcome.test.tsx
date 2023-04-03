@@ -1,8 +1,8 @@
 import { fakerFromSchema } from '@frontend/fake'
-import { medarbetarUppdragSchema, personSchema } from '@frontend/types'
 import { screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { server } from '../../mocks/server'
+import { medarbetarUppdragSchema, personSchema } from '../../schemas/hsa'
 import { renderWithRouter } from '../../utils/renderWithRouter'
 import { Welcome } from './Welcome'
 

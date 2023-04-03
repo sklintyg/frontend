@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 import { z } from 'zod'
-import { fakerFromSchema } from './factory'
+import { fakerFromSchema } from '.'
 
 it('Should generate a faker function from schema', () => {
   const schema = z.object({

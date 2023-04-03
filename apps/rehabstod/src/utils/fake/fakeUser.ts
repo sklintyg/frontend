@@ -1,5 +1,5 @@
-import { userFeatureSchema, userPreferencesSchema, userRoleSchema, userSchema } from '@frontend/types'
-import { fakerFromSchema, fakerFromSchemaFactory } from '../factory'
+import { fakerFromSchema, fakerFromSchemaFactory } from '@frontend/fake'
+import { userFeatureSchema, userPreferencesSchema, userRoleSchema, userSchema } from '../../schemas'
 import { fakeVardenhet } from './fakeVardenhet'
 import { fakeVardgivare } from './fakeVardgivare'
 

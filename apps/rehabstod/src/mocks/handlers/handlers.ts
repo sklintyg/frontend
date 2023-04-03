@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { fakerFromSchema, fakeUser } from '@frontend/fake'
-import { Link, linkSchema } from '@frontend/types'
+import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
+import { Link, linkSchema } from '../../schemas'
+import { fakeUser } from '../../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)
 

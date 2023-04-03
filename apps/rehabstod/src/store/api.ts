@@ -1,5 +1,5 @@
-import { Link, Ping, User, Vardenhet, Vardgivare } from '@frontend/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
