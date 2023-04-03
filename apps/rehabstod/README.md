@@ -19,7 +19,7 @@ src
 └── utils ─ Shared utils
 ```
 
-Top layer holds components and functions shared by every page. Parts that are shared between applications should be in `packages` in the [monorepo](/README.md#repository-structure).
+Top layer holds components and functions shared by every page. Parts that are shared between applications should be in `packages` in the [monorepo](/README.md#repository-structure). Parts that are unique for a page should be put in that page's subfolder, when unsure just add to the page and refactoring can be done later.
 
 ## Local backend
 

@@ -5,9 +5,9 @@
 
 ## Setup
 
-- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
 - Install [Node v18](https://nodejs.org/en/download/releases/)
   - Alternatively via [nvm](https://github.com/nvm-sh/nvm)
+- Install [Yarn](https://classic.yarnpkg.com/en/docs/install).
 
 1. Install dependencies with `yarn install`
 2. Execute a build with `yarn build`
@@ -18,8 +18,8 @@
 
 This repo holds multiple applications, read more about getting started with each application in their respective README.
 
+- [rehabstod](apps/rehabstod/README.md)
 - [webcert](packages/webcert/README.md)
-- [rehabstod](packages/rehabstod/README.md)
 
 ## Repository structure
 
@@ -53,15 +53,19 @@ This is the invisioned structure for the future.
 - Install plugin `vscode-styled-components`
 - Install plugin `Prettier - Code formatter`
 - Enable auto format on save
+
   - Press `ctrl` + `shift` + `p`, type `settings` and open `Preferences: Open Settings (JSON)`
   - Add the following properties
+
     ```json
     {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true
     }
     ```
+
   - Add the following properties (_optional_)
+
     ```json
     "editor.codeActionsOnSave": {
       "source.organizeImports": true,
@@ -69,33 +73,7 @@ This is the invisioned structure for the future.
     }
     ```
 
-## Resources
-
-- [ESlint](https://eslint.org/)
-- [Turbo Repo](https://turbo.build/repo)
-
-## OpenShift Build Pipeline
-
-Webcert-frontend is built using a OpenShift build pipeline. The OpenShift-template for creating the pipeline can be found in `openshift/pipelinetemplate-build-frontend.yaml`.
-
-The pipeline is partially prepared for building other frontend applications within the frontend-repo.
-
-**Parameters:**
-
-| Parameter             | Required | Description                                                           |
-| --------------------- | -------- | --------------------------------------------------------------------- |
-| APP_NAME              | Yes      | The Web App name, ex: `webcert-frontend`                              |
-| RELEASE_VERSION       | Yes      | The name of this release, ex: `2021-2`                                |
-| STAGE                 |          | The stage label, default is `test`                                    |
-| ARTIFACT_IMAGE_SUFFIX |          | The suffix of the artifact ImageStream, default is `artifact`         |
-| GIT_URL               | Yes      | URL to git repository, ex: `https://github.com/sklintyg/frontend.git` |
-| GIT_CI_BRANCH         | Yes      | Branch in git repository, ex: `master`                                |
-
-To create a frontend-pipeline using the template, you make sure to first login to OpenShift and then run the following command.
-
-```
-`oc process -f pipelinetemplate-build-frontend.yaml -p APP_NAME=webcert-frontend -p RELEASE_VERSION=2021-2 -p GIT_URL=https://github.com/sklintyg/frontend.git -p GIT_CI_BRANCH=master | oc apply  -f -`
-```
+_Plugin recommendations can be found by opening the extension panel `ctrl` + `x` and type `@recommended`_
 
 ## Running tests
 
@@ -106,8 +84,6 @@ To run tests in all packages `yarn test`
 To run tests in a perticular workspace `yarn workspace <name of workspace> test`
 
 ## Writing tests
-
-Below are recommended types of tests for a component. We are looking into [jest-axe](https://www.npmjs.com/package/jest-axe) for accessibility testing.
 
 Smoke test that checks if the component can be rendered without crashing. Ex:
 
@@ -127,3 +103,12 @@ it('displaying empty value', () => {
   getByText(/Ej angivet/i)
 })
 ```
+
+## Build pipelines
+
+Read about build pipelines using [openshift](./openshift/README.md)
+
+## Resources
+
+- [ESlint](https://eslint.org/)
+- [Turbo Repo](https://turbo.build/repo)
