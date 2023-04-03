@@ -1,7 +1,8 @@
-import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
+import { IDSHeader, IDSHeaderAvatar, IDSHeaderItem, IDSHeaderNav, IDSIcon, IDSLink } from '@frontend/ids-react-ts'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../../hooks/useLogout'
 import { useGetUserQuery } from '../../store/api'
+import { LayoutHeaderTab } from './LayoutHeaderTab'
 
 export function LayoutHeader() {
   const { isLoading, data: user } = useGetUserQuery()
@@ -16,7 +17,7 @@ export function LayoutHeader() {
       {!isLoading && user && (
         <>
           <IDSHeaderItem type="inera-admin" icon="question">
-            <Link to="/">Om rehabstöd</Link>
+            <Link to="/">Om Rehabstöd</Link>
           </IDSHeaderItem>
           <IDSHeaderAvatar type="inera-admin" username={user.namn} unit={user.valdVardenhet?.namn}>
             <div slot="dropdown">
@@ -37,6 +38,10 @@ export function LayoutHeader() {
               </button>
             </div>
           </IDSHeaderAvatar>
+          <IDSHeaderNav type="inera-admin">
+            <LayoutHeaderTab title="Översikt" to="/" />
+            <LayoutHeaderTab title="Pågående sjukfall" to="/pagaende-sjukfall" />
+          </IDSHeaderNav>
         </>
       )}
 
