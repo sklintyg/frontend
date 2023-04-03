@@ -6,12 +6,12 @@ React components generated from [@inera/ids-core](design.inera.se) WebComponents
 
 Install ctix globaly
 
-```
-$ npm install -g ctix
+```bash
+npm install -g ctix
 ```
 
 Generate index files for this project:
 
-```
-$ yarn workspace @frontend/ids-react-ts ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup
+```bash
+yarn workspace @frontend/ids-react-ts ctix create -s false -a ./src  -p ./tsconfig.json -w --noBackup
 ```

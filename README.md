@@ -50,7 +50,7 @@ Shared libraries should generally:
 
 Exceptions can be made, for example eslint packages only outputs commonjs since eslint still uses that. And `combine-coverage` only holds a binary that the root application uses to combine application test-reports.
 
-## Configure Editor
+## Configure Editors
 
 ### IntelliJ
 
