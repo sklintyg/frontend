@@ -32,12 +32,23 @@ This is the invisioned structure for the future.
 │   └── webcert
 ├── e2e ─ Integration tests for all applications
 └── packages ─ Shared between applications and libraries
-    ├── components
     ├── eslint-config-custom ─ Linting configuration
     ├── eslint-config-react ─ Linting configuration for react applications
-    ├── utils ─ Utility functions
-    └── schemas ─ Typescript definitions and schemas
+    └── ...
 ```
+
+### Shared libraries
+
+The `/packages` folder contain documented libraries that is utilized between applications/libraries.
+We utilize [Turbo Repo](https://turbo.build/repo) to manage build's for each package and application. This makes it possible to have multiple watchers running with `yarn start`, or build everything that needs to be bundled with `yarn build`.
+
+Shared libraries should generally:
+
+1. Output ECMAScript modules that applications and other libraries can consume.
+2. Contain a `README.md`, outlining it's functionality.
+3. Be added to root tsconfig.json's `paths`, for symbol navigation.
+
+Exceptions can be made, for example eslint packages only outputs commonjs since eslint still uses that. And `combine-coverage` only holds a binary that the root application uses to combine application test-reports.
 
 ## Configure Editor
 
