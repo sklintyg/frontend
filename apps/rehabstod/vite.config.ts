@@ -4,20 +4,6 @@ import react from '@vitejs/plugin-react'
 import { loadEnv, ProxyOptions } from 'vite'
 import { defineConfig, UserConfig } from 'vitest/config'
 
-const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html'].reduce<Record<string, string | ProxyOptions>>(
-  (result, route) => ({
-    ...result,
-    [`/${route}`]: {
-      target: process.env.VITE_API_TARGET ?? 'https://rehabstod-devtest.intyg.nordicmedtest.se',
-      cookieDomainRewrite: { '*': '' },
-      protocolRewrite: 'https',
-      changeOrigin: true,
-      autoRewrite: true,
-    },
-  }),
-  {}
-)
-
 export default ({ mode }: UserConfig) => {
   process.env = { ...process.env, ...loadEnv(mode ?? 'development', process.cwd()) }
 
@@ -25,6 +11,20 @@ export default ({ mode }: UserConfig) => {
   const hmr = !(process.env.VITE_HMR === 'false')
   const host = process.env.VITE_HOST ?? 'localhost'
   const hmrProtocol = process.env.VITE_WS_PROTOCOL ?? https ? 'wss' : 'ws'
+
+  const proxy = ['api', 'services', 'fake', 'error.jsp', 'logout', 'welcome.html'].reduce<Record<string, string | ProxyOptions>>(
+    (result, route) => ({
+      ...result,
+      [`/${route}`]: {
+        target: process.env.VITE_API_TARGET ?? 'https://rehabstod-devtest.intyg.nordicmedtest.se',
+        cookieDomainRewrite: { '*': '' },
+        protocolRewrite: 'https',
+        changeOrigin: true,
+        autoRewrite: true,
+      },
+    }),
+    {}
+  )
 
   return defineConfig({
     plugins: [react(), basicSsl()],
