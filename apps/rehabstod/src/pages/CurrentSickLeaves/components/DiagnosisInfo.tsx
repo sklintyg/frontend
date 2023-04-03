@@ -9,7 +9,7 @@ export function DiagnosisInfo({ code, description, isSubDiagnosis }: { code: str
       <div slot="tooltip">
         {code}
         <br />
-        {description}
+        {description || `Diagnoskod ${code} är okänd och har ingen beskrivning`}
       </div>
     </IDSTooltip>
   )
