@@ -86,7 +86,7 @@ Exceptions can be made, for example eslint packages only outputs commonjs since 
 
 _Plugin recommendations can be found by opening the extension panel `ctrl` + `x` and type `@recommended`_
 
-## Running tests
+## Unit tests
 
 vitest is used for executing tests.
 
@@ -94,7 +94,7 @@ To run tests in all packages `yarn test`
 
 To run tests in a perticular workspace `yarn workspace <name of workspace> test`
 
-## Writing tests
+### Writing tests
 
 Smoke test that checks if the component can be rendered without crashing. Ex:
 
@@ -115,9 +115,13 @@ it('displaying empty value', () => {
 })
 ```
 
+## Integration tests
+
+Read about [integration tests](./e2e/README.md).
+
 ## Build pipelines
 
-Read about build pipelines using [openshift](./openshift/README.md)
+Read about build pipelines using [openshift](./openshift/README.md).
 
 ## Resources
 
