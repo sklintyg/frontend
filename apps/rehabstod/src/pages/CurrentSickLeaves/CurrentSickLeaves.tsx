@@ -31,7 +31,7 @@ export function CurrentSickLeaves() {
       <hr className="opacity-40" />
 
       <Filters
-        onSearch={() => triggerGetSickLeaves()}
+        onSearch={triggerGetSickLeaves}
         onReset={() => {
           dispatch(resetFilters())
         }}
