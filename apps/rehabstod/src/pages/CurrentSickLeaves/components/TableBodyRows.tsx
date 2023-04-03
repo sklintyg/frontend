@@ -3,16 +3,28 @@ import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
 import { getColumnData } from '../utils/getColumnData'
 import { DiagnosisInfo } from './DiagnosisInfo'
 import { MaxColspanRow } from './MaxColspanRow'
+import { SickLeaveDegreeInfo } from './SickLeaveDegreeInfo'
 
 export function TableBodyRows({
   isLoading,
   sickLeaves,
   showPersonalInformation,
+  unitId,
+  isDoctor,
 }: {
   isLoading: boolean
   showPersonalInformation: boolean
   sickLeaves?: SickLeaveInfo[]
+  unitId: string
+  isDoctor: boolean
 }) {
+  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
+  const SEARCH_TEXT_DOCTOR =
+    'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
+  const EMPTY_TEXT_REHABCOORDINATOR = `Det finns inga pågående sjukfall på ${unitId}`
+  const SEARCH_TEXT_REHABCOORDINATOR =
+    'Tryck på Sök för att visa alla pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av pågående sjukfall.'
+
   if (isLoading) {
     return (
       <MaxColspanRow>
@@ -22,16 +34,11 @@ export function TableBodyRows({
   }
 
   if (sickLeaves == null) {
-    return (
-      <MaxColspanRow>
-        Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina
-        pågående sjukfall.
-      </MaxColspanRow>
-    )
+    return <MaxColspanRow>{isDoctor ? SEARCH_TEXT_DOCTOR : SEARCH_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   if (sickLeaves.length === 0) {
-    return <MaxColspanRow>Inga resultat</MaxColspanRow>
+    return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
   return (
@@ -54,7 +61,9 @@ export function TableBodyRows({
           <td>{getColumnData(SickLeaveColumn.Slutdatum, sickLeave)}</td>
           <td>{getColumnData(SickLeaveColumn.Längd, sickLeave)}</td>
           <td>{getColumnData(SickLeaveColumn.Intyg, sickLeave)}</td>
-          <td>{`${getColumnData(SickLeaveColumn.Grad, sickLeave)}%`}</td>
+          <td>
+            <SickLeaveDegreeInfo degrees={sickLeave.grader} />
+          </td>
           <td>{getColumnData(SickLeaveColumn.Läkare, sickLeave)}</td>
         </tr>
       ))}

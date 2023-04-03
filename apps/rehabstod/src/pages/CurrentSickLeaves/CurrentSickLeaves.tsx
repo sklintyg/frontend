@@ -67,6 +67,8 @@ export function CurrentSickLeaves() {
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
             sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+            unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+            isDoctor={!!user && !!user.roles.LAKARE}
           />
         </tbody>
       </table>
