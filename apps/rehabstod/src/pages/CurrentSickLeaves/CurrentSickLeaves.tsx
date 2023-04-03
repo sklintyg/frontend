@@ -64,7 +64,7 @@ export function CurrentSickLeaves() {
             }}
           />
         </thead>
-        <tbody className="overflow-wrap">
+        <tbody style={{ overflowWrap: 'anywhere' }}>
           <TableBodyRows
             isDoctor={isDoctor}
             isLoading={isLoading}
