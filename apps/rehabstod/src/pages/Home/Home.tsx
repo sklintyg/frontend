@@ -3,21 +3,18 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHero } from '../../components/PageHero/PageHero'
 import { useLogout } from '../../hooks/useLogout'
-import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
+import { useGetUserQuery } from '../../store/api'
 
 export function Home() {
   const { isLoading, data: user } = useGetUserQuery()
-  const [changeUnit] = useChangeUnitMutation()
   const { logout } = useLogout()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (user && user.valdVardenhet === null) {
-      const vardgivare = user.vardgivare[0]
-      const vardenhet = vardgivare.vardenheter[0]
-      changeUnit({ vardgivare, vardenhet })
+      navigate('/enhet')
     }
-  }, [changeUnit, user])
+  }, [user, navigate])
 
   if (isLoading) {
     return (
