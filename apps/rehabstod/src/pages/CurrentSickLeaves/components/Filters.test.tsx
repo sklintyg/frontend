@@ -9,7 +9,7 @@ const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
 
-  render(<Filters onSearch={onSearch} onReset={onReset} />)
+  render(<Filters onSearch={onSearch} onReset={onReset} isDoctor={false} />)
 }
 
 describe('CurrentSickLeavesFilters', () => {
