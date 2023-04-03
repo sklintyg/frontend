@@ -1,6 +1,6 @@
 # Openshift
 
-Openshift is a cloud application platform powered by Kubernetes and our frontend-applications are built using a OpenShift build pipeline.
+[Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is a cloud application platform powered by Kubernetes and our frontend-applications are built using a OpenShift build pipeline.
 
 ## Build Pipeline
 
