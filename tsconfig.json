@@ -19,7 +19,6 @@
       "@frontend/common": ["./packages/common/src/index.ts"],
       "@frontend/icons": ["./packages/icons/src/index.ts"],
       "@frontend/ids-react-ts": ["./packages/ids-react-ts/src/index.ts"],
-      "@frontend/types": ["./packages/types/src/index.ts"],
       "@frontend/fake": ["./packages/fake/src/index.ts"]
     }
   },
