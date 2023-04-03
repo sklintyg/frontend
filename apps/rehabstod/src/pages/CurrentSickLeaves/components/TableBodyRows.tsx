@@ -52,7 +52,7 @@ export function TableBodyRows({
           key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
           className={`${isDateBeforeToday(sickLeave.slut) ? 'italic' : ''}`}>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
-          <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)}</td>
+          <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Kön, sickLeave)}</td>
           <td>
