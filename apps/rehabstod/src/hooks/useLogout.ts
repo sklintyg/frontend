@@ -1,13 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-
-function fakeLogout() {
-  return fetch('/logout', {
-    body: new FormData(),
-    method: 'post',
-  })
-}
+import { useFakeLogoutMutation } from '../store/api'
 
 export function useLogout() {
+  const [fakeLogout] = useFakeLogoutMutation()
   const navigate = useNavigate()
 
   return {

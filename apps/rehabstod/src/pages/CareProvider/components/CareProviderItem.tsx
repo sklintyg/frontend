@@ -1,5 +1,5 @@
 import { Radio } from '../../../components/Form/Radio'
-import { Vardenheter, Vardgivare } from '../../../store/types/user'
+import { Vardenhet, Vardgivare } from '../../../schemas'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 export function CareProviderItem({
@@ -9,7 +9,7 @@ export function CareProviderItem({
 }: {
   provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenheter) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
 }) {
   return (
     <div>
