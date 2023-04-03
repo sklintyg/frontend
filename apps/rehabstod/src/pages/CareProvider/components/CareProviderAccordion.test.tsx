@@ -3,15 +3,14 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { Mock, vi } from 'vitest'
 import { server } from '../../../mocks/server'
-import { vardenhetSchema, vardgivareSchema } from '../../../schemas'
 import { fakeVardenhet, fakeVardgivare } from '../../../utils/fake'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
 let selectedRadio: string | null
 let handleChooseUnit: Mock<unknown[], unknown>
 let children: string | number | boolean | JSX.Element | null | undefined
-const vardenhet = fakeVardenhet(vardenhetSchema)
-const vardgivare = fakeVardgivare(vardgivareSchema)
+const vardenhet = fakeVardenhet({ namn: 'Alfa regionen' })
+const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin' })
 
 beforeEach(() => {
   server.use(rest.get('/services/api/vardenhet', (_, res, ctx) => res(ctx.json(vardenhet))))
