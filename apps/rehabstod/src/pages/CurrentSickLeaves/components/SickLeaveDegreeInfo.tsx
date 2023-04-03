@@ -5,7 +5,7 @@ export function SickLeaveDegreeInfo({ degrees }: { degrees: number[] }) {
 
   return (
     <div className="flex gap-2 whitespace-nowrap">
-      {degrees[0]}% {hasSeveralDegrees && <IDSIcon name="arrow" size="xs" className="my-auto" />}
+      <span className="font-bold">{degrees[0]}%</span> {hasSeveralDegrees && <IDSIcon name="arrow" size="xs" className="my-auto" />}
       {hasSeveralDegrees && degrees[degrees.length - 1]}
       {hasSeveralDegrees && '%'}
     </div>

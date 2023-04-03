@@ -1,9 +1,11 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
+import { isBefore, subDays } from 'date-fns'
 import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
 import { getColumnData } from '../utils/getColumnData'
 import { DiagnosisInfo } from './DiagnosisInfo'
 import { MaxColspanRow } from './MaxColspanRow'
 import { SickLeaveDegreeInfo } from './SickLeaveDegreeInfo'
+import { EndDateInfo } from './EndDateInfo'
 
 export function TableBodyRows({
   isLoading,
@@ -41,10 +43,14 @@ export function TableBodyRows({
     return <MaxColspanRow>{isDoctor ? EMPTY_TEXT_DOCTOR : EMPTY_TEXT_REHABCOORDINATOR}</MaxColspanRow>
   }
 
+  const isDateBeforeToday = (date: string) => isBefore(new Date(date), subDays(Date.now(), 1))
+
   return (
     <>
       {sickLeaves.map((sickLeave) => (
-        <tr key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}>
+        <tr
+          key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
+          className={`${isDateBeforeToday(sickLeave.slut) ? 'italic' : ''}`}>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)}</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}
@@ -58,8 +64,10 @@ export function TableBodyRows({
             ))}
           </td>
           <td>{getColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>
-          <td>{getColumnData(SickLeaveColumn.Slutdatum, sickLeave)}</td>
-          <td>{getColumnData(SickLeaveColumn.Längd, sickLeave)}</td>
+          <td>
+            <EndDateInfo date={sickLeave.slut} isDateAfterToday={isDateBeforeToday(sickLeave.slut)} />
+          </td>
+          <td>{getColumnData(SickLeaveColumn.Längd, sickLeave)} dagar</td>
           <td>{getColumnData(SickLeaveColumn.Intyg, sickLeave)}</td>
           <td>
             <SickLeaveDegreeInfo degrees={sickLeave.grader} />
