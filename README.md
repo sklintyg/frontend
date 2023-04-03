@@ -25,7 +25,7 @@ This repo holds multiple applications, read more about getting started with each
 
 This is the invisioned structure for the future.
 
-```
+```text
 .
 ├── apps ─ End products
 │   ├── rehabstod
@@ -87,7 +87,7 @@ To run tests in a perticular workspace `yarn workspace <name of workspace> test`
 
 Smoke test that checks if the component can be rendered without crashing. Ex:
 
-```javascript
+```typescript
 it('renders without crashing', () => {
   const question = fakeTextElement({ id: 'id' })
   expect(render(<UvText question={question['id']} />)).not.toThrow()
@@ -96,7 +96,7 @@ it('renders without crashing', () => {
 
 Tests that verifies the components behavior from a user perspective. Use React Testing Library.
 
-```javascript
+```typescript
 it('displaying empty value', () => {
   const question = fakeTextElement({ id: 'id' })
   const { getByText } = render(<UvText question={question['id']} />)
