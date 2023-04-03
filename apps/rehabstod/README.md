@@ -23,7 +23,7 @@ Top layer holds components and functions shared by every page. Parts that are sh
 
 ## Local backend
 
-Default configuration will communicate with a deployed and share test API that works in most cases but in some scenarious it's required to have a local backend.
+Default configuration will communicate with a deployed and shared test API that works in most cases but in some scenarious it's required to have a local backend.
 
 Read more about setting up the backends
 
@@ -32,7 +32,7 @@ Read more about setting up the backends
 - [rehabstod](https://github.com/sklintyg/rehabstod)
 - [intygstjanst](https://github.com/sklintyg/intygstjanst)
 
-## Configure frontend
+### Configure frontend
 
 Create a `.env.development.local` in the same folder as `.env.development`. This file will hold our configuration overrides and will be ignored by git. Add the following or change settings to fit your need:
 

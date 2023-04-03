@@ -33,9 +33,10 @@ This is the invisioned structure for the future.
 ├── e2e ─ Integration tests for all applications
 └── packages ─ Shared between applications and libraries
     ├── components
-    ├── eslint-config ─ Linting configuration
+    ├── eslint-config-custom ─ Linting configuration
+    ├── eslint-config-react ─ Linting configuration for react applications
     ├── utils ─ Utility functions
-    └── types ─ Typescript definitions
+    └── schemas ─ Typescript definitions and schemas
 ```
 
 ## Configure Editor
@@ -44,7 +45,7 @@ This is the invisioned structure for the future.
 
 - Install [Prettier](https://plugins.jetbrains.com/plugin/10456-prettier/) plugin.
 - Configure to use prettier when formatting in IntelliJ (requires IntelliJ 2020.2). See Settings -> Language & Frameworks -> Javascript -> Prettier
-- Make sure ESLint is enabled and enable "fix on save".
+- Make sure ESLint is enabled and enable "Run eslint --fix on save".
 
 ### VS Code
 
