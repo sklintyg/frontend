@@ -15,6 +15,7 @@ export function CurrentSickLeaves() {
   const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
+  const isDoctor = !!user && !!user.roles.LAKARE
 
   useEffect(
     () => () => {
@@ -30,10 +31,11 @@ export function CurrentSickLeaves() {
       <hr className="opacity-40" />
 
       <Filters
-        onSearch={(request) => triggerGetSickLeaves(request)}
+        onSearch={() => triggerGetSickLeaves()}
         onReset={() => {
           dispatch(resetFilters())
         }}
+        isDoctor={isDoctor}
       />
 
       <TableInfo
@@ -62,13 +64,13 @@ export function CurrentSickLeaves() {
             }}
           />
         </thead>
-        <tbody>
+        <tbody className="overflow-wrap">
           <TableBodyRows
+            isDoctor={isDoctor}
             isLoading={isLoading}
             showPersonalInformation={showPersonalInformation}
             sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
             unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
-            isDoctor={!!user && !!user.roles.LAKARE}
           />
         </tbody>
       </table>
