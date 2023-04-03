@@ -99,6 +99,7 @@ export function TableHeaderRow({
       />
       <TableHeaderCell
         title="Läkare"
+        description="Läkaren som utfärdat nuvarande intyg. Namnet hämtas från HSA-katalogen. Om namnet inte kan hämtas visas bara läkarens HSA-id."
         column={SickLeaveColumn.Läkare}
         ascending={ascending}
         currentColumn={currentColumn}
