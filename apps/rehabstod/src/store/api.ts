@@ -71,5 +71,6 @@ export const {
   useGetUserQuery,
   useChangeUnitMutation,
   useGetSickLeavesMutation,
+  useFakeLogoutMutation,
   useGetDoctorsWithActiveSickLeavesQuery,
 } = api
