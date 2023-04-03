@@ -1,7 +1,7 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
 import { Radio } from '../../../components/Form/Radio'
-import { Vardenheter, Vardgivare } from '../../../store/types/user'
+import { Vardenhet, Vardgivare } from '../../../schemas'
 
 export function CareProviderAccordion({
   unit,
@@ -10,10 +10,10 @@ export function CareProviderAccordion({
   handleChooseUnit,
   children,
 }: {
-  unit: Vardenheter
+  unit: Vardenhet
   provider: Vardgivare
   selectedRadio: string | null
-  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenheter) => void
+  handleChooseUnit: (event: React.ChangeEvent<HTMLInputElement>, provider: Vardgivare, unit: Vardenhet) => void
   children: ReactNode
 }) {
   return (

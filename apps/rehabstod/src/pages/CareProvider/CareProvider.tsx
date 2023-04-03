@@ -1,15 +1,15 @@
 import { IDSAlert, IDSButton, IDSButtonGroup } from '@frontend/ids-react-ts'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Vardenhet, Vardgivare } from '../../schemas'
 import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
-import { Vardenheter, Vardgivare } from '../../store/types/user'
 import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
-  const [selectedUnit, setSelectedUnit] = useState<Vardenheter | null>(null)
+  const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
   const [selectedRadio, setSelectedRadio] = useState<string | null>(null)
 
@@ -26,7 +26,7 @@ export function CareProvider() {
     navigate('/')
   }
 
-  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenheter) => {
+  const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet) => {
     setSelectedProvider(provider)
     setSelectedUnit(unit)
     setSelectedRadio(event.target.id)

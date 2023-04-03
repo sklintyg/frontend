@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { getCookie } from '../utils/cookies'
-import { Link } from './types/link'
-import { Ping } from './types/ping'
-import { User, Vardenheter, Vardgivare } from './types/user'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -15,13 +13,13 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User', 'Links'],
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
       providesTags: ['User'],
     }),
-    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenheter }>({
+    changeUnit: builder.mutation<User, { vardgivare: Vardgivare; vardenhet: Vardenhet }>({
       query: ({ vardenhet }) => ({
         url: 'user/andraenhet',
         method: 'POST',
@@ -40,14 +38,23 @@ export const api = createApi({
         }
       },
     }),
+    fakeLogout: builder.mutation<void, void>({
+      query: () => ({
+        url: '../logout',
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+      }),
+      invalidatesTags: ['User'],
+    }),
     getSessionPing: builder.query<Ping, void>({
       query: () => 'session-auth-check/ping',
     }),
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
-      providesTags: ['Links'],
     }),
   }),
 })
 
-export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation } = api
+export const { useGetSessionPingQuery, useGetLinksQuery, useGetUserQuery, useChangeUnitMutation, useFakeLogoutMutation } = api
