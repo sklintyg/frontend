@@ -51,7 +51,8 @@ export function TableHeaderRow({
       />
       <TableHeaderCell
         title="Diagnos/er"
-        description="Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så är den som anges först den som påverkar arbetsförmågan mest. För muspekaren över koden för att se vilken diagnos den motsvarar."
+        description="
+Diagnos/diagnoser i nuvarande intyg. Om det finns flera diagnoser så visas den som påverkar arbetsförmågan mest först. För muspekaren över diagnoskoden för att se diagnos i text."
         column={SickLeaveColumn.Diagnos}
         ascending={ascending}
         currentColumn={currentColumn}
@@ -75,7 +76,7 @@ export function TableHeaderRow({
       />
       <TableHeaderCell
         title="Längd"
-        description="Sjukfallets totala längd i dagar, från startdatum till slutdatum. Eventuella dagar mellan intyg räknas inte in."
+        description="Sjukfallets totala längd i dagar, från startdatum till slutdatum. Eventuella dagar mellan intyg räknas inte med."
         column={SickLeaveColumn.Längd}
         ascending={ascending}
         currentColumn={currentColumn}
@@ -91,7 +92,7 @@ export function TableHeaderRow({
       />
       <TableHeaderCell
         title="Grad"
-        description="Sjukskrivningsgrad i nuvarande intyg. Om det innehåller flera grader anges de ordnade i tidsföljd med markering av den just nu gällande graden."
+        description="Sjukskrivningsgrad i nuvarande intyg. Om intyget innehåller flera grader anges de i tidsföljd med den just nu gällande graden i fetstil."
         column={SickLeaveColumn.Grad}
         ascending={ascending}
         currentColumn={currentColumn}
