@@ -31,7 +31,7 @@ export function CurrentSickLeaves() {
       <hr className="opacity-40" />
 
       <Filters
-        onSearch={triggerGetSickLeaves}
+        onSearch={(request) => triggerGetSickLeaves(request)}
         onReset={() => {
           dispatch(resetFilters())
         }}
@@ -49,7 +49,7 @@ export function CurrentSickLeaves() {
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
 
-      <table className="ids-table overflow-visible rounded-md">
+      <table className="ids-table overflow-visible rounded-md text-sm">
         <thead>
           <TableHeaderRow
             ascending={ascending}

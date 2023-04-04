@@ -12,7 +12,7 @@ export function Checkbox({
   label: string
   checked: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  description: string
+  description?: string
   id: string
 }) {
   return (

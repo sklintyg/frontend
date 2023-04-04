@@ -19,7 +19,7 @@ export interface SickLeaveInfo {
   diagnos: SickLeaveDiagnosis
   grader: number[]
   intyg: number
-  lakare: UserInfo
+  lakare: Lakare
   nyligenAvslutat: boolean
   obesvaradeKompl: number
   patient: PatientInfo
@@ -42,7 +42,7 @@ export interface SickLeaveDiagnosis {
   namn: string
 }
 
-export interface UserInfo {
+export interface Lakare {
   namn: string
   hsaId: string
 }
@@ -72,4 +72,14 @@ export interface RiskSignal {
   intygsId: string
   riskDescription: string
   riskKategori: number
+}
+
+export interface ActiveSickLeavesRequest {
+  doctorIds: string[]
+  to: number
+  from: number
+}
+
+export interface PopulateFiltersResponse {
+  activeDoctors: Lakare[]
 }
