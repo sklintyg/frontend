@@ -21,6 +21,7 @@
     "@frontend/fake": "*",
     "@frontend/ids-react-ts": "*",
     "@reduxjs/toolkit": "^1.9.3",
+    "date-fns": "^2.29.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",

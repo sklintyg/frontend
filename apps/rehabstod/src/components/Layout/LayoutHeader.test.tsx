@@ -20,7 +20,7 @@ describe('With user session', () => {
   it('Should have "about rehabstod" button', async () => {
     renderWithRouter(<LayoutHeader />)
 
-    expect(await screen.findByText('Om rehabstöd')).toBeInTheDocument()
+    expect(await screen.findByText('Om Rehabstöd')).toBeInTheDocument()
   })
 
   it('Should be able to logout', async () => {
