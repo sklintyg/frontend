@@ -16,13 +16,10 @@ export function Checkbox({
   id: string
 }) {
   return (
-    <div className="flex items-baseline">
-      <IDSCheckbox>
-        <label htmlFor={id}>
-          {label} {description && <TooltipIcon description={description} name="question" size="s" />}
-        </label>
-        <input id={id} type="checkbox" checked={checked} onChange={onChange} />
-      </IDSCheckbox>
-    </div>
+    <IDSCheckbox>
+      <label htmlFor={id}>{label}</label>
+      {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
+      <input id={id} type="checkbox" checked={checked} onChange={onChange} />
+    </IDSCheckbox>
   )
 }

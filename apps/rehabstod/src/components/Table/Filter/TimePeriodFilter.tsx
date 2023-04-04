@@ -34,8 +34,8 @@ export function TimePeriodFilter({
   return (
     <>
       <div>
-        <span className="mr-2">{title}</span>
-        <TooltipIcon description={description} name="question" size="s" />
+        <span>{title}</span>
+        <TooltipIcon description={description} name="question" size="s" className="relative top-1 ml-2" />
       </div>
       <div className="flex gap-3">
         <NumberInput
