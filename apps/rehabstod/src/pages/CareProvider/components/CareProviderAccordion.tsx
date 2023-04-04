@@ -1,6 +1,5 @@
-import { IDSIcon } from '@frontend/ids-react-ts'
+import { IDSIcon, IDSRadio } from '@frontend/ids-react-ts'
 import { ReactNode } from 'react'
-import { Radio } from '../../../components/Form/Radio'
 import { Vardenhet, Vardgivare } from '../../../schemas'
 
 export function CareProviderAccordion({
@@ -18,31 +17,34 @@ export function CareProviderAccordion({
 }) {
   return (
     <details className="group">
-      <summary role="button" className="ml-5 flex cursor-pointer items-center space-x-2">
-        <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-          <IDSIcon name="chevron" width="100%" height="100%" className="h-full w-full" />
-        </span>
-        <div className="flex w-full justify-between">
-          <label
-            htmlFor={unit.id}
-            className={`flex cursor-pointer items-center ${selectedRadio === unit.id ? 'font-bold' : ''} w-full justify-between`}>
-            <span>{unit.namn}</span>
-            <Radio
+      <summary className="flex cursor-pointer items-start space-x-2">
+        <div className="flex w-full items-center justify-between">
+          <IDSRadio>
+            <input
+              type="radio"
               name="selectedUnit"
               value={unit.namn}
-              id={unit.id}
-              onChange={(event) => handleChooseUnit(event, provider, unit)}
+              id={unit.namn}
               onClick={(e) => {
                 const detailsEl = e.currentTarget.closest('details')
                 if (detailsEl) {
                   detailsEl.setAttribute('open', '')
                 }
               }}
+              onChange={(event) => handleChooseUnit(event, provider, unit)}
             />
-          </label>
+            <label
+              htmlFor={unit.namn}
+              className={`flex cursor-pointer items-center ${selectedRadio === unit.namn ? 'font-bold' : ''} mb-0 w-full justify-between`}>
+              <span>{unit.namn}</span>
+            </label>
+          </IDSRadio>
+          <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
+            <IDSIcon name="chevron" width="100%" height="100%" className="h-full w-full" />
+          </span>
         </div>
       </summary>
-      <div className="ml-5">{children}</div>
+      <div>{children}</div>
     </details>
   )
 }

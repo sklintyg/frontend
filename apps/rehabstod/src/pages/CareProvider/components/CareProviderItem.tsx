@@ -19,31 +19,29 @@ export function CareProviderItem({
           {unit.mottagningar && unit.mottagningar.length > 0 ? (
             <CareProviderAccordion unit={unit} provider={provider} selectedRadio={selectedRadio} handleChooseUnit={handleChooseUnit}>
               {unit.mottagningar.map((reception) => (
-                <div key={reception.id}>
-                  <div className="flex items-center">
-                    <label htmlFor={reception.id} className={`ml-10 cursor-pointer ${selectedRadio === reception.id ? 'font-bold' : ''} `}>
-                      {reception.namn}
-                    </label>
-                    <div className="ml-auto">
-                      <Radio
-                        name="selectedUnit"
-                        value={unit.namn}
-                        id={reception.id}
-                        onChange={(event) => handleChooseUnit(event, provider, unit)}
-                      />
-                    </div>
-                  </div>
+                <div key={reception.id} className="flex items-center">
+                  <Radio
+                    name="selectedUnit"
+                    value={unit.namn}
+                    id={reception.id}
+                    onChange={(event) => handleChooseUnit(event, provider, unit)}
+                  />
+                  <label
+                    htmlFor={reception.id}
+                    className={`ml-5 cursor-pointer items-center ${selectedRadio === reception.id ? 'font-bold' : ''} m-0`}>
+                    {reception.namn}
+                  </label>
                 </div>
               ))}
             </CareProviderAccordion>
           ) : (
-            <div className="flex items-center justify-between">
-              <label htmlFor={unit.id} className={`ml-10 cursor-pointer ${selectedRadio === unit.id ? 'font-bold' : ''} `}>
-                {unit.namn}
-              </label>
+            <div className="flex items-center">
               <div>
                 <Radio name="selectedUnit" value={unit.namn} id={unit.id} onChange={(event) => handleChooseUnit(event, provider, unit)} />
               </div>
+              <label htmlFor={unit.id} className={` cursor-pointer ${selectedRadio === unit.id ? 'font-bold' : ''} m-0`}>
+                {unit.namn}
+              </label>
             </div>
           )}
         </div>
