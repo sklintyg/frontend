@@ -2,6 +2,7 @@
 import { fakerFromSchema } from '@frontend/fake'
 import { rest } from 'msw'
 import { Link, linkSchema } from '../../schemas'
+import { patientSchema } from '../../schemas/patientSchema'
 import { fakeUser } from '../../utils/fake'
 
 const fakeLink = fakerFromSchema(linkSchema)
@@ -35,4 +36,6 @@ export const handlers = [
       })
     )
   ),
+
+  rest.post('/api/sjukfall/patient', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(patientSchema)()))),
 ]

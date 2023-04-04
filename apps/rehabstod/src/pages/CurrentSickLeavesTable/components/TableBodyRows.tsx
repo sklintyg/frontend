@@ -1,11 +1,12 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { isBefore, subDays } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
 import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
 import { getColumnData } from '../utils/getColumnData'
 import { DiagnosisInfo } from './DiagnosisInfo'
+import { EndDateInfo } from './EndDateInfo'
 import { MaxColspanRow } from './MaxColspanRow'
 import { SickLeaveDegreeInfo } from './SickLeaveDegreeInfo'
-import { EndDateInfo } from './EndDateInfo'
 
 export function TableBodyRows({
   isLoading,
@@ -20,6 +21,7 @@ export function TableBodyRows({
   unitId: string
   isDoctor: boolean
 }) {
+  const navigate = useNavigate()
   const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
   const SEARCH_TEXT_DOCTOR =
     'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
@@ -49,8 +51,17 @@ export function TableBodyRows({
     <>
       {sickLeaves.map((sickLeave) => (
         <tr
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (['Enter', 'Space'].includes(event.code)) {
+              navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)
+            }
+          }}
+          onClick={() => navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)}
           key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
-          className={`${isDateBeforeToday(sickLeave.slut) ? 'italic' : ''}`}>
+          className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
+            isDateBeforeToday(sickLeave.slut) ? 'italic' : ''
+          }`}>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Personnummer, sickLeave)}</td>}
           <td>{getColumnData(SickLeaveColumn.Ålder, sickLeave)} år</td>
           {showPersonalInformation && <td>{getColumnData(SickLeaveColumn.Namn, sickLeave)}</td>}

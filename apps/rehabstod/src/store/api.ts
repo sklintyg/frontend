@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
+import { Patient } from '../schemas/patientSchema'
 import { getCookie } from '../utils/cookies'
 import { SickLeaveInfo } from './types/sickLeave'
 
@@ -55,21 +56,29 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.mutation<SickLeaveInfo[], void>({
+    getSickLeaves: builder.query<SickLeaveInfo[], void>({
       query: () => ({
         url: 'sickleaves/active',
         method: 'POST',
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
+    getSickLeavePatient: builder.query<Patient, { patientId: string }>({
+      query: ({ patientId }) => ({
+        url: 'sjukfall/patient',
+        method: 'POST',
+        body: { patientId },
+      }),
+    }),
   }),
 })
 
 export const {
-  useGetSessionPingQuery,
-  useGetLinksQuery,
-  useGetUserQuery,
   useChangeUnitMutation,
-  useGetSickLeavesMutation,
   useFakeLogoutMutation,
+  useGetLinksQuery,
+  useGetSessionPingQuery,
+  useGetSickLeavePatientQuery,
+  useGetSickLeavesQuery,
+  useGetUserQuery,
 } = api
