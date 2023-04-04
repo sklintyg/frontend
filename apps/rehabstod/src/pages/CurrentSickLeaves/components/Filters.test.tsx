@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { Filters } from './Filters'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 
 let onSearch: () => void
 let onReset: () => void
@@ -9,7 +10,7 @@ const renderComponent = () => {
   onSearch = vi.fn()
   onReset = vi.fn()
 
-  render(<Filters onSearch={onSearch} onReset={onReset} isDoctor={false} />)
+  renderWithRouter(<Filters onSearch={onSearch} onReset={onReset} isDoctor={false} />)
 }
 
 describe('CurrentSickLeavesFilters', () => {
