@@ -186,7 +186,7 @@ const UeDiagnosis: React.FC<Props> = ({ disabled, id, selectedCodeSystem, questi
     if (value !== undefined) {
       const itemDescription = getDescriptionFromString(item)
       const itemCode = getCodeFromString(item)
-      const regex = new RegExp(`(${value})`, 'ig')
+      const regex = new RegExp(`(${`${value}`.replace(/([()[\]])/g, '\\$1')})`, 'ig')
       return `${itemCode} ${DIAGNOSIS_DIVIDER} ${itemDescription.replace(regex, '<span class="iu-fw-bold">$1</span>')}`
     } else return item
   }
