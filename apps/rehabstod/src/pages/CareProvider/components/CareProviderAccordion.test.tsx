@@ -1,8 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
 import { Mock, vi } from 'vitest'
-import { server } from '../../../mocks/server'
 import { fakeVardenhet, fakeVardgivare } from '../../../utils/fake'
 import { CareProviderAccordion } from './CareProviderAccordion'
 
@@ -13,9 +11,6 @@ const vardenhet = fakeVardenhet({ namn: 'Alfa regionen' })
 const vardgivare = fakeVardgivare({ namn: 'Alfa Medicin' })
 
 beforeEach(() => {
-  server.use(rest.get('/services/api/vardenhet', (_, res, ctx) => res(ctx.json(vardenhet))))
-  server.use(rest.get('/services/api/vardgivare', (_, res, ctx) => res(ctx.json(vardgivare))))
-
   selectedRadio = null
   handleChooseUnit = vi.fn()
   children = <div>Accordion content</div>
