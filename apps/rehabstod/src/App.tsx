@@ -14,13 +14,11 @@ export function App() {
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-
+        <Route path="/enhet" element={<CareProvider />} />
         <Route path="/pagaende-sjukfall" element={<CurrentSickLeaves />}>
           <Route index element={<CurrentSickLeavesTable />} />
           <Route path=":patientId" element={<CurrentSickLeavesPatient />} />
         </Route>
-
-        <Route path="/enhet" element={<CareProvider />} />
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>

@@ -8,8 +8,8 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/',
-    prepareHeaders: (headers, { type }) => {
-      if (type === 'mutation' && getCookie('XSRF-TOKEN')) {
+    prepareHeaders: (headers) => {
+      if (getCookie('XSRF-TOKEN')) {
         headers.set('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'))
       }
       return headers

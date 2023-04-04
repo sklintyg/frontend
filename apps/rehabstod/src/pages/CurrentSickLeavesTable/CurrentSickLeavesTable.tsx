@@ -1,15 +1,20 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useSelector } from 'react-redux'
-import { useGetUserQuery } from '../../store/api'
-import { resetFilters, updateFilter, updateShowPersonalInformation } from '../../store/sickLeaveSlice'
+import { useGetSickLeavesQuery, useGetUserQuery } from '../../store/api'
+import { resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from '../../store/sickLeaveSlice'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
-import { Table } from './components/Table'
+import { TableBodyRows } from './components/TableBodyRows'
+import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
+import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeavesTable() {
-  const { data: user } = useGetUserQuery()
-  const { showPersonalInformation, filter } = useSelector((state: RootState) => state.sickLeave)
+  const { isLoading: userLoading, data: user } = useGetUserQuery()
+  const { showPersonalInformation, ascending, currentColumn, filter } = useSelector((state: RootState) => state.sickLeave)
+  const { isLoading: currentSickLeaveLoading, data: currentSickLeaves } = useGetSickLeavesQuery(filter ? undefined : skipToken)
   const dispatch = useAppDispatch()
+  const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = !!user && !!user.roles.LAKARE
 
   return (
@@ -19,7 +24,7 @@ export function CurrentSickLeavesTable() {
       <hr className="opacity-40" />
 
       <Filters
-        onSearch={() => updateFilter('filter?')}
+        onSearch={() => dispatch(updateFilter('filter'))}
         onReset={() => {
           dispatch(resetFilters())
         }}
@@ -31,11 +36,37 @@ export function CurrentSickLeavesTable() {
           dispatch(updateShowPersonalInformation(checked))
         }}
         showPersonalInformation={showPersonalInformation}
+        totalNumber={(currentSickLeaves ?? []).length}
+        listLength={(currentSickLeaves ?? []).length}
         daysAfterSickLeaveEnd={user?.preferences?.maxAntalDagarMellanIntyg ?? ''}
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
 
-      {filter && <Table />}
+      <table className="ids-table overflow-visible rounded-md">
+        <thead>
+          <TableHeaderRow
+            ascending={ascending}
+            currentColumn={currentColumn}
+            showPersonalInformation={showPersonalInformation}
+            onColumnSort={(column) => {
+              if (currentColumn !== column) {
+                dispatch(sortOnColumn(column))
+              } else {
+                dispatch(toggleAscending())
+              }
+            }}
+          />
+        </thead>
+        <tbody style={{ overflowWrap: 'anywhere' }}>
+          <TableBodyRows
+            isDoctor={isDoctor}
+            isLoading={isLoading}
+            showPersonalInformation={showPersonalInformation}
+            sickLeaves={currentSickLeaves ? getSortedSickLeaves(currentSickLeaves, ascending, currentColumn) : undefined}
+            unitId={user && user.valdVardenhet ? user.valdVardenhet.namn : ''}
+          />
+        </tbody>
+      </table>
     </div>
   )
 }

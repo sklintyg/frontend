@@ -1,22 +1,21 @@
 import { IDSButton } from '@frontend/ids-react-ts'
 import { Checkbox } from '../../../components/Form/Checkbox'
-import { useGetSickLeavesQuery } from '../../../store/api'
 
 export function TableInfo({
   onShowPersonalInformationChange,
+  listLength,
+  totalNumber,
   daysBetweenCertificates,
   daysAfterSickLeaveEnd,
   showPersonalInformation,
 }: {
   onShowPersonalInformationChange: (checked: boolean) => void
   showPersonalInformation: boolean
+  listLength: number
+  totalNumber: number
   daysBetweenCertificates: string
   daysAfterSickLeaveEnd: string
 }) {
-  const { data: currentSickLeaves } = useGetSickLeavesQuery()
-  const totalNumber = (currentSickLeaves ?? []).length
-  const listLength = (currentSickLeaves ?? []).length
-
   return (
     <div className="mb-5">
       <Checkbox

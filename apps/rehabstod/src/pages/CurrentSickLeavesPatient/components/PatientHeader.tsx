@@ -1,13 +1,7 @@
 import { IDSIcon } from '@frontend/ids-react-ts'
-import { useGetSickLeavePatientQuery } from '../../../store/api'
+import { Patient } from '../../../schemas/patientSchema'
 
-export function PatientHeader({ patientId }: { patientId: string }) {
-  const { data: patient } = useGetSickLeavePatientQuery({ patientId })
-
-  if (!patient) {
-    return null
-  }
-
+export function PatientHeader({ patient }: { patient: Patient }) {
   return (
     <div>
       <IDSIcon name="user" />
