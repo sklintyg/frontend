@@ -2,10 +2,9 @@ import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { CareProvider } from './pages/CareProvider/CareProvider'
 import { CurrentSickLeaves } from './pages/CurrentSickLeaves/CurrentSickLeaves'
-import { CurrentSickLeavesPatient } from './pages/CurrentSickLeavesPatient/CurrentSickLeavePatient'
-import { CurrentSickLeavesTable } from './pages/CurrentSickLeavesTable/CurrentSickLeavesTable'
 import { Home } from './pages/Home/Home'
 import { NoMatch } from './pages/NoMatch/NoMatch'
+import { Patient } from './pages/Patient/Patient'
 import { Welcome } from './pages/Welcome/Welcome'
 
 export function App() {
@@ -16,9 +15,13 @@ export function App() {
         <Route index element={<Home />} />
         <Route path="/enhet" element={<CareProvider />} />
         <Route path="/pagaende-sjukfall" element={<CurrentSickLeaves />}>
-          <Route index element={<CurrentSickLeavesTable />} />
-          <Route path=":patientId" element={<CurrentSickLeavesPatient />} />
+          <Route path=":patientId" element={<Patient />} />
         </Route>
+
+        <Route path="/lakarutlatande" element={<CurrentSickLeaves />}>
+          <Route path=":patientId" element={<Patient />} />
+        </Route>
+
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>

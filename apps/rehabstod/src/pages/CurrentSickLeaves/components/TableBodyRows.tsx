@@ -52,9 +52,15 @@ export function TableBodyRows({
       {sickLeaves.map((sickLeave) => (
         <tr
           tabIndex={0}
-          onKeyDown={(event) => {
-            if (['Enter', 'Space'].includes(event.code)) {
+          onKeyDown={({ code, currentTarget }) => {
+            if (['Enter', 'Space'].includes(code)) {
               navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)
+            }
+            if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
+              ;(currentTarget.previousElementSibling as HTMLElement).focus()
+            }
+            if (code === 'ArrowDown' && currentTarget.nextElementSibling) {
+              ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
           onClick={() => navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)}

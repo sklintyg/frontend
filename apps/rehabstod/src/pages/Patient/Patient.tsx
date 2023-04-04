@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useGetSickLeavePatientQuery, useGetSickLeavesQuery, useGetUserQuery } from '../../store/api'
 import { PatientHeader } from './components/PatientHeader'
 
-export function CurrentSickLeavesPatient() {
+export function Patient() {
   const { patientId } = useParams()
   const { data: user } = useGetUserQuery()
   const { data: patient } = useGetSickLeavePatientQuery(patientId ? { patientId } : skipToken)
