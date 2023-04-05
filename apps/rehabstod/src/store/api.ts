@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { Patient } from '../schemas/patientSchema'
+import { SickLeaveInfo } from '../schemas/sickLeaveSchema'
 import { getCookie } from '../utils/cookies'
-import { SickLeaveInfo } from './types/sickLeave'
 
 export const api = createApi({
   reducerPath: 'api',
