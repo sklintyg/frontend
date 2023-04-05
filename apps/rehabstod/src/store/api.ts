@@ -59,7 +59,7 @@ export const api = createApi({
       query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
-        body: { request },
+        body: request,
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
