@@ -47,7 +47,7 @@ export function Filters({
       </IDSButton>
       {expanded && (
         <div>
-          {isDoctor && (
+          {!isDoctor && (
             <DoctorFilter
               onChange={onDoctorChange}
               doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
