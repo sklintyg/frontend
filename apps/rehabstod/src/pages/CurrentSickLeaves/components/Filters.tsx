@@ -22,11 +22,6 @@ export function Filters({
   const { filterRequest } = useSelector((state: RootState) => state.sickLeave)
   const dispatch = useDispatch()
 
-  const filterDescriptions = [
-    'Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan.',
-    'Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i.',
-  ]
-
   const onFromTimeChange = (value: number) => {
     dispatch(updateFilter({ ...filterRequest, fromSickLeaveLength: value }))
   }
@@ -52,7 +47,7 @@ export function Filters({
               onChange={onDoctorChange}
               doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
               selected={filterRequest ? filterRequest.doctorIds : []}
-              description={filterDescriptions[0]}
+              description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
             />
           )}
           <TimePeriodFilter
@@ -61,7 +56,7 @@ export function Filters({
             onToChange={onToTimeChange}
             to={filterRequest.toSickLeaveLength}
             from={filterRequest.fromSickLeaveLength}
-            description={filterDescriptions[1]}
+            description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
           />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>

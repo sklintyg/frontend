@@ -14,7 +14,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'SickLeavesFilter'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -26,6 +26,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
+      invalidatesTags: ['SickLeavesFilter'],
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -67,6 +68,7 @@ export const api = createApi({
       query: () => ({
         url: 'sickleaves/filters',
       }),
+      providesTags: ['SickLeavesFilter'],
     }),
   }),
 })
