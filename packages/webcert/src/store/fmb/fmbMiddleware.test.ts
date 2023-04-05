@@ -192,7 +192,7 @@ describe('Test FMB middleware', () => {
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
       expect(fakeAxios.history.get.length).toBe(0)
     })
-    it('should use previousPersonId if reserveId is true and previousPersonId exists', function() {
+    it('should use previousPersonId if reserveId is true and previousPersonId exists', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const expectedPersonId = '201212121212'
       const patientId = {
@@ -207,7 +207,7 @@ describe('Test FMB middleware', () => {
 
       expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
-    it('should use personId if reserveId is true and previousPersonId is missing', function() {
+    it('should use personId if reserveId is true and previousPersonId is missing', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const expectedPersonId = '1912121212'
       const certificate = getCertificate([fmbDiagnosisRequest], true)
@@ -217,7 +217,7 @@ describe('Test FMB middleware', () => {
 
       expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
-    it('should use personId if reserveId is false', function() {
+    it('should use personId if reserveId is false', async () => {
       const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
       const expectedPersonId = '1912121212'
       const certificate = getCertificate([fmbDiagnosisRequest], true)
