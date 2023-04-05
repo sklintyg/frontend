@@ -15,6 +15,10 @@ export function SelectMultiple({
   id: string
   placeholder: string
 }) {
+  if (!options || (options instanceof Array && options.length === 0)) {
+    return null
+  }
+
   return (
     <>
       <label htmlFor={id}>{label}</label>
