@@ -17,7 +17,7 @@ export function CareProviderAccordion({
 }) {
   return (
     <details className="group">
-      <summary className="flex cursor-pointer items-start space-x-2">
+      <summary role="button" className="flex cursor-pointer items-start space-x-2">
         <div className="flex w-full items-center justify-between">
           <IDSRadio>
             <input
