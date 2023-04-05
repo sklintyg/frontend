@@ -18,8 +18,8 @@ it('displays an alert when user.roleSwitchPossible is true', async () => {
   expect(await screen.findByText(/du har behörigheten Rehabkoordinator på någon/i)).toBeInTheDocument()
 })
 
-it('Should not display an alert when user.roleSwitchPossible is false', async () => {
+it('Should not display an alert when user.roleSwitchPossible is false', () => {
   fakeUser({ roleSwitchPossible: false })
   renderWithRouter(<CareProvider />)
-  expect(await screen.queryByText(/du har behörigheten Rehabkoordinator på någon/i)).not.toBeInTheDocument()
+  expect(screen.queryByText(/du har behörigheten Rehabkoordinator på någon/i)).not.toBeInTheDocument()
 })
