@@ -76,8 +76,8 @@ export interface RiskSignal {
 
 export interface ActiveSickLeavesRequest {
   doctorIds: string[]
-  to: number
-  from: number
+  toSickLeaveLength: number
+  fromSickLeaveLength: number
 }
 
 export interface PopulateFiltersResponse {

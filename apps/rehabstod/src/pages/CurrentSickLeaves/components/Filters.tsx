@@ -28,11 +28,11 @@ export function Filters({
   ]
 
   const onFromTimeChange = (value: number) => {
-    dispatch(updateFilter({ ...filterRequest, from: value }))
+    dispatch(updateFilter({ ...filterRequest, fromSickLeaveLength: value }))
   }
 
   const onToTimeChange = (value: number) => {
-    dispatch(updateFilter({ ...filterRequest, to: value }))
+    dispatch(updateFilter({ ...filterRequest, toSickLeaveLength: value }))
   }
 
   const onDoctorChange = (doctorIds: string[]) => {
@@ -59,8 +59,8 @@ export function Filters({
             title="Välj sjukskrivningslängd"
             onFromChange={onFromTimeChange}
             onToChange={onToTimeChange}
-            to={filterRequest.to}
-            from={filterRequest.from}
+            to={filterRequest.toSickLeaveLength}
+            from={filterRequest.fromSickLeaveLength}
             description={filterDescriptions[1]}
           />
           <div className="flex justify-end">
