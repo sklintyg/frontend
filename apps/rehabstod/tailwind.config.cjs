@@ -48,11 +48,7 @@ module.exports = {
         99: 'var(--IDS-COLOR-ERROR-99)',
       },
     },
-    extend: {
-      rotate: {
-        '270': '270deg',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }
