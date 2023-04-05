@@ -7,6 +7,7 @@ import {
   fakeDiagnosesElement,
   fakeSickLeavePeriod,
   Patient,
+  PersonId,
   ResourceLinkType,
   ValueDateRangeList,
   ValueDiagnosisList,
@@ -190,6 +191,41 @@ describe('Test FMB middleware', () => {
       await flushPromises()
       expect(testStore.getState().ui.uiFMB.fmbDiagnosisCodeInfo.length).toEqual(0)
       expect(fakeAxios.history.get.length).toBe(0)
+    })
+    it('should use previousPersonId if reserveId is true and previousPersonId exists', function() {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '201212121212'
+      const patientId = {
+        type: 'patientId',
+        id: expectedPersonId,
+      } as PersonId
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = true
+      certificate.metadata.patient.previousPersonId = patientId
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
+    })
+    it('should use personId if reserveId is true and previousPersonId is missing', function() {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '1912121212'
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = true
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
+    })
+    it('should use personId if reserveId is false', function() {
+      const fmbDiagnosisRequest = getFMBDiagnoseRequest('F500', 0)
+      const expectedPersonId = '1912121212'
+      const certificate = getCertificate([fmbDiagnosisRequest], true)
+      certificate.metadata.patient.reserveId = false
+
+      testStore.dispatch(updateCertificate(certificate))
+
+      expect(testStore.getState().ui.uiFMB.patientId).toEqual(expectedPersonId)
     })
   })
 
