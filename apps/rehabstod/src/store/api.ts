@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { getCookie } from '../utils/cookies'
-import { SickLeaveInfo } from './types/sickLeave'
+import { ActiveSickLeavesRequest, PopulateFiltersResponse, SickLeaveInfo } from './types/sickLeave'
 
 export const api = createApi({
   reducerPath: 'api',
@@ -14,7 +14,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'SickLeavesFilter'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -26,6 +26,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
+      invalidatesTags: ['SickLeavesFilter'],
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -55,12 +56,19 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.mutation<SickLeaveInfo[], void>({
-      query: () => ({
+    getSickLeaves: builder.mutation<SickLeaveInfo[], ActiveSickLeavesRequest>({
+      query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
+        body: request,
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
+    }),
+    getPopulatedFilters: builder.query<PopulateFiltersResponse, void>({
+      query: () => ({
+        url: 'sickleaves/filters',
+      }),
+      providesTags: ['SickLeavesFilter'],
     }),
   }),
 })
@@ -69,6 +77,7 @@ export const {
   useGetSessionPingQuery,
   useGetLinksQuery,
   useGetUserQuery,
+  useGetPopulatedFiltersQuery,
   useChangeUnitMutation,
   useGetSickLeavesMutation,
   useFakeLogoutMutation,

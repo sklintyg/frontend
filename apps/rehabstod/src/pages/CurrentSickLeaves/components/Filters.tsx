@@ -1,8 +1,38 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ActiveSickLeavesRequest } from '../../../store/types/sickLeave'
+import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
+import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
+import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { RootState } from '../../../store/store'
+import { updateFilter } from '../sickLeaveSlice'
 
-export function Filters({ onSearch, onReset, isDoctor }: { onSearch: () => void; onReset: () => void; isDoctor: boolean }) {
+export function Filters({
+  onSearch,
+  onReset,
+  isDoctor,
+}: {
+  onSearch: (request: ActiveSickLeavesRequest) => void
+  onReset: () => void
+  isDoctor: boolean
+}) {
   const [expanded, setExpanded] = useState(true)
+  const { data: populatedFilters } = useGetPopulatedFiltersQuery()
+  const { filterRequest } = useSelector((state: RootState) => state.sickLeave)
+  const dispatch = useDispatch()
+
+  const onFromTimeChange = (value: number) => {
+    dispatch(updateFilter({ ...filterRequest, fromSickLeaveLength: value }))
+  }
+
+  const onToTimeChange = (value: number) => {
+    dispatch(updateFilter({ ...filterRequest, toSickLeaveLength: value }))
+  }
+
+  const onDoctorChange = (doctorIds: string[]) => {
+    dispatch(updateFilter({ ...filterRequest, doctorIds }))
+  }
 
   return (
     <>
@@ -12,12 +42,28 @@ export function Filters({ onSearch, onReset, isDoctor }: { onSearch: () => void;
       </IDSButton>
       {expanded && (
         <div>
+          {!isDoctor && (
+            <DoctorFilter
+              onChange={onDoctorChange}
+              doctors={(populatedFilters && populatedFilters.activeDoctors) || []}
+              selected={filterRequest ? filterRequest.doctorIds : []}
+              description="Filtrerar på den läkare som har utfärdat det aktiva intyget. Endast läkare som utfärdat aktiva intyg visas i listan."
+            />
+          )}
+          <TimePeriodFilter
+            title="Välj sjukskrivningslängd"
+            onFromChange={onFromTimeChange}
+            onToChange={onToTimeChange}
+            to={filterRequest.toSickLeaveLength}
+            from={filterRequest.fromSickLeaveLength}
+            description="Filtrerar på total längd för det sjukfall som det aktiva intyget ingår i."
+          />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
               <IDSButton secondary onClick={onReset}>
                 Återställ
               </IDSButton>
-              <IDSButton onClick={onSearch}>Sök</IDSButton>
+              <IDSButton onClick={() => onSearch(filterRequest)}>Sök</IDSButton>
             </IDSButtonGroup>
           </div>
           <hr className="mb-10 opacity-40" />
