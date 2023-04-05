@@ -1,7 +1,7 @@
 import { IDSSpinner } from '@frontend/ids-react-ts'
 import { isBefore, subDays } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-import { SickLeaveColumn, SickLeaveInfo } from '../../../store/types/sickLeave'
+import { SickLeaveColumn, SickLeaveInfo } from '../../../schemas/sickLeaveSchema'
 import { getColumnData } from '../utils/getColumnData'
 import { DiagnosisInfo } from './DiagnosisInfo'
 import { EndDateInfo } from './EndDateInfo'
@@ -75,9 +75,9 @@ export function TableBodyRows({
           <td>
             <DiagnosisInfo code={sickLeave.diagnos.kod} description={sickLeave.diagnos.beskrivning} isSubDiagnosis={false} />
             {sickLeave.biDiagnoser.map((diagnosis, index) => (
-              <>
+              <div key={diagnosis.kod}>
                 {index > 0 && ','} <DiagnosisInfo code={diagnosis.kod} description={diagnosis.beskrivning} isSubDiagnosis />
-              </>
+              </div>
             ))}
           </td>
           <td>{getColumnData(SickLeaveColumn.Startdatum, sickLeave)}</td>

@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+import { sickLeaveReducer, sickLeaveReducerPath } from '../pages/CurrentSickLeaves/sickLeaveSlice'
+import { welcomeReducer, welcomeReducerPath } from '../pages/Welcome/welcomeSlice'
 import { api } from './api'
 import { errorMiddleware } from './errorMiddleware'
 import { hsaApi } from './hsaApi'
-import { sickLeaveReducer, sickLeaveReducerPath } from './sickLeaveSlice'
-import { welcomeReducer, welcomeReducerPath } from './welcomeSlice'
 
 export const store = configureStore({
   reducer: {

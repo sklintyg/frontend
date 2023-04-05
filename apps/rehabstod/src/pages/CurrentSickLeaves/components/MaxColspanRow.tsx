@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { SickLeaveColumn } from '../../../store/types/sickLeave'
+import { SickLeaveColumn } from '../../../schemas/sickLeaveSchema'
 
 export function MaxColspanRow({ children }: { children: ReactNode }) {
   return (

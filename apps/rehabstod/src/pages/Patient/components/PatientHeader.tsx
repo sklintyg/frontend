@@ -5,7 +5,7 @@ export function PatientHeader({ patient }: { patient: Patient }) {
   return (
     <div>
       <IDSIcon name="user" />
-      <span>{patient.sjukfallList[0].intyg[0].patient.namn}</span>
+      <span>{patient.sjukfallList[0]?.intyg[0]?.patient?.namn}</span>
     </div>
   )
 }

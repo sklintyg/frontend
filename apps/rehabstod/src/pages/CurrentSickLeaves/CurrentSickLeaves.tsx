@@ -3,12 +3,12 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
 import { useGetSickLeavesQuery, useGetUserQuery } from '../../store/api'
-import { reset, resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from '../../store/sickLeaveSlice'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
+import { reset, resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from './sickLeaveSlice'
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
