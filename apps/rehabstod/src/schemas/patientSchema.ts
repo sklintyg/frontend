@@ -1,13 +1,13 @@
 import { z } from 'zod'
 
-export const riskSignalSchema = z.object({
+export const patientRiskSignalSchema = z.object({
   intygsId: z.string(),
   riskKategori: z.number(),
   riskDescription: z.string(),
   berakningstidpunkt: z.string(),
 })
 
-export const diagnosSchema = z.object({
+export const patientDiagnosSchema = z.object({
   intygsVarde: z.string(),
   kod: z.string(),
   namn: z.null(),
@@ -27,7 +27,7 @@ export const patientSjukfallIntygSchema = z.object({
     alder: z.number(),
     responseFromPu: z.null(),
   }),
-  diagnos: diagnosSchema,
+  diagnos: patientDiagnosSchema,
   bidiagnoser: z.array(z.unknown()),
   start: z.string(),
   slut: z.string(),
@@ -40,7 +40,7 @@ export const patientSjukfallIntygSchema = z.object({
   intygsId: z.string(),
   obesvaradeKompl: z.number(),
   unansweredOther: z.number(),
-  riskSignal: riskSignalSchema,
+  riskSignal: patientRiskSignalSchema,
   otherVardgivare: z.boolean(),
   otherVardenhet: z.boolean(),
 })
@@ -85,6 +85,8 @@ export const patientSchema = z.object({
   kompletteringInfoError: z.boolean(),
 })
 
+export type PatientRiskSignal = z.infer<typeof patientRiskSignalSchema>
+export type PatientDiagnos = z.infer<typeof patientDiagnosSchema>
 export type PatientSjukfallIntyg = z.infer<typeof patientSjukfallIntygSchema>
 export type PatientSjukfall = z.infer<typeof patientSjukfallSchema>
 export type Patient = z.infer<typeof patientSchema>
