@@ -16,8 +16,16 @@ export function TableHeaderCell<T extends string>({
   currentColumn: string
   onColumnSort: (column: T) => void
 }) {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTableHeaderCellElement>) => {
+    if (event.key === 'Enter') {
+      onColumnSort(column)
+    }
+  }
+
   return (
     <th
+      tabIndex={0}
+      onKeyDown={(event) => handleKeyDown(event)}
       onClick={() => onColumnSort(column)}
       className="cursor-pointer select-none whitespace-nowrap first:rounded-tl-md last:rounded-tr-md">
       {!description && (

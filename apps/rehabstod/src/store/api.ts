@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Link, Ping, User, Vardenhet, Vardgivare } from '../schemas'
 import { Patient } from '../schemas/patientSchema'
-import { SickLeaveInfo } from '../schemas/sickLeaveSchema'
+import { Lakare, SickLeaveFilter, SickLeaveInfo } from '../schemas/sickLeaveSchema'
 import { getCookie } from '../utils/cookies'
 
 export const api = createApi({
@@ -15,7 +15,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'SickLeavesFilter'],
   endpoints: (builder) => ({
     getUser: builder.query<User, void>({
       query: () => 'user',
@@ -27,6 +27,7 @@ export const api = createApi({
         method: 'POST',
         body: { id: vardenhet.id },
       }),
+      invalidatesTags: ['SickLeavesFilter'],
       async onQueryStarted({ vardgivare, vardenhet }, { dispatch, queryFulfilled }) {
         dispatch(
           api.util.updateQueryData('getUser', undefined, (draft) =>
@@ -56,10 +57,11 @@ export const api = createApi({
     getLinks: builder.query<Record<string, Link | undefined>, void>({
       query: () => 'config/links',
     }),
-    getSickLeaves: builder.query<SickLeaveInfo[], void>({
-      query: () => ({
+    getSickLeaves: builder.query<SickLeaveInfo[], SickLeaveFilter>({
+      query: (request) => ({
         url: 'sickleaves/active',
         method: 'POST',
+        body: request,
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
@@ -70,15 +72,22 @@ export const api = createApi({
         body: { patientId },
       }),
     }),
+    getPopulatedFilters: builder.query<{ activeDoctors: Lakare[] }, void>({
+      query: () => ({
+        url: 'sickleaves/filters',
+      }),
+      providesTags: ['SickLeavesFilter'],
+    }),
   }),
 })
 
 export const {
+  useGetSessionPingQuery,
+  useGetLinksQuery,
+  useGetUserQuery,
   useChangeUnitMutation,
   useFakeLogoutMutation,
-  useGetLinksQuery,
-  useGetSessionPingQuery,
   useGetSickLeavePatientQuery,
+  useGetPopulatedFiltersQuery,
   useGetSickLeavesQuery,
-  useGetUserQuery,
 } = api

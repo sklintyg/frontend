@@ -54,7 +54,7 @@ export function TableBodyRows({
           tabIndex={0}
           onKeyDown={({ code, currentTarget }) => {
             if (['Enter', 'Space'].includes(code)) {
-              navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)
+              navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)
             }
             if (code === 'ArrowUp' && currentTarget.previousElementSibling) {
               ;(currentTarget.previousElementSibling as HTMLElement).focus()
@@ -63,7 +63,7 @@ export function TableBodyRows({
               ;(currentTarget.nextElementSibling as HTMLElement).focus()
             }
           }}
-          onClick={() => navigate(`/pagaende-sjukfall/${sickLeave.patient.id}`)}
+          onClick={() => navigate(`/pagaende-sjukfall/${btoa(sickLeave.patient.id)}`)}
           key={`${sickLeave.patient.id}${sickLeave.diagnos.kod}${sickLeave.start}${sickLeave.slut}`}
           className={`hover:scale-100 hover:cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.3)] ${
             isDateBeforeToday(sickLeave.slut) ? 'italic' : ''

@@ -5,7 +5,7 @@ export function TooltipIcon({ description, ...iconProps }: { description: string
   return (
     <IDSTooltip>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <IDSIcon slot="trigger" colorpreset={1} {...iconProps} />
+      <IDSIcon slot="trigger" colorpreset={1} {...iconProps} tabIndex={0} />
       <div slot="tooltip">{description}</div>
     </IDSTooltip>
   )

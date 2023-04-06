@@ -8,13 +8,13 @@ import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from './sickLeaveSlice'
+import { reset, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
   const { showPersonalInformation, ascending, currentColumn, filter } = useSelector((state: RootState) => state.sickLeave)
-  const { isLoading: currentSickLeaveLoading, data: currentSickLeaves } = useGetSickLeavesQuery(filter ? undefined : skipToken)
+  const { isLoading: currentSickLeaveLoading, data: currentSickLeaves } = useGetSickLeavesQuery(filter ?? skipToken)
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
@@ -37,13 +37,7 @@ export function CurrentSickLeaves() {
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />
 
-      <Filters
-        onSearch={() => dispatch(updateFilter('filter'))}
-        onReset={() => {
-          dispatch(resetFilters())
-        }}
-        isDoctor={isDoctor}
-      />
+      <Filters isDoctor={isDoctor} />
 
       <TableInfo
         onShowPersonalInformationChange={(checked) => {
@@ -56,7 +50,7 @@ export function CurrentSickLeaves() {
         daysBetweenCertificates={user?.preferences?.maxAntalDagarSedanSjukfallAvslut ?? ''}
       />
 
-      <table className="ids-table overflow-visible rounded-md">
+      <table className="ids-table overflow-visible rounded-md text-sm">
         <thead>
           <TableHeaderRow
             ascending={ascending}

@@ -36,7 +36,7 @@ export const sickLeaveDiagnosisSchema = z.object({
   namn: z.string(),
 })
 
-export const userInfoSchema = z.object({
+export const lakareSchema = z.object({
   namn: z.string(),
   hsaId: z.string(),
 })
@@ -68,7 +68,7 @@ export const sickLeaveInfoSchema = z.object({
   diagnos: sickLeaveDiagnosisSchema,
   grader: z.array(z.number()),
   intyg: z.number(),
-  lakare: userInfoSchema,
+  lakare: lakareSchema,
   nyligenAvslutat: z.boolean(),
   obesvaradeKompl: z.number(),
   patient: patientInfoSchema,
@@ -83,8 +83,15 @@ export const sickLeaveInfoSchema = z.object({
   vardGivareNamn: z.string(),
 })
 
+export const sickLeaveFilterSchema = z.object({
+  doctorIds: z.array(z.string()),
+  toSickLeaveLength: z.number(),
+  fromSickLeaveLength: z.number(),
+})
+
+export type SickLeaveFilter = z.infer<typeof sickLeaveFilterSchema>
 export type SickLeaveInfo = z.infer<typeof sickLeaveInfoSchema>
 export type SickLeaveDiagnosis = z.infer<typeof sickLeaveDiagnosisSchema>
-export type UserInfo = z.infer<typeof userInfoSchema>
+export type Lakare = z.infer<typeof lakareSchema>
 export type PatientInfo = z.infer<typeof patientInfoSchema>
 export type RiskSignal = z.infer<typeof riskSignalSchema>

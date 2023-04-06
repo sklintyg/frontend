@@ -1,24 +1,15 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { renderWithRouter } from '../../../utils/renderWithRouter'
 import { Filters } from './Filters'
-
-let onSearch: () => void
-let onReset: () => void
-const renderComponent = () => {
-  onSearch = vi.fn()
-  onReset = vi.fn()
-
-  render(<Filters onSearch={onSearch} onReset={onReset} isDoctor={false} />)
-}
 
 describe('CurrentSickLeavesFilters', () => {
   beforeEach(() => {
-    renderComponent()
+    renderWithRouter(<Filters isDoctor={false} />)
   })
 
   it('should render without problems', () => {
-    expect(() => renderComponent()).not.toThrow()
+    expect(() => renderWithRouter(<Filters isDoctor={false} />)).not.toThrow()
   })
 
   it('should show hide filters button', () => {
@@ -33,15 +24,5 @@ describe('CurrentSickLeavesFilters', () => {
   it('should show show filters button after pressing hide', async () => {
     await userEvent.click(screen.getByText('Dölj sökfilter'))
     expect(screen.getByText('Visa sökfilter')).toBeInTheDocument()
-  })
-
-  it('should call on search when pressing search button', async () => {
-    await userEvent.click(screen.getByText('Sök'))
-    expect(onSearch).toHaveBeenCalledTimes(1)
-  })
-
-  it('should call on reset when pressing search button', async () => {
-    await userEvent.click(screen.getByText('Återställ'))
-    expect(onReset).toHaveBeenCalledTimes(1)
   })
 })

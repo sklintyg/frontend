@@ -82,7 +82,7 @@ describe('Navigate', () => {
             </table>
           }
         />
-        <Route path="/pagaende-sjukfall/aperiam" element={<p>Patient Route</p>} />
+        <Route path={`/pagaende-sjukfall/${btoa('aperiam')}`} element={<p>Patient Route</p>} />
       </Routes>
     )
 

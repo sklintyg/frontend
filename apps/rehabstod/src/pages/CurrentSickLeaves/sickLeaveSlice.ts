@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SickLeaveColumn } from '../../schemas/sickLeaveSchema'
+import { SickLeaveColumn, SickLeaveFilter } from '../../schemas/sickLeaveSchema'
 
 export interface SickLeaveState {
   showPersonalInformation: boolean
   ascending: boolean
   currentColumn: SickLeaveColumn
-  filter: string | null
+  filter: SickLeaveFilter | null
 }
 
 const initialState: SickLeaveState = {
@@ -24,10 +24,9 @@ const sickLeaveSlice = createSlice({
       return initialState
     },
     resetFilters(state) {
-      state.ascending = initialState.ascending
-      state.currentColumn = initialState.currentColumn
+      state.filter = initialState.filter
     },
-    updateFilter(state, { payload }: PayloadAction<SickLeaveState['filter']>) {
+    updateFilter(state, { payload }: PayloadAction<SickLeaveFilter>) {
       state.filter = payload
     },
     updateShowPersonalInformation(state, { payload }: PayloadAction<boolean>) {
