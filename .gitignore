@@ -51,3 +51,4 @@ lerna-debug.log*
 *.sln
 *.sw?
 *.iml
+*.pem

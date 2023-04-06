@@ -23,6 +23,7 @@ export const stringMap = {
   epost: faker.internet.email,
   telefonnummer: faker.phone.number,
   arbetsplatskod: faker.datatype.uuid,
+  alder: () => `${faker.datatype.number({ max: 110 })}`,
 }
 
 export function fakerFromSchema<T extends ZodTypeAny>(schema: T, options?: GenerateMockOptions) {

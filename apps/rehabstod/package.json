@@ -12,7 +12,8 @@
     "test:coverage": "yarn test run --coverage",
     "test:no-watch": "yarn test run",
     "test": "cross-env NODE_OPTIONS='--no-experimental-fetch' vitest",
-    "typescript": "tsc --noEmit"
+    "typescript": "tsc --noEmit",
+    "mkcert": "mkcert -key-file cert/key.pem -cert-file cert/cert.pem rs2.rs.localtest.me"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "vitest related --run"
@@ -39,7 +40,6 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
@@ -57,5 +57,8 @@
     "vite": "^4.1.1",
     "vitest": "^0.29.2",
     "whatwg-fetch": "^3.6.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
