@@ -36,7 +36,13 @@ export function CurrentSickLeaves() {
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />
 
-      <Filters onReset={() => dispatch(resetFilters())} onSearch={(newFilter) => triggerGetSickLeaves(newFilter)} isDoctor={isDoctor} />
+      <Filters
+        onSearch={(request) => triggerGetSickLeaves(request)}
+        onReset={() => {
+          dispatch(resetFilters())
+        }}
+        isDoctor={isDoctor}
+      />
 
       <TableInfo
         onShowPersonalInformationChange={(checked) => {
