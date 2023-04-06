@@ -50,11 +50,11 @@ describe('Change focus', () => {
 
     screen.getAllByRole('row')[0].focus()
 
-    await user.keyboard('[ArrowDown]')
+    await user.keyboard('{ArrowDown}')
 
     expect(screen.getAllByRole('row')[1]).toHaveFocus()
 
-    await user.keyboard('[ArrowUp]')
+    await user.keyboard('{ArrowUp}')
 
     expect(screen.getAllByRole('row')[0]).toHaveFocus()
   })
@@ -98,7 +98,7 @@ describe('Navigate', () => {
   it('Should navigate to patient on enter key', async () => {
     screen.getAllByRole('row')[0].focus()
 
-    await user.keyboard('[Enter]')
+    await user.keyboard('{Enter}')
 
     expect(screen.getByText('Patient Route')).toBeInTheDocument()
   })
