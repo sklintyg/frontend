@@ -1,37 +1,37 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
+import { RootState } from '../../../store/store'
+import { updateFilter } from '../sickLeaveSlice'
 
 export function Filters({
   onSearch,
   onReset,
   isDoctor,
 }: {
-  onSearch: (filter: SickLeaveFilter) => void
+  onSearch: (request: SickLeaveFilter) => void
   onReset: () => void
   isDoctor: boolean
 }) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
-  const [filter, setFilter] = useState<SickLeaveFilter>({
-    doctorIds: [],
-    fromSickLeaveLength: 1,
-    toSickLeaveLength: 365,
-  })
+  const { filter } = useSelector((state: RootState) => state.sickLeave)
+  const dispatch = useDispatch()
 
   const onFromTimeChange = (value: number) => {
-    setFilter({ ...filter, fromSickLeaveLength: value })
+    dispatch(updateFilter({ ...filter, fromSickLeaveLength: value }))
   }
 
   const onToTimeChange = (value: number) => {
-    setFilter({ ...filter, toSickLeaveLength: value })
+    dispatch(updateFilter({ ...filter, toSickLeaveLength: value }))
   }
 
   const onDoctorChange = (doctorIds: string[]) => {
-    setFilter({ ...filter, doctorIds })
+    dispatch(updateFilter({ ...filter, doctorIds }))
   }
 
   return (

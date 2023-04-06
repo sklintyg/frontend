@@ -1,20 +1,19 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
-import { useGetSickLeavesQuery, useGetUserQuery } from '../../store/api'
+import { useGetSickLeavesMutation, useGetUserQuery } from '../../store/api'
 import { RootState, useAppDispatch } from '../../store/store'
 import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from './sickLeaveSlice'
+import { reset, resetFilters, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
   const { isLoading: userLoading, data: user } = useGetUserQuery()
-  const { showPersonalInformation, ascending, currentColumn, filter } = useSelector((state: RootState) => state.sickLeave)
-  const { isLoading: currentSickLeaveLoading, data: currentSickLeaves } = useGetSickLeavesQuery(filter ?? skipToken)
+  const { showPersonalInformation, ascending, currentColumn } = useSelector((state: RootState) => state.sickLeave)
+  const [triggerGetSickLeaves, { isLoading: currentSickLeaveLoading, data: currentSickLeaves }] = useGetSickLeavesMutation()
   const { patientId } = useParams()
   const dispatch = useAppDispatch()
   const isLoading = userLoading || currentSickLeaveLoading
@@ -37,7 +36,7 @@ export function CurrentSickLeaves() {
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />
 
-      <Filters onReset={() => dispatch(resetFilters())} onSearch={(newFilter) => dispatch(updateFilter(newFilter))} isDoctor={isDoctor} />
+      <Filters onReset={() => dispatch(resetFilters())} onSearch={(newFilter) => triggerGetSickLeaves(newFilter)} isDoctor={isDoctor} />
 
       <TableInfo
         onShowPersonalInformationChange={(checked) => {
