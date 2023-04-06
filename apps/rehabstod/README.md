@@ -2,7 +2,7 @@
 
 ## Self signed certificate
 
-For running development mode with valid ssl, install [mkcert](https://github.com/FiloSottile/mkcert) and run `mkcert -install`. Click "yes" when prompted.
+For running with locally-trusted development certificates, install [mkcert](https://github.com/FiloSottile/mkcert) and run `mkcert -install`. Click "yes" when prompted.
 
 Create a certificate for `rs2.rs.localtest.me` with:
 
