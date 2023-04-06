@@ -9,6 +9,7 @@ export function Home() {
   const { isLoading, data: user } = useGetUserQuery()
   const { logout } = useLogout()
   const navigate = useNavigate()
+  const sithsUrl = '/saml/login/alias/siths-rs2'
 
   useEffect(() => {
     if (user && user.valdVardenhet === null) {
@@ -45,7 +46,7 @@ export function Home() {
         överblick över antingen alla pågående sjukfall på din vårdenhet, om du är rehabkoordinator eller alla pågående sjukfall där du
         skrivit det senaste intyget, om du är läkare.
       </p>
-      <IDSButton data-testid="login-btn" onClick={() => navigate('/login')}>
+      <IDSButton data-testid="login-btn" onClick={() => window.open(sithsUrl, '_self')}>
         Logga in
       </IDSButton>
     </PageHero>
