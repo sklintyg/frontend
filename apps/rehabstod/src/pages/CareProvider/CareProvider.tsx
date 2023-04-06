@@ -3,13 +3,15 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Checkbox } from '../../components/Form/Checkbox'
 import { Vardenhet, Vardgivare } from '../../schemas'
-import { useChangeUnitMutation, useGetUserQuery } from '../../store/api'
+import { useChangeUnitMutation, useGetUserQuery, useUpdateUserPreferencesMutation } from '../../store/api'
 import { CareProviderItem } from './components/CareProviderItem'
 
 export function CareProvider() {
   const navigate = useNavigate()
   const { isLoading, data: user } = useGetUserQuery()
   const [changeUnit] = useChangeUnitMutation()
+  const [UpdateUserPreferences] = useUpdateUserPreferencesMutation()
+
   const [selectedUnit, setSelectedUnit] = useState<Vardenhet | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Vardgivare | null>(null)
   const [selectedRadio, setSelectedRadio] = useState<string | null>(user?.valdVardenhet?.namn || null)
@@ -19,25 +21,30 @@ export function CareProvider() {
     if (!user || !selectedUnit || !selectedProvider) return
 
     if (isChecked && selectedRadio) {
-      const updatedUser = {
-        ...user,
-        valdVardenhet: {
-          namn: selectedRadio,
-        },
-      }
-      changeUnit({
-        vardgivare: selectedProvider,
-        vardenhet: {
-          ...selectedUnit,
-          id: selectedUnit.id,
-        },
-        user: updatedUser,
+      UpdateUserPreferences({
+        valdVardgivare: selectedProvider.namn || '',
+        valdVardenhet: selectedRadio,
       })
     }
+    changeUnit({
+      vardgivare: selectedProvider,
+      vardenhet: {
+        ...selectedUnit,
+        id: selectedUnit.id,
+      },
+    })
+
     navigate('/')
   }
+
   const handleCheck = (event: { target: { checked: boolean } }) => {
     setIsChecked(event.target.checked)
+    if (isChecked && selectedRadio) {
+      UpdateUserPreferences({
+        valdVardgivare: selectedProvider?.namn || '',
+        valdVardenhet: selectedRadio,
+      })
+    }
   }
 
   const handleChooseUnit = (event: React.ChangeEvent, provider: Vardgivare, unit: Vardenhet) => {

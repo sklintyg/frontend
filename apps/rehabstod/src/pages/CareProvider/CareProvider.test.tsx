@@ -23,3 +23,9 @@ it('Should not display an alert when user.roleSwitchPossible is false', () => {
   renderWithRouter(<CareProvider />)
   expect(screen.queryByText(/du har behörigheten Rehabkoordinator på någon/i)).not.toBeInTheDocument()
 })
+
+it('Should disable the Välj button if no unit is selected', async () => {
+  renderWithRouter(<CareProvider />)
+  const button = await screen.findByText('Välj')
+  expect(button).toBeDisabled()
+})

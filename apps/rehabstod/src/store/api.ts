@@ -40,6 +40,14 @@ export const api = createApi({
         }
       },
     }),
+    updateUserPreferences: builder.mutation<User, { valdVardgivare: string; valdVardenhet: string }>({
+      query: ({ valdVardgivare, valdVardenhet }) => ({
+        url: 'user/preferences',
+        method: 'PUT',
+        body: { valdVardgivare, valdVardenhet },
+      }),
+      invalidatesTags: ['SickLeavesFilter', 'User'],
+    }),
     fakeLogout: builder.mutation<void, void>({
       query: () => ({
         url: '../logout',
@@ -81,4 +89,5 @@ export const {
   useChangeUnitMutation,
   useGetSickLeavesMutation,
   useFakeLogoutMutation,
+  useUpdateUserPreferencesMutation,
 } = api

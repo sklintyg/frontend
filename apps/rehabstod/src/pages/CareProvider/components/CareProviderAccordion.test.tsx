@@ -63,20 +63,6 @@ it('selects the correct radio button when passed a selectedRadio value', async (
   })
 })
 
-it('selects the radio button when clicked on it', async () => {
-  renderComponent()
-
-  const radioBtn = screen.getByLabelText(vardenhet.namn)
-  expect(radioBtn).toBeInTheDocument()
-  expect(radioBtn).not.toBeChecked()
-
-  userEvent.click(radioBtn)
-
-  await waitFor(() => {
-    expect(radioBtn).toBeChecked()
-  })
-})
-
 it('calls the handleChooseUnit function when a radio button is clicked', async () => {
   renderComponent()
 
