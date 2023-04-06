@@ -65,18 +65,18 @@ export const api = createApi({
       }),
       transformResponse: (response: { content: SickLeaveInfo[] }) => response.content,
     }),
+    getPopulatedFilters: builder.query<{ activeDoctors: Lakare[] }, void>({
+      query: () => ({
+        url: 'sickleaves/filters',
+      }),
+      providesTags: ['SickLeavesFilter'],
+    }),
     getSickLeavePatient: builder.query<Patient, { patientId: string }>({
       query: ({ patientId }) => ({
         url: 'sjukfall/patient',
         method: 'POST',
         body: { patientId },
       }),
-    }),
-    getPopulatedFilters: builder.query<{ activeDoctors: Lakare[] }, void>({
-      query: () => ({
-        url: 'sickleaves/filters',
-      }),
-      providesTags: ['SickLeavesFilter'],
     }),
   }),
 })
