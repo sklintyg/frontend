@@ -20,10 +20,10 @@ export function TableBodyRows({
   unitId: string
   isDoctor: boolean
 }) {
-  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}`
+  const EMPTY_TEXT_DOCTOR = `Du har inga pågående sjukfall på ${unitId}.`
   const SEARCH_TEXT_DOCTOR =
     'Tryck på Sök för att visa alla dina pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av dina pågående sjukfall.'
-  const EMPTY_TEXT_REHABCOORDINATOR = `Det finns inga pågående sjukfall på ${unitId}`
+  const EMPTY_TEXT_REHABCOORDINATOR = `Det finns inga pågående sjukfall på ${unitId}.`
   const SEARCH_TEXT_REHABCOORDINATOR =
     'Tryck på Sök för att visa alla pågående sjukfall för enheten, eller ange filterval och tryck på Sök för att visa urval av pågående sjukfall.'
 

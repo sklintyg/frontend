@@ -8,18 +8,20 @@ export function Checkbox({
   onChange,
   description,
   id,
+  disabled,
 }: {
   label: string
   checked: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   description?: string
   id: string
+  disabled?: boolean
 }) {
   return (
     <IDSCheckbox>
       <label htmlFor={id}>{label}</label>
       {description && <TooltipIcon description={description} name="question" size="s" className="ml-2" />}
-      <input id={id} type="checkbox" checked={checked} onChange={onChange} />
+      <input id={id} type="checkbox" checked={checked} onChange={onChange} disabled={disabled} />
     </IDSCheckbox>
   )
 }

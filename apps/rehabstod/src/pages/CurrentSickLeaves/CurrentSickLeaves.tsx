@@ -17,6 +17,8 @@ export function CurrentSickLeaves() {
   const isLoading = userLoading || currentSickLeaveLoading
   const isDoctor = !!user && !!user.roles.LAKARE
 
+  useEffect(() => {})
+
   useEffect(
     () => () => {
       dispatch(reset())
