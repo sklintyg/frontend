@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import {useFakeLogoutMutation, useGetUserQuery} from '../store/api'
+import { useFakeLogoutMutation, useGetUserQuery } from '../store/api'
 
 export function useLogout() {
   const { data: user } = useGetUserQuery()
@@ -8,7 +8,7 @@ export function useLogout() {
 
   return {
     logout: () => {
-      if (!user || user.authenticationScheme === "urn:inera:rehabstod:siths:fake") {
+      if (!user || user.authenticationScheme === 'urn:inera:rehabstod:siths:fake') {
         fakeLogout()
         navigate('/welcome')
       } else {
