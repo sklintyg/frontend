@@ -1,13 +1,19 @@
 import { IDSButton, IDSButtonGroup, IDSIcon } from '@frontend/ids-react-ts'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { DoctorFilter } from '../../../components/Table/Filter/DoctorFilter'
 import { TimePeriodFilter } from '../../../components/Table/Filter/TimePeriodFilter'
 import { SickLeaveFilter } from '../../../schemas/sickLeaveSchema'
 import { useGetPopulatedFiltersQuery } from '../../../store/api'
-import { resetFilters, updateFilter } from '../sickLeaveSlice'
 
-export function Filters({ isDoctor }: { isDoctor: boolean }) {
+export function Filters({
+  onSearch,
+  onReset,
+  isDoctor,
+}: {
+  onSearch: (filter: SickLeaveFilter) => void
+  onReset: () => void
+  isDoctor: boolean
+}) {
   const [expanded, setExpanded] = useState(true)
   const { data: populatedFilters } = useGetPopulatedFiltersQuery()
   const [filter, setFilter] = useState<SickLeaveFilter>({
@@ -15,7 +21,6 @@ export function Filters({ isDoctor }: { isDoctor: boolean }) {
     fromSickLeaveLength: 1,
     toSickLeaveLength: 365,
   })
-  const dispatch = useDispatch()
 
   const onFromTimeChange = (value: number) => {
     setFilter({ ...filter, fromSickLeaveLength: value })
@@ -55,10 +60,10 @@ export function Filters({ isDoctor }: { isDoctor: boolean }) {
           />
           <div className="flex justify-end">
             <IDSButtonGroup className="my-4 flex" style={{ justifyContent: 'flex-end' }}>
-              <IDSButton secondary onClick={() => dispatch(resetFilters())}>
+              <IDSButton secondary onClick={onReset}>
                 Återställ
               </IDSButton>
-              <IDSButton onClick={() => dispatch(updateFilter(filter))}>Sök</IDSButton>
+              <IDSButton onClick={() => onSearch(filter)}>Sök</IDSButton>
             </IDSButtonGroup>
           </div>
           <hr className="mb-10 opacity-40" />

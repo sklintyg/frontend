@@ -82,12 +82,12 @@ export const api = createApi({
 })
 
 export const {
-  useGetSessionPingQuery,
-  useGetLinksQuery,
-  useGetUserQuery,
   useChangeUnitMutation,
   useFakeLogoutMutation,
-  useGetSickLeavePatientQuery,
+  useGetLinksQuery,
   useGetPopulatedFiltersQuery,
+  useGetSessionPingQuery,
+  useGetSickLeavePatientQuery,
   useGetSickLeavesQuery,
+  useGetUserQuery,
 } = api

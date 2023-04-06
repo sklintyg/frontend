@@ -8,7 +8,7 @@ import { Filters } from './components/Filters'
 import { TableBodyRows } from './components/TableBodyRows'
 import { TableHeaderRow } from './components/TableHeaderRow'
 import { TableInfo } from './components/TableInfo'
-import { reset, sortOnColumn, toggleAscending, updateShowPersonalInformation } from './sickLeaveSlice'
+import { reset, resetFilters, sortOnColumn, toggleAscending, updateFilter, updateShowPersonalInformation } from './sickLeaveSlice'
 import { getSortedSickLeaves } from './utils/getSortedSickLeaves'
 
 export function CurrentSickLeaves() {
@@ -37,7 +37,7 @@ export function CurrentSickLeaves() {
       <h2 className="ids-heading-3 mb-10">{user && user.valdVardenhet ? user.valdVardenhet.namn : ''}</h2>
       <hr className="opacity-40" />
 
-      <Filters isDoctor={isDoctor} />
+      <Filters onReset={() => dispatch(resetFilters())} onSearch={(newFilter) => dispatch(updateFilter(newFilter))} isDoctor={isDoctor} />
 
       <TableInfo
         onShowPersonalInformationChange={(checked) => {
