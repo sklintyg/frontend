@@ -1,6 +1,6 @@
-import { SelectMultiple } from '../../Form/SelectMultiple'
-import { DiagnosKapitel } from '../../../store/types/sickLeave'
+import { DiagnosKapitel } from '../../../schemas/sickLeaveSchema'
 import { Checkbox } from '../../Form/Checkbox'
+import { SelectMultiple } from '../../Form/SelectMultiple'
 
 export function DiagnosisFilter({
   onChange,
