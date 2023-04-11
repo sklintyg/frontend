@@ -7,7 +7,6 @@ import { TooltipTrigger } from '../Tooltip/TooltipTrigger'
 
 export function TooltipIcon({ description, ...iconProps }: { description: string } & ComponentProps<typeof IDSIcon>) {
   // eslint-disable-next-line react/jsx-props-no-spreading
-  // return <Tooltip trigger={<IDSIcon colorpreset={1} {...iconProps} tabIndex={0} />}>{description}</Tooltip>
   return (
     <Tooltip>
       <TooltipTrigger>
